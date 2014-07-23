@@ -22,6 +22,22 @@ jimport('jquery.jquery');
  */
 class THM_OrganizerViewConsumption extends JViewLegacy
 {
+    public $model = null;
+
+    public $roomsTable = '';
+
+    public $teachersTable = '';
+
+    public $scheduleSelectBox = '';
+
+    public $typeSelectBox = '';
+
+    public $startCalendar = '';
+
+    public $endCalendar = '';
+
+    public $exportButton = '';
+
     /**
      * Method to get display
      *
@@ -35,15 +51,24 @@ class THM_OrganizerViewConsumption extends JViewLegacy
         $this->modifyDocument();
         $scheduleID = JFactory::getApplication()->input->getInt('activated', 0);
         $this->makeScheduleSelectBox($scheduleID);
-        $this->roomsTable = "";
-        $this->teachersTable = "";
+        $this->makeTypeSelectBox();
         
-        if ($scheduleID !== 0)
+        if (!empty($this->model->schedule))
         {
-            $this->makeConsumptionTable('rooms');
-            $this->makeConsumptionTable('teachers');
+            $this->makeCalendars();
+            if ($this->model->process['rooms'])
+            {
+                $this->makeResourceSelectBox('rooms');
+                $this->makeResourceSelectBox('roomtypes');
+                $this->makeConsumptionTable('rooms');
+            }
+            if ($this->model->process['teachers'])
+            {
+                $this->makeResourceSelectBox('teachers');
+                $this->makeResourceSelectBox('fields');
+                $this->makeConsumptionTable('teachers');
+            }
         }
-        
         parent::display($tpl);
     }
 
@@ -54,6 +79,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
      */
     private function modifyDocument()
     {
+        JHTML::_('behavior.calendar');
         JFactory::getDocument()->setCharset("utf-8");
         JFactory::getDocument()->addScript($this->baseurl . '/media/com_thm_organizer/js/consumption.js');
         JFactory::getDocument()->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/consumption.css');
@@ -68,7 +94,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
      */
     private function makeScheduleSelectBox($scheduleID)
     {
-        $schedules = $this->model->getActiveSchedules();
+        $schedules = $this->getModel()->getActiveSchedules();
 
         $options = array();
         $options[] = JHtml::_('select.option', 0, JText::_("COM_THM_ORGANIZER_CONSUMPTION_SELECT_SCHEDULE"));
@@ -77,10 +103,66 @@ class THM_OrganizerViewConsumption extends JViewLegacy
             $options[] = JHtml::_('select.option', $schedule['id'], $schedule['name']);
         }
 
-        $attribs = array('onChange' => 'this.form.submit()');
+        $attribs = array('onChange' => "$('#reset').val('1');this.form.submit();");
 
-        $this->schedulesSelectBox = JHtml::_('select.genericlist', $options, 'activated', $attribs, 'value', 'text', $scheduleID);
-        
+        $this->scheduleSelectBox = JHtml::_('select.genericlist', $options, 'activated', $attribs, 'value', 'text', $scheduleID);
+    }
+
+    /**
+     * Creates the calendars for restricting the dates for consumption calculation
+     *
+     * @return  void  sets context variables $startCalendar and $endCalendar
+     */
+    private function makeCalendars()
+    {
+        $attribs = array('size' => '7');
+        $this->startCalendar = JHtml::calendar($this->model->startDate, 'startdate', 'startdate', '%d.%m.%Y', $attribs);
+        $this->endCalendar = JHtml::calendar($this->model->endDate, 'enddate', 'enddate', '%d.%m.%Y', $attribs);
+    }
+
+    /**
+     * Creates a select box for the resource types
+     *
+     * @return  void
+     */
+    private function makeTypeSelectBox()
+    {
+        $options = array();
+        $options[] = JHtml::_('select.option', ROOM, JText::_("COM_THM_ORGANIZER_ROOMS"));
+        $options[] = JHtml::_('select.option', TEACHER, JText::_("COM_THM_ORGANIZER_TEACHERS"));
+
+        $attribs = array('onChange' => "$('#reset').val('1');this.form.submit();");
+        $selectedType = $this->model->type;
+
+        $this->typeSelectBox = JHtml::_('select.genericlist', $options, 'type', $attribs, 'value', 'text', $selectedType);
+    }
+
+    /**
+     * Creates a select box for resources
+     *
+     * @param   string  $type  the resource type
+     *
+     * @return  void
+     */
+    private function makeResourceSelectBox($type)
+    {
+        $textConstant = 'COM_THM_ORGANIZER_ALL_' . strtoupper($type);
+        $boxName = $type . 'SelectBox';
+
+        $resources = $this->model->names[$type];
+        asort($resources);
+        $selectedResources = $this->model->selected[$type];
+        $options = array();
+        $options[] = JHtml::_('select.option', '*', JText::_($textConstant));
+        foreach ($resources as $resourceID => $resourceName)
+        {
+            $options[] = JHtml::_('select.option', $resourceID, $resourceName);
+        }
+
+        $type = $type . '[]';
+        $attribs = array('multiple' => 'multiple', 'size' => '10');
+
+        $this->$boxName = JHtml::_('select.genericlist', $options, $type, $attribs, 'value', 'text', $selectedResources);
     }
 
     /**
@@ -93,7 +175,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
     private function makeConsumptionTable($type)
     {
         $tableName = $type . 'Table';
-        $this->$tableName = $this->model->getConsumptionTable($type);
-        $this->$tableName .= "<div><button id='{$type}Export'>" . JText::_("COM_THM_ORGANIZER_CONSUMPTION_BUTTON_EXPORT_TABLE") . "</button></div>";
+        $this->$tableName = $this->getModel()->getConsumptionTable($type);
+        $this->exportButton = '<button id="' . $type . 'Export">' . JText::_("COM_THM_ORGANIZER_EXPORT_TABLE_EXCEL") . '</button>';
     }
 }

@@ -2,10 +2,10 @@
 <metadata>
     <name>THM_ORGANIZER</name>
     <author>Wolf Rost</author>
-    <creationDate>15.04.2011</creationDate>
-    <copyright>TH Mittelhessen 2013</copyright>
+    <creationDate>15.04.2014</creationDate>
+    <copyright>TH Mittelhessen 2014</copyright>
     <licence>GNU GPL v.2</licence>
-    <authorEMail>wolfDOTrostATmniDOTthmDOTde</authorEMail>
+    <authorEMail>wolf.rost@mni.thm.de</authorEMail>
     <authorUrl>www.mni.thm.de</authorUrl>
     <layout title="COM_THM_ORGANIZER_CONSUMPTION_LAYOUT_TITLE">
         <message>COM_THM_ORGANIZER_CONSUMPTION_LAYOUT_DESCRIPTION</message>

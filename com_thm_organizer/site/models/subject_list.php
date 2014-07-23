@@ -196,7 +196,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      *
      * This method ensures that the query is constructed only once for a given state of the model.
      *
-     * @return  JDatabaseQuery  A JDatabaseQuery object
+     * @return  object  a JDatabaseQuery object
      */
     protected function getListQuery()
     {

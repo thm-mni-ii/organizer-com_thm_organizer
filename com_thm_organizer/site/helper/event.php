@@ -415,7 +415,7 @@ class THM_OrganizerHelperEvent
     }
 
     /**
-     * COnverts a date string into the locally accepted format
+     * Converts a date string into the locally accepted format
      *
      * @param   string  $date  the date string in format Y-m-d
      *
@@ -423,6 +423,26 @@ class THM_OrganizerHelperEvent
      */
     public static function localizeDate($date)
     {
+        if (empty($date))
+        {
+            return '';
+        }
         return date_format(date_create($date), 'd.m.Y');
+    }
+
+    /**
+     * Converts a date string into the standardized format
+     *
+     * @param   string  $date  the date string
+     *
+     * @return  string  date sting in format Y-m-d
+     */
+    public static function standardizeDate($date)
+    {
+        if (empty($date))
+        {
+            return '';
+        }
+        return date_format(date_create($date), 'Y-m-d');
     }
 }

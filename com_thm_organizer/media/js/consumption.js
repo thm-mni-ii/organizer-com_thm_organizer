@@ -30,12 +30,49 @@ $(document).ready(function ()
             created = day + "." + month + "." + year + "_" + hour + ":" + mins,
             a = document.createElement('a'),
             data_type = 'data:application/vnd.ms-excel',
-            divID = 'thm_organizer_' + type + '_consumption_table',
+            divID = 'thm_organizer-' + type + '-consumption-table',
             table_div = document.getElementById(divID),
             table_html = table_div.outerHTML.replace(/ /g, '%20').replace(/ä/g, '&auml;').replace(/Ä/g, '&Auml;').replace(/ö/g, '&ouml;').replace(/Ö/g, '&Ouml;').replace(/ü/g, '&uuml;').replace(/Ü/g, '&uuml;').replace(/ß/g, '&szlig;');
 
         a.href = data_type + ', ' + table_html;
-        a.download = type + '_table_' + created + '.xls';
+        a.download = type + '-' + created + '.xls';
         a.click();
     }
+
+    $('#consumption').keypress(function(e)
+    {
+        var form = $('#statistic-form');
+        if (e.keyCode == 13)
+        {
+            form.submit();
+        }
+    });
 });
+
+function toggleRooms()
+{
+    var toggleSpan = $("#filter-room-toggle-image");
+    if (toggleSpan.hasClass('toggle-closed'))
+    {
+        toggleSpan.switchClass('toggle-closed', 'toggle-open');
+    }
+    else
+    {
+        toggleSpan.switchClass('toggle-open', 'toggle-closed');
+    }
+    $("#filter-room").toggle();
+}
+
+function toggleTeachers()
+{
+    var toggleSpan = $("#filter-teacher-toggle-image");
+    if (toggleSpan.hasClass('toggle-closed'))
+    {
+        toggleSpan.switchClass('toggle-closed', 'toggle-open');
+    }
+    else
+    {
+        toggleSpan.switchClass('toggle-open', 'toggle-closed');
+    }
+    $("#filter-teacher").toggle();
+}

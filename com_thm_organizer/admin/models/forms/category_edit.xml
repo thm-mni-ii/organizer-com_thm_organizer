@@ -14,6 +14,7 @@
             maxlength='50'
             default=''
             description='COM_THM_ORGANIZER_CAT_NAME_DESC'
+            required='true'
             class='inputbox required' />
         <field
             type='sql'
