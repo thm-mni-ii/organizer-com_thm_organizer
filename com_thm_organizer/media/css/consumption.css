@@ -65,6 +65,9 @@
         overflow: visible;
         margin-bottom: 4em;
     }
+    .consumption table.consumption-table tr td {
+        background-color: white;
+    }
 }
 
 .consumption thead, .consumption tbody
