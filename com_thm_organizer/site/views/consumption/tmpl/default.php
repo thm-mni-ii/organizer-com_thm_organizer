@@ -112,4 +112,5 @@ if (!empty($this->model->schedule))
     echo $this->teachersTable;
 ?>
     </form>
+    <a id="dlink" style="display:none;"></a>
 </div>
