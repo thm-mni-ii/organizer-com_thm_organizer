@@ -62,7 +62,7 @@ $(document).ready(function ()
                 }
                 else
                 {
-                    // Other Browser (except Safari which is not supported)
+                    // Other Browsers
                     document.getElementById("dlink").href = uri + base64(format(template, ctx));
                     document.getElementById("dlink").download = filename;
                     document.getElementById("dlink").click();
