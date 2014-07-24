@@ -442,7 +442,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         }
         $tableHead .= '</tr>';
         $tableHead .= '<tr class="summary-row"><th>' . JText::_('COM_THM_ORGANIZER_SUM') . '</th>';
-        $tableHead .= '<th class="degree-use-total resource-use-total">' . $this->getColumnSum($type, 'raw', $rows) . '</th>';
+        $tableHead .= '<th class="degree-use-total resource-use-total" style="vnd.ms-excel.numberformat:@;">' . $this->getColumnSum($type, 'raw', $rows) . '</th>';
         foreach ($columns as $column)
         {
             if ($column == 'raw')
@@ -503,7 +503,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 $tableBody .= '<th class="index-column">' . $this->names['teachers'][$row] . '</th>';
             }
 
-            $tableBody .= '<th class="resource-use-total">' . $this->consumption[$type]['raw'][$row]['hours'] . '</th>';
+            $tableBody .= '<th class="resource-use-total" style="vnd.ms-excel.numberformat:@;">' . $this->consumption[$type]['raw'][$row]['hours'] . '</th>';
             $columnKeys = array_keys($columns);
             foreach ($columns as $column)
             {
@@ -511,7 +511,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 {
                     continue;
                 }
-                $tableBody .= '<td>';
+                $tableBody .= '<td style="vnd.ms-excel.numberformat:@;">';
                 if (isset($this->consumption[$type][$column][$row]))
                 {
                     $tableBody .= $this->consumption[$type][$column][$row]['hours'];
