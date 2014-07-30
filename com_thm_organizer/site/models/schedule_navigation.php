@@ -193,6 +193,8 @@ class THM_OrganizerModelSchedule_Navigation
         $this->_treeData["subject"] = $this->_activeScheduleData->subjects;
         $this->_treeData["roomtype"] = $this->_activeScheduleData->roomtypes;
         $this->_treeData["degree"] = $this->_activeScheduleData->degrees;
+        $this->_treeData["calendar"] = $this->_activeScheduleData->calendar;
+        $this->_treeData["lessons"] = $this->_activeScheduleData->lessons;
         $this->_treeData["field"] = $this->_activeScheduleData->fields;
 
         $this->setSubjectTexts();
