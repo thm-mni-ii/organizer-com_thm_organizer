@@ -97,11 +97,10 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         {
             $query->where("ec.contentCatID = '$contentCatID'");
         }
-
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ectitle'));
-        $direction = $dbo->getEscaped($this->getState('list.direction'));
-        $query->order("$orderby $direction");
-
+        $state = $this->get('state');
+        $orderby = $dbo->escape($state->get('list.ordering', 'ectitle'));      
+        $direction = $dbo->escape($state->get('list.direction'));
+        $query->order("$orderby $direction");               
         return $query;
     }
 
@@ -161,7 +160,8 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
-        
+        //var_dump($query);
+          //      die();
         return (count($contentCategories))? $contentCategories : array();
     }
 }
