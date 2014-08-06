@@ -239,7 +239,9 @@ class THM_OrganizerModelSchedule_Navigation
         $return['data'] = array(
             "tree" => $rootCollection,
             "treeData" => $this->_treeData,
-            "treePublicDefault" => $this->_publicDefaultNode
+            "treePublicDefault" => $this->_publicDefaultNode,
+        	"lessons" => $this->_activeScheduleData->lessons,
+        	"calendar" => $this->_activeScheduleData->calendar
         );
         return $return;
     }

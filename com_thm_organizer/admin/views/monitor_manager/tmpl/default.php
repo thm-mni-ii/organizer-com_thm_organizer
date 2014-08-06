@@ -140,7 +140,11 @@ if ($this->monitors !== false)
             $defaultClass = 'publish';
             $defaultTitle = JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . '::';
             $defaultTitle .= JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_INACTIVE_TOGGLE');
-            $display = $this->behaviours[$defaultDisplay];
+            if(isset($this->behaviours[$defaultDisplay])){
+                $display = $this->behaviours[$defaultDisplay];
+            } else {
+                $display = "";
+            }
             $scheduleRefresh = $defaultScheduleRefresh;
             $contentRefresh = $defaultContentRefresh;
             $content = $defaultContent;

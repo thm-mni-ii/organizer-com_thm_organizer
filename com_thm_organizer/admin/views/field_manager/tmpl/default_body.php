@@ -10,8 +10,9 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-foreach ($this->items as $i => $item)
-{
+if($this->items != null){
+    foreach ($this->items as $i => $item)
+    {
 ?>
 <tr class="row<?php echo $i % 2; ?>">
     <td align="center">
@@ -34,4 +35,5 @@ foreach ($this->items as $i => $item)
     </td>
 </tr>
 <?php
+    }
 }
