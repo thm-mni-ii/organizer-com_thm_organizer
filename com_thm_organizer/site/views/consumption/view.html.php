@@ -115,7 +115,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
      */
     private function makeCalendars()
     {
-        $attribs = array('size' => '7');
+        $attribs = array('size' => '10');
         $this->startCalendar = JHtml::calendar($this->model->startDate, 'startdate', 'startdate', '%d.%m.%Y', $attribs);
         $this->endCalendar = JHtml::calendar($this->model->endDate, 'enddate', 'enddate', '%d.%m.%Y', $attribs);
     }

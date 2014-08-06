@@ -72,79 +72,39 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
     private function addViews()
     {
         $views = array();
-
-        $views['category_manager'] = array();
-        $views['category_manager']['title'] = JText::_('COM_THM_ORGANIZER_CAT_TITLE');
-        $views['category_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_CAT_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_CAT_DESC');
-        $views['category_manager']['url'] = "index.php?option=com_thm_organizer&view=category_manager";
-        $views['category_manager']['image'] = "media/com_thm_organizer/images/categories48.png";
-
-        $views['schedule_manager'] = array();
-        $views['schedule_manager']['title'] = JText::_('COM_THM_ORGANIZER_SCH_TITLE');
-        $views['schedule_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_SCH_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SCH_DESC');
-        $views['schedule_manager']['url'] = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $views['schedule_manager']['image'] = "media/com_thm_organizer/images/schedules48.png";
-
-        $views['virtual_schedule_manager'] = array();
-        $views['virtual_schedule_manager']['title'] = JText::_('COM_THM_ORGANIZER_VSM_TITLE');
-        $views['virtual_schedule_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_VSM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_VSM_DESC');
-        $views['virtual_schedule_manager']['url'] = "index.php?option=com_thm_organizer&view=virtual_schedule_manager";
-        $views['virtual_schedule_manager']['image'] = "media/com_thm_organizer/images/virtual_schedules48.png";
-
-        $views['degree_manager'] = array();
-        $views['degree_manager']['title'] = JText::_('COM_THM_ORGANIZER_DEG_TITLE');
-        $views['degree_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_DEG_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_DEG_DESC');
-        $views['degree_manager']['url'] = "index.php?option=com_thm_organizer&view=degree_manager";
-        $views['degree_manager']['image'] = "media/com_thm_organizer/images/degrees48.png";
-
-        $views['color_manager'] = array();
-        $views['color_manager']['title'] = JText::_('COM_THM_ORGANIZER_CLM_TITLE');
-        $views['color_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_CLM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_CLM_DESC');
-        $views['color_manager']['url'] = "index.php?option=com_thm_organizer&view=color_manager";
-        $views['color_manager']['image'] = "media/com_thm_organizer/images/colors48.png";
-
-        $views['field_manager'] = array();
-        $views['field_manager']['title'] = JText::_('COM_THM_ORGANIZER_FLM_TITLE');
-        $views['field_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_FLM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_FLM_DESC');
-        $views['field_manager']['url'] = "index.php?option=com_thm_organizer&view=field_manager";
-        $views['field_manager']['image'] = "media/com_thm_organizer/images/fields48.png";
-
-        $views['program_manager'] = array();
-        $views['program_manager']['title'] = JText::_('COM_THM_ORGANIZER_PRM_TITLE');
-        $views['program_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_PRM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_PRM_DESC');
-        $views['program_manager']['url'] = "index.php?option=com_thm_organizer&view=program_manager";
-        $views['program_manager']['image'] = "media/com_thm_organizer/images/programs48.png";
-
-        $views['pool_manager'] = array();
-        $views['pool_manager']['title'] = JText::_('COM_THM_ORGANIZER_POM_TITLE');
-        $views['pool_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_POM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_POM_DESC');
-        $views['pool_manager']['url'] = "index.php?option=com_thm_organizer&view=pool_manager";
-        $views['pool_manager']['image'] = "media/com_thm_organizer/images/pools48.png";
-
-        $views['subject_manager'] = array();
-        $views['subject_manager']['title'] = JText::_('COM_THM_ORGANIZER_SUM_TITLE');
-        $views['subject_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_SUM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_SUM_DESC');
-        $views['subject_manager']['url'] = "index.php?option=com_thm_organizer&view=subject_manager";
-        $views['subject_manager']['image'] = "media/com_thm_organizer/images/subjects48.png";
-
-        $views['teacher_manager'] = array();
-        $views['teacher_manager']['title'] = JText::_('COM_THM_ORGANIZER_TRM_TITLE');
-        $views['teacher_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_TRM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_TRM_DESC');
-        $views['teacher_manager']['url'] = "index.php?option=com_thm_organizer&view=teacher_manager";
-        $views['teacher_manager']['image'] = "media/com_thm_organizer/images/teachers48.png";
-
-        $views['room_manager'] = array();
-        $views['room_manager']['title'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE');
-        $views['room_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_RMM_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_RMM_DESC');
-        $views['room_manager']['url'] = "index.php?option=com_thm_organizer&view=room_manager";
-        $views['room_manager']['image'] = "media/com_thm_organizer/images/rooms48.png";
-
-        $views['monitor_manager'] = array();
-        $views['monitor_manager']['title'] = JText::_('COM_THM_ORGANIZER_MON_TITLE');
-        $views['monitor_manager']['tooltip'] = JText::_('COM_THM_ORGANIZER_MON_TITLE') . '::' . JText::_('COM_THM_ORGANIZER_MON_DESC');
-        $views['monitor_manager']['url'] = "index.php?option=com_thm_organizer&view=monitor_manager";
-        $views['monitor_manager']['image'] = "media/com_thm_organizer/images/monitors48.png";
+        $this->addView($views, 'group_manager', 'groups', 'GPM');
+        $this->addView($views, 'category_manager', 'categories', 'CAT');
+        $this->addView($views, 'schedule_manager', 'schedules', 'SCH');
+        $this->addView($views, 'virtual_schedule_manager', 'virtual_schedules', 'VSM');
+        $this->addView($views, 'degree_manager', 'degrees', 'DEG');
+        $this->addView($views, 'color_manager', 'colors', 'CLM');
+        $this->addView($views, 'field_manager', 'fields', 'FLM');
+        $this->addView($views, 'program_manager', 'programs', 'PRM');
+        $this->addView($views, 'pool_manager', 'pools', 'POM');
+        $this->addView($views, 'subject_manager', 'subjects', 'SUM');
+        $this->addView($views, 'teacher_manager', 'teachers', 'TRM');
+        $this->addView($views, 'room_manager', 'rooms', 'RMM');
+        $this->addView($views, 'monitor_manager', 'monitors', 'MON');
 
         $this->views = $views;
+    }
+
+    /**
+     * Adds individual views to the array
+     *
+     * @param   array   &$views        the array holding view information
+     * @param   string  $name          the name of the view
+     * @param   string  $resourceName  the name of the resource managed by the view
+     * @param   string  $langStub      unique identifier used for the view in the language file
+     */
+    private function addView(&$views, $name, $resourceName, $langStub)
+    {
+        $titleConstant = "COM_THM_ORGANIZER_{$langStub}_TITLE";
+        $descConstant = "COM_THM_ORGANIZER_{$langStub}_DESC";
+        $views[$name] = array();
+        $views[$name]['title'] = JText::_($titleConstant);
+        $views[$name]['tooltip'] = JText::_($titleConstant) . '::' . JText::_($descConstant);
+        $views[$name]['url'] = "index.php?option=com_thm_organizer&view=$name";
+        $views[$name]['image'] = "media/com_thm_organizer/images/{$resourceName}48.png";
     }
 }

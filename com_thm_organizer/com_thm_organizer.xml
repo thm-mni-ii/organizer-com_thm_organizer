@@ -55,6 +55,12 @@
     <administration>
         <menu img="../media/com_thm_organizer/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
         <submenu>
+            <menu alias="Group Manager"
+                  link="option=com_thm_organizer&amp;view=group_manager"
+                  view="group_manager"
+                  img="../media/com_thm_organizer/images/groups.png"
+                  alt="THM-Organizer/Group Manager"
+                    >COM_THM_ORGANIZER_GPM_TITLE</menu>
             <menu alias="Category Manager"
                   link="option=com_thm_organizer&amp;view=category_manager"
                   view="category_manager"

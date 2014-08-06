@@ -86,6 +86,8 @@ class THM_OrganizerHelper
         $submenus = array(
             'main_menu' => array('name' => 'COM_THM_ORGANIZER_MAIN_TITLE',
                                  'link' => 'index.php?option=com_thm_organizer'),
+            'group_manager' => array('name' => 'COM_THM_ORGANIZER_GPM_TITLE',
+                                     'link' => 'index.php?option=com_thm_organizer&amp;view=group_manager'),
             'category_manager' => array('name' => 'COM_THM_ORGANIZER_CAT_TITLE',
                                         'link' => 'index.php?option=com_thm_organizer&amp;view=category_manager'),
             'schedule_manager' => array('name' => 'COM_THM_ORGANIZER_SCH_TITLE',
