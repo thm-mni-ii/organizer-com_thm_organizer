@@ -72,7 +72,7 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
     private function addViews()
     {
         $views = array();
-        $this->addView($views, 'group_manager', 'groups', 'GPM');
+        $this->addView($views, 'user_manager', 'users', 'USM');
         $this->addView($views, 'category_manager', 'categories', 'CAT');
         $this->addView($views, 'schedule_manager', 'schedules', 'SCH');
         $this->addView($views, 'virtual_schedule_manager', 'virtual_schedules', 'VSM');
