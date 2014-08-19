@@ -1,0 +1,73 @@
+/* ==========================================================================
+    Frontend - Widget accordion (module catalogue)
+   ========================================================================== */
+
+/* line-height of the widget div */
+.ui-helper-reset {
+    line-height: 1;
+}
+
+/* accordion boxes have background colors */
+.ui-state-default {
+    background-image: none;
+}
+
+/* radius of accordion headers (default) */
+.ui-corner-all {
+    border-radius: 3px;
+}
+
+/* radius of accordion header, when is clicked */
+.ui-corner-top {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+/* radius of div subject list */
+.ui-corner-bottom {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+/* margin in h3 accordion widget */
+.ui-accordion .ui-accordion-header {
+    margin-top: 4px;
+}
+
+/* accordion header definitions */
+.ui-accordion-header {
+    background-color: rgb(238, 238, 238);
+    border: rgb(187, 187, 187) 1px solid;
+    box-shadow: 2px 2px 4px rgb(221, 221, 221);
+}
+
+/* padding of selected list */
+.ui-accordion .ui-accordion-content {
+    padding: 4px;
+}
+
+/* title of the widget (font definitions) */
+.ui-widget {
+    font-family: Verdana, Arial;
+    font-size: 13px;
+}
+
+/* widget titles (default state) */
+.ui-state-default {
+    font-weight: normal;
+}
+
+/* green arrow icon, when is clicked */
+.ui-icon.ui-icon-triangle-1-s {
+    background: url('../images/active_tab.png') 0 0 no-repeat;
+}
+/* green arrow icon (default) */
+.ui-icon.ui-icon-triangle-1-e {
+    background: url('../images/default_tab.png') 0 0 no-repeat;
+}
+
+/* hover effect of widget titles */
+h3.ui-state-hover {
+    background-color: rgb(74, 92, 102) !important;
+    color: rgb(238, 238, 238);
+}
