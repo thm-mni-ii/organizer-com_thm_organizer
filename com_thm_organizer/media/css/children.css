@@ -1,0 +1,70 @@
+/* ==========================================================================
+    Backend - Subject Pools Edit, Degree Programs Edit...
+   ========================================================================== */
+
+/*------------------------------------
+   SUBORDINATE RESOURCES box settings
+------------------------------------*/
+
+/* div definitions */
+.thm_organizer_children {
+    padding-top: 5px;
+    float: left;
+    width: 60%;
+}
+
+/* "child order" box definition */
+.thm_organizer_pools_ordering {
+    width: 30%;
+}
+
+/* additional subject pools definitions */
+.thm_organizer_pools {
+    float: right;
+    width: 25%;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 5px 20px 5px 10px;
+}
+
+/* additional subjects definitions */
+.thm_organizer_subjects {
+    clear: right;
+    float: right;
+    width: 25%;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 10px 20px 5px 10px;
+}
+
+/* delete child definitions */
+a.thm_organizer_delete_child
+{
+    width: 16px;
+    height: 16px;
+    display: block;
+    overflow: hidden;
+    background: url(../images/trash.png) no-repeat;
+}
+
+/* downarrow & uparrow icons */
+a.jgrid span.state {
+    margin-bottom: -9px;
+} /*===
+    überflüssig, da die Pfeile auch ohne diese Einstellung auf der gleichen Pos bleiben.
+    Getestet in IE, Chrome, Firefox, Opera
+  ====*/
+
+/* === UNUSED === */
+.thm_organizer_fieldset {
+    box-shadow: -5px -5px 25px #80ba24 inset;
+    transition-property: box-shadow;
+    transition-duration: 3s;
+    border-radius: 10px;
+}
+
+/* === UNUSED === */
+.thm_organizer_no_children {
+    padding: 5px;
+    font-size: 1.3em;
+}
