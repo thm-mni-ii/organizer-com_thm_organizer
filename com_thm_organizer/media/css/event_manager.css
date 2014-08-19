@@ -1,0 +1,130 @@
+.thm_organizer_el{
+    margin-right: 8px;
+}
+
+.thm_organizer_el button{
+    border: none;
+    background: none;
+}
+
+.thm_organizer_el_top_div{
+    float: left;
+    width: 100%;
+}
+
+.thm_organizer_el_category_desc_div{
+    float: left;
+}
+
+.thm_organizer_el_action_div{
+    float: right;
+    margin-bottom: 2px;
+}
+
+.thm_organizer_el_divider_span{
+    width: 1px;
+    margin-right: 10px;
+}
+
+.thm_organizer_el_action_div button{
+    padding: 1px;
+}
+
+/* Adjusts divs for filters and table */
+.thm_organizer_el_form_div{
+    width: 100%;
+    float: left;
+    clear: both;
+}
+
+/* Adjusts the div for search bar */
+.thm_organizer_el_search_div{
+    padding: 5px;
+    width: 100%;
+    border-radius: 3px;
+    border: #bbbbbb 1px solid;
+    background-color: rgb(238, 238, 238);
+}
+
+/* Adjusts the calendars in the filter to the same level as text areas */
+.thm_organizer_el_search_div .calendar{
+    margin-bottom: -5px;
+}
+
+/* Adjusts label texts */
+.thm_organizer_el_label_span{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/* Creates the table to show the events */
+.thm_organizer_el_events_div{
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 3px;
+    border: #bbbbbb 1px solid;
+    padding: 5px;
+    background-color: rgb(238, 238, 238);
+}
+
+/* Next three are adjustment for table headers. Doesn't seem to have any effect. */
+.thm_organizer_el_eventtable{
+    width: 100%;
+    border-spacing: 0;
+}
+
+.thm_organizer_el_eventtable thead tr{
+    border: none;
+}
+
+.thm_organizer_el_eventtable thead th{
+    padding: 3px;
+}
+
+/* Unused */
+.thm_organizer_el_sortLink img{
+    margin-left: 4px;
+    border: none;
+}
+
+/* White color with gray borders for even numbered rows */
+.thm_organizer_el_row_even{
+    background-color: white;
+    border: #bbbbbb 1px solid;
+}
+
+/* Gray color for odd rows */
+.thm_organizer_el_row_odd{
+    border: #bbbbbb 1px solid;
+}
+
+/* Text decoration for hyperlinks in table */
+.thm_organizer_el_eventtable thead th a{
+    text-decoration: none;
+}
+
+/* Style for tr and td's in table. Doesn't seem to have any effect */
+.thm_organizer_el_eventtable tr td{
+    padding: 3px;
+    border: none;
+}
+
+/* Text decoration for tr's, td's and hyperlinks in table. Doesn't seem to have any effect. */
+.thm_organizer_el_eventtable tr td a{
+    text-decoration: none;
+}
+
+/* Size of the checkbox area */
+.thm_organizer_el_col_check{
+    width: 18px;
+}
+
+
+.thm_organizer_el_noauth{
+    background-color: rgb(230, 192, 192);
+    color: #c00;
+    border-bottom: 3px solid #de7a7b;
+    border-top: 3px solid #de7a7b;
+    padding: 5px;
+    font-weight: bolder;
+}
