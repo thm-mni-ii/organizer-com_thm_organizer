@@ -97,9 +97,10 @@ class THM_OrganizerModelSchedule_Manager extends JModelList
         {
             $query->where("departmentname = '$department'");
         }
-
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'creationdate'));
-        $direction = $dbo->getEscaped($this->getState('list.direction', 'DESC'));
+        
+        $stateResult = $this->get('state');
+        $orderby = $dbo->escape($stateResult->get('list.ordering', 'creationdate'));
+        $direction = $dbo->escape($stateResult->get('list.direction', 'DESC'));
         $query->order("$orderby $direction");
 
         return $query;

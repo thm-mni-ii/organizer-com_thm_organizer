@@ -67,8 +67,9 @@ $hexTitle = JText::_('COM_THM_ORGANIZER_CLM_CODE') . '::' . JText::_('COM_THM_OR
             </tfoot>
             <tbody>
 <?php
-foreach ($this->items as $i => $item)
-{
+if($this->items != null){
+    foreach ($this->items as $i => $item)
+    {
 ?>
                 <tr class="row<?php echo $i % 2; ?>">
                     <td align="center">
@@ -87,6 +88,7 @@ foreach ($this->items as $i => $item)
                     <td align="center" style="background-color: <?php echo "#$item->color"; ?>">&nbsp;</td>
                 </tr>
 <?php
+    }
 }
 ?>
             </tbody>

@@ -81,7 +81,7 @@ if ($this->config['canWrite'] === true)
         MySched.FPDFInstalled = <?php echo $this->libraries['fpdf']? 'true' : 'false'; ?>;
         MySched.iCalcreatorInstalled = <?php echo $this->libraries['iCalcreator']? 'true' : 'false'; ?>;
         MySched.PHPExcelInstalled = <?php echo $this->libraries['PHPExcel']? 'true' : 'false'; ?>;
-        MySched.schedulerFromMenu = <?php echo $this->config['isMenu']; ?>;
+        MySched.schedulerFromMenu = <?php echo $this->config['isMenu']? 'true' : 'false'; ?>;
         MySched.displayModuleNumber = <?php echo $this->displayModuleNumber? 'true' : 'false'; ?>;
         Ext.application({
             name: 'Scheduler',
