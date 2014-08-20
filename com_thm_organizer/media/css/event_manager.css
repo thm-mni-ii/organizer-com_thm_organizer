@@ -7,25 +7,30 @@
     background: none;
 }
 
+/* Adjusts top div */
 .thm_organizer_el_top_div{
     float: left;
     width: 100%;
 }
 
+/* Adjusts category div to left*/
 .thm_organizer_el_category_desc_div{
     float: left;
 }
 
+/* Adjusts toolbar right */
 .thm_organizer_el_action_div{
     float: right;
     margin-bottom: 2px;
 }
 
+/* Unused */
 .thm_organizer_el_divider_span{
     width: 1px;
     margin-right: 10px;
 }
 
+/* Adjusts button size in toolbar div */
 .thm_organizer_el_action_div button{
     padding: 1px;
 }
@@ -119,7 +124,7 @@
     width: 18px;
 }
 
-
+/* Unused */
 .thm_organizer_el_noauth{
     background-color: rgb(230, 192, 192);
     color: #c00;
