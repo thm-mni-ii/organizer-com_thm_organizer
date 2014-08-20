@@ -1,0 +1,14 @@
+.thm_organizer_rs_fieldset{
+    margin: 0 0 1em 0;
+    padding: 1em;
+    border: 2px solid #a8b5c5;
+    width: 40%;
+}
+.thm_organizer_rs_fieldset img{
+    margin-bottom: -3px;
+}
+.thm_organizer_rs_legend{
+    padding: 0.3em;
+    font-weight: bold;
+    font-size: 12px;
+}
