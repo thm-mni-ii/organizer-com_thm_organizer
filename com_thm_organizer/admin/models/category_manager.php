@@ -39,11 +39,11 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         if (empty($config['filter_fields']))
         {
             $config['filter_fields'] = array(
-                                             'title', 'ectitle',
-                                             'global', 'global',
-                                             'reserves', 'reserves',
-                                             'cctitle', 'content_cat'
-                                            );
+                'title', 'ectitle',
+                'global', 'global',
+                'reserves', 'reserves',
+                'cctitle', 'content_cat'
+            );
         }
         $this->contentCategories = $this->getContentCategories();
         parent::__construct($config);
@@ -97,17 +97,209 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         {
             $query->where("ec.contentCatID = '$contentCatID'");
         }
-        $state = $this->get('state');
-        $orderby = $dbo->escape($state->get('list.ordering', 'ectitle'));      
-        $direction = $dbo->escape($state->get('list.direction'));
-        $query->order("$orderby $direction");               
+
+        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ectitle'));
+        $direction = $dbo->getEscaped($this->getState('list.direction'));
+        $query->order("$orderby $direction");
+
         return $query;
     }
 
     /**
+     * Function to feed the data in the table body correctly to the list view
+     *
+     * @return array consisting of items in the body
+     */
+    public function getItems2()
+    {
+        $items = parent::getItems();
+        $body_items = array();
+        $fields = array('ectitle', 'global', 'reserves', 'cctitle');
+
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+
+        $query->select($dbo->quoteName(array('c.title', 'c.id')));
+        $query->from($dbo->quoteName('#__categories', 'c'));
+        $query->join('INNER', $dbo->quoteName('#__viewlevels', 'vl') . 'ON (' . $dbo->quoteName('c.access') . ' = ' . $dbo->quoteName('vl.id') . ')');
+        $query->where($dbo->quoteName('c.extension') . ' = ' . $dbo->quote('com_content') . ' AND ' . $dbo->quoteName('published') . ' = 1');
+        $query->order($dbo->quoteName('c.title'), ' ASC');
+
+        $dbo->setQuery($query);
+
+        try
+        {
+            $result = $dbo->loadObjectList();
+        }
+        catch (runtimeException $e)
+        {
+            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+        }
+
+        /*foreach ($items as $item)
+        {
+            $attributes = array();
+            $body_item = array('attributes' => $attributes, 'id' => $item->id);
+            foreach ($fields as $field)
+            {
+                $a = array();
+                $td = array();
+                $value = array();
+
+                if ($field == 'global' || $field == 'reserves')
+                {
+                    $a[] = 'class="jgrid" ';
+
+                    if ($item->$field)
+                    {
+                        $value[] = '<span class="state publish"/> ';
+                    }
+                    else
+                    {
+                        $value[] = '<span class="state expired"/> ';
+                    }
+                }
+                else
+                {
+                    $value[] = $item->$field;
+                }
+                $a[] = 'href="index.php?option=com_thm_organizer&view=category_edit&categoryID=' . $item->id . '" ';
+
+                $att = array('a' => $a, 'td' => $td, 'value' => $value);
+                array_push($body_item['attributes'], $att);
+
+            }
+            $body_item['id'] = $item->id;
+            $body_items[] = $body_item;
+        }*/
+
+        foreach ($items as $item)
+        {
+            $attributes = array();
+            $body_item = array('attributes' => $attributes, 'id' => $item->id);
+
+            foreach ($fields as $field)
+            {
+                $a = '<a ';
+
+                if ($field == 'global' || $field == 'reserves')
+                {
+                    $a .= 'class="jgrid" ';
+                    if ($item->$field)
+                    {
+                        $val = '<span class="state publish"/> ';
+                    }
+                    else
+                    {
+                        $val = '<span class="state expired"/> ';
+                    }
+
+                }
+                elseif($field == 'cctitle')
+                {
+                    $val = '<select id="jform_contentCatID" name="jform[contentCatID]" onchange="Joomla.submitbutton' . "('category.update_category', " . "'" . $item->id . "')" . '">';
+                    foreach ($result as $r)
+                    {
+                        $val .= '<option value="' . $r->id . '"';
+                        if ($r->title == $item->$field)
+                            $val .= ' selected';
+                        $val .= ' name="option' . $r->id . '"';
+                        $val .= '>';
+                        $val .= $r->title . ' - ' .$r->id . '</option>';
+                    }
+                    $val .= '</select>';
+                }
+                else
+                {
+                    $val = $item->$field;
+                }
+                $a .= 'href="index.php?option=com_thm_organizer&view=category_edit&categoryID=' . $item->id . '" ';
+                $a .= '>';
+                // "SELECT c.id, c.title AS contentCatID FROM #__categories AS c INNER JOIN #__viewlevels AS vl ON c.access = vl.id WHERE
+                // c.extension = 'com_content' AND published = '1' ORDER BY c.title ASC"
+
+
+                /*echo '<select>';
+                foreach($result as $r)
+                {
+                    echo '<option>' . $r->title . " - " . $r->id . '</option>';
+                }
+                echo '</select>';*/
+                $value = array();
+                if ($field != 'cctitle')
+                    $value['value'] = $a . $val . '</a>';
+                else
+                    $value['value'] = $val;
+
+                array_push($body_item['attributes'], $value);
+            }
+            $body_items[] = $body_item;
+        }
+
+        /*foreach ($items as $item)
+        {
+            $body_item = array();
+            $body_item['id'] = $item->id;
+            foreach ($fields as $field)
+            {
+                $a = '<a ';
+
+                if ($field == 'global' || $field == 'reserves')
+                {
+                    if ($item->$field)
+                    {
+                        $val = '<span class="state publish"/> ';
+                    }
+                    else
+                    {
+                        $val = '<span class="state expired"/> ';
+                    }
+                }
+                else
+                {
+                    $val = $item->$field;
+                }
+
+                $a .= 'href="index.php?option=com_thm_organizer&view=category_edit&categoryID=' . $item->id . '" ';
+                $a .= '>';
+                $body_item['attributes']['value'] = $a . $val . '</a>';
+            }
+            $body_items[] = $body_item;
+        }*/
+
+        return $body_items;
+    }
+
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        /*$headers[] = array('name' => JText::_('COM_THM_ORGANIZER_NAME'),
+            'field' => 'ectitle', 'sortable' => true);
+        $headers[] = array('name' => JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'),
+            'field' => 'global', 'sortable' => true);
+        $headers[] = array('name' => JText::_('COM_THM_ORGANIZER_CAT_RESERVES'),
+            'field' => 'reserves', 'sortable' => true);
+        $headers[] = array('name' => JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'),
+            'field' => 'cctitle', 'sortable' => true);*/
+        $ordering = $this->state->get('list.ordering');
+        $direction = $this->state->get('list.direction');
+
+        $headers = array();
+        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $ordering);
+        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'), 'global', $direction, $ordering);
+        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_RESERVES'), 'reserves', $direction, $ordering);
+        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'), 'cctitle', $direction, $ordering);
+
+        return $headers;
+    }
+    /**
      * takes user filter parameters and adds them to the view state
      *
-     * @param   string  $ordering   the filter parameter to be used for ordering
+     * @param   string  $ordering   the filter parameter to be used  for ordering
      * @param   string  $direction  the direction in which results are to be ordered
      *
      * @return void
@@ -151,8 +343,8 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $query->where("id IN (SELECT DISTINCT contentCatID FROM #__thm_organizer_categories)");
         $query->order('title ASC');
         $dbo->setQuery((string) $query);
-        
-        try 
+
+        try
         {
             $contentCategories = $dbo->loadAssocList();
         }
@@ -160,8 +352,7 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
-        //var_dump($query);
-          //      die();
+
         return (count($contentCategories))? $contentCategories : array();
     }
 }

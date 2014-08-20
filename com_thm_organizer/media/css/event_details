@@ -1,5 +1,4 @@
-/* com_thm_organizer view: event123***********************************************/
-
+/* Bold font for title */
 .thm_organizer_e_title{
     color: #445C20;
     font-family: verdana;
@@ -8,6 +7,7 @@
     text-decoration: none;
 }
 
+/* The block for the event */
 .thm_organizer_e_block_div{
     float: left;
     padding-top: 10px;
@@ -17,6 +17,7 @@
     margin-right: 10px;
 }
 
+/* Header */
 .thm_organizer_e_header{
     padding-bottom: 1px;
     width: 100%;
@@ -26,39 +27,47 @@
     border-bottom: 1px solid #bbbbbb;
 }
 
+/* Header margin */
 .thm_organizer_e_headerlinks{
     float: right;
     margin-right: 0;
     margin-top: -1.5%;
 }
 
+
+/* Unused */
 .thm_organizer_e_resources{
     padding-top: 10px;
     min-width: 100%;
 }
 
+/* Unused */
 .thm_organizer_e_content{
     padding-top: 10px;
     min-width: 100%;
 }
 
+/* Margin between content and the title */
 .thm_organizer_e_title p{
     margin-top: 0;
     margin-bottom: 0;
 }
 
+/* Adjusting the position and size of the details about author and date */
 .thm_organizer_e_publish_up p{
     font-size: 9px;
     margin-top: 0;
     margin-bottom: 0;
 }
 
+/* Author */
 .thm_organizer_e_author p{
     font-size: 9px;
     margin-top: 0;
     margin-bottom: 0;
 }
 
+/* Unused */
 .thm_organizer_e_preview_div{
     padding-top: 10px;
     padding-right: 30px;
@@ -70,6 +79,8 @@
     text-align: left;
     white-space: normal;
 }
+
+/* Unused */
 .thm_organizer_e_description{
     margin-right: 60px;
     margin-bottom: 30px;
