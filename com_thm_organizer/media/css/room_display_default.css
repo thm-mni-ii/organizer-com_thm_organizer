@@ -1,0 +1,88 @@
+.thm_organizer_rd{
+    width: 75%;
+    color: #4a5c66;
+    padding: 1%;
+}
+
+.thm_organizer_rd div{
+    color: #4a5c66;
+}
+
+
+.thm_organizer_rd a{
+    text-decoration: none;
+}
+
+.thm_organizer_rd h3{
+    font-size: 150%;
+    text-align: center;
+}
+
+thm_organizer_rd_head{
+    width: 100%;
+    font-size: 200%;
+    clear: both;
+    padding-bottom: 4%;
+}
+
+.thm_organizer_rd_title{
+    float: left;
+    clear: none;
+    padding-left: 2%;
+    padding-top: 2%;
+}
+
+thm_organizer_rd_highlight{
+    font-weight: bold;
+    color: #80ba24;
+}
+
+.thm_organizer_rd_button_div{
+    float: right;
+    font-size: 60%;
+    width: 15%;
+    clear: none;
+    padding-right: 9%;
+}
+
+.thm_organizer_rd_table_container{
+    padding: 0.5%;
+    background-color: rgb(238, 238, 238);
+    border: #bbbbbb 1px solid;
+}
+
+.thm_organizer_rd_table{
+    font-size: 120%;
+    width: 100%;
+    border: #bbbbbb 1px solid;
+}
+
+.thm_organizer_rd_table tr td{
+    padding: 5px;
+    border: none;
+}
+
+.thm_organizer_rd_row_even{
+    background-color: white;
+    border: none;
+}
+
+.thm_organizer_rd_lesson_time{ width: 14%; }
+.thm_organizer_rd_lesson_name{ text-align: center; }
+.thm_organizer_rd_lesson_type{ width: 26%; }
+ellipse
+.thm_organizer_rd_row_odd{
+    border: none;
+}
+
+.thm_organizer_rd_event_title{
+    width: 50%;
+}
+.thm_organizer_rd_event_dates{
+    width: 50%;
+}
+
+.thm_organizer_rd_lessons, .thm_organizer_rd_appointments, .thm_organizer_rd_notices, .thm_organizer_rd_upcoming{
+    width: 100%;
+    clear: both;
+}
