@@ -31,7 +31,7 @@ th.column0, td.column0 {
     max-width: .5em;
 }
 
-/* Third and fourth column widths*/
+/* Third and fourth column widths */
 th.column3, td.column3,th.column4, td.column4 {
     max-width: 3em;
 }
