@@ -31,3 +31,6 @@ table.adminlist thead th.thm_organizer_sm_th { text-align: left; }
 
 /* === UNUSED === */
 li input[disabled=disabled] { border: none; color: black;}
+
+/* font color in div box (e.g. schedule edit) */
+.thm_organizer_se { color: #025a8d; }
