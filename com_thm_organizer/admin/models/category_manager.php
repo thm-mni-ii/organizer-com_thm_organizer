@@ -98,9 +98,9 @@ class THM_OrganizerModelCategory_Manager extends JModelList
             $query->where("ec.contentCatID = '$contentCatID'");
         }
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ectitle'));
-        $direction = $dbo->getEscaped($this->getState('list.direction'));
-        $query->order("$orderby $direction");//echo "<pre>" . print_r((string) $query, true) . "</pre>"; die;
+        $orderby = $dbo->escape($this->getState('list.ordering', 'ectitle'));
+        $direction = $dbo->escape($this->getState('list.direction'));
+        $query->order("$orderby $direction");
 
         return $query;
     }
@@ -123,11 +123,16 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         foreach ($items as $item)
         {
             $url = "index.php?option=com_thm_organizer&view=category_edit&categoryID=$item->id";
+            $urlAttribs = array('class' => 'jgrid hasTip');
             $return[$index] = array();
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
             $return[$index][1] = JHtml::_('link', $url, $item->ectitle);
-            $return[$index][2] = $this->getToggle($item->id, $item->global, 'global');
-            $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'reserves');
+            $globalCLass = empty($item->global)? 'unpublish' : 'publish';
+            $globalValue = '<span class="state ' . $globalCLass . '"></span>';
+            $return[$index][2] = JHtml::_('link', $url, $globalValue, $urlAttribs);
+            $reservesCLass = empty($item->reserves)? 'unpublish' : 'publish';
+            $reservesValue = '<span class="state ' . $reservesCLass . '"></span>';
+            $return[$index][3] = JHtml::_('link', $url, $reservesValue, $urlAttribs);
             $return[$index][4] = JHtml::_('link', $url, $item->cctitle);
             $index++;
         }
@@ -146,7 +151,7 @@ class THM_OrganizerModelCategory_Manager extends JModelList
     private function getToggle($id, $value, $attribute)
     {
         $spanClass = empty($value)? 'unpublish' : 'publish';
-        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') .'"';
+        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') . '"';
         $toggle .= 'href="index.php?option=com_thm_organizer&task=category.toggle&attribute=' . $attribute . '&id=' . $id . '&value=' . $value . '">';
         $toggle .= '<span class="state ' . $spanClass . '"></span>';
         $toggle .= '</a>';

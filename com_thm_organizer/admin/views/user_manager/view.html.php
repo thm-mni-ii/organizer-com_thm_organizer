@@ -11,6 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_list.thm_list');
 
 /**
  * Class which loads data into the view output context
@@ -42,6 +43,8 @@ class THM_OrganizerViewUser_Manager extends JViewLegacy
 
         $this->model = $this->getModel();
         $this->items = $this->get('Items');
+        $this->filters = $this->model->getFilters();
+        $this->headers = $this->model->getHeaders(count($this->items));
         $this->state = $this->get('State');
         $this->pagination = $this->get('Pagination');
         $document = JFactory::getDocument();

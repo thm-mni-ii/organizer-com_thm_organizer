@@ -50,8 +50,6 @@ class THM_OrganizerModelUser_Manager extends JModelList
     public function getItems()
     {
         $items = parent::getItems();
-        $this->filters = $this->getFilters();
-        $this->headers = $this->getHeaders();
         return $this->processItems($items);
     }
 
@@ -60,7 +58,7 @@ class THM_OrganizerModelUser_Manager extends JModelList
      *
      * @return  array  an array of filters
      */
-    private function getFilters()
+    public function getFilters()
     {
         $filters = array();
         $role = $this->getState('filter.role', '*');
@@ -70,21 +68,23 @@ class THM_OrganizerModelUser_Manager extends JModelList
         $options[] = array('value' => '1', 'text' => JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'));
         $options[] = array('value' => '2', 'text' => JText::_('COM_THM_ORGANIZER_PLANNER'));
         $attribs = array('onChange' => "this.form.submit();");
-        $filters[] =  JHtml::_('select.genericlist', $options, 'filter_role', $attribs, 'value', 'text', $role);
+        $filters[] = JHtml::_('select.genericlist', $options, 'filter_role', $attribs, 'value', 'text', $role);
         return $filters;
     }
 
     /**
      * Generates the headers to be used by the output table
      *
+     * @params   int  $count  the number of displayed items
+     *
      * @return  array  the table headers
      */
-    private function getHeaders()
+    public function getHeaders($count = 0)
     {
         $orderby = $this->getState('list.ordering', 'name');
         $direction = $this->getState('list.direction', 'ASC');
         $headers = array();
-        $headers[0] = '<input type="checkbox" name="toggle" value="" onclick="checkAll()" />';
+        $headers[0] = "<input type='checkbox' name='toggle' value='' onclick='checkAll($count)' />";
         $headers[1] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $orderby);
         $headers[2] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $orderby);
         $headers[3] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'), 'program_manager', $direction, $orderby);
@@ -131,7 +131,7 @@ class THM_OrganizerModelUser_Manager extends JModelList
     private function getToggle($id, $value, $role)
     {
         $spanClass = empty($value)? 'unpublish' : 'publish';
-        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') .'"';
+        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') . '"';
         $toggle .= 'href="index.php?option=com_thm_organizer&task=user.toggle&role=' . $role . '&id=' . $id . '&value=' . $value . '">';
         $toggle .= '<span class="state ' . $spanClass . '"></span>';
         $toggle .= '</a>';

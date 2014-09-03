@@ -164,7 +164,7 @@ class THM_OrganizerHelperEvent
     /**
      * Creates an introductory text for events
      *
-     * @param   array  &$event    an array of preprepared date and time entries
+     * @param   array  &$event  an array of preprepared date and time entries
      *
      * @return  string $introText
      */

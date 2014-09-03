@@ -67,7 +67,8 @@ $hexTitle = JText::_('COM_THM_ORGANIZER_CLM_CODE') . '::' . JText::_('COM_THM_OR
             </tfoot>
             <tbody>
 <?php
-if($this->items != null){
+if($this->items != null)
+{
     foreach ($this->items as $i => $item)
     {
 ?>

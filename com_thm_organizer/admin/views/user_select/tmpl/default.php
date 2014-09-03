@@ -12,32 +12,7 @@
 
 defined("_JEXEC") or die;
 ?>
-<script type="text/javascript">
-    function addUsers(){
-        var $ = jQuery.noConflict(),
-            checkedValues = [],
-            selected,
-            url = 'index.php?option=com_thm_organizer&task=user.add&users=';
-
-        $("input:checked").each(function(){
-            checkedValues.push($(this).val());
-        });
-
-        selected = checkedValues.join(',');
-
-        $.ajax({
-            type: 'GET',
-            url: url + selected,
-            success: function (data) {window.location.reload()(); },
-            error: function (xhr, textStatus, errorThrown) {
-                if (xhr.status === 404 || xhr.status === 500) {
-                    $.ajax(addUsers());
-                }
-            }
-        });
-    };
-</script>
-<form action="index.php?option=com_thm_organizer"
+<form action="index.php?"
       enctype="multipart/form-data"
       method="post"
       name="adminForm"
@@ -47,7 +22,7 @@ defined("_JEXEC") or die;
             <div class="toolbar-list" id="toolbar">
                 <ul>
                     <li class="button" id="toolbar-insert">
-                        <a href="#" onclick="addUsers();return false;" class="toolbar">
+                        <a href="#" onclick="Joomla.submitbutton('user.add');" class="toolbar">
                             <span class="icon-32-new"></span>
                             <?php echo JText::_('COM_THM_ORGANIZER_USM_ADD_USERS'); ?>
                         </a>
@@ -65,14 +40,14 @@ defined("_JEXEC") or die;
             <label class="filter-search-lbl" for="filter_search">
                 <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
             </label>
-            <input type="text" name="filter_search" id="filter_search"
-                   value="<?php echo $this->escape($this->state->get('filter.search')); ?>"
+            <input type="text" name="filter_user" id="filter_user"
+                   value="<?php echo $this->escape($this->state->get('filter.user')); ?>"
                    title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_TITLE'); ?>" />
             <button type="submit">
                 <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
             </button>
             <button type="button"
-                    onclick="document.id('filter_search').value='';this.form.submit();">
+                    onclick="document.id('filter_user').value='';this.form.submit();">
                 <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
         </div>
@@ -118,11 +93,12 @@ foreach ($this->items AS $tableRow)
             </tbody>
         </table>
     </div>
-    <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="filter_order" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>" />
     <input type="hidden" name="filter_order_dir" value="<?php echo $this->escape($this->state->get('list.direction')); ?>" />
+    <input type="hidden" name="option" value="com_thm_organizer" />
     <input type="hidden" name="view" value="user_select" />
+    <input type="hidden" name="task" value="" />
     <input type="hidden" name="tmpl" value="component" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

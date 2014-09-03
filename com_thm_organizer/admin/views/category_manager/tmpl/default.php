@@ -11,6 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-THM_List::render($this, true,true);
+THM_List::render($this, true, true);
 
 
