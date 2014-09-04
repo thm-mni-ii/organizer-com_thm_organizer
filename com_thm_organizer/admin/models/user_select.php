@@ -108,7 +108,7 @@ class THM_OrganizerModelUser_Select extends JModelList
         $subQuery->from('#__thm_organizer_users');
         $query->where('id NOT IN (' . (string) $subQuery . ')');
 
-        $search = $this->getState('filter.search');
+        $search = $this->getState('filter.user');
         $searchParts = explode(' ', $search);
         if (!empty($search))
         {
@@ -137,8 +137,8 @@ class THM_OrganizerModelUser_Select extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
-        $this->setState('filter.search', $search);
+        $search = $this->getUserStateFromRequest($this->context . '.filter.user', 'filter_user', '');
+        $this->setState('filter.user', $search);
 
         $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'user');
         $this->setState('list.ordering', $orderBy);

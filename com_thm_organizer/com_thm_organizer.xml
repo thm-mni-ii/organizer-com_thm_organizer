@@ -11,7 +11,7 @@
     <creationDate>01/01/2013</creationDate>
     <copyright>TH Mittelhessen 2013</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>2.8.4</version>
+    <version>2.8.5</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
@@ -55,12 +55,12 @@
     <administration>
         <menu img="../media/com_thm_organizer/images/thm_organizer.png">COM_THM_ORGANIZER</menu>
         <submenu>
-            <menu alias="Group Manager"
-                  link="option=com_thm_organizer&amp;view=group_manager"
-                  view="group_manager"
-                  img="../media/com_thm_organizer/images/groups.png"
+            <menu alias="User Manager"
+                  link="option=com_thm_organizer&amp;view=user_manager"
+                  view="user_manager"
+                  img="../media/com_thm_organizer/images/users.png"
                   alt="THM-Organizer/Group Manager"
-                    >COM_THM_ORGANIZER_GPM_TITLE</menu>
+                    >COM_THM_ORGANIZER_USM_TITLE</menu>
             <menu alias="Category Manager"
                   link="option=com_thm_organizer&amp;view=category_manager"
                   view="category_manager"

@@ -10,7 +10,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-if($this->items != null){
+if($this->items != null)
+{
     foreach ($this->items as $i => $item)
     {
 ?>

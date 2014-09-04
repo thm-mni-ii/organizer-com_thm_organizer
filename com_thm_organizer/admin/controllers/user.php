@@ -30,7 +30,6 @@ class THM_OrganizerControllerUser extends JControllerLegacy
      */
     public function add()
     {
-        JFactory::getApplication()->enqueueMessage('In controller add function.');
         if (!JFactory::getUser()->authorise('core.admin'))
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));

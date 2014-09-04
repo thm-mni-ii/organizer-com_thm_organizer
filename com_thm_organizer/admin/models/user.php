@@ -29,7 +29,7 @@ class THM_OrganizerModelUser extends JModelLegacy
     public function add()
     {
         $input = JFactory::getApplication()->input;
-        $userIDs = explode(',', $input->getString('users', ''));
+        $userIDs = $input->get('cid', array(), 'array');
         if (empty($userIDs))
         {
             return true;

@@ -96,6 +96,8 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
      * @param   string  $name          the name of the view
      * @param   string  $resourceName  the name of the resource managed by the view
      * @param   string  $langStub      unique identifier used for the view in the language file
+     *
+     * @return  void
      */
     private function addView(&$views, $name, $resourceName, $langStub)
     {

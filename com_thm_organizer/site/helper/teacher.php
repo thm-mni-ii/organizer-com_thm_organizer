@@ -148,7 +148,7 @@ class THM_OrganizerHelperTeacher
             $keysToIds[$key] = $item['id'];
         }
         $valueCount = array_count_values($keysToIds);
-        foreach($list as $key => $item)
+        foreach ($list as $key => $item)
         {
             $unset = ($valueCount[$item['id']] > 1 AND $item['teacherResp'] > 1);
             if ($unset)
