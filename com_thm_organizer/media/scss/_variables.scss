@@ -1,22 +1,47 @@
-// ------------------------------------
-// body definitions
-// ------------------------------------
+// ------------------------------------ //
+// body definitions                     //
+// ------------------------------------ //
 $font: Verdana, Arial;
 $fsize: 13px;
 $fcolor: rgb(74, 92, 102);
 
-// ------------------------------------
-// font definitions
-// ------------------------------------
-$fsize-em: 1.3em;
+// ***** alternative definitions *****  //
+// ------------------------------------ //
+// Borders                              //
+// ------------------------------------ //
 
-// ------------------------------------
-// definition of positions
-// ------------------------------------
-$text-align: center;
+// border and color definition
+$border-color: 1px solid rgb(187, 187, 187);
 
-// ------------------------------------
-// shadow definitions
-// ------------------------------------
+// ------------------------------------ //
+// Colors                               //
+// ------------------------------------ //
+
+// box-shadow default definition
 $shadow-color: rgb(221, 221, 221);
 
+// box-shadow definition for fieldset
+$shadow-color-fieldset: rgb(128, 186, 36);
+
+// background color for accordion
+$bg-color: rgb(238, 238, 238);
+$bg-color-panel: rgb(255, 255, 255);
+
+// font color for light text
+$fcolor-light: rgb(238, 238, 238);
+
+// ------------------------------------ //
+// Fonts                                //
+// ------------------------------------ //
+$fsize-em: 1.3em;
+
+// default size for lists
+$fsize-list: 12px;
+
+// small size for items
+$fsize-small: 11px;
+
+// ------------------------------------ //
+// Positions                            //
+// ------------------------------------ //
+$text-align-center: center;
