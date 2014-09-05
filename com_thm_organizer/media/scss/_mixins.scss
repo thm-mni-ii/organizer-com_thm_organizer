@@ -1,6 +1,6 @@
-// ------------------------------------
-// border definitions
-// ------------------------------------
+// ------------------------------------ //
+// border definitions                   //
+// ------------------------------------ //
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
@@ -9,13 +9,29 @@
   border-radius: $radius;
 }
 
-// ------------------------------------
-// shadow definitions
-// ------------------------------------
+// ------------------------------------ //
+// shadow definitions                   //
+// ------------------------------------ //
 @mixin box-shadow($x, $y, $spread, $color) {
   -webkit-box-shadow: $x $y $spread $color;
   -moz-box-shadow: $x $y $spread $color;
   -ms-box-shadow: $x $y $spread $color;
   -o-box-shadow: $x $y $spread $color;
   box-shadow: $x $y $spread $color;
+}
+
+@mixin box-shadow-fieldset($x, $y, $spread, $color, $inset) {
+  -webkit-box-shadow: $x $y $spread $color $inset;
+  -moz-box-shadow: $x $y $spread $color $inset;
+  -ms-box-shadow: $x $y $spread $color $inset;
+  -o-box-shadow: $x $y $spread $color $inset;
+  box-shadow: $x $y $spread $color $inset;
+}
+
+// ------------------------------------ //
+// color definitions                   //
+// ------------------------------------ //
+@mixin colors($color1, $color2) {
+  background-color: $color1;
+  color: $color2;
 }
