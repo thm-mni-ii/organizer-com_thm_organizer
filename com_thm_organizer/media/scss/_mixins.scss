@@ -1,0 +1,21 @@
+// ------------------------------------
+// border definitions
+// ------------------------------------
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+
+// ------------------------------------
+// shadow definitions
+// ------------------------------------
+@mixin box-shadow($x, $y, $spread, $color) {
+  -webkit-box-shadow: $x $y $spread $color;
+  -moz-box-shadow: $x $y $spread $color;
+  -ms-box-shadow: $x $y $spread $color;
+  -o-box-shadow: $x $y $spread $color;
+  box-shadow: $x $y $spread $color;
+}
