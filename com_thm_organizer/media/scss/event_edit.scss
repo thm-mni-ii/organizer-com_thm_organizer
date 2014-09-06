@@ -1,0 +1,152 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       event_edit.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import 'variables';
+
+// Color for all headers and gap adjustment for the page title
+.thm_organizer_ee {
+  color: $fcolor;
+  margin-top: 12px;
+  // Blue color for used links
+  & a:visited {
+    color: $fcolor;
+  }
+  option {
+    color: $fcolor;
+  }
+
+  form {
+    div {
+      table {
+        tr {
+          padding: 2px;
+          border: none;
+          td {
+            @extend tr;
+          }
+        }
+      }
+    }
+  }
+
+  #btnreset {
+    padding: 0 3px;
+  }
+
+  table {
+    img {
+      margin: 0 3px -5px 0;
+    }
+  }
+}
+
+// Adjustment for page title and toolbar menu
+.thm_organizer_ee_head_div {
+  border-bottom: $border-color;
+  height: 48px;
+  margin-bottom: 12px;
+  margin-top: -24px;
+  padding: 5px;
+  width: 100%;
+}
+
+// Page title font size adjustment
+.thm_organizer_ee_title {
+  font-size: $fsize-title;
+  font-weight: bold;
+}
+
+// Gap for labels on left side
+.thm_organizer_ee_label_div {
+  float: left;
+  min-width: 85px;
+  padding-right: 5px;
+  text-align: right;
+}
+
+// Anchors to left. Doesn't seem to have any effect
+.thm_organizer_ee_data_div {
+  float: left;
+}
+
+// Title position
+.thm_organizer_ee_name_div {
+  float: left;
+  margin-bottom: 10px;
+  max-width: 62%;
+}
+
+// Puts the description title on the left of the area
+.thm_organizer_ee_desc_div {
+  @extend .thm_organizer_ee_name_div;
+  clear: left;
+}
+
+// Puts the time setting below description part
+.thm_organizer_ee_time_div {
+  @extend .thm_organizer_ee_desc_div;
+  padding-left: 13px;
+}
+
+// Puts the description area next to the title
+.thm_organizer_ee_desc_div div.thm_organizer_ee_data_div {
+  max-width: 492px;
+}
+
+// Adjusts resource selection part to the bottom left of the page
+.thm_organizer_ee_resource_selection_div {
+  @extend .thm_organizer_ee_desc_div;
+}
+
+// Adjusts the category selection area to the left of the time selection area.
+.thm_organizer_ee_category_div {
+  background: $bg-color;
+  border: $border-color;
+  clear: right;
+  float: right;
+  padding: 0.4em;
+  width: 36%;
+}
+
+// Adjust the category filter
+.thm_organizer_ee_category_select_div {
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+// Adjust toolbar buttons to the top left
+.thm_organizer_ee_button_div {
+  float: right;
+  margin-right: 5px;
+}
+
+// Puts the highlighted parts in bold
+.thm_organizer_ee_highlight {
+  font-weight: bold;
+}
+
+.thm_organizer_ee_image_button {
+  border: none;
+  cursor: pointer;
+  height: 24px;
+  margin: auto;
+  white-space: nowrap;
+  width: 24px;
+}
+
+.editor-xtd-buttons,
+.toggle-editor {
+  display: none;
+}
+
+.wf_editor_toggle {
+  display: none !important;
+}
+
+.thm_organizer_ee_table {
+  border: none !important;
+}
