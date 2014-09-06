@@ -30,16 +30,25 @@ $bg-color-panel: rgb(255, 255, 255);
 // font color for light text
 $fcolor-light: rgb(238, 238, 238);
 
+// title color for thm organizer
+$fcolor-title: rgb(68, 92, 32);
+
 // ------------------------------------ //
 // Fonts                                //
 // ------------------------------------ //
 $fsize-em: 1.3em;
+
+// large size for title
+$fsize-title: 20px;
 
 // default size for lists
 $fsize-list: 12px;
 
 // small size for items
 $fsize-small: 11px;
+
+// size for publish infos (author, date)
+$fsize-publish: 9px;
 
 // ------------------------------------ //
 // Positions                            //
