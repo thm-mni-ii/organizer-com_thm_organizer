@@ -1,0 +1,121 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       thm_organizer.css
+**  Styles for: Backend - THM Organizer Component
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import 'mixins';
+@import 'variables';
+
+.tip-wrap {
+  z-index: 99;
+}
+
+.adminForm {
+  div.m {
+    padding: 5px;
+  }
+}
+
+.toolbar-close {
+  font-size: 1em;
+}
+
+// panel with all menu icons
+.cpanel {
+  margin-top: 4px;
+  width: 100%;
+}
+
+// UNUSED in schedule edit
+.thm_organizer_label {
+  padding-right: 5px;
+}
+
+// checkbox column (e.g. schedule manager)
+.thm_organizer_check_column {
+  width: 10px;
+}
+
+.thm_organizer_search_div {
+  padding-right: 8px;
+}
+
+.thm_organizer_radio_button {
+  background: #f4f4f4;
+  border: none;
+}
+
+// icons of the sections
+.icon-48-mni { background: url('../images/icon-48-mni.png') 0 0 no-repeat; }
+.icon-48-organizer_categories { background: url('../images/categories48.png') 0 0 no-repeat; }
+.icon-48-organizer_virtual_schedules { background: url('../images/virtual_schedules48.png') 0 0 no-repeat; }
+.icon-48-organizer_degrees { background: url('../images/degrees48.png') 0 0 no-repeat; }
+.icon-48-organizer_colors { background: url('../images/colors48.png') 0 0 no-repeat; }
+.icon-48-organizer_fields { background: url('../images/fields48.png') 0 0 no-repeat; }
+.icon-48-organizer_degree_programs { background: url('../images/programs48.png') 0 0 no-repeat; }
+.icon-48-organizer_subject_pools { background: url('../images/pools48.png') 0 0 no-repeat; }
+.icon-48-organizer_subjects { background: url('../images/subjects48.png') 0 0 no-repeat; }
+.icon-48-organizer_teachers { background: url('../images/teachers48.png') 0 0 no-repeat; }
+.icon-48-organizer_rooms { background: url('../images/rooms48.png') 0 0 no-repeat; }
+
+// icon of THMorganizer section
+.icon-48-organizer { background: url('../images/organizer48.png') 0 0 no-repeat; }
+
+.icon-32-merge { background: url('../images/icon-32-merge.png'); }
+.icon-32-wrench { background: url('../images/icon-32-wrench.png'); }
+
+.thm_organizer_main {
+  padding: 5px;
+}
+
+// description of thmorganizer
+.thm_organizer_main_description {
+  font-size: 16px;
+  padding-bottom: 8px;
+}
+
+.thm_organizer_main_submenu {
+  // UNUSED, styles for a
+  a {
+    background-color: $bg-color;
+    background-position: -30px center;
+    border: 1px solid #CCCCCC;
+    color: #565656;
+    display: block;
+    float: left;
+    height: 97px;
+    text-decoration: none;
+    transition-duration: 0.8s;
+    transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
+    width: 108px;
+    @include border-radius(5px);
+  }
+  // icon definitions in the overview
+  div.icon {
+    float: left;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    text-align: center;
+  }
+  // icon definitions in organizer view
+  img {
+    border: 0 none;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    padding: 10px 0;
+  }
+
+  // title of icon
+  span {
+    display: block;
+    text-align: center;
+  }//UNUSED, #cpanel muss vor .thm... stehen
+}
+
+// organizer overview
+.thm_organizer_main_linkdiv {
+  float: left;
+}
