@@ -7,10 +7,12 @@
 
 @import 'variables';
 
-// icon of the section
-.icon-48-organizer_schedules { background: url('../images/schedules48.png') 0 0 no-repeat; }
+// icon of the section 
+.icon-48-organizer_schedules {
+  background: url('../images/schedules48.png') 0 0 no-repeat;
+}
 
-// UNUSED = thm_organizer_sch_th exists only
+// UNUSED = thm_organizer_sch_th exists only 
 table.adminlist {
   thead {
     th.thm_organizer_sm_th {
@@ -19,20 +21,30 @@ table.adminlist {
   }
 }
 
-// department & semester column
-.thm_organizer_sch_semester_column { width: 10%; }
+// department & semester column 
+.thm_organizer_sch_semester_column {
+  width: 10%;
+}
 
-// active column
-.thm_organizer_sch_active_column { width: 5%; }
+// active column 
+.thm_organizer_sch_active_column {
+  width: 5%;
+}
 
-// active column: td align
-.thm_organizer_sch_active_td { text-align: $text-align-center; }
+// active column: td align 
+.thm_organizer_sch_active_td {
+  text-align: $text-align-center;
+}
 
-// creation date & time, start & end date column
-.thm_organizer_sch_date_column { width: 7%; }
+// creation date & time, start & end date column 
+.thm_organizer_sch_date_column {
+  width: 7%;
+}
 
-// description column
-.thm_organizer_sch_description_column { width: 20%; }
+// description column 
+.thm_organizer_sch_description_column {
+  width: 20%;
+}
 /*
     Im Quelltext wurde die Klasse nicht hinterlegt, deswegen greift der Style nicht!
     Lediglich die ID ist beinhaltet.
@@ -40,8 +52,13 @@ table.adminlist {
     Zeile 65: <col id="thm_organizer_sch_description_column" class='thm_organizer_sch_description_column' />
 */
 
-// === UNUSED ===
-li input[disabled=disabled] { border: none; color: black;}
+// === UNUSED === 
+li input[disabled=disabled] {
+  border: none;
+  color: black;
+}
 
-// font color in div box (e.g. schedule edit)
-.thm_organizer_se { color: #025a8d; }
+// font color in div box (e.g. schedule edit) 
+.thm_organizer_se {
+  color: #025a8d;
+}
