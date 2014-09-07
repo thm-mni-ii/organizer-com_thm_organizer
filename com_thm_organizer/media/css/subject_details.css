@@ -1,100 +1,88 @@
-.navi-bar{
-    margin-bottom: 3px;
-}
-span.navi-tab{
-    padding: 3px 9px;
-}
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       subject_details.css
+**  Styles for:
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.navi-bar {
+  margin-bottom: 3px; }
 
-.navi-tab .active{
-    border-left: 1px solid #a4b0bb;
-    border-top: 1px solid #a4b0bb;
-    border-right: 1px solid #a4b0bb;
-    background-color: #b7bec2;
-}
+span.navi-tab {
+  padding: 3px 9px; }
 
-.navi-tab .inactive{
-    border-left: none;
-    background-color: #6b7e88;
-}
+.navi-tab .active {
+  background-color: #b7bec2;
+  border-left: 1px solid #a4b0bb;
+  border-right: 1px solid #a4b0bb;
+  border-top: 1px solid #a4b0bb; }
+.navi-tab .inactive {
+  background-color: #6b7e88;
+  border-left: none; }
+.navi-tab .active a {
+  color: #3d494f;
+  font-weight: bold; }
+.navi-tab .inactive a {
+  color: #eeeeee; }
 
-.navi-tab .active a{
-    color: #3d494f;
-    font-weight: bold;
-}
+.filter-bar {
+  background-color: #b7bec2;
+  border-bottom: none;
+  border-left: 1px solid #a4b0bb;
+  border-right: 1px solid #a4b0bb;
+  border-top: none;
+  color: #3d494f;
+  font-weight: bold;
+  padding: 3px 9px; }
 
-.navi-tab .inactive a{
-    color: white;
-}
+div.filter-bar button {
+  padding: 3px 9px; }
 
-.filter-bar{
-    background-color: #b7bec2;
-    border-top: none;
-    border-left: 1px solid #a4b0bb;
-    border-bottom: none;
-    border-right: 1px solid #a4b0bb;
-    padding: 3px 9px;
-    color: #3d494f;
-    font-weight: bold;
-}
+.filter-search {
+  float: left; }
 
-div.filter-bar button{
-    padding: 3px 9px;
-}
+.filter-select {
+  float: right; }
 
-.filter-search{ float: left; }
+.subject-div table.subject-list {
+  border: none;
+  width: 100%; }
 
-.filter-select{ float: right; }
+ul.subject-list tr th a {
+  background-color: #3d494f;
+  color: white; }
 
-.subject-div table.subject-list{
-    width: 100%;
-    border: none;
-}
+.group-bar {
+  border: none;
+  font-weight: bold;
+  padding: 9px 3px; }
 
-ul.subject-list tr th a{
-    background-color: #3d494f;
-    color: white;
-}
+.subject-name {
+  display: inline-block;
+  width: 50%; }
 
-.group-bar{
-    border: none;
-    padding: 9px 3px;
-    font-weight: bold;
-}
+.subject-responsible {
+  display: inline-block;
+  width: 25%; }
 
-.subject-name{
-    width: 50%;
-    display: inline-block;
-}
+.subject-crp {
+  display: inline-block;
+  width: 12%; }
 
-.subject-responsible{
-    width: 25%;
-    display: inline-block;
-}
+.row1 {
+  background-color: #f7f7f7; }
 
-.subject-crp{
-    width: 12%;
-    display: inline-block;
-}
+.subject-item {
+  clear: both;
+  padding: 15px 10px; }
 
-.row1{
-    background-color: #f7f7f7;
-}
+.subject-label {
+  border-bottom: 2px solid #a4b0bb;
+  color: #3d494f;
+  float: left;
+  font-weight: bold;
+  margin-right: 10px;
+  width: 15%; }
 
-.subject-item{
-    clear: both;
-    padding: 15px 10px;
-}
-
-.subject-label{
-    color: #3d494f;
-    border-bottom: 2px solid #a4b0bb;
-    width: 15%;
-    float: left;
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-.subject-content{
-    float: left;
-    width: 79%;
-}
+.subject-content {
+  float: left;
+  width: 79%; }

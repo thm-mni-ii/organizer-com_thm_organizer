@@ -1,206 +1,181 @@
-/*csslint important: false, overqualified-elements: false, box-sizing: false, adjoining-classes: false*/
-/*legend container*/ /*---> old comment <---*/
-
-/* ==========================================================================
-    Frontend - Curriculum
-   ========================================================================== */
-
-/*------------------------------------
-   STUDY PATH box settings
-------------------------------------*/
-
-/* study path container */
+@charset "CP850";
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       curriculum.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
 div.curriculum_legend {
-    width: 245px;
-    padding: 5px;
-    font-family: Verdana,Arial;
-    float: right;
-    background-color: rgb(238, 238, 238);
-    border: rgb(187, 187, 187) 1px solid;
-    border-radius: 2px;
-    box-shadow: 2px 2px 4px rgb(221, 221, 221);
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-    margin-top: 2px;
-    margin-right: 5px;
-}
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  color: #4a5c66;
+  float: right;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  margin-right: 5px;
+  margin-top: 2px;
+  padding: 5px;
+  width: 245px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
 
-/* ul definitions */
 ul.fieldList {
-    list-style-type: none;
-    font-size: 12px;
-    padding: 0 2px;
-}
+  font-size: 12px;
+  list-style-type: none;
+  padding: 0 2px; }
 
-/* list item spacing */
 li.fieldItem {
-    padding: 2px 0;
-}
+  padding: 2px 0; }
 
-/* color field definitions */
 span.fieldColor {
-    display: inline-block;
-    border: rgb(187, 187, 187) 1px solid;
-    height: 11px;
-    width: 11px;
-}
+  border: 1px solid #bbbbbb;
+  display: inline-block;
+  height: 11px;
+  width: 11px; }
 
-/* text field definitions */
 span.fieldText {
-    display: inline-block;
-    padding: 0 0 2px 2px ;
-}
+  display: inline-block;
+  padding: 0 0 2px 2px; }
 
-/*------------------------------------
-   ACCORDION CURRICULUM settings
-------------------------------------*/
-
-/* curriculum container */
 div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset {
-    width: 682px;
-    padding: 0 4px;
-    font-family: Verdana,Arial;
-    float: left;
-}
+  float: left;
+  font-family: Verdana, Arial;
+  padding: 0 4px;
+  width: 682px; }
 
-/* h3 definitions of the accordion widget (active) */
-h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons {
-    background-image: none;
-    background-color: rgb(238, 238, 238);
-    border: rgb(187, 187, 187) 1px solid;
-    box-shadow: 2px 2px 4px rgb(221, 221, 221);
-    font-family: Verdana, Arial;
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-}
-
-/* h3 definitions of the accordion widget (default) */
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons,
 h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
-    background-image: none;
-    background-color: rgb(238, 238, 238);
-    border: rgb(187, 187, 187) 1px solid;
-    font-family: Verdana, Arial;
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-    font-weight: normal;
-}
+  background-color: #eeeeee;
+  background-image: none;
+  border: 1px solid #bbbbbb;
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px; }
 
-/* h3 hover color definitions */
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons {
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+  font-weight: normal; }
+
 h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons.ui-state-hover {
-    background-color: rgb(74, 92, 102);
-    color: rgb(238, 238, 238);
-}
+  background-color: #4a5c66;
+  color: #eeeeee; }
 
-/* tab switch image active */
 h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-s {
-    background: url('../images/active_tab.png') 0 0 no-repeat;
-}
+  background: url("../images/active_tab.png") 0 0 no-repeat; }
 
-/* tab image default */
 h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-e {
-    background: url('../images/default_tab.png') 0 0 no-repeat;
-}
+  background: url("../images/default_tab.png") 0 0 no-repeat; }
 
-/* horizontal item panel */
 div.gridster.ready.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active {
-    padding: 4px;
-    background-color: rgb(255, 255, 255);
-    border-top: none;
-    border-left: rgb(187, 187, 187) 1px solid;
-    border-right: rgb(187, 187, 187) 1px solid;
-    border-bottom: rgb(187, 187, 187) 1px solid;
-    box-shadow: 2px 2px 4px rgb(221, 221, 221);
-}
+  background-color: white;
+  border-top: none;
+  border-left: 1px solid #bbbbbb;
+  border-right: 1px solid #bbbbbb;
+  border-bottom: 1px solid #bbbbbb;
+  padding: 4px;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
 
-/* item list of the semester */
 li.icon_container.gs-w {
-    position: absolute;
-    display: inline-block; 
-    border: rgb(187, 187, 187) 1px solid;
-    border-radius: 3px;
-    background-color: rgb(238, 238, 238);
-    box-shadow: 2px 2px 4px rgb(221, 221, 221);
-}
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  display: inline-block;
+  position: absolute;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
 
 li.icon_container.empty.gs-w {
-    visibility: hidden;
-}
+  visibility: hidden; }
 
-/* item header definitions */
 .icon_container_head {
-    font-size: 11px; 
-    text-align: left; /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/
-    padding: 2px;
-    border-bottom: rgb(187, 187, 187) 1px solid;
-}
+  border-bottom: 1px solid #bbbbbb;
+  font-size: 11px;
+  padding: 2px;
+  text-align: left;
+  /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/ }
 
-/* dark font in item header */
 .dark-text {
-    color: rgb(74, 92, 102);
-}
+  color: #4a5c66; }
 
-/* light font in item header */
 .light-text {
-    color: rgb(238, 238, 238);
-}
+  color: #eeeeee; }
 
-/* item content definitions */
 .icon_container_body {
-    font-size: 11px; 
-    font-weight: normal; /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/
-    color: rgb(74, 92, 102);
-    hyphens: auto;
-    word-wrap: break-word;
-    padding: 5px;
-}
+  color: #4a5c66;
+  font-size: 11px;
+  font-weight: normal;
+  /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/
+  hyphens: auto;
+  padding: 5px;
+  word-wrap: break-word; }
 
-/* item content, when contained a link */
-a.curriculumLink:link, a.curriculumLink:hover, a.curriculumLink:visited, a.curriculumLink:focus {
-    font-weight: normal;
-    color: rgb(74, 92, 102);
-    text-decoration: none;
-    outline: none;
-    font-family: Verdana,Arial;
-    font-size: 11px;
-}
+a.curriculumLink:link,
+a.curriculumLink:hover,
+a.curriculumLink:visited,
+a.curriculumLink:focus {
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 11px;
+  font-weight: normal;
+  text-decoration: none;
+  outline: none; }
 
-/* icon position in item list */
 .itemTools {
-    position: absolute;
-    top: 70%;
-    left: 25%;
-}
+  left: 25%;
+  position: absolute;
+  top: 70%; }
 
-/* teacher image definitions */
 .teacherImage {
-    max-height: 25px;
-    width: 20px;
-}
+  max-height: 25px;
+  width: 20px; }
 
-.curriculum_dialog_list
-{
-    margin: 15px 10px 10px 10px;
-    text-align: center;
-    display: inline-table;
-}
+.curriculum_dialog_list {
+  display: inline-table;
+  margin: 15px 10px 10px 10px;
+  text-align: center; }
 
 .semesterHeader {
-    background-color: #B0B0B0;
-}
+  background-color: #B0B0B0; }
 
-/* jquery ui writes inline styles for this element :( *//*---> old comment <---*/
-/* dialog panel definitions */
+/* jquery ui writes inline styles for this element :( */
+/*---> old comment <---*/
 div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
-    top: 175px !important;
-    max-height: 425px !important;
-    overflow-y: auto;
-    width: 694px !important;
-    font-family: Verdana,Arial;
-    border: rgb(187, 187, 187) 1px solid;
-    box-shadow: 2px 2px 8px rgb(150, 150, 150);
-}
+  border: 1px solid #bbbbbb;
+  font-family: Verdana, Arial;
+  max-height: 425px !important;
+  overflow-y: auto;
+  top: 175px !important;
+  width: 694px !important;
+  -webkit-box-shadow: 2px 2px 8px #969696;
+  -moz-box-shadow: 2px 2px 8px #969696;
+  -ms-box-shadow: 2px 2px 8px #969696;
+  -o-box-shadow: 2px 2px 8px #969696;
+  box-shadow: 2px 2px 8px #969696; }
 
-/* pool dialog panel */
 div.poolDialog.ui-dialog-content.ui-widget-content.ready {
-    padding: 5px;
-}
+  padding: 5px; }

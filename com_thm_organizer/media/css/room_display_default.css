@@ -1,88 +1,81 @@
-.thm_organizer_rd{
-    width: 75%;
-    color: #4a5c66;
-    padding: 1%;
-}
-
-.thm_organizer_rd div{
-    color: #4a5c66;
-}
-
-
-.thm_organizer_rd a{
-    text-decoration: none;
-}
-
-.thm_organizer_rd h3{
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       room_display_default.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.thm_organizer_rd {
+  color: #4a5c66;
+  padding: 1%;
+  width: 75%; }
+  .thm_organizer_rd div {
+    color: #4a5c66; }
+  .thm_organizer_rd a {
+    text-decoration: none; }
+  .thm_organizer_rd h3 {
     font-size: 150%;
-    text-align: center;
-}
+    text-align: center; }
 
-thm_organizer_rd_head{
-    width: 100%;
-    font-size: 200%;
-    clear: both;
-    padding-bottom: 4%;
-}
+thm_organizer_rd_head {
+  clear: both;
+  font-size: 200%;
+  padding-bottom: 4%;
+  width: 100%; }
 
-.thm_organizer_rd_title{
-    float: left;
-    clear: none;
-    padding-left: 2%;
-    padding-top: 2%;
-}
+.thm_organizer_rd_title {
+  clear: none;
+  float: left;
+  padding-left: 2%;
+  padding-top: 2%; }
 
-thm_organizer_rd_highlight{
-    font-weight: bold;
-    color: #80ba24;
-}
+thm_organizer_rd_highlight {
+  color: #80ba24;
+  font-weight: bold; }
 
-.thm_organizer_rd_button_div{
-    float: right;
-    font-size: 60%;
-    width: 15%;
-    clear: none;
-    padding-right: 9%;
-}
+.thm_organizer_rd_button_div {
+  clear: none;
+  float: right;
+  font-size: 60%;
+  padding-right: 9%;
+  width: 15%; }
 
-.thm_organizer_rd_table_container{
-    padding: 0.5%;
-    background-color: rgb(238, 238, 238);
-    border: #bbbbbb 1px solid;
-}
+.thm_organizer_rd_table_container {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  padding: 0.5%; }
 
-.thm_organizer_rd_table{
-    font-size: 120%;
-    width: 100%;
-    border: #bbbbbb 1px solid;
-}
-
-.thm_organizer_rd_table tr td{
-    padding: 5px;
+.thm_organizer_rd_table {
+  border: 1px solid #bbbbbb;
+  font-size: 120%;
+  width: 100%; }
+  .thm_organizer_rd_table tr td {
     border: none;
-}
+    padding: 5px; }
 
-.thm_organizer_rd_row_even{
-    background-color: white;
-    border: none;
-}
+.thm_organizer_rd_row_even {
+  background-color: #eeeeee;
+  border: none; }
 
-.thm_organizer_rd_lesson_time{ width: 14%; }
-.thm_organizer_rd_lesson_name{ text-align: center; }
-.thm_organizer_rd_lesson_type{ width: 26%; }
+.thm_organizer_rd_lesson_time {
+  width: 14%; }
+
+.thm_organizer_rd_lesson_name {
+  text-align: center; }
+
+.thm_organizer_rd_lesson_type {
+  width: 26%; }
+
 ellipse
-.thm_organizer_rd_row_odd{
-    border: none;
-}
+.thm_organizer_rd_row_odd {
+  border: none; }
 
-.thm_organizer_rd_event_title{
-    width: 50%;
-}
-.thm_organizer_rd_event_dates{
-    width: 50%;
-}
+.thm_organizer_rd_event_title,
+.thm_organizer_rd_event_dates {
+  width: 50%; }
 
-.thm_organizer_rd_lessons, .thm_organizer_rd_appointments, .thm_organizer_rd_notices, .thm_organizer_rd_upcoming{
-    width: 100%;
-    clear: both;
-}
+.thm_organizer_rd_lessons,
+.thm_organizer_rd_appointments,
+.thm_organizer_rd_notices,
+.thm_organizer_rd_upcoming {
+  clear: both;
+  width: 100%; }

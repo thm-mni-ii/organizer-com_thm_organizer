@@ -1,73 +1,54 @@
-/* ==========================================================================
-    Frontend - Widget accordion (module catalogue)
-   ========================================================================== */
-
-/* line-height of the widget div */
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       jquery_ui.css
+**  Styles for: Frontend - Widget accordion (module catalogue)
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
 .ui-helper-reset {
-    line-height: 1;
-}
+  line-height: 1; }
 
-/* accordion boxes have background colors */
 .ui-state-default {
-    background-image: none;
-}
+  background-image: none; }
 
-/* radius of accordion headers (default) */
 .ui-corner-all {
-    border-radius: 3px;
-}
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
 
-/* radius of accordion header, when is clicked */
-.ui-corner-top {
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
+.ui-corner-top, .ui-corner-bottom {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px; }
 
-/* radius of div subject list */
-.ui-corner-bottom {
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-/* margin in h3 accordion widget */
 .ui-accordion .ui-accordion-header {
-    margin-top: 4px;
-}
+  margin-top: 4px; }
 
-/* accordion header definitions */
 .ui-accordion-header {
-    background-color: rgb(238, 238, 238);
-    border: rgb(187, 187, 187) 1px solid;
-    box-shadow: 2px 2px 4px rgb(221, 221, 221);
-}
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
 
-/* padding of selected list */
 .ui-accordion .ui-accordion-content {
-    padding: 4px;
-}
+  padding: 4px; }
 
-/* title of the widget (font definitions) */
 .ui-widget {
-    font-family: Verdana, Arial;
-    font-size: 13px;
-}
+  font-family: Verdana, Arial;
+  font-size: 13px; }
 
-/* widget titles (default state) */
 .ui-state-default {
-    font-weight: normal;
-}
+  font-weight: normal; }
 
-/* green arrow icon, when is clicked */
 .ui-icon.ui-icon-triangle-1-s {
-    background: url('../images/active_tab.png') 0 0 no-repeat;
-}
-/* green arrow icon (default) */
-.ui-icon.ui-icon-triangle-1-e {
-    background: url('../images/default_tab.png') 0 0 no-repeat;
-}
+  background: url("../images/active_tab.png") 0 0 no-repeat; }
 
-/* hover effect of widget titles */
+.ui-icon.ui-icon-triangle-1-e {
+  background: url("../images/default_tab.png") 0 0 no-repeat; }
+
 h3.ui-state-hover {
-    background-color: rgb(74, 92, 102) !important;
-    color: rgb(238, 238, 238);
-}
+  background-color: #4a5c66 !important;
+  color: #eeeeee; }

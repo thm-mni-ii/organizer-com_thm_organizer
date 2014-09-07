@@ -1,135 +1,99 @@
-.thm_organizer_el{
-    margin-right: 8px;
-}
-
-.thm_organizer_el button{
-    border: none;
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       event_manager.css
+**  Styles for: 
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.thm_organizer_el {
+  margin-right: 8px; }
+  .thm_organizer_el button {
     background: none;
-}
+    border: none; }
 
-/* Adjusts top div */
-.thm_organizer_el_top_div{
-    float: left;
-    width: 100%;
-}
+.thm_organizer_el_top_div {
+  float: left;
+  width: 100%; }
 
-/* Adjusts category div to left*/
-.thm_organizer_el_category_desc_div{
-    float: left;
-}
+.thm_organizer_el_category_desc_div {
+  float: left; }
 
-/* Adjusts toolbar right */
-.thm_organizer_el_action_div{
-    float: right;
-    margin-bottom: 2px;
-}
+.thm_organizer_el_action_div {
+  float: right;
+  margin-bottom: 2px; }
+  .thm_organizer_el_action_div button {
+    padding: 1px; }
 
-/* Unused */
-.thm_organizer_el_divider_span{
-    width: 1px;
-    margin-right: 10px;
-}
+.thm_organizer_el_divider_span {
+  margin-right: 10px;
+  width: 1px; }
 
-/* Adjusts button size in toolbar div */
-.thm_organizer_el_action_div button{
-    padding: 1px;
-}
+.thm_organizer_el_form_div {
+  clear: both;
+  float: left;
+  width: 100%; }
 
-/* Adjusts divs for filters and table */
-.thm_organizer_el_form_div{
-    width: 100%;
-    float: left;
-    clear: both;
-}
+.thm_organizer_el_search_div {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  padding: 5px;
+  width: 100%;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
+  .thm_organizer_el_search_div .calendar {
+    margin-bottom: -5px; }
 
-/* Adjusts the div for search bar */
-.thm_organizer_el_search_div{
-    padding: 5px;
-    width: 100%;
-    border-radius: 3px;
-    border: #bbbbbb 1px solid;
-    background-color: rgb(238, 238, 238);
-}
+.thm_organizer_el_label_span {
+  padding-left: 2px;
+  padding-right: 2px; }
 
-/* Adjusts the calendars in the filter to the same level as text areas */
-.thm_organizer_el_search_div .calendar{
-    margin-bottom: -5px;
-}
+.thm_organizer_el_events_div {
+  background-color: #eeeeee;
+  margin-top: 10px;
+  border: 1px solid #bbbbbb;
+  padding: 5px;
+  width: 100%;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
 
-/* Adjusts label texts */
-.thm_organizer_el_label_span{
-    padding-left: 2px;
-    padding-right: 2px;
-}
+.thm_organizer_el_eventtable {
+  border-spacing: 0;
+  width: 100%; }
+  .thm_organizer_el_eventtable thead tr {
+    border: none; }
+    .thm_organizer_el_eventtable thead tr td {
+      border: none;
+      padding: 3px; }
+      .thm_organizer_el_eventtable thead tr td a {
+        text-decoration: none; }
+  .thm_organizer_el_eventtable thead th {
+    padding: 3px; }
+    .thm_organizer_el_eventtable thead th a {
+      text-decoration: none; }
 
-/* Creates the table to show the events */
-.thm_organizer_el_events_div{
-    width: 100%;
-    margin-top: 10px;
-    border-radius: 3px;
-    border: #bbbbbb 1px solid;
-    padding: 5px;
-    background-color: rgb(238, 238, 238);
-}
+.thm_organizer_el_sortLink img {
+  border: none;
+  margin-left: 4px; }
 
-/* Next three are adjustment for table headers. Doesn't seem to have any effect. */
-.thm_organizer_el_eventtable{
-    width: 100%;
-    border-spacing: 0;
-}
+.thm_organizer_el_row_even {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb; }
 
-.thm_organizer_el_eventtable thead tr{
-    border: none;
-}
+.thm_organizer_el_row_odd {
+  border: 1px solid #bbbbbb; }
 
-.thm_organizer_el_eventtable thead th{
-    padding: 3px;
-}
+.thm_organizer_el_col_check {
+  width: 18px; }
 
-/* Unused */
-.thm_organizer_el_sortLink img{
-    margin-left: 4px;
-    border: none;
-}
-
-/* White color with gray borders for even numbered rows */
-.thm_organizer_el_row_even{
-    background-color: white;
-    border: #bbbbbb 1px solid;
-}
-
-/* Gray color for odd rows */
-.thm_organizer_el_row_odd{
-    border: #bbbbbb 1px solid;
-}
-
-/* Text decoration for hyperlinks in table */
-.thm_organizer_el_eventtable thead th a{
-    text-decoration: none;
-}
-
-/* Style for tr and td's in table. Doesn't seem to have any effect */
-.thm_organizer_el_eventtable tr td{
-    padding: 3px;
-    border: none;
-}
-
-/* Text decoration for tr's, td's and hyperlinks in table. Doesn't seem to have any effect. */
-.thm_organizer_el_eventtable tr td a{
-    text-decoration: none;
-}
-
-/* Size of the checkbox area */
-.thm_organizer_el_col_check{
-    width: 18px;
-}
-
-/* Unused */
-.thm_organizer_el_noauth{
-    background-color: rgb(230, 192, 192);
-    color: #c00;
-    border-bottom: 3px solid #de7a7b;
-    border-top: 3px solid #de7a7b;
-    padding: 5px;
-    font-weight: bolder;
-}
+.thm_organizer_el_noauth {
+  background-color: #e6c0c0;
+  border-bottom: 3px solid #de7a7b;
+  border-top: 3px solid #de7a7b;
+  color: #c00;
+  font-weight: bolder;
+  padding: 5px; }

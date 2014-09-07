@@ -1,161 +1,115 @@
-/* ==========================================================================
-    Frontend - Subject list (module catalogue)
-   ========================================================================== */
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       subject_list.css
+**  Styles for: Frontend - Subject list (module catalogue)
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+fieldset.filter-bar, div.filter-bar {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  clear: both;
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
 
-/*---------------------------------
-   TAB settings
----------------------------------*/
-
-/* tab definitions */
 span.navi-tab {
-    display: block;
-    float:left;
-    padding: 4px 4px 5px 4px;
-    background-color: rgb(238, 238, 238);
-    border-top: rgb(187, 187, 187) 1px solid;
-    border-left: rgb(187, 187, 187) 1px solid;
-    border-right: rgb(187, 187, 187) 1px solid;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    margin-bottom: -1px;
-    box-shadow: 2px 0 4px rgb(221, 221, 221);
-}
-
-span.navi-tab.inactive{
-    z-index: -100;
-}
-
-/* tab link */
-span.navi-tab a {
+  background-color: #eeeeee;
+  border-left: 1px solid #bbbbbb;
+  border-right: 1px solid #bbbbbb;
+  border-top: 1px solid #bbbbbb;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  display: block;
+  float: left;
+  margin-bottom: -1px;
+  padding: 4px 4px 5px 4px;
+  -webkit-box-shadow: 2px 0 4px #dddddd;
+  -moz-box-shadow: 2px 0 4px #dddddd;
+  -ms-box-shadow: 2px 0 4px #dddddd;
+  -o-box-shadow: 2px 0 4px #dddddd;
+  box-shadow: 2px 0 4px #dddddd; }
+  span.navi-tab .inactive {
+    z-index: -100; }
+    span.navi-tab .inactive a {
+      font-weight: normal; }
+  span.navi-tab a {
+    color: #4a5c66;
     font-family: Verdana, Arial;
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-}
+    font-size: 13px; }
+  span.navi-tab .active a {
+    font-weight: bold; }
 
-/* clicked tab */
-span.navi-tab.active a {
-    font-weight: bold;
-}
+fieldset.filter-bar, div.filter-bar {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px; }
 
-/* inactive tabs */
-span.navi-tab.inactive a {
-    font-weight: normal;
-}
-
-/*---------------------------------
-   FILTER FORM settings
----------------------------------*/
-
-/* filter form definitions */
-fieldset.filter-bar ,div.filter-bar {
-    font-family: Verdana, Arial;
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-    border: rgb(187, 187, 187) 1px solid;
-    background-color: rgb(238, 238, 238);
-    border-bottom-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    padding: 8px 4px 4px 4px;
-    clear: both;
-    z-index: 12;
-    box-shadow: 2px 2px 4px rgb(221, 221, 221);
-    overflow: auto;
-}
-
-/* filter select list (Backend, e.g. select global settings...) */
 div#filter-bar div.filter-select select {
-    margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
-/* filter label (Backend) */
-div.filter-bar label{
-    display: inline;
-}/*überflüssig?!*/
+div.filter-bar label {
+  display: inline; }
+div.filter-bar input {
+  margin-bottom: 0; }
 
-/* filter input (Backend, e.g. monitor manager) */
-div.filter-bar input{
-    margin-bottom: 0;
-}/*überflüssig?!*/
-
-/* search label size */
 div.filter-search label {
-    font-size: 13px;
-}
-
-/* button styles */
+  font-size: 13px; }
 div.filter-search button {
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-    border: rgb(187, 187, 187) 1px solid;
-    padding: 2px;
-    border-radius: 3px;
-}
+  border: 1px solid #bbbbbb;
+  color: #4a5c66;
+  font-size: 13px;
+  padding: 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
 
-/*---------------------------------
-   MODULE LIST settings
----------------------------------*/
-
-/* clear the floating in the list item */
 ul li.subject-item {
-    padding: 2px 0;
-    clear: both;
-}
-
-/* row1 has gray colored li */
+  clear: both;
+  padding: 2px 0; }
 ul li.row1.subject-item {
-    background-color: rgb(238, 238, 238);
-}
+  background-color: #eeeeee; }
 
-/* float the div boxes */
 div.subject-name, div.subject-responsible, div.subject-crp {
-    display: inline-block;
-}
+  display: inline-block; }
 
-/* style definitions of module list */
 div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
-    font-family: Verdana, Arial;
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-    font-weight: normal;
-}
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  font-weight: normal; }
 
-/* title of module column */
 div.subject-name {
-    width: 55%;
-}
+  width: 55%; }
 
-/* lecturer column */
 div.subject-responsible {
-    width: 25%;
-}
+  width: 25%; }
 
-/* credit points column */
 div.subject-crp {
-    width: 10%;
-}
+  width: 10%; }
 
-/* accordion of the module catalogue */
 div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
-    float: left;
-    width: 100%;
-}
+  float: left;
+  width: 100%; }
 
-/* color of the widget title */
 h3.group-bar, h3.group-bar a {
-    color: rgb(74, 92, 102);
-}
+  color: #4a5c66; }
 
-/* definitions of the list items (overview) */
 .subject-list li.subject-item {
-    list-style-image: url('../images/thm_li.png');
-    line-height: 1.3;
-    padding: 4px;
-}
+  line-height: 1.3;
+  list-style-image: url("../images/thm_li.png");
+  padding: 4px; }
 
-/* definitions of the list items (group view) */
 .subject-list.grouped li.subject-item {
-    margin: 0;
-    line-height: 1.3;
-    padding: 5px;
-}
+  line-height: 1.3;
+  margin: 0;
+  padding: 5px; }
