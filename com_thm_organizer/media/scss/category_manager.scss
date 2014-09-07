@@ -1,0 +1,50 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       category_manager.css
+**  Styles for: Backend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import 'mixins';
+@import 'variables';
+@import 'filters';
+
+// ------------------------------------
+// Page icon
+// ------------------------------------
+.icon-48-organizer_categories {
+  background: url('../images/categories48.png') 0 0 no-repeat;
+}
+
+// ------------------------------------
+// Filter definitions
+// ------------------------------------
+fieldset.filter-bar ,div.filter-bar {
+  @extend %fieldset;
+  @include border-radius(3px);
+}
+
+// Removes margin from template
+fieldset.filter-bar button, div.filter-bar button {
+  margin: 0;
+}
+
+// Table width
+table {
+  width: 100%;
+}
+
+// Text alignment for columns in the table
+th, td {
+  text-align: $text-align-center;
+}
+
+// First column width
+th.column0, td.column0 {
+  max-width: .5em;
+}
+
+// Third and fourth column widths
+th.column3, td.column3,th.column4, td.column4 {
+  max-width: 3em;
+}
