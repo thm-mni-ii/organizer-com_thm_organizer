@@ -4,6 +4,7 @@
 $font: Verdana, Arial;
 $fsize: 13px;
 $fcolor: rgb(74, 92, 102);
+$line-height: 1.3;
 
 // ***** alternative definitions *****  //
 // ------------------------------------ //
@@ -26,6 +27,9 @@ $shadow-color-fieldset: rgb(128, 186, 36);
 // background color for accordion
 $bg-color: rgb(238, 238, 238);
 $bg-color-panel: rgb(255, 255, 255);
+
+// color for hover in widget accordion
+$bg-color-widget: rgb(74, 92, 102);
 
 // font color for light text
 $fcolor-light: rgb(238, 238, 238);
