@@ -535,7 +535,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             $prerequisites[] = $subjectInfo['id'];
         }
 
-        $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
+        $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details.css';
         $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
         
         $itemID = JFactory::getApplication()->input->getInt('Itemid', 0);

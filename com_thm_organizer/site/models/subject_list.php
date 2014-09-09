@@ -208,7 +208,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         $menuID = $this->state->get('menuID');
         $languageTag = $this->state->get('languageTag');
-        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$languageTag&Itemid=$menuID&id='";
+        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details.css&languageTag=$languageTag&Itemid=$menuID&id='";
 
         $subjectsQuery = $this->_db->getQuery(true);
         $subjectsQuery->from('#__thm_organizer_subjects AS s');

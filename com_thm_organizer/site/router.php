@@ -34,7 +34,7 @@ function THM_organizerBuildRoute(&$query)
 
     switch ($view)
     {
-        case 'event_details':
+        case 'event_details.css':
             setEventDetailsSegments($query, $segments);
             break;
         case 'event_edit':
@@ -43,7 +43,7 @@ function THM_organizerBuildRoute(&$query)
                 setEventEditSegments($query, $segments, $item);
             }
             break;
-        case 'subject_details':
+        case 'subject_details.css':
             setSubjectDetailsSegments($query, $segments);
             break;
         case 'subject_list':
@@ -336,7 +336,7 @@ function THM_organizerParseRoute($segments)
     $vars['view'] = $viewArray[0];
     switch ($vars['view'])
     {
-        case 'event_details':
+        case 'event_details.css':
         case 'event_edit':
             $eventIDArray = explode(':', $segments[1]);
             $vars['eventID'] = $eventIDArray[0];
@@ -345,7 +345,7 @@ function THM_organizerParseRoute($segments)
                 $vars['Itemid'] = $segments[2];
             }
             break;
-        case 'subject_details':
+        case 'subject_details.css':
             $vars['languageTag'] = $segments[1];
             $idArray = explode(':', $segments[2]);
             $vars['id'] = $idArray[0];

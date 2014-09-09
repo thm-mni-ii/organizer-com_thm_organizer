@@ -318,7 +318,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                             if (!empty($schedule->subjects->$subjectID->subjectNo)
                              AND $this->layout != 'registered')
                             {
-                                $subjectLink = "index.php?option=com_thm_organizer&view=subject_details";
+                                $subjectLink = "index.php?option=com_thm_organizer&view=subject_details.css";
                                 $subjectLink .= "&languageTag=de&Itemid=$menuID&nrmni=";
                                 $subjectLink .= $schedule->subjects->$subjectID->subjectNo;
                                 $lessonTitle .= JHtml::_('link', $subjectLink, $lessonName);
@@ -739,7 +739,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function getEventLink($eventID, $title)
     {
-        $url = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
+        $url = "index.php?option=com_thm_organizer&view=event_details.css&eventID=$eventID";
         $attributes = array('title' => "$title::" . JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT'));
         return JHtml::_('link', $url, $title, $attributes);
     }
