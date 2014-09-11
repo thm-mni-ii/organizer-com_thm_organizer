@@ -1,43 +1,46 @@
-/* Page icon */
-.icon-48-organizer_categories { background: url('../images/categories48.png') 0 0 no-repeat; }
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       category_manager.css
+**  Styles for: Backend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+fieldset.filter-bar, div.filter-bar {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  clear: both;
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
 
-/* Adjustment for filters */
-fieldset.filter-bar ,div.filter-bar {
-    font-family: Verdana, Arial;
-    font-size: 13px;
-    color: rgb(74, 92, 102);
-    border: rgb(187, 187, 187) 1px solid;
-    background-color: rgb(238, 238, 238);
-    border-radius: 3px;
-    padding: 8px 4px 4px 4px;
-    clear: both;
-    z-index: 12;
-    box-shadow: 2px 2px 4px rgb(221, 221, 221);
-    overflow: auto;
-}
+.icon-48-organizer_categories {
+  background: url("../images/categories48.png") 0 0 no-repeat; }
 
-/* Removes margin from template */
-fieldset.filter-bar button, div.filter-bar button
-{
-    margin: 0;
-}
+fieldset.filter-bar, div.filter-bar {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
 
-/* Table width */
+fieldset.filter-bar button, div.filter-bar button {
+  margin: 0; }
+
 table {
-    width: 100%;
-}
+  width: 100%; }
 
-/* Text alignment for columns in the table */
 th, td {
-    text-align: center;
-}
+  text-align: center; }
 
-/* First column width */
 th.column0, td.column0 {
-    max-width: .5em;
-}
+  max-width: .5em; }
 
-/* Third and fourth column widths */
-th.column3, td.column3,th.column4, td.column4 {
-    max-width: 3em;
-}
+th.column3, td.column3, th.column4, td.column4 {
+  max-width: 3em; }

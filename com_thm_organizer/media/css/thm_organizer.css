@@ -1,116 +1,115 @@
-/*csslint important: false, overqualified-elements: false, box-sizing: false, adjoining-classes: false*/
-/******************************************************************************/
-/* com_thm_organizer                                                          */
-/******************************************************************************/
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       thm_organizer.css
+**  Styles for: Backend - THM Organizer Component
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.tip-wrap {
+  z-index: 99; }
 
-@import "category_edit.css";
-@import "children.css";
-@import "consumption.css";
-@import "curriculum.css";
-@import "event_details.css";
-@import "event_edit.css";
-@import "event_manager.css";
-@import "jquery_ui.css";
-@import "monitor_edit.css";
-@import "room_display.css";
-@import "schedule_edit.css";
-@import "subject_list.css";
-@import "user_manager.css";
+.adminForm div.m {
+  padding: 5px; }
 
-/* ==========================================================================
-    Backend - THM Organizer Component
-   ========================================================================== */
+.toolbar-close {
+  font-size: 1em; }
 
-.tip-wrap{ z-index: 99; }
-
-.adminForm div.m{ padding: 5px; }
-
-.toolbar-close{ font-size: 1em; }
-
-/* panel with all menu icons */
 .cpanel {
-    width: 100%;
-    margin-top: 4px;
-}
+  margin-top: 4px;
+  width: 100%; }
 
-/* UNUSED in schedule edit */
-.thm_organizer_label{ padding-right: 5px;}
+.thm_organizer_label {
+  padding-right: 5px; }
 
-/* checkbox column (e.g. schedule manager) */
-.thm_organizer_check_column{ width: 10px; }
+.thm_organizer_check_column {
+  width: 10px; }
 
-.thm_organizer_search_div{ padding-right: 8px; }
+.thm_organizer_search_div {
+  padding-right: 8px; }
 
-.thm_organizer_radio_button{ background: #f4f4f4; border: none; }
+.thm_organizer_radio_button {
+  background: #f4f4f4;
+  border: none; }
 
-/* icons of the sections */
-.icon-48-mni { background: url('../images/icon-48-mni.png') 0 0 no-repeat; }
-.icon-48-organizer_categories { background: url('../images/categories48.png') 0 0 no-repeat; }
-.icon-48-organizer_virtual_schedules { background: url('../images/virtual_schedules48.png') 0 0 no-repeat; }
-.icon-48-organizer_degrees { background: url('../images/degrees48.png') 0 0 no-repeat; }
-.icon-48-organizer_colors { background: url('../images/colors48.png') 0 0 no-repeat; }
-.icon-48-organizer_fields { background: url('../images/fields48.png') 0 0 no-repeat; }
-.icon-48-organizer_degree_programs { background: url('../images/programs48.png') 0 0 no-repeat; }
-.icon-48-organizer_subject_pools { background: url('../images/pools48.png') 0 0 no-repeat; }
-.icon-48-organizer_subjects { background: url('../images/subjects48.png') 0 0 no-repeat; }
-.icon-48-organizer_teachers { background: url('../images/teachers48.png') 0 0 no-repeat; }
-.icon-48-organizer_rooms { background: url('../images/rooms48.png') 0 0 no-repeat; }
+.icon-48-mni {
+  background: url("../images/icon-48-mni.png") 0 0 no-repeat; }
 
-/* icon of THMorganizer section */
-.icon-48-organizer { background: url('../images/organizer48.png') 0 0 no-repeat; }
+.icon-48-organizer_categories {
+  background: url("../images/categories48.png") 0 0 no-repeat; }
 
-.icon-32-merge { background: url('../images/icon-32-merge.png'); }
-.icon-32-wrench { background: url('../images/icon-32-wrench.png'); }
+.icon-48-organizer_virtual_schedules {
+  background: url("../images/virtual_schedules48.png") 0 0 no-repeat; }
 
+.icon-48-organizer_degrees {
+  background: url("../images/degrees48.png") 0 0 no-repeat; }
 
-/*thm_organizers view backend**********************************************************/
+.icon-48-organizer_colors {
+  background: url("../images/colors48.png") 0 0 no-repeat; }
 
-.thm_organizer_main{ padding: 5px; }
+.icon-48-organizer_fields {
+  background: url("../images/fields48.png") 0 0 no-repeat; }
 
-/* description of thmorganizer */
+.icon-48-organizer_degree_programs {
+  background: url("../images/programs48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_subject_pools {
+  background: url("../images/pools48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_subjects {
+  background: url("../images/subjects48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_teachers {
+  background: url("../images/teachers48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_rooms {
+  background: url("../images/rooms48.png") 0 0 no-repeat; }
+
+.icon-48-organizer {
+  background: url("../images/organizer48.png") 0 0 no-repeat; }
+
+.icon-32-merge {
+  background: url("../images/icon-32-merge.png"); }
+
+.icon-32-wrench {
+  background: url("../images/icon-32-wrench.png"); }
+
+.thm_organizer_main {
+  padding: 5px; }
+
 .thm_organizer_main_description {
-    font-size: 16px;
-    padding-bottom: 8px;
-}
+  font-size: 16px;
+  padding-bottom: 8px; }
 
-/* UNUSED, styles for a */
 .thm_organizer_main_submenu a {
-    background-color: #FFFFFF;
-    background-position: -30px center;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
-    color: #565656;
-    display: block;
-    float: left;
-    height: 97px;
-    text-decoration: none;
-    transition-duration: 0.8s;
-    transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
-    width: 108px; 
-}
-
-/* icon definitions in the overview */
+  background-color: #eeeeee;
+  background-position: -30px center;
+  border: 1px solid #CCCCCC;
+  color: #565656;
+  display: block;
+  float: left;
+  height: 97px;
+  text-decoration: none;
+  transition-duration: 0.8s;
+  transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
+  width: 108px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px; }
 .thm_organizer_main_submenu div.icon {
-    float: left;
-    margin-bottom: 15px;
-    margin-right: 15px;
-    text-align: center;
-}
-
-/* icon definitions in organizer view */
+  float: left;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  text-align: center; }
 .thm_organizer_main_submenu img {
-    border: 0 none;
-    height: auto;
-    max-width: 100%;
-    vertical-align: middle;
-    padding: 10px 0;
-}
-
-/* title of icon */
+  border: 0 none;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  padding: 10px 0; }
 .thm_organizer_main_submenu span {
-    display: block;
-    text-align: center;
-}/*UNUSED, #cpanel muss vor .thm... stehen*/
+  display: block;
+  text-align: center; }
 
-/* organizer overview */
-.thm_organizer_main_linkdiv{ float: left; }
+.thm_organizer_main_linkdiv {
+  float: left; }

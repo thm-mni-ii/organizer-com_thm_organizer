@@ -1,146 +1,92 @@
-/* com_thm_organizer view: edit event******************************************/
-
-/* Color for all headers and gap adjustment for the page title*/
-.thm_organizer_ee{
-    color: #4a5c66;
-    margin-top: 12px;
-}
-
-/* Adjustment for page title and toolbar menu */
-.thm_organizer_ee_head_div{
-    padding: 5px;
-    height: 48px;
-    width: 100%;
-    margin-top: -24px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid #bbbbbb;
-}
-
-/* Page title font size adjustment */
-.thm_organizer_ee_title{
-    font-size: 20px;
-    font-weight: bold;
-}
-
-/* Blue color for used links*/
-.thm_organizer_ee a:visited{
-    color: #4a5c66;
-}
-
-
-.thm_organizer_ee option{
-    color: #4a5c66;
-}
-
-
-.thm_organizer_ee form div table tr{
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       event_edit.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.thm_organizer_ee {
+  color: #4a5c66;
+  margin-top: 12px; }
+  .thm_organizer_ee a:visited {
+    color: #4a5c66; }
+  .thm_organizer_ee option {
+    color: #4a5c66; }
+  .thm_organizer_ee form div table tr, .thm_organizer_ee form div table tr td {
     padding: 2px;
-    border: none;
-}
+    border: none; }
+  .thm_organizer_ee #btnreset {
+    padding: 0 3px; }
+  .thm_organizer_ee table img {
+    margin: 0 3px -5px 0; }
 
-.thm_organizer_ee form div table tr td{
-    padding: 2px;
-    border: none;
-}
+.thm_organizer_ee_head_div {
+  border-bottom: 1px solid #bbbbbb;
+  height: 48px;
+  margin-bottom: 12px;
+  margin-top: -24px;
+  padding: 5px;
+  width: 100%; }
 
-/* Gap for labels on left side. */
-.thm_organizer_ee_label_div{
-    min-width: 85px;
-    float: left;
-    text-align: right;
-    padding-right: 5px;
-}
+.thm_organizer_ee_title {
+  font-size: 20px;
+  font-weight: bold; }
 
-/* Anchors to left. Doesn't seem to have any effect.*/
-.thm_organizer_ee_data_div{
-    float: left;
-}
+.thm_organizer_ee_label_div {
+  float: left;
+  min-width: 85px;
+  padding-right: 5px;
+  text-align: right; }
 
-/* Title position */
-.thm_organizer_ee_name_div{
-    max-width: 62%;
-    float: left;
-    margin-bottom: 10px;
-}
+.thm_organizer_ee_data_div {
+  float: left; }
 
-/* Puts the description area next to the title */
-.thm_organizer_ee_desc_div div.thm_organizer_ee_data_div{
-    max-width: 492px;
-}
+.thm_organizer_ee_name_div, .thm_organizer_ee_desc_div, .thm_organizer_ee_time_div, .thm_organizer_ee_resource_selection_div {
+  float: left;
+  margin-bottom: 10px;
+  max-width: 62%; }
 
-/* Puts the description title on the left of the area */
-.thm_organizer_ee_desc_div{
-    max-width: 62%;
-    float: left;
-    clear: left;
-    margin-bottom: 10px;
-}
+.thm_organizer_ee_desc_div, .thm_organizer_ee_time_div, .thm_organizer_ee_resource_selection_div {
+  clear: left; }
 
-/* Puts the time setting below description part */
-.thm_organizer_ee_time_div{
-    max-width: 62%;
-    float: left;
-    clear: left;
-    padding-left: 13px;
-    margin-bottom: 10px;
-}
+.thm_organizer_ee_time_div {
+  padding-left: 13px; }
 
-/* Adjusts resource selection part to the bottom left of the page*/
-.thm_organizer_ee_resource_selection_div{
-    max-width: 62%;
-    float: left;
-    clear: left;
-    margin-bottom: 10px;
-}
+div.thm_organizer_ee_data_div {
+  max-width: 492px; }
 
-/* Adjusts the category selection area to the left of the time selection area. */
-.thm_organizer_ee_category_div{
-    width: 36%;
-    float: right;
-    clear: right;
-    background: #eeeeee;
-    border: 1px solid #bbbbbb;
-    padding: 0.4em;
-}
+.thm_organizer_ee_category_div {
+  background: #eeeeee;
+  border: 1px solid #bbbbbb;
+  clear: right;
+  float: right;
+  padding: 0.4em;
+  width: 36%; }
 
-/* Adjust the category filter */
-.thm_organizer_ee_category_select_div{
-    width: 100%;
-    margin-bottom: 25px;
-}
+.thm_organizer_ee_category_select_div {
+  margin-bottom: 25px;
+  width: 100%; }
 
-/* Adjust toolbar buttons to the top left */
 .thm_organizer_ee_button_div {
-    float: right;
-    margin-right: 5px;
-}
+  float: right;
+  margin-right: 5px; }
 
-.thm_organizer_ee #btnreset{
-    padding: 0 3px;
-}
+.thm_organizer_ee_highlight {
+  font-weight: bold; }
 
-.thm_organizer_ee table img{
-    margin: 0 3px -5px 0;
-}
+.thm_organizer_ee_image_button {
+  border: none;
+  cursor: pointer;
+  height: 24px;
+  margin: auto;
+  white-space: nowrap;
+  width: 24px; }
 
-/* Puts the highlighted parts in bold */
-.thm_organizer_ee_highlight{
-    font-weight: bold;
-}
+.editor-xtd-buttons,
+.toggle-editor {
+  display: none; }
 
-.thm_organizer_ee_image_button{
-    white-space: nowrap;
-    cursor: pointer;
-    margin: auto;
-    width: 24px;
-    height: 24px;
-    border: none;
-}
+.wf_editor_toggle {
+  display: none !important; }
 
-.editor-xtd-buttons{ display: none; }
-
-.toggle-editor{ display: none; }
-
-.wf_editor_toggle{ display: none !important; }
-
-.thm_organizer_ee_table{ border: none !important;}
+.thm_organizer_ee_table {
+  border: none !important; }

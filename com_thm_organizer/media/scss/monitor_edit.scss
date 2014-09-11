@@ -1,0 +1,64 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       monitor_edit.css
+**  Styles for: Backend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import 'variables';
+
+// icon of the section
+.icon-48-organizer_monitors {
+  background: url('../images/monitors48.png') 0 0 no-repeat;
+}
+
+// ===== UNUSED =====, ID exists only
+.thm_organizer_mon_table {
+  width: auto;
+}
+
+// ===== UNUSED =====
+.thm_organizer_mon_table {
+  tbody {
+    tr {
+      td {
+        text-align: $text-align-center;
+      }
+    }
+  }
+}
+
+// checkbox column 
+.thm_organizer_mon_col_checkbox {
+  width: 10px;
+}
+
+// assigned room column 
+.thm_organizer_mon_col_room {
+  width: 65px;
+}
+
+// ip address column 
+.thm_organizer_mon_col_ip {
+  width: 50px;
+}
+
+// component settings column 
+.thm_organizer_mon_col_use_defaults {
+  width: 50px;
+}
+
+// display behaviour column 
+.thm_organizer_mon_col_display {
+  width: 150px;
+}
+
+// plan & content refresh column 
+.thm_organizer_mon_col_interval {
+  width: 70px;
+}
+
+// content column 
+.thm_organizer_mon_col_content {
+  width: 200px;
+}

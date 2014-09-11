@@ -1,24 +1,19 @@
-/* ==========================================================================
-    Backend - Category Manager & Category Edit
-   ========================================================================== */
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       category_edit.css
+**  Styles for: Backend - Category Edit
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.icon-48-organizer_categories {
+  background: url("../images/categories48.png") 0 0 no-repeat; }
 
-/* icon of the section */
-.icon-48-organizer_categories { background: url('../images/categories48.png') 0 0 no-repeat; }
-
-/* ===== UNUSED ===== */
 .thm_organizer_cat {
-    max-width: 80%;
-}
+  max-width: 80%; }
 
-/*---------------------------------
-   MANAGER settings
----------------------------------*/
-
-/* ===== UNUSED ===== */
 .thm_organizer_cat_table thead th,
 .thm_organizer_cat_table tr td {
-    text-align: left;
-}
+  text-align: left; }
+
 /**
 table.adminlist thead th {
     background: none repeat scroll 0 0 #f7f7f7;
@@ -28,98 +23,62 @@ table.adminlist thead th {
     text-align: left; <--- hier greift das text-align / momentan ist es auf "center"
 }
 **/
+.thm_organizer_cat_ecat_name_div, .thm_organizer_cat_ccat_desc_div, .thm_organizer_cat_ccat_name_div, .thm_organizer_cat_ecat_desc_div, .thm_organizer_cat_ecat_display_div, .thm_organizer_cat_ccat_viewlevel_div, .thm_organizer_cat_ccat_actions_div {
+  clear: both;
+  width: 100%; }
 
-/* checkbox column */
 .thm_organizer_cat_checkbox_column {
-    width: 10px;
-}
+  width: 10px; }
 
-/* name column */
 .thm_organizer_cat_title_column {
-    min-width: 15%;
-}
+  min-width: 15%; }
 
-/* global column */
 .thm_organizer_cat_global_column {
-    width: 15px;
-}
+  width: 15px; }
 
-/* reverse column */
-.thm_organizer_cat_reserves_column{
-    width: 15px;
-}
+.thm_organizer_cat_reserves_column {
+  width: 15px; }
 
-/* content category column */
 .thm_organizer_cat_content_cat_column {
-    min-width: 20%;
-}
+  min-width: 20%; }
 
 .thm_organizer_cat_ecat {
-    width: 35%;
-    float: left;
-}
+  float: left;
+  width: 35%; }
 
 .thm_organizer_cat_ccat {
-    width: 60%;
-    float: right;
-}
+  float: right;
+  width: 60%; }
+
 .thm_organizer_cat_label {
-    width: 15%;
-    text-align: right;
-    float: left;
-    padding-right: 5px;
-}
+  float: left;
+  padding-right: 5px;
+  text-align: right;
+  width: 15%; }
 
 .thm_organizer_cat_data {
-    float: left;
-    clear: none;
-    font-size: 14px;
-}
+  clear: none;
+  float: left;
+  font-size: 14px; }
 
-.thm_organizer_cat_ecat_name_div {
-    width: 100%;
-    clear: both;
-    margin-bottom: 30px;
-}
+.thm_organizer_cat_ecat_name_div, .thm_organizer_cat_ccat_desc_div {
+  margin-bottom: 30px; }
+
 .thm_organizer_cat_ccat_name_div {
-    width: 100%;
-    clear: both;
-    margin-bottom: 85px;
-}
-.thm_organizer_cat_ecat_desc_div{
-    width: 100%;
-    clear: both;
-    margin-bottom: 20px;
-}
-.thm_organizer_cat_ccat_desc_div{
-    width: 100%;
-    clear: both;
-    margin-bottom: 30px;
-}
+  margin-bottom: 85px; }
 
-.thm_organizer_cat_ecat_display_div{
-    width: 100%;
-    clear: both;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+.thm_organizer_cat_ecat_desc_div {
+  margin-bottom: 20px; }
 
-.thm_organizer_cat_ccat_viewlevel_div{
-    width: 100%;
-    clear: both;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+.thm_organizer_cat_ecat_display_div, .thm_organizer_cat_ccat_viewlevel_div, .thm_organizer_cat_ccat_actions_div {
+  padding-top: 10px;
+  padding-bottom: 10px; }
 
-.thm_organizer_cat_ccat_actions_div{
-    width: 100%;
-    clear: both;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+.thm_organizer_cat_actions_head tr td {
+  border-bottom: 1px solid #cccccc; }
 
-.thm_organizer_cat_actions_head tr td{ border-bottom: 1px solid #cccccc; }
+.thm_organizer_cat_leftcolumn {
+  border-left: 1px solid #cccccc; }
 
-.thm_organizer_cat_leftcolumn{ border-left: 1px solid #cccccc; }
-
-.com_thm_organizer_cat_action_column{ width: 50px; }
+.com_thm_organizer_cat_action_column {
+  width: 50px; }

@@ -1,0 +1,14 @@
+// Filter bar definitions
+%fieldset {
+  background-color: $bg-color;
+  border: $border-color;
+  clear: both;
+  color: $fcolor;
+  font-family: $font;
+  font-size: $fsize;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+}

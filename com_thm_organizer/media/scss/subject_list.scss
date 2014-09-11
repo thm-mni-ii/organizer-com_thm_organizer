@@ -1,0 +1,180 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       subject_list.css
+**  Styles for: Frontend - Subject list (module catalogue)
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import 'mixins';
+@import 'variables';
+@import 'filters';
+
+// ---------------------------------
+// TAB settings
+// ---------------------------------
+
+// tab definitions
+span.navi-tab {
+  background-color: $bg-color;
+  border-left: $border-color;
+  border-right: $border-color;
+  border-top: $border-color;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  display: block;
+  float:left;
+  margin-bottom: -1px;
+  padding: 4px 4px 5px 4px;
+
+  @include box-shadow(2px, 0, 4px, $shadow-color);
+
+  // tab link
+  .inactive {
+    z-index: -100;
+
+    // inactive tabs
+    a {
+      font-weight: normal;
+    }
+  }
+
+  a {
+    color: $fcolor;
+    font-family: $font;
+    font-size: $fsize;
+  }
+
+  //clicked tab
+  .active {
+    a {
+      font-weight: bold;
+    }
+  }
+}
+
+// ---------------------------------
+// FILTER FORM settings
+// ---------------------------------
+
+// filter form definitions
+fieldset.filter-bar, div.filter-bar {
+  @extend %fieldset;
+
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+// filter select list (Backend, e.g. select global settings...)
+div#filter-bar div.filter-select select {
+  margin-bottom: 0;
+}
+
+
+div.filter-bar {
+  // filter label (Backend)
+  label {
+    display: inline;
+  }//überflüssig?!
+
+  // filter input (Backend, e.g. monitor manager)
+  input {
+    margin-bottom: 0;
+  }//überflüssig?!
+}
+
+
+div.filter-search {
+  // search label size
+  label {
+    font-size: $fsize;
+  }
+
+  // button styles
+  button {
+    border: $border-color;
+    color: $fcolor;
+    font-size: $fsize;
+    padding: 2px;
+
+    @include border-radius(3px);
+  }
+}
+
+// ---------------------------------
+// MODULE LIST settings
+// ---------------------------------
+
+ul {
+  // clear the floating in the list item
+  li.subject-item {
+    clear: both;
+    padding: 2px 0;
+  }
+
+  // row1 has gray colored li
+  li.row1.subject-item {
+    background-color: $bg-color;
+  }
+}
+
+// float the div boxes
+div.subject-name, div.subject-responsible, div.subject-crp {
+  display: inline-block;
+}
+
+// style definitions of module list
+div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
+  color: $fcolor;
+  font-family: $font;
+  font-size: $fsize;
+  font-weight: normal;
+}
+
+// title of module column
+div.subject-name {
+  width: 55%;
+}
+
+// lecturer column
+div.subject-responsible {
+  width: 25%;
+}
+
+// credit points column
+div.subject-crp {
+  width: 10%;
+}
+
+// accordion of the module catalogue
+div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
+  float: left;
+  width: 100%;
+}
+
+// color of the widget title
+h3.group-bar {
+  color: $fcolor;
+
+  a {
+    @extend h3.group-bar;
+  }
+}
+
+// definitions of the list items (overview)
+.subject-list {
+  li.subject-item {
+    line-height: $line-height;
+    list-style-image: url('../images/thm_li.png');
+    padding: 4px;
+  }
+}
+
+// definitions of the list items (group view)
+.subject-list.grouped {
+  li.subject-item {
+    line-height: $line-height;
+    margin: 0;
+    padding: 5px;
+  }
+}

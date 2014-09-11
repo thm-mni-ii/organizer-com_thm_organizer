@@ -1,70 +1,60 @@
-/* ==========================================================================
-    Backend - Subject Pools Edit, Degree Programs Edit...
-   ========================================================================== */
-
-/*------------------------------------
-   SUBORDINATE RESOURCES box settings
-------------------------------------*/
-
-/* div definitions */
+@charset "CP850";
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       children.css
+**  Styles for: Backend - Subject Pools Edit, Degree Programs Edit...
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
 .thm_organizer_children {
-    padding-top: 5px;
-    float: left;
-    width: 60%;
-}
+  float: left;
+  padding-top: 5px;
+  width: 60%; }
 
-/* "child order" box definition */
 .thm_organizer_pools_ordering {
-    width: 30%;
-}
+  width: 30%; }
 
-/* additional subject pools definitions */
-.thm_organizer_pools {
-    float: right;
-    width: 25%;
-    font-size: 1.3em;
-    font-weight: bold;
-    padding: 5px 20px 5px 10px;
-}
-
-/* additional subjects definitions */
+.thm_organizer_pools,
 .thm_organizer_subjects {
-    clear: right;
-    float: right;
-    width: 25%;
-    font-size: 1.3em;
-    font-weight: bold;
-    padding: 10px 20px 5px 10px;
-}
+  float: right;
+  font-size: 1.3em;
+  font-weight: bold;
+  width: 25%; }
 
-/* delete child definitions */
-a.thm_organizer_delete_child
-{
-    width: 16px;
-    height: 16px;
-    display: block;
-    overflow: hidden;
-    background: url(../images/trash.png) no-repeat;
-}
+.thm_organizer_pools {
+  padding: 5px 20px 5px 10px; }
 
-/* downarrow & uparrow icons */
+.thm_organizer_subjects {
+  clear: right;
+  padding: 10px 20px 5px 10px; }
+
+a.thm_organizer_delete_child {
+  background: url(../images/trash.png) no-repeat;
+  display: block;
+  height: 16px;
+  overflow: hidden;
+  width: 16px; }
+
 a.jgrid span.state {
-    margin-bottom: -9px;
-} /*===
-    überflüssig, da die Pfeile auch ohne diese Einstellung auf der gleichen Pos bleiben.
-    Getestet in IE, Chrome, Firefox, Opera
-  ====*/
+  margin-bottom: -9px; }
 
-/* === UNUSED === */
+/*===
+  überflüssig, da die Pfeile auch ohne diese Einstellung auf der gleichen Pos bleiben.
+  Getestet in IE, Chrome, Firefox, Opera
+====*/
 .thm_organizer_fieldset {
-    box-shadow: -5px -5px 25px #80ba24 inset;
-    transition-property: box-shadow;
-    transition-duration: 3s;
-    border-radius: 10px;
-}
+  transition-duration: 3s;
+  transition-property: box-shadow;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: -5px -5px 25px #80ba24 inset;
+  -moz-box-shadow: -5px -5px 25px #80ba24 inset;
+  -ms-box-shadow: -5px -5px 25px #80ba24 inset;
+  -o-box-shadow: -5px -5px 25px #80ba24 inset;
+  box-shadow: -5px -5px 25px #80ba24 inset; }
 
-/* === UNUSED === */
 .thm_organizer_no_children {
-    padding: 5px;
-    font-size: 1.3em;
-}
+  font-size: 1.3em;
+  padding: 5px; }

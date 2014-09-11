@@ -1,0 +1,213 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       curriculum.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import 'mixins';
+@import 'variables';
+
+// ------------------------------------ //
+// STUDY PATH box settings              //
+// ------------------------------------ //
+
+// study path container
+div.curriculum_legend {
+  background-color: $bg-color;
+  border: $border-color;
+  color: $fcolor;
+  float: right;
+  font-family: $font;
+  font-size: $fsize;
+  margin-right: 5px;
+  margin-top: 2px;
+  padding: 5px;
+  width: 245px;
+
+  @include border-radius(2px);
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+}
+
+// ul definitions
+ul.fieldList {
+  font-size: $fsize-list;
+  list-style-type: none;
+  padding: 0 2px;
+}
+
+// list item spacing
+li.fieldItem {
+  padding: 2px 0;
+}
+
+// color field definitions
+span.fieldColor {
+  border: $border-color;
+  display: inline-block;
+  height: 11px;
+  width: 11px;
+}
+
+// text field definitions
+span.fieldText {
+  display: inline-block;
+  padding: 0 0 2px 2px;
+}
+
+// ------------------------------------ //
+// ACCORDION CURRICULUM settings        //
+// ------------------------------------ //
+
+// curriculum container
+div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset {
+  float: left;
+  font-family: $font;
+  padding: 0 4px;
+  width: 682px;
+}
+
+// default definition of the accordion widget
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons,
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+  background-color: $bg-color;
+  background-image: none;
+  border: $border-color;
+  color: $fcolor;
+  font-family: $font;
+  font-size: $fsize;
+}
+
+// h3 definitions of the accordion widget (active)
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons {
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+}
+
+// h3 definitions of the accordion widget (default)
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+  font-weight: normal;
+}
+
+// h3 hover color definitions
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons.ui-state-hover {
+  @include colors(rgb(74, 92, 102),rgb(238, 238, 238));
+}
+
+// tab switch image active
+h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-s {
+  background: url('../images/active_tab.png') 0 0 no-repeat;
+}
+
+// tab image default
+h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-e {
+  background: url('../images/default_tab.png') 0 0 no-repeat;
+}
+
+// horizontal item panel
+div.gridster.ready.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active {
+  background-color: $bg-color-panel;
+  border-top: none;
+  border-left: $border-color;
+  border-right: $border-color;
+  border-bottom: $border-color;
+  padding: 4px;
+
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+}
+
+// item list of the semester
+li.icon_container.gs-w {
+  background-color: $bg-color;
+  border: $border-color;
+  display: inline-block;
+  position: absolute;
+
+  @include border-radius(3px);
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+}
+
+li.icon_container.empty.gs-w {
+  visibility: hidden;
+}
+
+// item header definitions
+.icon_container_head {
+  border-bottom: $border-color;
+  font-size: $fsize-small;
+  padding: 2px;
+  text-align: left; /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/
+}
+
+// dark font in item header
+.dark-text {
+  color: $fcolor;
+}
+
+// light font in item header
+.light-text {
+  color: $fcolor-light;
+}
+
+// item content definitions
+.icon_container_body {
+  color: $fcolor;
+  font-size: $fsize-small;
+  font-weight: normal; /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/
+  hyphens: auto;
+  padding: 5px;
+  word-wrap: break-word;
+}
+
+// item content, when contained a link
+a.curriculumLink:link,
+a.curriculumLink:hover,
+a.curriculumLink:visited,
+a.curriculumLink:focus {
+  color: $fcolor;
+  font-family: $font;
+  font-size: $fsize-small;
+  font-weight: normal;
+  text-decoration: none;
+  outline: none;
+}
+
+// icon position in item list
+.itemTools {
+  left: 25%;
+  position: absolute;
+  top: 70%;
+}
+
+// teacher image definitions
+.teacherImage {
+  max-height: 25px;
+  width: 20px;
+}
+
+.curriculum_dialog_list {
+  display: inline-table;
+  margin: 15px 10px 10px 10px;
+  text-align: $text-align-center;
+}
+
+.semesterHeader {
+  background-color: #B0B0B0;
+}
+
+/* jquery ui writes inline styles for this element :( *//*---> old comment <---*/
+// dialog panel definitions
+div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
+  border: $border-color;
+  font-family: $font;
+  max-height: 425px !important;
+  overflow-y: auto;
+  top: 175px !important;
+  width: 694px !important;
+
+  @include box-shadow(2px, 2px, 8px, rgb(150, 150, 150));
+}
+
+// pool dialog panel
+div.poolDialog.ui-dialog-content.ui-widget-content.ready {
+  padding: 5px;
+}
