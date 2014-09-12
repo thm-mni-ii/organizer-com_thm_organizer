@@ -44,7 +44,7 @@ class THM_OrganizerViewMonitor_Edit extends JViewLegacy
         JHTML::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/monitor_edit.css');
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/monitor_edit.js'));
 
         $this->form = $this->get('Form');

@@ -31,7 +31,7 @@ class THM_OrganizerViewTeacher_Manager extends JViewLegacy
     {
         JHtml::_('behavior.tooltip');
         $doc = JFactory::getDocument();
-        $doc->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $doc->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
 
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');

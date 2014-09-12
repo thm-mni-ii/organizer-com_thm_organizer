@@ -41,7 +41,7 @@ class THM_OrganizerViewColor_Manager extends JViewLegacy
         JHtml::_('behavior.multiselect');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
 
         // Model must be instanced in order for the following functions to work
         $model = $this->getModel();
