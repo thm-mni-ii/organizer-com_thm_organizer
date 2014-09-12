@@ -37,7 +37,7 @@ class THM_OrganizerViewProgram_Edit extends JViewLegacy
         }
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
         $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
 
         $this->form = $this->get('Form');

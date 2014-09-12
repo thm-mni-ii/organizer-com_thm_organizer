@@ -42,7 +42,7 @@ class THM_OrganizerViewField_Edit extends JViewLegacy
         $this->item = $this->get('Item');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
 
         $this->addToolBar();
 

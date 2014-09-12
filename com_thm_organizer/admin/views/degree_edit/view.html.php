@@ -31,7 +31,12 @@ class THM_OrganizerViewDegree_Edit extends JViewLegacy
     public function display($tpl = null)
     {
         THM_OrganizerHelperEditView::setStandardEditView($this);
+
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
+
         $this->addToolBar();
+
         parent::display($tpl);
     }
 

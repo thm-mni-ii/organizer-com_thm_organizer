@@ -33,7 +33,7 @@ class THM_OrganizerViewTeacher_Edit extends JViewLegacy
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
 
         // Get the Data
         $this->form = $this->get('Form');
