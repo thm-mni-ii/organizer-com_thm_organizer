@@ -301,7 +301,7 @@ class THM_OrganizerModelSchedule_Navigation
          * effort right now because of differentiating between calls from the
          * scheduler itself and the menu settings interface in the backend
          */
-        $link = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
+        $link = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details.css';
         $link .= "&languageTag=$tag&id=";
         $linkItems = array("'$link'", "id");
 

@@ -2,12 +2,14 @@
 **  Author:     Kristijan Pokas
 **  File:       subject_list.css
 **  Styles for: Frontend - Subject list (module catalogue)
+**              Backend - some definitions
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 
 @import 'mixins';
 @import 'variables';
 @import 'filters';
+@import 'icons';
 
 // ---------------------------------
 // TAB settings
@@ -177,4 +179,58 @@ h3.group-bar {
     margin: 0;
     padding: 5px;
   }
+}
+
+// ---------------------------------
+// Icons (Backend)
+// ---------------------------------
+
+// icon of color manager
+.icon-48-organizer_colors {
+  @extend %icon-colors;
+}
+
+// icon of degree manager
+.icon-48-organizer_degrees {
+  @extend %icon-degrees;
+}
+
+// icon of field manager
+.icon-48-organizer_fields {
+  @extend %icon-fields;
+}
+
+// icon of program manager
+.icon-48-organizer_degree_programs {
+  @extend %icon-degree-programs;
+}
+
+// icon of monitor manager
+.icon-48-organizer_monitors {
+  @extend %icon-monitors;
+}
+
+// icon of room manager
+.icon-48-organizer_rooms {
+  @extend %icon-rooms;
+}
+
+// icon of subject manager
+.icon-48-organizer_subjects {
+  @extend %icon-subjects;
+}
+
+// icon of pool manager
+.icon-48-organizer_subject_pools {
+  @extend  %icon-subject-pools;
+}
+
+// icon of teacher manager
+.icon-48-organizer_teachers {
+  @extend %icon-teachers;
+}
+
+// icon of merge
+.icon-32-merge {
+  @extend %icon-merge;
 }

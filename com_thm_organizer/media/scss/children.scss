@@ -7,6 +7,7 @@
 
 @import 'mixins';
 @import 'variables';
+@import 'icons';
 
 // ------------------------------------
 // SUBORDINATE RESOURCES box settings
@@ -72,4 +73,23 @@ a.jgrid span.state {
 .thm_organizer_no_children {
   font-size: $fsize-em;
   padding: 5px;
+}
+
+// ---------------------------------
+// Icons (Backend)
+// ---------------------------------
+
+// icon of room edit
+.icon-48-organizer_rooms {
+  @extend %icon-rooms;
+}
+
+// icon of program edit
+.icon-48-organizer_degree_programs {
+  @extend %icon-degree-programs;
+}
+
+// icon of subject
+.icon-48-organizer_subject_pools {
+  @extend %icon-subject-pools;
 }

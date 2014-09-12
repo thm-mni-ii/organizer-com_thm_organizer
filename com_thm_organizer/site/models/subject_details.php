@@ -188,7 +188,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      */
     private function setPrerequisiteOf()
     {
-        $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
+        $link = "index.php?option=com_thm_organizer&view=subject_details.css&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $parts = array("'$link'","subjectID");

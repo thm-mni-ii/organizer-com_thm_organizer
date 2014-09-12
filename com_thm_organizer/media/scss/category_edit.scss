@@ -5,16 +5,21 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 
+@import 'icons';
 @import 'mixins';
 @import 'variables';
+
 
 // ------------------------------------
 // Page icon
 // ------------------------------------
 .icon-48-organizer_categories {
-  background: url('../images/categories48.png') 0 0 no-repeat;
+  @extend %icon-categories;
 }
 
+.test {
+  padding:5px;
+}
 // ===== UNUSED =====
 .thm_organizer_cat {
   max-width: 80%;

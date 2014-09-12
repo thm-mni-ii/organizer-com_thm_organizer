@@ -8,12 +8,13 @@
 @import 'mixins';
 @import 'variables';
 @import 'filters';
+@import 'icons';
 
 // ------------------------------------
 // Page icon
 // ------------------------------------
 .icon-48-organizer_categories {
-  background: url('../images/categories48.png') 0 0 no-repeat;
+  @extend %icon-categories;
 }
 
 // ------------------------------------

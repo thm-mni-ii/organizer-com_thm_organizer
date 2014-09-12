@@ -6,10 +6,11 @@
 **  ------------------------------------ */
 
 @import 'variables';
+@import 'icons';
 
 // icon of the section 
 .icon-48-organizer_schedules {
-  background: url('../images/schedules48.png') 0 0 no-repeat;
+  @extend %icon-schedules;
 }
 
 // UNUSED = thm_organizer_sch_th exists only 

@@ -24,7 +24,7 @@ class THM_OrganizerControllerUser extends JControllerLegacy
 {
 
     /**
-     * redirects to the category_edit view for the editing of existing categories
+     * redirects to the category_edit.scss view for the editing of existing categories
      *
      * @return void
      */
@@ -50,7 +50,7 @@ class THM_OrganizerControllerUser extends JControllerLegacy
     }
 
     /**
-     * redirects to the category_edit view for the editing of existing categories
+     * redirects to the category_edit.scss view for the editing of existing categories
      *
      * @return void
      */

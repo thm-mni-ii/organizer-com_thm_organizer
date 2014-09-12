@@ -35,7 +35,7 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
     public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_thm_organizer.category_edit', 'category_edit', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_thm_organizer.category_edit.scss', 'category_edit.scss', array('control' => 'jform', 'load_data' => $loadData));
  
         if (empty($form))
         {
