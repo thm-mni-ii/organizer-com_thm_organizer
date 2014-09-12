@@ -6,6 +6,7 @@
 **  ------------------------------------ */
 
 @import 'variables';
+@import "toolbar.css";
 
 // Color for all headers and gap adjustment for the page title
 .thm_organizer_ee {
@@ -150,3 +151,4 @@ div.thm_organizer_ee_data_div {
 .thm_organizer_ee_table {
   border: none !important;
 }
+

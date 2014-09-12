@@ -1,3 +1,7 @@
+// ---------------------------------
+// Icons - Backend
+// ---------------------------------
+
 // icon of categories
 %icon-categories {
   background: url('../images/categories48.png') 0 0 no-repeat;
@@ -73,7 +77,6 @@
   background: url('../images/virtual_schedules48.png') 0 0 no-repeat;
 }
 
-
 // icon of merge (toolbar)
 %icon-merge {
   background: url('../images/icon-32-merge.png');
@@ -82,4 +85,63 @@
 // icon of wrench (toolbar)
 %icon-wrench {
   background: url('../images/icon-32-wrench.png');
+}
+
+// ---------------------------------
+// Icons - Frontend
+// ---------------------------------
+
+// icon "new / neu"
+%icon-new {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-new.png");
+}
+
+// icon "edit / anpassen"
+%icon-edit {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-edit.png");
+}
+
+// icon "delete / löschen"
+%icon-delete {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-trash.png");
+}
+
+// icon "submit / los!"
+%icon-submit {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-forward.png");
+}
+
+// icon "back / zurücksetzen"
+%icon-back {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-refresh.png");
+}
+
+// icon "list / terminliste"
+%icon-list {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-list.png");
+}
+
+// icon "event / termindetails"
+%icon-event {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-event.png");
+}
+
+// icon "save / speichern"
+%icon-save {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-save.png");
+}
+
+// icon "save new / speichern & new"
+%icon-save_new {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-save-new.png");
+}
+
+// icon "preview / vorschau"
+%icon-preview {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-preview.png");
+}
+
+// icon "cancel / abbrechen"
+%icon-cancel {
+  background-image: url("../../../../media/com_thm_organizer/images/icon-32-cancel.png");
 }
