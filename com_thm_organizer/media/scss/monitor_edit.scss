@@ -6,10 +6,11 @@
 **  ------------------------------------ */
 
 @import 'variables';
+@import 'icons';
 
 // icon of the section
 .icon-48-organizer_monitors {
-  background: url('../images/monitors48.png') 0 0 no-repeat;
+  @extend %icon-monitors;
 }
 
 // ===== UNUSED =====, ID exists only
