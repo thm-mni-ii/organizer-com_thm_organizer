@@ -7,6 +7,7 @@
 
 @import 'mixins';
 @import 'variables';
+@import 'toolbar.css';
 
 .thm_organizer_el {
   margin-right: 8px;
@@ -122,7 +123,7 @@
 
 // White color with gray borders for even numbered rows
 .thm_organizer_el_row_even {
-  background-color: $bg-color;
+  background-color: $bg-color-panel;
   border: $border-color;
 }
 
