@@ -45,7 +45,7 @@ class THM_OrganizerViewSchedule_Edit extends JViewLegacy
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/schedule_edit.css');
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_errors.js'));
 
         $this->form = $this->get('Form');

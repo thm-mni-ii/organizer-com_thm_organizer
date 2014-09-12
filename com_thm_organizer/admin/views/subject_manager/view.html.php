@@ -34,7 +34,7 @@ class THM_OrganizerViewSubject_Manager extends JViewLegacy
         JHTML::_('behavior.modal', 'a.modal-button');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
 
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');

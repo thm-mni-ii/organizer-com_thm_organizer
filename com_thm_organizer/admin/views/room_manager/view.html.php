@@ -31,7 +31,7 @@ class THM_OrganizerViewRoom_Manager extends JViewLegacy
     {
         JHtml::_('behavior.tooltip');
         $doc = JFactory::getDocument();
-        $doc->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $doc->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
 
         $model = $this->getModel();
         $this->items = $this->get('Items');

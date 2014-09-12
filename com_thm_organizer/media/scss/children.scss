@@ -93,3 +93,18 @@ a.jgrid span.state {
 .icon-48-organizer_subject_pools {
   @extend %icon-subject-pools;
 }
+
+// icon of field edit
+.icon-48-organizer_fields {
+  @extend %icon-fields;
+}
+
+// icon of degree edit
+.icon-48-organizer_degrees {
+  @extend %icon-degrees;
+}
+
+// icon of teacher edit
+.icon-48-organizer_teachers {
+  @extend %icon-teachers;
+}
