@@ -8,10 +8,11 @@
 @import 'mixins';
 @import 'variables';
 @import 'filters';
+@import 'icons';
 
 // Page icon
 .icon-48-organizer_users {
-  background: url('../images/users48.png') 0 0 no-repeat;
+  @extend %icon-users;
 }
 
 // Adjustment for filters
