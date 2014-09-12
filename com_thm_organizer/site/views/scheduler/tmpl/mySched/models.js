@@ -1295,6 +1295,14 @@ Ext.define('LectureModel',
         if(subjectKeys.length === 1)
         {
             lessonTitle = MySched.Mapping.getSubjectShortName(subjectKeys[0]);
+            if(lessonTitle === subjectKeys[0])
+            {
+                lessonTitle = MySched.Mapping.getSubjectAbbreviation(subjectKeys[0]);
+                if(lessonTitle === subjectKeys[0])
+                {
+                    lessonTitle = MySched.Mapping.getSubjectName(subjectKeys[index])
+                }
+            }
         }
         else if(subjectKeys.length > 1)
         {
@@ -1304,12 +1312,11 @@ Ext.define('LectureModel',
                 if(abbreviation === subjectKeys[index])
                 {
                     abbreviation = MySched.Mapping.getSubjectName(subjectKeys[index])
-
                 }
 
                 subjectNames.push(abbreviation);
             }
-            lessonTitle = subjectNames.join(" / ") + " ";
+            lessonTitle = subjectNames.join(" / ");
         }
         else
         {
