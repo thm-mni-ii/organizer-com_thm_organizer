@@ -2,6 +2,7 @@
 **  Author:     Kristijan Pokas
 **  File:       subject_list.css
 **  Styles for: Frontend - Subject list (module catalogue)
+**              Backend - some definitions
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 fieldset.filter-bar, div.filter-bar {
@@ -19,6 +20,36 @@ fieldset.filter-bar, div.filter-bar {
   -ms-box-shadow: 2px 2px 4px #dddddd;
   -o-box-shadow: 2px 2px 4px #dddddd;
   box-shadow: 2px 2px 4px #dddddd; }
+
+.icon-48-organizer_colors {
+  background: url("../images/colors48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_degrees {
+  background: url("../images/degrees48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_degree_programs {
+  background: url("../images/programs48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_fields {
+  background: url("../images/fields48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_monitors {
+  background: url("../images/monitors48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_rooms {
+  background: url("../images/rooms48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_subjects {
+  background: url("../images/subjects48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_subject_pools {
+  background: url("../images/pools48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_teachers {
+  background: url("../images/teachers48.png") 0 0 no-repeat; }
+
+.icon-32-merge {
+  background: url("../images/icon-32-merge.png"); }
 
 span.navi-tab {
   background-color: #eeeeee;

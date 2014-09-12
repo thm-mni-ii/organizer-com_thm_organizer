@@ -5,6 +5,15 @@
 **  Styles for: Backend - Subject Pools Edit, Degree Programs Edit...
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
+.icon-48-organizer_degree_programs {
+  background: url("../images/programs48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_rooms {
+  background: url("../images/rooms48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_subject_pools {
+  background: url("../images/pools48.png") 0 0 no-repeat; }
+
 .thm_organizer_children {
   float: left;
   padding-top: 5px;
