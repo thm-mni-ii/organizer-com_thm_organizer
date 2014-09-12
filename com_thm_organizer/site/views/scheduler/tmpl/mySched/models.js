@@ -1288,8 +1288,41 @@ Ext.define('LectureModel',
     },
     getLessonTitle: function (d)
     {
-        var firstSubject = this.data.subjects.keys[0];
-        var lessonTitle = MySched.Mapping.getSubjectShortName(firstSubject);
+        var subjectKeys = this.data.subjects.keys;
+        var subjectNames = [];
+        var lessonTitle = "";
+
+        if(subjectKeys.length === 1)
+        {
+            lessonTitle = MySched.Mapping.getSubjectShortName(subjectKeys[0]);
+            if(lessonTitle === subjectKeys[0])
+            {
+                lessonTitle = MySched.Mapping.getSubjectAbbreviation(subjectKeys[0]);
+                if(lessonTitle === subjectKeys[0])
+                {
+                    lessonTitle = MySched.Mapping.getSubjectName(subjectKeys[index])
+                }
+            }
+        }
+        else if(subjectKeys.length > 1)
+        {
+            for(var index = 0; index < subjectKeys.length; index++)
+            {
+                var abbreviation = MySched.Mapping.getSubjectAbbreviation(subjectKeys[index]);
+                if(abbreviation === subjectKeys[index])
+                {
+                    abbreviation = MySched.Mapping.getSubjectName(subjectKeys[index])
+                }
+
+                subjectNames.push(abbreviation);
+            }
+            lessonTitle = subjectNames.join(" / ");
+        }
+        else
+        {
+            lessonTitle = this.data.name;
+        }
+
         return lessonTitle;
     },
     getComment: function (d)
