@@ -4,6 +4,7 @@
 **  Styles for: 
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
+@import url(../scss/toolbar.css);
 .thm_organizer_el {
   margin-right: 8px; }
   .thm_organizer_el button {
@@ -81,7 +82,7 @@
   margin-left: 4px; }
 
 .thm_organizer_el_row_even {
-  background-color: #eeeeee;
+  background-color: white;
   border: 1px solid #bbbbbb; }
 
 .thm_organizer_el_row_odd {
