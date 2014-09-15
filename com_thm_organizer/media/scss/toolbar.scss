@@ -97,7 +97,7 @@
   @extend %icon-cancel;
 }
 
-
+// popup window of preview
 .Popup {
   background: $bg-color;
   bottom: 70px;
@@ -116,6 +116,7 @@
   @include box-shadow(0, 0, 10px, #222);
 }
 
+// position of close popup window
 .closePopup {
   height: 22px;
   width: 920px;
