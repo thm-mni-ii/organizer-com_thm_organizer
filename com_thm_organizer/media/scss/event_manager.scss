@@ -1,13 +1,13 @@
 /*  ------------------------------------
 **  Author:     Kristijan Pokas
 **  File:       event_manager.css
-**  Styles for: 
+**  Styles for: Frontend - Termine (offene Termine etc.)
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 
 @import 'mixins';
 @import 'variables';
-@import 'toolbar.css';
+@import 'toolbar';
 
 .thm_organizer_el {
   margin-right: 8px;
