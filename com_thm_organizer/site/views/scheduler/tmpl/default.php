@@ -15,7 +15,7 @@ $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/schedul
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
 $curriculumLink = JURI::root(true);
-$curriculumLink .= "/index.php?option=com_thm_organizer&view=subject_details.css&languageTag={$this->config['languageTag']}&Itemid=";
+$curriculumLink .= "/index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->config['languageTag']}&Itemid=";
 $curriculumLink .= JFactory::getApplication()->input->getInt('Itemid', 0);
 $ajaxHandler = 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw';
 ?>
