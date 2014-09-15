@@ -518,7 +518,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
             {
                 $events[$k]['displayDates'] = "{$v['startdate']} $timestring";
             }
-            $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event_details.css&eventID={$v['id']}&Itemid=";
+            $events[$k]['detailsLink'] = "index.php?option=com_thm_organizer&view=event_details&eventID={$v['id']}&Itemid=";
             $events[$k]['categoryLink'] = "index.php?option=com_thm_organizer&view=event_manager&categoryID={$v['eventCategoryID']}&Itemid=";
         }
         $this->total = count($events);

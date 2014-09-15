@@ -98,9 +98,9 @@ class THM_OrganizerModelCategory_Manager extends JModelList
             $query->where("ec.contentCatID = '$contentCatID'");
         }
 
-        $orderby = $dbo->getEscaped($this->getState('list.ordering', 'ectitle'));
-        $direction = $dbo->getEscaped($this->getState('list.direction'));
-        $query->order("$orderby $direction");//echo "<pre>" . print_r((string) $query, true) . "</pre>"; die;
+        $orderby = $dbo->escape($this->getState('list.ordering', 'ectitle'));
+        $direction = $dbo->escape($this->getState('list.direction', 'ASC'));
+        $query->order("$orderby $direction");
 
         return $query;
     }
@@ -146,7 +146,7 @@ class THM_OrganizerModelCategory_Manager extends JModelList
     private function getToggle($id, $value, $attribute)
     {
         $spanClass = empty($value)? 'unpublish' : 'publish';
-        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') .'"';
+        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') . '"';
         $toggle .= 'href="index.php?option=com_thm_organizer&task=category.toggle&attribute=' . $attribute . '&id=' . $id . '&value=' . $value . '">';
         $toggle .= '<span class="state ' . $spanClass . '"></span>';
         $toggle .= '</a>';

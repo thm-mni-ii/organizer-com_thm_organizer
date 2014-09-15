@@ -196,7 +196,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         $query = $dbo->getQuery(true);
         $select = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
         $concateSelect = array(
-            "'index.php?option=com_thm_organizer&view=subject_details.css&languageTag='",
+            "'index.php?option=com_thm_organizer&view=subject_details&languageTag='",
             "'$langTag'", "'&id='", "s.id", "'&Itemid='", "'$itemID'"
         );
         $select .= $query->concatenate($concateSelect, "");
