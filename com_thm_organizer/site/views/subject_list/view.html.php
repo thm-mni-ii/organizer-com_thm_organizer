@@ -33,7 +33,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JFactory::getDocument()->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/thm_organizer.css");
+        JFactory::getDocument()->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/subject_list.css");
 
         $this->state = $this->get('State');
         $this->items = $this->get('items');
