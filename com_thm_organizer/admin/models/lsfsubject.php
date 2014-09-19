@@ -481,18 +481,19 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         {
             if (preg_match('/[0-9]+/', $part))
             {
-                $moduleLink = $this->getModuleInformation($part, $languageTag, $prerequisites);
-                if (!empty($moduleLink))
+                $moduleInformation = $this->getModuleInformation($part, $languageTag, $prerequisites);
+                if (!empty($moduleInformation))
                 {
-                    $modules[$part] = $moduleLink;
+                    $modules[$part] = $moduleInformation;
                 }
             }
         }
         if (!empty($modules))
         {
-            foreach ($modules AS $number => $link)
+            foreach ($modules AS $number => $module)
             {
-                $originalText = str_replace($number, $link, $originalText);
+                $originalText = str_replace($module['name'], '', $originalText);
+                $originalText = str_replace($number, $module['link'], $originalText);
             }
         }
         return $originalText;
@@ -505,9 +506,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   string  $languageTag     the language tag
      * @param   array   &$prerequisites  an array containing prerequisite ids
      * 
-     * @return  mixed  html link string on success, otherwise false
-     *
-     * @throws  exception
+     * @return  array  contains the module name and a link to it, otherwise empty
      */
     private function getModuleInformation($moduleNumber, $languageTag, &$prerequisites)
     {
@@ -515,34 +514,37 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $query->select("id, name_$languageTag AS name");
         $query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
         $this->_db->setQuery((string) $query);
-        
+
+        $moduleInformation = array();
         try 
         {
             $subjectInfo = $this->_db->loadAssoc();
+
+            if (empty($subjectInfo))
+            {
+                return $moduleInformation;
+            }
+
+            if (!in_array($subjectInfo['id'], $prerequisites))
+            {
+                $prerequisites[] = $subjectInfo['id'];
+            }
+
+            $moduleInformation['name'] = $subjectInfo['name'];
+
+            $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
+            $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
+            $href = JRoute::_($subjectURL);
+            $moduleInformation['link'] = JHtml::link($href, $subjectInfo['name']);
+
+            return $moduleInformation;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (empty($subjectInfo))
-        {
-            return false;
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return $moduleInformation;
         }
 
-        if (!in_array($subjectInfo['id'], $prerequisites))
-        {
-            $prerequisites[] = $subjectInfo['id'];
-        }
-
-        $subjectURL = JURI::root() . 'index.php?option=com_thm_organizer&view=subject_details';
-        $subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
-        
-        $itemID = JFactory::getApplication()->input->getInt('Itemid', 0);
-        $subjectURL .= !empty($itemID)? "&Itemid=$itemID" : '';
-        $href = JRoute::_($subjectURL);
-
-        return JHtml::link($href, $subjectInfo['name']);
     }
 
     /**
