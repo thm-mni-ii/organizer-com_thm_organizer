@@ -365,9 +365,14 @@ class THM_OrganizerModelLesson extends JModelLegacy
         }
 
         // Checks if startdate is before enddate
-        if (strtotime($lessonEndDate) <= $startDT )
+        if (strtotime($lessonEndDate) < $startDT )
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SDED_INCONSISTENT', $this->_lessonName, $this->_lessonID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_LS_SDED_INCONSISTENT',
+                                                                     $this->_lessonName,
+                                                                     $this->_lessonID,
+                                                                     $lessonStartDate,
+                                                                     $lessonEndDate
+                                                                    );
             return false;
         }
         return true;

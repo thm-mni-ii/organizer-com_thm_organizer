@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        user manager model
+ * @name        THM_OrganizerModelUser_Manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -81,14 +81,14 @@ class THM_OrganizerModelUser_Manager extends JModelList
      */
     public function getHeaders($count = 0)
     {
-        $orderby = $this->getState('list.ordering', 'name');
+        $ordering = $this->getState('list.ordering', 'name');
         $direction = $this->getState('list.direction', 'ASC');
         $headers = array();
         $headers[0] = "<input type='checkbox' name='toggle' value='' onclick='checkAll($count)' />";
-        $headers[1] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $orderby);
-        $headers[2] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $orderby);
-        $headers[3] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'), 'program_manager', $direction, $orderby);
-        $headers[4] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PLANNER'), 'planner', $direction, $orderby);
+        $headers[1] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $ordering);
+        $headers[2] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $ordering);
+        $headers[3] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'), 'program_manager', $direction, $ordering);
+        $headers[4] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PLANNER'), 'planner', $direction, $ordering);
         return $headers;
     }
 
@@ -175,10 +175,9 @@ class THM_OrganizerModelUser_Manager extends JModelList
             }
         }
 
-        $orderby = $this->_db->escape($this->getState('list.ordering', 'name'));
-        $direction = $this->_db->escape($this->getState('list.direction', 'ASC'));
-        $query->order("$orderby $direction");
-
+        $ordering = $this->_db->escape($this->state->get('list.ordering', 'username'));
+        $direction = $this->_db->escape($this->state->get('list.direction', 'ASC'));
+        $query->order("$ordering $direction");
         return $query;
     }
 
@@ -192,19 +191,23 @@ class THM_OrganizerModelUser_Manager extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
+        $app = JFactory::getApplication('administrator');
         $dbo = JFactory::getDbo();
 
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
+        $search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
         $this->setState('filter.search', $search);
 
-        $role = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.role', 'filter_role', '*'));
-        $this->setState('filter.role', $role);
+        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'username');
+        $this->setState('list.ordering', $ordering);
 
-        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'user');
-        $this->setState('list.ordering', $orderBy);
-
-        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
         $this->setState('list.direction', $direction);
+
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $this->setState('limit', $limit);
+
+        $role = $dbo->escape($app->getUserStateFromRequest($this->context . '.filter.role', 'filter_role', '*'));
+        $this->setState('filter.role', $role);
 
         parent::populateState($ordering, $direction);
     }
