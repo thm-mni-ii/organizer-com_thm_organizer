@@ -2164,17 +2164,23 @@ Ext.define('EventModel',
             }
         }
 
+        var eventNameCSSClass = "MySchedEvent_name_no_link";
+        if(MySched.linkEvents === true)
+        {
+            eventNameCSSClass = "MySchedEvent_name";
+        }
+
         if (type === "teacher")
         {
-            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{room}</small></div>');
+            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="' + eventNameCSSClass + '">{event_name}</b><br/><small class="event_resource">{room}</small></div>');
         }
         else if (type === "room")
         {
-            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{teacher}</small></div>');
+            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="' + eventNameCSSClass + '">{event_name}</b><br/><small class="event_resource">{teacher}</small></div>');
         }
         else
         {
-            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{teacher} / {room}</small></div>');
+            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="' + eventNameCSSClass + '">{event_name}</b><br/><small class="event_resource">{teacher} / {room}</small></div>');
         }
 
         return this.eventTemplate.apply(d);

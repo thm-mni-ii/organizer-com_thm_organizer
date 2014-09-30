@@ -91,6 +91,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $this->config['deltaDisplayDays'] = (int) $params->get("deltaDisplayDays", 14);
         $this->config['name'] = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
         $this->config['name'] .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
+        $this->config['linkEvents'] = JComponentHelper::getParams('com_thm_organizer')->get('linkEvents');
 
         // Leaving this parameter alone for now because it may have side effects
         $this->semesterID = $scheduleRow->id;

@@ -83,6 +83,8 @@ if ($this->config['canWrite'] === true)
         MySched.PHPExcelInstalled = <?php echo $this->libraries['PHPExcel']? 'true' : 'false'; ?>;
         MySched.schedulerFromMenu = <?php echo $this->config['isMenu']? 'true' : 'false'; ?>;
         MySched.displayModuleNumber = <?php echo $this->displayModuleNumber? 'true' : 'false'; ?>;
+        MySched.linkEvents = <?php echo $this->config['linkEvents'] == 1 ? 'true' : 'false'; ?>;
+
         Ext.application({
             name: 'Scheduler',
             launch: MySched.Base.init

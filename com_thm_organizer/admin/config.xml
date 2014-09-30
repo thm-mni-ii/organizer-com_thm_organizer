@@ -88,6 +88,14 @@
             directory="images/thm_organizer/"
             exclude=""/>
     </fieldset>
+    <fieldset name="scheduler"
+              label="COM_THM_ORGANIZER_SCHEDULER_SETTINGS_TITLE"
+              description="COM_THM_ORGANIZER_SCHEDULER_SETTINGS_DESC">
+        <field id="linkEvents" name="linkEvents" type="radio" label="COM_THM_ORGANIZER_SCHEDULER_SETTINGS_LINKEVENTS_TITLE" default="1" description="COM_THM_ORGANIZER_SCHEDULER_SETTINGS_LINKEVENTS_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+    </fieldset>
     <fieldset name="permissions"
               label="JCONFIG_PERMISSIONS_LABEL"
               description="JCONFIG_PERMISSIONS_DESC">
