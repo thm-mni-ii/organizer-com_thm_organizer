@@ -32,20 +32,16 @@ class THM_OrganizerViewUser_Select extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (JFactory::getUser()->authorise('core.admin'))
-        {
-            JHtml::_('behavior.tooltip');
-            JHtml::_('behavior.multiselect');
+        JHtml::_('behavior.tooltip');
+        JHtml::_('behavior.multiselect');
 
-            $this->model = $this->getModel();
-            $this->items = $this->get('Items');
-            $this->state = $this->get('State');
-            $this->pagination = $this->get('Pagination');
-            $document = JFactory::getDocument();
-            $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/user_select.css');
+        $this->model = $this->getModel();
+        $this->items = $this->get('Items');
+        $this->state = $this->get('State');
+        $this->pagination = $this->get('Pagination');
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/user_select.css');
 
-            parent::display($tpl);
-        }
-
+        parent::display($tpl);
     }
 }

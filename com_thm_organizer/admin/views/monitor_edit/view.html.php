@@ -34,11 +34,6 @@ class THM_OrganizerViewMonitor_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.framework', true);
         JHTML::_('behavior.formvalidation');
         JHTML::_('behavior.tooltip');

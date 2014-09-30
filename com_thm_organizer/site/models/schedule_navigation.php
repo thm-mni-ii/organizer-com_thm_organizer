@@ -438,7 +438,7 @@ class THM_OrganizerModelSchedule_Navigation
                 );
                 $categoryNode = new THM_OrganizerNode($categoryNodeData);
             }
-            $allDisplayed = $this->displayNode($nodeKey . ";ALL");
+            $allDisplayed = $category == 'pool'? false : $this->displayNode($nodeKey . ";ALL");
             $subcategories = $this->getSubcategoryNodes($nodeKey, $category, $scheduleID, $allDisplayed);
 
             if (empty($subcategories))

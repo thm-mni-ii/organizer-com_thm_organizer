@@ -54,6 +54,15 @@ $subjectURL = JRoute::_($rawSubjectURL, false);
                 <?php echo $this->form->getInput('version'); ?>
             </div>
         </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                <?php echo $this->form->getLabel('fieldID'); ?>
+            </div>
+            <div class="controls">
+                <?php echo $this->form->getInput('fieldID'); ?>
+            </div>
+        </div>
     </fieldset>
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_THM_ORGANIZER_PROPERTIES_DE'); ?></legend>

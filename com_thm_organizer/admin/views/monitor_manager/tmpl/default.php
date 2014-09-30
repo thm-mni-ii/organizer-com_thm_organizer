@@ -11,14 +11,14 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-$orderby = $this->escape($this->state->get('list.ordering'));
+$ordering = $this->escape($this->state->get('list.ordering'));
 $direction = $this->escape($this->state->get('list.direction'));
 $defaultDisplay = JComponentHelper::getParams('com_thm_organizer')->get('display');
 $defaultScheduleRefresh = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
 $defaultContentRefresh = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
 $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content');
 ?>
-<form id="adminForm" action="index.php?option=com_thm_organizer&view=monitor_manager" method="post" name="adminForm">
+<form id="adminForm" action="index.php" method="post" name="adminForm">
     <div id="filter-bar" class='filter-bar'>
         <div class="filter-search fltlft pull-left">
             <label class="filter-search-lbl" for="filter_search">
@@ -56,14 +56,15 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
     
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="filter_order" value="<?php echo $orderby; ?>" />
+    <input type="hidden" name="filter_order" value="<?php echo $ordering; ?>" />
     <input type="hidden" name="filter_order_Dir" value="<?php echo $direction; ?>" />
+    <input type="hidden" name="option" value="com_thm_organizer" />
     <input type="hidden" name="view" value="monitor_manager" />
+    <?php echo JHtml::_('form.token');?>
     </form>
     <div class="clr"> </div>
     <div>
-        <table class="adminlist" id="thm_organizer_mon_table" class='thm_organizer_mon_table table table-striped'>
+        <table class="adminlist thm_organizer_mon_table table table-striped" id="thm_organizer_mon_table">
             <colgroup>
                 <col class='thm_organizer_mon_col_checkbox'/>
                 <col class='thm_organizer_mon_col_room' />
@@ -83,37 +84,37 @@ $defaultContent = JComponentHelper::getParams('com_thm_organizer')->get('content
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_ROOM') . "::"
                                 . JText::_('COM_THM_ORGANIZER_MON_ROOM_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'name', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_ROOM', 'name', $direction, $ordering); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_IP') . "::"
                                 . JText::_('COM_THM_ORGANIZER_MON_IP_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_IP', 'ip', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_IP', 'ip', $direction, $ordering); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS') . "::"
                                 . JText::_('COM_THM_ORGANIZER_MON_USEDEFAULTS_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_USEDEFAULTS', 'useDefaults', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_USEDEFAULTS', 'useDefaults', $direction, $ordering); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_DISPLAY') . "::"
                                 . JText::_('COM_THM_ORGANIZER_MON_DISPLAY_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'display', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_DISPLAY', 'display', $direction, $ordering); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH') . "::" .
                         JText::_('COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH', 'schedule_refresh', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_SCHEDULE_REFRESH', 'schedule_refresh', $direction, $ordering); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH') . "::" .
                         JText::_('COM_THM_ORGANIZER_MON_CONTENT_REFRESH_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT_REFRESH', 'content_refresh', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT_REFRESH', 'content_refresh', $direction, $ordering); ?>
                     </th>
                     <th class="thm_organizer_th hasTip"
                         title="<?php echo JText::_('COM_THM_ORGANIZER_MON_CONTENT') . "::"
                                 . JText::_('COM_THM_ORGANIZER_MON_CONTENT_DESC'); ?>">
-                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT', 'content', $direction, $orderby); ?>
+                        <?php echo JHtml::_('grid.sort', 'COM_THM_ORGANIZER_MON_CONTENT', 'content', $direction, $ordering); ?>
                     </th>
                 </tr>
             </thead>

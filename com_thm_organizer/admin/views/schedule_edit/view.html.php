@@ -35,11 +35,6 @@ class THM_OrganizerViewSchedule_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.framework', true);
         JHtml::_('behavior.formvalidation');
         JHtml::_('behavior.tooltip');

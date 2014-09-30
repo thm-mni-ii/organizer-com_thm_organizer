@@ -215,7 +215,8 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         $select = array();
         $subjectsQuery->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
-        switch ($this->state->get('groupBy', '0'))
+        $groupBy = $this->state->get('groupBy', '0');
+        switch ($groupBy)
         {
             case NONE:
                 
@@ -251,7 +252,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $search = $this->state->get('search');
         if (!empty($search))
         {
-            if (!$this->state->get('groupBy') == TEACHER)
+            if ($groupBy != TEACHER)
             {
                 $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
             }

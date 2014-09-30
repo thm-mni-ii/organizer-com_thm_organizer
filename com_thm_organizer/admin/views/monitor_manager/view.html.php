@@ -23,6 +23,21 @@ jimport('joomla.application.component.view');
 class THM_OrganizerViewMonitor_Manager extends JViewLegacy
 {
     /**
+     * jpagination object holding data relevant to the number of results to be
+     * displayed and query limit values
+     *
+     * @var JPagination
+     */
+    protected $pagination;
+
+    /**
+     * jstate object holding data relevant to filter information
+     *
+     * @var JState
+     */
+    protected $state;
+
+    /**
      * Loads data from the model into the view context
      *
      * @param   string  $tpl  the name of the template to be used
@@ -31,11 +46,6 @@ class THM_OrganizerViewMonitor_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.multiselect');
         JFactory::getDocument()->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');

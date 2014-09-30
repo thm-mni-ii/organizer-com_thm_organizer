@@ -208,19 +208,26 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $app = JFactory::getApplication('administrator');
+
+        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $search);
 
-        $room = $this->getUserStateFromRequest($this->context . '.filter.room', 'filter_room');
+        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'r.name');
+        $this->setState('list.ordering', $ordering);
+
+        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $direction);
+
+        $room = $app->getUserStateFromRequest($this->context . '.filter.room', 'filter_room');
         $this->setState('filter.room', $room);
 
-        $display = $this->getUserStateFromRequest($this->context . '.filter.display', 'filter_display');
+        $display = $app->getUserStateFromRequest($this->context . '.filter.display', 'filter_display');
         $this->setState('filter.display', $display);
 
-        $content = $this->getUserStateFromRequest($this->context . '.filter.content', 'filter_content');
+        $content = $app->getUserStateFromRequest($this->context . '.filter.content', 'filter_content');
         $this->setState('filter.content', $content);
 
-        // List state information.
         parent::populateState($ordering, $direction);
     }
 

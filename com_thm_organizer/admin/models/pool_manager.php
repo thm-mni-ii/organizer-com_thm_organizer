@@ -215,21 +215,25 @@ class THM_OrganizerModelPool_Manager extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $ordering = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
+        $app = JFactory::getApplication('administrator');
+
+        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
         $this->setState('list.ordering', $ordering);
 
-        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
         $this->setState('list.direction', $direction);
 
-        $search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $search);
 
-        $formProgram = $this->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
-        $requestProgram = JRequest::getInt('programID');
+        $formProgram = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
+        $requestProgram = $app->input->getInt('programID', '-1');
         $this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
 
-        $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit');
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit');
         $this->setState('list.limit', $limit);
+
+        parent::populateState($ordering, $direction);
     }
 
     /**

@@ -33,11 +33,6 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.administrator'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();

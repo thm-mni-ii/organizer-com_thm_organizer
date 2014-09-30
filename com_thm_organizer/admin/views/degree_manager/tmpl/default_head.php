@@ -15,10 +15,7 @@ $listOrder = $this->state->get('list.ordering', 'ordering');
 $listDirn = $this->state->get('list.direction');
 ?>
 <tr>
-    <th width="3%">
-        <input type="checkbox" name="toggle" value=""
-               onclick="checkAll(<?php echo count($this->items); ?>);" />
-    </th>
+    <th width="3%"></th>
     <th width="50%">
         <?php echo JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $listDirn, $listOrder); ?>
     </th>

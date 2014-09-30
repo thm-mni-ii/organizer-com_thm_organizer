@@ -30,11 +30,6 @@ class THM_OrganizerViewField_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();

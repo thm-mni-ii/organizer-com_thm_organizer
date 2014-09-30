@@ -57,23 +57,27 @@ class THM_OrganizerModelColor_Manager extends JModelList
     /**
      * Method to populate state
      *
-     * @param   string  $orderBy   An optional ordering field.
-     * @param   string  $orderDir  An optional direction (asc|desc).
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
      *
      * @return  void
      */
-    protected function populateState($orderBy = null, $orderDir = null)
+    protected function populateState($ordering = null, $direction = null)
     {
-        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'id');
-        $this->setState('list.ordering', $orderBy);
+        $app = JFactory::getApplication('administrator');
 
-        $orderDir = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $orderDir);
+        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'id');
+        $this->setState('list.ordering', $ordering);
 
-        $search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $direction);
+
+        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $search);
 
-        $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
         $this->setState('list.limit', $limit);
+
+        parent::populateState($ordering, $direction);
     }
 }

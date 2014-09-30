@@ -34,12 +34,6 @@ class THM_OrganizerViewCategory_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $isAdmin = JFactory::getUser()->authorise('core.admin');
-        if (!$isAdmin)
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();

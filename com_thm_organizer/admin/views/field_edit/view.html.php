@@ -31,11 +31,6 @@ class THM_OrganizerViewField_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.tooltip');
 
         $this->form = $this->get('Form');

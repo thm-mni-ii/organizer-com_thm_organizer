@@ -23,11 +23,10 @@
                label="COM_THM_ORGANIZER_POM_EXTERNALID_TITLE"
                description="COM_THM_ORGANIZER_POM_EXTERNALID_DESC" />
         <field name="fieldID"
-               type="sql"
+               type="fields"
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
                description="COM_THM_ORGANIZER_POM_FIELD_DESC"
-               query="SELECT id AS value, field AS fieldID FROM #__thm_organizer_fields ORDER BY field"
                required="true" />
         <field name="minCrP"
                type="integer"

@@ -60,25 +60,27 @@ class THM_OrganizerModelField_Manager extends JModelList
     /**
      * Method to get the populate state
      *
-     * @param   string  $orderBy   the property by which the results should be ordered
-     * @param   string  $orderDir  the direction in which results should be ordered
+     * @param   string  $ordering   the property by which the results should be ordered
+     * @param   string  $direction  the direction in which results should be ordered
      *
      * @return  void
      */
-    protected function populateState($orderBy = null, $orderDir = null)
+    protected function populateState($ordering = null, $direction = null)
     {
         $app = JFactory::getApplication('administrator');
 
-        $orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'field');
-        $this->setState('list.ordering', $orderBy);
+        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'field');
+        $this->setState('list.ordering', $ordering);
 
-        $orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $orderDir);
+        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $this->setState('list.direction', $direction);
 
         $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $search);
 
         $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
         $this->setState('list.limit', $limit);
+
+        parent::populateState($ordering, $direction);
     }
 }

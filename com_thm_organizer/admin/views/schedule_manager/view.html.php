@@ -49,17 +49,12 @@ class THM_OrganizerViewSchedule_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
-
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.multiselect');
 
         $model = $this->getModel();
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/schedule_edit.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/schedule_manager.css');
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_errors.js'));
 
         $this->state = $this->get('State');

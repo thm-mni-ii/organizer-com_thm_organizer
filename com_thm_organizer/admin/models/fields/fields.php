@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldSubjectFields
+ * @name        JFormFieldFields
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,14 +19,14 @@ jimport('joomla.form.formfield');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldSubjectFields extends JFormField
+class JFormFieldFields extends JFormField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'subjectFields';
+    protected $type = 'fields';
 
     /**
      * Returns a selection box where stored course pool can be chosen as a parent node
@@ -89,9 +89,40 @@ class JFormFieldSubjectFields extends JFormField
      */
     private function getOption($field, $selectedValue)
     {
-        $style = empty($field['color'])? '' : ' style="background-color:#' . $field['color'] . '"';
+        if (empty($field['color']))
+        {
+            $style = '';
+        }
+        else
+        {
+            $textColor = $this->getTextColor($field['color']);
+            $style = ' style="background-color:#' . $field['color'] . '; color:#' . $textColor . '"';
+        }
         $selected = $field['value'] == $selectedValue? ' selected="selected"' : '';
         return '<option value="' . $field['value'] . '"' . $style . $selected . '>' . $field['field'] . '</option>';
+    }
 
+    /**
+     * Gets an appropriate value for text color
+     *
+     * @param   string  $bgColor  the background color associated with the field
+     *
+     * @return  string  the hexadecimal value for an appropriate text color
+     */
+    private function getTextColor($bgColor)
+    {
+        $red = hexdec(substr($bgColor, 0, 2));
+        $green = hexdec(substr($bgColor, 2, 2));
+        $blue = hexdec(substr($bgColor, 4, 2));
+        $relativeBrightness = ($red * 299) + ($green * 587) + ($blue * 114);
+        $brightness = $relativeBrightness / 255000;
+        if ($brightness >= 0.6)
+        {
+            return "4a5c66";
+        }
+        else
+        {
+            return "eeeeee";
+        }
     }
 }

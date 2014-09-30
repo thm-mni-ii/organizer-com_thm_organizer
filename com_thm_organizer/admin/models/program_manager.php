@@ -165,33 +165,37 @@ class THM_OrganizerModelProgram_Manager extends JModelList
     /**
      * Method to populate state
      *
-     * @param   string  $orderBy    An optional ordering field.
+     * @param   string  $ordering    An optional ordering field.
      * @param   string  $direction  An optional direction (asc|desc).
      *
      * @return  void
      */
-    protected function populateState($orderBy = null, $direction = null)
+    protected function populateState($ordering = null, $direction = null)
     {
-        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject, abbreviation, version');
-        $this->setState('list.ordering', $orderBy);
+        $app = JFactory::getApplication('administrator');
 
-        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
+        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject, abbreviation, version');
+        $this->setState('list.ordering', $ordering);
+
+        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
         $this->setState('list.direction', $direction);
 
-        $filter = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $filter = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter.search', $filter);
 
-        $limit = $this->getUserStateFromRequest($this->context . '.limit', 'limit', '');
+        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
         $this->setState('list.limit', $limit);
 
-        $degree = $this->getUserStateFromRequest($this->context . '.filter.degree', 'filter_degree');
+        $degree = $app->getUserStateFromRequest($this->context . '.filter.degree', 'filter_degree');
         $this->setState('filter.degree', $degree);
 
-        $version = $this->getUserStateFromRequest($this->context . '.filter.version', 'filter_version');
+        $version = $app->getUserStateFromRequest($this->context . '.filter.version', 'filter_version');
         $this->setState('filter.version', $version);
 
-        $field = $this->getUserStateFromRequest($this->context . '.filter.field', 'filter_field');
+        $field = $app->getUserStateFromRequest($this->context . '.filter.field', 'filter_field');
         $this->setState('filter.field', $field);
+
+        parent::populateState($ordering, $direction);
     }
 
     /**
