@@ -15,29 +15,32 @@ $moduleNumber = ($this->lang == 'de')? 'Modulnummer' : 'Module Number';
 $shortName = ($this->lang == 'de')? 'Kurzname' : 'Short Name';
 $teachers = ($this->lang == 'de')? 'Dozenten' : 'Taught By';
 $description = ($this->lang == 'de')? 'Beschreibung' : 'Description';
-$objectives = ($this->lang == 'de')? 'Lernziele' : 'Objectives';
-$contents = ($this->lang == 'de')? 'Inhalte' : 'Contents';
+$objectives = ($this->lang == 'de')? 'Qualifikations- und Lernziele' : 'Learning Objectives';
+$contents = ($this->lang == 'de')? 'Lerninhalt' : 'Content';
 $prerequisites = ($this->lang == 'de')? 'Voraussetzungen' : 'Prerequisites';
-$prerequisiteOf = ($this->lang == 'de')? 'Voraussetzung von' : 'Prerequisite for';
-$references = ($this->lang == 'de')? 'Literatur' : 'References';
-$expenditure = ($this->lang == 'de')? 'Aufwand' : 'Expenditure';
-$method = ($this->lang == 'de')? 'Lernmethode' : 'Instruction Method';
+$prerequisiteOf = ($this->lang == 'de')? 'Verwendbarkeit des Moduls' : 'Prerequisite of';
+$references = ($this->lang == 'de')? 'Literatur' : 'Literature';
+$expenditure = ($this->lang == 'de')? 'Creditpoints/Arbeitsaufwand' : 'Credit Points/Workload';
+$method = ($this->lang == 'de')? 'Lernformen' : 'Instruction Methods';
 $proof = ($this->lang == 'de')? 'Leistungsnachweis' : 'Testing Method';
-$frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
+$frequency = ($this->lang == 'de')? 'Häufigkeit des Angebots' : 'Frequency';
 $language = ($this->lang == 'de')? 'Sprache' : 'Language';
-$preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
+$preliminary_work = ($this->lang == 'de')? 'Prüfungsvorleistungen' : 'Requirements for Test Participation';
 $aids = ($this->lang == 'de')? 'Studienhilfsmittel' : 'Study Aids';
-$evaluation = ($this->lang == 'de')? 'Bewertung' : 'Evaluation';
+$evaluation = ($this->lang == 'de')? 'Bewertung, Note' : 'Evaluation & Grading';
 $semesterHours = ($this->lang == 'de')? 'SWS' : 'Semester Hours';
+
+// Star Properties
 $expertise = ($this->lang == 'de')? 'Fachkompetenz' : 'Expertise';
 $methodCompetence = ($this->lang == 'de')? 'Methodenkompetenz' : 'Method Competence';
 $selfCompetence = ($this->lang == 'de')? 'Selbstkompetenz' : 'Self Competence';
 $socialCompetence = ($this->lang == 'de')? 'Sozialkompetenz' : 'Social Competence';
-$flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
-$oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_SUM_ONESTAR');
-$twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARS');
-$threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARs');
+
+$imagePath = JURI::root() . '/media/com_thm_organizer/images/';
+$flagPath = $imagePath . $this->otherLanguageTag . '.png';
+$oneStar = JHtml::image($imagePath . '1stars.png', 'COM_THM_ORGANIZER_SUM_ONESTAR');
+$twoStars = JHtml::image($imagePath . '2stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARS');
+$threeStars = JHtml::image($imagePath . '3stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARs');
 ?>
 <script type="text/javascript">
 

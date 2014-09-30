@@ -1,33 +1,9 @@
 /*  ------------------------------------
 **  Author:     Kristijan Pokas
 **  File:       toolbar.css
-**  Styles for:
+**  Styles for: Frontend - "offene/alle termine"
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-.thm_organizer_action_link {
-  display: inline-block;
-  margin: 0;
-  padding: 1px 5px;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap; }
-
-.thm_organizer_action_link_preview {
-  display: block;
-  float: left;
-  margin: 0;
-  padding: 1px 5px;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap; }
-
-.thm_organizer_action_span {
-  display: block;
-  float: none;
-  height: 32px;
-  margin: 0 auto 0 auto;
-  width: 32px; }
-
 .thm_organizer_new_span {
   background-image: url("../../../media/com_thm_organizer/images/icon-32-new.png"); }
 
@@ -60,6 +36,28 @@
 
 .thm_organizer_cancel_span {
   background-image: url("../../../../media/com_thm_organizer/images/icon-32-cancel.png"); }
+
+.thm_organizer_action_link,
+.thm_organizer_action_link_preview {
+  margin: 0;
+  padding: 1px 5px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap; }
+
+.thm_organizer_action_link {
+  display: inline-block; }
+
+.thm_organizer_action_link_preview {
+  display: block;
+  float: left; }
+
+.thm_organizer_action_span {
+  display: block;
+  float: none;
+  height: 32px;
+  margin: 0 auto 0 auto;
+  width: 32px; }
 
 .Popup {
   background: #eeeeee;

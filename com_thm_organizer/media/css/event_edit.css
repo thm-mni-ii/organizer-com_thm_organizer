@@ -4,6 +4,126 @@
 **  Styles for: Frontend
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
+.thm_organizer_new_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-new.png"); }
+
+.thm_organizer_edit_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-edit.png"); }
+
+.thm_organizer_delete_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-trash.png"); }
+
+.thm_organizer_submit_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-forward.png"); }
+
+.thm_organizer_back_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-refresh.png"); }
+
+.thm_organizer_list_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-list.png"); }
+
+.thm_organizer_event_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-event.png"); }
+
+.thm_organizer_save_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-save.png"); }
+
+.thm_organizer_save_new_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-save-new.png"); }
+
+.thm_organizer_preview_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-preview.png"); }
+
+.thm_organizer_cancel_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-cancel.png"); }
+
+.thm_organizer_action_link,
+.thm_organizer_action_link_preview {
+  margin: 0;
+  padding: 1px 5px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap; }
+
+.thm_organizer_action_link {
+  display: inline-block; }
+
+.thm_organizer_action_link_preview {
+  display: block;
+  float: left; }
+
+.thm_organizer_action_span {
+  display: block;
+  float: none;
+  height: 32px;
+  margin: 0 auto 0 auto;
+  width: 32px; }
+
+.Popup {
+  background: #eeeeee;
+  bottom: 70px;
+  display: none;
+  height: 650px;
+  left: 50%;
+  margin-left: -470px;
+  overflow: hidden;
+  padding: 10px;
+  position: fixed;
+  text-align: center;
+  top: 70px;
+  width: 920px;
+  z-index: 3;
+  -webkit-box-shadow: 0 0 10px #222222;
+  -moz-box-shadow: 0 0 10px #222222;
+  -ms-box-shadow: 0 0 10px #222222;
+  -o-box-shadow: 0 0 10px #222222;
+  box-shadow: 0 0 10px #222222; }
+
+.closePopup {
+  height: 22px;
+  width: 920px; }
+
+.loader {
+  background: url("../../../media/com_thm_organizer/images/thm-ajax-loader.gif") 50% 50% no-repeat;
+  display: none;
+  height: 80%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; }
+
+body.loading {
+  overflow: hidden; }
+  body.loading .loader {
+    display: block; }
+
+.overlay {
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: none;
+  height: 100%;
+  left: 0;
+  right: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2; }
+
+.thm_organizer_divider_span {
+  border-right: solid 1px #c7c7c7;
+  display: block;
+  float: left;
+  height: 48px;
+  margin-right: 4px;
+  padding-left: 4px;
+  padding-right: 1px;
+  padding-top: 1px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 2px; }
+
 .thm_organizer_ee {
   color: #4a5c66;
   margin-top: 12px; }

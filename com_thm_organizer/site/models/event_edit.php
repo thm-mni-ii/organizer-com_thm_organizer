@@ -533,7 +533,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
         }
         if ($this->event['id'] > 0)
         {
-            $this->eventLink = JRoute::_("index.php?option=com_thm_organizer&view=event_details.css&eventID=" . $this->event['id'] . "&Itemid=$menuID");
+            $this->eventLink = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=" . $this->event['id'] . "&Itemid=$menuID");
         }
     }
 }

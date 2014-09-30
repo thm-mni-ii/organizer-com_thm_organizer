@@ -36,7 +36,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/event_edit.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
 
         $this->form = $this->get('Form');

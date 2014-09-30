@@ -34,7 +34,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
         JHtml::_('behavior.formvalidation');
         JHtml::_('behavior.tooltip');
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/event_manager.css");
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_manager.js'));
 
         $model = $this->getModel();

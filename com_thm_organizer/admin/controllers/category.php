@@ -24,7 +24,7 @@ jimport('joomla.application.component.controlleradmin');
 class THM_OrganizerControllerCategory extends JControllerLegacy
 {
     /**
-     * redirects to the category_edit.scss view for the creation of new categories
+     * redirects to the category_edit view for the creation of new categories
      *
      * @return void
      */
@@ -35,13 +35,13 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
         $input = JFactory::getApplication()->input;
-        $input->set('view', 'category_edit.scss');
+        $input->set('view', 'category_edit');
         $input->set('categoryID', '0');
         parent::display();
     }
 
     /**
-     * redirects to the category_edit.scss view for the editing of existing categories
+     * redirects to the category_edit view for the editing of existing categories
      *
      * @return void
      */
@@ -51,7 +51,7 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         {
             return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit.scss");
+        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
     }
 
     /**
@@ -70,7 +70,7 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         if ($success)
         {
             $msg = JText::_('COM_THM_ORGANIZER_CAT_SAVE_SUCCESS');
-            $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit.scss&id=$success", $msg);
+            $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit&id=$success", $msg);
         }
         else
         {
@@ -120,12 +120,12 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         if ($result)
         {
             $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_SUCCESS");
-            $this->setRedirect('index.php?option=com_thm_organizer&view=category_edit.scss', $msg);
+            $this->setRedirect('index.php?option=com_thm_organizer&view=category_edit', $msg);
         }
         else
         {
             $msg = JText::_("COM_THM_ORGANIZER_CAT_SAVE_FAIL");
-            $this->setRedirect('index.php?option=com_thm_organizer&view=category_edit.scss', $msg, 'error');
+            $this->setRedirect('index.php?option=com_thm_organizer&view=category_edit', $msg, 'error');
         }
     }
 

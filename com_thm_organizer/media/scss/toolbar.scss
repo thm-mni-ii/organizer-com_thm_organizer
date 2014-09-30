@@ -1,15 +1,16 @@
-/*  ------------------------------------
-**  Author:     Kristijan Pokas
-**  File:       toolbar.css
-**  Styles for:
-**  Site:       www.mni.thm.de
-**  ------------------------------------ */
+//  ------------------------------------
+//  Author:     Kristijan Pokas
+//  File:       toolbar.css
+//  Styles for: Frontend - "offene/alle termine"
+//  Site:       www.mni.thm.de
+//  ------------------------------------
 
 @import 'mixins';
 @import 'variables';
+@import 'icons';
 
-.thm_organizer_action_link {
-  display: inline-block;
+.thm_organizer_action_link,
+.thm_organizer_action_link_preview {
   margin: 0;
   padding: 1px 5px;
   text-align: $text-align-center;
@@ -17,16 +18,18 @@
   white-space: nowrap;
 }
 
+// a link-button definitions
+.thm_organizer_action_link {
+  display: inline-block;
+}
+
+// a link preview definitions
 .thm_organizer_action_link_preview {
   display: block;
   float: left;
-  margin: 0;
-  padding: 1px 5px;
-  text-align: $text-align-center;
-  text-decoration: none;
-  white-space: nowrap;
 }
 
+// button-style definitions, when you clicked an appointment
 .thm_organizer_action_span {
   display: block;
   float: none;
@@ -35,51 +38,66 @@
   width: 32px;
 }
 
+// ---------------------------------
+// Icons - Frontend
+// ---------------------------------
+
+// icon "new / neu"
 .thm_organizer_new_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-new.png");
+  @extend %icon-new;
 }
 
+// icon "edit / anpassen"
 .thm_organizer_edit_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-edit.png");
+  @extend %icon-edit;
 }
 
+// icon "delete / löschen"
 .thm_organizer_delete_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-trash.png");
+  @extend %icon-delete;
 }
 
+// icon "submit / los!"
 .thm_organizer_submit_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-forward.png");
+  @extend %icon-submit;
 }
 
+// icon "back / zurücksetzen"
 .thm_organizer_back_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-refresh.png");
+  @extend %icon-back;
 }
 
+// icon "list / terminliste"
 .thm_organizer_list_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-list.png");
+  @extend %icon-list;
 }
 
+// icon "event / termindetails"
 .thm_organizer_event_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-event.png");
+  @extend %icon-event;
 }
 
+// icon "save / speichern"
 .thm_organizer_save_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-save.png");
+  @extend %icon-save;
 }
 
+// icon "save new / speichern & new"
 .thm_organizer_save_new_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-save-new.png");
+  @extend %icon-save_new;
 }
 
+// icon "preview / vorschau"
 .thm_organizer_preview_span {
-  background-image: url("../../../media/com_thm_organizer/images/icon-32-preview.png");
+  @extend %icon-preview;
 }
 
+// icon "cancel / abbrechen"
 .thm_organizer_cancel_span {
-  background-image: url("../../../../media/com_thm_organizer/images/icon-32-cancel.png");
+  @extend %icon-cancel;
 }
 
-
+// popup window of preview
 .Popup {
   background: $bg-color;
   bottom: 70px;
@@ -98,6 +116,7 @@
   @include box-shadow(0, 0, 10px, #222);
 }
 
+// position of close popup window
 .closePopup {
   height: 22px;
   width: 920px;

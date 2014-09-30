@@ -95,7 +95,7 @@ class THM_OrganizerControllerEvent extends JControllerLegacy
             if ($eventID)
             {
                 $msg = JText::_('COM_THM_ORGANIZER_EVENT_SAVED');
-                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details.css&eventID=$eventID&Itemid=$menuID", false);
+                    $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=$eventID&Itemid=$menuID", false);
                 $this->setRedirect($link, $msg);
             }
             else

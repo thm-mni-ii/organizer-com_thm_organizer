@@ -1,12 +1,13 @@
 /*  ------------------------------------
 **  Author:     Kristijan Pokas
 **  File:       event_manager.css
-**  Styles for: 
+**  Styles for: Frontend - Termine (offene Termine etc.)
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 
 @import 'mixins';
 @import 'variables';
+@import 'toolbar';
 
 .thm_organizer_el {
   margin-right: 8px;
@@ -122,7 +123,7 @@
 
 // White color with gray borders for even numbered rows
 .thm_organizer_el_row_even {
-  background-color: $bg-color;
+  background-color: $bg-color-panel;
   border: $border-color;
 }
 
