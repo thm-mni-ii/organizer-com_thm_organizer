@@ -1300,7 +1300,7 @@ Ext.define('LectureModel',
                 lessonTitle = MySched.Mapping.getSubjectAbbreviation(subjectKeys[0]);
                 if(lessonTitle === subjectKeys[0])
                 {
-                    lessonTitle = MySched.Mapping.getSubjectName(subjectKeys[index])
+                    lessonTitle = MySched.Mapping.getSubjectName(subjectKeys[0]);
                 }
             }
         }
@@ -1311,7 +1311,7 @@ Ext.define('LectureModel',
                 var abbreviation = MySched.Mapping.getSubjectAbbreviation(subjectKeys[index]);
                 if(abbreviation === subjectKeys[index])
                 {
-                    abbreviation = MySched.Mapping.getSubjectName(subjectKeys[index])
+                    abbreviation = MySched.Mapping.getSubjectName(subjectKeys[index]);
                 }
 
                 subjectNames.push(abbreviation);
