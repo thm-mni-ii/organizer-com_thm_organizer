@@ -1,4 +1,4 @@
-@charset "CP850";
+@charset "UTF-8";
 /*  ------------------------------------
 **  Author:     Kristijan Pokas
 **  File:       schedule_edit.css
@@ -29,7 +29,7 @@ table.adminlist thead th.thm_organizer_sm_th {
 /*
     Im Quelltext wurde die Klasse nicht hinterlegt, deswegen greift der Style nicht!
     Lediglich die ID ist beinhaltet.
-    Änderung, Pfad: administrator/components/com_thm_organizer/views/schedule_manager/tmpl/default.php
+    ├änderung, Pfad: administrator/components/com_thm_organizer/views/schedule_manager/tmpl/default.php
     Zeile 65: <col id="thm_organizer_sch_description_column" class='thm_organizer_sch_description_column' />
 */
 li input[disabled=disabled] {
@@ -38,3 +38,5 @@ li input[disabled=disabled] {
 
 .thm_organizer_se {
   color: #025a8d; }
+
+/*# sourceMappingURL=schedule_edit.css.map */

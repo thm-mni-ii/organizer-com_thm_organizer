@@ -1,4 +1,4 @@
-@charset "CP850";
+@charset "UTF-8";
 /*  ------------------------------------
 **  Author:     Kristijan Pokas
 **  File:       children.css
@@ -56,7 +56,7 @@ a.jgrid span.state {
   margin-bottom: -9px; }
 
 /*===
-  überflüssig, da die Pfeile auch ohne diese Einstellung auf der gleichen Pos bleiben.
+  ├╝berfl├╝ssig, da die Pfeile auch ohne diese Einstellung auf der gleichen Pos bleiben.
   Getestet in IE, Chrome, Firefox, Opera
 ====*/
 .thm_organizer_fieldset {
@@ -76,3 +76,5 @@ a.jgrid span.state {
 .thm_organizer_no_children {
   font-size: 1.3em;
   padding: 5px; }
+
+/*# sourceMappingURL=children.css.map */

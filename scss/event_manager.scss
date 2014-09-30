@@ -5,9 +5,9 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 
-@import 'mixins';
-@import 'variables';
-@import 'toolbar';
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+@import '../../lib_thm_core/scss/toolbar';
 
 .thm_organizer_el {
   margin-right: 8px;

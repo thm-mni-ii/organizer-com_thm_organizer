@@ -5,9 +5,9 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 
-@import 'mixins';
-@import 'variables';
-@import 'filters';
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+@import '../../lib_thm_core/scss/filters';
 
 .consumption {
   color: $fcolor;

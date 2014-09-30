@@ -73,11 +73,11 @@
   top: 70px;
   width: 920px;
   z-index: 3;
-  -webkit-box-shadow: 0 0 10px #222222;
-  -moz-box-shadow: 0 0 10px #222222;
-  -ms-box-shadow: 0 0 10px #222222;
-  -o-box-shadow: 0 0 10px #222222;
-  box-shadow: 0 0 10px #222222; }
+  -webkit-box-shadow: 0 0 10px #222;
+  -moz-box-shadow: 0 0 10px #222;
+  -ms-box-shadow: 0 0 10px #222;
+  -o-box-shadow: 0 0 10px #222;
+  box-shadow: 0 0 10px #222; }
 
 .closePopup {
   height: 22px;
@@ -217,3 +217,5 @@ body.loading {
   color: #c00;
   font-weight: bolder;
   padding: 5px; }
+
+/*# sourceMappingURL=event_manager.css.map */

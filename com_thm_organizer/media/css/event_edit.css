@@ -73,11 +73,11 @@
   top: 70px;
   width: 920px;
   z-index: 3;
-  -webkit-box-shadow: 0 0 10px #222222;
-  -moz-box-shadow: 0 0 10px #222222;
-  -ms-box-shadow: 0 0 10px #222222;
-  -o-box-shadow: 0 0 10px #222222;
-  box-shadow: 0 0 10px #222222; }
+  -webkit-box-shadow: 0 0 10px #222;
+  -moz-box-shadow: 0 0 10px #222;
+  -ms-box-shadow: 0 0 10px #222;
+  -o-box-shadow: 0 0 10px #222;
+  box-shadow: 0 0 10px #222; }
 
 .closePopup {
   height: 22px;
@@ -210,3 +210,5 @@ div.thm_organizer_ee_data_div {
 
 .thm_organizer_ee_table {
   border: none !important; }
+
+/*# sourceMappingURL=event_edit.css.map */
