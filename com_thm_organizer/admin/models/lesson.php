@@ -137,18 +137,18 @@ class THM_OrganizerModelLesson extends JModelLegacy
             return;
         }
 
-        $rawOccurences = trim((string) $lessonNode->occurence);
-        $occurences = $this->validateRawOccurences($rawOccurences, $startDT, $endDT);
+        $rawOccurrences = trim((string) $lessonNode->occurence);
+        $occurrences = $this->validateRawOccurrences($rawOccurrences, $startDT, $endDT);
 
         $comment = trim((string) $lessonNode->text);
         $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->comment = empty($comment)? '' : $comment;
 
         $periods = intval(trim($lessonNode->periods));
-        $times = $lessonNode->times;
+        $times = $lessonNode->xpath("times/time");
 
         // Cannot produce blocking errors
         $this->validatePeriodsAttribute($periods, $times);
-        $this->validateOccurences($occurences, $startDT, $times);
+        $this->validateOccurrences($occurrences, $startDT, $times);
     }
 
     /**
@@ -379,15 +379,15 @@ class THM_OrganizerModelLesson extends JModelLegacy
     }
 
     /**
-     * Validates the occurences attribute
+     * Validates the occurrences attribute
      * 
-     * @param   string  $raw    the string containing the occurences
+     * @param   string  $raw    the string containing the occurrences
      * @param   int     $start  the timestamp of the lesson's begin
      * @param   int     $end    the timestamp of the lesson's end
      * 
      * @return  mixed   array if valid, otherwise false
      */
-    private function validateRawOccurences($raw, $start, $end)
+    private function validateRawOccurrences($raw, $start, $end)
     {
         if (empty($raw))
         {
@@ -404,7 +404,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         $offset = floor(($start - strtotime($this->_scheduleModel->schedule->startdate)) / 86400);
         $length = floor(($end - $start) / 86400);
 
-        // Change occurences from a string to an array of the appropriate length for iteration
+        // Change occurrences from a string to an array of the appropriate length for iteration
         return str_split(substr($raw, $offset, $length));
     }
 
@@ -412,7 +412,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
      * Validates the lesson's periods attribute
      * 
      * @param   int     $periods  the number of periods alloted to the lesson
-     * @param   object  &$times   the planned occurences of the lesson
+     * @param   object  &$times   the planned occurrences of the lesson
      * 
      * @return  void
      */
@@ -423,8 +423,8 @@ class THM_OrganizerModelLesson extends JModelLegacy
             $this->_scheduleModel->scheduleWarnings[]
                 = JText::sprintf("COM_THM_ORGANIZER_LS_TP_MISSING", $this->_lessonName, $this->_lessonID);
         }
-        $timescount = count($times->children());
-        if (isset($periods) and $periods != $timescount)
+        $timesCount = count($times);
+        if (isset($periods) and $periods != $timesCount)
         {
             $this->_scheduleModel->scheduleWarnings[]
                 = JText::sprintf('COM_THM_ORGANIZER_LS_TP_INCONSISTENT', $this->_lessonName, $this->_lessonID);
@@ -434,24 +434,28 @@ class THM_OrganizerModelLesson extends JModelLegacy
     /**
      * Iterates over possible occurances and validates them
      * 
-     * @param   array   $occurences  an array of 'occurences'
-     * @param   int     $currentDT   the starting timestamp
-     * @param   object  &$instances  the object containing the instances
+     * @param   array   $occurrences  an array of 'occurrences'
+     * @param   int     $currentDT    the starting timestamp
+     * @param   object  &$instances   the object containing the instances
      * 
      * @return  void
      */
-    private function validateOccurences($occurences, $currentDT, &$instances)
+    private function validateOccurrences($occurrences, $currentDT, &$instances)
     {
-        foreach ($occurences as $occurence)
+        if (count($instances) == 0)
+        {
+            return;
+        }
+        foreach ($occurrences as $occurrence)
         {
             // Cannot take place on this index
-            if ($occurence == '0' OR $occurence == 'F')
+            if ($occurrence == '0' OR $occurrence == 'F')
             {
                 $currentDT = strtotime('+1 day', $currentDT);
                 continue;
             }
 
-            foreach ($instances->children() as $instance)
+            foreach ($instances as $instance)
             {
                 $valid = $this->validateInstance($instance, $currentDT);
                 if (!$valid)
