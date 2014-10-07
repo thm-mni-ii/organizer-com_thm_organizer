@@ -131,9 +131,11 @@ body.loading {
     color: #4a5c66; }
   .thm_organizer_ee option {
     color: #4a5c66; }
-  .thm_organizer_ee form div table tr, .thm_organizer_ee form div table tr td {
-    padding: 2px;
-    border: none; }
+  .thm_organizer_ee form {
+    color: purple; }
+    .thm_organizer_ee form div table tr, .thm_organizer_ee form div table tr td {
+      padding: 2px;
+      border: none; }
   .thm_organizer_ee #btnreset {
     padding: 0 3px; }
   .thm_organizer_ee table img {

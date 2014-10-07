@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+jimport('thm_core.edit.view');
 /**
  * Class loading persistent data into the view context
  *
@@ -31,16 +31,7 @@ class THM_OrganizerViewCategory_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.framework', true);
-        JHtml::_('behavior.formvalidation');
-        JHtml::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/category_edit.css');
-
-        $this->form = $this->get('Form');
-        $this->addToolBar();
-
+        THM_CoreEditView::setUp($this);
         parent::display($tpl);
     }
 
@@ -49,22 +40,20 @@ class THM_OrganizerViewCategory_Edit extends JViewLegacy
      *
      * @return void
      */
-    private function addToolBar()
+    public function addToolBar()
     {
-        JRequest::setVar('hidemainmenu', true);
         if ($this->form->getValue('id') == 0)
         {
-            $title = JText::_('COM_THM_ORGANIZER_CAT_NEW_TITLE');
-            $applyText = JText::_('COM_THM_ORGANIZER_APPLY_NEW');
-            $cancelText = JText::_('JTOOLBAR_CANCEL');
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_CATEGORY_EDIT_NEW_VIEW_TITLE'), 'organizer_categories');
+            $applyText = JText::_('COM_THM_ORGANIZER_ACTION_APPLY_NEW');
+            $cancelText = JText::_('COM_THM_ORGANIZER_ACTION_CANCEL');
         }
         else
         {
-            $title = JText::_('COM_THM_ORGANIZER_CAT_EDIT_TITLE');
-            $applyText = JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
-            $cancelText = JText::_('JTOOLBAR_CLOSE');
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_CATEGORY_EDIT_EDIT_VIEW_TITLE'), 'organizer_categories');
+            $applyText = JText::_('COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
+            $cancelText = JText::_('COM_THM_ORGANIZER_ACTION_CLOSE');
         }
-        JToolbarHelper::title($title, 'organizer_categories');
         JToolbarHelper::apply('category.apply', $applyText);
         JToolbarHelper::save('category.save');
         JToolbarHelper::save2new('category.save2new');

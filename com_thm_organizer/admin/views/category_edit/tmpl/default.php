@@ -18,59 +18,24 @@ defined('_JEXEC') or die;?>
       name="adminForm"
       id="adminForm"
       class="form-horizontal">
-    <div id="thm_organizer_cat" class="width-60 fltlft thm_organizer_cat tab-content">
-        <fieldset class="adminform">
-            <legend><?php echo ($this->form->getValue('id'))? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW'); ?></legend>
-
-            <div class="control-group">
-                <div class="control-label">
-                    <?php echo $this->form->getLabel('title'); ?>
-                </div>
-                <div class="controls">
-                    <?php echo $this->form->getInput('title'); ?>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <div class="control-label">
-                    <?php echo $this->form->getLabel('description'); ?>
-                </div>
-                <div class="controls">
-                    <?php echo $this->form->getInput('description'); ?>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <div class="control-label">
-                    <?php echo $this->form->getLabel('contentCatID'); ?>
-                </div>
-                <div class="controls">
-                    <?php echo $this->form->getInput('contentCatID'); ?>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <div class="control-label">
-                    <?php echo $this->form->getLabel('global'); ?>
-                </div>
-                <div class="controls">
-                    <?php echo $this->form->getInput('global'); ?>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <div class="control-label">
-                    <?php echo $this->form->getLabel('reserves'); ?>
-                </div>
-                <div class="controls">
-                    <?php echo $this->form->getInput('reserves'); ?>
-                </div>
-            </div>
-        </fieldset>
+    <div class="form-horizontal">
+        <div class="span3">
+            <fieldset class="form-vertical">
+ <?php
+                echo $this->form->renderField('title');
+                echo $this->form->renderField('contentCatID');
+                echo $this->form->renderField('global');
+                echo $this->form->renderField('reserves');
+ ?>
+            </fieldset>
+        </div>
+        <div class="span9">
+            <fieldset class="form-vertical">
+                <?php echo $this->form->renderField('description'); ?>
+            </fieldset>
+        </div>
     </div>
-    <div>
-        <?php echo $this->form->getInput('id'); ?>
-        <?php echo JHtml::_('form.token'); ?>
-        <input type="hidden" name="task" value="" />
-    </div>
+    <?php echo $this->form->getInput('id'); ?>
+    <?php echo JHtml::_('form.token'); ?>
+    <input type="hidden" name="task" value="" />
 </form>

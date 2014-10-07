@@ -11,4 +11,5 @@
  */
 
 defined("_JEXEC") or die;
-THM_LIST::render($this, true, true);
+jimport('thm_core.list.template');
+THM_CoreListTemplate::render($this);

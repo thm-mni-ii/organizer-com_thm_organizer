@@ -11,6 +11,5 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-THM_List::render($this, true, true);
-
-
+jimport('thm_core.list.template');
+THM_CoreListTemplate::render($this);

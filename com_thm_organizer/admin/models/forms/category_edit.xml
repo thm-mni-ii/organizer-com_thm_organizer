@@ -9,51 +9,52 @@
             type='text'
             id='title'
             name='title'
-            label='COM_THM_ORGANIZER_CAT_NAME'
+            label='COM_THM_ORGANIZER_NAME'
             size='28'
             maxlength='50'
             default=''
-            description='COM_THM_ORGANIZER_CAT_NAME_DESC'
+            description='COM_THM_ORGANIZER_NAME_DESC'
             required='true'
             class='inputbox required' />
         <field
             type='sql'
             id='contentCatID'
             name='contentCatID'
-            label='COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'
+            label='COM_THM_ORGANIZER_CONTENT_CATEGORY'
             query="SELECT c.id, c.title AS contentCatID FROM #__categories AS c INNER JOIN #__viewlevels AS vl ON c.access = vl.id WHERE c.extension = 'com_content' AND published = '1' ORDER BY c.title ASC"
-            description='COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY_SELECT_DESC'
+            description='COM_THM_ORGANIZER_CONTENT_CATEGORY_DESC'
             value_field='contentCatID'
             key_field='id'
+            required='true'
             class='inputbox required' />
         <field
             type='editor'
             id='description'
             name='description'
             label='COM_THM_ORGANIZER_DESC'
-            description='COM_THM_ORGANIZER_DESC'
+            description='COM_THM_ORGANIZER_DESC_DESC'
             rows='5'
             cols='35'
             buttons='false' />
         <field
-            type='radio'
-            id='global'
             name='global'
-            label='COM_THM_ORGANIZER_CAT_GLOBAL'
+            type='list'
+            label='COM_THM_ORGANIZER_GLOBAL'
+            description='COM_THM_ORGANIZER_GLOBAL_DESC'
             default='0'
-            description='COM_THM_ORGANIZER_CAT_GLOBAL_DESC'
-            class='inputbox'>
+            filter="intval"
+            class='chzn-color-state'>
             <option value='1'>JYES</option>
             <option value='0'>JNO</option>
         </field>
         <field
-            type='radio'
-            id='reserves'
             name='reserves'
-            label='COM_THM_ORGANIZER_CAT_RESERVES'
+            type='list'
+            label='COM_THM_ORGANIZER_RESERVES'
+            description='COM_THM_ORGANIZER_RESERVES_DESC'
             default='0'
-            description='COM_THM_ORGANIZER_CAT_RESERVES_DESC'
-            class='inputbox'>
+            filter="intval"
+            class='chzn-color-state'>
             <option value='1'>JYES</option>
             <option value='0'>JNO</option>
         </field>

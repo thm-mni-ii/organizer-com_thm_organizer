@@ -166,9 +166,9 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $headers = array();
         $headers[] = '';
         $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $ordering);
-        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'), 'global', $direction, $ordering);
-        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_RESERVES'), 'reserves', $direction, $ordering);
-        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CAT_CONTENT_CATEGORY'), 'cctitle', $direction, $ordering);
+        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_GLOBAL'), 'global', $direction, $ordering);
+        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_RESERVES'), 'reserves', $direction, $ordering);
+        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY'), 'cctitle', $direction, $ordering);
 
         return $headers;
     }
@@ -204,82 +204,5 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $this->setState('list.direction', $direction);
 
         parent::populateState($ordering, $direction);
-    }
-
-    /**
-     * Fills the filter array with filter items
-     *
-     * @return  array  an array of filters
-     */
-    public function getFilters()
-    {
-        $filters = array();
-        $filters[] = $this->getCCFilter();
-        $filters[] = $this->getGlobalFilter();
-        $filters[] = $this->getReservesFilter();
-        return $filters;
-    }
-
-    /**
-     * retrieves an array of associated content categories from the database
-     *
-     * @return array filled with semester names or empty
-     */
-    private function getCCFilter()
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT id AS value, title AS text');
-        $query->from('#__categories');
-        $query->where("id IN (SELECT DISTINCT contentCatID FROM #__thm_organizer_categories)");
-        $query->order('title ASC');
-        $this->_db->setQuery((string) $query);
-
-        try
-        {
-            $cCategories = (array) $this->_db->loadAssocList();
-            $defaultOptions = array();
-            $defaultOptions[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_CAT_SEARCH_CCATS'));
-            $defaultOptions[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_CAT_ALL_CCATS'));
-            $options = array_merge($defaultOptions, $cCategories);
-            $attribs = array('onChange' => 'this.form.submit()');
-            return JHtml::_('select.genericlist', $options, 'filter_content_cat', $attribs, 'value', 'text', $this->getState('filter.content_cat'));
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return '';
-        }
-    }
-
-    /**
-     * Creates a filter for the global attribute
-     *
-     * @return  string  a html selection box for global value selection
-     */
-    private function getGlobalFilter()
-    {
-        $options = array();
-        $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_CAT_SEARCH_RESERVES'));
-        $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_CAT_ALL_GLOBAL'));
-        $options[] = array('value' => '0', 'text' => JText::_('COM_THM_ORGANIZER_CAT_NOT_RESERVES'));
-        $options[] = array('value' => '1', 'text' => JText::_('COM_THM_ORGANIZER_CAT_GLOBAL'));
-        $attribs = array('onChange' => 'this.form.submit()');
-        return JHtml::_('select.genericlist', $options, 'filter_global', $attribs, 'value', 'text', $this->getState('filter.global'));
-    }
-
-    /**
-     * Creates a filter for the reserves attribute
-     *
-     * @return  string  a html selection box for reserves value selection
-     */
-    private function getReservesFilter()
-    {
-        $options = array();
-        $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_CAT_SEARCH_GLOBAL'));
-        $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_CAT_ALL_RESERVES'));
-        $options[] = array('value' => '0', 'text' => JText::_('COM_THM_ORGANIZER_CAT_NOT_RESERVES'));
-        $options[] = array('value' => '1', 'text' => JText::_('COM_THM_ORGANIZER_CAT_RESERVES'));
-        $attribs = array('onChange' => 'this.form.submit()');
-        return JHtml::_('select.genericlist', $options, 'filter_reserves', $attribs, 'value', 'text', $this->getState('filter.reserves'));
     }
 }

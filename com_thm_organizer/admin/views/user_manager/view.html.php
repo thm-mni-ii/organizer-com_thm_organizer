@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_list.thm_list');
+jimport('thm_core.list.view');
 
 /**
  * Class which loads data into the view output context
@@ -33,19 +33,7 @@ class THM_OrganizerViewUser_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-        JHtml::_('behavior.multiselect');
-
-        $this->model = $this->getModel();
-        $this->items = $this->get('Items');
-        $this->filters = $this->model->getFilters();
-        $this->headers = $this->model->getHeaders(count($this->items));
-        $this->state = $this->get('State');
-        $this->pagination = $this->get('Pagination');
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/user_manager.css');
-
-        $this->addToolBar();
+        THM_CoreListView::display($this);
         parent::display($tpl);
     }
 
@@ -54,7 +42,7 @@ class THM_OrganizerViewUser_Manager extends JViewLegacy
      *
      * @return void
      */
-    private function addToolBar()
+    public function addToolBar()
     {
         $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_USERS');
         JToolbarHelper::title($title, 'organizer_users');

@@ -25,20 +25,15 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 class THM_OrganizerController extends JControllerLegacy
 {
     /**
-     * Typical view method for MVC based architecture
+     * Method to display a view.
      *
-     * This function is provide as a default implementation, in most cases
-     * you will need to override it in your own controllers.
+     * @param   boolean			If true, the view output will be cached
+     * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
      *
-     * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-     *
-     * @return  JControllerAdmin  A JControllerAdmin object to support chaining.
+     * @return  JController		This object to support chaining.
      */
     public function display($cachable = false, $urlparams = false)
     {
-        $view = JFactory::getApplication()->input->getCmd('view', '');
-        thm_organizerHelper::addSubmenu($view);
-        parent::display($cachable, $urlparams);
+        parent::display();
     }
 }

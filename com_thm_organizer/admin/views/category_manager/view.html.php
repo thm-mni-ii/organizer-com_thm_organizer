@@ -13,7 +13,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_list.thm_list');
+jimport('thm_core.list.view');
 /**
  * Class which loads data into the view output context
  *
@@ -34,19 +34,7 @@ class THM_OrganizerViewCategory_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/category_manager.css');
-
-        $this->model = $this->getModel();
-        $this->items = $this->get('Items');
-        $this->state = $this->get('State');
-        $this->filters = $this->get('Filters');
-        $this->headers = $this->get('Headers');
-        $this->pagination = $this->get('Pagination');
-        $this->addToolBar();
-
+        THM_CoreListView::display($this);
         parent::display($tpl);
     }
 
@@ -55,13 +43,12 @@ class THM_OrganizerViewCategory_Manager extends JViewLegacy
      *
      * @return void
      */
-    private function addToolBar()
+    public function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_CAT_TITLE');
-        JToolbarHelper::title($title, 'organizer_categories');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_VIEW_TITLE'), 'organizer_categories');
         JToolbarHelper::addNew('category.add');
         JToolbarHelper::editList('category.edit');
-        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_CAT_DELETE_CONFIRM'), 'category.delete');
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'category.delete');
         JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }

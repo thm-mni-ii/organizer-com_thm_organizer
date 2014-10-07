@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+            name="search"
+            type="text"
+            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
+            hint="JSEARCH_FILTER"
+        />
+        <field
+            name="global"
+            type="list"
+            label="COM_CONTENT_FILTER_PUBLISHED"
+            description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+            onchange="this.form.submit();"
+            >
+            <option value="*">COM_THM_ORGANIZER_CAT_SEARCH_GLOBAL</option>
+            <option value="*">COM_THM_ORGANIZER_CAT_ALL</option>
+            <option value="0">COM_THM_ORGANIZER_CAT_NOT_GLOBAL</option>
+            <option value="1">COM_THM_ORGANIZER_CAT_GLOBAL</option>
+        </field>
+        <field
+            name="reserves"
+            type="list"
+            label="COM_CONTENT_FILTER_PUBLISHED"
+            description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+            onchange="this.form.submit();"
+            >
+            <option value="*">COM_THM_ORGANIZER_CAT_SEARCH_RESERVES</option>
+            <option value="*">COM_THM_ORGANIZER_CAT_ALL</option>
+            <option value="0">COM_THM_ORGANIZER_CAT_NOT_RESERVES</option>
+            <option value="1">COM_THM_ORGANIZER_CAT_RESERVES</option>
+        </field>
+		<field
+			name="content_cat"
+			type="contentcategory"
+			label="JOPTION_FILTER_CATEGORY"
+			description="JOPTION_FILTER_CATEGORY_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+    </fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="COM_CONTENT_LIST_FULL_ORDERING"
+			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			onchange="this.form.submit();"
+			default="a.id DESC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+            <option value="ectitle ASC">COM_THM_ORGANIZER_NAME_ASC</option>
+            <option value="ectitle DESC">COM_THM_ORGANIZER_NAME_DSC</option>
+            <option value="global ASC">COM_THM_ORGANIZER_GLOBAL_ASC</option>
+            <option value="global DESC">COM_THM_ORGANIZER_GLOBAL_DSC</option>
+            <option value="reserves ASC">COM_THM_ORGANIZER_RESERVES_ASC</option>
+            <option value="reserves DESC">COM_THM_ORGANIZER_RESERVES_DSC</option>
+            <option value="contentCatID ASC">COM_THM_ORGANIZER_CONTENT_CATEGORY_ASC</option>
+            <option value="contentCatID DESC">COM_THM_ORGANIZER_CONTENT_CATEGORY_DSC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>
