@@ -29,10 +29,6 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function add()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=room_edit");
     }
@@ -44,10 +40,6 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $this->setRedirect("index.php?option=com_thm_organizer&view=room_edit");
     }
 
@@ -60,14 +52,10 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function mergeAll()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $model = $this->getModel('room');
         $model->autoMergeAll();
  
-        $msg = JText::_('COM_THM_ORGANIZER_RMM_AUTO_MERGE');
+        $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_AUTO');
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
     }
  
@@ -80,13 +68,9 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function mergeView()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_TOOFEW');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'warning');
         }
         else
@@ -95,7 +79,7 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
             $success = $model->autoMerge();
             if ($success)
             {
-                $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_SUCCESS');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
                 $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
             }
             else
@@ -114,19 +98,15 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function save()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('room')->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_RMM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_RMM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
         }
     }
@@ -139,19 +119,15 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function merge()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('room')->merge();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_RMM_MERGE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
         }
     }
@@ -164,19 +140,15 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function delete()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('room')->delete();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_RMM_DELETE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_RMM_DELETE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'error');
         }
     }
@@ -188,10 +160,6 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function cancel()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false));
     }
 }

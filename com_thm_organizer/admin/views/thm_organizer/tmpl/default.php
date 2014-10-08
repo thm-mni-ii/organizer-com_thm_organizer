@@ -13,32 +13,12 @@
  */
 
 defined('_JEXEC') or die;
-$logoURL = 'media/com_thm_organizer/images/THM_Organizer_Logo_trans.png';
+$logoURL = 'media/com_thm_organizer/images/thm_organizer.png';
+echo '<div id="j-sidebar-container" class="span2">' . $this->sidebar . '</div>';
 ?>
-<?php
-    echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), array( 'class' => 'thm_organizer_main_image'));
-?>
-<div id="thm_organizer_main_description" class='thm_organizer_main_description'>
-    <?php echo JText::_("COM_THM_ORGANIZER_MAIN_DESC"); ?>
-</div>
-<div id="cpanel" class='cpanel'>
-<?php foreach ($this->views as $view)
-{
-?>
-    <div class="thm_organizer_main_submenu" >
-        <div class="thm_organizer_main_linkdiv" >
-            <div class="icon">
-                <a href='<?php echo $view['url']; ?>'
-                   class='hasTip' title='<?php echo $view['tooltip']; ?>' >
-<?php
-    echo JHtml::_('image', $view['image'], $view['title'], array( 'class' => 'thm_organizer_main_image'));
-?>
-                    <span><?php echo $view['title']; ?></span>
-                </a>
-            </div>
-        </div>
+<div id="j-main-container" class="span10">
+    <?php echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), array( 'class' => 'thm_organizer_main_image')); ?>
+    <div id="thm_organizer_main_description" class='thm_organizer_main_description'>
+        <?php echo JText::_("COM_THM_ORGANIZER_DESCRIPTION"); ?>
     </div>
-<?php
-}
-?>
 </div>

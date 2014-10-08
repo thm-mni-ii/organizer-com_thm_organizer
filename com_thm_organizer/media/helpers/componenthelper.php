@@ -31,20 +31,15 @@ class THM_ComponentHelper
         $viewName = $view->get('name');
 
         // No submenu creation while editing a resource
-        if (!strpos($viewName, 'manager'))
+        if (!strpos($viewName, 'manager') AND $viewName == 'thm_organizer')
         {
             return;
         }
 
         JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=category_manager',
-            $viewName == 'category_manager'
-        );
-        JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=color_manager',
-            $viewName == 'color_manager'
+            JText::_('COM_THM_ORGANIZER_MAIN_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=thm_organizer',
+            $viewName == 'thm_organizer'
         );
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE'),
@@ -52,14 +47,9 @@ class THM_ComponentHelper
             $viewName == 'degree_manager'
         );
         JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=program_manager',
-            $viewName == 'program_manager'
-        );
-        JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=field_manager',
-            $viewName == 'field_manager'
+            JText::_('COM_THM_ORGANIZER_USER_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=user_manager',
+            $viewName == 'user_manager'
         );
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE'),
@@ -67,19 +57,9 @@ class THM_ComponentHelper
             $viewName == 'monitor_manager'
         );
         JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=room_manager',
-            $viewName == 'room_manager'
-        );
-        JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=schedule_manager',
-            $viewName == 'schedule_manager'
-        );
-        JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=pool_manager',
-            $viewName == 'pool_manager'
+            JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=teacher_manager',
+            $viewName == 'teacher_manager'
         );
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE'),
@@ -87,14 +67,39 @@ class THM_ComponentHelper
             $viewName == 'subject_manager'
         );
         JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=teacher_manager',
-            $viewName == 'teacher_manager'
+            JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=field_manager',
+            $viewName == 'field_manager'
         );
         JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_USER_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=user_manager',
-            $viewName == 'user_manager'
+            JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=color_manager',
+            $viewName == 'color_manager'
+        );
+        JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=pool_manager',
+            $viewName == 'pool_manager'
+        );
+        JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=room_manager',
+            $viewName == 'room_manager'
+        );
+        JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=program_manager',
+            $viewName == 'program_manager'
+        );
+        JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=schedule_manager',
+            $viewName == 'schedule_manager'
+        );
+        JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=category_manager',
+            $viewName == 'category_manager'
         );
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_MANAGER_TITLE'),

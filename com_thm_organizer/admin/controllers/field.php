@@ -28,10 +28,6 @@ class THM_OrganizerControllerField extends JControllerLegacy
      */
     public function add()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
     }
@@ -43,10 +39,6 @@ class THM_OrganizerControllerField extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
     }
 
@@ -58,19 +50,15 @@ class THM_OrganizerControllerField extends JControllerLegacy
      */
     public function save()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $success = $this->getModel('field')->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_FLM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=field_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_FLM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=field_manager', false), $msg, 'error');
         }
     }
@@ -90,12 +78,12 @@ class THM_OrganizerControllerField extends JControllerLegacy
         $success = $this->getModel('field')->delete();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_FLM_DELETE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=field_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_FLM_DELETE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=field_manager', false), $msg, 'error');
         }
 

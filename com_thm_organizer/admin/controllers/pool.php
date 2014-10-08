@@ -33,10 +33,6 @@ class THM_OrganizerControllerPool extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
     }
 
@@ -47,19 +43,15 @@ class THM_OrganizerControllerPool extends JControllerLegacy
      */
     public function apply()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('pool')->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=$success", false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_edit&layout=edit&id=0', false), $msg, 'error');
         }
     }
@@ -71,20 +63,16 @@ class THM_OrganizerControllerPool extends JControllerLegacy
      */
     public function save()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('pool')->save();
         if ($success)
         {
             $referrer = THM_OrganizerHelperReferrer::getReferrer('pool');
-            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $msgType = 'message';
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_POM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $msgType = 'error';
         }
         if (empty($referrer))
@@ -105,19 +93,15 @@ class THM_OrganizerControllerPool extends JControllerLegacy
      */
     public function delete()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('pool')->delete();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_POM_DELETE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, 'error');
         }
     }
@@ -129,10 +113,6 @@ class THM_OrganizerControllerPool extends JControllerLegacy
      */
     public function cancel()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $referrer = THM_OrganizerHelperReferrer::getReferrer('pool');
         if (empty($referrer))
         {

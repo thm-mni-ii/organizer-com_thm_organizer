@@ -39,12 +39,7 @@ class THM_OrganizerModelCategory_Manager extends JModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array(
-                'title', 'ectitle',
-                'global', 'global',
-                'reserves', 'reserves',
-                'cctitle', 'content_cat'
-            );
+            $config['filter_fields'] = array( 'ectitle', 'global', 'reserves', 'content_cat' );
         }
         parent::__construct($config);
     }
@@ -148,7 +143,7 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $spanClass = empty($value)? 'unpublish' : 'publish';
         $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') . '"';
         $toggle .= 'href="index.php?option=com_thm_organizer&task=category.toggle&attribute=' . $attribute . '&id=' . $id . '&value=' . $value . '">';
-        $toggle .= '<span class="state ' . $spanClass . '"></span>';
+        $toggle .= '<i class="icon-' . $spanClass . '"></i>';
         $toggle .= '</a>';
         return $toggle;
     }
@@ -171,38 +166,5 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY'), 'cctitle', $direction, $ordering);
 
         return $headers;
-    }
-
-    /**
-     * takes user filter parameters and adds them to the view state
-     *
-     * @param   string  $ordering   the filter parameter to be used  for ordering
-     * @param   string  $direction  the direction in which results are to be ordered
-     *
-     * @return void
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        $dbo = JFactory::getDbo();
-
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $global = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.global', 'filter_global'));
-        $this->setState('filter.global', $global);
-
-        $reserves = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.reserves', 'filter_reserves'));
-        $this->setState('filter.reserves', $reserves);
-
-        $contentCat = $dbo->escape($this->getUserStateFromRequest($this->context . '.filter.content_cat', 'filter_content_cat'));
-        $this->setState('filter.content_cat', $contentCat);
-
-        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'ectitle');
-        $this->setState('list.ordering', $orderBy);
-
-        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
-
-        parent::populateState($ordering, $direction);
     }
 }

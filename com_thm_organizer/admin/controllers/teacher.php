@@ -29,10 +29,6 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function add()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
     }
@@ -44,10 +40,6 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
     }
 
@@ -60,14 +52,10 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function mergeAll()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $model = $this->getModel('teacher');
         $model->autoMergeAll();
  
-        $msg = JText::_('COM_THM_ORGANIZER_TRM_AUTO_MERGE');
+        $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_AUTO');
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
     }
 
@@ -81,13 +69,9 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function mergeView()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_TOOFEW');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'warning');
         }
         else
@@ -96,7 +80,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
             $success = $model->autoMerge();
             if ($success)
             {
-                $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_SUCCESS');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
                 $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
             }
             else
@@ -115,19 +99,15 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function save()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $success = $this->getModel('teacher')->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_TRM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_TRM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
         }
     }
@@ -140,19 +120,15 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function merge()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $success = $this->getModel('teacher')->merge();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_TRM_MERGE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
         }
     }
@@ -165,19 +141,15 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function delete()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $success = $this->getModel('teacher')->delete();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_TRM_DELETE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_TRM_DELETE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false), $msg, 'error');
         }
     }
@@ -189,10 +161,6 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function cancel()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=teacher_manager', false));
     }
 }

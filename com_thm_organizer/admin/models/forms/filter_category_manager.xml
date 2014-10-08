@@ -14,10 +14,10 @@
             description="COM_CONTENT_FILTER_PUBLISHED_DESC"
             onchange="this.form.submit();"
             >
-            <option value="*">COM_THM_ORGANIZER_CAT_SEARCH_GLOBAL</option>
-            <option value="*">COM_THM_ORGANIZER_CAT_ALL</option>
-            <option value="0">COM_THM_ORGANIZER_CAT_NOT_GLOBAL</option>
-            <option value="1">COM_THM_ORGANIZER_CAT_GLOBAL</option>
+            <option value="*">COM_THM_ORGANIZER_FILTER_GLOBAL</option>
+            <option value="*">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="1">COM_THM_ORGANIZER_FILTER_GLOBAL_YES</option>
+            <option value="0">COM_THM_ORGANIZER_FILTER_GLOBAL_NO</option>
         </field>
         <field
             name="reserves"
@@ -26,10 +26,10 @@
             description="COM_CONTENT_FILTER_PUBLISHED_DESC"
             onchange="this.form.submit();"
             >
-            <option value="*">COM_THM_ORGANIZER_CAT_SEARCH_RESERVES</option>
-            <option value="*">COM_THM_ORGANIZER_CAT_ALL</option>
-            <option value="0">COM_THM_ORGANIZER_CAT_NOT_RESERVES</option>
-            <option value="1">COM_THM_ORGANIZER_CAT_RESERVES</option>
+            <option value="*">COM_THM_ORGANIZER_FILTER_RESERVES</option>
+            <option value="*">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="1">COM_THM_ORGANIZER_FILTER_RESERVES_YES</option>
+            <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
         </field>
 		<field
 			name="content_cat"

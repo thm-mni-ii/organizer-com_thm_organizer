@@ -28,15 +28,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function add()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
-        /*
-        $this->input->set('cid');
-        $this->input->set('scheduleID', '0');
-        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
-        */
         JRequest::setVar('cid');
         JRequest::setVar('scheduleID', '0');
         $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
@@ -49,11 +40,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
-        
         $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
     }
 
@@ -65,10 +51,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function upload()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
         $file = JRequest::getVar('file', '', 'FILES');
         if ($file['type'] == "text/xml")
@@ -79,13 +61,13 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
             // The file contains critical inconsistancies and will not be uploaded
             if (isset($statusReport['errors']))
             {
-                $errorText = "<h3>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS") . "</h3>";
+                $errorText = "<h3>" . JText::_("COM_THM_ORGANIZER_MESSAGE_SCHEDULE_ERRORS") . "</h3>";
                 $msg = $errorText . $statusReport['errors'];
 
                 // Minor inconsistancies discovered
                 if (isset($statusReport['warnings']))
                 {
-                    $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_ERRORS_WARNINGS") . "</h4>";
+                    $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_MESSAGE_SCHEDULE_WARNINGS") . "</h4>";
                     $msg .= $warningText . $statusReport['warnings'];
                 }
                 $this->setRedirect($url, $msg, 'error');
@@ -95,19 +77,19 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
                 // Minor inconsistancies discovered
                 if (isset($statusReport['warnings']))
                 {
-                    $warningText = "<h4>" . JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_WARNINGS") . "</h4>";
+                    $warningText = "<h4>" . JText::_("COM_THM_ORGANIZER_MESSAGE_SCHEDULE_WARNINGS") . "</h4>";
                     $msg = $warningText . $statusReport['warnings'];
                     $this->setRedirect($url, $msg, 'notice');
                 }
                 else
                 {
-                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_SUCCESS"));
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS"));
                 }
             }
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_UPLOAD_TYPE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILETYPE");
             $this->setRedirect($url, $msg, 'error');
         }
     }
@@ -120,21 +102,17 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function save()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $model = $this->getModel('schedule');
         $result = $model->saveComment();
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
         if ($result)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS");
             $this->setRedirect($url, $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_CHANGE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL");
             $this->setRedirect($url, $msg, 'error');
         }
     }
@@ -148,19 +126,15 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function delete()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $success = $this->getModel('schedule')->delete();
         if ($success)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS");
             $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager", $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SCH_DELETE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL");
             $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager", $msg, 'error');
         }
     }
@@ -173,10 +147,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function setReference()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
         if (JRequest::getInt("boxchecked") === 1)
@@ -185,24 +155,24 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
             $active = $model->checkIfActive();
             if ($active)
             {
-                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ALREADY_ACTIVE"), 'error');
+                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES"), 'error');
             }
             else
             {
                 $success = $model->setReference();
                 if ($success)
                 {
-                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_REFERENCE_SUCCESS"));
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS"));
                 }
                 else
                 {
-                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_REFERENCE_FAIL"), 'error');
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_REFERENCE_FAIL"), 'error');
                 }
             }
         }
         else
         {
-            $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_REFERENCE_COUNT"), 'error');
+            $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED"), 'error');
         }
     }
 
@@ -215,11 +185,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function activate()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
-
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
         if (JRequest::getInt("boxchecked") === 1)
@@ -228,24 +193,24 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
             $active = $model->checkIfActive();
             if ($active)
             {
-                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ALREADY_ACTIVE"), 'error');
+                $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES"), 'warning');
             }
             else
             {
                 $success = $model->activate();
                 if ($success)
                 {
-                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_SUCCESS"));
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS"));
                 }
                 else
                 {
-                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_FAIL"), 'error');
+                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL"), 'error');
                 }
             }
         }
         else
         {
-            $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_SCH_ACTIVATE_COUNT"), 'error');
+            $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED"), 'error');
         }
     }
  
@@ -257,10 +222,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function mergeView()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $url = 'index.php?option=com_thm_organizer&view=schedule_manager';
         $merge = $this->getModel('schedule')->checkMergeConstraints();
         switch ($merge)
@@ -270,19 +231,19 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
                 parent::display();
                 break;
             case TOO_FEW:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_TOOFEW');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
             case CHECK_DEPARTMENTS:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DEPARTMENT');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_COMPATIBILITY');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
             case CHECK_DATES:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_DATE');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_COMPATIBILITY');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
             case NOT_ACTIVE:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_ACTIVE');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_NO');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
  
@@ -298,11 +259,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function merge()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
-
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
 
         $model = $this->getModel('schedule');
@@ -310,15 +266,15 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         switch ($success)
         {
             case ERROR:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_FAIL');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'error');
                 break;
             case MERGE:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_SUCCESS');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
                 $this->setRedirect(JRoute::_($url, false), $msg);
                 break;
             case TOO_FEW:
-                $msg = JText::_('COM_THM_ORGANIZER_SCH_MERGE_TOOFEW');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
                 $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
                 break;
         }
@@ -331,10 +287,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function cancel()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager");
     }
 }

@@ -30,10 +30,6 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $this->setRedirect("index.php?option=com_thm_organizer&view=subject_edit");
     }
 
@@ -45,10 +41,6 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function apply()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('subject')->save();
         if ($success)
         {
@@ -70,20 +62,16 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function save()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('subject')->save();
         if ($success)
         {
             $referrer = THM_OrganizerHelperReferrer::getReferrer('subject');
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $msgType = 'message';
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $msgType = 'error';
         }
         if (empty($referrer))
@@ -106,19 +94,15 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function save2new()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('subject')->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=0", false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=0", false), $msg, 'error');
         }
     }
@@ -131,19 +115,15 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function delete()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = $this->getModel('subject')->delete();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_DELETE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_DELETE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
         }
     }
@@ -155,10 +135,6 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function cancel()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $referrer = THM_OrganizerHelperReferrer::getReferrer('subject');
         if (empty($referrer))
         {
@@ -177,19 +153,15 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function importLSFData()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-        }
         $success = JModel::getInstance('LSFSubject', 'THM_OrganizerModel')->importBatch();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_FILL_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_IMPORT_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false), $msg, 'error');
         }
     }

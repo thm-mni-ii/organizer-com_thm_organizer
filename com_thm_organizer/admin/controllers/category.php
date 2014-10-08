@@ -57,12 +57,12 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         $success = $model->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit&id=$success", $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager&id=0', $msg, 'error');
         }
     }
@@ -78,12 +78,12 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         $success = $model->save();
         if ($success)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SAVE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS");
             $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager', $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SAVE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL");
             $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
         }
     }
@@ -99,12 +99,12 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         $result = $model->save();
         if ($result)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SAVE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS");
             $this->setRedirect('index.php?option=com_thm_organizer&view=category_edit', $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_SAVE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL");
             $this->setRedirect('index.php?option=com_thm_organizer&view=category_edit', $msg, 'error');
         }
     }
@@ -120,12 +120,12 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         $result = $model->delete();
         if ($result)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_DELETE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS");
             $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager', $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_DELETE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL");
             $this->setRedirect('index.php?option=com_thm_organizer&view=category_manager', $msg, 'error');
         }
     }

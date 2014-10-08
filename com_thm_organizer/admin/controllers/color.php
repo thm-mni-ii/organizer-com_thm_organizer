@@ -65,12 +65,12 @@ class THM_OrganizerControllerColor extends JControllerLegacy
         $success = $this->getModel('color')->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_CLM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg, 'error');
         }
     }
@@ -90,12 +90,12 @@ class THM_OrganizerControllerColor extends JControllerLegacy
         $success = $this->getModel('color')->delete();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_CLM_DELETE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false), $msg, 'error');
         }
     }

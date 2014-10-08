@@ -28,10 +28,6 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function add()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         JRequest::setVar('id', '0');
         $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
     }
@@ -43,10 +39,6 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
     }
 
@@ -58,20 +50,16 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function save()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $model = $this->getModel('monitor');
         $result = $model->save();
         if ($result)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
         }
     }
@@ -83,20 +71,16 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function saveDefaultBehaviour()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $model = $this->getModel('monitor');
         $result = $model->saveDefaultBehaviour();
         if ($result)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
         }
     }
@@ -109,19 +93,15 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function save2new()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $result = $this->getModel('monitor')->save();
         if ($result)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_SAVE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg, 'error');
         }
     }
@@ -134,19 +114,15 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function delete()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $result = $this->getModel('monitor')->delete();
         if ($result)
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_SUCCESS");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg);
         }
         else
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MON_DELETE_FAIL");
+            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL");
             $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_manager', $msg, 'error');
         }
     }
@@ -158,10 +134,6 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function cancel()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=monitor_manager', false));
     }
 }
