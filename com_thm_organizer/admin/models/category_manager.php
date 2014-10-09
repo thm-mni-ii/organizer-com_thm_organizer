@@ -39,7 +39,12 @@ class THM_OrganizerModelCategory_Manager extends JModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array( 'ectitle', 'global', 'reserves', 'content_cat' );
+            $config['filter_fields'] = array(
+                'ectitle', 'ec.title',
+                'ec.global',
+                'ec.reserves',
+                'cc.title', 'cctitle'
+            );
         }
         parent::__construct($config);
     }
@@ -93,8 +98,8 @@ class THM_OrganizerModelCategory_Manager extends JModelList
             $query->where("ec.contentCatID = '$contentCatID'");
         }
 
-        $orderby = $dbo->escape($this->getState('list.ordering', 'ectitle'));
-        $direction = $dbo->escape($this->getState('list.direction', 'ASC'));
+        $orderby = $dbo->escape($this->state->get('list.ordering', 'ec.title'));
+        $direction = $dbo->escape($this->state->get('list.direction', 'ASC'));
         $query->order("$orderby $direction");
 
         return $query;
@@ -140,11 +145,15 @@ class THM_OrganizerModelCategory_Manager extends JModelList
      */
     private function getToggle($id, $value, $attribute)
     {
-        $spanClass = empty($value)? 'unpublish' : 'publish';
-        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') . '"';
+        $iconClass = empty($value)? 'unpublish' : 'publish';
+        $aClass = empty($value)? 'inactive' : '';
+        $textConstant = 'COM_THM_ORGANIZER_CATEGORY_MANAGER_TOOGLE_' . strtoupper($attribute);
+        $toggle = '<div class="button-grp">';
+        $toggle .= '<a class="btn btn-micro ' . $aClass . ' hasTooltip" title="' . JText::_($textConstant) . '"';
         $toggle .= 'href="index.php?option=com_thm_organizer&task=category.toggle&attribute=' . $attribute . '&id=' . $id . '&value=' . $value . '">';
-        $toggle .= '<i class="icon-' . $spanClass . '"></i>';
+        $toggle .= '<i class="icon-' . $iconClass . '"></i>';
         $toggle .= '</a>';
+        $toggle .= '</div>';
         return $toggle;
     }
 
@@ -160,10 +169,10 @@ class THM_OrganizerModelCategory_Manager extends JModelList
 
         $headers = array();
         $headers[] = '';
-        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'ectitle', $direction, $ordering);
-        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_GLOBAL'), 'global', $direction, $ordering);
-        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_RESERVES'), 'reserves', $direction, $ordering);
-        $headers[] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_CONTENT_CATEGORY'), 'cctitle', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ec.title', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GLOBAL', 'ec.global', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_RESERVES', 'ec.reserves', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CONTENT_CATEGORY', 'cc.title', $direction, $ordering);
 
         return $headers;
     }

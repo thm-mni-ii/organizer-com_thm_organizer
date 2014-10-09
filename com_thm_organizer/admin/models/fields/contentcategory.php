@@ -40,17 +40,20 @@ class JFormFieldContentCategory extends JFormFieldList
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT id AS value, title AS text');
+        $query->select('DISTINCT cc.id AS value, cc.title AS text');
         $query->from('#__categories AS cc');
         $query->innerJoin('#__thm_organizer_categories AS ec ON cc.id = ec.contentCatID');
-        $query->where("id IN (SELECT DISTINCT contentCatID FROM #__thm_organizer_categories)");
-        $query->order('title ASC');
+        $query->order('cc.title ASC');
         $dbo->setQuery((string) $query);
 
         try
         {
             $cCategories = $dbo->loadAssocList();
-            $categoryOptions = JHtml::_('select.options', $cCategories, 'value', 'text');
+            $categoryOptions = array();
+            foreach ($cCategories as $category)
+            {
+                $categoryOptions[] = JHtml::_('select.option', $category['value'], $category['text']);
+            }
             return array_merge(parent::getOptions(), $categoryOptions);
         }
         catch (Exception $exc)

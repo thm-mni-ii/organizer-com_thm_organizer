@@ -10,24 +10,22 @@
         <field
             name="global"
             type="list"
-            label="COM_CONTENT_FILTER_PUBLISHED"
-            description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+            label="COM_THM_ORGANIZER_GLOBAL"
             onchange="this.form.submit();"
             >
-            <option value="*">COM_THM_ORGANIZER_FILTER_GLOBAL</option>
-            <option value="*">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_GLOBAL</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_GLOBAL_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_GLOBAL_NO</option>
         </field>
         <field
             name="reserves"
             type="list"
-            label="COM_CONTENT_FILTER_PUBLISHED"
-            description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+            label="COM_THM_ORGANIZER_RESERVES"
             onchange="this.form.submit();"
             >
-            <option value="*">COM_THM_ORGANIZER_FILTER_RESERVES</option>
-            <option value="*">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_RESERVES</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_RESERVES_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
         </field>
@@ -39,6 +37,7 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
 		</field>
     </fields>
 	<fields name="list">
@@ -51,14 +50,14 @@
 			default="a.id DESC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-            <option value="ectitle ASC">COM_THM_ORGANIZER_NAME_ASC</option>
-            <option value="ectitle DESC">COM_THM_ORGANIZER_NAME_DSC</option>
-            <option value="global ASC">COM_THM_ORGANIZER_GLOBAL_ASC</option>
-            <option value="global DESC">COM_THM_ORGANIZER_GLOBAL_DSC</option>
-            <option value="reserves ASC">COM_THM_ORGANIZER_RESERVES_ASC</option>
-            <option value="reserves DESC">COM_THM_ORGANIZER_RESERVES_DSC</option>
-            <option value="contentCatID ASC">COM_THM_ORGANIZER_CONTENT_CATEGORY_ASC</option>
-            <option value="contentCatID DESC">COM_THM_ORGANIZER_CONTENT_CATEGORY_DSC</option>
+            <option value="ec.title ASC">COM_THM_ORGANIZER_SORT_NAME_ASC</option>
+            <option value="ec.title DESC">COM_THM_ORGANIZER_SORT_NAME_DESC</option>
+            <option value="ec.global ASC">COM_THM_ORGANIZER_SORT_GLOBAL_ASC</option>
+            <option value="ec.global DESC">COM_THM_ORGANIZER_SORT_GLOBAL_DESC</option>
+            <option value="ec.reserves ASC">COM_THM_ORGANIZER_SORT_RESERVES_ASC</option>
+            <option value="ec.reserves DESC">COM_THM_ORGANIZER_SORT_RESERVES_DESC</option>
+            <option value="cc.title ASC">COM_THM_ORGANIZER_SORT_CONTENT_CATEGORY_ASC</option>
+            <option value="cc.title DESC">COM_THM_ORGANIZER_SORT_CONTENT_CATEGORY_DESC</option>
 		</field>
 		<field
 			name="limit"

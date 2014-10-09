@@ -111,4 +111,43 @@ class THM_OrganizerModelcategory extends JModelLegacy
         }
         return true;
     }
+
+
+    /**
+     * Toggles the user's association with a role
+     *
+     * @return  boolean  true on success, otherwise false
+     */
+    public function toggle()
+    {
+        $input = JFactory::getApplication()->input;
+        $categoryID = $input->getInt('id', 0);
+        if (empty($categoryID))
+        {
+            return false;
+        }
+
+        $attribute = $input->getString('attribute', '');
+        if (empty($attribute))
+        {
+            return false;
+        }
+
+        $value = $input->getInt('value', 1)? 0 : 1;
+
+        $query = $this->_db->getQuery(true);
+        $query->update('#__thm_organizer_categories');
+        $query->set("$attribute = '$value'");
+        $query->where("id = '$categoryID'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            return (bool) $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+    }
 }

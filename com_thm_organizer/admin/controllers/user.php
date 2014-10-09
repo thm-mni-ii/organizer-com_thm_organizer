@@ -46,7 +46,7 @@ class THM_OrganizerControllerUser extends JControllerLegacy
     }
 
     /**
-     * redirects to the category_edit view for the editing of existing categories
+     * Toggles user role associations
      *
      * @return void
      */

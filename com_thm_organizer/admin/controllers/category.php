@@ -130,6 +130,29 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
         }
     }
 
+
+    /**
+     * Toggles category behaviour properties
+     *
+     * @return void
+     */
+    public function toggle()
+    {
+        $model = $this->getModel('category');
+        $success = $model->toggle();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            $type = 'message';
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+            $type = 'error';
+        }
+        $this->setRedirect("index.php?option=com_thm_organizer&view=category_manager", $msg, $type);
+    }
+
     /**
      * redirects to the category manager view without making any persistent changes
      *

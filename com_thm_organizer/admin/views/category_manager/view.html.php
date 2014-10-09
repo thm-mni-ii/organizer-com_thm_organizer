@@ -25,6 +25,12 @@ jimport('thm_core.list.view');
  */
 class THM_OrganizerViewCategory_Manager extends JViewLegacy
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * loads persistent information into the view context
      *
