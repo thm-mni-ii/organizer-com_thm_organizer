@@ -29,7 +29,7 @@ class THM_OrganizerModelcategory extends JModelLegacy
      */
     public function save()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
 
         $dbo = $this->getDbo();
         $dbo->transactionStart();
@@ -60,7 +60,7 @@ class THM_OrganizerModelcategory extends JModelLegacy
      */
     public function delete()
     {
-        $categoryIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $categoryIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         if (count($categoryIDs))
         {
             $dbo = $this->getDbo();

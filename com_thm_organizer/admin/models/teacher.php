@@ -32,7 +32,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
     public function save()
     {
         $dbo = JFactory::getDbo();
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         $dbo->transactionStart();
         $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
         if ($scheduleSuccess)
@@ -149,12 +149,13 @@ class THM_OrganizerModelTeacher extends JModelLegacy
     private function getTeacherEntries()
     {
         $dbo = JFactory::getDbo();
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
+        $selected= "'" . implode("', '", $cids) . "'";
 
         $query = $dbo->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_teachers');
-        $query->where("id IN ( $cids )");
+        $query->where("id IN ( $selected )");
         $query->order('id ASC');
 
         $dbo->setQuery((string) $query);
@@ -233,14 +234,16 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         // Clean POST variables
         if (empty($data))
         {
-            $data['id'] = JRequest::getInt('id');
-            $data['surname'] = JRequest::getString('surname');
-            $data['forename'] = JRequest::getString('forename');
-            $data['title'] = JRequest::getString('title');
-            $data['username'] = JRequest::getString('username');
-            $data['gpuntisID'] = JRequest::getString('gpuntisID');
-            $data['fieldID'] = JRequest::getInt('fieldID')? JRequest::getInt('fieldID') :  null;
-            $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
+            $input = JFactory::getApplication()->input;
+            $data['id'] = $input->getInt('id', 0);
+            $data['surname'] = $input->getString('surname', '');
+            $data['forename'] = $input->getString('forename', '');
+            $data['title'] = $input->getString('title', '');
+            $data['username'] = $input->getString('username', '');
+            $data['gpuntisID'] = $input->getString('gpuntisID', '');
+            $fieldID = $input->getInt('fieldID', 0);
+            $data['fieldID'] = $fieldID? $fieldID :  null;
+            $data['otherIDs'] = "'" . implode("', '", explode(',', $input->getString('otherIDs', ''))) . "'";
         }
         if (!empty($data['fieldID']) AND empty($data['description']))
         {
@@ -548,8 +551,9 @@ class THM_OrganizerModelTeacher extends JModelLegacy
     {
         $query = $this->_db->getQuery(true);
         $query->delete('#__thm_organizer_teachers');
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-        $query->where("id IN ( $cids )");
+        $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
+        $selected= "'" . implode("', '", $cids) . "'";
+        $query->where("id IN ( $selected )");
         $this->_db->setQuery((string) $query);
         try
         {

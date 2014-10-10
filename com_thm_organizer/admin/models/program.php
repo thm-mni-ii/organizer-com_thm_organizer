@@ -29,7 +29,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      */
     public function delete()
     {
-           $resourceIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $resourceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         if (!empty($resourceIDs))
         {
             $this->_db->transactionStart();
@@ -63,7 +63,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      */
     public function save()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         $this->_db->transactionStart();
         $table = JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);
@@ -88,7 +88,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      */
     public function save2copy()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         if (isset($data['id']))
         {
             unset($data['id']);

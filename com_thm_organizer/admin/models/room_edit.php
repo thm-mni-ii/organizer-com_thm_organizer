@@ -51,9 +51,23 @@ class THM_OrganizerModelRoom_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $roomIDs = JRequest::getVar('cid',  null, '', 'array');
-        $roomID = (empty($roomIDs))? JRequest::getVar('roomID') : $roomIDs[0];
-        return $this->getItem($roomID);
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'room.add');
+        $roomID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'room.edit')  OR $roomID > 0);
+        if ($edit)
+        {
+            if (!empty($roomID))
+            {
+                return $this->getItem($roomID);
+            }
+
+            $roomIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($roomIDs[0]);
+        }
+        return $this->getItem(0);
     }
 
     /**

@@ -50,9 +50,23 @@ class THM_OrganizerModelColor_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $colorIDs = JRequest::getVar('cid',  null, '', 'array');
-        $colorID = (empty($colorIDs))? JRequest::getInt('id') : $colorIDs[0];
-        return  $this->getItem($colorID);
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'color.add');
+        $colorID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'color.edit')  OR $colorID > 0);
+        if ($edit)
+        {
+            if (!empty($colorID))
+            {
+                return $this->getItem($colorID);
+            }
+
+            $colorIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($colorIDs[0]);
+        }
+        return $this->getItem(0);
     }
 
     /**

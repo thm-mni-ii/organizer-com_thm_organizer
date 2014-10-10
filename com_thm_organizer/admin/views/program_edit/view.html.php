@@ -54,7 +54,6 @@ class THM_OrganizerViewProgram_Edit extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JRequest::setVar('hidemainmenu', true);
         $isNew = $this->form->getValue('id') == 0;
         $title = $isNew ? JText::_("COM_THM_ORGANIZER_PRM_NEW") : JText::_("COM_THM_ORGANIZER_PRM_EDIT");
         JToolbarHelper::title($title, 'organizer_degree_programs');

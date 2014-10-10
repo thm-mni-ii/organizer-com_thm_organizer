@@ -40,11 +40,12 @@ class THM_OrganizerModelSchedule_Merge extends JModelLegacy
         $query = $dbo->getQuery(true);
 
         $select = "id, departmentname, semestername ";
-        $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
+        $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
+        $selected = "'" . implode("', '",$cids) . "'";
 
         $query->select($select);
         $query->from('#__thm_organizer_schedules');
-        $query->where("id IN ( $cids )");
+        $query->where("id IN ( $selected )");
         $query->order('id ASC');
 
         $dbo->setQuery((string) $query);
@@ -53,9 +54,10 @@ class THM_OrganizerModelSchedule_Merge extends JModelLegacy
         {
             $this->schedules = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
     }
 }

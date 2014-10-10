@@ -31,7 +31,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      */
     public function delete()
     {
-        $subjectIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $subjectIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         if (!empty($subjectIDs))
         {
             $this->_db->transactionStart();
@@ -82,7 +82,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      */
     public function save()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
 
         $this->_db->transactionStart();
 

@@ -39,7 +39,7 @@ class JFormFieldSubjectParents extends JFormField
      */
     public function getInput()
     {
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id', 0);
         $existingMappings = array();
         $selectedParents = array();
         $this->getExistingMappings($subjectID, $existingMappings, $selectedParents);

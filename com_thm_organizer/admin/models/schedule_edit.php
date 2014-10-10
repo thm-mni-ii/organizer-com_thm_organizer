@@ -51,17 +51,23 @@ class THM_OrganizerModelSchedule_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $scheduleIDs = JRequest::getVar('cid',  null, '', 'array');
-        $scheduleID = (empty($scheduleIDs))? JRequest::getVar('scheduleID') : $scheduleIDs[0];
-        $data = $this->getItem($scheduleID);
-        if (!empty($data))
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'schedule.add');
+        $scheduleID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'schedule.edit')  OR $scheduleID > 0);
+        if ($edit)
         {
-            unset($data->schedule);
-            $data->creationdate = date("d.m.Y", strtotime($data->creationdate));
-            $data->startdate = date("d.m.Y", strtotime($data->startdate));
-            $data->enddate = date("d.m.Y", strtotime($data->enddate));
+            if (!empty($scheduleID))
+            {
+                return $this->getItem($scheduleID);
+            }
+
+            $scheduleIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($scheduleIDs[0]);
         }
-        return $data;
+        return $this->getItem(0);
     }
 
     /**

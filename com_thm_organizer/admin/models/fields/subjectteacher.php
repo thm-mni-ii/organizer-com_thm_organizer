@@ -36,7 +36,7 @@ class JFormFieldSubjectTeacher extends JFormField
      */
     public function getInput()
     {
-        $subjectID = JRequest::getInt('id');
+        $subjectID = JFactory::getApplication()->input->getInt('id', 0);
         $input = THM_OrganizerHelperSubjectTeachers::getInput($subjectID, 'teacherID', '2');
         return $input;
     }

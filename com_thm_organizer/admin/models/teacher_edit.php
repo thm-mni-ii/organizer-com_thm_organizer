@@ -53,9 +53,23 @@ class THM_OrganizerModelTeacher_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $teacherIDs = JRequest::getVar('cid',  null, '', 'array');
-        $teacherID = (empty($teacherIDs))? JRequest::getVar('teacherID') : $teacherIDs[0];
-        return $this->getItem($teacherID);
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'teacher.add');
+        $teacherID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'teacher.edit')  OR $teacherID > 0);
+        if ($edit)
+        {
+            if (!empty($teacherID))
+            {
+                return $this->getItem($teacherID);
+            }
+
+            $teacherIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($teacherIDs[0]);
+        }
+        return $this->getItem(0);
     }
 
     /**

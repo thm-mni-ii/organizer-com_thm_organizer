@@ -32,7 +32,7 @@ class THM_OrganizerModelField extends JModelLegacy
      */
     public function save()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         if (strpos($data['gpuntisID'], 'DS_') === false)
         {
             $data['gpuntisID'] = 'DS_' . $data['gpuntisID'];

@@ -30,7 +30,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      */
     public function delete()
     {
-        $poolIDs = JRequest::getVar('cid', array(0), 'post', 'array');
+        $poolIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         if (!empty($poolIDs))
         {
             $this->_db->transactionStart();
@@ -82,7 +82,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      */
     public function save()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         $table = JTable::getInstance('pools', 'thm_organizerTable');
  
         $this->_db->transactionStart();

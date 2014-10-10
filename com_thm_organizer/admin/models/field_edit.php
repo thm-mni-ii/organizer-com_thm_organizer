@@ -51,9 +51,23 @@ class THM_OrganizerModelField_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $fieldIDs = JRequest::getVar('cid',  null, '', 'array');
-        $fieldID = (empty($fieldIDs))? JRequest::getInt('id') : $fieldIDs[0];
-        return $this->getItem($fieldID);
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'field.add');
+        $fieldID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'field.edit')  OR $fieldID > 0);
+        if ($edit)
+        {
+            if (!empty($fieldID))
+            {
+                return $this->getItem($fieldID);
+            }
+
+            $fieldIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($fieldIDs[0]);
+        }
+        return $this->getItem(0);
     }
  
     /**

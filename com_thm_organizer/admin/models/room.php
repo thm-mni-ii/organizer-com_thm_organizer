@@ -33,7 +33,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
      */
     public function save()
     {
-        $data = JRequest::getVar('jform', null, null, null, 4);
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
         $this->_db->transactionStart();
         $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
         if ($scheduleSuccess)
@@ -119,8 +119,9 @@ class THM_OrganizerModelRoom extends JModelLegacy
             $query->select('r.id, r.gpuntisID, r.name, r.longname, r.typeID');
             $query->from('#__thm_organizer_rooms AS r');
 
-            $cids = "'" . implode("', '", JRequest::getVar('cid', array(), 'post', 'array')) . "'";
-            $query->where("r.id IN ( $cids )");
+            $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
+            $selectedRooms = "'" . implode("', '", $cids) . "'";
+            $query->where("r.id IN ( $selectedRooms )");
 
             $query->order('r.id ASC');
 
@@ -203,12 +204,14 @@ class THM_OrganizerModelRoom extends JModelLegacy
         // Clean POST variables
         if (empty($data))
         {
-            $data['id'] = JRequest::getInt('id');
-            $data['name'] = JRequest::getString('name');
-            $data['longname'] = JRequest::getString('longname');
-            $data['gpuntisID'] = JRequest::getString('gpuntisID');
-            $data['typeID'] = JRequest::getInt('typeID')? JRequest::getInt('typeID') : null;
-            $data['otherIDs'] = "'" . implode("', '", explode(',', JRequest::getString('otherIDs'))) . "'";
+            $input = JFactory::getApplication()->input;
+            $data['id'] = $input->getInt('id', 0);
+            $data['name'] = $input->getString('name', '');
+            $data['longname'] = $input->getString('longname', '');
+            $data['gpuntisID'] = $input->getString('gpuntisID', '');
+            $typeID = $input->getInt('typeID', 0);
+            $data['typeID'] = $typeID? $typeID : null;
+            $data['otherIDs'] = "'" . implode("', '", explode(',', $input->getString('otherIDs', ''))) . "'";
         }
 
         $this->_db->transactionStart();

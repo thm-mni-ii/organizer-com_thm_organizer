@@ -60,7 +60,6 @@ class THM_OrganizerViewPool_Edit extends JViewLegacy
     protected function addToolBar()
     {
         $isNew = ($this->item->id == 0);
-        JRequest::setVar('hidemainmenu', true);
         $title = $isNew ? JText::_('COM_THM_ORGANIZER_POM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_POM_EDIT_TITLE');
         JToolbarHelper::title($title, 'organizer_subject_pools');
         JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_APPLY_NEW' : 'COM_THM_ORGANIZER_APPLY_EDIT');

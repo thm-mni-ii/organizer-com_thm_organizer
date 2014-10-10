@@ -207,20 +207,4 @@ class THM_OrganizerControllerEvent extends JControllerLegacy
             $this->setRedirect($link, $msg, 'error');
         }
     }
-
-    /**
-     * function search
-     *
-     * redirects to the event_manager view which reformats its sql restriction
-     *
-     * @return void
- 
-    public function search()
-    {
-        JComponentHelper::ge
-        $menuID = JRequest::getVar('Itemid');
-        $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
-        $this->setRedirect($link);
-    }
-    */
 }

@@ -623,7 +623,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         foreach ($childKeys as $childKey)
         {
             $ordering = substr($childKey, 5);
-            $aggregateInfo = JRequest::getString($childKey);
+            $aggregateInfo = JFactory::getApplication()->input->getString($childKey, '');
             $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);            
             $resourceType = strpos($aggregateInfo, 'p')? 'pool' : 'subject';
           

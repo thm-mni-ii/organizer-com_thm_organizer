@@ -30,7 +30,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     public function importBatch()
     {
-        $subjectIDs = JRequest::getVar('cid', array(), 'post', 'array');
+        $subjectIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
         $this->_db->transactionStart();
         foreach ($subjectIDs as $subjectID)
         {

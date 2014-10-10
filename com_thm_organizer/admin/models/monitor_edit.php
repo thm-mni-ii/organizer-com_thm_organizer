@@ -70,9 +70,23 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $monitorIDs = JRequest::getVar('cid',  null, '', 'array');
-        $monitorID = (empty($monitorIDs))? JRequest::getInt('monitorID') : $monitorIDs[0];
-        return $this->getItem($monitorID);
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'monitor.add');
+        $monitorID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'monitor.edit')  OR $monitorID > 0);
+        if ($edit)
+        {
+            if (!empty($monitorID))
+            {
+                return $this->getItem($monitorID);
+            }
+
+            $monitorIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($monitorIDs[0]);
+        }
+        return $this->getItem(0);
     }
 
     /**
