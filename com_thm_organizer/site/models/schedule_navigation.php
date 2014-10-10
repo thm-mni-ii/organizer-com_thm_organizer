@@ -84,9 +84,16 @@ class THM_OrganizerModelSchedule_Navigation
      */
     public function __construct()
     {
-        $this->_checkBoxForChildrenOnly = JRequest::getBool("childrenCheckbox", false);
-
         $app = JFactory::getApplication();
+        $this->_checkBoxForChildrenOnly = $app->input->getBool("childrenCheckbox", false);
+
+        $isMobile = $app->input->getBool('mobile', false);
+        if ($isMobile)
+        {
+            $this->setMobileProperties();
+            return;
+        }
+
         $menuID = $this->processMenuLocation();
         $menuItem = $app->getMenu()->getItem($menuID);
 
@@ -147,6 +154,29 @@ class THM_OrganizerModelSchedule_Navigation
         $paramsSchedule = $params->get('departmentSemesterSelection', '');
         $this->schedule = empty($requestSchedule)?
                 $paramsSchedule : $requestSchedule;
+    }
+
+    /**
+     * Sets parameters independent of menu item
+     *
+     * @return  void
+     */
+    private function setMobileProperties()
+    {
+        $input = JFactory::getApplication()->input;
+        $languageTag = $input->get('language', '*');
+        $siteLanguage = JFactory::getLanguage()->getTag();
+        $this->_languageTag = ($languageTag == '*')? $siteLanguage : $languageTag;
+
+        $language = JFactory::getLanguage();
+        $language->load('com_thm_organizer', JPATH_SITE, $this->_languageTag, true);
+
+        $schedule = $input->getString('departmentSemesterSelection', '');
+        $this->_checked = array($schedule => 'selected');
+
+        $this->_publicDefault = array();
+
+        $this->schedule = $schedule;
     }
 
     /**
