@@ -33,8 +33,6 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
     public function display($tpl = null)
     {
         JHtml::_('behavior.tooltip');
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JPATH_ROOT . '/media/com_thm_organizer/css/thm_organizer.css');
         require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php';
         THM_ComponentHelper::addSubmenu($this);
         $this->addToolBar();

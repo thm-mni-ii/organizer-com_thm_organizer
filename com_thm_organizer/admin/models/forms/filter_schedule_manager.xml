@@ -2,90 +2,63 @@
 <form>
     <fields name="filter">
         <field
-            name="search"
-            type="text"
-            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-            hint="JSEARCH_FILTER"
-        />
+            name="organization"
+            type="sql"
+            query='Select DISTINCT departmentname AS text, departmentname AS value FROM #__thm_organizer_schedules ORDER BY departmentname ASC'
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_ORGANIZATION</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="planningperiod"
+            type="sql"
+            query='Select DISTINCT semestername AS text, semestername AS value FROM #__thm_organizer_schedules ORDER BY semestername ASC'
+            label="COM_THM_ORGANIZER_PLANNING_PERIOD"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_PLANNING_PERIOD</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
         <field
             name="state"
             type="list"
             label="COM_THM_ORGANIZER_STATE"
             onchange="this.form.submit();"
             >
-            <option value="*">COM_THM_ORGANIZER_FILTER_STATE</option>
-            <option value="*">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_STATE</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_ACTIVE_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_ACTIVE_NO</option>
         </field>
-        <field
-            name="planningperiod"
-            type="planningperiod"
-            label="COM_THM_ORGANIZER_PLANNING_PERIOD"
-            onchange="this.form.submit();"
-            >
-            <option value="*">COM_THM_ORGANIZER_FILTER_RESERVES</option>
-            <option value="*">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="1">COM_THM_ORGANIZER_FILTER_RESERVES_YES</option>
-            <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
-        </field>
-		<field
-			name="organization"
-			type="organization"
-			label="COM_THM_ORGANIZER_ORGANIZATION"
-			onchange="this.form.submit();"
-			>
-		</field>
     </fields>
-
-    <!--
-            <select name="filter_state" class="inputbox" onchange="this.form.submit()">
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_STATES'); ?></option>
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_STATES'); ?></option>
-                <option value="0" <?php echo ($this->state->get('filter.state') === 0)? $this->state->get('filter.state') : ''; ?> >
-                    <?php echo JText::_('COM_THM_ORGANIZER_SCH_INACTIVE'); ?>
-                </option>
-                <option value="1" <?php echo ($this->state->get('filter.state') === 1)? $this->state->get('filter.state') : ''; ?> >
-                    <?php echo JText::_('COM_THM_ORGANIZER_SCH_ACTIVE'); ?>
-                </option>
-            </select>
-            <select name="filter_semester" class="inputbox" onchange="this.form.submit()">
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_SEMESTERS'); ?></option>
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_SEMESTERS'); ?></option>
-                <?php echo JHtml::_('select.options', $this->semesters, 'name', 'name', $this->state->get('filter.semester'));?>
-            </select>
-            <select name="filter_department" class="inputbox" onchange="this.form.submit()">
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_SEARCH_DEPARTMENTS'); ?></option>
-                <option value="*"><?php echo JText::_('COM_THM_ORGANIZER_SCH_ALL_DEPARTMENTS'); ?></option>
-                <?php echo JHtml::_('select.options', $this->departments, 'name', 'name', $this->state->get('filter.department'));?>
-            </select>-->
-	<fields name="list">
-		<field
-			name="fullordering"
-			type="list"
-			label="COM_CONTENT_LIST_FULL_ORDERING"
-			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
-			onchange="this.form.submit();"
-			default="a.id DESC"
-			>
-			<option value="">JGLOBAL_SORT_BY</option>
-            <option value="ec.title ASC">COM_THM_ORGANIZER_SORT_NAME_ASC</option>
-            <option value="ec.title DESC">COM_THM_ORGANIZER_SORT_NAME_DESC</option>
-            <option value="ec.global ASC">COM_THM_ORGANIZER_SORT_GLOBAL_ASC</option>
-            <option value="ec.global DESC">COM_THM_ORGANIZER_SORT_GLOBAL_DESC</option>
-            <option value="ec.reserves ASC">COM_THM_ORGANIZER_SORT_RESERVES_ASC</option>
-            <option value="ec.reserves DESC">COM_THM_ORGANIZER_SORT_RESERVES_DESC</option>
-            <option value="cc.title ASC">COM_THM_ORGANIZER_SORT_CONTENT_CATEGORY_ASC</option>
-            <option value="cc.title DESC">COM_THM_ORGANIZER_SORT_CONTENT_CATEGORY_DESC</option>
-		</field>
-		<field
-			name="limit"
-			type="limitbox"
-			class="input-mini"
-			default="25"
-			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_CONTENT_LIST_LIMIT_DESC"
-			onchange="this.form.submit();"
-		/>
-	</fields>
+    <fields name="list">
+        <field
+            name="fullordering"
+            type="list"
+            label="COM_CONTENT_LIST_FULL_ORDERING"
+            description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+            onchange="this.form.submit();"
+            default="a.id DESC"
+            >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="departmentname ASC">COM_THM_ORGANIZER_SORT_DEPARTMENT_ASC</option>
+            <option value="departmentname DESC">COM_THM_ORGANIZER_SORT_DEPARTMENT_DESC</option>
+            <option value="semestername ASC">COM_THM_ORGANIZER_SORT_PLANNING_PERIOD_ASC</option>
+            <option value="semestername DESC">COM_THM_ORGANIZER_SORT_PLANNING_PERIOD_DESC</option>
+            <option value="active ASC">COM_THM_ORGANIZER_SORT_ACTIVE_ASC</option>
+            <option value="active DESC">COM_THM_ORGANIZER_SORT_ACTIVE_DESC</option>
+            <option value="creationdate ASC">COM_THM_ORGANIZER_SORT_CREATION_DATE_ASC</option>
+            <option value="creationdate DESC">COM_THM_ORGANIZER_SORT_CREATION_DATE_DESC</option>
+        </field>
+        <field
+            name="limit"
+            type="limitbox"
+            class="input-mini"
+            default="25"
+            label="COM_CONTENT_LIST_LIMIT"
+            description="COM_CONTENT_LIST_LIMIT_DESC"
+            onchange="this.form.submit();"
+        />
+    </fields>
 </form>

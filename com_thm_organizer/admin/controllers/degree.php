@@ -29,8 +29,8 @@ class THM_OrganizerControllerDegree extends JControllerLegacy
      */
     public function add()
     {
-        JRequest::setVar('id', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=degree_edit");
+        JFactory::getApplication()->input->set('view', 'degree_edit');
+        parent::display();
     }
 
     /**
@@ -40,7 +40,8 @@ class THM_OrganizerControllerDegree extends JControllerLegacy
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=degree_edit");
+        JFactory::getApplication()->input->set('view', 'degree_edit');
+        parent::display();
     }
 
     /**

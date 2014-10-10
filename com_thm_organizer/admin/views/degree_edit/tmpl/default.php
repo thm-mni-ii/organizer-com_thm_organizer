@@ -11,48 +11,29 @@
  */
 defined('_JEXEC') or die;
 ?>
-<form
-    action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=degree_edit&id=' . (int) $this->item->id); ?>"
-    method="post"
-    name="adminForm"
-    id="adminForm"
-    class="form-horizontal">
-    <fieldset>
-        <legend>
-            <?php echo JText::_('COM_THM_ORGANIZER_DEG_PROPERTIES')?>
-        </legend>
-
-        <div class="control-group">
-            <div class="control-label">
-                <?php echo $this->form->getLabel('name'); ?>
-            </div>
-            <div class="controls">
-                <?php echo $this->form->getInput('name'); ?>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                <?php echo $this->form->getLabel('abbreviation'); ?>
-            </div>
-            <div class="controls">
-                <?php echo $this->form->getInput('abbreviation'); ?>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                <?php echo $this->form->getLabel('lsfDegree'); ?>
-            </div>
-            <div class="controls">
-                <?php echo $this->form->getInput('lsfDegree'); ?>
-            </div>
-        </div>
-
-    </fieldset>
-    <div>
-        <?php echo $this->form->getInput('id'); ?>
-        <input type="hidden" name="task" value="degree.save" />
-        <?php echo JHtml::_('form.token'); ?>
+<script type="text/javascript">
+    Joomla.submitbutton = function(task)
+    {
+        if (task == 'degree.cancel' || document.formvalidator.isValid(document.id('item-form')))
+        {
+            Joomla.submitform(task, document.getElementById('item-form'));
+        }
+    }
+</script>
+<form action="index.php?option=com_thm_organizer"
+      enctype="multipart/form-data"
+      method="post"
+      name="adminForm"
+      id="item-form"
+      class="form-horizontal">
+    <div class="form-horizontal">
+<?php
+        echo $this->form->renderField('name');
+        echo $this->form->renderField('abbreviation');
+        echo $this->form->renderField('lsfDegree');
+?>
     </div>
+    <?php echo $this->form->getInput('id'); ?>
+    <?php echo JHtml::_('form.token'); ?>
+    <input type="hidden" name="task" value="" />
 </form>

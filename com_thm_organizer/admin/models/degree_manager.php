@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 
 /**
  * Class THM_OrganizerModelDegrees for component com_thm_organizer
@@ -21,7 +21,7 @@ jimport('joomla.application.component.modellist');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
 */
-class THM_OrganizerModelDegree_Manager extends JModelList
+class THM_OrganizerModelDegree_Manager extends THM_CoreListModel
 {
     /**
      * Constructor to set up the configuration and call the parent constructor
@@ -32,11 +32,8 @@ class THM_OrganizerModelDegree_Manager extends JModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array(
-                    'id', 'id'
-            );
+            $config['filter_fields'] = array('name', 'abbreviation', 'lsfDegree');
         }
-
         parent::__construct($config);
     }
 
@@ -47,66 +44,64 @@ class THM_OrganizerModelDegree_Manager extends JModelList
      */
     protected function getListQuery()
     {
-        $dbo = JFactory::getDBO();
-
-        // Get the filter data
-        $orderCol = $this->state->get('list.ordering');
-        $orderDirn = $this->state->get('list.direction');
-
-        // Defailt ordering
-        if ($orderCol == "")
-        {
-            $orderCol = "id";
-            $orderDirn = "asc";
-        }
+        // Get the list data
+        $ordering = $this->state->get('list.ordering', 'name');
+        $direction = $this->state->get('list.direction', 'asc');
 
         // Perform the database request
-        $query = $dbo->getQuery(true);
-        $query->select("*");
+        $query = $this->_db->getQuery(true);
+        $select = 'id, name, abbreviation, lsfDegree, ';
+        $parts = array("'index.php?option=com_thm_organizer&view=degree_edit&id='", "id");
+        $select .= $query->concatenate($parts) . " AS link";
+        $query->select($select);
         $query->from('#__thm_organizer_degrees');
-        $query->order($orderCol . " " . $orderDirn);
-
+        $query->order($ordering . " " . $direction);
         return $query;
     }
 
     /**
-     * Method to set the populate state
+     * Function to feed the data in the table body correctly to the list view
      *
-     * @param   string  $order  the property by which results should be ordered
-     * @param   string  $dir    the direction in which results should be ordered
-     *
-     * @return  void
+     * @return array consisting of items in the body
      */
-    protected function populateState($order = null, $dir = null)
+    public function getItems()
     {
-        $app = JFactory::getApplication('administrator');
-
-        $layout = JRequest::getVar('layout');
-        if (!empty($layout))
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
         {
-            $this->context .= '.' . $layout;
+            return $return;
         }
 
-        $order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', '');
-        $dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', '');
-        $filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-
-        $this->setState('list.ordering', $order);
-        $this->setState('list.direction', $dir);
-        $this->setState('filter', $filter);
-        $this->setState('limit', $limit);
-
-        // Set the default ordering behaviour
-        if ($order == '' && isset($order))
+        $index = 0;
+        foreach ($items as $item)
         {
-            parent::populateState("id", "ASC");
+            $return[$index] = array();
+            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index][1] = JHtml::_('link', $item->link, $item->name);
+            $return[$index][2] = JHtml::_('link', $item->link, $item->abbreviation);
+            $return[$index][3] = JHtml::_('link', $item->link, $item->lsfDegree);
+            $index++;
         }
-        else
-        {
-            parent::populateState($order, $dir);
-        }
+        return $return;
+    }
 
-        parent::populateState($order, $dir);
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering = $this->state->get('list.ordering');
+        $direction = $this->state->get('list.direction');
+
+        $headers = array();
+        $headers[] = '';
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ABBREVIATION', 'abbreviation', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_LSF_DEGREE', 'lsfDegree', $direction, $ordering);
+
+        return $headers;
     }
 }

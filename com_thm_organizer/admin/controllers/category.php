@@ -24,15 +24,13 @@ jimport('joomla.application.component.controlleradmin');
 class THM_OrganizerControllerCategory extends JControllerLegacy
 {
     /**
-     * redirects to the category_edit view for the creation of new categories
+     * redirects to the category_edit view for the editing of existing categories
      *
      * @return void
      */
     public function add()
     {
-        $input = JFactory::getApplication()->input;
-        $input->set('view', 'category_edit');
-        $input->set('categoryID', '0');
+        JFactory::getApplication()->input->set('view', 'category_edit');
         parent::display();
     }
 
@@ -43,7 +41,8 @@ class THM_OrganizerControllerCategory extends JControllerLegacy
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=category_edit");
+        JFactory::getApplication()->input->set('view', 'category_edit');
+        parent::display();
     }
 
     /**

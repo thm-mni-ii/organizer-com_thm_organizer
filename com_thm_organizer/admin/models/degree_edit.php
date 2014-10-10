@@ -50,9 +50,23 @@ class THM_OrganizerModelDegree_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $degreeIDs = JRequest::getVar('cid',  null, '', 'array');
-        $degreeID = (empty($degreeIDs))? JRequest::getInt('id') : $degreeIDs[0];
-        return $this->getItem($degreeID);
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'degree.add');
+        $degreeID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'degree.edit')  OR $degreeID > 0);
+        if ($edit)
+        {
+            if (!empty($degreeID))
+            {
+                return $this->getItem($degreeID);
+            }
+
+            $degreeIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($degreeIDs[0]);
+        }
+        return $this->getItem(0);
     }
 
     /**

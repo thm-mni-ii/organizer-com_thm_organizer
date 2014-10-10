@@ -52,9 +52,23 @@ class THM_OrganizerModelCategory_Edit extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $categoryIDs = JRequest::getVar('cid',  null, '', 'array');
-        $categoryID = (empty($categoryIDs))? JRequest::getVar('categoryID') : $categoryIDs[0];
-        return $this->getItem($categoryID);
+        $input = JFactory::getApplication()->input;
+        $task = $input->getCmd('task', 'category.add');
+        $categoryID = $input->getInt('id', 0);
+
+        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
+        $edit = (($task == 'category.edit')  OR $categoryID > 0);
+        if ($edit)
+        {
+            if (!empty($categoryID))
+            {
+                return $this->getItem($categoryID);
+            }
+
+            $categoryIDs = $input->get('cid',  null, 'array');
+            return $this->getItem($categoryIDs[0]);
+        }
+        return $this->getItem(0);
     }
 
     /**

@@ -11,18 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.list.template');
+THM_CoreListTemplate::render($this);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=degree_manager'); ?>"
-      method="post" name="adminForm" id="adminForm">
-    <table class="table table-striped">
-        <thead>
-            <?php echo $this->loadTemplate('head'); ?>
-        </thead>
-        <tfoot>
-            <?php echo $this->loadTemplate('foot'); ?>
-        </tfoot>
-        <tbody>
-            <?php echo $this->loadTemplate('body'); ?>
-        </tbody>
-    </table>
-</form>

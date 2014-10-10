@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/editview.php';
+jimport('thm_core.edit.view');
 
 /**
  * Class loads persistent degree information into edit display context
@@ -30,13 +30,7 @@ class THM_OrganizerViewDegree_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        THM_OrganizerHelperEditView::setStandardEditView($this);
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
-
-        $this->addToolBar();
-
+        THM_CoreEditView::setUp($this);
         parent::display($tpl);
     }
 
@@ -45,13 +39,20 @@ class THM_OrganizerViewDegree_Edit extends JViewLegacy
      *
      * @return  void
      */
-    protected function addToolBar()
+    public function addToolBar()
     {
-        JRequest::setVar('hidemainmenu', true);
-        $isNew = ($this->item->id == 0);
-        $title = $isNew? JText::_('COM_THM_ORGANIZER_DEG_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_DEG_EDIT_TITLE');
+        if ($this->form->getValue('id') == 0)
+        {
+            $title = JText::_('COM_THM_ORGANIZER_DEGREE_EDIT_NEW_VIEW_TITLE');
+            $cancelText = JText::_('COM_THM_ORGANIZER_ACTION_CANCEL');
+        }
+        else
+        {
+            $title = JText::_('COM_THM_ORGANIZER_DEGREE_EDIT_EDIT_VIEW_TITLE');
+            $cancelText = JText::_('COM_THM_ORGANIZER_ACTION_CLOSE');
+        }
         JToolbarHelper::title($title, 'organizer_degrees');
         JToolbarHelper::save('degree.save');
-        JToolbarHelper::cancel('degree.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::cancel('degree.cancel', $cancelText);
     }
 }

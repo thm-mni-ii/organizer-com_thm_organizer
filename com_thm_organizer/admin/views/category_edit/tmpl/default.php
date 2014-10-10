@@ -12,11 +12,20 @@
  */
 
 defined('_JEXEC') or die;?>
+<script type="text/javascript">
+    Joomla.submitbutton = function(task)
+    {
+        if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
+        {
+            Joomla.submitform(task, document.getElementById('item-form'));
+        }
+    }
+</script>
 <form action="index.php?option=com_thm_organizer"
       enctype="multipart/form-data"
       method="post"
       name="adminForm"
-      id="adminForm"
+      id="item-form"
       class="form-horizontal">
     <div class="form-horizontal">
         <div class="span3">

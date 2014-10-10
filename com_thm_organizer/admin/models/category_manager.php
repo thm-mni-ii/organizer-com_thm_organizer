@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 
 /**
  * Class compiling a list of saved event categories
@@ -21,7 +21,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelCategory_Manager extends JModelList
+class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
 {
     /**
      * An associative array containing information about saved categories
@@ -60,7 +60,7 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $query = $dbo->getQuery(true);
 
         $select = 'ec.id AS id, ec.title AS ectitle, ec.global, ec.reserves, cc.title AS cctitle, ';
-        $parts = array("'index.php?option=com_thm_organizer&view=category_edit&categoryID='", "ec.id");
+        $parts = array("'index.php?option=com_thm_organizer&view=category_edit&id='", "ec.id");
         $select .= $query->concatenate($parts, "") . " AS link";
         $query->select($this->getState("list.select", $select));
         $query->from('#__thm_organizer_categories AS ec');
@@ -122,13 +122,12 @@ class THM_OrganizerModelCategory_Manager extends JModelList
         $index = 0;
         foreach ($items as $item)
         {
-            $url = "index.php?option=com_thm_organizer&view=category_edit&categoryID=$item->id";
             $return[$index] = array();
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $url, $item->ectitle);
+            $return[$index][1] = JHtml::_('link', $item->link, $item->ectitle);
             $return[$index][2] = $this->getToggle($item->id, $item->global, 'global');
             $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'reserves');
-            $return[$index][4] = JHtml::_('link', $url, $item->cctitle);
+            $return[$index][4] = JHtml::_('link', $item->link, $item->cctitle);
             $index++;
         }
         return $return;
@@ -147,7 +146,7 @@ class THM_OrganizerModelCategory_Manager extends JModelList
     {
         $iconClass = empty($value)? 'unpublish' : 'publish';
         $aClass = empty($value)? 'inactive' : '';
-        $textConstant = 'COM_THM_ORGANIZER_CATEGORY_MANAGER_TOOGLE_' . strtoupper($attribute);
+        $textConstant = 'COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_' . strtoupper($attribute);
         $toggle = '<div class="button-grp">';
         $toggle .= '<a class="btn btn-micro ' . $aClass . ' hasTooltip" title="' . JText::_($textConstant) . '"';
         $toggle .= 'href="index.php?option=com_thm_organizer&task=category.toggle&attribute=' . $attribute . '&id=' . $id . '&value=' . $value . '">';
