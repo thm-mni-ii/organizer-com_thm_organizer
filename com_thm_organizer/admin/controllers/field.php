@@ -28,8 +28,8 @@ class THM_OrganizerControllerField extends JControllerLegacy
      */
     public function add()
     {
-        JRequest::setVar('id', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
+        JFactory::getApplication()->input->set('view', 'field_edit');
+        parent::display();
     }
 
     /**
@@ -39,7 +39,8 @@ class THM_OrganizerControllerField extends JControllerLegacy
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=field_edit");
+        JFactory::getApplication()->input->set('view', 'field_edit');
+        parent::display();
     }
 
     /**

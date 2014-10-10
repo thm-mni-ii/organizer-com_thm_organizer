@@ -28,12 +28,8 @@ class THM_OrganizerControllerColor extends JControllerLegacy
      */
     public function add()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
-        JRequest::setVar('id', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=color_edit");
+        JFactory::getApplication()->input->set('view', 'color_edit');
+        parent::display();
     }
 
     /**
@@ -43,11 +39,8 @@ class THM_OrganizerControllerColor extends JControllerLegacy
      */
     public function edit()
     {
-        if (!JFactory::getUser()->authorise('core.admin'))
-        {
-            return;
-        }
-        $this->setRedirect("index.php?option=com_thm_organizer&view=color_edit");
+        JFactory::getApplication()->input->set('view', 'color_edit');
+        parent::display();
     }
 
     /**

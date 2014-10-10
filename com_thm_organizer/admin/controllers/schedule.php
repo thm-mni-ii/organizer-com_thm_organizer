@@ -28,9 +28,8 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function add()
     {
-        JRequest::setVar('cid');
-        JRequest::setVar('scheduleID', '0');
-        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
+        JFactory::getApplication()->input->set('view', 'schedule_edit');
+        parent::display();
     }
 
     /**
@@ -40,7 +39,8 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function edit()
     {
-        $this->setRedirect('index.php?option=com_thm_organizer&view=schedule_edit');
+        JFactory::getApplication()->input->set('view', 'schedule_edit');
+        parent::display();
     }
 
     /**
@@ -52,8 +52,9 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     public function upload()
     {
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $file = JRequest::getVar('file', '', 'FILES');
-        if ($file['type'] == "text/xml")
+        $file = JFactory::getApplication()->input->files->get('file', array());
+        $validType = (!empty($file['type']) AND $file['type'] == 'text/xml');
+        if ($validType)
         {
             $model = $this->getModel('schedule');
             $statusReport = $model->upload();
@@ -148,8 +149,8 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     public function setReference()
     {
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-
-        if (JRequest::getInt("boxchecked") === 1)
+        $count = JFactory::getApplication()->input->getInt('boxchecked', 0);
+        if ($count === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -186,8 +187,8 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     public function activate()
     {
         $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-
-        if (JRequest::getInt("boxchecked") === 1)
+        $count = JFactory::getApplication()->input->getInt('boxchecked', 0);
+        if ($count === 1)
         {
             $model = $this->getModel('schedule');
             $active = $model->checkIfActive();
@@ -227,7 +228,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         switch ($merge)
         {
             case MERGE:
-                JRequest::setVar('view', 'schedule_merge');
+                JFactory::getApplication()->input->set('view', 'schedule_merge');
                 parent::display();
                 break;
             case TOO_FEW:

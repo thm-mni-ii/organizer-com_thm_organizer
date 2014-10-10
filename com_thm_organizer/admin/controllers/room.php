@@ -29,8 +29,8 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function add()
     {
-        JRequest::setVar('id', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=room_edit");
+        JFactory::getApplication()->input->set('view', 'room_edit');
+        parent::display();
     }
 
     /**
@@ -40,7 +40,8 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=room_edit");
+        JFactory::getApplication()->input->set('view', 'room_edit');
+        parent::display();
     }
 
     /**
@@ -68,7 +69,9 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
      */
     public function mergeView()
     {
-        if (count(JRequest::getVar('cid', array(), 'post', 'array')) == 1)
+        $input = JFactory::getApplication()->input;
+        $selectedRooms = $input->get('cid', array(), 'array');
+        if (count($selectedRooms) == 1)
         {
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg, 'warning');
@@ -84,7 +87,7 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
             }
             else
             {
-                JRequest::setVar('view', 'room_merge');
+                $input->set('view', 'room_merge');
                 parent::display();
             }
         }

@@ -28,8 +28,8 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function add()
     {
-        JRequest::setVar('id', '0');
-        $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
+        JFactory::getApplication()->input->set('view', 'monitor_edit');
+        parent::display();
     }
 
     /**
@@ -39,7 +39,8 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_edit");
+        JFactory::getApplication()->input->set('view', 'monitor_edit');
+        parent::display();
     }
 
     /**
