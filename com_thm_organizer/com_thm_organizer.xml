@@ -33,6 +33,7 @@
         <folder>images</folder>
         <folder>js</folder>
         <folder>css</folder>
+        <folder>helpers</folder>
         <filename>index.html</filename>
     </media>
     <files folder="site">
