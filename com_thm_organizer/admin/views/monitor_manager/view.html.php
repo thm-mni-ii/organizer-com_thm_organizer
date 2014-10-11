@@ -5,13 +5,12 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewmonitor_manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+jimport('thm_core.list.view');
 
 /**
  * Class loading a list of persistent monitor entries into the view context
@@ -20,22 +19,13 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewMonitor_Manager extends JViewLegacy
+class THM_OrganizerViewMonitor_Manager extends THM_CoreViewList
 {
-    /**
-     * jpagination object holding data relevant to the number of results to be
-     * displayed and query limit values
-     *
-     * @var JPagination
-     */
-    protected $pagination;
+    public $items;
 
-    /**
-     * jstate object holding data relevant to filter information
-     *
-     * @var JState
-     */
-    protected $state;
+    public $pagination;
+
+    public $state;
 
     /**
      * Loads data from the model into the view context
@@ -46,18 +36,6 @@ class THM_OrganizerViewMonitor_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-        JHtml::_('behavior.multiselect');
-        JFactory::getDocument()->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
-
-        $this->monitors = $this->get('Items');
-        $this->state = $this->get('State');
-        $this->pagination = $this->get('Pagination');
-        $this->rooms = $this->getModel()->rooms;
-        $this->behaviours = $this->getModel()->behaviours;
-        $this->contents = $this->getModel()->contents;
-        $this->addToolBar();
-
         parent::display($tpl);
     }
 

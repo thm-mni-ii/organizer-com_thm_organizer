@@ -6,7 +6,7 @@
  * @name        virtual schedule edit default template
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

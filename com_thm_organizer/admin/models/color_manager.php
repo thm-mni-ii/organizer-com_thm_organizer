@@ -5,12 +5,13 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerModelColor_Manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class THM_OrganizerModelColors for component com_thm_organizer
@@ -20,8 +21,12 @@ jimport('joomla.application.component.modellist');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelColor_Manager extends JModelList
+class THM_OrganizerModelColor_Manager extends THM_CoreListModel
 {
+    protected $defaultOrdering = 'name';
+
+    protected $defaultDirection = 'ASC';
+
     /**
      * Constructor to set the config array and call the parent constructor
      *
@@ -40,7 +45,11 @@ class THM_OrganizerModelColor_Manager extends JModelList
     protected function getListQuery()
     {
         $query = $this->_db->getQuery(true);
-        $query->select("*");
+
+        $select = 'id, name, color, ';
+        $parts = array("'index.php?option=com_thm_organizer&view=color_edit&id='", "id");
+        $select .= $query->concatenate($parts, "") . " AS link";
+        $query->select($select);
         $query->from('#__thm_organizer_colors');
 
         $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
@@ -49,35 +58,59 @@ class THM_OrganizerModelColor_Manager extends JModelList
             $query->where("name LIKE '$search' OR color LIKE '$search'");
         }
 
-        $query->order("{$this->state->get('list.ordering', 'name')} {$this->state->get('list.direction', 'ASC')}");
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $query->order("$ordering $direction");
 
         return $query;
     }
 
     /**
-     * Method to populate state
+     * Function to feed the data in the table body correctly to the list view
      *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
+     * @return array consisting of items in the body
      */
-    protected function populateState($ordering = null, $direction = null)
+    public function getItems()
     {
-        $app = JFactory::getApplication('administrator');
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
+        {
+            return $return;
+        }
 
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'id');
-        $this->setState('list.ordering', $ordering);
+        $index = 0;
+        foreach ($items as $item)
+        {
+            $return[$index] = array();
+            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index][1] = JHtml::_('link', $item->link, $item->name);
 
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
+            $textColor = THM_ComponentHelper::getTextColor($item->color);
+            $style = 'color:#' . $textColor . '; background-color:#' . $item->color . '; text-align:center';
+            $html = '<div class="color-preview" style="' . $style . '">';
+            $html .= $item->color . '</div>';
+            $return[$index][2] = $html;
+            $index++;
+        }
+        return $return;
+    }
 
-        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $search);
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('list.limit', $limit);
+        $headers = array();
+        $headers[] = '';
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers[] = JText::_('COM_THM_ORGANIZER_COLOR');
 
-        parent::populateState($ordering, $direction);
+        return $headers;
     }
 }

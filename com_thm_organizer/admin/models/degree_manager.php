@@ -4,9 +4,8 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerModelDegrees
- * @description THM_OrganizerModelDegrees component admin model
- * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -23,6 +22,10 @@ jimport('thm_core.list.model');
 */
 class THM_OrganizerModelDegree_Manager extends THM_CoreListModel
 {
+    protected $defaultOrdering = 'name';
+
+    protected $defaultDirection = 'ASC';
+
     /**
      * Constructor to set up the configuration and call the parent constructor
      *
@@ -45,8 +48,8 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreListModel
     protected function getListQuery()
     {
         // Get the list data
-        $ordering = $this->state->get('list.ordering', 'name');
-        $direction = $this->state->get('list.direction', 'asc');
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         // Perform the database request
         $query = $this->_db->getQuery(true);
@@ -93,8 +96,8 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreListModel
      */
     public function getHeaders()
     {
-        $ordering = $this->state->get('list.ordering');
-        $direction = $this->state->get('list.direction');
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
         $headers[] = '';

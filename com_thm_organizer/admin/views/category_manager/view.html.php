@@ -14,16 +14,15 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.view');
+
 /**
  * Class which loads data into the view output context
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
-class THM_OrganizerViewCategory_Manager extends JViewLegacy
+class THM_OrganizerViewCategory_Manager extends THM_CoreViewList
 {
     public $items;
 
@@ -40,7 +39,6 @@ class THM_OrganizerViewCategory_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        THM_CoreListView::display($this);
         parent::display($tpl);
     }
 
@@ -49,7 +47,7 @@ class THM_OrganizerViewCategory_Manager extends JViewLegacy
      *
      * @return void
      */
-    public function addToolBar()
+    protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_VIEW_TITLE'), 'organizer_categories');
         JToolbarHelper::addNew('category.add');

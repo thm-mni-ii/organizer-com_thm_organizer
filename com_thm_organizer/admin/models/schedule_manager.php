@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name        business logic and database abstraction specific to listing schedules
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -23,6 +23,9 @@ jimport('thm_core.list.model');
  */
 class THM_OrganizerModelSchedule_Manager extends THM_CoreListModel
 {
+    protected $defaultOrdering = 'creationdate';
+
+    protected $defaultDirection = 'DESC';
 
     /**
      * sets variables and configuration data
@@ -71,8 +74,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreListModel
             $query->where("departmentname = '$department'");
         }
 
-        $ordering = $dbo->escape($this->state->get('list.ordering', 'creationdate'));
-        $direction = $dbo->escape($this->state->get('list.direction', 'DESC'));
+        $ordering = $dbo->escape($this->state->get('list.ordering', $this->defaultOrdering));
+        $direction = $dbo->escape($this->state->get('list.direction', $this->defaultDirection));
         $query->order("$ordering $direction");
 
         return $query;
@@ -146,8 +149,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreListModel
      */
     public function getHeaders()
     {
-        $ordering = $this->state->get('list.ordering');
-        $direction = $this->state->get('list.direction');
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
         $headers[] = '';

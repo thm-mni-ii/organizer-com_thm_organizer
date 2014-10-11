@@ -6,14 +6,12 @@
  * @name        THM_OrganizerController
  * @description main controller class for thm organizer admin area
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class for non-specific component calls

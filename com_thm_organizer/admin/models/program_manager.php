@@ -4,14 +4,13 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerModelProgram_Manager
- * @description THM_OrganizerModelProgram_Manager component admin model
- * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 
 /**
  * Class THM_OrganizerModelProgram_Manager for component com_thm_organizer
@@ -22,7 +21,7 @@ jimport('joomla.application.component.modellist');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelProgram_Manager extends JModelList
+class THM_OrganizerModelProgram_Manager extends THM_CoreListModel
 {
     public $degrees = null;
 

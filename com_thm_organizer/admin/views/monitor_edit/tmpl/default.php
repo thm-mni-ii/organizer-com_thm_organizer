@@ -6,8 +6,7 @@
  * @subpackage  com_thm_organizer.admin
  * @description monitor edit default template
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

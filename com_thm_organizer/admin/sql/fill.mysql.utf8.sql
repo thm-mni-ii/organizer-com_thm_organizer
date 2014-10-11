@@ -23,8 +23,7 @@ INSERT INTO `#__thm_organizer_colors` (`id`, `name`, `color`) VALUES
 (22, 'THM mittelblau', '063d76'),
 (23, 'THM dunkelgruen', '638929'),
 (24, 'THM dunkelgrau', '3d494f'),
-(25, 'THM dunkelrot', '810e2f'),
-(26, 'THM dunkelgelb', 'vb58b14');
+(25, 'THM dunkelrot', '810e2f');
 
 INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`, `lsfDegree`) VALUES
 (2, 'Bachelor of Engineering', 'B.Eng.', 'BE'),

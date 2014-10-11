@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 
 /**
  * Class compiling a list of users
@@ -20,7 +20,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelUser_Manager extends JModelList
+class THM_OrganizerModelUser_Manager extends THM_CoreListModel
 {
     public $filters;
 

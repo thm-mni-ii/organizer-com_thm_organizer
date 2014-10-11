@@ -5,12 +5,13 @@
  * @subpackage  com_thm_organizer.admin
  * @name        JFormFieldFields
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class loads a list of fields for selection
@@ -95,34 +96,10 @@ class JFormFieldFields extends JFormField
         }
         else
         {
-            $textColor = $this->getTextColor($field['color']);
+            $textColor = THM_ComponentHelper::getTextColor($field['color']);
             $style = ' style="background-color:#' . $field['color'] . '; color:#' . $textColor . '"';
         }
         $selected = $field['value'] == $selectedValue? ' selected="selected"' : '';
         return '<option value="' . $field['value'] . '"' . $style . $selected . '>' . $field['field'] . '</option>';
-    }
-
-    /**
-     * Gets an appropriate value for text color
-     *
-     * @param   string  $bgColor  the background color associated with the field
-     *
-     * @return  string  the hexadecimal value for an appropriate text color
-     */
-    private function getTextColor($bgColor)
-    {
-        $red = hexdec(substr($bgColor, 0, 2));
-        $green = hexdec(substr($bgColor, 2, 2));
-        $blue = hexdec(substr($bgColor, 4, 2));
-        $relativeBrightness = ($red * 299) + ($green * 587) + ($blue * 114);
-        $brightness = $relativeBrightness / 255000;
-        if ($brightness >= 0.6)
-        {
-            return "4a5c66";
-        }
-        else
-        {
-            return "eeeeee";
-        }
     }
 }

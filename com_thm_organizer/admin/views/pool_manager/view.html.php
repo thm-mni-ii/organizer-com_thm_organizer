@@ -5,21 +5,28 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewPool_Manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+jimport('thm_core.list.view');
+
 /**
  * Class THM_OrganizerViewPool_Manager for component com_thm_organizer
  *
  * @category    Joomla.Component.Admin
- * @package     thm_curriculum
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewPool_Manager extends JViewLegacy
+class THM_OrganizerViewPool_Manager extends THM_CoreViewList
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * Method to get display
      *
@@ -29,21 +36,6 @@ class THM_OrganizerViewPool_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
-
-        $model = $this->getModel();
-        $this->pools = $this->get('Items');
-        $this->state = $this->get('State');
-        $this->pagination = $this->get('Pagination');
-        $this->programName = $model->programName;
-
-        $this->programSelect = $this->getProgramSelect($model->programs);
-
-        $this->addToolBar();
-
         parent::display($tpl);
     }
 
@@ -54,38 +46,13 @@ class THM_OrganizerViewPool_Manager extends JViewLegacy
      */
     protected function addToolBar()
     {
-        $baseTitle = JText::_("COM_THM_ORGANIZER_POM_TOOLBAR_TITLE");
+        $baseTitle = JText::_("COM_THM_ORGANIZER_POOL_MANAGER_VIEW_TITLE");
         $title = empty($this->programName)? $baseTitle : $baseTitle . " - " . $this->programName;
         JToolbarHelper::title($title, 'organizer_subject_pools');
-        JToolbarHelper::addNew('pool.edit', 'JTOOLBAR_NEW');
-        JToolbarHelper::editList('pool.edit', 'JTOOLBAR_EDIT');
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::addNew('pool.edit');
+        JToolbarHelper::editList('pool.edit');
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete');
         JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
-    }
-
-    /**
-     * Retrieves a select box with the mapped programs
-     *
-     * @param   array  $programs  the mapped programs
-     *
-     * @return  string  html select box
-     */
-    private function getProgramSelect($programs)
-    {
-        $selectPrograms = array();
-        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_SEARCH_PROGRAM'));
-        $selectPrograms[] = array('id' => '-1', 'name' => JText::_('COM_THM_ORGANIZER_ALL_PROGRAMS'));
-        $selectPrograms[] = array('id' => '-2', 'name' => JText::_('COM_THM_ORGANIZER_NO_PROGRAMS'));
-        $programs = array_merge($selectPrograms, $programs);
-        return JHTML::_(
-                        'select.genericlist',
-                        $programs,
-                        'filter_program',
-                        'onchange="this.form.submit();"',
-                        'id',
-                        'name',
-                        $this->state->get('filter.program')
-                       );
     }
 }

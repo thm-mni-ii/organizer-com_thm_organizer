@@ -23,12 +23,9 @@ jimport('thm_core.list.model');
  */
 class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
 {
-    /**
-     * An associative array containing information about saved categories
-     *
-     * @var array
-     */
-    public $contentCategories = null;
+    protected $defaultOrdering = 'ec.title';
+
+    protected $defaultDirection = 'ASC';
 
     /**
      * sets variables and configuration data
@@ -62,7 +59,7 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
         $select = 'ec.id AS id, ec.title AS ectitle, ec.global, ec.reserves, cc.title AS cctitle, ';
         $parts = array("'index.php?option=com_thm_organizer&view=category_edit&id='", "ec.id");
         $select .= $query->concatenate($parts, "") . " AS link";
-        $query->select($this->getState("list.select", $select));
+        $query->select($select);
         $query->from('#__thm_organizer_categories AS ec');
         $query->innerJoin('#__categories AS cc ON ec.contentCatID = cc.id');
 
@@ -98,9 +95,9 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
             $query->where("ec.contentCatID = '$contentCatID'");
         }
 
-        $orderby = $dbo->escape($this->state->get('list.ordering', 'ec.title'));
-        $direction = $dbo->escape($this->state->get('list.direction', 'ASC'));
-        $query->order("$orderby $direction");
+        $ordering = $dbo->escape($this->state->get('list.ordering', $this->defaultOrdering));
+        $direction = $dbo->escape($this->state->get('list.direction', $this->defaultDirection));
+        $query->order("$ordering $direction");
 
         return $query;
     }
@@ -163,8 +160,8 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
      */
     public function getHeaders()
     {
-        $ordering = $this->state->get('list.ordering');
-        $direction = $this->state->get('list.direction');
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
         $headers[] = '';

@@ -6,7 +6,7 @@
  * @name        provides functions useful to multiple component files
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -108,5 +108,29 @@ class THM_ComponentHelper
         );
 
         $view->sidebar = JHtmlSidebar::render();
+    }
+
+    /**
+     * Gets an appropriate value for text color
+     *
+     * @param   string  $bgColor  the background color associated with the field
+     *
+     * @return  string  the hexadecimal value for an appropriate text color
+     */
+    public static function getTextColor($bgColor)
+    {
+        $red = hexdec(substr($bgColor, 0, 2));
+        $green = hexdec(substr($bgColor, 2, 2));
+        $blue = hexdec(substr($bgColor, 4, 2));
+        $relativeBrightness = ($red * 299) + ($green * 587) + ($blue * 114);
+        $brightness = $relativeBrightness / 255000;
+        if ($brightness >= 0.6)
+        {
+            return "4a5c66";
+        }
+        else
+        {
+            return "eeeeee";
+        }
     }
 }

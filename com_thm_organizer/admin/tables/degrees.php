@@ -1,15 +1,13 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerTableDegrees
  * @description degrees table class
- * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -22,7 +20,6 @@ jimport('joomla.application.component.table');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerTableDegrees extends JTable
 {

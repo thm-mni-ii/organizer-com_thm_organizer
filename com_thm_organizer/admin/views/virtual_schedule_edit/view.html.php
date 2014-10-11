@@ -7,7 +7,7 @@
  * @description provides a form for editing a virtual schedule
  * @author      James Antrim, <James.Antrim@mni.thm.de>
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
