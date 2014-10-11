@@ -111,6 +111,21 @@ class THM_ComponentHelper
     }
 
     /**
+     * Gets a div with a given background color and text with a dynamically calculated text color
+     *
+     * @param   string  $text     the text to be displayed
+     * @param   string  $bgColor  hexadecimal color code
+     *
+     * @return  string  the html output string
+     */
+    public static function getColorField($text, $bgColor)
+    {
+        $textColor = self::getTextColor($bgColor);
+        $style = 'color:#' . $textColor . '; background-color:#' . $bgColor . '; text-align:center';
+        return '<div class="color-preview" style="' . $style . '">' . $text . '</div>';
+    }
+
+    /**
      * Gets an appropriate value for text color
      *
      * @param   string  $bgColor  the background color associated with the field

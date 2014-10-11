@@ -21,7 +21,7 @@ jimport('thm_core.list.model');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
+class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'ec.title';
 
@@ -36,12 +36,7 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array(
-                'ectitle', 'ec.title',
-                'ec.global',
-                'ec.reserves',
-                'cc.title', 'cctitle'
-            );
+            $config['filter_fields'] = array('ec.title','ec.global','ec.reserves','cc.title');
         }
         parent::__construct($config);
     }
@@ -63,13 +58,13 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
         $query->from('#__thm_organizer_categories AS ec');
         $query->innerJoin('#__categories AS cc ON ec.contentCatID = cc.id');
 
-        $search = $this->getState('filter.search');
+        $search = $this->state->get('filter.search');
         if (!empty($search))
         {
             $query->where("(ec.title LIKE '%" . implode("%' OR ec.title LIKE '%", explode(' ', $search)) . "%')");
         }
 
-        $global = $this->getState('filter.global');
+        $global = $this->state->get('filter.global');
         if ($global === '0')
         {
             $query->where("ec.global = 0");
@@ -79,7 +74,7 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
             $query->where("ec.global = 1");
         }
 
-        $reserves = $this->getState('filter.reserves');
+        $reserves = $this->state->get('filter.reserves');
         if ($reserves === '0')
         {
             $query->where("ec.reserves = 0");
@@ -89,7 +84,7 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
             $query->where("ec.reserves = 1");
         }
 
-        $contentCatID = $this->getState('filter.content_cat');
+        $contentCatID = $this->state->get('filter.content_cat');
         if (!empty($contentCatID) and $contentCatID != '*')
         {
             $query->where("ec.contentCatID = '$contentCatID'");
@@ -122,35 +117,14 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreListModel
             $return[$index] = array();
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
             $return[$index][1] = JHtml::_('link', $item->link, $item->ectitle);
-            $return[$index][2] = $this->getToggle($item->id, $item->global, 'global');
-            $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'reserves');
+            $globalTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_GLOBAL');
+            $return[$index][2] = $this->getToggle($item->id, $item->global, 'category', $globalTip, 'global');
+            $reservesTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_RESERVES');
+            $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'category', $reservesTip, 'reserves');
             $return[$index][4] = JHtml::_('link', $item->link, $item->cctitle);
             $index++;
         }
         return $return;
-    }
-
-    /**
-     * Generates a toggle for the attribute in question
-     *
-     * @param   int     $id         the id of the user
-     * @param   bool    $value      the value set for the attribute
-     * @param   string  $attribute  the attribute being toggled
-     *
-     * @return  string  a HTML string
-     */
-    private function getToggle($id, $value, $attribute)
-    {
-        $iconClass = empty($value)? 'unpublish' : 'publish';
-        $aClass = empty($value)? 'inactive' : '';
-        $textConstant = 'COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_' . strtoupper($attribute);
-        $toggle = '<div class="button-grp">';
-        $toggle .= '<a class="btn btn-micro ' . $aClass . ' hasTooltip" title="' . JText::_($textConstant) . '"';
-        $toggle .= 'href="index.php?option=com_thm_organizer&task=category.toggle&attribute=' . $attribute . '&id=' . $id . '&value=' . $value . '">';
-        $toggle .= '<i class="icon-' . $iconClass . '"></i>';
-        $toggle .= '</a>';
-        $toggle .= '</div>';
-        return $toggle;
     }
 
     /**

@@ -48,7 +48,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
  
         $categories = $model->categories;
         $this->assignRef('categories', $categories);
-        $categoryID = $model->getState('categoryID', '-1');
+        $categoryID = $model->state->get('categoryID', '-1');
         $this->assignRef('categoryID', $categoryID);
         $this->makeCategorySelect($categories, $categoryID);
 
@@ -64,12 +64,12 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
         $this->assign('pageNav', $pageNav);
 
         // Form state variables
-        $search = $model->getState('search');
+        $search = $model->state->get('search');
         $search = (empty($search))? "" : $search;
         $this->assignRef('search', $search);
-        $orderby = $model->getState('orderby', 'startdate');
+        $orderby = $model->state->get('orderby', 'startdate');
         $this->assign('orderby', $orderby);
-        $orderbydir = $model->getState('orderbydir', 'ASC');
+        $orderbydir = $model->state->get('orderbydir', 'ASC');
         $this->assign('orderbydir', $orderbydir);
  
         $this->buildHTMLElements();

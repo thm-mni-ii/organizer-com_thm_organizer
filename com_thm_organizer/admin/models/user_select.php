@@ -59,8 +59,8 @@ class THM_OrganizerModelUser_Select extends JModelList
      */
     private function getHeaders()
     {
-        $orderby = $this->getState('list.ordering', 'name');
-        $direction = $this->getState('list.direction', 'ASC');
+        $orderby = $this->state->get('list.ordering', 'name');
+        $direction = $this->state->get('list.direction', 'ASC');
         $headers = array();
         $headers[0] = '';
         $headers[1] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $orderby);
@@ -108,7 +108,7 @@ class THM_OrganizerModelUser_Select extends JModelList
         $subQuery->from('#__thm_organizer_users');
         $query->where('id NOT IN (' . (string) $subQuery . ')');
 
-        $search = $this->getState('filter.user');
+        $search = $this->state->get('filter.user');
         $searchParts = explode(' ', $search);
         if (!empty($search))
         {
@@ -120,8 +120,8 @@ class THM_OrganizerModelUser_Select extends JModelList
             $query->where("( " . implode(' OR ', $qwhery) . " )");
         }
 
-        $orderby = $this->_db->escape($this->getState('list.ordering', 'name'));
-        $direction = $this->_db->escape($this->getState('list.direction', 'ASC'));
+        $orderby = $this->_db->escape($this->state->get('list.ordering', 'name'));
+        $direction = $this->_db->escape($this->state->get('list.direction', 'ASC'));
         $query->order("$orderby $direction");
 
         return $query;

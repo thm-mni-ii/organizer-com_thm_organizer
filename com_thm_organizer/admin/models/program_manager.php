@@ -21,7 +21,7 @@ jimport('thm_core.list.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelProgram_Manager extends THM_CoreListModel
+class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
 {
     public $degrees = null;
 
@@ -111,19 +111,19 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreListModel
 
         $this->setSearch($query);
 
-        $degree = $this->getState('filter.degree');
+        $degree = $this->state->get('filter.degree');
         if (is_numeric($degree))
         {
             $query->where("d.id = '$degree'");
         }
 
-        $version = $this->getState('filter.version');
+        $version = $this->state->get('filter.version');
         if (is_numeric($version))
         {
             $query->where("version = '$version'");
         }
 
-        $field = $this->getState('filter.field');
+        $field = $this->state->get('filter.field');
         if (is_numeric($field))
         {
             $query->where("f.id = '$field'");
@@ -222,7 +222,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreListModel
      */
     private function setSearch(&$query)
     {
-        $clue = $this->getState('filter.search');
+        $clue = $this->state->get('filter.search');
         if (isset($clue))
         {
             $clue = trim($clue);

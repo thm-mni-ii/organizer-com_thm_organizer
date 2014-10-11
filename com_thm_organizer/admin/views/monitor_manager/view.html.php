@@ -40,13 +40,13 @@ class THM_OrganizerViewMonitor_Manager extends THM_CoreViewList
     }
 
     /**
-     * creates joomla toolbar elements
+     * Creates joomla toolbar elements
      *
      * @return void
      */
-    private function addToolBar()
+    protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MON_TOOLBAR_TITLE'), 'organizer_monitors');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_VIEW_TITLE'), 'organizer_monitors');
         JToolbarHelper::addNew('monitor.add');
         JToolbarHelper::editList('monitor.edit');
         JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');

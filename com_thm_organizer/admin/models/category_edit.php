@@ -11,7 +11,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
+jimport('thm_core.edit.model');
 
 /**
  * Class retrieving category item information
@@ -20,68 +20,30 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelCategory_Edit extends JModelAdmin
+class THM_OrganizerModelCategory_Edit extends THM_CoreModelEdit
 {
     /**
-     * Retrieves the jform object for this view
+     * Constructor.
      *
-     * @param   array    $data      unused
-     * @param   boolean  $loadData  if the form data should be pulled dynamically
-     *
-     * @return  mixed    A JForm object on success, false on failure
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function getForm($data = array(), $loadData = true)
+    public function __construct($config = array())
     {
-        // Get the form.
-        $form = $this->loadForm('com_thm_organizer.category_edit', 'category_edit', array('control' => 'jform', 'load_data' => $loadData));
- 
-        if (empty($form))
-        {
-            return false;
-        }
-
-        return $form;
+        parent::__construct($config);
     }
 
     /**
-     * Method to load the form data
+     * Method to get a table object, load it if necessary. Can't be generalized because of irregular english plural
+     * spelling. :(
      *
-     * @return  Object
-     */
-    protected function loadFormData()
-    {
-        $input = JFactory::getApplication()->input;
-        $task = $input->getCmd('task', 'category.add');
-        $categoryID = $input->getInt('id', 0);
-
-        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
-        $edit = (($task == 'category.edit')  OR $categoryID > 0);
-        if ($edit)
-        {
-            if (!empty($categoryID))
-            {
-                return $this->getItem($categoryID);
-            }
-
-            $categoryIDs = $input->get('cid',  null, 'array');
-            return $this->getItem($categoryIDs[0]);
-        }
-        return $this->getItem(0);
-    }
-
-    /**
-     * Method to get the table
-     *
-     * @param   String  $type    Type              (default: 'categories')
-     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
-     * @param   Array   $config  Configuration  (default: 'Array')
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
      *
      * @return  JTable object
      */
-    public function getTable($type = 'categories', $prefix = 'thm_organizerTable', $config = array())
+    public function getTable($name = 'categories', $prefix = 'thm_organizerTable', $options = array())
     {
-        return JTable::getInstance($type, $prefix, $config);
+        return JTable::getInstance($name, $prefix, $options);
     }
 }

@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
+jimport('thm_core.edit.model');
 require_once 'mapping.php';
 require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
@@ -22,30 +22,18 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelPool_Edit extends JModelAdmin
+class THM_OrganizerModelPool_Edit extends THM_CoreModelEdit
 {
     public $children = null;
 
     /**
-     * Method to get the form
+     * Constructor.
      *
-     * @param   Array    $data      Data         (default: Array)
-     * @param   Boolean  $loadData  Load data  (default: true)
-     *
-     * @return  A Form object
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function getForm($data = array(), $loadData = true)
+    public function __construct($config = array())
     {
-        // Get the form.
-        $form = $this->loadForm('com_thm_organizer.pool_edit', 'pool_edit', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form))
-        {
-            return false;
-        }
-        return $form;
+        parent::__construct($config);
     }
 
     /**
@@ -61,20 +49,6 @@ class THM_OrganizerModelPool_Edit extends JModelAdmin
         $this->getChildren($poolID);
         THM_OrganizerHelperReferrer::setReferrer('pool');
         return $this->getItem($poolID);
-    }
-
-    /**
-     * Method to get the table
-     *
-     * @param   String  $type    Type              (default: 'mapping')
-     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
-     * @param   Array   $config  Configuration  (default: 'Array')
-     *
-     * @return  JTable object
-     */
-    public function getTable($type = 'pools', $prefix = 'THM_OrganizerTable', $config = array())
-    {
-        return JTable::getInstance($type, $prefix, $config);
     }
 
     /**

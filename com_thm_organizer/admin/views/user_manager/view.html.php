@@ -21,8 +21,14 @@ jimport('thm_core.list.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewUser_Manager extends JViewLegacy
+class THM_OrganizerViewUser_Manager extends THM_CoreViewList
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * loads data into view output context and initiates functions creating html
      * elements
@@ -33,7 +39,6 @@ class THM_OrganizerViewUser_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        THM_CoreListView::display($this);
         parent::display($tpl);
     }
 
@@ -42,13 +47,12 @@ class THM_OrganizerViewUser_Manager extends JViewLegacy
      *
      * @return void
      */
-    public function addToolBar()
+    protected function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_USERS');
-        JToolbarHelper::title($title, 'organizer_users');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_USER_MANAGER_VIEW_TITLE'), 'organizer_users');
 
         $image = 'new';
-        $title = JText::_('COM_THM_ORGANIZER_NEW');
+        $title = JText::_('JTOOLBAR_NEW');
         $link = 'index.php?option=com_thm_organizer&amp;view=user_select&amp;tmpl=component';
         $height = '550';
         $width = '875';

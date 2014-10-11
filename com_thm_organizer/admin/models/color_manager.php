@@ -21,7 +21,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelColor_Manager extends THM_CoreListModel
+class THM_OrganizerModelColor_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'name';
 
@@ -85,12 +85,7 @@ class THM_OrganizerModelColor_Manager extends THM_CoreListModel
             $return[$index] = array();
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
             $return[$index][1] = JHtml::_('link', $item->link, $item->name);
-
-            $textColor = THM_ComponentHelper::getTextColor($item->color);
-            $style = 'color:#' . $textColor . '; background-color:#' . $item->color . '; text-align:center';
-            $html = '<div class="color-preview" style="' . $style . '">';
-            $html .= $item->color . '</div>';
-            $return[$index][2] = $html;
+            $return[$index][2] = THM_ComponentHelper::getColorField($item->color, $item->color);
             $index++;
         }
         return $return;

@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
+jimport('thm_core.edit.model');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
 
 /**
@@ -21,29 +21,16 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSubject_Edit extends JModelAdmin
+class THM_OrganizerModelSubject_Edit extends THM_CoreModelEdit
 {
     /**
-     * Method to get the form
+     * Constructor.
      *
-     * @param   Array    $data      Type  (default: Array)
-     * @param   Boolean  $loadData  Type  (default: true)
-     *
-     * @return  A Form object
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function getForm($data = array(), $loadData = true)
+    public function __construct($config = array())
     {
-        // Get the form.
-        $form = $this->loadForm('com_thm_organizer.subject_edit', 'subject_edit', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form))
-        {
-            return false;
-        }
-
-        return $form;
+        parent::__construct($config);
     }
 
     /**
@@ -90,19 +77,5 @@ class THM_OrganizerModelSubject_Edit extends JModelAdmin
         }
         
         return empty($respID)? 0 : $respID;
-    }
-
-    /**
-     * Method to get the table
-     *
-     * @param   String  $type    Type  (default: 'assets')
-     * @param   String  $prefix  Type  (default: 'THM_OrganizerTable')
-     * @param   Array   $config  Type  (default: 'Array')
-     *
-     * @return  JTable object
-     */
-    public function getTable($type = 'subjects', $prefix = 'THM_OrganizerTable', $config = array())
-    {
-        return JTable::getInstance($type, $prefix, $config);
     }
 }

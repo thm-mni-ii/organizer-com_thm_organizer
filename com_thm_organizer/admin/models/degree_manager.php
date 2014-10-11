@@ -20,7 +20,7 @@ jimport('thm_core.list.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
 */
-class THM_OrganizerModelDegree_Manager extends THM_CoreListModel
+class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'name';
 

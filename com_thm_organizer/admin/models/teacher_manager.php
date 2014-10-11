@@ -10,7 +10,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class THM_OrganizerModelTeachers for component com_thm_organizer
@@ -20,8 +21,12 @@ jimport('joomla.application.component.modellist');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelTeacher_Manager extends JModelList
+class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
 {
+    protected $defaultOrdering = 't.surname';
+
+    protected $defaultDirection = 'ASC';
+
     /**
      * Constructor to set the config array and call the parent constructor
      *
@@ -46,54 +51,94 @@ class THM_OrganizerModelTeacher_Manager extends JModelList
      */
     protected function getListQuery()
     {
-        $dbo = JFactory::getDBO();
-
         // Create the query
-        $query = $dbo->getQuery(true);
-        $query->select("*, t.id AS id, t.gpuntisID AS gpuntisID");
+        $query = $this->_db->getQuery(true);
+        $select = "t.id, t.surname, t.forename, t.username, t.gpuntisID, f.field, c.color, ";
+        $parts = array("'index.php?option=com_thm_organizer&view=teacher_edit&id='","t.id");
+        $select .= $query->concatenate($parts, "") . "AS link ";
+        $query->select($select);
         $query->from('#__thm_organizer_teachers AS t');
         $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
         $searchFilter = $this->state->get('filter.search');
         if (!empty($searchFilter))
         {
-            $search = '%' . $dbo->getEscaped($this->state->get('filter.search'), true) . '%';
-            $whereClause = "(surname LIKE '$search'";
-            $whereClause .= "OR forename LIKE '$search')";
-            $query->where($whereClause);
+            $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
+            $query->where("(surname LIKE '$search' OR forename LIKE '$search')");
         }
 
-        $orderBy = $this->state->get('list.ordering', 'surname');
-        $orderDir = $this->state->get('list.direction', 'ASC');
+        $orderBy = $this->state->get('list.ordering', $this->defaultOrdering);
+        $orderDir = $this->state->get('list.direction', $this->defaultDirection);
         $query->order("$orderBy $orderDir");
 
         return $query;
     }
 
     /**
-     * Method to get the populate state
+     * Method to overwrite the getItems method in order to create iterate table data
      *
-     * @param   string  $ordering   the property by which the results should be ordered
-     * @param   string  $direction  the direction in which results should be ordered
-     *
-     * @return  void
+     * @return  array  an array of arrays with preformatted teacher data
      */
-    protected function populateState($ordering = null, $direction = null)
+    public function getItems()
     {
-        $app = JFactory::getApplication('administrator');
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
+        {
+            return $return;
+        }
 
-        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $search);
+        $index = 0;
+        foreach ($items as $item)
+        {
+            $return[$index] = array();
+            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index][1] = JHtml::_('link', $item->link, $item->surname);
+            $forename = empty($item->forename)? '' : $item->forename;
+            $return[$index][2] = JHtml::_('link', $item->link, $forename);
+            $username = empty($item->username)? '' : $item->username;
+            $return[$index][3] = JHtml::_('link', $item->link, $username);
+            $gpuntisID = empty($item->gpuntisID)? '' : $item->gpuntisID;
+            $return[$index][4] = JHtml::_('link', $item->link, $gpuntisID);
+            if (!empty($item->field))
+            {
+                if (!empty($item->color))
+                {
+                    $return[$index][5] = THM_ComponentHelper::getColorField($item->field, $item->color);
+                }
+                else
+                {
+                    $return[$index][5] = $item->field;
+                }
+            }
+            else
+            {
+                $return[$index][5] = '';
+            }
+            $index++;
+        }
+        return $return;
+    }
 
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'surname');
-        $this->setState('list.ordering', $ordering);
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
+        $headers = array();
+        $headers[] = '';
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'f.field', $direction, $ordering);
 
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
-
-        parent::populateState($ordering, $direction);
+        return $headers;
     }
 }

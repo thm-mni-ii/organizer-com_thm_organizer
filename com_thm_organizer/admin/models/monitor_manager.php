@@ -10,8 +10,12 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
-jimport('joomla.filesystem.folder');
+jimport('thm_core.list.model');
+
+define('DAILY', 1);
+define('MIXED', 2);
+define('CONTENT', 3);
+define('EVENTS', 4);
 
 /**
  * Class compiling a list of saved monitors 
@@ -20,30 +24,13 @@ jimport('joomla.filesystem.folder');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelMonitor_Manager extends JModelList
+class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
 {
-    /**
-     * An array holding the text constants used for the different display types
-     * 
-     * @var array 
-     */
-    public $behaviours = null;
+    protected $defaultOrdering = 'r.longname';
 
-    /**
-     * Array holding the ids and names of the monitor associated rooms for the
-     * selection box
-     * 
-     * @var array 
-     */
-    public $rooms = null;
+    protected $defaultDirection = 'ASC';
 
-    /**
-     * Array holding indexes and names of files for the selection box
-     * 
-     * @var array 
-     */
-    public $contents = null;
-
+    public $displayBehaviour = array();
     /**
      * constructor
      * 
@@ -53,36 +40,13 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array(
-                                             'roomID', 'roomID',
-                                             'room', 'name',
-                                             'ip', 'ip',
-                                             'useDefaults', 'useDefaults',
-                                             'display', 'display',
-                                             'schedule_refresh', 'schedule_refresh',
-                                             'content_refresh', 'content_refresh',
-                                             'content', 'm.content'
-                                            );
+            $config['filter_fields'] = array('r.longname', 'm.ip', 'm.useDefaults', 'm.display', 'm.content');
         }
+        $this->displayBehaviour[DAILY] = JText::_('COM_THM_ORGANIZER_DAILY_PLAN');
+        $this->displayBehaviour[MIXED] = JText::_('COM_THM_ORGANIZER_MIXED_PLAN');
+        $this->displayBehaviour[CONTENT] = JText::_('COM_THM_ORGANIZER_CONTENT_DISPLAY');
+        $this->displayBehaviour[EVENTS] = JText::_('COM_THM_ORGANIZER_EVENT_PLAN');
         parent::__construct($config);
-    }
-
-    /**
-     * Method to overwrite the getItems method in order to set the program name
-     *
-     * @return  array  an array of objects fullfilling the request criteria
-     */
-    public function getItems()
-    {
-        $this->rooms = $this->getRooms();
-        $this->behaviours = array(
-                                  1 => JText::_('COM_THM_ORGANIZER_MON_SCHEDULE'),
-                                  2 => JText::_('COM_THM_ORGANIZER_MON_MIXED'),
-                                  3 => JText::_('COM_THM_ORGANIZER_MON_CONTENT'),
-                                  4 => JText::_('COM_THM_ORGANIZER_MON_EVENTS')
-                                 );
-        $this->contents = $this->getContents();
-        return parent::getItems();
     }
 
     /**
@@ -94,18 +58,18 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
     {
         $query = $this->_db->getQuery(true);
 
-        $select = "m.id, roomID, ip, useDefaults, display, schedule_refresh, content_refresh, content, longname AS room, ";
-        $parts = array("'index.php?option=com_thm_organizer&view=monitor_edit&monitorID='","m.id");
+        $select = "m.id, r.longname, m.ip, m.useDefaults, m.display, m.content, ";
+        $parts = array("'index.php?option=com_thm_organizer&view=monitor_edit&id='","m.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
-        $query->select($this->getState("list.select", $select));
+        $query->select($this->state->get("list.select", $select));
         $query->from("#__thm_organizer_monitors AS m");
-        $query->leftjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
+        $query->innerjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
 
         $this->setWhere($query);
 
-        $orderby = $this->_db->escape($this->getState('list.ordering', 'r.name'));
-        $direction = $this->_db->escape($this->getState('list.direction', 'ASC'));
-        $query->order("$orderby $direction");
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $query->order("$ordering $direction");
         return $query;
     }
 
@@ -120,11 +84,11 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
     {
         $filterSearch = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         $useFilterSearch = $filterSearch != '%%';
-        $filterRoom = $this->getState('filter.room');
+        $filterRoom = $this->state->get('filter.room', '');
         $useFilterRoom = is_numeric($filterRoom);
-        $filterDisplay = $this->getState('filter.display');
+        $filterDisplay = $this->state->get('filter.display');
         $useFilterDisplay = is_numeric($filterDisplay);
-        $contentID = $this->getState('filter.content');
+        $contentID = $this->state->get('filter.content');
         $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
         $useFilterContent = !empty($filterContent);
 
@@ -159,9 +123,9 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
      */
     private function addDisplayFilter(&$query)
     {
-        $filterDisplay = $this->getState('filter.display', '1');
+        $filterDisplay = $this->state->get('filter.display', '1');
         $useFilterDisplay = is_numeric($filterDisplay);
-        $contentID = $this->getState('filter.content', '');
+        $contentID = $this->state->get('filter.content', '');
         $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
         $useFilterContent = !empty($filterContent);
 
@@ -198,80 +162,54 @@ class THM_OrganizerModelMonitor_Manager extends JModelList
     }
 
     /**
-     * Loads view specific filter parameters into the state object
-     * 
-     * @param   string  $ordering   the filter parameter to be used to sort by
-     * @param   string  $direction  the direction in which the sort is to take place
-     * 
-     * @return void
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        $app = JFactory::getApplication('administrator');
-
-        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $search);
-
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'r.name');
-        $this->setState('list.ordering', $ordering);
-
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
-
-        $room = $app->getUserStateFromRequest($this->context . '.filter.room', 'filter_room');
-        $this->setState('filter.room', $room);
-
-        $display = $app->getUserStateFromRequest($this->context . '.filter.display', 'filter_display');
-        $this->setState('filter.display', $display);
-
-        $content = $app->getUserStateFromRequest($this->context . '.filter.content', 'filter_content');
-        $this->setState('filter.content', $content);
-
-        parent::populateState($ordering, $direction);
-    }
-
-    /**
-     * retrieves a list of rooms and their ids which are currently in use by the
-     * monitors
+     * Method to overwrite the getItems method in order to set the program name
      *
-     * @return array associative array id => room name
+     * @return  array  an array of objects fullfilling the request criteria
      */
-    private function getRooms()
+    public function getItems()
     {
-        $query = $this->_db->getQuery(true);
-        $query->select('r.id, r.longname');
-        $query->from("#__thm_organizer_rooms AS r");
-        $query->innerJoin("#__thm_organizer_monitors AS m ON m.roomID = r.id");
-        $query->order('r.longname ASC');
-        $this->_db->setQuery((string) $query);
-        
-        try
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
         {
-            $results = $this->_db->loadAssocList();
+            return $return;
         }
-        catch (runtimeException $e)
+
+        $index = 0;
+        foreach ($items as $item)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            $return[$index] = array();
+            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index][1] = JHtml::_('link', $item->link, $item->longname);
+            $return[$index][2] = JHtml::_('link', $item->link, $item->ip);
+            $controller = 'monitor';
+            $tip = JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TOGGLE_COMPONENT_SETTINGS');
+            $return[$index][3] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
+            $return[$index][4] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
+            $return[$index][5] = JHtml::_('link', $item->link, $item->content);
+            $index++;
         }
-        
-        $rooms = array();
-        if (count($results))
-        {
-            foreach ($results as $result)
-            {
-                $rooms[$result['id']] = $result['longname'];
-            }
-        }
-        return $rooms;
+        return $return;
     }
 
     /**
-     * Gets the files uploaded for the component
-     * 
-     * @return  array  an array of files
+     * Function to get table headers
+     *
+     * @return array including headers
      */
-    private function getContents()
+    public function getHeaders()
     {
-        return JFolder::files(JPATH_ROOT . '/images/thm_organizer');
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+
+        $headers = array();
+        $headers[] = '';
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COMPONENT_SETTINGS', 'm.useDefault', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR', 'm.display', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_CONTENT', 'm.content', $direction, $ordering);
+
+        return $headers;
     }
 }

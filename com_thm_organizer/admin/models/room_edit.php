@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
+jimport('thm_core.edit.model');
 
 /**
  * Retrieves a single room entry's data.
@@ -19,68 +19,15 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom_Edit extends JModelAdmin
+class THM_OrganizerModelRoom_Edit extends THM_CoreModelEdit
 {
-
     /**
-     * Method to get the form
+     * Constructor.
      *
-     * @param   Array    $data      Data         (default: Array)
-     * @param   Boolean  $loadData  Load data  (default: true)
-     *
-     * @return  A Form object
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function getForm($data = array(), $loadData = true)
+    public function __construct($config = array())
     {
-        // Get the form.
-        $form = $this->loadForm('com_thm_organizer.room_edit', 'room_edit', array('control' => 'jform', 'load_data' => $loadData));
- 
-        if (empty($form))
-        {
-            return false;
-        }
-        return $form;
-    }
-
-    /**
-     * Method to load the form data
-     *
-     * @return  Object
-     */
-    protected function loadFormData()
-    {
-        $input = JFactory::getApplication()->input;
-        $task = $input->getCmd('task', 'room.add');
-        $roomID = $input->getInt('id', 0);
-
-        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
-        $edit = (($task == 'room.edit')  OR $roomID > 0);
-        if ($edit)
-        {
-            if (!empty($roomID))
-            {
-                return $this->getItem($roomID);
-            }
-
-            $roomIDs = $input->get('cid',  null, 'array');
-            return $this->getItem($roomIDs[0]);
-        }
-        return $this->getItem(0);
-    }
-
-    /**
-     * Method to get the table
-     *
-     * @param   String  $type    Type              (default: 'Room')
-     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
-     * @param   Array   $config  Configuration  (default: 'Array')
-     *
-     * @return  JTable object
-     */
-    public function getTable($type = 'rooms', $prefix = 'THM_OrganizerTable', $config = array())
-    {
-        return JTable::getInstance($type, $prefix, $config);
+        parent::__construct($config);
     }
 }

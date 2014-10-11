@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
+jimport('thm_core.edit.model');
 /**
  * Class THM_OrganizerModelVirtual_Schedule_Edit for component com_thm_organizer
  * Class provides methods to create and edit a virtual schedule
@@ -20,27 +20,15 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.model
  */
-class THM_OrganizerModelVirtual_Schedule_Edit extends JModelAdmin
+class THM_OrganizerModelVirtual_Schedule_Edit extends THM_CoreModelEdit
 {
     /**
-     * Method to get the form
+     * Constructor.
      *
-     * @param   Array    $data      Data         (default: Array)
-     * @param   Boolean  $loadData  Load data  (default: true)
-     *
-     * @return  A Form object
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function getForm($data = array(), $loadData = true)
+    public function __construct($config = array())
     {
-        // Get the form.
-        $form = $this->loadForm('com_thm_organizer.virtual_schedule_edit', 'virtual_schedule_edit', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form))
-        {
-            return false;
-        }
-        return $form;
+        parent::__construct($config);
     }
 }

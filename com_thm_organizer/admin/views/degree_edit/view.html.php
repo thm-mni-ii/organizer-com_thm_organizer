@@ -39,7 +39,7 @@ class THM_OrganizerViewDegree_Edit extends JViewLegacy
      *
      * @return  void
      */
-    public function addToolBar()
+    protected function addToolBar()
     {
         if ($this->form->getValue('id') == 0)
         {

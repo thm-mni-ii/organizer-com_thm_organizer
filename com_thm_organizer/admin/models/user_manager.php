@@ -20,7 +20,7 @@ jimport('thm_core.list.model');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelUser_Manager extends THM_CoreListModel
+class THM_OrganizerModelUser_Manager extends THM_CoreModelList
 {
     public $filters;
 
@@ -61,7 +61,7 @@ class THM_OrganizerModelUser_Manager extends THM_CoreListModel
     public function getFilters()
     {
         $filters = array();
-        $role = $this->getState('filter.role', '*');
+        $role = $this->state->get('filter.role', '*');
         $options = array();
         $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_USM_SELECT_ROLE'));
         $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_USM_SELECT_ALL_ROLES'));
@@ -81,8 +81,8 @@ class THM_OrganizerModelUser_Manager extends THM_CoreListModel
      */
     public function getHeaders($count = 0)
     {
-        $ordering = $this->getState('list.ordering', 'name');
-        $direction = $this->getState('list.direction', 'ASC');
+        $ordering = $this->state->get('list.ordering', 'name');
+        $direction = $this->state->get('list.direction', 'ASC');
         $headers = array();
         $headers[0] = "<input type='checkbox' name='toggle' value='' onclick='checkAll($count)' />";
         $headers[1] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $ordering);
@@ -112,30 +112,11 @@ class THM_OrganizerModelUser_Manager extends THM_CoreListModel
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
             $return[$index][1] = $item->name;
             $return[$index][2] = $item->username;
-            $return[$index][3] = $this->getToggle($item->id, $item->program_manager, 'program_manager');
-            $return[$index][4] = $this->getToggle($item->id, $item->planner, 'planner');
+            $return[$index][3] = $this->getToggle($item->id, $item->program_manager, 'user', JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE'), 'program_manager');
+            $return[$index][4] = $this->getToggle($item->id, $item->planner, 'user', JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE'), 'planner');
             $index++;
         }
         return $return;
-    }
-
-    /**
-     * Generates a toggle for the attribute in question
-     *
-     * @param   int     $id     the id of the user
-     * @param   bool    $value  the value set for the attribute
-     * @param   string  $role   the role being toggled
-     *
-     * @return  string  a HTML string
-     */
-    private function getToggle($id, $value, $role)
-    {
-        $spanClass = empty($value)? 'unpublish' : 'publish';
-        $toggle = '<a class="jgrid hasTip" title="' . JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE') . '"';
-        $toggle .= 'href="index.php?option=com_thm_organizer&task=user.toggle&role=' . $role . '&id=' . $id . '&value=' . $value . '">';
-        $toggle .= '<span class="state ' . $spanClass . '"></span>';
-        $toggle .= '</a>';
-        return $toggle;
     }
 
     /**
@@ -150,7 +131,7 @@ class THM_OrganizerModelUser_Manager extends THM_CoreListModel
         $query->from('#__thm_organizer_users AS ou');
         $query->innerJoin('#__users AS u ON u.id = ou.id');
 
-        $search = $this->getState('filter.search');
+        $search = $this->state->get('filter.search');
         $searchParts = explode(' ', $search);
         if (!empty($search))
         {
@@ -162,7 +143,7 @@ class THM_OrganizerModelUser_Manager extends THM_CoreListModel
             $query->where("( " . implode(' OR ', $qwhery) . " )");
         }
 
-        $role = $this->getState('filter.role', '*');
+        $role = $this->state->get('filter.role', '*');
         if ($role !== '*')
         {
             if ($role === '1')

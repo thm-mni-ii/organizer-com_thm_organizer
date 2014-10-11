@@ -19,9 +19,8 @@ jimport('thm_core.list.view');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
-class THM_OrganizerViewSchedule_Manager extends JViewLegacy
+class THM_OrganizerViewSchedule_Manager extends THM_CoreViewList
 {
     public $items;
 
@@ -39,7 +38,6 @@ class THM_OrganizerViewSchedule_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        THM_CoreListView::display($this);
         parent::display($tpl);
     }
 
@@ -48,7 +46,7 @@ class THM_OrganizerViewSchedule_Manager extends JViewLegacy
      *
      * @return void
      */
-    public function addToolBar()
+    protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_VIEW_TITLE'), 'organizer_schedules');
         JToolbarHelper::addNew('schedule.add');

@@ -68,8 +68,8 @@ class THM_OrganizerModelUser extends JModelLegacy
         {
             return false;
         }
-        $role = $input->getString('role', '');
-        if (empty($role))
+        $role = $input->getString('attribute', '');
+        if (empty($role) OR !in_array($role, array('program_manager', 'planner')))
         {
             return false;
         }

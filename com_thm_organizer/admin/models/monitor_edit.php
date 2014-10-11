@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
+jimport('thm_core.edit.model');
 
 /**
  * Class loads form data to edit an entry.
@@ -19,7 +19,7 @@ jimport('joomla.application.component.modeladmin');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelMonitor_Edit extends JModelAdmin
+class THM_OrganizerModelMonitor_Edit extends THM_CoreModelEdit
 {
     public $behaviours = null;
 
@@ -39,66 +39,4 @@ class THM_OrganizerModelMonitor_Edit extends JModelAdmin
                                  );
     }
 
-    /**
-     * retrieves the jform object for this view
-     *
-     * @param   array    $data      Data for the form.
-     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     *
-     * @return    mixed    A JForm object on success, false on failure
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function getForm($data = array(), $loadData = true)
-    {
-        // Get the form.
-        $form = $this->loadForm('com_thm_organizer.monitor_edit', 'monitor_edit', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form))
-        {
-            return false;
-        }
-
-        return $form;
-    }
-
-    /**
-     * Method to load the form data
-     *
-     * @return  Object
-     */
-    protected function loadFormData()
-    {
-        $input = JFactory::getApplication()->input;
-        $task = $input->getCmd('task', 'monitor.add');
-        $monitorID = $input->getInt('id', 0);
-
-        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
-        $edit = (($task == 'monitor.edit')  OR $monitorID > 0);
-        if ($edit)
-        {
-            if (!empty($monitorID))
-            {
-                return $this->getItem($monitorID);
-            }
-
-            $monitorIDs = $input->get('cid',  null, 'array');
-            return $this->getItem($monitorIDs[0]);
-        }
-        return $this->getItem(0);
-    }
-
-    /**
-     * Method to get the table
-     *
-     * @param   String  $type    Type              (default: 'monitors')
-     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
-     * @param   Array   $config  Configuration  (default: 'Array')
-     *
-     * @return  JTable object
-     */
-    public function getTable($type = 'monitors', $prefix = 'thm_organizerTable', $config = array())
-    {
-        return JTable::getInstance($type, $prefix, $config);
-    }
 }

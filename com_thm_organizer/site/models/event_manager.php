@@ -68,7 +68,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         jimport('joomla.html.pagination');
         $this->getTotal();
         $this->setLimits();
-        $this->pagination = new JPagination($this->total, $this->getState('limitstart'), $this->getState('limit'));
+        $this->pagination = new JPagination($this->total, $this->state->get('limitstart'), $this->state->get('limit'));
 
         if ($this->total)
         {
@@ -379,24 +379,24 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         $query->where("c.access  IN ( $viewAccessLevels ) AND ccat.access IN ( $viewAccessLevels ) ");
 
         // Menu restrictions
-        $author = $this->getState('author');
+        $author = $this->state->get('author');
         if (isset($author))
         {
             $query->where("u.username = '$author'");
         }
-        $room = $this->getState('room');
+        $room = $this->state->get('room');
         if (isset($room))
         {
             $query->where("r.id = '$room'");
         }
-        $categoryID = $this->getState('categoryID');
+        $categoryID = $this->state->get('categoryID');
         if (isset($categoryID))
         {
             $query->where("e.categoryID = '$categoryID'");
         }
 
         // Search items
-        $search = $this->getState('search');
+        $search = $this->state->get('search');
         $searchItems = array();
         if (!empty($search))
         {
@@ -420,7 +420,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
             $query->where(implode(" AND ", $wherray));
         }
 
-        $fromdate = $this->getState('fromdate');
+        $fromdate = $this->state->get('fromdate');
         if (empty($fromdate) AND $this->display_type < 4)
         {
             $fromdate = date('Y-m-d');
@@ -431,7 +431,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
             $fromdate = date('Y-m-d', $temptime);
             $query->where("( startdate >= '$fromdate' OR enddate >= '$fromdate' )");
         }
-        $todate = $this->getState('todate');
+        $todate = $this->state->get('todate');
         if (!empty($todate))
         {
             $temptime = strtotime($todate);
@@ -454,7 +454,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         $this->getFrom($query);
         $this->getWhere($query);
         $this->getOrderBy($query);
-        $dbo->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
+        $dbo->setQuery($query, $this->state->get('limitstart'), $this->state->get('limit'));
         
         try 
         {
@@ -563,8 +563,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     private function getOrderBy(&$query)
     {
-        $orderby = $this->getState('orderby');
-        $orderbydir = $this->getState('orderbydir');
+        $orderby = $this->state->get('orderby');
+        $orderbydir = $this->state->get('orderbydir');
         $sortCriteria = array('title', 'author', 'eventCategory', 'date');
         if (isset($orderby) AND in_array($orderby, $sortCriteria))
         {
@@ -599,7 +599,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         $query->from('#__thm_organizer_categories');
         if ($this->display_type == 1 or $this->display_type == 5)
         {
-            $categoryID = $this->getState('categoryID');
+            $categoryID = $this->state->get('categoryID');
             $query->where("id = '$categoryID'");
         }
         $dbo->setQuery((string) $query);

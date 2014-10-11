@@ -12,4 +12,4 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.template');
-THM_CoreListTemplate::render($this);
+THM_CoreTemplateList::render($this);

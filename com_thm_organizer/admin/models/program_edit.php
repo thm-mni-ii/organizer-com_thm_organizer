@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.edit.model');
 require_once 'mapping.php';
 require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
@@ -22,30 +23,18 @@ require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelProgram_Edit extends JModelAdmin
+class THM_OrganizerModelProgram_Edit extends THM_CoreModelEdit
 {
     public $children = null;
 
     /**
-     * Method to get the form
+     * Constructor.
      *
-     * @param   Array    $data      Data         (default: Array)
-     * @param   Boolean  $loadData  Load data  (default: true)
-     *
-     * @return  A Form object
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function getForm($data = array(), $loadData = true)
+    public function __construct($config = array())
     {
-        // Get the form.
-        $form = $this->loadForm('com_thm_organizer.program_edit', 'program_edit', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form))
-        {
-            return false;
-        }
-        return $form;
+        parent::__construct($config);
     }
 
     /**
@@ -56,22 +45,10 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
     protected function loadFormData()
     {
         $input = JFactory::getApplication()->input;
-        $task = $input->getCmd('task', 'program.add');
-        $programID = $input->getInt('id', 0);
-
-        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
-        $edit = (($task == 'program.edit')  OR $programID > 0);
-        if ($edit)
-        {
-            if (!empty($programID))
-            {
-                return $this->getItem($programID);
-            }
-
-            $programIDs = $input->get('cid',  null, 'array');
-            return $this->getItem($programIDs[0]);
-        }
-        return $this->getItem(0);
+        $programIDs = $input->get('cid',  null, 'array');
+        $programID = (empty($poolIDs))? $input->getInt('id', 0) : $programIDs[0];
+        $this->getChildren($programID);
+        return $this->getItem($programID);
     }
 
     /**
@@ -89,17 +66,4 @@ class THM_OrganizerModelProgram_Edit extends JModelAdmin
         THM_OrganizerHelperMapping::setChildren($this, $children);
     }
 
-    /**
-     * Method to get the table
-     *
-     * @param   String  $type    Type              (default: 'Majors')
-     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
-     * @param   Array   $config  Configuration  (default: 'Array')
-     *
-     * @return  JTable object
-     */
-    public function getTable($type = 'Programs', $prefix = 'THM_OrganizerTable', $config = array())
-    {
-        return JTable::getInstance($type, $prefix, $config);
-    }
 }

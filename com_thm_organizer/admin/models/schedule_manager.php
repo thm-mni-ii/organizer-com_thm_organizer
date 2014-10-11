@@ -21,7 +21,7 @@ jimport('thm_core.list.model');
  * @link        www.mni.thm.de
  * @since       v0.1.0
  */
-class THM_OrganizerModelSchedule_Manager extends THM_CoreListModel
+class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'creationdate';
 
@@ -68,7 +68,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreListModel
             $query->where("semestername = '$semester'");
         }
 
-        $department = $this->getState('filter.department', false);
+        $department = $this->state->get('filter.department', false);
         if ($department !== false)
         {
             $query->where("departmentname = '$department'");

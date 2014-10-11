@@ -10,8 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+jimport('thm_core.edit.model');
 
 /**
  * Class loading persistent data to be used for schedule edit output
@@ -20,67 +19,15 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSchedule_Edit extends JModelAdmin
+class THM_OrganizerModelSchedule_Edit extends THM_CoreModelEdit
 {
     /**
-     * retrieves the jform object for this view
+     * Constructor.
      *
-     * @param   array    $data      unused
-     * @param   boolean  $loadData  if the form data should be pulled dynamically
-     *
-     * @return  mixed    A JForm object on success, false on failure
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function getForm($data = array(), $loadData = true)
+    public function __construct($config = array())
     {
-        $form = $this->loadForm('com_thm_organizer.schedule_edit', 'schedule_edit', array('control' => 'jform', 'load_data' => $loadData));
-
-        if (empty($form))
-        {
-            return false;
-        }
-
-        return $form;
-    }
-
-    /**
-     * Method to load the form data
-     *
-     * @return  Object
-     */
-    protected function loadFormData()
-    {
-        $input = JFactory::getApplication()->input;
-        $task = $input->getCmd('task', 'schedule.add');
-        $scheduleID = $input->getInt('id', 0);
-
-        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
-        $edit = (($task == 'schedule.edit')  OR $scheduleID > 0);
-        if ($edit)
-        {
-            if (!empty($scheduleID))
-            {
-                return $this->getItem($scheduleID);
-            }
-
-            $scheduleIDs = $input->get('cid',  null, 'array');
-            return $this->getItem($scheduleIDs[0]);
-        }
-        return $this->getItem(0);
-    }
-
-    /**
-     * Method to get the table
-     *
-     * @param   String  $type    Type              (default: 'schedules')
-     * @param   String  $prefix  Prefix          (default: 'THM_OrganizerTable')
-     * @param   Array   $config  Configuration  (default: 'Array')
-     *
-     * @return  JTable object
-     */
-    public function getTable($type = 'schedules', $prefix = 'thm_organizerTable', $config = array())
-    {
-        return JTable::getInstance($type, $prefix, $config);
+        parent::__construct($config);
     }
 }
