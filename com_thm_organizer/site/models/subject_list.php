@@ -472,7 +472,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      */
     private function getSearch()
     {
-        $search = '%' . $this->_db->getEscaped($this->state->get('search'), true) . '%';
+        $search = '%' . $this->_db->escape($this->state->get('search'), true) . '%';
         $where = "(s.name_de LIKE '$search' OR s.name_en LIKE '$search' OR ";
         $where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
         $where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";

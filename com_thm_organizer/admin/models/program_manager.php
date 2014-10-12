@@ -228,7 +228,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
             $clue = trim($clue);
             if (!empty($clue))
             {
-                $search = '%' . $this->_db->getEscaped($clue, true) . '%';
+                $search = '%' . $this->_db->escape($clue, true) . '%';
                 $whereClause = "( subject_de LIKE '$search' ";
                 $whereClause .= "OR subject_en LIKE '$search' ";
                 $whereClause .= "OR version LIKE '$search' ";

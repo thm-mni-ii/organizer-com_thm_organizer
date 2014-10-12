@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelField_Manager extends JModelList
+class THM_OrganizerModelField_Manager extends THM_CoreModelList
 {
     /**
      * Constructor to set the config array and call the parent constructor
@@ -30,6 +30,10 @@ class THM_OrganizerModelField_Manager extends JModelList
      */
     public function __construct($config = array())
     {
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] = array('f.field','f.gpuntisID','c.name');
+        }
         parent::__construct($config);
     }
 
@@ -42,45 +46,51 @@ class THM_OrganizerModelField_Manager extends JModelList
     {
         // Create the query
         $query = $this->_db->getQuery(true);
-        $query->select("f.id, gpuntisID, field, name, color");
+        $query->select("f.id, f.gpuntisID, f.field, c.name, c.color");
         $query->from('#__thm_organizer_fields AS f');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $query->where("field LIKE '$search' OR gpuntisID LIKE '$search'");
         }
 
-        $query->order("{$this->state->get('list.ordering', 'field')} {$this->state->get('list.direction', 'ASC')}");
+        $ordering = $this->_db->escape($this->state->get('list.ordering', $this->defaultOrdering));
+        $direction = $this->_db->escape($this->state->get('list.direction', $this->defaultDirection));
+        $query->order("$ordering $direction");
 
         return $query;
     }
 
     /**
-     * Method to get the populate state
+     * Function to feed the data in the table body correctly to the list view
      *
-     * @param   string  $ordering   the property by which the results should be ordered
-     * @param   string  $direction  the direction in which results should be ordered
-     *
-     * @return  void
+     * @return array consisting of items in the body
      */
-    protected function populateState($ordering = null, $direction = null)
+    public function getItems()
     {
-        $app = JFactory::getApplication('administrator');
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
+        {
+            return $return;
+        }
 
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'field');
-        $this->setState('list.ordering', $ordering);
-
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
-
-        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $search);
-
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('list.limit', $limit);
-
-        parent::populateState($ordering, $direction);
+        $index = 0;
+        foreach ($items as $item)
+        {
+            $return[$index] = array();
+            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index][1] = JHtml::_('link', $item->link, $item->ectitle);
+            $globalTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_GLOBAL');
+            $return[$index][2] = $this->getToggle($item->id, $item->global, 'category', $globalTip, 'global');
+            $reservesTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_RESERVES');
+            $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'category', $reservesTip, 'reserves');
+            $return[$index][4] = JHtml::_('link', $item->link, $item->cctitle);
+            $index++;
+        }
+        return $return;
     }
+
 }

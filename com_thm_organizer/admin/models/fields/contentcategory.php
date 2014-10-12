@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.form.formfield');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Class loads a list of fields for selection

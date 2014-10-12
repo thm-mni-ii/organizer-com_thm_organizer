@@ -52,7 +52,7 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
         $query->select($select);
         $query->from('#__thm_organizer_colors');
 
-        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $query->where("name LIKE '$search' OR color LIKE '$search'");

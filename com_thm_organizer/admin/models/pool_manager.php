@@ -98,7 +98,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
             }
         }
 
-        $search = '%' . $this->_db->getEscaped($this->state->get('filter.search'), true) . '%';
+        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
         if ($search != '%%')
         {
             $searchClause = "(name_{$language[0]} LIKE '$search' ";
