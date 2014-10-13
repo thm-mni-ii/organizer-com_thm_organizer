@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class THM_OrganizerModelColors for component com_thm_organizer
@@ -23,6 +23,10 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerModelField_Manager extends THM_CoreModelList
 {
+    protected $defaultOrdering = 'f.field';
+
+    protected $defaultDirection = 'ASC';
+
     /**
      * Constructor to set the config array and call the parent constructor
      *
@@ -46,7 +50,10 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
     {
         // Create the query
         $query = $this->_db->getQuery(true);
-        $query->select("f.id, f.gpuntisID, f.field, c.name, c.color");
+        $select = "f.id, f.gpuntisID, f.field, c.name, c.color, ";
+        $parts = array("'index.php?option=com_thm_organizer&view=field_edit&id='","f.id");
+        $select .= $query->concatenate($parts, "") . "AS link ";
+        $query->select($select);
         $query->from('#__thm_organizer_fields AS f');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
@@ -56,8 +63,8 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
             $query->where("field LIKE '$search' OR gpuntisID LIKE '$search'");
         }
 
-        $ordering = $this->_db->escape($this->state->get('list.ordering', $this->defaultOrdering));
-        $direction = $this->_db->escape($this->state->get('list.direction', $this->defaultDirection));
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
         $query->order("$ordering $direction");
 
         return $query;
@@ -82,15 +89,31 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
         {
             $return[$index] = array();
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $item->link, $item->ectitle);
-            $globalTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_GLOBAL');
-            $return[$index][2] = $this->getToggle($item->id, $item->global, 'category', $globalTip, 'global');
-            $reservesTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_RESERVES');
-            $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'category', $reservesTip, 'reserves');
-            $return[$index][4] = JHtml::_('link', $item->link, $item->cctitle);
+            $return[$index][1] = JHtml::_('link', $item->link, $item->field);
+            $colorOutput = THM_ComponentHelper::getColorField($item->name, $item->color);
+            $return[$index][2] = $colorOutput;
+            $return[$index][3] = JHtml::_('link', $item->link, $item->gpuntisID);
             $index++;
         }
         return $return;
     }
 
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+
+        $headers = array();
+        $headers[] = '';
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
+        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'f.gpuntisID', $direction, $ordering);
+
+        return $headers;
+    }
 }

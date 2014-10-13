@@ -19,7 +19,7 @@ jimport('thm_core.edit.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewDegree_Edit extends JViewLegacy
+class THM_OrganizerViewDegree_Edit extends THM_CoreViewEdit
 {
     /**
      * Method to get display
@@ -30,7 +30,6 @@ class THM_OrganizerViewDegree_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        THM_CoreEditView::setUp($this);
         parent::display($tpl);
     }
 

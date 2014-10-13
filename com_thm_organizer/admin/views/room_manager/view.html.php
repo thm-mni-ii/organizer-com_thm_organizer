@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+jimport('thm_core.list.view');
 /**
  * Class provides methods to display a list of rooms
  *
@@ -18,7 +18,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewRoom_Manager extends JViewLegacy
+class THM_OrganizerViewRoom_Manager extends THM_CoreViewList
 {
     /**
      * Method to get display
@@ -29,19 +29,6 @@ class THM_OrganizerViewRoom_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-        $doc = JFactory::getDocument();
-        $doc->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
-
-        $model = $this->getModel();
-        $this->items = $this->get('Items');
-        $this->buildings = $model->buildings;
-        $this->floors = $model->floors;
-        $this->types = $model->types;
-        $this->pagination = $this->get('Pagination');
-        $this->state = $this->get('State');
-
-        $this->addToolBar();
         parent::display($tpl);
     }
 
@@ -52,12 +39,12 @@ class THM_OrganizerViewRoom_Manager extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_RMM_TOOLBAR_TITLE'), 'organizer_rooms');
-        JToolbarHelper::addNew('room.add', 'JTOOLBAR_NEW');
-        JToolbarHelper::editList('room.edit', 'JTOOLBAR_EDIT');
-        JToolbarHelper::custom('room.mergeAll', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE_ALL', false);
-        JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', true);
-        JToolbarHelper::deleteList('', 'room.delete', 'JTOOLBAR_DELETE');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_VIEW_TITLE'), 'organizer_rooms');
+        JToolbarHelper::addNew('room.add');
+        JToolbarHelper::editList('room.edit');
+        JToolbarHelper::custom('room.mergeAll', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE_AUTO', false);
+        JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'room.delete');
         JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }

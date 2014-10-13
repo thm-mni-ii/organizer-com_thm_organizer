@@ -84,11 +84,11 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
         $ordering = $this->state->get('list.ordering', 'name');
         $direction = $this->state->get('list.direction', 'ASC');
         $headers = array();
-        $headers[0] = "<input type='checkbox' name='toggle' value='' onclick='checkAll($count)' />";
-        $headers[1] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $ordering);
-        $headers[2] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $ordering);
-        $headers[3] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'), 'program_manager', $direction, $ordering);
-        $headers[4] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PLANNER'), 'planner', $direction, $ordering);
+        $headers['id'] = "<input type='checkbox' name='toggle' value='' onclick='checkAll($count)' />";
+        $headers['name'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $ordering);
+        $headers['username'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $ordering);
+        $headers['programmanager'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'), 'program_manager', $direction, $ordering);
+        $headers['planner'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PLANNER'), 'planner', $direction, $ordering);
         return $headers;
     }
 
@@ -160,36 +160,5 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
         $direction = $this->_db->escape($this->state->get('list.direction', 'ASC'));
         $query->order("$ordering $direction");
         return $query;
-    }
-
-    /**
-     * Takes user filter parameters and adds them to the view state
-     *
-     * @param   string  $ordering   the filter parameter to be used for ordering
-     * @param   string  $direction  the direction in which results are to be ordered
-     *
-     * @return  void
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        $app = JFactory::getApplication('administrator');
-        $dbo = JFactory::getDbo();
-
-        $search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
-        $this->setState('filter.search', $search);
-
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'username');
-        $this->setState('list.ordering', $ordering);
-
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
-
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
-
-        $role = $dbo->escape($app->getUserStateFromRequest($this->context . '.filter.role', 'filter_role', '*'));
-        $this->setState('filter.role', $role);
-
-        parent::populateState($ordering, $direction);
     }
 }

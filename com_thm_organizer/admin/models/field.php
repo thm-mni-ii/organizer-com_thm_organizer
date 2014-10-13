@@ -33,9 +33,9 @@ class THM_OrganizerModelField extends JModelLegacy
     public function save()
     {
         $data = JFactory::getApplication()->input->get('jform', array(), 'array');
-        if (strpos($data['gpuntisID'], 'DS_') === false)
+        if (empty($data['colorID']))
         {
-            $data['gpuntisID'] = 'DS_' . $data['gpuntisID'];
+            unset($data['colorID']);
         }
         $table = JTable::getInstance('fields', 'thm_organizerTable');
         return $table->save($data);

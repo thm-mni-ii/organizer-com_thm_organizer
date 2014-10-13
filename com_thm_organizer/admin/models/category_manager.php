@@ -138,11 +138,11 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers[] = '';
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ec.title', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GLOBAL', 'ec.global', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_RESERVES', 'ec.reserves', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CONTENT_CATEGORY', 'cc.title', $direction, $ordering);
+        $headers['id'] = '';
+        $headers['title'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ec.title', $direction, $ordering);
+        $headers['global'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GLOBAL', 'ec.global', $direction, $ordering);
+        $headers['reserves'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_RESERVES', 'ec.reserves', $direction, $ordering);
+        $headers['content_cat'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CONTENT_CATEGORY', 'cc.title', $direction, $ordering);
 
         return $headers;
     }

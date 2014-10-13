@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/editview.php';
+jimport('thm_core.edit.view');
 
 /**
  * Class loads persistent color information into display context
@@ -19,7 +19,7 @@ include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/editview.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewColor_Edit extends JViewLegacy
+class THM_OrganizerViewColor_Edit extends THM_CoreViewEdit
 {
     /**
      * Method to get display
@@ -30,8 +30,6 @@ class THM_OrganizerViewColor_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        THM_OrganizerHelperEditView::setStandardEditView($this);
-        $this->addToolBar();
         parent::display($tpl);
     }
 
@@ -43,7 +41,7 @@ class THM_OrganizerViewColor_Edit extends JViewLegacy
     protected function addToolBar()
     {
         $isNew = ($this->item->id == 0);
-        $title = $isNew? JText::_('COM_THM_ORGANIZER_CLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_CLM_EDIT_TITLE');
+        $title = $isNew? JText::_('COM_THM_ORGANIZER_COLOR_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_COLOR_EDIT_EDIT_VIEW_TITLE');
         JToolbarHelper::title($title, 'organizer_colors');
         JToolbarHelper::save('color.save');
         JToolbarHelper::cancel('color.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

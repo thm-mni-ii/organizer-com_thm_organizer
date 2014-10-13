@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.list');
+jimport('thm_core.edit.model');
 
 /**
  * Class loads form data to edit an entry.

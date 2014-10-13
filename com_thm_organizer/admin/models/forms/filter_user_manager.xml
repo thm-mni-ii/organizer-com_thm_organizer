@@ -32,24 +32,6 @@
     </fields>
 	<fields name="list">
 		<field
-			name="fullordering"
-			type="list"
-			label="COM_CONTENT_LIST_FULL_ORDERING"
-			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
-			onchange="this.form.submit();"
-			default="a.id DESC"
-			>
-			<option value="">JGLOBAL_SORT_BY</option>
-            <option value="name ASC">COM_THM_ORGANIZER_SORT_NAME_ASC</option>
-            <option value="ectitle DESC">COM_THM_ORGANIZER_SORT_NAME_DESC</option>
-            <option value="name ASC">COM_THM_ORGANIZER_SORT_USERNAME_ASC</option>
-            <option value="ectitle DESC">COM_THM_ORGANIZER_SORT_USERNAME_DESC</option>
-            <option value="global ASC">COM_THM_ORGANIZER_SORT_PROGRAM_MANAGER_ASC</option>
-            <option value="global DESC">COM_THM_ORGANIZER_SORT_PROGRAM_MANAGER_DESC</option>
-            <option value="reserves ASC">COM_THM_ORGANIZER_SORT_PLANNER_ASC</option>
-            <option value="reserves DESC">COM_THM_ORGANIZER_SORT_PLANNER_DESC</option>
-		</field>
-		<field
 			name="limit"
 			type="limitbox"
 			class="input-mini"

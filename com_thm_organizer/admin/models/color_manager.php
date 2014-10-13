@@ -102,9 +102,9 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers[] = '';
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-        $headers[] = JText::_('COM_THM_ORGANIZER_COLOR');
+        $headers['id'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['color'] = JText::_('COM_THM_ORGANIZER_COLOR');
 
         return $headers;
     }

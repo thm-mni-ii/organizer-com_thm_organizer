@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+jimport('thm_core.edit.view');
 
 /**
  * Class THM_OrganizerViewField for component com_thm_organizer
@@ -21,7 +21,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewField_Edit extends JViewLegacy
+class THM_OrganizerViewField_Edit extends THM_CoreViewEdit
 {
     /**
      * Method to get display
@@ -32,16 +32,6 @@ class THM_OrganizerViewField_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
-
-        $this->addToolBar();
-
         parent::display($tpl);
     }
 
@@ -53,7 +43,7 @@ class THM_OrganizerViewField_Edit extends JViewLegacy
     protected function addToolBar()
     {
         $isNew = ($this->item->id == 0);
-        $title = $isNew ? JText::_('COM_THM_ORGANIZER_FLM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_FLM_EDIT_TITLE');
+        $title = $isNew ? JText::_('COM_THM_ORGANIZER_FIELD_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_FIELD_EDIT_EDIT_VIEW_TITLE');
         JToolbarHelper::title($title, 'organizer_fields');
         JToolbarHelper::save('field.save');
         JToolbarHelper::cancel('field.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

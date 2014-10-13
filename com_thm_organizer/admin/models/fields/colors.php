@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.form.formfield');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php';
 
 /**
  * Class JFormFieldColor for component com_thm_organizer
@@ -58,19 +58,15 @@ class JFormFieldColors extends JFormField
         }
 
         $html = "<select id = 'colorID' name='jform[colorID]'>";
-
-        $html .= "<option selected='selected' style='' value=''>";
-        $html .= JText::_('COM_THM_ORGANIZER_NONE');
-        $html .= "</option>";
+        $html .= '<option selected="selected" value="">' . JText::_('COM_THM_ORGANIZER_FILTER_NONE') . '</option>';
 
         foreach ($colors as $color)
         {
-            $html .= "<option style='background-color:#$color->color' value='$color->id' ";
-            if ($this->value == $color->id)
-            {
-                $html .= "selected='selected'";
-            }
-            $html .= " >$color->name</option>";
+            $selected = $this->value == $color->id? "selected='selected'" : '';
+            $textColor = THM_ComponentHelper::getTextColor($color->color);
+            $style = 'style="background-color:#' . $color->color . '; color:#' . $textColor . ';"';
+            $value = 'value="' . $color->id . '"';
+            $html .= "<option $style $selected $value >$color->name</option>";
         }
         $html .= "</select>";
         return $html;

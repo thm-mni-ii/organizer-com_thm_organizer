@@ -2,8 +2,7 @@
 <form>
     <fieldset name="details">
         <field name="id"
-               type="hidden"
-               required="true" />
+               type="hidden" />
         <field name="name"
                type="text"
                class="inputbox"

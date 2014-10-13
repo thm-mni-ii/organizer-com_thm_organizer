@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 /**
  * Class THM_OrganizerModelRooms for component com_thm_organizer
  * Class provides methods to deal with rooms
@@ -19,13 +19,11 @@ jimport('joomla.application.component.modellist');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom_Manager extends JModelList
+class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
 {
-    public $buildings = null;
+    protected $defaultOrdering = 'r.longname';
 
-    public $floors = null;
-
-    public $types = null;
+    protected $defaultDirection = 'ASC';
 
     /**
      * Constructor to set the config array and call the parent constructor
@@ -34,11 +32,93 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      */
     public function __construct($config = array())
     {
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] = array('r.longname', 'roomtype', 'r.name');
+        }
         parent::__construct($config);
-        $this->populateState();
-        $this->setBuildings();
-        $this->setFloors();
-        $this->setTypes();
+    }
+
+    /**
+     * Method to get all rooms from the database
+     *
+     * @return  JDatabaseQuery
+     */
+    protected function getListQuery()
+    {
+        $query = $this->_db->getQuery(true);
+        $select = "r.id, r.gpuntisID, r.name, r.longname, t.id AS typeID, ";
+        $typeParts = array("t.type","', '", "t.subtype");
+        $select .= $query->concatenate($typeParts, "") . " AS type, ";
+        $linkParts = array("'index.php?option=com_thm_organizer&view=room_edit&id='", "r.id");
+        $select .= $query->concatenate($linkParts, "") . " AS link";
+        $query->select($select);
+        $query->from('#__thm_organizer_rooms AS r');
+        $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
+
+        $this->addSearchFilter($query);
+
+        $buildingFilter = $this->state->get('filter.building', '');
+        if (!empty($buildingFilter))
+        {
+            $floorFilter = $this->state->get('filter.floor', '');
+            $query->where("r.name LIKE '$buildingFilter.$floorFilter%'");
+        }
+
+        $this->addTypeFilter($query);
+
+        // Get the filter values from the request
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $query->order("$ordering $direction");
+
+        return $query;
+    }
+
+    /**
+     * Method to overwrite the getItems method in order to set the program name
+     *
+     * @return  array  an array of objects fulfilling the request criteria
+     */
+    public function getItems()
+    {
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
+        {
+            return $return;
+        }
+
+        $index = 0;
+        foreach ($items as $item)
+        {
+            $return[$index] = array();
+            $return[$index]['id'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['longname'] = JHtml::_('link', $item->link, $item->longname);
+            $return[$index]['type'] = JHtml::_('link', $item->link, $item->type);
+            $index++;
+        }
+        return $return;
+    }
+
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+
+        $headers = array();
+        $headers['id'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $ordering);
+        $headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname', $direction, $ordering);
+        $headers['type'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);
+
+        return $headers;
     }
 
     /**
@@ -47,7 +127,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      * 
      * @return  mixed  An array of data items on success, false on failure.
      */
-    public function setBuildings()
+    private function setBuildings()
     {
         $query = $this->getListQuery();
         $query->clear('where');
@@ -84,7 +164,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      * 
      * @return  mixed  An array of data items on success, false on failure.
      */
-    public function setFloors()
+    private function setFloors()
     {
         if ($this->state->get('filter.building') == '*')
         {
@@ -149,7 +229,7 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      * 
      * @return  mixed  An array of data items on success, false on failure.
      */
-    public function setTypes()
+    private function setTypes()
     {
         $query = $this->getListQuery();
         $query->clear('where');
@@ -185,41 +265,6 @@ class THM_OrganizerModelRoom_Manager extends JModelList
     }
 
     /**
-     * Method to get all rooms from the database
-     *
-     * @return  JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $query = $this->_db->getQuery(true);
-        $select = "r.id, r.gpuntisID, r.name, r.longname, ";
-        $parts = array("t.type","', '", "t.subtype");
-        $select .= "t.id AS typeID, " . $query->concatenate($parts, "") . " AS type ";
-        $query->select($select);
-        $query->from('#__thm_organizer_rooms AS r');
-        $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
-
-        $this->addSearchFilter($query);
-
-        $buildingFilter = $this->state->get('filter.building');
-        if (!empty($buildingFilter) AND $buildingFilter != '*')
-        {
-            $locationFilter = $this->state->get('filter.building') . '.';
-            $locationFilter .= $this->state->get('filter.floor') != '*'? $this->state->get('filter.floor') : '';
-            $query->where("r.name LIKE '$locationFilter%'");
-        }
-
-        $this->addTypeFilter($query);
-
-        // Get the filter values from the request
-        $orderBy = $this->state->get('list.ordering', 'r.name');
-        $orderDir = $this->state->get('list.direction', 'ASC');
-        $query->order("$orderBy $orderDir");
-
-        return $query;
-    }
-
-    /**
      * Adds the search filter to the query
      * 
      * @param   object  &$query  the query to modify
@@ -228,11 +273,13 @@ class THM_OrganizerModelRoom_Manager extends JModelList
      */
     private function addSearchFilter(&$query)
     {
-        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
-        if ($search != '%%')
+        $userInput = $this->state->get('filter.search', '');
+        if (empty($userInput))
         {
-            $query->where("(r.name LIKE '$search' OR r.longname LIKE '$search')");
+            return;
         }
+        $search = '%' . $this->_db->escape($userInput, true) . '%';
+        $query->where("(r.name LIKE '$search' OR r.longname LIKE '$search')");
     }
 
     /**
@@ -249,45 +296,5 @@ class THM_OrganizerModelRoom_Manager extends JModelList
         {
             $query->where("r.typeID = '{$this->state->get('filter.type')}'");
         }
-    }
-
-    /**
-     * Method to get the populate state
-     *
-     * @param   string  $orderBy   the property by which the results should be ordered
-     * @param   string  $orderDir  the direction in which results should be ordered
-     *
-     * @return  void
-     */
-    protected function populateState($orderBy = null, $orderDir = null)
-    {
-        $app = JFactory::getApplication('administrator');
-
-        $orderBy = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'longname');
-        $this->setState('list.ordering', $orderBy);
-
-        $orderDir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $orderDir);
-
-        $filter = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $filter);
-
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
-
-        $building = $app->getUserStateFromRequest($this->context . '.filter_building', 'filter_building', '');
-        $this->setState('filter.building', $building);
-
-        $resetFloors = $building !== $app->input->get('oldBuilding');
-        $floor = $app->getUserStateFromRequest($this->context . '.filter_floor', 'filter_floor', '');
-        $this->setState('filter.floor', $resetFloors? '' : $floor);
-
-        $type = $app->getUserStateFromRequest($this->context . '.filter_type', 'filter_type', '');
-        $this->setState('filter.type', $type);
-
-        $subtype = $app->getUserStateFromRequest($this->context . '.filter_subtype', 'filter_subtype', '');
-        $this->setState('filter.subtype', $subtype);
-
-        parent::populateState($orderBy, $orderDir);
     }
 }

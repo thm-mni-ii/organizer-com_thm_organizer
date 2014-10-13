@@ -179,14 +179,14 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $item->link, $item->longname);
-            $return[$index][2] = JHtml::_('link', $item->link, $item->ip);
+            $return[$index]['id'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['roomID'] = JHtml::_('link', $item->link, $item->longname);
+            $return[$index]['ip'] = JHtml::_('link', $item->link, $item->ip);
             $controller = 'monitor';
             $tip = JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TOGGLE_COMPONENT_SETTINGS');
             $return[$index][3] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
-            $return[$index][4] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
-            $return[$index][5] = JHtml::_('link', $item->link, $item->content);
+            $return[$index]['displaybehaviour'] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
+            $return[$index]['displaycontent'] = JHtml::_('link', $item->link, $item->content);
             $index++;
         }
         return $return;

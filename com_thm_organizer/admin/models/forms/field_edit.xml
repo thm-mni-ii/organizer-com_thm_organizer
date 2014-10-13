@@ -2,8 +2,7 @@
 <form>
     <fieldset name="details">
         <field name="id"
-               type="hidden"
-               required="true" />
+               type="hidden" />
         <field type="text"
                name="field"
                label="COM_THM_ORGANIZER_NAME"
@@ -18,14 +17,12 @@
                description="COM_THM_ORGANIZER_FLM_GPUNTISID_DESC"
                size="10"
                maxlength="50"
-               class="inputbox"
-               required="true" />
+               class="inputbox" />
         <field name="colorID"
                type="colors"
                class="inputbox color"
                size="10"
                label="COM_THM_ORGANIZER_COLOR"
-               description="COM_THM_ORGANIZER_FLM_COLOR_DESC"
-               required="true" />
+               description="COM_THM_ORGANIZER_FLM_COLOR_DESC" />
     </fieldset>
 </form>
