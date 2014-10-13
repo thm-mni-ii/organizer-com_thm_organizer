@@ -19,14 +19,14 @@ JFormHelper::loadFieldClass('list');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldRoomKeys extends JFormFieldList
+class JFormFieldGenericList extends JFormFieldList
 {
     /**
      * Type
      *
      * @var    String
      */
-    public $type = 'roomkeys';
+    public $type = 'genericlist';
 
     /**
      * Method to get the field options for category
@@ -38,24 +38,29 @@ class JFormFieldRoomKeys extends JFormFieldList
      */
     protected function getOptions()
     {
+        $attributes = $this->element;
+        $valueColumn = $this->element->xpath("[@value='Large']")['@value'];
+        $textColumn = $this->element['@text'];
+        $table = $this->element['@table'];
+
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        echo "<pre>" . print_r($this, true) . "</pre>";
 
-        $query->select('DISTINCT r.id AS value, r.name AS text');
-        $query->from('#__thm_organizer_rooms AS r');
-        $query->order('r.name ASC');
+        $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
+        $query->from("#__$table");
+        $query->order("$textColumn ASC");
         $dbo->setQuery((string) $query);
+        echo "<pre>" . print_r((string) $query, true) . "</pre>";
 
         try
         {
-            $rooms = $dbo->loadAssocList();
-            $roomOptions = array();
-            foreach ($rooms as $room)
+            $resources = $dbo->loadAssocList();
+            $options = array();
+            foreach ($resources as $resource)
             {
-                $roomOptions[] = JHtml::_('select.option', $room['value'], $room['text']);
+                $options[] = JHtml::_('select.option', $resource['value'], $resource['text']);
             }
-            return array_merge(parent::getOptions(), $roomOptions);
+            return array_merge(parent::getOptions(), $options);
         }
         catch (Exception $exc)
         {

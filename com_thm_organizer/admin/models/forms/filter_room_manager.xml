@@ -9,7 +9,7 @@
         />
         <field
             name="name"
-            type="roomkeys"
+            type="genericlist"
             valueColumn="id"
             textColumn="name"
             table="thm_organizer_rooms"
