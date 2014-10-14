@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
             name="search"
             type="text"
@@ -8,36 +8,45 @@
             hint="JSEARCH_FILTER"
         />
         <field
+            name="checkbox"
+            type="checkall" />
+        <field
             name="name"
             type="genericlist"
             valueColumn="id"
             textColumn="name"
             table="thm_organizer_rooms"
-            label="COM_THM_ORGANIZER_ROOM"
+            label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_ROOM</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
             name="longname"
-            type="roomnames"
-            label="COM_THM_ORGANIZER_ROOM"
+            type="genericlist"
+            valueColumn="id"
+            textColumn="longname"
+            table="thm_organizer_rooms"
+            label="COM_THM_ORGANIZER_DISPLAY_NAME"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_ROOM</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_DISPLAY_NAME</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
             name="type"
-            type="list"
+            type="genericlist"
+            valueColumn="t.id"
+            textColumn="type,subtype"
+            glue=", "
+            table="thm_organizer_rooms,thm_organizer_room_types"
+            alias="r,t"
             label="COM_THM_ORGANIZER_TYPE"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_RESERVES</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_TYPE</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="1">COM_THM_ORGANIZER_FILTER_RESERVES_YES</option>
-            <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
         </field>
     </fields>
 	<fields name="list">

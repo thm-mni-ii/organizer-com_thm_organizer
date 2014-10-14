@@ -93,7 +93,7 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index]['id'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
             $return[$index]['longname'] = JHtml::_('link', $item->link, $item->longname);
             $return[$index]['type'] = JHtml::_('link', $item->link, $item->type);
@@ -113,7 +113,7 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers['id'] = '';
+        $headers['checkbox'] = '';
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $ordering);
         $headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname', $direction, $ordering);
         $headers['type'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);
