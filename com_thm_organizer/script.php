@@ -28,6 +28,9 @@ class Com_THM_OrganizerInstallerScript
      * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
      * All text constants have been replaced by hard coded English texts. :(
      *
+     * It also seems that under 3.x this function is ignored if the method is upgrade even if no prior installation
+     * existed.
+     *
      * @param   object  $parent  the class calling this method
      *
      * @return void
@@ -210,15 +213,12 @@ class Com_THM_OrganizerInstallerScript
      */
     private function createImageDirectory()
     {
-        $success = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
-        if ($success)
+        $exists = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
+        if ($exists)
         {
-            return $success;
+            return true;
         }
-        else
-        {
-            return JFolder::create(JPATH_SITE . '/images/thm_organizer');
-        }
+        return JFolder::create(JPATH_SITE . '/images/thm_organizer');
     }
 
     /**
@@ -228,24 +228,31 @@ class Com_THM_OrganizerInstallerScript
      */
     private function fillTables()
     {
-        $return = true;
-        $fill = file_get_contents($this->SQLPath() . '/fill.mysql.utf8.sql');
         $dbo = JFactory::getDbo();
+        $fill = file_get_contents($this->SQLPath() . '/fill.mysql.utf8.sql');
         $queries = $dbo->splitSql($fill);
 
-        foreach ($queries as $query)
+        $dbo->transactionStart();
+        foreach ($queries as $rawQuery)
         {
-            if (trim($query))
+            $query = trim($rawQuery);
+            if (empty($query))
+            {
+                continue;
+            }
+            try
             {
                 $dbo->setQuery($query);
-                if (!$dbo->execute())
-                {
-                    $return = false;
-                    JError::raiseWarning(1, JText::sprintf($dbo->getErrorMsg(), $dbo->stderr(true)));
-                }
+            }
+            catch (Exception $exc)
+            {
+                $dbo->transactionRollback();
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return false;
             }
         }
-        return $return;
+        $dbo->transactionCommit();
+        return true;
     }
 
     /**
@@ -260,15 +267,14 @@ class Com_THM_OrganizerInstallerScript
     public function uninstall($parent)
     {
         $dirDeleted = JFolder::delete(JPATH_SITE . '/images/thm_organizer');
-        echo '<p>' . JText::_('COM_THM_ORGANIZER_UNINSTALL_TEXT') . '</p>';
         if (!$dirDeleted)
         {
-            echo JText::_('COM_THM_ORGANIZER_UNINSTALL_DIR_FAIL');
+            echo JText::_('The directory located at "/images/thm_organizer" could not be removed.');
         }
     }
 
     /**
-     * com_thm_organizer update function
+     * Provides an output once Joomla! has finished the update process.
      *
      * @param   Object  $parent  JInstallerComponent
      *
@@ -276,65 +282,16 @@ class Com_THM_OrganizerInstallerScript
      */
     public function update($parent)
     {
-        ?>
-        <style>
-            .com_thm_organizer_success {
-                box-shadow: -5px -5px 25px green inset;
-                transition-property: box-shadow;
-                transition-duration: 3s;
-            }
-        </style>
-
-        <script>
-        window.addEvent('domready', function() {
-            $('com_thm_organizer_fieldset').addClass("com_thm_organizer_success");
-        });
-
-        </script>
-
-        <fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
-        <legend>
-            <img style="float:none;" src="../media/com_thm_organizer/images/thm_organizer.png" alt="THM Organizer Logo"/>
-        </legend>
-
-        <div style="padding-left: 17px; padding-bottom: 20px">
-            <div style="width: 100%;">
-                <?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_LICENSE')?>
-                <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
-            </div>
-            <table style="border-radius: 5px; border-style: dashed; margin-top: 17px;">
-
-                <!-- Table header -->
-
-                    <thead>
-                    </thead>
-
-                <!-- Table footer -->
-
-                    <tfoot>
-                    </tfoot>
-
-                <!-- Table body -->
-
-                <tbody>
-                    <tr>
-                        <td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS')?></td>
-                        <td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_DATABASE_STATUS_TEXT')?></span></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS')?></td>
-                        <td><span style='color: green'><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_FILES_DIRECTORIES_STATUS_TEXT')?></span></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo JTEXT::_('COM_THM_ORGANIZER_UPDATE_UPDATE_STATUS')?></td>
-                        <td><span style='color: green'>
-                        <?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE_UPDATE_TEXT', $parent->get('manifest')->version); ?>
-                        </span></td>
-                    </tr>
-                </tbody>
-            </table>
+        $logoURL = 'media/com_thm_organizer/images/thm_organizer.png';
+        $licenseLink = '<a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>';
+        $version = $parent->get('manifest')->version;
+?>
+        <div class="span5 form-vertical">
+            <?php echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER')); ?>
+            <br />
+            <p><?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE', $version, $licenseLink); ?></p>
+            <br />
         </div>
-    </fieldset>
-    <?php
+<?php
     }
 }
