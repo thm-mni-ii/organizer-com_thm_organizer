@@ -117,9 +117,9 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
             $return[$index] = array();
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
             $return[$index][1] = JHtml::_('link', $item->link, $item->ectitle);
-            $globalTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_GLOBAL');
+            $globalTip = JTEXT::_('COM_THM_ORGANIZER_TOGGLE_GLOBAL');
             $return[$index][2] = $this->getToggle($item->id, $item->global, 'category', $globalTip, 'global');
-            $reservesTip = JTEXT::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TOGGLE_RESERVES');
+            $reservesTip = JTEXT::_('COM_THM_ORGANIZER_TOGGLE_RESERVES');
             $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'category', $reservesTip, 'reserves');
             $return[$index][4] = JHtml::_('link', $item->link, $item->cctitle);
             $index++;

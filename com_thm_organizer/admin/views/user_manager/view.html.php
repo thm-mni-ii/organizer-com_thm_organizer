@@ -52,17 +52,17 @@ class THM_OrganizerViewUser_Manager extends THM_CoreViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_USER_MANAGER_VIEW_TITLE'), 'organizer_users');
 
         $image = 'new';
-        $title = JText::_('JTOOLBAR_NEW');
+        $title = JText::_('COM_THM_ORGANIZER_ADD_USERS');
         $link = 'index.php?option=com_thm_organizer&amp;view=user_select&amp;tmpl=component';
-        $height = '550';
-        $width = '875';
+        $height = '600';
+        $width = '900';
         $top = 0;
         $left = 0;
         $onClose = 'window.location.reload();';
         $bar = JToolBar::getInstance('toolbar');
         $bar->appendButton('Popup', $image, $title, $link, $width, $height, $top, $left, $onClose);
 
-        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_USM_DELETE_CONFIRM'), 'user.delete');
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'user.delete');
         JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }

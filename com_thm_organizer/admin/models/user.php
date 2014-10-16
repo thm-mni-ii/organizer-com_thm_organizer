@@ -36,7 +36,7 @@ class THM_OrganizerModelUser extends JModelLegacy
         }
 
         $query = $this->_db->getQuery(true);
-        $query->insert('#__thm_organizer_users')->columns('id');
+        $query->insert('#__thm_organizer_users')->columns('userID');
         foreach ($userIDs as $userID)
         {
             $query->clear('values');
@@ -79,7 +79,7 @@ class THM_OrganizerModelUser extends JModelLegacy
         $query = $this->_db->getQuery(true);
         $query->update('#__thm_organizer_users');
         $query->set("$role = '$newValue'");
-        $query->where("id = '$userID'");
+        $query->where("userid = '$userID'");
         $this->_db->setQuery((string) $query);
         try
         {
@@ -106,7 +106,7 @@ class THM_OrganizerModelUser extends JModelLegacy
         foreach ($userIDs as $userID)
         {
             $query->clear('where');
-            $query->where("id = '$userID'");
+            $query->where("userid = '$userID'");
             $this->_db->setQuery((string) $query);
             try
             {

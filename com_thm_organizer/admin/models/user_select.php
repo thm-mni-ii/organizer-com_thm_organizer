@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 
 /**
  * Class compiling a list of users
@@ -20,9 +20,11 @@ jimport('joomla.application.component.modellist');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerModelUser_Select extends JModelList
+class THM_OrganizerModelUser_Select extends THM_CoreModelList
 {
-    public $headers;
+    protected $defaultOrdering = 'name';
+
+    protected $defaultDirection = 'ASC';
 
     /**
      * sets variables and configuration data
@@ -39,6 +41,50 @@ class THM_OrganizerModelUser_Select extends JModelList
     }
 
     /**
+     * Generates the query to be used to fill the output list
+     *
+     * @return  object  the JDatabaseQuery object
+     */
+    protected function getListQuery()
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select("id, name, username");
+        $query->from('#__users');
+        $subQuery = $this->_db->getQuery(true);
+        $subQuery->select("userid");
+        $subQuery->from('#__thm_organizer_users');
+        $query->where('id NOT IN (' . (string) $subQuery . ')');
+
+        $search = $this->state->get('filter.search');
+        $searchParts = explode(' ', $search);
+        if (!empty($search))
+        {
+            $qwhery = array();
+            foreach ($searchParts AS $part)
+            {
+                $qwhery[] = "name LIKE '%$part%' OR username LIKE '%$part%'";
+            }
+            $query->where("( " . implode(' OR ', $qwhery) . " )");
+        }
+
+        $userIDByName = $this->state->get('filter.name');
+        $userIDByUsername = $this->state->get('filter.username');
+        $filterID = (!empty($userIDByName) OR !empty($userIDByUsername));
+        if ($filterID)
+        {
+            $userID = empty($userIDByName)? $userIDByUsername : $userIDByName;
+            $query->where("id = '$userID'");
+            return $query;
+        }
+
+        $ordering = $this->_db->escape($this->state->get('list.ordering', $this->defaultOrdering));
+        $direction = $this->_db->escape($this->state->get('list.direction',  $this->defaultDirection));
+        $query->order("$ordering $direction");
+
+        return $query;
+    }
+
+    /**
      * Method to get an array of data items.
      *
      * @return  mixed  An array of data items on success, false on failure.
@@ -50,22 +96,6 @@ class THM_OrganizerModelUser_Select extends JModelList
         $items = parent::getItems();
         $this->headers = $this->getHeaders();
         return $this->processItems($items);
-    }
-
-    /**
-     * Generates the headers to be used by the output table
-     *
-     * @return  array  the table headers
-     */
-    private function getHeaders()
-    {
-        $orderby = $this->state->get('list.ordering', 'name');
-        $direction = $this->state->get('list.direction', 'ASC');
-        $headers = array();
-        $headers[0] = '';
-        $headers[1] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $orderby);
-        $headers[2] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $orderby);
-        return $headers;
     }
 
     /**
@@ -85,67 +115,27 @@ class THM_OrganizerModelUser_Select extends JModelList
         $index = 0;
         foreach ($items as $item)
         {
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = $item->name;
-            $return[$index][2] = $item->username;
+            $return[$index]['id'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = $item->name;
+            $return[$index]['username'] = $item->username;
             $index++;
         }
         return $return;
     }
 
     /**
-     * Generates the query to be used to fill the output list
+     * Generates the headers to be used by the output table
      *
-     * @return  object  the JDatabaseQuery object
+     * @return  array  the table headers
      */
-    protected function getListQuery()
+    public function getHeaders()
     {
-        $query = $this->_db->getQuery(true);
-        $query->select("id, name, username");
-        $query->from('#__users');
-        $subQuery = $this->_db->getQuery(true);
-        $subQuery->select("id");
-        $subQuery->from('#__thm_organizer_users');
-        $query->where('id NOT IN (' . (string) $subQuery . ')');
-
-        $search = $this->state->get('filter.user');
-        $searchParts = explode(' ', $search);
-        if (!empty($search))
-        {
-            $qwhery = array();
-            foreach ($searchParts AS $part)
-            {
-                $qwhery[] = "name LIKE '%$part%' OR username LIKE '%$part%'";
-            }
-            $query->where("( " . implode(' OR ', $qwhery) . " )");
-        }
-
-        $orderby = $this->_db->escape($this->state->get('list.ordering', 'name'));
-        $direction = $this->_db->escape($this->state->get('list.direction', 'ASC'));
-        $query->order("$orderby $direction");
-
-        return $query;
-    }
-
-    /**
-     * Takes user filter parameters and adds them to the view state
-     *
-     * @param   string  $ordering   the filter parameter to be used for ordering
-     * @param   string  $direction  the direction in which results are to be ordered
-     *
-     * @return  void
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        $search = $this->getUserStateFromRequest($this->context . '.filter.user', 'filter_user', '');
-        $this->setState('filter.user', $search);
-
-        $orderBy = $this->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'user');
-        $this->setState('list.ordering', $orderBy);
-
-        $direction = $this->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
-
-        parent::populateState($ordering, $direction);
+        $orderby = $this->state->get('list.ordering', 'name');
+        $direction = $this->state->get('list.direction', 'ASC');
+        $headers = array();
+        $headers['id'] = '';
+        $headers['name'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $orderby);
+        $headers['username'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $orderby);
+        return $headers;
     }
 }

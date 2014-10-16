@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-    <fieldset name="component"
-              label="COM_THM_ORGANIZER_SETTINGS_TITLE"
-              description="COM_THM_ORGANIZER_SETTINGS_DESC">
+    <fieldset name="eCollab"
+              label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_VIEW_TITLE"
+              description="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_VIEW_DESCRIPTION">
         <field name="eCollabLink"
                type="text"
                size="60"
                default="http://moodle.thm.de/course/view.php?idnumber="
-               label="COM_THM_ORGANIZER_SETTINGS_ECOLLAB_TITLE"
-               description="COM_THM_ORGANIZER_SETTINGS_ECOLLAB_DESC">
+               label="COM_THM_ORGANIZER_ECOLLAB"
+               description="COM_THM_ORGANIZER_ECOLLAB_DESC">
         </field>
         <field name="displayeCollabLink"
                type="list"
                default="0"
-               label="COM_THM_ORGANIZER_SETTINGS_ECOLLABDISPLAY_TITLE"
-               description="COM_THM_ORGANIZER_SETTINGS_ECOLLABDISPLAY_DESC">
+               label="COM_THM_ORGANIZER_ECOLLAB_DISPLAY"
+               description="COM_THM_ORGANIZER_ECOLLAB_DISPLAY_DESC">
             <option value='1'>JYES</option>
             <option value='0'>JNO</option>
         </field>
     </fieldset>
-    <fieldset name="LSF-SERVICE"
-              label="COM_THM_ORGANIZER_LSF_SERVICE_TITLE"
-              description="COM_THM_ORGANIZER_LSF_SERVICE_DESC">
+    <fieldset name="LSF-Service"
+              label="COM_THM_ORGANIZER_LSF_SETTINGS_VIEW_TITLE"
+              description="COM_THM_ORGANIZER_LSF_SETTINGS_VIEW_DESC">
         <field name="wsURI"
                type="text"
                default="https://studien-sb-service.fh-giessen-friedberg.de/lsfadmin/services/dbinterface?wsdl"
                size="100"
-               label="COM_THM_ORGANIZER_LSF_URI_TITLE"
+               label="COM_THM_ORGANIZER_LSF_URI"
                description="COM_THM_ORGANIZER_LSF_URI_DESC">
         </field>
         <field name="wsUsername"
                type="text"
                default="soapclmni"
                size="30"
-               label="COM_THM_ORGANIZER_LSF_USERNAME_TITLE"
+               label="COM_THM_ORGANIZER_LSF_USERNAME"
                description="COM_THM_ORGANIZER_LSF_USERNAME_DESC">
         </field>
         <field name="wsPassword"
                type="text"
                default="cByAroe5"
                size="30"
-               label="COM_THM_ORGANIZER_LSF_PASSWORD_TITLE"
+               label="COM_THM_ORGANIZER_LSF_PASSWORD"
                description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
         </field>
     </fieldset>
-    <fieldset name="monitor"
-              label="COM_THM_ORGANIZER_MONITOR_SETTINGS_TITLE"
-              description="COM_THM_ORGANIZER_MONITOR_SETTINGS_DESC">
+    <fieldset name="Monitors"
+              label="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_TITLE"
+              description="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
         <field
             type="list"
             id="display"
             name="display"
-            label="COM_THM_ORGANIZER_MON_DISPLAY"
-            description="COM_THM_ORGANIZER_MON_DISPLAY_DESC"
+            label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
+            description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC"
             class="inputbox">
-            <option value='1'>COM_THM_ORGANIZER_MON_SCHEDULE</option>
-            <option value='2'>COM_THM_ORGANIZER_MON_MIXED</option>
-            <option value='3'>COM_THM_ORGANIZER_MON_CONTENT</option>
-            <option value='4'>COM_THM_ORGANIZER_MON_EVENTS</option>
+            <option value='1'>COM_THM_ORGANIZER_DAILY_PLAN</option>
+            <option value='2'>COM_THM_ORGANIZER_MIXED_PLAN</option>
+            <option value='3'>COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
+            <option value='4'>COM_THM_ORGANIZER_EVENT_PLAN</option>
         </field>
         <field
             id="schedule_refresh"

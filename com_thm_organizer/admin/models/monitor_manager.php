@@ -183,7 +183,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
             $return[$index]['roomID'] = JHtml::_('link', $item->link, $item->longname);
             $return[$index]['ip'] = JHtml::_('link', $item->link, $item->ip);
             $controller = 'monitor';
-            $tip = JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TOGGLE_COMPONENT_SETTINGS');
+            $tip = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
             $return[$index][3] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
             $return[$index]['displaybehaviour'] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
             $return[$index]['displaycontent'] = JHtml::_('link', $item->link, $item->content);

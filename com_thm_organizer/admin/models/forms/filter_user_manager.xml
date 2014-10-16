@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
             name="search"
             type="text"
             label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
             hint="JSEARCH_FILTER"
         />
+        <field
+            name="name"
+            type="genericlist"
+            valueColumn="u.id"
+            textColumn="u.name"
+            table="thm_organizer_users,users"
+            alias="ou,u"
+            label="COM_THM_ORGANIZER_NAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="username"
+            type="genericlist"
+            valueColumn="u.id"
+            textColumn="u.username"
+            table="thm_organizer_users,users"
+            alias="ou,u"
+            label="COM_THM_ORGANIZER_NAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
         <field
             name="programmanager"
             type="list"
