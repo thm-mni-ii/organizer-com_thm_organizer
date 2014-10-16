@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
@@ -20,8 +20,12 @@ require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSubject_Manager extends JModelList
+class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
 {
+    protected $defaultOrdering = 'name';
+
+    protected $defaultDirection = 'ASC';
+
     public $programs = null;
 
     public $pools = null;
@@ -63,9 +67,6 @@ class THM_OrganizerModelSubject_Manager extends JModelList
     {
         $dbo = JFactory::getDBO();
         $language = explode('-', JFactory::getLanguage()->getTag());
-
-        $orderCol = $this->state->get('list.ordering');
-        $orderDir = $this->state->get('list.direction');
 
         // Create the sql query
         $query = $dbo->getQuery(true);
@@ -115,7 +116,9 @@ class THM_OrganizerModelSubject_Manager extends JModelList
             }
         }
 
-        $query->order("$orderCol $orderDir");
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $query->order("$ordering $direction");
 
         return $query;
     }
@@ -181,13 +184,13 @@ class THM_OrganizerModelSubject_Manager extends JModelList
         try
         {
             $mappingData = $dbo->loadAssoc();
+            return $mappingData;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $mappingData;
     }
 
     /**

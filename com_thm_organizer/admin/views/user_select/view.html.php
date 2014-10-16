@@ -22,6 +22,12 @@ jimport('thm_core.list.view');
  */
 class THM_OrganizerViewUser_Select extends THM_CoreViewList
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * loads data into view output context and initiates functions creating html
      * elements

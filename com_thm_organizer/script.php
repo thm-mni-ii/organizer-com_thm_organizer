@@ -284,12 +284,20 @@ class Com_THM_OrganizerInstallerScript
     {
         $logoURL = 'media/com_thm_organizer/images/thm_organizer.png';
         $licenseLink = '<a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>';
-        $version = $parent->get('manifest')->version;
+        $version = (string) $parent->get('manifest')->version;
+
+        $dirSpan = '';
+        $imagePath = '/images/thm_organizer';
+        $dirCreated = $this->createImageDirectory();
+        if (!$dirCreated)
+        {
+            $dirSpan .= '<span style="color:red" >' . JText::sprintf('COM_THM_ORGANIZER_MESSAGE_IMAGE_FOLDER_FAIL', $imagePath) . "</span>";
+        }
 ?>
         <div class="span5 form-vertical">
             <?php echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER')); ?>
             <br />
-            <p><?php echo JText::sprintf('COM_THM_ORGANIZER_UPDATE', $version, $licenseLink); ?></p>
+            <p><?php echo JText::sprintf('COM_THM_ORGANIZER_MESSAGE_UPDATE', $version, $licenseLink) . ' ' . $dirSpan; ?></p>
             <br />
         </div>
 <?php
