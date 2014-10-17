@@ -6,7 +6,7 @@
  * @name        JFormFieldScheduler
  * @description Custom form field of com_thm_groups
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

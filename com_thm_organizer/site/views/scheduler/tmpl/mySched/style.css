@@ -28,14 +28,6 @@ div.MySchedexternURLClass_DIS {
     text-align: center;
 }
 
-.MySchedEvent_name {
-    cursor: pointer;
-}
-
-.MySchedEvent_name_no_link {
-    cursor: move;
-}
-
 .MySchedEvent_joomla {
     font-size: 11px;
     cursor: move;
@@ -422,9 +414,9 @@ small.removed {
 }
 
 /* Ext-Style overrides */
-tr.x-grid-row td.x-grid-cell {
-    border-right: 1px solid rgb(218, 218, 218);
-    border-bottom: 1px solid rgb(218, 218, 218);
+.x-grid-row .x-grid-cell {
+    border-right: 1px solid #ECECEC;
+    border-bottom: 1px solid #ECECEC;
     border-top: 0;
 }
 

@@ -3,13 +3,14 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerControllerScheduler_Tree
- * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @name        THM_OrganizerControllerCurriculum
+ * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('joomla.application.component.controller');
 
 /**
  * Class THM_OrganizerControllerCurriculum for component com_thm_organizer

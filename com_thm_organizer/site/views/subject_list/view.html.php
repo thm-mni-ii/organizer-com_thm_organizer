@@ -6,7 +6,7 @@
  * @name        list view for subject resources
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -33,7 +33,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JFactory::getDocument()->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/subject_list.css");
+        JFactory::getDocument()->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/thm_organizer.css");
 
         $this->state = $this->get('State');
         $this->items = $this->get('items');

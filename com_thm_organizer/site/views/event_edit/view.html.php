@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        create/edit appointment/event view
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -36,7 +36,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/event_edit.css");
+        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/event_edit.css');
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
 
         $this->form = $this->get('Form');

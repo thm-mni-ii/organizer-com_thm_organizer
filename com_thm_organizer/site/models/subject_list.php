@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelSubject_List
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -215,8 +215,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         $select = array();
         $subjectsQuery->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
-        $groupBy = $this->state->get('groupBy', '0');
-        switch ($groupBy)
+        switch ($this->state->get('groupBy', '0'))
         {
             case NONE:
                 
@@ -252,7 +251,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $search = $this->state->get('search');
         if (!empty($search))
         {
-            if ($groupBy != TEACHER)
+            if (!$this->state->get('groupBy') == TEACHER)
             {
                 $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
             }
@@ -472,7 +471,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      */
     private function getSearch()
     {
-        $search = '%' . $this->_db->escape($this->state->get('search'), true) . '%';
+        $search = '%' . $this->_db->getEscaped($this->state->get('search'), true) . '%';
         $where = "(s.name_de LIKE '$search' OR s.name_en LIKE '$search' OR ";
         $where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
         $where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";

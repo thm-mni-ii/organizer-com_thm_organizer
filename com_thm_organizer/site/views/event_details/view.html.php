@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewEvent
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -34,7 +34,7 @@ class THM_OrganizerViewEvent_Details extends JViewLegacy
     {
         JHtml::_('behavior.tooltip');
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
+        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/event_details.css');
 
         $model = $this->getModel();
         $this->event = $model->event;

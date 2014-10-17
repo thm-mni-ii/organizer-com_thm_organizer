@@ -6,7 +6,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerControllerEvent
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -207,4 +207,20 @@ class THM_OrganizerControllerEvent extends JControllerLegacy
             $this->setRedirect($link, $msg, 'error');
         }
     }
+
+    /**
+     * function search
+     *
+     * redirects to the event_manager view which reformats its sql restriction
+     *
+     * @return void
+ 
+    public function search()
+    {
+        JComponentHelper::ge
+        $menuID = JRequest::getVar('Itemid');
+        $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
+        $this->setRedirect($link);
+    }
+    */
 }

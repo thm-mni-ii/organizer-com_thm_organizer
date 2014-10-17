@@ -931,9 +931,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 }
                 if (MySched.Authorize.user !== null && MySched.Authorize.role !== 'user' && MySched.Authorize.role !== 'registered')
                 {
-                    if(MySched.linkEvents === true) {
-                        addNewEvent(e.target.id);
-                    }
+                    addNewEvent(e.target.id);
                 }
             },
             scope: this
