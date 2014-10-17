@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        default layout for thm organizer's scheduler view
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -83,8 +83,6 @@ if ($this->config['canWrite'] === true)
         MySched.PHPExcelInstalled = <?php echo $this->libraries['PHPExcel']? 'true' : 'false'; ?>;
         MySched.schedulerFromMenu = <?php echo $this->config['isMenu']? 'true' : 'false'; ?>;
         MySched.displayModuleNumber = <?php echo $this->displayModuleNumber? 'true' : 'false'; ?>;
-        MySched.linkEvents = <?php echo $this->config['linkEvents'] == 1 ? 'true' : 'false'; ?>;
-
         Ext.application({
             name: 'Scheduler',
             launch: MySched.Base.init

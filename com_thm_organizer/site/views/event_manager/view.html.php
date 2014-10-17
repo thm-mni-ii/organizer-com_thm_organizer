@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewEvent_manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -34,7 +34,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
         JHtml::_('behavior.formvalidation');
         JHtml::_('behavior.tooltip');
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/event_manager.css");
+        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/event_manger.css');
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_manager.js'));
 
         $model = $this->getModel();
@@ -48,7 +48,7 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
  
         $categories = $model->categories;
         $this->assignRef('categories', $categories);
-        $categoryID = $model->state->get('categoryID', '-1');
+        $categoryID = $model->getState('categoryID', '-1');
         $this->assignRef('categoryID', $categoryID);
         $this->makeCategorySelect($categories, $categoryID);
 
@@ -64,12 +64,12 @@ class THM_OrganizerViewEvent_Manager extends JViewLegacy
         $this->assign('pageNav', $pageNav);
 
         // Form state variables
-        $search = $model->state->get('search');
+        $search = $model->getState('search');
         $search = (empty($search))? "" : $search;
         $this->assignRef('search', $search);
-        $orderby = $model->state->get('orderby', 'startdate');
+        $orderby = $model->getState('orderby', 'startdate');
         $this->assign('orderby', $orderby);
-        $orderbydir = $model->state->get('orderbydir', 'ASC');
+        $orderbydir = $model->getState('orderbydir', 'ASC');
         $this->assign('orderbydir', $orderbydir);
  
         $this->buildHTMLElements();

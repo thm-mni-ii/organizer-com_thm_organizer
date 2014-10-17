@@ -1,0 +1,41 @@
+.searchArea {
+  background-color: #cce3a7;
+  padding: 5px;
+  border-right: 1px solid #4b5c67;
+  border-top: 1px solid #4b5c67;
+  border-left: 1px solid #4b5c67;
+  -webkit-border-radius: 10px 10px 0 0;
+  -moz-border-radius: 10px 10px 0 0;
+  -ms-border-radius: 10px 10px 0 0;
+  -o-border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 0 0; }
+
+.searchArea a, thead a {
+  color: #4b5c67; }
+  .searchArea a:hover, thead a:hover {
+    color: #7eba27; }
+
+.table-striped {
+  border-collapse: separate; }
+
+thead {
+  background-color: #cce3a7;
+  padding: 5px; }
+  thead tr:nth-child(n+1) th:first-child {
+    border-left: 1px solid #4b5c67; }
+  thead tr:nth-child(n+1) th:last-child {
+    border-right: 1px solid #4b5c67; }
+  thead tr:nth-last-child(1) th {
+    border: none;
+    border-bottom: 1px solid #4b5c67; }
+    thead tr:nth-last-child(1) th:first-child {
+      border-bottom-left-radius: 10px; }
+    thead tr:nth-last-child(1) th:last-child {
+      border-bottom-right-radius: 10px; }
+
+tbody tr:first-child td {
+  border-top-style: none; }
+
+/* test*/
+
+/*# sourceMappingURL=backend.css.map */

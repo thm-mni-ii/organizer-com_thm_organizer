@@ -6,7 +6,7 @@
  * @name        TreeView
  * @description TreeView file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -84,16 +84,9 @@ class THM_OrganizerModelSchedule_Navigation
      */
     public function __construct()
     {
+        $this->_checkBoxForChildrenOnly = JRequest::getBool("childrenCheckbox", false);
+
         $app = JFactory::getApplication();
-        $this->_checkBoxForChildrenOnly = $app->input->getBool("childrenCheckbox", false);
-
-        $isMobile = $app->input->getBool('mobile', false);
-        if ($isMobile)
-        {
-            $this->setMobileProperties();
-            return;
-        }
-
         $menuID = $this->processMenuLocation();
         $menuItem = $app->getMenu()->getItem($menuID);
 
@@ -154,29 +147,6 @@ class THM_OrganizerModelSchedule_Navigation
         $paramsSchedule = $params->get('departmentSemesterSelection', '');
         $this->schedule = empty($requestSchedule)?
                 $paramsSchedule : $requestSchedule;
-    }
-
-    /**
-     * Sets parameters independent of menu item
-     *
-     * @return  void
-     */
-    private function setMobileProperties()
-    {
-        $input = JFactory::getApplication()->input;
-        $languageTag = $input->get('language', '*');
-        $siteLanguage = JFactory::getLanguage()->getTag();
-        $this->_languageTag = ($languageTag == '*')? $siteLanguage : $languageTag;
-
-        $language = JFactory::getLanguage();
-        $language->load('com_thm_organizer', JPATH_SITE, $this->_languageTag, true);
-
-        $schedule = $input->getString('departmentSemesterSelection', '');
-        $this->_checked = array($schedule => 'selected');
-
-        $this->_publicDefault = array();
-
-        $this->schedule = $schedule;
     }
 
     /**
@@ -468,7 +438,7 @@ class THM_OrganizerModelSchedule_Navigation
                 );
                 $categoryNode = new THM_OrganizerNode($categoryNodeData);
             }
-            $allDisplayed = $category == 'pool'? false : $this->displayNode($nodeKey . ";ALL");
+            $allDisplayed = $this->displayNode($nodeKey . ";ALL");
             $subcategories = $this->getSubcategoryNodes($nodeKey, $category, $scheduleID, $allDisplayed);
 
             if (empty($subcategories))

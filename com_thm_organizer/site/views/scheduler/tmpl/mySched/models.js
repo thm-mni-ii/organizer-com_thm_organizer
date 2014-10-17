@@ -1288,41 +1288,8 @@ Ext.define('LectureModel',
     },
     getLessonTitle: function (d)
     {
-        var subjectKeys = this.data.subjects.keys;
-        var subjectNames = [];
-        var lessonTitle = "";
-
-        if(subjectKeys.length === 1)
-        {
-            lessonTitle = MySched.Mapping.getSubjectShortName(subjectKeys[0]);
-            if(lessonTitle === subjectKeys[0])
-            {
-                lessonTitle = MySched.Mapping.getSubjectAbbreviation(subjectKeys[0]);
-                if(lessonTitle === subjectKeys[0])
-                {
-                    lessonTitle = MySched.Mapping.getSubjectName(subjectKeys[0]);
-                }
-            }
-        }
-        else if(subjectKeys.length > 1)
-        {
-            for(var index = 0; index < subjectKeys.length; index++)
-            {
-                var abbreviation = MySched.Mapping.getSubjectAbbreviation(subjectKeys[index]);
-                if(abbreviation === subjectKeys[index])
-                {
-                    abbreviation = MySched.Mapping.getSubjectName(subjectKeys[index]);
-                }
-
-                subjectNames.push(abbreviation);
-            }
-            lessonTitle = subjectNames.join(" / ");
-        }
-        else
-        {
-            lessonTitle = this.data.name;
-        }
-
+        var firstSubject = this.data.subjects.keys[0];
+        var lessonTitle = MySched.Mapping.getSubjectShortName(firstSubject);
         return lessonTitle;
     },
     getComment: function (d)
@@ -2164,23 +2131,17 @@ Ext.define('EventModel',
             }
         }
 
-        var eventNameCSSClass = "MySchedEvent_name_no_link";
-        if(MySched.linkEvents === true)
-        {
-            eventNameCSSClass = "MySchedEvent_name";
-        }
-
         if (type === "teacher")
         {
-            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="' + eventNameCSSClass + '">{event_name}</b><br/><small class="event_resource">{room}</small></div>');
+            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{room}</small></div>');
         }
         else if (type === "room")
         {
-            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="' + eventNameCSSClass + '">{event_name}</b><br/><small class="event_resource">{teacher}</small></div>');
+            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{teacher}</small></div>');
         }
         else
         {
-            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="' + eventNameCSSClass + '">{event_name}</b><br/><small class="event_resource">{teacher} / {room}</small></div>');
+            this.eventTemplate = new Ext.Template('<div id="MySchedEvent_{id}" class="' + MySchedEventClass + '">' + collisionIcon + '<b id="MySchedEvent_{id}" class="MySchedEvent_name">{event_name}</b><br/><small class="event_resource">{teacher} / {room}</small></div>');
         }
 
         return this.eventTemplate.apply(d);

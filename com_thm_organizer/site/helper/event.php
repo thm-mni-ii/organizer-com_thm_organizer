@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        Helper for appointment/event view
  * @author      Dominik Bassing, <dominik.bassing@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2013 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        scheduler model
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -176,6 +176,38 @@ class THM_OrganizerModelScheduler extends JModelLegacy
             return false;
         }
         return $result;
+    }
+
+    /**
+    * Method to get the color for the modules
+    *
+    * @return   Array  An Array with the color for the module
+    */
+    public function getCurriculumModuleColors()
+    {
+        $dbo = JFactory::getDBO();
+        $query = $dbo->getQuery(true);
+
+        $query->select('c.color AS hexColorCode, s.name AS semesterName, cm.organizer_major AS organizerMajorName');
+        $query->from('#__thm_semesters AS s');
+        $query->innerJoin('#__thm_curriculum_semesters_majors AS sm ON s.id = sm.semester_id');
+        $query->innerJoin('#__thm_curriculum_majors AS cm ON cm.id = sm.major_id');
+        $query->innerJoin('#__thm_curriculum_colors AS c ON c.id = s.color_id');
+        $dbo->setQuery((string) $query);
+        $result = $dbo->loadObjectList();
+
+         $error = $dbo->getErrorMsg();
+         if (!empty($error))
+         {
+             return array();
+         }
+
+         if ($result === null)
+         {
+             return array();
+         }
+
+         return $result;
     }
 
     /**

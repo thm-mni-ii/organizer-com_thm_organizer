@@ -14,6 +14,7 @@ fieldset.filter-bar, div.filter-bar {
   overflow: auto;
   padding: 8px 4px 4px 4px;
   z-index: 12;
+  margin-bottom: 4px;
   -webkit-box-shadow: 2px 2px 4px #dddddd;
   -moz-box-shadow: 2px 2px 4px #dddddd;
   -ms-box-shadow: 2px 2px 4px #dddddd;

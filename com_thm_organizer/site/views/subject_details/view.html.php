@@ -7,7 +7,7 @@
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      Wolf Rost,  <Wolf.Rost@mni.thm.de>
  * @author      James Antrim,  <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

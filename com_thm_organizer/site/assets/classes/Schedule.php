@@ -6,7 +6,7 @@
  * @name        Schedule
  * @description Schedule file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2012 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -118,35 +118,5 @@ class THMSchedule
 
         $direktor = new THMScheduleDirector($this->_builder);
         return $direktor->createSchedule($this->_arr, $this->_username, $this->_title);
-    }
-
-    /**
-     * Method to get the active schedules
-     *
-     * @return   mixed  The active schedules or false
-     */
-    public function getActiveSchedules()
-    {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select('departmentname, semestername, id, creationdate, startdate, enddate');
-        $query->from('#__thm_organizer_schedules');
-        $query->where('active = 1');
-        $dbo->setQuery((string) $query);
-        $result = $dbo->loadAssocList();
-
-        $error = $dbo->getErrorMsg();
-
-        if (!empty($error))
-        {
-            return $error;
-        }
-
-        if ($result === null)
-        {
-            return false;
-        }
-
-        return array("success" => true, "data" => $result);
     }
 }
