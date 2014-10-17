@@ -46,6 +46,7 @@
 			>
 			<option value="">COM_THM_ORGANIZER_FILTER_CONTENT</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
 		</field>
     </fields>
 	<fields name="list">
@@ -56,6 +57,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_DEFAULT</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_DEFAULT_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_DEFAULT_NO</option>
         </field>
@@ -63,9 +65,11 @@
             name="display"
             type="list"
             label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
+            class="inputbox"
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_DISPLAY_BEHAVIOUR</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
             <option value="1">COM_THM_ORGANIZER_DAILY_PLAN</option>
             <option value="2">COM_THM_ORGANIZER_MIXED_PLAN</option>
             <option value="3">COM_THM_ORGANIZER_CONTENT_DISPLAY</option>

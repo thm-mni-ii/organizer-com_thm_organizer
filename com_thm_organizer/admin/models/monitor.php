@@ -31,6 +31,10 @@ class THM_OrganizerModelmonitor extends JModelLegacy
     public function save()
     {
         $data = JFactory::getApplication()->input->get('jform', array(), 'array');
+        if (empty($data['roomID']))
+        {
+            unset($data['roomID']);
+        }
         $data['content'] = $data['content'] == '-1'? '' : $data['content'];
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
         return $table->save($data);
@@ -84,5 +88,37 @@ class THM_OrganizerModelmonitor extends JModelLegacy
             $dbo->transactionCommit();
         }
         return $success;
+    }
+
+    /**
+     * Toggles the monitor's use of default settings
+     *
+     * @return  boolean  true on success, otherwise false
+     */
+    public function toggle()
+    {
+        $input = JFactory::getApplication()->input;
+        $monitorID = $input->getInt('id', 0);
+        if (empty($monitorID))
+        {
+            return false;
+        }
+
+        $value = $input->getInt('value', 1)? 0 : 1;
+
+        $query = $this->_db->getQuery(true);
+        $query->update('#__thm_organizer_monitors');
+        $query->set("useDefaults = '$value'");
+        $query->where("id = '$monitorID'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            return (bool) $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
     }
 }

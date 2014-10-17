@@ -12,8 +12,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+jimport('thm_core.edit.view');
 
 /**
  * Class loading a monitor entry into the view context
@@ -22,7 +21,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewMonitor_Edit extends JViewLegacy
+class THM_OrganizerViewMonitor_Edit extends THM_CoreViewEdit
 {
     /**
      * loads monitor information into the view context
@@ -33,18 +32,6 @@ class THM_OrganizerViewMonitor_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.framework', true);
-        JHTML::_('behavior.formvalidation');
-        JHTML::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/monitor_edit.css');
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/monitor_edit.js'));
-
-        $this->form = $this->get('Form');
-
-        $this->addToolBar();
-
         parent::display($tpl);
     }
 
@@ -53,11 +40,10 @@ class THM_OrganizerViewMonitor_Edit extends JViewLegacy
      *
      * @return void
      */
-    private function addToolBar()
+    protected function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER') . ': ';
-        $title .= ($this->form->getValue('id'))? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
-        $title .= " " . JText::_('COM_THM_ORGANIZER_MONITOR');
+        $title = ($this->form->getValue('id'))?
+            JText::_('COM_THM_ORGANIZER_MONITOR_EDIT_EDIT_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_MONITOR_EDIT_NEW_VIEW_TITLE');
         JToolbarHelper::title($title, 'organizer_monitors');
         JToolbarHelper::save('monitor.save');
         JToolbarHelper::save2new('monitor.save2new');

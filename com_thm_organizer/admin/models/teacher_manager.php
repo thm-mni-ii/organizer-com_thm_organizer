@@ -93,28 +93,28 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $item->link, $item->surname);
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['surname'] = JHtml::_('link', $item->link, $item->surname);
             $forename = empty($item->forename)? '' : $item->forename;
-            $return[$index][2] = JHtml::_('link', $item->link, $forename);
+            $return[$index]['forename'] = JHtml::_('link', $item->link, $forename);
             $username = empty($item->username)? '' : $item->username;
-            $return[$index][3] = JHtml::_('link', $item->link, $username);
+            $return[$index]['username'] = JHtml::_('link', $item->link, $username);
             $gpuntisID = empty($item->gpuntisID)? '' : $item->gpuntisID;
-            $return[$index][4] = JHtml::_('link', $item->link, $gpuntisID);
+            $return[$index]['untisID'] = JHtml::_('link', $item->link, $gpuntisID);
             if (!empty($item->field))
             {
                 if (!empty($item->color))
                 {
-                    $return[$index][5] = THM_ComponentHelper::getColorField($item->field, $item->color);
+                    $return[$index]['fieldID'] = THM_ComponentHelper::getColorField($item->field, $item->color);
                 }
                 else
                 {
-                    $return[$index][5] = $item->field;
+                    $return[$index]['fieldID'] = $item->field;
                 }
             }
             else
             {
-                $return[$index][5] = '';
+                $return[$index]['fieldID'] = '';
             }
             $index++;
         }
@@ -132,12 +132,12 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers[] = '';
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'f.field', $direction, $ordering);
+        $headers['checkbox'] = '';
+        $headers['surname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
+        $headers['forename'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);
+        $headers['username'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction, $ordering);
+        $headers['untisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction, $ordering);
+        $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'f.field', $direction, $ordering);
 
         return $headers;
     }

@@ -112,7 +112,6 @@ class THM_OrganizerModelcategory extends JModelLegacy
         return true;
     }
 
-
     /**
      * Toggles the user's association with a role
      *

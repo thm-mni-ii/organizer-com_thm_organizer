@@ -137,4 +137,27 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     {
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=monitor_manager', false));
     }
+
+
+    /**
+     * Toggles category behaviour properties
+     *
+     * @return void
+     */
+    public function toggle()
+    {
+        $model = $this->getModel('monitor');
+        $success = $model->toggle();
+        if ($success)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            $type = 'message';
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+            $type = 'error';
+        }
+        $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_manager", $msg, $type);
+    }
 }

@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
             name="search"
             type="text"
             label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
             hint="JSEARCH_FILTER"
-        />
+            />
+        <field
+            name="checkbox"
+            type="checkall" />
+        <field
+            name="surname"
+            type="genericlist"
+            valueColumn="surname"
+            textColumn="surname"
+            table="thm_organizer_teachers"
+            label="COM_THM_ORGANIZER_SURNAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_SURNAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="forename"
+            type="genericlist"
+            valueColumn="forename"
+            textColumn="forename"
+            table="thm_organizer_teachers"
+            label="COM_THM_ORGANIZER_SURNAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_FORENAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="username"
+            type="genericlist"
+            valueColumn="username"
+            textColumn="username"
+            table="thm_organizer_teachers"
+            label="COM_THM_ORGANIZER_USERNAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="untisID"
+            type="genericlist"
+            valueColumn="untisID"
+            textColumn="untisID"
+            table="thm_organizer_teachers"
+            label="COM_THM_ORGANIZER_USERNAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
     </fields>
 	<fields name="list">
 		<field

@@ -63,7 +63,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($this->state->get("list.select", $select));
         $query->from("#__thm_organizer_monitors AS m");
-        $query->innerjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
+        $query->leftjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
 
         $this->setWhere($query);
 
@@ -87,37 +87,47 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         if (!empty($filterRoom))
         {
             $query->where("m.roomID = '$filterRoom'");
-            return;
+        }
+
+        $filterIP = $this->state->get('filter.ip');
+        if (!empty($filterIP))
+        {
+            $query->where("m.ip = '$filterIP'");
         }
 
         $filterSearch = $this->state->get('filter.search');
         if (!empty($filterSearch))
         {
             $search = '%' . $this->_db->escape($filterSearch, true) . '%';
-            $query->where("r.longname LIKE '$filterSearch' OR m.ip LIKE '$search'");
+            $query->where("r.longname LIKE '$search' OR m.ip LIKE '$search' OR m.content LIKE '$search'");
         }
 
-        $filterDisplay = $this->state->get('filter.display');
-        $useFilterDisplay = is_numeric($filterDisplay);
-        $contentID = $this->state->get('filter.content');
-        $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
-        $useFilterContent = !empty($filterContent);
+        $this->addDefaultFilter($query);
+        $this->addDisplayFilter($query);
+        $this->addContentFilter($query);
+    }
 
-        $useFilters = ($useFilterDisplay OR $useFilterContent);
-        if (!$useFilters)
+    /**
+     * Adds the filter settings for display behaviour
+     *
+     * @param   object  &$query  the query object
+     *
+     * @return  void
+     */
+    private function addDefaultFilter(&$query)
+    {
+        $useDefaults = $this->state->get('list.useDefaults', '');
+        if ($useDefaults === '')
         {
             return;
         }
 
-        if ($useFilterDisplay OR $useFilterContent)
-        {
-            $this->addDisplayFilter($query);
-        }
-
+        $where = "m.useDefaults ='$useDefaults'";
+        $query->where($where);
     }
 
     /**
-     * Adds the filter settings for display behaviour and displayed content
+     * Adds the filter settings for display behaviour
      *
      * @param   object  &$query  the query object
      *
@@ -125,42 +135,56 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
      */
     private function addDisplayFilter(&$query)
     {
-        $filterDisplay = $this->state->get('filter.display', '1');
-        $useFilterDisplay = is_numeric($filterDisplay);
-        $contentID = $this->state->get('filter.content', '');
-        $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
-        $useFilterContent = !empty($filterContent);
+        $params = JComponentHelper::getParams('com_thm_organizer');
+        $requestDisplay = $this->state->get('list.display', '');
 
-        $componentDisplay = JComponentHelper::getParams('com_thm_organizer')->get('display', '1');
-        $useComponentDisplay = ($useFilterDisplay AND $filterDisplay == $componentDisplay);
-        $componentContent = JComponentHelper::getParams('com_thm_organizer')->get('content', '');
-        $useComponentContent = ($useFilterContent AND $filterContent == $componentContent);
-
-        $rowWhere = '';
-        if ($useFilterDisplay)
+        if ($requestDisplay === '')
         {
-            $rowWhere .= "m.display ='$filterDisplay'";
+            return;
         }
 
-        if ($useFilterContent)
+        $where = "m.display ='$requestDisplay'";
+
+        $defaultDisplay = $params->get('display', '');
+        $useComponentDisplay = (!empty($defaultDisplay) AND $requestDisplay == $defaultDisplay);
+        if ($useComponentDisplay)
         {
-            $rowWhere .= $useFilterDisplay? " AND " : '';
-            $rowWhere .= "m.content ='$filterDisplay' ";
+            $query->where("( $where OR useDefaults = '1')");
+            return;
         }
 
-        /**
-         * One:    Both display and content are being filtered, and the component settings match both
-         * Two:    Display alone is being filtered and matches component settings
-         * Three:  Content alone is being filtered and matches component settings
-         **/
-        $conditionOne = ($useComponentDisplay AND $useComponentContent);
-        $conditionTwo = ($useComponentDisplay AND !$useFilterContent);
-        $conditionThree = (!$useFilterDisplay AND $useComponentContent);
+        $query->where($where);
+    }
 
-        $useComponent = ($conditionOne OR $conditionTwo OR $conditionThree);
-        $componentWhere = $useComponent? "OR m.useDefaults ='1'" : '';
+    /**
+     * Adds the filter settings for displayed content
+     *
+     * @param   object  &$query  the query object
+     *
+     * @return  void
+     */
+    private function addContentFilter(&$query)
+    {
+        $params = JComponentHelper::getParams('com_thm_organizer');
+        $requestContent = $this->state->get('filter.content', '');
 
-        $query->where("( ( $rowWhere ) $componentWhere )");
+        if ($requestContent === '')
+        {
+            return;
+        }
+
+        $requestContent = $requestContent == '-1'? '' : $requestContent;
+        $where = "m.content ='$requestContent'";
+
+        $defaultContent = $params->get('content', '');
+        $useComponentContent = ($requestContent == $defaultContent);
+        if ($useComponentContent)
+        {
+            $query->where("( $where OR useDefaults = '1')");
+            return;
+        }
+
+        $query->where($where);
     }
 
     /**
@@ -177,9 +201,18 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
             return $return;
         }
 
+        $params = JComponentHelper::getParams('com_thm_organizer');
+
         $index = 0;
         foreach ($items as $item)
         {
+            // Set default attributes
+            if (!empty($item->useDefaults))
+            {
+                $item->displayBehaviour = $params->get('display');
+                $item->content = $params->get('content');
+            }
+
             $return[$index] = array();
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['roomID'] = JHtml::_('link', $item->link, $item->longname);

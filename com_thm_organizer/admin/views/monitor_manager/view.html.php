@@ -49,7 +49,7 @@ class THM_OrganizerViewMonitor_Manager extends THM_CoreViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_VIEW_TITLE'), 'organizer_monitors');
         JToolbarHelper::addNew('monitor.add');
         JToolbarHelper::editList('monitor.edit');
-        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_MON_DELETE_CONFIRM'), 'monitor.delete');
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION _DELETE_CONFIRM'), 'monitor.delete');
         JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }

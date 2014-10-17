@@ -21,8 +21,6 @@ jimport('thm_core.edit.model');
  */
 class THM_OrganizerModelMonitor_Edit extends THM_CoreModelEdit
 {
-    public $behaviours = null;
-
     /**
      * constructor
      *
@@ -31,12 +29,6 @@ class THM_OrganizerModelMonitor_Edit extends THM_CoreModelEdit
     public function  __construct($config = array())
     {
         parent::__construct($config);
-        $this->behaviours = array(
-                                  1 => JText::_('COM_THM_ORGANIZER_MON_SCHEDULE'),
-                                  2 => JText::_('COM_THM_ORGANIZER_MON_MIXED'),
-                                  3 => JText::_('COM_THM_ORGANIZER_MON_CONTENT'),
-                                  4 => JText::_('COM_THM_ORGANIZER_MON_EVENTS')
-                                 );
     }
 
 }
