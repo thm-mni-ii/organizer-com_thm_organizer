@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('jquery.jquery');
+jimport('thm_core.list.view');
 /**
  * Class which loads data into the view output context
  *
@@ -20,8 +20,14 @@ jimport('jquery.jquery');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewUser_Select extends JViewLegacy
+class THM_OrganizerViewUser_Select extends THM_CoreViewList
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * loads data into view output context and initiates functions creating html
      * elements
@@ -32,16 +38,17 @@ class THM_OrganizerViewUser_Select extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-        JHtml::_('behavior.multiselect');
-
-        $this->model = $this->getModel();
-        $this->items = $this->get('Items');
-        $this->state = $this->get('State');
-        $this->pagination = $this->get('Pagination');
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/user_select.css');
-
         parent::display($tpl);
+    }
+
+    /**
+     * creates a joomla administrative tool bar
+     *
+     * @return void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_USER_SELECT_VIEW_TITLE'), 'organizer_users');
+        JToolbarHelper::addNew('user.add', 'COM_THM_ORGANIZER_ACTION_ADD');
     }
 }

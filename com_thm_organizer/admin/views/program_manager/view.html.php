@@ -22,6 +22,12 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewProgram_Manager extends JViewLegacy
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * Method to get display
      *

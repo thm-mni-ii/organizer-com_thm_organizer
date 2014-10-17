@@ -11,7 +11,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+jimport('thm_core.list.view');
+
 /**
  * Retrieves a list of subjects and loads data into context.
  *
@@ -19,8 +20,14 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSubject_Manager extends JViewLegacy
+class THM_OrganizerViewSubject_Manager extends THM_CoreViewList
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * Retrieves display items and loads them into context.
      *
@@ -30,27 +37,7 @@ class THM_OrganizerViewSubject_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-        JHTML::_('behavior.modal', 'a.modal-button');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
-
-        $this->items = $this->get('Items');
-        $this->pagination = $this->get('Pagination');
-        $this->state = $this->get('State');
-        $model = $this->getModel();
-
-        $this->programSelect = $this->getProgramSelect($model->programs);
-        $programID = $this->state->get('filter.program');
-        if (!empty($programID) and !empty($model->pools))
-        {
-            $this->poolSelect = $this->getPoolSelect($model->pools);
-        }
-
-        $this->addToolBar();
         parent::display($tpl);
-
     }
 
     /**

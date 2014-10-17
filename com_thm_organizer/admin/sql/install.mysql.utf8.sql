@@ -1,10 +1,10 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_users` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL,
+  `userID` INT ( 11 ) NOT NULL,
   `program_manager` TINYINT ( 1 ) NOT NULL DEFAULT '0',
   `planner` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  PRIMARY KEY ( `id` )
+  KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules` (
   `department` VARCHAR ( 50 ) NOT NULL DEFAULT '',
   `semestername` VARCHAR ( 50 ) NOT NULL,
   PRIMARY KEY `id` ( `id` ),
-  FOREIGN KEY ( `semestername` ) REFERENCES #__thm_organizer_schedules( `semestername` ) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `semestername` ( `semestername` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules_elements` (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules_elements` (
   `vid` INT ( 11 ) UNSIGNED NOT NULL,
   `eid` VARCHAR ( 20 ) NOT NULL,
   PRIMARY KEY `id` ( `id` ),
-  FOREIGN KEY ( `vid` ) REFERENCES `#__thm_organizer_virtual_schedules` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `vid` ( `vid` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
   `colorID` INT(11) unsigned DEFAULT NULL,
   PRIMARY KEY ( `id` ),
   UNIQUE KEY `gpuntisID` ( `gpuntisID` ),
-  FOREIGN KEY (`colorID`) REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  KEY `colorID` (`colorID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
@@ -84,8 +84,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `description_de` text DEFAULT NULL,
   `description_en` text DEFAULT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`degreeID`) REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  KEY `degreeID` (`degreeID`),
+  KEY `fieldID` (`fieldID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   PRIMARY KEY (id),
   KEY `lsfID` ( `lsfID` ),
   KEY `externalID` ( `externalID` ),
-  FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  KEY `fieldID` (`fieldID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
@@ -163,8 +163,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `method_competence` INT( 1 ) UNSIGNED NOT NULL ,
   `social_competence` INT( 1 ) UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`),
-  CONSTRAINT `frequencyID_fk` FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `fieldID_fk`FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  KEY `frequencyID` (`frequencyID`),
+  KEY `fieldID` (`fieldID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
@@ -172,8 +172,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
   `subjectID` INT ( 11 ) UNSIGNED NOT NULL,
   `prerequisite` INT ( 11 ) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY ( `subjectID` ) REFERENCES `#__thm_organizer_subjects`( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `prerequisite` ) REFERENCES `#__thm_organizer_subjects`( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE KEY `entry` (`subjectID`,`prerequisite`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -188,10 +186,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
   `level` INT(11) UNSIGNED DEFAULT NULL,
   `ordering` INT(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_mappings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `parentID` (`parentID`),
+  KEY `programID` (`programID`),
+  KEY `poolID` (`poolID`),
+  KEY `subjectID` (`subjectID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
@@ -204,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `title` varchar ( 45 ) DEFAULT NULL,
   PRIMARY KEY ( `id` ),
   KEY `username` ( `username` ),
-  FOREIGN KEY ( `fieldID` ) REFERENCES #__thm_organizer_fields( `id` ) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `fieldID` (`fieldID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teacher_responsibilities` (
@@ -220,9 +218,9 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
   `teacherResp` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`subjectID`, `teacherID`, `teacherResp`),
   UNIQUE  KEY (`id`),
-  FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`teacherResp`) REFERENCES `#__thm_organizer_teacher_responsibilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `subjectID` (`subjectID`) ,
+  KEY `teacherID` (`teacherID`) ,
+  KEY `teacherResp` (`teacherResp`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
@@ -241,12 +239,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `longname` VARCHAR ( 50 ) NOT NULL DEFAULT '',
   `typeID` INT ( 11 ) UNSIGNED DEFAULT NULL,
   PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `typeID` ) REFERENCES #__thm_organizer_room_types( `id` ) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `typeID` ( `typeID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `roomID` INT ( 11 ) UNSIGNED NOT NULL,
+  `roomID` INT ( 11 ) UNSIGNED DEFAULT NULL,
   `ip` VARCHAR ( 15 ) NOT NULL,
   `useDefaults` TINYINT( 1 ) NOT NULL DEFAULT '0',
   `display` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'the display behaviour of the monitor',
@@ -255,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `interval` INT ( 1 ) UNSIGNED NOT NULL DEFAULT'1' COMMENT 'the time interval in minutes between context switches',
   `content` VARCHAR ( 256 ) DEFAULT NULL COMMENT 'the filename of the resource to the optional resource to be displayed',
   PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `roomID` ) REFERENCES `#__thm_organizer_rooms` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
@@ -284,8 +282,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `recurrence_INTerval` INT ( 2 ) UNSIGNED  NOT NULL DEFAULT '0',
   `recurrence_days` VARCHAR ( 7 ) NOT NULL DEFAULT '0000000',
   `recurrence_date` INT ( 2 ) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `categoryID` ) REFERENCES `#__thm_organizer_categories` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `id` ( `id` ),
+  KEY `categoryID` ( `categoryID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
@@ -293,26 +291,150 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
   `eventID` INT ( 11 ) UNSIGNED NOT NULL,
   `date` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY ( `id` ),
-  FOREIGN KEY ( `eventID` ) REFERENCES `#__thm_organizer_events` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `eventID` ( `eventID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_teachers` (
   `eventID` INT ( 11 ) UNSIGNED NOT NULL,
   `teacherID` INT ( 11 ) UNSIGNED NOT NULL,
-  FOREIGN KEY ( `eventID` ) REFERENCES `#__thm_organizer_events` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `teacherID` ) REFERENCES `#__thm_organizer_teachers` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `eventID` ( `eventID` ),
+  KEY `teacherID` ( `teacherID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_rooms` (
   `eventID` INT ( 11 ) UNSIGNED NOT NULL,
   `roomID` INT ( 11 ) UNSIGNED NOT NULL,
-  FOREIGN KEY ( `eventID` ) REFERENCES `#__thm_organizer_events` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY ( `roomID` ) REFERENCES `#__thm_organizer_rooms` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `eventID` ( `eventID` ),
+  KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
   `eventID` INT ( 11 ) UNSIGNED NOT NULL,
   `groupID` INT ( 11 ) UNSIGNED NOT NULL,
-  FOREIGN KEY ( `eventID` ) REFERENCES `#__thm_organizer_events` ( `id` ) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `eventID` ( `eventID` ),
   KEY `groupID` ( `groupID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `#__thm_organizer_users`
+ADD CONSTRAINT `users_userid_fk` FOREIGN KEY (`userID`)
+REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_virtual_schedules`
+ADD CONSTRAINT `virtual_schedules_semestername_fk` FOREIGN KEY (`semestername`)
+REFERENCES `#__thm_organizer_schedules` (`semestername`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_virtual_schedules_elements`
+ADD CONSTRAINT `virtual_schedules_elements_vid_fk` FOREIGN KEY (`vid`)
+REFERENCES `#__thm_organizer_virtual_schedules` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_fields`
+ADD CONSTRAINT `fields_colorid_fk` FOREIGN KEY (`colorID`)
+REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_programs`
+ADD CONSTRAINT `programs_degreeid_fk` FOREIGN KEY (`degreeID`)
+REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_programs`
+ADD CONSTRAINT `programs_fieldid_fk` FOREIGN KEY (`fieldID`)
+REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_pools`
+ADD CONSTRAINT `pools_fieldid_fk` FOREIGN KEY (`fieldID`)
+REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_subjects`
+ADD CONSTRAINT `subjects_frequencyid_fk` FOREIGN KEY (`frequencyID`)
+REFERENCES `#__thm_organizer_frequencies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_subjects`
+ADD CONSTRAINT `subjects_fieldid_fk` FOREIGN KEY (`fieldID`)
+REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_prerequisites`
+ADD CONSTRAINT `prerequisites_subjectid_fk` FOREIGN KEY (`subjectID`)
+REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_prerequisites`
+ADD CONSTRAINT `prerequisites_prerequisites_fk` FOREIGN KEY (`prerequisite`)
+REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_mappings`
+ADD CONSTRAINT `mappings_parentid_fk` FOREIGN KEY (`parentID`)
+REFERENCES `#__thm_organizer_mappings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_mappings`
+ADD CONSTRAINT `mappings_programid_fk` FOREIGN KEY (`programID`)
+REFERENCES `#__thm_organizer_programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_mappings`
+ADD CONSTRAINT `mappings_poolid_fk` FOREIGN KEY (`poolID`)
+REFERENCES `#__thm_organizer_pools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_mappings`
+ADD CONSTRAINT `mappings_subjectid_fk` FOREIGN KEY (`subjectID`)
+REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_teachers`
+ADD CONSTRAINT `teachers_fieldid_fk` FOREIGN KEY (`fieldID`)
+REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_subject_teachers`
+ADD CONSTRAINT `subject_teachers_subjectid_fk` FOREIGN KEY (`subjectID`)
+REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_subject_teachers`
+ADD CONSTRAINT `subject_teachers_teacherid_fk` FOREIGN KEY (`teacherID`)
+REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_subject_teachers`
+ADD CONSTRAINT `subject_teachers_responsibility_fk` FOREIGN KEY (`teacherResp`)
+REFERENCES `#__thm_organizer_teacher_responsibilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_rooms`
+ADD CONSTRAINT `rooms_typeid_fk` FOREIGN KEY (`typeID`)
+REFERENCES `#__thm_organizer_room_types` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_monitors`
+ADD CONSTRAINT `monitors_roomid_fk` FOREIGN KEY (`roomID`)
+REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_categories`
+ADD CONSTRAINT `categories_categoryid_fk` FOREIGN KEY (`contentCatID`)
+REFERENCES `#__categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_events`
+ADD CONSTRAINT `events_contentid_fk` FOREIGN KEY (`id`)
+REFERENCES `#__content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_events`
+ADD CONSTRAINT `events_categoryid_fk` FOREIGN KEY (`categoryID`)
+REFERENCES `#__thm_organizer_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_event_exclude_dates`
+ADD CONSTRAINT `event_exclude_dates_eventid_fk` FOREIGN KEY (`eventID`)
+REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_event_teachers`
+ADD CONSTRAINT `event_teachers_eventid_fk` FOREIGN KEY (`eventID`)
+REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_event_teachers`
+ADD CONSTRAINT `event_teachers_teacherid_fk` FOREIGN KEY (`teacherID`)
+REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_event_rooms`
+ADD CONSTRAINT `event_rooms_eventid_fk` FOREIGN KEY (`eventID`)
+REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_event_rooms`
+ADD CONSTRAINT `event_rooms_roomid_fk` FOREIGN KEY (`roomID`)
+REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_event_groups`
+ADD CONSTRAINT `event_groups_eventid_fk` FOREIGN KEY (`eventID`)
+REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_event_groups`
+ADD CONSTRAINT `event_groups_groupid_fk` FOREIGN KEY (`groupID`)
+REFERENCES `#__usergroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

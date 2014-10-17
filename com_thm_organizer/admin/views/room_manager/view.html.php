@@ -20,6 +20,12 @@ jimport('thm_core.list.view');
  */
 class THM_OrganizerViewRoom_Manager extends THM_CoreViewList
 {
+    public $items;
+
+    public $pagination;
+
+    public $state;
+
     /**
      * Method to get display
      *

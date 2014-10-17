@@ -124,13 +124,13 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         {
             $iconClass = 'unfeatured';
             $aClass = 'inactive';
-            $textConstant = 'COM_THM_ORGANIZER_SCHEDULE_MANAGER_TOGGLE_ACTIVE_NO';
+            $textConstant = 'COM_THM_ORGANIZER_TOGGLE_ACTIVE_NO';
         }
         else
         {
             $iconClass = 'featured';
             $aClass = '';
-            $textConstant = 'COM_THM_ORGANIZER_SCHEDULE_MANAGER_TOGGLE_ACTIVE_YES';
+            $textConstant = 'COM_THM_ORGANIZER_TOGGLE_ACTIVE_YES';
         }
         $toggle = '<div class="button-grp">';
         $toggle .= '<a class="btn btn-micro ' . $aClass . ' hasTooltip" title="' . JText::_($textConstant) . '"';

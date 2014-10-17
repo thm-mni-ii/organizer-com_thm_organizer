@@ -22,9 +22,9 @@ jimport('thm_core.list.model');
  */
 class THM_OrganizerModelUser_Manager extends THM_CoreModelList
 {
-    public $filters;
+    protected $defaultOrdering = 'name';
 
-    public $headers;
+    protected $defaultDirection = 'ASC';
 
     /**
      * sets variables and configuration data
@@ -112,8 +112,8 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
             $return[$index][1] = $item->name;
             $return[$index][2] = $item->username;
-            $return[$index][3] = $this->getToggle($item->id, $item->program_manager, 'user', JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE'), 'program_manager');
-            $return[$index][4] = $this->getToggle($item->id, $item->planner, 'user', JText::_('COM_THM_ORGANIZER_USM_ROLE_TOGGLE'), 'planner');
+            $return[$index][3] = $this->getToggle($item->id, $item->program_manager, 'user', JText::_('COM_THM_ORGANIZER_TOGGLE_ROLE'), 'program_manager');
+            $return[$index][4] = $this->getToggle($item->id, $item->planner, 'user', JText::_('COM_THM_ORGANIZER_TOGGLE_ROLE'), 'planner');
             $index++;
         }
         return $return;
@@ -129,35 +129,34 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
         $query = $this->_db->getQuery(true);
         $query->select("u.id, name, username, program_manager, planner");
         $query->from('#__thm_organizer_users AS ou');
-        $query->innerJoin('#__users AS u ON u.id = ou.id');
+        $query->innerJoin('#__users AS u ON ou.userID = u.id');
 
-        $search = $this->state->get('filter.search');
-        $searchParts = explode(' ', $search);
+        $search = trim($this->state->get('filter.search',''));
         if (!empty($search))
         {
-            $qwhery = array();
+            $conditions = array();
+            $searchParts = explode(' ', $search);
             foreach ($searchParts AS $part)
             {
-                $qwhery[] = "name LIKE '%$part%' OR username LIKE '%$part%'";
+                $conditions[] = "name LIKE '%$part%' OR username LIKE '%$part%'";
             }
-            $query->where("( " . implode(' OR ', $qwhery) . " )");
+            $query->where("( " . implode(' OR ', $conditions) . " )");
         }
 
-        $role = $this->state->get('filter.role', '*');
-        if ($role !== '*')
+        $pmFilter = $this->state->get('filter.programmanager', '');
+        if ($pmFilter !== '' AND is_numeric($pmFilter))
         {
-            if ($role === '1')
-            {
-                $query->where("program_manager = 1");
-            }
-            elseif ($role === '2')
-            {
-                $query->where("planner = 1");
-            }
+            $query->where("program_manager = '$pmFilter'");
         }
 
-        $ordering = $this->_db->escape($this->state->get('list.ordering', 'username'));
-        $direction = $this->_db->escape($this->state->get('list.direction', 'ASC'));
+        $plannerFilter = $this->state->get('filter.planner', '');
+        if ($plannerFilter !== '' AND is_numeric($plannerFilter))
+        {
+            $query->where("planner = '$plannerFilter'");
+        }
+
+        $ordering = $this->_db->escape($this->state->get('list.ordering', $this->defaultOrdering));
+        $direction = $this->_db->escape($this->state->get('list.direction', $this->defaultDirection));
         $query->order("$ordering $direction");
         return $query;
     }

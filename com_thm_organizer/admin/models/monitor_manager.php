@@ -82,17 +82,28 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
      */
     private function setWhere(&$query)
     {
-        $filterSearch = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
-        $useFilterSearch = $filterSearch != '%%';
-        $filterRoom = $this->state->get('filter.room', '');
-        $useFilterRoom = is_numeric($filterRoom);
+        // There can be only one!
+        $filterRoom = $this->state->get('filter.roomID');
+        if (!empty($filterRoom))
+        {
+            $query->where("m.roomID = '$filterRoom'");
+            return;
+        }
+
+        $filterSearch = $this->state->get('filter.search');
+        if (!empty($filterSearch))
+        {
+            $search = '%' . $this->_db->escape($filterSearch, true) . '%';
+            $query->where("r.longname LIKE '$filterSearch' OR m.ip LIKE '$search'");
+        }
+
         $filterDisplay = $this->state->get('filter.display');
         $useFilterDisplay = is_numeric($filterDisplay);
         $contentID = $this->state->get('filter.content');
         $filterContent = is_numeric($contentID)? $this->contents[$contentID] : '';
         $useFilterContent = !empty($filterContent);
 
-        $useFilters = ($useFilterSearch OR $useFilterRoom OR $useFilterDisplay OR $useFilterContent);
+        $useFilters = ($useFilterDisplay OR $useFilterContent);
         if (!$useFilters)
         {
             return;
@@ -103,15 +114,6 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
             $this->addDisplayFilter($query);
         }
 
-        if ($useFilterRoom)
-        {
-            $query->where("m.roomID = '$filterRoom'");
-        }
-
-        if ($useFilterSearch)
-        {
-            $query->where("longname LIKE '$filterSearch' OR ip LIKE '$filterSearch'");
-        }
     }
 
     /**
@@ -179,14 +181,14 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index]['id'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['roomID'] = JHtml::_('link', $item->link, $item->longname);
             $return[$index]['ip'] = JHtml::_('link', $item->link, $item->ip);
             $controller = 'monitor';
-            $tip = JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TOGGLE_COMPONENT_SETTINGS');
-            $return[$index][3] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
-            $return[$index]['displaybehaviour'] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
-            $return[$index]['displaycontent'] = JHtml::_('link', $item->link, $item->content);
+            $tip = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
+            $return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
+            $return[$index]['display'] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
+            $return[$index]['content'] = JHtml::_('link', $item->link, $item->content);
             $index++;
         }
         return $return;
@@ -203,12 +205,12 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers[] = '';
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COMPONENT_SETTINGS', 'm.useDefault', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR', 'm.display', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_CONTENT', 'm.content', $direction, $ordering);
+        $headers['checkbox'] = '';
+        $headers['roomID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
+        $headers['ip'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
+        $headers['useDefaults'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEFAULT_SETTINGS', 'm.useDefault', $direction, $ordering);
+        $headers['display'] = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
+        $headers['content'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_CONTENT', 'm.content', $direction, $ordering);
 
         return $headers;
     }
