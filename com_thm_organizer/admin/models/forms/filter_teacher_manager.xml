@@ -23,18 +23,6 @@
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
-            name="forename"
-            type="genericlist"
-            valueColumn="forename"
-            textColumn="forename"
-            table="thm_organizer_teachers"
-            label="COM_THM_ORGANIZER_SURNAME"
-            onchange="this.form.submit();"
-            >
-            <option value="">COM_THM_ORGANIZER_FILTER_FORENAME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-        </field>
-        <field
             name="username"
             type="genericlist"
             valueColumn="username"
@@ -45,18 +33,20 @@
             >
             <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
         </field>
         <field
-            name="untisID"
-            type="genericlist"
-            valueColumn="untisID"
-            textColumn="untisID"
+            name="fieldID"
+            type="fields"
+            valueColumn="f.id"
+            textColumn="field"
             table="thm_organizer_teachers"
             label="COM_THM_ORGANIZER_USERNAME"
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
         </field>
     </fields>
 	<fields name="list">
