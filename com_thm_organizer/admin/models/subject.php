@@ -129,7 +129,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * 
      * @param   array  &$data  the post data
      * 
-     * @return  void
+     * @return  bool  true on success, otherwise false
      */
     private function processFormTeachers(&$data)
     {

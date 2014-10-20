@@ -57,7 +57,7 @@ class THM_OrganizerModelSchedule_Merge extends JModelLegacy
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return array();
+            $this->schedules = array();
         }
     }
 }

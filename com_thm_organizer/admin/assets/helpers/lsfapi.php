@@ -47,7 +47,7 @@ class THM_OrganizerLSFClient
      *
      * @param   String  $query  Query structure
      *
-     * @return SimpleXMLElement
+     * @return  mixed  SimpleXMLElement if the query was successful otherwise void
      */
     private function getDataXML($query)
     {
@@ -72,7 +72,7 @@ class THM_OrganizerLSFClient
             else
             {
                 echo "<span>Web-Service Fehler: Bitte SOAP-Query Parameter &uuml;berpr&uuml;fen</span>";
-                return "";
+                return;
             }
         }
     }
