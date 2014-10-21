@@ -50,28 +50,6 @@
         </field>
     </fields>
 	<fields name="list">
-        <field
-            name="reserves"
-            type="list"
-            label="COM_THM_ORGANIZER_RESERVES"
-            onchange="this.form.submit();"
-            >
-            <option value="">COM_THM_ORGANIZER_FILTER_RESERVES</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="1">COM_THM_ORGANIZER_FILTER_RESERVES_YES</option>
-            <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
-        </field>
-        <field
-            name="bla"
-            type="list"
-            label="COM_THM_ORGANIZER_RESERVES"
-            onchange="this.form.submit();"
-            >
-            <option value="">COM_THM_ORGANIZER_FILTER_RESERVES</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="1">COM_THM_ORGANIZER_FILTER_RESERVES_YES</option>
-            <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
-        </field>
 		<field
 			name="limit"
 			type="limitbox"

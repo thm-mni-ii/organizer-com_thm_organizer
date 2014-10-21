@@ -47,9 +47,6 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
      */
     protected function getListQuery()
     {
-        // Get the list data
-        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         // Perform the database request
         $query = $this->_db->getQuery(true);
@@ -58,7 +55,11 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         $select .= $query->concatenate($parts) . " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_degrees');
-        $query->order($ordering . " " . $direction);
+
+        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
+        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
+        $query->order($ordering);
+
         return $query;
     }
 

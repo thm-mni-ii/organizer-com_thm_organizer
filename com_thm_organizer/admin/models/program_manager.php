@@ -129,7 +129,9 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
             $query->where("f.id = '$field'");
         }
 
-        $query->order("{$this->state->get('list.ordering')} {$this->state->get('list.direction')}");
+        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
+        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
+        $query->order($ordering);
 
         return $query;
     }

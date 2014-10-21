@@ -36,9 +36,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array(
-                    'id', 'id'
-            );
+            $config['filter_fields'] = array('t.surname', 't.forename', 't.username', 't.untisID', 'f.field');
         }
 
         parent::__construct($config);
@@ -68,9 +66,15 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
             $query->where("(surname LIKE '$search' OR forename LIKE '$search')");
         }
 
-        $orderBy = $this->state->get('list.ordering', $this->defaultOrdering);
-        $orderDir = $this->state->get('list.direction', $this->defaultDirection);
-        $query->order("$orderBy $orderDir");
+        $fieldID = $this->state->get('filter.fieldID');
+        if (!empty($fieldID))
+        {
+            $query->where("f.id = '$fieldID'");
+        }
+
+        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
+        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
+        $query->order($ordering);echo "<pre>" . print_r((string) $query, true) . "</pre>";
 
         return $query;
     }

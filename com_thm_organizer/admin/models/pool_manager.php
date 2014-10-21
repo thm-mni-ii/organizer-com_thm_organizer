@@ -107,7 +107,9 @@ class THM_OrganizerModelPool_Manager extends JModelList
             $query->where($searchClause);
         }
 
-        $query->order("{$this->state->get('list.ordering', 'name')} {$this->state->get('list.direction', 'ASC')}");
+        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
+        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
+        $query->order($ordering);
  
         return $query;
     }

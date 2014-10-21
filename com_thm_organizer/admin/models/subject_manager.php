@@ -116,9 +116,9 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
             }
         }
 
-        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $query->order("$ordering $direction");
+        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
+        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
+        $query->order($ordering);
 
         return $query;
     }
