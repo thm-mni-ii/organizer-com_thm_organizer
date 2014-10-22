@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_users` (
   `userID` INT ( 11 ) NOT NULL,
   `program_manager` TINYINT ( 1 ) NOT NULL DEFAULT '0',
   `planner` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  KEY ( `id` )
+  KEY ( `userID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
