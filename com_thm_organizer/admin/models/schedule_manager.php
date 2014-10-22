@@ -74,9 +74,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
             $query->where("departmentname = '$department'");
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }
@@ -102,45 +100,13 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
             $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
             $return[$index][1] = JHtml::_('link', $item->link, $item->departmentname);
             $return[$index][2] = JHtml::_('link', $item->link, $item->semestername);
-            $return[$index][3] = $this->getToggle($item->id, $item->active);
+            $return[$index][3] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
             $return[$index][4] = JHtml::_('link', $item->link, $item->creationdate);
             $return[$index][5] = JHtml::_('link', $item->link, $item->creationtime);
             $index++;
         }
         return $return;
     }
-
-    /**
-     * Generates a toggle for the attribute in question
-     *
-     * @param   int     $id         the id of the user
-     * @param   bool    $value      the value set for the attribute
-     *
-     * @return  string  a HTML string
-     */
-    private function getToggle($id, $value)
-    {
-        if (empty($value))
-        {
-            $iconClass = 'unfeatured';
-            $aClass = 'inactive';
-            $textConstant = 'COM_THM_ORGANIZER_TOGGLE_ACTIVE_NO';
-        }
-        else
-        {
-            $iconClass = 'featured';
-            $aClass = '';
-            $textConstant = 'COM_THM_ORGANIZER_TOGGLE_ACTIVE_YES';
-        }
-        $toggle = '<div class="button-grp">';
-        $toggle .= '<a class="btn btn-micro ' . $aClass . ' hasTooltip" title="' . JText::_($textConstant) . '"';
-        $toggle .= 'href="index.php?option=com_thm_organizer&task=schedule.activatee&id=' . $id . '&value=' . $value . '">';
-        $toggle .= '<i class="icon-' . $iconClass . '"></i>';
-        $toggle .= '</a>';
-        $toggle .= '</div>';
-        return $toggle;
-    }
-
 
     /**
      * Function to get table headers

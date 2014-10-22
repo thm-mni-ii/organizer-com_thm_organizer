@@ -58,9 +58,7 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
             $query->where("name LIKE '$search' OR color LIKE '$search'");
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }

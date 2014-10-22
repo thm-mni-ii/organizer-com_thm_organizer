@@ -155,9 +155,7 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
             $query->where("planner = '$plannerFilter'");
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }

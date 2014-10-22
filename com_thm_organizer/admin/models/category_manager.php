@@ -90,9 +90,7 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
             $query->where("ec.contentCatID = '$contentCatID'");
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }

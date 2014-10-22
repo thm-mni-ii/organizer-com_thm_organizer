@@ -31,6 +31,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
     protected $defaultDirection = 'ASC';
 
     public $displayBehaviour = array();
+
     /**
      * constructor
      * 
@@ -67,9 +68,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
 
         $this->setWhere($query);
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }

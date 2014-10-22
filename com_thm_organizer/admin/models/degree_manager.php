@@ -56,9 +56,7 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         $query->select($select);
         $query->from('#__thm_organizer_degrees');
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }

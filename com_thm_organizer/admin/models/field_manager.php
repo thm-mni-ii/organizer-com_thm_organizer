@@ -63,9 +63,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
             $query->where("field LIKE '$search' OR gpuntisID LIKE '$search'");
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }

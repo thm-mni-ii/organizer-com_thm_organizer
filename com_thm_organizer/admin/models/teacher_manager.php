@@ -69,12 +69,14 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
         $fieldID = $this->state->get('filter.fieldID');
         if (!empty($fieldID))
         {
+            if ($fieldID == '-1')
+            {
+
+            }
             $query->where("f.id = '$fieldID'");
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);echo "<pre>" . print_r((string) $query, true) . "</pre>";
+        $this->setOrdering($query);
 
         return $query;
     }

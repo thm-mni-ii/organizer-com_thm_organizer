@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
+jimport('thm_core.list.model');
 require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
@@ -20,19 +20,28 @@ require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelPool_Manager extends JModelList
+class THM_OrganizerModelPool_Manager extends THM_CoreModelList
 {
+    protected $defaultOrdering = 'name';
+
+    protected $defaultDirection = 'ASC';
+
     public $programName = '';
  
     public $programs = null;
 
     /**
-     * Constructor to initialise the database and call the parent constructor
+     * constructor
+     *
+     * @param   array  $config  configurations parameter
      */
-    public function __construct()
+    public function __construct($config = array())
     {
-        parent::__construct();
-        $this->programs = THM_OrganizerHelperMapping::getPrograms();
+        if (empty($config['filter_fields']))
+        {
+            $config['filter_fields'] = array('name');
+        }
+        parent::__construct($config);
     }
 
     /**
@@ -42,20 +51,37 @@ class THM_OrganizerModelPool_Manager extends JModelList
      */
     public function getItems()
     {
-        $pools = parent::getItems();
-        if (!empty($pools))
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
         {
-            foreach ($pools as $key => $pool)
+            return $return;
+        }
+
+        $params = JComponentHelper::getParams('com_thm_organizer');
+
+        $index = 0;
+        foreach ($items as $item)
+        {
+            // Set default attributes
+            if (!empty($item->useDefaults))
             {
-                $pools[$key]->program = $this->getProgram($pool->id);
+                $item->displayBehaviour = $params->get('display');
+                $item->content = $params->get('content');
             }
+
+            $return[$index] = array();
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['program'] = JHtml::_('link', $item->link, $item->ip);
+            $controller = 'monitor';
+            $tip = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
+            $return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
+            $return[$index]['display'] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
+            $return[$index]['content'] = JHtml::_('link', $item->link, $item->content);
+            $index++;
         }
-        $programvalue = $this->state->get('filter.program');
-        if (!empty($programvalue))
-        {
-            $this->setProgramName();
-        }
-        return $pools;
+        return $return;
     }
 
     /**
@@ -79,6 +105,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
         $programID = $this->state->get('filter.program', '-1');
         if (!empty($programID) OR $programID != '-1')
         {
+            // Pools which aren't associated with
             if ($programID == '-2')
             {
                 $where = "p.id NOT IN ( ";
@@ -107,9 +134,7 @@ class THM_OrganizerModelPool_Manager extends JModelList
             $query->where($searchClause);
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
  
         return $query;
     }
@@ -204,64 +229,6 @@ class THM_OrganizerModelPool_Manager extends JModelList
         else
         {
             return JText::_('COM_THM_ORGANIZER_POM_MULTIPLE_MAPPINGS');
-        }
-    }
-
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        $app = JFactory::getApplication('administrator');
-
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
-        $this->setState('list.ordering', $ordering);
-
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
-
-        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $search);
-
-        $formProgram = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
-        $requestProgram = $app->input->getInt('programID', '-1');
-        $this->setState('filter.program', (empty($formProgram) OR $formProgram == '-1')? $requestProgram : $formProgram);
-
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit');
-        $this->setState('list.limit', $limit);
-
-        parent::populateState($ordering, $direction);
-    }
-
-    /**
-     * Sets the program name for title bar
-     *
-     * @return  void
-     */
-    private function setProgramName()
-    {
-        $language = explode('-', JFactory::getLanguage()->getTag());
-        $nameQuery = $this->_db->getQuery(true);
-        $parts = array("dp.subject_{$language[0]}","' ('", "d.abbreviation", "' '", "dp.version", "')'");
-        $select = $nameQuery->concatenate($parts, "") . "AS name ";
-        $nameQuery->select($select);
-        $nameQuery->from('#__thm_organizer_programs AS dp');
-        $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-        $nameQuery->where("dp.id = '{$this->state->get('filter.program')}'");
-        $this->_db->setQuery((string) $nameQuery);
-        
-        try 
-        {
-            $this->programName = $this->_db->loadResult();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
     }
 }

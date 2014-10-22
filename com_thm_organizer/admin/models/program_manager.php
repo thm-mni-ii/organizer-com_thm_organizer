@@ -129,9 +129,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
             $query->where("f.id = '$field'");
         }
 
-        $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $ordering = $this->state->get('list.fullordering', $defaultOrdering);
-        $query->order($ordering);
+        $this->setOrdering($query);
 
         return $query;
     }
@@ -143,60 +141,24 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
      */
     private function getVersions()
     {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('DISTINCT dp.version AS id, dp.version AS value');
         $this->setFrom($query);
         $this->setSearch($query);
         $query->order('version ASC');
-        $dbo->setQuery((string) $query);
+        $this->_db->setQuery((string) $query);
         
         try 
         {
-            $versions = $dbo->loadAssocList();
+            $versions = $this->_db->loadAssocList();
+            return empty($versions)? array() : $versions;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return empty($versions)? array() : $versions;
-    }
 
-    /**
-     * Method to populate state
-     *
-     * @param   string  $ordering    An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        $app = JFactory::getApplication('administrator');
-
-        $ordering = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'subject, abbreviation, version');
-        $this->setState('list.ordering', $ordering);
-
-        $direction = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $direction);
-
-        $filter = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $filter);
-
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('list.limit', $limit);
-
-        $degree = $app->getUserStateFromRequest($this->context . '.filter.degree', 'filter_degree');
-        $this->setState('filter.degree', $degree);
-
-        $version = $app->getUserStateFromRequest($this->context . '.filter.version', 'filter_version');
-        $this->setState('filter.version', $version);
-
-        $field = $app->getUserStateFromRequest($this->context . '.filter.field', 'filter_field');
-        $this->setState('filter.field', $field);
-
-        parent::populateState($ordering, $direction);
     }
 
     /**
@@ -209,8 +171,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
     private function setFrom(&$query)
     {
         $query->from('#__thm_organizer_programs AS dp');
-        $query->leftJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
     }
@@ -224,19 +185,34 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
      */
     private function setSearch(&$query)
     {
-        $clue = $this->state->get('filter.search');
-        if (isset($clue))
+        $filterSearch = trim($this->state->get('filter.search', ''));
+        if (!empty($filterSearch))
         {
-            $clue = trim($clue);
-            if (!empty($clue))
-            {
-                $search = '%' . $this->_db->escape($clue, true) . '%';
-                $whereClause = "( subject_de LIKE '$search' ";
-                $whereClause .= "OR subject_en LIKE '$search' ";
-                $whereClause .= "OR version LIKE '$search' ";
-                $whereClause .= "OR d.name LIKE '$search' )";
-                $query->where($whereClause);
-            }
+            $search = '%' . $this->_db->escape($filterSearch, true) . '%';
+            $where = "( subject_de LIKE '$search' OR subject_en LIKE '$search' ";
+            $where .= "OR version LIKE '$search' OR field LIKE '$search' ";
+            $where .= "OR d.name LIKE '$search' )";
+            $query->where($where);
         }
+    }
+
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+
+        $headers = array();
+        $headers['checkbox'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['degree'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE', 'degree', $direction, $ordering);
+        $headers['version'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_VERSION', 'version', $direction, $ordering);
+        $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'version', $direction, $ordering);
+
+        return $headers;
     }
 }
