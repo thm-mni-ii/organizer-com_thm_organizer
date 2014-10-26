@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class THM_OrganizerModelProgram_Manager for component com_thm_organizer
@@ -23,75 +24,23 @@ jimport('thm_core.list.model');
  */
 class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
 {
-    public $degrees = null;
+    protected $defaultOrdering = 'subject';
 
-    public $versions = null;
-
-    public $fields = null;
+    protected $defaultDirection = 'ASC';
 
     /**
-     * Constructor to initialise the database and call the parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->degrees = $this->getDegrees();
-        $this->versions = $this->getVersions();
-        $this->fields = $this->getFields();
-    }
-
-    /**
-     * Retrieves a list of degrees and their ids
+     * Constructor to set the config array and call the parent constructor
      *
-     * @return  array
+     * @param   Array  $config  Configuration  (default: Array)
      */
-    private function getDegrees()
+    public function __construct($config = array())
     {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT d.id AS id, d.name AS name');
-        $this->setFrom($query);
-        $this->setSearch($query);
-        $query->order('name ASC');
-        $dbo->setQuery((string) $query);
-        
-        try 
+        if (empty($config['filter_fields']))
         {
-            $degrees = $dbo->loadAssocList();
+            $config['filter_fields'] = array('subject', 'd.abbreviation', 'dp.version', 'f.field');
         }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        return empty($degrees)? array() : $degrees;
-    }
 
-    /**
-     * Retrieves a list of fields
-     *
-     * @return  array
-     */
-    private function getFields()
-    {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT f.id AS id, f.field AS field');
-        $this->setFrom($query);
-        $this->setSearch($query);
-        $query->order('field ASC');
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $fields = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        return empty($fields)? array() : $fields;
+        parent::__construct($config);
     }
 
     /**
@@ -104,7 +53,9 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         $language = explode('-', JFactory::getLanguage()->getTag());
         $query = $this->_db->getQuery(true);
         $select = "subject_{$language[0]} AS subject, version, lsfDegree, lsfFieldID, ";
-        $select .= "dp.id as id, m.id AS mapping, field, color, abbreviation ";
+        $select .= "dp.id as id, field, color, abbreviation, ";
+        $parts = array("'index.php?option=com_thm_organizer&view=program_edit&id='","dp.id");
+        $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
 
         $this->setFrom($query);
@@ -132,33 +83,6 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         $this->setOrdering($query);
 
         return $query;
-    }
-
-    /**
-     * Retrieves a list of versions
-     *
-     * @return  array
-     */
-    private function getVersions()
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT dp.version AS id, dp.version AS value');
-        $this->setFrom($query);
-        $this->setSearch($query);
-        $query->order('version ASC');
-        $this->_db->setQuery((string) $query);
-        
-        try 
-        {
-            $versions = $this->_db->loadAssocList();
-            return empty($versions)? array() : $versions;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return array();
-        }
-
     }
 
     /**
@@ -194,6 +118,48 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
             $where .= "OR d.name LIKE '$search' )";
             $query->where($where);
         }
+    }
+
+    /**
+     * Method to overwrite the getItems method in order to create iterate table data
+     *
+     * @return  array  an array of arrays with preformatted teacher data
+     */
+    public function getItems()
+    {
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
+        {
+            return $return;
+        }
+
+        $index = 0;
+        foreach ($items as $item)
+        {
+            $return[$index] = array();
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['subject'] = JHtml::_('link', $item->link, $item->subject);
+            $return[$index]['abbreviation'] = JHtml::_('link', $item->link, $item->abbreviation);
+            $return[$index]['version'] = JHtml::_('link', $item->link, $item->version);
+            if (!empty($item->field))
+            {
+                if (!empty($item->color))
+                {
+                    $return[$index]['fieldID'] = THM_ComponentHelper::getColorField($item->field, $item->color);
+                }
+                else
+                {
+                    $return[$index]['fieldID'] = $item->field;
+                }
+            }
+            else
+            {
+                $return[$index]['fieldID'] = '';
+            }
+            $index++;
+        }
+        return $return;
     }
 
     /**

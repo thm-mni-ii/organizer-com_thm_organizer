@@ -106,7 +106,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
             $username = empty($item->username)? '' : $item->username;
             $return[$index]['username'] = JHtml::_('link', $item->link, $username);
             $gpuntisID = empty($item->gpuntisID)? '' : $item->gpuntisID;
-            $return[$index]['untisID'] = JHtml::_('link', $item->link, $gpuntisID);
+            $return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $gpuntisID);
             if (!empty($item->field))
             {
                 if (!empty($item->color))
@@ -142,7 +142,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
         $headers['surname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
         $headers['forename'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);
         $headers['username'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction, $ordering);
-        $headers['untisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction, $ordering);
+        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction, $ordering);
         $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'f.field', $direction, $ordering);
 
         return $headers;

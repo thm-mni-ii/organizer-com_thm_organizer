@@ -79,10 +79,10 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $item->link, $item->name);
-            $return[$index][2] = JHtml::_('link', $item->link, $item->abbreviation);
-            $return[$index][3] = JHtml::_('link', $item->link, $item->lsfDegree);
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['abbreviation'] = JHtml::_('link', $item->link, $item->abbreviation);
+            $return[$index]['lsfDegree'] = JHtml::_('link', $item->link, $item->lsfDegree);
             $index++;
         }
         return $return;
@@ -99,10 +99,10 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers[] = '';
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ABBREVIATION', 'abbreviation', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_LSF_DEGREE', 'lsfDegree', $direction, $ordering);
+        $headers['checkbox'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['abbreviation'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ABBREVIATION', 'abbreviation', $direction, $ordering);
+        $headers['lsfDegree'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_LSF_DEGREE', 'lsfDegree', $direction, $ordering);
 
         return $headers;
     }

@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
+        <field
+            name="checkbox"
+            type="checkall" />
+        <field
+            name="name"
+            type="genericlist"
+            valueColumn="id"
+            textColumn="name"
+            table="thm_organizer_degrees"
+            label="COM_THM_ORGANIZER_NAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="abbreviation"
+            type="genericlist"
+            valueColumn="id"
+            textColumn="abbreviation"
+            table="thm_organizer_degrees"
+            label="COM_THM_ORGANIZER_ABBREVIATION"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_ABBREVIATION</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="lsfDegree"
+            type="genericlist"
+            valueColumn="id"
+            textColumn="lsfDegree"
+            table="thm_organizer_degrees"
+            label="COM_THM_ORGANIZER_LSFDEGREE"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_LSFDEGREE</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+    </fields>
 	<fields name="list">
 		<field
 			name="limit"

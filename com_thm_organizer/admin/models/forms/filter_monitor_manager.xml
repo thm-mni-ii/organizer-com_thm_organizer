@@ -35,21 +35,6 @@
             <option value="">COM_THM_ORGANIZER_FILTER_IP</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
-		<field
-			name="content"
-			type="genericlist"
-            valueColumn="content"
-            textColumn="content"
-            table="thm_organizer_monitors"
-			label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
-			onchange="this.form.submit();"
-			>
-			<option value="">COM_THM_ORGANIZER_FILTER_CONTENT</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
-		</field>
-    </fields>
-	<fields name="list">
         <field
             name="useDefaults"
             type="list"
@@ -75,6 +60,21 @@
             <option value="3">COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
             <option value="4">COM_THM_ORGANIZER_EVENT_PLAN</option>
         </field>
+		<field
+			name="content"
+			type="genericlist"
+            valueColumn="content"
+            textColumn="content"
+            table="thm_organizer_monitors"
+			label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_THM_ORGANIZER_FILTER_CONTENT</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
+		</field>
+    </fields>
+	<fields name="list">
 		<field
 			name="limit"
 			type="limitbox"
