@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
-            name="organization"
-            type="sql"
-            query='Select DISTINCT departmentname AS text, departmentname AS value FROM #__thm_organizer_schedules ORDER BY departmentname ASC'
+            name="search"
+            type="text"
+            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
+            hint="JSEARCH_FILTER"
+            />
+        <field
+            name="checkbox"
+            type="checkall" />
+        <field
+            name="departmentname"
+            type="genericlist"
+            valueColumn="departmentname"
+            textColumn="departmentname"
+            table="thm_organizer_schedules"
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_ORGANIZATION</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
-            name="planningperiod"
-            type="sql"
-            query='Select DISTINCT semestername AS text, semestername AS value FROM #__thm_organizer_schedules ORDER BY semestername ASC'
+            name="semestername"
+            type="genericlist"
+            valueColumn="semestername"
+            textColumn="semestername"
+            table="thm_organizer_schedules"
             label="COM_THM_ORGANIZER_PLANNING_PERIOD"
             onchange="this.form.submit();"
             >
@@ -21,7 +34,7 @@
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
-            name="state"
+            name="active"
             type="list"
             label="COM_THM_ORGANIZER_STATE"
             onchange="this.form.submit();"
@@ -30,6 +43,32 @@
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_ACTIVE_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_ACTIVE_NO</option>
+        </field>
+        <field
+            name="creationdate"
+            type="datelist"
+            format="date"
+            valueColumn="creationdate"
+            textColumn="creationdate"
+            table="thm_organizer_schedules"
+            label="COM_THM_ORGANIZER_CREATION_DATE"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_CREATION_DATE</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="creationtime"
+            type="datelist"
+            format="time"
+            valueColumn="creationtime"
+            textColumn="creationtime"
+            table="thm_organizer_schedules"
+            label="COM_THM_ORGANIZER_CREATION_TIME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_CREATION_TIME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
     </fields>
     <fields name="list">

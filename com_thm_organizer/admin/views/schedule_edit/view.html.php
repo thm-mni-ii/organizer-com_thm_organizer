@@ -12,8 +12,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+jimport('thm_core.edit.view');
 
 /**
  * Class loading schedule data into output context
@@ -23,7 +22,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewSchedule_Edit extends JViewLegacy
+class THM_OrganizerViewSchedule_Edit extends THM_CoreViewEdit
 {
     /**
      * loads persistent data into view context and intitiates functions for the
@@ -35,18 +34,6 @@ class THM_OrganizerViewSchedule_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.framework', true);
-        JHtml::_('behavior.formvalidation');
-        JHtml::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/schedule_edit.css');
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/schedule_errors.js'));
-
-        $this->form = $this->get('Form');
-
-        $this->addToolBar();
-
         parent::display($tpl);
     }
 
@@ -55,24 +42,11 @@ class THM_OrganizerViewSchedule_Edit extends JViewLegacy
      *
      * @return void
      */
-    private function addToolBar()
+    protected function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER') . ': ';
-        if ($this->form->getValue('id'))
-        {
-            $this->setLayout('edit');
-            $this->legend = JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            $title .= JText::_('JTOOLBAR_EDIT') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            JToolbarHelper::save('schedule.save');
-        }
-        else
-        {
-            $this->setLayout('add');
-            $this->legend = JText::_('JTOOLBAR_NEW') . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            $title .= JText::_("JTOOLBAR_NEW") . ' ' . JText::_('COM_THM_ORGANIZER_PLAN');
-            JToolbarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_SCH_UPLOAD', false);
-        }
+        $title = JText::_('COM_THM_ORGANIZER_SCHEDULE_EDIT_NEW_VIEW_TITLE');
         JToolbarHelper::title($title, "organizer_schedules");
+        JToolbarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_ACTION_UPLOAD', false);
         JToolbarHelper::cancel('schedule.cancel');
     }
 }

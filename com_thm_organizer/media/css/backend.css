@@ -4,7 +4,7 @@
     color: #7eba27; }
 
 .table-striped {
-  margin-top: 2px;
+  margin-top: 7px;
   border-collapse: separate;
   border-top: 1px solid #bbb;
   -webkit-border-radius: 3px 3px 0 0;
@@ -30,6 +30,7 @@ thead tr:nth-child(1) th {
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */
+  padding-top: 5px;
   padding-bottom: 2px; }
   thead tr:nth-child(1) th:first-child {
     -webkit-border-radius: 3px 0 0 0;
@@ -78,5 +79,7 @@ tbody tr:first-child td {
   border-top-style: none; }
 
 /*Filterbreite anpassen, ohne: von chosen festgelegt */
-.js-stools-field-filter select {
-  width: auto; }
+.js-stools-field-filter {
+  max-width: 200px; }
+  .js-stools-field-filter select {
+    width: auto; }

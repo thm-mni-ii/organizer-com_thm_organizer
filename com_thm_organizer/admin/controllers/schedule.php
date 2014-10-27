@@ -33,17 +33,6 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
     }
 
     /**
-     * Performs access checks and redirects to the schedule edit view
-     *
-     * @return void
-     */
-    public function edit()
-    {
-        JFactory::getApplication()->input->set('view', 'schedule_edit');
-        parent::display();
-    }
-
-    /**
      * Performs access checks and uses the model's upload function to validate
      * and save the file to the database should validation be successful
      *

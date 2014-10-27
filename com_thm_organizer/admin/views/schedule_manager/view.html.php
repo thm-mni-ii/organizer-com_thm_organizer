@@ -50,7 +50,6 @@ class THM_OrganizerViewSchedule_Manager extends THM_CoreViewList
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_VIEW_TITLE'), 'organizer_schedules');
         JToolbarHelper::addNew('schedule.add');
-        JToolbarHelper::editList('schedule.edit');
         JToolbarHelper::custom('schedule.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
         JToolBarHelper::makeDefault('schedule.activate', 'COM_THM_ORGANIZER_ACTION_ACTIVATE');
         JToolbarHelper::custom('schedule.setReference', 'move', 'move', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);

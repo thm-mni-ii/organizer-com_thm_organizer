@@ -51,9 +51,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "id, departmentname, semestername, active, creationdate, creationtime, ";
-        $parts = array("'index.php?option=com_thm_organizer&view=schedule_edit&id='", "id");
-        $select .= $query->concatenate($parts, "") . " AS link";
+        $select = "id, departmentname, semestername, active, creationdate, creationtime ";
         $query->select($select)->from("#__thm_organizer_schedules");
 
         $state = $this->state->get('filter.state', false);

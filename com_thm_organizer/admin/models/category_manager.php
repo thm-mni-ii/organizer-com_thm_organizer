@@ -59,7 +59,7 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
         $query->from('#__thm_organizer_categories AS ec');
         $query->innerJoin('#__categories AS cc ON ec.contentCatID = cc.id');
 
-        $this->setSearchFilter($query, array('ec.title'));
+        $this->setSearchFilter($query, array('ec.title', 'ec.description'));
         $this->setIDFilter($query, 'ec.id', array('title'));
         $this->setValueFilters($query, array('global', 'reserves', 'ec.contentCatID'));
 

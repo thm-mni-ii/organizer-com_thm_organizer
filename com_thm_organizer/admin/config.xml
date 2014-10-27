@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+    <fieldset
+        name="general"
+        label="COM_THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
+        description="COM_THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
+        <field
+            name="dateFormat"
+            label="COM_THM_ORGANIZER_DATE_FORMAT"
+            description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
+            type="text"
+            size="40"
+            required="true"
+            default="d.m.Y" />
+        <field
+            name="timeFormat"
+            label="COM_THM_ORGANIZER_TIME_FORMAT"
+            description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"
+            type="text"
+            size="40"
+            required="true"
+            default="H:i" />
+    </fieldset>
     <fieldset name="eCollab"
               label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_DESCRIPTION">
