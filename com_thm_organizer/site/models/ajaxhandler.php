@@ -72,37 +72,42 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
             return array("success" => false, "data" => "Unknown task!");
         }
 
-        $taskArray = explode(".", $task);
+        $taskarr = explode(".", $task);
         try
         {
-            if ($taskArray[0] == 'TreeView' AND $taskArray[1] == 'load')
+            $classname = $taskarr[0];
+            if(file_exists(JPATH_COMPONENT . "/assets/classes/" . $classname . ".php"))
             {
-                $schedNavModel = JModel::getInstance('Schedule_Navigation', 'THM_OrganizerModel', $options);
-                return $schedNavModel->load($options);
-            }
-            $className = $taskArray[0];
-
-            if(!file_exists(JPATH_COMPONENT . "/assets/classes/{$className}.php"))
-            {
-                return array("success" => false, "data" => "Error while perfoming the task.");
-            }
-
-            require_once JPATH_COMPONENT . "/assets/classes/{$className}.php";
-            $className = "THM" . $className;
-
-            if (count($options) == 0)
-            {
-                $class = new $className($this->_JDA, $this->_CFG);
+                require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
             }
             else
             {
-                $class = new $className($this->_JDA, $this->_CFG, $options);
+                throw new Exception("Class " . $classname . " not found");
             }
-            return $class->$taskArray[1]();
+            $classname = "THM" . $classname;
+            $class = $this->getClass($classname, $this->_JDA, $this->_CFG, $options);
+
+            return $class->$taskarr[1]();
         }
         catch (Exception $e)
         {
             return array("success" => false, "data" => "Error while perfoming the task.");
         }
+    }
+
+    public function getClass($classname, $JDA, $CFG, $options)
+    {
+        $class = null;
+
+        if (count($options) == 0)
+        {
+            $class = new $classname($this->_JDA, $this->_CFG);
+        }
+        else
+        {
+            $class = new $classname($this->_JDA, $this->_CFG, $options);
+        }
+
+        return $class;
     }
 }
