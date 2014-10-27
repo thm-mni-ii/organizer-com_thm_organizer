@@ -11,8 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+jimport('thm_core.list.view');
 
 /**
  * Class THM_OrganizerViewVirtual_Schedule_Manager for component com_thm_organizer
@@ -23,7 +22,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  * @subpackage  com_thm_organizer.admin.view
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewVirtual_Schedule_Manager extends JViewLegacy
+class THM_OrganizerViewVirtual_Schedule_Manager extends THM_CoreViewList
 {
     public $items;
 
@@ -40,10 +39,6 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/subject_list.css');
-
-        $this->addToolBar();
         parent::display($tpl);
     }
 
@@ -52,9 +47,9 @@ class THM_OrganizerViewVirtual_Schedule_Manager extends JViewLegacy
      *
      * @return  void
      */
-    private function addToolBar()
+    protected  function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER') . ': ' . JText::_('COM_THM_ORGANIZER_VSM_TITLE');
+        $title = JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_MANAGER_VIEW_TITLE');
         JToolbarHelper::title($title, 'mni');
     }
 }

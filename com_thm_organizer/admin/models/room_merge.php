@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Loads room entry information to be merged
@@ -45,21 +44,22 @@ class THM_OrganizerModelRoom_Merge extends JModelLegacy
         $query->from('#__thm_organizer_rooms AS r');
         $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
 
-        $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
-        $selectedRooms = "'" . implode("', '", $cids) . "'";
+        $selectedEntries = JFactory::getApplication()->input->get('cid', array(), 'array');
+        $selectedRooms = "'" . implode("', '", $selectedEntries) . "'";
         $query->where("r.id IN ( $selectedRooms )");
 
         $query->order('r.id ASC');
 
         $dbo->setQuery((string) $query);
-        
+
         try 
         {
             $this->roomInformation = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->roomInformation = array();
         }
     }
 }

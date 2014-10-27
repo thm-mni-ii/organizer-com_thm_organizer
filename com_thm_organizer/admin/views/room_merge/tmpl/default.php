@@ -11,11 +11,23 @@
  */
 defined('_JEXEC') or die;
 ?>
+<script type="text/javascript">
+    Joomla.submitbutton = function(task)
+    {
+        if (task == 'room.cancel' || document.formvalidator.isValid(document.id('item-form')))
+        {
+            Joomla.submitform(task, document.getElementById('item-form'));
+        }
+    }
+</script>
+<form action="index.php?option=com_thm_organizer"
+      enctype="multipart/form-data"
+      method="post"
+      name="adminForm"
+      id="item-form"
+      class="form-horizontal">
+    <div class="form-horizontal">
 <form action="index.php?option=com_thm_organizer" method="post" name="adminForm">
-    <fieldset class="adminform">
-        <legend>
-            <?php echo JText::_('COM_THM_ORGANIZER_RMM_PROPERTIES')?>
-        </legend>
 <?php if (count($this->name))
 {
     $nameTitle = JText::_('COM_THM_ORGANIZER_NAME') . "::" . JText::_('COM_THM_ORGANIZER_RMM_NAME_DESC');

@@ -130,12 +130,13 @@ class THM_OrganizerModelUser_Select extends THM_CoreModelList
      */
     public function getHeaders()
     {
-        $orderby = $this->state->get('list.ordering', 'name');
+        $ordering = $this->state->get('list.ordering', 'name');
         $direction = $this->state->get('list.direction', 'ASC');
+
         $headers = array();
         $headers['id'] = '';
-        $headers['name'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $orderby);
-        $headers['username'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $orderby);
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['username'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 'username', $direction, $ordering);
         return $headers;
     }
 }

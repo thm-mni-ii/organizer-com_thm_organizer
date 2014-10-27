@@ -8,12 +8,14 @@
             hint="JSEARCH_FILTER"
         />
         <field
+            name="checkbox"
+            type="checkall" />
+        <field
             name="name"
             type="genericlist"
             valueColumn="u.id"
             textColumn="u.name"
-            table="thm_organizer_users,users"
-            alias="ou,u"
+            table="thm_organizer_users AS o,users AS u ON o.userID = u.id"
             label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
             >
@@ -25,8 +27,7 @@
             type="genericlist"
             valueColumn="u.id"
             textColumn="u.username"
-            table="thm_organizer_users,users"
-            alias="ou,u"
+            table="thm_organizer_users AS o,users AS u ON o.userID = u.id"
             label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
             >
@@ -34,7 +35,7 @@
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
-            name="programmanager"
+            name="program_manager"
             type="list"
             label="COM_THM_ORGANIZER_PROGRAM_MANAGER"
             onchange="this.form.submit();"

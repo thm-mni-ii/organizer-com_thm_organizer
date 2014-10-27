@@ -17,7 +17,7 @@
  * @category  Joomla.Component.Admin
  * @package   thm_organizer
  */
-class THM_ComponentHelper
+class THM_OrganizerHelperComponent
 {
     /**
      * Configure the Linkbar.

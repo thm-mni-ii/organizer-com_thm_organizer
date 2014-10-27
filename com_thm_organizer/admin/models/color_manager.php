@@ -81,9 +81,9 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $item->link, $item->name);
-            $return[$index][2] = THM_ComponentHelper::getColorField($item->color, $item->color);
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['color'] = THM_ComponentHelper::getColorField($item->color, $item->color);
             $index++;
         }
         return $return;
@@ -100,7 +100,7 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers['id'] = '';
+        $headers['checkbox'] = '';
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['color'] = JText::_('COM_THM_ORGANIZER_COLOR');
 

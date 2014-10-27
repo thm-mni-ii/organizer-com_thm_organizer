@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
             name="search"
             type="text"
@@ -9,8 +9,13 @@
         />
         <field
             name="name"
-            type="userid"
+            type="disjunctlist"
+            valueColumn="id"
             textColumn="name"
+            table="users"
+            notInColumn="id"
+            disjunctValue="userID"
+            disjunctTable="thm_organizer_users"
             label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
             >
@@ -19,8 +24,13 @@
         </field>
         <field
             name="username"
-            type="userid"
+            type="disjunctlist"
+            valueColumn="id"
             textColumn="username"
+            table="users"
+            notInColumn="id"
+            disjunctValue="userID"
+            disjunctTable="thm_organizer_users"
             label="COM_THM_ORGANIZER_USERNAME"
             onchange="this.form.submit();"
             >

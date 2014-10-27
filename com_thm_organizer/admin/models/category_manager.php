@@ -55,40 +55,13 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
         $parts = array("'index.php?option=com_thm_organizer&view=category_edit&id='", "ec.id");
         $select .= $query->concatenate($parts, "") . " AS link";
         $query->select($select);
+
         $query->from('#__thm_organizer_categories AS ec');
         $query->innerJoin('#__categories AS cc ON ec.contentCatID = cc.id');
 
-        $search = $this->state->get('filter.search');
-        if (!empty($search))
-        {
-            $query->where("(ec.title LIKE '%" . implode("%' OR ec.title LIKE '%", explode(' ', $search)) . "%')");
-        }
-
-        $global = $this->state->get('filter.global');
-        if ($global === '0')
-        {
-            $query->where("ec.global = 0");
-        }
-        if ($global === '1')
-        {
-            $query->where("ec.global = 1");
-        }
-
-        $reserves = $this->state->get('filter.reserves');
-        if ($reserves === '0')
-        {
-            $query->where("ec.reserves = 0");
-        }
-        if ($reserves === '1')
-        {
-            $query->where("ec.reserves = 1");
-        }
-
-        $contentCatID = $this->state->get('filter.content_cat');
-        if (!empty($contentCatID) and $contentCatID != '*')
-        {
-            $query->where("ec.contentCatID = '$contentCatID'");
-        }
+        $this->setSearchFilter($query, array('ec.title'));
+        $this->setIDFilter($query, 'ec.id', array('title'));
+        $this->setValueFilters($query, array('global', 'reserves', 'ec.contentCatID'));
 
         $this->setOrdering($query);
 
@@ -113,13 +86,13 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $item->link, $item->ectitle);
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['title'] = JHtml::_('link', $item->link, $item->ectitle);
             $globalTip = JTEXT::_('COM_THM_ORGANIZER_TOGGLE_GLOBAL');
-            $return[$index][2] = $this->getToggle($item->id, $item->global, 'category', $globalTip, 'global');
+            $return[$index]['global'] = $this->getToggle($item->id, $item->global, 'category', $globalTip, 'global');
             $reservesTip = JTEXT::_('COM_THM_ORGANIZER_TOGGLE_RESERVES');
-            $return[$index][3] = $this->getToggle($item->id, $item->reserves, 'category', $reservesTip, 'reserves');
-            $return[$index][4] = JHtml::_('link', $item->link, $item->cctitle);
+            $return[$index]['reserves'] = $this->getToggle($item->id, $item->reserves, 'category', $reservesTip, 'reserves');
+            $return[$index]['ec.contentCatID'] = JHtml::_('link', $item->link, $item->cctitle);
             $index++;
         }
         return $return;
@@ -136,11 +109,11 @@ class THM_OrganizerModelCategory_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers['id'] = '';
+        $headers['checkbox'] = '';
         $headers['title'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ec.title', $direction, $ordering);
         $headers['global'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GLOBAL', 'ec.global', $direction, $ordering);
         $headers['reserves'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_RESERVES', 'ec.reserves', $direction, $ordering);
-        $headers['content_cat'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CONTENT_CATEGORY', 'cc.title', $direction, $ordering);
+        $headers['ec.contentCatID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CONTENT_CATEGORY', 'cc.title', $direction, $ordering);
 
         return $headers;
     }

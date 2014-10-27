@@ -75,20 +75,18 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
     /**
      * Generates the headers to be used by the output table
      *
-     * @params   int  $count  the number of displayed items
-     *
      * @return  array  the table headers
      */
-    public function getHeaders($count = 0)
+    public function getHeaders()
     {
         $ordering = $this->state->get('list.ordering', 'name');
         $direction = $this->state->get('list.direction', 'ASC');
         $headers = array();
-        $headers['id'] = "<input type='checkbox' name='toggle' value='' onclick='checkAll($count)' />";
-        $headers['name'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_NAME'), 'name', $direction, $ordering);
-        $headers['username'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_USERNAME'), 'username', $direction, $ordering);
-        $headers['programmanager'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'), 'program_manager', $direction, $ordering);
-        $headers['planner'] = JHtml::_('grid.sort', JText::_('COM_THM_ORGANIZER_PLANNER'), 'planner', $direction, $ordering);
+        $headers['checkbox'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['username'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 'username', $direction, $ordering);
+        $headers['program_manager'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PROGRAM_MANAGER', 'program_manager', $direction, $ordering);
+        $headers['planner'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNER', 'planner', $direction, $ordering);
         return $headers;
     }
 
@@ -109,11 +107,11 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
         $index = 0;
         foreach ($items as $item)
         {
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = $item->name;
-            $return[$index][2] = $item->username;
-            $return[$index][3] = $this->getToggle($item->id, $item->program_manager, 'user', JText::_('COM_THM_ORGANIZER_TOGGLE_ROLE'), 'program_manager');
-            $return[$index][4] = $this->getToggle($item->id, $item->planner, 'user', JText::_('COM_THM_ORGANIZER_TOGGLE_ROLE'), 'planner');
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = $item->name;
+            $return[$index]['username'] = $item->username;
+            $return[$index]['program_manager'] = $this->getToggle($item->id, $item->program_manager, 'user', JText::_('COM_THM_ORGANIZER_TOGGLE_ROLE'), 'program_manager');
+            $return[$index]['planner'] = $this->getToggle($item->id, $item->planner, 'user', JText::_('COM_THM_ORGANIZER_TOGGLE_ROLE'), 'planner');
             $index++;
         }
         return $return;
@@ -131,29 +129,9 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
         $query->from('#__thm_organizer_users AS ou');
         $query->innerJoin('#__users AS u ON ou.userID = u.id');
 
-        $search = trim($this->state->get('filter.search',''));
-        if (!empty($search))
-        {
-            $conditions = array();
-            $searchParts = explode(' ', $search);
-            foreach ($searchParts AS $part)
-            {
-                $conditions[] = "name LIKE '%$part%' OR username LIKE '%$part%'";
-            }
-            $query->where("( " . implode(' OR ', $conditions) . " )");
-        }
-
-        $pmFilter = $this->state->get('filter.programmanager', '');
-        if ($pmFilter !== '' AND is_numeric($pmFilter))
-        {
-            $query->where("program_manager = '$pmFilter'");
-        }
-
-        $plannerFilter = $this->state->get('filter.planner', '');
-        if ($plannerFilter !== '' AND is_numeric($plannerFilter))
-        {
-            $query->where("planner = '$plannerFilter'");
-        }
+        $this->setSearchFilter($query, array('name', 'username'));
+        $this->setIDFilter($query, 'u.id', array('name', 'username'));
+        $this->setValueFilters($query, array('program_manager', 'planner'));
 
         $this->setOrdering($query);
 

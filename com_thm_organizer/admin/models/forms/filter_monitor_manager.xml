@@ -15,7 +15,7 @@
             type="genericlist"
             valueColumn="r.id"
             textColumn="r.longname"
-            table="thm_organizer_rooms,thm_organizer_monitors"
+            table="thm_organizer_rooms AS r,thm_organizer_monitors AS m ON m.roomID = r.id"
             alias="r,m"
             label="COM_THM_ORGANIZER_ROOM"
             onchange="this.form.submit();"

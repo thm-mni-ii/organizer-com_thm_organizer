@@ -47,7 +47,6 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
      */
     protected function getListQuery()
     {
-
         // Perform the database request
         $query = $this->_db->getQuery(true);
         $select = 'id, name, abbreviation, lsfDegree, ';
@@ -55,9 +54,8 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         $select .= $query->concatenate($parts) . " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_degrees');
-
+        $this->setIDFilter($query, 'id', array('name', 'abbreviation', 'lsfDegree'));
         $this->setOrdering($query);
-
         return $query;
     }
 

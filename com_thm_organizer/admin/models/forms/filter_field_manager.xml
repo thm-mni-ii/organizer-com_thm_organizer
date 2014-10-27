@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
             name="search"
             type="text"
             label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
             hint="JSEARCH_FILTER"
         />
+        <field
+            name="field"
+            type="genericlist"
+            valueColumn="field"
+            textColumn="field"
+            table="thm_organizer_fields"
+            label="COM_THM_ORGANIZER_NAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="name"
+            type="genericlist"
+            valueColumn="c.id"
+            textColumn="name"
+            table="thm_organizer_fields AS f,thm_organizer_colors AS c ON f.colorID = c.id"
+            label="COM_THM_ORGANIZER_COLOR"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
+        </field>
     </fields>
 	<fields name="list">
 		<field

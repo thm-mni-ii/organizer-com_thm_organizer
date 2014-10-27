@@ -33,17 +33,15 @@ class THM_OrganizerViewRoom_Merge extends JViewLegacy
         JHtml::_('behavior.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
+        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/backend.css');
 
         $model = $this->getModel();
 
         $data = $model->roomInformation;
         $this->generateFormFields($data);
 
-        // Set the toolbar
         $this->addToolBar();
 
-        // Display the template
         parent::display($tpl);
     }
 
@@ -56,7 +54,9 @@ class THM_OrganizerViewRoom_Merge extends JViewLegacy
      */
     private function generateFormFields(&$roomEntries)
     {
+        // Entries were ordered by id ascending. This ensures that the resultant merge has the lowest id.
         $this->ID = "<input type='hidden' name='id' value='{$roomEntries[0]['id']}' />";
+        $this->otherIDs = "<input type='hidden' name='otherIDs' value='" . implode(',', $this->otherIDs) . "' />";
 
         $this->IDs = array();
         $nameChecked = false;
@@ -85,7 +85,6 @@ class THM_OrganizerViewRoom_Merge extends JViewLegacy
                 $typeIDChecked = true;
             }
         }
-        $this->otherIDs = "<input type='hidden' name='otherIDs' value='" . implode(',', $this->otherIDs) . "' />";
     }
 
     /**
@@ -115,7 +114,7 @@ class THM_OrganizerViewRoom_Merge extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_RMM_MERGE_TITLE'));
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_MERGE_TITLE'));
         JToolbarHelper::custom('room.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
         JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CANCEL');
     }

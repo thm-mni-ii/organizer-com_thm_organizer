@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
             name="search"
             type="text"
             label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-            hint="JSEARCH_FILTER"
-        />
+            hint="JSEARCH_FILTER" />
+        <field
+            name="checkbox"
+            type="checkall" />
+        <field
+            name="title"
+            type="genericlist"
+            valueColumn="id"
+            textColumn="title"
+            table="thm_organizer_categories"
+            label="COM_THM_ORGANIZER_NAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
         <field
             name="global"
             type="list"
@@ -30,8 +44,11 @@
             <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
         </field>
 		<field
-			name="content_cat"
-			type="contentcategory"
+			name="ec.contentCatID"
+            type="genericlist"
+            valueColumn="c.id"
+            textColumn="c.title"
+            table="thm_organizer_categories AS e,categories AS c ON e.contentCatID = c.id"
 			label="JOPTION_FILTER_CATEGORY"
 			onchange="this.form.submit();"
 			>
