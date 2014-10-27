@@ -81,6 +81,12 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
                 return $schedNavModel->load($options);
             }
             $className = $taskArray[0];
+
+            if(!file_exists(JPATH_COMPONENT . "/assets/classes/{$className}.php"))
+            {
+                return array("success" => false, "data" => "Error while perfoming the task.");
+            }
+
             require_once JPATH_COMPONENT . "/assets/classes/{$className}.php";
             $className = "THM" . $className;
 
