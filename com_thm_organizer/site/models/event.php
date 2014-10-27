@@ -150,7 +150,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $conditions = "title = '{$event['title']}', ";
         $conditions .= "alias = '{$event['alias']}', ";
         $conditions .= "introtext = '{$event['introtext']}', ";
-        $conditions .= "#__content.fulltext = '{$event['fulltext']}', ";
+        $conditions .= "fulltext = '{$event['fulltext']}', ";
         $conditions .= "state = '1', ";
         $conditions .= "catid = '{$event['contentCatID']}', ";
         $conditions .= "modified = '" . date('Y-m-d H:i:s') . "', ";
