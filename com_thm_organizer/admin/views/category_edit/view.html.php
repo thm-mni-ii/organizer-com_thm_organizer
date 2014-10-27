@@ -20,7 +20,7 @@ jimport('thm_core.edit.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewCategory_Edit extends JViewLegacy
+class THM_OrganizerViewCategory_Edit extends THM_CoreViewEdit
 {
     /**
      * loads model data into view context
@@ -31,7 +31,6 @@ class THM_OrganizerViewCategory_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        THM_CoreEditView::setUp($this);
         parent::display($tpl);
     }
 
