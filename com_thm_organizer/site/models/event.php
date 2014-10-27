@@ -273,7 +273,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $query = $this->_db->getQuery(true);
         $statement = "#__content";
         $statement .= "( title, alias, ";
-        $statement .= "introtext, #__content.fulltext, ";
+        $statement .= "introtext, fulltext, ";
         $statement .= "state, catid, ";
         $statement .= "created, access, ";
         $statement .= "created_by, publish_up, ";
