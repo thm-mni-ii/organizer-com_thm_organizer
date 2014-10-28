@@ -56,7 +56,7 @@ class THM_OrganizerViewProgram_Edit extends JViewLegacy
         $isNew = $this->form->getValue('id') == 0;
         $title = $isNew ? JText::_("COM_THM_ORGANIZER_PRM_NEW") : JText::_("COM_THM_ORGANIZER_PRM_EDIT");
         JToolbarHelper::title($title, 'organizer_degree_programs');
-        $applyText = $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT');
+        $applyText = $isNew? JText::_('COM_THM_ORGANIZER_ACTION_APPLY_NEW') : JText::_('JTOOLBAR_APPLY');
         JToolbarHelper::apply('program.apply', $applyText);
         JToolbarHelper::save('program.save');
         JToolbarHelper::save2new('program.save2new');

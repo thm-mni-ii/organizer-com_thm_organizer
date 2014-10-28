@@ -55,27 +55,9 @@ class THM_OrganizerModelUser_Select extends THM_CoreModelList
         $subQuery->from('#__thm_organizer_users');
         $query->where('id NOT IN (' . (string) $subQuery . ')');
 
-        $search = $this->state->get('filter.search');
-        $searchParts = explode(' ', $search);
-        if (!empty($search))
-        {
-            $qwhery = array();
-            foreach ($searchParts AS $part)
-            {
-                $qwhery[] = "name LIKE '%$part%' OR username LIKE '%$part%'";
-            }
-            $query->where("( " . implode(' OR ', $qwhery) . " )");
-        }
-
-        $userIDByName = $this->state->get('filter.name');
-        $userIDByUsername = $this->state->get('filter.username');
-        $filterID = (!empty($userIDByName) OR !empty($userIDByUsername));
-        if ($filterID)
-        {
-            $userID = empty($userIDByName)? $userIDByUsername : $userIDByName;
-            $query->where("id = '$userID'");
-            return $query;
-        }
+        $columns = array('name', 'username');
+        $this->setSearchFilter($query, $columns);
+        $this->setValueFilters($query, $columns);
 
         $ordering = $this->_db->escape($this->state->get('list.ordering', $this->defaultOrdering));
         $direction = $this->_db->escape($this->state->get('list.direction',  $this->defaultDirection));

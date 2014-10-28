@@ -11,7 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php';
 
 /**
  * Class JFormFieldColor for component com_thm_organizer
@@ -23,14 +22,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php'
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class JFormFieldColors extends JFormField
+class JFormFieldChildren extends JFormField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'Colors';
+    protected $type = 'children';
 
     /**
      * Returns a select box which contains the colors

@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
 
 /**
  * Class performs access checks, redirects and model function calls for data persistence
@@ -40,48 +39,44 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function upload()
     {
-        $url = "index.php?option=com_thm_organizer&view=schedule_manager";
-        $file = JFactory::getApplication()->input->files->get('file', array());
+        $url = "index.php?option=com_thm_organizer&view=schedule_";
+        $form = JFactory::getApplication()->input->files->get('jform', array(), 'array');
+        $file = $form['file'];
         $validType = (!empty($file['type']) AND $file['type'] == 'text/xml');
-        if ($validType)
+        if (!$validType)
         {
-            $model = $this->getModel('schedule');
-            $statusReport = $model->upload();
-
-            // The file contains critical inconsistancies and will not be uploaded
-            if (isset($statusReport['errors']))
-            {
-                $errorText = "<h3>" . JText::_("COM_THM_ORGANIZER_MESSAGE_SCHEDULE_ERRORS") . "</h3>";
-                $msg = $errorText . $statusReport['errors'];
-
-                // Minor inconsistancies discovered
-                if (isset($statusReport['warnings']))
-                {
-                    $warningText = "<br /><h4>" . JText::_("COM_THM_ORGANIZER_MESSAGE_SCHEDULE_WARNINGS") . "</h4>";
-                    $msg .= $warningText . $statusReport['warnings'];
-                }
-                $this->setRedirect($url, $msg, 'error');
-            }
-            else
-            {
-                // Minor inconsistancies discovered
-                if (isset($statusReport['warnings']))
-                {
-                    $warningText = "<h4>" . JText::_("COM_THM_ORGANIZER_MESSAGE_SCHEDULE_WARNINGS") . "</h4>";
-                    $msg = $warningText . $statusReport['warnings'];
-                    $this->setRedirect($url, $msg, 'notice');
-                }
-                else
-                {
-                    $this->setRedirect($url, JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS"));
-                }
-            }
+            $typeMessage = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILETYPE");
+            $this->setRedirect($url . 'edit', $typeMessage, 'error');
+            return;
         }
-        else
+
+        $model = $this->getModel('schedule');
+        $statusReport = $model->upload();
+
+        // The file contains critical inconsistencies and will not be uploaded
+        if (isset($statusReport['errors']))
         {
-            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILETYPE");
-            $this->setRedirect($url, $msg, 'error');
+            JFactory::getApplication()->enqueueMessage($statusReport['errors'], 'error');
+
+            // Minor inconsistencies discovered
+            if (isset($statusReport['warnings']))
+            {
+                JFactory::getApplication()->enqueueMessage($statusReport['warnings'], 'notice');
+            }
+            $this->setRedirect($url . 'edit');
+            return;
         }
+
+        // Minor inconsistencies discovered but will be uploaded
+        if (isset($statusReport['warnings']))
+        {
+            JFactory::getApplication()->enqueueMessage($statusReport['warnings'], 'notice');
+            $this->setRedirect($url . 'manager');
+            return;
+        }
+
+        // Upload with no warnings
+        $this->setRedirect($url . 'manager', JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS"));
     }
 
     /**
@@ -216,6 +211,11 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
         $merge = $this->getModel('schedule')->checkMergeConstraints();
         switch ($merge)
         {
+            case ERROR:
+
+                // Error already thrown
+                $this->setRedirect(JRoute::_($url, false));
+                break;
             case MERGE:
                 JFactory::getApplication()->input->set('view', 'schedule_merge');
                 parent::display();

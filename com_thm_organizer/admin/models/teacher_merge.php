@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Loads teacher entry information to be merged

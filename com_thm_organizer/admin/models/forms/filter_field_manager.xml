@@ -20,7 +20,7 @@
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
-            name="name"
+            name="colorID"
             type="genericlist"
             valueColumn="c.id"
             textColumn="name"
@@ -28,9 +28,9 @@
             label="COM_THM_ORGANIZER_COLOR"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_COLOR</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
+            <option value="-1">COM_THM_ORGANIZER_NONE</option>
         </field>
     </fields>
 	<fields name="list">

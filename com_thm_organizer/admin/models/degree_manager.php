@@ -54,7 +54,9 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         $select .= $query->concatenate($parts) . " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_degrees');
-        $this->setIDFilter($query, 'id', array('name', 'abbreviation', 'lsfDegree'));
+        $columns = array('name', 'abbreviation', 'lsfDegree');
+        $this->setSearchFilter($query, $columns);
+        $this->setIDFilter($query, 'id', $columns);
         $this->setOrdering($query);
         return $query;
     }

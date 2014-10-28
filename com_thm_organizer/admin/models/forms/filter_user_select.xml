@@ -10,7 +10,7 @@
         <field
             name="name"
             type="disjunctlist"
-            valueColumn="id"
+            valueColumn="name"
             textColumn="name"
             table="users"
             notInColumn="id"
@@ -25,7 +25,7 @@
         <field
             name="username"
             type="disjunctlist"
-            valueColumn="id"
+            valueColumn="username"
             textColumn="username"
             table="users"
             notInColumn="id"

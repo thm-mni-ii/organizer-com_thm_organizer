@@ -39,23 +39,9 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array(
-                    'id', 'id'
-            );
+            $config['filter_fields'] = array('name', 'externalID', 'fieldID');
         }
         parent::__construct($config);
-
-        if (!$this->__state_set)
-        {
-            $this->populateState();
-            $this->__state_set = true;
-        }
-        $this->programs = THM_OrganizerHelperMapping::getPrograms();
-        $programID = $this->state->get('filter.program');
-        if (!empty($programID))
-        {
-            $this->setPools($programID);
-        }
     }
 
     /**
@@ -70,29 +56,17 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
 
         // Create the sql query
         $query = $dbo->getQuery(true);
-        $select = 'DISTINCT s.id, lsfID, hisID, externalID, ';
-        $select .= "name_{$language[0]} AS name, field, color";
+        $select = "DISTINCT s.id, externalID, name_{$language[0]} AS name, field, color";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
-        $query->leftJoin('#__thm_organizer_mappings AS m ON s.id = m.subjectID');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $searchState = $this->state->get('filter.search');
-        if (!empty($searchState))
-        {
-            $search = '%' . $dbo->escape($searchState, true) . '%';
-            $searchClause = "(name_de LIKE '$search' ";
-            $searchClause .= "OR short_name_de LIKE '$search' ";
-            $searchClause .= "OR abbreviation_de LIKE '$search' ";
-            $searchClause .= "OR name_en LIKE '$search' ";
-            $searchClause .= "OR short_name_en LIKE '$search' ";
-            $searchClause .= "OR abbreviation_en LIKE '$search' ";
-            $searchClause .= "OR lsfID LIKE '$search' ";
-            $searchClause .= "OR hisID LIKE '$search' ";
-            $searchClause .= "OR externalID LIKE '$search') ";
-            $query->where($searchClause);
-        }
+        $searchFields = array('name_de', 'short_name_de', 'abbreviation_de', 'name_en', 'short_name_en',
+                              'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
+                              'description_en', 'objective_en', 'content_en'
+                             );
+        $this->setSearchFilter($query, $searchFields);
 
         if ($this->state->get('filter.program') == '-2')
         {

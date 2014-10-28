@@ -47,24 +47,24 @@ class THM_OrganizerViewSubject_Manager extends THM_CoreViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUM_TOOLBAR_TITLE'), 'organizer_subjects');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_VIEW_TITLE'), 'organizer_subjects');
         JToolbarHelper::addNew('subject.edit');
         JToolbarHelper::editList('subject.edit');
         JToolbarHelper::custom(
             'subject.importLSFData',
             'export',
             '',
-            'COM_THM_ORGANIZER_PRM_IMPORT',
+            'COM_THM_ORGANIZER_ACTION_IMPORT',
             true
         );
         JToolbarHelper::custom(
             'subject.updateAll',
             'export',
             '',
-            'COM_THM_ORGANIZER_SUM_IMPORTALL',
+            'COM_THM_ORGANIZER_ACTION_IMPORT_ALL',
             false
         );
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_SUM_DELETE_CONFIRM', 'subject.delete');
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'subject.delete');
     }
 
     /**

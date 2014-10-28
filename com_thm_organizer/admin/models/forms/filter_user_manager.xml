@@ -13,7 +13,7 @@
         <field
             name="name"
             type="genericlist"
-            valueColumn="u.id"
+            valueColumn="u.name"
             textColumn="u.name"
             table="thm_organizer_users AS o,users AS u ON o.userID = u.id"
             label="COM_THM_ORGANIZER_NAME"
@@ -25,7 +25,7 @@
         <field
             name="username"
             type="genericlist"
-            valueColumn="u.id"
+            valueColumn="u.username"
             textColumn="u.username"
             table="thm_organizer_users AS o,users AS u ON o.userID = u.id"
             label="COM_THM_ORGANIZER_NAME"

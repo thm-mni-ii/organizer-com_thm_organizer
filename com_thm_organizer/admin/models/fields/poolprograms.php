@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.form.formfield');
 require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**

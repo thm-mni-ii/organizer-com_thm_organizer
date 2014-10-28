@@ -52,11 +52,9 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
         $query->select($select);
         $query->from('#__thm_organizer_colors');
 
-        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
-        if ($search != '%%')
-        {
-            $query->where("name LIKE '$search' OR color LIKE '$search'");
-        }
+        $columns = array('name', 'color');
+        $this->setSearchFilter($query, $columns);
+        $this->setValueFilters($query, $columns);
 
         $this->setOrdering($query);
 
@@ -83,7 +81,7 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
             $return[$index] = array();
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['color'] = THM_ComponentHelper::getColorField($item->color, $item->color);
+            $return[$index]['color'] = THM_OrganizerHelperComponent::getColorField($item->color, $item->color);
             $index++;
         }
         return $return;

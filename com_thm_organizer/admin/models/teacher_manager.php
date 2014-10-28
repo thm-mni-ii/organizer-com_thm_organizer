@@ -59,22 +59,8 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
         $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $searchFilter = $this->state->get('filter.search');
-        if (!empty($searchFilter))
-        {
-            $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
-            $query->where("(surname LIKE '$search' OR forename LIKE '$search')");
-        }
-
-        $fieldID = $this->state->get('filter.fieldID');
-        if (!empty($fieldID))
-        {
-            if ($fieldID == '-1')
-            {
-
-            }
-            $query->where("f.id = '$fieldID'");
-        }
+        $this->setSearchFilter($query, array('surname', 'forename', 'username', 't.gpuntisID', 'field'));
+        $this->setValueFilters($query, array('surname', 'forename', 'username', 't.gpuntisID', 'fieldID'));
 
         $this->setOrdering($query);
 
@@ -106,17 +92,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
             $username = empty($item->username)? '' : $item->username;
             $return[$index]['username'] = JHtml::_('link', $item->link, $username);
             $gpuntisID = empty($item->gpuntisID)? '' : $item->gpuntisID;
-            $return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $gpuntisID);
+            $return[$index]['t.gpuntisID'] = JHtml::_('link', $item->link, $gpuntisID);
             if (!empty($item->field))
             {
-                if (!empty($item->color))
-                {
-                    $return[$index]['fieldID'] = THM_ComponentHelper::getColorField($item->field, $item->color);
-                }
-                else
-                {
-                    $return[$index]['fieldID'] = $item->field;
-                }
+                $bgColor = empty($item->color)? 'ffffff' : $item->color;
+                $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField($item->field, $bgColor);
             }
             else
             {
@@ -142,7 +122,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
         $headers['surname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
         $headers['forename'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);
         $headers['username'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction, $ordering);
-        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction, $ordering);
+        $headers['t.gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction, $ordering);
         $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'f.field', $direction, $ordering);
 
         return $headers;

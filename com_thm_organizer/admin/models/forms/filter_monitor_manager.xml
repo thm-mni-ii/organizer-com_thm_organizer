@@ -11,12 +11,11 @@
             name="checkbox"
             type="checkall" />
         <field
-            name="roomID"
+            name="longname"
             type="genericlist"
-            valueColumn="r.id"
-            textColumn="r.longname"
+            valueColumn="longname"
+            textColumn="longname"
             table="thm_organizer_rooms AS r,thm_organizer_monitors AS m ON m.roomID = r.id"
-            alias="r,m"
             label="COM_THM_ORGANIZER_ROOM"
             onchange="this.form.submit();"
             >
@@ -68,10 +67,11 @@
             table="thm_organizer_monitors"
 			label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
 			onchange="this.form.submit();"
+            valueParameter="content"
 			>
 			<option value="">COM_THM_ORGANIZER_FILTER_CONTENT</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_FILTER_NONE</option>
+            <option value="-1">COM_THM_ORGANIZER_NONE</option>
 		</field>
     </fields>
 	<fields name="list">

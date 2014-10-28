@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+jimport('thm_core.edit.view');
 
 /**
  * Class loads persistent teacher information into a display for edit context
@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewTeacher_Edit extends JViewLegacy
+class THM_OrganizerViewTeacher_Edit extends THM_CoreViewEdit
 {
     /**
      * Method to get display
@@ -30,19 +30,6 @@ class THM_OrganizerViewTeacher_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
-
-        // Get the Data
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
-
-        // Set the toolbar
-        $this->addToolBar();
-
-        // Display the template
         parent::display($tpl);
     }
 
@@ -54,7 +41,7 @@ class THM_OrganizerViewTeacher_Edit extends JViewLegacy
     protected function addToolBar()
     {
         $title = $this->item->id == 0 ?
-            JText::_("COM_THM_ORGANIZER_TRM_NEW_TITLE") : JText::_("COM_THM_ORGANIZER_TRM_EDIT_TITLE");
+            JText::_("COM_THM_ORGANIZER_TEACHER_EDIT_NEW_VIEW_TITLE") : JText::_("COM_THM_ORGANIZER_TEACHER_EDIT_EDIT_VIEW_TITLE");
         JToolbarHelper::title($title, 'organizer_teachers');
         JToolbarHelper::save('teacher.save');
         JToolbarHelper::cancel('teacher.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

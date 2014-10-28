@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
+jimport('thm_core.util.THMArray');
 
 /**
  * Class THM_OrganizerModelLecturer for component com_thm_organizer
@@ -24,6 +24,7 @@ jimport('joomla.application.component.model');
 class THM_OrganizerModelTeacher extends JModelLegacy
 {
     private $_scheduleModel = null;
+
     /**
      * Attempts to save a teacher entry, updating schedule data as necessary.
      *
@@ -32,12 +33,13 @@ class THM_OrganizerModelTeacher extends JModelLegacy
     public function save()
     {
         $dbo = JFactory::getDbo();
-        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
+        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
         $dbo->transactionStart();
         $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
         if ($scheduleSuccess)
         {
             $table = JTable::getInstance('teachers', 'thm_organizerTable');
+            $data = THMArray::filter($formData, function ($elem) { return !empty($elem);});
             $teacherSuccess = $table->save($data);
             if ($teacherSuccess)
             {
@@ -606,7 +608,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
 
         if (!empty($warningString))
         {
-            $warning = JText::sprintf("COM_THM_ORGANIZER_TR_FIELD_MISSING", $surname, $teacherID, $warningString);
+            $warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_TEACHER_PROPERTY_MISSING", $surname, $teacherID, $warningString);
             $this->_scheduleModel->scheduleWarnings[] = $warning;
         }
     }
@@ -625,16 +627,16 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $internalID = trim((string) $teacherNode[0]['id']);
         if (empty($internalID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_TR_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
             {
-                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_TR_ID_MISSING");
+                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING");
             }
             return false;
         }
         if (empty($externalID))
         {
             $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNALID');
+            $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNAL_ID');
         }
         $gpuntisID = empty($externalID)? $internalID : $externalID;
         return $gpuntisID;
@@ -653,7 +655,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $surname = trim((string) $teacherNode->surname);
         if (empty($surname))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_TR_SN_MISSING', $teacherID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING', $teacherID);
             return false;
         }
         $this->_scheduleModel->schedule->teachers->$teacherID->surname = $surname;
@@ -696,7 +698,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
          OR empty($this->_scheduleModel->schedule->fields->$descriptionID))
         {
             $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_DESCRIPTION_PROPERTY');
+            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
         }
         $this->_scheduleModel->schedule->teachers->$teacherID->description
             = empty($descriptionID)? '' : $descriptionID;

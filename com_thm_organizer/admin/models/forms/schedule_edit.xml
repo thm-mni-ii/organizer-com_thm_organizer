@@ -7,7 +7,8 @@
             label="COM_THM_ORGANIZER_SCHEDULE_FILE"
             description="COM_THM_ORGANIZER_SCHEDULE_FILE_DESC"
             class="inputbox"
-            accept=".xml" />
+            accept=".xml"
+            required="true" />
         <field
             name="description"
             type="text"

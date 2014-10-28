@@ -11,7 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.form.formfield');
  
 /**
  * Class JFormFieldResponsible for component com_thm_organizer

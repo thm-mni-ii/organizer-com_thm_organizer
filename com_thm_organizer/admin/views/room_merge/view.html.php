@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
 
 /**
  * Class provides functions for merging room entries

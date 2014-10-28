@@ -61,69 +61,19 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
 
         $select = "m.id, r.longname, m.ip, m.useDefaults, m.display, m.content, ";
         $parts = array("'index.php?option=com_thm_organizer&view=monitor_edit&id='","m.id");
-        $select .= $query->concatenate($parts, "") . "AS link ";
+        $select .= $query->concatenate($parts, "") . " AS link ";
         $query->select($this->state->get("list.select", $select));
         $query->from("#__thm_organizer_monitors AS m");
         $query->leftjoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
 
-        $this->setWhere($query);
+        $this->setSearchFilter($query, array('r.longname', 'm.ip'));
+        $this->setValueFilters($query, array('longname', 'ip', 'useDefaults'));
+        $this->addDisplayFilter($query);
+        $this->addContentFilter($query);
 
         $this->setOrdering($query);
 
         return $query;
-    }
-
-    /**
-     * Sets the query's where clause
-     * 
-     * @param   object  &$query  the query to be modified
-     * 
-     * @return  void
-     */
-    private function setWhere(&$query)
-    {
-        // There can be only one!
-        $filterRoom = $this->state->get('filter.roomID');
-        if (!empty($filterRoom))
-        {
-            $query->where("m.roomID = '$filterRoom'");
-        }
-
-        $filterIP = $this->state->get('filter.ip');
-        if (!empty($filterIP))
-        {
-            $query->where("m.ip = '$filterIP'");
-        }
-
-        $filterSearch = $this->state->get('filter.search');
-        if (!empty($filterSearch))
-        {
-            $search = '%' . $this->_db->escape($filterSearch, true) . '%';
-            $query->where("r.longname LIKE '$search' OR m.ip LIKE '$search' OR m.content LIKE '$search'");
-        }
-
-        $this->addDefaultFilter($query);
-        $this->addDisplayFilter($query);
-        $this->addContentFilter($query);
-    }
-
-    /**
-     * Adds the filter settings for display behaviour
-     *
-     * @param   object  &$query  the query object
-     *
-     * @return  void
-     */
-    private function addDefaultFilter(&$query)
-    {
-        $useDefaults = $this->state->get('list.useDefaults', '');
-        if ($useDefaults === '')
-        {
-            return;
-        }
-
-        $where = "m.useDefaults ='$useDefaults'";
-        $query->where($where);
     }
 
     /**
@@ -135,8 +85,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
      */
     private function addDisplayFilter(&$query)
     {
-        $params = JComponentHelper::getParams('com_thm_organizer');
-        $requestDisplay = $this->state->get('list.display', '');
+        $requestDisplay = $this->state->get('filter.display', '');
 
         if ($requestDisplay === '')
         {
@@ -145,6 +94,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
 
         $where = "m.display ='$requestDisplay'";
 
+        $params = JComponentHelper::getParams('com_thm_organizer');
         $defaultDisplay = $params->get('display', '');
         $useComponentDisplay = (!empty($defaultDisplay) AND $requestDisplay == $defaultDisplay);
         if ($useComponentDisplay)
@@ -190,7 +140,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
     /**
      * Method to overwrite the getItems method in order to set the program name
      *
-     * @return  array  an array of objects fullfilling the request criteria
+     * @return  array  an array of objects fulfilling the request criteria
      */
     public function getItems()
     {
@@ -209,17 +159,16 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
             // Set default attributes
             if (!empty($item->useDefaults))
             {
-                $item->displayBehaviour = $params->get('display');
+                $item->display = $params->get('display');
                 $item->content = $params->get('content');
             }
 
             $return[$index] = array();
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['roomID'] = JHtml::_('link', $item->link, $item->longname);
+            $return[$index]['longname'] = JHtml::_('link', $item->link, $item->longname);
             $return[$index]['ip'] = JHtml::_('link', $item->link, $item->ip);
-            $controller = 'monitor';
             $tip = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
-            $return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
+            $return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
             $return[$index]['display'] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
             $return[$index]['content'] = JHtml::_('link', $item->link, $item->content);
             $index++;
@@ -239,7 +188,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
 
         $headers = array();
         $headers['checkbox'] = '';
-        $headers['roomID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
+        $headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
         $headers['ip'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
         $headers['useDefaults'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEFAULT_SETTINGS', 'm.useDefault', $direction, $ordering);
         $headers['display'] = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');

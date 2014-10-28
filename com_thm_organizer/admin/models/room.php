@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
 
 /**
@@ -323,9 +322,10 @@ class THM_OrganizerModelRoom extends JModelLegacy
         {
             $schedules = $this->_db->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         if (empty($schedules))
@@ -338,7 +338,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         {
             $typeQuery = $this->_db->getQuery(true);
             $typeQuery->select('gpuntisID');
-            $typeQuery->from('__thm_organizer_room_types');
+            $typeQuery->from('#__thm_organizer_room_types');
             $typeQuery->where("id = '{$data['typeID']}'");
             $this->_db->setQuery((string) $typeQuery);
             
@@ -346,9 +346,10 @@ class THM_OrganizerModelRoom extends JModelLegacy
             {
                 $description .= str_replace('DS_', '', $this->_db->loadResult());
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return false;
             }
         }
 
@@ -363,9 +364,10 @@ class THM_OrganizerModelRoom extends JModelLegacy
         {
             $oldNames = $this->_db->loadColumn();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
 
         $scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
@@ -522,6 +524,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
 
         $roomID = str_replace('RM_', '', $gpuntisID);
         $this->_scheduleModel->schedule->rooms->$roomID = new stdClass;
+        $this->_scheduleModel->schedule->rooms->$roomID->name = $roomID;
         $this->_scheduleModel->schedule->rooms->$roomID->gpuntisID = $roomID;
         $this->_scheduleModel->schedule->rooms->$roomID->localUntisID
             = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
@@ -539,7 +542,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         
         if (!empty($warningString))
         {
-            $warning = JText::sprintf("COM_THM_ORGANIZER_RM_FIELD_MISSING", $longname, $roomID, $warningString);
+            $warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_ROOM_PROPERTY_MISSING", $longname, $roomID, $warningString);
             $this->_scheduleModel->scheduleWarnings[] = $warning;
         }
     }
@@ -558,16 +561,16 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $internalID = trim((string) $roomNode[0]['id']);
         if (empty($internalID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_RM_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
             {
-                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_RM_ID_MISSING");
+                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING");
             }
             return false;
         }
         if (empty($externalID))
         {
             $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNALID');
+            $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNAL_ID');
         }
         $gpuntisID = empty($externalID)? $internalID : $externalID;
         return $gpuntisID;
@@ -586,7 +589,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $longname = trim((string) $roomNode->longname);
         if (empty($longname))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_RM_LN_MISSING', $roomID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_ROOM_LONGNAME_MISSING', $roomID);
             return false;
         }
         $this->_scheduleModel->schedule->rooms->$roomID->longname = $longname;
@@ -609,7 +612,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
          OR empty($this->_scheduleModel->schedule->roomtypes->$descriptionID))
         {
             $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_DESCRIPTION_PROPERTY');
+            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_ROOM_TYPE');
         }
         $this->_scheduleModel->schedule->rooms->$roomID->description
             = empty($descriptionID)? '' : $descriptionID;

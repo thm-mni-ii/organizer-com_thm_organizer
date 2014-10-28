@@ -30,11 +30,10 @@
         <field
             name="typeID"
             type="genericlist"
-            valueColumn="t.id"
+            valueColumn="id"
             textColumn="type,subtype"
             glue=", "
-            table="thm_organizer_rooms,thm_organizer_room_types"
-            alias="r,t"
+            table="thm_organizer_room_types"
             label="COM_THM_ORGANIZER_TYPE"
             description="COM_THM_ORGANIZER_TYPE_DESC"
             required="true" >

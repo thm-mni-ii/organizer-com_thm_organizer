@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
 
 /**

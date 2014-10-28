@@ -54,23 +54,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         $select = "id, departmentname, semestername, active, creationdate, creationtime ";
         $query->select($select)->from("#__thm_organizer_schedules");
 
-        $state = $this->state->get('filter.state', false);
-        if ($state !== false)
-        {
-            $query->where("active = '$state''");
-        }
-
-        $semester = $this->state->get('filter.semester', false);
-        if ($semester !== false)
-        {
-            $query->where("semestername = '$semester'");
-        }
-
-        $department = $this->state->get('filter.department', false);
-        if ($department !== false)
-        {
-            $query->where("departmentname = '$department'");
-        }
+        $this->setSearchFilter($query, array('departmentname', 'semestername'));
+        $this->setValueFilters($query, array('departmentname', 'semestername', 'active', 'creationdate', 'creationtime'));
 
         $this->setOrdering($query);
 
@@ -92,15 +77,18 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         }
 
         $index = 0;
+        $params =JComponentHelper::getParams('com_thm_organizer');
+        $dateFormat = $params->get('dateFormat', 'd.m.Y');
+        $timeFormat = $params->get('timeFormat', 'H:i');
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index][0] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index][1] = JHtml::_('link', $item->link, $item->departmentname);
-            $return[$index][2] = JHtml::_('link', $item->link, $item->semestername);
-            $return[$index][3] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
-            $return[$index][4] = JHtml::_('link', $item->link, $item->creationdate);
-            $return[$index][5] = JHtml::_('link', $item->link, $item->creationtime);
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['departmentname'] = $item->departmentname;
+            $return[$index]['semestername'] = $item->semestername;
+            $return[$index]['active'] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
+            $return[$index]['creationdate'] = date($dateFormat, strtotime($item->creationdate));
+            $return[$index]['creationtime'] = date($timeFormat, strtotime($item->creationtime));
             $index++;
         }
         return $return;
@@ -117,12 +105,12 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers[] = '';
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ORGANIZATION', 'departmentname', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNING_PERIOD', 'semestername', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_STATE', 'active', $direction, $ordering);
-        $headers[] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_DATE', 'creationdate', $direction, $ordering);
-        $headers[] = JText::_('COM_THM_ORGANIZER_CREATION_TIME');
+        $headers['checkbox'] = '';
+        $headers['departmentname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ORGANIZATION', 'departmentname', $direction, $ordering);
+        $headers['semestername'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNING_PERIOD', 'semestername', $direction, $ordering);
+        $headers['active'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_STATE', 'active', $direction, $ordering);
+        $headers['creationdate'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_DATE', 'creationdate', $direction, $ordering);
+        $headers['creationtime'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_TIME', 'creationtime', $direction, $ordering);
 
         return $headers;
     }

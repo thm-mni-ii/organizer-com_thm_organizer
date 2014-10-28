@@ -49,6 +49,6 @@ class THM_OrganizerViewUser_Select extends THM_CoreViewList
     protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_USER_SELECT_VIEW_TITLE'), 'organizer_users');
-        JToolbarHelper::addNew('user.add', 'COM_THM_ORGANIZER_ACTION_ADD');
+        JToolbarHelper::addNew('user.add', 'COM_THM_ORGANIZER_ACTION_ADD', true);
     }
 }
