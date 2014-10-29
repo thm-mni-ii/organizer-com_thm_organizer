@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('jquery.jquery');
+jimport('thm_core.edit.view');
 
 /**
  * Class loads program form information for editing
@@ -19,7 +19,7 @@ jimport('jquery.jquery');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewProgram_Edit extends JViewLegacy
+class THM_OrganizerViewProgram_Edit extends THM_CoreViewEdit
 {
     /**
      * Method to get display
@@ -30,19 +30,6 @@ class THM_OrganizerViewProgram_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
-        $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
-
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
-        if ($this->item->id)
-        {
-            $this->children = $this->getModel()->children;
-        }
-
-        $this->addToolBar();
-
         parent::display($tpl);
     }
 
@@ -54,7 +41,7 @@ class THM_OrganizerViewProgram_Edit extends JViewLegacy
     protected function addToolBar()
     {
         $isNew = $this->form->getValue('id') == 0;
-        $title = $isNew ? JText::_("COM_THM_ORGANIZER_PRM_NEW") : JText::_("COM_THM_ORGANIZER_PRM_EDIT");
+        $title = $isNew ? JText::_("COM_THM_ORGANIZER_PROGRAM_EDIT_NEW_VIEW_TITLE") : JText::_("COM_THM_ORGANIZER_PROGRAM_EDIT_EDIT_VIEW_TITLE");
         JToolbarHelper::title($title, 'organizer_degree_programs');
         $applyText = $isNew? JText::_('COM_THM_ORGANIZER_ACTION_APPLY_NEW') : JText::_('JTOOLBAR_APPLY');
         JToolbarHelper::apply('program.apply', $applyText);
