@@ -1,0 +1,146 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       subject_list.css
+**  Styles for: Frontend - Subject list (module catalogue)
+**              Backend - some definitions
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+fieldset.filter-bar, div.filter-bar {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  clear: both;
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+.icon-48-organizer_colors {
+  background: url("../images/colors48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_degrees {
+  background: url("../images/degrees48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_degree_programs {
+  background: url("../images/programs48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_fields {
+  background: url("../images/fields48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_monitors {
+  background: url("../images/monitors48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_rooms {
+  background: url("../images/rooms48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_subjects {
+  background: url("../images/subjects48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_subject_pools {
+  background: url("../images/pools48.png") 0 0 no-repeat; }
+
+.icon-48-organizer_teachers {
+  background: url("../images/teachers48.png") 0 0 no-repeat; }
+
+.icon-32-merge {
+  background: url("../images/icon-32-merge.png"); }
+
+span.navi-tab {
+  background-color: #eeeeee;
+  border-left: 1px solid #bbbbbb;
+  border-right: 1px solid #bbbbbb;
+  border-top: 1px solid #bbbbbb;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  display: block;
+  float: left;
+  margin-bottom: -1px;
+  padding: 4px 4px 5px 4px;
+  -webkit-box-shadow: 2px 0 4px #dddddd;
+  -moz-box-shadow: 2px 0 4px #dddddd;
+  -ms-box-shadow: 2px 0 4px #dddddd;
+  -o-box-shadow: 2px 0 4px #dddddd;
+  box-shadow: 2px 0 4px #dddddd; }
+  span.navi-tab .inactive {
+    z-index: -100; }
+    span.navi-tab .inactive a {
+      font-weight: normal; }
+  span.navi-tab a {
+    color: #4a5c66;
+    font-family: Verdana, Arial;
+    font-size: 13px; }
+  span.navi-tab .active a {
+    font-weight: bold; }
+
+fieldset.filter-bar, div.filter-bar {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px; }
+
+div#filter-bar div.filter-select select {
+  margin-bottom: 0; }
+
+div.filter-bar label {
+  display: inline; }
+div.filter-bar input {
+  margin-bottom: 0; }
+
+div.filter-search label {
+  font-size: 13px; }
+div.filter-search button {
+  border: 1px solid #bbbbbb;
+  color: #4a5c66;
+  font-size: 13px;
+  padding: 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
+
+ul li.subject-item {
+  clear: both;
+  padding: 2px 0; }
+ul li.row1.subject-item {
+  background-color: #eeeeee; }
+
+div.subject-name, div.subject-responsible, div.subject-crp {
+  display: inline-block; }
+
+div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  font-weight: normal; }
+
+div.subject-name {
+  width: 55%; }
+
+div.subject-responsible {
+  width: 25%; }
+
+div.subject-crp {
+  width: 10%; }
+
+div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
+  float: left;
+  width: 100%; }
+
+h3.group-bar, h3.group-bar a {
+  color: #4a5c66; }
+
+.subject-list li.subject-item {
+  line-height: 1.3;
+  list-style-image: url("../images/thm_li.png");
+  padding: 4px; }
+
+.subject-list.grouped li.subject-item {
+  line-height: 1.3;
+  margin: 0;
+  padding: 5px; }

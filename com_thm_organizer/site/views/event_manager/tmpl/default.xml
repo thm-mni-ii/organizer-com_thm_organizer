@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>15.04.2011</creationDate>
+    <copyright>TH Mittelhessen 2013</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>james.antrim@mni.thm.de</authorEMail>
+    <authorUrl>www.mni.thm.de</authorUrl>
+    <layout title="COM_THM_ORGANIZER_EL_LAYOUT_TITLE">
+        <message>COM_THM_ORGANIZER_EL_LAYOUT_DESCRIPTION</message>
+    </layout>
+    <fields name="params">
+        <fieldset name="params" label="COM_THM_ORGANIZER_EL_MENU_RESTRICTIONS">
+            <field name="display_type"
+                  type="list"
+                  default="0"
+                  label="COM_THM_ORGANIZER_EL_DISP_SELECT_LABEL"
+                  description="COM_THM_ORGANIZER_EL_DISP_SELECT_DESC">
+                    <option value="0">COM_THM_ORGANIZER_EL_DISP_CURRENT</option>
+                    <option value="1">COM_THM_ORGANIZER_EL_DISP_CURRENT_CATEGORY</option>
+                    <option value="2">COM_THM_ORGANIZER_EL_DISP_CURRENT_ROOM</option>
+                    <option value="3">COM_THM_ORGANIZER_EL_DISP_CURRENT_OWN</option>
+                    <option value="4">COM_THM_ORGANIZER_EL_DISP_ALL</option>
+                    <option value="5">COM_THM_ORGANIZER_EL_DISP_ALL_CATEGORY</option>
+                    <option value="6">COM_THM_ORGANIZER_EL_DISP_ALL_ROOM</option>
+                    <option value="7">COM_THM_ORGANIZER_EL_DISP_ALL_OWN</option>
+           </field>
+           <field name="category_restriction"
+                  type="sql"
+                  label="COM_THM_ORGANIZER_EL_CAT_SELECT_LABEL"
+                  description="COM_THM_ORGANIZER_EL_CAT_SELECT_DESC"
+                  query="SELECT id, title FROM #__thm_organizer_categories"
+                  key_field="id"
+                  value_field="title"
+                  default="" />
+            <field name="room_restriction"
+                   type="sql"
+                   label="COM_THM_ORGANIZER_EL_ROOM_SELECT_LABEL"
+                   description="COM_THM_ORGANIZER_EL_ROOM_SELECT_DESC"
+                   query="SELECT id, name FROM #__thm_organizer_rooms"
+                   key_field="id"
+                   value_field="name"
+                   default="" />
+            <field name="group_restriction"
+                   type="sql"
+                   label="COM_THM_ORGANIZER_EL_GROUP_SELECT_LABEL"
+                   description="COM_THM_ORGANIZER_EL_GROUP_SELECT_DESC"
+                   query="SELECT id, title as name FROM #__usergroups"
+                   key_field="id"
+                   value_field="name"
+                   default="" />
+        </fieldset>
+    </fields>
+</metadata>
+

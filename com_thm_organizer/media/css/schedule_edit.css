@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       schedule_edit.css
+**  Styles for: Backend - Schedule Manager
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.icon-48-organizer_schedules {
+  background: url("../images/schedules48.png") 0 0 no-repeat; }
+
+table.adminlist thead th.thm_organizer_sm_th {
+  text-align: left; }
+
+.thm_organizer_sch_semester_column {
+  width: 10%; }
+
+.thm_organizer_sch_active_column {
+  width: 5%; }
+
+.thm_organizer_sch_active_td {
+  text-align: center; }
+
+.thm_organizer_sch_date_column {
+  width: 7%; }
+
+.thm_organizer_sch_description_column {
+  width: 20%; }
+
+/*
+    Im Quelltext wurde die Klasse nicht hinterlegt, deswegen greift der Style nicht!
+    Lediglich die ID ist beinhaltet.
+    ├änderung, Pfad: administrator/components/com_thm_organizer/views/schedule_manager/tmpl/default.php
+    Zeile 65: <col id="thm_organizer_sch_description_column" class='thm_organizer_sch_description_column' />
+*/
+li input[disabled=disabled] {
+  border: none;
+  color: black; }
+
+.thm_organizer_se {
+  color: #025a8d; }

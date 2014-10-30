@@ -1,0 +1,170 @@
+//  ------------------------------------
+//  Author:     Kristijan Pokas
+//  File:       toolbar.css
+//  Styles for: Frontend - "offene/alle termine"
+//  Site:       www.mni.thm.de
+//  ------------------------------------
+
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+@import '../../lib_thm_core/scss/icons';
+
+.thm_organizer_action_link,
+.thm_organizer_action_link_preview {
+  margin: 0;
+  padding: 1px 5px;
+  text-align: $text-align-center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+// a link-button definitions
+.thm_organizer_action_link {
+  display: inline-block;
+}
+
+// a link preview definitions
+.thm_organizer_action_link_preview {
+  display: block;
+  float: left;
+}
+
+// button-style definitions, when you clicked an appointment
+.thm_organizer_action_span {
+  display: block;
+  float: none;
+  height: 32px;
+  margin: 0 auto 0 auto;
+  width: 32px;
+}
+
+// ---------------------------------
+// Icons - Frontend
+// ---------------------------------
+
+// icon "new / neu"
+.thm_organizer_new_span {
+  @extend %icon-new;
+}
+
+// icon "edit / anpassen"
+.thm_organizer_edit_span {
+  @extend %icon-edit;
+}
+
+// icon "delete / löschen"
+.thm_organizer_delete_span {
+  @extend %icon-delete;
+}
+
+// icon "submit / los!"
+.thm_organizer_submit_span {
+  @extend %icon-submit;
+}
+
+// icon "back / zurücksetzen"
+.thm_organizer_back_span {
+  @extend %icon-back;
+}
+
+// icon "list / terminliste"
+.thm_organizer_list_span {
+  @extend %icon-list;
+}
+
+// icon "event / termindetails"
+.thm_organizer_event_span {
+  @extend %icon-event;
+}
+
+// icon "save / speichern"
+.thm_organizer_save_span {
+  @extend %icon-save;
+}
+
+// icon "save new / speichern & new"
+.thm_organizer_save_new_span {
+  @extend %icon-save_new;
+}
+
+// icon "preview / vorschau"
+.thm_organizer_preview_span {
+  @extend %icon-preview;
+}
+
+// icon "cancel / abbrechen"
+.thm_organizer_cancel_span {
+  @extend %icon-cancel;
+}
+
+// popup window of preview
+.Popup {
+  background: $bg-color;
+  bottom: 70px;
+  display: none;
+  height: 650px;
+  left: 50%;
+  margin-left: -470px;
+  overflow: hidden;
+  padding: 10px;
+  position: fixed;
+  text-align: $text-align-center;
+  top: 70px;
+  width: 920px;
+  z-index: 3;
+
+  @include box-shadow(0, 0, 10px, #222);
+}
+
+// position of close popup window
+.closePopup {
+  height: 22px;
+  width: 920px;
+}
+
+.loader {
+  background: url("../../../media/com_thm_organizer/images/thm-ajax-loader.gif") 50% 50% no-repeat;
+  display: none;
+  height: 80%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+body.loading {
+  overflow: hidden;
+
+  .loader {
+    display: block;
+  }
+}
+
+.overlay {
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.65);
+  display: none;
+  height: 100%;
+  left: 0;
+  right: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.thm_organizer_divider_span {
+  border-right: solid 1px #c7c7c7;
+  display: block;
+  float: left;
+  height: 48px;
+  margin-right: 4px;
+  padding-left: 4px;
+  padding-right: 1px;
+  padding-top: 1px;
+  text-align: $text-align-center;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 2px;
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>01.03.2013</creationDate>
+    <copyright>TH Mittelhessen 2013</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>james.antrim@mni.thm.de</authorEMail>
+    <authorUrl>www.mni.thm.de</authorUrl>
+    <layout title="COM_THM_ORGANIZER_SUL_LAYOUT_TITLE">
+        <message>COM_THM_ORGANIZER_SUL_LAYOUT_DESCRIPTION</message>
+    </layout>
+    <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
+        <fieldset name="basic">
+            <field name="programID"
+                   type="programs"
+                   class="inputbox"
+                   label="COM_THM_ORGANIZER_PROGRAM"
+                   description="COM_THM_ORGANIZER_CUR_PROGRAMS_DESC"
+                   required="true"/>
+            <field name="language"
+                   type="radio"
+                   default="1"
+                   label="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_TITLE"
+                   description="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_DESCRIPTION">
+                <option value="1">COM_THM_ORGANIZER_GERMAN</option>
+                <option value="0">COM_THM_ORGANIZER_ENGLISH</option>
+            </field>
+            <field name="groupBy"
+                   type="list"
+                   default="0"
+                   label="COM_THM_ORGANIZER_SUL_GROUP_TITLE"
+                   description="COM_THM_ORGANIZER_SUL_GROUP_DESCRIPTION">
+                <option value="0">COM_THM_ORGANIZER_SUL_GROUP_NONE</option>
+                <option value="1">COM_THM_ORGANIZER_SUL_GROUP_POOL</option>
+                <option value="2">COM_THM_ORGANIZER_SUL_GROUP_TEACHER</option>
+                <option value="3">COM_THM_ORGANIZER_SUL_GROUP_FIELD</option>
+            </field>
+            <field type="spacer"
+                   label="COM_THM_ORGANIZER_APPEARANCE_SPACER" />
+            <field name="suffix"
+                   type="text"
+                   label="COM_THM_ORGANIZER_SUFFIX_TITLE"
+                   description="COM_THM_ORGANIZER_SUFFIX_DESCRIPTION"
+                   default="">
+            </field>
+        </fieldset>
+    </fields>
+</metadata>

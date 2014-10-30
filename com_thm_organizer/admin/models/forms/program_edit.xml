@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_BASIC" addfieldpath="/libraries/thm_core/fields">
+        <field name="id"
+               type="hidden" />
+        <field name="degreeID"
+               type="sql"
+               label="COM_THM_ORGANIZER_DEGREE"
+               description="COM_THM_ORGANIZER_DEGREE_DESC"
+               query="SELECT id AS value, name AS degreeID FROM #__thm_organizer_degrees ORDER BY name"
+               required="true" />
+        <field name="version"
+               type="text"
+               size="10"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_VERSION"
+               description="COM_THM_ORGANIZER_VERSION_DESC"
+               required="true" />
+        <field name="lsfFieldID"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_LSF_FIELD_ID"
+               description="COM_THM_ORGANIZER_LSF_FIELD_ID_DESC" />
+        <field name="fieldID"
+               type="genericlist"
+               valueColumn="id"
+               textColumn="field"
+               table="thm_organizer_fields"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_FIELD"
+               description="COM_THM_ORGANIZER_FIELD_DESC" >
+            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
+            <option value="">COM_THM_ORGANIZER_NONE</option>
+        </field>
+    </fieldset>
+    <fieldset name="de" label="COM_THM_ORGANIZER_ATTRIBUTES_DE">
+        <field name="subject_de"
+               type="text"
+               maxlength="255"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_NAME_DE"
+               description="COM_THM_ORGANIZER_NAME_DE_DESC"
+               required="true" />
+        <field name="description_de"
+               type="textarea"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_DESC"
+               description="COM_THM_ORGANIZER_DESC_DESC_DE" />
+    </fieldset>
+    <fieldset name="en" label="COM_THM_ORGANIZER_ATTRIBUTES_EN">
+        <field name="subject_en"
+               type="text"
+               maxlength="255"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_NAME_EN"
+               description="COM_THM_ORGANIZER_NAME_EN_DESC"
+               required="true" />
+        <field name="description_en"
+               type="textarea"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_DESC"
+               description="COM_THM_ORGANIZER_DESC_DESC_EN" />
+    </fieldset>
+    <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS">
+        <field name="children"
+               type="children"
+               label="COM_THM_ORGANIZER_CHILDREN"
+               description="COM_THM_ORGANIZER_CHILDREN_DESC" />
+    </fieldset>
+</form>

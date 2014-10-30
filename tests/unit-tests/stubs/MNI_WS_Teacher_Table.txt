@@ -1,0 +1,1 @@
+<table id='thm_organizer-teachers-consumption-table' class='consumption-table'><tr><th>COM_THM_ORGANIZER_TEACHERS</th><th>COM_THM_ORGANIZER_TOTAL</th></tr><tr class="summary-row"><th>COM_THM_ORGANIZER_SUM</th><th class="degree-use-total resource-use-total" style="vnd.ms-excel.numberformat:@;">0</th></tr></table>

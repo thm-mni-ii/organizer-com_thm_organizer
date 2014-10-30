@@ -1,0 +1,54 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       jquery_ui.css
+**  Styles for: Frontend - Widget accordion (module catalogue)
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.ui-helper-reset {
+  line-height: 1; }
+
+.ui-state-default {
+  background-image: none; }
+
+.ui-corner-all {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
+
+.ui-corner-top, .ui-corner-bottom {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px; }
+
+.ui-accordion .ui-accordion-header {
+  margin-top: 4px; }
+
+.ui-accordion-header {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+.ui-accordion .ui-accordion-content {
+  padding: 4px; }
+
+.ui-widget {
+  font-family: Verdana, Arial;
+  font-size: 13px; }
+
+.ui-state-default {
+  font-weight: normal; }
+
+.ui-icon.ui-icon-triangle-1-s {
+  background: url("../images/active_tab.png") 0 0 no-repeat; }
+
+.ui-icon.ui-icon-triangle-1-e {
+  background: url("../images/default_tab.png") 0 0 no-repeat; }
+
+h3.ui-state-hover {
+  background-color: #4a5c66 !important;
+  color: #eeeeee; }

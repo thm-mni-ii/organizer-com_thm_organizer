@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset>
+        <field
+            id="title"
+            name="title"
+            type="text"
+            label="COM_THM_ORGANIZER_EE_TITLE"
+            description="COM_THM_ORGANIZER_EE_TITLE_DESC"
+            class="inputbox validate-title"
+                        validate="title"
+            size="56"
+            required="true" />
+        <field
+            id="description"
+            name="description"
+            type="editor"
+            label="COM_THM_ORGANIZER_EE_DESCRIPTION"
+            description="COM_THM_ORGANIZER_EE_DESCRIPTION_DESC"
+            class="inputbox"
+            rows="6"
+            cols="44"
+                        default=""/>
+        <field
+            id="startdate"
+            name="startdate"
+            type="calendar"
+            label="COM_THM_ORGANIZER_EE_STARTDATE"
+            description="COM_THM_ORGANIZER_EE_STARTDATE_DESC"
+            class="inputbox validate-germandate"
+                        validate="germandate"
+                        required="true"
+            format="%d.%m.%Y"
+            size="7" />
+        <field
+            id="starttime"
+            name="starttime"
+            type="text"
+            label="COM_THM_ORGANIZER_EE_STARTTIME"
+            description="COM_THM_ORGANIZER_EE_STARTTIME_DESC"
+            class="inputbox validate-time"
+            size="2"
+            maxlength="5"
+                        validate="time"/>
+        <field
+            id="enddate"
+            name="enddate"
+            type="calendar"
+            label="COM_THM_ORGANIZER_EE_ENDDATE"
+            description="COM_THM_ORGANIZER_EE_ENDDATE_DESC"
+            class="inputbox validate-germandate"
+                        validate="germandate"
+            format="%d.%m.%Y"
+            size="7" />
+        <field
+            id="endtime"
+            name="endtime"
+            type="text"
+            label="COM_THM_ORGANIZER_EE_ENDTIME"
+            description="COM_THM_ORGANIZER_EE_ENDTIME_DESC"
+            class="inputbox validate-time"
+            size="2"
+            maxlength="5"
+                        validate="time"/>
+        <field
+            id="categories"
+            name="categories"
+            type="list"
+            label="COM_THM_ORGANIZER_EE_CATEGORY"
+            description="COM_THM_ORGANIZER_EE_CATEGORY_DESC" />
+        <field
+            id="teachers"
+            name="teachers"
+            type="list"
+            label="COM_THM_ORGANIZER_EE_TEACHER"
+            description="COM_THM_ORGANIZER_EE_TEACHER_DESC" />
+        <field
+            id="rooms"
+            name="rooms"
+            type="list"
+            label="COM_THM_ORGANIZER_EE_ROOM"
+            description="COM_THM_ORGANIZER_EE_ROOM_DESC" />
+        <field
+            id="groups"
+            name="groups"
+            type="list"
+            label="COM_THM_ORGANIZER_EE_GROUP"
+            description="COM_THM_ORGANIZER_EE_GROUP_DESC" />
+        <field
+            id="emailNotification"
+                        name="emailNotification"
+            type="checkbox"
+            label="COM_THM_ORGANIZER_EE_EMAIL"
+            description="COM_THM_ORGANIZER_EE_EMAIL_DESC"
+                        onclick="toggleCheckValue(this.checked);"
+            default="0" />
+        <field
+            id="id"
+            name="id"
+            type="hidden"
+            class="inputbox"
+            default="0" />
+        <field
+            id="task"
+            name="task"
+            type="hidden"
+            class="inputbox"
+            default="event.save" />
+    </fieldset>
+</form>

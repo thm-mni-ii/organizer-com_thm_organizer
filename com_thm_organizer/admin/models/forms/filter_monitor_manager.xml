@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
+        <field
+            name="search"
+            type="text"
+            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
+            hint="JSEARCH_FILTER"
+        />
+        <field
+            name="checkbox"
+            type="checkall" />
+        <field
+            name="longname"
+            type="genericlist"
+            valueColumn="longname"
+            textColumn="longname"
+            table="thm_organizer_rooms AS r,thm_organizer_monitors AS m ON m.roomID = r.id"
+            label="COM_THM_ORGANIZER_ROOM"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_ROOM</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="ip"
+            type="genericlist"
+            valueColumn="ip"
+            textColumn="ip"
+            table="thm_organizer_monitors"
+            label="COM_THM_ORGANIZER_IP"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_IP</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="useDefaults"
+            type="list"
+            label="COM_THM_ORGANIZER_DEFAULT_SETTINGS"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_DEFAULT</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="1">COM_THM_ORGANIZER_FILTER_DEFAULT_YES</option>
+            <option value="0">COM_THM_ORGANIZER_FILTER_DEFAULT_NO</option>
+        </field>
+        <field
+            name="display"
+            type="list"
+            label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
+            class="inputbox"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_DISPLAY_BEHAVIOUR</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="1">COM_THM_ORGANIZER_DAILY_PLAN</option>
+            <option value="2">COM_THM_ORGANIZER_MIXED_PLAN</option>
+            <option value="3">COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
+            <option value="4">COM_THM_ORGANIZER_EVENT_PLAN</option>
+        </field>
+		<field
+			name="content"
+			type="genericlist"
+            valueColumn="content"
+            textColumn="content"
+            table="thm_organizer_monitors"
+			label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
+			onchange="this.form.submit();"
+            valueParameter="content"
+			>
+			<option value="">COM_THM_ORGANIZER_FILTER_CONTENT</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+		</field>
+    </fields>
+	<fields name="list">
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

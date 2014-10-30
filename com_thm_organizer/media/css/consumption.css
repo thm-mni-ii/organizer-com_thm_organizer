@@ -1,0 +1,180 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       consumption.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.consumption div.filter-bar {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  clear: both;
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+.consumption {
+  color: #4a5c66; }
+  .consumption h2.componentheading {
+    float: left; }
+  .consumption div.button-panel {
+    float: right; }
+  .consumption button {
+    background: #eeeeee none;
+    border: 1px solid #004289;
+    cursor: pointer;
+    font-weight: bold;
+    padding: .5em .5em .5em .7em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 2px 2px 6px #b7b7b7;
+    -moz-box-shadow: 2px 2px 6px #b7b7b7;
+    -ms-box-shadow: 2px 2px 6px #b7b7b7;
+    -o-box-shadow: 2px 2px 6px #b7b7b7;
+    box-shadow: 2px 2px 6px #b7b7b7; }
+    .consumption button:hover {
+      -webkit-box-shadow: 2px 2px 6px #87b918;
+      -moz-box-shadow: 2px 2px 6px #87b918;
+      -ms-box-shadow: 2px 2px 6px #87b918;
+      -o-box-shadow: 2px 2px 6px #87b918;
+      box-shadow: 2px 2px 6px #87b918; }
+  .consumption table.consumption-table {
+    background-image: none;
+    border: 1px solid #bbbbbb;
+    color: #4a5c66;
+    display: block;
+    font-family: Verdana, Arial;
+    font-size: 13px;
+    margin-bottom: .4em;
+    margin-top: .4em;
+    max-height: 45em;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 2px 2px 4px #dddddd;
+    -moz-box-shadow: 2px 2px 4px #dddddd;
+    -ms-box-shadow: 2px 2px 4px #dddddd;
+    -o-box-shadow: 2px 2px 4px #dddddd;
+    box-shadow: 2px 2px 4px #dddddd; }
+    .consumption table.consumption-table tr th {
+      font-size: 13px;
+      height: 1.4em;
+      text-align: center; }
+      .consumption table.consumption-table tr th .degree-use-total, .consumption table.consumption-table tr th .resource-use-total {
+        border-top: 1px solid #bbbbbb;
+        font-weight: normal; }
+    .consumption table.consumption-table tr td {
+      font-size: 13px;
+      height: 1.4em;
+      text-align: center; }
+    .consumption table.consumption-table th.index-column {
+      text-align: right; }
+    .consumption table.consumption-table td.middle_column {
+      border-right: 0.1em solid #bbbbbb; }
+    .consumption table.consumption-table tbody tr td {
+      border: 1px solid #dddddd; }
+  .consumption thead, .consumption tbody {
+    display: block; }
+  .consumption div.filter-bar {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px; }
+    .consumption div.filter-bar div.filter-item {
+      display: inline-block;
+      margin-left: .4em;
+      margin-top: .5em; }
+      .consumption div.filter-bar div.filter-item img {
+        border: 0.1em solid #004289;
+        cursor: pointer;
+        margin: 0 0 -.1em .2em;
+        -webkit-border-radius: 0.2em;
+        -moz-border-radius: 0.2em;
+        -ms-border-radius: 0.2em;
+        -o-border-radius: 0.2em;
+        border-radius: 0.2em;
+        -webkit-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
+        -moz-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
+        -ms-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
+        -o-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
+        box-shadow: 0.2em 0.2em 0.4em #b7b7b7; }
+        .consumption div.filter-bar div.filter-item img:hover {
+          -webkit-box-shadow: 0.2em 0.2em 0.4em #87b918;
+          -moz-box-shadow: 0.2em 0.2em 0.4em #87b918;
+          -ms-box-shadow: 0.2em 0.2em 0.4em #87b918;
+          -o-box-shadow: 0.2em 0.2em 0.4em #87b918;
+          box-shadow: 0.2em 0.2em 0.4em #87b918; }
+  .consumption div.filter-item label {
+    min-width: 40em; }
+
+@media print {
+  .consumption table.consumption-table {
+    overflow: visible;
+    margin-bottom: 4em; }
+
+  .consumption table.consumption-table tr td {
+    background-color: white; } }
+.filter-header {
+  margin-bottom: .4em; }
+
+.filter-resource {
+  margin-bottom: .6em;
+  margin-left: .6em;
+  margin-right: .6em;
+  overflow: auto;
+  padding: .6em; }
+
+.filter-resource-item {
+  float: left;
+  margin-left: .6em; }
+  .filter-resource-item label {
+    float: left;
+    display: block;
+    margin-left: 3.6em;
+    margin-top: 7em;
+    margin-right: .4em; }
+  .filter-resource-item select {
+    display: block;
+    float: left; }
+
+.filter-toggle {
+  clear: both;
+  padding: .4em .4em; }
+
+a.toggle-link:link,
+a.toggle-link:hover,
+a.toggle-link:visited,
+a.toggle-link:focus {
+  color: #4a5c66;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: normal;
+  text-decoration: none; }
+
+.toggle-button {
+  display: inline-block;
+  height: 1em;
+  padding-left: .2em;
+  width: 1em; }
+
+.toggle-closed {
+  background: url("../images/default_tab.png") 0 0 no-repeat; }
+
+.toggle-open {
+  background: url("../images/active_tab.png") 0 0 no-repeat; }

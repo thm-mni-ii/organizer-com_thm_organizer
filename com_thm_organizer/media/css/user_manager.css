@@ -1,0 +1,36 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       user_manager.css
+**  Styles for:
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+fieldset.filter-bar, div.filter-bar {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  clear: both;
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+.icon-48-organizer_users {
+  background: url("../images/users48.png") 0 0 no-repeat; }
+
+table {
+  width: 100%; }
+
+th, td {
+  text-align: center; }
+
+th.column0, td.column0 {
+  max-width: .5em; }
+
+th.column3, td.column3, th.column4, td.column4 {
+  max-width: 3em; }

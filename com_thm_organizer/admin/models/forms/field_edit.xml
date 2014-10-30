@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field name="id"
+               type="hidden" />
+        <field type="text"
+               name="field"
+               label="COM_THM_ORGANIZER_NAME"
+               description="COM_THM_ORGANIZER_FLM_NAME_DESC"
+               class="inputbox"
+               size="40"
+               maxlength="50"
+               required="true" />
+        <field type="text"
+               name="gpuntisID"
+               label="COM_THM_ORGANIZER_GPUNTISID"
+               description="COM_THM_ORGANIZER_FLM_GPUNTISID_DESC"
+               size="10"
+               maxlength="50"
+               class="inputbox" />
+        <field name="colorID"
+               type="colors"
+               class="inputbox color"
+               size="10"
+               label="COM_THM_ORGANIZER_COLOR"
+               description="COM_THM_ORGANIZER_FLM_COLOR_DESC" />
+    </fieldset>
+</form>

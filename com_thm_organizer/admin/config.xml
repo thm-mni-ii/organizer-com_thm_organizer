@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset
+        name="general"
+        label="COM_THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
+        description="COM_THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
+        <field
+            name="dateFormat"
+            label="COM_THM_ORGANIZER_DATE_FORMAT"
+            description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
+            type="text"
+            size="40"
+            required="true"
+            default="d.m.Y" />
+        <field
+            name="timeFormat"
+            label="COM_THM_ORGANIZER_TIME_FORMAT"
+            description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"
+            type="text"
+            size="40"
+            required="true"
+            default="H:i" />
+    </fieldset>
+    <fieldset name="eCollab"
+              label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
+              description="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_DESCRIPTION">
+        <field name="eCollabLink"
+               type="text"
+               size="60"
+               default="http://moodle.thm.de/course/view.php?idnumber="
+               label="COM_THM_ORGANIZER_ECOLLAB"
+               description="COM_THM_ORGANIZER_ECOLLAB_DESC">
+        </field>
+        <field name="displayeCollabLink"
+               type="list"
+               default="0"
+               label="COM_THM_ORGANIZER_ECOLLAB_DISPLAY"
+               description="COM_THM_ORGANIZER_ECOLLAB_DISPLAY_DESC">
+            <option value='1'>JYES</option>
+            <option value='0'>JNO</option>
+        </field>
+    </fieldset>
+    <fieldset name="LSF-Service"
+              label="COM_THM_ORGANIZER_LSF_SETTINGS_TITLE"
+              description="COM_THM_ORGANIZER_LSF_SETTINGS_DESCRIPTION">
+        <field name="wsURI"
+               type="text"
+               default="https://studien-sb-service.fh-giessen-friedberg.de/lsfadmin/services/dbinterface?wsdl"
+               size="100"
+               label="COM_THM_ORGANIZER_LSF_URI"
+               description="COM_THM_ORGANIZER_LSF_URI_DESC">
+        </field>
+        <field name="wsUsername"
+               type="text"
+               default="soapclmni"
+               size="30"
+               label="COM_THM_ORGANIZER_LSF_USERNAME"
+               description="COM_THM_ORGANIZER_LSF_USERNAME_DESC">
+        </field>
+        <field name="wsPassword"
+               type="text"
+               default="cByAroe5"
+               size="30"
+               label="COM_THM_ORGANIZER_PASSWORD"
+               description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
+        </field>
+    </fieldset>
+    <fieldset name="Monitors"
+              label="COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE"
+              description="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
+        <field
+            type="list"
+            id="display"
+            name="display"
+            label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
+            description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC"
+            class="inputbox">
+            <option value='1'>COM_THM_ORGANIZER_DAILY_PLAN</option>
+            <option value='2'>COM_THM_ORGANIZER_MIXED_PLAN</option>
+            <option value='3'>COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
+            <option value='4'>COM_THM_ORGANIZER_EVENT_PLAN</option>
+        </field>
+        <field
+            id="schedule_refresh"
+            name="schedule_refresh"
+            type="integer"
+            label="COM_THM_ORGANIZER_SCHEDULE_REFRESH"
+            description="COM_THM_ORGANIZER_SCHEDULE_REFRESH_DESC"
+            first="10"
+            last="990"
+            step="10"
+            default="60"/>
+        <field
+            id="content_refresh"
+            name="content_refresh"
+            type="integer"
+            label="COM_THM_ORGANIZER_CONTENT_REFRESH"
+            description="COM_THM_ORGANIZER_CONTENT_REFRESH_DESC"
+            first="10"
+            last="990"
+            step="10"
+            default="60"/>
+        <field
+            id="content"
+            name="content"
+            type="filelist"
+            label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
+            description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC"
+            directory="images/thm_organizer/"
+            exclude=""/>
+    </fieldset>
+    <fieldset name="scheduler"
+              label="COM_THM_ORGANIZER_SCHEDULE_APPLICATION_TITLE"
+              description="COM_THM_ORGANIZER_SCHEDULE_APPLICATION_DESCRIPTION">
+        <field
+            id="linkEvents"
+            name="linkEvents"
+            type="list"
+            label="COM_THM_ORGANIZER_EVENT_CREATION"
+            default="1"
+            description="COM_THM_ORGANIZER_EVENT_CREATION_DESC"
+            class="inputbox">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+    </fieldset>
+    <fieldset name="permissions"
+              label="JCONFIG_PERMISSIONS_LABEL"
+              description="JCONFIG_PERMISSIONS_DESC">
+        <field name="rules"
+               type="rules"
+               label="JCONFIG_PERMISSIONS_LABEL"
+               validate="rules"
+               filter="rules"
+               component="com_thm_organizer"
+               section="component" />
+    </fieldset>
+</config>

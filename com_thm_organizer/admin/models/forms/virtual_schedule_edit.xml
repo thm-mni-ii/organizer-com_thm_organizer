@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset>
+        <field
+            id="id"
+            name="id"
+            type="hidden"
+        />
+        <field
+            id="vid"
+            name="vid"
+            type="hidden"
+        />
+        <field
+            id="name"
+            name="name"
+            type="text"
+            label="COM_THM_ORGANIZER_VSE_NAME_LABEL"
+            description="COM_THM_ORGANIZER_VSE_NAME_DESC"
+            class="inputbox validate-name"
+            validate="name"
+            required="true"
+        />
+        <field
+            id="type"
+            name="type"
+            type="list"
+            default=""
+            label="COM_THM_ORGANIZER_VSE_TYPE_LABEL"
+            description="COM_THM_ORGANIZER_VSE_TYPE_DESC">
+                  <option value="class">Semester</option>
+                  <option value="room">Room</option>
+                  <option value="teacher">Teacher</option>
+        </field>
+        <field
+            id="semester"
+            name="semester"
+            type="sql"
+            label="COM_THM_ORGANIZER_VSE_SEMESTER_LABEL"
+            description="COM_THM_ORGANIZER_VSE_SEMESTER_DESC"
+            class="inputbox"
+            query="SELECT id, CONCAT(organization, '-', semesterDesc) as name
+                      FROM #__thm_organizer_semesters
+                      ORDER BY name"
+            key_field="id"
+            value_field="name"
+        />
+        <field
+            id="responsible"
+            name="responsible"
+            type="Responsible"
+            label="COM_THM_ORGANIZER_VSE_RESPONSIBLE_LABEL"
+            description="COM_THM_ORGANIZER_RESPONSIBLE_SEMESTER_DESC"
+            class="inputbox"
+            key_field="id"
+            value_field="name"
+        />
+        <field
+            id="TeacherDepartment"
+            name="TeacherDepartment"
+            type="sql"
+            label="COM_THM_ORGANIZER_VSE_TEACHERDEPARTMENT_LABEL"
+            description="COM_THM_ORGANIZER_VSE_TEACHERDEPARTMENT_DESC"
+            class="inputbox"
+            query="SELECT DISTINCT #__thm_organizer_departments.id, CONCAT(#__thm_organizer_departments.department, '-', #__thm_organizer_departments.subdepartment) as name
+                      FROM #__thm_organizer_teachers
+                      INNER JOIN #__thm_organizer_departments
+                      WHERE #__thm_organizer_teachers.departmentID = #__thm_organizer_departments.id
+                      ORDER BY name"
+            key_field="id"
+            value_field="name"
+            default="none"
+        >
+        <option value="none">COM_THM_ORGANIZER_VSE_VALUE_NONE</option>
+        </field>
+        <field
+            id="RoomDepartment"
+            name="RoomDepartment"
+            type="sql"
+            label="COM_THM_ORGANIZER_VSE_ROOMDEPARTMENT_LABEL"
+            description="COM_THM_ORGANIZER_VSE_ROOMDEPARTMENT_DESC"
+            class="inputbox"
+            query="SELECT DISTINCT id, IF(CHAR_LENGTH(description) = 0, category, CONCAT(category, ' (', description, ')')) as name
+                      FROM #__thm_organizer_descriptions
+                      ORDER BY name"
+            key_field="id"
+            value_field="name"
+            default="none"
+        >
+        <option value="none">COM_THM_ORGANIZER_VSE_VALUE_NONE</option>
+        </field>
+        <field
+            id="ClassDepartment"
+            name="ClassDepartment"
+            type="sql"
+            label="COM_THM_ORGANIZER_VSE_CLASSDEPARTMENT_LABEL"
+            description="COM_THM_ORGANIZER_VSE_CLASSDEPARTMENT_DESC"
+            class="inputbox"
+            query="SELECT DISTINCT major as id, major as name
+                      FROM #__thm_organizer_classes
+                      ORDER BY major"
+            key_field="id"
+            value_field="name"
+            default="none"
+        >
+        <option value="none">COM_THM_ORGANIZER_VSE_VALUE_NONE</option>
+        </field>
+        <field
+            id="Teachers"
+            name="Teachers"
+            type="sql"
+            label="COM_THM_ORGANIZER_VSE_TEACHERS_LABEL"
+            description="COM_THM_ORGANIZER_VSE_TEACHERS_DESC"
+            class="inputbox"
+            size="10"
+            multiple="multiple"
+            query="SELECT gpuntisID as id, name
+                      FROM #__thm_organizer_teachers
+                      ORDER BY name"
+            key_field="id"
+            value_field="name"
+        />
+        <field
+            id="Rooms"
+            name="Rooms"
+            type="sql"
+            label="COM_THM_ORGANIZER_VSE_ROOMS_LABEL"
+            description="COM_THM_ORGANIZER_VSE_ROOMS_DESC"
+            class="inputbox"
+            size="10"
+            multiple="multiple"
+            query="SELECT gpuntisID as id, alias as name
+                      FROM #__thm_organizer_rooms
+                      ORDER BY name"
+            key_field="id"
+            value_field="name"
+        />
+        <field
+            id="Classes"
+            name="Classes"
+            type="sql"
+            label="COM_THM_ORGANIZER_VSE_CLASSES_LABEL"
+            description="COM_THM_ORGANIZER_VSE_CLASSES_DESC"
+            class="inputbox"
+            size="10"
+            multiple="multiple"
+            query="SELECT gpuntisID as id, CONCAT(major, ' ', semester) as name
+                      FROM #__thm_organizer_classes
+                      ORDER BY name"
+            key_field="id"
+            value_field="name"
+        />
+    </fieldset>
+</form>

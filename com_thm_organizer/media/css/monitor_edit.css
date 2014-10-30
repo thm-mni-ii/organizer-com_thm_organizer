@@ -1,0 +1,35 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       monitor_edit.css
+**  Styles for: Backend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.icon-48-organizer_monitors {
+  background: url("../images/monitors48.png") 0 0 no-repeat; }
+
+.thm_organizer_mon_table {
+  width: auto; }
+
+.thm_organizer_mon_table tbody tr td {
+  text-align: center; }
+
+.thm_organizer_mon_col_checkbox {
+  width: 10px; }
+
+.thm_organizer_mon_col_room {
+  width: 65px; }
+
+.thm_organizer_mon_col_ip {
+  width: 50px; }
+
+.thm_organizer_mon_col_use_defaults {
+  width: 50px; }
+
+.thm_organizer_mon_col_display {
+  width: 150px; }
+
+.thm_organizer_mon_col_interval {
+  width: 70px; }
+
+.thm_organizer_mon_col_content {
+  width: 200px; }

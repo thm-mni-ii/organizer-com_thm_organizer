@@ -1,0 +1,475 @@
+.MySched_pause {
+    background-color: #A0AEBE;
+    text-align: center;
+}
+
+.MySchedexternURLClass {
+    display: block;
+}
+
+div.MySchedexternURLClass_DIS {
+    width: 100%;
+    height: 500px;
+}
+
+.MySchedexternURLClass_DIS {
+    display: none;
+}
+
+.MySched_Semester {
+    background-color: yellow;
+}
+
+.MySched_CalendarEvent {
+    background-color: #7fff00;
+}
+
+.timeBox {
+    text-align: center;
+}
+
+.MySchedEvent_joomla {
+    font-size: 11px;
+    cursor: move;
+    z-index: 1000;
+    padding: 2px;
+    margin: 2px;
+    background: #7fff00;
+    border: 1px solid #CCC;
+    -moz-opacity: 0.9;
+    text-align: center;
+    text-shadow: 0 1px 1px white;
+    overflow: hidden;
+    white-space: normal;
+    word-wrap: break-word;
+    color: black;
+    text-decoration: none;
+}
+
+.lectureBox {
+    font-size: 11px;
+    cursor: move;
+    z-index: 1000;
+    padding: 2px;
+    margin: 2px;
+    background: #EEE;
+    border: 1px solid #CCC;
+    -moz-opacity: 0.9;
+    text-align: center;
+    text-shadow: 0 1px 1px white;
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
+.lectureBox_reserve {
+    color: red;
+}
+
+.lectureBox_dis {
+    font-size: 11px;
+    z-index: 1000;
+    padding: 2px;
+    margin: 2px;
+    background: #EEE;
+    border: 1px solid #CCC;
+    -moz-opacity: 0.9;
+    text-align: center;
+    text-shadow: 0 1px 1px white;
+    overflow: hidden;
+    text-decoration: line-through;
+    color: #AAA;
+    white-space: normal;
+}
+
+/* Ausgewaehlte Lectures zur Infoanzeige */
+.lectureBox_sel {
+    background: #DFE8F6;
+    border: 2px solid #8DB2E3;
+    margin: 1px;
+}
+/* Lextures die in MySchedule sind */
+.lectureBox_cho {
+    background: #b8c47e;
+    border: 1px solid #333;
+}
+
+.timeCell {
+    background-color: #EBF3FD;
+}
+
+/* Anzeige von DozentenInformationen */
+div.teacherInfo div {
+    margin-top: 15px;
+}
+
+div.teacherInfo div ul {
+    list-style-type: circle;
+    padding-left: 25px;
+}
+
+.x-grid-row .blockFree {
+    background-color: #FFFFFF;
+}
+
+.x-grid-row .blockBusy {
+    background-color: #667e9a;
+}
+
+.x-grid-row .blockOccupied {
+    background-color: #002959;
+}
+
+.x-grid-row .blockFree_DIS,.blockBusy_DIS,.blockOccupied_DIS {
+    background-color: #FFFFFF;
+}
+
+.myScheduleIcon, .respChangesIcon, .DiffIcon {
+    background: url(../images/table.png) no-repeat left center;
+}
+
+.myScheduleIconSave, .respChangesIconSave, .DiffIconSave {
+    background: url(../images/table_save.png) no-repeat left center;
+}
+
+.teacherIconSave {
+    background: url(../images/teacherIcon_save.png) no-repeat left center;
+}
+
+.roomIconSave {
+    background: url(../images/roomIcon_save.png) no-repeat left center;
+}
+
+.clasIconSave {
+    background: url(../images/clasIcon_save.png) no-repeat left center;
+}
+
+/* Änderungen Top Icon Style */
+.top_icon_image {
+    background-color: green;
+    font-weight: bold;
+}
+
+/* Calendar Style */
+.MySched_nextWeekIcon{
+    background-image: url(../../../../../../media/com_thm_organizer/images/right-btn.gif);
+}
+
+.MySched_prevWeekIcon{
+    background-image: url(../../../../../../media/com_thm_organizer/images/left-btn.gif);
+}
+
+/* MNI Style */
+.mysched_iframeModule {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.content_column table.x-grid-table th {
+    padding: 0;
+}
+
+.content_column table.x-grid-table td {
+    padding: 0;
+}
+
+.content_column table.x-grid-table {
+    border: 0 solid #EEEEEE;
+}
+
+.content_column {
+    padding-top: 0 !important;
+}
+
+#topMenu * {
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Toolbar ButtonIcons */
+.tbSave {
+    background: url(../images/disk.png) no-repeat left center;
+}
+
+.tbSavePdf {
+    background: url(../images/page_white_acrobat.png) no-repeat left center;
+}
+
+.tbSaveTxt {
+    background: url(../images/excel.png) no-repeat left center;
+}
+
+.tbLogin {
+    background: url(../images/key.png) no-repeat left center;
+}
+
+.tbLogout {
+    background: url(../images/door_in.png) no-repeat left center;
+}
+
+.tbInfo {
+    background: url(../images/information.png) no-repeat left center;
+}
+
+.tbSubscribe {
+    background: url(../images/table_edit.png) no-repeat left center;
+}
+
+.tbSaveICal {
+    background: url(../images/ICalIcon.png) no-repeat left center;
+}
+
+.tbPEvent {
+    background: url(/../images/calendar_add.png) no-repeat left center;
+}
+
+.tbEvent {
+    background: url(../images/calendar_add.png) no-repeat left center;
+}
+
+.tbDownload {
+    background: url(../images/down.png) no-repeat left center;
+}
+
+/* Drag and Drop */
+.dd-drag {
+    opacity: 0.4;
+    -moz-opacity: 0.4;
+    filter: alpha(opacity = 40);
+}
+
+.dd-over {
+    background-color: #ffff60;
+}
+
+/* Farben im Tab Änderungen */
+div.removed {
+    color: #aaaaaa;
+    text-decoration: line-through;
+}
+
+.movedfrom {
+    color: #aaaaaa;
+}
+
+.new {
+    font-weight: bold;
+    color: #00FF00;
+}
+
+small.removed {
+    font-weight: bold;
+    color: #FF4444;
+}
+
+.mySched_terminicon {
+    height: 12px;
+    width: 12px;
+    margin-bottom: -2px;
+}
+
+/* Lecture Styles */
+.lecturename {
+    cursor: pointer;
+    margin: -2px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.lecturename_dis {
+    margin: -2px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.oldroom {
+    color: #aaaaaa;
+    text-decoration: line-through;
+    font-size: 10.5px;
+}
+
+.oldteacher {
+    color: #aaaaaa;
+    text-decoration: line-through;
+    font-size: 10.5px;
+}
+
+.oldmodule {
+    color: #aaaaaa;
+    text-decoration: line-through;
+    font-size: 10.5px;
+}
+
+.teachername:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.roomname:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.modulename:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.MySched_SelectTree {
+    padding: 3px;
+    border: 0;
+}
+
+/* Status Icons */
+.status_icons {
+    text-align: right;
+    padding-top: 1px;
+}
+
+.status_icons_add {
+    cursor: pointer;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.status_icons_estudy {
+    cursor: pointer;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.status_icons_info {
+    cursor: pointer;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.status_icons_edit {
+    cursor: pointer;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.status_icons_delete {
+    cursor: pointer;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+/* MySched Search Result */
+.MySchedSearchResult {
+    border: 1px solid #FF8C00;
+}
+
+.searchSubject {
+    border: 1px solid #FF8C00;
+}
+
+/* Deltastyle */
+
+.deltanew
+{
+    color: green;
+}
+
+.deltaremoved
+{
+    text-decoration: line-through;
+    color: #aaaaaa;
+}
+
+.roomnew
+{
+    color: green;
+}
+
+.roomremoved
+{
+    text-decoration: line-through;
+    color: #aaaaaa;
+}
+
+.teachernew
+{
+    color: green;
+}
+
+.teacherremoved
+{
+    text-decoration: line-through;
+    color: #aaaaaa;
+}
+
+.modulenew
+{
+    color: green;
+}
+
+.moduleremoved
+{
+    text-decoration: line-through;
+    color: #aaaaaa;
+}
+
+/* Ext-Style overrides */
+.x-grid-row .x-grid-cell {
+    border-right: 1px solid #ECECEC;
+    border-bottom: 1px solid #ECECEC;
+    border-top: 0;
+}
+
+.x-panel-body-default {
+    border-width: 0;
+}
+
+.x-panel .x-grid-body {
+    border-width: 0;
+}
+
+.x-panel-header-default {
+    background-color: #FFF;
+    background-image: none;
+    border-width: 0;
+}
+
+.x-toolbar-default {
+    background-color: #FFF;
+    background-image: none;
+    border-color: #D0D0D0;
+}
+
+.x-tab-bar {
+    background-color: #FFF;
+    background-image: none;
+    border: 0;
+}
+
+.x-toolbar {
+    border: 0;
+}
+
+.x-tab-bar-body {
+    border-color: #FFF;
+}
+
+.x-panel-header-default-top {
+    -moz-box-shadow: #FFF 0 1px 0 0 inset;
+    -webkit-box-shadow: #FFF 0 1px 0 0 inset;
+    -o-box-shadow: #FFF 0 1px 0 0 inset;
+    box-shadow: #FFF 0 1px 0 0 inset;
+}
+
+.x-ie .x-btn button {
+    overflow-x: hidden;
+}
+
+button .x-tab-inner {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.x-border-box .x-tab-bar-top .x-tab-bar-strip {
+    height: 7px;
+}

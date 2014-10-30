@@ -1,0 +1,215 @@
+.thm_organizer_is_registered {
+  background-color: white;
+  font-family: Arial;
+  color: #4a5c66;
+  height: 100%;
+  width: 100%;
+  display: block;
+  margin-right: -1px; }
+
+/******************************************************************************/
+/* HEADER                                                                     */
+/******************************************************************************/
+.thm_organizer_is_head {
+  width: 98%;
+  height: 250px;
+  padding-left: 1%;
+  padding-right: 1%;
+  padding-top: 1%;
+  margin-bottom: 0.7%;
+  margin-top: -0.5%;
+  border-bottom: 3px #80ba24 solid;
+  display: block; }
+
+.thm_organizer_is_head_left {
+  width: 73%;
+  height: 100%;
+  float: left; }
+
+.thm_organizer_is_head_upper {
+  height: 160px;
+  width: 100%;
+  margin-bottom: 3%;
+  float: left; }
+
+.thm_organizer_is_thm_logo_div {
+  height: 100%;
+  width: 13%;
+  float: left; }
+
+.thm_organizer_is_thm_logo_div img {
+  height: 100%;
+  width: 100%; }
+
+.thm_organizer_is_divider_div {
+  height: 100%;
+  float: left;
+  margin-left: 6%;
+  padding-top: 1%;
+  margin-right: 4.75%;
+  border-right: 3px #4a5c66 solid; }
+
+.thm_organizer_is_head_lower {
+  height: 13%;
+  width: 100%;
+  float: left;
+  clear: both; }
+
+.thm_organizer_is_head_lower img {
+  height: 50px;
+  width: 100%; }
+
+.thm_organizer_is_room_div {
+  height: 100%;
+  float: left;
+  text-align: left;
+  font-size: 1050%;
+  font-weight: bold;
+  color: #80ba24;
+  line-height: 75%;
+  padding-top: 3%; }
+
+.thm_organizer_is_head_right {
+  height: 100%;
+  width: 25%;
+  float: right;
+  text-align: right;
+  font-size: 350%;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: -0.2%;
+  line-height: 100%; }
+
+/******************************************************************************/
+/* break area                                                                 */
+/******************************************************************************/
+.thm_organizer_is_break_div {
+  float: left;
+  clear: both;
+  width: 100%; }
+
+/******************************************************************************/
+/* cyclic schedule area                                                                  */
+/******************************************************************************/
+.thm_organizer_is_schedule_area {
+  min-height: 84%;
+  float: left;
+  clear: both; }
+
+.thm_organizer_is_short {
+  width: 59%; }
+
+.thm_organizer_is_long {
+  width: 99.5%; }
+
+.thm_organizer_is_block {
+  height: 20%;
+  width: 100%;
+  float: left;
+  text-align: center; }
+
+.thm_organizer_is_active {
+  border: 5px #fbba00 solid;
+  margin-left: -0.5%; }
+
+.thm_organizer_is_even {
+  background-color: white;
+  float: left; }
+
+.thm_organizer_is_odd {
+  background-color: #eeeeee;
+  float: left; }
+
+.thm_organizer_es_block {
+  height: 20%;
+  width: 98%;
+  float: left;
+  text-align: center;
+  float: left;
+  padding: 4px 16px; }
+
+.thm_organizer_es_even {
+  background-color: #eeeeee; }
+
+.thm_organizer_es_odd {
+  background-color: #d0d0d0; }
+
+.thm_organizer_is_time_div {
+  height: 100%;
+  width: 8%;
+  float: left;
+  font-size: 25px;
+  line-height: 120%; }
+
+.thm_organizer_is_data {
+  float: left;
+  width: 90%;
+  line-height: 350%; }
+
+.thm_organizer_is_empty {
+  float: left;
+  padding-top: 3%; }
+
+.thm_organizer_is_title_span {
+  font-weight: bold;
+  font-size: 220%;
+  margin-bottom: -1%; }
+
+.thm_organizer_is_extrainfo_span {
+  font-size: 160%; }
+
+.thm_organizer_es_data {
+  float: left;
+  width: auto;
+  font-size: 90%;
+  line-height: 350%; }
+
+.thm_organizer_es_display_dates {
+  width: auto;
+  float: right;
+  font-size: 170%;
+  padding-top: 12px; }
+
+.thm_organizer_date_title {
+  text-align: center;
+  font-size: 300%;
+  font-weight: bold;
+  line-height: 200%;
+  margin-left: 2.5%; }
+
+/******************************************************************************/
+/* event area                                                                 */
+/******************************************************************************/
+.thm_organizer_is_events_area {
+  background-color: #eeeeee;
+  width: 36%;
+  float: right;
+  padding: 20px;
+  margin-right: 1%;
+  min-height: 81%; }
+
+h1 {
+  font-size: 175%;
+  font-weight: bold;
+  margin-bottom: 2%; }
+
+h2 {
+  font-size: 125%;
+  margin-bottom: 1%; }
+
+li {
+  list-style-image: url("../images/li.gif"); }
+
+.thm_organizer_is_events_area ul {
+  padding-left: 5px;
+  margin-bottom: 20px; }
+
+.thm_organizer_is_events_area ul li {
+  max-width: 520px;
+  margin-bottom: 5px; }
+
+.thm_organizer_is_hr {
+  margin-bottom: 6px;
+  background-color: white;
+  width: 500px;
+  size: 2px; }

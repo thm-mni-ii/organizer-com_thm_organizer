@@ -1,0 +1,210 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       consumption.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+@import '../../lib_thm_core/scss/filters';
+
+.consumption {
+  color: $fcolor;
+  // Allows the buttons to be on the same line as the header
+  h2.componentheading {
+    float: left;
+  }
+  // Groups buttons on the right
+  div.button-panel {
+    float: right;
+  }
+
+  // Button styles
+  button {
+    background: $bg-color none;
+    border: 1px solid rgb(0, 66, 137);
+    cursor: pointer;
+    font-weight: bold;
+    padding: .5em .5em .5em .7em;
+
+    @include border-radius(3px);
+    @include box-shadow(2px, 2px, 6px, rgb(183, 183, 183));
+
+    &:hover {
+      @include box-shadow(2px, 2px, 6px, rgb(135, 185, 24));
+    }
+  }
+
+  // Table element styles
+  table.consumption-table {
+    background-image: none;
+    border: $border-color;
+    color: $fcolor;
+    display: block;
+    font-family: $font;
+    font-size: $fsize;
+    margin-bottom: .4em;
+    margin-top: .4em;
+    max-height: 45em;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    @include border-radius(3px);
+    @include box-shadow(2px, 2px, 4px, $shadow-color);
+
+    tr {
+      th {
+        font-size: $fsize;
+        height: 1.4em;
+        text-align: $text-align-center;
+
+        .degree-use-total {
+          border-top: $border-color;
+          font-weight: normal;
+        }
+
+        .resource-use-total {
+          @extend .degree-use-total;
+        }
+      }
+
+      td {
+        font-size: $fsize;
+        height: 1.4em;
+        text-align: $text-align-center;
+      }
+    }
+
+    th.index-column {
+      text-align: right;
+    }
+
+    td.middle_column {
+      border-right: .1em solid rgb(187, 187, 187);
+    }
+
+    tbody {
+      tr {
+        td {
+          border: 1px solid rgb(221, 221, 221);
+        }
+      }
+    }
+  }
+
+  thead {
+    display: block;
+  }
+
+  tbody {
+    @extend thead;
+  }
+
+  div.filter-bar {
+    @extend %fieldset;
+    @include border-radius(3px);
+
+    div.filter-item {
+      display: inline-block;
+      margin-left: .4em;
+      margin-top: .5em;
+
+      // Removes the floating calendars
+      img {
+        border: .1em solid rgb(0, 66, 137);
+        cursor: pointer;
+        margin: 0 0 -.1em .2em;
+
+        @include border-radius(.2em);
+        @include box-shadow(.2em, .2em, .4em, rgb(183, 183, 183));
+
+        &:hover {
+          @include box-shadow(.2em, .2em, .4em, rgb(135, 185, 24));
+        }
+      }
+    }
+  }
+  // definition for filter label
+  div.filter-item {
+    label {
+      min-width: 40em;
+    }
+  }
+}
+
+@media print {
+  .consumption table.consumption-table {
+    overflow: visible;
+    margin-bottom: 4em;
+  }
+  .consumption table.consumption-table tr td {
+    background-color: white;
+  }
+}
+
+.filter-header {
+  margin-bottom: .4em;
+}
+
+// Container for resource filter items
+.filter-resource {
+  margin-bottom: .6em;
+  margin-left: .6em;
+  margin-right: .6em;
+  overflow: auto;
+  padding: .6em;
+}
+
+// Filter items
+.filter-resource-item {
+  float: left;
+  margin-left: .6em;
+
+  label {
+    float: left;
+    display: block;
+    margin-left: 3.6em;
+    margin-top: 7em;
+    margin-right: .4em;
+  }
+
+  select {
+    display: block;
+    float: left;
+  }
+}
+
+// Toggle container
+.filter-toggle {
+  clear: both;
+  padding: .4em .4em;
+}
+
+// Toggle link
+a.toggle-link:link,
+a.toggle-link:hover,
+a.toggle-link:visited,
+a.toggle-link:focus {
+  color: $fcolor;
+  cursor: pointer;
+  font-size: $fsize;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+// Toggle button styles
+.toggle-button {
+  display: inline-block;
+  height: 1em;
+  padding-left: .2em;
+  width: 1em;
+}
+
+.toggle-closed {
+  background: url('../images/default_tab.png') 0 0 no-repeat;
+}
+
+.toggle-open {
+  background: url('../images/active_tab.png') 0 0 no-repeat;
+}

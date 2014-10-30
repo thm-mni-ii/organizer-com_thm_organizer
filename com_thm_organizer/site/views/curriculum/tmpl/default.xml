@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>01.03.2013</creationDate>
+    <copyright>TH Mittelhessen 2013</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>james.antrim@mni.thm.de</authorEMail>
+    <authorUrl>www.mni.thm.de</authorUrl>
+    <layout title="COM_THM_ORGANIZER_CUR_LAYOUT_TITLE">
+        <message>COM_THM_ORGANIZER_CUR_LAYOUT_DESCRIPTION</message>
+    </layout>
+    <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
+        <fieldset name="basic">
+            <field type="spacer"
+                   label="COM_THM_ORGANIZER_CUR_BASIC_SETTINGS" />
+            <field name="programID"
+                   type="programs"
+                   class="inputbox"
+                   label="COM_THM_ORGANIZER_PROGRAM"
+                   description="COM_THM_ORGANIZER_CUR_PROGRAMS_DESC"
+                   required="true"/>
+            <field name="language"
+                   type="radio"
+                   default="de"
+                   required="true"
+                   label="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_TITLE"
+                   description="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_DESCRIPTION">
+                <option value="de">COM_THM_ORGANIZER_GERMAN</option>
+                <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
+            </field>
+            <field type="spacer"
+                   label="COM_THM_ORGANIZER_APPEARANCE_SPACER" />
+            <field name="suffix"
+                   type="text"
+                   label="COM_THM_ORGANIZER_SUFFIX_TITLE"
+                   description="COM_THM_ORGANIZER_SUFFIX_DESCRIPTION"
+                   size="15" />
+            <field name="itemWidth"
+                   type="text"
+                   required="true"
+                   label="COM_THM_ORGANIZER_CUR_ITEM_PANEL_WIDTH_TITLE"
+                   size="5"
+                   default="120" />
+            <field name="itemHeight"
+                   type="text"
+                   required="true"
+                   label="COM_THM_ORGANIZER_CUR_ITEM_PANEL_HEIGHT_TITLE"
+                   size="5"
+                   default="120" />
+            <field name="maxItems"
+                   type="text"
+                   default="5"
+                   required="true"
+                   label="COM_THM_ORGANIZER_CUR_MAXITEMS_TITLE"
+                   description="COM_THM_ORGANIZER_CUR_MAXITEMS_DESCRIPTION"
+                   size="2"
+                   maxlength="1" />
+            <field name="displayECollabLink"
+                   type="radio"
+                   default="0"
+                   required="true"
+                   label="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_TITLE"
+                   description="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_DESCRIPTION">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
+    </fields>
+</metadata>

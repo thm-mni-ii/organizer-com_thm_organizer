@@ -1,0 +1,24 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       children.css
+**  Styles for: Backend - Subject Pools Edit, Degree Programs Edit...
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+@import '../../lib_thm_core/scss/icons';
+
+// ------------------------------------
+// SUBORDINATE RESOURCES box settings
+// ------------------------------------
+
+// div definitions
+.thm_organizer_children {
+  float: left;
+  padding-top: 5px;
+}
+
+.child-order input.text-area-order{
+  width: 2em;
+}

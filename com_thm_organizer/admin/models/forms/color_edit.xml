@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field name="id"
+               type="hidden" />
+        <field name="name"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_NAME"
+               description="COM_THM_ORGANIZER_NAME_DESC"
+               required="true" />
+        <field name="color"
+               type="color"
+               class="inputbox color"
+               size="10"
+               label="COM_THM_ORGANIZER_COLOR"
+               description="COM_THM_ORGANIZER_COLOR_DESC"
+               required="true" />
+    </fieldset>
+</form>

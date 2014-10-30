@@ -1,0 +1,79 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       thm_organizer.css
+**  Styles for: Backend - THM Organizer Component
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+.icon-48-mni {
+  background: url("../images/icon-48-mni.png") 0 0 no-repeat; }
+
+.icon-48-organizer {
+  background: url("../images/organizer48.png") 0 0 no-repeat; }
+
+.tip-wrap {
+  z-index: 99; }
+
+.adminForm div.m {
+  padding: 5px; }
+
+.toolbar-close {
+  font-size: 1em; }
+
+.cpanel {
+  margin-top: 4px;
+  width: 100%; }
+
+.thm_organizer_label {
+  padding-right: 5px; }
+
+.thm_organizer_check_column {
+  width: 10px; }
+
+.thm_organizer_search_div {
+  padding-right: 8px; }
+
+.thm_organizer_radio_button {
+  background: #f4f4f4;
+  border: none; }
+
+.thm_organizer_main {
+  padding: 5px; }
+
+.thm_organizer_main_description {
+  font-size: 16px;
+  padding-bottom: 8px; }
+
+.thm_organizer_main_submenu a {
+  background-color: #eeeeee;
+  background-position: -30px center;
+  border: 1px solid #CCCCCC;
+  color: #565656;
+  display: block;
+  float: left;
+  height: 97px;
+  text-decoration: none;
+  transition-duration: 0.8s;
+  transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
+  width: 108px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px; }
+.thm_organizer_main_submenu div.icon {
+  float: left;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  text-align: center; }
+.thm_organizer_main_submenu img {
+  border: 0 none;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  padding: 10px 0; }
+.thm_organizer_main_submenu span {
+  display: block;
+  text-align: center; }
+
+.thm_organizer_main_linkdiv {
+  float: left; }

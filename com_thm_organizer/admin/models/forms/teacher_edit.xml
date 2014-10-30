@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details" addfieldpath="/libraries/thm_core/fields">
+        <field name="id"
+               type="hidden" />
+        <field name="surname"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_SURNAME"
+               description="COM_THM_ORGANIZER_SURNAME_DESC"
+               required="true" />
+        <field name="forename"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_FORENAME"
+               description="COM_THM_ORGANIZER_FORENAME_DESC" />
+        <field name="username"
+               type="genericlist"
+               valueColumn="username"
+               textColumn="username"
+               table="users"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_USERNAME"
+               description="COM_THM_ORGANIZER_USERNAME_DESC" >
+            <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
+            <option value="">COM_THM_ORGANIZER_NONE</option>
+        </field>
+        <field name="gpuntisID"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_GPUNTISID"
+               description="COM_THM_ORGANIZER_GPUNTISID_DESC" />
+        <field name="fieldID"
+               type="genericlist"
+               valueColumn="id"
+               textColumn="field"
+               table="thm_organizer_fields"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_FIELD"
+               description="COM_THM_ORGANIZER_FIELD_DESC" >
+            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
+            <option value="">COM_THM_ORGANIZER_NONE</option>
+        </field>
+    </fieldset>
+</form>

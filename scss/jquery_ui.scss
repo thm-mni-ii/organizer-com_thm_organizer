@@ -1,0 +1,79 @@
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       jquery_ui.css
+**  Styles for: Frontend - Widget accordion (module catalogue)
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+
+// line-height of the widget div
+.ui-helper-reset {
+  line-height: 1;
+}
+
+// accordion boxes have background colors
+.ui-state-default {
+  background-image: none;
+}
+
+// radius of accordion headers (default)
+.ui-corner-all {
+  @include border-radius(3px);
+}
+
+// radius of accordion header, when is clicked
+.ui-corner-top {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+// radius of div subject list
+.ui-corner-bottom {
+  @extend .ui-corner-top;
+}
+
+// margin in h3 accordion widget
+.ui-accordion .ui-accordion-header {
+  margin-top: 4px;
+}
+
+// accordion header definitions
+.ui-accordion-header {
+  background-color: $bg-color;
+  border: $border-color;
+
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+}
+
+// padding of selected list
+.ui-accordion .ui-accordion-content {
+  padding: 4px;
+}
+
+// title of the widget (font definitions)
+.ui-widget {
+  font-family: $font;
+  font-size: $fsize;
+}
+
+// widget titles (default state)
+.ui-state-default {
+  font-weight: normal;
+}
+
+// green arrow icon, when is clicked
+.ui-icon.ui-icon-triangle-1-s {
+  background: url('../images/active_tab.png') 0 0 no-repeat;
+}
+// green arrow icon (default)
+.ui-icon.ui-icon-triangle-1-e {
+  background: url('../images/default_tab.png') 0 0 no-repeat;
+}
+
+// hover effect of widget titles
+h3.ui-state-hover {
+  background-color: $bg-color-widget !important;
+  color: $fcolor-light;
+}

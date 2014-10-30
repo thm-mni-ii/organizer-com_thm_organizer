@@ -1,0 +1,181 @@
+@charset "UTF-8";
+/*  ------------------------------------
+**  Author:     Kristijan Pokas
+**  File:       curriculum.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+div.curriculum_legend {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  color: #4a5c66;
+  float: right;
+  font-family: Verdana, Arial;
+  font-size: 13px;
+  margin-right: 5px;
+  margin-top: 2px;
+  padding: 5px;
+  width: 245px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+ul.fieldList {
+  font-size: 12px;
+  list-style-type: none;
+  padding: 0 2px; }
+
+li.fieldItem {
+  padding: 2px 0; }
+
+span.fieldColor {
+  border: 1px solid #bbbbbb;
+  display: inline-block;
+  height: 11px;
+  width: 11px; }
+
+span.fieldText {
+  display: inline-block;
+  padding: 0 0 2px 2px; }
+
+div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset {
+  float: left;
+  font-family: Verdana, Arial;
+  padding: 0 4px;
+  width: 682px; }
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons,
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+  background-color: #eeeeee;
+  background-image: none;
+  border: 1px solid #bbbbbb;
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 13px; }
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons {
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+  font-weight: normal; }
+
+h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons.ui-state-hover {
+  background-color: #4a5c66;
+  color: #eeeeee; }
+
+h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-s {
+  background: url("../images/active_tab.png") 0 0 no-repeat; }
+
+h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-e {
+  background: url("../images/default_tab.png") 0 0 no-repeat; }
+
+div.gridster.ready.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active {
+  background-color: white;
+  border-top: none;
+  border-left: 1px solid #bbbbbb;
+  border-right: 1px solid #bbbbbb;
+  border-bottom: 1px solid #bbbbbb;
+  padding: 4px;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+li.icon_container.gs-w {
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  display: inline-block;
+  position: absolute;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+
+li.icon_container.empty.gs-w {
+  visibility: hidden; }
+
+.icon_container_head {
+  border-bottom: 1px solid #bbbbbb;
+  font-size: 11px;
+  padding: 2px;
+  text-align: left;
+  /*├╝berfl├╝ssig / Getestet in IE, Chrome, Firefox, Opera*/ }
+
+.dark-text {
+  color: #4a5c66; }
+
+.light-text {
+  color: #eeeeee; }
+
+.icon_container_body {
+  color: #4a5c66;
+  font-size: 11px;
+  font-weight: normal;
+  /*├╝berfl├╝ssig / Getestet in IE, Chrome, Firefox, Opera*/
+  hyphens: auto;
+  padding: 5px;
+  word-wrap: break-word; }
+
+a.curriculumLink:link,
+a.curriculumLink:hover,
+a.curriculumLink:visited,
+a.curriculumLink:focus {
+  color: #4a5c66;
+  font-family: Verdana, Arial;
+  font-size: 11px;
+  font-weight: normal;
+  text-decoration: none;
+  outline: none; }
+
+.itemTools {
+  left: 25%;
+  position: absolute;
+  top: 70%; }
+
+.teacherImage {
+  max-height: 25px;
+  width: 20px; }
+
+.curriculum_dialog_list {
+  display: inline-table;
+  margin: 15px 10px 10px 10px;
+  text-align: center; }
+
+.semesterHeader {
+  background-color: #B0B0B0; }
+
+/* jquery ui writes inline styles for this element :( */
+/*---> old comment <---*/
+div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
+  border: 1px solid #bbbbbb;
+  font-family: Verdana, Arial;
+  max-height: 425px !important;
+  overflow-y: auto;
+  top: 175px !important;
+  width: 694px !important;
+  -webkit-box-shadow: 2px 2px 8px #969696;
+  -moz-box-shadow: 2px 2px 8px #969696;
+  -ms-box-shadow: 2px 2px 8px #969696;
+  -o-box-shadow: 2px 2px 8px #969696;
+  box-shadow: 2px 2px 8px #969696; }
+
+div.poolDialog.ui-dialog-content.ui-widget-content.ready {
+  padding: 5px; }
