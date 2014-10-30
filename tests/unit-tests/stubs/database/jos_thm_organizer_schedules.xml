@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
     <dataset>
-        <!-- Tabelle #__thm_organizer_schedules -->
-        <table name="#__thm_organizer_schedules">
+        <!-- Tabelle jos_thm_organizer_schedules -->
+        <table name="jos_thm_organizer_schedules">
             <column>id</column>
             <column>departmentname</column>
             <column>semestername</column>
@@ -26,7 +26,7 @@
             </row>
         </table>
         
-        <table name="#__thm_organizer_schedules">
+        <table name="jos_thm_organizer_schedules">
             <column>id</column>
             <column>departmentname</column>
             <column>semestername</column>
