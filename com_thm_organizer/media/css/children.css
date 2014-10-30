@@ -1,78 +1,12 @@
-@charset "UTF-8";
 /*  ------------------------------------
 **  Author:     Kristijan Pokas
 **  File:       children.css
 **  Styles for: Backend - Subject Pools Edit, Degree Programs Edit...
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-.icon-48-organizer_degrees {
-  background: url("../images/degrees48.png") 0 0 no-repeat; }
-
-.icon-48-organizer_degree_programs {
-  background: url("../images/programs48.png") 0 0 no-repeat; }
-
-.icon-48-organizer_fields {
-  background: url("../images/fields48.png") 0 0 no-repeat; }
-
-.icon-48-organizer_rooms {
-  background: url("../images/rooms48.png") 0 0 no-repeat; }
-
-.icon-48-organizer_subject_pools {
-  background: url("../images/pools48.png") 0 0 no-repeat; }
-
-.icon-48-organizer_teachers {
-  background: url("../images/teachers48.png") 0 0 no-repeat; }
-
 .thm_organizer_children {
   float: left;
-  padding-top: 5px;
-  width: 60%; }
+  padding-top: 5px; }
 
-.thm_organizer_pools_ordering {
-  width: 30%; }
-
-.thm_organizer_pools,
-.thm_organizer_subjects {
-  float: right;
-  font-size: 1.3em;
-  font-weight: bold;
-  width: 25%; }
-
-.thm_organizer_pools {
-  padding: 5px 20px 5px 10px; }
-
-.thm_organizer_subjects {
-  clear: right;
-  padding: 10px 20px 5px 10px; }
-
-a.thm_organizer_delete_child {
-  background: url(../images/trash.png) no-repeat;
-  display: block;
-  height: 16px;
-  overflow: hidden;
-  width: 16px; }
-
-a.jgrid span.state {
-  margin-bottom: -9px; }
-
-/*===
-  ├╝berfl├╝ssig, da die Pfeile auch ohne diese Einstellung auf der gleichen Pos bleiben.
-  Getestet in IE, Chrome, Firefox, Opera
-====*/
-.thm_organizer_fieldset {
-  transition-duration: 3s;
-  transition-property: box-shadow;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
-  -webkit-box-shadow: -5px -5px 25px #80ba24 inset;
-  -moz-box-shadow: -5px -5px 25px #80ba24 inset;
-  -ms-box-shadow: -5px -5px 25px #80ba24 inset;
-  -o-box-shadow: -5px -5px 25px #80ba24 inset;
-  box-shadow: -5px -5px 25px #80ba24 inset; }
-
-.thm_organizer_no_children {
-  font-size: 1.3em;
-  padding: 5px; }
+.child-order input.text-area-order {
+  width: 2em; }

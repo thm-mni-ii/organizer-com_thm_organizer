@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
 require_once JPATH_SITE . '/components/com_thm_organizer/models/event.php';
 
 /**
@@ -20,7 +19,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/models/event.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelcategory extends JModelLegacy
+class THM_OrganizerModelCategory extends JModelLegacy
 {
     /**
      * saves the event category

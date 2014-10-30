@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
 
 /**
  * Provides persistence handling for subject pools
@@ -168,7 +167,7 @@ class THM_OrganizerModelPool extends JModelLegacy
         $longname = trim((string) $poolNode->longname);
         if (empty($longname))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_CL_LN_MISSING', $poolID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING', $poolID);
             return;
         }
         $this->_scheduleModel->schedule->pools->$poolID->longname = $poolID;
@@ -187,7 +186,7 @@ class THM_OrganizerModelPool extends JModelLegacy
         if (!empty($warningString))
         {
             $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf('COM_THM_ORGANIZER_CL_FIELD_MISSING', $longname, $poolID, $warningString);
+                = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_PROPERTY_MISSING', $longname, $poolID, $warningString);
         }
     }
 
@@ -205,9 +204,9 @@ class THM_OrganizerModelPool extends JModelLegacy
         $gpuntisID = empty($externalName)? $internalName : $externalName;
         if (empty($gpuntisID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_CL_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
             {
-                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_CL_ID_MISSING");
+                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING");
             }
             return false;
         }
@@ -228,12 +227,12 @@ class THM_OrganizerModelPool extends JModelLegacy
         $degreeID = str_replace('DP_', '', trim((string) $poolNode->class_department[0]['id']));
         if (empty($degreeID))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_CL_DEGREE_MISSING', $longname, $poolID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING', $longname, $poolID);
             return false;
         }
         elseif (empty($this->_scheduleModel->schedule->degrees->$degreeID))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_CL_DEGREE_LACKING', $longname, $poolID, $degreeID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING', $longname, $poolID, $degreeID);
             return false;
         }
         return $degreeID;
@@ -253,7 +252,7 @@ class THM_OrganizerModelPool extends JModelLegacy
         $restriction = trim((string) $poolNode->classlevel);
         if (empty($restriction))
         {
-            $warningString .= JText::_('COM_THM_ORGANIZER_RESTRICTION');
+            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME');
         }
         $this->_scheduleModel->schedule->pools->$poolID->restriction = empty($restriction)? '' : $restriction;
     }
@@ -274,7 +273,7 @@ class THM_OrganizerModelPool extends JModelLegacy
          OR empty($this->_scheduleModel->schedule->fields->$descriptionID))
         {
             $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_DESCRIPTION_PROPERTY');
+            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
         }
         $this->_scheduleModel->schedule->pools->$poolID->description = empty($descriptionID)? '' : $descriptionID;
     }

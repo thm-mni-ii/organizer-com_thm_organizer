@@ -57,7 +57,8 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
         $query->from('#__thm_organizer_fields AS f');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $this->setSearchFilter($query, array('field', 'gpuntisID'));
+        $this->setSearchFilter($query, array('field', 'gpuntisID', 'color'));
+        $this->setValueFilters($query, array('field', 'colorID'));
 
         $this->setOrdering($query);
 
@@ -84,8 +85,8 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
             $return[$index] = array();
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['field'] = JHtml::_('link', $item->link, $item->field);
-            $colorOutput = THM_ComponentHelper::getColorField($item->name, $item->color);
-            $return[$index]['name'] = $colorOutput;
+            $colorOutput = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
+            $return[$index]['colorID'] = $colorOutput;
             $index++;
         }
         return $return;
@@ -104,7 +105,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
         $headers = array();
         $headers['checkbox'] = '';
         $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
-        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
+        $headers['colorID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
 
         return $headers;
     }

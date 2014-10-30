@@ -28,14 +28,16 @@
             <schemapath type="mysql">sql/updates/mysql</schemapath>
         </schemas>
     </update>
-    <!-- Media files -->
+
     <media destination="com_thm_organizer" folder="media">
         <folder>images</folder>
         <folder>js</folder>
         <folder>css</folder>
         <folder>helpers</folder>
+        <folder>fields</folder>
         <filename>index.html</filename>
     </media>
+
     <files folder="site">
         <filename>index.html</filename>
         <filename>thm_organizer.php</filename>

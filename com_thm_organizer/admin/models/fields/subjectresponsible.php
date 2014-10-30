@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.form.formfield');
 include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/subjectteachers.php';
 
 /**

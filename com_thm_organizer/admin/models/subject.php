@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
 defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
 defined('TEACHER') OR define('TEACHER', 2);
 /**
@@ -256,9 +255,9 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $gpuntisID = trim((string) $subjectNode[0]['id']);
         if (empty($gpuntisID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_SU_ID_MISSING"), $this->scheduleErrors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING"), $this->scheduleErrors))
             {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_SU_ID_MISSING");
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING");
             }
             return;
         }
@@ -282,7 +281,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->validateField($subjectNode, $subjectIndex, $warningString);
         if (!empty($warningString))
         {
-            $warning = JText::sprintf("COM_THM_ORGANIZER_SU_FIELD_MISSING", $longname, $subjectID, $warningString);
+            $warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longname, $subjectID, $warningString);
             $this->_scheduleModel->scheduleWarnings[] = $warning;
         }
     }
@@ -301,7 +300,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $longname = trim((string) $subjectNode->longname);
         if (empty($longname))
         {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_SU_LN_MISSING', $subjectID);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING', $subjectID);
             return false;
         }
         $this->_scheduleModel->schedule->subjects->$subjectIndex->longname = $longname;
@@ -323,7 +322,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         if (empty($subjectNo))
         {
             $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_SUBJECTNO'); 
+            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_NUMBER');
         }
         $this->_scheduleModel->schedule->subjects->$subjectIndex->subjectNo = empty($subjectNo)? '' : $subjectNo;
     }
@@ -344,7 +343,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
          OR empty($this->_scheduleModel->schedule->fields->$descriptionID))
         {
             $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_DESCRIPTION_PROPERTY');
+            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
         }
         $this->_scheduleModel->schedule->subjects->$subjectIndex->description = empty($descriptionID)? '' : $descriptionID;
     }

@@ -26,7 +26,9 @@
             value_field='contentCatID'
             key_field='id'
             required='true'
-            class='inputbox required' />
+            class='inputbox required' >
+            <option value="">JOPTION_SELECT_CATEGORY</option>
+        </field>
         <field
             type='editor'
             id='description'

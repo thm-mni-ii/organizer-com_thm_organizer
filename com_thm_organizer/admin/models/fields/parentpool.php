@@ -10,8 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.form.formfield');
-require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class JFormFieldParent for component com_thm_organizer
@@ -30,7 +29,7 @@ class JFormFieldParentPool extends JFormField
      *
      * @var    String
      */
-    protected $type = 'parentPool';
+    protected $type = 'parentpool';
 
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -46,7 +45,7 @@ class JFormFieldParentPool extends JFormField
         THM_OrganizerHelperMapping::getMappingData($ownID, $mappings, $parentIDs, $ownIDs);
 
         $options = array();
-        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_POM_NO_PARENT') . '</option>';
+        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
 
         if (!empty($mappings))
         {

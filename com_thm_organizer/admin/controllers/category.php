@@ -11,7 +11,6 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controlleradmin');
 
 /**
  * Class performing access checks and model function calls for category actions

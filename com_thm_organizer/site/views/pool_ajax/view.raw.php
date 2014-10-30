@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('joomla.application.plugin.helper');
-jimport('jquery.jquery');
+
 /**
  * Class loading persistent data into the view context
  *

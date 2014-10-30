@@ -13,7 +13,6 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**

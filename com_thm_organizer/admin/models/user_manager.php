@@ -54,25 +54,6 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
     }
 
     /**
-     * Generates the filters to be used in the form
-     *
-     * @return  array  an array of filters
-     */
-    public function getFilters()
-    {
-        $filters = array();
-        $role = $this->state->get('filter.role', '*');
-        $options = array();
-        $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_USM_SELECT_ROLE'));
-        $options[] = array('value' => '*', 'text' => JText::_('COM_THM_ORGANIZER_USM_SELECT_ALL_ROLES'));
-        $options[] = array('value' => '1', 'text' => JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER'));
-        $options[] = array('value' => '2', 'text' => JText::_('COM_THM_ORGANIZER_PLANNER'));
-        $attribs = array('onChange' => "this.form.submit();");
-        $filters[] = JHtml::_('select.genericlist', $options, 'filter_role', $attribs, 'value', 'text', $role);
-        return $filters;
-    }
-
-    /**
      * Generates the headers to be used by the output table
      *
      * @return  array  the table headers
@@ -130,8 +111,7 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
         $query->innerJoin('#__users AS u ON ou.userID = u.id');
 
         $this->setSearchFilter($query, array('name', 'username'));
-        $this->setIDFilter($query, 'u.id', array('name', 'username'));
-        $this->setValueFilters($query, array('program_manager', 'planner'));
+        $this->setValueFilters($query, array('name', 'username', 'program_manager', 'planner'));
 
         $this->setOrdering($query);
 

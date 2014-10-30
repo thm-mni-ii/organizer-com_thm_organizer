@@ -13,7 +13,6 @@
             table="thm_organizer_rooms"
             label="COM_THM_ORGANIZER_ROOM"
             description="COM_THM_ORGANIZER_ROOM_DESC"
-            onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_ROOM</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>

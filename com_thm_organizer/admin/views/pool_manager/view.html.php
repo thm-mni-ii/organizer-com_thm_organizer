@@ -51,7 +51,7 @@ class THM_OrganizerViewPool_Manager extends THM_CoreViewList
         JToolbarHelper::title($title, 'organizer_subject_pools');
         JToolbarHelper::addNew('pool.edit');
         JToolbarHelper::editList('pool.edit');
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_POM_DELETE_CONFIRM', 'pool.delete');
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'pool.delete');
         JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }

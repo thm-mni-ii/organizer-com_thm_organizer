@@ -11,7 +11,7 @@
             name="checkbox"
             type="checkall" />
         <field
-            name="name"
+            name="subject"
             type="localizedlist"
             valueColumn="subject"
             textColumn="subject"
@@ -23,7 +23,7 @@
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
-            name="degree"
+            name="degreeID"
             type="genericlist"
             valueColumn="d.id"
             textColumn="d.abbreviation"
@@ -47,7 +47,7 @@
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
 		<field
-			name="field"
+			name="fieldID"
             type="genericlist"
             valueColumn="f.id"
             textColumn="f.field"
@@ -57,6 +57,7 @@
             >
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_NONE</option>
 		</field>
     </fields>
 	<fields name="list">

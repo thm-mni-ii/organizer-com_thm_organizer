@@ -58,12 +58,12 @@ class JFormFieldColors extends JFormField
         }
 
         $html = "<select id = 'colorID' name='jform[colorID]'>";
-        $html .= '<option selected="selected" value="">' . JText::_('COM_THM_ORGANIZER_FILTER_NONE') . '</option>';
+        $html .= '<option selected="selected" value="">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
 
         foreach ($colors as $color)
         {
             $selected = $this->value == $color->id? "selected='selected'" : '';
-            $textColor = THM_ComponentHelper::getTextColor($color->color);
+            $textColor = THM_OrganizerHelperComponent::getTextColor($color->color);
             $style = 'style="background-color:#' . $color->color . '; color:#' . $textColor . ';"';
             $value = 'value="' . $color->id . '"';
             $html .= "<option $style $selected $value >$color->name</option>";

@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
 
 /**
  * Class performs access checks, redirects and model function calls for data persistence
@@ -95,15 +94,16 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
     public function save2new()
     {
         $result = $this->getModel('monitor')->save();
+        $url = 'index.php?option=com_thm_organizer&view=monitor_edit';
         if ($result)
         {
             $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS");
-            $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg);
+            $this->setRedirect($url, $msg);
         }
         else
         {
             $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL");
-            $this->setRedirect('index.php?option=com_thm_organizer&view=monitor_edit&monitorID=0', $msg, 'error');
+            $this->setRedirect($url, $msg, 'error');
         }
     }
 

@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
 
 
