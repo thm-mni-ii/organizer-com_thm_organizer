@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.util.THMArray');
 
 /**
  * Class THM_OrganizerModelLecturer for component com_thm_organizer
@@ -39,7 +38,10 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         if ($scheduleSuccess)
         {
             $table = JTable::getInstance('teachers', 'thm_organizerTable');
-            $data = THMArray::filter($formData, function ($elem) { return !empty($elem);});
+            if (empty($formData['fieldID']))
+            {
+                unset($formData['fieldID']);
+            }
             $teacherSuccess = $table->save($data);
             if ($teacherSuccess)
             {
