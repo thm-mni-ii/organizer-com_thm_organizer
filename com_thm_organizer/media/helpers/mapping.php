@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.helpers.corehelper');
 
 /**
  * Class provides methods used by organizer files for mappings
@@ -21,123 +22,190 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperMapping
 {
     /**
-     * Retrieves a list of mapped programs
+     * Retrieves a string value representing the degree programs to which the
+     * pool is ordered. Used in pool and subject manager views.
      *
-     * @return  mixed  an array of mapped programs on success, otherwise null
+     * @param   string  $resourceType  the type of the mapped resource
+     * @param   int     $resourceID    the id of the resource
      *
-     * @throws  exception
+     * @return  string  string representing the associated program(s)
      */
-    public static function getPrograms()
+    public static function getProgramName($resourceType, $resourceID)
     {
-        $language = explode('-', JFactory::getLanguage()->getTag());
-        $dbo = JFactory::getDbo();
-        $nameQuery = $dbo->getQuery(true);
-        $name = self::getProgramNameSelect($language[0]);
-        $nameQuery->select("dp.id, $name");
-        $nameQuery->from('#__thm_organizer_programs AS dp');
-        $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-        $nameQuery->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-        $nameQuery->order('name');
-        $dbo->setQuery((string) $nameQuery);
-        
+        $resourceRanges = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
+        if (empty($resourceRanges))
+        {
+            return JText::_('COM_THM_ORGANIZER_NONE');
+        }
+        $programs = THM_OrganizerHelperMapping::getResourcePrograms($resourceRanges);
+        if (empty($programs))
+        {
+            return JText::_('COM_THM_ORGANIZER_NONE');
+        }
+        if (count($programs) === 1)
+        {
+            return $programs[0];
+        }
+        else
+        {
+            return JText::_('COM_THM_ORGANIZER_MULTIPLE_PROGRAMS');
+        }
+    }
+
+    /**
+     * Retrieves a string value representing the degree programs to which the
+     * pool is ordered. Used in subject manager view.
+     *
+     * @param   int     $resourceID    the id of the resource
+     *
+     * @return  string  string representing the associated program(s)
+     */
+    public static function getPoolName($resourceID)
+    {
+        $resourceRanges = THM_OrganizerHelperMapping::getResourceRanges('subject', $resourceID);
+        if (empty($resourceRanges))
+        {
+            return JText::_('COM_THM_ORGANIZER_NONE');
+        }
+        $pools = THM_OrganizerHelperMapping::getSubjectPools($resourceRanges);
+        if (empty($pools))
+        {
+            return JText::_('COM_THM_ORGANIZER_NONE');
+        }
+        if (count($pools) === 1)
+        {
+            return $pools[0];
+        }
+        else
+        {
+            return JText::_('COM_THM_ORGANIZER_MULTIPLE_POOLS');
+        }
+    }
+
+
+    /**
+     * Retrieves the mapped left and right values for the resource's existing mappings.
+     * Used in programs field, and self.
+     *
+     * @param   string  $resourceType  the type of the mapped resource
+     * @param   int     $resourceID    the id of the mapped resource
+     *
+     * @return  array contains the sought left and right values
+     */
+    public static function getResourceRanges($resourceType, $resourceID)
+    {
+        $query = JFactory::getDbo()->getQuery(true);
+        $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
+
+        $allPrograms = ($resourceType == 'program' AND $resourceID == '-1');
+        $allPools = ($resourceType == 'pool' AND $resourceID == '-1');
+        if ($allPrograms)
+        {
+            $query->where("programID IS NOT NULL");
+        }
+        elseif ($allPools)
+        {
+            $query->where("poolID IS NOT NULL");
+        }
+        else
+        {
+            $query->where("{$resourceType}ID = '$resourceID'");
+        }
+        JFactory::getDbo()->setQuery((string) $query);
+
         try
         {
-            $programs = $dbo->loadAssocList();
+            $ranges = JFactory::getDbo()->loadAssocList();
+            return $ranges;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        return $programs;
-    }
-
-    /**
-     * Creates a standardized name selection for use in db queries
-     * 
-     * @param   string  $language  the language in which the program should be
-     *                             displayed
-     * @param   string  $alias     the alias for the name
-     * 
-     * @return  string  the name selection string
-     */
-    public static function getProgramNameSelect($language = 'de', $alias = 'name')
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $concateDegreeAndYear = array('d.abbreviation', 'dp.version');
-        $degreeAndYear = $query->concatenate($concateDegreeAndYear, ', ');
-        $concateNameSelect = array("dp.subject_{$language}", "($degreeAndYear)");
-        $nameSelect = $query->concatenate($concateNameSelect, ', ');
-        $nameSelect .= " AS $alias";
-        return $nameSelect;
-    }
-
-    /**
-     * Sets the children to be used in form output
-     * 
-     * @param   object  &$model    the model calling the function
-     * @param   array   $children  the children of the resource modeled
-     * 
-     * @return  void
-     */
-    public static function setChildren(&$model, $children)
-    {
-        if (!empty($children))
-        {
-            $model->children = array();
-            foreach ($children as $child)
-            {
-                $model->children[$child['ordering']] = array();
-                if (!empty($child['poolID']))
-                {
-                    $formID = $child['poolID'] . 'p';
-                }
-                else
-                {
-                    $formID = $child['subjectID'] . 's';
-                }
-                $model->children[$child['ordering']]['id'] = $formID;
-                $model->children[$child['ordering']]['name'] = self::getChildName($formID);
-                $model->children[$child['ordering']]['poolID'] = $child['poolID'];
-                $model->children[$child['ordering']]['subjectID'] = $child['subjectID'];
-            }
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
     }
 
     /**
-     * Retrieves the child's name from the database
-     * 
-     * @param   string  $formID  the id used for the child element in the form
-     * 
-     * @return  string  the name of the child element
+     * Retrieves the names of the programs to which a resource is ordered. Used in self.
      *
-     * @throws  exception
+     * @param   array  $resourceRanges  the left and right values of the resource's mappings
+     *
+     * @return  array  the names of the programs to which the pool is ordered
      */
-    private static function getChildName($formID)
+    public static function getResourcePrograms($resourceRanges)
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $language = explode('-', JFactory::getLanguage()->getTag());
-        $type = strpos($formID, 'p')? 'pool' : 'subject';
-        $tableID = substr($formID, 0, strlen($formID) - 1);
- 
-        $query->select("name_{$language[0]}");
-        $query->from("#__thm_organizer_{$type}s");
-        $query->where("id = '$tableID'");
+        $rangeClauses = array();
+        foreach ($resourceRanges AS $borders)
+        {
+            $rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
+        }
 
-        $dbo->setQuery((string) $query);
-        
-        try 
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $query = JFactory::getDbo()->getQuery(true);
+        $parts = array("dp.subject_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $select = "DISTINCT " . $query->concatenate($parts, "") . " As name";
+        $query->select($select);
+        $query->from('#__thm_organizer_programs AS dp');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+        $query->where($rangeClauses, 'OR');
+        $query->order('name');
+        JFactory::getDbo()->setQuery((string) $query);
+
+        try
         {
-            $childName = $dbo->loadResult();
+            $programs = JFactory::getDbo()->loadColumn();
+            return $programs;
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $childName;
+    }
+
+    /**
+     * Retrieves the names of the programs to which a resource is ordered
+     *
+     * @param   array  $resourceRanges  the left and right values of the resource's mappings
+     *
+     * @return  array  the names of the programs to which the pool is ordered
+     */
+    public static function getSubjectPools($ranges)
+    {
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+
+        $nameQuery = JFactory::getDbo()->getQuery(true);
+        $nameQuery->select("DISTINCT p.name_$shortTag As name");
+        $nameQuery->from('#__thm_organizer_pools AS p');
+        $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+
+        $lftQuery = JFactory::getDbo()->getQuery(true);
+        $select = "DISTINCT p.name_$shortTag As name";
+        $lftQuery->select("");
+        $lftQuery->from('#__thm_organizer_pools AS p');
+        $lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+
+        $pools = array();
+
+        // Each range is a unique pool association
+        foreach ($ranges AS $borders)
+        {
+            $query->clear('where');
+            $rangeClauses = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
+        }
+        JFactory::getDbo()->setQuery((string) $query);
+
+        try
+        {
+            $pools = JFactory::getDbo()->loadColumn();
+            return $pools;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
+        }
     }
 
     /**
@@ -149,58 +217,27 @@ class THM_OrganizerHelperMapping
      */
     public static function getAllPrograms()
     {
-        $language = explode('-', JFactory::getLanguage()->getTag());
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $name = self::getProgramNameSelect($language[0], 'program');
-        $query->select("dp.id AS value, $name");
+        $parts = array("dp.subject_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $text = $query->concatenate($parts, "") . " As text";
+        $query->select("dp.id AS value, $text");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
-        $query->order('program ASC');
+        $query->order('text ASC');
         $dbo->setQuery((string) $query);
         
         try 
         {
-            $programs = $dbo->loadAssocList();
+            return  $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $programs;
-    }
-
-    /**
-     * Retrieves the ranges for the resource mappings
-     * 
-     * @param   string  $column      the name of the column to be searched
-     * @param   int     $resourceID  the id of the resource in its native table
-     * 
-     * @return  array  the left and right values of the resource's mappings
-     *
-     * @throws  exception
-     */
-    public static function getRanges($column, $resourceID)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('lft, rgt');
-        $query->from('#__thm_organizer_mappings');
-        $query->where("$column = '$resourceID'");
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $ranges = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        return $ranges;
     }
 
     /**
@@ -232,14 +269,13 @@ class THM_OrganizerHelperMapping
         
         try 
         {
-            $selectedPrograms = $dbo->loadColumn();
+            return $dbo->loadColumn();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $selectedPrograms;
     }
 
     /**
@@ -315,14 +351,14 @@ class THM_OrganizerHelperMapping
             $dbo->setQuery((string) $childrenQuery);
             try 
             {
-                $children = array_merge($children, $dbo->loadColumn());
+                return array_merge($children, $dbo->loadColumn());
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return array();
             }
         }
-        return $children;
     }
 
     /**
@@ -354,9 +390,10 @@ class THM_OrganizerHelperMapping
             {
                 $program = $dbo->loadAssoc();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return array();
             }
             
             if (!in_array($program, $programs))
@@ -396,9 +433,10 @@ class THM_OrganizerHelperMapping
             {
                 $results = $dbo->loadAssocList();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return array();
             }
             
             $programMappings = array_merge($programMappings, empty($results)? array() : $results);
@@ -468,7 +506,7 @@ class THM_OrganizerHelperMapping
      * Gets a HTML option based upon a program mapping
      * 
      * @param   array    &$mapping          the program mapping entry
-     * @param   string   $language          the display language
+     * @param   string   $shortTag          the display language
      * @param   array    &$selectedParents  the selected parents
      * @param   boolean  $isSubject         if the calling element is a subject
      * 
@@ -476,12 +514,13 @@ class THM_OrganizerHelperMapping
      *
      * @throws  exception
      */
-    public static function getProgramOption(&$mapping, $language, &$selectedParents, $isSubject = false)
+    public static function getProgramOption(&$mapping, $shortTag, &$selectedParents, $isSubject = false)
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $nameSelect = self::getProgramNameSelect($language);
-        $query->select($nameSelect);
+        $parts = array("dp.subject_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $text = $query->concatenate($parts, "") . " As text";
+        $query->select($text);
         $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
         $query->where("dp.id = '{$mapping['programID']}'");
@@ -489,15 +528,16 @@ class THM_OrganizerHelperMapping
         try 
         {
             $name = $dbo->loadResult();
+            $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
+            $disabled = $isSubject? 'disabled' : '';
+            return "<option value='{$mapping['id']}' $selected $disabled>$name</option>";
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return '';
         }
-        
-        $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
-        $disabled = $isSubject? 'disabled' : '';
-        return "<option value='{$mapping['id']}' $selected $disabled>$name</option>";
+
     }
 
     /**
@@ -524,14 +564,13 @@ class THM_OrganizerHelperMapping
         
         try 
         {
-            $boundaries = $dbo->loadAssoc();
+            return $dbo->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $boundaries;
     }
 
     /**
@@ -562,13 +601,12 @@ class THM_OrganizerHelperMapping
         
         try 
         {
-            $clauses = $dbo->loadColumn();
+            return $dbo->loadColumn();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
-        
-        return $clauses;
     }
 }

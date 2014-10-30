@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
+        <field
+            name="search"
+            type="text"
+            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
+            hint="JSEARCH_FILTER"
+        />
+        <field
+            name="checkbox"
+            type="checkall" />
+        <field
+            name="name"
+            type="localizedlist"
+            valueColumn="name"
+            textColumn="name"
+            table="thm_organizer_pools"
+            label="COM_THM_ORGANIZER_NAME"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+        </field>
+        <field
+            name="programID"
+            type="programID"
+            label="COM_THM_ORGANIZER_PROGRAM"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+        </field>
+        <field
+            name="fieldID"
+            type="genericlist"
+            valueColumn="f.id"
+            textColumn="f.field"
+            table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id"
+            label="COM_THM_ORGANIZER_FIELD"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+        </field>
+    </fields>
+	<fields name="list">
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

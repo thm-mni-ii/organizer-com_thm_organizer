@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
-require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
  * Provides method for generating a list of subjects
@@ -68,187 +67,74 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
                              );
         $this->setSearchFilter($query, $searchFields);
 
-        if ($this->state->get('filter.program') == '-2')
-        {
-            $where = "s.id NOT IN ( ";
-            $where .= "SELECT subjectID FROM #__thm_organizer_mappings ";
-            $where .= "WHERE subjectID IS NOT null )";
-            $query->where($where);
-        }
-        else
-        {
-            $borders = $this->getListBorders();
-            if (!empty($borders))
-            {
-                $query->where("lft > '{$borders['lft']}'");
-                $query->where("rgt < '{$borders['rgt']}'");
-                $poolID = $this->state->get('filter.pool');
-                if (!empty($poolID) AND $poolID != -1)
-                {
-                    $query->where("parentID = '{$borders['id']}'");
-                }
-            }
-        }
-
         $this->setOrdering($query);
 
         return $query;
     }
 
     /**
-     * Retrieves the left and right values for determining which subjects will
-     * be displayed.
+     * Method to overwrite the getItems method in order to set the program name
      *
-     * @return  array  the mapping borders for the where clause, empty if not
-     *                 applicable
+     * @return  array  an array of objects fulfilling the request criteria
      */
-    private function getListBorders()
+    public function getItems()
     {
-        $poolID = $this->state->get('filter.pool');
-        if (!empty($poolID) AND $poolID != -1)
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
         {
-            $poolBorders = $this->getBorders($poolID, 'poolID');
+            return $return;
         }
 
-        $programID = $this->state->get('filter.program');
-        if (!empty($programID))
+        $index = 0;
+        foreach ($items as $item)
         {
-            $programBorders = $this->getBorders($programID, 'programID');
-        }
-
-        if (isset($poolBorders))
-        {
-            if ($poolBorders['lft'] > $programBorders['lft']
-             AND $poolBorders['rgt'] < $programBorders['rgt'])
+            $return[$index] = array();
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['externalID'] = JHtml::_('link', $item->link, $item->externalID);
+            $programName = THM_OrganizerHelperMapping::getProgramName('pool', $item->id);
+            $return[$index]['programID'] = JHtml::_('link', $item->link, $programName);
+            $poolName = THM_OrganizerHelperMapping::getPoolName('subject', $item->id);
+            $return[$index]['programID'] = JHtml::_('link', $item->link, $programName);
+            if (!empty($item->field))
             {
-                return $poolBorders;
+                if (!empty($item->color))
+                {
+                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField($item->field, $item->color);
+                }
+                else
+                {
+                    $return[$index]['fieldID'] = $item->field;
+                }
             }
             else
             {
-                return $programBorders;
+                $return[$index]['fieldID'] = '';
             }
+            $index++;
         }
-        elseif (isset($programBorders))
-        {
-            return $programBorders;
-        }
-        else
-        {
-            return array();
-        }
+        return $return;
     }
 
     /**
-     * Retrieves the mapped id, left and right values for the resoource
+     * Function to get table headers
      *
-     * @param   int     $resourceID      the id of the requested resource
-     * @param   string  $resourceColumn  the column with the desired resource values
-     *
-     * @return  array contains the sought left and right values
+     * @return array including headers
      */
-    private function getBorders($resourceID, $resourceColumn)
+    public function getHeaders()
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id, lft, rgt')->from('#__thm_organizer_mappings')->where("$resourceColumn = '$resourceID'");
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $mappingData = $dbo->loadAssoc();
-            return $mappingData;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return array();
-        }
-    }
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
-    /**
-     * Method to get the table
-     *
-     * @param   string  $order  the property to order the list by
-     * @param   string  $dir    the direction in which the list is to be ordered
-     *
-     * @return  void
-     */
-    protected function populateState($order = null, $dir = null)
-    {
-        $app = JFactory::getApplication();
+        $headers = array();
+        $headers['checkbox'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'subject', $direction, $ordering);
+        $headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction, $ordering);
+        $headers['program'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
+        $headers['pool'] = JText::_('COM_THM_ORGANIZER_POOL');
+        $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
 
-        $order = $app->getUserStateFromRequest($this->context . '.filter_order', 'filter_order', 'name');
-        $this->setState('list.ordering', $order);
-
-        $dir = $app->getUserStateFromRequest($this->context . '.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $this->setState('list.direction', $dir);
-
-        $filter = $app->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-        $this->setState('filter', $filter);
-
-        $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '');
-        $this->setState('limit', $limit);
-
-        $search = $app->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter.search', $search);
-
-        $program = $app->getUserStateFromRequest($this->context . '.filter_program', 'filter_program', '');
-        $this->setState('filter.program', $program);
-
-        $pool = $app->getUserStateFromRequest($this->context . '.filter_pool', 'filter_pool', '');
-        $this->setState('filter.pool', $pool);
-
-        parent::populateState($order, $dir);
-    }
-
-    /**
-     * Retrieves a list of mapped pools
-     *
-     * @param   int  $programID  the id of the selected program
-     *
-     * @return  void
-     */
-    private function setPools($programID)
-    {
-        $borders = $this->getBorders($programID, 'programID');
-        $language = explode('-', JFactory::getLanguage()->getTag());
-
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("p.id, level, name_{$language[0]} AS name");
-        $query->from('#__thm_organizer_pools AS p');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-        $query->where("lft > '{$borders['lft']}'");
-        $query->where("rgt < '{$borders['rgt']}'");
-        $query->order('lft');
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $pools = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
- 
-        if (empty($pools))
-        {
-            $this->pools = array();
-            return;
-        }
-
-        foreach ($pools as $key => $value)
-        {
-            $indent = '';
-            $level = 1;
-            while ($level < $value['level'])
-            {
-                $indent .= "&nbsp;&nbsp;&nbsp;";
-                $level++;
-            }
-            $pools[$key]['name'] = $indent . "|_" . $pools[$key]['name'];
-        }
-        $this->pools = $pools;
+        return $headers;
     }
 }

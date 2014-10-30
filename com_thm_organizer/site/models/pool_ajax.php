@@ -10,8 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/mapping.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class provides methods to retrieve data for pool ajax calls
@@ -56,7 +55,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $unSelectableMappings = $this->getUnselectableMappings($isSubject, $mappings, $ownIDs);
 
         $options = array();
-        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_POM_NO_PARENT') . '</option>';
+        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
 
         $language = $input->getString('languageTag', 'de');
         $this->fillOptions($options, $programMappings, $unSelectableMappings, $parentIDs, $isSubject, $language);

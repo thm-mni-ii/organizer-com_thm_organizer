@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
-require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class provides functions for displaying a list of pools
@@ -26,10 +26,6 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
 
     protected $defaultDirection = 'ASC';
 
-    public $programName = '';
- 
-    public $programs = null;
-
     /**
      * constructor
      *
@@ -39,49 +35,9 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array('name');
+            $config['filter_fields'] = array('name', 'field');
         }
         parent::__construct($config);
-    }
-
-    /**
-     * Method to overwrite the getItems method in order to set the program name
-     *
-     * @return  array  an array of objects fullfilling the request criteria
-     */
-    public function getItems()
-    {
-        $items = parent::getItems();
-        $return = array();
-        if (empty($items))
-        {
-            return $return;
-        }
-
-        $params = JComponentHelper::getParams('com_thm_organizer');
-
-        $index = 0;
-        foreach ($items as $item)
-        {
-            // Set default attributes
-            if (!empty($item->useDefaults))
-            {
-                $item->displayBehaviour = $params->get('display');
-                $item->content = $params->get('content');
-            }
-
-            $return[$index] = array();
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['program'] = JHtml::_('link', $item->link, $item->ip);
-            $controller = 'monitor';
-            $tip = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
-            $return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, $controller, $tip);
-            $return[$index]['display'] = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
-            $return[$index]['content'] = JHtml::_('link', $item->link, $item->content);
-            $index++;
-        }
-        return $return;
     }
 
     /**
@@ -94,141 +50,124 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
         $query = $this->_db->getQuery(true);
 
         $language = explode('-', JFactory::getLanguage()->getTag());
-        $select = "DISTINCT p.id, name_{$language[0]} AS name, lsfID, hisID, ";
-        $select .= 'externalID, minCrP, maxCrP, f.field, color';
+        $select = "DISTINCT p.id, name_{$language[0]} AS name, field, color, ";
+        $parts = array("'index.php?option=com_thm_organizer&view=pool_edit&id='","p.id");
+        $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
 
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $programID = $this->state->get('filter.program', '-1');
-        if (!empty($programID) OR $programID != '-1')
-        {
-            // Pools which aren't associated with
-            if ($programID == '-2')
-            {
-                $where = "p.id NOT IN ( ";
-                $where .= "SELECT poolID FROM #__thm_organizer_mappings ";
-                $where .= "WHERE poolID IS NOT null )";
-                $query->where($where);
-            }
-            else
-            {
-                $borders = $this->getBorders($programID, 'program');
-                if (!empty($borders))
-                {
-                    $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-                    $query->where("lft > '{$borders['lft']}'");
-                    $query->where("rgt < '{$borders['rgt']}'");
-                }
-            }
-        }
-
-        $search = '%' . $this->_db->escape($this->state->get('filter.search'), true) . '%';
-        if ($search != '%%')
-        {
-            $searchClause = "(name_{$language[0]} LIKE '$search' ";
-            $searchClause .= "OR short_name_{$language[0]} LIKE '$search' ";
-            $searchClause .= "OR abbreviation_{$language[0]} LIKE '$search')";
-            $query->where($searchClause);
-        }
+        $searchColumns = array('name_de', 'short_name_de', 'abbreviation_de', 'description_de',
+                               'name_en', 'short_name_en', 'abbreviation_en', 'description_en'
+                              );
+        $this->setSearchFilter($query, $searchColumns);
+        $this->setLocalizedFilters($query, array('name'));
+        $this->setValueFilters($query, array('fieldID'));
+        $this->setProgramIDFilter($query);
 
         $this->setOrdering($query);
- 
+
         return $query;
     }
 
-    /**
-     * Retrieves the mapped left and right values for the requested program
-     *
-     * @param   int     $resourceID  the id of the pool
-     * @param   string  $type        the type of resource being checked
-     *
-     * @return  array contains the sought left and right values
-     */
-    private function getBorders($resourceID, $type = 'pool')
+    private function setProgramIDFilter(&$query)
     {
-        $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
-        $query->where("{$type}ID = '$resourceID'");
-        $this->_db->setQuery((string) $query);
-        
-        try 
+        $programID = $this->state->get('filter.programID', '');
+
+        if (empty($programID))
         {
-            $borders = $type == 'pool'? $this->_db->loadAssocList() : $this->_db->loadAssoc();
+            return;
         }
-        catch (runtimeException $e)
+
+        $ranges = THM_OrganizerHelperMapping::getRanges('program', $programID);
+        if (empty($ranges))
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            return;
         }
-        
-        return $borders;
+
+        // No program associations
+        if ($programID == '-1')
+        {
+            $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+
+            $conditions = array();
+            foreach ($ranges as $range)
+            {
+                $conditions[] = "( lft NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
+                $conditions[] = "( rgt NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
+            }
+            $where = implode(' AND ', $conditions);
+            $query->where("( $where )");
+            return;
+        }
+
+        // Specific program association
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+        $query->where("lft > '{$ranges[0]['lft']}'");
+        $query->where("rgt < '{$ranges[0]['rgt']}'");
     }
 
     /**
-     * Retrieves the names of the programs to which a pool is ordered
+     * Method to overwrite the getItems method in order to set the program name
      *
-     * @param   array  $poolBorders  the left and right values of the pool's
-     *                               mappings
-     *
-     * @return  array  the names of the programs to which the pool is ordered
+     * @return  array  an array of objects fulfilling the request criteria
      */
-    private function getPoolPrograms($poolBorders)
+    public function getItems()
     {
-        $bordersClauses = array();
-        foreach ($poolBorders AS $border)
+        $items = parent::getItems();
+        $return = array();
+        if (empty($items))
         {
-            $bordersClauses[] = "( lft < '{$border['lft']}' AND rgt > '{$border['rgt']}')";
+            return $return;
         }
 
-        $language = explode('-', JFactory::getLanguage()->getTag());
-        $query = $this->_db->getQuery(true);
-        $parts = array("dp.subject_{$language[0]}","' ('", "d.abbreviation", "' '", "dp.version", "')'");
-        $select = "DISTINCT " . $query->concatenate($parts, "") . " As name";
-        $query->select($select);       
-        $query->from('#__thm_organizer_programs AS dp');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-        $query->where($bordersClauses, 'OR');
-        $query->order('name');
-        $this->_db->setQuery((string) $query);
-        
-        try 
+        $index = 0;
+        foreach ($items as $item)
         {
-            $programs = $this->_db->loadColumn();
+
+            $return[$index] = array();
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+            $programName = THM_OrganizerHelperMapping::getProgramName('pool', $item->id);
+            $return[$index]['programID'] = JHtml::_('link', $item->link, $programName);
+            if (!empty($item->field))
+            {
+                if (!empty($item->color))
+                {
+                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField($item->field, $item->color);
+                }
+                else
+                {
+                    $return[$index]['fieldID'] = $item->field;
+                }
+            }
+            else
+            {
+                $return[$index]['fieldID'] = '';
+            }
+            $index++;
         }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        return $programs;
+        return $return;
     }
 
     /**
-     * Retrieves a string value representing the degree programs to which the
-     * pool is ordered.
+     * Function to get table headers
      *
-     * @param   int  $poolID  the id of the pool
-     *
-     * @return  string  string representing the associated program
+     * @return array including headers
      */
-    private function getProgram($poolID)
+    public function getHeaders()
     {
-        $poolBorders = $this->getBorders($poolID);
-        if (empty($poolBorders))
-        {
-            return JText::_('COM_THM_ORGANIZER_POM_NO_MAPPINGS');
-        }
-        $programs = $this->getPoolPrograms($poolBorders);
-        if (count($programs) === 1)
-        {
-            return $programs[0];
-        }
-        else
-        {
-            return JText::_('COM_THM_ORGANIZER_POM_MULTIPLE_MAPPINGS');
-        }
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+
+        $headers = array();
+        $headers['checkbox'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
+        $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
+
+        return $headers;
     }
 }

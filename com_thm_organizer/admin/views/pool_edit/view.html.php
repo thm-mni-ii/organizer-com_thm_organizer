@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('jquery.jquery');
+jimport('thm_core.edit.view');
 
 /**
  * Class THM_OrganizerViewPool_Edit for component com_thm_organizer
@@ -21,7 +21,7 @@ jimport('jquery.jquery');
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
  */
-class THM_OrganizerViewPool_Edit extends JViewLegacy
+class THM_OrganizerViewPool_Edit extends THM_CoreViewEdit
 {
     /**
      * Method to get display
@@ -32,23 +32,6 @@ class THM_OrganizerViewPool_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
-        $document->addScript($this->baseurl . "/components/com_thm_organizer/assets/js/mapping.js");
-
-        // Get the Data
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
-        if (!empty($this->item->id))
-        {
-            $this->children = $this->getModel()->children;
-        }
-
-        // Set the toolbar
-        $this->addToolBar();
-
-        // Display the template
         parent::display($tpl);
     }
 
@@ -60,9 +43,9 @@ class THM_OrganizerViewPool_Edit extends JViewLegacy
     protected function addToolBar()
     {
         $isNew = ($this->item->id == 0);
-        $title = $isNew ? JText::_('COM_THM_ORGANIZER_POM_NEW_TITLE') : JText::_('COM_THM_ORGANIZER_POM_EDIT_TITLE');
+        $title = $isNew ? JText::_('COM_THM_ORGANIZER_POOL_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_POOL_EDIT_EDIT_VIEW_TITLE');
         JToolbarHelper::title($title, 'organizer_subject_pools');
-        JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_APPLY_NEW' : 'COM_THM_ORGANIZER_APPLY_EDIT');
+        JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_ACTION_APPLY_NEW' : 'COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
         JToolbarHelper::save('pool.save');
         JToolbarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }

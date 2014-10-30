@@ -11,8 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.edit.model');
-require_once 'mapping.php';
-require_once JPATH_COMPONENT . '/assets/helpers/mapping.php';
 
 /**
  * Class THM_OrganizerModelMajor for component com_thm_organizer

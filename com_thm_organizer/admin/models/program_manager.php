@@ -67,13 +67,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         $searchColumns = array('subject_de', 'subject_en', 'version', 'field', 'd.name', 'description_de', 'description_en');
         $this->setSearchFilter($query, $searchColumns);
         $this->setValueFilters($query, array( 'degreeID', 'version', 'fieldID'));
-
-        // Localized column search?
-        $subjectFilter = $this->state->get('filter.subject', '');
-        if ($subjectFilter !== '')
-        {
-            $query->where("$subjectColumn = '$subjectFilter'");
-        }
+        $this->setLocalizedFilters($query, array('subject'));
 
         $this->setOrdering($query);
 
