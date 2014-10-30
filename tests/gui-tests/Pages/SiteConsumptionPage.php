@@ -25,7 +25,7 @@ class SiteConsumptionPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//form[@id='thm_organizer_statistic_form']";
+	protected $waitForXpath =  "//form[@id='statistic-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -42,7 +42,7 @@ class SiteConsumptionPage extends SitePage
      * @since 3.2
      */
     public $inputFields = array (
-        '//*[@id="thm_organizer_statistic_form"]',
+        '//*[@id="statistic-form"]',
         '//*[@id="activated"]'
     );
 

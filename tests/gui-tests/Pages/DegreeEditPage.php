@@ -17,7 +17,7 @@ class DegreeEditPage extends iCampusAdminEditPage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//form[@id='adminForm']";
+	protected $waitForXpath =  "//form[@id='item-form']";
 
 	/**
 	 * URL used to uniquely identify this page

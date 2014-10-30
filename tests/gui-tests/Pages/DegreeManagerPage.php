@@ -6,6 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use SeleniumClient\By;
+
 /**
  * Page class for the back-end degree manager
  */
@@ -55,8 +57,8 @@ class DegreeManagerPage extends iCampusAdminManagerPage
         {
             $this->checkBox($title);
             $this->clickButton('toolbar-delete');
-            //$this->driver->acceptAlert();
-            //$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+            $this->driver->acceptAlert();
+            $this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
         }
     }
 }

@@ -78,7 +78,7 @@ class DegreeManager0001Test extends JoomlaWebdriverTestCase
         $this->assertFalse($this->degreeManagerPage->getRowNumber($degreeName), 'Test degree should not be present');
         $this->degreeManagerPage->addDegree($degreeName, $abbreviation, $LSF);
         $message = $this->degreeManagerPage->getAlertMessage();
-        $this->assertContains('The degree has been successfully saved.', $message, 'Degree save should return success', true);
+        $this->assertContains('The resources have been saved successfully.', $message, 'Degree save should return success', true);
 
         $this->assertTrue($this->degreeManagerPage->getRowText($degreeName) == $degreeName . " " . $abbreviation . " " . $LSF, 'Test degree should be on the page');
 
