@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/assets/helpers/mapping.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class provides methods for building a model of the curriculum in JSON format

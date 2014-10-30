@@ -13,7 +13,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/models/color_m
  * Class THM_OrganizerModelCategoryAdminTest
  *
  * @package             com_thm_organizer
- * @coversDefaultClass  THM_OrganizerModelCategory
+ * @coversDefaultClass  THM_OrganizerModelColor_Manager
  *
  * @requires            extension sqlite3
  */
@@ -140,17 +140,19 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
     	$state = $reflector->getValue($this->object);
 
     	$expected1 = "name ASC";
-    	$expected2 = null;
+    	$expected2 = "ASC";
     	$expected3 = null;
     	$expected4 = null;
+
     	$actual1 = $state->get('list.fullordering');
     	$actual2 = $state->get('list.direction');
     	$actual3 = $state->get('list.limit');
     	$actual4 = $state->get('list.start');
-    	$this->assertEquals($expected1, $actual1);
-    	$this->assertEquals($expected2, $actual2);
-    	$this->assertEquals($expected3, $actual3);
-    	$this->assertEquals($expected4, $actual4);
+
+    	$this->assertEquals($expected1, $actual1, "list.fullordering doesn't match expected '" . $expected1 . "'");
+    	$this->assertEquals($expected2, $actual2, "list.direction doesn't match expected '" . $expected1 . "'");
+    	$this->assertEquals($expected3, $actual3, "list.limit doesn't match expected 'null'");
+    	$this->assertEquals($expected4, $actual4, "list.start doesn't match expected 'null'");
     }
 
 }
