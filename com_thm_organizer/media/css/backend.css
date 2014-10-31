@@ -1,3 +1,4 @@
+/*Filter- und Search-Bereich anpassen */
 .searchArea a, thead a {
   color: #4b5c67; }
   .searchArea a:hover, thead a:hover {
@@ -83,3 +84,91 @@ tbody tr:first-child td {
   max-width: 200px; }
   .js-stools-field-filter select {
     width: auto; }
+
+/* Style fuer Datei-Upload anpassen , nur in Chrome notwendig (Vergleich mit Firefox,IE)*/
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .controls input[type="file"] {
+    line-height: 0px;
+    padding-top: 3px; } }
+/*icons anpassen*/
+.icon-diff {
+  font-weight: bold; }
+
+.icon-export {
+  font-family: icomoon;
+  content: "\e604"; }
+
+/*icons zu sidebar hinzufuegen*/
+li a[href*="view=thm_organizer"]::before {
+  font-family: icomoon;
+  content: "\21";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=degree_manager"]::before {
+  font-family: icomoon;
+  content: "\e60a";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=user_manager"]::before {
+  font-family: icomoon;
+  content: "\e01f";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=monitor_manager"]::before {
+  font-family: icomoon;
+  content: "\e01c";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=teacher_manager"]::before {
+  font-family: icomoon;
+  content: "\e608";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=subject_manager"]::before {
+  font-family: icomoon;
+  content: "\e606";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=field_manager"]::before {
+  font-family: icomoon;
+  content: "\74";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=color_manager"]::before {
+  font-family: icomoon;
+  content: "\e014";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=pool_manager"]::before {
+  font-family: icomoon;
+  content: "\43";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=room_manager"]::before {
+  font-family: icomoon;
+  content: "\e600";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=program_manager"]::before {
+  font-family: icomoon;
+  content: "\e609";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=schedule_manager"]::before {
+  font-family: icomoon;
+  content: "\e601";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=category_manager"]::before {
+  font-family: icomoon;
+  content: "\e607";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=virtual_schedule_manager"]::before {
+  font-family: icomoon;
+  content: "\e602";
+  font-size: 12px;
+  padding-right: 8px; }
+
+.nav-list li.active a {
+  background-color: #51a351; }
