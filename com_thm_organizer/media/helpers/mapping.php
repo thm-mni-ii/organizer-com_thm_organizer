@@ -293,52 +293,58 @@ class THM_OrganizerHelperMapping
     }
 
     /**
-     * Retrieves the parent ids of the resource in question
+     * Retrieves the parent ids of the resource in question. Used in parentpool field.
      *
-     * @param   int      $resourceID  the resource id
-     * @param   array    &$mappings   an array to store the mappings in
-     * @param   array    &$parentIDs  an array to store the parent ids in
-     * @param   array    &$ownIDs     an array to store the mapping ids in
-     * @param   boolean  $isSubject   if the calling element is a subject
+     * @param   int     $resourceID    the resource id
+     * @param   string  $resourceType  the type of resource
+     * @param   array   &$mappings     an array to store the mappings in
+     * @param   array   &$mappingIDs   an array to store the mapping ids in
+     * @param   array   &$parentIDs    an array to store the parent ids in
      * 
      * @return  void
      *
      * @throws  exception
      */
-    public static function getMappingData($resourceID, &$mappings, &$parentIDs, &$ownIDs, $isSubject = false)
+    public static function setMappingData($resourceID, $resourceType, &$mappings, &$parentIDs, &$mappingIDs)
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('parentID, id, lft, rgt');
         $query->from('#__thm_organizer_mappings');
-        $query->where($isSubject? "subjectID = '$resourceID'" : "poolID = '$resourceID'");
+        $query->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery((string) $query);
 
         try 
         {
             $mappings = array_merge($mappings, $dbo->loadAssocList());
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $mappings = $mappingIDs = $parentIDs = array();
+            return;
         }
 
         try 
         {
             $parentIDs = array_merge($parentIDs, $dbo->loadColumn());
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $mappingIDs = $parentIDs = array();
+            return;
         }
 
         try
         {
-            $ownIDs = array_merge($ownIDs, $dbo->loadColumn(1));
+            $mappingIDs = array_merge($mappingIDs, $dbo->loadColumn(1));
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $mappingIDs = array();
+            return;
         }
     }
 
@@ -462,15 +468,15 @@ class THM_OrganizerHelperMapping
      * Gets a HTML option based upon a pool mapping
      * 
      * @param   array   &$mapping          the pool mapping entry
-     * @param   string  $language          the display language
      * @param   array   &$selectedParents  the selected parents
      * 
      * @return  string  HTML option
      *
      * @throws  exception
      */
-    public static function getPoolOption(&$mapping, $language, &$selectedParents)
+    public static function getPoolOption(&$mapping,&$selectedParents)
     {
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
         $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
         
         try 
@@ -482,7 +488,7 @@ class THM_OrganizerHelperMapping
             throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
 
-        $nameColumn = 'name_' . $language;
+        $nameColumn = "name_$shortTag";
         $indentedName = self::getIndentedPoolName($poolsTable->$nameColumn, $mapping['level']);
         
         $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
@@ -520,16 +526,16 @@ class THM_OrganizerHelperMapping
      * Gets a HTML option based upon a program mapping
      * 
      * @param   array    &$mapping          the program mapping entry
-     * @param   string   $shortTag          the display language
      * @param   array    &$selectedParents  the selected parents
-     * @param   boolean  $isSubject         if the calling element is a subject
+     * @param   string  $resourceType  the type of resource
      * 
      * @return  string  HTML option
      *
      * @throws  exception
      */
-    public static function getProgramOption(&$mapping, $shortTag, &$selectedParents, $isSubject = false)
+    public static function getProgramOption(&$mapping, &$selectedParents, $resourceType)
     {
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $parts = array("dp.subject_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
@@ -543,7 +549,7 @@ class THM_OrganizerHelperMapping
         {
             $name = $dbo->loadResult();
             $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
-            $disabled = $isSubject? 'disabled' : '';
+            $disabled = $resourceType == 'subject'? 'disabled' : '';
             return "<option value='{$mapping['id']}' $selected $disabled>$name</option>";
         }
         catch (Exception $exc)
@@ -551,7 +557,6 @@ class THM_OrganizerHelperMapping
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return '';
         }
-
     }
 
     /**

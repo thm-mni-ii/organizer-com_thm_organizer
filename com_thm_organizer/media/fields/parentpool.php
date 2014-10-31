@@ -38,42 +38,64 @@ class JFormFieldParentPool extends JFormField
      */
     public function getInput()
     {
-        $ownID = JFactory::getApplication()->input->getInt('id', 0);
+        $options = $this->getOptions();
+        $select = '<select id="jformparentID" name="jform[parentID][]" multiple="multiple" size="10">';
+        $select .= implode('', $options) . '</select>';
+        return $select;
+    }
+
+    /**
+     * Gets pool options for a select list. All parameters come from the
+     *
+     *
+     * @throws Exception
+     */
+    public function getOptions()
+    {
+        // get basic resource data
+        $resourceID = JFactory::getApplication()->input->getInt('id', 0);
+        $contextParts = explode('.', $this->form->getName());
+        $resourceType = str_replace('_edit', '', $contextParts[1]);
+
         $mappings = array();
+        $mappingIDs = array();
         $parentIDs = array();
-        $ownIDs = array();
-        THM_OrganizerHelperMapping::getMappingData($ownID, $mappings, $parentIDs, $ownIDs);
+        THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 
         $options = array();
         $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
 
         if (!empty($mappings))
         {
-            $language = explode('-', JFactory::getLanguage()->getTag());
+            $unwantedMappings = array();
             $programEntries = THM_OrganizerHelperMapping::getProgramEntries($mappings);
             $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
-            $children = THM_OrganizerHelperMapping::getChildren($mappings);
-            $unwantedMappings = array_merge($ownIDs, $children);
+
+            // Pools should not be allowed to be placed anywhere where recursion could occur
+            if ($resourceType == 'pool')
+            {
+                $children = THM_OrganizerHelperMapping::getChildren($mappings);
+                $unwantedMappings = array_merge($unwantedMappings, $mappingIDs, $children);
+            }
 
             foreach ($programMappings as $mapping)
             {
+                // Recursive mappings or mappings belonging to subjects should not be offered
                 if (in_array($mapping['id'], $unwantedMappings) OR !empty($mapping['subjectID']))
                 {
                     continue;
                 }
+
                 if (!empty($mapping['poolID']))
                 {
-                    $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $language[0], $parentIDs);
+                    $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $parentIDs);
                 }
                 else
                 {
-                    $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $language[0], $parentIDs);
+                    $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $parentIDs, $resourceType);
                 }
             }
         }
- 
-        $select = '<select id="jformparentID" name="jform[parentID][]" multiple="multiple" size="10">';
-        $select .= implode('', $options) . '</select>';
-        return $select;
+        return $options;
     }
 }

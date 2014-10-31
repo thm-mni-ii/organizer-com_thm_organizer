@@ -26,98 +26,93 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      *
      * @return  string
      */
-    public function poolDegreeOptions()
+    public function parentOptions()
     {
         $input = JFactory::getApplication()->input;
-        $isSubject = $input->getBool('subject', false);
-        $ownID = $input->getInt('ownID', 0);
-        $programEntries = $this->getProgramEntries($isSubject);
-
-        // Called from a new resource or the selected programs have not been mapped
-        $callerInvalid = (empty($ownID) OR empty($programEntries));
-        if ($callerInvalid)
-        {
-            return '';
-        }
-
-        $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
-        $programIDs = $input->getString('programID', '');
-        $programIDArray = explode(',', $programIDs);
-
-        $offerOptions = $this->offerOptions($programMappings, $programIDArray, $isSubject);
-        if (!$offerOptions)
-        {
-            return '';
-        }
-
-        $parentIDs = $ownIDs = $mappings = array();
-        THM_OrganizerHelperMapping::getMappingData($ownID, $mappings, $parentIDs, $ownIDs);
-        $unSelectableMappings = $this->getUnselectableMappings($isSubject, $mappings, $ownIDs);
+        $resourceID = $input->getInt('id', 0);
+        $resourceType = $input->getString('type', '');
+        $programIDs = explode(',', $input->getString('programIDs', ''));
+        $programEntries = $this->getProgramEntries($programIDs);
 
         $options = array();
         $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
 
-        $language = $input->getString('languageTag', 'de');
-        $this->fillOptions($options, $programMappings, $unSelectableMappings, $parentIDs, $isSubject, $language);
+        $invalidRequest = (empty($resourceID) OR empty($resourceType));
+        $none = ($invalidRequest OR empty($programEntries));
+        if ($none)
+        {
+            return $options[0];
+        }
+
+        $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
+        $onlyProgramMappings = count($programEntries) == count($programMappings);
+        if ($onlyProgramMappings AND $resourceType == 'subject')
+        {
+            return $options[0];
+        }
+
+        $mappings = $mappingIDs = $parentIDs = array();
+        THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $parentIDs, $mappingIDs);
+        $unSelectableMappings = $this->getUnselectableMappings($mappings, $mappingIDs, $resourceType);
+
+        $this->fillOptions($options, $programMappings, $unSelectableMappings, $parentIDs, $resourceType);
         return implode('', $options);
     }
 
     /**
      * Retrieves the mappings of superordinate programs
      *
+     * @param   array  $programIDs  the requested program ids
+     *
      * @return  array  the superordinate program mappings
      */
-    private function getProgramEntries()
+    private function getProgramEntries($programIDs)
     {
-        $programIDs = "'" . str_replace(",", "', '", JFactory::getApplication()->input->getString('programID', '0')) . "'";
-
         $query = $this->_db->getQuery(true);
         $query->select('id, programID, lft, rgt');
         $query->from('#__thm_organizer_mappings');
-        $query->where("programID IN ( $programIDs )");
+        $query->where("programID IN ( '" . implode("', '", $programIDs) . "' )");
         $query->order('lft ASC');
         $this->_db->setQuery((string) $query);
-        
+
         try
         {
-            $programEntries = $this->_db->loadAssocList();
+            return $this->_db->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            return array();
         }
-        
-        return $programEntries;
     }
 
     /**
      * Retrieves an array of mappings which should not be available for selection
      * as the parent of the resource
-     * 
-     * @param   boolean  $isSubject  whether or not the resource is a subject
-     * @param   array    &$mappings  the existing mappings of the resource
-     * @param   array    &$ownIDs    the mapping ids for the resource
-     * 
+     *
+     * @param   array   &$mappings     the existing mappings of the resource
+     * @param   array   &$mappingIDs   the mapping ids for the resource
+     * @param   string  $resourceType  the resource's type
+     *
      * @return  array  the ids which should be unselectable
      */
-    private function getUnselectableMappings($isSubject, &$mappings, &$ownIDs)
+    private function getUnselectableMappings(&$mappings, &$mappingIDs, $resourceType)
     {
-        if ($isSubject)
+        if ($resourceType == 'subject')
         {
             return array();
         }
         $children = THM_OrganizerHelperMapping::getChildren($mappings);
-        return array_merge($ownIDs, $children);
+        return array_merge($mappingIDs, $children);
     }
 
     /**
      * Determines whether association options should be offered
-     * 
+     *
      * @param   array    &$programMappings  the program mappings retrieved
      * @param   array    &$programIDArray   the requested program ids
      * @param   boolean  $isSubject         whether or not the request was sent
      *                                      from the subject edit view
-     * 
+     *
      * @return  boolean  true if association options should be offered, otherwise
      *                   false
      */
@@ -144,31 +139,29 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * @param   array    &$options               an array to store the options in
      * @param   array    &$programMappings       mappings belonging to one of the
      *                                           requested programs
-     * @param   array    &$unselectableMappings  mappings which would lead to data
+     * @param   array    &$unelectableMappings  mappings which would lead to data
      *                                           inconsistency
      * @param   array    &$parentIDs             previously mapped parents
-     * @param   boolean  $isSubject              whether the calling element is a
-     *                                           subject
-     * @param   string   $language               the language tag of the active language
+     * @param   boolean  $resourceType           the resource's type
      *
      * @return  void
      */
-    private function fillOptions(&$options, &$programMappings, &$unselectableMappings, &$parentIDs, $isSubject, $language = 'de')
+    private function fillOptions(&$options, &$programMappings, &$unelectableMappings, &$parentIDs, $resourceType)
     {
         foreach ($programMappings as $mapping)
         {
             if (!empty($mapping['subjectID'])
-             OR (!empty($unselectableMappings) AND in_array($mapping['id'], $unselectableMappings)))
+             OR (!empty($unelectableMappings) AND in_array($mapping['id'], $unelectableMappings)))
             {
                 continue;
             }
             if (!empty($mapping['poolID']))
             {
-                $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $language, $parentIDs);
+                $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $parentIDs);
             }
             else
             {
-                $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $language, $parentIDs, $isSubject);
+                $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $parentIDs, $resourceType);
             }
         }
     }
