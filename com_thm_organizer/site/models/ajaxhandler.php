@@ -72,10 +72,15 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
             return array("success" => false, "data" => "Unknown task!");
         }
 
-        $taskarr = explode(".", $task);
+        $taskArray = explode(".", $task);
         try
         {
-            $classname = $taskarr[0];
+            if ($taskArray[0] == 'TreeView' AND $taskArray[1] == 'load')
+            {
+                $schedNavModel = JModelLegacy::getInstance('Schedule_Navigation', 'THM_OrganizerModel', $options);
+                return $schedNavModel->load($options);
+            }
+            $classname = $taskArray[0];
             if(file_exists(JPATH_COMPONENT . "/assets/classes/" . $classname . ".php"))
             {
                 require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
@@ -87,7 +92,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
             $classname = "THM" . $classname;
             $class = $this->getClass($classname, $this->_JDA, $this->_CFG, $options);
 
-            return $class->$taskarr[1]();
+            return $class->$taskArray[1]();
         }
         catch (Exception $e)
         {
