@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -49,8 +51,8 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
     {
         $query = $this->_db->getQuery(true);
 
-        $language = explode('-', JFactory::getLanguage()->getTag());
-        $select = "DISTINCT p.id, name_{$language[0]} AS name, field, color, ";
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $select = "DISTINCT p.id, name_$shortTag AS name, field, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=pool_edit&id='","p.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);

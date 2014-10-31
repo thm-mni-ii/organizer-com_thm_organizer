@@ -173,39 +173,53 @@ class THM_OrganizerHelperMapping
      */
     public static function getSubjectPools($ranges)
     {
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $dbo= JFactory::getDbo();
+        $lftQuery = $dbo->getQuery(true);
+        $lftQuery->select("lft");
+        $lftQuery->from('#__thm_organizer_pools AS p');
+        $lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+        $lftQuery->order('lft DESC');
 
-        $nameQuery = JFactory::getDbo()->getQuery(true);
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $nameQuery = $dbo->getQuery(true);
         $nameQuery->select("DISTINCT p.name_$shortTag As name");
         $nameQuery->from('#__thm_organizer_pools AS p');
         $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
 
-        $lftQuery = JFactory::getDbo()->getQuery(true);
-        $select = "DISTINCT p.name_$shortTag As name";
-        $lftQuery->select("");
-        $lftQuery->from('#__thm_organizer_pools AS p');
-        $lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
 
         $pools = array();
-
         // Each range is a unique pool association
         foreach ($ranges AS $borders)
         {
-            $query->clear('where');
-            $rangeClauses = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
-        }
-        JFactory::getDbo()->setQuery((string) $query);
+            $lftQuery->clear('where');
+            $lftQuery->where("poolID IS NOT NULL");
+            $lftQuery->where("( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')");
+            $dbo->setQuery((string) $lftQuery);
 
-        try
-        {
-            $pools = JFactory::getDbo()->loadColumn();
-            return $pools;
+            try
+            {
+                $poolLFT = $dbo->loadResult();
+                $nameQuery->clear('where');
+                $nameQuery->where("lft = '$poolLFT'");
+                $dbo->setQuery((string) $nameQuery);
+
+                try
+                {
+                    $pools[] = $dbo->loadResult();
+                }
+                catch (Exception $exc)
+                {
+                    JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                    return array();
+                }
+            }
+            catch (Exception $exc)
+            {
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return array();
+            }
         }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return array();
-        }
+        return $pools;
     }
 
     /**

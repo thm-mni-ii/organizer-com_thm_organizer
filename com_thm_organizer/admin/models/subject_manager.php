@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Provides method for generating a list of subjects
@@ -51,11 +53,13 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
     protected function getListQuery()
     {
         $dbo = JFactory::getDBO();
-        $language = explode('-', JFactory::getLanguage()->getTag());
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
 
         // Create the sql query
         $query = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, externalID, name_{$language[0]} AS name, field, color";
+        $select = "DISTINCT s.id, externalID, name_$shortTag AS name, field, color, ";
+        $parts = array("'index.php?option=com_thm_organizer&view=subject_edit&id='","s.id");
+        $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
@@ -93,10 +97,6 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
             $return[$index]['externalID'] = JHtml::_('link', $item->link, $item->externalID);
-            $programName = THM_OrganizerHelperMapping::getProgramName('pool', $item->id);
-            $return[$index]['programID'] = JHtml::_('link', $item->link, $programName);
-            $poolName = THM_OrganizerHelperMapping::getPoolName('subject', $item->id);
-            $return[$index]['programID'] = JHtml::_('link', $item->link, $programName);
             if (!empty($item->field))
             {
                 if (!empty($item->color))
@@ -131,8 +131,6 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
         $headers['checkbox'] = '';
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'subject', $direction, $ordering);
         $headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction, $ordering);
-        $headers['program'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
-        $headers['pool'] = JText::_('COM_THM_ORGANIZER_POOL');
         $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
 
         return $headers;

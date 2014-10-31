@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.helpers.corehelper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -33,13 +34,11 @@ class JFormFieldProgramID extends JFormFieldList
      */
     public function getOptions()
     {
-        $language = explode('-', JFactory::getLanguage()->getTag());
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $dyParts = array('d.abbreviation', 'dp.version');
-        $degreeAndYear = $query->concatenate($dyParts, ', ');
-        $nameParts = array("dp.subject_{$language[0]}", "($degreeAndYear)");
+        $nameParts = array("dp.subject_$shortTag", 'd.abbreviation', 'dp.version' );
         $nameSelect = $query->concatenate($nameParts, ', ') ." AS text";
 
         $query->select("dp.id AS value, $nameSelect");
