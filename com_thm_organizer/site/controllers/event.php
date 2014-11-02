@@ -1,12 +1,11 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerControllerEvent
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -23,7 +22,6 @@ require_once JPATH_SITE . '/components/com_thm_organizer/helper/event.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
- * @since       v0.0.1
  */
 class THM_OrganizerControllerEvent extends JControllerLegacy
 {

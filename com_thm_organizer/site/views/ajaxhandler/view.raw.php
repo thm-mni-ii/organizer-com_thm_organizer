@@ -6,7 +6,7 @@
  * @name        thm_organizerViewAjaxHandler
  * @description thm_organizerViewAjaxHandler file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

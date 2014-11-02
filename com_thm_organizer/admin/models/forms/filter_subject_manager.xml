@@ -20,7 +20,6 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
             name="externalID"
@@ -32,21 +31,18 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_SUBJECT</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+            <option value="-1">JNONE</option>
         </field>
-        <field
-            name="fieldID"
-            type="genericlist"
-            valueColumn="f.id"
-            textColumn="f.field"
-            table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id"
-            label="COM_THM_ORGANIZER_FIELD"
-            onchange="this.form.submit();"
-            >
+        <field name="fieldID"
+               type="genericlist"
+               valueColumn="fieldID"
+               textColumn="field"
+               table="thm_organizer_subjects AS s,thm_organizer_fields AS f ON f.id = s.fieldID"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_FIELD"
+               description="COM_THM_ORGANIZER_FIELD_DESC" >
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+            <option value="-1">JNONE</option>
         </field>
     </fields>
 	<fields name="list">
@@ -57,21 +53,16 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+            <option value="-1">JNONE</option>
         </field>
         <field
             name="poolID"
-            type="localizedlist"
-            valueColumn="name"
-            textColumn="name"
-            table="thm_organizer_pools AS p,thm_organizer_mappings AS m"
+            type="poolID"
             label="COM_THM_ORGANIZER_POOL"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_RESERVES</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
+            <option value="-1">JNONE</option>
         </field>
 		<field
 			name="limit"

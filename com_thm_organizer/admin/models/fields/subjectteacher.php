@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/subjectteachers.php';
 
 /**
  * Class loads a list of teachers for selection
@@ -21,11 +20,6 @@ include_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/subjectteachers.ph
  */
 class JFormFieldSubjectTeacher extends JFormField
 {
-    /**
-     * Type
-     *
-     * @var    String
-     */
     protected $type = 'subjectTeacher';
 
     /**
@@ -35,8 +29,64 @@ class JFormFieldSubjectTeacher extends JFormField
      */
     public function getInput()
     {
+        $fieldName = $this->getAttribute('name');
         $subjectID = JFactory::getApplication()->input->getInt('id', 0);
-        $input = THM_OrganizerHelperSubjectTeachers::getInput($subjectID, 'teacherID', '2');
-        return $input;
+        $responsibility = $this->getAttribute('responsibility');
+
+        $dbo = JFactory::getDBO();
+        $selectedQuery = $dbo->getQuery(true);
+        $selectedQuery->select('teacherID');
+        $selectedQuery->from('#__thm_organizer_subject_teachers');
+        $selectedQuery->where("subjectID = '$subjectID' AND teacherResp = '$responsibility'");
+        $dbo->setQuery((string) $selectedQuery);
+
+        try
+        {
+            $selected = $dbo->loadColumn();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return $this->getDefault();
+        }
+
+        $teachersQuery = $dbo->getQuery(true);
+        $teachersQuery->select("id AS value, surname, forename");
+        $teachersQuery->from('#__thm_organizer_teachers');
+        $teachersQuery->order('surname, forename');
+        $dbo->setQuery((string) $teachersQuery);
+
+        try
+        {
+            $teachers = $dbo->loadAssocList();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return $this->getDefault();
+        }
+
+        foreach ($teachers as $key => $teacher)
+        {
+            $teachers[$key]['text'] = empty($teacher['forename'])? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
+        }
+
+        $attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10');
+        $selectedTeachers = empty($selected)? array() : $selected;
+        return JHTML::_("select.genericlist", $teachers, "jform[$fieldName][]", $attributes, "value", "text", $selectedTeachers);
+    }
+
+    /**
+     * Creates a default input in the event of an exception
+     *
+     * @return  string  a default teacher selection field without any teachers
+     */
+    private function getDefault()
+    {
+        $teachers = array();
+        $teachers[] = array('value' => '-1', 'name' => JText::_('JNONE'));
+        $fieldName = $this->getAttribute('name');
+        $attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
+        return JHTML::_("select.genericlist", $teachers, "jform[$fieldName][]", $attributes, "value", "text");
     }
 }

@@ -44,8 +44,6 @@ class THM_OrganizerModelUser_Manager extends THM_CoreModelList
      * Method to get an array of data items.
      *
      * @return  mixed  An array of data items on success, false on failure.
-     *
-     * @since   11.1
      */
     public function getItems()
     {

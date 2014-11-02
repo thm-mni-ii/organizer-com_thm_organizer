@@ -6,7 +6,7 @@
  * @name        Download
  * @description Download file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -28,7 +28,6 @@ class THMDownload
      * Config
      *
      * @var    MySchedConfig
-     * @since  1.0
      */
     private $_cfg = null;
 
@@ -36,7 +35,6 @@ class THMDownload
      * Username
      *
      * @var    String
-     * @since  1.0
      */
     private $_username = null;
 
@@ -44,7 +42,6 @@ class THMDownload
      * Title
      *
      * @var    String
-     * @since  1.0
      */
     private $_title = null;
 
@@ -52,7 +49,6 @@ class THMDownload
      * Type
      *
      * @var    String
-     * @since  1.0
      */
     private $_what = null;
 
@@ -60,7 +56,6 @@ class THMDownload
      * Save to joomla folder
      *
      * @var    String
-     * @since  1.0
      */
     private $_save = null;
 
@@ -68,7 +63,6 @@ class THMDownload
      * Document object
      *
      * @var    Object
-     * @since  1.0
      */
     private $_doc = null;
 
@@ -77,8 +71,6 @@ class THMDownload
      *
      * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
      * @param   MySchedConfig    $CFG  A object which has configurations including
-     *
-     * @since  1.5
      *
      */
     public function __construct($JDA, $CFG)

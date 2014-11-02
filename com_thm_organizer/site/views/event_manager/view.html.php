@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewEvent_manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2013 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

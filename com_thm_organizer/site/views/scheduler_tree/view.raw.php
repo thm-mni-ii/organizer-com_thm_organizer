@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        thm_organizerViewScheduler_Tree
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2013 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * @package   thm_organizer
  */
 
-class THM_OrganizerViewScheduler_Tree extends JView
+class THM_OrganizerViewScheduler_Tree extends JViewLegacy
 {
     /**
      * Method to get extra

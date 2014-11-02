@@ -86,6 +86,10 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->_db->transactionStart();
 
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
+        if (empty($data['fieldID']))
+        {
+            unset($data['fieldID']);
+        }
         $success = $table->save($data);
  
         // New subjects have no mappings

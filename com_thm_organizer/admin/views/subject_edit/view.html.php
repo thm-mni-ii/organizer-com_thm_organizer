@@ -10,7 +10,8 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('jquery.jquery');
+jimport('thm_core.edit.view');
+
 /**
  * Class loadd persistent subject information into dispaly context
  *
@@ -18,7 +19,7 @@ jimport('jquery.jquery');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSubject_Edit extends JViewLegacy
+class THM_OrganizerViewSubject_Edit extends THM_CoreViewEdit
 {
     /**
      * Method to get display
@@ -29,19 +30,6 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
-
-        // Assign the Data
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
-
-        // Set the toolbar
-        $this->addToolBar();
-
-        // Display the template
         parent::display($tpl);
     }
 
@@ -52,11 +40,23 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
      */
     protected function addToolBar()
     {
-        $isNew = $this->item->id == 0;
-        JToolbarHelper::title($isNew? JText::_('COM_THM_ORGANIZER_SUM_NEW') : JText::_('COM_THM_ORGANIZER_SUM_EDIT'), 'organizer_subjects');
-        JToolbarHelper::apply('subject.apply', $isNew? JText::_('COM_THM_ORGANIZER_APPLY_NEW') : JText::_('COM_THM_ORGANIZER_APPLY_EDIT'));
+        if (empty($this->item->id))
+        {
+            $titleText = JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_NEW_VIEW_TITLE');
+            $applyText = JText::_('COM_THM_ORGANIZER_ACTION_APPLY_NEW');
+            $cancelText = JText::_('JTOOLBAR_CANCEL');
+        }
+        else
+        {
+            $titleText = JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_EDIT_VIEW_TITLE');
+            $applyText = JText::_('COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
+            $cancelText = JText::_('JTOOLBAR_CLOSE');
+        }
+
+        JToolbarHelper::title($titleText, 'organizer_subjects');
+        JToolbarHelper::apply('subject.apply', $applyText);
         JToolbarHelper::save('subject.save');
         JToolbarHelper::save2new('subject.save2new');
-        JToolbarHelper::cancel('subject.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::cancel('subject.cancel', $cancelText);
     }
 }

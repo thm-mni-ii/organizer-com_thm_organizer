@@ -57,7 +57,7 @@
             >
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="-1">COM_THM_ORGANIZER_NONE</option>
+            <option value="-1">JNONE</option>
 		</field>
     </fields>
 	<fields name="list">
