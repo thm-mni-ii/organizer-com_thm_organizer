@@ -58,7 +58,7 @@ class JFormFieldColors extends JFormField
         }
 
         $html = "<select id = 'colorID' name='jform[colorID]'>";
-        $html .= '<option selected="selected" value="">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
+        $html .= '<option selected="selected" value="">' . JText::_('JNONE') . '</option>';
 
         foreach ($colors as $color)
         {

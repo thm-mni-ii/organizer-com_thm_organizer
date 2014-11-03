@@ -25,7 +25,7 @@
                label="COM_THM_ORGANIZER_USERNAME"
                description="COM_THM_ORGANIZER_USERNAME_DESC" >
             <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
-            <option value="">COM_THM_ORGANIZER_NONE</option>
+            <option value="">JNONE</option>
         </field>
         <field name="gpuntisID"
                type="text"
@@ -42,7 +42,7 @@
                label="COM_THM_ORGANIZER_FIELD"
                description="COM_THM_ORGANIZER_FIELD_DESC" >
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
-            <option value="">COM_THM_ORGANIZER_NONE</option>
+            <option value="">JNONE</option>
         </field>
     </fieldset>
 </form>

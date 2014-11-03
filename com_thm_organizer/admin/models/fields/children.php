@@ -42,7 +42,7 @@ class JFormFieldChildren extends JFormField
 
         if (empty($children))
         {
-            return '<span class="mock-input">' . JText::_('COM_THM_ORGANIZER_NONE') . '</span>';
+            return '<span class="mock-input">' . JText::_('JNONE') . '</span>';
         }
 
         $document = JFactory::getDocument();

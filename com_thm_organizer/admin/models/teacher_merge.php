@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.edit.model');
 
 /**
  * Loads teacher entry information to be merged
@@ -18,44 +19,39 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelTeacher_Merge extends JModelLegacy
+class THM_OrganizerModelTeacher_Merge extends THM_CoreModelEdit
 {
     /**
-     * Array holding teacher entry information
+     * Constructor.
      *
-     * @var array
-     */
-    public $dteacherInformation = null;
-
-    /**
-     * Pulls a list of teacher data from the database
-     *
-     * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   array  $config  An optional associative array of configuration settings.
      */
     public function __construct($config = array())
     {
         parent::__construct($config);
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('t.id, t.gpuntisID, surname, forename, username, fieldID, field, title');
-        $query->from('#__thm_organizer_teachers AS t');
-        $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
+    }
 
-        $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
-        $selected= "'" . implode("', '", $cids) . "'";
-        $query->where("t.id IN ( $selected )");
+    /**
+     * Method to get the form
+     *
+     * @param   Array    $data      Data         (default: Array)
+     * @param   Boolean  $loadData  Load data
+     *
+     * @return  mixed  JForm object on success, False on error.
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $option = $this->get('option');
+        $name = $this->get('name');
+        $form = $this->loadForm("$option.$name", $name, array('control' => 'jform', 'load_data' => false));
 
-        $query->order('t.id ASC');
-
-        $dbo->setQuery((string) $query);
-
-        try
+        if (empty($form))
         {
-            $this->teacherInformation = $dbo->loadAssocList();
+            return false;
         }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
+
+        return $form;
     }
 }

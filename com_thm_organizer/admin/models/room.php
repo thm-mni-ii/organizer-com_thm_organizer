@@ -203,14 +203,12 @@ class THM_OrganizerModelRoom extends JModelLegacy
         // Clean POST variables
         if (empty($data))
         {
-            $input = JFactory::getApplication()->input;
-            $data['id'] = $input->getInt('id', 0);
-            $data['name'] = $input->getString('name', '');
-            $data['longname'] = $input->getString('longname', '');
-            $data['gpuntisID'] = $input->getString('gpuntisID', '');
-            $typeID = $input->getInt('typeID', 0);
-            $data['typeID'] = $typeID? $typeID : null;
-            $data['otherIDs'] = "'" . implode("', '", explode(',', $input->getString('otherIDs', ''))) . "'";
+            $data = JFactory::getApplication()->input->get('jform', array(), 'array');
+            if (empty($data['typeID']))
+            {
+                unset($data['typeID']);
+            }
+            $data['otherIDs'] = "'" . implode("', '", explode(',', $data['otherIDs'])) . "'";
         }
 
         $this->_db->transactionStart();

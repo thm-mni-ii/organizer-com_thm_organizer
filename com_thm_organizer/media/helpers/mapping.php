@@ -35,12 +35,12 @@ class THM_OrganizerHelperMapping
         $resourceRanges = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
         if (empty($resourceRanges))
         {
-            return JText::_('COM_THM_ORGANIZER_NONE');
+            return JText::_('JNONE');
         }
         $programs = THM_OrganizerHelperMapping::getResourcePrograms($resourceRanges);
         if (empty($programs))
         {
-            return JText::_('COM_THM_ORGANIZER_NONE');
+            return JText::_('JNONE');
         }
         if (count($programs) === 1)
         {
@@ -65,12 +65,12 @@ class THM_OrganizerHelperMapping
         $resourceRanges = THM_OrganizerHelperMapping::getResourceRanges('subject', $resourceID);
         if (empty($resourceRanges))
         {
-            return JText::_('COM_THM_ORGANIZER_NONE');
+            return JText::_('JNONE');
         }
         $pools = THM_OrganizerHelperMapping::getSubjectPools($resourceRanges);
         if (empty($pools))
         {
-            return JText::_('COM_THM_ORGANIZER_NONE');
+            return JText::_('JNONE');
         }
         if (count($pools) === 1)
         {
@@ -305,7 +305,7 @@ class THM_OrganizerHelperMapping
      *
      * @throws  exception
      */
-    public static function setMappingData($resourceID, $resourceType, &$mappings, &$parentIDs, &$mappingIDs)
+    public static function setMappingData($resourceID, $resourceType, &$mappings, &$mappingIDs, &$parentIDs)
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -474,7 +474,7 @@ class THM_OrganizerHelperMapping
      *
      * @throws  exception
      */
-    public static function getPoolOption(&$mapping,&$selectedParents)
+    public static function getPoolOption(&$mapping, &$selectedParents)
     {
         $shortTag = THM_CoreHelper::getLanguageShortTag();
         $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
@@ -627,5 +627,52 @@ class THM_OrganizerHelperMapping
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return array();
         }
+    }
+
+    /**
+     * Sets the program id filter for a query. Used in pool manager and subject manager.
+     *
+     * @param   object  &$query            the query object
+     * @param   int     $resourceID        the id of the resource from the filter
+     * @param   string  $resourceType      the type of the resource from the filter
+     * @param   string  $formResourceType  the type of the resource from the form
+     *
+     * @return  void  sets query object variables
+     */
+    public static function setResourceIDFilter(&$query, $resourceID, $resourceType, $formResourceType)
+    {
+        $invalid = (empty($resourceID) OR empty($resourceType) OR empty($formResourceType));
+        if ($invalid)
+        {
+            return;
+        }
+
+        $ranges = self::getResourceRanges($resourceType, $resourceID);
+        if (empty($ranges))
+        {
+            return;
+        }
+
+        $alias = $resourceType == 'pool'? 'm1' : 'm2';
+        $query->innerJoin("#__thm_organizer_mappings AS $alias ON $alias.{$formResourceType}ID = {$formResourceType[0]}.id");
+
+        // No associations
+        if ($resourceID == '-1')
+        {
+
+            $conditions = array();
+            foreach ($ranges as $range)
+            {
+                $conditions[] = "( $alias.lft NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
+                $conditions[] = "( $alias.rgt NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
+            }
+            $where = implode(' AND ', $conditions);
+            $query->where("( $where )");
+            return;
+        }
+
+        // Specific association
+        $query->where("$alias.lft > '{$ranges[0]['lft']}'");
+        $query->where("$alias.rgt < '{$ranges[0]['rgt']}'");
     }
 }

@@ -67,48 +67,13 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
         $this->setSearchFilter($query, $searchColumns);
         $this->setLocalizedFilters($query, array('name'));
         $this->setValueFilters($query, array('fieldID'));
-        $this->setProgramIDFilter($query);
+
+        $programID = $this->state->get('filter.programID', '');
+        THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'pool');
 
         $this->setOrdering($query);
 
         return $query;
-    }
-
-    private function setProgramIDFilter(&$query)
-    {
-        $programID = $this->state->get('filter.programID', '');
-
-        if (empty($programID))
-        {
-            return;
-        }
-
-        $ranges = THM_OrganizerHelperMapping::getRanges('program', $programID);
-        if (empty($ranges))
-        {
-            return;
-        }
-
-        // No program associations
-        if ($programID == '-1')
-        {
-            $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-
-            $conditions = array();
-            foreach ($ranges as $range)
-            {
-                $conditions[] = "( lft NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
-                $conditions[] = "( rgt NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
-            }
-            $where = implode(' AND ', $conditions);
-            $query->where("( $where )");
-            return;
-        }
-
-        // Specific program association
-        $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-        $query->where("lft > '{$ranges[0]['lft']}'");
-        $query->where("rgt < '{$ranges[0]['rgt']}'");
     }
 
     /**

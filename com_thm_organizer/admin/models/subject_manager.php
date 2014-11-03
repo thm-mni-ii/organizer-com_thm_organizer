@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
 jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -70,6 +71,13 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
                               'description_en', 'objective_en', 'content_en'
                              );
         $this->setSearchFilter($query, $searchFields);
+        $this->setValueFilters($query, array('externalID', 'fieldID'));
+        $this->setLocalizedFilters($query, array('name'));
+
+        $programID = $this->state->get('list.programID', '');
+        THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'subject');
+        $poolID = $this->state->get('list.poolID', '');
+        THM_OrganizerHelperMapping::setResourceIDFilter($query, $poolID, 'pool', 'subject');
 
         $this->setOrdering($query);
 
@@ -134,5 +142,24 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
         $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
 
         return $headers;
+    }
+
+    /**
+     * Overwrites the JModelList populateState function
+     *
+     * @param   string  $ordering   the column by which the table is should be ordered
+     * @param   string  $direction  the direction in which this column should be ordered
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        parent::populateState($ordering, $direction);
+
+        $session = JFactory::getSession();
+        $session->clear('programID');
+        $formProgramID = $this->state->get('list.programID', '');
+        if (!empty($formProgramID))
+        {
+            $session->set('programID', $formProgramID);
+        }
     }
 }

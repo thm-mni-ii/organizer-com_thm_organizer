@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.edit.viewitemless');
 
 /**
  * Class provides functions for the merging of schedules
@@ -18,7 +19,7 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSchedule_Merge extends JViewLegacy
+class THM_OrganizerViewSchedule_Merge extends THM_CoreViewEditItemless
 {
     /**
      * Method to get display
@@ -29,19 +30,6 @@ class THM_OrganizerViewSchedule_Merge extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
-
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
-
-        $model = $this->getModel();
-
-        $this->schedules = $model->schedules;
-
-        // Set the toolbar
-        $this->addToolBar();
-
-        // Display the template
         parent::display($tpl);
     }
 
@@ -52,8 +40,8 @@ class THM_OrganizerViewSchedule_Merge extends JViewLegacy
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCH_MERGE_TITLE'));
-        JToolbarHelper::custom('schedule.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_MERGE', false);
-        JToolbarHelper::cancel('schedule.cancel', 'JTOOLBAR_CANCEL');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_MERGE_VIEW_TITLE'));
+        JToolbarHelper::custom('schedule.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', false);
+        JToolbarHelper::cancel('schedule.cancel');
     }
 }

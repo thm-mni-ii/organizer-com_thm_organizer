@@ -239,15 +239,14 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         if (empty($data))
         {
             $input = JFactory::getApplication()->input;
-            $data['id'] = $input->getInt('id', 0);
-            $data['surname'] = $input->getString('surname', '');
-            $data['forename'] = $input->getString('forename', '');
-            $data['title'] = $input->getString('title', '');
-            $data['username'] = $input->getString('username', '');
-            $data['gpuntisID'] = $input->getString('gpuntisID', '');
-            $fieldID = $input->getInt('fieldID', 0);
-            $data['fieldID'] = $fieldID? $fieldID :  null;
-            $data['otherIDs'] = "'" . implode("', '", explode(',', $input->getString('otherIDs', ''))) . "'";
+            $data = $input->get('jform', array(), 'array');
+            if (empty($data['fieldID']))
+            {
+                unset($data['fieldID']);
+            }
+
+            // Reformat the 'other' ids for use in queries
+            $data['otherIDs'] = "'" . implode("', '", explode(',', $data['otherIDs'])) . "'";
         }
         if (!empty($data['fieldID']) AND empty($data['description']))
         {

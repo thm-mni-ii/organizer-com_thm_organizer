@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerModelPool_Ajax
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -35,7 +35,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $programEntries = $this->getProgramEntries($programIDs);
 
         $options = array();
-        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
+        $options[] = '<option value="-1">' . JText::_('JNONE') . '</option>';
 
         $invalidRequest = (empty($resourceID) OR empty($resourceType));
         $none = ($invalidRequest OR empty($programEntries));

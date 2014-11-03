@@ -63,7 +63,7 @@ class JFormFieldParentPool extends JFormField
         THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 
         $options = array();
-        $options[] = '<option value="-1">' . JText::_('COM_THM_ORGANIZER_NONE') . '</option>';
+        $options[] = '<option value="-1">' . JText::_('JNONE') . '</option>';
 
         if (!empty($mappings))
         {

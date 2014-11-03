@@ -44,7 +44,7 @@ class JFormFieldPrograms extends JFormField
             THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : array();
         $allPrograms = THM_OrganizerHelperMapping::getAllPrograms();
 
-        $defaultOptions = array(array('value' => '-1', 'text' => JText::_('COM_THM_ORGANIZER_NONE')));
+        $defaultOptions = array(array('value' => '-1', 'text' => JText::_('JNONE')));
         $programs = array_merge($defaultOptions, $allPrograms);
 
         $attributes = array('multiple' => 'multiple', 'size' => '10');

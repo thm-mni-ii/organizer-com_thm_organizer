@@ -26,9 +26,6 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelList
 
     /**
      * Constructor that calls the parent constructor and intialise variables
-     *
-     * @since   v0.0.1
-     *
      */
     public function __construct()
     {
