@@ -66,14 +66,15 @@ thead tr:nth-last-child(1) th {
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */
-  white-space: nowrap;
+  white-space: pre-wrap;
   padding-top: 0px;
+  padding-left: 0px;
   border: none;
   border-bottom: 1px solid #bbb; }
   thead tr:nth-last-child(1) th:first-child {
-    border-bottom-left-radius: 3px; }
+    border-bottom-left-radius: 3px;
+    padding-left: 8px; }
   thead tr:nth-last-child(1) th:last-child {
-    white-space: pre-wrap;
     border-bottom-right-radius: 3px; }
 
 tbody tr:first-child td {
@@ -91,12 +92,8 @@ tbody tr:first-child td {
     line-height: 0px;
     padding-top: 3px; } }
 /*icons anpassen*/
-.icon-diff {
+.icon-diff, .icon-import {
   font-weight: bold; }
-
-.icon-export {
-  font-family: icomoon;
-  content: "\e604"; }
 
 /*icons zu sidebar hinzufuegen*/
 li a[href*="view=thm_organizer"]::before {
@@ -171,4 +168,21 @@ li a[href*="view=virtual_schedule_manager"]::before {
   padding-right: 8px; }
 
 .nav-list li.active a {
-  background-color: #51a351; }
+  background: #62c462;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #51a351));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
+  /* IE6-9 */ }
+
+/*test*/
