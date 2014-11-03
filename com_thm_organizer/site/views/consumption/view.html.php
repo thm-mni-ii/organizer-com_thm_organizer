@@ -3,15 +3,14 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        consumption view
+ * @name        THM_OrganizerViewConsumption
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-
-jimport('jquery.jquery');
+defined('_JEXEC') or die;
 
 /**
  * Class loads consumption information into the view context
@@ -47,6 +46,8 @@ class THM_OrganizerViewConsumption extends JViewLegacy
      */
     public function display($tpl = null)
     {
+        JHtml::_('jquery.ui');
+
         $this->model = $this->getModel();
         $this->modifyDocument();
         $scheduleID = JFactory::getApplication()->input->getInt('activated', 0);
@@ -97,13 +98,13 @@ class THM_OrganizerViewConsumption extends JViewLegacy
         $schedules = $this->getModel()->getActiveSchedules();
 
         $options = array();
-        $options[] = JHtml::_('select.option', 0, JText::_("COM_THM_ORGANIZER_CONSUMPTION_SELECT_SCHEDULE"));
+        $options[] = JHtml::_('select.option', 0, JText::_("COM_THM_ORGANIZER_FILTER_SCHEDULE"));
         foreach ($schedules as $schedule)
         {
             $options[] = JHtml::_('select.option', $schedule['id'], $schedule['name']);
         }
 
-        $attribs = array('onChange' => "$('#reset').val('1');this.form.submit();");
+        $attribs = array('onChange' => "jQuery('#reset').val('1');this.form.submit();");
 
         $this->scheduleSelectBox = JHtml::_('select.genericlist', $options, 'activated', $attribs, 'value', 'text', $scheduleID);
     }
@@ -131,7 +132,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
         $options[] = JHtml::_('select.option', ROOM, JText::_("COM_THM_ORGANIZER_ROOMS"));
         $options[] = JHtml::_('select.option', TEACHER, JText::_("COM_THM_ORGANIZER_TEACHERS"));
 
-        $attribs = array('onChange' => "$('#reset').val('1');this.form.submit();");
+        $attribs = array('onChange' => "jQuery('#reset').val('1');this.form.submit();");
         $selectedType = $this->model->type;
 
         $this->typeSelectBox = JHtml::_('select.genericlist', $options, 'type', $attribs, 'value', 'text', $selectedType);
@@ -176,6 +177,6 @@ class THM_OrganizerViewConsumption extends JViewLegacy
     {
         $tableName = $type . 'Table';
         $this->$tableName = $this->getModel()->getConsumptionTable($type);
-        $this->exportButton = '<button id="' . $type . 'Export">' . JText::_("COM_THM_ORGANIZER_EXPORT_TABLE_EXCEL") . '</button>';
+        $this->exportButton = '<button id="' . $type . 'Export">' . JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL") . '</button>';
     }
 }

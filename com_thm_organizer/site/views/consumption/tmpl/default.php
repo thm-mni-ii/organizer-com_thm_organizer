@@ -25,8 +25,8 @@ if (!empty($this->model->schedule))
 {
 ?>
     <div class="button-panel">
-        <button type="submit" value="submit"><?php echo JText::_('COM_THM_ORGANIZER_CONSUMPTION_SUBMIT'); ?></button>
-        <button onclick="$('#reset').val('1')"><?php echo JText::_('COM_THM_ORGANIZER_RESET'); ?></button>
+        <button type="submit" value="submit"><?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
+        <button onclick="jQuery('#reset').val('1')"><?php echo JText::_('JTOOLBAR_RESET'); ?></button>
         <?php echo $this->exportButton; ?>
     </div>
 <?php
@@ -47,11 +47,11 @@ if (!empty($this->model->schedule))
                     <?php echo $this->typeSelectBox; ?>
                 </div>
                 <div class="filter-item">
-                    <label for="startDate"><?php echo JText::_('COM_THM_ORGANIZER_STARTDATE')?>:</label>
+                    <label for="startDate"><?php echo JText::_('COM_THM_ORGANIZER_START_DATE')?>:</label>
                     <?php echo $this->startCalendar ?>
                 </div>
                 <div class="filter-item">
-                    <label for="endDate"><?php echo JText::_('COM_THM_ORGANIZER_ENDDATE')?>:</label>
+                    <label for="endDate"><?php echo JText::_('COM_THM_ORGANIZER_END_DATE')?>:</label>
                     <?php echo $this->endCalendar ?>
                 </div>
 <?php
@@ -72,11 +72,11 @@ if (!empty($this->model->schedule))
             </div>
             <div id="filter-room" class="filter-resource" style="display: none">
                 <div class="filter-resource-item">
-                    <label for="roomtypes"><?php echo JText::_('COM_THM_ORGANIZER_ROOMTYPES')?>:</label>
+                    <label for="roomtypes"><?php echo JText::_('COM_THM_ORGANIZER_TYPE')?></label>
                     <?php echo $this->roomtypesSelectBox; ?>
                 </div>
                 <div class="filter-resource-item">
-                    <label for="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOMS')?>:</label>
+                    <label for="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOM')?></label>
                     <?php echo $this->roomsSelectBox; ?>
                 </div>
             </div>
@@ -93,11 +93,11 @@ if (!empty($this->model->schedule))
             </div>
             <div id="filter-teacher" class="filter-resource" style="display: none">
                 <div class="filter-resource-item">
-                    <label for="fields"><?php echo JText::_('COM_THM_ORGANIZER_FIELDS')?>:</label>
+                    <label for="fields"><?php echo JText::_('COM_THM_ORGANIZER_FIELDS')?></label>
                     <?php echo $this->fieldsSelectBox; ?>
                 </div>
                 <div class="filter-resource-item">
-                    <label for="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERS')?>:</label>
+                    <label for="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHER')?></label>
                     <?php echo $this->teachersSelectBox; ?>
                 </div>
             </div>

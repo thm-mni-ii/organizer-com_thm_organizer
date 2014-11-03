@@ -6,17 +6,17 @@
  *
  **/
 
-$(document).ready(function ()
+jQuery(document).ready(function ()
 {
     "use strict";
-    $("#roomsExport").click(function(e)
+    jQuery("#roomsExport").click(function(e)
     {
         downloadTable('rooms');
         //just in case, prevent default behaviour
         e.preventDefault();
     });
 
-    $("#teachersExport").click(function(e)
+    jQuery("#teachersExport").click(function(e)
     {
         downloadTable('teachers');
         //just in case, prevent default behaviour
@@ -54,7 +54,7 @@ $(document).ready(function ()
                 }
                 var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML };
 
-                if ($.isFunction(window.navigator.msSaveOrOpenBlob)) {
+                if (jQuery.isFunction(window.navigator.msSaveOrOpenBlob)) {
                     // IE
                     var fileData = [format(template, ctx)];
                     var blobObject = new Blob(fileData);
@@ -78,9 +78,9 @@ $(document).ready(function ()
         tableToExcel(divID, type, sheetName + '.xls');
     }
 
-    $('#consumption').keypress(function(e)
+    jQuery('#consumption').keypress(function(e)
     {
-        var form = $('#statistic-form');
+        var form = jQuery('#statistic-form');
         if (e.keyCode === 13)
         {
             form.submit();
@@ -91,29 +91,33 @@ $(document).ready(function ()
 function toggleRooms()
 {
     "use strict";
-    var toggleSpan = $("#filter-room-toggle-image");
+    var toggleSpan = jQuery("#filter-room-toggle-image");
     if (toggleSpan.hasClass('toggle-closed'))
     {
-        toggleSpan.switchClass('toggle-closed', 'toggle-open');
+        toggleSpan.removeClass('toggle-closed');
+        toggleSpan.addClass('toggle-open');
     }
     else
     {
-        toggleSpan.switchClass('toggle-open', 'toggle-closed');
+        toggleSpan.removeClass('toggle-open');
+        toggleSpan.addClass('toggle-closed');
     }
-    $("#filter-room").toggle();
+    jQuery("#filter-room").toggle();
 }
 
 function toggleTeachers()
 {
     "use strict";
-    var toggleSpan = $("#filter-teacher-toggle-image");
+    var toggleSpan =jQuery("#filter-teacher-toggle-image");
     if (toggleSpan.hasClass('toggle-closed'))
     {
-        toggleSpan.switchClass('toggle-closed', 'toggle-open');
+        toggleSpan.removeClass('toggle-closed');
+        toggleSpan.addClass('toggle-open');
     }
     else
     {
-        toggleSpan.switchClass('toggle-open', 'toggle-closed');
+        toggleSpan.removeClass('toggle-open');
+        toggleSpan.addClass('toggle-closed');
     }
-    $("#filter-teacher").toggle();
+    jQuery("#filter-teacher").toggle();
 }

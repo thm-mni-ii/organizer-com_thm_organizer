@@ -23,26 +23,18 @@ define('TEACHER', 2);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelConsumption extends JModelLegacy
+class THM_OrganizerModelConsumption extends JModelForm
 {
-    public $schedule = null;
-
     public $reset = false;
 
-    public $type = ROOM;
+    public $schedule = null;
+
+
+    public $resourceType = ROOM;
 
     public $consumption = null;
 
-    public $process = array();
-
-    public $selected = array();
-
     public $names = array();
-
-    public $startDate = '';
-
-    public $endDate = '';
-
 
     /**
      * Sets construction model properties
@@ -51,17 +43,23 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      */
     public function __construct($config = array())
     {
-        parent::__construct($config);
-        $this->setObjectProperties();
+        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+        $this->reset = $formData['reset'];
+        $this->resourceType = $formData['resourceType'];
+        $selectableResources = $this->resourceType == ROOM? array('rooms', 'roomtypes') : array('teachers', 'fields');
+        foreach ($selectableResources as $resourceName)
+        {
+            $this->selected[$resourceName] = array();
+            $this->names[$resourceName] = array();
+        }
+
+        $this->setSchedule();
+        $this->setDates();
 
         if (!empty($this->schedule))
         {
-            // Behaviour has to be set before consumption is calculated
-            $this->process['rooms'] = ($this->type === ROOM);
-            $this->process['teachers'] = ($this->type === TEACHER);
-
             $this->setConsumption();
-            if ($this->process['rooms'])
+            if ($this->resourceType = ROOM)
             {
                 $rooms = $this->getItems('rooms');
                 $this->names['rooms'] = $this->getNameArray('rooms', $rooms, array('longname'));
@@ -72,7 +70,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 $this->filterResource('rooms');
             }
 
-            if ($this->process['teachers'])
+            if ($this->resourceType = TEACHER)
             {
                 $teachers = $this->getItems('teachers');
                 $properties = array('surname', 'forename');
@@ -84,28 +82,56 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 $this->filterResource('teachers');
             }
         }
+
+        parent::__construct($config);
     }
 
     /**
-     * Sets object properties
+     * Method to set a schedule by its id from the database
      *
-     * @return  void
+     * @return  object  an schedule object on success, otherwise an empty object
      */
-    private function setObjectProperties()
+    public function setSchedule()
     {
-        $input = JFactory::getApplication()->input;
-        $this->reset = $input->getBool('reset', false);
-        $this->type = $input->getInt('type', ROOM);
-        $this->process['rooms'] = false;
-        $this->process['teachers'] = false;
-        $resources = array('rooms', 'teachers', 'roomtypes', 'fields');
-        foreach ($resources as $resource)
+        $scheduleID = JFactory::getApplication()->input->getInt('activated', 0);
+        $query = $this->_db->getQuery(true);
+        $query->select('schedule');
+        $query->from("#__thm_organizer_schedules");
+        $query->where("id = '$scheduleID'");
+        $this->_db->setQuery((string) $query);
+        try
         {
-            $this->selected[$resource] = array();
-            $this->names[$resource] = array();
+            $result = $this->_db->loadResult();
+            $this->schedule = json_decode($result);
         }
-        $this->setSchedule();
-        $this->setDates();
+        catch (Exception $exception)
+        {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            $this->schedule = null;
+        }
+    }
+
+    /**
+     * Method to get the record form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  mixed               A JForm object on success, false on failure
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $form = $this->loadForm('com_thm_organizer.consumption',
+            'consumption',
+            array('control' => 'jform', 'load_data' => false)
+        );
+        if (empty($form))
+        {
+            return false;
+        }
+        return $form;
     }
 
     /**
@@ -126,59 +152,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         return array_unique($rowKeys);
     }
 
-    /**
-     * Gets all schedules in the database
-     *
-     * @return array An array with the schedules
-     */
-    public function getActiveSchedules()
-    {
-        $query = $this->_db->getQuery(true);
-        $columns = array('departmentname', 'semestername');
-        $select = 'id, ' . $query->concatenate($columns, ' - ') . ' AS name';
-        $query->select($select);
-        $query->from("#__thm_organizer_schedules");
-        $query->where("active = '1'");
-        $query->order('name');
-
-        $this->_db->setQuery((string) $query);
-        try 
-        {
-            $result = $this->_db->loadAssocList();
-            return $result;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return array();
-        }
-    }
-    
-    /**
-     * Method to set a schedule by its id from the database
-     *
-     * @return  object  an schedule object on success, otherwise an empty object
-     */
-    public function setSchedule()
-    {        
-        $scheduleID = JFactory::getApplication()->input->getInt('activated', 0);
-        $query = $this->_db->getQuery(true);
-        $query->select('schedule');
-        $query->from("#__thm_organizer_schedules");
-        $query->where("id = '$scheduleID'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $result = $this->_db->loadResult();
-            $this->schedule = json_decode($result);
-        }
-        catch (Exception $exception)
-        {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-            $this->schedule = null;
-        }
-    }
-    
     /**
      * Calculates resource consumption from a schedule
      *
@@ -235,16 +208,16 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 {
                     continue;
                 }
-                if ($this->process['teachers'])
-                {
-                    $this->setTeachersByInstance($lessonID, $hours);
-                }
-                if ($this->process['rooms'])
+                if ($this->resourceType == ROOM)
                 {
                     foreach ($lessonValues as $roomID => $roomDelta)
                     {
                         $this->setRoomsByInstance($lessonID, $roomID, $roomDelta, $hours);
                     }
+                }
+                if ($this->resourceType == TEACHER)
+                {
+                    $this->setTeachersByInstance($lessonID, $hours);
                 }
             }
         }
@@ -511,7 +484,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 
             $tableBody .= '<th class="resource-use-total" style="vnd.ms-excel.numberformat:@;">';
             $tableBody .= $this->consumption[$type]['raw'][$row]['hours'] . '</th>';
-            $columnKeys = array_keys($columns);
             foreach ($columns as $column)
             {
                 if ($column == 'raw')
@@ -585,7 +557,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     private function setSelected($type)
     {
         $default = array();
-        $default[] = '*';
+        $default[] = '';
         $selected = JFactory::getApplication()->input->get($type, $default, 'array');
         $useDefault = ($this->reset OR (count($selected) > 1 AND in_array('*', $selected)));
         if ($useDefault)

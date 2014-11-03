@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>01.12.2014</creationDate>
+    <copyright>TH Mittelhessen 2014</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>james.antrim@mni.thm.de</authorEMail>
+    <authorUrl>www.mni.thm.de</authorUrl>
+    <fieldset name="details" addfieldpath="/libraries/thm_core/fields">
+        <field
+            name="scheduleID"
+            type="genericlist"
+            valueColumn="id"
+            textColumn="departmentname,semestername"
+            glue=" - "
+            table="thm_organizer_schedules"
+            where="active = '1'"
+            class="inputbox" >
+            <option value="">COM_THM_ORGANIZER_FILTER_SCHEDULE</option>
+        </field>
+        <field
+            name="resourceType"
+            type="list"
+            class="inputbox" >
+            <option value="1">COM_THM_ORGANIZER_FILTER_ROOMS</option>
+            <option value="2">COM_THM_ORGANIZER_FILTER_TEACHERS</option>
+        </field>
+        <field
+            name="reset"
+            type="hidden"
+            value="0" />
+    </fieldset>
+    <fieldset name="rooms" addfieldpath="/libraries/thm_core/fields">
+    </fieldset>
+    <fieldset name="teachers" addfieldpath="/libraries/thm_core/fields">
+    </fieldset>
+</form>
