@@ -52,7 +52,7 @@ class THM_OrganizerViewProgram_Manager extends THM_CoreViewList
         JToolbarHelper::editList('program.edit');
         JToolbarHelper::custom(
                                'program.importLSFData',
-                               'export',
+                               'import',
                                '',
                                'COM_THM_ORGANIZER_ACTION_IMPORT',
                                true
