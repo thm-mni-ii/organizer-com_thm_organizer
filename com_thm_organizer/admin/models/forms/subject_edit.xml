@@ -241,8 +241,9 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_EXPERTISE"
                description="COM_THM_ORGANIZER_EXPERTISE_DESC"
-               default="0" >
-            <option value='0'>JNONE</option>
+               default="" >
+            <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
+            <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
             <option value='2'>COM_THM_ORGANIZER_TWO_STARS</option>
             <option value='3'>COM_THM_ORGANIZER_THREE_STARS</option>
@@ -252,8 +253,9 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_METHOD_COMPETENCE"
                description="COM_THM_ORGANIZER_METHOD_COMPETENCE_DESC"
-               default="0" >
-            <option value='0'>JNONE</option>
+               default="" >
+            <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
+            <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
             <option value='2'>COM_THM_ORGANIZER_TWO_STARS</option>
             <option value='3'>COM_THM_ORGANIZER_THREE_STARS</option>
@@ -263,8 +265,9 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_SELF_COMPETENCE"
                description="COM_THM_ORGANIZER_SELF_COMPETENCE_DESC"
-               default="0" >
-            <option value='0'>JNONE</option>
+               default="" >
+            <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
+            <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
             <option value='2'>COM_THM_ORGANIZER_TWO_STARS</option>
             <option value='3'>COM_THM_ORGANIZER_THREE_STARS</option>
@@ -274,8 +277,9 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_SOCIAL_COMPETENCE"
                description="COM_THM_ORGANIZER_SOCIAL_COMPETENCE_DESC"
-               default="0" >
-            <option value='0'>JNONE</option>
+               default="" >
+            <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
+            <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
             <option value='2'>COM_THM_ORGANIZER_TWO_STARS</option>
             <option value='3'>COM_THM_ORGANIZER_THREE_STARS</option>
