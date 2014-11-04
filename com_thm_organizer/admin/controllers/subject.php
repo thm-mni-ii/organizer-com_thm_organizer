@@ -24,11 +24,23 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
     /**
      * Performs access checks and redirects to the subject edit view
      *
+     * @return void
+     */
+    public function add()
+    {
+        JFactory::getApplication()->input->set('view', 'subject_edit');
+        parent::display();
+    }
+
+    /**
+     * Performs access checks and redirects to the subject edit view
+     *
      * @return  void
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=subject_edit");
+        JFactory::getApplication()->input->set('view', 'subject_edit');
+        parent::display();
     }
 
     /**

@@ -26,11 +26,23 @@ class THM_OrganizerControllerPool extends JControllerLegacy
     /**
      * Performs access checks and redirects to the pool edit view
      *
+     * @return void
+     */
+    public function add()
+    {
+        JFactory::getApplication()->input->set('view', 'pool_edit');
+        parent::display();
+    }
+
+    /**
+     * Performs access checks and redirects to the pool edit view
+     *
      * @return  void
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
+        JFactory::getApplication()->input->set('view', 'pool_edit');
+        parent::display();
     }
 
     /**

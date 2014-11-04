@@ -121,7 +121,7 @@ if (!empty($subject['content']))
     echo '<div class="subject-content">' . $subject['content'] . '</div>';
     echo '</div>';
 }
-if (!empty($subject['expertise']))
+if ($subject['expertise']  !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $expertise . '</div>';
@@ -138,9 +138,13 @@ if (!empty($subject['expertise']))
     {
         echo $oneStar;
     }
+    elseif ($subject['expertise'] == '0')
+    {
+        echo $noStar;
+    }
     echo '</div></div>';
 }
-if (!empty($subject['method_competence']))
+if ($subject['method_competence'] !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $methodCompetence . '</div>';
@@ -157,9 +161,13 @@ if (!empty($subject['method_competence']))
     {
         echo $oneStar;
     }
+    elseif ($subject['method_competence'] == '0')
+    {
+        echo $noStar;
+    }
     echo '</div></div>';
 }
-if (!empty($subject['social_competence']))
+if ($subject['social_competence']  !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $socialCompetence . '</div>';
@@ -176,9 +184,13 @@ if (!empty($subject['social_competence']))
     {
         echo $oneStar;
     }
+    elseif ($subject['social_competence'] == '0')
+    {
+        echo $noStar;
+    }
     echo '</div></div>';
 }
-if (!empty($subject['self_competence']))
+if ($subject['self_competence'] !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $selfCompetence . '</div>';
@@ -194,6 +206,10 @@ if (!empty($subject['self_competence']))
     elseif ($subject['self_competence'] == '1')
     {
         echo $oneStar;
+    }
+    elseif ($subject['self_competence'] == '0')
+    {
+        echo $noStar;
     }
     echo '</div></div>';
 }

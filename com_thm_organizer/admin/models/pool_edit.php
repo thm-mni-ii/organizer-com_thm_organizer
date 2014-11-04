@@ -21,8 +21,6 @@ jimport('thm_core.edit.model');
  */
 class THM_OrganizerModelPool_Edit extends THM_CoreModelEdit
 {
-    public $children = null;
-
     /**
      * Constructor.
      *

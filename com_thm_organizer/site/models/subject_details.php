@@ -160,10 +160,11 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         foreach ($teacherData as $teacher)
         {
             $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacher);
- 
+
+            $teacherName = "";
             if (!empty($teacher['userID']))
             {
-                $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
+                $teacherName .= THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
                 $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher['userID'], $teacher['surname']);
             }
             $teacher['name'] = empty($teacherName)? $defaultName : $teacherName;
