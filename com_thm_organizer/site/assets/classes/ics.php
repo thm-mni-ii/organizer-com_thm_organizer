@@ -322,7 +322,7 @@ class THMICSBuilder extends THMAbstractBuilder
     {
         foreach ($arr->lessons as $item)
         {
-            if (isset($item->modules) && isset($item->teachers) && isset($item->calendar))
+            if (isset($item->pools) && isset($item->teachers) && isset($item->calendar))
             {
                 if (isset($item->block) && $item->block > 0)
                 {
@@ -344,14 +344,14 @@ class THMICSBuilder extends THMAbstractBuilder
                 $item->teachers = implode(", ", $teacherNames);
  
                 $moduleNames = array();
-                foreach ($item->modules as $moduleID => $moduleStatus)
+                foreach ($item->pools as $moduleID => $moduleStatus)
                 {
                     if ($moduleStatus != "removed")
                     {
                         $moduleNames[] = $this->getModuleName($moduleID);
                     }
                 }
-                $item->modules = implode(", ", $moduleNames);
+                $item->pools = implode(", ", $moduleNames);
  
                 $roomNames = array();
                 foreach ($item->calendar as $block)
@@ -410,7 +410,7 @@ class THMICSBuilder extends THMAbstractBuilder
  
         foreach ($arr->lessons as $item)
         {
-            if (isset($item->modules) && isset($item->teachers) && isset($item->rooms))
+            if (isset($item->pools) && isset($item->teachers) && isset($item->rooms))
             {
                 if (!isset($item->longname))
                 {
@@ -482,7 +482,7 @@ class THMICSBuilder extends THMAbstractBuilder
      */
     private function getModuleName($moduleID)
     {
-        return $this->_activeScheduleData->modules->{$moduleID}->name;
+        return $this->_activeScheduleData->pools->{$moduleID}->name;
     }
  
     /**
