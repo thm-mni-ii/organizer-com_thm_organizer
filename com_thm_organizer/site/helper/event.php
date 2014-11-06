@@ -429,20 +429,4 @@ class THM_OrganizerHelperEvent
         }
         return date_format(date_create($date), 'd.m.Y');
     }
-
-    /**
-     * Converts a date string into the standardized format
-     *
-     * @param   string  $date  the date string
-     *
-     * @return  string  date sting in format Y-m-d
-     */
-    public static function standardizeDate($date)
-    {
-        if (empty($date))
-        {
-            return '';
-        }
-        return date_format(date_create($date), 'Y-m-d');
-    }
 }

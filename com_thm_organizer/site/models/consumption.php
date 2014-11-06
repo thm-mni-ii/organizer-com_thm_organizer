@@ -11,9 +11,11 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . "/helper/event.php";
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php';
 define('ROOM', 1);
 define('TEACHER', 2);
+define('REAL', 1);
+define('SCHOOL', 2);
 
 /**
  * Class THM_OrganizerModelConsumption for component com_thm_organizer
@@ -25,6 +27,8 @@ define('TEACHER', 2);
  */
 class THM_OrganizerModelConsumption extends JModelLegacy
 {
+    public $scheduleID = null;
+
     public $schedule = null;
 
     public $reset = false;
@@ -32,8 +36,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     public $type = ROOM;
 
     public $consumption = null;
-
-    public $process = array();
 
     public $selected = array();
 
@@ -56,12 +58,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 
         if (!empty($this->schedule))
         {
-            // Behaviour has to be set before consumption is calculated
-            $this->process['rooms'] = ($this->type === ROOM);
-            $this->process['teachers'] = ($this->type === TEACHER);
 
             $this->setConsumption();
-            if ($this->process['rooms'])
+            if ($this->type == ROOM)
             {
                 $rooms = $this->getItems('rooms');
                 $this->names['rooms'] = $this->getNameArray('rooms', $rooms, array('longname'));
@@ -72,7 +71,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 $this->filterResource('rooms');
             }
 
-            if ($this->process['teachers'])
+            if ($this->type == TEACHER)
             {
                 $teachers = $this->getItems('teachers');
                 $properties = array('surname', 'forename');
@@ -96,8 +95,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $input = JFactory::getApplication()->input;
         $this->reset = $input->getBool('reset', false);
         $this->type = $input->getInt('type', ROOM);
-        $this->process['rooms'] = false;
-        $this->process['teachers'] = false;
+        $this->hours = $input->getInt('hours', REAL);
         $resources = array('rooms', 'teachers', 'roomtypes', 'fields');
         foreach ($resources as $resource)
         {
@@ -161,11 +159,11 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      */
     public function setSchedule()
     {        
-        $scheduleID = JFactory::getApplication()->input->getInt('activated', 0);
+        $this->scheduleID = JFactory::getApplication()->input->getInt('scheduleID', 0);
         $query = $this->_db->getQuery(true);
         $query->select('schedule');
         $query->from("#__thm_organizer_schedules");
-        $query->where("id = '$scheduleID'");
+        $query->where("id = '$this->scheduleID'");
         $this->_db->setQuery((string) $query);
         try
         {
@@ -192,8 +190,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $this->consumption['teachers'] = array();
         $this->consumption['fields'] = array();
 
-        $startDate = THM_OrganizerHelperEvent::standardizeDate($this->startDate);
-        $endDate = THM_OrganizerHelperEvent::standardizeDate($this->endDate);
+        $startDate = THM_OrganizerHelperComponent::standardizeDate($this->startDate);
+        $endDate = THM_OrganizerHelperComponent::standardizeDate($this->endDate);
         if (isset($this->schedule->calendar))
         {
             foreach ($this->schedule->calendar as $day => $blocks)
@@ -222,24 +220,25 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      */
     private function setConsumptionByInstance(&$blocks)
     {
+        $seconds = $this->hours == SCHOOL? 2700 : 3600;
         foreach ($blocks as $blockNumber => $blockLessons)
         {
             $starttime = $this->schedule->periods->$blockNumber->starttime;
             $startDT = strtotime(substr($starttime, 0, 2) . ':' . substr($starttime, 2, 2) . ':00');
             $endtime = $this->schedule->periods->$blockNumber->endtime;
             $endDT = strtotime(substr($endtime, 0, 2) . ':' . substr($endtime, 2, 2) . ':00');
-            $hours = ($endDT - $startDT) / 3600;
+            $hours = ($endDT - $startDT) / $seconds;
             foreach ($blockLessons as $lessonID => $lessonValues)
             {
                 if (isset($lessonValues->delta) AND $lessonValues->delta == 'removed')
                 {
                     continue;
                 }
-                if ($this->process['teachers'])
+                if ($this->type == TEACHER)
                 {
                     $this->setTeachersByInstance($lessonID, $hours);
                 }
-                if ($this->process['rooms'])
+                if ($this->type == ROOM)
                 {
                     foreach ($lessonValues as $roomID => $roomDelta)
                     {
@@ -265,7 +264,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 
         foreach ($teachers as $teacherID => $teacherDelta)
         {
-            $this->setTeacherConsumption('raw', $teacherID, $teacherDelta, $hours);
+            $this->setTeacherConsumption('sum', $teacherID, $teacherDelta, $hours);
         }
 
         foreach ($pools as $poolID => $poolDelta)
@@ -339,7 +338,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     {
         if ($roomID !== "delta" && $roomDelta !== "removed")
         {
-            $this->setRoomConsumption('raw', $roomID, $hours);
+            $this->setRoomConsumption('sum', $roomID, $hours);
             $pools = $this->schedule->lessons->$lessonID->pools;
             foreach ($pools as $poolID => $delta)
             {
@@ -400,22 +399,23 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      * 
      * @return  string  a HTML string for a consumption table
      */
-    public function getConsumptionTable($type)
+    public function getConsumptionTable()
     {
-        if ($type != 'rooms' AND $type != 'teachers')
+        if ($this->type != ROOM AND $this->type != TEACHER)
         {
-            return;
+            return '';
         }
-        $table = "<table id='thm_organizer-{$type}-consumption-table' ";
+        $table = "<table id='thm_organizer-consumption-table' ";
         $table .= "class='consumption-table'>";
 
-        $columns = array_keys($this->consumption[$type]);
+        $resource = $this->type == ROOM? 'rooms' : 'teachers';
+        $columns = array_keys($this->consumption[$resource]);
         asort($columns);
 
-        $rows = $this->getItems($type);
+        $rows = $this->getItems($resource);
 
-        $table .= $this->getTableHead($columns, $rows, $type);
-        $table .= $this->getTableBody($columns, $rows, $type);
+        $table .= $this->getTableHead($columns, $rows, $resource);
+        $table .= $this->getTableBody($columns, $rows, $resource);
         
         $table .= '</table>';
         return $table;
@@ -430,35 +430,61 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      * 
      * @return  string  the table head as a string
      */
-    private function getTableHead($columns, $rows, $type)
+    private function getTableHead(&$columns, $rows, $type)
     {
-        $total = array('raw' => JText::_('COM_THM_ORGANIZER_TOTAL'));
+        // Gets the summary row first so that empty columns will be removed
+        $summaryRow = $this->getSummaryRow($type, $columns, $rows);
+
+        $total = array('sum' => JText::_('COM_THM_ORGANIZER_TOTAL'));
         $degrees = $this->getNameArray('degrees', $columns, array('name'));
         $names = array_merge($total, $degrees);
         $tableHead = '<tr><th></th>';
         $tableHead .= '<th>' . JText::_('COM_THM_ORGANIZER_TOTAL') . '</th>';
         foreach ($columns as $column)
         {
-            if ($column == 'raw')
+            if ($column == 'sum')
             {
                 continue;
             }
             $tableHead .= '<th>' . $names[$column] . '</th>';
         }
         $tableHead .= '</tr>';
-        $tableHead .= '<tr class="summary-row"><th>' . JText::_('COM_THM_ORGANIZER_SUM') . '</th>';
-        $tableHead .= '<th class="degree-use-total resource-use-total" style="vnd.ms-excel.numberformat:@;">';
-        $tableHead .= $this->getColumnSum($type, 'raw', $rows) . '</th>';
-        foreach ($columns as $column)
+        return $tableHead . $summaryRow;
+    }
+
+    /**
+     * Retrieves a row containing a summary of the column values in all the other rows. In the process it removes
+     * columns without values.
+     *
+     * @param   string  $type      the resource type
+     * @param   array   &$columns  the table columns
+     * @param   array   $rows      the resource entries
+     *
+     * @return  string  HTML String for the summary row
+     */
+    private function getSummaryRow($type, &$columns, $rows)
+    {
+
+        $row = '<tr>';
+        $style = 'style ="vnd.ms-excel.numberformat:@;"';
+        $row .= '<th>' . JText::_('COM_THM_ORGANIZER_TOTAL') . '</th>';
+        $row .= '<td ' . $style . '>' . $this->getColumnSum($type, 'sum', $rows) . '</td>';
+        foreach ($columns as $key => $column)
         {
-            if ($column == 'raw')
+            if ($column == 'sum')
             {
                 continue;
             }
-            $tableHead .= '<th class="degree-use-total">' . $this->getColumnSum($type, $column, $rows) . '</th>';
+            $sum = $this->getColumnSum($type, $column, $rows);
+            if (!empty($sum))
+            {
+                $row .= '<td ' . $style . '>' . $this->getColumnSum($type, $column, $rows) . '</th>';
+                continue;
+            }
+            unset($columns[$key]);
         }
-        $tableHead .= '</tr>';
-        return $tableHead;
+        $row .= '</tr>';
+        return $row;
     }
 
     /**
@@ -495,30 +521,20 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     private function getTableBody($columns, $rows, $type)
     {
         $tableBody = '';
+        $style = 'style ="vnd.ms-excel.numberformat:@;"';
 
         foreach ($rows as $row)
         {
             $tableBody .= '<tr>';
-            
-            if ($type === "rooms")
-            {
-                $tableBody .= '<th class="index-column">' . $this->names['rooms'][$row] . '</th>';
-            }
-            if ($type === "teachers")
-            {
-                $tableBody .= '<th class="index-column">' . $this->names['teachers'][$row] . '</th>';
-            }
-
-            $tableBody .= '<th class="resource-use-total" style="vnd.ms-excel.numberformat:@;">';
-            $tableBody .= $this->consumption[$type]['raw'][$row]['hours'] . '</th>';
-            $columnKeys = array_keys($columns);
+            $tableBody .= '<th>' . $this->names[$type][$row] . '</th>';
+            $tableBody .= '<td ' . $style . '>' . $this->consumption[$type]['sum'][$row]['hours'] . '</td>';
             foreach ($columns as $column)
             {
-                if ($column == 'raw')
+                if ($column == 'sum')
                 {
                     continue;
                 }
-                $tableBody .= '<td style="vnd.ms-excel.numberformat:@;">';
+                $tableBody .= '<td ' . $style . '>';
                 if (isset($this->consumption[$type][$column][$row]))
                 {
                     $tableBody .= $this->consumption[$type][$column][$row]['hours'];

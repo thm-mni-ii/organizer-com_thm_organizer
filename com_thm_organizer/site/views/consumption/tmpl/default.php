@@ -20,97 +20,100 @@ $selectedType = $this->model->type;
         <h2 class="componentheading">
             <?php echo JText::_('COM_THM_ORGANIZER_CONSUMPTION_VIEW_TITLE'); ?>
         </h2>
-<?php
-if (!empty($this->model->schedule))
-{
-?>
-    <div class="button-panel">
-        <button type="submit" value="submit"><?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
-        <button onclick="jQuery('#reset').val('1')"><?php echo JText::_('JTOOLBAR_RESET'); ?></button>
-        <?php echo $this->exportButton; ?>
-    </div>
-<?php
-}
-?>
-        <div class="filter-bar">
-            <div class="filter-header">
-                <div class="filter-item">
-                    <label for="activated"><?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE')?>:</label>
-                    <?php echo $this->scheduleSelectBox; ?>
-                </div>
-<?php
-if (!empty($this->model->schedule))
-{
-?>
-                <div class="filter-item">
-                    <label for="type"><?php echo JText::_('COM_THM_ORGANIZER_RESOURCE_TYPES')?>:</label>
-                    <?php echo $this->typeSelectBox; ?>
-                </div>
-                <div class="filter-item">
-                    <label for="startDate"><?php echo JText::_('COM_THM_ORGANIZER_START_DATE')?>:</label>
-                    <?php echo $this->startCalendar ?>
-                </div>
-                <div class="filter-item">
-                    <label for="endDate"><?php echo JText::_('COM_THM_ORGANIZER_END_DATE')?>:</label>
-                    <?php echo $this->endCalendar ?>
-                </div>
-<?php
-}
-?>
-            </div>
-<?php
-if (!empty($this->model->schedule))
-{
-    if ($this->model->process['rooms'] AND !empty($this->roomsSelectBox))
-    {
-?>
-            <div class="filter-toggle">
-                <a class="toggle-link" onclick="toggleRooms();">
-                    <span id="filter-room-toggle-image" class="toggle-button toggle-closed"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_ROOM_FILTER_DISPLAY'); ?>
-                </a>
-            </div>
-            <div id="filter-room" class="filter-resource" style="display: none">
-                <div class="filter-resource-item">
-                    <label for="roomtypes"><?php echo JText::_('COM_THM_ORGANIZER_TYPE')?></label>
-                    <?php echo $this->roomtypesSelectBox; ?>
-                </div>
-                <div class="filter-resource-item">
-                    <label for="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOM')?></label>
-                    <?php echo $this->roomsSelectBox; ?>
-                </div>
-            </div>
-<?php
-    }
-    if ($this->model->process['teachers'] AND !empty($this->teachersSelectBox))
-    {
-?>
-            <div class="filter-toggle">
-                <a class="toggle-link" onclick="toggleTeachers();">
-                    <span id="filter-teacher-toggle-image" class="toggle-button toggle-closed"></span>
-                    <?php echo JText::_('COM_THM_ORGANIZER_TEACHER_FILTER_DISPLAY'); ?>
-                </a>
-            </div>
-            <div id="filter-teacher" class="filter-resource" style="display: none">
-                <div class="filter-resource-item">
-                    <label for="fields"><?php echo JText::_('COM_THM_ORGANIZER_FIELDS')?></label>
-                    <?php echo $this->fieldsSelectBox; ?>
-                </div>
-                <div class="filter-resource-item">
-                    <label for="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHER')?></label>
-                    <?php echo $this->teachersSelectBox; ?>
-                </div>
-            </div>
-<?php
-    }
-}
-?>
+        <?php if (!empty($this->model->schedule)): ?>
+        <div class="button-panel">
+            <button type="submit" value="submit"><?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
+            <button onclick="jQuery('#reset').val('1')"><?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET'); ?></button>
+            <button id="export"><?php echo JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL"); ?></button>
             <input type="hidden" id="reset" name="reset" value="0" />
         </div>
-<?php
-    echo $this->roomsTable;
-    echo $this->teachersTable;
-?>
+        <?php endif; ?>
+        <div class="filter-bar">
+            <div class="filter-header">
+                <div class="control-group">
+                    <div class="controls">
+                        <?php echo $this->scheduleSelectBox; ?>
+                    </div>
+                </div>
+                <?php if (!empty($this->model->schedule)): ?>
+                <div class="control-group">
+                    <div class="controls">
+                        <?php echo $this->typeSelectBox; ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                    <?php echo $this->hoursSelectBox; ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="startDate"><?php echo JText::_('COM_THM_ORGANIZER_START_DATE')?>:</label>
+                    </div>
+                    <div class="controls">
+                        <?php echo JHtml::calendar($this->model->startDate, 'startdate', 'startdate', '%d.%m.%Y') ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="endDate"><?php echo JText::_('COM_THM_ORGANIZER_END_DATE')?>:</label>
+                    </div>
+                    <div class="controls">
+                        <?php echo JHtml::calendar($this->model->endDate, 'enddate', 'enddate', '%d.%m.%Y') ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php if (!empty($this->model->schedule)): ?>
+            <div class="filter-toggle">
+                <a class="toggle-link" onclick="toggle();">
+                    <span id="filter-toggle-image" class="toggle-button toggle-closed"></span>
+                    <?php echo JText::_('COM_THM_ORGANIZER_FILTER_DISPLAY_ADDITIONAL'); ?>
+                </a>
+            </div>
+            <div id="filter-resource" class="filter-resource" style="display: none">
+            <?php if ($this->model->type == ROOM): ?>
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="roomtypes"><?php echo JText::_('COM_THM_ORGANIZER_TYPE')?></label>
+                    </div>
+                    <div class="controls">
+                        <?php echo $this->roomtypesSelectBox; ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOM')?></label>
+                    </div>
+                    <div class="controls">
+                        <?php echo $this->roomsSelectBox; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($this->model->type == TEACHER): ?>
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="fields"><?php echo JText::_('COM_THM_ORGANIZER_FIELD')?></label>
+                    </div>
+                    <div class="controls">
+                        <?php echo $this->fieldsSelectBox; ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHER')?></label>
+                    </div>
+                    <div class="controls">
+                        <?php echo $this->teachersSelectBox; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php if (!empty($this->model->schedule)): ?>
+        <?php echo $this->table; ?>
+        <?php endif; ?>
     </form>
     <a id="dlink" style="display:none;"></a>
 </div>

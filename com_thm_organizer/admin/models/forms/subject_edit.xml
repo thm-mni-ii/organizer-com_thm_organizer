@@ -35,7 +35,6 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
                description="COM_THM_ORGANIZER_FIELD_DESC" >
-            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>
     </fieldset>
