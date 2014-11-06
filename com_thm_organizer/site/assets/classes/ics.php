@@ -46,14 +46,14 @@ class THMICSBuilder extends THMAbstractBuilder
      * @var    Object
      */
     private $_objPHPExcel = null;
- 
+
     /**
      * Active Schedule
      *
      * @var    Object
      */
     private $_activeSchedule = null;
- 
+
     /**
      * Active Schedule data
      *
@@ -87,7 +87,7 @@ class THMICSBuilder extends THMAbstractBuilder
         $success = true;
 
         $arr = $arr[0];
- 
+
         try
         {
             $this->_objPHPExcel = new PHPExcel;
@@ -103,7 +103,7 @@ class THMICSBuilder extends THMAbstractBuilder
             ->setSubject($title);
 
             $this->_objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_CYCLIC_EVENTS"));
- 
+
             if (isset($arr->session->semesterID))
             {
                 $this->_activeSchedule = $this->getActiveSchedule((int) $arr->session->semesterID);
@@ -112,19 +112,19 @@ class THMICSBuilder extends THMAbstractBuilder
             {
                 return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
             }
- 
+
             if ($this->_activeSchedule == false)
             {
                 return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
             }
- 
+
             if (is_object($this->_activeSchedule) && is_string($this->_activeSchedule->schedule))
             {
                 $this->_activeScheduleData = json_decode($this->_activeSchedule->schedule);
- 
+
                 // To save memory unset schedule
                 unset($this->_activeSchedule->schedule);
- 
+
                 if ($this->_activeScheduleData == null)
                 {
                     // Cant decode json
@@ -135,7 +135,7 @@ class THMICSBuilder extends THMAbstractBuilder
             {
                 return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
             }
- 
+
             $this->setLessonHead();
             $this->setLessonContent($arr);
 
@@ -216,8 +216,8 @@ class THMICSBuilder extends THMAbstractBuilder
 
             // Reset the query using our newly populated query object.
             $db->setQuery($query);
- 
-            try 
+
+            try
             {
                 // Load the results as a list of stdClass objects.
                 $classes = $db->loadObjectList();
@@ -226,19 +226,19 @@ class THMICSBuilder extends THMAbstractBuilder
             {
                 throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
- 
+
             // Create a new query object.
             $query = $db->getQuery(true);
- 
+
             // Select all records from the user profile table where key begins with "custom.".
             // Order it by the ordering field.
             $query->select($select);
             $query->from('#__thm_organizer_teachers');
             $query->where("gpuntisID IN( $resourceIDs )");
- 
+
             // Reset the query using our newly populated query object.
             $db->setQuery($query);
- 
+
             try
             {
                 // Load the results as a list of stdClass objects.
@@ -248,20 +248,20 @@ class THMICSBuilder extends THMAbstractBuilder
             {
                 throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
             }
- 
+
             // Create a new query object.
             $query = $db->getQuery(true);
- 
+
             // Select all records from the user profile table where key begins with "custom.".
             // Order it by the ordering field.
             $query->select($select);
             $query->from('#__thm_organizer_rooms');
             $query->where("gpuntisID IN( $resourceIDs )");
- 
+
             // Reset the query using our newly populated query object.
             $db->setQuery($query);
- 
-            try 
+
+            try
             {
                 // Load the results as a list of stdClass objects.
                 $rooms = $db->loadObjectList();
@@ -306,9 +306,10 @@ class THMICSBuilder extends THMAbstractBuilder
         ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_WEEKDAY"))
         ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_BLOCK"))
         ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
-        ->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"));
+        ->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"))
+        ->setCellValue('J1', JText::_("COM_THM_ORGANIZER_SCHEDULER_FIRST_DATE"));
 
-        $this->_objPHPExcel->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold(true);
+        $this->_objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getFont()->setBold(true);
     }
 
     /**
@@ -322,7 +323,7 @@ class THMICSBuilder extends THMAbstractBuilder
     {
         foreach ($arr->lessons as $item)
         {
-            if (isset($item->modules) && isset($item->teachers) && isset($item->calendar))
+            if (isset($item->pools) && isset($item->teachers) && isset($item->calendar))
             {
                 if (isset($item->block) && $item->block > 0)
                 {
@@ -332,7 +333,7 @@ class THMICSBuilder extends THMAbstractBuilder
                 }
                 $item->sdate = $arr->session->sdate;
                 $item->edate = $arr->session->edate;
- 
+
                 $teacherNames = array();
                 foreach ($item->teachers as $teacherID => $teacherStatus)
                 {
@@ -342,17 +343,17 @@ class THMICSBuilder extends THMAbstractBuilder
                     }
                 }
                 $item->teachers = implode(", ", $teacherNames);
- 
+
                 $moduleNames = array();
-                foreach ($item->modules as $moduleID => $moduleStatus)
+                foreach ($item->pools as $moduleID => $moduleStatus)
                 {
                     if ($moduleStatus != "removed")
                     {
                         $moduleNames[] = $this->getModuleName($moduleID);
                     }
                 }
-                $item->modules = implode(", ", $moduleNames);
- 
+                $item->pools = implode(", ", $moduleNames);
+
                 $roomNames = array();
                 foreach ($item->calendar as $block)
                 {
@@ -366,7 +367,7 @@ class THMICSBuilder extends THMAbstractBuilder
                     break;
                 }
                 $item->rooms = implode(", ", $roomNames);
- 
+
                 $subjectNo = array();
                 $subjectName = array();
                 $subjectLongname = array();
@@ -384,7 +385,7 @@ class THMICSBuilder extends THMAbstractBuilder
                 $item->longname = implode(", ", $subjectLongname);
             }
         }
- 
+
         $row = 2;
 
         /**
@@ -407,10 +408,10 @@ class THMICSBuilder extends THMAbstractBuilder
         };
 
         uasort($arr->lessons, $lessonsByTeacher);
- 
+
         foreach ($arr->lessons as $item)
         {
-            if (isset($item->modules) && isset($item->teachers) && isset($item->rooms))
+            if (isset($item->pools) && isset($item->teachers) && isset($item->rooms))
             {
                 if (!isset($item->longname))
                 {
@@ -422,6 +423,10 @@ class THMICSBuilder extends THMAbstractBuilder
                 }
 
                 $dayName = strtoupper($item->dow);
+                reset($item->calendar);
+                $firstDate = key($item->calendar);
+                $dateFormat = "d.m.Y";
+
                 $this->_objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue('A' . $row, $item->longname)
                 ->setCellValue('B' . $row, $item->name)
@@ -431,12 +436,13 @@ class THMICSBuilder extends THMAbstractBuilder
                 ->setCellValue('F' . $row, JText::_($dayName))
                 ->setCellValue('G' . $row, $item->block)
                 ->setCellValue('H' . $row, $item->rooms)
-                ->setCellValue('I' . $row, $item->teachers);
+                ->setCellValue('I' . $row, $item->teachers)
+                ->setCellValue('J' . $row, date($dateFormat, strtotime($firstDate)));
                 $row++;
             }
         }
     }
- 
+
     /**
      * Method to get the subject number by $subjectID
      *
@@ -448,7 +454,7 @@ class THMICSBuilder extends THMAbstractBuilder
     {
         return $this->_activeScheduleData->subjects->{$subjectID}->subjectNo;
     }
- 
+
     /**
      * Method to get the subject name by $subjectID
      *
@@ -460,7 +466,7 @@ class THMICSBuilder extends THMAbstractBuilder
     {
         return $this->_activeScheduleData->subjects->{$subjectID}->name;
     }
- 
+
     /**
      * Method to get the subject longname by $subjectID
      *
@@ -472,7 +478,7 @@ class THMICSBuilder extends THMAbstractBuilder
     {
         return $this->_activeScheduleData->subjects->{$subjectID}->longname;
     }
- 
+
     /**
      * Method to get the module name by $moduleID
      *
@@ -482,9 +488,9 @@ class THMICSBuilder extends THMAbstractBuilder
      */
     private function getModuleName($moduleID)
     {
-        return $this->_activeScheduleData->modules->{$moduleID}->name;
+        return $this->_activeScheduleData->pools->{$moduleID}->name;
     }
- 
+
     /**
      * Method to get the room name by $roomID
      *
@@ -496,7 +502,7 @@ class THMICSBuilder extends THMAbstractBuilder
     {
         return $this->_activeScheduleData->rooms->{$roomID}->longname;
     }
- 
+
     /**
      * Method to get the teacher name by $teacherID
      *
@@ -514,7 +520,7 @@ class THMICSBuilder extends THMAbstractBuilder
         }
         return $name;
     }
- 
+
     /**
      * Method to get the active schedule
      *
@@ -528,20 +534,20 @@ class THMICSBuilder extends THMAbstractBuilder
         {
             return false;
         }
- 
+
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_schedules');
         $query->where('id = ' . $semesterID);
         $dbo->setQuery($query);
- 
+
         if ($dbo->getErrorMsg())
         {
             return false;
         }
- 
-        try 
+
+        try
         {
             $result = $dbo->loadObject();
         }
@@ -549,7 +555,7 @@ class THMICSBuilder extends THMAbstractBuilder
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
         }
- 
+
         if ($result === null)
         {
             return false;
