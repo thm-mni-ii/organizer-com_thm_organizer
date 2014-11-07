@@ -636,11 +636,11 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         }
         elseif (!empty($this->schedule->termStartDate))
         {
-            $this->startDate = THM_OrganizerHelperEvent::localizeDate($this->schedule->termStartDate);
+            $this->startDate = THM_OrganizerHelperComponent::formatDate($this->schedule->termStartDate);
         }
         else
         {
-            $this->startDate = THM_OrganizerHelperEvent::localizeDate($this->schedule->startdate);
+            $this->startDate = THM_OrganizerHelperComponent::formatDate($this->schedule->startdate);
         }
 
         if (!$this->reset AND !empty($selectedSD))
@@ -649,11 +649,11 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         }
         elseif (!empty($this->schedule->termEndDate))
         {
-            $this->endDate = THM_OrganizerHelperEvent::localizeDate($this->schedule->termEndDate);
+            $this->endDate = THM_OrganizerHelperComponent::formatDate($this->schedule->termEndDate);
         }
         else
         {
-            $this->endDate = THM_OrganizerHelperEvent::localizeDate($this->schedule->enddate);
+            $this->endDate = THM_OrganizerHelperComponent::formatDate($this->schedule->enddate);
         }
     }
 
