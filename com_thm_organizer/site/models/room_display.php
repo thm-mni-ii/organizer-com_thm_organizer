@@ -14,6 +14,23 @@ jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT . '/helper/teacher.php';
 require_once JPATH_COMPONENT . '/helper/event.php';
 
+if (!defined('SCHEDULE'))
+{
+    define('SCHEDULE', 1);
+}
+if (!defined('ALTERNATING'))
+{
+    define('ALTERNATING', 2);
+}
+if (!defined('CONTENT'))
+{
+    define('CONTENT', 3);
+}
+if (!defined('APPOINTMENTS'))
+{
+    define('APPOINTMENTS', 4);
+}
+
 /**
  * Retrieves lesson and event data for a single room and day
  *
@@ -23,27 +40,13 @@ require_once JPATH_COMPONENT . '/helper/event.php';
  */
 class THM_OrganizerModelRoom_Display extends JModelLegacy
 {
-    public $roomName;
-
-    private $_gpuntisID;
-
-    public $layout = 'default';
-
-    public $schedule_refresh;
-
-    public $content_refresh;
+    public $params = array();
 
     private $_schedules;
 
     public $blocks;
 
-    public $date;
-
     private $_dbDate = "";
-
-    public $lessonsExist = false;
-
-    public $eventsExist = false;
 
     public $appointments = array();
 
@@ -53,8 +56,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 
     public $upcoming = array();
 
-    public $roomSelectLink = "";
-
     /**
      * Constructor
      */
@@ -62,58 +63,27 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         parent::__construct();
         $input = JFactory::getApplication()->input;
-        $monitor = JTable::getInstance('monitors', 'thm_organizerTable');
-        $remoteIPData = array('ip' => $input->server->getString('REMOTE_ADDR', ''));
-        $registered = $monitor->load($remoteIPData);
 
-        if ($registered)
-        {
-            $templateSet = $input->getString('tmpl', '') == 'component';
-            if (!$templateSet)
-            {
-                $this->redirectToComponentTemplate();
-            }
+        $ipData = array('ip' => $input->server->getString('REMOTE_ADDR', ''));
+        $monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
+        $registered = $monitorEntry->load($ipData);
 
-            if ($monitor->useDefaults)
-            {
-                $display = JComponentHelper::getParams('com_thm_organizer')->get('display');
-                $this->schedule_refresh = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
-                $this->content_refresh = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
-                $this->content = JComponentHelper::getParams('com_thm_organizer')->get('content');
-            }
-            else
-            {
-                $display = $monitor->display;
-                $this->schedule_refresh = $monitor->schedule_refresh;
-                $this->content_refresh = $monitor->content_refresh;
-                $this->content = $monitor->content;
-            }
-            switch ($monitor->display)
-            {
-                case 1:
-                    $this->layout = 'registered';
-                    break;
-                case 2:
-                    $this->setAlternatingLayout();
-                    break;
-                case 3:
-                    $this->layout = 'content';
-                    break;
-                case 4:
-                    $this->layout = 'events';
-                    break;
-                default:
-                    $this->layout = 'registered';
-                    break;
-            }
-        }
-        else
+        if (!$registered)
         {
-            $this->layout = 'default';
-            $this->setRoomInformation();
+            $this->params['layout'] = 'default';
+            return;
         }
-        $roomID = empty($monitor->roomID)? null : $monitor->roomID;
-        $this->setRoomInformation($roomID);
+
+        $templateSet = $input->getString('tmpl', '') == 'component';
+        if (!$templateSet)
+        {
+            $this->redirectToComponentTemplate();
+        }
+
+        $this->setParams($monitorEntry);
+
+        $this->setRoomInformation();
+
         $this->setScheduleInformation();
     }
 
@@ -124,11 +94,78 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function redirectToComponentTemplate()
     {
-        $application = JFactory::getApplication()->input;
-        $requestURL = $application->input->server->get('SERVER_NAME', '');
-        $requestURL .= $application->input->server->get('REQUEST_URI', '');
-        $redirectURL = $requestURL . '&tmpl=component';
-        $application->redirect($redirectURL);
+        $app = JFactory::getApplication();
+        $base = JURI::root() . 'index.php?';
+        $query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
+        $app->redirect($base . $query);
+    }
+
+    /**
+     * Sets display parameters
+     *
+     * @param $monitorEntry
+     */
+    private function setParams(&$monitorEntry)
+    {
+        if ($monitorEntry->useDefaults)
+        {
+            $this->params['display'] = JComponentHelper::getParams('com_thm_organizer')->get('display', 1);
+            $this->params['schedule_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
+            $this->params['content_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
+            $this->params['content'] = JComponentHelper::getParams('com_thm_organizer')->get('content');
+            return;
+        }
+        else
+        {
+            $this->params['display'] = $monitorEntry->display;
+            $this->params['schedule_refresh'] = $monitorEntry->schedule_refresh;
+            $this->params['content_refresh'] = $monitorEntry->content_refresh;
+            $this->params['content'] = $monitorEntry->content;
+        }
+
+        if ($this->params['display'] == SCHEDULE)
+        {
+            $this->params['layout'] = 'schedule';
+        }
+        if ($this->params['display'] == ALTERNATING)
+        {
+            $this->setAlternatingLayout();
+        }
+        if ($this->params['display'] == CONTENT)
+        {
+            $this->params['layout'] = 'content';
+        }
+        if ($this->params['display'] == APPOINTMENTS)
+        {
+            $this->params['layout'] = 'appointments';
+        }
+
+        $this->params['roomID'] = $monitorEntry->roomID;
+    }
+
+
+    /**
+     * Determines which display behaviour is desired based on which layout was previously used
+     *
+     * @return  void
+     */
+    private function setAlternatingLayout()
+    {
+        $session = JFactory::getSession();
+        $displayed = $session->get('displayed', 'schedule');
+
+        if ($displayed == 'schedule')
+        {
+            $this->params['layout'] = 'content';
+            return;
+        }
+        if ($displayed == 'schedule')
+        {
+            $this->params['layout'] = 'content';
+            return;
+        }
+
+        $session->set('displayed', $this->params['layout']);
     }
 
     /**
@@ -138,24 +175,21 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @return  void
      */
-    private function setRoomInformation($roomID = null)
+    private function setRoomInformation()
     {
-        if (empty($roomID))
+        $roomEntry = JTable::getInstance('rooms', 'thm_organizerTable');
+        try
         {
-            $form = JFactory::getApplication()->input->get('jform', null, 'array');
-            $roomID = $form['room'];
+            $roomEntry->load($this->params['roomID']);
+            $this->params['roomName'] = $roomEntry->longname;
+            $this->params['gpuntisID'] = strpos($roomEntry->gpuntisID, 'RM_') === 0?
+                substr($roomEntry->gpuntisID, 3) : $roomEntry->gpuntisID;
         }
-        $room = JTable::getInstance('rooms', 'thm_organizerTable');
-        $exists = $room->load($roomID);
-        if ($exists)
+        catch (Exception $exc)
         {
-            $this->roomName = $room->longname;
-            $this->_gpuntisID = strpos($room->gpuntisID, 'RM_') === 0?
-                substr($room->gpuntisID, 3) : $room->gpuntisID;
-        }
-        else
-        {
-            $this->redirect('COM_THM_ORGANIZER_RD_NO_ROOM');
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->params['roomName'] = '';
+            $this->params['gpuntisID'] = '';
         }
     }
 
@@ -166,17 +200,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setScheduleInformation()
     {
-        $request = JRequest::getVar('jform');
-        if (!empty($request['date']))
-        {
-            $this->date = getDate(strtotime($request['date']));
-        }
-        else
-        {
-            $this->date = getdate(time());
-        }
-        $this->_dbDate = date('Y-m-d', $this->date[0]);
-        $this->getSchedules();
+        $this->params['date'] = getDate(strtotime('06.11.2014'));
+        //$this->params['date'] = getdate(time());
+        $this->_dbDate = date('Y-m-d', $this->params['date'][0]);
+        $this->setSchedules();
         if (count($this->_schedules))
         {
             $this->getBlocks();
@@ -184,7 +211,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $this->setInformation();
         $this->setAppointments();
         $this->setUpcoming();
-        $this->setMenuLinks();
     }
 
     /**
@@ -192,7 +218,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @return  void
      */
-     private function getSchedules()
+     private function setSchedules()
      {
          $dbo = $this->getDbo();
          $query = $dbo->getQuery(true);
@@ -207,23 +233,21 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         {
             $schedules = $dbo->loadColumn();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
         }
         
          if (empty($schedules))
          {
-             $this->redirect(JText::_('COM_THM_ORGANIZER_NO_SCHEDULES'));
+             JFactory::getApplication()->redirect('index.php', JText::_('COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULES_FOR_DATE'), 'error');
          }
-         else
+
+         foreach ($schedules as $key => $schedule)
          {
-             foreach ($schedules as $key => $schedule)
-             {
-                 $schedules[$key] = json_decode($schedule);
-             }
-             $this->_schedules = $schedules;
+             $schedules[$key] = json_decode($schedule);
          }
+         $this->_schedules = $schedules;
      }
 
     /**
@@ -237,7 +261,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $this->blocks = array();
         foreach ($schedulePeriods as $period)
         {
-            if ($period->day == $this->date['wday'])
+            if ($period->day == $this->params['date']['wday'])
             {
                 $this->blocks[$period->period] = array();
                 $this->blocks[$period->period]['period'] = $period->period;
@@ -264,21 +288,23 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setLessonData($blockID)
     {
-        $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
         $lessonFound = false;
         $lessonTitle = $teacherText = '';
         foreach ($this->_schedules as $schedule)
         {
+            // No need to reiterate
             if ($lessonFound)
             {
                 break;
             }
             foreach ($schedule->calendar->{$this->_dbDate}->$blockID as $lessonID => $rooms)
             {
+                // No need to reiterate
                 if ($lessonFound)
                 {
                     break;
                 }
+
                 foreach ($rooms as $gpuntisID => $delta)
                 {
                     if ($gpuntisID == 'delta')
@@ -292,7 +318,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                             continue;
                         }
                     }
-                    if ($gpuntisID == $this->_gpuntisID)
+                    if ($gpuntisID == $this->params['gpuntisID'])
                     {
                         $lessonFound = true;
                         $subjects = (array) $schedule->lessons->$lessonID->subjects;
@@ -315,18 +341,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                             $shortname = $schedule->subjects->$subjectID->name;
                             $lessonName = (strlen($longname) <= 30)? $longname : $shortname;
                             $lessonName .= " - " . $schedule->lessons->$lessonID->description;
-                            if (!empty($schedule->subjects->$subjectID->subjectNo)
-                             AND $this->layout != 'registered')
-                            {
-                                $subjectLink = "index.php?option=com_thm_organizer&view=subject_details";
-                                $subjectLink .= "&languageTag=de&Itemid=$menuID&nrmni=";
-                                $subjectLink .= $schedule->subjects->$subjectID->subjectNo;
-                                $lessonTitle .= JHtml::_('link', $subjectLink, $lessonName);
-                            }
-                            else
-                            {
-                                $lessonTitle .= $lessonName;
-                            }
+                            $lessonTitle .= $lessonName;
                         }
                         $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
                         $teachers = array();
@@ -337,15 +352,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                                 unset($teachers[$key]);
                                 continue;
                             }
-                            $teacherName = $schedule->teachers->$key->surname;
-                            $userID = THM_OrganizerHelperTeacher::getUserIDfromUntisID($key);
-                            if (!empty($userID) AND $this->layout != 'registered')
-                            {
-                                $groupsLink = THM_OrganizerHelperTeacher::getLink($userID, $teacherName);
-                                $teacherLink = JHtml::_('link', $groupsLink, $teacherName);
-                            }
  
-                            $teachers[$schedule->teachers->$key->surname] = empty($teacherLink)? $teacherName : $teacherLink;
+                            $teachers[$schedule->teachers->$key->surname] = $schedule->teachers->$key->surname;
                         }
                         $teacherText .= implode(', ', $teachers);
                     }
@@ -362,7 +370,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         }
         else
         {
-            $this->blocks[$blockID]['title'] = JText::_('COM_THM_ORGANIZER_NO_LESSON');
+            $this->blocks[$blockID]['title'] = JText::_('COM_THM_ORGANIZER_NO_INFORMATION_AVAILABLE');
             $this->blocks[$blockID]['extraInformation'] = '';
             $this->blocks[$blockID]['type'] = 'empty';
         }
@@ -388,13 +396,15 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         }
         $query->where($this->whereAccess());
         $query->where("ec.reserves = '1'");
+        $longnameCondition = "r.longname = '{$this->params['roomName']}'";
         if (isset($this->blocks[$key]['teacherIDs']))
         {
-            $query->where("(r.longname = '$this->roomName' OR t.id IN ( '" . implode("', '", $this->blocks[$key]['teacherIDs']) . "' ))");
+            $tidCondition = "t.id IN ( '" . implode("', '", $this->blocks[$key]['teacherIDs']) . "' )";
+            $query->where("($longnameCondition OR $tidCondition)");
         }
         else
         {
-            $query->where("r.longname = '$this->roomName'");
+            $query->where($longnameCondition);
         }
         $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
@@ -417,7 +427,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             {
                 if (count($appointments) == 1)
                 {
-                    if ($this->layout == 'registered' OR $this->layout == 'events')
+                    if ($this->params['layout']== 'registered' OR $this->params['layout']== 'events')
                     {
                         $this->blocks[$key]['title'] = substr($appointments[0]['title'], 0, 20);
                     }
@@ -427,7 +437,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                     }
                     $this->blocks[$key]['extraInformation'] = $this->makeEventTime($appointments[0]);
                     $this->blocks[$key]['eventID'] = $appointments[0]['id'];
-                    $this->blocks[$key]['link'] = $this->getEventLink($appointments[0]['id'], $appointments[0]['title']);
                     $this->blocks[$key]['type'] = 'COM_THM_ORGANIZER_RD_TYPE_APPOINTMENT';
                 }
                 elseif (count($appointments) > 1)
@@ -446,7 +455,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 }
                 $this->eventIDs[] = $appointment['id'];
                 $appointments[$k]['displayDates'] = THM_OrganizerHelperEvent::getDateText($appointment, false);
-                $appointments[$k]['link'] = $this->getEventLink($appointment['id'], $appointment['title']);
             }
             $this->eventsExist = true;
             $this->appointments = array_merge($this->appointments, $appointments);
@@ -472,13 +480,14 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $query->where($this->whereAccess());
         $query->where("ec.reserves = '0'");
         $query->where("ec.global = '0'");
+        $longnameCondition = "r.longname = '{$this->params['roomName']}'";
         if ($this->blocks[$key] != null AND isset($this->blocks[$key]['teacherIDs']))
         {
-            $query->where("( r.longname = '$this->name' OR t.id IN ( '" . implode("', '", $this->blocks[$key]['teacherIDs']) . "' ) )");
+            $query->where("($longnameCondition OR t.id IN ( '" . implode("', '", $this->blocks[$key]['teacherIDs']) . "' ) )");
         }
         else
         {
-            $query->where("r.longname = '$this->name'");
+            $query->where($longnameCondition);
         }
         $dbo->setQuery((string) $query);
         
@@ -506,7 +515,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 }
                 $this->eventIDs[] = $notice['id'];
                 $notices[$k]['displayDates'] = THM_OrganizerHelperEvent::getDateText($notice, false);
-                $notices[$k]['link'] = $this->getEventLink($notice['id'], $notice['title']);
             }
             $this->eventsExist = true;
             $this->notices = array_merge($this->notices, $notices);
@@ -553,9 +561,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 }
                 $this->eventIDs[] = $info['id'];
                 $information[$k]['displayDates'] = THM_OrganizerHelperEvent::getDateText($info, false);
-                $information[$k]['link'] = $this->getEventLink($info['id'], $info['title']);
             }
-            if ($this->layout != 'default')
+            if ($this->params['layout']!= 'default')
             {
                 $this->eventsExist = true;
             }
@@ -581,7 +588,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $query->where($whereFutureDates);
         $query->where($this->whereAccess());
         $query->where("ec.reserves = '1'");
-        $query->where("r.longname = '$this->roomName'");
+        $query->where("r.longname = '{$this->params['roomName']}'");
         $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
         
@@ -727,87 +734,5 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $timestring .= JText::_("COM_THM_ORGANIZER_EL_ALLDAY");
         }
         return $timestring;
-    }
-
-    /**
-     * Generates a link to an event based on id and title
-     *
-     * @param   int     $eventID  the event id
-     * @param   string  $title    the event title
-     *
-     * @return  string  a span containing a link to the event
-     */
-    private function getEventLink($eventID, $title)
-    {
-        $url = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
-        $attributes = array('title' => "$title::" . JText::_('COM_THM_ORGANIZER_RD_EVENT_LINK_TEXT'));
-        return JHtml::_('link', $url, $title, $attributes);
-    }
-
-    /**
-     * Sets a link back to the room selection interface
-     *
-     * @return  void
-     */
-    private function setMenuLinks()
-    {
-        $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("link");
-        $query->from("#__menu AS eg");
-        $query->where("id = $menuID");
-        $query->where("link LIKE '%room_select%'");
-        $dbo->setQuery((string) $query);
-        try 
-        {
-            $link = $dbo->loadResult();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (isset($link) and $link != "")
-        {
-            $this->roomSelectLink = JRoute::_($link);
-        }
-    }
-
-    /**
-     * Redirects from the view if requested room is invalid or no data is available
-     *
-     * @param   string  $message  the error message to be displayed after redirect
-     *
-     * @return  void
-     */
-    private function redirect($message = '')
-    {
-        $application = JFactory::getApplication();
-        $application->redirect('index.php', $message, 'error');
-    }
-
-    /**
-     * Determines which display behaviour is desired based on the interval
-     * setting and session variables
-     *
-     * @return  void
-     */
-    private function setAlternatingLayout()
-    {
-        $session = JFactory::getSession();
-        $displayContent = $session->get('displayContent', 'schedule');
-        $session->set('displayContent', ($displayContent == 'schedule')? 'content' : 'schedule');
-
-        if ($displayContent == 'schedule')
-        {
-            $this->layout = 'registered';
-            return;
-        }
-        if ($displayContent == 'content')
-        {
-            $this->layout = 'content';
-            return;
-        }
     }
 }

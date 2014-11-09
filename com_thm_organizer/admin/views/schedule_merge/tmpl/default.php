@@ -10,5 +10,5 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.basictemplate');
-THM_CoreTemplateBasic::render($this);
+jimport('thm_core.form.backendtemplate');
+THM_CoreTemplateBackend::render($this);

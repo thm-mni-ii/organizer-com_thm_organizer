@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.viewitemless');
+jimport('thm_core.form.view');
 
 /**
  * Class provides functions for the merging of schedules
@@ -19,7 +19,7 @@ jimport('thm_core.edit.viewitemless');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSchedule_Merge extends THM_CoreViewEditItemless
+class THM_OrganizerViewSchedule_Merge extends THM_CoreViewForm
 {
     /**
      * Method to get display

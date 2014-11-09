@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        events layout for thm organizer's room display view
+ * @name        appointments layout for thm organizer's room display view
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
@@ -13,48 +13,39 @@
 defined('_JEXEC') or die;
 
 header('meta http-equiv="refresh" content="5"');
-$imagepath = 'media/com_thm_organizer/images/';
-$this->thm_logo_image = JHtml::image($imagepath . 'thm_logo_giessen.png', JText::_('COM_THM_ORGANIZER_RD_LOGO_GIESSEN'));
-$this->thm_text_image = JHtml::image($imagepath . 'thm_text_dinpro_compact.png', JText::_('COM_THM_ORGANIZER_RD_THM'));
-$weekday = strtoupper(date('l'));
+$params = $this->model->params;
+$appointments = $this->model->appointments;
+$upcoming = $this->model->upcoming;
+$dayName = strtoupper(date('l'));
+$time = date('H:i');
 ?>
 <script type="text/javascript">
-var timer = null;
-function auto_reload()
-{
-  window.location = document.URL;
-}
-window.onload = function(){
-    timer = setTimeout('auto_reload()', 60000);
-}
+    var timer = null;
+    function auto_reload()
+    {
+        window.location = document.URL;
+    }
+    window.onload = function(){
+        timer = setTimeout('auto_reload()', 6000);
+    }
 </script>
-<div id="thm_organizer_is_registered" class='thm_organizer_is_registered'>
-    <div id="thm_organizer_is_head" class='thm_organizer_is_head'>
-        <div id="thm_organizer_is_head_left" class='thm_organizer_is_head_left'>
-            <div id="thm_organizer_is_head_upper" class='thm_organizer_is_head_upper'>
-                <div id="thm_organizer_is_thm_logo_div" class='thm_organizer_is_thm_logo_div'>
-                    <?php echo $this->thm_logo_image; ?>
-                </div>
-                <div id="thm_organizer_is_divider_div" class='thm_organizer_is_divider_div'></div>
-                <div id="thm_organizer_is_room_div" class='thm_organizer_is_room_div'>
-                    <?php  echo $this->roomName; ?>
-                </div>
-            </div>
-            <div id="thm_organizer_is_head_lower" class='thm_organizer_is_head_lower'>
-                <?php echo $this->thm_text_image; ?>
-            </div>
+<div class='display-appointments'>
+    <div class='head'>
+        <div class='banner'>
+            <div class='thm-logo'>Dummy Text for THM-LOGO</div>
+            <div class="room-name"><?php echo $params['roomName']; ?></div>
+            <div class="thm-text">Dummy Text for TECHNISCHE&nbsp;HOCHSCHULE&nbsp;MITTELHESSEN</div>
         </div>
-        <div id="thm_organizer_is_head_right" class='thm_organizer_is_head_right'>
-            <?php echo JText::_($weekday); ?><br />
-            <?php echo date('d.m.Y'); ?><br />
-            <?php echo date('H:i'); ?>
+        <div class='date-info'>
+            <div class='weekday'><?php echo JText::_($dayName); ?></div>
+            <div class='date'><?php echo date('d.m.Y'); ?></div>
+            <div class='time'><?php echo $time; ?></div>
         </div>
-    </div><!-- end of head -->
-    <div id="thm_organizer_is_break_div" class='thm_organizer_is_break_div'></div>
-    <div id="thm_organizer_is_schedule_area" class="thm_organizer_is_long thm_organizer_is_schedule_area">
+    </div>
+    <div class="schedule-area <?php echo $widthClass; ?>">
 <?php
 $appointmentsNo = 0;
-if (count($this->appointments))
+if (count($appointments))
 {
     $time = date('H:i');
 ?>
@@ -95,7 +86,7 @@ if (count($this->appointments))
     }
 }
 $upcomingNo = 0;
-if (count($this->upcoming) && $appointmentsNo < 8)
+if (count($upcoming) && $appointmentsNo < 8)
 {
     $time = date('H:i');
 ?>

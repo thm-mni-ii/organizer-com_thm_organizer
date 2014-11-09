@@ -21,6 +21,8 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerViewConsumption extends JViewLegacy
 {
+    public $params = null;
+
     public $model = null;
 
     public $scheduleSelectBox = '';
@@ -44,6 +46,8 @@ class THM_OrganizerViewConsumption extends JViewLegacy
     {
         // Sets js and css
         $this->modifyDocument();
+
+        $this->params = JFactory::getApplication()->getParams();
 
         $this->model = $this->getModel();
         $this->makeScheduleSelectBox();

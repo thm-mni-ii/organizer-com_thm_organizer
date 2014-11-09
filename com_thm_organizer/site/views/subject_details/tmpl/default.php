@@ -35,9 +35,10 @@ $selfCompetence = ($this->lang == 'de')? 'Selbstkompetenz' : 'Self Competence';
 $socialCompetence = ($this->lang == 'de')? 'Sozialkompetenz' : 'Social Competence';
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
 $flagPath .= DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
-$oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_SUM_ONESTAR');
-$twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARS');
-$threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARs');
+$noStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS');
+$oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_ONE_STAR');
+$twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
+$threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 ?>
 <script type="text/javascript">
 

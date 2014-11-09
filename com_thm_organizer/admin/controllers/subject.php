@@ -54,12 +54,12 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
         $success = $this->getModel('subject')->save();
         if ($success)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_SUCCESS');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=$success", false), $msg);
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_SUM_SAVE_FAIL');
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_edit&id=0", false), $msg, 'error');
         }
     }

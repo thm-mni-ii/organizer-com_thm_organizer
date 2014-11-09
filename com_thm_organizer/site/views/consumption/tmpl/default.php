@@ -12,19 +12,22 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-$selectedType = $this->model->type;
+$showHeading = $this->params->get('show_page_heading', '');
+$title = $this->params->get('page_title', '');
 ?>
 <div id="consumption" class="consumption">
     <form id='statistic-form' name='statistic-form' enctype='multipart/form-data' method='post'
           action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=consumption"); ?>' >
+        <?php if (!empty($showHeading)): ?>
         <h2 class="componentheading">
-            <?php echo JText::_('COM_THM_ORGANIZER_CONSUMPTION_VIEW_TITLE'); ?>
+            <?php echo $title; ?>
         </h2>
+        <?php endif; ?>
         <?php if (!empty($this->model->schedule)): ?>
         <div class="button-panel">
-            <button type="submit" value="submit"><?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
-            <button onclick="jQuery('#reset').val('1')"><?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET'); ?></button>
-            <button id="export"><?php echo JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL"); ?></button>
+            <button type="submit" value="submit"><i class="icon-forward-2"></i><?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
+            <button onclick="jQuery('#reset').val('1')"><i class="icon-delete"></i><?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET'); ?></button>
+            <button id="export"><i class="icon-download"></i><?php echo JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL"); ?></button>
             <input type="hidden" id="reset" name="reset" value="0" />
         </div>
         <?php endif; ?>

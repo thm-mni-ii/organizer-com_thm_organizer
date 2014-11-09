@@ -10,7 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.model');
+jimport('thm_core.form.model');
 
 /**
  * Loads teacher entry information to be merged
@@ -19,7 +19,7 @@ jimport('thm_core.edit.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelTeacher_Merge extends THM_CoreModelEdit
+class THM_OrganizerModelTeacher_Merge extends THM_CoreModelForm
 {
     /**
      * Constructor.
