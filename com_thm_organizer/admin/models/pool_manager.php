@@ -137,4 +137,16 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
 
         return $headers;
     }
+
+    /**
+     * Overrides the LoadFormData function of JModelList in order to add multiple field paths
+     *
+     * @return  mixed  The data for the form.
+     */
+    public function loadFormData()
+    {
+        JForm::addFieldPath(JPATH_ROOT . '/media/com_thm_organizer/fields');
+        JForm::addFieldPath(JPATH_ROOT . '/libraries/thm_core/fields');
+        parent::loadFormData();
+    }
 }

@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_urriculum
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelCurriculum extends JModel
+class THM_OrganizerModelCurriculum extends JModelLegacy
 {
     /**
      * Gets the name of the program selected

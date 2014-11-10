@@ -200,8 +200,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setScheduleInformation()
     {
-        $this->params['date'] = getDate(strtotime('06.11.2014'));
-        //$this->params['date'] = getdate(time());
+        // For testing
+        //$this->params['date'] = getDate(strtotime('06.11.2014'));
+        $this->params['date'] = getdate(time());
         $this->_dbDate = date('Y-m-d', $this->params['date'][0]);
         $this->setSchedules();
         if (count($this->_schedules))

@@ -10,58 +10,51 @@
     <layout title="COM_THM_ORGANIZER_CURRICULUM_TITLE">
         <message>COM_THM_ORGANIZER_CURRICULUM_DESCRIPTION</message>
     </layout>
-    <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
+    <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic">
             <field type="spacer"
                    label="COM_THM_ORGANIZER_CUR_BASIC_SETTINGS" />
             <field name="programID"
-                   type="programs"
+                   type="programID"
                    class="inputbox"
                    label="COM_THM_ORGANIZER_PROGRAM"
-                   description="COM_THM_ORGANIZER_CUR_PROGRAMS_DESC"
+                   description="COM_THM_ORGANIZER_PROGRAM_DESC"
                    required="true"/>
-            <field name="language"
-                   type="radio"
-                   default="de"
-                   required="true"
-                   label="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_TITLE"
-                   description="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_DESCRIPTION">
-                <option value="de">COM_THM_ORGANIZER_GERMAN</option>
-                <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
-            </field>
-            <field type="spacer"
-                   label="COM_THM_ORGANIZER_APPEARANCE_SPACER" />
             <field name="suffix"
                    type="text"
-                   label="COM_THM_ORGANIZER_SUFFIX_TITLE"
-                   description="COM_THM_ORGANIZER_SUFFIX_DESCRIPTION"
+                   class="inputbox"
+                   label="COM_THM_ORGANIZER_SUFFIX"
+                   description="COM_THM_ORGANIZER_SUFFIX_DESC"
                    size="15" />
             <field name="itemWidth"
                    type="text"
+                   class="inputbox"
                    required="true"
-                   label="COM_THM_ORGANIZER_CUR_ITEM_PANEL_WIDTH_TITLE"
-                   size="5"
+                   label="COM_THM_ORGANIZER_ITEM_PANEL_WIDTH"
+                   description="COM_THM_ORGANIZER_ITEM_PANEL_WIDTH_DESC"
                    default="120" />
             <field name="itemHeight"
                    type="text"
+                   class="inputbox"
                    required="true"
-                   label="COM_THM_ORGANIZER_CUR_ITEM_PANEL_HEIGHT_TITLE"
-                   size="5"
+                   label="COM_THM_ORGANIZER_CUR_ITEM_PANEL_HEIGHT"
+                   description="COM_THM_ORGANIZER_ITEM_PANEL_HEIGHT_DESC"
                    default="120" />
             <field name="maxItems"
                    type="text"
-                   default="5"
+                   class="inputbox"
                    required="true"
-                   label="COM_THM_ORGANIZER_CUR_MAXITEMS_TITLE"
-                   description="COM_THM_ORGANIZER_CUR_MAXITEMS_DESCRIPTION"
+                   label="COM_THM_ORGANIZER_MAX_ITEMS"
+                   description="COM_THM_ORGANIZER_MAX_ITEMS_DESC"
                    size="2"
                    maxlength="1" />
             <field name="displayECollabLink"
-                   type="radio"
+                   type="list"
                    default="0"
+                   class="chzn-color-state"
                    required="true"
-                   label="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_TITLE"
-                   description="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_DESCRIPTION">
+                   label="COM_THM_ORGANIZER_DISPLAY_ECOLLAB"
+                   description="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
