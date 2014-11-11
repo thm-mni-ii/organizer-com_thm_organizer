@@ -65,13 +65,13 @@ class DegreeManager0001Test extends JoomlaWebdriverTestCase
     }
 
     /**
-     * Creates a new degree and delete it afterwards
-     *
-     * @test
-     */
+    * Creates a new degree and delete it afterwards
+    *
+    * @test
+    */
     public function addMenu_WithGivenFields_MenuAdded()
     {
-        $salt = rand();
+        $salt = rand(111111, 999999);
         $degreeName = 'Abschluss' . $salt;
         $abbreviation = 'ab' . $salt;
         $LSF = 'AB' . $salt;
@@ -82,8 +82,12 @@ class DegreeManager0001Test extends JoomlaWebdriverTestCase
 
         $this->assertTrue($this->degreeManagerPage->getRowText($degreeName) == $degreeName . " " . $abbreviation . " " . $LSF, 'Test degree should be on the page');
 
+        $this->driver->refresh();
+
         $this->degreeManagerPage->deleteDegree($degreeName);
 
-        $this->assertFalse($this->degreeManagerPage->getRowText($degreeName) == $degreeName . " " . $abbreviation . " " . $LSF, 'Test degree should not be present');
+        $this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='alert alert-success']"));
+
+        $this->assertFalse($this->degreeManagerPage->getRowNumber($degreeName), 'Test degree should not be present');
     }
 }

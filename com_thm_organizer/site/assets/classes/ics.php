@@ -98,9 +98,9 @@ class THMICSBuilder extends THMAbstractBuilder
             }
 
             $this->_objPHPExcel->getProperties()->setCreator($username)
-            ->setLastModifiedBy($username)
-            ->setTitle($title)
-            ->setSubject($title);
+                ->setLastModifiedBy($username)
+                ->setTitle($title)
+                ->setSubject($title);
 
             $this->_objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_CYCLIC_EVENTS"));
 
@@ -173,14 +173,14 @@ class THMICSBuilder extends THMAbstractBuilder
     private function setEventHead()
     {
         $this->_objPHPExcel->getActiveSheet()
-        ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TITLE"))
-        ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION"))
-        ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_AFFECTED_RESOURCE"))
-        ->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_CATEGORY"))
-        ->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DATE_OF"))
-        ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_DATE"))
-        ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME_OF"))
-        ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_TIME"));
+            ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TITLE"))
+            ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION"))
+            ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_AFFECTED_RESOURCE"))
+            ->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_CATEGORY"))
+            ->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DATE_OF"))
+            ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_DATE"))
+            ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME_OF"))
+            ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_TIME"));
 
         $this->_objPHPExcel->getActiveSheet()->getStyle('A1:H1')->getFont()->setBold(true);
     }
@@ -278,14 +278,14 @@ class THMICSBuilder extends THMAbstractBuilder
             }
 
             $this->_objPHPExcel->getActiveSheet()
-            ->setCellValue('A' . $row, $item->data->title)
-            ->setCellValue('B' . $row, $item->data->edescription)
-            ->setCellValue('C' . $row, $resString)
-            ->setCellValue('D' . $row, $item->data->category)
-            ->setCellValue('E' . $row, $item->data->startdate)
-            ->setCellValue('F' . $row, $item->data->enddate)
-            ->setCellValue('G' . $row, $item->data->starttime)
-            ->setCellValue('H' . $row, $item->data->endtime);
+                ->setCellValue('A' . $row, $item->data->title)
+                ->setCellValue('B' . $row, $item->data->edescription)
+                ->setCellValue('C' . $row, $resString)
+                ->setCellValue('D' . $row, $item->data->category)
+                ->setCellValue('E' . $row, $item->data->startdate)
+                ->setCellValue('F' . $row, $item->data->enddate)
+                ->setCellValue('G' . $row, $item->data->starttime)
+                ->setCellValue('H' . $row, $item->data->endtime);
             $row++;
         }
     }
@@ -298,6 +298,7 @@ class THMICSBuilder extends THMAbstractBuilder
     private function setLessonHead()
     {
         $this->_objPHPExcel->setActiveSheetIndex(0)
+<<<<<<< HEAD
         ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_LESSON_TITLE"))
         ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ABBREVIATION"))
         ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_COMMENT"))
@@ -308,6 +309,18 @@ class THMICSBuilder extends THMAbstractBuilder
         ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
         ->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"))
         ->setCellValue('J1', JText::_("COM_THM_ORGANIZER_SCHEDULER_FIRST_DATE"));
+=======
+            ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_LESSON_TITLE"))
+            ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ABBREVIATION"))
+            ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_COMMENT"))
+            ->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_MODULE_NUMBER"))
+            ->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TYPE"))
+            ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_WEEKDAY"))
+            ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_BLOCK"))
+            ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
+            ->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"))
+            ->setCellValue('J1', JText::_("COM_THM_ORGANIZER_SCHEDULER_FIRST_DATE"));
+>>>>>>> f04bfb85b31579bfa13d59070ec854bd1837e366
 
         $this->_objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getFont()->setBold(true);
     }
@@ -428,6 +441,7 @@ class THMICSBuilder extends THMAbstractBuilder
                 $dateFormat = "d.m.Y";
 
                 $this->_objPHPExcel->setActiveSheetIndex(0)
+<<<<<<< HEAD
                 ->setCellValue('A' . $row, $item->longname)
                 ->setCellValue('B' . $row, $item->name)
                 ->setCellValue('C' . $row, $item->comment)
@@ -438,6 +452,18 @@ class THMICSBuilder extends THMAbstractBuilder
                 ->setCellValue('H' . $row, $item->rooms)
                 ->setCellValue('I' . $row, $item->teachers)
                 ->setCellValue('J' . $row, date($dateFormat, strtotime($firstDate)));
+=======
+                    ->setCellValue('A' . $row, $item->longname)
+                    ->setCellValue('B' . $row, $item->name)
+                    ->setCellValue('C' . $row, $item->comment)
+                    ->setCellValue('D' . $row, $item->subjectNo)
+                    ->setCellValue('E' . $row, $item->description)
+                    ->setCellValue('F' . $row, JText::_($dayName))
+                    ->setCellValue('G' . $row, $item->block)
+                    ->setCellValue('H' . $row, $item->rooms)
+                    ->setCellValue('I' . $row, $item->teachers)
+                    ->setCellValue('J' . $row, date($dateFormat, strtotime($firstDate)));
+>>>>>>> f04bfb85b31579bfa13d59070ec854bd1837e366
                 $row++;
             }
         }
@@ -574,28 +600,28 @@ class THMICSBuilder extends THMAbstractBuilder
     {
         $times = array(
             1 => array(
-                     0 => "8:00",
-                     1 => "9:30"
+                0 => "8:00",
+                1 => "9:30"
             ),
             2 => array(
-                    0 => "9:50",
-                    1 => "11:20"
+                0 => "9:50",
+                1 => "11:20"
             ),
             3 => array(
-                    0 => "11:30",
-                    1 => "13:00"
+                0 => "11:30",
+                1 => "13:00"
             ),
             4 => array(
-                    0 => "14:00",
-                    1 => "15:30"
+                0 => "14:00",
+                1 => "15:30"
             ),
             5 => array(
-                    0 => "15:45",
-                    1 => "17:15"
+                0 => "15:45",
+                1 => "17:15"
             ),
             6 => array(
-                    0 => "17:30",
-                    1 => "19:00"
+                0 => "17:30",
+                1 => "19:00"
             )
         );
         return $times[$block];

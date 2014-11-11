@@ -48,7 +48,6 @@ class DegreeManagerPage extends iCampusAdminManagerPage
         $menuEditPage = $this->test->getPageObject('DegreeEditPage');
         $menuEditPage->setFieldValues(array('Name' => $title, 'Abbreviation' => $abbreviation, 'LSF Degree Code' => $LSF));
         $menuEditPage->clickButton('toolbar-save');
-        return $this->test->getPageObject('DegreeManagerPage');
     }
 
     public function deleteDegree($title)

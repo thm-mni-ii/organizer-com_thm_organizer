@@ -13,7 +13,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/models/color_e
  * Class THM_OrganizerModelCategoryAdminTest
  *
  * @package             com_thm_organizer
- * @coversDefaultClass  THM_OrganizerModelCategory
+ * @coversDefaultClass  THM_OrganizerModelColor_Edit
  *
  * @requires            extension sqlite3
  */
