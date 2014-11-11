@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /**
  * Class defining functions to be used for lesson resources
  *

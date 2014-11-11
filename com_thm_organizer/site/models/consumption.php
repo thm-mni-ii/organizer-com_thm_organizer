@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 define('ROOM', 1);
 define('TEACHER', 2);
 define('REAL', 1);

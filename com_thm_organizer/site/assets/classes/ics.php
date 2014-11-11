@@ -298,7 +298,6 @@ class THMICSBuilder extends THMAbstractBuilder
     private function setLessonHead()
     {
         $this->_objPHPExcel->setActiveSheetIndex(0)
-<<<<<<< HEAD
         ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_LESSON_TITLE"))
         ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ABBREVIATION"))
         ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_COMMENT"))
@@ -309,18 +308,6 @@ class THMICSBuilder extends THMAbstractBuilder
         ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
         ->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"))
         ->setCellValue('J1', JText::_("COM_THM_ORGANIZER_SCHEDULER_FIRST_DATE"));
-=======
-            ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_LESSON_TITLE"))
-            ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ABBREVIATION"))
-            ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_COMMENT"))
-            ->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_MODULE_NUMBER"))
-            ->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TYPE"))
-            ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_WEEKDAY"))
-            ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_BLOCK"))
-            ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_ROOM"))
-            ->setCellValue('I1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TEACHER"))
-            ->setCellValue('J1', JText::_("COM_THM_ORGANIZER_SCHEDULER_FIRST_DATE"));
->>>>>>> f04bfb85b31579bfa13d59070ec854bd1837e366
 
         $this->_objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getFont()->setBold(true);
     }
@@ -441,7 +428,6 @@ class THMICSBuilder extends THMAbstractBuilder
                 $dateFormat = "d.m.Y";
 
                 $this->_objPHPExcel->setActiveSheetIndex(0)
-<<<<<<< HEAD
                 ->setCellValue('A' . $row, $item->longname)
                 ->setCellValue('B' . $row, $item->name)
                 ->setCellValue('C' . $row, $item->comment)
@@ -452,18 +438,6 @@ class THMICSBuilder extends THMAbstractBuilder
                 ->setCellValue('H' . $row, $item->rooms)
                 ->setCellValue('I' . $row, $item->teachers)
                 ->setCellValue('J' . $row, date($dateFormat, strtotime($firstDate)));
-=======
-                    ->setCellValue('A' . $row, $item->longname)
-                    ->setCellValue('B' . $row, $item->name)
-                    ->setCellValue('C' . $row, $item->comment)
-                    ->setCellValue('D' . $row, $item->subjectNo)
-                    ->setCellValue('E' . $row, $item->description)
-                    ->setCellValue('F' . $row, JText::_($dayName))
-                    ->setCellValue('G' . $row, $item->block)
-                    ->setCellValue('H' . $row, $item->rooms)
-                    ->setCellValue('I' . $row, $item->teachers)
-                    ->setCellValue('J' . $row, date($dateFormat, strtotime($firstDate)));
->>>>>>> f04bfb85b31579bfa13d59070ec854bd1837e366
                 $row++;
             }
         }

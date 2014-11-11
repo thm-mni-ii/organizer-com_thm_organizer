@@ -43,7 +43,7 @@ class SiteConsumptionPage extends SitePage
      */
     public $inputFields = array (
         '//*[@id="statistic-form"]',
-        '//*[@id="activated"]'
+        '//*[@id="scheduleID"]'
     );
 
     /**

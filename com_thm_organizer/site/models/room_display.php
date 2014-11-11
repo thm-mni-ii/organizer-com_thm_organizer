@@ -200,20 +200,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setScheduleInformation()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
         // For testing
         //$this->params['date'] = getDate(strtotime('06.11.2014'));
         $this->params['date'] = getdate(time());
-=======
-        $this->params['date'] = getDate(strtotime('06.11.2014'));
-        //$this->params['date'] = getdate(time());
->>>>>>> 25255b1... added language constants
-=======
-        // For testing
-        //$this->params['date'] = getDate(strtotime('06.11.2014'));
-        $this->params['date'] = getdate(time());
->>>>>>> 425c66e... moved field path add from form xml to model because there are more than one
         $this->_dbDate = date('Y-m-d', $this->params['date'][0]);
         $this->setSchedules();
         if (count($this->_schedules))

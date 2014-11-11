@@ -8,7 +8,7 @@
 use SeleniumClient\By;
 
 /**
- * This class tests the degreemanager view
+ * This class tests the degree manager view
  *
  * @package com_thm_organizer
  */
@@ -49,7 +49,7 @@ class DegreeManager0001Test extends JoomlaWebdriverTestCase
     {
         // Check if all expected toolbar items are present
         $toolbarItems = $this->degreeManagerPage->toolbar;
-        foreach($toolbarItems as $value)
+        foreach ($toolbarItems as $value)
         {
             $this->assertNotNull($this->driver->findElement(By::xPath('//*[@id="' . $value . '"]')));
         }

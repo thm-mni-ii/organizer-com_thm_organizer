@@ -140,7 +140,7 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
     	$state = $reflector->getValue($this->object);
 
     	$expected1 = "name ASC";
-    	$expected2 = "ASC";
+    	$expected2 = null;
     	$expected3 = null;
     	$expected4 = null;
 
@@ -150,7 +150,7 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
     	$actual4 = $state->get('list.start');
 
     	$this->assertEquals($expected1, $actual1, "list.fullordering doesn't match expected '" . $expected1 . "'");
-    	$this->assertEquals($expected2, $actual2, "list.direction doesn't match expected '" . $expected1 . "'");
+    	$this->assertEquals($expected2, $actual2, "list.direction  doesn't match expected 'null'");
     	$this->assertEquals($expected3, $actual3, "list.limit doesn't match expected 'null'");
     	$this->assertEquals($expected4, $actual4, "list.start doesn't match expected 'null'");
     }
