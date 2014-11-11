@@ -49,7 +49,7 @@ class THM_OrganizerViewPool_Manager extends THM_CoreViewList
         $baseTitle = JText::_("COM_THM_ORGANIZER_POOL_MANAGER_VIEW_TITLE");
         $title = empty($this->programName)? $baseTitle : $baseTitle . " - " . $this->programName;
         JToolbarHelper::title($title, 'organizer_subject_pools');
-        JToolbarHelper::addNew('pool.edit');
+        JToolbarHelper::addNew('pool.add');
         JToolbarHelper::editList('pool.edit');
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'pool.delete');
         JToolbarHelper::divider();

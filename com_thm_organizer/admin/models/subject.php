@@ -86,6 +86,15 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->_db->transactionStart();
 
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
+        if (empty($data['fieldID']))
+        {
+            $data['fieldID'] = 'NULL';
+        }
+        $starProperties = array('expertise', 'self_competence', 'method_competence', 'social_competence');
+        foreach ($starProperties as $property)
+        {
+            $this->cleanStarProperty($data, $property);
+        }
         $success = $table->save($data);
  
         // New subjects have no mappings
@@ -121,6 +130,22 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
         $this->_db->transactionCommit();
         return $table->id;
+    }
+
+    /**
+     * Checks if the property should be displayed. Setting it to NULL if not.
+     *
+     * @param   array   &$data     the form data
+     * @param   string  $property  the property name
+     *
+     * @return  void  can change the &$data value at the property name index
+     */
+    private function cleanStarProperty(&$data, $property)
+    {
+        if ($data[$property] == '-1')
+        {
+            $data[$property] = 'NULL';
+        }
     }
 
     /**

@@ -1177,21 +1177,18 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function merge()
     {
-        $checkedIDs = JFactory::getApplication()->input->post->get('schedules', array(), 'array');
-        if (empty($checkedIDs) OR count($checkedIDs) < 2)
+        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+        $formIDs = explode(',', $formData['scheduleIDs']);
+        if (empty($formIDs) OR count($formIDs) < 2)
         {
             return TOO_FEW;
         }
-        $scheduleIDs = "'" . implode("', '", $checkedIDs) . "'";
+        $scheduleIDs = "'" . implode("', '", $formIDs) . "'";
 
-        $input = JFactory::getApplication()->input;
         $newScheduleRow = array();
-        $newScheduleRow['creationdate'] = date('Y-m-d');
-        $newScheduleRow['creationtime'] = date('is');
-        $newScheduleRow['departmentname'] = $input->getString('departmentname', '');
-        $newScheduleRow['semestername'] = $input->getString('semestername', '');
+        $newScheduleRow['departmentname'] = $formData['departmentname'];
 
-        $invalid = (empty($newScheduleRow['departmentname']) OR empty($newScheduleRow['semestername']));
+        $invalid = (empty($newScheduleRow['departmentname']));
         if ($invalid)
         {
             return ERROR;
@@ -1224,10 +1221,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->mergeRecursive($baseSchedule, $schedules[$index]);
         }
 
-        $baseSchedule->creationdate = date('Y-m-d');
-        $baseSchedule->creationtime = date('Hiu');
         $baseSchedule->departmentname = $newScheduleRow['departmentname'];
-        $baseSchedule->semestername = $newScheduleRow['semestername'];
+        $newScheduleRow['semestername'] = $baseSchedule->semestername;
+        $newScheduleRow['creationdate'] = $baseSchedule->creationdate = date('Y-m-d');
+        $newScheduleRow['creationtime'] = $baseSchedule->creationtime = date('Hiu');
         $newScheduleRow['startdate'] = $baseSchedule->startdate;
         $newScheduleRow['enddate'] = $baseSchedule->enddate;
         $newScheduleRow['active'] = 1;

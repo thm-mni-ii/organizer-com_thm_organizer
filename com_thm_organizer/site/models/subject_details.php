@@ -6,7 +6,7 @@
  * @name        THM_OrganizerModeldetails
  * @description THM_OrganizerModeldetails component site model
  * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -160,10 +160,11 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         foreach ($teacherData as $teacher)
         {
             $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacher);
- 
+
+            $teacherName = "";
             if (!empty($teacher['userID']))
             {
-                $teacherName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
+                $teacherName .= THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
                 $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher['userID'], $teacher['surname']);
             }
             $teacher['name'] = empty($teacherName)? $defaultName : $teacherName;

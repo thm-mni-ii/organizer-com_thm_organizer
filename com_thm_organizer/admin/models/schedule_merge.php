@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.form.model');
 
 /**
  * Loads room entry information to be merged
@@ -18,45 +19,15 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSchedule_Merge extends JModelLegacy
+class THM_OrganizerModelSchedule_Merge extends THM_CoreModelForm
 {
     /**
-     * Array holding schedule entry information
+     * Constructor.
      *
-     * @var array
-     */
-    public $schedules = null;
-
-    /**
-     * Pulls a list of schedule data from the database
-     *
-     * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   array $config An optional associative array of configuration settings.
      */
     public function __construct($config = array())
     {
         parent::__construct($config);
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-
-        $select = "id, departmentname, semestername ";
-        $cids = JFactory::getApplication()->input->get('cid', array(), 'array');
-        $selected = "'" . implode("', '",$cids) . "'";
-
-        $query->select($select);
-        $query->from('#__thm_organizer_schedules');
-        $query->where("id IN ( $selected )");
-        $query->order('id ASC');
-
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $this->schedules = $dbo->loadAssocList();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            $this->schedules = array();
-        }
     }
 }

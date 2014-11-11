@@ -13,9 +13,9 @@
             table="thm_organizer_rooms"
             label="COM_THM_ORGANIZER_ROOM"
             description="COM_THM_ORGANIZER_ROOM_DESC"
+            required="true"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_ROOM</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
         </field>
         <field
             id="ip"
@@ -43,7 +43,8 @@
             name="display"
             label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
             description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC"
-            class="inputbox">
+            class="inputbox"
+            required="true" >
             <option value='1'>COM_THM_ORGANIZER_DAILY_PLAN</option>
             <option value='2'>COM_THM_ORGANIZER_MIXED_PLAN</option>
             <option value='3'>COM_THM_ORGANIZER_CONTENT_DISPLAY</option>

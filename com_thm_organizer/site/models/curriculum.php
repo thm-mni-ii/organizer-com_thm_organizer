@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelIndex
  * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @package     thm_urriculum
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelCurriculum extends JModel
+class THM_OrganizerModelCurriculum extends JModelLegacy
 {
     /**
      * Gets the name of the program selected

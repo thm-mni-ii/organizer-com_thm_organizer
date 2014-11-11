@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        Helper for appointment/event view
  * @author      Dominik Bassing, <dominik.bassing@mni.thm.de>
- * @copyright   2013 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -428,21 +428,5 @@ class THM_OrganizerHelperEvent
             return '';
         }
         return date_format(date_create($date), 'd.m.Y');
-    }
-
-    /**
-     * Converts a date string into the standardized format
-     *
-     * @param   string  $date  the date string
-     *
-     * @return  string  date sting in format Y-m-d
-     */
-    public static function standardizeDate($date)
-    {
-        if (empty($date))
-        {
-            return '';
-        }
-        return date_format(date_create($date), 'Y-m-d');
     }
 }

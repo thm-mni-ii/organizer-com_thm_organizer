@@ -2,13 +2,13 @@
 <metadata>
     <name>THM_ORGANIZER</name>
     <author>James Antrim</author>
-    <creationDate>01.03.2013</creationDate>
-    <copyright>TH Mittelhessen 2013</copyright>
+    <creationDate>01.12.2014</creationDate>
+    <copyright>TH Mittelhessen 2014</copyright>
     <licence>GNU GPL v.2</licence>
     <authorEMail>james.antrim@mni.thm.de</authorEMail>
     <authorUrl>www.mni.thm.de</authorUrl>
-    <layout title="COM_THM_ORGANIZER_SUL_LAYOUT_TITLE">
-        <message>COM_THM_ORGANIZER_SUL_LAYOUT_DESCRIPTION</message>
+    <layout title="COM_THM_ORGANIZER_SUBJECT_CATALOG_TITLE">
+        <message>COM_THM_ORGANIZER_SUBJECT_CATALOG_DESCRIPTION</message>
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
         <fieldset name="basic">

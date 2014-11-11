@@ -6,24 +6,17 @@
  *
  **/
 
-$(document).ready(function ()
+jQuery(document).ready(function ()
 {
     "use strict";
-    $("#roomsExport").click(function(e)
+    jQuery("#export").click(function(e)
     {
-        downloadTable('rooms');
+        downloadTable();
         //just in case, prevent default behaviour
         e.preventDefault();
     });
 
-    $("#teachersExport").click(function(e)
-    {
-        downloadTable('teachers');
-        //just in case, prevent default behaviour
-        e.preventDefault();
-    });
-
-    function downloadTable(type)
+    function downloadTable()
     {
         var tableToExcel;
         var dt = new Date(),
@@ -33,15 +26,15 @@ $(document).ready(function ()
             hour = dt.getHours(),
             mins = dt.getMinutes(),
             created = day + "-" + month + "-" + year + "_" + hour + "-" + mins,
-            divID = 'thm_organizer-' + type + '-consumption-table',
-            sheetName = type + '-' + created;
+            divID = 'thm_organizer-consumption-table',
+            sheetName = 'ressourcen-stunden-' + created;
 
         // From http://stackoverflow.com/questions/17126453/html-table-to-excel-javascript (changed slightly)
         tableToExcel = (function () {
             var uri = 'data:application/vnd.ms-excel;base64,',
                 template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
                 base64 = function (s) {
-                    return window.btoa(unescape(encodeURIComponent(s)))
+                    return window.btoa(decodeURIComponent(encodeURIComponent(s)))
                 },
                 format = function (s, c) {
                     return s.replace(/{(\w+)}/g, function (m, p) {
@@ -54,7 +47,7 @@ $(document).ready(function ()
                 }
                 var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML };
 
-                if ($.isFunction(window.navigator.msSaveOrOpenBlob)) {
+                if (jQuery.isFunction(window.navigator.msSaveOrOpenBlob)) {
                     // IE
                     var fileData = [format(template, ctx)];
                     var blobObject = new Blob(fileData);
@@ -78,9 +71,9 @@ $(document).ready(function ()
         tableToExcel(divID, type, sheetName + '.xls');
     }
 
-    $('#consumption').keypress(function(e)
+    jQuery('#consumption').keypress(function(e)
     {
-        var form = $('#statistic-form');
+        var form = jQuery('#statistic-form');
         if (e.keyCode === 13)
         {
             form.submit();
@@ -88,32 +81,19 @@ $(document).ready(function ()
     });
 });
 
-function toggleRooms()
+function toggle()
 {
     "use strict";
-    var toggleSpan = $("#filter-room-toggle-image");
+    var toggleSpan = jQuery("#filter-toggle-image");
     if (toggleSpan.hasClass('toggle-closed'))
     {
-        toggleSpan.switchClass('toggle-closed', 'toggle-open');
+        toggleSpan.removeClass('toggle-closed');
+        toggleSpan.addClass('toggle-open');
     }
     else
     {
-        toggleSpan.switchClass('toggle-open', 'toggle-closed');
+        toggleSpan.removeClass('toggle-open');
+        toggleSpan.addClass('toggle-closed');
     }
-    $("#filter-room").toggle();
-}
-
-function toggleTeachers()
-{
-    "use strict";
-    var toggleSpan = $("#filter-teacher-toggle-image");
-    if (toggleSpan.hasClass('toggle-closed'))
-    {
-        toggleSpan.switchClass('toggle-closed', 'toggle-open');
-    }
-    else
-    {
-        toggleSpan.switchClass('toggle-open', 'toggle-closed');
-    }
-    $("#filter-teacher").toggle();
+    jQuery("#filter-resource").toggle();
 }

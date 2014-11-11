@@ -1,45 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter">
+    <fields name="filter"  addfieldpath="/libraries/thm_core/fields">
         <field
             name="search"
             type="text"
             label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
             hint="JSEARCH_FILTER"
-        />
+            />
         <field
-            name="global"
-            type="list"
-            label="COM_THM_ORGANIZER_GLOBAL"
+            name="checkbox"
+            type="checkall" />
+        <field
+            name="name"
+            type="localizedlist"
+            valueColumn="name"
+            textColumn="name"
+            table="thm_organizer_subjects"
+            label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_GLOBAL</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="1">COM_THM_ORGANIZER_FILTER_GLOBAL_YES</option>
-            <option value="0">COM_THM_ORGANIZER_FILTER_GLOBAL_NO</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
         </field>
         <field
-            name="reserves"
-            type="list"
-            label="COM_THM_ORGANIZER_RESERVES"
+            name="externalID"
+            type="genericlist"
+            valueColumn="externalID"
+            textColumn="externalID"
+            table="thm_organizer_subjects"
+            label="COM_THM_ORGANIZER_SUBJECT"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_RESERVES</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-            <option value="1">COM_THM_ORGANIZER_FILTER_RESERVES_YES</option>
-            <option value="0">COM_THM_ORGANIZER_FILTER_RESERVES_NO</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_SUBJECT</option>
+            <option value="-1">JNONE</option>
         </field>
-		<field
-			name="content_cat"
-			type="contentcategory"
-			label="JOPTION_FILTER_CATEGORY"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
-		</field>
+        <field name="fieldID"
+               type="genericlist"
+               valueColumn="fieldID"
+               textColumn="field"
+               table="thm_organizer_subjects AS s,thm_organizer_fields AS f ON f.id = s.fieldID"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_FIELD"
+               description="COM_THM_ORGANIZER_FIELD_DESC" >
+            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
+            <option value="-1">JNONE</option>
+        </field>
     </fields>
 	<fields name="list">
+        <field
+            name="programID"
+            type="programID"
+            label="COM_THM_ORGANIZER_PROGRAM"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
+            <option value="-1">JNONE</option>
+        </field>
+        <field
+            name="poolID"
+            type="poolID"
+            label="COM_THM_ORGANIZER_POOL"
+            onchange="this.form.submit();"
+            >
+            <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
+            <option value="-1">JNONE</option>
+        </field>
 		<field
 			name="limit"
 			type="limitbox"

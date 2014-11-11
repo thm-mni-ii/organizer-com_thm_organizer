@@ -148,4 +148,49 @@ class THM_OrganizerHelperComponent
             return "eeeeee";
         }
     }
+
+    /**
+     * Formats the date stored in the database according to the format in the component parameters
+     *
+     * @param   string  $date  the date to be formatted
+     *
+     * @return  string|bool  a formatted date string otherwise false
+     */
+    public static function formatDate($date)
+    {
+        $params =JComponentHelper::getParams('com_thm_organizer');
+        $dateFormat = $params->get('dateFormat', 'd.m.Y');
+        return date($dateFormat, strtotime($date));
+        $timeFormat = $params->get('timeFormat', 'H:i');
+    }
+
+    /**
+     * Formats the date stored in the database according to the format in the component parameters
+     *
+     * @param   string  $date  the date to be formatted
+     *
+     * @return  string|bool  a formatted date string otherwise false
+     */
+    public static function formatTime($time)
+    {
+        $params =JComponentHelper::getParams('com_thm_organizer');
+        $timeFormat = $params->get('timeFormat', 'H:i');
+        return date($timeFormat, strtotime($time));
+    }
+
+    /**
+     * Converts a date string into the format used by the database
+     *
+     * @param   string  $date  the date string
+     *
+     * @return  string  date sting in format Y-m-d
+     */
+    public static function standardizeDate($date)
+    {
+        if (empty($date))
+        {
+            return '';
+        }
+        return date_format(date_create($date), 'Y-m-d');
+    }
 }

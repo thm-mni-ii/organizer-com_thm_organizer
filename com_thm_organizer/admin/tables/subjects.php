@@ -29,4 +29,36 @@ class THM_OrganizerTableSubjects extends JTable
     {
         parent::__construct('#__thm_organizer_subjects', 'id', $dbo);
     }
+
+    /**
+     * Method to store a row in the database from the JTable instance properties.
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     */
+    public function store($updateNulls = true)
+    {
+        return parent::store(true);
+    }
+
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @param   object  &$table  the table to be modified
+     *
+     * @return  boolean  true
+     */
+    public function check()
+    {
+        $nullColumns = array('frequencyID', 'fieldID', 'expertise', 'self_competence', 'method_competence', 'social_competence');
+        foreach ($nullColumns as $nullColumn)
+        {
+            if (!strlen($this->$nullColumn))
+            {
+                $this->$nullColumn = NULL;
+            }
+        }
+        return true;
+    }
 }

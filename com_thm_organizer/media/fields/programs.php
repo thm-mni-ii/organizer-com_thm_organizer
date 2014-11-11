@@ -34,26 +34,32 @@ class JFormFieldPrograms extends JFormField
      */
     public function getInput()
     {
-        $this->addScript();
         $resourceID = $this->form->getValue('id');
         $contextParts = explode('.', $this->form->getName());
-
-        // Option.View
         $resourceType = str_replace('_edit', '', $contextParts[1]);
+        $this->addScript($resourceID, $resourceType);
 
         $ranges = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
         $selectedPrograms = !empty($ranges)?
             THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : array();
         $allPrograms = THM_OrganizerHelperMapping::getAllPrograms();
 
-        $defaultOptions = array(array('value' => '-1', 'text' => JText::_('COM_THM_ORGANIZER_NONE')));
+        $defaultOptions = array(array('value' => '-1', 'text' => JText::_('JNONE')));
         $programs = array_merge($defaultOptions, $allPrograms);
 
         $attributes = array('multiple' => 'multiple', 'size' => '10');
         return JHTML::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "text", $selectedPrograms);
     }
 
-    private function addScript()
+    /**
+     * Adds the javascript to the page necessary to refresh the parent pool options
+     *
+     * @param   int     $resourceID    the resource's id
+     * @param   string  $resourceType  the resource's type
+     *
+     * @return  void
+     */
+    private function addScript($resourceID, $resourceType)
     {
 ?>
 <script type="text/javascript" charset="utf-8">
@@ -74,10 +80,10 @@ jQuery(document).ready(function(){
             return false;
         }
         var poolUrl = "<?php echo JURI::root(); ?>index.php?option=com_thm_organizer";
-        poolUrl += "&view=pool_ajax&format=raw&task=poolDegreeOptions";
-        poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
-        poolUrl += "&programID=" + selectedPrograms;
-        poolUrl += "&languageTag=" + '<?php echo THM_CoreHelper::getLanguageShortTag(); ?>';
+        poolUrl += "&view=pool_ajax&format=raw&task=parentOptions";
+        poolUrl += "&id=<?php echo $resourceID; ?>";
+        poolUrl += "&type=<?php echo $resourceType; ?>";
+        poolUrl += "&programIDs=" + selectedPrograms;
         jQuery.get(poolUrl, function(options){
             jQuery('#jformparentID').html(options);
             var newSelectedParents = jQuery('#jformparentID').val();

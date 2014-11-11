@@ -6,7 +6,7 @@
  * @name        subject details view default layout
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2012 TH Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -35,9 +35,10 @@ $selfCompetence = ($this->lang == 'de')? 'Selbstkompetenz' : 'Self Competence';
 $socialCompetence = ($this->lang == 'de')? 'Sozialkompetenz' : 'Social Competence';
 $flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
 $flagPath .= DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
-$oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_SUM_ONESTAR');
-$twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARS');
-$threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_SUM_TWOSTARs');
+$noStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS');
+$oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_ONE_STAR');
+$twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
+$threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 ?>
 <script type="text/javascript">
 
@@ -121,7 +122,7 @@ if (!empty($subject['content']))
     echo '<div class="subject-content">' . $subject['content'] . '</div>';
     echo '</div>';
 }
-if (!empty($subject['expertise']))
+if ($subject['expertise']  !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $expertise . '</div>';
@@ -138,9 +139,13 @@ if (!empty($subject['expertise']))
     {
         echo $oneStar;
     }
+    elseif ($subject['expertise'] == '0')
+    {
+        echo $noStar;
+    }
     echo '</div></div>';
 }
-if (!empty($subject['method_competence']))
+if ($subject['method_competence'] !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $methodCompetence . '</div>';
@@ -157,9 +162,13 @@ if (!empty($subject['method_competence']))
     {
         echo $oneStar;
     }
+    elseif ($subject['method_competence'] == '0')
+    {
+        echo $noStar;
+    }
     echo '</div></div>';
 }
-if (!empty($subject['social_competence']))
+if ($subject['social_competence']  !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $socialCompetence . '</div>';
@@ -176,9 +185,13 @@ if (!empty($subject['social_competence']))
     {
         echo $oneStar;
     }
+    elseif ($subject['social_competence'] == '0')
+    {
+        echo $noStar;
+    }
     echo '</div></div>';
 }
-if (!empty($subject['self_competence']))
+if ($subject['self_competence'] !== null)
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $selfCompetence . '</div>';
@@ -194,6 +207,10 @@ if (!empty($subject['self_competence']))
     elseif ($subject['self_competence'] == '1')
     {
         echo $oneStar;
+    }
+    elseif ($subject['self_competence'] == '0')
+    {
+        echo $noStar;
     }
     echo '</div></div>';
 }

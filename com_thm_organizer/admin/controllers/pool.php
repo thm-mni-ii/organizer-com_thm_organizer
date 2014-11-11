@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
 
 /**
  * Class THM_OrganizerControllerPool for component com_thm_organizer
@@ -21,10 +20,20 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v1.5.0
  */
 class THM_OrganizerControllerPool extends JControllerLegacy
 {
+    /**
+     * Performs access checks and redirects to the pool edit view
+     *
+     * @return void
+     */
+    public function add()
+    {
+        JFactory::getApplication()->input->set('view', 'pool_edit');
+        parent::display();
+    }
+
     /**
      * Performs access checks and redirects to the pool edit view
      *
@@ -32,7 +41,8 @@ class THM_OrganizerControllerPool extends JControllerLegacy
      */
     public function edit()
     {
-        $this->setRedirect("index.php?option=com_thm_organizer&view=pool_edit");
+        JFactory::getApplication()->input->set('view', 'pool_edit');
+        parent::display();
     }
 
     /**
@@ -65,7 +75,6 @@ class THM_OrganizerControllerPool extends JControllerLegacy
         $success = $this->getModel('pool')->save();
         if ($success)
         {
-            $referrer = THM_OrganizerHelperReferrer::getReferrer('pool');
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             $msgType = 'message';
         }
@@ -74,14 +83,7 @@ class THM_OrganizerControllerPool extends JControllerLegacy
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $msgType = 'error';
         }
-        if (empty($referrer))
-        {
-            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, $msgType);
-        }
-        else
-        {
-            $this->setRedirect($referrer, $msg);
-        }
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, $msgType);
     }
 
     /**
@@ -112,14 +114,6 @@ class THM_OrganizerControllerPool extends JControllerLegacy
      */
     public function cancel()
     {
-        $referrer = THM_OrganizerHelperReferrer::getReferrer('pool');
-        if (empty($referrer))
-        {
-            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false));
-        }
-        else
-        {
-            $this->setRedirect($referrer);
-        }
+        $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false));
     }
 }

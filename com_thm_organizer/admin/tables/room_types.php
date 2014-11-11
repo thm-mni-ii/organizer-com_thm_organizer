@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -22,7 +21,6 @@ jimport('joomla.application.component.table');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerTableRoom_Types extends JTable
 {

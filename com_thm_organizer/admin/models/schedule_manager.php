@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     v0.1.0
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
@@ -12,14 +11,13 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componenthelper.php';
 /**
  * Class defining functions to be used for lesson resources
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
- * @since       v0.1.0
  */
 class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
 {
@@ -77,9 +75,6 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         }
 
         $index = 0;
-        $params =JComponentHelper::getParams('com_thm_organizer');
-        $dateFormat = $params->get('dateFormat', 'd.m.Y');
-        $timeFormat = $params->get('timeFormat', 'H:i');
         foreach ($items as $item)
         {
             $return[$index] = array();
@@ -87,8 +82,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
             $return[$index]['departmentname'] = $item->departmentname;
             $return[$index]['semestername'] = $item->semestername;
             $return[$index]['active'] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
-            $return[$index]['creationdate'] = date($dateFormat, strtotime($item->creationdate));
-            $return[$index]['creationtime'] = date($timeFormat, strtotime($item->creationtime));
+            $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
+            $return[$index]['creationtime'] = THM_OrganizerHelperComponent::formatTime($item->creationtime);
             $index++;
         }
         return $return;

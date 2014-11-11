@@ -86,6 +86,10 @@ class THM_OrganizerModelPool extends JModelLegacy
  
         $this->_db->transactionStart();
 
+        if (empty($data['fieldID']))
+        {
+            unset($data['fieldID']);
+        }
         $success = $table->save($data);
 
         // Successfully inserted a new pool

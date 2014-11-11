@@ -52,14 +52,14 @@ class THM_OrganizerViewSubject_Manager extends THM_CoreViewList
         JToolbarHelper::editList('subject.edit');
         JToolbarHelper::custom(
             'subject.importLSFData',
-            'export',
+            'import',
             '',
             'COM_THM_ORGANIZER_ACTION_IMPORT',
             true
         );
         JToolbarHelper::custom(
             'subject.updateAll',
-            'export',
+            'import',
             '',
             'COM_THM_ORGANIZER_ACTION_IMPORT_ALL',
             false

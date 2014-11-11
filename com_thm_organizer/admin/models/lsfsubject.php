@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.helpers.corehelper');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/lsfapi.php';
 defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
 defined('TEACHER') OR define('TEACHER', 2);
@@ -126,7 +127,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $teachersSet = $this->setTeachers($subject->id, $dataObject);
         if (!$teachersSet)
         {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_TEACHER_IMPORT'), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL'), 'error');
             return false;
         }
 
@@ -186,6 +187,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     private function setObjectProperty(&$subject, &$textNode)
     {
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $nameAttribute = "name_$shortTag";
+        $name = $subject->$nameAttribute;
         $category = (string) $textNode->kategorie;
         $language = (string) $textNode->sprache;
         $text = (string) $textNode->txt;
@@ -220,7 +224,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
                 if (!$prerequisitesSaved)
                 {
-                    JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_PREREQ_IMPORT'), 'warning');
+                    $msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
+                    JFactory::getApplication()->enqueueMessage($msg, 'warning');
                 }
                 $this->setAttribute($subject, "content_$language", $text);
                 break;
@@ -229,7 +234,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $postrequisitesSaved = $this->savePostrequisites($subject->id, $prerequisites);
                 if (!$postrequisitesSaved)
                 {
-                    JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_POSTREQ_IMPORT'), 'warning');
+                    $msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
+                    JFactory::getApplication()->enqueueMessage($msg, 'warning');
                     break;
                 }
                 $this->setAttribute($subject, "content_$language", $text);
@@ -248,7 +254,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
                 if (!$prerequisitesSaved)
                 {
-                    JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_SUM_ERROR_PREREQ_IMPORT'), 'warning');
+                    $msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
+                    JFactory::getApplication()->enqueueMessage($msg, 'warning');
                     break;
                 }
                 $this->setAttribute($subject, "content_$language", $text);
@@ -768,17 +775,17 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             if ($completeFail)
             {
                 $msgType = 'error';
-                $msg = JText::_('COM_THM_ORGANIZER_SUM_UPDATE_FAILEDCOMPLETE');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             }
             else
             {
-                $msgType = 'notice';
-                $msg = JText::_('COM_THM_ORGANIZER_SUM_UPDATE_FAILEDPARTIAL');
+                $msgType = 'error';
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL_PARTIAL');
             }
             JFactory::getApplication()->enqueueMessage($msg, $msgType);
             return;
         }
-        $msg = JText::_('COM_THM_ORGANIZER_SUM_UPDATE_SUCCESS');
+        $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         JFactory::getApplication()->enqueueMessage($msg);
     }
 }
