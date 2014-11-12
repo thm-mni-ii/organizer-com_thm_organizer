@@ -14,7 +14,7 @@ $subject = $this->subject;
 $moduleNumber = ($this->lang == 'de')? 'Modulnummer' : 'Module Number';
 $shortName = ($this->lang == 'de')? 'Kurzname' : 'Short Name';
 $teachers = ($this->lang == 'de')? 'Dozenten' : 'Taught By';
-$description = ($this->lang == 'de')? 'Beschreibung' : 'Description';
+$description = ($this->lang == 'de')? 'Kurzbeschreibung' : 'Short Description';
 $objectives = ($this->lang == 'de')? 'Lernziele' : 'Objectives';
 $contents = ($this->lang == 'de')? 'Inhalte' : 'Contents';
 $prerequisites = ($this->lang == 'de')? 'Voraussetzungen' : 'Prerequisites';
@@ -22,7 +22,7 @@ $prerequisiteOf = ($this->lang == 'de')? 'Voraussetzung von' : 'Prerequisite for
 $references = ($this->lang == 'de')? 'Literatur' : 'References';
 $expenditure = ($this->lang == 'de')? 'Aufwand' : 'Expenditure';
 $method = ($this->lang == 'de')? 'Lernmethode' : 'Instruction Method';
-$proof = ($this->lang == 'de')? 'Leistungsnachweis' : 'Testing Method';
+$proof = ($this->lang == 'de')? 'Voraussetzung für die Vergabe von Creditpoints' : 'Credit Point Reward Requirement';
 $frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
 $language = ($this->lang == 'de')? 'Sprache' : 'Language';
 $preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
