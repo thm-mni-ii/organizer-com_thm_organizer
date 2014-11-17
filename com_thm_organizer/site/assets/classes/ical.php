@@ -60,7 +60,7 @@ class THMICALBuilder extends THMAbstractBuilder
      *
      * @var    Object
      */
-    private $_modules = null;
+    private $_pools = null;
  
 
     /**
@@ -98,8 +98,8 @@ class THMICALBuilder extends THMAbstractBuilder
         unset($scheduleData->subjects);
         $this->_teachers = $scheduleData->teachers;
         unset($scheduleData->teachers);
-        $this->_modules = $scheduleData->modules;
-        unset($scheduleData->modules);
+        $this->_pools = $scheduleData->pools;
+        unset($scheduleData->pools);
  
         if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "")
         {
