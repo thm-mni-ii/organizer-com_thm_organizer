@@ -104,6 +104,9 @@ jQuery(document).ready(function(){
                 selectedParents = oldSelectedParents;
             }
             jQuery('#jformparentID').val(selectedParents);
+
+            // from lib_thm_core
+            refreshChoosen('jformparentID');
         });
     });
 });

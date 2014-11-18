@@ -1,6 +1,13 @@
 /* globals jQuery, Joomla */
 var jq = jQuery.noConflict();
 
+window.onload = function(){
+    var forms  = document.getElementsByTagName("form");
+    for(var i =  0; i < forms.length; i++){
+        forms[i].onsubmit = function() {return false};
+    }
+};
+
 /**
  * Moves the values of the calling row up one row in the children table
  *
