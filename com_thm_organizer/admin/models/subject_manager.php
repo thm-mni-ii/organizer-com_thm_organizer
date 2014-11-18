@@ -60,7 +60,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
         $query = $dbo->getQuery(true);
         $select = "DISTINCT s.id, externalID, name_$shortTag AS name, field, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=subject_edit&id='","s.id");
-        $select .= $query->concatenate($parts, "") . "AS link ";
+        $select .= $query->concatenate($parts, "") . " AS link ";
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
