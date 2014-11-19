@@ -48,7 +48,7 @@ class THM_OrganizerViewSubject_Manager extends THM_CoreViewList
     protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_VIEW_TITLE'), 'organizer_subjects');
-        JToolbarHelper::addNew('subject.edit');
+        JToolbarHelper::addNew('subject.add');
         JToolbarHelper::editList('subject.edit');
         JToolbarHelper::custom(
             'subject.importLSFData',

@@ -88,7 +88,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
         if (empty($data['fieldID']))
         {
-            $data['fieldID'] = 'NULL';
+            $data['fieldID'] = NULL;
         }
         $starProperties = array('expertise', 'self_competence', 'method_competence', 'social_competence');
         foreach ($starProperties as $property)

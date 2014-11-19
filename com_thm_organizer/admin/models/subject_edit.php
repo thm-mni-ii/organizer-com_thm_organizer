@@ -34,25 +34,6 @@ class THM_OrganizerModelSubject_Edit extends THM_CoreModelEdit
     }
 
     /**
-     * Method to load the form data
-     *
-     * @return  Object
-     */
-    protected function loadFormData()
-    {
-        $input = JFactory::getApplication()->input;
-        $subjectIDs = $input->get('cid', null, 'array');
-        $subjectID = (empty($subjectIDs))? $input->getInt('subjectID', 0) : $subjectIDs[0];
-        $item = $this->getItem($subjectID);
-        if (!empty($item->id))
-        {
-            $item->responsible = $this->getResponsible($item->id);
-        }
-        THM_OrganizerHelperReferrer::setReferrer('subject');
-        return $item;
-    }
-
-    /**
      * Retrieves the teacher responsible for the subject's development
      *
      * @param   int  $subjectID  the id of the subject

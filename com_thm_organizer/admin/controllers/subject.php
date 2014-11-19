@@ -168,7 +168,7 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function updateAll()
     {
-        $model = JModel::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $model = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
         $model->updateAll();
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
     }
