@@ -63,8 +63,9 @@ class JFormFieldPrograms extends JFormField
     {
 ?>
 <script type="text/javascript" charset="utf-8">
-jQuery(document).ready(function(){
-    jQuery('#jformprogramID').change(function(){
+var jq = jQuery.noConflict();
+jq(document).ready(function(){
+    jq('#jformprogramID').change(function(){
         var selectedPrograms = jq('#jformprogramID').val();
         if (selectedPrograms === null)
         {
