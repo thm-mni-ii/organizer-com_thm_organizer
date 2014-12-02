@@ -34,11 +34,6 @@ INSERT INTO `#__thm_organizer_degrees` (`id`, `name`, `abbreviation`, `lsfDegree
 (7, 'Master of Arts', 'M.A.', 'MA'),
 (8, 'Master of Business Administration and Engineering', 'M.B.A.', 'MB');
 
-
-INSERT INTO `#__thm_organizer_teacher_responsibilities` (`id`, `name`) VALUES
-(1, 'COM_THM_ORGANIZER_SUM_RESPONSIBLE'),
-(2, 'COM_THM_ORGANIZER_SUM_TEACHER');
-
 INSERT INTO `#__thm_organizer_frequencies` (`id`, `frequency_de`, `frequency_en`) VALUES
 (0, 'Nach Termin', 'By Appointment'),
 (1, 'Nur im Sommersemester', 'Only Spring/Summer Term'),
