@@ -13,11 +13,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `semestername` VARCHAR ( 50 ) NOT NULL,
   `creationdate` date DEFAULT NULL,
   `creationtime` time DEFAULT NULL,
-  `description` TEXT NOT NULL,
+  `description` TEXT NOT NULL DEFAULT '',
   `schedule` mediumblob NOT NULL,
   `active` TINYINT ( 1 ) NOT NULL DEFAULT '0',
   `startdate` date DEFAULT NULL,
   `enddate` date DEFAULT NULL,
+  `term_startdate` date DEFAULT NULL,
+  `term_enddate` date DEFAULT NULL,
   PRIMARY KEY ( `id` ),
   KEY `semestername` ( `semestername` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -61,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
   `field` VARCHAR ( 50 ) NOT NULL DEFAULT '',
   `colorID` INT(11) unsigned DEFAULT NULL,
   PRIMARY KEY ( `id` ),
-  UNIQUE KEY `gpuntisID` ( `gpuntisID` ),
+  KEY `gpuntisID` ( `gpuntisID` ),
   KEY `colorID` (`colorID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -69,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR ( 255 ) NOT NULL,
   `abbreviation` VARCHAR ( 45 ) NOT NULL DEFAULT '',
-  `lsfDegree` varchar ( 10 ) DEFAULT NULL,
+  `lsfDegree` varchar ( 10 ) DEFAULT '',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -78,12 +80,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `subject_de` varchar(255) NOT NULL,
   `subject_en` varchar(255) NOT NULL,
   `version` year (4) DEFAULT NULL,
-  `lsfFieldID` varchar(255) DEFAULT NULL,
+  `lsfFieldID` varchar(20) DEFAULT '',
   `degreeID` INT(11) unsigned DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
-  `description_de` text DEFAULT NULL,
-  `description_en` text DEFAULT NULL,
+  `description_de` text DEFAULT '',
+  `description_en` text DEFAULT '',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `lsfData` (`version`, `lsfFieldID`, `degreeID`),
   KEY `degreeID` (`degreeID`),
   KEY `fieldID` (`fieldID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -92,19 +95,19 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `lsfID` INT(11) UNSIGNED DEFAULT NULL,
   `hisID` INT(11) UNSIGNED DEFAULT NULL,
-  `externalID` varchar(45) DEFAULT NULL,
-  `description_de` text DEFAULT NULL,
-  `description_en` text DEFAULT NULL,
-  `abbreviation_de` varchar(45) DEFAULT NULL,
-  `abbreviation_en` varchar(45) DEFAULT NULL,
-  `short_name_de` varchar(45) DEFAULT NULL,
-  `short_name_en` varchar(45) DEFAULT NULL,
+  `externalID` varchar(45) DEFAULT '',
+  `description_de` text DEFAULT '',
+  `description_en` text DEFAULT '',
+  `abbreviation_de` varchar(45) DEFAULT '',
+  `abbreviation_en` varchar(45) DEFAULT '',
+  `short_name_de` varchar(45) DEFAULT '',
+  `short_name_en` varchar(45) DEFAULT '',
   `name_de` varchar(255) DEFAULT NULL,
   `name_en` varchar(255) DEFAULT NULL,
-  `minCrP` INT(2) UNSIGNED DEFAULT NULL,
-  `maxCrP` INT(2) UNSIGNED DEFAULT NULL,
+  `minCrP` INT(3) UNSIGNED DEFAULT 0,
+  `maxCrP` INT(3) UNSIGNED DEFAULT 0,
   `fieldID` INT(11) unsigned DEFAULT NULL,
-  `distance` INT(2) UNSIGNED DEFAULT NULL,
+  `distance` INT(2) UNSIGNED DEFAULT 10,
   `display_type` boolean DEFAULT TRUE,
   `enable_desc` boolean DEFAULT TRUE,
   PRIMARY KEY (id),
@@ -115,8 +118,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
   `id` INT (1) UNSIGNED NOT NULL,
-  `frequency_de` varchar (45) DEFAULT NULL,
-  `frequency_en` varchar (45) DEFAULT NULL,
+  `frequency_de` varchar (45) NOT NULL,
+  `frequency_en` varchar (45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -124,44 +127,44 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `lsfID` INT(11) UNSIGNED DEFAULT NULL,
   `hisID` INT(11) UNSIGNED DEFAULT NULL,
-  `externalID` varchar(45) DEFAULT NULL,
-  `abbreviation_de` varchar(45) DEFAULT NULL,
-  `abbreviation_en` varchar(45) DEFAULT NULL,
-  `short_name_de` varchar(45) DEFAULT NULL,
-  `short_name_en` varchar(45) DEFAULT NULL,
-  `name_de` varchar(255) DEFAULT NULL,
-  `name_en` varchar(255) DEFAULT NULL,
-  `description_de` text DEFAULT NULL,
-  `description_en` text DEFAULT NULL,
-  `objective_de` text DEFAULT NULL,
-  `objective_en` text DEFAULT NULL,
-  `content_de` text DEFAULT NULL,
-  `content_en` text DEFAULT NULL,
-  `prerequisites_de` text DEFAULT NULL,
-  `prerequisites_en` text DEFAULT NULL,
-  `preliminary_work_de` varchar(255) DEFAULT NULL,
-  `preliminary_work_en` varchar(255) DEFAULT NULL,
-  `instructionLanguage` varchar (2) DEFAULT NULL,
-  `literature` text DEFAULT NULL,
-  `creditpoints` INT(4) UNSIGNED DEFAULT NULL,
-  `expenditure` INT(4) UNSIGNED DEFAULT NULL,
-  `present` INT(4) UNSIGNED DEFAULT NULL,
-  `independent` INT(4) UNSIGNED DEFAULT NULL,
-  `proof_de` varchar(255) DEFAULT NULL,
-  `proof_en` varchar(255) DEFAULT NULL,
+  `externalID` varchar(45) NOT NULL DEFAULT '',
+  `abbreviation_de` varchar(45) NOT NULL DEFAULT '',
+  `abbreviation_en` varchar(45) NOT NULL DEFAULT '',
+  `short_name_de` varchar(45) NOT NULL DEFAULT '',
+  `short_name_en` varchar(45) NOT NULL DEFAULT '',
+  `name_de` varchar(255) NOT NULL,
+  `name_en` varchar(255) NOT NULL,
+  `description_de` text NOT NULL DEFAULT '',
+  `description_en` text NOT NULL DEFAULT '',
+  `objective_de` text NOT NULL DEFAULT '',
+  `objective_en` text NOT NULL DEFAULT '',
+  `content_de` text NOT NULL DEFAULT '',
+  `content_en` text NOT NULL DEFAULT '',
+  `prerequisites_de` text NOT NULL DEFAULT '',
+  `prerequisites_en` text NOT NULL DEFAULT '',
+  `preliminary_work_de` varchar(255) NOT NULL DEFAULT '',
+  `preliminary_work_en` varchar(255) NOT NULL DEFAULT '',
+  `instructionLanguage` varchar(2)  NOT NULL DEFAULT 'D',
+  `literature` text NOT NULL DEFAULT '',
+  `creditpoints` INT(4) UNSIGNED NOT NULL DEFAULT 0,
+  `expenditure` INT(4) UNSIGNED NOT NULL DEFAULT 0,
+  `present` INT(4) UNSIGNED NOT NULL DEFAULT 0,
+  `independent` INT(4) UNSIGNED NOT NULL DEFAULT 0,
+  `proof_de` varchar(255) NOT NULL DEFAULT '',
+  `proof_en` varchar(255) NOT NULL DEFAULT '',
   `frequencyID` INT(1) UNSIGNED DEFAULT NULL,
-  `method_de` varchar(255) DEFAULT NULL,
-  `method_en` varchar(255) DEFAULT NULL,
+  `method_de` varchar(255) NOT NULL DEFAULT '',
+  `method_en` varchar(255) NOT NULL DEFAULT '',
   `fieldID` INT(11) unsigned DEFAULT NULL,
-  `sws` INT( 2 ) UNSIGNED NOT NULL ,
-  `aids_en` TEXT NOT NULL ,
-  `aids_de` TEXT NOT NULL ,
-  `evaluation_en` TEXT NOT NULL ,
-  `evaluation_de` TEXT NOT NULL ,
-  `expertise` INT( 1 ) UNSIGNED NULL DEFAULT NULL ,
-  `self_competence` INT( 1 ) UNSIGNED NULL DEFAULT NULL ,
-  `method_competence` INT( 1 ) UNSIGNED NULL DEFAULT NULL ,
-  `social_competence` INT( 1 ) UNSIGNED NULL DEFAULT NULL ,
+  `sws` INT( 2 ) UNSIGNED NOT NULL DEFAULT 0,
+  `aids_de` TEXT NOT NULL DEFAULT '',
+  `aids_en` TEXT NOT NULL DEFAULT '',
+  `evaluation_de` TEXT NOT NULL DEFAULT '',
+  `evaluation_en` TEXT NOT NULL DEFAULT '',
+  `expertise` INT( 1 ) UNSIGNED NULL DEFAULT NULL,
+  `self_competence` INT( 1 ) UNSIGNED NULL DEFAULT NULL,
+  `method_competence` INT( 1 ) UNSIGNED NULL DEFAULT NULL,
+  `social_competence` INT( 1 ) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `frequencyID` (`frequencyID`),
   KEY `fieldID` (`fieldID`)
@@ -194,33 +197,26 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR ( 10 ) DEFAULT NULL,
+  `gpuntisID` VARCHAR ( 50 ) NOT NULL DEFAULT '',
   `surname` VARCHAR ( 255 ) DEFAULT NULL,
-  `forename` VARCHAR ( 255 ) DEFAULT NULL,
+  `forename` varchar ( 255 ) NOT NULL DEFAULT '',
   `username` VARCHAR ( 150 ) NOT NULL DEFAULT '',
   `fieldID` INT ( 11 ) UNSIGNED DEFAULT NULL,
-  `title` varchar ( 45 ) DEFAULT NULL,
+  `title` varchar ( 45 ) NOT NULL DEFAULT '',
   PRIMARY KEY ( `id` ),
   KEY `username` ( `username` ),
   KEY `fieldID` (`fieldID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_teacher_responsibilities` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 50 ) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `subjectID` INT(11) UNSIGNED NOT NULL,
   `teacherID` INT(11) UNSIGNED NOT NULL,
-  `teacherResp` INT(11) UNSIGNED NOT NULL,
+  `teacherResp` INT(11) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`subjectID`, `teacherID`, `teacherResp`),
   UNIQUE  KEY (`id`),
-  KEY `subjectID` (`subjectID`) ,
-  KEY `teacherID` (`teacherID`) ,
-  KEY `teacherResp` (`teacherResp`)
+  KEY `subjectID` (`subjectID`),
+  KEY `teacherID` (`teacherID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
@@ -228,14 +224,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `gpuntisID` VARCHAR ( 50 ) NOT NULL DEFAULT '',
   `type` VARCHAR ( 50 ) NOT NULL DEFAULT '',
   `subtype` VARCHAR ( 100 ) NOT NULL DEFAULT '',
-  PRIMARY KEY ( `id` ),
-  UNIQUE KEY `gpuntisID` ( `gpuntisID` )
+  PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR ( 20 ) NOT NULL,
-  `name` VARCHAR ( 10 ) NOT NULL DEFAULT '',
+  `gpuntisID` VARCHAR ( 50 ) NOT NULL DEFAULT '',
+  `name` VARCHAR ( 10 ) NOT NULL,
   `longname` VARCHAR ( 50 ) NOT NULL DEFAULT '',
   `typeID` INT ( 11 ) UNSIGNED DEFAULT NULL,
   PRIMARY KEY ( `id` ),
@@ -251,15 +246,16 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   `schedule_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of seconds before the schedule refreshes',
   `content_refresh` INT ( 3 ) UNSIGNED NOT NULL DEFAULT  '60' COMMENT  'the amount of time in seconds before the content refreshes',
   `interval` INT ( 1 ) UNSIGNED NOT NULL DEFAULT'1' COMMENT 'the time interval in minutes between context switches',
-  `content` VARCHAR ( 256 ) DEFAULT NULL COMMENT 'the filename of the resource to the optional resource to be displayed',
+  `content` VARCHAR ( 256 ) DEFAULT '' COMMENT 'the filename of the resource to the optional resource to be displayed',
   PRIMARY KEY ( `id` ),
+  UNIQUE KEY ( `ip` ),
   KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` VARCHAR ( 50 ) NOT NULL,
-  `description` TEXT NOT NULL default '',
+  `description` TEXT NOT NULL DEFAULT '',
   `global` TINYINT ( 1 ) NOT NULL DEFAULT '0',
   `reserves` TINYINT ( 1 ) NOT NULL DEFAULT '0',
   `contentCatID` INT ( 11 ) NOT NULL,
@@ -270,16 +266,16 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `id` INT ( 11 ) UNSIGNED NOT NULL,
   `categoryID` INT ( 11 ) UNSIGNED NOT NULL,
-  `startdate` date NOT NULL DEFAULT '0000-00-00',
+  `startdate` date NOT NULL,
   `enddate` date DEFAULT NULL,
-  `starttime` time DEFAULT NULL,
-  `endtime` time DEFAULT NULL,
+  `starttime`  time NOT NULL DEFAULT '00:00:00',
+  `endtime`  time NOT NULL DEFAULT '00:00:00',
   `start` INT ( 15 ) DEFAULT '0',
   `end` INT ( 15 ) DEFAULT '0',
   `recurrence_type` INT ( 2 ) UNSIGNED NOT NULL DEFAULT '0',
   `recurrence_counter` INT ( 2 ) UNSIGNED  NOT NULL DEFAULT '0',
   `recurrence_enddate` date NOT NULL DEFAULT '0000-00-00',
-  `recurrence_INTerval` INT ( 2 ) UNSIGNED  NOT NULL DEFAULT '0',
+  `recurrence_interval` INT ( 2 ) UNSIGNED  NOT NULL DEFAULT '0',
   `recurrence_days` VARCHAR ( 7 ) NOT NULL DEFAULT '0000000',
   `recurrence_date` INT ( 2 ) UNSIGNED NOT NULL DEFAULT '0',
   KEY `id` ( `id` ),
@@ -297,6 +293,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_teachers` (
   `eventID` INT ( 11 ) UNSIGNED NOT NULL,
   `teacherID` INT ( 11 ) UNSIGNED NOT NULL,
+  PRIMARY KEY (`eventID`, `teacherID`),
   KEY `eventID` ( `eventID` ),
   KEY `teacherID` ( `teacherID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -304,6 +301,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_teachers` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_rooms` (
   `eventID` INT ( 11 ) UNSIGNED NOT NULL,
   `roomID` INT ( 11 ) UNSIGNED NOT NULL,
+  PRIMARY KEY (`eventID`, `roomID`),
   KEY `eventID` ( `eventID` ),
   KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -311,6 +309,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_rooms` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
   `eventID` INT ( 11 ) UNSIGNED NOT NULL,
   `groupID` INT ( 11 ) UNSIGNED NOT NULL,
+  PRIMARY KEY (`eventID`, `groupID`),
   KEY `eventID` ( `eventID` ),
   KEY `groupID` ( `groupID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -386,10 +385,6 @@ REFERENCES `#__thm_organizer_subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCAD
 ALTER TABLE `#__thm_organizer_subject_teachers`
 ADD CONSTRAINT `subject_teachers_teacherid_fk` FOREIGN KEY (`teacherID`)
 REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_subject_teachers`
-ADD CONSTRAINT `subject_teachers_responsibility_fk` FOREIGN KEY (`teacherResp`)
-REFERENCES `#__thm_organizer_teacher_responsibilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_rooms`
 ADD CONSTRAINT `rooms_typeid_fk` FOREIGN KEY (`typeID`)
