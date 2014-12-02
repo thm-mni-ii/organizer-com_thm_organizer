@@ -1,6 +1,4 @@
-/* globals jQuery, Joomla */
-var jq = jQuery.noConflict();
-
+/* deactivated forms for choosen */
 window.onload = function(){
     var forms  = document.getElementsByTagName("form");
     for(var i =  0; i < forms.length; i++){
@@ -125,13 +123,13 @@ function orderWithNumber(firstPos)
     var length = currentOrder.length;
     
     var tmpElement = currentOrder[firstPos - 1];
-    var secondPos = jq('#child' + firstPos + 'order').val();
+    var secondPos = $('#child' + firstPos + 'order').val();
     secondPos = parseInt(secondPos);
 
 
     if (isNaN(secondPos) === true || secondPos > length || (Number(secondPos) === length && tmpElement.name === ""))
     {
-        jq('#child' + firstPos + 'order').val(firstPos);
+        $('#child' + firstPos + 'order').val(firstPos);
         return;
     }
 
@@ -163,7 +161,7 @@ function removeRow(rowNumber)
     
     pushAllUp(rowNumber, length, currentOrder);
     
-    jq('#childRow' + length).remove();
+    $('#childRow' + length).remove();
 }
 
 /**
@@ -218,15 +216,15 @@ function getCurrentOrder()
     var currentOrder = [];
 
     // The header row needs to be removed from the count
-    var rowCount = jq('#childList tr').length - 1;
+    var rowCount = $('#childList tr').length - 1;
     for (var i = 0; i < rowCount; i++)
     {
         var order = i + 1;
         currentOrder[i] = {};
-        currentOrder[i].name = jq('#child' + order + 'name').text().trim();
-        currentOrder[i].id = jq('#child' + order).val();
-        currentOrder[i].link = jq('#child' + order + 'link').attr('href');
-        currentOrder[i].order = jq('#child' + order + 'order').val();
+        currentOrder[i].name = $('#child' + order + 'name').text().trim();
+        currentOrder[i].id = $('#child' + order).val();
+        currentOrder[i].link = $('#child' + order + 'link').attr('href');
+        currentOrder[i].order = $('#child' + order + 'order').val();
     }
     return currentOrder;
 }
@@ -242,10 +240,10 @@ function overrideElement(newOrder, oldElement)
 {
     "use strict";
 
-    jq('#child' + newOrder + 'name').text(oldElement.name);
-    jq('#child' + newOrder).val(oldElement.id);
-    jq('#child' + newOrder + 'link').attr('href', oldElement.link);
-    jq('#child' + newOrder + 'order').val(newOrder);
+    $('#child' + newOrder + 'name').text(oldElement.name);
+    $('#child' + newOrder).val(oldElement.id);
+    $('#child' + newOrder + 'link').attr('href', oldElement.link);
+    $('#child' + newOrder + 'order').val(newOrder);
 }
 
 /**
@@ -258,10 +256,10 @@ function overrideElementWithDummy(position)
 {
     "use strict";
     
-    jq('#child' + position + 'name').text('');
-    jq('#child' + position).val('');
-    jq('#child' + position + 'link').attr('href', "");
-    jq('#child' + position + 'order').val(position); 
+    $('#child' + position + 'name').text('');
+    $('#child' + position).val('');
+    $('#child' + position + 'link').attr('href', "");
+    $('#child' + position + 'order').val(position);
 }
 
 /**
@@ -292,7 +290,7 @@ function createNewRow(lastPosition, tableID)
     
     var pos = parseInt(lastPosition, 10) + 1;
     
-    jq( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' +
+    $( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' +
         '<td class="child-name">' +
           '<a id="child'+pos+'link" href="#">' +
             '<span id="child'+pos+'name">TEST OBJEKT</span>' +

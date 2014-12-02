@@ -63,10 +63,9 @@ class JFormFieldPrograms extends JFormField
     {
 ?>
 <script type="text/javascript" charset="utf-8">
-var jq = jQuery.noConflict();
-jq(document).ready(function(){
-    jq('#jformprogramID').change(function(){
-        var selectedPrograms = jq('#jformprogramID').val();
+jQuery(document).ready(function(){
+    jQuery('#jformprogramID').change(function(){
+        var selectedPrograms = jQuery('#jformprogramID').val();
         if (selectedPrograms === null)
         {
             selectedPrograms = '';
@@ -75,7 +74,7 @@ jq(document).ready(function(){
         {
             selectedPrograms = selectedPrograms.join(',');
         }
-        var oldSelectedParents = jq('#jformparentID').val();
+        var oldSelectedParents = jQuery('#jformparentID').val();
         if (jQuery.inArray('-1', selectedPrograms) != '-1'){
             jQuery("#jformprogramID").find('option').removeAttr("selected");
             return false;
