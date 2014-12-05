@@ -5,7 +5,7 @@
                type="hidden" />
         <field name="surname"
                type="text"
-               class="inputbox"
+               class="inputbox required"
                size="40"
                label="COM_THM_ORGANIZER_SURNAME"
                description="COM_THM_ORGANIZER_SURNAME_DESC"

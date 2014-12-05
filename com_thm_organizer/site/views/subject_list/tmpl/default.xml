@@ -10,40 +10,31 @@
     <layout title="COM_THM_ORGANIZER_SUBJECT_CATALOG_TITLE">
         <message>COM_THM_ORGANIZER_SUBJECT_CATALOG_DESCRIPTION</message>
     </layout>
-    <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
-        <fieldset name="basic">
-            <field name="programID"
-                   type="programs"
-                   class="inputbox"
-                   label="COM_THM_ORGANIZER_PROGRAM"
-                   description="COM_THM_ORGANIZER_CUR_PROGRAMS_DESC"
-                   required="true"/>
-            <field name="language"
-                   type="radio"
-                   default="1"
-                   label="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_TITLE"
-                   description="COM_THM_ORGANIZER_DEFAULT_LANGUAGE_DESCRIPTION">
-                <option value="1">COM_THM_ORGANIZER_GERMAN</option>
-                <option value="0">COM_THM_ORGANIZER_ENGLISH</option>
+    <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
+        <fieldset name="basic" label="COM_THM_ORGANIZER_SUBJECT_CATALOG_SETTINGS">
+            <field
+                name="programID"
+                type="programID"
+                class="inputbox"
+                label="COM_THM_ORGANIZER_PROGRAM"
+                description="COM_THM_ORGANIZER_PROGRAM_DESC"
+                required="true"/>
+            <field
+                name="groupBy"
+                type="list"
+                default="0"
+                label="COM_THM_ORGANIZER_GROUP_BY"
+                description="COM_THM_ORGANIZER_GROUP_BY_DESC">
+                <option value="0">JNONE</option>
+                <option value="1">COM_THM_ORGANIZER_GROUPING_POOL</option>
+                <option value="2">COM_THM_ORGANIZER_GROUPING_TEACHER</option>
+                <option value="3">COM_THM_ORGANIZER_GROUPING_FIELD</option>
             </field>
-            <field name="groupBy"
-                   type="list"
-                   default="0"
-                   label="COM_THM_ORGANIZER_SUL_GROUP_TITLE"
-                   description="COM_THM_ORGANIZER_SUL_GROUP_DESCRIPTION">
-                <option value="0">COM_THM_ORGANIZER_SUL_GROUP_NONE</option>
-                <option value="1">COM_THM_ORGANIZER_SUL_GROUP_POOL</option>
-                <option value="2">COM_THM_ORGANIZER_SUL_GROUP_TEACHER</option>
-                <option value="3">COM_THM_ORGANIZER_SUL_GROUP_FIELD</option>
-            </field>
-            <field type="spacer"
-                   label="COM_THM_ORGANIZER_APPEARANCE_SPACER" />
-            <field name="suffix"
-                   type="text"
-                   label="COM_THM_ORGANIZER_SUFFIX_TITLE"
-                   description="COM_THM_ORGANIZER_SUFFIX_DESCRIPTION"
-                   default="">
-            </field>
+            <field
+                name="suffix"
+                type="text"
+                label="COM_THM_ORGANIZER_SUFFIX"
+                description="COM_THM_ORGANIZER_SUFFIX_DESC" />
         </fieldset>
     </fields>
 </metadata>
