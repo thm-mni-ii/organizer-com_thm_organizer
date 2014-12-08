@@ -56,7 +56,7 @@
     <fieldset name="de" label="COM_THM_ORGANIZER_ATTRIBUTES_DE">
         <field name="name_de"
                type="text"
-               class="inputbox"
+               class="inputbox required"
                size="40"
                label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"
@@ -84,7 +84,7 @@
     <fieldset name="en" label="COM_THM_ORGANIZER_ATTRIBUTES_EN">
         <field name="name_en"
                type="text"
-               class="inputbox"
+               class="inputbox required"
                size="40"
                label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"

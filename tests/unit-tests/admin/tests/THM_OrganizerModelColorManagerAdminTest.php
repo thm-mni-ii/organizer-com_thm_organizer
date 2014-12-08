@@ -106,20 +106,20 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
      */
     public function testgetListQuery()
     {
-    	// to get access to the protected function
-    	$reflector = new ReflectionMethod('THM_OrganizerModelColor_Manager', 'getListQuery');
-    	$reflector->setAccessible(true);
-    	$query = $reflector->invoke($this->object);
-    	
-    	$actual = $query->__toString();
-    	
-    	$query2 = $this->_db->getQuery(true);
-      	$query2->select("id, name, color, 'index.php?option=com_thm_organizer&view=color_edit&id=' || id AS link");
+        // to get access to the protected function
+        $reflector = new ReflectionMethod('THM_OrganizerModelColor_Manager', 'getListQuery');
+        $reflector->setAccessible(true);
+        $query = $reflector->invoke($this->object);
+
+        $actual = $query->__toString();
+
+        $query2 = $this->_db->getQuery(true);
+        $query2->select("id, name, color, 'index.php?option=com_thm_organizer&view=color_edit&id=' || id AS link");
         $query2->from('#__thm_organizer_colors');
         $query2->order("name ASC");
-      	$expected = $query2->__toString();
-      	
-      	$this->assertEquals($expected, $actual);
+        $expected = $query2->__toString();
+
+        $this->assertEquals($expected, $actual);
     }
     
     /**
@@ -129,30 +129,33 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
      */
     public function testpopulateState()
     {
-    	// to get access to the protected function
-    	$reflector = new ReflectionMethod('THM_OrganizerModelColor_Manager', 'populateState');
-    	$reflector->setAccessible(true);
-    	$reflector->invoke($this->object);
-    	
-    	// to get access to the protected variable
-    	$reflector = new ReflectionProperty('THM_OrganizerModelColor_Manager', 'state');
-    	$reflector->setAccessible(true);
-    	$state = $reflector->getValue($this->object);
+        // to get access to the protected function
+        $reflector = new ReflectionMethod('THM_OrganizerModelColor_Manager', 'populateState');
+        $reflector->setAccessible(true);
+        $reflector->invoke($this->object);
 
-    	$expected1 = "name ASC";
-    	$expected2 = null;
-    	$expected3 = null;
-    	$expected4 = null;
+        // to get access to the protected variable
+        $reflector = new ReflectionProperty('THM_OrganizerModelColor_Manager', 'state');
+        $reflector->setAccessible(true);
+        $state = $reflector->getValue($this->object);
 
-    	$actual1 = $state->get('list.fullordering');
-    	$actual2 = $state->get('list.direction');
-    	$actual3 = $state->get('list.limit');
-    	$actual4 = $state->get('list.start');
+        $expected1 = "name ASC";
+        $expected2 = "name";
+        $expected3 = "ASC";
+        $expected4 = "20";
+        $expected5 = "0";
 
-    	$this->assertEquals($expected1, $actual1, "list.fullordering doesn't match expected '" . $expected1 . "'");
-    	$this->assertEquals($expected2, $actual2, "list.direction  doesn't match expected 'null'");
-    	$this->assertEquals($expected3, $actual3, "list.limit doesn't match expected 'null'");
-    	$this->assertEquals($expected4, $actual4, "list.start doesn't match expected 'null'");
+        $actual1 = $state->get('list.fullordering');
+        $actual2 = $state->get('list.ordering');
+        $actual3 = $state->get('list.direction');
+        $actual4 = $state->get('list.limit');
+        $actual5 = $state->get('list.start');
+
+        $this->assertEquals($expected1, $actual1, "list.fullordering doesn't match expected 'name ASC'");
+        $this->assertEquals($expected2, $actual2, "list.direction doesn't match expected 'name'");
+        $this->assertEquals($expected3, $actual3, "list.direction doesn't match expected 'ASC'");
+        $this->assertEquals($expected4, $actual4, "list.limit doesn't match expected '20'");
+        $this->assertEquals($expected5, $actual5, "list.start doesn't match expected '0'");
     }
 
 }

@@ -38,10 +38,6 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         if ($scheduleSuccess)
         {
             $table = JTable::getInstance('teachers', 'thm_organizerTable');
-            if (empty($formData['fieldID']))
-            {
-                unset($formData['fieldID']);
-            }
             $teacherSuccess = $table->save($data);
             if ($teacherSuccess)
             {

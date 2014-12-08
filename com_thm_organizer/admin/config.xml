@@ -45,21 +45,21 @@
               description="COM_THM_ORGANIZER_LSF_SETTINGS_DESCRIPTION">
         <field name="wsURI"
                type="text"
-               default="https://studien-sb-service.fh-giessen-friedberg.de/lsfadmin/services/dbinterface?wsdl"
+               default=""
                size="100"
                label="COM_THM_ORGANIZER_LSF_URI"
                description="COM_THM_ORGANIZER_LSF_URI_DESC">
         </field>
         <field name="wsUsername"
                type="text"
-               default="soapclmni"
+               default=""
                size="30"
                label="COM_THM_ORGANIZER_LSF_USERNAME"
                description="COM_THM_ORGANIZER_LSF_USERNAME_DESC">
         </field>
         <field name="wsPassword"
                type="text"
-               default="cByAroe5"
+               default=""
                size="30"
                label="COM_THM_ORGANIZER_PASSWORD"
                description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">

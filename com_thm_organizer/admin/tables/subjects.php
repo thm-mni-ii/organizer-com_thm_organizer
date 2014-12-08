@@ -51,7 +51,7 @@ class THM_OrganizerTableSubjects extends JTable
      */
     public function check()
     {
-        $nullColumns = array('frequencyID', 'fieldID', 'expertise', 'self_competence', 'method_competence', 'social_competence');
+        $nullColumns = array('lsfID', 'hisID', 'fieldID', 'expertise', 'self_competence', 'method_competence', 'social_competence');
         foreach ($nullColumns as $nullColumn)
         {
             if (!strlen($this->$nullColumn))
