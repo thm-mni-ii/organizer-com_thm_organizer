@@ -17,15 +17,15 @@
                description="COM_THM_ORGANIZER_LSF_ID_DESC" />
         <field name="frequencyID"
                type="list"
-               default="3"
-               label="COM_THM_ORGANIZER_FREQUENCY"
-               description="COM_THM_ORGANIZER_FREQUENCY_DESC">
-            <option value="3">COM_THM_ORGANIZER_FREQUENCY_SEMESTER</option>
-            <option value="5">COM_THM_ORGANIZER_FREQUENCY_YEAR</option>
-            <option value="1">COM_THM_ORGANIZER_FREQUENCY_SUMMER</option>
-            <option value="2">COM_THM_ORGANIZER_FREQUENCY_WINTER</option>
-            <option value="4">COM_THM_ORGANIZER_FREQUENCY_AS_NEEDED</option>
-            <option value="0">COM_THM_ORGANIZER_FREQUENCY_APPT</option>
+               label="COM_THM_ORGANIZER_AVAILABILITY"
+               description="COM_THM_ORGANIZER_AVAILABILITY_DESC">
+            <option value="">COM_THM_ORGANIZER_FILTER_AVAILABILITY</option>
+            <option value="3">COM_THM_ORGANIZER_AVAILABILITY_SEMESTER</option>
+            <option value="5">COM_THM_ORGANIZER_AVAILABILITY_YEAR</option>
+            <option value="1">COM_THM_ORGANIZER_AVAILABILITY_SUMMER</option>
+            <option value="2">COM_THM_ORGANIZER_AVAILABILITY_WINTER</option>
+            <option value="4">COM_THM_ORGANIZER_AVAILABILITY_AS_NEEDED</option>
+            <option value="0">COM_THM_ORGANIZER_AVAILABILITY_APPT</option>
         </field>
         <field name="fieldID"
                type="genericlist"

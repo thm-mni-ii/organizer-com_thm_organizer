@@ -51,7 +51,7 @@ class THM_OrganizerTablePools extends JTable
      */
     public function check()
     {
-        $nullColumns = array('lsfID', 'hisID', 'expertise', 'self_competence', 'method_competence', 'social_competence');
+        $nullColumns = array('lsfID', 'hisID', 'fieldID');
         foreach ($nullColumns as $nullColumn)
         {
             if (!strlen($this->$nullColumn))

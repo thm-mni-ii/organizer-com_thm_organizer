@@ -1,13 +1,20 @@
+@charset "UTF-8";
 /*icons anpassen*/
 .icon-diff, .icon-import {
   font-weight: bold; }
 
-/*icons in Titelseite hinzufuegen */
+.icon-import {
+  content: "\51"; }
+
+.icon-merge {
+  content: "\69"; }
+
+/*icons zur jeweiligen View im Header hinzufuegen */
 .icon-organizer::before {
-  content: "\21"; }
+  content: "\e60b"; }
 
 .icon-organizer_degrees::before {
-  content: "\e60a"; }
+  content: "\e606"; }
 
 .icon-organizer_users::before {
   content: "\e01f"; }
@@ -16,10 +23,10 @@
   content: "\e01c"; }
 
 .icon-organizer_teachers::before {
-  content: "\e608"; }
+  content: "\e604"; }
 
 .icon-organizer_subjects::before {
-  content: "\e606"; }
+  content: "\e603"; }
 
 .icon-organizer_fields::before {
   content: "\74"; }
@@ -31,29 +38,30 @@
   content: "\43"; }
 
 .icon-organizer_rooms::before {
-  content: "\e600"; }
+  content: "\e60a"; }
 
 .icon-organizer_degree_programs::before {
-  content: "\e609"; }
+  content: "\31"; }
 
 .icon-organizer_schedules::before {
-  content: "\e601"; }
+  content: "\e600"; }
 
 .icon-organizer_categories::before {
-  content: "\e607"; }
+  content: "\e601"; }
 
 .icon-mni::before {
-  content: "\e602"; }
+  content: "\e600"; }
 
 /*icons zu sidebar hinzufuegen*/
-li a[href*="view=thm_organizer"]::before, li a[href*="option=com_thm_organizer"]::before {
+li a[href$="view=thm_organizer"]::before, li a[href$="option=com_thm_organizer"]::before {
   font-family: icomoon;
-  content: "\21";
-  font-size: 12px;
-  padding-right: 8px; }
+  content: "\e60b";
+  font-size: 16px;
+  padding-right: 8px;
+  color: #80ba24; }
 li a[href*="view=degree_manager"]::before {
   font-family: icomoon;
-  content: "\e60a";
+  content: "\e606";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=user_manager"]::before {
@@ -68,12 +76,12 @@ li a[href*="view=monitor_manager"]::before {
   padding-right: 8px; }
 li a[href*="view=teacher_manager"]::before {
   font-family: icomoon;
-  content: "\e608";
+  content: "\e604";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=subject_manager"]::before {
   font-family: icomoon;
-  content: "\e606";
+  content: "\e603";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=field_manager"]::before {
@@ -93,27 +101,27 @@ li a[href*="view=pool_manager"]::before {
   padding-right: 8px; }
 li a[href*="view=room_manager"]::before {
   font-family: icomoon;
-  content: "\e600";
+  content: "\e60a";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=program_manager"]::before {
   font-family: icomoon;
-  content: "\e609";
+  content: "\31";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=schedule_manager"]::before {
   font-family: icomoon;
-  content: "\e601";
+  content: "\e600";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=category_manager"]::before {
   font-family: icomoon;
-  content: "\e607";
+  content: "\e601";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=virtual_schedule_manager"]::before {
   font-family: icomoon;
-  content: "\e602";
+  content: "\e600";
   font-size: 12px;
   padding-right: 8px; }
 
@@ -201,17 +209,20 @@ tbody tr:first-child td {
   border-top-style: none; }
 
 /*Filterbreite anpassen, ohne: von chosen festgelegt */
-.js-stools-field-filter {
+.js-stools-field-filter, .js-stools-field-list {
   max-width: 200px; }
-  .js-stools-field-filter select {
+  .js-stools-field-filter select, .js-stools-field-list select {
     width: auto; }
+  .js-stools-field-filter span, .js-stools-field-list span {
+    overflow: hidden !important;
+    /* sonst von jquery.searchtools.css ├╝berschrieben */ }
 
 /* Style fuer Datei-Upload anpassen , nur in Chrome notwendig (Vergleich mit Firefox,IE)*/
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .controls input[type="file"] {
     line-height: 0px;
     padding-top: 3px; } }
-.nav-list li.active a {
+.nav-list li.active a, .dropdown-submenu:hover > a[href*="option=com_thm_organizer"], #menu-com-thm-organizer a:hover {
   background: #62c462;
   /* Old browsers */
   background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
@@ -230,22 +241,82 @@ tbody tr:first-child td {
   /* IE6-9 */ }
 
 /* Mapping anpassen */
-#mapping .control-group:nth-of-type(1) {
-  width: 50%;
-  float: left; }
-  #mapping .control-group:nth-of-type(1) .controls select {
-    width: 90%; }
-#mapping .control-group:nth-of-type(2) {
-  width: 50%;
-  float: right; }
-  #mapping .control-group:nth-of-type(2) .controls select {
-    width: 90%; }
-#mapping .control-group:nth-of-type(3) {
-  clear: both; }
+@media (min-width: 768px) {
+  #mapping .control-group:nth-of-type(1) {
+    width: 50%;
+    float: left; }
+    #mapping .control-group:nth-of-type(1) .controls select {
+      width: 95%; }
+  #mapping .control-group:nth-of-type(2) {
+    width: 50%;
+    float: right; }
+    #mapping .control-group:nth-of-type(2) .controls select {
+      width: 95%; }
+  #mapping .control-group:nth-of-type(3) {
+    clear: both; } }
 #mapping .chzn-container-multi .chzn-choices li {
   float: none;
   margin-right: 5px;
   margin-top: 5px; }
+#mapping .search-choice {
+  border: 1px solid #bbb;
+  background: #ffffff;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f4f4f4));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 0%, #f4f4f4 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
+  /* IE6-9 */
+  line-height: 14px; }
+#mapping .chzn-choices {
+  background: #B9D986;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #B9D986), color-stop(100%, #cce3a7));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #B9D986 0%, #cce3a7 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
+  /* IE6-9 */
+  border: 1px solid #bbb;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
+#mapping .highlighted {
+  background: #62c462;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #51a351));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #62c462 0%, #51a351 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
+  /* IE6-9 */ }
 #mapping table {
   width: auto; }
 #mapping thead tr:nth-child(1) th {

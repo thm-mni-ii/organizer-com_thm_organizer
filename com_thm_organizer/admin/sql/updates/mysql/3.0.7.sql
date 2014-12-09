@@ -163,10 +163,10 @@ ALTER TABLE `#__thm_organizer_pools`
 CHANGE `minCrP` `minCrP` INT(3) UNSIGNED DEFAULT 0;
 
 ALTER TABLE `#__thm_organizer_pools`
-CHANGE `description_de` `description_de` text DEFAULT '';
+CHANGE `description_de` `description_de` text DEFAULT NULL;
 
 ALTER TABLE `#__thm_organizer_pools`
-CHANGE `description_en` `description_en` text DEFAULT '';
+CHANGE `description_en` `description_en` text DEFAULT NULL;
 
 ALTER TABLE `#__thm_organizer_pools`
 CHANGE `abbreviation_de` `abbreviation_de` varchar(45) DEFAULT '';
@@ -185,12 +185,6 @@ CHANGE `externalID` `externalID` varchar(45) DEFAULT '';
 
 ALTER TABLE `#__thm_organizer_programs`
 ADD UNIQUE KEY `lsfData` (`version`, `lsfFieldID`, `degreeID`);
-
-ALTER TABLE `#__thm_organizer_programs`
-CHANGE `description_de` `description_de` text DEFAULT '';
-
-ALTER TABLE `#__thm_organizer_programs`
-CHANGE `description_en` `description_en` text DEFAULT '';
 
 ALTER TABLE `#__thm_organizer_programs`
 CHANGE `lsfFieldID` `lsfFieldID` varchar(20) DEFAULT '';
@@ -212,6 +206,9 @@ ADD `term_enddate` date DEFAULT NULL;
 
 ALTER TABLE `#__thm_organizer_schedules`
 CHANGE `description` `description` TEXT NOT NULL DEFAULT '';
+
+ALTER TABLE `#__thm_organizer_teachers`
+CHANGE `surname` `surname` VARCHAR ( 255 ) NOT NULL;
 
 
 
