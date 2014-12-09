@@ -4,11 +4,16 @@
         <field name="id"
                type="hidden" />
         <field name="degreeID"
-               type="sql"
+               type="genericlist"
+               valueColumn="id"
+               textColumn="name"
+               table="thm_organizer_degrees"
                label="COM_THM_ORGANIZER_DEGREE"
                description="COM_THM_ORGANIZER_DEGREE_DESC"
-               query="SELECT id AS value, name AS degreeID FROM #__thm_organizer_degrees ORDER BY name"
-               required="true" />
+               class="inputbox required"
+               required="true" >
+            <option value="">COM_THM_ORGANIZER_FILTER_DEGREE</option>
+        </field>
         <field name="version"
                type="text"
                size="10"
