@@ -194,7 +194,6 @@ thead tr:nth-last-child(1) th {
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */
-  white-space: pre-wrap;
   padding-top: 0px;
   padding-left: 0px;
   border: none;

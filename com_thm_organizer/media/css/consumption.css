@@ -14,6 +14,7 @@
   overflow: auto;
   padding: 8px 4px 4px 4px;
   z-index: 12;
+  margin-bottom: 4px;
   -webkit-box-shadow: 2px 2px 4px #dddddd;
   -moz-box-shadow: 2px 2px 4px #dddddd;
   -ms-box-shadow: 2px 2px 4px #dddddd;
@@ -28,7 +29,6 @@
     float: right; }
   .consumption button {
     background: #eeeeee none;
-    border: 1px solid #004289;
     cursor: pointer;
     font-weight: bold;
     padding: .5em .5em .5em .7em;
@@ -70,7 +70,16 @@
     -moz-box-shadow: 2px 2px 4px #dddddd;
     -ms-box-shadow: 2px 2px 4px #dddddd;
     -o-box-shadow: 2px 2px 4px #dddddd;
-    box-shadow: 2px 2px 4px #dddddd; }
+    box-shadow: 2px 2px 4px #dddddd;
+    /*
+        th.index-column {
+          text-align: right;
+        }
+    
+        td.middle_column {
+          border-right: .1em solid rgb(187, 187, 187);
+        }
+    */ }
     .consumption table.consumption-table tr th {
       font-size: 13px;
       height: 1.4em;
@@ -82,20 +91,15 @@
       font-size: 13px;
       height: 1.4em;
       text-align: center; }
-    .consumption table.consumption-table th.index-column {
-      text-align: right; }
-    .consumption table.consumption-table td.middle_column {
-      border-right: 0.1em solid #bbbbbb; }
     .consumption table.consumption-table tbody tr td {
       border: 1px solid #dddddd; }
-  .consumption thead, .consumption tbody {
-    display: block; }
   .consumption div.filter-bar {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
-    border-radius: 3px; }
+    border-radius: 3px;
+    min-height: 80px; }
     .consumption div.filter-bar div.filter-item {
       display: inline-block;
       margin-left: .4em;
@@ -132,13 +136,48 @@
     background-color: white; } }
 .filter-header {
   margin-bottom: .4em; }
+  .filter-header .input-append input {
+    max-width: 100px; }
+  .filter-header .input-append #enddate_img, .filter-header .input-append #startdate_img {
+    height: 28px; }
 
 .filter-resource {
   margin-bottom: .6em;
   margin-left: .6em;
   margin-right: .6em;
-  overflow: auto;
-  padding: .6em; }
+  overflow: auto; }
+  @media (min-width: 768px) {
+    .filter-resource .control-group:nth-of-type(1) {
+      width: 60%;
+      float: left; }
+      .filter-resource .control-group:nth-of-type(1) .controls select {
+        width: 95%; }
+    .filter-resource .control-group:nth-of-type(2) {
+      width: 40%;
+      float: right; }
+      .filter-resource .control-group:nth-of-type(2) .controls select {
+        width: 95%; } }
+  .filter-resource .chzn-container-multi .chzn-choices li {
+    float: none;
+    margin-right: 5px;
+    margin-top: 5px; }
+  .filter-resource .chzn-container .chzn-results li.highlighted {
+    background: #62c462;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #51a351));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #62c462 0%, #51a351 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #62c462 0%, #51a351 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #62c462 0%, #51a351 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
+    /* IE6-9 */ }
 
 .filter-resource-item {
   float: left;

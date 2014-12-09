@@ -8,6 +8,7 @@
 @import '../../lib_thm_core/scss/mixins';
 @import '../../lib_thm_core/scss/variables';
 @import '../../lib_thm_core/scss/filters';
+@import '../../lib_thm_core/scss/mixins';
 
 .consumption {
   color: $fcolor;
@@ -23,7 +24,7 @@
   // Button styles
   button {
     background: $bg-color none;
-    border: 1px solid rgb(0, 66, 137);
+ //   border: 1px solid rgb(0, 66, 137);
     cursor: pointer;
     font-weight: bold;
     padding: .5em .5em .5em .7em;
@@ -75,7 +76,7 @@
         text-align: $text-align-center;
       }
     }
-
+/*
     th.index-column {
       text-align: right;
     }
@@ -83,7 +84,7 @@
     td.middle_column {
       border-right: .1em solid rgb(187, 187, 187);
     }
-
+*/
     tbody {
       tr {
         td {
@@ -94,16 +95,18 @@
   }
 
   thead {
-    display: block;
+  //  display: block;
   }
 
   tbody {
-    @extend thead;
+  //  @extend thead;
   }
 
   div.filter-bar {
     @extend %fieldset;
     @include border-radius(3px);
+
+    min-height: 80px;
 
     div.filter-item {
       display: inline-block;
@@ -145,6 +148,14 @@
 
 .filter-header {
   margin-bottom: .4em;
+  .input-append {
+    input{
+      max-width:100px;
+    }
+    #enddate_img, #startdate_img {
+      height: 28px;
+    }
+  }
 }
 
 // Container for resource filter items
@@ -153,7 +164,31 @@
   margin-left: .6em;
   margin-right: .6em;
   overflow: auto;
-  padding: .6em;
+
+  @media (min-width: 768px) {
+    .control-group:nth-of-type(1) {
+      width: 60%;
+      float: left;
+      .controls select {
+        width: 95%;
+      }
+    }
+    .control-group:nth-of-type(2) {
+      width: 40%;
+      float: right;
+      .controls select {
+        width: 95%;
+      }
+    }
+  }
+  .chzn-container-multi .chzn-choices li {
+    float: none;
+    margin-right:5px;
+    margin-top:5px;
+  }
+  .chzn-container .chzn-results li.highlighted{
+    @include linearGradient(#62c462,#51a351);
+  }
 }
 
 // Filter items
