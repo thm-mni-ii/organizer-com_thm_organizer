@@ -254,7 +254,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
      */
     private function setMenuLinks()
     {
-        $menuID = JRequest::getInt('Itemid');
+        $menuID = JFactory::getApplication()->input->getInt('Itemid');
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("link");

@@ -82,12 +82,10 @@ class JFormFieldScheduler extends JFormField
         if (task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
         {
             var dbElement = Ext.get('jform_params_id'),
-                dbValue = Ext.encode(tree.getChecked()),
-                pdElement = Ext.get('jform_params_publicDefaultID'),
-                pdValue = Ext.encode(tree.getPublicDefault());
+                pdElement = Ext.get('jform_params_publicDefaultID');
 
-            dbElement.dom.value = dbValue;
-            pdElement.dom.value = pdValue;
+            dbElement.dom.value = Ext.encode(tree.getChecked());
+            pdElement.dom.value = Ext.encode(tree.getPublicDefault());
         }
 
         if (task == 'item.setType' || task == 'item.setMenuType')

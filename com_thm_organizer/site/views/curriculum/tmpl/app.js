@@ -6,7 +6,7 @@ Curriculum = function() {
 		
 		this.instance = new Curriculum();
 		
-		this.asset_counter = new Array();
+		this.asset_counter = [];
 		
 		return this.instance;
 	};
@@ -834,7 +834,7 @@ Ext.application({
 				var curriculum = curriculumObj.addCurriculum(width, height);
 				
 				console.debug(curriculum);
-				var asset_list = new Array();
+				var asset_list = [];
 
 				 Ext.Ajax
 						.request({

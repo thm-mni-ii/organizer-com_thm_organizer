@@ -16,8 +16,7 @@ $showHeading = $this->params->get('show_page_heading', '');
 $title = $this->params->get('page_title', '');
 ?>
 <div id="consumption" class="consumption">
-    <form id='statistic-form' name='statistic-form' enctype='multipart/form-data' method='post'
-          action='<?php echo JRoute::_("index.php?option=com_thm_organizer&view=consumption"); ?>' >
+    <form id='statistic-form' name='statistic-form' enctype='multipart/form-data' method='post' action='index.php?' >
         <?php if (!empty($showHeading)): ?>
         <h2 class="componentheading">
             <?php echo $title; ?>
@@ -117,6 +116,8 @@ $title = $this->params->get('page_title', '');
         <?php if (!empty($this->model->schedule)): ?>
         <?php echo $this->table; ?>
         <?php endif; ?>
+        <input type='hidden' name='option' value='com_thm_organizer' />
+        <input type='hidden' name='view' value='consumption' />
     </form>
-    <a id="dlink" style="display:none;"></a>
+    <a id="dLink" style="display:none;"></a>
 </div>

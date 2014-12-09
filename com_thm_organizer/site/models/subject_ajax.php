@@ -85,7 +85,8 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      */
     private function getBoundaries()
     {
-        $programID = JRequest::getString('programID');
+        $input = JFactory::getApplication()->input;
+        $programID = $input->getString('programID');
         $programBoundaries = THM_OrganizerHelperMapping::getBoundaries('program', $programID);
 
         if (empty($programBoundaries))
@@ -93,7 +94,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
             return array();
         }
 
-        $poolID = JRequest::getString('poolID');
+        $poolID = $input->getString('poolID');
         if ($poolID != '-1' AND $poolID != 'null')
         {
             $poolBoundaries = THM_OrganizerHelperMapping::getBoundaries('pool', $poolID);

@@ -21,7 +21,7 @@ require_once JPATH_ROOT . "/components/com_thm_organizer/assets/classes/TreeNode
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelScheduler_Tree extends JModel
+class THM_OrganizerModelScheduler_Tree extends JModelLegacy
 {
     /**
      * Joomla data abstraction
@@ -97,19 +97,20 @@ class THM_OrganizerModelScheduler_Tree extends JModel
     {
         $this->_JDA = $JDA;
         $this->_cfg = $CFG->getCFG();
+        $input = JFactory::getApplication()->input;
  
-        $menuid = JRequest::getInt("menuID", 0);
+        $menuID = $input->getInt("menuID", 0);
  
         $site = new JSite;
         $menu = $site->getMenu();
  
-        if ($menuid != 0)
+        if ($menuID != 0)
         {
-            $menuparams = $menu->getParams($menuid);
+            $menuParams = $menu->getParams($menuID);
         }
         else
         {
-            $menuparams = $menu->getParams($menu->getActive()->id);
+            $menuParams = $menu->getParams($menu->getActive()->id);
             $options["hide"] = true;
         }
  
@@ -119,7 +120,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         }
         else
         {
-            $treeIDs = JRequest::getString('treeIDs');
+            $treeIDs = $input->getString('treeIDs');
             $treeIDsData = json_decode($treeIDs);
             if ($treeIDsData != null)
             {
@@ -127,7 +128,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             }
             else
             {
-                $this->_checked = (array) json_decode($menuparams->get("id"));
+                $this->_checked = (array) json_decode($menuParams->get("id"));
             }
         }
  
@@ -137,14 +138,14 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         }
         else
         {
-            $publicDefaultID = json_decode(JRequest::getString('publicDefaultID'));
+            $publicDefaultID = json_decode($input->getString('publicDefaultID'));
             if ($publicDefaultID != null)
             {
                 $this->_publicDefault = (array) $publicDefaultID;
             }
             else
             {
-                $this->_publicDefault = (array) json_decode($menuparams->get("publicDefaultID"));
+                $this->_publicDefault = (array) json_decode($menuParams->get("publicDefaultID"));
             }
         }
  
@@ -157,7 +158,7 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             $this->_hideCheckBox = false;
         }
  
-        if (JRequest::getString('departmentSemesterSelection') == "")
+        if ($input->getString('departmentSemesterSelection') == "")
         {
             if (isset($options["departmentSemesterSelection"]))
             {
@@ -165,12 +166,12 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             }
             else
             {
-                $this->departmentSemesterSelection    = $menuparams->get("departmentSemesterSelection");
+                $this->departmentSemesterSelection    = $menuParams->get("departmentSemesterSelection");
             }
         }
         else
         {
-            $this->departmentSemesterSelection = JRequest::getString('departmentSemesterSelection');
+            $this->departmentSemesterSelection = $input->getString('departmentSemesterSelection');
         }
     }
 
@@ -403,8 +404,8 @@ class THM_OrganizerModelScheduler_Tree extends JModel
             }
             else
             {
-                // Cant decode json
-                return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
+                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_SCHEDULE_DATA_FLAWED'));
+                return array();
             }
  
             // Get ids for teachers and rooms
@@ -843,19 +844,17 @@ class THM_OrganizerModelScheduler_Tree extends JModel
         $query->where('semestername = ' . $dbo->quote($semester));
         $query->where('active = 1');
         $dbo->setQuery($query);
- 
-        if ($dbo->getErrorMsg())
-        {
-            return false;
-        }
 
-        $result = $dbo->loadObject();
- 
-        if ($result === null)
+        try
         {
+            $result = $dbo->loadObject();
+            return $result === null? false : $result;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
-        return $result;
     }
  
     /**

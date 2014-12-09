@@ -352,7 +352,7 @@ Ext.tree.Panel.prototype.getPublicDefault = function(node, checkedArr)
 
 Ext.tree.Panel.prototype.doGray = function(node)
 {
-    var clickBox = null;
+    var clickBox;
 
     if( typeof node === 'undefined' )
     {
@@ -377,15 +377,12 @@ Ext.tree.Panel.prototype.doGray = function(node)
                 {
                     gray = state;
                 }
+                return;
             }
-            else
+            state = tree.needGray(v);
+            if(state === true)
             {
-                state = tree.needGray(v);
-                if(state === true)
-                {
-                    gray = state;
-                    return;
-                }
+                gray = state;
             }
         });
     }
@@ -428,7 +425,6 @@ Ext.tree.Panel.prototype.needGray = function (node)
             if(state === true)
             {
                 returnResult = true;
-                return;
             }
         });
     }

@@ -87,7 +87,7 @@ jQuery(document).ready(function(){
         jQuery.get(poolUrl, function(options){
             jQuery('#jformparentID').html(options);
             var newSelectedParents = jQuery('#jformparentID').val();
-            var selectedParents = new Array();
+            var selectedParents = [];
             if (newSelectedParents !== null && newSelectedParents.length)
             {
                 if (oldSelectedParents !== null && oldSelectedParents.length)

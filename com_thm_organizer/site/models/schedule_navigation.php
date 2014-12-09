@@ -84,7 +84,7 @@ class THM_OrganizerModelSchedule_Navigation
      */
     public function __construct()
     {
-        $this->_checkBoxForChildrenOnly = JRequest::getBool("childrenCheckbox", false);
+        $this->_checkBoxForChildrenOnly = JFactory::getApplication()->input->getBool("childrenCheckbox", false);
 
         $app = JFactory::getApplication();
         $menuID = $this->processMenuLocation();
@@ -720,6 +720,7 @@ class THM_OrganizerModelSchedule_Navigation
                 }
             }
         }
+        return false;
     }
 
     /**

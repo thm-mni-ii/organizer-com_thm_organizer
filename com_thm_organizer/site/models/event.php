@@ -82,7 +82,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
         }
 
         $data['title'] = addslashes($data['title']);
-        $data['alias'] = JApplication::stringURLSafe($data['title']);
+        $data['alias'] = JApplicationHelper::stringURLSafe($data['title']);
         $data['fulltext'] = JFactory::getDbo()->escape($data['description']);
         $data['categoryID'] = $input->getInt('category', 0);
         $data['rec_type'] = $input->getInt('rec_type', 0);

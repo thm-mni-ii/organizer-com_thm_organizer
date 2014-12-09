@@ -143,7 +143,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * @param   string  $colorString  a string containing color values seperated
      *                                by commas
      * 
-     * @return  'light-text' for dark colors, 'dark-text' for light ones
+     * @return  string  'light-text' for dark colors, 'dark-text' for light ones
      */
     private function getTextColorClass($colorString)
     {

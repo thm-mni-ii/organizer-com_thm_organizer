@@ -24,7 +24,7 @@ jq(document).ready(function(){
         jq.get(poolUrl, function(options){
             jq('#jformparentID').html(options);
             var newSelectedParents = jq('#jformparentID').val();
-            var selectedParents = new Array();
+            var selectedParents = [];
             if (newSelectedParents !== null && newSelectedParents.length)
             {
                 if (oldSelectedParents !== null && oldSelectedParents.length)

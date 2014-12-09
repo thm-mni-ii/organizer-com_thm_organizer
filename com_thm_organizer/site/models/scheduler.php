@@ -86,18 +86,18 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->where('type = ' . $dbo->quote('component'));
         $query->where('element = ' . $dbo->quote($com));
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadObject();
 
-        $error = $dbo->getErrorMsg();
-        if (!empty($error))
+        try
         {
+            $result = $dbo->loadObject();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
-        if ($result === null)
-        {
-            return false;
-        }
-        return true;
+
+        return $result === null? false : true;
     }
 
     /**
@@ -130,18 +130,18 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->where('enddate = ' . $dbo->quote($enddate));
         $query->where('active = 1');
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadObject();
 
-        $error = $dbo->getErrorMsg();
-        if (!empty($error))
+        try
         {
+            $result = $dbo->loadObject();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
-        if ($result === null)
-        {
-            return false;
-        }
-        return $result;
+
+        return $result === null? false : $result;
     }
 
     /**
@@ -164,18 +164,18 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->from('#__thm_organizer_schedules');
         $query->where('id = ' . $scheduleID);
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadObject();
 
-        $error = $dbo->getErrorMsg();
-        if (!empty($error))
+        try
         {
+            $result = $dbo->loadObject();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
-        if ($result === null)
-        {
-            return false;
-        }
-        return $result;
+
+        return $result === null? false : $result;
     }
 
     /**
@@ -194,20 +194,18 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->innerJoin('#__thm_curriculum_majors AS cm ON cm.id = sm.major_id');
         $query->innerJoin('#__thm_curriculum_colors AS c ON c.id = s.color_id');
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadObjectList();
 
-         $error = $dbo->getErrorMsg();
-         if (!empty($error))
-         {
-             return array();
-         }
+        try
+        {
+            $result = $dbo->loadObjectList();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
+        }
 
-         if ($result === null)
-         {
-             return array();
-         }
-
-         return $result;
+        return $result === null? array() : $result;
     }
 
     /**
@@ -223,14 +221,17 @@ class THM_OrganizerModelScheduler extends JModelLegacy
        $query->select('*');
        $query->from('#__thm_organizer_rooms');
        $dbo->setQuery((string) $query);
-       $result = $dbo->loadObjectList();
 
-       $error = $dbo->getErrorMsg();
-       if (!empty($error))
-       {
-           return array();
-       }
-       return $result;
+        try
+        {
+            $result = $dbo->loadObjectList();
+            return $result;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
+        }
     }
 
     /**
@@ -246,14 +247,17 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->select('*');
         $query->from('#__thm_organizer_teachers');
         $dbo->setQuery((string) $query);
-        $result = $dbo->loadObjectList();
 
-        $error = $dbo->getErrorMsg();
-        if (!empty($error))
+        try
         {
+            $result = $dbo->loadObjectList();
+            return $result;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return array();
         }
-        return $result;
     }
 
     /**
@@ -269,13 +273,16 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         $query->select('*');
         $query->from('#__thm_organizer_teacher_fields');
         $dbo->setQuery($query);
-        $result = $dbo->loadObjectList();
 
-        $error = $dbo->getErrorMsg();
-        if (!empty($error))
+        try
         {
+            $result = $dbo->loadObjectList();
+            return $result;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return array();
         }
-        return $result;
     }
 }

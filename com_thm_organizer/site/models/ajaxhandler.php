@@ -90,7 +90,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
                 throw new Exception("Class " . $classname . " not found");
             }
             $classname = "THM" . $classname;
-            $class = $this->getClass($classname, $this->_JDA, $this->_CFG, $options);
+            $class = $this->getClass($classname, $options);
 
             return $class->$taskArray[1]();
         }
@@ -100,17 +100,17 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
         }
     }
 
-    public function getClass($classname, $JDA, $CFG, $options)
+    public function getClass($className, $options)
     {
         $class = null;
 
         if (count($options) == 0)
         {
-            $class = new $classname($this->_JDA, $this->_CFG);
+            $class = new $className($this->_JDA, $this->_CFG);
         }
         else
         {
-            $class = new $classname($this->_JDA, $this->_CFG, $options);
+            $class = new $className($this->_JDA, $this->_CFG, $options);
         }
 
         return $class;

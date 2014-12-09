@@ -33,6 +33,8 @@ class THM_OrganizerViewConsumption extends JViewLegacy
 
     public $endCalendar = '';
 
+    public $hoursSelectBox = '';
+
     public $table = '';
 
     /**

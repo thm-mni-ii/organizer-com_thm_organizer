@@ -134,24 +134,27 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     private function setCategoryID()
     {
-        $application = JFactory::getApplication();
-        $categoryRestriction = ($this->display_type == ALL_CATEGORY or $this->display_type == CURRENT_CATEGORY);
-        if (isset($this->_callParameters) and isset($this->_callParameters["categoryID"]))
+        $app = JFactory::getApplication();
+        $categoryRestriction = ($this->display_type == ALL_CATEGORY OR $this->display_type == CURRENT_CATEGORY);
+        $useCallParameters = (!empty($this->_callParameters) AND !empty($this->_callParameters["categoryID"]));
+        $useMenuParameters = ($categoryRestriction AND !empty($this->_menuParameters->get('category_restriction')));
+        if ($useCallParameters)
         {
             $categoryID = $this->_callParameters["categoryID"];
         }
-        elseif ($categoryRestriction and $this->_menuParameters->get('category_restriction'))
+        elseif ($useMenuParameters)
         {
             $categoryID = $this->_menuParameters->get('category_restriction');
         }
-        elseif (JRequest::getVar('categoryID'))
+        elseif ($app->input->getInt('categoryID'))
         {
             $categoryID = JFactory::getApplication()->input->get('categoryID');
         }
         else
         {
-            $categoryID = $application->getUserStateFromRequest('com_thm_organizer.event_manager.categoryID', 'categoryID', -1, 'int');
+            $categoryID = $app->getUserStateFromRequest('com_thm_organizer.event_manager.categoryID', 'categoryID', -1, 'int');
         }
+
         if ($categoryID != -1)
         {
             $this->setState('categoryID', $categoryID);
@@ -181,8 +184,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     private function setFromDate()
     {
-        $application = JFactory::getApplication();
-        $jform = JRequest::getVar('jform');
+        $app = JFactory::getApplication();
+        $jform = $app->input->get('jform', array(), 'array');
         if (isset($this->_callParameters) and isset($this->_callParameters["fromDate"]))
         {
             $fromDate = $this->_callParameters["fromDate"];
@@ -193,7 +196,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         }
         else
         {
-            $fromDate = $application->getUserStateFromRequest('com_thm_organizer.event_manager.fromdate', 'fromdate', '');
+            $fromDate = $app->getUserStateFromRequest('com_thm_organizer.event_manager.fromdate', 'fromdate', '');
         }
         if (isset($fromDate))
         {
@@ -213,8 +216,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     private function setToDate()
     {
-        $application = JFactory::getApplication();
-        $jform = JRequest::getVar('jform');
+        $app = JFactory::getApplication();
+        $jform = $app->input->get('jform', array(), 'array');
         if (isset($this->_callParameters) and isset($this->_callParameters["toDate"]))
         {
             $toDate = $this->_callParameters["fromDate"];
@@ -225,7 +228,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         }
         else
         {
-            $toDate = $application->getUserStateFromRequest('com_thm_organizer.event_manager.todate', 'todate', '');
+            $toDate = $app->getUserStateFromRequest('com_thm_organizer.event_manager.todate', 'todate', '');
         }
         if (isset($toDate))
         {
@@ -245,8 +248,8 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     private function setSearch()
     {
-        $application = JFactory::getApplication();
-        $jform = JRequest::getVar('jform');
+        $app = JFactory::getApplication();
+        $jform = $app->input->get('jform', array(), 'array');
         if (isset($this->_callParameters) and isset($this->_callParameters["search"]))
         {
             $search = $this->_callParameters["search"];
@@ -257,7 +260,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         }
         else
         {
-            $search = $application->getUserStateFromRequest('com_thm_organizer.event_manager.search', 'search', '');
+            $search = $app->getUserStateFromRequest('com_thm_organizer.event_manager.search', 'search', '');
         }
         if (isset($search))
         {
@@ -306,11 +309,12 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      */
     private function setLimits()
     {
-        $limit = (JRequest::getInt('limit'))? JRequest::getInt('limit') : 0;
+        $input = JFactory::getApplication()->input;
+        $limit = ($input->getInt('limit'))? $input->getInt('limit') : 0;
         $this->setState('limit', $limit);
 
-        $limitstart = (JRequest::getInt('limitstart'))? JRequest::getInt('limitstart') : 0;
-        $this->setState('limitstart', $limitstart);
+        $limitStart = ($input->getInt('limitstart'))? $input->getInt('limitstart') : 0;
+        $this->setState('limitstart', $limitStart);
     }
 
     /**
@@ -617,7 +621,6 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
     /**
      * Build the order clause
      *
-     * @access private
      * @return string
      */
     private function loadEventResources()
@@ -764,7 +767,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      *
      * @param   int  $catID  the id of the category to be checked
      *
-     * @return  void
+     * @return  boolean  true if the value reserves, otherwise false
      */
     public function checkReserves($catID)
     {
@@ -778,9 +781,10 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         {
             $reserves = (bool) $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         return $reserves;
@@ -791,7 +795,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
      *
      * @param   int  $catID  the id of the category to be checked
      *
-     * @return  void
+     * @return  boolean  true if the value is global, otherwise false
      */
     public function checkGlobal($catID)
     {
@@ -806,9 +810,10 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         {
             $global = (bool) $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         return $global;

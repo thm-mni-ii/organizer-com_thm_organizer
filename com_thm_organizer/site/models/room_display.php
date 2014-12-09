@@ -171,8 +171,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Retrieves the name and id of the room
      *
-     * @param   int  $roomID  the id of the room referenced in the monitors table
-     *
      * @return  void
      */
     private function setRoomInformation()
@@ -306,11 +304,11 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                     break;
                 }
 
-                foreach ($rooms as $gpuntisID => $delta)
+                foreach ($rooms as $roomID => $roomDelta)
                 {
-                    if ($gpuntisID == 'delta')
+                    if ($roomID == 'delta')
                     {
-                        if ($delta == 'removed')
+                        if ($roomDelta == 'removed')
                         {
                             break;
                         }
@@ -319,13 +317,13 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                             continue;
                         }
                     }
-                    if ($gpuntisID == $this->params['gpuntisID'])
+                    if ($roomID == $this->params['gpuntisID'])
                     {
                         $lessonFound = true;
                         $subjects = (array) $schedule->lessons->$lessonID->subjects;
-                        foreach ($subjects as $subjectID => $delta)
+                        foreach ($subjects as $subjectID => $subjectDelta)
                         {
-                            if ($delta == 'removed')
+                            if ($subjectDelta == 'removed')
                             {
                                 unset($subjects[$subjectID]);
                             }
@@ -346,15 +344,15 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                         }
                         $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
                         $teachers = array();
-                        foreach ($teachersIDs as $key => $delta)
+                        foreach ($teachersIDs as $teacherID => $teacherDelta)
                         {
-                            if ($delta == 'removed')
+                            if ($teacherDelta == 'removed')
                             {
-                                unset($teachers[$key]);
+                                unset($teachers[$teacherID]);
                                 continue;
                             }
  
-                            $teachers[$schedule->teachers->$key->surname] = $schedule->teachers->$key->surname;
+                            $teachers[$schedule->teachers->$teacherID->surname] = $schedule->teachers->$teacherID->surname;
                         }
                         $teacherText .= implode(', ', $teachers);
                     }

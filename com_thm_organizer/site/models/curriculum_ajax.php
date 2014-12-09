@@ -44,7 +44,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      */
     public function getCurriculum()
     {
-        $programID = JRequest::getInt('programID');
+        $programID = JFactory::getApplication()->input->getInt('programID');
 
         if (empty($programID))
         {

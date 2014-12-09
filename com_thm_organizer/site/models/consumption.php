@@ -395,8 +395,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     /**
      * Function to get a table displaying resource consumption for a schedule
      * 
-     * @param   string  $type  either teachers or rooms
-     * 
      * @return  string  a HTML string for a consumption table
      */
     public function getConsumptionTable()

@@ -60,7 +60,7 @@ jQuery(document).ready(function ()
                 }
                 else {
                     // Other Browsers
-                    var downloadLink = document.getElementById('dlink');
+                    var downloadLink = document.getElementById('dLink');
                     downloadLink.href = uri + base64(format(template, ctx));
                     downloadLink.download = filename;
                     downloadLink.click();

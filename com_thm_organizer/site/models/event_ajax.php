@@ -865,7 +865,7 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
             else
             {
                 $indexDT = strtotime($this->_startdate);
-                for ($indexDT; $indexDT <= strtotime($this->_enddate);)
+                for ($indexDT; $indexDT <= strtotime($this->_enddate); $indexDT = strtotime('+1 day', $indexDT))
                 {
                     switch ($this->_rec_type)
                     {
@@ -887,7 +887,6 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
                             $this->getDailyLessons($schedule, date('Y-m-d', $indexDT), date('w', $indexDT), $this->_starttime, $this->_endtime);
                             break;
                     }
-                    $indexDT = strtotime('+1 day', $indexDT);
                 }
             }
         }
