@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        category manager model
+ * @name        THM_OrganizerModelCategory_Manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @author      Melih Cakir, <melih.cakir@mni.thm.de>
  * @copyright   2014 TH Mittelhessen

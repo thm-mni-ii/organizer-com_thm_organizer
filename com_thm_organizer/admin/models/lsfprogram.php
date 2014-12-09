@@ -41,9 +41,10 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         {
             $lsfData = $this->_db->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
         
         return empty($lsfData)? array() : $lsfData;

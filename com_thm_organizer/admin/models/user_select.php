@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        user select model
+ * @name        THM_OrganizerModelUser_Select
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -74,7 +74,6 @@ class THM_OrganizerModelUser_Select extends THM_CoreModelList
     public function getItems()
     {
         $items = parent::getItems();
-        $this->headers = $this->getHeaders();
         return $this->processItems($items);
     }
 

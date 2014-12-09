@@ -299,9 +299,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $count = $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         return empty($count)? false : true;
@@ -343,9 +344,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $mappingIDs = $dbo->loadColumn();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
 
         if (!empty($mappingIDs))
@@ -381,9 +383,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $mappingIDs = $dbo->loadColumn();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
 
         if (!empty($mappingIDs))
@@ -420,9 +423,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $mapping = $dbo->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
 
         // Deletes the mapping
@@ -433,9 +437,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $dbo->execute();
         }
-        catch (Exception $exception)
+        catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
@@ -450,8 +454,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $dbo->execute();
         }
-        catch (Exception $exception)
+        catch (Exception $exc)
         {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
@@ -468,8 +473,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $dbo->execute();
         }
-        catch (Exception $exception)
+        catch (Exception $exc)
         {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
@@ -486,8 +492,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $dbo->execute();
         }
-        catch (Exception $exception)
+        catch (Exception $exc)
         {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
         return true;
@@ -567,9 +574,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $firstID = $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
         
         if (!empty($firstID))
@@ -585,9 +593,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
             {
                 $results = $dbo->loadAssocList();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return array();
             }
 
             if (!empty($results))
@@ -651,8 +660,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param   int     $resourceID  the id of the resource
      * @param   string  $type        the type of resource being ordered
      *
-     * @return  int  the value of the highest existing ordering or 1 if none
-     *               exist
+     * @return  int  the value of the highest existing ordering or 1 if none exist
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
@@ -676,9 +684,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $existingOrder = $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
         }
         
         if ( !empty($existingOrder))
@@ -698,9 +706,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $maxOrder = $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
         }
         
         return empty($maxOrder)? 1 : $maxOrder + 1;
@@ -724,9 +732,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $mappings = $dbo->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
         
         return $mappings;
@@ -815,9 +824,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $rootMapping = $dbo->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         if (empty($rootMapping))
@@ -830,9 +840,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
             {
                 $maxRgt = $dbo->loadResult();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return false;
             }
 
             $data = array();
@@ -937,9 +948,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $mappings = $this->_db->setQuery((string) $query)->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         return $mappings;

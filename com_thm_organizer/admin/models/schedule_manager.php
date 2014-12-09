@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        business logic and database abstraction specific to listing schedules
+ * @name        THM_OrganizerModelSchedule_Manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -108,55 +108,5 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         $headers['creationtime'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_TIME', 'creationtime', $direction, $ordering);
 
         return $headers;
-    }
-
-    /**
-     * retrieves an array of named semesters from the database
-     *
-     * @return array filled with semester names or empty
-     */
-    private function getDepartments()
-    {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT departmentname AS name");
-        $query->from("#__thm_organizer_schedules");
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $departments = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        return (count($departments))? $departments : array();
-    }
-
-    /**
-     * Retrieves an array of named semesters from the database
-     *
-     * @return array filled with semester names or empty
-     */
-    private function getSemesters()
-    {
-        $dbo = $this->getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT semestername AS name");
-        $query->from("#__thm_organizer_schedules");
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $semesters = $dbo->loadAssocList();
-            return (count($semesters))? $semesters : array();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return array();
-        }
     }
 }

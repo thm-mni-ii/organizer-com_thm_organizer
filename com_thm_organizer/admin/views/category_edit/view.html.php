@@ -25,7 +25,7 @@ class THM_OrganizerViewCategory_Edit extends THM_CoreViewEdit
     /**
      * loads model data into view context
      *
-     * @param   string  $tpl  the name of the template to be used
+     * @param   object  $tpl  the name of the template to be used
      *
      * @return void
      */

@@ -92,7 +92,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     {
         $subject = JTable::getInstance('subjects', 'thm_organizerTable');
         $entryExists = $subject->load($subjectID);
-        $badEntry = (empty($subject->lsfID) AND empty($subject->externalID)) OR !$entryExists;
+        $badEntry = ((empty($subject->lsfID) AND empty($subject->externalID)) OR !$entryExists);
         if ($badEntry)
         {
             JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_BAD_ENTRY'), 'error');
@@ -360,8 +360,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     /**
      * Sets the responsible teachers in the association table
      *
-     * @param   int    $subjectID    the id of the subject
-     * @param   array  &$dataObject  an object containing the lsf response
+     * @param   int     $subjectID    the id of the subject
+     * @param   object  &$dataObject  an object containing the lsf response
      *
      * @return  bool  true on success, otherwise false
      */

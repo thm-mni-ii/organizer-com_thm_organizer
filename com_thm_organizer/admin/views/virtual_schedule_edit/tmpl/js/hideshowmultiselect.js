@@ -1,5 +1,5 @@
 /* globals Ext: false */
-function setRessource()
+function setResource()
 {
     "use strict";
     var types = Ext.get('vscheduler_types');
@@ -41,5 +41,5 @@ function setRessource()
 Ext.onReady(function()
 {
     "use strict";
-    setRessource();
+    setResource();
 });

@@ -30,8 +30,8 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
      */
     public function processStub(&$stub)
     {
-        $valid = (!empty($stub->pordid) OR !empty($stub->modulid))
-         AND (!empty($stub->nrhis) OR !empty($stub->modulnrhis));
+        $valid = ((!empty($stub->pordid) OR !empty($stub->modulid))
+         AND (!empty($stub->nrhis) OR !empty($stub->modulnrhis)));
         if (!$valid)
         {
             return false;

@@ -27,7 +27,7 @@ class THM_OrganizerTableSchedules extends JTable
     /**
      * Constructor function for the class representing the schedules table
      *
-     * @param   JDatabase  &$dbo  A database connector object
+     * @param   JDatabaseDriver  &$dbo  A database connector object
      */
     public function __construct(&$dbo)
     {

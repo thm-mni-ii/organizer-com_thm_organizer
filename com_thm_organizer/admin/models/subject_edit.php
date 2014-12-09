@@ -32,31 +32,4 @@ class THM_OrganizerModelSubject_Edit extends THM_CoreModelEdit
     {
         parent::__construct($config);
     }
-
-    /**
-     * Retrieves the teacher responsible for the subject's development
-     *
-     * @param   int  $subjectID  the id of the subject
-     *
-     * @return  int  the id of the teacher responsible for the subject
-     */
-    private function getResponsible($subjectID)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('teacherID')->from('#__thm_organizer_subject_teachers');
-        $query->where("subjectID = '$subjectID'")->where("teacherResp = '1'");
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $respID = $dbo->loadResult();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        return empty($respID)? 0 : $respID;
-    }
 }

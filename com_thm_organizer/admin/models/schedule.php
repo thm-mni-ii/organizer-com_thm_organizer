@@ -64,6 +64,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public $refSchedule = null;
 
     /**
+     * Teacher model object
+     *
+     * @var object
+     */
+    private $teacherModel = null;
+
+    /**
      * saves a schedule in the database for later use
      *
      * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
@@ -722,15 +729,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 return null;
             }
-            if (!empty($this->schedule))
-            {
-                $pullData = array();
-                $pullData['departmentname'] = $this->schedule->departmentname;
-                $pullData['semestername'] = $this->schedule->semestername;
-                $pullData['startdate'] = $this->schedule->startdate;
-                $pullData['enddate'] = $this->schedule->enddate;
-                $pullData['active'] = 1;
-            }
+
+            $pullData = array();
+            $pullData['departmentname'] = $this->schedule->departmentname;
+            $pullData['semestername'] = $this->schedule->semestername;
+            $pullData['startdate'] = $this->schedule->startdate;
+            $pullData['enddate'] = $this->schedule->enddate;
+            $pullData['active'] = 1;
         }
         // Entry through schedule manager
         else
@@ -781,7 +786,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->_db->setQuery((string) $zeroQuery);
         try
         {
-            $this->_db->Query();
+            $this->_db->execute();
         }
         catch (Exception $exception)
         {

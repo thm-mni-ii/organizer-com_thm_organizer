@@ -34,11 +34,11 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $dbo = JFactory::getDbo();
         $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
         $dbo->transactionStart();
-        $scheduleSuccess = $this->updateScheduleData($data, "'" . $data['id'] . "'");
+        $scheduleSuccess = $this->updateScheduleData($formData, "'" . $formData['id'] . "'");
         if ($scheduleSuccess)
         {
             $table = JTable::getInstance('teachers', 'thm_organizerTable');
-            $teacherSuccess = $table->save($data);
+            $teacherSuccess = $table->save($formData);
             if ($teacherSuccess)
             {
                 $dbo->transactionCommit();
@@ -67,9 +67,10 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         {
             $teacherEntries = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return;
         }
  
         if (empty($teacherEntries))
@@ -164,9 +165,10 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         {
             $teachers = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return null;
         }
         
         return $teachers;
@@ -354,11 +356,11 @@ class THM_OrganizerModelTeacher extends JModelLegacy
     /**
      * Updates teacher data and lesson associations in active schedules
      *
-     * @param   array   &$data  teacher data corrresponding to a table row
+     * @param   array   &$data  teacher data corresponding to a table row
      * @param   string  $IDs    a list of ids suitable for retrieval of teacher
      *                          gpuntisIDs to be replaced in saved schedules
      *
-     * @return boolean
+     * @return  boolean
      */
     public function updateScheduleData(&$data, $IDs)
     {
@@ -383,9 +385,10 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         {
             $schedules = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         if (empty($schedules))
@@ -440,9 +443,10 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             {
                 $field = $dbo->loadResult();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return null;
             }
         }
         return empty($field)? null : str_replace('DS_', '', $field);
@@ -469,9 +473,10 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         {
             $teacherUntisIDs = $dbo->loadColumn();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
         
         return $teacherUntisIDs;

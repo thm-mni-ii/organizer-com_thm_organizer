@@ -26,7 +26,7 @@ class THM_OrganizerViewMonitor_Edit extends THM_CoreViewEdit
     /**
      * loads monitor information into the view context
      *
-     * @param   string  $tpl  the name of the template to be used
+     * @param   object  $tpl  the template object
      *
      * @return void
      */

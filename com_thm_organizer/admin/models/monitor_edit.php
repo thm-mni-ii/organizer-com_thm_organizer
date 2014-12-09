@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        monitor edit model
+ * @name        THM_OrganizerModelMonitor_Edit
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -22,9 +22,9 @@ jimport('thm_core.edit.model');
 class THM_OrganizerModelMonitor_Edit extends THM_CoreModelEdit
 {
     /**
-     * constructor
+     * Constructor
      *
-     * @param   type  $config  an optional array of configuration information
+     * @param   array  $config  an optional array of configuration information
      */
     public function  __construct($config = array())
     {

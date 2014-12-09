@@ -66,9 +66,10 @@ class THM_OrganizerModelRoom extends JModelLegacy
         {
             $roomEntries = $this->_db->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return;
         }
 
         if (empty($roomEntries))
@@ -130,9 +131,10 @@ class THM_OrganizerModelRoom extends JModelLegacy
             {
                 $roomEntries = $this->_db->loadAssocList();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return false;
             }
         }
 

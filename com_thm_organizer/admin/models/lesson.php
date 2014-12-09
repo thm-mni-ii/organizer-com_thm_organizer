@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        data abstraction and business logic class for lessons
+ * @name        THM_OrganizerModelLesson
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -275,7 +275,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         {
             $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers = new stdClass;
         }
-        if (!key_exists($teacherID, $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers))
+        if (!array_key_exists($teacherID, $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers))
         {
             $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers->$teacherID = '';
         }
@@ -414,8 +414,8 @@ class THM_OrganizerModelLesson extends JModelLegacy
     /**
      * Validates the lesson's periods attribute
      * 
-     * @param   int     $periods  the number of periods alloted to the lesson
-     * @param   object  &$times   the planned occurrences of the lesson
+     * @param   int    $periods  the number of periods alloted to the lesson
+     * @param   array  &$times   the planned occurrences of the lesson
      * 
      * @return  void
      */
@@ -435,11 +435,11 @@ class THM_OrganizerModelLesson extends JModelLegacy
     }
 
     /**
-     * Iterates over possible occurances and validates them
+     * Iterates over possible occurrences and validates them
      * 
-     * @param   array   $occurrences  an array of 'occurrences'
-     * @param   int     $currentDT    the starting timestamp
-     * @param   object  &$instances   the object containing the instances
+     * @param   array  $occurrences  an array of 'occurrences'
+     * @param   int    $currentDT    the starting timestamp
+     * @param   array  &$instances   the object containing the instances
      * 
      * @return  void
      */
@@ -569,6 +569,12 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 $this->_scheduleModel->scheduleErrors[] = $error;
                 return false;
             }
+        }
+
+        // Should not occur, but creates the period anyway
+        if (!isset($this->_scheduleModel->schedule->calendar->$currentDate->$period))
+        {
+            $this->_scheduleModel->schedule->calendar->$currentDate->$period = new stdClass;
         }
 
         return $period;

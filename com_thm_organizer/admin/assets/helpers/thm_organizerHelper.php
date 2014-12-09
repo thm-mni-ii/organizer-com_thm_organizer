@@ -29,40 +29,29 @@ class THM_OrganizerHelper
     public static function callController($isAdmin = true)
     {
         $basePath = $isAdmin? JPATH_COMPONENT_ADMINISTRATOR : JPATH_COMPONENT_SITE;
-        
-        $controller = "";
+
         $handler = explode(".", JFactory::getApplication()->input->getCmd('task', ''));
-        if (!empty($handler))
+        if (count($handler) == 2)
         {
-            if (count($handler) == 2)
-            {
-                list($controller, $task) = $handler;
-            }
-            else
-            {
-                $task = JFactory::getApplication()->input->getString('task', '');
-            }
+            list($controller, $task) = $handler;
+        }
+        else
+        {
+            $task = $handler[0];
         }
 
-        if (!empty($controller))
+        if (!empty($controller) AND file_exists($basePath . '/controllers/' . $controller . '.php'))
         {
-            $path = $basePath . '/controllers/' . $controller . '.php';
-            if (file_exists($path))
-            {
-                require_once $path;
-            }
-            else
-            {
-                require_once $basePath . '/controller.php';
-                $controller = '';
-            }
+            require_once $basePath . '/controllers/' . $controller . '.php';
+            $className = 'THM_OrganizerController' . $controller;
         }
         else
         {
             require_once $basePath . '/controller.php';
+            $className = 'THM_OrganizerController';
         }
-        $classname = 'THM_OrganizerController' . $controller;
-        $controllerObj = new $classname;
+
+        $controllerObj = new $className;
         $controllerObj->execute($task);
         $controllerObj->redirect();
     }

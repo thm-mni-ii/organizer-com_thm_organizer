@@ -52,9 +52,10 @@ class JFormFieldColors extends JFormField
         {
             $colors = $dbo->loadObjectList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return '';
         }
 
         $html = "<select id = 'colorID' name='jform[colorID]'>";

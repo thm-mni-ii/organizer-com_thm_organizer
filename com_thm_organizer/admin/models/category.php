@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        category model
+ * @name        THM_OrganizerModelCategory
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -76,9 +76,11 @@ class THM_OrganizerModelCategory extends JModelLegacy
             {
                 $eventIDs = $dbo->loadColumn();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                $dbo->transactionRollback();
+                return false;
             }
 
             if (count($eventIDs))

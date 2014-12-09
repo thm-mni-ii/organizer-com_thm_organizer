@@ -26,7 +26,7 @@ class THM_OrganizerTableDegrees extends JTable
     /**
      * Constructor to call the parent constructor
      *
-     * @param   JDatabase  &$dbo  A database connector object
+     * @param   JDatabaseDriver  &$dbo  A database connector object
      */
     public function __construct(&$dbo)
     {

@@ -47,34 +47,25 @@ class THM_OrganizerLSFClient
      *
      * @param   String  $query  Query structure
      *
-     * @return  mixed  SimpleXMLElement if the query was successful otherwise void
+     * @return  mixed  SimpleXMLElement if the query was successful, otherwise false
      */
     private function getDataXML($query)
     {
-        $para = array('xmlParams' => $query);
-        $sres = $this->_client->__soapCall('getDataXML', $para);
-
-        if (!$sres)
+        $app = JFactory::getApplication();
+        $result = $this->_client->__soapCall('getDataXML', array('xmlParams' => $query));
+        if (!$result)
         {
-            echo "<span style='color:red;'>Web-Service Fehler: Ung&uuml;ltiger Funtkionsaufruf</span>";
-            return;
+            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');
+            return false;
         }
-        else
+        if ($result == "error in soap-request")
         {
-            if ($sres != "error in soap-request")
-            {
-                $xmlheader = "<?xml version='1.0' encoding='utf-8'?>";
-                $final = $xmlheader . $sres;
-                $xml = simplexml_load_string($final);
-
-                return $xml;
-            }
-            else
-            {
-                echo "<span>Web-Service Fehler: Bitte SOAP-Query Parameter &uuml;berpr&uuml;fen</span>";
-                return;
-            }
+            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');
+            return false;
         }
+
+        $xml = simplexml_load_string("<?xml version='1.0' encoding='utf-8'?>" . $result);
+        return $xml;
     }
 
     /**

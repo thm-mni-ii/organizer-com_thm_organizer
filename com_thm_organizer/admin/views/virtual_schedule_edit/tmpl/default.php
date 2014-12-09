@@ -12,7 +12,7 @@
  */
 defined("_JEXEC") or die;
 ?>
-<form action="<?php echo JRoute::_("index.php?option=com_thm_organizer"); ?>"
+<form action="index.php?"
       enctype="multipart/form-data"
       method="post"
       name="adminForm"

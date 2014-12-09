@@ -23,7 +23,7 @@ class THM_OrganizerTablePools extends JTable
     /**
      * Constructor function for the class representing the mapping table
      *
-     * @param   JDatabase  &$dbo  A database connector object
+     * @param   JDatabaseDriver  &$dbo  A database connector object
      */
     public function __construct(&$dbo)
     {
@@ -44,8 +44,6 @@ class THM_OrganizerTablePools extends JTable
 
     /**
      * Set the table column names which are allowed to be null
-     *
-     * @param   object  &$table  the table to be modified
      *
      * @return  boolean  true
      */

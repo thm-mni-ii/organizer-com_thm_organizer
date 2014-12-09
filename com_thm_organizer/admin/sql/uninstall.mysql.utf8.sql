@@ -1,6 +1,6 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-/* Tables which no loger exist are still mentioned herre to ensure a clean
+/* Tables which no longer exist are still mentioned here to ensure a clean
    database. */
 
 DROP TABLE IF EXISTS `#__thm_organizer_users`;

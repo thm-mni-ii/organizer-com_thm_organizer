@@ -26,6 +26,8 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerViewVirtual_Schedule_Edit extends JViewLegacy
 {
+    protected $form = null;
+
     /**
      * Method to get display
      *
@@ -43,20 +45,10 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JViewLegacy
         $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/thm_organizer.css');
         $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/virtual_schedule_edit.js'));
 
-        $model = $this->getModel();
         $this->form = $this->get('Form');
 
-        $cid = $model->getID();
-
-        $title = JText::_('COM_THM_ORGANIZER') . ': ';
         $this->setLayout('default');
-        $title = JText::_('COM_THM_ORGANIZER') . ': ';
-        $title .= ($cid)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
-        $title .= " " . JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE');
-        JToolbarHelper::title($title, "organizer_virtual_schedules");
         $this->addToolBar();
-
-        $this->legend = ($cid)? JText::_('JTOOLBAR_EDIT') : JText::_('JTOOLBAR_NEW');
 
         parent::display($tpl);
     }
@@ -68,6 +60,10 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JViewLegacy
      */
     private function addToolBar()
     {
+        $title = ($this->getModel()->getID())?
+            JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_EDIT_EDIT_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_EDIT_NEW_VIEW_TITLE');
+        $title .= " " . JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE');
+        JToolbarHelper::title($title, "organizer_virtual_schedules");
         JToolbarHelper::save('virtual_schedule.save');
         JToolbarHelper::cancel('virtual_schedule.cancel');
     }
