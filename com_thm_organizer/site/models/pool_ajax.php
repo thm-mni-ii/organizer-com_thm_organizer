@@ -33,7 +33,6 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $resourceType = $input->getString('type', '');
         $programIDs = explode(',', $input->getString('programIDs', ''));
         $programEntries = $this->getProgramEntries($programIDs);
-
         $options = array();
         $options[] = '<option value="-1">' . JText::_('JNONE') . '</option>';
 
@@ -43,7 +42,6 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         {
             return $options[0];
         }
-
         $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
         $onlyProgramMappings = count($programEntries) == count($programMappings);
         if ($onlyProgramMappings AND $resourceType == 'subject')
@@ -52,9 +50,8 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         }
 
         $mappings = $mappingIDs = $parentIDs = array();
-        THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $parentIDs, $mappingIDs);
+        THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
         $unSelectableMappings = $this->getUnselectableMappings($mappings, $mappingIDs, $resourceType);
-
         $this->fillOptions($options, $programMappings, $unSelectableMappings, $parentIDs, $resourceType);
         return implode('', $options);
     }

@@ -1,15 +1,20 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false, _C: false */
-/*jshint strict: false */
 /**
- * Objekt zum Authentifizieren des Benutzers und der Verwaltung dessen Rechten
+ * Object to authenticate the user und manage his rights
  *
  * @author thorsten
+ * @class MySched.Authorize
  */
 MySched.Authorize = function ()
 {
     var user, authWindow, authentificatedToken, accArr, role, additionalRights;
 
     return {
+        /**
+         * Initialize the rights of the user
+         *
+         * @method init
+         * @param {object} accessArray Inforamtion above the rights of the user
+         */
         init: function (accessArray)
         {
             this.additionalRights = {};
@@ -20,10 +25,11 @@ MySched.Authorize = function ()
             }
         },
         /**
-         * Setzt die Zusaetzlichen Rechte (zu den RollenRechten) fest
+         * Sets additional rights (additional to the role rights) Setzt die Zusaetzlichen Rechte (zu den RollenRechten) fest
          *
-         * @param {Object}
-         *            rights
+         * @method setAdditionalRights
+         * @param {Object} rights Information above additional rights
+         * @return {boolean} * False if the user has no additional rights otherwise true
          */
         setAdditionalRights: function (rights)
         {
@@ -35,14 +41,13 @@ MySched.Authorize = function ()
             return true;
         },
         /**
-         * Aendert die Rolle des aktuellen Users (zb. beim Anmelden von standard
-         * auf spiezielle) Hierbei wird automatisch der Baum neugeladen falls
-         * die Rolle sich aendert
+         * Changes the role of the active user (e.g. on the logon from standard to special). Therefore the tree will
+         * be reload if the role changed.
          *
-         * @param {Object}
-         *            role
-         * @param {Object}
-         *            rights
+         * @method changeRole
+         * @param {number} role TODO: It is a number. I don't know what it stand for
+         * @param {Object} rights Information above additional rights
+         * @return {boolean} * True of the roles changed otherwise false.
          */
         changeRole: function (role, rights)
         {
@@ -53,7 +58,15 @@ MySched.Authorize = function ()
             this.role = role;
             return true;
         },
-        // Verifiziere das Token bei dem Server
+        /**
+         * Verify the token from the server
+         *
+         * @method verifyToken
+         * @param {string} t The token
+         * @param {function} success The function which should proceed if the request was successfully
+         * @param {object} scope Information above the user
+         * @return {boolean} * True if the t is already authenticated
+         */
         verifyToken: function (t, success, scope)
         {
             if (t === this.authentificatedToken)
@@ -76,9 +89,8 @@ MySched.Authorize = function ()
                         if (json.success)
                         {
                             this.authentificatedToken = t;
-                            success.call(scope, json); // uebergebene
-                            // Callback
-                            // ausfuehren
+                            success.call(scope, json);
+                            // run given callback
                         }
                         else
                         {
@@ -108,13 +120,20 @@ MySched.Authorize = function ()
 
         },
         /**
-         * Laed den gespeicherten Userstundenplan
+         * Loads the saved user schedule
+         *
+         * @method loadUserSchedule
          */
         loadUserSchedule: function ()
         {
             MySched.Base.loadUserSchedule();
         },
-        // die Verifizierung war erfolgreich
+        /**
+         * Verfiying was successful and the schedule will be created for the user.
+         *
+         * @method verifySuccess
+         * @param {object} obj Information above user and the token
+         */
         verifySuccess: function (obj)
         {
             MySched.Base.sid = obj.sid;
@@ -124,26 +143,27 @@ MySched.Authorize = function ()
 
             Ext.ComponentMgr.get('btnSave').show();
 
-            // Erstellt den Stundenplan des Benutzers
+            // Creating the schedule for the user
             MySched.Base.createUserSchedule();
             MySched.Authorize.loadUserSchedule();
 
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = this.user;
- 
- 
+
             MySched.Schedule.status = "saved";
         },
         /**
+         * TODO: I think it is never used and obsolete
          * Ein Vorcheck, ob fuer einen bestimmten Typ ueberhaupt Berechtigungen
          * vorliegen oder nicht gibt 'none' -> Keinerlei Rechte, 'part' ->
          * Partielle Rechte oder 'full' -> Volle Rechte zurueck
          *
-         * @param {Object}
-         *            type
+         * @param {Object} type
+         * @return {boolean} *
          */
         checkAccessMode: function (type)
         {
+            console.log("Authorize checkAccessMode: maybe never used?");
             var part = false;
             // Ueberprueft vorkommen in ALL und dann in type - entweder muss *
             // oder id vorkommen
@@ -175,8 +195,16 @@ MySched.Authorize = function ()
             return part ? 'part' : 'none';
         },
         // Ueberprueft ob der Zugriff auf dieses Objekt erlaubt ist
+        /**
+         * TODO: I think it is never used and obsolete
+         *
+         * @param type
+         * @param id
+         * @return {boolean}
+         */
         checkAccess: function (type, id)
         {
+            console.log("Authorize checkAccess: maybe never used?");
             if (Ext.isEmpty(id))
             {
                 id = 'keyKommtBestimmtNichtVor';
@@ -215,8 +243,14 @@ MySched.Authorize = function ()
         },
         // Schaut nach ob im Cookie ein Token enthalten ist und veranlasst eine
         // Pruefung
+        /**
+         * TODO: I think it is never used and obsolete
+         *
+         * @return {boolean}
+         */
         checkCookieToken: function ()
         {
+            console.log("Authorize checkCookieToken: maybe never used?");
             var token = MySched.CookieProvider.get('authToken');
             if (token)
             {
@@ -226,20 +260,25 @@ MySched.Authorize = function ()
             return false;
         },
         /**
-         * Zeigt das Authentifizierungsfenster an Gibt true zurueck wenn der
-         * User bereits Authentifiziert ist
+         * Shows the authentication window and gives back true if the user is already authenticated
+         * TODO: not sure if the is in use anymore, but a call can be found in verifyToken
+         *
+         * @method showAuthForm
+         * @param funcAfterAuth
+         * @return {boolean} *
          */
         showAuthForm: function (funcAfterAuth)
         {
+            console.log("Authorize showAuthForm: maybe never used?");
             if (this.user && MySched.Base.sid)
             {
                 return true;
             }
 
-            // Funktion die nach dem Auth ausgefuehrt wird
+            // function is called after auth
             this.afterAuthCallback = funcAfterAuth;
 
-            // Eventuelle Fortschrittsdialoge ausblenden
+            // possible fade out the progress bar
             if (Ext.Msg.isVisible())
             {
                 Ext.Msg.hide();
@@ -252,9 +291,17 @@ MySched.Authorize = function ()
 
             return false;
         },
+        /**
+         * This method determines the task for the saving.
+         * TODO: This is in use but maybe obsolete.
+         *
+         * @method saveIfAuth
+         * @param {object} showWindow The window object which is shown when the schedule is saved
+         */
         saveIfAuth: function (showWindow)
         {
             var task = "";
+            // TODO: This doesn't make any sense to me, because of the line after the if clause
             if (MySched.selectedSchedule.id === "mySchedule")
             {
                 task = "UserSchedule.save";
@@ -264,7 +311,7 @@ MySched.Authorize = function ()
                 task = "saveScheduleChanges";
             }
  
-            // Speichern bezieht sich immer auf "Mein Stundenplan"
+            // Saving always refers to "My schedule"
             task = "UserSchedule.save";
  
             MySched.selectedSchedule.save.call(MySched.selectedSchedule, _C('ajaxHandler'), showWindow, task);

@@ -41,8 +41,6 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
     <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/mapping.js"></script>
     <script type="text/javascript" charset="utf-8"
-        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models.js"></script>
-    <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/readers.js"></script>
     <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/grid.js"></script>
@@ -50,6 +48,36 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/main.js"></script>
     <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/plugins.js"></script>
+
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/treeManager.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/layout.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/infoPanel.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/selectionManager.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/tree.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/subscribe.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/newPEvent.js"></script>
+    <!-- Models -->
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/model.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/models.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/scheduleModel.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/lectureModel.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/eventListModel.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/eventModel.js"></script>
+
+
     <script type="text/javascript" charset="utf-8">
 <?php
 if ($this->config['canWrite'] === true)
@@ -57,6 +85,7 @@ if ($this->config['canWrite'] === true)
             require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
 }
 ?>
+        // TODO: This should be done in another way. especially look at: MySched.startup
         MySched.SessionId = '<?php echo $this->config['sessionID']; ?>';
         MySched.class_semester_id = '<?php echo $this->semesterID; ?>';
         MySched.class_semester_author = '';

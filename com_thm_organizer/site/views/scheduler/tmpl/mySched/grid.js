@@ -10,10 +10,22 @@ _C: false, externalLinks: false, daytonumber: false, externLinks */
  */
 var hideHeaders = false;
 
+/**
+ * TODO
+ *
+ * @class SchedGrid
+ */
 Ext.define('SchedGrid',
 {
     extend: 'Ext.grid.Panel',
 
+    /**
+     * Gets the data with lessons and blocks for every day
+     *
+     * @method loadData
+     * @param {object} data List of object with time for every block of the week and the lessons for every day
+     * @return {*} TODO Don't now what it is
+     */
     loadData: function (data)
     {
         if (MySched.daytime.length > 0)
@@ -25,23 +37,25 @@ Ext.define('SchedGrid',
             }
         }
 
-        // Wenn das grid auch angezeigt ist, zeige die Sporatischen
-        // Veranstaltungen dazu an
+        // If the grid is also shown, show also the sporadic events
         if (MySched.selectedSchedule.grid === this)
         {
             MySched.layout.viewport.doLayout();
         }
+
+        // TODO Seems to be always empty. Is it really useful
         return this.store.loadData(data);
 
     },
     /**
-     * Leert die aktuell vorhanden Sportaischen Veranstaltungen und setzt die
-     * uebergebenen
+     * Cleans up the sporadic events and sets up the new ones
+     * TODO Maybe obsolete. It seems to be not in use anymore
      *
      * @param {Object} data
      */
     setSporadicLectures: function (data)
     {
+        console.log("SchedGrid.setSporadicLectures: maybe never used?");
         this.sporadics = [];
         if (!data || data.length === 0)
         {
@@ -51,6 +65,10 @@ Ext.define('SchedGrid',
     }
 });
 
+/**
+ *
+ * @return {SchedGrid} grid
+ */
 function getSchedGrid()
 {
     Ext.create('Ext.data.Store',
@@ -69,10 +87,23 @@ function getSchedGrid()
         }
     });
 
+    /**
+     * TODO Bad style to create a function this way
+     * Returns an object with data for the rows
+     *
+     */
     var rowBodyFeature = Ext.create('Ext.grid.feature.RowBody',
     {
-        getAdditionalData: function (data, rowIndex, record,
-        orig)
+        /**
+         * This method returns an object with attributes for the rows
+         *
+         * @param {object} data Object with information for every block of the week
+         * @param {number} rowIndex Row CIndex of the grid
+         * @param {object} record TODO Don't know what it is
+         * @param {object} orig Object with attributes for the columns of the grid
+         * @return {object} * Attributes for the rows
+         */
+        getAdditionalData: function (data, rowIndex, record, orig)
         {
             var headerCt = this.view.headerCt,
                 colspan = headerCt.getColumnCount();
@@ -88,6 +119,10 @@ function getSchedGrid()
         }
     });
 
+    /**
+     * Object with attributes that creates the headers of the schedule
+     *
+     */
     var grid = Ext.create('SchedGrid',
     {
         title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TITLE_UNKNOWN,
@@ -162,13 +197,18 @@ function getSchedGrid()
         },
         cls: 'MySched_ScheduleGrid',
         scroll: false
-
     });
     return grid;
 }
 
+/**
+ * TODO Maybe obsolete, it seems to be never used
+ *
+ * @param index
+ */
 function showEventdesc(index)
 {
+    console.log("grid.js showEventdesc: maybe never used?");
     if (Ext.ComponentMgr.get("datdescription") === null || typeof Ext.ComponentMgr.get("datdescription") === "undefined")
     {
         this.eventWindow = Ext.create('Ext.Window',
@@ -192,10 +232,21 @@ function showEventdesc(index)
     }
 }
 
+/**
+ * TODO: Maybe obsolete, it seems to be never used
+ *
+ */
 Ext.apply(Ext.form.VTypes,
 {
+    /**
+     *
+     * @param val
+     * @param field
+     * @return {boolean}
+     */
     daterange: function (val, field)
     {
+        console.log("grid.js daterange: maybe never used?");
         var date = field.parseDate(val);
 
         if (!date)
@@ -225,7 +276,7 @@ Ext.apply(Ext.form.VTypes,
 
     password: function (val, field)
     {
-
+        console.log("grid.js password: maybe never used?");
         if (field.initialPassField)
         {
             var pwd = Ext.getCmp(field.initialPassField);
@@ -237,9 +288,16 @@ Ext.apply(Ext.form.VTypes,
     passwordText: 'Passwords do not match'
 });
 
+/**
+ * This function process the start and end date into other formats and opens a new window to create an event.
+ *
+ * @param {string} eventid Id of the event
+ * @param {string} sdate Start date as weekday
+ * @param {string} stime Start time of the event
+ * @param {string} etime Endtime of the event
+ */
 function addNewEvent(eventid, sdate, stime, etime)
 {
-
     if (Ext.isObject(eventid) || eventid === null || typeof eventid === "undefined")
     {
         eventid = "0";
@@ -254,9 +312,6 @@ function addNewEvent(eventid, sdate, stime, etime)
 
     var adds = "";
     var date = null;
-
-    console.log(MySched.selectedSchedule);
-    console.log(MySched.Mapping);
 
     if (Ext.isString(sdate))
     {
@@ -326,20 +381,21 @@ function addNewEvent(eventid, sdate, stime, etime)
             adds += "&teacherID=" + teacherID;
         }
     }
+    adds += "&scheduleCall=1";
 
     window.open(externLinks.eventLink + eventid + adds);
 }
 
 /**
  * This function add a hidden input field to the form in the passed iframe
+ * TODO: Maybe obsolete, it seems to be never used
  *
  * @author Wolf
  * @param {object} iframe The iframe which called this function
  */
-
 function newEventonLoad(iframe)
 {
-
+    console.log("grid.js newEventonLoad: maybe never used?");
     var eventForm = Ext.DomQuery.select('form[id=eventForm]',
     iframe.contentDocument.documentElement);
     eventForm = eventForm[0];
@@ -372,18 +428,24 @@ function newEventonLoad(iframe)
 }
 
 /**
- * Spezieller Renderer fuer die Veranstaltungen
+ * Special renderer for events
  *
- * @param {Object} data
- * @param {Object} meta
- * @param {Object} record
- * @param {Object} rowIndex
- * @param {Object} colIndex
- * @param {Object} store
- * @param {Object} grid
+ * @param {string} data Start and end date of a block as string
+ * @param {Object} meta Object with class and style attributes
+ * @param {Object} record TODO Don't know what it is
+ * @param {number} rowIndex Index of the row
+ * @param {number} colIndex Index of the column
+ * @param {Object} store TODO Don't know
  */
 MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, store)
 {
+    /**
+     * This method appends a string to a given class name and returns it
+     *
+     * @method cl
+     * @param {string} css A css class name
+     * @return {string} * A css class name
+     */
     function cl(css)
     {
         if (MySched.freeBusyState)

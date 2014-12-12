@@ -1,211 +1,234 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false, getTeacherSurnameWithCutFirstName: false */
-/*jshint strict: false */
+/**
+ *  Method which handles the look of the calendar
+ *
+ */
 Ext.override(
-Ext.picker.Date,
-{
-    fullUpdate: function (date, active)
+    Ext.picker.Date,
     {
-        var me = this,
-            cells = me.cells.elements,
-            textNodes = me.textNodes,
-            disabledCls = me.disabledCellCls,
-            eDate = Ext.Date,
-            i = 0,
-            extraDays = 0,
-            visible = me.isVisible(),
-            sel = +eDate.clearTime(date, true),
-            today = +eDate.clearTime(new Date()),
-            min = me.minDate ? eDate.clearTime(me.minDate, true) : Number.NEGATIVE_INFINITY,
-            max = me.maxDate ? eDate.clearTime(me.maxDate, true) : Number.POSITIVE_INFINITY,
-            ddMatch = me.disabledDatesRE,
-            ddText = me.disabledDatesText,
-            ddays = me.disabledDays ? me.disabledDays.join('') : false,
-            ddaysText = me.disabledDaysText,
-            format = me.format,
-            days = eDate.getDaysInMonth(date),
-            firstOfMonth = eDate.getFirstDateOfMonth(date),
-            startingPos = firstOfMonth.getDay() - me.startDay,
-            previousMonth = eDate.add(date,
-            eDate.MONTH, - 1),
-            longDayFormat = me.longDayFormat,
-            prevStart, current, disableToday, tempDate, setCellClass, html, cls, formatValue, value;
-
-        if (startingPos < 0)
+        /**
+         * The calendar is calculated and which dates must be shown.
+         * TODO: I don't now what happen here in detail. There almost no comments. Very cruel code!!!
+         *
+         * @param {string} date A date
+         * @param {string} active A date
+         */
+        fullUpdate: function (date, active)
         {
-            startingPos += 7;
-        }
+            var me = this,
+                // cell of the calendar
+                cells = me.cells.elements,
+                // the span elements for every day
+                textNodes = me.textNodes,
+                // CSS class of disabled cells
+                disabledCls = me.disabledCellCls,
+                eDate = Ext.Date,
+                i = 0,
+                extraDays = 0,
+                visible = me.isVisible(),
+                sel = +eDate.clearTime(date, true),
+                today = +eDate.clearTime(new Date()),
+                min = me.minDate ? eDate.clearTime(me.minDate, true) : Number.NEGATIVE_INFINITY,
+                max = me.maxDate ? eDate.clearTime(me.maxDate, true) : Number.POSITIVE_INFINITY,
+                ddMatch = me.disabledDatesRE,
+                // Text is shown on disabled dates
+                ddText = me.disabledDatesText,
+                ddays = me.disabledDays ? me.disabledDays.join('') : false,
+                ddaysText = me.disabledDaysText,
+                format = me.format,
+                days = eDate.getDaysInMonth(date),
+                firstOfMonth = eDate.getFirstDateOfMonth(date),
+                startingPos = firstOfMonth.getDay() - me.startDay,
+                previousMonth = eDate.add(date, eDate.MONTH, - 1),
+                longDayFormat = me.longDayFormat,
+                prevStart, current, disableToday, tempDate, setCellClass, html, cls, formatValue, value;
 
-        days += startingPos;
-        prevStart = eDate.getDaysInMonth(previousMonth) - startingPos;
-        current = new Date(previousMonth.getFullYear(),
-        previousMonth.getMonth(), prevStart,
-        me.initHour);
-
-        if (me.showToday)
-        {
-            tempDate = eDate.clearTime(new Date());
-            disableToday = (tempDate < min || tempDate > max || (ddMatch && format && ddMatch.test(eDate.dateFormat(tempDate, format))) || (ddays && ddays.indexOf(tempDate.getDay()) !== -1));
-
-            if (!me.disabled)
+            if (startingPos < 0)
             {
-                me.todayBtn.setDisabled(disableToday);
-                me.todayKeyListener.setDisabled(disableToday);
+                startingPos += 7;
             }
-        }
 
-        setCellClass = function (cell)
-        {
-            value = +eDate.clearTime(current, true);
-            // cell.title = eDate.format(current,
-            // longDayFormat);
-            cell.title = '';
-            // store dateValue number as an expando
-            cell.firstChild.dateValue = value;
-            if (value === today)
+            days += startingPos;
+            prevStart = eDate.getDaysInMonth(previousMonth) - startingPos;
+            current = new Date(previousMonth.getFullYear(), previousMonth.getMonth(), prevStart, me.initHour);
+
+            if (me.showToday)
             {
-                cell.className += ' ' + me.todayCls;
-                cell.title = me.todayText;
-            }
-            if (value === sel)
-            {
-                cell.className += ' ' + me.selectedCls;
-                me.el.dom.setAttribute('aria-activedescendant',
-                cell.id);
-                if (visible && me.floating)
+                tempDate = eDate.clearTime(new Date());
+                disableToday = (tempDate < min || tempDate > max || (ddMatch && format && ddMatch.test(eDate.dateFormat(tempDate, format))) || (ddays && ddays.indexOf(tempDate.getDay()) !== -1));
+
+                if (!me.disabled)
                 {
-                    Ext.fly(cell.firstChild).focus(50);
+                    me.todayBtn.setDisabled(disableToday);
+                    me.todayKeyListener.setDisabled(disableToday);
                 }
             }
-            // disabling
-            if (value < min)
+
+            /**
+             * TODO: So all of sudden we define a function with more than 100 lines of code within a function... Why not...
+             * The cell (day in the calendar) is been prepared. TODO: 404 "No comments have been found"!!
+             *
+             * @method setCellClass
+             * @param {object} cell A td element as DOM object
+             */
+            setCellClass = function (cell)
             {
-                cell.className = disabledCls;
-                cell.title = me.minText;
-                return;
-            }
-            if (value > max)
-            {
-                cell.className = disabledCls;
-                cell.title = me.maxText;
-                return;
-            }
-            if (ddays)
-            {
-                if (ddays.indexOf(current.getDay()) !== -1)
+                value = +eDate.clearTime(current, true);
+                // cell.title = eDate.format(current,
+                // longDayFormat);
+                cell.title = '';
+                // store dateValue number as an expando
+                cell.firstChild.dateValue = value;
+                if (value === today)
                 {
-                    cell.title = ddaysText;
+                    cell.className += ' ' + me.todayCls;
+                    cell.title = me.todayText;
+                }
+                if (value === sel)
+                {
+                    cell.className += ' ' + me.selectedCls;
+                    me.el.dom.setAttribute('aria-activedescendant',
+                    cell.id);
+                    if (visible && me.floating)
+                    {
+                        Ext.fly(cell.firstChild).focus(50);
+                    }
+                }
+                // disabling
+                if (value < min)
+                {
                     cell.className = disabledCls;
+                    cell.title = me.minText;
+                    return;
                 }
-            }
-            if (ddMatch && format)
-            {
-                formatValue = eDate.dateFormat(current, format);
-                if (ddMatch.test(formatValue))
+                if (value > max)
                 {
-                    cell.title = ddText.replace('%0',
-                    formatValue);
                     cell.className = disabledCls;
+                    cell.title = me.maxText;
+                    return;
                 }
-            }
-
-            var begin = MySched.session.begin.split("-");
-            begin = new Date(begin[0], begin[1] - 1, begin[2]);
-            var end = MySched.session.end.split("-");
-            end = new Date(end[0], end[1] - 1, end[2]);
-
-            cell.children[0].events = [];
-
-            current.clearTime();
-
-            var len;
-            if (current >= begin && current <= end)
-            {
-                len = cell.children[0].events.length;
-                if (current.compare(begin) === 0)
+                if (ddays)
                 {
-                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN;
+                    if (ddays.indexOf(current.getDay()) !== -1)
+                    {
+                        cell.title = ddaysText;
+                        cell.className = disabledCls;
+                    }
                 }
-                else if (current.compare(end) === 0)
+                if (ddMatch && format)
                 {
-                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END;
+                    formatValue = eDate.dateFormat(current, format);
+                    if (ddMatch.test(formatValue))
+                    {
+                        cell.title = ddText.replace('%0',
+                        formatValue);
+                        cell.className = disabledCls;
+                    }
                 }
-                else
-                {
-                    cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER;
-                }
 
-                cell.className += " MySched_Semester";
-                if (!cell.children[0].className.contains(" calendar_tooltip"))
-                {
-                    cell.children[0].className += " calendar_tooltip";
-                }
-            }
+                var begin = MySched.session.begin.split("-");
+                begin = new Date(begin[0], begin[1] - 1, begin[2]);
+                var end = MySched.session.end.split("-");
+                end = new Date(end[0], end[1] - 1, end[2]);
 
-            var EL = MySched.eventlist.data;
-
-            for (var ELindex = 0; ELindex < EL.length; ELindex++)
-            {
-
-                var startdate = EL.items[ELindex].data.startdate.split(".");
-                startdate = new Date(startdate[2], startdate[1] - 1, startdate[0]);
-                var enddate = EL.items[ELindex].data.enddate.split(".");
-                enddate = new Date(enddate[2], enddate[1] - 1, enddate[0]);
+                cell.children[0].events = [];
 
                 current.clearTime();
 
-                if (startdate <= current && enddate >= current)
+                var len;
+                if (current >= begin && current <= end)
                 {
-                    cell.className += " MySched_CalendarEvent";
                     len = cell.children[0].events.length;
-                    cell.children[0].events[len] = EL.items[ELindex];
+                    if (current.compare(begin) === 0)
+                    {
+                        cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_BEGIN;
+                    }
+                    else if (current.compare(end) === 0)
+                    {
+                        cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_END;
+                    }
+                    else
+                    {
+                        cell.children[0].events[len] = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER;
+                    }
+
+                    cell.className += " MySched_Semester";
                     if (!cell.children[0].className.contains(" calendar_tooltip"))
                     {
                         cell.children[0].className += " calendar_tooltip";
                     }
                 }
-            }
-        };
 
-        for (; i < me.numDays; ++i)
-        {
-            if (i < startingPos)
+                var EL = MySched.eventlist.data;
+
+                for (var ELindex = 0; ELindex < EL.length; ELindex++)
+                {
+
+                    var startdate = EL.items[ELindex].data.startdate.split(".");
+                    startdate = new Date(startdate[2], startdate[1] - 1, startdate[0]);
+                    var enddate = EL.items[ELindex].data.enddate.split(".");
+                    enddate = new Date(enddate[2], enddate[1] - 1, enddate[0]);
+
+                    current.clearTime();
+
+                    if (startdate <= current && enddate >= current)
+                    {
+                        cell.className += " MySched_CalendarEvent";
+                        len = cell.children[0].events.length;
+                        cell.children[0].events[len] = EL.items[ELindex];
+                        if (!cell.children[0].className.contains(" calendar_tooltip"))
+                        {
+                            cell.children[0].className += " calendar_tooltip";
+                        }
+                    }
+                }
+            };
+
+            for (; i < me.numDays; ++i)
             {
-                html = (++prevStart);
-                cls = me.prevCls;
+                if (i < startingPos)
+                {
+                    html = (++prevStart);
+                    cls = me.prevCls;
+                }
+                else if (i >= days)
+                {
+                    html = (++extraDays);
+                    cls = me.nextCls;
+                }
+                else
+                {
+                    html = i - startingPos + 1;
+                    cls = me.activeCls;
+                }
+                textNodes[i].innerHTML = html;
+                cells[i].className = cls;
+                current.setDate(current.getDate() + 1);
+                setCellClass(cells[i]);
             }
-            else if (i >= days)
-            {
-                html = (++extraDays);
-                cls = me.nextCls;
-            }
-            else
-            {
-                html = i - startingPos + 1;
-                cls = me.activeCls;
-            }
-            textNodes[i].innerHTML = html;
-            cells[i].className = cls;
-            current.setDate(current.getDate() + 1);
-            setCellClass(cells[i]);
+
+            var calendarTooltip = Ext.select('.calendar_tooltip', false, document);
+            calendarTooltip.removeAllListeners();
+            calendarTooltip.on({
+                'mouseover' : function(e) {
+                    e.stopEvent();
+                    calendar_tooltip(e);
+                },
+                'mouseout' : function(e) {
+                    e.stopEvent();
+                },
+                scope : this
+            });
+            me.monthBtn.setText(me.monthNames[date.getMonth()] + ' ' + date.getFullYear());
         }
-
-        var calendarTooltip = Ext.select('.calendar_tooltip',
-        false, document);
-        calendarTooltip.removeAllListeners();
-        calendarTooltip.on({
-            'mouseover' : function(e) {
-                e.stopEvent();
-                calendar_tooltip(e);
-            },
-            'mouseout' : function(e) {
-                e.stopEvent();
-            },
-            scope : this
-        });
-        me.monthBtn.setText(me.monthNames[date.getMonth()] + ' ' + date.getFullYear());
     }
-});
+);
 
+/**
+ * Shows the calendar tooltip
+ *
+ * @method calendar_tooltip
+ * @param {object} e The mouse event with its information
+ */
 function calendar_tooltip (e)
 {
     var el = e.getTarget('.calendar_tooltip', 5, true);

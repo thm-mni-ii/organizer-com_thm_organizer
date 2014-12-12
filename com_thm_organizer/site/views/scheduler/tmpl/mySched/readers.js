@@ -1,5 +1,3 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false, LectureModel */
-/*jshint strict: false */
 /**
  * JsonReader for the loading and saving of schedules
  *
@@ -10,15 +8,19 @@ var SchedJsonReader = function ()
     "use strict";
     SchedJsonReader.superclass.constructor.call(this, this.config);
 };
+
+/**
+ * JsonReader for the loading and saving of schedules
+ *
+ * @class SchedJsonReader
+ */
 Ext.extend(SchedJsonReader, Ext.data.JsonReader,
 {
     /**
      * Create a data block containing Ext.data.Records from an XML document.
      *
-     * @param {Object}
-     *            doc A parsed XML document.
-     * @return {Object} records A data block which is used by an
-     *         {@link Ext.data.Store} as a cache of Ext.data.Records.
+     * @param {Object} o A parsed XML document.
+     * @return {Object} records A data block which is used by an {@link Ext.data.Store} as a cache of Ext.data.Records.
      */
     readRecords: function (o)
     {

@@ -1,17 +1,20 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
-/*jshint strict: false */
 /**
- * Mapping von Kuerzeln auf Namen
+ * Mapping from acronym to names
+ *
  * @author thorsten
- */
-/**
- * Ersaetzt Ids zu Namen Bei Dozenten, Studiengaengen, Modulen etc.
+ * @class MySched.Mapping
+ * @constructor
  */
 MySched.Mapping = function ()
 {
-    var teacher, pool, subject, lecture, room, types, roomtype, degree, field, buffer;
+    var teacher, pool, subject, room, types, roomtype, degree, field;
 
     return {
+        /**
+         * Initialization. Creating a collection for every resource.
+         *
+         * @method init
+         */
         init: function ()
         {
             this.teacher = new MySched.Collection();
@@ -30,8 +33,16 @@ MySched.Mapping = function ()
                 degree: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DEGREE,
                 field: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FIELD
             };
-
         },
+        /**
+         * TODO: Do know exactly. Getting Data from an array, but why this way?
+         *
+         * @method def
+         * @param {Object} arr Object with information like gpuntisID, name, localUnitsID, longname, degree, restriction, description
+         * @param {String} val TODO: Not sure what it is
+         * @param {String} def TODO: Not sure what it is
+         * @returns {String} *
+         */
         def: function (arr, val, def)
         {
             if (arr && arr[val])

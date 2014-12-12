@@ -1,12 +1,20 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false, _C: false, confirm: false, addNewEvent: false */
-/*jshint strict: false */
+/**
+ * This is a collection of function which deals with the creating a event button and the save changes if you leave.
+ *
+ */
 var oldMainToolbar = MySched.layout.getMainToolbar;
 
+/**
+ * Creates the "create event" button and returns the toolbar
+ *
+ * @method MySched.layout.getMainToolbar
+ * @return {object} newMainToolbar
+ */
 MySched.layout.getMainToolbar = function ()
 {
     var btnEvent = Ext.create('Ext.Button',
     {
-        // Event anlegen
+        // Create event
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
         id: 'btnEvent',
         hidden: false,
@@ -18,6 +26,9 @@ MySched.layout.getMainToolbar = function ()
     return newMainToolbar;
 };
 
+/**
+ * Object for the add event button
+ */
 var addEvent = {
     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
     icon: MySched.mainPath + "images/calendar_add.png",
@@ -31,6 +42,12 @@ var addEvent = {
 
 MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
 
+/**
+ * This method is called when the user leaves the page and checks if there are unsaved changes at the schedule and
+ * informs the user.
+ *
+ * @method onbeforeunload
+ */
 window.onbeforeunload = function ()
 {
     if (typeof MySched.layout.tabpanel === "undefined")
@@ -48,46 +65,8 @@ window.onbeforeunload = function ()
     {
         if (tabs[i].ScheduleModel.status === "unsaved")
         {
-            check = confirm(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED);
-            if (check === true)
-            {
-                for (ti = 0; ti < temptabs.length; ti++)
-                {
-                    if (temptabs[ti].ScheduleModel.status === "unsaved")
-                    {
-                        if (temptabs[ti].ScheduleModel.id === "mySchedule")
-                        {
-                            temptabs[ti].ScheduleModel.save(_C('ajaxHandler'),
-                            false, "UserSchedule.save");
-                        }
-                        else
-                        {
-                            temptabs[ti].ScheduleModel.save(_C('ajaxHandler'),
-                            false, "saveScheduleChanges");
-                        }
-                        tosave = true;
-                    }
-                }
-                break;
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
 
-    if (check === true && tosave === true)
-    {
-        var jetzt = new Date();
-        var sek = jetzt.getSeconds();
-        var undjetzt = new Date();
-        var undsek = undjetzt.getSeconds();
-        sek = sek + 3;
-        while (sek % 60 > undsek)
-        {
-            undjetzt = new Date();
-            undsek = undjetzt.getSeconds();
+            return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED;
         }
     }
 };

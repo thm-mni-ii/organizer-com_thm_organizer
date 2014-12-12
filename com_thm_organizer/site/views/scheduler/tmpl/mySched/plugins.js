@@ -1,5 +1,6 @@
-/*global Ext: false, MySched: false, MySchedLanguage: false */
-/*jshint strict: false */
+/**
+ * TODO It seems to be not in use anymore. So I did not comment
+ */
 Ext.define('Ext.ux.FitToParent',
 {
     /**
@@ -30,6 +31,7 @@ Ext.define('Ext.ux.FitToParent',
      */
     constructor: function (config)
     {
+        console.log("plugin.js: Is in use anymore?");
         config = config || {};
         if (config.tagName || config.dom || Ext.isString(config))
         {
@@ -41,6 +43,7 @@ Ext.define('Ext.ux.FitToParent',
     },
     init: function (c)
     {
+        console.log("plugin.js: Is in use anymore?");
         this.component = c;
         c.on('render', function (c)
         {
@@ -63,6 +66,7 @@ Ext.define('Ext.ux.FitToParent',
     },
     fitSize: function ()
     {
+        console.log("plugin.js: Is in use anymore?");
         var pos = this.component.getPosition(true),
             size = this.parent.getViewSize();
         this.component.setSize(this.fitWidth ? size.width - pos[0] - this.offsets[0] : undefined, this.fitHeight ? size.height - pos[1] - this.offsets[1] : undefined);
