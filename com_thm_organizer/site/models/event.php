@@ -32,6 +32,7 @@ class THM_OrganizerModelEvent extends JModelLegacy
      */
     public function save()
     {
+        return 0;
         $dbo = JFactory::getDbo();
         $dbo->transactionStart();
         $data = $this->processRequestData();

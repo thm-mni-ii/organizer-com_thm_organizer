@@ -34,6 +34,7 @@ class THM_OrganizerModelEventSiteTest extends TestCaseDatabase {
      * @return  null
      */
     protected function setUp() {
+        $this->markTestSkipped('Waiting for decision redirect or parent::display in controller.');
         parent::setup();
 
         $this->saveFactoryState();

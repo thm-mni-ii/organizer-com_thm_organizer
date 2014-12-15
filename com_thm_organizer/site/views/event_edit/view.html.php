@@ -10,8 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-jimport('jquery.jquery');
 
 /**
  * Loads model data into context and sets variables used for html output
@@ -22,51 +20,44 @@ jimport('jquery.jquery');
  */
 class Thm_OrganizerViewEvent_Edit extends JViewLegacy
 {
+    public $buttons = array();
+
     /**
      * Loads model data into context and sets variables used for html output
      *
-     * @param   string  $tpl  the template to be used
+     * @param   object  $tpl  the template to be used
      *
      * @return void
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.framework', true);
-        JHtml::_('behavior.formvalidation');
-        JHtml::_('behavior.tooltip');
+        $this->modifyDocument();
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/event_edit.css');
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_edit.js'));
-
-        $this->form = $this->get('Form');
         $this->item = $this->get('Item');
+        $this->form = $this->get('Form');
 
-        $model = $this->getModel();
-        $this->categories = $model->categories;
-        if (!count($this->categories))
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-            return false;
-        }
-
-        $this->event = $model->event;
-        $this->rooms = $model->rooms;
-        $this->teachers = $model->teachers;
-        $this->groups = $model->groups;
-
-        $this->listLink = $model->listLink;
-        $this->eventLink = $model->eventLink;
-
-        $this->blockchecked = ($this->event['recurrence_type'] == 0)? 'checked' : '';
-        $this->dailychecked = ($this->event['recurrence_type'] == 1)? 'checked' : '';
-
-        $title = ($this->event['id'] == 0)?
-                JText::_('COM_THM_ORGANIZER_EE_TITLE_NEW') : JText::_('COM_THM_ORGANIZER_EE_TITLE_EDIT');
-        $document->setTitle($title);
-
-        $this->createHTMLElements();
+        // Allows for view specific toolbar handling
+        $this->addToolBar();
         parent::display($tpl);
+    }
+
+    /**
+     * Modifies document variables and adds links to external files
+     *
+     * @return  void
+     */
+    private function modifyDocument()
+    {
+        JHtml::_('bootstrap.tooltip');
+        JHtml::_('behavior.framework', true);
+        JHtml::_('jquery.framework');
+        JHtml::_('behavior.formvalidation');
+        JHtml::_('formbehavior.chosen', 'select');
+
+        $document = Jfactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "/libraries/thm_core/fonts/iconfont.css");
+        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/event_edit.css');
+        //$document->addScript($this->baseurl . '/media/com_thm_organizer/js/event_edit.js');
     }
 
     /**
@@ -74,111 +65,46 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
      *
      * @return void
      */
-    private function createHTMLElements()
-    {        
-        $this->createResourceElement('rooms', JText::_('COM_THM_ORGANIZER_NO_ROOMS'));
-        $this->createResourceElement('teachers', JText::_('COM_THM_ORGANIZER_NO_TEACHERS'));
-        $this->createResourceElement('groups', JText::_('COM_THM_ORGANIZER_NO_GROUPS'));
-        $this->processCategories();
-        $this->createActionLink('save');
-        $this->createActionLink('reset');
-        $this->createActionLink('cancel');
-    }
-
-    /**
-     * creates the selection boxes for resources
-     *
-     * @param   string  $name       the name of the resource
-     *
-     * @param   string  $emptyText  the text for the selection of no resources
-     *
-     * @return void
-     */
-    private function createResourceElement($name, $emptyText)
+    protected function addToolbar()
     {
-        $dummyResources = array();
-        $dummyResources[] = array('id' => '-1', 'name' => $emptyText);
-        $resources = array_merge($dummyResources, $this->$name);
-        $attributes = array('id' => $name,
-                            'class' => 'inputbox',
-                            'size' => '4',
-                            'multiple' => 'multiple'
-            );
-        $selectname = $name . 'select';
-        if (isset($this->event[$name]))
+        $model = $this->getModel();
+        if (!empty($model->listLink))
         {
-            $selectbox = JHtml::_('select.genericlist',
-                                          $resources,
-                                          $name . '[]',
-                                          $attributes,
-                                          'id',
-                                          'name',
-                                          $this->event[$name]
-                                         );
+            $listButton = '<a href="' . JRoute::_($model->listLink) . '" class="btn">';
+            $listButton .= '<span class="icon-list-view"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_LIST_VIEW') . '</button>';
+            $this->buttons[] = $listButton;
+        }
+
+        $cancelButton = '<button type="button" class="btn" onclick="Joomla.submitbutton(\'event.cancel\')">';
+        $eventID = $this->getForm()->getValue('id', 0);
+        if ($eventID)
+        {
+            $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
+            $eventLink = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
+            $eventLink .= empty($menuID)? '' : "&Itemid=$menuID";
+            $detailsButton = '<a href="' . JRoute::_($eventLink) . '" class="btn">';
+            $detailsButton .= '<span class="icon-info-2"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_DETAILS_VIEW') . '</button>';
+            $this->buttons[] = $detailsButton;
+
+            $cancelButton .= '<span class="icon-cancel"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_CANCEL') . '</button>';
         }
         else
         {
-            $selectbox = JHtml::_('select.genericlist',
-                                          $resources,
-                                          $name . '[]',
-                                          $attributes,
-                                          'id',
-                                          'name'
-                                         );
+            $cancelButton .= '<span class="icon-cancel"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_CLOSE') . '</button>';
         }
-        $this->$selectname = $selectbox;
-    }
 
-    /**
-     * processes the categories adding a dummy to eliminate having a default
-     * category, and creates the javascript output for each category
-     *
-     * @return void
-     */
-    private function processCategories()
-    {
-        $attributes = array();
-        $attributes['id'] = 'category';
-        $attributes['class'] = 'inputbox validate-category';
-        $attributes['onChange'] = 'changeCategoryInformation()';
-        $attributes['required'] = 'true';
-        $this->categoryselect = JHtml::_('select.genericlist',
-                                            $this->categories,
-                                            'category',
-                                            $attributes,
-                                            'id',
-                                            'title',
-                                            $this->event['categoryID']
-                                        );
-        foreach ($this->categories as $k => $category)
-        {
-            $javascript = 'categories[' . $category['id'] . '] = new Array( "';
-            $javascript .= $category['description'] . '", "';
-            $javascript .= $category['display'] . '",  "';
-            $javascript .= $category['contentCat'] . '", "';
-            $javascript .= $category['contentCatDesc'] . '", "';
-            $javascript .= $category['access'];
-            $javascript .= '" );';
-            $this->categories[$k]['javascript'] = $javascript;
-        }
-    }
+        $previewButton = '<button type="button" class="btn" onclick="Joomla.submitbutton(\'event.preview\')">';
+        $previewButton .= '<span class="icon-eye"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_PREVIEW') . '</button>';
+        $this->buttons[] = $previewButton;
 
-    /**
-     * creates links similar to the joomla backend action buttons
-     *
-     * @param   string  $action  the name of the action
-     *
-     * @return  void
-     */
-    private function createActionLink($action)
-    {
-        $linkname = $action . 'link';
-        $image = JHtml::_('image',
-                              "components/com_thm_organizer/assets/images/$action.png",
-                              JText::_(ucfirst($action)),
-                              array( 'class' => 'thm_organizer_ee_image_button',
-                                     'onclick' => "return submitbutton('" . $action . "event');")
-                             );
-        $this->$linkname = "<a href='#' onclick='Joomla.submitbutton('$action')'>" . $image . "</a>";
+        $saveButton = '<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton(\'event.save\')">';
+        $saveButton .= '<span class="icon-save"></span>&#160;' . JText::_('JSAVE') . '</button>';
+        $this->buttons[] = $saveButton;
+
+        $resetButton = '<button type="reset" class="btn">';
+        $resetButton .= '<span class="icon-undo-2"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_RESET') . '</button>';
+        $this->buttons[] = $resetButton;
+
+        $this->buttons[] = $cancelButton;
     }
 }

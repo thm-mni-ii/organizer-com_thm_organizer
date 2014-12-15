@@ -12,7 +12,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modelform');
+jimport('thm_core.edit.model');
 
 /**
  * Retrieves persistent data for output in the event edit view.
@@ -21,15 +21,9 @@ jimport('joomla.application.component.modelform');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelEvent_Edit extends JModelForm
+class THM_OrganizerModelEvent_Edit extends THM_CoreModelEdit
 {
     public $event = null;
-
-    public $rooms = null;
-
-    public $teachers = null;
-
-    public $groups = null;
 
     public $categories = null;
 
@@ -43,309 +37,10 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     public function __construct()
     {
         parent::__construct();
-        $this->loadEvent();
-        if ($this->event['id'])
-        {
-            $this->loadEventResources();
-        }
-        $this->loadResources();
-        $this->loadCategories();
-        $this->setMenuLinks();
+        //$this->loadCategories();
+        //$this->setLinks();
     }
 
-    /**
-     * loads persistent data for the event into the model
-     *
-     * @return void
-     */
-    public function loadEvent()
-    {
-        $input = JFactory::getApplication()->input;
-        $eventID = $input->getInt('eventID', 0);
-
-        if ($eventID)
-        {
-                $dbo = JFactory::getDBO();
-                $query = $dbo->getQuery(true);
-                $query->select($this->getSelect());
-                $query->from("#__thm_organizer_events AS e");
-                $query->innerJoin("#__content AS c ON e.id = c.id");
-                $query->where("e.id = '$eventID'");
-                $dbo->setQuery((string) $query);
-
-            try
-            {
-                $event = $dbo->loadAssoc();
-                $event['startdate'] = date_format(date_create($event['startdate']), 'd.m.Y');
-                $event['enddate'] = date_format(date_create($event['enddate']), 'd.m.Y');
-                $event['starttime'] = date_format(date_create($event['starttime']), 'H:i');
-                $event['endtime'] = date_format(date_create($event['endtime']), 'H:i');
-            }
-            catch (runtimeException $e)
-            {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-            }
-
-            $event['enddate'] = ($event['enddate'] == '00.00.0000')? '' : $event['enddate'];
-            $event['starttime'] = ($event['starttime'] == '00:00')? '' : $event['starttime'];
-            $event['endtime'] = ($event['endtime'] == '00:00')? '' : $event['endtime'];
-        }
-        else
-        {
-            $event = $this->getEmptyEvent();
-        }
-
-        $form = $this->getForm();
-        $form->bind($event);
-        
-        $this->event = $event;
-    }
-
-    /**
-     * creates an emptyevent array
-     *
-     * @return array  event
-     */
-    private function getEmptyEvent()
-    {
-        $input = JFactory::getApplication()->input;
-        $event = array();
-        $event['id'] = 0;
-        $event['title'] = '';
-        $event['alias'] = '';
-        $event['description'] = '';
-        $event['categoryID'] = 0;
-        $event['contentID'] = 0;
-        $event['startdate'] = ($input->getString('startdate'))? $input->getString('startdate'): '';
-        $event['enddate'] = '';
-        $event['starttime'] = ($input->getString('starttime'))? $input->getString('starttime'): '';
-        $event['endtime'] = ($input->getString('endtime'))? $input->getString('endtime'): '';
-        $event['created_by'] = 0;
-        $event['created'] = '';
-        $event['modified_by'] = 0;
-        $event['modified'] = '';
-        $event['recurrence_number'] = 0;
-        $event['recurrence_type'] = 0;
-        $event['recurrence_counter'] = 0;
-        $event['image'] = '';
-        $event['register'] = 0;
-        $event['unregister'] = 0;
-        $event['rooms'] = ($input->getString('roomID')) ? array($input->getString('roomID')) : array();
-        $event['teachers'] = ($input->getString('teacherID')) ? array($input->getString('teacherID')) : array();
-        return $event;
-    }
-
-    /**
-     * creates a string usable for the select clause
-     *
-     * @return string
-     */
-    private function getSelect()
-    {
-        $select = "e.id AS id, ";
-        $select .= "e.categoryID AS categoryID, ";
-        $select .= "e.startdate AS startdate, ";
-        $select .= "e.enddate AS enddate, ";
-        $select .= "e.starttime  AS starttime, ";
-        $select .= "e.endtime AS endtime, ";
-        $select .= "e.recurrence_type, ";
-        $select .= "c.title AS title, ";
-        $select .= "c.fulltext AS description, ";
-        $select .= "c.created_by";
-        return $select;
-    }
-
-    /**
-     * calls the load functions for each resource type associated with events
-     *
-     * @return void
-     */
-    private function loadEventResources()
-    {
-        $this->loadEventRooms();
-        $this->loadEventTeachers();
-        $this->loadEventGroups();
-    }
-
-    /**
-     * loads the rooms associated with the event
-     *
-     * @return void
-     */
-    private function loadEventRooms()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('roomID');
-        $query->from('#__thm_organizer_event_rooms');
-        $query->where("eventID = '{$this->event['id']}'");
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $rooms = $dbo->loadColumn();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        $this->event['rooms'] = count($rooms)? $rooms : array();
-    }
-
-    /**
-     * loads the teachers associated with the event
-     *
-     * @return void
-     */
-    private function loadEventTeachers()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('teacherID');
-        $query->from('#__thm_organizer_event_teachers');
-        $query->where("eventID = '{$this->event['id']}'");
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $teachers = $dbo->loadColumn();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        $this->event['teachers'] = count($teachers)? $teachers : array();
-    }
-
-    /**
-     * loads the groups associated with the event
-     *
-     * @return void
-     */
-    private function loadEventGroups()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('groupID');
-        $query->from('#__thm_organizer_event_groups');
-        $query->where("eventID = '{$this->event['id']}'");
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $groups = $dbo->loadColumn();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        $this->event['groups'] = count($groups)? $groups : array();
-    }
-
-    /**
-     * calls the load functions for each resource type
-     *
-     * @return void
-     */
-    private function loadResources()
-    {
-        $this->loadRooms();
-        $this->loadTeachers();
-        $this->loadGroups();
-    }
-
-    /**
-     * loads the available rooms
-     *
-     * @return void
-     */
-    private function loadRooms()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id, longname AS name');
-        $query->from('#__thm_organizer_rooms');
-        $query->order('name ASC');
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $rooms = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        $this->rooms = count($rooms)? $rooms : array();
-    }
-
-    /**
-     * loads the available teachers
-     *
-     * @return void
-     */
-    private function loadTeachers()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id, surname AS name, forename');
-        $query->from('#__thm_organizer_teachers');
-        $query->order('surname, forename ASC');
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $teachers = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (count($teachers))
-        {
-            foreach ($teachers as $key => $value)
-            {
-                if (!empty($value['forename']))
-                {
-                    $teachers[$key]['name'] = $teachers[$key]['name'] . ", " . $value['forename'];
-                }
-            }
-        }
-        $this->teachers = count($teachers)? $teachers : array();
-    }
-
-    /**
-     * loads the available groups
-     *
-     * @return void
-     */
-    private function loadGroups()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id, title AS name');
-        $query->from('#__usergroups');
-        $query->where('title != "Public"');
-        $query->where('title != "Super Users"');
-        $query->order('name ASC');
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $groups = $dbo->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        $this->groups = count($groups)? $groups : array();
-    }
 
     /**
      * loads the categories for which the current user has write/edit access
@@ -359,34 +54,35 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
                                         'description' => JText::_('COM_THM_ORGANIZER_CATEGORY_SELECT_DESC'),
                                         'display' => '',
                                         'contentCat' => '',
-                                        'contentCatDesc' => '',
                                         'access' => '' );
 
         $dbo = JFactory::getDbo();
         $user = JFactory::getUser();
         $query = $dbo->getQuery(true);
 
-        $select = 'toc.id AS id, toc.title AS title, global, ';
-        $select .= 'reserves, toc.description as description, ';
-        $select .= 'c.id AS contentCatID, c.title AS contentCat, c.description AS contentCatDesc, ';
+        $select = 'oc.id AS id, oc.title AS title, global, ';
+        $select .= 'reserves, oc.description as description, ';
+        $select .= 'c.id AS contentCatID, c.title AS contentCat, ';
         $select .= 'vl.title AS access ';
         $query->select($select);
 
-        $query->from('#__thm_organizer_categories AS toc');
-        $query->innerJoin('#__categories AS c ON toc.contentCatID = c.id');
+        $query->from('#__thm_organizer_categories AS oc');
+        $query->innerJoin('#__categories AS c ON oc.contentCatID = c.id');
         $query->innerJoin('#__viewlevels AS vl ON c.access = vl.id');
-        $query->order('toc.title ASC');
-        $dbo->setQuery((string) $query);
-        
+        $query->order('oc.title ASC');
+        $dbo->setQuery((string) $query);echo "<pre>" . print_r((string) $query, true) . "</pre>";
+
         try
         {
             $results = $dbo->loadAssocList();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->categories = array();
+            return;
         }
-        
+
         if (count($results))
         {
             $userID = JFactory::getUser()->id;
@@ -408,7 +104,7 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
                     $canEdit = $user->authorise('core.edit', $asset);
                     $access = $canEdit or $canEditOwn;
                 }
-                if (!$access)
+                if (empty($access))
                 {
                     unset($results[$k]);
                 }
@@ -442,9 +138,6 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
                     $contentCat .= "<span class='thm_organizer_ee_highlight'>&quot;" . $v['contentCat'] . "&quot;</span>.</p>";
                     $v['contentCat'] = $contentCat;
 
-                    $v['contentCatDesc'] = str_replace("\r", "", str_replace("\n", "", nl2br($v['contentCatDesc'])));
-                    $v['contentCatDesc'] = addslashes($v['contentCatDesc']);
-
                     $access = '<p>' . JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_START');
                     $access .= $v['access'] . JText::_('COM_THM_ORGANIZER_EE_CONTENT_EXPLANATION_END') . '</p>';
                     $v['access'] = $access;
@@ -476,64 +169,41 @@ class THM_OrganizerModelEvent_Edit extends JModelForm
     }
 
     /**
-     * Method to get the record form.
+     * Sets links if the item id belongs to a menu type of event manager and/or if the
+     * event is not new.
      *
-     * @param   array    $data      Data for the form.
-     *
-     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     *
-     * @return  mixed A JForm object on success, false on failure
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return void  sets object variables
      */
-    public function getForm($data = array(), $loadData = true)
+    private function setLinks()
     {
-        $form = $this->loadForm('com_thm_organizer.event_edit',
-                                'event_edit',
-                                array('control' => 'jform',
-                                      'load_data' => $loadData)
-                               );
-        if (empty($form))
+        $app = JFactory::getApplication();
+        $menuID = $app->input->getInt('Itemid', 0);
+        $eventID = $this->getForm()->getValue('id', 0);
+        if ($eventID)
         {
-            return false;
+            $eventLink = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
+            $eventLink .= empty($menuID)? '' : "&Itemid=$menuID";
+            $this->eventLink = JRoute::_($eventLink);
         }
-        return $form;
-    }
 
-    /**
-     * sets links if the item id belongs to a menu type of event list or if the
-     * event is preexistent
-     *
-     * @return void
-     */
-    private function setMenuLinks()
-    {
-        $input = JFactory::getApplication()->input;
-        $menuID = $input->getInt('Itemid');
         $dbo = JFactory::getDbo();
+
         $query = $dbo->getQuery(true);
         $query->select("link");
         $query->from("#__menu AS eg");
-        $query->where("id = $menuID");
+        $query->where("id = '$menuID''");
         $query->where("link LIKE '%event_manager%'");
         $dbo->setQuery((string) $query);
         
         try
         {
-            $link = $dbo->loadResult();
+            $result = $dbo->loadResult();
+            $this->listLink = empty($result)? '' : JRoute::_($result);
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (isset($link) and $link != "")
-        {
-            $this->listLink = JRoute::_($link);
-        }
-        if ($this->event['id'] > 0)
-        {
-            $this->eventLink = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID=" . $this->event['id'] . "&Itemid=$menuID");
+            $app->enqueueMessage($exc->getMessage(), 'error');
+            $this->listLink = '';
         }
     }
 }

@@ -36,8 +36,8 @@
                 textColumn="title"
                 table="thm_organizer_categories"
                 multiple="true"
-                label="COM_THM_ORGANIZER_EVENT_CATEGORY_DEFAULT"
-                description="COM_THM_ORGANIZER_EVENT_CATEGORY_DEFAULT_DESC" />
+                label="COM_THM_ORGANIZER_CATEGORIES"
+                description="COM_THM_ORGANIZER_EVENT_MANAGER_CATEGORIES_DESC" />
             <field
                 name="room_restriction"
                 type="genericlist"
@@ -45,8 +45,8 @@
                 textColumn="name"
                 table="thm_organizer_rooms"
                 multiple="true"
-                label="COM_THM_ORGANIZER_EVENT_ROOM_DEFAULT"
-                description="COM_THM_ORGANIZER_EVENT_ROOM_DEFAULT_DESC" />
+                label="COM_THM_ORGANIZER_ROOMS"
+                description="COM_THM_ORGANIZER_EVENT_MANAGER_ROOMS_DESC" />
             <field
                 name="group_restriction"
                 type="genericlist"
@@ -54,8 +54,8 @@
                 textColumn="title"
                 table="usergroups"
                 multiple="true"
-                label="COM_THM_ORGANIZER_EVENT_GROUP_DEFAULT"
-                description="COM_THM_ORGANIZER_EVENT_GROUP_DEFAULT_DESC" />
+                label="COM_THM_ORGANIZER_GROUPS"
+                description="COM_THM_ORGANIZER_EVENT_MANAGER_GROUPS_DESC" />
         </fieldset>
     </fields>
 </metadata>
