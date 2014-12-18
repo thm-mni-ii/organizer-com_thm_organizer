@@ -59,11 +59,13 @@ class THM_OrganizerViewSubject_Manager extends THM_CoreViewList
         );
         JToolbarHelper::custom(
             'subject.updateAll',
-            'import',
+            'import-all',
             '',
             'COM_THM_ORGANIZER_ACTION_IMPORT_ALL',
             false
         );
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'subject.delete');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
     }
 }

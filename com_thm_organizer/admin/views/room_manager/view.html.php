@@ -48,7 +48,7 @@ class THM_OrganizerViewRoom_Manager extends THM_CoreViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_VIEW_TITLE'), 'organizer_rooms');
         JToolbarHelper::addNew('room.add');
         JToolbarHelper::editList('room.edit');
-        JToolbarHelper::custom('room.mergeAll', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE_AUTO', false);
+        JToolbarHelper::custom('room.mergeAll', 'merge-all', 'merge-all', 'COM_THM_ORGANIZER_ACTION_MERGE_AUTO', false);
         JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
         JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'room.delete');
         JToolbarHelper::divider();

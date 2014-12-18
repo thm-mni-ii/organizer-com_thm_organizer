@@ -12,14 +12,14 @@ use SeleniumClient\By;
  *
  * @package com_thm_organizer
  */
-class DegreeManager0001Test extends JoomlaWebdriverTestCase
+class DegreeManager0001Test extends iCampusWebdriverTestCase
 {
 	/**
 	 * The page class being tested.
 	 *
-	 * @var     degreeManagerPage
+	 * @var     managerPage
 	 */
-	protected $degreeManagerPage = null;
+	protected $managerPage = null;
 
 	/**
 	 * Login and click the DegreeManager button
@@ -28,7 +28,7 @@ class DegreeManager0001Test extends JoomlaWebdriverTestCase
 	{
 		parent::setUp();
 		$cpPage = $this->doAdminLogin();
-		$this->degreeManagerPage = $cpPage->clickMenuByUrl('com_thm_organizer&view=degree_manager', 'DegreeManagerPage');
+		$this->managerPage = $cpPage->clickMenuByUrl('com_thm_organizer&view=degree_manager', 'DegreeManagerPage');
 	}
 
 	/**
@@ -45,23 +45,9 @@ class DegreeManager0001Test extends JoomlaWebdriverTestCase
      *
      * @test
      */
-    public function openEditScreen_DegreeEditOpened()
+    public function degreeViewSmokeTest()
     {
-        // Check if all expected toolbar items are present
-        $toolbarItems = $this->degreeManagerPage->toolbar;
-        foreach ($toolbarItems as $value)
-        {
-            $this->assertNotNull($this->driver->findElement(By::xPath('//*[@id="' . $value . '"]')));
-        }
-
-        // Click the new button
-        $this->degreeManagerPage->clickButton('toolbar-new');
-
-
-        // Click the close button in the degree edit view
-        $degreeEditPage = $this->getPageObject('DegreeEditPage');
-        $degreeEditPage->clickButton('toolbar-cancel');
-        $this->degreeManagerPage = $this->getPageObject('DegreeManagerPage');
+        $this->generalSmokeTest("DegreeManagerPage", "DegreeEditPage");
     }
 
     /**
@@ -75,19 +61,19 @@ class DegreeManager0001Test extends JoomlaWebdriverTestCase
         $degreeName = 'Abschluss' . $salt;
         $abbreviation = 'ab' . $salt;
         $LSF = 'AB' . $salt;
-        $this->assertFalse($this->degreeManagerPage->getRowNumber($degreeName), 'Test degree should not be present');
-        $this->degreeManagerPage->addDegree($degreeName, $abbreviation, $LSF);
-        $message = $this->degreeManagerPage->getAlertMessage();
+        $this->assertFalse($this->managerPage->getRowNumber($degreeName), 'Test degree should not be present');
+        $this->managerPage->addDegree($degreeName, $abbreviation, $LSF);
+        $message = $this->managerPage->getAlertMessage();
         $this->assertContains('The resources have been saved successfully.', $message, 'Degree save should return success', true);
 
-        $this->assertTrue($this->degreeManagerPage->getRowText($degreeName) == $degreeName . " " . $abbreviation . " " . $LSF, 'Test degree should be on the page');
+        $this->assertTrue($this->managerPage->getRowText($degreeName) == $degreeName . " " . $abbreviation . " " . $LSF, 'Test degree should be on the page');
 
         $this->driver->refresh();
 
-        $this->degreeManagerPage->deleteDegree($degreeName);
+        $this->managerPage->deleteDegree($degreeName);
 
         $this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='alert alert-success']"));
 
-        $this->assertFalse($this->degreeManagerPage->getRowNumber($degreeName), 'Test degree should not be present');
+        $this->assertFalse($this->managerPage->getRowNumber($degreeName), 'Test degree should not be present');
     }
 }
