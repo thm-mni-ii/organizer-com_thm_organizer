@@ -17,7 +17,7 @@ $title = $params->get('page_title', '');
 <script type="text/javascript">
     Joomla.submitbutton = function(task)
     {
-        if (task == '<?php echo $resource; ?>.cancel' || document.formvalidator.isValid(document.id('item-form')))
+        if (task == 'event.cancel' || document.formvalidator.isValid(document.id('item-form')))
         {
             Joomla.submitform(task, document.getElementById('item-form'));
         }

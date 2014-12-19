@@ -252,20 +252,9 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR ( 50 ) NOT NULL,
-  `description` TEXT NOT NULL DEFAULT '',
-  `global` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  `reserves` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  `contentCatID` INT ( 11 ) NOT NULL,
-  PRIMARY KEY ( `id` ),
-  KEY `contentCatID` ( `contentCatID` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `id` INT ( 11 ) UNSIGNED NOT NULL,
-  `categoryID` INT ( 11 ) UNSIGNED NOT NULL,
+  `categoryID` INT ( 11 ) NOT NULL,
   `startdate` date NOT NULL,
   `enddate` date DEFAULT NULL,
   `starttime`  time NOT NULL DEFAULT '00:00:00',
@@ -278,6 +267,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
   `recurrence_interval` INT ( 2 ) UNSIGNED  NOT NULL DEFAULT '0',
   `recurrence_days` VARCHAR ( 7 ) NOT NULL DEFAULT '0000000',
   `recurrence_date` INT ( 2 ) UNSIGNED NOT NULL DEFAULT '0',
+  `global` TINYINT ( 1 ) NOT NULL DEFAULT '0',
+  `reserves` TINYINT ( 1 ) NOT NULL DEFAULT '0',
   KEY `id` ( `id` ),
   KEY `categoryID` ( `categoryID` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -393,18 +384,13 @@ REFERENCES `#__thm_organizer_room_types` (`id`) ON DELETE SET NULL ON UPDATE CAS
 ALTER TABLE `#__thm_organizer_monitors`
 ADD CONSTRAINT `monitors_roomid_fk` FOREIGN KEY (`roomID`)
 REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_categories`
-ADD CONSTRAINT `categories_categoryid_fk` FOREIGN KEY (`contentCatID`)
-REFERENCES `#__categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
 ALTER TABLE `#__thm_organizer_events`
 ADD CONSTRAINT `events_contentid_fk` FOREIGN KEY (`id`)
 REFERENCES `#__content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_events`
 ADD CONSTRAINT `events_categoryid_fk` FOREIGN KEY (`categoryID`)
-REFERENCES `#__thm_organizer_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+REFERENCES `#__categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_event_exclude_dates`
 ADD CONSTRAINT `event_exclude_dates_eventid_fk` FOREIGN KEY (`eventID`)

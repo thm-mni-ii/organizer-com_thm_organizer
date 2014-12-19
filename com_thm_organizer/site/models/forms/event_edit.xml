@@ -77,26 +77,16 @@
             description="COM_THM_ORGANIZER_EVENT_END_TIME_DESC"
             class="inputbox validate-time" />
     </fieldset>
-    <fieldset name="publishing" label="COM_THM_ORGANIZER_ATTRIBUTES_PUBLISHING" addfieldpath="/libraries/thm_core/fields">
-        <!--<field
-            id="categoryID" addfieldpath="/administrator/components/com_categories/models/fields"
-            name="categoryID"
+    <fieldset name="publishing" label="COM_THM_ORGANIZER_ATTRIBUTES_PUBLISHING" addfieldpath="/administrator/components/com_categories/models/fields">
+        <field
+            id="catid"
+            name="catid"
             type="categoryedit"
             extension="com_content"
             label="JCATEGORY"
-            description="COM_THM_ORGANIZER_CATEGORY_DESC"
+            description="JFIELD_CATEGORY_DESC"
             class="inputbox"
-            required="true" /> -->
-        <field
-            id="categoryID"
-            name="categoryID"
-            type="genericlist"
-            valueColumn="id"
-            textColumn="title"
-            table="thm_organizer_categories"
-            label="COM_THM_ORGANIZER_TEACHERS"
-            description="COM_THM_ORGANIZER_EVENT_TEACHERS_DESC">
-            <option value="">JNONE</option>
+            required="true">
         </field>
         <field
             name="published"
@@ -115,7 +105,7 @@
             type="calendar"
             label="COM_THM_ORGANIZER_PUBLISH_START"
             description="COM_THM_ORGANIZER_PUBLISH_START_DESC"
-            class="inputbox required validate-germandate"
+            class="inputbox validate-germandate"
             format="%d.%m.%Y" />
         <field
             id="publishDown"
