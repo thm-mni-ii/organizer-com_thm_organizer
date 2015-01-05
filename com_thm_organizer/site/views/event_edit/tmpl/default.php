@@ -10,14 +10,13 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-$params = JFactory::getApplication()->getParams();
-$showHeading = $params->get('show_page_heading', '');
-$title = $params->get('page_title', '');
+$showHeading = $this->item->params->get('show_page_heading', '');
+$title = $this->item->params->get('page_title', '');
 ?>
 <script type="text/javascript">
     Joomla.submitbutton = function(task)
     {
-        if (task == 'event.cancel' || document.formvalidator.isValid(document.id('item-form')))
+        if (document.formvalidator.isValid(document.id('item-form')))
         {
             Joomla.submitform(task, document.getElementById('item-form'));
         }

@@ -79,8 +79,8 @@
     </fieldset>
     <fieldset name="publishing" label="COM_THM_ORGANIZER_ATTRIBUTES_PUBLISHING" addfieldpath="/administrator/components/com_categories/models/fields">
         <field
-            id="catid"
-            name="catid"
+            id="categoryID"
+            name="categoryID"
             type="categoryedit"
             extension="com_content"
             label="JCATEGORY"
@@ -100,16 +100,16 @@
             <option value='0'>JNO</option>
         </field>
         <field
-            id="publishStart"
-            name="publishStart"
+            id="publish_up"
+            name="publish_up"
             type="calendar"
             label="COM_THM_ORGANIZER_PUBLISH_START"
             description="COM_THM_ORGANIZER_PUBLISH_START_DESC"
             class="inputbox validate-germandate"
             format="%d.%m.%Y" />
         <field
-            id="publishDown"
-            name="publishDown"
+            id="publish_down"
+            name="publish_down"
             type="calendar"
             label="COM_THM_ORGANIZER_PUBLISH_END"
             description="COM_THM_ORGANIZER_PUBLISH_END_DESC"

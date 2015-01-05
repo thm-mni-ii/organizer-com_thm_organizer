@@ -23,59 +23,171 @@ jimport('thm_core.edit.model');
  */
 class THM_OrganizerModelEvent_Edit extends THM_CoreModelEdit
 {
-    public $event = null;
-
-    public $categories = null;
-
-    public $eventLink = "";
-
-    public $listLink = "";
 
     /**
-     * calls functions to set model data
+     * Loads event data
+     *
+     * @param  int  $eventID  the id of the event to be loaded
+     *
+     * @return  mixed    Object on success, false on failure.
      */
-    public function __construct()
+    public function getItem($eventID = null)
     {
-        parent::__construct();
-        //$this->setLinks();
+        $event = $this->loadEvent($eventID);
+        $event->params = JFactory::getApplication()->getParams();
+        $this->setAccess($event);
+        $this->setEnvironmentVars($event);
+        return $event;
     }
 
     /**
-     * Sets links if the item id belongs to a menu type of event manager and/or if the
-     * event is not new.
+     * Retrieves data for existing events composed of data from the events table and the content table
+     *
+     * @param   int  $eventID  the id of the event and associated content
+     *
+     * @return  object|bool  object with event information on success, otherwise false
+     */
+    private function loadEvent($eventID)
+    {
+        if (empty($eventID))
+        {
+            return $this->getEmptyEvent();
+        }
+
+        $select = "e.id AS id, e.categoryID, ";
+        $select .= "e.startdate, e.enddate,e.starttime, e.endtime, ";
+        $select .= "e.recurrence_type, e.global, e.reserves, ";
+        $select .= "c.title AS title, c.fulltext AS description, ";
+        $select .= "c.publish_up, c.publish_down, c.created_by";
+
+        $query = $this->_db->getQuery(true);
+        $query->select($select);
+        $query->from("#__thm_organizer_events AS e");
+        $query->innerJoin("#__content AS c ON e.id = c.id");
+        $query->where("e.id = '$eventID'");
+        $this->_db->setQuery((string) $query);
+
+        try
+        {
+            $event = $this->_db->loadObject();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+
+        if (empty($event))
+        {
+            return $this->getEmptyEvent();
+        }
+
+        $event->startdate = date_format(date_create($event->startdate), 'd.m.Y');
+        $event->enddate = date_format(date_create($event->enddate), 'd.m.Y');
+        $event->enddate = ($event->enddate== '00.00.0000')? '' : $event->enddate;
+        $event->starttime = date_format(date_create($event->starttime), 'H:i');
+        $event->starttime = ($event->starttime == '00:00')? '' : $event->starttime;
+        $event->endtime = date_format(date_create($event->endtime), 'H:i');
+        $event->endtime = ($event->endtime == '00:00')? '' : $event->endtime;
+
+        $event->publish_up = date_format(date_create($event->publish_up), 'd.m.Y');
+        $event->publish_down = date_format(date_create($event->publish_down), 'd.m.Y');
+
+        return $event;
+    }
+
+    /**
+     * Creates an empty event
+     *
+     * @return  object  an object encompassing the properties of the events table
+     */
+    private function getEmptyEvent()
+    {
+        $return = new stdClass;
+        $return->id = 0;
+        $return->categoryID = '';
+        $return->startdate = '';
+        $return->enddate = '';
+        $return->starttime = '';
+        $return->endtime = '';
+        $return->recurrence_type = 0;
+        $return->global = 0;
+        $return->reserves = 0;
+        $return->title = '';
+        $return->description = '';
+        $return->publish_up = '';
+        $return->publish_down = '';
+        return $return;
+    }
+
+    /**
+     * Sets access parameters for the event based on content handling
+     *
+     * @param   object  $event  the event object
+     */
+    private function setAccess(&$event)
+    {
+        $user = JFactory::getUser();
+        $canCreateContent = $user->authorise('core.create', 'com_content');
+        $canCreateCategories = (count($user->getAuthorisedCategories('com_content', 'core.create')));
+        $canCreate = ($canCreateContent OR $canCreateCategories);
+
+        $eventID = $event->id;
+        if (empty($eventID) AND $canCreate)
+        {
+            $event->params->set('access-create', true);
+        }
+        else
+        {
+            $asset = 'com_content.article.' . $eventID;
+            $userID	= $user->get('id');
+            $canEdit = $user->authorise('core.edit', $asset);
+            $isOwn = empty($event->created_by)? false : $userID == $event->created_by;
+            $canEditOwn = (!empty($userID) AND $user->authorise('core.edit.own', $asset) AND $isOwn);
+            if ($canEdit OR $canEditOwn)
+            {
+                $event->params->set('access-edit', true);
+            }
+        }
+    }
+
+    /**
+     * Checks whether the view is associated with a menu entry or a call from the scheduler view.
+     *
+     * @param   object  &$event  the event object
      *
      * @return void  sets object variables
      */
-    private function setLinks()
+    private function setEnvironmentVars(&$event)
     {
         $app = JFactory::getApplication();
+        $event->scheduleCall = $app->input->getInt('scheduleCall', 0);
         $menuID = $app->input->getInt('Itemid', 0);
-        $eventID = $this->getForm()->getValue('id', 0);
-        if ($eventID)
+        if (empty($menuID))
         {
-            $eventLink = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
-            $eventLink .= empty($menuID)? '' : "&Itemid=$menuID";
-            $this->eventLink = JRoute::_($eventLink);
+            $event->isManager = false;
+            $event->isEdit = false;
+            return;
         }
 
-        $dbo = JFactory::getDbo();
-
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select("link");
-        $query->from("#__menu AS eg");
-        $query->where("id = '$menuID''");
-        $query->where("link LIKE '%event_manager%'");
-        $dbo->setQuery((string) $query);
+        $query->from("#__menu");
+        $query->where("id = '$menuID'");
+        $this->_db->setQuery((string) $query);
         
         try
         {
-            $result = $dbo->loadResult();
-            $this->listLink = empty($result)? '' : JRoute::_($result);
+            $link = $this->_db->loadResult();
+            $event->isManager = strpos($link,'event_manager') !== false;
+            $event->managerLink = empty($event->isManager)? '' : $link;
+            $event->isEdit = strpos($link,'event_edit') !== false;
         }
         catch (Exception $exc)
         {
             $app->enqueueMessage($exc->getMessage(), 'error');
-            $this->listLink = '';
+            $event->isManager = false;
+            $event->isEdit = false;
         }
     }
 }

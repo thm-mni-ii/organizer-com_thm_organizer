@@ -97,11 +97,6 @@ class THM_OrganizerHelperComponent
             $viewName == 'schedule_manager'
         );
         JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_CATEGORY_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=category_manager',
-            $viewName == 'category_manager'
-        );
-        JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_MANAGER_TITLE'),
             'index.php?option=com_thm_organizer&amp;view=virtual_schedule_manager',
             $viewName == 'virtual_schedule_manager'
