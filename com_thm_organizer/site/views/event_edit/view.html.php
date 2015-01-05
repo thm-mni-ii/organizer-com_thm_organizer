@@ -36,7 +36,20 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $this->item = $this->get('Item');
         $this->form = $this->get('Form');
 
-        // Allows for view specific toolbar handling
+        if (empty($this->item->id))
+        {
+            $authorised = $this->item->params->get('access-create');
+        }
+        else
+        {
+            $authorised = $this->item->params->get('access-edit');
+        }
+
+        if ($authorised !== true)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_VIEW_ACCESS'), 'error');
+            return false;
+        }
         $this->addToolBar();
         parent::display($tpl);
     }
@@ -67,15 +80,15 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
      */
     protected function addToolbar()
     {
-        $model = $this->getModel();
-        if (!empty($model->listLink))
+        if ($this->item->isManager)
         {
-            $listButton = '<a href="' . JRoute::_($model->listLink) . '" class="btn">';
+            $listButton = '<a href="' . JRoute::_($this->item->managerLink) . '" class="btn">';
             $listButton .= '<span class="icon-list-view"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_LIST_VIEW') . '</button>';
             $this->buttons[] = $listButton;
         }
 
-        $cancelButton = '<button type="button" class="btn" onclick="Joomla.submitbutton(\'event.cancel\')">';
+        $cancelJS = $this->item->scheduleCall? 'window.close()' : 'window.history.back()';
+        $cancelButton = '<button type="button" class="btn" onclick="' . $cancelJS . '">';
         $eventID = $this->getForm()->getValue('id', 0);
         if ($eventID)
         {
@@ -83,7 +96,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
             $eventLink = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
             $eventLink .= empty($menuID)? '' : "&Itemid=$menuID";
             $detailsButton = '<a href="' . JRoute::_($eventLink) . '" class="btn">';
-            $detailsButton .= '<span class="icon-info-2"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_DETAILS_VIEW') . '</button>';
+            $detailsButton .= '<span class="icon-file-2"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_DETAILS_VIEW') . '</button>';
             $this->buttons[] = $detailsButton;
 
             $cancelButton .= '<span class="icon-cancel"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_CANCEL') . '</button>';
@@ -105,6 +118,9 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $resetButton .= '<span class="icon-undo-2"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_RESET') . '</button>';
         $this->buttons[] = $resetButton;
 
-        $this->buttons[] = $cancelButton;
+        if (!$this->item->isEdit)
+        {
+            $this->buttons[] = $cancelButton;
+        }
     }
 }

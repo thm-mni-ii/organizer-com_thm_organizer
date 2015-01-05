@@ -69,7 +69,6 @@
             <menu alias="Rooms" link="option=com_thm_organizer&amp;view=room_manager" view="room_manager" alt="THM-Organizer/Rooms">COM_THM_ORGANIZER_ROOM_MANAGER_TITLE</menu>
             <menu alias="Degree Programs" link="option=com_thm_organizer&amp;view=program_manager" view="degree_program_manager" alt="THM-Organizer/Degree Programs">COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE</menu>
             <menu alias="Schedule Manager" link="option=com_thm_organizer&amp;view=schedule_manager" view="schedule_manager" alt="THM-Organizer/Schedule Manager">COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE</menu>
-            <menu alias="Category Manager" link="option=com_thm_organizer&amp;view=category_manager" view="category_manager" alt="THM-Organizer/Category Manager">COM_THM_ORGANIZER_CATEGORY_MANAGER_TITLE</menu>
             <menu alias="Virtual Schedule Manager" link="option=com_thm_organizer&amp;view=virtual_schedule_manager" view="virtual_schedule_manager" alt="THM-Organizer/Virtual Schedule Manager">COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_MANAGER_TITLE</menu>
         </submenu>
         <files folder="admin">
