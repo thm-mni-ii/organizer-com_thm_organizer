@@ -9,21 +9,25 @@
 @import '../../lib_thm_core/scss/variables';
 @import '../../lib_thm_core/scss/filters';
 
-.consumption {
+.consumption
+{
   color: $fcolor;
   // Allows the buttons to be on the same line as the header
-  h2.componentheading {
+  h2.componentheading
+  {
     float: left;
   }
   // Groups buttons on the right
-  div.button-panel {
+  div.button-panel
+  {
     float: right;
     margin-top: 9px;
     margin-bottom: 9px;
   }
 
   // Button styles
-  button {
+  button
+  {
     padding: 4px 12px;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     border:1px solid #bbb;
@@ -37,7 +41,8 @@
   }
 
   // Table element styles
-  table.consumption-table {
+  table.consumption-table
+  {
     background-image: none;
     border: $border-color;
     color: $fcolor;
@@ -53,32 +58,40 @@
     @include border-radius(3px);
     @include box-shadow(2px, 2px, 4px, $shadow-color);
 
-    tr {
-      th {
+    tr
+    {
+      th
+      {
         font-size: $fsize;
         height: 1.4em;
         text-align: $text-align-center;
 
-        .degree-use-total {
+        .degree-use-total
+        {
           border-top: $border-color;
           font-weight: normal;
         }
 
-        .resource-use-total {
+        .resource-use-total
+        {
           @extend .degree-use-total;
         }
       }
 
-      td {
+      td
+      {
         font-size: $fsize;
         height: 1.4em;
         text-align: $text-align-center;
       }
     }
 
-    tbody {
-      tr {
-        td {
+    tbody
+    {
+      tr
+      {
+        td
+        {
           border: 1px solid rgb(221, 221, 221);
         }
       }
@@ -178,17 +191,20 @@
     margin-right:5px;
     margin-top:5px;
   }
-  .chzn-container .chzn-results li.highlighted{
+  .chzn-container .chzn-results li.highlighted
+  {
     @include linearGradient(#62c462,#51a351);
   }
 }
 
 // Filter items
-.filter-resource-item {
+.filter-resource-item
+{
   float: left;
   margin-left: .6em;
 
-  label {
+  label
+  {
     float: left;
     display: block;
     margin-left: 3.6em;
@@ -196,14 +212,16 @@
     margin-right: .4em;
   }
 
-  select {
+  select
+  {
     display: block;
     float: left;
   }
 }
 
 // Toggle container
-.filter-toggle {
+.filter-toggle
+{
   clear: both;
   padding: .4em .4em;
 }
@@ -212,7 +230,8 @@
 a.toggle-link:link,
 a.toggle-link:hover,
 a.toggle-link:visited,
-a.toggle-link:focus {
+a.toggle-link:focus
+{
   color: $fcolor;
   cursor: pointer;
   font-size: $fsize;
@@ -221,17 +240,20 @@ a.toggle-link:focus {
 }
 
 // Toggle button styles
-.toggle-button {
+.toggle-button
+{
   display: inline-block;
   height: 1em;
   padding-left: .2em;
   width: 1em;
 }
 
-.toggle-closed {
+.toggle-closed
+{
   background: url('../images/default_tab.png') 0 0 no-repeat;
 }
 
-.toggle-open {
+.toggle-open
+{
   background: url('../images/active_tab.png') 0 0 no-repeat;
 }

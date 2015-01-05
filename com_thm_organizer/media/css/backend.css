@@ -238,23 +238,23 @@ tbody tr:first-child td {
 
 /* Mapping anpassen */
 @media (min-width: 768px) {
-  #mapping .control-group:nth-of-type(1) {
+  #mapping .control-group:nth-of-type(1), #mappings .control-group:nth-of-type(1) {
     width: 50%;
     float: left; }
-    #mapping .control-group:nth-of-type(1) .controls select {
+    #mapping .control-group:nth-of-type(1) .controls select, #mappings .control-group:nth-of-type(1) .controls select {
       width: 95%; }
-  #mapping .control-group:nth-of-type(2) {
+  #mapping .control-group:nth-of-type(2), #mappings .control-group:nth-of-type(2) {
     width: 50%;
     float: right; }
-    #mapping .control-group:nth-of-type(2) .controls select {
+    #mapping .control-group:nth-of-type(2) .controls select, #mappings .control-group:nth-of-type(2) .controls select {
       width: 95%; }
-  #mapping .control-group:nth-of-type(3) {
+  #mapping .control-group:nth-of-type(3), #mappings .control-group:nth-of-type(3) {
     clear: both; } }
-#mapping .chzn-container-multi .chzn-choices li {
+#mapping .chzn-container-multi .chzn-choices li, #mappings .chzn-container-multi .chzn-choices li {
   float: none;
   margin-right: 5px;
   margin-top: 5px; }
-#mapping .search-choice {
+#mapping .search-choice, #mappings .search-choice {
   border: 1px solid #bbb;
   background: #ffffff;
   /* Old browsers */
@@ -273,7 +273,7 @@ tbody tr:first-child td {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */
   line-height: 14px; }
-#mapping .chzn-choices {
+#mapping .chzn-choices, #mappings .chzn-choices {
   background: #B9D986;
   /* Old browsers */
   background: -moz-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
@@ -296,7 +296,7 @@ tbody tr:first-child td {
   -ms-border-radius: 3px;
   -o-border-radius: 3px;
   border-radius: 3px; }
-#mapping .highlighted {
+#mapping .highlighted, #mappings .highlighted {
   background: #62c462;
   /* Old browsers */
   background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
@@ -313,19 +313,19 @@ tbody tr:first-child td {
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */ }
-#mapping table {
+#mapping table, #mappings table {
   width: auto; }
-#mapping thead tr:nth-child(1) th {
+#mapping thead tr:nth-child(1) th, #mappings thead tr:nth-child(1) th {
   padding: 5px 0 5px 8px; }
-#mapping thead .thm_organizer_pools_ordering {
+#mapping thead .thm_organizer_pools_ordering, #mappings thead .thm_organizer_pools_ordering {
   width: 170px; }
-#mapping tbody .child-order .btn-small {
+#mapping tbody .child-order .btn-small, #mappings tbody .child-order .btn-small {
   padding: 1px 4px;
   font-size: 12px;
   line-height: 8px; }
-#mapping tbody .child-order .text-area-order {
+#mapping tbody .child-order .text-area-order, #mappings tbody .child-order .text-area-order {
   padding: 1px 2px;
   text-align: center;
   height: 14px; }
-#mapping tbody .child-name {
+#mapping tbody .child-name, #mappings tbody .child-name {
   padding-right: 30px; }
