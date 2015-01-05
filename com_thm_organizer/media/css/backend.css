@@ -1,13 +1,10 @@
 @charset "UTF-8";
 /*icons anpassen*/
-.icon-diff, .icon-import {
+.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
   font-weight: bold; }
 
-.icon-import {
-  content: "\51"; }
-
-.icon-merge {
-  content: "\69"; }
+.icon-add-Space {
+  font-size: 14px; }
 
 /*icons zur jeweiligen View im Header hinzufuegen */
 .icon-organizer::before {

@@ -1,3 +1,110 @@
+/******************************************************************************/
+/* Styles for Monitor                                                         */
+/******************************************************************************/
+.display-schedule {
+  font-family: Verdana, Arial;
+  margin: auto 0;
+  line-height: normal;
+  color: #4a5c66;
+  height: 90vh; }
+
+/************** header *********************************************/
+.head {
+  padding: 2em 48px;
+  border-bottom: 1px solid #ECECEC;
+  box-shadow: 0px 5px 3px #888888;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px; }
+
+.banner {
+  display: flex;
+  -webkit-flex: 2;
+  flex: 2; }
+
+.thm-logo {
+  padding-top: 5px;
+  -webkit-flex: none;
+  flex: none;
+  width: 210px; }
+  .thm-logo img {
+    width: 210px;
+    height: 69px; }
+
+.room-name {
+  text-align: center;
+  -webkit-flex: 2;
+  flex: 2;
+  font-size: 95px;
+  font-weight: bold;
+  line-height: 72px; }
+
+.date-info {
+  text-align: right;
+  color: #80ba24;
+  font-weight: bold;
+  font-size: x-large;
+  line-height: 26px;
+  width: 155px; }
+  .date-info .time {
+    border-bottom: 1px solid rgba(128, 186, 36, 0.2); }
+  .date-info .weekday {
+    text-transform: uppercase;
+    font-size: smaller; }
+
+/******************** content **********************************/
+.schedule-area.schedule-wide {
+  margin: 0 48px;
+  font-size: x-large; }
+
+.schedule-block {
+  min-height: 9vh;
+  line-height: 9vh;
+  padding: 0 0.5em;
+  background-color: rgba(238, 238, 238, 0.5);
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  display: flex;
+  flex-wrap: wrap; }
+
+.block-time {
+  -webkit-flex: none;
+  flex: none;
+  width: 205px;
+  text-align: right; }
+
+.block-data {
+  display: flex;
+  -webkit-flex: 2;
+  flex: 2; }
+
+.block-title {
+  font-weight: bold;
+  -webkit-flex: 2;
+  flex: 2;
+  word-wrap: break-word;
+  padding-left: 20%; }
+
+.block-extra {
+  text-align: right;
+  word-wrap: break-word;
+  min-width: 155px; }
+
+.active {
+  background-color: #9C132D;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #4a5c66;
+  border-radius: 5px;
+  min-height: 30vh;
+  line-height: 30vh; }
+  .active .block-time {
+    width: 200px; }
+  .active .block-data {
+    font-size: 120%;
+    font-size: larger; }
+
+/****************************************************/
 .thm_organizer_is_registered {
   background-color: white;
   font-family: Arial;

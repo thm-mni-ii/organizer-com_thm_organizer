@@ -219,7 +219,7 @@ class JFormFieldChildren extends JFormField
             $html .= '<input type="text" title="Ordering" name="child' . $ordering . 'order" id="child' . $ordering . 'order" ';
             $html .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="orderWithNumber(' . $ordering . ');"/>';
             $html .= '<button class="btn btn-small" onclick="setEmptyElement(\'' . $ordering . '\');" title="' . $addSpace . '">';
-            $html .= '<span class="icon-addSpace"></span>';
+            $html .= '<span class="icon-add-Space"></span>';
             $html .= '</button>';
             $html .= '<button class="btn btn-small" onClick="removeRow(' . $ordering . ');" title="' . JText::_('JTOOLBAR_DELETE') . '" >';
             $html .= '<span class="icon-trash"></span>';

@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once './schedule_events.php';
+require_once 'schedule_events.php';
 
 $params = $this->model->params;
 $blocks = $this->model->blocks;
@@ -39,14 +39,14 @@ $metric = 0;
 <div class='display-schedule'>
     <div class='head'>
         <div class='banner'>
-            <div class='thm-logo'>Dummy Text for THM-LOGO</div>
+            <div class='thm-logo'><img src="media/com_thm_organizer/images/thm_logo.png" alt="THM-Logo"/><!--Dummy Text for THM-LOGO--></div>
             <div class="room-name"><?php echo $params['roomName']; ?></div>
-            <div class="thm-text">Dummy Text for TECHNISCHE&nbsp;HOCHSCHULE&nbsp;MITTELHESSEN</div>
+   <!--         <div class="thm-text"><img src="media/com_thm_organizer/images/thm_text_dinpro_compact.png" alt="THM-Logo"/><!--Dummy Text for TECHNISCHE&nbsp;HOCHSCHULE&nbsp;MITTELHESSEN</div> -->
         </div>
         <div class='date-info'>
+            <div class='time'><?php echo $time; ?></div>
             <div class='weekday'><?php echo JText::_($dayName); ?></div>
             <div class='date'><?php echo date('d.m.Y'); ?></div>
-            <div class='time'><?php echo $time; ?></div>
         </div>
     </div>
     <div class="schedule-area <?php echo $widthClass; ?>">
