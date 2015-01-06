@@ -394,7 +394,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $query->where($this->whereTimes($key));
         }
         $query->where($this->whereAccess());
-        $query->where("ec.reserves = '1'");
+        $query->where("e.reserves = '1'");
         $longnameCondition = "r.longname = '{$this->params['roomName']}'";
         if (isset($this->blocks[$key]['teacherIDs']))
         {
@@ -477,8 +477,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $this->from($query, $key);
         $query->where($this->whereDates());
         $query->where($this->whereAccess());
-        $query->where("ec.reserves = '0'");
-        $query->where("ec.global = '0'");
+        $query->where("e.reserves = '0'");
+        $query->where("e.global = '0'");
         $longnameCondition = "r.longname = '{$this->params['roomName']}'";
         if ($this->blocks[$key] != null AND isset($this->blocks[$key]['teacherIDs']))
         {
@@ -533,7 +533,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $this->from($query);
         $query->where($this->whereDates());
         $query->where($this->whereAccess());
-        $query->where("ec.global = '1'");
+        $query->where("e.global = '1'");
         $dbo->setQuery((string) $query);
         
         try 
@@ -586,7 +586,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $whereFutureDates .= ") ";
         $query->where($whereFutureDates);
         $query->where($this->whereAccess());
-        $query->where("ec.reserves = '1'");
+        $query->where("e.reserves = '1'");
         $query->where("r.longname = '{$this->params['roomName']}'");
         $query->order("DATE(startdate) ASC, starttime ASC");
         $dbo->setQuery((string) $query);
@@ -652,7 +652,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");
-        $query->innerJoin("#__thm_organizer_categories AS ec ON e.categoryID = ec.id");
         $query->leftJoin("#__thm_organizer_event_rooms AS er ON e.id = er.eventID");
         $query->leftJoin("#__thm_organizer_rooms AS r ON er.roomID = r.id");
         if (isset($key) and isset($this->blocks[$key]['teacherIDs']))
