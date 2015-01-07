@@ -13,6 +13,7 @@
 
 defined('_JEXEC') or die;
 jimport('thm_core.edit.model');
+require_once JPATH_COMPONENT_SITE . '/helpers/access.php';
 
 /**
  * Retrieves persistent data for output in the event edit view.
@@ -127,27 +128,19 @@ class THM_OrganizerModelEvent_Edit extends THM_CoreModelEdit
      */
     private function setAccess(&$event)
     {
-        $user = JFactory::getUser();
-        $canCreateContent = $user->authorise('core.create', 'com_content');
-        $canCreateCategories = (count($user->getAuthorisedCategories('com_content', 'core.create')));
-        $canCreate = ($canCreateContent OR $canCreateCategories);
+        $canCreate = THM_OrganizerHelperAccess::canCreateEvents();
 
-        $eventID = $event->id;
-        if (empty($eventID) AND $canCreate)
+        if (empty($event->id) AND $canCreate)
         {
             $event->params->set('access-create', true);
+            return;
         }
-        else
+
+        $canEdit = THM_OrganizerHelperAccess::canEditEvent($event->id, $event->created_by);
+        if (!empty($event->id) AND $canEdit)
         {
-            $asset = 'com_content.article.' . $eventID;
-            $userID	= $user->get('id');
-            $canEdit = $user->authorise('core.edit', $asset);
-            $isOwn = empty($event->created_by)? false : $userID == $event->created_by;
-            $canEditOwn = (!empty($userID) AND $user->authorise('core.edit.own', $asset) AND $isOwn);
-            if ($canEdit OR $canEditOwn)
-            {
-                $event->params->set('access-edit', true);
-            }
+            $event->params->set('access-edit', true);
+            return;
         }
     }
 

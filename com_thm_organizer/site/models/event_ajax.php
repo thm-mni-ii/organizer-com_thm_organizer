@@ -185,35 +185,6 @@ class THM_OrganizerModelEvent_Ajax extends JModelLegacy
     }
 
     /**
-     * Retrieves the ids of event categories which reserve resources and formats
-     * them in a string suitable for sql
-     *
-     * @return  string  reserving event category ids
-     *
-     * @throws  exception
-     */
-    private function getReservingCatIDs()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id');
-        $query->from('#__thm_organizer_categories');
-        $query->where('reserves = 1');
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $resultArray = $dbo->loadColumn();
-            return empty($resultArray)? '' : "( '" . implode("', '", $resultArray) . "' )";
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return '';
-        }
-    }
-
-    /**
      * Sets the resource collection variables with data from the database
      *
      * @return  bool  true if resources have been set, otherwise false

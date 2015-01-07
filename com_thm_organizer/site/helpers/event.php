@@ -150,8 +150,7 @@ class THM_OrganizerHelperEvent
      */
     public static function createIntroText(&$event)
     {
-        $introText = '<p>';
-        $introText .= self::getDateText($event);
+        $introText = self::getDateText($event);
 
         $groups = self::getNames($event['groups'], 'title', '#__usergroups', 'GROUP');
         $teachers = self::getNames($event['teachers'], 'surname', '#__thm_organizer_teachers', 'TEACHER');
@@ -159,18 +158,14 @@ class THM_OrganizerHelperEvent
         $resources = (!empty($groups) OR !empty($teachers) OR !empty($rooms));
         if ($resources)
         {
-            $introText .= JText::_('COM_THM_ORGANIZER_RESOURCES_AFFECTED') . $groups . $teachers . $rooms;
+            $introText .= '<p>' . JText::_('COM_THM_ORGANIZER_RESOURCES_AFFECTED') . '</p>' . $groups . $teachers . $rooms;
         }
 
         if (!empty($event['fulltext']))
         {
-            $introText .= '<div class="resource-group>';
-            $introText .= '<div class="resource-label">' . JText::_('COM_THM_ORGANIZER_FURTHER_INFORMATION') . '</div>';
-            $introText .= '<div class="resources">' . $event['fulltext'] . '</div>';
-            $introText .= '</div>';
+            $introText .= '<div class="content-label">' . JText::_('COM_THM_ORGANIZER_FURTHER_INFORMATION') . '</div>';
         }
 
-        $introText .= "</p>";
         $event['introtext'] = $introText;
     }
 

@@ -82,7 +82,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         if ($this->item->isManager)
         {
             $listButton = '<a href="' . JRoute::_($this->item->managerLink) . '" class="btn">';
-            $listButton .= '<span class="icon-list-view"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_LIST_VIEW') . '</button>';
+            $listButton .= '<span class="icon-list-view"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_LIST_VIEW') . '</a>';
             $this->buttons[] = $listButton;
         }
 
@@ -92,10 +92,10 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         if ($eventID)
         {
             $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
-            $eventLink = "index.php?option=com_thm_organizer&view=event_details&eventID=$eventID";
+            $eventLink = "index.php?option=com_thm_organizer&view=event_details&id=$eventID";
             $eventLink .= empty($menuID)? '' : "&Itemid=$menuID";
             $detailsButton = '<a href="' . JRoute::_($eventLink) . '" class="btn">';
-            $detailsButton .= '<span class="icon-file-2"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_DETAILS_VIEW') . '</button>';
+            $detailsButton .= '<span class="icon-file-2"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_EVENT') . '</a>';
             $this->buttons[] = $detailsButton;
 
             $cancelButton .= '<span class="icon-cancel"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_CANCEL') . '</button>';

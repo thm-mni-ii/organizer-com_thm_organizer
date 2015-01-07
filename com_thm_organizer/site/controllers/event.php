@@ -11,7 +11,6 @@
  */
 
 defined('_JEXEC') OR die;
-require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
 require_once JPATH_SITE . '/components/com_thm_organizer/helpers/access.php';
 
 /**
@@ -37,7 +36,7 @@ class THM_OrganizerControllerEvent extends JControllerLegacy
 
         if (empty($event['id']))
         {
-            $canSave = THM_OrganizerHelperAccess::canSaveEvent($event['categoryID']);
+            $canSave = THM_OrganizerHelperAccess::canCreateEvent($event['categoryID']);
         }
         else
         {
@@ -62,7 +61,7 @@ class THM_OrganizerControllerEvent extends JControllerLegacy
             else
             {
                 $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-                $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details&eventID={$event['id']}$menuParam", false);
+                $link = JRoute::_("index.php?option=com_thm_organizer&view=event_details&id={$event['id']}$menuParam", false);
                 $this->setRedirect($link, $msg);
             }
         }

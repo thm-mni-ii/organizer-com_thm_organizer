@@ -356,8 +356,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
     {
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");
-        $query->innerJoin("#__thm_organizer_categories AS ecat ON e.categoryID = ecat.id");
-        $query->innerJoin("#__categories AS ccat ON ecat.contentCatID = ccat.id");
+        $query->innerJoin("#__categories AS cat ON e.categoryID = cat.id");
         $query->innerJoin("#__users AS u ON c.created_by = u.id");
         $query->leftJoin("#__thm_organizer_event_teachers AS et ON e.id = et.eventID");
         $query->leftJoin("#__thm_organizer_teachers AS t ON et.teacherID = t.id");
@@ -600,7 +599,7 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id, title, description');
-        $query->from('#__thm_organizer_categories');
+        $query->from('#__categories');
         if ($this->display_type == 1 or $this->display_type == 5)
         {
             $categoryID = $this->getState('categoryID');
@@ -762,60 +761,4 @@ class THM_OrganizerModelEvent_Manager extends JModelForm
         return $form;
     }
 
-    /**
-     * Determines whether the category in question reserves resources
-     *
-     * @param   int  $catID  the id of the category to be checked
-     *
-     * @return  boolean  true if the value reserves, otherwise false
-     */
-    public function checkReserves($catID)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("reserves");
-        $query->from("#__thm_organizer_categories");
-        $query->where("id = $catID");
-        $dbo->setQuery((string) $query);
-        try 
-        {
-            $reserves = (bool) $dbo->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-        
-        return $reserves;
-    }
-
-    /**
-     * Determines whether the category in question is global
-     *
-     * @param   int  $catID  the id of the category to be checked
-     *
-     * @return  boolean  true if the value is global, otherwise false
-     */
-    public function checkGlobal($catID)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("global");
-        $query->from("#__thm_organizer_categories");
-        $query->where("id = $catID");
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $global = (bool) $dbo->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-        
-        return $global;
-    }
 }

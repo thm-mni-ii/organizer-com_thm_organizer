@@ -34,9 +34,10 @@ class THM_OrganizerModelEvent extends JModelLegacy
     {
         $event['title'] = $this->_db->escape($event['title']);
         $event['alias'] = JApplicationHelper::stringURLSafe($event['title']);
-        $event['fulltext'] = $this->_db->escape($event['description']);
         THM_OrganizerHelperEvent::processTimes($event);
         THM_OrganizerHelperEvent::createIntroText($event);
+        $event['introtext'] = $this->_db->escape($event['introtext']);
+        $event['fulltext'] = $this->_db->escape($event['description']);
 
         $this->_db->transactionStart();
 

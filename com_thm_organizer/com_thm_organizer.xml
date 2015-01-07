@@ -43,7 +43,7 @@
         <filename>thm_organizer.php</filename>
         <filename>controller.php</filename>
         <filename>LICENSE.txt</filename>
-        <filename>router.php</filename>
+        <filename>buggedrouter.php</filename>
         <folder>assets</folder>
         <folder>controllers</folder>
         <folder>helpers</folder>

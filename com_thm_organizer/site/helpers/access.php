@@ -28,7 +28,22 @@ class THM_OrganizerHelperAccess
      *
      * @return  bool  true if the user can create content for the category, otherwise false
      */
-    public static function canSaveEvent($categoryID)
+    public static function canCreateEvents()
+    {
+        $user = JFactory::getUser();
+        $canCreateContent = $user->authorise('core.create', 'com_content');
+        $canCreateCategories = (count($user->getAuthorisedCategories('com_content', 'core.create')));
+        return ($canCreateContent OR $canCreateCategories);
+    }
+
+    /**
+     * Checks for user creation access to the category with which the event is to be associated
+     *
+     * @param   int  $categoryID  the id of the content category
+     *
+     * @return  bool  true if the user can create content for the category, otherwise false
+     */
+    public static function canCreateEvent($categoryID)
     {
         $user = JFactory::getUser();
         return $user->authorise('core.create', "com_content.category.$categoryID");
