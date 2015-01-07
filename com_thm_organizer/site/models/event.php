@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT_SITE . '/helper/event.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/event.php';
 
 /**
  * Handles event perssistence
@@ -24,91 +24,88 @@ class THM_OrganizerModelEvent extends JModelLegacy
 {
 
     /**
-     * save
+     * Saves the event, associated content, and asset to the database
      *
-     * saves event and content information
+     * @param   array  $event  the event information from the request
      *
-     * @return int id on success, 0 on failure
+     * @return  mixed  int id on success, boolean false on failure
      */
-    public function save()
+    public function save(&$event)
     {
-        return 0;
-        $dbo = JFactory::getDbo();
-        $dbo->transactionStart();
-        $data = $this->processRequestData();
-        if (empty($data))
-        {
-            return 0;
-        }
+        $event['title'] = $this->_db->escape($event['title']);
+        $event['alias'] = JApplicationHelper::stringURLSafe($event['title']);
+        $event['fulltext'] = $this->_db->escape($event['description']);
+        THM_OrganizerHelperEvent::processTimes($event);
+        THM_OrganizerHelperEvent::createIntroText($event);
 
-        THM_OrganizerHelperEvent::cleanRequestTimeData($data);
-        THM_OrganizerHelperEvent::buildText($data);
-        $eventSaved = ($data['id'] > 0)? $this->updateEvent($data) : $this->insertEvent($data);
-        $teachersSaved = $this->saveResources('#__thm_organizer_event_teachers', 'teachers', 'teacherID', $data['id']);
-        $roomsSaved = $this->saveResources('#__thm_organizer_event_rooms', 'rooms', 'roomID', $data['id']);
-        $groupsSaved = $this->saveResources('#__thm_organizer_event_groups', 'groups', 'groupID', $data['id']);
+        $this->_db->transactionStart();
+
+        $eventSaved = empty($event['id'])? $this->insertEvent($event) : $this->updateEvent($event);
+        $teachersSaved = $this->saveResources($event['id'], $event['teachers'], 'teacherID', '#__thm_organizer_event_teachers');
+        $roomsSaved = $this->saveResources($event['id'], $event['rooms'], 'roomID', '#__thm_organizer_event_rooms');
+        $groupsSaved = $this->saveResources($event['id'], $event['groups'], 'groupID', '#__thm_organizer_event_groups');
+
         if ($eventSaved AND $teachersSaved AND $roomsSaved AND $groupsSaved)
         {
             $groups = JFactory::getApplication()->input->get('groups', array(), 'array');
-            if (isset($data['emailNotification']) AND count($groups))
+            if (isset($event['emailNotification']) AND count($groups))
             {
-                $success = $this->notify($data);
+                $success = $this->notify($event);
                 if ($success)
                 {
-                    $dbo->transactionCommit();
-                    return $data['id'];
+                    $this->_db->transactionCommit();
+                    return $event['id'];
                 }
-                $dbo->transactionRollback();
-                return 0;
+                $this->_db->transactionRollback();
+                return false;
             }
-            $dbo->transactionCommit();
-            return $data['id'];
+            $this->_db->transactionCommit();
+            return $event['id'];
         }
-        $dbo->transactionRollback();
-        return 0;
+        $this->_db->transactionRollback();
+        return false;
     }
 
     /**
-     * Processes the request data, reformatting, and consolidating it-
+     * Saves an existing event updating appropriate entries in the content and event tables
      *
-     * @return  array  $data  array of request data, empty if the form object could not be found
-     */
-    public function processRequestData()
-    {
-        $input = JFactory::getApplication()->input;
-        $data = $input->get('jform', null, 'array');
-        if (empty($data))
-        {
-            return array();
-        }
-
-        $data['title'] = addslashes($data['title']);
-        $data['alias'] = JApplicationHelper::stringURLSafe($data['title']);
-        $data['fulltext'] = JFactory::getDbo()->escape($data['description']);
-        $data['categoryID'] = $input->getInt('category', 0);
-        $data['rec_type'] = $input->getInt('rec_type', 0);
-        $data['userID'] = JFactory::getUser()->id;
-        return $data;
-    }
-
-    /**
-     * Performs the update query to the appropriate tables
-     *
-     * @param   mixed  &$event  the event data
+     * @param   array  &$event  the event data
      *
      * @return  boolean true on success, otherwise false
      */
     private function updateEvent(&$event)
     {
-        $contentUpdated = $this->updateContent($event);
-        if (!$contentUpdated)
+        $content = JTable::getInstance('Content');
+        try
         {
+            $contentLoaded = $content->load($event['id']);
+            if (!$contentLoaded)
+            {
+                return false;
+            }
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
-        $assetUpdated = $this->updateAsset($event);
-        if (!$assetUpdated)
+
+        $this->setContentAttributes($content, $event);
+        $content->modified = date('Y-m-d H:i:s');
+        $content->modified_by = JFactory::getUser()->id;
+
+        try
         {
+            $contentStored = $content->store();
+            if (!$contentStored)
+            {
+                return false;
+            }
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
@@ -121,14 +118,16 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $conditions .= "endtime = '{$event['endtime']}', ";
         $conditions .= "start = '{$event['start']}', ";
         $conditions .= "end = '{$event['end']}', ";
-        $conditions .= "recurrence_type = '{$event['rec_type']}' ";
+        $conditions .= "recurrence_type = '{$event['recurrence_type']}' ";
+        $conditions .= "global = '{$event['global']}' ";
+        $conditions .= "reserves = '{$event['reserves']}' ";
         $query->set($conditions);
         $query->where("id = '{$event['id']}'");
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->execute();
-            return true;
+            $eventSaved = $this->_db->execute();
+            return empty($eventSaved)? false : true;
         }
         catch (Exception $exc)
         {
@@ -138,122 +137,49 @@ class THM_OrganizerModelEvent extends JModelLegacy
     }
 
     /**
-     * Updates the content entry values
+     * Saves a new event creating appropriate entries in the content and event tables
      *
-     * @param   array  &$event  holds data from the request
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    private function updateContent(&$event)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->update('#__content');
-        $conditions = "title = '{$event['title']}', ";
-        $conditions .= "alias = '{$event['alias']}', ";
-        $conditions .= "introtext = '{$event['introtext']}', ";
-        $conditions .= "fulltext = '{$event['fulltext']}', ";
-        $conditions .= "state = '1', ";
-        $conditions .= "catid = '{$event['contentCatID']}', ";
-        $conditions .= "modified = '" . date('Y-m-d H:i:s') . "', ";
-        $conditions .= "modified_by = '{$event['userID']}', ";
-        $conditions .= "publish_up = '{$event['publish_up']}', ";
-        $conditions .= "publish_down = '{$event['publish_down']}' ";
-        $query->set($conditions);
-        $query->where("id = '{$event['id']}'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-            return true;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-    }
-
-    /**
-     * Updates the asset entry values
-     *
-     * @param   array  &$event  holds data from the request
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    private function updateAsset(&$event)
-    {
-        // Gets the parent id (it may have changed)
-        $query = $this->_db->getQuery(true);
-        $query->select("id, level");
-        $query->from("#__assets");
-        $query->where("name = 'com_content.category.{$event['contentCatID']}'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $parentID = $this->_db->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-        if (empty($parentID))
-        {
-            return false;
-        }
-
-        $asset = JTable::getInstance('Asset');
-        $asset->loadByName("com_content.article.{$event['id']}");
-        $asset->parent_id = $parentID;
-        $asset->title = $event['title'];
-        $asset->setLocation($parentID, 'last-child');
-        try
-        {
-            $asset->store();
-            return true;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-    }
-
-    /**
-     * Saves a new event creating appropriate entries in the content, assets,
-     * and event tables
-     *
-     * @param   array  &$event  holds data from the request
+     * @param   array  &$event  the event data
      *
      * @return  boolean true on success, otherwise false
      */
     private function insertEvent(&$event)
     {
-        $contentSaved = $this->insertContent($event);
-        if (!$contentSaved)
+        $content = JTable::getInstance('Content');
+
+        $this->setContentAttributes($content, $event);
+        $content->created = date('Y-m-d H:i:s');
+        $content->created_by = JFactory::getUser()->id;
+
+        try
         {
+            $contentStored = $content->store();
+            if(!$contentStored OR empty($content->id))
+            {
+                return false;
+            }
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return false;
         }
 
-        $assetSaved = $this->insertAsset($event);
-        if (!$assetSaved)
-        {
-            return false;
-        }
+        $event['id'] = $content->id;
 
         $query = $this->_db->getQuery(true);
         $statement = "#__thm_organizer_events";
-        $statement .= "( id, categoryID, startdate, enddate, ";
-        $statement .= "starttime, endtime, recurrence_type, start, end ) ";
+        $statement .= "( id, categoryID, startdate, enddate, starttime, endtime, recurrence_type, start, end, global, reserves ) ";
         $statement .= "VALUES ";
         $statement .= "( '{$event['id']}', '{$event['categoryID']}', '{$event['startdate']}', '{$event['enddate']}', ";
-        $statement .= "'{$event['starttime']}', '{$event['endtime']}', '{$event['rec_type']}', '{$event['start']}', '{$event['end']}' ) ";
+        $statement .= "'{$event['starttime']}', '{$event['endtime']}', '{$event['recurrence_type']}', '{$event['start']}', ";
+        $statement .= "'{$event['end']}', '{$event['global']}', '{$event['reserves']}') ";
         $query->insert($statement);
         $this->_db->setQuery((string) $query);
         try
         {
-            $this->_db->execute();
-            return true;
+            $eventSaved = $this->_db->execute();
+            return empty($eventSaved)? false : true;
         }
         catch (Exception $exc)
         {
@@ -263,172 +189,37 @@ class THM_OrganizerModelEvent extends JModelLegacy
     }
 
     /**
-     * Saves a new event's content
+     * Sets content attributes used for both insert and update
      *
-     * @param   array  &$event  the event information
+     * @param   object  &$content  the object representing the content table
+     * @param   array   &$event    the array holding event data
      *
-     * @return  bool  true if no exception has been
+     * @return  void  sets common object variables
      */
-    private function insertContent(&$event)
+    private function setContentAttributes(&$content, &$event)
     {
-        $query = $this->_db->getQuery(true);
-        $statement = "#__content";
-        $statement .= "( title, alias, ";
-        $statement .= "introtext, fulltext, ";
-        $statement .= "state, catid, ";
-        $statement .= "created, access, ";
-        $statement .= "created_by, publish_up, ";
-        $statement .= "publish_down ) ";
-        $statement .= "VALUES ";
-        $statement .= "( '{$event['title']}', '{$event['alias']}', ";
-        $statement .= "'{$event['introtext']}', '{$event['fulltext']}', ";
-        $statement .= "'1', '{$event['contentCatID']}', ";
-        $statement .= "'" . date('Y-m-d H:i:s') . "', '1', ";
-        $statement .= "'{$event['userID']}', '{$event['publish_up']}', ";
-        $statement .= "'{$event['publish_down']}' ) ";
-        $query->insert($statement);
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-
-        $query = $this->_db->getQuery(true);
-        $query->select('MAX(id)');
-        $query->from('#__content');
-        $query->where("title = '{$event['title']}'");
-        $query->where("introtext = '{$event['introtext']}'");
-        $query->where("catid = '{$event['contentCatID']}'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $event['id'] = $this->_db->loadResult();
-            return empty($event['id'])? false : true;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-    }
-
-    /**
-     * Saves a new entry in the asset table and sets the corresponding content value
-     *
-     * @param   array  &$event  the event information
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    private function insertAsset(&$event)
-    {
-        // Get the content category asset id
-        $query = $this->_db->getQuery(true);
-        $query->select("id");
-        $query->from("#__assets");
-        $query->where("name = 'com_content.category.{$event['contentCatID']}'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $categoryAssetID = $this->_db->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-        if (empty($categoryAssetID))
-        {
-            return false;
-        }
-
-        // Create the new asset
-        $asset = JTable::getInstance('Asset');
-        $asset->name = "com_content.article.{$event['id']}";
-        $asset->parent_id = $categoryAssetID;
-        $asset->rules = '{}';
-        $asset->title = $event['title'];
-        $asset->setLocation($categoryAssetID, 'last-child');
-        try
-        {
-            $asset->store();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-
-        // Get the id of the new asset
-        $query = $this->_db->getQuery(true);
-        $query->select('id');
-        $query->from('#__assets');
-        $query->where("name = 'com_content.article.{$event['id']}'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $assetID = $this->_db->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-        if (empty($assetID))
-        {
-            return false;
-        }
-
-        // Update the asset id value for the previously created content
-        $query = $this->_db->getQuery(true);
-        $query->update("#__content");
-        $query->set("asset_id = '$assetID'");
-        $query->where("id = '{$event['id']}'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-
-        // Confirm the content was updated
-        $query = $this->_db->getQuery(true);
-        $query->select('COUNT(*)');
-        $query->from('#__content');
-        $query->where("asset_id = '$assetID'");
-        $query->where("id = '{$event['id']}'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $count = $this->_db->loadResult();
-            return $count == 1;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
+        $content->title = $event['title'];
+        $content->alias = $event['alias'];
+        $content->introtext = $event['introtext'];
+        $content->fulltext = $event['fulltext'];
+        $content->state = 1;
+        $content->catid = $event['categoryID'];
+        $content->access = 1;
+        $content->publish_up = $event['publish_up'];
+        $content->publish_down = $event['publish_down'];
     }
 
     /**
      * Saves associations of events and event resources
      *
-     * @param   string  $tableName       the name of the resource association table
-     * @param   string  $requestName     the name of the request resource variable
-     * @param   string  $resourceColumn  the name of the resource id column
      * @param   int     $eventID         the id of the event
+     * @param   array   &$resources      the event resources
+     * @param   string  $columnName  the name of the resource id column
+     * @param   string  $tableName       the name of the resource association table
      *
      * @return  boolean true on success false on failure
      */
-    private function saveResources($tableName, $requestName, $resourceColumn, $eventID)
+    private function saveResources($eventID, &$resources, $columnName, $tableName)
     {
         // Remove old associations
         $query = $this->_db->getQuery(true);
@@ -446,18 +237,11 @@ class THM_OrganizerModelEvent extends JModelLegacy
             return false;
         }
 
-        // Add new ones (if requested)
-        $resources = JFactory::getApplication()->input->get($requestName, array(), 'array');
-        $noResourceIndex = array_search('-1', $resources);
-        if ($noResourceIndex)
-        {
-            unset($resources[$noResourceIndex]);
-        }
         if (!empty($resources))
         {
             $query = $this->_db->getQuery(true);
             $statement = "$tableName ";
-            $statement .= "( eventID, $resourceColumn ) ";
+            $statement .= "( eventID, $columnName ) ";
             $statement .= "VALUES ";
             $statement .= "( '$eventID', '" . implode("' ), ( '$eventID', '", $resources) . "' ) ";
             $query->insert($statement);

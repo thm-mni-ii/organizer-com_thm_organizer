@@ -7,21 +7,6 @@
             type="hidden"
             default="0" />
         <field
-            id="task"
-            name="task"
-            type="hidden"
-            default="" />
-        <field
-            id="option"
-            name="option"
-            type="hidden"
-            default="com_thm_organizer" />
-        <field
-            id="view"
-            name="view"
-            type="hidden"
-            default="event_edit" />
-        <field
             id="title"
             name="title"
             type="text"
@@ -78,6 +63,10 @@
             class="inputbox validate-time" />
     </fieldset>
     <fieldset name="publishing" label="COM_THM_ORGANIZER_ATTRIBUTES_PUBLISHING" addfieldpath="/administrator/components/com_categories/models/fields">
+        <field
+            id="created_by"
+            name="created_by"
+            type="hidden" />
         <field
             id="categoryID"
             name="categoryID"
@@ -148,9 +137,8 @@
             glue=", "
             table="thm_organizer_teachers"
             label="COM_THM_ORGANIZER_TEACHERS"
-            description="COM_THM_ORGANIZER_EVENT_TEACHERS_DESC">
-            <option value="-1">JNONE</option>
-        </field>
+            description="COM_THM_ORGANIZER_EVENT_TEACHERS_DESC"
+            multiple="true" />
         <field
             id="rooms"
             name="rooms"
@@ -159,9 +147,8 @@
             textColumn="longname"
             table="thm_organizer_rooms"
             label="COM_THM_ORGANIZER_ROOMS"
-            description="COM_THM_ORGANIZER_EVENT_ROOMS_DESC">
-            <option value="-1">JNONE</option>
-        </field>
+            description="COM_THM_ORGANIZER_EVENT_ROOMS_DESC"
+            multiple="true" />
         <field
             id="groups"
             name="groups"
@@ -170,9 +157,8 @@
             textColumn="title"
             table="usergroups"
             label="COM_THM_ORGANIZER_GROUPS"
-            description="COM_THM_ORGANIZER_EVENT_GROUPS_DESC">
-            <option value="-1">JNONE</option>
-        </field>
+            description="COM_THM_ORGANIZER_EVENT_GROUPS_DESC"
+            multiple="true" />
         <field
             id="notify"
             name="notify"

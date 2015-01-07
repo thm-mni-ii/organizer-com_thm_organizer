@@ -55,6 +55,9 @@ echo JHtml::_('bootstrap.endTabSet');
 ?>
         </div>
     <?php echo JHtml::_('form.token'); ?>
-        <input type='hidden' name='Itemid' value="<?php echo JFactory::getApplication()->input->get('Itemid', 0); ?>" />
+    <input type='hidden' name='option' value="com_thm_organizer" />
+    <input type='hidden' name='view' value="event_edit" />
+    <input type='hidden' name='task' value="event.save" />
+    <input type='hidden' name='Itemid' value="<?php echo JFactory::getApplication()->input->get('Itemid', 0); ?>" />
     </form>
 </div>

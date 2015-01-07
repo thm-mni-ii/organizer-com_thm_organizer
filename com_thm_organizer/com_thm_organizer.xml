@@ -46,7 +46,7 @@
         <filename>router.php</filename>
         <folder>assets</folder>
         <folder>controllers</folder>
-        <folder>helper</folder>
+        <folder>helpers</folder>
         <folder>models</folder>
         <folder>tables</folder>
         <folder>views</folder>

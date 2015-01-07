@@ -11,7 +11,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT . "/assets/classes/eventAccess.php";
 
 /**
@@ -84,8 +83,7 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
         $query->from("#__thm_organizer_events AS e");
         $query->innerJoin("#__content AS c ON e.id = c.id");
         $query->innerJoin("#__users AS u ON c.created_by = u.id");
-        $query->innerJoin("#__thm_organizer_categories AS ecat ON e.categoryID = ecat.id");
-        $query->innerJoin("#__categories AS ccat ON ecat.contentCatID = ccat.id");
+        $query->innerJoin("#__categories AS cat ON e.categoryID = cat.id");
         $query->where("e.id = '$eventID'");
         $dbo->setQuery((string) $query);
         

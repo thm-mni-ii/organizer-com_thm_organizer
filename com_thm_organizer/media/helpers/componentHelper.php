@@ -156,13 +156,12 @@ class THM_OrganizerHelperComponent
         $params =JComponentHelper::getParams('com_thm_organizer');
         $dateFormat = $params->get('dateFormat', 'd.m.Y');
         return date($dateFormat, strtotime($date));
-        $timeFormat = $params->get('timeFormat', 'H:i');
     }
 
     /**
      * Formats the date stored in the database according to the format in the component parameters
      *
-     * @param   string  $date  the date to be formatted
+     * @param   string  $time  the date to be formatted
      *
      * @return  string|bool  a formatted date string otherwise false
      */
@@ -174,7 +173,7 @@ class THM_OrganizerHelperComponent
     }
 
     /**
-     * Converts a date string into the format used by the database
+     * Converts a date string from the format in the component settings into the format used by the database
      *
      * @param   string  $date  the date string
      *
@@ -186,6 +185,8 @@ class THM_OrganizerHelperComponent
         {
             return '';
         }
-        return date_format(date_create($date), 'Y-m-d');
+        $params =JComponentHelper::getParams('com_thm_organizer');
+        $dateFormat = $params->get('dateFormat', 'd.m.Y');
+        return date_format(date_create_from_format($dateFormat, $date), 'Y-m-d');
     }
 }
