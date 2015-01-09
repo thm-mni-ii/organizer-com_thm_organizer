@@ -83,6 +83,11 @@ class THM_OrganizerModelEvent_Edit extends THM_CoreModelEdit
             return $this->getEmptyEvent();
         }
 
+        if (!empty($event->description))
+        {
+            $event->description = stripslashes($event->description);
+        }
+
         $event->startdate = date_format(date_create($event->startdate), 'd.m.Y');
         $event->enddate = date_format(date_create($event->enddate), 'd.m.Y');
         $event->enddate = ($event->enddate== '00.00.0000')? '' : $event->enddate;

@@ -75,7 +75,12 @@ class THM_OrganizerModelEvent_Details extends JModelLegacy
 
         try
         {
-            return $dbo->loadObject();
+            $event =  $dbo->loadObject();
+            if (!empty($event->introtext))
+            {
+                $event->fulltext = stripslashes($event->fulltext);
+            }
+            return $event;
         }
         catch (Exception $exc)
         {

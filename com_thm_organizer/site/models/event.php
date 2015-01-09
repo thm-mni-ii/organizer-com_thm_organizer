@@ -119,8 +119,8 @@ class THM_OrganizerModelEvent extends JModelLegacy
         $conditions .= "endtime = '{$event['endtime']}', ";
         $conditions .= "start = '{$event['start']}', ";
         $conditions .= "end = '{$event['end']}', ";
-        $conditions .= "recurrence_type = '{$event['recurrence_type']}' ";
-        $conditions .= "global = '{$event['global']}' ";
+        $conditions .= "recurrence_type = '{$event['recurrence_type']}', ";
+        $conditions .= "global = '{$event['global']}', ";
         $conditions .= "reserves = '{$event['reserves']}' ";
         $query->set($conditions);
         $query->where("id = '{$event['id']}'");
@@ -270,123 +270,90 @@ class THM_OrganizerModelEvent extends JModelLegacy
      */
     public function delete($eventID)
     {
-        // Get the asset id
-        $query = $this->_db->getQuery(true);
-        $query->select("id");
-        $query->from("#__assets");
-        $query->where("name = 'com_content.article.$eventID'");
-        $this->_db->setQuery((string) $query);
-        try 
-        {
-            $assetID = $this->_db->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return false;
-        }
-        if (empty($assetID))
-        {
-            return false;
-        }
-
         $this->_db->transactionStart();
 
+        $assetDeleted = $this->deleteAsset($eventID);
+        if (!$assetDeleted)
+        {
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+        // Foreign keys make further deletion superfluous
+        $content = JTable::getInstance('content');
+        try
+        {
+            $loaded = $content->load($eventID);
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+        if (!$loaded)
+        {
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+        try
+        {
+            $deleted = $content->delete();
+            if ($deleted)
+            {
+                $this->_db->transactionCommit();
+                return true;
+            }
+            $this->_db->transactionRollback();
+            return false;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+    }
+
+    /**
+     * Deletes the asset entry associated with the event
+     *
+     * @param   int  $eventID  the event id
+     *
+     * @return  bool true on success, otherwise false
+     */
+    private function deleteAsset($eventID)
+    {
         $assetsTable = JTable::getInstance('asset');
+
         try
         {
-            $assetsTable->delete($assetID);
+            $loaded = $assetsTable->loadByName("com_content.article.$eventID");
         }
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            $this->_db->transactionRollback();
             return false;
         }
 
-        $query = $this->_db->getQuery(true);
-        $query->delete();
-        $query->from("#__content");
-        $query->where("id = '$eventID'");
-        $this->_db->setQuery((string) $query);
+        if (!$loaded)
+        {
+            return false;
+        }
+
         try
         {
-            $this->_db->execute();
+            $deleted = $assetsTable->delete();
+            return $deleted;
         }
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            $this->_db->transactionRollback();
             return false;
         }
-
-        $query = $this->_db->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_events");
-        $query->where("id = '$eventID'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            $this->_db->transactionRollback();
-            return false;
-        }
-
-        $query = $this->_db->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_teachers");
-        $query->where("eventID = '$eventID'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            $this->_db->transactionRollback();
-            return false;
-        }
-
-        $query = $this->_db->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_rooms");
-        $query->where("eventID = '$eventID'");
-        $this->_db->setQuery((string) $query);
-        try 
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            $this->_db->transactionRollback();
-            return false;
-        }
-
-        $query = $this->_db->getQuery(true);
-        $query->delete();
-        $query->from("#__thm_organizer_event_groups");
-        $query->where("eventID = '$eventID'");
-        $this->_db->setQuery((string) $query);
-        
-        try 
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            $this->_db->transactionRollback();
-            return false;
-        }
-
-        $this->_db->transactionCommit();
-        return true;
     }
 
     /**

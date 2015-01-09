@@ -10,11 +10,9 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-jimport('jquery.jquery');
 
 /**
- * Build event list
+ * Builds a list of events
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
@@ -22,142 +20,96 @@ jimport('jquery.jquery');
  */
 class THM_OrganizerViewEvent_Manager extends JViewLegacy
 {
+    public $state = null;
+
+    public $items = null;
+
+    public $pagination = null;
+
+    public $filterForm = null;
+
+    public $activeFilters = null;
+
+    public $headers = null;
+
     /**
-     * Loads model data into context and sets variables used for html output
+     * Method to create a list output
      *
-     * @param   string  $tpl  the template to be used
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.formvalidation');
-        JHtml::_('behavior.tooltip');
-        $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/event_manger.css');
-        $document->addScript(JRoute::_('components/com_thm_organizer/models/forms/event_manager.js'));
+        $this->modifyDocument();
 
-        $model = $this->getModel();
+        $this->state = $this->get('State');
+        $this->items = $this->get('Items');
+        $this->pagination = $this->get('Pagination');
 
-        $this->form = $this->get('Form');
+        $this->filterForm = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
 
-        $events = $model->events;
-        $this->assign('events', $events);
-        $display_type = $model->display_type;
-        $this->assign('display_type', $display_type);
- 
-        $categories = $model->categories;
-        $this->assignRef('categories', $categories);
-        $categoryID = $model->getState('categoryID', '-1');
-        $this->assignRef('categoryID', $categoryID);
-        $this->makeCategorySelect($categories, $categoryID);
+        $this->headers = $this->get('Headers');
+        $this->items = $this->get('Items');
 
-        $this->assignRef('canWrite', $model->canWrite);
-        $this->assignRef('canEdit', $model->canEdit);
-        $this->assign('itemID', JFactory::getApplication()->input->getInt('Itemid', 0));
-
-        $total = $model->total;
-        $this->assign('total', $total);
- 
-        // Create the pagination object
-        $pageNav = $model->pagination;
-        $this->assign('pageNav', $pageNav);
-
-        // Form state variables
-        $search = $model->getState('search');
-        $search = (empty($search))? "" : $search;
-        $this->assignRef('search', $search);
-        $orderby = $model->getState('orderby', 'startdate');
-        $this->assign('orderby', $orderby);
-        $orderbydir = $model->getState('orderbydir', 'ASC');
-        $this->assign('orderbydir', $orderbydir);
- 
-        $this->buildHTMLElements();
-
-        parent::display($tpl);
+        // Allows for view specific toolbar handling
+        $this->addToolBar();
+        parent::display();
     }
 
     /**
-     * Build HTML elements from saved data
+     * Adds any external scripts or stylesheets
+     */
+    private function modifyDocument()
+    {
+        $document = Jfactory::getDocument();
+        $document -> addStyleSheet(JPATH_SITE . "/libraries/thm_core/fonts/iconfont.css");
+        $document -> addStyleSheet(JPATH_SITE . "/media/com_thm_organizer/css/backend.css");
+
+        JHtml::_('bootstrap.tooltip');
+        JHtml::_('behavior.multiselect');
+        JHtml::_('formbehavior.chosen', 'select');
+        JHtml::_('searchtools.form', '#adminForm', array());
+    }
+
+    /**
+     * Creates HTML elements from saved data
      *
      * @return void
      */
-    private function buildHTMLElements()
+    protected function addToolbar()
     {
-        $titleHead = $this->getColumnHead('title');
-        $this->assignRef('titleHead', $titleHead);
-        $authorHead = $this->getColumnHead('author');
-        $this->assignRef('authorHead', $authorHead);
-        $categoryHead = $this->getColumnHead('category', 'eventCategory');
-        $this->assignRef('categoryHead', $categoryHead);
-        $dateHead = $this->getColumnHead('date');
-        $this->assignRef('dateHead', $dateHead);
+        $this->buttons = array();
 
-        $resourceHead = "<span class='thm_organizer_el_th'>" . JText::_('COM_THM_ORGANIZER_EL_RESOURCE') . "</span>";
-        $this->assignRef('resourceHead', $resourceHead);
-    }
-
-    /**
-     * Gets the HTML for the table column headers
-     *
-     * @param   string  $columnName  the name of the column
-     * @param   string  $queryName   the name used in the query for the column
-     *
-     * @return  string  HTML span with the name and sort function for the column
-     */
-    private function getColumnHead($columnName, $queryName = '')
-    {
-        $ascImage = JHtml::image('media/system/images/sort_asc.png', JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION'), null, null, null);
-        $descImage = JHtml::image('media/system/images/sort_desc.png', JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION'), null, null, null);
-
-        if (empty($queryName))
+        $params = $this->getModel()->params;
+        $canCreate = $params->get('access-create', false);
+        $canEdit = $params->get('access-edit', false);
+        $canDelete = $params->get('access-delete', false);
+        if(!$canCreate AND !$canEdit AND !$canDelete)
         {
-            $queryName = $columnName;
+            return;
         }
 
-        $textConstant = 'COM_THM_ORGANIZER_EL_' . strtoupper($columnName);
-        $text = JText::_($textConstant);
-        if ($this->orderby == $queryName)
+        if($canCreate)
         {
-            $text .= $this->orderbydir == 'ASC'? $ascImage : $descImage;
+            $createButton = '<button type="button" class="btn" onclick="Joomla.submitbutton(\'event.add\')">';
+            $createButton .= '<span class="icon-new"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_NEW') . '</button>';
+            $this->buttons[] = $createButton;
         }
 
-        $attribs = array();
-        $attribs['class'] = "thm_organizer_el_sortLink hasTip";
-        $attribs['title'] = JText::_('COM_THM_ORGANIZER_EL_SORT');
-        $link = "javascript:reSort(";
-        if ($this->orderby == $queryName AND $this->orderbydir == 'ASC')
+        if($canEdit)
         {
-            $attribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_DESC_DESCRIPTION');
-            $link .= "'$queryName', 'DESC')";
-        }
-        else
-        {
-            $attribs['title'] .= "::" . JText::_('COM_THM_ORGANIZER_EL_ASC_DESCRIPTION');
-            $link .= "'$queryName', 'ASC')";
+            $editButton = '<button type="button" class="btn" onclick="Joomla.submitbutton(\'event.edit\')">';
+            $editButton .= '<span class="icon-edit"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_EDIT') . '</button>';
+            $this->buttons[] = $editButton;
         }
 
-        $columnHead = "<span class='thm_organizer_el_th'>";
-        $columnHead .= JHtml::_('link', $link, $text, $attribs);
-        $columnHead .= "</span>";
-        return $columnHead;
-    }
-
-    /**
-     * Method to build the category selection
-     *
-     * @param   object  $authCategories  the categories authorized to be used
-     * @param   object  $selected        the selected category
-     *
-     * @return void
-     */
-    private function makeCategorySelect($authCategories, $selected)
-    {
-        $noCategories = array(1 => array('id' => '-1', 'title' => JText::_('COM_THM_ORGANIZER_EL_ALL_CATEGORIES')));
-        $categories = array_merge($noCategories, $authCategories);
-        $categorySelect = JHtml::_('select.genericlist', $categories, 'categoryID',
-                 'id="categoryID" class="inputbox" size="1"', 'id', 'title', $selected
-                );
-        $this->assignRef('categorySelect', $categorySelect);
+        if($canDelete)
+        {
+            $deleteButton = '<button type="button" class="btn" onclick="Joomla.submitbutton(\'event.delete\')">';
+            $deleteButton .= '<span class="icon-delete"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_DELETE') . '</button>';
+            $this->buttons[] = $deleteButton;
+        }
     }
 }

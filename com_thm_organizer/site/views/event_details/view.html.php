@@ -78,7 +78,7 @@ class THM_OrganizerViewEvent_Details extends JViewLegacy
         if ($this->item->isManager)
         {
             $listButton = '<a href="' . JRoute::_($this->item->managerLink) . '" class="btn">';
-            $listButton .= '<span class="icon-list-view"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_LIST_VIEW') . '</a>';
+            $listButton .= '<span class="icon-list-view"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_LIST') . '</a>';
             $this->buttons[] = $listButton;
         }
 
@@ -90,7 +90,7 @@ class THM_OrganizerViewEvent_Details extends JViewLegacy
         {
             $newLink = "index.php?option=com_thm_organizer&view=event_edit" . $menuLink;
             $newButton = '<a href="' . JRoute::_($newLink) . '" class="btn">';
-            $newButton .= '<span class="icon-new"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_ADD') . '</a>';
+            $newButton .= '<span class="icon-new"></span>&#160;' . JText::_('COM_THM_ORGANIZER_ACTION_NEW') . '</a>';
             $this->buttons[] = $newButton;
         }
 

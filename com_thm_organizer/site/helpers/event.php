@@ -172,45 +172,65 @@ class THM_OrganizerHelperEvent
     /**
      * Creates an introductory text for events
      *
-     * @param   array  &$event  an array of preprepared date and time entries
+     * @param   mixed    $event    an array or object of preprepared date and time entries
+     * @param   boolean  $fullText  whether a fulltext description should be generated
      *
      * @return  string $introText
      */
-    public static function getDateText(&$event)
+    public static function getDateText($event, $fullText = true)
     {
-        $startdate = THM_OrganizerHelperComponent::formatDate($event['startdate']);
-        $enddate = THM_OrganizerHelperComponent::formatDate($event['enddate']);
+        if (!is_array($event))
+        {
+            $event = (array) $event;
+        }
         $useStartTime = (!empty($event['starttime']) AND $event['starttime'] != "00:00");
         $useEndTime = (!empty($event['endtime']) AND $event['endtime'] != "00:00");
         $useTimes = ($useStartTime OR $useEndTime);
         $singleDay = $event['startdate'] == $event['enddate'];
 
+        if ($useTimes)
+        {
+            if ($singleDay)
+            {
+                return self::getSingleDayText($event, $fullText);
+            }
+            if ($event['recurrence_type'] == 0)
+            {
+                return self::getBlockText($event, $fullText);
+            }
+            if ($event['recurrence_type'] == 1)
+            {
+                return self::getDailyText($event, $fullText);
+            }
+        }
+
+        $startDate = THM_OrganizerHelperComponent::formatDate($event['startdate']);
         if ($singleDay)
         {
-            return self::getSingleDayText($event);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_ONE_DAY_NO_TIMES', $startDate);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_ONE_DAY_NO_TIMES_SHORT', $startDate);
         }
 
-        if ($event['recurrence_type'] == 0 AND $useTimes)
+        $endDate = THM_OrganizerHelperComponent::formatDate($event['enddate']);
+        if ($fullText)
         {
-            return self::getBlockText($event);
+            return JText::sprintf('COM_THM_ORGANIZER_MULTIPLE_DAYS_NO_TIMES', $startDate, $endDate);
         }
-
-        if ($event['recurrence_type'] == 1 AND $useTimes)
-        {
-            return self::getDailyText($event);
-        }
-
-        return JText::sprintf('COM_THM_ORGANIZER_MULTIPLE_DAYS_NO_TIMES', $startdate, $enddate);
+        return JText::sprintf('COM_THM_ORGANIZER_MULTIPLE_DAYS_NO_TIMES_SHORT', $startDate, $endDate);
     }
 
     /**
      * Creates the text for events which take place on only one day.
      *
-     * @param   array  &$event  the event to be processed
+     * @param   array    $event     the event to be processed
+     * @param   boolean  $fullText  whether a fulltext description should be generated
      *
      * @return  string  the text output
      */
-    private static function getSingleDayText(&$event)
+    private static function getSingleDayText($event, $fullText = true)
     {
         $date = THM_OrganizerHelperComponent::formatDate($event['startdate']);
         $useStartTime = (!empty($event['starttime']) AND $event['starttime'] != "00:00");
@@ -218,30 +238,48 @@ class THM_OrganizerHelperEvent
 
         if ($useStartTime AND $useEndTime)
         {
-            return JText::sprintf( 'COM_THM_ORGANIZER_ONE_DAY_START_END', $date, $event['starttime'], $event['endtime']);
+            $startTime = THM_OrganizerHelperComponent::formatTime($event['starttime']);
+            $endTime = THM_OrganizerHelperComponent::formatTime($event['endtime']);
+            if ($fullText)
+            {
+                return JText::sprintf( 'COM_THM_ORGANIZER_ONE_DAY_START_END', $date, $event['starttime'], $event['endtime']);
+            }
+            return JText::sprintf( 'COM_THM_ORGANIZER_ONE_DAY_START_END_SHORT', $date, $event['starttime'], $event['endtime']);
         }
 
         if ($useStartTime)
         {
-            return JText::sprintf( 'COM_THM_ORGANIZER_ONE_DAY_START', $date, $event['starttime']);
+            $startTime = THM_OrganizerHelperComponent::formatTime($event['starttime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_ONE_DAY_START', $date, $startTime);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_ONE_DAY_START_SHORT', $date, $startTime);
         }
 
         if ($useEndTime)
         {
-            return JText::sprintf( 'COM_THM_ORGANIZER_ONE_DAY_END', $date, $event['endtime']);
+            $endTime = THM_OrganizerHelperComponent::formatTime($event['endtime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_ONE_DAY_END', $date, $endTime);
+            }
+            return JText::sprintf( 'COM_THM_ORGANIZER_ONE_DAY_END_SHORT', $date, $endTime);
         }
 
-        return JText::sprintf('COM_THM_ORGANIZER_ONE_DAY_NO_TIMES', $date);
+        // Should never reach here because of the conditions in the calling function
+        return $fullText? JText::sprintf('COM_THM_ORGANIZER_ONE_DAY_NO_TIMES', $date) : $date;
     }
 
     /**
      * Gets a formatted text for block events that take place on a multiple days and use times
      *
-     * @param   array  &$event  the event array
+     * @param   array    $event     the event array
+     * @param   boolean  $fullText  whether a fulltext description should be generated
      *
      * @return  string  formatted text for date/time output
      */
-    private static function getBlockText(&$event)
+    private static function getBlockText($event, $fullText = true)
     {
         $startdate = THM_OrganizerHelperComponent::formatDate($event['startdate']);
         $enddate = THM_OrganizerHelperComponent::formatDate($event['enddate']);
@@ -250,30 +288,48 @@ class THM_OrganizerHelperEvent
 
         if ($useStartTime AND $useEndTime)
         {
-            return JText::sprintf('COM_THM_ORGANIZER_BLOCK_START_END', $startdate, $event['starttime'], $event['endtime'], $enddate);
+            $startTime = THM_OrganizerHelperComponent::formatTime($event['starttime']);
+            $endTime = THM_OrganizerHelperComponent::formatTime($event['endtime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_BLOCK_START_END', $startdate, $startTime, $enddate, $endTime);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_BLOCK_START_END_SHORT', $startdate, $startTime, $enddate, $endTime);
         }
 
         if ($useStartTime)
         {
-            return JText::sprintf('COM_THM_ORGANIZER_BLOCK_START', $startdate, $event['starttime'], $enddate);
+            $startTime = THM_OrganizerHelperComponent::formatTime($event['starttime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_BLOCK_START', $startdate, $startTime, $enddate);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_BLOCK_START_SHORT', $startdate, $startTime, $enddate);
         }
 
         if ($useEndTime)
         {
-            return JText::sprintf('COM_THM_ORGANIZER_BLOCK_END', $startdate, $event['endtime'], $enddate);
+            $endTime = THM_OrganizerHelperComponent::formatTime($event['endtime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_BLOCK_END', $startdate, $enddate, $endTime);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_BLOCK_SHORT', $startdate, $enddate, $endTime);
         }
 
+        // Should never reach here because of the conditions in the calling function
         return '';
     }
 
     /**
      * Gets a formatted text for daily events that take place on a multiple days and use times
      *
-     * @param   array  &$event  the event array
+     * @param   array    $event     the event array
+     * @param   boolean  $fullText  whether a fulltext description should be generated
      *
      * @return  string  formatted text for date/time output
      */
-    private static function getDailyText(&$event)
+    private static function getDailyText($event, $fullText = true)
     {
         $startdate = THM_OrganizerHelperComponent::formatDate($event['startdate']);
         $enddate = THM_OrganizerHelperComponent::formatDate($event['enddate']);
@@ -282,33 +338,50 @@ class THM_OrganizerHelperEvent
 
         if ($useStartTime AND $useEndTime)
         {
-            return JText::sprintf('COM_THM_ORGANIZER_DAILY_START_END', $startdate, $enddate, $event['starttime'], $event['endtime']);
+            $startTime = THM_OrganizerHelperComponent::formatTime($event['starttime']);
+            $endTime = THM_OrganizerHelperComponent::formatTime($event['endtime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_DAILY_START_END', $startdate, $enddate, $startTime, $endTime);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_DAILY_START_END_SHORT', $startdate, $enddate, $startTime, $endTime);
         }
 
         if ($useStartTime)
         {
-            return JText::sprintf('COM_THM_ORGANIZER_DAILY_START', $startdate, $enddate, $event['starttime']);
+            $startTime = THM_OrganizerHelperComponent::formatTime($event['starttime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_DAILY_START', $startdate, $enddate, $startTime);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_DAILY_START_SHORT', $startdate, $enddate, $startTime);
         }
 
         if ($useEndTime)
         {
-            return JText::sprintf('COM_THM_ORGANIZER_DAILY_END', $startdate, $enddate, $event['endtime']);
+            $endTime = THM_OrganizerHelperComponent::formatTime($event['endtime']);
+            if ($fullText)
+            {
+                return JText::sprintf('COM_THM_ORGANIZER_DAILY_END', $startdate, $enddate, $endTime);
+            }
+            return JText::sprintf('COM_THM_ORGANIZER_DAILY_END_SHORT', $startdate, $enddate, $endTime);
         }
 
+        // Should never reach here because of the conditions in the calling function
         return '';
     }
 
     /**
      * Retrieves resource names from the database
      *
-     * @param   array   &$resources   the event resources
-     * @param   string  $columnName   the column name in which the names are stored
-     * @param   string  $tableName    the table which manages the resource
-     * @param   string  $textRoot     the root text
+     * @param   array   $resources   the event resources
+     * @param   string  $columnName  the column name in which the names are stored
+     * @param   string  $tableName   the table which manages the resource
+     * @param   string  $textRoot    the root text
      *
      * @return  string   a text with a label and the names of the requested resources on success, otherwise empty
      */
-    private static function getNames(&$resources, $columnName, $tableName, $textRoot)
+    public static function getNames($resources, $columnName, $tableName, $textRoot)
     {
         if (empty($resources))
         {
@@ -338,19 +411,18 @@ class THM_OrganizerHelperEvent
             return '';
         }
 
-        $html = '<div class="control-group ">';
+        $html = '<div class="resource-group ">';
         if (count($names) == 1)
         {
-            $html .= '<div class="control-label">' . JText::_("COM_THM_ORGANIZER_EVENT_{$textRoot}") . '</div>';
-            $html .= '<div class="controls">' . $names[0] . '</div>';
+            $html .= '<span class="resource-label">' . JText::_("COM_THM_ORGANIZER_EVENT_{$textRoot}") . '</span>';
+            $html .= '<span class="resource">' . $names[0] . '</span>';
         }
         else
         {
-            $html .= '<div class="control-label">' . JText::_("COM_THM_ORGANIZER_EVENT_{$textRoot}S") . '</div>';
-            $html .= '<div class="controls">' . implode(', ', $names) . '</div>';
+            $html .= '<span class="resource-label">' . JText::_("COM_THM_ORGANIZER_EVENT_{$textRoot}S") . '</span>';
+            $html .= '<span class="resource">' . implode(', ', $names) . '</span>';
         }
         $html .= '</div>';
-
         return $html;
     }
 

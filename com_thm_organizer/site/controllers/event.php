@@ -24,6 +24,35 @@ require_once JPATH_SITE . '/components/com_thm_organizer/helpers/access.php';
 class THM_OrganizerControllerEvent extends JControllerLegacy
 {
     /**
+     * Performs access checks and redirects to the color edit view
+     *
+     * @return void
+     */
+    public function add()
+    {
+        $input = JFactory::getApplication()->input;
+        $input->set('view', 'event_edit');
+        $input->set('id', 0);
+        parent::display();
+    }
+
+    /**
+     * Performs access checks and redirects to the color edit view
+     *
+     * @return  void
+     */
+    public function edit()
+    {
+        $input = JFactory::getApplication()->input;
+        $input->set('view', 'event_edit');
+
+        $cids = $input->get('cid', array(), 'array');
+        $eventID = count($cids)? $cids[0] : 0;
+        $input->set('id', $eventID);
+        parent::display();
+    }
+
+    /**
      * Performs access checks and calls the save function of the event model. Redirects to the event details view of the
      * created event upon success, or returns to the event edit view on failure.
      *
@@ -81,40 +110,52 @@ class THM_OrganizerControllerEvent extends JControllerLegacy
      */
     public function delete()
     {
-        $eventID = JRequest::getInt('eventID');
-        $eventIDs = JRequest::getVar('eventIDs');
-        $menuID = JRequest::getVar('Itemid');
-        $success = false;
         $model = $this->getModel('event');
-        if (isset($eventID) && $eventID != 0)
+        $app = JFactory::getApplication();
+        $menuID = $app->input->getInt('Itemid', 0);
+        $menuParam = empty($menuID)? '' : "&Itemid=$menuID";
+        $redirect = "index.php?option=com_thm_organizer&view=event_manager$menuParam";
+
+        $eventIDs = $app->input->get('cid', array(), 'array');
+        foreach ($eventIDs as $eventID)
         {
-            (THMEventAccess::canDelete($eventID))?
-                $success = $model->delete($eventID) : THMEventAccess::noAccess();
-        }
-        elseif (isset($eventIDs) and count($eventIDs))
-        {
-            foreach ($eventIDs as $id)
+            $canDelete = THM_OrganizerHelperAccess::canDeleteEvent($eventID);
+            if (!$canDelete)
             {
-                if (THMEventAccess::canDelete($id))
-                {
-                    $success = $model->delete($id);
-                }
-                else
-                {
-                    THMEventAccess::noAccess();
-                }
+                $app->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION', 'error');
+                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
+                $link = JRoute::_($redirect, false);
+                $this->setRedirect($link, $msg, 'error');
+                return;
             }
         }
-        if ($success)
+
+        $successes = 0;
+        foreach ($eventIDs as $eventID)
         {
-            $msg = JText::_('COM_THM_ORGANIZER_EVENT_DELETED');
-            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
+            $deleted = $model->delete($eventID);
+            if ($deleted)
+            {
+                $successes++;
+            }
+        }
+
+        if ($successes == count($eventIDs))
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
+            $link = JRoute::_($redirect, false);
             $this->setRedirect($link, $msg);
+        }
+        elseif ($successes > 0)
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_PARTIAL');
+            $link = JRoute::_($redirect, false);
+            $this->setRedirect($link, $msg, 'notice');
         }
         else
         {
-            $msg = JText::_('COM_THM_ORGANIZER_EVENT_DELETE_FAILED');
-            $link = JRoute::_("index.php?option=com_thm_organizer&view=event_manager&Itemid=$menuID", false);
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAILED');
+            $link = JRoute::_($redirect, false);
             $this->setRedirect($link, $msg, 'error');
         }
     }
