@@ -66,7 +66,6 @@ class THM_OrganizerModelTeacherAjaxSiteTest extends TestCaseDatabase {
         //var_dump($this->getMockConfig());   
 
         $connect = parent::getConnection();
-        //$assets = $this->getDataSet();
         $this->_db = JFactory::getDbo();
         $this->object = new THM_OrganizerModelTeacher_Ajax;
 
@@ -112,11 +111,6 @@ class THM_OrganizerModelTeacherAjaxSiteTest extends TestCaseDatabase {
      */
     protected function getDataSet() {
         $dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
-
-        //$dataSet->addTable('jos_thm_organizer_events', JPATH_TEST_DATABASE . '/jos_thm_organizer_events.csv');
-        //$dataSet->addTable('jos_thm_organizer_categories', JPATH_TEST_DATABASE . '/jos_thm_organizer_categories.csv');
-        $dataSet->addTable('jos_content', JPATH_TEST_DATABASE . '/jos_content.csv');
-        $dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
         $dataSet->addTable('jos_thm_organizer_teachers', JPATH_TEST_DATABASE . '/jos_thm_organizer_teachers.csv');
         $dataSet->addTable('jos_thm_organizer_mappings', JPATH_TEST_DATABASE . '/jos_thm_organizer_mappings.csv');
         return $dataSet;

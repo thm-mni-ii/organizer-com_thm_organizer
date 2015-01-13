@@ -1,3 +1,0 @@
-'id','categoryID','startdate','enddate','starttime','endtime','start','end','recurrence_type','recurrence_counter','recurrence_enddate','recurrence_INTerval','recurrence_days','recurrence_date'
-'1','1','2014-05-19','2014-05-19','09:00:00','10:00:00','1400482800','1400486400','1','0','0000-00-00','0','0000000','0'
-'2','1','2014-05-19','2014-05-19','09:00:00','10:00:00','1400482800','1400486400','1','0','0000-00-00','0','0000000','0'

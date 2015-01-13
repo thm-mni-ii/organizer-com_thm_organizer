@@ -9,7 +9,6 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-$editEventURL = 'index.php?option=com_thm_organizer&view=event_edit&eventID=';
 $blankImageLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/ext_bak/resources/images/default/s.gif';
 $addButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/add.png';
 $removeButtonLink = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/images/delete.png';
@@ -22,7 +21,6 @@ $ajaxHandler = 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw';
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" charset="utf-8">
 var externLinks = [];
-externLinks.eventLink = '<?php echo $editEventURL; ?>';
 externLinks.blankImageLink = '<?php echo $blankImageLink; ?>';
 externLinks.lectureAddButton = '<?php echo $addButtonLink; ?>';
 externLinks.lectureRemoveButton = '<?php echo $removeButtonLink; ?>';

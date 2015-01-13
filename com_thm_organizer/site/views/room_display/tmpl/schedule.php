@@ -11,16 +11,9 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-require_once 'schedule_events.php';
 
 $params = $this->model->params;
 $blocks = $this->model->blocks;
-$appointments = $this->model->appointments;
-$notices = $this->model->notices;
-$information = $this->model->information;
-$upcoming = $this->model->upcoming;
-$eventsExist = (!empty($appointments) OR !empty($notices) OR !empty($information) OR !empty($upcoming));
-$widthClass = $eventsExist? 'schedule-narrow' : 'schedule-wide';
 $dayName = strtoupper(date('l'));
 $time = date('H:i');
 $blockNo = 0;
@@ -33,7 +26,7 @@ $metric = 0;
         window.location = document.URL;
     }
     window.onload = function() {
-//        timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
+        timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
 
         /* Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
         * dazu wird ein neuer Klassennamen benötigt.
@@ -70,7 +63,7 @@ $metric = 0;
             <div class='date'><?php echo date('d.m.Y'); ?></div>
         </div>
     </div>
-    <div class="schedule-area <?php echo $widthClass; ?>">
+    <div class="schedule-area schedule-wide">
 <?php
         if (!empty($blocks))
         {
@@ -107,12 +100,4 @@ $metric = 0;
         }
 ?>
     </div>
-<?php if ($eventsExist): ?>
-    <div class="appointments-area">
-        <?php THM_OrganizerTemplateSchedule_Events::render($appointments, JText::_('COM_THM_ORGANIZER_APPOINTMENTS_TITLE'), $metric, 7); ?>
-        <?php THM_OrganizerTemplateSchedule_Events::render($notices, JText::_('COM_THM_ORGANIZER_NOTICES_TITLE'), $metric, 7); ?>
-        <?php THM_OrganizerTemplateSchedule_Events::render($notices, JText::_('COM_THM_ORGANIZER_INFORMATION_TITLE'), $metric, 7); ?>
-        <?php THM_OrganizerTemplateSchedule_Events::render($notices, JText::_('COM_THM_ORGANIZER_UPCOMING_TITLE'), $metric, 7); ?>
-    </div>
-<?php endif; ?>
 </div>

@@ -49,7 +49,7 @@ class THM_OrganizerHelper
         {
             require_once $basePath . '/controller.php';
             $className = 'THM_OrganizerController';
-        }//echo "<pre>" . print_r($className, true) . "</pre>";die;
+        }
 
         $controllerObj = new $className;
         $controllerObj->execute($task);

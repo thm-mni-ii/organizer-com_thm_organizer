@@ -42,7 +42,6 @@ class THM_OrganizerModelAjaxhandlerSiteTest extends TestCaseDatabase
         JFactory::$application = $this->getMockWeb();
 
         $connect = parent::getConnection();
-        $assets = $this->getDataSet();
         $this->_db = JFactory::getDbo();
         $this->object = new THM_OrganizerModelAjaxhandler;
     }
@@ -74,51 +73,6 @@ class THM_OrganizerModelAjaxhandlerSiteTest extends TestCaseDatabase
         $dataSet = $this->createXMLDataSet(JPATH_TEST_DATABASE . '/jos_thm_organizer_schedules.xml');
 
         return $dataSet;
-    }
-
-
-    /**
-     * Method to test the executeTask function
-     *
-     * @return null
-     */
-    public function testexecuteTask_THMEvents(){
-
-        $_JDA = new THM_OrganizerDataAbstraction;
-        $_CFG = new mySchedConfig($_JDA);
-
-        JFactory::$application->expects($this->exactly(1))
-            ->method('getCfg')
-            ->will($this->returnValue("just a string"));
-
-        // TEST Events.load
-        require_once JPATH_COMPONENT . "/assets/classes/Events.php";
-        $class = new THMEvents($_JDA, $_CFG);
-
-        // Set model include path
-        JModelLegacy::addIncludePath(JPATH_COMPONENT . '/models/');
-
-        // Mock the getEvents method for $class and $this->object
-        $class = $this->getMockBuilder(get_class($class))->setConstructorArgs(array($_JDA, $_CFG))->setMethods(array("load"))->getMock();
-
-        $class->expects($this->exactly(2))
-            ->method('load')
-            ->will($this->returnValue(array("success" => true,"data" => array())));
-
-
-        $this->object = $this->getMockBuilder(get_class($this->object))->setConstructorArgs(array($_JDA, $_CFG))->setMethods(array("getClass"))->getMock();
-
-        $this->object->expects($this->exactly(1))
-            ->method('getClass')
-            ->with('THMEvents')
-            ->will($this->returnValue($class));
-
-        $expected = $class->load();
-
-        $actual = $this->object->executeTask("Events.load");
-
-        $this->assertEquals($expected, $actual);
-
     }
 
     /**

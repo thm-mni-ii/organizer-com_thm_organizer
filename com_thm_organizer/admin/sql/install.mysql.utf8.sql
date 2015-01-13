@@ -252,59 +252,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL,
-  `categoryID` INT ( 11 ) NOT NULL,
-  `startdate` date NOT NULL,
-  `enddate` date DEFAULT NULL,
-  `starttime`  time NOT NULL DEFAULT '00:00:00',
-  `endtime`  time NOT NULL DEFAULT '00:00:00',
-  `start` INT ( 15 ) DEFAULT '0',
-  `end` INT ( 15 ) DEFAULT '0',
-  `recurrence_type` INT ( 2 ) UNSIGNED NOT NULL DEFAULT '0',
-  `recurrence_counter` INT ( 2 ) UNSIGNED  NOT NULL DEFAULT '0',
-  `recurrence_enddate` date NOT NULL DEFAULT '0000-00-00',
-  `recurrence_interval` INT ( 2 ) UNSIGNED  NOT NULL DEFAULT '0',
-  `recurrence_days` VARCHAR ( 7 ) NOT NULL DEFAULT '0000000',
-  `recurrence_date` INT ( 2 ) UNSIGNED NOT NULL DEFAULT '0',
-  `global` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  `reserves` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  KEY `id` ( `id` ),
-  KEY `categoryID` ( `categoryID` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_exclude_dates` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `eventID` INT ( 11 ) UNSIGNED NOT NULL,
-  `date` date NOT NULL DEFAULT '0000-00-00',
-  PRIMARY KEY ( `id` ),
-  KEY `eventID` ( `eventID` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_teachers` (
-  `eventID` INT ( 11 ) UNSIGNED NOT NULL,
-  `teacherID` INT ( 11 ) UNSIGNED NOT NULL,
-  PRIMARY KEY (`eventID`, `teacherID`),
-  KEY `eventID` ( `eventID` ),
-  KEY `teacherID` ( `teacherID` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_rooms` (
-  `eventID` INT ( 11 ) UNSIGNED NOT NULL,
-  `roomID` INT ( 11 ) UNSIGNED NOT NULL,
-  PRIMARY KEY (`eventID`, `roomID`),
-  KEY `eventID` ( `eventID` ),
-  KEY `roomID` ( `roomID` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_groups` (
-  `eventID` INT ( 11 ) UNSIGNED NOT NULL,
-  `groupID` INT ( 11 ) UNSIGNED NOT NULL,
-  PRIMARY KEY (`eventID`, `groupID`),
-  KEY `eventID` ( `eventID` ),
-  KEY `groupID` ( `groupID` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 ALTER TABLE `#__thm_organizer_users`
 ADD CONSTRAINT `users_userid_fk` FOREIGN KEY (`userID`)
 REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -384,38 +331,3 @@ REFERENCES `#__thm_organizer_room_types` (`id`) ON DELETE SET NULL ON UPDATE CAS
 ALTER TABLE `#__thm_organizer_monitors`
 ADD CONSTRAINT `monitors_roomid_fk` FOREIGN KEY (`roomID`)
 REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `#__thm_organizer_events`
-ADD CONSTRAINT `events_contentid_fk` FOREIGN KEY (`id`)
-REFERENCES `#__content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_events`
-ADD CONSTRAINT `events_categoryid_fk` FOREIGN KEY (`categoryID`)
-REFERENCES `#__categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_event_exclude_dates`
-ADD CONSTRAINT `event_exclude_dates_eventid_fk` FOREIGN KEY (`eventID`)
-REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_event_teachers`
-ADD CONSTRAINT `event_teachers_eventid_fk` FOREIGN KEY (`eventID`)
-REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_event_teachers`
-ADD CONSTRAINT `event_teachers_teacherid_fk` FOREIGN KEY (`teacherID`)
-REFERENCES `#__thm_organizer_teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_event_rooms`
-ADD CONSTRAINT `event_rooms_eventid_fk` FOREIGN KEY (`eventID`)
-REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_event_rooms`
-ADD CONSTRAINT `event_rooms_roomid_fk` FOREIGN KEY (`roomID`)
-REFERENCES `#__thm_organizer_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_event_groups`
-ADD CONSTRAINT `event_groups_eventid_fk` FOREIGN KEY (`eventID`)
-REFERENCES `#__thm_organizer_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_event_groups`
-ADD CONSTRAINT `event_groups_groupid_fk` FOREIGN KEY (`groupID`)
-REFERENCES `#__usergroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

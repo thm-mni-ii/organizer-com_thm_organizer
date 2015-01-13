@@ -298,12 +298,6 @@ class THM_OrganizerModelTeacher extends JModelLegacy
      */
     private function updateDependencies($data)
     {
-        $eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event');
-        if (!$eventsSuccess)
-        {
-            return false;
-        }
- 
         $subjectsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'subject');
         if (!$subjectsSuccess)
         {

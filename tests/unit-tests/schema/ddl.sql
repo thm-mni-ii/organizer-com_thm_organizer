@@ -51,138 +51,12 @@ CREATE TABLE IF NOT EXISTS `jos_thm_organizer_schedules` (
   `enddate` date DEFAULT NULL
 );
 
-
---
--- mod_thm_organizer_events Unit Test DDL
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jos_categories`
---
-
-CREATE TABLE `jos_categories` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `asset_id` INTEGER NOT NULL DEFAULT '0',
-  `parent_id` INTEGER NOT NULL DEFAULT '0',
-  `lft` INTEGER NOT NULL DEFAULT '0',
-  `rgt` INTEGER NOT NULL DEFAULT '0',
-  `level` INTEGER NOT NULL DEFAULT '0',
-  `path` TEXT NOT NULL DEFAULT '',
-  `extension` TEXT NOT NULL DEFAULT '',
-  `title` TEXT NOT NULL DEFAULT '',
-  `alias` TEXT NOT NULL DEFAULT '',
-  `note` TEXT NOT NULL DEFAULT '',
-  `description` TEXT NOT NULL DEFAULT '',
-  `published` INTEGER NOT NULL DEFAULT '0',
-  `checked_out` INTEGER NOT NULL DEFAULT '0',
-  `checked_out_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` INTEGER NOT NULL DEFAULT '0',
-  `params` TEXT NOT NULL DEFAULT '',
-  `metadesc` TEXT NOT NULL DEFAULT '',
-  `metakey` TEXT NOT NULL DEFAULT '',
-  `metadata` TEXT NOT NULL DEFAULT '',
-  `created_user_id` INTEGER NOT NULL DEFAULT '0',
-  `created_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_user_id` INTEGER NOT NULL DEFAULT '0',
-  `modified_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `hits` INTEGER NOT NULL DEFAULT '0',
-  `language` TEXT NOT NULL DEFAULT '',
-	`version` INTEGER NOT NULL DEFAULT '1'
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jos_content`
---
-
-CREATE TABLE `jos_content` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `asset_id` INTEGER NOT NULL DEFAULT '0',
-  `title` TEXT NOT NULL DEFAULT '',
-  `alias` TEXT NOT NULL DEFAULT '',
-  `introtext` TEXT NOT NULL DEFAULT '',
-  `fulltext` TEXT NOT NULL DEFAULT '',
-  `state` INTEGER NOT NULL DEFAULT '0',
-  `catid` INTEGER NOT NULL DEFAULT '0',
-  `created` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` INTEGER NOT NULL DEFAULT '0',
-  `created_by_alias` TEXT NOT NULL DEFAULT '',
-  `modified` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` INTEGER NOT NULL DEFAULT '0',
-  `checked_out` INTEGER NOT NULL DEFAULT '0',
-  `checked_out_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_up` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `images` TEXT NOT NULL DEFAULT '',
-  `urls` TEXT NOT NULL DEFAULT '',
-  `attribs` TEXT NOT NULL DEFAULT '',
-  `version` INTEGER NOT NULL DEFAULT '1',
-  `ordering` INTEGER NOT NULL DEFAULT '0',
-  `metakey` TEXT NOT NULL DEFAULT '',
-  `metadesc` TEXT NOT NULL DEFAULT '',
-  `access` INTEGER NOT NULL DEFAULT '0',
-  `hits` INTEGER NOT NULL DEFAULT '0',
-  `metadata` TEXT NOT NULL DEFAULT '',
-  `featured` INTEGER NOT NULL DEFAULT '0',
-  `language` TEXT NOT NULL DEFAULT '',
-  `xreference` TEXT NOT NULL DEFAULT ''
-);
-
-CREATE TABLE jos_thm_organizer_categories
-(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title VARCHAR(50) NOT NULL,
-    description LONGTEXT NOT NULL,
-    global TINYINT DEFAULT 0 NOT NULL,
-    reserves TINYINT DEFAULT 0 NOT NULL,
-    contentCatID INT NOT NULL
-);
-
-CREATE TABLE `jos_assets` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `parent_id` INTEGER NOT NULL DEFAULT '0',
-  `lft` INTEGER NOT NULL DEFAULT '0',
-  `rgt` INTEGER NOT NULL DEFAULT '0',
-  `level` INTEGER NOT NULL,
-  `name` TEXT NOT NULL DEFAULT '',
-  `title` TEXT NOT NULL DEFAULT '',
-  `rules` TEXT NOT NULL DEFAULT '',
-  CONSTRAINT `idx_assets_name` UNIQUE (`name`)
-);
-
-CREATE TABLE jos_thm_organizer_events
-(
-    id INT UNSIGNED PRIMARY KEY NOT NULL,
-    categoryID INT UNSIGNED NOT NULL,
-    startdate DATE DEFAULT '0000-00-00' NOT NULL,
-    enddate DATE,
-    starttime TIME,
-    endtime TIME,
-    start INT DEFAULT 0,
-    end INT DEFAULT 0,
-    recurrence_type INT UNSIGNED DEFAULT 0 NOT NULL,
-    recurrence_counter INT UNSIGNED DEFAULT 0 NOT NULL,
-    recurrence_enddate DATE DEFAULT '0000-00-00' NOT NULL,
-    recurrence_INTerval INT UNSIGNED DEFAULT 0 NOT NULL,
-    recurrence_days VARCHAR(7) DEFAULT '0000000' NOT NULL,
-    recurrence_date INT UNSIGNED DEFAULT 0 NOT NULL
-);
-
 CREATE TABLE jos_thm_organizer_colors
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL DEFAULT '',
     color TEXT NOT NULL DEFAULT ''
 );
-
--- --------------------------------------------------------
-
---
--- mod_thm_organizer_events Unit Test DDL
---
 
 --
 -- Table structure for table `jos_users`
@@ -202,21 +76,6 @@ CREATE TABLE `jos_users` (
   `params` TEXT NOT NULL DEFAULT '',
 	`lastResetTime` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`resetCount` INTEGER DEFAULT '0'
-);
-
-CREATE TABLE `jos_thm_organizer_event_groups` (
-  `eventID` INT UNSIGNED NOT NULL,
-  `groupID` INT UNSIGNED NOT NULL
-);
-
-CREATE TABLE `jos_thm_organizer_event_rooms` (
-  `eventID` int unsigned NOT NULL,
-  `roomID` int unsigned NOT NULL
-);
-
-CREATE TABLE `jos_thm_organizer_event_teachers` (
-  `eventID` int unsigned NOT NULL,
-  `teacherID` int unsigned NOT NULL
 );
 
 CREATE TABLE `jos_thm_organizer_rooms` (

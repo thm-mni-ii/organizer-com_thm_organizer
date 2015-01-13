@@ -41,37 +41,11 @@ class THM_OrganizerModelSchedulerSiteTest extends TestCaseDatabase {
      */
     protected function setUp() {
         parent::setup();
-        /* if(!JVersion::isCompatible(self::MIN_JOOMLA_VERSION_FOR_TESTS))
-          {
-          $this->markTestSkipped("Minimum Joomla version must be " . self::MIN_JOOMLA_VERSION_FOR_TESTS);
-          }
-         */
-        //parent::setup();
-
         $this->saveFactoryState();
-
-
-
         JFactory::$session = $this->getMockSession();
-        //JFactory::$config = $this->getMockConfig();
-        //JFactory::$application = $this->getMockCmsApp();
         JFactory::$application = $this->getMockApplication();
-        // JFactory::$application-
-        //var_dump(JFactory::$application->);
-        //var_dump(JFactory::$application);
-        //JFactory::$application->c            
-        //JFactory::$application = $this->getMockApplication();
-        //JFactory::$document = $this->getMockDocument();
-        //JFactory::$session = $this->getMockSession();
-        //var_dump($this->getMockConfig());   
-
-        $connect = parent::getConnection();
-        //$assets = $this->getDataSet();
         $this->_db = JFactory::getDbo();
         $this->object = new THM_OrganizerModelScheduler;
-
-
-        
     }
 
     /**
@@ -98,10 +72,7 @@ class THM_OrganizerModelSchedulerSiteTest extends TestCaseDatabase {
     protected function getDataSet() {
         $dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-        //$dataSet->addTable('jos_thm_organizer_events', JPATH_TEST_DATABASE . '/jos_thm_organizer_events.csv');
-        //$dataSet->addTable('jos_thm_organizer_categories', JPATH_TEST_DATABASE . '/jos_thm_organizer_categories.csv');        
         $dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
-        $dataSet->addTable('jos_categories', JPATH_TEST_DATABASE . '/jos_categories.csv');        
         $dataSet->addTable('jos_thm_organizer_schedules', JPATH_TEST_DATABASE . '/jos_thm_organizer_schedules.csv');
         $dataSet->addTable('jos_thm_organizer_rooms', JPATH_TEST_DATABASE . '/jos_thm_organizer_rooms.csv');
         $dataSet->addTable('jos_thm_organizer_teachers', JPATH_TEST_DATABASE . '/jos_thm_organizer_teachers.csv');
@@ -115,13 +86,7 @@ class THM_OrganizerModelSchedulerSiteTest extends TestCaseDatabase {
     
     public function testgetSessionIDAdminUser(){
         $MockAppObj = $this->getMockApplication();
-        
-        $user = array('username' => "admin");
-        /*$MockAppObj->expects($this->exactly(1))
-                ->method('JFactory::getUser')
-                ->will($this->returnValue($user));*/
         JFactory::$application = $MockAppObj;
-        //JFactory::getUser();
         $actual = $this->object->getSessionID();
         $this->assertEquals('', $actual);
     }

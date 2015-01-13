@@ -34,15 +34,6 @@ function THM_organizerBuildRoute(&$query)
 
     switch ($view)
     {
-        case 'event_details':
-            setEventDetailsSegments($query, $segments);
-            break;
-        case 'event_edit':
-            if (!empty($query['view']))
-            {
-                setEventEditSegments($query, $segments, $item);
-            }
-            break;
         case 'subject_details':
             setSubjectDetailsSegments($query, $segments);
             break;
@@ -58,80 +49,6 @@ function THM_organizerBuildRoute(&$query)
             break;
     }
     return $segments;
-}
-
-/**
- * Sets the segments necessary for the event details view
- * 
- * @param   array  &$query     the url query parameters
- * @param   array  &$segments  the segments for the sef url
- * 
- * @return  void
- */
-function setEventDetailsSegments(&$query, &$segments)
-{
-    if (empty($query['eventID']))
-    {
-        return;
-    }
-
-    $segments[] = $query['view'];
-    unset($query['view']);
-
-    $segments[] = getEventSegment($query['eventID']);
-    unset($query['eventID']);
-
-    setItemidSegment($query, $segments);
-}
-
-/**
- * Sets the segments necessary for the event edit view
- * 
- * @param   array   &$query     the url query parameters
- * @param   array   &$segments  the segments for the sef url
- * @param   object  &$item      the associated menu item (if applicable)
- * 
- * @return  void
- * 
- * @SuppressWarnings(PHPMD.UnusedFormalParameter)
- */
-function setEventEditSegments(&$query, &$segments, &$item)
-{
-    $segments[] = $query['view'];
-    unset($query['view']);
-    $segments[] = empty($query['eventID'])?
-        '0:new-event' : getEventSegment($query['eventID']);
-    if (isset($query['eventID']))
-    {
-        unset($query['eventID']);
-    }
-    setItemidSegment($query, $segments);
-}
-
-/**
- * Retrieves the sef friendly title of an existing event
- * 
- * @param   string  $eventID  the id of the event
- * 
- * @return  string  the alias (if available) and event id
- */
-function getEventSegment($eventID)
-{
-    $dbo = JFactory::getDbo();
-    $query = $dbo->getQuery(true);
-    $query->select('alias')->from('#__content')->where("id = '$eventID'");
-    $dbo->setQuery((string) $query);
-    
-    try 
-    {
-        $alias = $dbo->loadResult();
-    }
-    catch (runtimeException $e)
-    {
-        throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-    }
-    
-    return empty($alias)? $eventID : "$eventID:$alias";
 }
 
 /**
@@ -336,15 +253,6 @@ function THM_organizerParseRoute($segments)
     $vars['view'] = $viewArray[0];
     switch ($vars['view'])
     {
-        case 'event_details':
-        case 'event_edit':
-            $eventIDArray = explode(':', $segments[1]);
-            $vars['eventID'] = $eventIDArray[0];
-            if (!empty($segments[2]))
-            {
-                $vars['Itemid'] = $segments[2];
-            }
-            break;
         case 'subject_details':
             $vars['languageTag'] = $segments[1];
             $idArray = explode(':', $segments[2]);
@@ -381,7 +289,6 @@ function THM_organizerParseRoute($segments)
             $vars['format'] = $segments[1];
             $vars['Itemid'] = $segments[2];
         case 'scheduler':
-        case 'event_manager':
         default:
             break;
     }

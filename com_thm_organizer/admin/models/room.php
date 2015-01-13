@@ -215,13 +215,6 @@ class THM_OrganizerModelRoom extends JModelLegacy
 
         $this->_db->transactionStart();
 
-        $eventsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'event_rooms');
-        if (!$eventsSuccess)
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
-
         $monitorsSuccess = $this->updateAssociation($data['id'], $data['otherIDs'], 'monitors');
         if (!$monitorsSuccess)
         {

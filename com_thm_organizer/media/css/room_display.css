@@ -1,67 +1,6 @@
 /******************************************************************************/
 /* Styles for Monitor                                                         */
 /******************************************************************************/
-/******************************************************************************/
-/* Styles for Monitor                                                         */
-/******************************************************************************/
-/************** Version 4 *****************************************************/
-.appointments-area {
-  float: right;
-  width: 25%;
-  margin-right: 48px;
-  font-size: large;
-  padding-top: 2px; }
-  .appointments-area p {
-    margin: 0; }
-  .appointments-area ul {
-    margin: 0px; }
-  .appointments-area li {
-    padding: 0px 12px;
-    list-style-type: none; }
-    .appointments-area li:first-child {
-      padding-top: 0;
-      border-top: 2px solid white; }
-    .appointments-area li:nth-child(n) {
-      border-bottom: 2px solid white;
-      padding-bottom: 5px; }
-
-.event-section {
-  color: white; }
-
-.event-section:nth-child(1) {
-  background-color: #80ba24; }
-  .event-section:nth-child(1) .event-section-title {
-    background-color: white;
-    color: #80ba24;
-    border: 5px solid #80ba24; }
-
-.event-section:nth-child(2) {
-  background-color: #F5AA01; }
-  .event-section:nth-child(2) .event-section-title {
-    background-color: white;
-    color: #F5AA01;
-    border: 5px solid #F5AA01; }
-
-.event-section:nth-child(3) {
-  background-color: #9C132D; }
-  .event-section:nth-child(3) .event-section-title {
-    background-color: white;
-    color: #9C132D;
-    border: 5px solid #9C132D; }
-
-.event-section-title {
-  padding: 5px 1px;
-  font-weight: bold;
-  font-size: 105%;
-  text-align: center; }
-
-.event-title {
-  font-weight: bold;
-  padding-bottom: 3px; }
-
-.event-info {
-  padding-top: 3px; }
-
 .display-schedule {
   font-family: Verdana, Arial;
   margin: auto 0;
@@ -173,64 +112,6 @@
 .nothingActive {
   min-height: 13vh;
   line-height: 13vh; }
-
-/*************Events ****************************/
-.appointments-area {
-  float: right;
-  width: 25%;
-  margin-right: 48px;
-  font-size: large;
-  padding-top: 2px; }
-  .appointments-area p {
-    margin: 0; }
-  .appointments-area ul {
-    margin: 0px; }
-  .appointments-area li {
-    padding: 0px 12px;
-    list-style-type: none; }
-    .appointments-area li:first-child {
-      padding-top: 0;
-      border-top: 2px solid white; }
-    .appointments-area li:nth-child(n) {
-      border-bottom: 2px solid white;
-      padding-bottom: 5px; }
-
-.event-section {
-  color: white; }
-
-.event-section:nth-child(1) {
-  background-color: #80ba24; }
-  .event-section:nth-child(1) .event-section-title {
-    background-color: white;
-    color: #80ba24;
-    border: 5px solid #80ba24; }
-
-.event-section:nth-child(2) {
-  background-color: #F5AA01; }
-  .event-section:nth-child(2) .event-section-title {
-    background-color: white;
-    color: #F5AA01;
-    border: 5px solid #F5AA01; }
-
-.event-section:nth-child(3) {
-  background-color: #9C132D; }
-  .event-section:nth-child(3) .event-section-title {
-    background-color: white;
-    color: #9C132D;
-    border: 5px solid #9C132D; }
-
-.event-section-title {
-  padding: 5px 1px;
-  font-weight: bold;
-  font-size: 105%;
-  text-align: center; }
-
-.event-title {
-  font-weight: bold;
-  padding-bottom: 3px; }
-
-.event-info {
-  padding-top: 3px; }
 
 /****************************************************ENDE*/
 .thm_organizer_is_registered {
@@ -411,40 +292,3 @@
   font-weight: bold;
   line-height: 200%;
   margin-left: 2.5%; }
-
-/******************************************************************************/
-/* event area                                                                 */
-/******************************************************************************/
-.thm_organizer_is_events_area {
-  background-color: #eeeeee;
-  width: 36%;
-  float: right;
-  padding: 20px;
-  margin-right: 1%;
-  min-height: 81%; }
-
-h1 {
-  font-size: 175%;
-  font-weight: bold;
-  margin-bottom: 2%; }
-
-h2 {
-  font-size: 125%;
-  margin-bottom: 1%; }
-
-li {
-  list-style-image: url("../images/li.gif"); }
-
-.thm_organizer_is_events_area ul {
-  padding-left: 5px;
-  margin-bottom: 20px; }
-
-.thm_organizer_is_events_area ul li {
-  max-width: 520px;
-  margin-bottom: 5px; }
-
-.thm_organizer_is_hr {
-  margin-bottom: 6px;
-  background-color: white;
-  width: 500px;
-  size: 2px; }

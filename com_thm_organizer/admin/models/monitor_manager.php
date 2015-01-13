@@ -15,7 +15,7 @@ jimport('thm_core.list.model');
 define('DAILY', 1);
 define('MIXED', 2);
 define('CONTENT', 3);
-define('EVENTS', 4);
+define('LESSON_LIST', 4);
 
 /**
  * Class compiling a list of saved monitors 
@@ -46,7 +46,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         $this->displayBehaviour[DAILY] = JText::_('COM_THM_ORGANIZER_DAILY_PLAN');
         $this->displayBehaviour[MIXED] = JText::_('COM_THM_ORGANIZER_MIXED_PLAN');
         $this->displayBehaviour[CONTENT] = JText::_('COM_THM_ORGANIZER_CONTENT_DISPLAY');
-        $this->displayBehaviour[EVENTS] = JText::_('COM_THM_ORGANIZER_EVENT_PLAN');
+        $this->displayBehaviour[LESSON_LIST] = JText::_('COM_THM_ORGANIZER_LESSON_LIST');
         parent::__construct($config);
     }
 

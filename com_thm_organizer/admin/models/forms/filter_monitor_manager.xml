@@ -57,7 +57,7 @@
             <option value="1">COM_THM_ORGANIZER_DAILY_PLAN</option>
             <option value="2">COM_THM_ORGANIZER_MIXED_PLAN</option>
             <option value="3">COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
-            <option value="4">COM_THM_ORGANIZER_EVENT_PLAN</option>
+            <option value="4">COM_THM_ORGANIZER_LESSON_LIST</option>
         </field>
 		<field
 			name="content"
