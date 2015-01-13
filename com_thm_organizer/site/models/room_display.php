@@ -11,8 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helper/teacher.php';
-require_once JPATH_COMPONENT . '/helper/event.php';
+require_once JPATH_COMPONENT . '/helpers/teacher.php';
+require_once JPATH_COMPONENT . '/helpers/event.php';
 
 if (!defined('SCHEDULE'))
 {
@@ -635,7 +635,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $select .= "c.fulltext AS description, ";
         $select .= "e.starttime AS starttime, ";
         $select .= "e.endtime AS endtime, ";
-        $select .= "e.recurrence_type AS rec_type";
+        $select .= "e.recurrence_type";
         return $select;
     }
 

@@ -32,9 +32,30 @@ $metric = 0;
     {
         window.location = document.URL;
     }
-    window.onload = function(){
-        timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
+    window.onload = function() {
+//        timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
+
+        /* Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
+        * dazu wird ein neuer Klassennamen benötigt.
+         */
+        var scheduleBlockElement = document.getElementsByClassName("schedule-block");
+        var bool = testforactiveelements(scheduleBlockElement);
+        if (bool==false){
+           for (var i=0; i<scheduleBlockElement.length; i++) {
+               scheduleBlockElement[i].className += " nothingActive";
+           }
+       }
     }
+
+     testforactiveelements = function( scheduleBlockElement){
+         var bool=false;
+      for (var i=0; i<scheduleBlockElement.length; i++) {
+          if (scheduleBlockElement[i].classList.contains("active")) {
+             var  bool = true;
+          }
+      }
+         return bool;
+  }
 </script>
 <div class='display-schedule'>
     <div class='head'>

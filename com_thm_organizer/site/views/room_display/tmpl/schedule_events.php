@@ -32,7 +32,7 @@ class THM_OrganizerTemplateSchedule_Events
     {
         if (count($events))
         {
-            echo '<div class="event-section">' . $title . '</div>';
+            echo '<div class="event-section"><div class="event-section-title">' . $title . '</div>';
             echo "<ul>";
             foreach ($events as $event)
             {
@@ -41,12 +41,12 @@ class THM_OrganizerTemplateSchedule_Events
                     echo "<li>";
                     echo '<div class="event-title">' .$event['title'] . '</div>';
                     echo '<div class="event-dates">' . $event['displayDates'] . '</div>';
-                    echo '<div class="event-info">' . $event['description'] . '</div>';
+            //        echo '<div class="event-info">' . $event['description'] . '</div>';
                     echo "</li>";
                     }
                     $metric++;
                 }
-            echo "</ul>";
+            echo "</ul></div>";
         }
     }
 }

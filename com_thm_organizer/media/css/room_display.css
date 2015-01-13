@@ -1,6 +1,67 @@
 /******************************************************************************/
 /* Styles for Monitor                                                         */
 /******************************************************************************/
+/******************************************************************************/
+/* Styles for Monitor                                                         */
+/******************************************************************************/
+/************** Version 4 *****************************************************/
+.appointments-area {
+  float: right;
+  width: 25%;
+  margin-right: 48px;
+  font-size: large;
+  padding-top: 2px; }
+  .appointments-area p {
+    margin: 0; }
+  .appointments-area ul {
+    margin: 0px; }
+  .appointments-area li {
+    padding: 0px 12px;
+    list-style-type: none; }
+    .appointments-area li:first-child {
+      padding-top: 0;
+      border-top: 2px solid white; }
+    .appointments-area li:nth-child(n) {
+      border-bottom: 2px solid white;
+      padding-bottom: 5px; }
+
+.event-section {
+  color: white; }
+
+.event-section:nth-child(1) {
+  background-color: #80ba24; }
+  .event-section:nth-child(1) .event-section-title {
+    background-color: white;
+    color: #80ba24;
+    border: 5px solid #80ba24; }
+
+.event-section:nth-child(2) {
+  background-color: #F5AA01; }
+  .event-section:nth-child(2) .event-section-title {
+    background-color: white;
+    color: #F5AA01;
+    border: 5px solid #F5AA01; }
+
+.event-section:nth-child(3) {
+  background-color: #9C132D; }
+  .event-section:nth-child(3) .event-section-title {
+    background-color: white;
+    color: #9C132D;
+    border: 5px solid #9C132D; }
+
+.event-section-title {
+  padding: 5px 1px;
+  font-weight: bold;
+  font-size: 105%;
+  text-align: center; }
+
+.event-title {
+  font-weight: bold;
+  padding-bottom: 3px; }
+
+.event-info {
+  padding-top: 3px; }
+
 .display-schedule {
   font-family: Verdana, Arial;
   margin: auto 0;
@@ -53,17 +114,24 @@
     font-size: smaller; }
 
 /******************** content **********************************/
-.schedule-area.schedule-wide {
+.schedule-narrow {
+  float: left;
+  width: 67%;
+  margin-right: 0 !important; }
+  .schedule-narrow .block-title {
+    padding-left: 40px; }
+
+.schedule-area, .schedule-narrow {
   margin: 0 48px;
-  font-size: x-large; }
+  font-size: x-large;
+  padding-top: 2px; }
 
 .schedule-block {
   min-height: 9vh;
   line-height: 9vh;
   padding: 0 0.5em;
-  background-color: rgba(238, 238, 238, 0.5);
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  background-color: #eeeeee;
+  border-bottom: 3px solid white;
   display: flex;
   flex-wrap: wrap; }
 
@@ -94,8 +162,6 @@
   background-color: #9C132D;
   color: white;
   font-weight: bold;
-  border: 2px solid #4a5c66;
-  border-radius: 5px;
   min-height: 30vh;
   line-height: 30vh; }
   .active .block-time {
@@ -104,7 +170,69 @@
     font-size: 120%;
     font-size: larger; }
 
-/****************************************************/
+.nothingActive {
+  min-height: 13vh;
+  line-height: 13vh; }
+
+/*************Events ****************************/
+.appointments-area {
+  float: right;
+  width: 25%;
+  margin-right: 48px;
+  font-size: large;
+  padding-top: 2px; }
+  .appointments-area p {
+    margin: 0; }
+  .appointments-area ul {
+    margin: 0px; }
+  .appointments-area li {
+    padding: 0px 12px;
+    list-style-type: none; }
+    .appointments-area li:first-child {
+      padding-top: 0;
+      border-top: 2px solid white; }
+    .appointments-area li:nth-child(n) {
+      border-bottom: 2px solid white;
+      padding-bottom: 5px; }
+
+.event-section {
+  color: white; }
+
+.event-section:nth-child(1) {
+  background-color: #80ba24; }
+  .event-section:nth-child(1) .event-section-title {
+    background-color: white;
+    color: #80ba24;
+    border: 5px solid #80ba24; }
+
+.event-section:nth-child(2) {
+  background-color: #F5AA01; }
+  .event-section:nth-child(2) .event-section-title {
+    background-color: white;
+    color: #F5AA01;
+    border: 5px solid #F5AA01; }
+
+.event-section:nth-child(3) {
+  background-color: #9C132D; }
+  .event-section:nth-child(3) .event-section-title {
+    background-color: white;
+    color: #9C132D;
+    border: 5px solid #9C132D; }
+
+.event-section-title {
+  padding: 5px 1px;
+  font-weight: bold;
+  font-size: 105%;
+  text-align: center; }
+
+.event-title {
+  font-weight: bold;
+  padding-bottom: 3px; }
+
+.event-info {
+  padding-top: 3px; }
+
+/****************************************************ENDE*/
 .thm_organizer_is_registered {
   background-color: white;
   font-family: Arial;

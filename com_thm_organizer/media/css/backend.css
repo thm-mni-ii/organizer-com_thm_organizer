@@ -329,3 +329,147 @@ tbody tr:first-child td {
   height: 14px; }
 #mapping tbody .child-name, #mappings tbody .child-name {
   padding-right: 30px; }
+
+@media (max-width: 480px) {
+  #degree_manager-list tbody th:nth-child(1), #degree_manager-list tbody td:nth-child(1), #degree_manager-list thead th:nth-child(1), #degree_manager-list thead td:nth-child(1) {
+    display: none; }
+  #degree_manager-list tbody th:nth-child(2), #degree_manager-list tbody td:nth-child(2), #degree_manager-list thead th:nth-child(2), #degree_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #degree_manager-list tbody th:nth-child(3), #degree_manager-list tbody td:nth-child(3), #degree_manager-list thead th:nth-child(3), #degree_manager-list thead td:nth-child(3) {
+    display: none; }
+  #degree_manager-list tbody th:nth-child(4), #degree_manager-list tbody td:nth-child(4), #degree_manager-list thead th:nth-child(4), #degree_manager-list thead td:nth-child(4) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #user_manager-list tbody th:nth-child(1), #user_manager-list tbody td:nth-child(1), #user_manager-list thead th:nth-child(1), #user_manager-list thead td:nth-child(1) {
+    display: none; }
+  #user_manager-list tbody th:nth-child(2), #user_manager-list tbody td:nth-child(2), #user_manager-list thead th:nth-child(2), #user_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #user_manager-list tbody th:nth-child(4), #user_manager-list tbody td:nth-child(4), #user_manager-list thead th:nth-child(4), #user_manager-list thead td:nth-child(4) {
+    display: none; }
+  #user_manager-list tbody th:nth-child(5), #user_manager-list tbody td:nth-child(5), #user_manager-list thead th:nth-child(5), #user_manager-list thead td:nth-child(5) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #monitor_manager-list tbody th:nth-child(1), #monitor_manager-list tbody td:nth-child(1), #monitor_manager-list thead th:nth-child(1), #monitor_manager-list thead td:nth-child(1) {
+    display: none; }
+  #monitor_manager-list tbody th:nth-child(2), #monitor_manager-list tbody td:nth-child(2), #monitor_manager-list thead th:nth-child(2), #monitor_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #monitor_manager-list tbody th:nth-child(3), #monitor_manager-list tbody td:nth-child(3), #monitor_manager-list thead th:nth-child(3), #monitor_manager-list thead td:nth-child(3) {
+    display: none; }
+  #monitor_manager-list tbody th:nth-child(4), #monitor_manager-list tbody td:nth-child(4), #monitor_manager-list thead th:nth-child(4), #monitor_manager-list thead td:nth-child(4) {
+    display: none; }
+  #monitor_manager-list tbody th:nth-child(5), #monitor_manager-list tbody td:nth-child(5), #monitor_manager-list thead th:nth-child(5), #monitor_manager-list thead td:nth-child(5) {
+    display: none; }
+  #monitor_manager-list tbody th:nth-child(6), #monitor_manager-list tbody td:nth-child(6), #monitor_manager-list thead th:nth-child(6), #monitor_manager-list thead td:nth-child(6) {
+    display: none; } }
+@media (max-width: 767px) {
+  #monitor_manager-list tbody th:nth-child(5), #monitor_manager-list tbody td:nth-child(5), #monitor_manager-list thead th:nth-child(5), #monitor_manager-list thead td:nth-child(5) {
+    display: none; }
+  #monitor_manager-list tbody th:nth-child(6), #monitor_manager-list tbody td:nth-child(6), #monitor_manager-list thead th:nth-child(6), #monitor_manager-list thead td:nth-child(6) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #teacher_manager-list tbody th:nth-child(1), #teacher_manager-list tbody td:nth-child(1), #teacher_manager-list thead th:nth-child(1), #teacher_manager-list thead td:nth-child(1) {
+    display: none; }
+  #teacher_manager-list tbody th:nth-child(2), #teacher_manager-list tbody td:nth-child(2), #teacher_manager-list thead th:nth-child(2), #teacher_manager-list thead td:nth-child(2) {
+    padding-left: 8px; }
+  #teacher_manager-list tbody th:nth-child(4), #teacher_manager-list tbody td:nth-child(4), #teacher_manager-list thead th:nth-child(4), #teacher_manager-list thead td:nth-child(4) {
+    display: none; }
+  #teacher_manager-list tbody th:nth-child(5), #teacher_manager-list tbody td:nth-child(5), #teacher_manager-list thead th:nth-child(5), #teacher_manager-list thead td:nth-child(5) {
+    display: none; }
+  #teacher_manager-list tbody th:nth-child(6), #teacher_manager-list tbody td:nth-child(6), #teacher_manager-list thead th:nth-child(6), #teacher_manager-list thead td:nth-child(6) {
+    display: none; } }
+@media (max-width: 768px) {
+  #teacher_manager-list tbody th:nth-child(4), #teacher_manager-list tbody td:nth-child(4), #teacher_manager-list thead th:nth-child(4), #teacher_manager-list thead td:nth-child(4) {
+    display: none; }
+  #teacher_manager-list tbody th:nth-child(5), #teacher_manager-list tbody td:nth-child(5), #teacher_manager-list thead th:nth-child(5), #teacher_manager-list thead td:nth-child(5) {
+    display: none; }
+  #teacher_manager-list tbody th:nth-child(6), #teacher_manager-list tbody td:nth-child(6), #teacher_manager-list thead th:nth-child(6), #teacher_manager-list thead td:nth-child(6) {
+    display: none; } }
+@media (max-width: 920px) {
+  #teacher_manager-list th:nth-child(6), #teacher_manager-list td:nth-child(6) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #subject_manager-list tbody th:nth-child(1), #subject_manager-list tbody td:nth-child(1), #subject_manager-list thead th:nth-child(1), #subject_manager-list thead td:nth-child(1) {
+    display: none; }
+  #subject_manager-list tbody th:nth-child(2), #subject_manager-list tbody td:nth-child(2), #subject_manager-list thead th:nth-child(2), #subject_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #subject_manager-list tbody th:nth-child(3), #subject_manager-list tbody td:nth-child(3), #subject_manager-list thead th:nth-child(3), #subject_manager-list thead td:nth-child(3) {
+    display: none; }
+  #subject_manager-list tbody th:nth-child(4), #subject_manager-list tbody td:nth-child(4), #subject_manager-list thead th:nth-child(4), #subject_manager-list thead td:nth-child(4) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #field_manager-list tbody th:nth-child(1), #field_manager-list tbody td:nth-child(1), #field_manager-list thead th:nth-child(1), #field_manager-list thead td:nth-child(1) {
+    display: none; }
+  #field_manager-list tbody th:nth-child(2), #field_manager-list tbody td:nth-child(2), #field_manager-list thead th:nth-child(2), #field_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #field_manager-list tbody th:nth-child(3), #field_manager-list tbody td:nth-child(3), #field_manager-list thead th:nth-child(3), #field_manager-list thead td:nth-child(3) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #color_manager-list tbody th:nth-child(1), #color_manager-list tbody td:nth-child(1), #color_manager-list thead th:nth-child(1), #color_manager-list thead td:nth-child(1) {
+    display: none; }
+  #color_manager-list tbody th:nth-child(2), #color_manager-list tbody td:nth-child(2), #color_manager-list thead th:nth-child(2), #color_manager-list thead td:nth-child(2) {
+    display: none;
+    padding-left: 20px; }
+  #color_manager-list tbody th:nth-child(3), #color_manager-list tbody td:nth-child(3), #color_manager-list thead th:nth-child(3), #color_manager-list thead td:nth-child(3) {
+    padding-left: 20px;
+    padding-right: 20px; } }
+
+@media (max-width: 480px) {
+  #pool_manager-list tbody th:nth-child(1), #pool_manager-list tbody td:nth-child(1), #pool_manager-list thead th:nth-child(1), #pool_manager-list thead td:nth-child(1) {
+    display: none; }
+  #pool_manager-list tbody th:nth-child(2), #pool_manager-list tbody td:nth-child(2), #pool_manager-list thead th:nth-child(2), #pool_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #pool_manager-list tbody th:nth-child(3), #pool_manager-list tbody td:nth-child(3), #pool_manager-list thead th:nth-child(3), #pool_manager-list thead td:nth-child(3) {
+    display: none; }
+  #pool_manager-list tbody th:nth-child(4), #pool_manager-list tbody td:nth-child(4), #pool_manager-list thead th:nth-child(4), #pool_manager-list thead td:nth-child(4) {
+    display: none; } }
+@media (max-width: 767px) {
+  #pool_manager-list tbody th:nth-child(4), #pool_manager-list tbody td:nth-child(4), #pool_manager-list thead th:nth-child(4), #pool_manager-list thead td:nth-child(4) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #room_manager-list tbody th:nth-child(1), #room_manager-list tbody td:nth-child(1), #room_manager-list thead th:nth-child(1), #room_manager-list thead td:nth-child(1) {
+    display: none; }
+  #room_manager-list tbody th:nth-child(2), #room_manager-list tbody td:nth-child(2), #room_manager-list thead th:nth-child(2), #room_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #room_manager-list tbody th:nth-child(3), #room_manager-list tbody td:nth-child(3), #room_manager-list thead th:nth-child(3), #room_manager-list thead td:nth-child(3) {
+    display: none; }
+  #room_manager-list tbody th:nth-child(4), #room_manager-list tbody td:nth-child(4), #room_manager-list thead th:nth-child(4), #room_manager-list thead td:nth-child(4) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #program_manager-list tbody th:nth-child(1), #program_manager-list tbody td:nth-child(1), #program_manager-list thead th:nth-child(1), #program_manager-list thead td:nth-child(1) {
+    display: none; }
+  #program_manager-list tbody th:nth-child(2), #program_manager-list tbody td:nth-child(2), #program_manager-list thead th:nth-child(2), #program_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #program_manager-list tbody th:nth-child(3), #program_manager-list tbody td:nth-child(3), #program_manager-list thead th:nth-child(3), #program_manager-list thead td:nth-child(3) {
+    display: none; }
+  #program_manager-list tbody th:nth-child(4), #program_manager-list tbody td:nth-child(4), #program_manager-list thead th:nth-child(4), #program_manager-list thead td:nth-child(4) {
+    display: none; }
+  #program_manager-list tbody th:nth-child(5), #program_manager-list tbody td:nth-child(5), #program_manager-list thead th:nth-child(5), #program_manager-list thead td:nth-child(5) {
+    display: none; } }
+@media (max-width: 767px) {
+  #program_manager-list tbody th:nth-child(3), #program_manager-list tbody td:nth-child(3), #program_manager-list thead th:nth-child(3), #program_manager-list thead td:nth-child(3) {
+    display: none; } }
+
+@media (max-width: 480px) {
+  #schedule_manager-list tbody th:nth-child(1), #schedule_manager-list tbody td:nth-child(1), #schedule_manager-list thead th:nth-child(1), #schedule_manager-list thead td:nth-child(1) {
+    display: none; }
+  #schedule_manager-list tbody th:nth-child(2), #schedule_manager-list tbody td:nth-child(2), #schedule_manager-list thead th:nth-child(2), #schedule_manager-list thead td:nth-child(2) {
+    padding-left: 20px; }
+  #schedule_manager-list tbody th:nth-child(3), #schedule_manager-list tbody td:nth-child(3), #schedule_manager-list thead th:nth-child(3), #schedule_manager-list thead td:nth-child(3) {
+    display: none; }
+  #schedule_manager-list tbody th:nth-child(4), #schedule_manager-list tbody td:nth-child(4), #schedule_manager-list thead th:nth-child(4), #schedule_manager-list thead td:nth-child(4) {
+    display: none; }
+  #schedule_manager-list tbody th:nth-child(5), #schedule_manager-list tbody td:nth-child(5), #schedule_manager-list thead th:nth-child(5), #schedule_manager-list thead td:nth-child(5) {
+    display: none; }
+  #schedule_manager-list tbody th:nth-child(6), #schedule_manager-list tbody td:nth-child(6), #schedule_manager-list thead th:nth-child(6), #schedule_manager-list thead td:nth-child(6) {
+    display: none; } }
+@media (max-width: 767px) {
+  #schedule_manager-list tbody th:nth-child(6), #schedule_manager-list tbody td:nth-child(6), #schedule_manager-list thead th:nth-child(6), #schedule_manager-list thead td:nth-child(6) {
+    display: none; } }

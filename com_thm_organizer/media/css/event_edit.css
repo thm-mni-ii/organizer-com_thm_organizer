@@ -38,14 +38,11 @@
   background-image: url("../../../media/com_thm_organizer/images/icon-32-cancel.png"); }
 
 /*icons anpassen*/
-.icon-diff, .icon-import {
+.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
   font-weight: bold; }
 
-.icon-import {
-  content: "\51"; }
-
-.icon-merge {
-  content: "\69"; }
+.icon-add-Space {
+  font-size: 14px; }
 
 /*icons zur jeweiligen View im Header hinzufuegen */
 .icon-organizer::before {
@@ -339,8 +336,10 @@ div.thm_organizer_ee_data_div {
 .thm_organizer_ee_table {
   border: none !important; }
 
-#jform_description_ifr {
-  height: 150px !important; }
-
+/*
+#jform_description_ifr{
+  height: 150px !important;
+}
+*/
 .btn-toolbar {
   text-align: right; }

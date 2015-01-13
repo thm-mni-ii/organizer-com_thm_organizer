@@ -1,3 +1,14 @@
+/* for event-edit
+* iframe-height smaller and cursor...
+* */
+window.onload = function()
+{
+    var x = document.getElementById("jform_description_ifr");
+    x.style.height="150px";
+    var y = x.contentDocument;
+    y.body.style.height = "130px";
+}
+
 /*global jq: false, categories: false, invalidFormText: false*/
 window.addEvent('domready', function() {
     "use strict";

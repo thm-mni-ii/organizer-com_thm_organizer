@@ -1,1 +1,522 @@
 @import '../../lib_thm_core/scss/backend';
+
+#degree_manager-list{
+  //for phone - Platz für eine Spalte, bzw. Häkchen-Spalte und eine zusätzliche Spalte
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häkchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"Abbreviation"
+      th:nth-child(3), td:nth-child(3) {
+               display: none;
+      }
+      //"LSF Degree"
+      th:nth-child(4), td:nth-child(4) {
+              display: none;
+      }
+    }
+  }
+
+ //for phone landscape or tablet portrait
+ //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+ // derzeit 3 Spalten, keine weiteren Angaben notwendig
+  @media (max-width: 767px) {
+
+  }
+}
+
+#user_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häkchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"User Name"
+      th:nth-child(3), td:nth-child(3) {
+      //  display: none;
+      }
+
+      //"Program Manager"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+      //"Planner"
+      th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+
+
+ // for phone landscape or tablet portrait
+ //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+ //derzeit 4 Spalten, keine weiteren Angaben notwendig
+ //??
+  @media (max-width: 767px) {
+  }
+}
+
+#monitor_manager-list{
+  //for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häkchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Room"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"IP Adress"
+      th:nth-child(3), td:nth-child(3) {
+        display: none;
+      }
+      //"Default Settings"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+      //"Display Behaviour"
+      th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+      //"Display Content"
+      th:nth-child(6), td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+
+ //for phone landscape or tablet portrait
+ //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  @media (max-width: 767px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        //  display: none;
+      }
+      // "Room"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+    //    padding-left: 8px;
+      }
+      //"IP Adress"
+      th:nth-child(3), td:nth-child(3) {
+        //   display: none;
+      }
+      //"Default Settings"
+      th:nth-child(4), td:nth-child(4) {
+        //    display: none;
+      }
+      //"Display Behaviour"
+      th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+      //"Display Content"
+      th:nth-child(6), td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+}
+
+#teacher_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Surname"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 8px;
+      }
+      //"Forename"
+      th:nth-child(3), td:nth-child(3) {
+     //   display: none;
+      }
+
+      //"User Name"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+      //""Untis ID"
+      th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+      //"Field"
+      th:nth-child(6), td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+
+//for phone landscape or tablet portrait
+//Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  @media (max-width: 768px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        //   display: none;
+      }
+      // "Surname"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+     //   padding-left: 8px;
+      }
+      //"Forename"
+      th:nth-child(3), td:nth-child(3) {
+        //   display: none;
+      }
+      //"User Name"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+      //""Untis ID"
+      th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+      //"Field"
+      th:nth-child(6), td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+
+  //ab 920px alle Spalten zu sehen
+  //zwischen 768px und 920px müssen Spalten noch ausgeblendet werden
+  @media (max-width: 920px) {
+    //"Field"
+    th:nth-child(6), td:nth-child(6) {
+      display: none;
+    }
+  }
+}
+
+#subject_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"Module ID"
+      th:nth-child(3), td:nth-child(3) {
+        display: none;
+      }
+      //"Field"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  //for phone landscape or tablet portrait
+  //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  //derzeit 3 Spalten, keine weiteren Angaben notwendig
+  @media (max-width: 767px) {
+
+  }
+}
+
+#field_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"Color"
+      th:nth-child(3), td:nth-child(3) {
+        display: none;
+      }
+    }
+  }
+
+  //for phone landscape or tablet portrait
+  //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  //derzeit 2 Spalten, keine weiteren Angaben notwendig
+  @media (max-width: 767px) {
+
+  }
+}
+
+#color_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"Color"
+      th:nth-child(3), td:nth-child(3) {
+      //  display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  }
+
+  //for phone landscape or tablet portrait
+  //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  //derzeit 2 Spalten, keine weiteren Angaben notwendig
+  @media (max-width: 767px) {
+
+  }
+}
+
+#pool_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"Degree Program"
+      th:nth-child(3), td:nth-child(3) {
+        display: none;
+      }
+      //"Field"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  //for phone landscape or tablet portrait
+  //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  @media (max-width: 767px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+     //   display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+    //    padding-left: 8px;
+      }
+      //"Degree Program"
+      th:nth-child(3), td:nth-child(3) {
+    //    display: none;
+      }
+      //"Field"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+}
+
+#room_manager-list {
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+//       display: none;
+      //necessary when it is the first column displayed
+          padding-left: 20px;
+      }
+      //"Displayed Name"
+      th:nth-child(3), td:nth-child(3) {
+        display: none;
+      }
+      //"Type"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  //for phone landscape or tablet portrait
+  //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  //derzeit 3 Spalten, keine weiteren Angaben notwendig
+  @media (max-width: 767px) {
+
+  }
+}
+
+#program_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"Degree"
+      th:nth-child(3), td:nth-child(3) {
+        display: none;
+      }
+      //"Version"
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+      //"Field"
+      th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+
+  //for phone landscape or tablet portrait
+  //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  @media (max-width: 767px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+      //  display: none;
+      }
+      // "Name"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+      //  padding-left: 8px;
+      }
+      //"Degree"
+      th:nth-child(3), td:nth-child(3) {
+        display: none;
+      }
+      //"Version"
+      th:nth-child(4), td:nth-child(4) {
+     //   display: none;
+      }
+      //"Field"
+      th:nth-child(5), td:nth-child(5) {
+    //    display: none;
+      }
+    }
+  }
+}
+
+#schedule_manager-list{
+  // for phone
+  @media(max-width: 480px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+        display: none;
+      }
+      // "Organization"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+        padding-left: 20px;
+      }
+      //"Planning Period"
+      th:nth-child(3), td:nth-child(3) {
+               display: none;
+      }
+      //"Status"
+      th:nth-child(4), td:nth-child(4) {
+              display: none;
+      }
+      //"Creation Date"
+      th:nth-child(5), td:nth-child(5) {
+              display: none
+      }
+      //"Creation Time"
+      th:nth-child(6), td:nth-child(6) {
+              display: none;
+      }
+    }
+  }
+
+  //for phone landscape or tablet portrait
+  //Platz für zwei Spalten + Häckchen-Spalte, eventuell drei Spalten
+  @media (max-width: 767px) {
+    tbody, thead {
+      // Häckchen entfernen - erste Spalte
+      th:nth-child(1), td:nth-child(1) {
+  //      display: none;
+      }
+      // "Organization"
+      th:nth-child(2), td:nth-child(2) {
+        //       display: none;
+        //necessary when it is the first column displayed
+ //       padding-left: 8px;
+      }
+      //"Planning Period"
+      th:nth-child(3), td:nth-child(3) {
+  //      display: none;
+      }
+      //"Status"
+      th:nth-child(4), td:nth-child(4) {
+   //     display: none;
+      }
+      //"Creation Date"
+      th:nth-child(5), td:nth-child(5) {
+    //    display: none
+      }
+      //"Creation Time"
+      th:nth-child(6), td:nth-child(6) {
+        display: none;
+      }
+    }
+  }
+}
+// virtual schedule noch nicht vorhanden

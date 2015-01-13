@@ -70,6 +70,7 @@ class Thm_OrganizerViewEvent_Edit extends JViewLegacy
         $document = Jfactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/libraries/thm_core/fonts/iconfont.css");
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/event_edit.css');
+        $document->addScript($this->baseurl . '/media/com_thm_organizer/js/event_edit.js');
     }
 
     /**

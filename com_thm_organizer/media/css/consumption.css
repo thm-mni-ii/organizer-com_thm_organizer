@@ -138,10 +138,40 @@
     background-color: white; } }
 .filter-header {
   margin-bottom: .4em; }
-  .filter-header .input-append input {
-    max-width: 100px; }
-  .filter-header .input-append #enddate_img, .filter-header .input-append #startdate_img {
-    height: 28px; }
+  @media (min-width: 768px) {
+    .filter-header {
+      margin: 4px 25px; }
+      .filter-header .control-group:nth-of-type(1), .filter-header .control-group:nth-of-type(2), .filter-header .control-group:nth-of-type(3) {
+        width: 55%;
+        float: left; }
+        .filter-header .control-group:nth-of-type(1) .chzn-container-single .chzn-single, .filter-header .control-group:nth-of-type(2) .chzn-container-single .chzn-single, .filter-header .control-group:nth-of-type(3) .chzn-container-single .chzn-single {
+          -webkit-border-radius: 3px;
+          -moz-border-radius: 3px;
+          -ms-border-radius: 3px;
+          -o-border-radius: 3px;
+          border-radius: 3px; }
+      .filter-header .control-group:nth-of-type(2) {
+        padding: 4px 0; }
+      .filter-header .control-group:nth-of-type(3) {
+        margin-bottom: 25px; }
+      .filter-header .control-group:nth-of-type(4), .filter-header .control-group:nth-of-type(5) {
+        display: inline-block;
+        width: 45%; }
+        .filter-header .control-group:nth-of-type(4) .control-label, .filter-header .control-group:nth-of-type(5) .control-label {
+          float: left;
+          padding-top: 2px; }
+        .filter-header .control-group:nth-of-type(4) .controls, .filter-header .control-group:nth-of-type(5) .controls {
+          float: right; }
+      .filter-header .control-group:nth-of-type(5) .control-label {
+        width: 75px;
+        text-align: right; } }
+  .filter-header .input-append {
+    margin-bottom: 0px; }
+    .filter-header .input-append input {
+      max-width: 100px;
+      height: 15px; }
+    .filter-header .input-append #enddate_img, .filter-header .input-append #startdate_img {
+      height: 25px; }
 
 .filter-resource {
   margin-bottom: .6em;
