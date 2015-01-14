@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helper/language.php';
+require_once JPATH_COMPONENT . '/helpers/language.php';
 jimport('jquery.jquery');
 
 /**
@@ -38,7 +38,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
         $this->state = $this->get('State');
         $this->items = $this->get('items');
         $this->pagination = $this->get('Pagination');
-        $this->_layout = ($this->state->get('groupBy'))? 'grouped_list' : 'ungrouped_list';
+        //$this->_layout = ($this->state->get('groupBy'))? 'grouped_list' : 'ungrouped_list';
 
         $model = $this->getModel();
         $this->programName = $model->programName;

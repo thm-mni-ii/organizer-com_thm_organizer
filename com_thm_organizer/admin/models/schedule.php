@@ -92,6 +92,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         try
         {
             $this->saveFields();
+            $this->saveSubjects();
             $this->saveTeachers();
             $this->saveRoomTypes();
             $this->saveRooms();
@@ -551,6 +552,37 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $row->load($data);
             $data['field'] = $field->name;
             $row->save($data);
+        }
+    }
+
+    /**
+     * Persists teacher information from the uploaded schedule
+     *
+     * @return void
+     */
+    private function saveSubjects()
+    {
+        foreach ($this->schedule->subjects as $subject)
+        {
+            if (!empty($subject->subjectNo))
+            {
+                $subjectData = array();
+                $subjectData['externalID'] = $subject->subjectNo;
+                $subjectRow = JTable::getInstance('subjects', 'thm_organizerTable');
+                $subjectRow->load($subjectData);
+                if (!empty($subject->description))
+                {
+                    $fieldData = array();
+                    $fieldData['gpuntisID'] = $this->schedule->fields->{$subject->description}->gpuntisID;
+                    $fieldRow = JTable::getInstance('Fields', 'thm_organizerTable');
+                    $fieldExists = $fieldRow->load($fieldData);
+                    if ($fieldExists)
+                    {
+                        $subjectRow->fieldID = $fieldRow->id;
+                        $subjectRow->store();
+                    }
+                }
+            }
         }
     }
 

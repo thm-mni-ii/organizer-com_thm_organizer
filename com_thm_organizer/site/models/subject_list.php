@@ -11,7 +11,9 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
-require_once JPATH_COMPONENT . '/helper/teacher.php';
+require_once JPATH_COMPONENT . '/helpers/teacher.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
+
 define('NONE', 0);
 define('POOL', 1);
 define('TEACHER', 2);
@@ -47,148 +49,20 @@ class THM_OrganizerModelSubject_List extends JModelList
      */
     public function getItems()
     {
-        $programInformation = $this->getProgramInformation();
-        $this->programName = $programInformation['name'];
-
-        $subjectEntries = parent::getItems();
-
-        foreach ($subjectEntries AS $index => $entry)
+        $subjects = parent::getItems();
+        foreach ($subjects AS $index => $subject)
         {
-            if (!empty($entry->groupID))
+            if (!empty($subject->subjectColor))
             {
-                $deleted = $this->ensureUnique($subjectEntries, $index, $entry);
-                if ($deleted)
-                {
-                    continue;
-                }
+                $subjects[$index]->subjectTextColor = THM_OrganizerHelperComponent::getTextColor($subject->subjectColor);
             }
-
-            $this->setTeacherProperties($subjectEntries, $index, $entry);
-            switch ($this->state->get('groupBy', '0'))
+            if (!empty($subject->teacherColor))
             {
-                case POOL:
-                    $this->processPoolGroup($entry->groupID);
-                    break;
-                case TEACHER:
-                    $this->processTeacherGroup($entry->groupID);
-                    break;
-                case FIELD:
-                    $this->processFieldGroup($entry->groupID);
-                    break;
-                default :
-                    break;
+                $subjects[$index]->teacherTextColor = THM_OrganizerHelperComponent::getTextColor($subject->teacherColor);
             }
+            $subjects[$index]->teacherName = empty($subject->forename)? $subject->surname : "$subject->surname, $subject->forename";
         }
-
-        if (!empty($this->groups))
-        {
-            foreach ($this->groups AS $key => $group)
-            {
-                $this->groups[$key]['bgColor'] = $this->getBGColors($group['bgColor']);
-                $this->groups[$key]['textColor'] = $this->getTextColorClass($this->groups[$key]['bgColor']);
-            }
-            ksort($this->groups);
-        }
-
-        return $subjectEntries;
-    }
-
-    /**
-     * Ensures subject entries only occur once per group
-     * 
-     * @param   array   &$subjectEntries  the subject entries
-     * @param   int     $index            the index being currently iterated
-     * @param   object  $entry            the subect entry at the specified index
-     * 
-     * @return  boolean true if a duplicate entry was removed, otherwise false
-     */
-    private function ensureUnique(&$subjectEntries, $index, $entry)
-    {
-        $item = array('id' => $entry->id, 'groupID' => $entry->groupID);
-        if (in_array($item, $this->_uniqueItems))
-        {
-            unset($subjectEntries[$index]);
-            return true;
-        }
-        $this->_uniqueItems[] = $item;
-        return false;
-    }
-
-    /**
-     * Creates a string of integer values seperated by commas corresponding to
-     * the hexadecimal color code
-     * 
-     * @param   string  $hexCode  the hexidecimal field color
-     * 
-     * @return  string a comma seperated list of lolor integer values
-     */
-    private function getBGColors($hexCode)
-    {
-        if (empty($hexCode))
-        {
-            $hexCode = 'ffffff';
-        }
-
-        $red = hexdec(substr($hexCode, 0, 2));
-        $green = hexdec(substr($hexCode, 2, 2));
-        $blue = hexdec(substr($hexCode, 4, 2));
-
-        return "$red,$green,$blue";
-    }
-
-    /**
-     * Gets a text class which states the recommended color brightness the
-     * actual value for this class should be set in the included css file.
-     * 
-     * @param   string  $colorString  a string containing color values seperated
-     *                                by commas
-     * 
-     * @return  string  'light-text' for dark colors, 'dark-text' for light ones
-     */
-    private function getTextColorClass($colorString)
-    {
-        $colorValues = explode(',', $colorString);
-
-        $brightness = (($colorValues[0] * 299) + ($colorValues[1] * 587) + ($colorValues[2] * 114)) / 255000;
-        if ($brightness >= 0.6)
-        {
-            return "dark-text";
-        }
-        else 
-        {
-            return "light-text";
-        }
-    }
-
-    /**
-     * Sets teacher properties for subjects
-     * 
-     * @param   array   &$subjects  the subjects for the given degree program
-     * @param   int     $index      the current index being iterated
-     * @param   object  $subject    the subject object at the given index
-     * 
-     * @return  void
-     */
-    private function setTeacherProperties(&$subjects, $index, $subject)
-    {
-        $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, 1);
-        if (empty($teacherData))
-        {
-            $subjects[$index]->teacherName = '';
-            return;
-        }
-
-        $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
-        $groupsName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
-        if (empty($groupsName))
-        {
-            $subjects[$index]->teacherName = $defaultName;
-            return;
-        }
-
-        $subjects[$index]->teacherName = $groupsName;
-        $subjects[$index]->groupsLink
-            = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname'], $this->state->get('menuID'));
+        return $subjects;
     }
 
     /**
@@ -210,56 +84,39 @@ class THM_OrganizerModelSubject_List extends JModelList
         $languageTag = $this->state->get('languageTag');
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$languageTag&Itemid=$menuID&id='";
 
-        $subjectsQuery = $this->_db->getQuery(true);
-        $subjectsQuery->from('#__thm_organizer_subjects AS s');
+        $query = $this->_db->getQuery(true);
+        $query->from('#__thm_organizer_subjects AS s');
 
-        $select = array();
-        $subjectsQuery->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
-        switch ($this->state->get('groupBy', '0'))
-        {
-            case NONE:
-                
-                // Non-grouped lists should only have distinct subjects
-                $select[] = 'DISTINCT s.id AS id';
-                break;
-            case POOL:
-                $select[] = 's.id AS id';
-                $select[] = "m2.poolID AS groupID";
-                $subjectsQuery->innerJoin('#__thm_organizer_mappings AS m2 ON m1.parentID = m2.id');
-                break;
-            case TEACHER:
-                $select[] = 's.id AS id';
-                $select[] = "st.teacherID AS groupID";
-                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
-                break;
-            case FIELD:
-                $select[] = 's.id AS id';
-                $select[] = "f.id AS groupID";
-                $subjectsQuery->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
-                break;
-            default :
-                break;
-        }
-        $select[] = "s.name_$languageTag AS name";
-        $select[] = 's.creditpoints';
-        $select[] = 's.externalID';
+        $select = "s.id, s.name_$languageTag AS subject, s.creditpoints, s.externalID, s.fieldID, ";
+        $select .= "sf.field, sc.color as subjectColor, ";
+        $select .= "m2.poolID, p.name_$languageTag AS pool, ";
+        $select .= "st.teacherID, t.surname, t.forename, tc.color AS teacherColor, st.teacherResp, ";
         $parts = array("$subjectLink","s.id");
-        $select[] = $subjectsQuery->concatenate($parts, "") . " AS subjectLink";
-        $subjectsQuery->select($select);
-        $subjectsQuery->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
+        $select .= $query->concatenate($parts, "") . " AS subjectLink";
+        $query->leftJoin('#__thm_organizer_fields AS sf ON s.fieldID = sf.id');
+        $query->leftJoin('#__thm_organizer_colors AS sc ON sc.id = sf.colorID');
+        $query->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m2 ON m1.parentID = m2.id');
+        $query->innerJoin('#__thm_organizer_pools AS p ON m2.poolID = p.id');
+        $query->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
+        $query->leftJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
+        $query->leftJoin('#__thm_organizer_fields AS tf ON t.fieldID = tf.id');
+        $query->leftJoin('#__thm_organizer_colors AS tc ON tc.id = tf.colorID');
+        $query->select($select);
+        $query->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
 
-        $search = $this->state->get('search');
-        if (!empty($search))
-        {
-            if (!$this->state->get('groupBy') == TEACHER)
-            {
-                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
-            }
-            $subjectsQuery->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
-            $subjectsQuery->where($this->getSearch());
-        }
-        $subjectsQuery->order('name ASC');
-        return $subjectsQuery;
+//        $search = $this->state->get('search');
+//        if (!empty($search))
+//        {
+//            if (!$this->state->get('groupBy') == TEACHER)
+//            {
+//                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
+//            }
+//            $subjectsQuery->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
+//            $subjectsQuery->where($this->getSearch());
+//        }
+        $query->order('subject ASC');
+        return $query;
     }
 
     /**
@@ -284,10 +141,12 @@ class THM_OrganizerModelSubject_List extends JModelList
         try 
         {
             $programData = $this->_db->loadAssoc();
+            $this->programName = $programData['name'];
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
         }
         
         return $programData;
@@ -330,138 +189,6 @@ class THM_OrganizerModelSubject_List extends JModelList
         $menuGroupBy = $params->get('groupBy');
         $groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy', $menuGroupBy);
         $this->setState('groupBy', $groupBy);
-    }
-
-    /**
-     * Sets properties for a pool group
-     *
-     * @param   int  $poolID  the poolID
-     *
-     * @return  void
-     */
-    private function processPoolGroup($poolID)
-    {
-        $programInformation = $this->getProgramInformation();
-        $languageTag = $this->state->get('languageTag');
-        $query = $this->_db->getQuery(true);
-        $query->select("p.id, m.lft, p.name_{$languageTag} AS name, c.color AS bgColor");
-        $query->from('#__thm_organizer_pools AS p');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-        $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->where("p.id ='$poolID'");
-        $query->where("m.lft > '{$programInformation['lft']}' AND  m.rgt < '{$programInformation['rgt']}'");
-        $this->_db->setQuery((string) $query);
-        
-        try 
-        {
-            $pools = $this->_db->loadAssocList();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-        
-        if (empty($pools))
-        {
-            return;
-        }
-
-        foreach ($pools as $pool)
-        {
-            if (!in_array($pool['id'], $this->_poolIDs))
-            {
-                $this->_poolIDs[] = $pool['id'];
-                $this->groups[$pool['lft']] = $pool;
-            }
-        }
-    }
-
-    /**
-     * Retrieves a group which references a subject's teacher
-     *
-     * @param   array  $teacherID  the ids of the teacher
-     *
-     * @return  array  the group according to which the subjects will be output
-     */
-    private function processTeacherGroup($teacherID)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select("t.id, c.color AS bgColor");
-        $query->from('#__thm_organizer_teachers AS t');
-        $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->where("t.id ='$teacherID'");
-        $this->_db->setQuery((string) $query);
-        
-        try
-        {
-            $teacher = $this->_db->loadAssoc();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-
-        if (empty($teacher))
-        {
-            return;
-        }
-
-        $teacherData = THM_OrganizerHelperTeacher::getDataByID($teacher['id']);
-        if (empty($teacherData))
-        {
-            return;
-        }
-
-        if (empty($this->groups[$teacher['id']]))
-        {
-            $sortName = $teacherData['surname'];
-            $sortName .= empty($teacherData['forename'])? '' : $teacherData['forename'];
-            $this->groups[$sortName] = $teacher;
-
-            $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
-            $groupsName = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
-            if (!$groupsName)
-            {
-                $this->groups[$sortName]['name'] = $defaultName;
-                return;
-            }
-
-            $this->groups[$sortName]['name'] = $groupsName;
-            $this->groups[$sortName]['groupsLink'] = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname']);
-        }
-    }
-
-    /**
-     * Retrieves an array of groups with references to the subjects grouped
-     *
-     * @param   array  $fieldID  the id of the field of study
-     *
-     * @return  array  the group according to which the subjects will be output
-     */
-    private function processFieldGroup($fieldID)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select("f.id, f.field AS name, c.color AS bgColor");
-        $query->from('#__thm_organizer_fields AS f');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->where("f.id ='$fieldID'");
-        $this->_db->setQuery((string) $query);
-        
-        try 
-        {
-            $field = $this->_db->loadAssoc();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-
-        if (!empty($field))
-        {
-            $this->groups[$field['name']] = $field;
-        }
     }
 
     /**

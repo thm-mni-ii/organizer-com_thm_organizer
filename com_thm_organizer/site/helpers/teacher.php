@@ -184,31 +184,6 @@ class THM_OrganizerHelperTeacher
      */
     public static function getNameFromTHMGroups($userID)
     {
-        $dbo = JFactory::getDBO();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT text1.value AS forename, text2.value AS surname, text3.value AS title');
-        $query->from('#__thm_groups_text AS text1');
-        $query->innerJoin('#__thm_groups_text AS text2 ON text1.userid = text2.userid');
-        $query->innerJoin('#__thm_groups_text as text3 ON text2.userid = text3.userid');
-        $query->where('text1.structid = 1');
-        $query->where('text2.structid = 2');
-        $query->where('text3.structid = 5');
-        $query->where("text1.userid = '$userID'");
-        $dbo->setQuery((string) $query);
-        
-        try
-        {
-            $abomination = $dbo->loadAssoc();
-        }
-        catch (runtimeException $e)
-        {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-        }
-
-        if (!empty($abomination))
-        {
-            return "{$abomination['title']} {$abomination['forename']} {$abomination['surname']}";
-        }
         return  '';
     }
 
