@@ -1,252 +1,78 @@
-/*  ------------------------------------
-**  Author:     Kristijan Pokas
-**  File:       consumption.css
-**  Styles for: Frontend
-**  Site:       www.mni.thm.de
-**  ------------------------------------ */
-.consumption div.filter-bar {
-  background-color: #eeeeee;
-  border: 1px solid #bbbbbb;
-  clear: both;
-  color: #4a5c66;
-  font-family: Verdana, Arial;
-  font-size: 13px;
-  overflow: auto;
-  padding: 8px 4px 4px 4px;
-  z-index: 12;
-  margin-bottom: 4px;
-  -webkit-box-shadow: 2px 2px 4px #dddddd;
-  -moz-box-shadow: 2px 2px 4px #dddddd;
-  -ms-box-shadow: 2px 2px 4px #dddddd;
-  -o-box-shadow: 2px 2px 4px #dddddd;
-  box-shadow: 2px 2px 4px #dddddd; }
+/*
+Error: Invalid CSS after "tr:nth-child(n+1)": expected "{", was "th:first-child"
+       
+       "th:first-child" may only be used at the beginning of a compound selector.
+        on line 306 of consumption.scss
 
-.consumption {
-  color: #4a5c66; }
-  .consumption h2.componentheading {
-    float: left; }
-  .consumption div.button-panel {
-    float: right;
-    margin-top: 9px;
-    margin-bottom: 9px; }
-  .consumption button {
-    padding: 4px 12px;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-    border: 1px solid #bbb;
-    border-bottom-color: #a2a2a2;
-    background-color: #f5f5f5;
-    background: #fff;
-    /* Old browsers */
-    background: -moz-linear-gradient(top, #fff 0%, #e6e6e6 100%);
-    /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, #e6e6e6));
-    /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #fff 0%, #e6e6e6 100%);
-    /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #fff 0%, #e6e6e6 100%);
-    /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #fff 0%, #e6e6e6 100%);
-    /* IE10+ */
-    background: linear-gradient(to bottom, #fff 0%, #e6e6e6 100%);
-    /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
-    /* IE6-9 */
-    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
-    -o-border-radius: 4px;
-    border-radius: 4px; }
-  .consumption table.consumption-table {
-    background-image: none;
-    border: 1px solid #bbbbbb;
-    color: #4a5c66;
-    display: block;
-    font-family: Verdana, Arial;
-    font-size: 13px;
-    margin-bottom: .4em;
-    margin-top: .4em;
-    max-height: 45em;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: auto;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow: 2px 2px 4px #dddddd;
-    -moz-box-shadow: 2px 2px 4px #dddddd;
-    -ms-box-shadow: 2px 2px 4px #dddddd;
-    -o-box-shadow: 2px 2px 4px #dddddd;
-    box-shadow: 2px 2px 4px #dddddd; }
-    .consumption table.consumption-table tr th {
-      font-size: 13px;
-      height: 1.4em;
-      text-align: center; }
-      .consumption table.consumption-table tr th .degree-use-total, .consumption table.consumption-table tr th .resource-use-total {
-        border-top: 1px solid #bbbbbb;
-        font-weight: normal; }
-    .consumption table.consumption-table tr td {
-      font-size: 13px;
-      height: 1.4em;
-      text-align: center; }
-    .consumption table.consumption-table tbody tr td {
-      border: 1px solid #dddddd; }
-  .consumption div.filter-bar {
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
-    min-height: 80px; }
-    .consumption div.filter-bar div.filter-item {
-      display: inline-block;
-      margin-left: .4em;
-      margin-top: .5em; }
-      .consumption div.filter-bar div.filter-item img {
-        border: 0.1em solid #004289;
-        cursor: pointer;
-        margin: 0 0 -.1em .2em;
-        -webkit-border-radius: 0.2em;
-        -moz-border-radius: 0.2em;
-        -ms-border-radius: 0.2em;
-        -o-border-radius: 0.2em;
-        border-radius: 0.2em;
-        -webkit-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
-        -moz-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
-        -ms-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
-        -o-box-shadow: 0.2em 0.2em 0.4em #b7b7b7;
-        box-shadow: 0.2em 0.2em 0.4em #b7b7b7; }
-        .consumption div.filter-bar div.filter-item img:hover {
-          -webkit-box-shadow: 0.2em 0.2em 0.4em #87b918;
-          -moz-box-shadow: 0.2em 0.2em 0.4em #87b918;
-          -ms-box-shadow: 0.2em 0.2em 0.4em #87b918;
-          -o-box-shadow: 0.2em 0.2em 0.4em #87b918;
-          box-shadow: 0.2em 0.2em 0.4em #87b918; }
-  .consumption div.filter-item label {
-    min-width: 40em; }
+301: //ersteZeile
+302: tr:nth-child(1){
+303: background-color:lightgreen;
+304: }
+305: //ersteSpalte
+306: tr:nth-child(n+1)th:first-child{
+307: background-color:lightgreen;
+308: }
+309: }
+310: 
+311: tr:nth-child(n+2){
 
-@media print {
-  .consumption table.consumption-table {
-    overflow: visible;
-    margin-bottom: 4em; }
-
-  .consumption table.consumption-table tr td {
-    background-color: white; } }
-.filter-header {
-  margin-bottom: .4em; }
-  @media (min-width: 768px) {
-    .filter-header {
-      margin: 4px 25px; }
-      .filter-header .control-group:nth-of-type(1), .filter-header .control-group:nth-of-type(2), .filter-header .control-group:nth-of-type(3) {
-        width: 55%;
-        float: left; }
-        .filter-header .control-group:nth-of-type(1) .chzn-container-single .chzn-single, .filter-header .control-group:nth-of-type(2) .chzn-container-single .chzn-single, .filter-header .control-group:nth-of-type(3) .chzn-container-single .chzn-single {
-          -webkit-border-radius: 3px;
-          -moz-border-radius: 3px;
-          -ms-border-radius: 3px;
-          -o-border-radius: 3px;
-          border-radius: 3px; }
-      .filter-header .control-group:nth-of-type(2) {
-        padding: 4px 0; }
-      .filter-header .control-group:nth-of-type(3) {
-        margin-bottom: 25px; }
-      .filter-header .control-group:nth-of-type(4), .filter-header .control-group:nth-of-type(5) {
-        display: inline-block;
-        width: 45%; }
-        .filter-header .control-group:nth-of-type(4) .control-label, .filter-header .control-group:nth-of-type(5) .control-label {
-          float: left;
-          padding-top: 2px; }
-        .filter-header .control-group:nth-of-type(4) .controls, .filter-header .control-group:nth-of-type(5) .controls {
-          float: right; }
-      .filter-header .control-group:nth-of-type(5) .control-label {
-        width: 75px;
-        text-align: right; } }
-  .filter-header .input-append {
-    margin-bottom: 0px; }
-    .filter-header .input-append input {
-      max-width: 100px;
-      height: 15px; }
-    .filter-header .input-append #enddate_img, .filter-header .input-append #startdate_img {
-      height: 25px; }
-
-.filter-resource {
-  margin-bottom: .6em;
-  margin-left: .6em;
-  margin-right: .6em;
-  overflow: auto;
-  min-height: 150px; }
-  @media (min-width: 768px) {
-    .filter-resource .control-group:nth-of-type(1) {
-      width: 60%;
-      float: left; }
-      .filter-resource .control-group:nth-of-type(1) .controls select {
-        width: 95%; }
-    .filter-resource .control-group:nth-of-type(2) {
-      width: 40%;
-      float: right; }
-      .filter-resource .control-group:nth-of-type(2) .controls select {
-        width: 95%; } }
-  .filter-resource .chzn-container-multi .chzn-choices li {
-    float: none;
-    margin-right: 5px;
-    margin-top: 5px; }
-  .filter-resource .chzn-container .chzn-results li.highlighted {
-    background: #62c462;
-    /* Old browsers */
-    background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
-    /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #51a351));
-    /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #62c462 0%, #51a351 100%);
-    /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #62c462 0%, #51a351 100%);
-    /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #62c462 0%, #51a351 100%);
-    /* IE10+ */
-    background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
-    /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
-    /* IE6-9 */ }
-
-.filter-resource-item {
-  float: left;
-  margin-left: .6em; }
-  .filter-resource-item label {
-    float: left;
-    display: block;
-    margin-left: 3.6em;
-    margin-top: 7em;
-    margin-right: .4em; }
-  .filter-resource-item select {
-    display: block;
-    float: left; }
-
-.filter-toggle {
-  clear: both;
-  padding: .4em .4em; }
-
-a.toggle-link:link,
-a.toggle-link:hover,
-a.toggle-link:visited,
-a.toggle-link:focus {
-  color: #4a5c66;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: normal;
-  text-decoration: none; }
-
-.toggle-button {
-  display: inline-block;
-  height: 1em;
-  padding-left: .2em;
-  width: 1em; }
-
-.toggle-closed {
-  background: url("../images/default_tab.png") 0 0 no-repeat; }
-
-.toggle-open {
-  background: url("../images/active_tab.png") 0 0 no-repeat; }
+Backtrace:
+consumption.scss:306
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/parser.rb:1165:in `expected'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/parser.rb:1099:in `expected'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/static_parser.rb:173:in `block in simple_selector_sequence'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/parser.rb:1109:in `throw_error'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/static_parser.rb:173:in `simple_selector_sequence'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/static_parser.rb:112:in `selector'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/static_parser.rb:86:in `selector_comma_sequence'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/parser.rb:1077:in `expr!'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/scss/static_parser.rb:20:in `parse_selector'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:414:in `visit_rule'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:420:in `block (2 levels) in visit_rule'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:420:in `map'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:420:in `block in visit_rule'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:418:in `visit_rule'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:157:in `visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/tree/root_node.rb:20:in `render'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/engine.rb:268:in `render'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/plugin/compiler.rb:491:in `update_stylesheet'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/plugin.rb:82:in `update_stylesheets'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/exec/sass_scss.rb:350:in `watch_or_update'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/exec/sass_scss.rb:50:in `process_result'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/exec/base.rb:52:in `parse'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/lib/sass/exec/base.rb:19:in `parse!'
+C:/Ruby193/lib/ruby/gems/1.9.1/gems/sass-3.4.6/bin/scss:13:in `<top (required)>'
+C:/Ruby193/bin/scss:23:in `load'
+C:/Ruby193/bin/scss:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"tr:nth-child(n+1)\": expected \"{\", was \"th:first-child\"\A        \A        \"th:first-child\" may only be used at the beginning of a compound selector.\A         on line 306 of consumption.scss\A \A 301: //ersteZeile\A 302: tr:nth-child(1){\A 303: background-color:lightgreen;\A 304: }\A 305: //ersteSpalte\A 306: tr:nth-child(n+1)th:first-child{\A 307: background-color:lightgreen;\A 308: }\A 309: }\A 310: \A 311: tr:nth-child(n+2){"; }
