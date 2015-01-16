@@ -50,7 +50,7 @@
             name="responsible"
             type="Responsible"
             label="COM_THM_ORGANIZER_VSE_RESPONSIBLE_LABEL"
-            description="COM_THM_ORGANIZER_RESPONSIBLE_SEMESTER_DESC"
+            description="COM_THM_ORGANIZER_RESPONSIBLE_TEACHERS_SEMESTER_DESC"
             class="inputbox"
             key_field="id"
             value_field="name"

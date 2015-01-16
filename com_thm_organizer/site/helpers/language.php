@@ -23,28 +23,17 @@ class THM_OrganizerHelperLanguage
     /**
      * Method to switch the language
      *
-     * @param   string  $view      the view to be called
-     * @param   string  $language  the language in which content is to be delivered
-     * @param   int     $menuID    the id of the menu entry
-     * @param   int     $groupBy   a code for the criteria for grouping
+     * @param   string  $url          the base url
+     * @param   string  $newLanguage  the target language for the switch
      *
-     * @return  string  the language switch URI
+     * @return  string  a HTML anchor tag with the appropriate information
      */
-    public static function languageSwitch($view, $language, $menuID, $groupBy = 0)
+    public static function languageSwitch($url, $newLanguage)
     {
-        $URI = JURI::getInstance('index.php');
-        $params = array();
-        $params['option'] = 'com_thm_organizer';
-        $params['view'] = $view;
-        $params['Itemid'] = $menuID;
-        $params['languageTag'] = $language;
-        if ($groupBy)
-        {
-            $params['groupBy'] = $groupBy;
-        }
-        $URIParams = array_merge($URI->getQuery(true), $params);
-        $query = $URI->buildQuery($URIParams);
-        $URI->setQuery($query);
-        return $URI->toString();
+        $imgPath = JURI::root() . "/media/com_thm_organizer/images/$newLanguage.png";
+        $switch = '<a href="' . JRoute::_("$url&languageTag=$newLanguage") . '">';
+        $switch .= '<img class="btn flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
+        $switch .= '</a>';
+        return $switch;
     }
 }

@@ -11,8 +11,8 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helper/language.php';
+jimport('thm_core.helpers.corehelper');
+require_once JPATH_COMPONENT . '/helpers/language.php';
 
 /**
  * Class loads information about a subject into the view context
@@ -23,63 +23,81 @@ require_once JPATH_COMPONENT . '/helper/language.php';
  */
 class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
+    public $languageSwitches = array();
+
     /**
      * Method to get display
      *
-     * @param   Object  $tpl  template  (default: null)
+     * @param   Object $tpl template  (default: null)
      *
      * @return void
      */
     public function display($tpl = null)
     {
-        $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . '/components/com_thm_organizer/assets/css/thm_organizer.css');
-
-        $itemID = JFactory::getApplication()->input->get('Itemid');
-        if (!empty($itemID))
-        {
-            JFactory::getApplication()->getMenu()->setActive($itemID);
-        }
-
-        $model = $this->getModel();
-        $this->subject = $model->subject;
-        $this->session = JFactory::getSession();
-
-        // Comma seperated lecturer data */
-        $this->moduleNavigation = json_decode($this->session->get('navi_json'));
-        $this->lang = JRequest::getVar('languageTag');
-        $this->otherLanguageTag = ($this->lang == 'de') ? 'en' : 'de';
-        $this->langUrl = self::languageSwitcher($this->otherLanguageTag);
- 
- 
+        $this->modifyDocument();
+        $this->setLanguage();
+        $this->item = $this->get('Item');
+        $this->getLanguageSwitches();
         parent::display($tpl);
     }
 
     /**
-     * Method to build the url for the language switcher butto
+     * Modifies document variables and adds links to external files
      *
-     * @param   String  $langLink  Language link
-     *
-     * @return  String
+     * @return  void
      */
-    private function languageSwitcher($langLink)
+    private function modifyDocument()
     {
-        $itemid = JRequest::getVar('Itemid');
-        $group = JRequest::getVar('view');
-        $URI = JURI::getInstance('index.php');
-        $moduleID = JFactory::getApplication()->input->get('id');
+        JHtml::_('bootstrap.tooltip');
+        JHtml::_('behavior.framework', true);
 
-        $switchParams = array('option' => 'com_thm_organizer',
-                'view' => $group,
-                'Itemid' => $itemid,
-                'id' => $moduleID,
-                'languageTag' => $langLink
-        );
+        $document = JFactory::getDocument();
+        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/subject_details.css');
+    }
 
-        $URIparams = array_merge($URI->getQuery(true), $switchParams);
-        $query = $URI->buildQuery($URIparams);
-        $URI->setQuery($query);
+    /**
+     * Sets the Joomla Language
+     */
+    private function setLanguage()
+    {
+        $app = JFactory::getApplication();
+        $requested = $app->input->get('languageTag', '');
+        $supportedLanguages = array('en', 'de');
+        if (in_array($requested, $supportedLanguages))
+        {
+            $lang = JFactory::getApplication()->getLanguage();
+            if ($requested == 'en')
+            {
+                $lang->setLanguage('en-GB');
+                return;
+            }
+            if ($requested == 'de')
+            {
+                $lang->setLanguage('de-DE');
+                return;
+            }
+            $lang->setLanguage('en-GB');
+        }
+    }
 
-        return $URI->toString();
+    /**
+     * Sets the language to the one requested
+     *
+     * @return  void  sets the default language for joomla
+     */
+    private function getLanguageSwitches()
+    {
+        $input = JFactory::getApplication()->input;
+        $this->menuID = $input->getInt('Itemid', 0);
+        $current = THM_CoreHelper::getLanguageShortTag();
+        $supportedLanguages = array('en', 'de');
+        $url = "index.php?option=com_thm_organizer&view=subject_details&id={$this->item->id}";
+        foreach ($supportedLanguages AS $supported)
+        {
+            if ($current != $supported)
+            {
+                $this->languageSwitches[] = THM_OrganizerHelperLanguage::languageSwitch($url, $supported);
+            }
+        }
     }
 }

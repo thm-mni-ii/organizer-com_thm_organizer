@@ -11,6 +11,7 @@
  * @link        www.mni.thm.de
  */
 require_once 'subject_list.php';
+//require_once 'subject_grouped_list.php';
 ?>
 <span class="flag" style="float: right;">
     <a class='naviLink' href="#"
@@ -61,13 +62,13 @@ require_once 'subject_list.php';
     THM_OrganizerTemplateSubjectList::render($this);
     echo JHtml::_('bootstrap.endTab');
 //    echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
-//    THM_OrganizerTemplateSubjectGroupList::render($this->items, 'pool');
+//    THM_OrganizerTemplateSubjectGroupedList::render($this->items, 'pool');
 //    echo JHtml::_('bootstrap.endTab');
 //    echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
-//    THM_OrganizerTemplateSubjectGroupList::render($this->items, 'teacher');
+//    THM_OrganizerTemplateSubjectGroupedList::render($this->items, 'teacher');
 //    echo JHtml::_('bootstrap.endTab');
 //    echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
-//    THM_OrganizerTemplateSubjectGroupList::render($this->items, 'field');
+//    THM_OrganizerTemplateSubjectGroupedList::render($this->items, 'field');
 //    echo JHtml::_('bootstrap.endTab');
     echo JHtml::_('bootstrap.endTabSet');
 ?>

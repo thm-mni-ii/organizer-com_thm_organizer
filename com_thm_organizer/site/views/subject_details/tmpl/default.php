@@ -10,82 +10,45 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-$subject = $this->subject;
-$moduleNumber = ($this->lang == 'de')? 'Modulnummer' : 'Module Number';
-$shortName = ($this->lang == 'de')? 'Kurzname' : 'Short Name';
-$teachers = ($this->lang == 'de')? 'Dozenten' : 'Taught By';
-$description = ($this->lang == 'de')? 'Kurzbeschreibung' : 'Short Description';
-$objectives = ($this->lang == 'de')? 'Lernziele' : 'Objectives';
-$contents = ($this->lang == 'de')? 'Inhalte' : 'Contents';
-$prerequisites = ($this->lang == 'de')? 'Voraussetzungen' : 'Prerequisites';
-$prerequisiteOf = ($this->lang == 'de')? 'Voraussetzung von' : 'Prerequisite for';
-$references = ($this->lang == 'de')? 'Literatur' : 'References';
-$expenditure = ($this->lang == 'de')? 'Aufwand' : 'Expenditure';
-$method = ($this->lang == 'de')? 'Lernmethode' : 'Instruction Method';
-$proof = ($this->lang == 'de')? 'Voraussetzung für die Vergabe von Creditpoints' : 'Credit Point Reward Requirement';
-$frequency = ($this->lang == 'de')? 'Turnus' : 'Frequency';
-$language = ($this->lang == 'de')? 'Sprache' : 'Language';
-$preliminary_work = ($this->lang == 'de')? 'Vorleistung' : 'Requirement';
-$aids = ($this->lang == 'de')? 'Studienhilfsmittel' : 'Study Aids';
-$evaluation = ($this->lang == 'de')? 'Bewertung' : 'Evaluation';
-$semesterHours = ($this->lang == 'de')? 'SWS' : 'Semester Hours';
-$expertise = ($this->lang == 'de')? 'Fachkompetenz' : 'Expertise';
-$methodCompetence = ($this->lang == 'de')? 'Methodenkompetenz' : 'Method Competence';
-$selfCompetence = ($this->lang == 'de')? 'Selbstkompetenz' : 'Self Competence';
-$socialCompetence = ($this->lang == 'de')? 'Sozialkompetenz' : 'Social Competence';
-$flagPath = 'media' . DIRECTORY_SEPARATOR . 'com_thm_organizer' . DIRECTORY_SEPARATOR . 'images';
-$flagPath .= DIRECTORY_SEPARATOR . $this->otherLanguageTag . '.png';
+
 $noStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS');
 $oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_ONE_STAR');
 $twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
 $threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 ?>
-<script type="text/javascript">
-
-    function setLanguage()
-    {
-        for (i = 0; i < document.getElementsByTagName("span").length; i++) {
-            if (document.getElementsByTagName("span")[i].getAttribute("xml:lang")
-                    && document.getElementsByTagName("span")[i].getAttribute("xml:lang")!="<?php echo $this->session->get('language'); ?>") {
-                document.getElementsByTagName("span")[i].style.display = 'none';
-            }
-        }
-    }
-    window.onload = setLanguage;
-
-</script>
 <h1 class="componentheading">
-    <?php echo $subject['name']; ?>
-    <span>
-        <a href="<?php echo JRoute::_($this->langUrl); ?>">
-            <img class="languageSwitcher"
-                 alt="<?php echo $this->otherLanguageTag; ?>"
-                 src="<?php echo $flagPath; ?>" />
-        </a>
-    </span>
+    <?php echo $this->item->name; ?>
 </h1>
+<div class="language-switches">
+<?php
+foreach ($this->languageSwitches AS $switch)
+{
+    echo $switch;
+}
+?>
+</div>
 <div class="subject-list">
 <?php
-if (!empty($subject['externalID']))
+if (!empty($this->item->externalID))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $moduleNumber . '</div>';
-    echo '<div class="subject-content">' . $subject['externalID'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_MODULE_CODE') . '</div>';
+    echo '<div class="subject-content">' . $this->item->externalID . '</div>';
     echo '</div>';
 }
-if (!empty($subject['short_name']))
+if (!empty($this->item->short_name))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $shortName . '</div>';
-    echo '<div class="subject-content">' . $subject['short_name'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SHORT_NAME') . '</div>';
+    echo '<div class="subject-content">' . $this->item->short_name . '</div>';
     echo '</div>';
 }
-if (!empty($subject['teachers']))
+if (!empty($this->item->teachers))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $teachers . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_TEACHERS') . '</div>';
     echo '<div class="subject-content"><ul>';
-    foreach ($subject['teachers'] as $teacher)
+    foreach ($this->item->teachers as $teacher)
     {
         echo '<li>';
         if (!empty($teacher['link']))
@@ -101,212 +64,212 @@ if (!empty($subject['teachers']))
     echo '</ul></div>';
     echo '</div>';
 }
-if (!empty($subject['description']))
+if (!empty($this->item->description))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $description . '</div>';
-    echo '<div class="subject-content">' . $subject['description'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SHORT_DESCRIPTION') . '</div>';
+    echo '<div class="subject-content">' . $this->item->description . '</div>';
     echo '</div>';
 }
-if (!empty($subject['objective']))
+if (!empty($this->item->objective))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $objectives . '</div>';
-    echo '<div class="subject-content">' . $subject['objective'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_OBJECTIVES') . '</div>';
+    echo '<div class="subject-content">' . $this->item->objective . '</div>';
     echo '</div>';
 }
-if (!empty($subject['content']))
+if (!empty($this->item->content))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $contents . '</div>';
-    echo '<div class="subject-content">' . $subject['content'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_CONTENTS') . '</div>';
+    echo '<div class="subject-content">' . $this->item->content . '</div>';
     echo '</div>';
 }
-if ($subject['expertise']  !== null)
+if ($this->item->expertise  !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $expertise . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_EXPERTISE') . '</div>';
     echo '<div class="subject-content">';
-    if ($subject['expertise'] == '3')
+    if ($this->item->expertise == '3')
     {
         echo $threeStars;
     }
-    elseif ($subject['expertise'] == '2')
+    elseif ($this->item->expertise == '2')
     {
         echo $twoStars;
     }
-    elseif ($subject['expertise'] == '1')
+    elseif ($this->item->expertise == '1')
     {
         echo $oneStar;
     }
-    elseif ($subject['expertise'] == '0')
+    elseif ($this->item->expertise == '0')
     {
         echo $noStar;
     }
     echo '</div></div>';
 }
-if ($subject['method_competence'] !== null)
+if ($this->item->method_competence !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $methodCompetence . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_METHOD_COMPETENCE') . '</div>';
     echo '<div class="subject-content">';
-    if ($subject['method_competence'] == '3')
+    if ($this->item->method_competence == '3')
     {
         echo $threeStars;
     }
-    elseif ($subject['method_competence'] == '2')
+    elseif ($this->item->method_competence == '2')
     {
         echo $twoStars;
     }
-    elseif ($subject['method_competence'] == '1')
+    elseif ($this->item->method_competence == '1')
     {
         echo $oneStar;
     }
-    elseif ($subject['method_competence'] == '0')
+    elseif ($this->item->method_competence == '0')
     {
         echo $noStar;
     }
     echo '</div></div>';
 }
-if ($subject['social_competence']  !== null)
+if ($this->item->social_competence  !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $socialCompetence . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SOCIAL_COMPETENCE') . '</div>';
     echo '<div class="subject-content">';
-    if ($subject['social_competence'] == '3')
+    if ($this->item->social_competence == '3')
     {
         echo $threeStars;
     }
-    elseif ($subject['social_competence'] == '2')
+    elseif ($this->item->social_competence == '2')
     {
         echo $twoStars;
     }
-    elseif ($subject['social_competence'] == '1')
+    elseif ($this->item->social_competence == '1')
     {
         echo $oneStar;
     }
-    elseif ($subject['social_competence'] == '0')
+    elseif ($this->item->social_competence == '0')
     {
         echo $noStar;
     }
     echo '</div></div>';
 }
-if ($subject['self_competence'] !== null)
+if ($this->item->self_competence !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $selfCompetence . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SELF_COMPETENCE') . '</div>';
     echo '<div class="subject-content">';
-    if ($subject['self_competence'] == '3')
+    if ($this->item->self_competence == '3')
     {
         echo $threeStars;
     }
-    elseif ($subject['self_competence'] == '2')
+    elseif ($this->item->self_competence == '2')
     {
         echo $twoStars;
     }
-    elseif ($subject['self_competence'] == '1')
+    elseif ($this->item->self_competence == '1')
     {
         echo $oneStar;
     }
-    elseif ($subject['self_competence'] == '0')
+    elseif ($this->item->self_competence == '0')
     {
         echo $noStar;
     }
     echo '</div></div>';
 }
-if (!empty($subject['language']))
+if (!empty($this->item->language))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $language . '</div>';
-    echo '<div class="subject-content">' . ($subject['language'] == 'D')? 'Deutsch' : 'English' . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_LANGUAGE') . '</div>';
+    echo '<div class="subject-content">' . ($this->item->language == 'D')? 'Deutsch' : 'English' . '</div>';
     echo '</div>';
 }
-if (!empty($subject['expenditureOutput']))
+if (!empty($this->item->expenditureOutput))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $expenditure . '</div>';
-    echo '<div class="subject-content">' . $subject['expenditureOutput'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_EXPENDITURE') . '</div>';
+    echo '<div class="subject-content">' . $this->item->expenditureOutput . '</div>';
     echo '</div>';
 }
-if (!empty($subject['sws']))
+if (!empty($this->item->sws))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $semesterHours . '</div>';
-    echo '<div class="subject-content">' . $subject['sws'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SEMESTER_HOURS') . '</div>';
+    echo '<div class="subject-content">' . $this->item->sws . '</div>';
     echo '</div>';
 }
-if (!empty($subject['method']))
+if (!empty($this->item->method))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $method . '</div>';
-    echo '<div class="subject-content">' . $subject['method'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_METHOD') . '</div>';
+    echo '<div class="subject-content">' . $this->item->method . '</div>';
     echo '</div>';
 }
-if (!empty($subject['preliminary_work']))
+if (!empty($this->item->preliminary_work))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $preliminary_work . '</div>';
-    echo '<div class="subject-content">' . $subject['preliminary_work'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PRELIMINARY_WORK') . '</div>';
+    echo '<div class="subject-content">' . $this->item->preliminary_work . '</div>';
     echo '</div>';
 }
-if (!empty($subject['proof']))
+if (!empty($this->item->proof))
 {
+    $method = empty($this->item->pform)? '' : ' ( ' . $this->item->pform . ' )';
     echo '<div class="subject-item">';
-    $method = empty($subject['pform'])? '' : ' ( ' . $subject['pform'] . ' )';
-    echo '<div class="subject-label">' . $proof . '</div>';
-    echo '<div class="subject-content">' . $subject['proof'] . $method . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PROOF') . '</div>';
+    echo '<div class="subject-content">' . $this->item->proof . $method . '</div>';
     echo '</div>';
 }
-if (!empty($subject['frequency']))
+if (!empty($this->item->frequency))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $frequency . '</div>';
-    echo '<div class="subject-content">' . $subject['frequency'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_AVAILABILITY') . '</div>';
+    echo '<div class="subject-content">' . $this->item->frequency . '</div>';
     echo '</div>';
 }
-if (!empty($subject['literature']))
+if (!empty($this->item->literature))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $references . '</div>';
-    echo '<div class="subject-content" id="litverz">' . $subject['literature'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_LITERATURE') . '</div>';
+    echo '<div class="subject-content" id="litverz">' . $this->item->literature . '</div>';
     echo '</div>';
 }
-if (!empty($subject['aids']))
+if (!empty($this->item->aids))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $aids . '</div>';
-    echo '<div class="subject-content">' . $subject['aids'] . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_STUDY_AIDS') . '</div>';
+    echo '<div class="subject-content">' . $this->item->aids . '</div>';
     echo '</div>';
 }
-if (!empty($subject['prerequisites']))
+if (!empty($this->item->prerequisites))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $prerequisites . '</div>';
-    echo '<div class="subject-content" id="voraussetzung">';
-    echo $subject['prerequisites'];
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PREREQUISITES') . '</div>';
+    echo '<div class="subject-content">';
+    echo $this->item->prerequisites;
     echo '</div></div>';
 }
-if (!empty($subject['prerequisiteOf']))
+if (!empty($this->item->prerequisiteOf))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . $prerequisiteOf . '</div>';
-    echo '<div class="subject-content" id="voraussetzung"><ul>';
-    foreach ($subject['prerequisiteOf'] as $of)
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PREREQUISITE_FOR') . '</div>';
+    echo '<div class="subject-content"><ul>';
+    foreach ($this->item->prerequisiteOf as $of)
     {
-        echo '<li><a href="' . $of['link'] . '">' . $of['name'] . '</a></li>';
+        echo '<li><a target="_blank" href="' . $of['link'] . '">' . $of['name'] . '</a></li>';
     }
     echo '</ul></div>';
     echo '</div>';
 }
 $displayeCollab = JComponentHelper::getParams('com_thm_organizer')->get('displayeCollabLink');
-if (!empty($subject['externalID']) AND !empty($displayeCollab))
+if (!empty($this->item->externalID) AND !empty($displayeCollab))
 {
     $ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
     $ecollabIcon = JURI::root() . 'media/com_thm_organizer/images/icon-32-moodle.png';
     echo '<div class="subject-item">';
     echo '<div class="subject-label">eCollaboration Link</div>';
     echo '<div class="subject-content">';
-    echo '<a href="' . $ecollabLink . $subject['externalID'] . '" target="_blank">';
+    echo '<a href="' . $ecollabLink . $this->item->externalID . '" target="_blank">';
     echo "<img class='eCollabImage' src='$ecollabIcon' title='eCollabLink'></a>";
     echo '</div></div>';
 }

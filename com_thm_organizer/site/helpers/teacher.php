@@ -107,6 +107,7 @@ class THM_OrganizerHelperTeacher
         {
             $query->where("st.teacherResp = '$responsibility'");
         }
+        $query->order('surname ASC');
         $dbo->setQuery((string) $query);
         if ($multiple)
         {

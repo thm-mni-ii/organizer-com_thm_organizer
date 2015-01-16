@@ -226,8 +226,8 @@
         <field name="responsible"
                type="subjectTeacher"
                responsibility="1"
-               label="COM_THM_ORGANIZER_RESPONSIBLE"
-               description="COM_THM_ORGANIZER_RESPONSIBLE_DESC" />
+               label="COM_THM_ORGANIZER_RESPONSIBLE_TEACHERS"
+               description="COM_THM_ORGANIZER_RESPONSIBLE_TEACHERS_DESC" />
         <field name="teacherID"
                type="subjectTeacher"
                responsibility="2"

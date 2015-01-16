@@ -11,9 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
-jimport('joomla.filesystem.path');
-require_once JPATH_COMPONENT . '/helper/teacher.php';
+require_once JPATH_COMPONENT . '/helpers/teacher.php';
 
 /**
  * Class THM_OrganizerModeldetails for component com_thm_organizer
@@ -26,193 +24,191 @@ require_once JPATH_COMPONENT . '/helper/teacher.php';
  */
 class THM_OrganizerModelSubject_Details extends JModelLegacy
 {
-    public $subjectID = null;
-
-    public $languageTag = null;
-
-    public $subject = null;
-
-    /**
-     * Builds the data model of the requested subject
-     *
-     * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
-     */
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-
-        $input = JFactory::getApplication()->input;
-        $this->menuID = $input->getInt('Itemid', 0);
-        $this->subjectID = $input->getInt('id', 0);
-        $externalID = $input->getString('nrmni', '');
-        $resolveExternalID = (empty($this->subjectID) AND !empty($externalID));
-        if ($resolveExternalID)
-        {
-            $this->subjectID = $this->resolveExternalID($externalID);
-        }
-        $this->languageTag = $input->getString('languageTag', 'de');
-
-        if (!empty($this->subjectID))
-        {
-            $this->subject = $this->getSubject();
-            if (empty($this->subject))
-            {
-                return;
-            }
-            if (!empty($this->subject['creditpoints']))
-            {
-                $this->subject['expenditureOutput'] = "{$this->subject['creditpoints']} CrP";
-                if (!empty($this->subject['expenditure']) AND !empty($this->subject['present']))
-                {
-                    if ($this->languageTag == 'de')
-                    {
-                        $this->subject['expenditureOutput'] .= "; {$this->subject['expenditure']} Stunden, ";
-                        $this->subject['expenditureOutput'] .= "davon etwa {$this->subject['present']} Stunden Präsenzzeit.";
-                    }
-                    else
-                    {
-                        $this->subject['expenditureOutput'] .= "; {$this->subject['expenditure']} hours, ";
-                        $this->subject['expenditureOutput'] .= "of which {$this->subject['present']} hours are present in class.";
-                    }
-                }
-            }
-            $this->setPrerequisiteOf();
-            $this->setTeachers();
-        }
-    }
-
-    /**
-     * Resolves the external id to the internal table id
-     *
-     * @param   string  $externalID  the external id
-     *
-     * @return  int  the id of the subject
-     */
-    private function resolveExternalID($externalID)
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            return $dbo->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return 0;
-        }
-    }
-
     /**
      * Loads subject information from the database
      *
-     * @return  array  an array of information about the subject
+     * @return  object  filled with subject data on success, otherwise empty
      */
-    private function getSubject()
+    public function getItem()
     {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+        $subjectID = $this->resolveID();
+        if (empty($subjectID))
+        {
+            return new stdClass;
+        }
 
-        $select = "s.id, externalID, name_$this->languageTag AS name, description_$this->languageTag AS description, ";
-        $select .= "objective_$this->languageTag AS objective, content_$this->languageTag AS content, instructionLanguage, ";
-        $select .= "preliminary_work_$this->languageTag AS preliminary_work, literature, creditpoints, expenditure, ";
-        $select .= "present, independent, proof_$this->languageTag AS proof, frequency_$this->languageTag AS frequency, ";
-        $select .= "method_$this->languageTag AS method, ";
-        $select .= "prerequisites_$this->languageTag AS prerequisites, aids_$this->languageTag AS aids, ";
-        $select .= "evaluation_$this->languageTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
+        $langTag = THM_CoreHelper::getLanguageShortTag();
+        $query = $this->_db->getQuery(true);
+
+        $select = "s.id, externalID, name_$langTag AS name, description_$langTag AS description, ";
+        $select .= "objective_$langTag AS objective, content_$langTag AS content, instructionLanguage, ";
+        $select .= "preliminary_work_$langTag AS preliminary_work, literature, creditpoints, expenditure, ";
+        $select .= "present, independent, proof_$langTag AS proof, frequency_$langTag AS frequency, ";
+        $select .= "method_$langTag AS method, ";
+        $select .= "prerequisites_$langTag AS prerequisites, aids_$langTag AS aids, ";
+        $select .= "evaluation_$langTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id');
-        $query->where("s.id = '$this->subjectID'");
-        $dbo->setQuery((string) $query);
+        $query->where("s.id = '$subjectID'");
+        $this->_db->setQuery((string) $query);
         
         try 
         {
-            $subject = $dbo->loadAssoc();
+            $subject = $this->_db->loadObject();
         }
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-            return array();
+            return new stdClass;
         }
-        
+
+        $this->setExpenditureText($subject);
+        $this->setPrerequisiteOf($subject);
+        $this->setTeachers($subject);
         return $subject;
+    }
+
+    /**
+     * Attempts to determine the desired subject id
+     *
+     * @return  mixed  int on success, otherwise null
+     */
+    private function resolveID()
+    {
+        $input = JFactory::getApplication()->input;
+        $requestID = $input->getInt('id', 0);
+        if (!empty($requestID))
+        {
+            return $requestID;
+        }
+
+        $externalID = $input->getString('nrmni', '');
+        if (empty($externalID))
+        {
+            return null;
+        }
+
+        $query = $this->_db->getQuery(true);
+        $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
+        $this->_db->setQuery((string) $query);
+
+        try
+        {
+            return $this->_db->loadResult();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return null;
+        }
+    }
+
+    /**
+     * Creates a textual output for the various expenditure values
+     *
+     * @param   object  &$subject  the object containing subject data
+     *
+     * @return  void  sets values in the references object
+     */
+    private function setExpenditureText(&$subject)
+    {
+        $useFullText = (!empty($subject->creditpoints) AND !empty($subject->expenditure) AND !empty($subject->present));
+        if ($useFullText)
+        {
+            $subject->expenditureOutput = JText::sprintf('COM_THM_ORGANIZER_EXPENDITURE_FULL',
+                $subject->creditpoints,
+                $subject->expenditure,
+                $subject->present
+            );
+            return;
+        }
+        $useMediumText = (!empty($subject->creditpoints) AND !empty($subject->expenditure));
+        if ($useMediumText)
+        {
+            $subject->expenditureOutput = JText::sprintf('COM_THM_ORGANIZER_EXPENDITURE_MEDIUM',
+                $subject->creditpoints,
+                $subject->expenditure
+            );
+            return;
+        }
+        if (!empty($subject->creditpoints))
+        {
+            $subject->expenditureOutput = JText::sprintf('COM_THM_ORGANIZER_EXPENDITURE_SHORT', $subject->creditpoints);
+        }
     }
 
     /**
      * Loads an array of names and links into the subject model for subjects for
      * which this subject is a prerequisite.
      *
+     * @param   object  &$subject  the object containing subject data
+     *
      * @return void
      */
-    private function setTeachers()
+    private function setTeachers(&$subject)
     {
-        $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($this->subjectID, null, true);
+        $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, null, true);
         if (empty($teacherData))
         {
             return;
         }
+
         $teachers = array();
         foreach ($teacherData as $teacher)
         {
-            $defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacher);
+            // todo: get names from groups names when they are far enough along
+            $teacher['name'] = THM_OrganizerHelperTeacher::getDefaultName($teacher);
 
-            $teacherName = "";
-            if (!empty($teacher['userID']))
-            {
-                $teacherName .= THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacher['userID']);
-                $teacher['link'] = THM_OrganizerHelperTeacher::getLink($teacher['userID'], $teacher['surname']);
-            }
-            $teacher['name'] = empty($teacherName)? $defaultName : $teacherName;
+            // Teacher is responsible this should overwrite any existing entry for the teacher
             if ($teacher['teacherResp'] == '1')
             {
-                $teacher['name'] .= $this->languageTag == 'de'? ' (Modulverantwortliche)' : ' (Responsible)';
+                $teacher['name'] .= ' (' . JText::_('COM_THM_ORGANIZER_RESPONSIBLE') . ')';
                 $teachers[$teacher['id']] = $teacher;
             }
+            // The teacher entry is not yet in the array
             elseif (empty($teachers[$teacher['id']]))
             {
                 $teachers[$teacher['id']] = $teacher;
             }
         }
-        $this->subject['teachers'] = $teachers;
+        $subject->teachers = $teachers;
     }
 
     /**
      * Loads an array of names and links into the subject model for subjects for
      * which this subject is a prerequisite.
      *
-     * @return void
+     * @param   object  &$subject  the object containing subject data
+     *
+     * @return  void
      */
-    private function setPrerequisiteOf()
+    private function setPrerequisiteOf(&$subject)
     {
-        $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->languageTag}&Itemid={$this->menuID}&id=";
+        $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
+        $langTag = THM_CoreHelper::getLanguageShortTag();
+
+        $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}&Itemid={$menuID}&id=";
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $parts = array("'$link'","subjectID");
-        $query->select("name_$this->languageTag AS name, " . $query->concatenate($parts, "") . " AS link");
+        $query->select("name_$langTag AS name, " . $query->concatenate($parts, "") . " AS link");
         $query->from('#__thm_organizer_prerequisites AS p');
         $query->innerJoin('#__thm_organizer_subjects AS s ON p.subjectID = s.id');
-        $query->where("p.prerequisite = '$this->subjectID'");
+        $query->where("p.prerequisite = '$subject->id'");
         $query->order('name');
         $dbo->setQuery((string) $query);
         
         try 
         {
-            $prerequisiteOf = $dbo->loadAssocList();
+            // Can be set to null by this
+            $subject->prerequisiteOf = $dbo->loadAssocList();
         }
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
             return;
-        }
-
-        if (!empty($prerequisiteOf))
-        {
-            $this->subject['prerequisiteOf'] = $prerequisiteOf;
         }
     }
 }
