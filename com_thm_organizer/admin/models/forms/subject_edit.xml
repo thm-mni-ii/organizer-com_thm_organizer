@@ -231,8 +231,8 @@
         <field name="teacherID"
                type="subjectTeacher"
                responsibility="2"
-               label="COM_THM_ORGANIZER_TAUGHT_BY"
-               description="COM_THM_ORGANIZER_TAUGHT_BY_DESC" />
+               label="COM_THM_ORGANIZER_TEACHERS"
+               description="COM_THM_ORGANIZER_TEACHERS_DESC" />
     </fieldset>
     <fieldset name="competences" label="COM_THM_ORGANIZER_COMPETENCES">
         <field name="expertise"

@@ -26,9 +26,9 @@
                 label="COM_THM_ORGANIZER_GROUP_BY"
                 description="COM_THM_ORGANIZER_GROUP_BY_DESC">
                 <option value="0">JNONE</option>
-                <option value="1">COM_THM_ORGANIZER_GROUPING_POOL</option>
-                <option value="2">COM_THM_ORGANIZER_GROUPING_TEACHER</option>
-                <option value="3">COM_THM_ORGANIZER_GROUPING_FIELD</option>
+                <option value="1">COM_THM_ORGANIZER_BY_POOL</option>
+                <option value="2">COM_THM_ORGANIZER_BY_TEACHER</option>
+                <option value="3">COM_THM_ORGANIZER_BY_FIELD</option>
             </field>
             <field
                 name="suffix"

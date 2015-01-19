@@ -91,12 +91,18 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     public function importSingle($subjectID)
     {
         $subject = JTable::getInstance('subjects', 'thm_organizerTable');
+
         $entryExists = $subject->load($subjectID);
-        $badEntry = ((empty($subject->lsfID) AND empty($subject->externalID)) OR !$entryExists);
-        if ($badEntry)
+        if (!$entryExists)
         {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_BAD_ENTRY'), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_BAD_ENTRY'), 'error');
             return false;
+        }
+
+        $cantBeImported = (empty($subject->lsfID) AND empty($subject->externalID));
+        if ($cantBeImported)
+        {
+            return true;
         }
 
         $client = new THM_OrganizerLSFClient;

@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.helpers.corehelper');
 
 /**
  * Class provides methods used by organizer models for retrieving teacher data
@@ -21,6 +22,64 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperLanguage
 {
     /**
+     * Sets the Joomla Language based on input from the language switch
+     *
+     * @return  void
+     */
+    public static function setLanguage()
+    {
+        $app = JFactory::getApplication();
+        $requested = $app->input->get('languageTag', '');
+        $supportedLanguages = array('en', 'de');
+        if (in_array($requested, $supportedLanguages))
+        {
+            $lang = JFactory::getApplication()->getLanguage();
+            if ($requested == 'en')
+            {
+                $lang->setLanguage('en-GB');
+                return;
+            }
+            if ($requested == 'de')
+            {
+                $lang->setLanguage('de-DE');
+                return;
+            }
+            $lang->setLanguage('en-GB');
+        }
+    }
+
+    /**
+     * Sets the language to the one requested
+     *
+     * @return  void  sets the default language for joomla
+     */
+    public static function getLanguageSwitches($params)
+    {
+        $params['option'] = 'com_thm_organizer';
+
+        $input = JFactory::getApplication()->input;
+        $menuID = $input->getInt('Itemid', 0);
+        if (!empty($menuID))
+        {
+            $params['Itemid'] = $menuID;
+        }
+
+        $languageSwitches = array();
+        $current = THM_CoreHelper::getLanguageShortTag();
+        $supportedLanguages = array('en', 'de');
+        foreach ($supportedLanguages AS $supported)
+        {
+            if ($current != $supported)
+            {
+                $params['languageTag'] = $supported;
+                $url = 'index.php?' . JUri::buildQuery($params);
+                $languageSwitches[] = self::languageSwitch($url, $supported);
+            }
+        }
+        return $languageSwitches;
+    }
+
+    /**
      * Method to switch the language
      *
      * @param   string  $url          the base url
@@ -28,10 +87,10 @@ class THM_OrganizerHelperLanguage
      *
      * @return  string  a HTML anchor tag with the appropriate information
      */
-    public static function languageSwitch($url, $newLanguage)
+    private static function languageSwitch($url, $newLanguage)
     {
         $imgPath = JURI::root() . "/media/com_thm_organizer/images/$newLanguage.png";
-        $switch = '<a href="' . JRoute::_("$url&languageTag=$newLanguage") . '">';
+        $switch = '<a href="' . JRoute::_($url) . '">';
         $switch .= '<img class="btn flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
         $switch .= '</a>';
         return $switch;

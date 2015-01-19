@@ -10,20 +10,20 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-require_once 'subject_list.php';
-//require_once 'subject_grouped_list.php';
+require_once 'ungrouped_list.php';
+require_once 'grouped_list.php';
 ?>
-<span class="flag" style="float: right;">
-    <a class='naviLink' href="#"
-       onclick="$('#languageTag').val('<?php echo $this->otherLanguageTag; ?>');$('#adminForm').submit();">
-        <img class="languageSwitcher"
-             alt="<?php echo $this->otherLanguageTag; ?>"
-             src="<?php echo $this->flagPath; ?>" />
-    </a>
-</span>
-<h1 class="componentheading"><?php echo $this->subjectListText . ' - ' . $this->programName; ?></h1>
+<h1 class="componentheading"><?php echo $this->programName; ?></h1>
+<div class="language-switches">
+    <?php
+    foreach ($this->languageSwitches AS $switch)
+    {
+        echo $switch;
+    }
+    ?>
+</div>
 <div id="j-main-container" class="span10">
-    <form action="index.php?" id="adminForm"  method="post"
+    <form action="<?php JUri::current(); ?>" id="adminForm"  method="post"
           name="adminForm" xmlns="http://www.w3.org/1999/html">
         <div class="searchArea">
             <div class="js-stools clearfix">
@@ -43,7 +43,7 @@ require_once 'subject_list.php';
                         </div>
                         <div class="btn-wrapper">
                             <button type="button" class="btn hasTooltip js-stools-btn-clear"
-                                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';">
+                                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();">
                                 <i class="icon-delete"></i>
                             </button>
                         </div>
@@ -51,26 +51,28 @@ require_once 'subject_list.php';
                 </div>
             </div>
         </div>
-        <input type="hidden" name="option" value="com_thm_organizer" />
-        <input type="hidden" name="view" value="subject_list" />
-        <input type="hidden" id="groupBy" name="groupBy" value="<?php echo $this->state->get('groupBy'); ?>" />
+        <input type="hidden" id="programID" name="programID" value="<?php echo $this->state->get('programID'); ?>" />
+        <input type="hidden" id="menuID" name="menuID" value="<?php echo $this->state->get('menuID'); ?>" />
         <input type="hidden" id="languageTag" name="languageTag" value="<?php echo $this->state->get('languageTag'); ?>" />
         <?php echo JHtml::_('form.token'); ?>
 <?php
-    echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'list'));
-    echo JHtml::_('bootstrap.addTab', 'myTab', 'list', JText::_('COM_THM_ORGANIZER_OVERVIEW'));
-    THM_OrganizerTemplateSubjectList::render($this);
-    echo JHtml::_('bootstrap.endTab');
-//    echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
-//    THM_OrganizerTemplateSubjectGroupedList::render($this->items, 'pool');
-//    echo JHtml::_('bootstrap.endTab');
-//    echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
-//    THM_OrganizerTemplateSubjectGroupedList::render($this->items, 'teacher');
-//    echo JHtml::_('bootstrap.endTab');
-//    echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
-//    THM_OrganizerTemplateSubjectGroupedList::render($this->items, 'field');
-//    echo JHtml::_('bootstrap.endTab');
-    echo JHtml::_('bootstrap.endTabSet');
+echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'list'));
+echo JHtml::_('bootstrap.addTab', 'myTab', 'list', JText::_('COM_THM_ORGANIZER_ALPHABETICAL'));
+THM_OrganizerTemplateUngroupedList::render($this);
+echo JHtml::_('bootstrap.endTab');
+echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', JText::_('COM_THM_ORGANIZER_BY_GROUP'));
+$poolParams = array('order' => 'lft', 'name' => 'pool', 'id' => 'poolID', 'bgColor' => 'poolColor');
+THM_OrganizerTemplateGroupedList::render($this, $poolParams);
+echo JHtml::_('bootstrap.endTab');
+echo JHtml::_('bootstrap.addTab', 'myTab', 'teacher', JText::_('COM_THM_ORGANIZER_BY_TEACHER'));
+$teacherParams = array('order' => 'teacherName', 'name' => 'teacherName', 'id' => 'teacherID', 'bgColor' => 'teacherColor');
+THM_OrganizerTemplateGroupedList::render($this, $teacherParams);
+echo JHtml::_('bootstrap.endTab');
+echo JHtml::_('bootstrap.addTab', 'myTab', 'field', JText::_('COM_THM_ORGANIZER_BY_FIELD'));
+$teacherParams = array('order' => 'field', 'name' => 'field', 'id' => 'fieldID', 'bgColor' => 'subjectColor');
+THM_OrganizerTemplateGroupedList::render($this, $teacherParams);
+echo JHtml::_('bootstrap.endTab');
+echo JHtml::_('bootstrap.endTabSet');
 ?>
     </form>
 </div>

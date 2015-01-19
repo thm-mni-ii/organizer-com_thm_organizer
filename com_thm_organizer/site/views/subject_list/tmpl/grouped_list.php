@@ -2,133 +2,123 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        default layout for thm organizer's index view
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @subpackage  com_thm_organiezr.site
+ * @name        THM_OrganizerTemplateUngroupedList
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-?>
-<span class="flag" style="float: right;">
-    <a class='naviLink' href="#"
-       onclick="$('#languageTag').val('<?php echo $this->otherLanguageTag; ?>');$('#adminForm').submit();">
-        <img class="languageSwitcher"
-             alt="<?php echo $this->otherLanguageTag; ?>"
-             src="<?php echo $this->flagPath; ?>" />
-    </a>
-</span>
-<h1 class="componentheading"><?php echo $this->subjectListText . ' - ' . $this->programName; ?></h1>
-<div class="navi-bar">
-    <span class="navi-tab <?php echo $this->alphabeticalActive; ?>">
-        <a class='naviLink' href="#"
-           onclick="$('#groupBy').val('<?php echo NONE; ?>');$('#adminForm').submit();">
-            <?php echo $this->alphabeticalTabText; ?>
-        </a>
-    </span>
-    <span class="navi-tab <?php echo $this->poolActive; ?>">
-        <a class='naviLink' href="#"
-           onclick="$('#groupBy').val('<?php echo POOL; ?>');$('#adminForm').submit();">
-            <?php echo $this->poolTabText; ?>
-        </a>
-    </span>
-    <span class="navi-tab <?php echo $this->teacherActive; ?>">
-        <a class='naviLink' href="#"
-           onclick="$('#groupBy').val('<?php echo TEACHER; ?>');$('#adminForm').submit();">
-            <?php echo $this->teacherTabText; ?>
-        </a>
-    </span>
-    <span class="navi-tab <?php echo $this->fieldActive; ?>">
-        <a class='naviLink' href="#"
-           onclick="$('#groupBy').val('<?php echo FIELD; ?>');$('#adminForm').submit();">
-            <?php echo $this->fieldTabText; ?>
-        </a>
-    </span>
-</div>
-<form action="<?php echo JRoute::_('index.php?'); ?>"
-      method="post" name="adminForm" id="adminForm">
-    <fieldset id="filter-bar" class='filter-bar'>
-        <div class="filter-search">
-            <label class="filter-search-lbl" for="search">
-                <?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
-            </label>
-            <input type="text" name="search" id="filter_search"
-                value="<?php echo $this->escape($this->state->get('search')); ?>"
-                title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_TITLE'); ?>" />
-            <button type="submit">
-                <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
-            </button>
-            <button type="button"
-                onclick="document.id('filter_search').value='';this.form.submit();">
-                <?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
-            </button>
-        </div>
-    </fieldset>
-    <input type="hidden" name="option" value="com_thm_organizer" />
-    <input type="hidden" name="view" value="subject_list" />
-    <input type="hidden" id="groupBy" name="groupBy" value="<?php echo $this->state->get('groupBy'); ?>" />
-    <input type="hidden" id="languageTag" name="languageTag" value="<?php echo $this->state->get('languageTag'); ?>" />
-    <input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
-    <?php echo JHtml::_('form.token'); ?>
-</form>
-<div id="accordion" class="module_catalogue">
-<?php
-foreach ($this->groups as $key => $group)
+defined('_JEXEC') or die;
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+
+/**
+ * Displays event information
+ *
+ * @category    Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ */
+class THM_OrganizerTemplateGroupedList
 {
-?>
-    <h3 class="group-bar"
-        style="background-color: rgba(<?php echo $group['bgColor']; ?>,.5);">
-        <?php echo $group['name']; ?>
-    </h3>
-    <div class='subject-div'>
-        <ul class="subject-list grouped">
-<?php
-    $count = 0;
-    foreach ($this->items as $subject)
+    /**
+     * Renders subject information
+     *
+     * @param   array  &$view   the view context
+     * @param   array  $params  the group parameters (order, name, id)
+     *
+     * @return  void
+     */
+    public static function render(&$view, $params)
     {
-        if ($subject->groupID != $group['id'])
+        if (empty($view->items))
         {
-            continue;
+            return;
         }
-        $externalID = empty($subject->externalID)? '' : " ({$subject->externalID})";
-?>
-            <li class="row<?php echo $count % 2;?> subject-item">
-                <div class="subject-name">
-                    <a target="_blank" href="<?php echo $subject->subjectLink; ?>">
-                        <?php echo $subject->name . $externalID; ?>
-                    </a>
-                </div>
-                <div class="subject-responsible">
-<?php
-        if (!empty($subject->groupsLink))
+
+        $groups = self::getGroups($view->items, $params);
+        if (empty($groups))
         {
-            echo "<a target='_blank' href='$subject->groupsLink'>$subject->teacherName</a>";
+            return;
         }
-        else
+
+        foreach ($groups AS $group)
         {
-            echo $subject->teacherName;
+            if (empty($group['items']))
+            {
+                continue;
+            }
+
+            echo '<div class="subject-list-container">';
+
+            $style = '';
+            if (!empty($group['bgColor']))
+            {
+                $style = ' style="background-color: #' . $group['bgColor']. '; color: #' . $group['textColor']. ';"';
+            }
+            $script = ' onClick="toggleContainer(\'' . $params['name'] . '-' . $group['id'] . '\');"';
+            echo '<h3' . $style . $script . '>' . $group['name'] . '</h3>';
+
+            echo '<ul class="subject-list" id="' . $params['name'] . '-' . $group['id'] . '">';
+            $displayItems = array();
+            foreach ($group['items'] AS $item)
+            {
+                // entry already exists and the teacher for the subject being iterated is not responsible
+                if (!empty($displayItems['id']) AND $item->teacherResp == 2)
+                {
+                    continue;
+                }
+
+                $displayItem = '';
+                $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
+                $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '">XXXX</a>';
+
+                $displayItem .= '<li>';
+                $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
+                $displayItem .= '<span class="subject-teacher">' . str_replace('XXXX', $item->teacherName, $link) . '</span>';
+                $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . '</span>';
+                $displayItem .= '</li>';
+                $displayItems[$item->id] = $displayItem;
+            }
+            echo implode($displayItems);
+            echo '</ul>';
+            echo '</div>';
         }
-?>
-                </div>
-                <div class="subject-crp"><?php echo $subject->creditpoints; ?> CrP</div>
-            </li>
-<?php
-        $count++;
     }
-?>
-        </ul>
-    </div>
-<?php
-}
-?>
-</div>
-<script type="text/javascript">
-    $("#accordion").accordion(
+
+    /**
+     * Creates an array of groups with the indexes name and id
+     *
+     * @param   array  &$items  the subjects associated with the degree program
+     * @param   array  $params  the group parameters (order, name, id)
+     *
+     * @return  array  the groups used in the tab
+     */
+    private static function getGroups($items, $params)
+    {
+        $groups = array();
+        foreach ($items AS $item)
         {
-            active: false,
-            collapsible: true,
-            heightStyle: "content"
-        });
-</script>
+            $order = empty($item->{$params['order']})? 'Empty' : $item->{$params['order']};
+            $name = empty($item->{$params['name']})? JText::_('COM_THM_ORGANIZER_UNASSOCIATED') : $item->{$params['name']};
+            $groupID = empty($item->{$params['id']})? '0' : $item->{$params['id']};
+            if (empty($groups[$order]))
+            {
+                $groups[$order]['name'] = $name;
+                $groups[$order]['id'] = $groupID;
+                if (!empty($item->{$params['bgColor']}))
+                {
+                    $groups[$order]['bgColor'] = $item->{$params['bgColor']};
+                    $groups[$order]['textColor'] = THM_OrganizerHelperComponent::getTextColor($item->{$params['bgColor']});
+                }
+                $groups[$order]['items'] = array();
+            }
+            if (empty($groups[$order]['items'][$item->id]) OR $item->teacherResp === 1)
+            {
+                $groups[$order]['items'][$item->id] = $item;
+            }
+        }
+        ksort($groups);
+        return $groups;
+    }
+}

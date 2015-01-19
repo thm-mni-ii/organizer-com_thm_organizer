@@ -10,7 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modellist');
 require_once JPATH_COMPONENT . '/helpers/teacher.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 
@@ -28,20 +27,6 @@ define('FIELD', 3);
  */
 class THM_OrganizerModelSubject_List extends JModelList
 {
-    public $menuID = null;
-
-    public $program = null;
-
-    public $language = 'de';
-
-    public $subjects = null;
-
-    public $groups = array();
-
-    private $_poolIDs = array();
-
-    private $_uniqueItems = array();
-
     /**
      * Method to get an array of data items.
      *
@@ -85,36 +70,31 @@ class THM_OrganizerModelSubject_List extends JModelList
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$languageTag&Itemid=$menuID&id='";
 
         $query = $this->_db->getQuery(true);
-        $query->from('#__thm_organizer_subjects AS s');
 
-        $select = "s.id, s.name_$languageTag AS subject, s.creditpoints, s.externalID, s.fieldID, ";
-        $select .= "sf.field, sc.color as subjectColor, ";
-        $select .= "m2.poolID, p.name_$languageTag AS pool, ";
+        $select = "s.id, s.name_$languageTag AS subject, s.creditpoints, s.externalID, s.fieldID, sf.field, sc.color as subjectColor, ";
+        $select .= "m2.poolID, p.name_$languageTag AS pool, m2.lft, pc.color as poolColor, ";
         $select .= "st.teacherID, t.surname, t.forename, tc.color AS teacherColor, st.teacherResp, ";
         $parts = array("$subjectLink","s.id");
         $select .= $query->concatenate($parts, "") . " AS subjectLink";
+        $query->select($select);
+
+        $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS sf ON s.fieldID = sf.id');
         $query->leftJoin('#__thm_organizer_colors AS sc ON sc.id = sf.colorID');
         $query->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
         $query->innerJoin('#__thm_organizer_mappings AS m2 ON m1.parentID = m2.id');
         $query->innerJoin('#__thm_organizer_pools AS p ON m2.poolID = p.id');
+        $query->leftJoin('#__thm_organizer_fields AS pf ON p.fieldID = pf.id');
+        $query->leftJoin('#__thm_organizer_colors AS pc ON pc.id = pf.colorID');
         $query->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
         $query->leftJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
         $query->leftJoin('#__thm_organizer_fields AS tf ON t.fieldID = tf.id');
         $query->leftJoin('#__thm_organizer_colors AS tc ON tc.id = tf.colorID');
-        $query->select($select);
+
         $query->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
 
-//        $search = $this->state->get('search');
-//        if (!empty($search))
-//        {
-//            if (!$this->state->get('groupBy') == TEACHER)
-//            {
-//                $subjectsQuery->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
-//            }
-//            $subjectsQuery->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
-//            $subjectsQuery->where($this->getSearch());
-//        }
+        $this->setSearch($query);
+
         $query->order('subject ASC');
         return $query;
     }
@@ -167,43 +147,49 @@ class THM_OrganizerModelSubject_List extends JModelList
         $app = JFactory::getApplication();
 
         $menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
-        $this->setState('menuID', $menuID);
+        $this->state->set('menuID', $menuID);
 
         $params = JFactory::getApplication()->getMenu()->getItem($menuID)->params;
 
         $menuProgramID = $params->get('programID');
         $programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID', $menuProgramID);
-        $this->setState('programID', $programID);
+        $this->state->set('programID', $programID);
 
-        $search = $app->getUserStateFromRequest($this->context . '.search', 'search', '');
-        $this->setState('search', $search);
+        $search = $app->input->get('search', '');
+        $this->state->set('search', $search);
 
         $app->set('list_limit', '0');
         $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '0');
-        $this->setState('list.limit', $limit);
+        $this->state->set('list.limit', $limit);
 
         $menuLanguage = ($params->get('language') == '0')? 'en' : 'de';
         $languageTag = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag', $menuLanguage);
-        $this->setState('languageTag', $languageTag);
+        $this->state->set('languageTag', $languageTag);
 
         $menuGroupBy = $params->get('groupBy');
         $groupBy = $app->getUserStateFromRequest($this->context . '.groupBy', 'groupBy', $menuGroupBy);
-        $this->setState('groupBy', $groupBy);
+        $this->state->set('groupBy', $groupBy);
     }
 
     /**
      * Builds the search clause based upon user input
      *
+     * @param   object  &$query  the query object upon which search conditions will be set
+     *
      * @return  string
      */
-    private function getSearch()
+    private function setSearch(&$query)
     {
-        $search = '%' . $this->_db->getEscaped($this->state->get('search'), true) . '%';
+        $search = '%' . $this->_db->escape($this->state->get('search', ''), true) . '%';
+        if ($search == '%%')
+        {
+            return;
+        }
         $where = "(s.name_de LIKE '$search' OR s.name_en LIKE '$search' OR ";
         $where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
         $where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";
         $where .= "s.externalID LIKE '$search' OR ";
-        $where .= "t.surname LIKE '$search')";
-        return $where;
+        $where .= "t.surname LIKE '$search' OR t.forename LIKE '$search')";
+        $query->where($where);
     }
 }

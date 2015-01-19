@@ -194,7 +194,7 @@ if (!empty($this->item->expenditureOutput))
 if (!empty($this->item->sws))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SEMESTER_HOURS') . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SWS') . '</div>';
     echo '<div class="subject-content">' . $this->item->sws . '</div>';
     echo '</div>';
 }

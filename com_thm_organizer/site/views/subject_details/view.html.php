@@ -35,9 +35,13 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
     public function display($tpl = null)
     {
         $this->modifyDocument();
-        $this->setLanguage();
+        THM_OrganizerHelperLanguage::setLanguage();
         $this->item = $this->get('Item');
-        $this->getLanguageSwitches();
+        if (!empty($this->item->id))
+        {
+            $params = array('view' => 'subject_details', 'id' => $this->item->id);
+            $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        }
         parent::display($tpl);
     }
 
@@ -53,51 +57,5 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/subject_details.css');
-    }
-
-    /**
-     * Sets the Joomla Language
-     */
-    private function setLanguage()
-    {
-        $app = JFactory::getApplication();
-        $requested = $app->input->get('languageTag', '');
-        $supportedLanguages = array('en', 'de');
-        if (in_array($requested, $supportedLanguages))
-        {
-            $lang = JFactory::getApplication()->getLanguage();
-            if ($requested == 'en')
-            {
-                $lang->setLanguage('en-GB');
-                return;
-            }
-            if ($requested == 'de')
-            {
-                $lang->setLanguage('de-DE');
-                return;
-            }
-            $lang->setLanguage('en-GB');
-        }
-    }
-
-    /**
-     * Sets the language to the one requested
-     *
-     * @return  void  sets the default language for joomla
-     */
-    private function getLanguageSwitches()
-    {
-        $input = JFactory::getApplication()->input;
-        $this->menuID = $input->getInt('Itemid', 0);
-        $current = THM_CoreHelper::getLanguageShortTag();
-        $supportedLanguages = array('en', 'de');
-        $url = "index.php?option=com_thm_organizer&view=subject_details&id={$this->item->id}";
-        foreach ($supportedLanguages AS $supported)
-        {
-            if ($current != $supported)
-            {
-                $this->languageSwitches[] = THM_OrganizerHelperLanguage::languageSwitch($url, $supported);
-            }
-        }
     }
 }
