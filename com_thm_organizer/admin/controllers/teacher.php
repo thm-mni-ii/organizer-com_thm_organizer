@@ -28,8 +28,7 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function add()
     {
-        JFactory::getApplication()->input->set('view', 'teacher_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
     }
 
     /**
@@ -39,8 +38,17 @@ class THM_OrganizerControllerTeacher extends JControllerLegacy
      */
     public function edit()
     {
-        JFactory::getApplication()->input->set('view', 'teacher_edit');
-        parent::display();
+        $cid = $this->input->post->get('cid', array(), 'array');
+
+        // Only edit the first id in the list
+        if (count($cid) > 0)
+        {
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=teacher_edit&id=$cid[0]", false));
+        }
+        else
+        {
+            $this->setRedirect("index.php?option=com_thm_organizer&view=teacher_edit");
+        }
     }
 
     /**

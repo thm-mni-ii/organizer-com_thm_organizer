@@ -27,8 +27,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
      */
     public function add()
     {
-        JFactory::getApplication()->input->set('view', 'schedule_edit');
-        parent::display();
+        $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_edit");
     }
 
     /**
