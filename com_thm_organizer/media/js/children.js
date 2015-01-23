@@ -123,13 +123,12 @@ function orderWithNumber(firstPos)
     var length = currentOrder.length;
     
     var tmpElement = currentOrder[firstPos - 1];
-    var secondPos = $('#child' + firstPos + 'order').val();
+    var secondPos = jQuery('#child' + firstPos + 'order').val();
     secondPos = parseInt(secondPos);
-
 
     if (isNaN(secondPos) === true || secondPos > length || (Number(secondPos) === length && tmpElement.name === ""))
     {
-        $('#child' + firstPos + 'order').val(firstPos);
+        jQuery('#child' + firstPos + 'order').val(firstPos);
         return;
     }
 
@@ -144,6 +143,7 @@ function orderWithNumber(firstPos)
 
     overrideElement(secondPos, tmpElement);
 }
+
 
 /**
  * Removes a child row from the display
@@ -161,7 +161,7 @@ function removeRow(rowNumber)
     
     pushAllUp(rowNumber, length, currentOrder);
     
-    $('#childRow' + length).remove();
+    jQuery('#childRow' + length).remove();
 }
 
 /**
@@ -216,15 +216,15 @@ function getCurrentOrder()
     var currentOrder = [];
 
     // The header row needs to be removed from the count
-    var rowCount = $('#childList tr').length - 1;
+    var rowCount = jQuery('#childList tr').length - 1;
     for (var i = 0; i < rowCount; i++)
     {
         var order = i + 1;
         currentOrder[i] = {};
-        currentOrder[i].name = $('#child' + order + 'name').text().trim();
-        currentOrder[i].id = $('#child' + order).val();
-        currentOrder[i].link = $('#child' + order + 'link').attr('href');
-        currentOrder[i].order = $('#child' + order + 'order').val();
+        currentOrder[i].name = jQuery('#child' + order + 'name').text().trim();
+        currentOrder[i].id = jQuery('#child' + order).val();
+        currentOrder[i].link = jQuery('#child' + order + 'link').attr('href');
+        currentOrder[i].order = jQuery('#child' + order + 'order').val();
     }
     return currentOrder;
 }
@@ -240,10 +240,10 @@ function overrideElement(newOrder, oldElement)
 {
     "use strict";
 
-    $('#child' + newOrder + 'name').text(oldElement.name);
-    $('#child' + newOrder).val(oldElement.id);
-    $('#child' + newOrder + 'link').attr('href', oldElement.link);
-    $('#child' + newOrder + 'order').val(newOrder);
+    jQuery('#child' + newOrder + 'name').text(oldElement.name);
+    jQuery('#child' + newOrder).val(oldElement.id);
+    jQuery('#child' + newOrder + 'link').attr('href', oldElement.link);
+    jQuery('#child' + newOrder + 'order').val(newOrder);
 }
 
 /**
@@ -256,10 +256,10 @@ function overrideElementWithDummy(position)
 {
     "use strict";
     
-    $('#child' + position + 'name').text('');
-    $('#child' + position).val('');
-    $('#child' + position + 'link').attr('href', "");
-    $('#child' + position + 'order').val(position);
+    jQuery('#child' + position + 'name').text('');
+    jQuery('#child' + position).val('');
+    jQuery('#child' + position + 'link').attr('href', "");
+    jQuery('#child' + position + 'order').val(position);
 }
 
 /**
@@ -290,7 +290,7 @@ function createNewRow(lastPosition, tableID)
     
     var pos = parseInt(lastPosition, 10) + 1;
     
-    $( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' +
+    jQuery( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' +
         '<td class="child-name">' +
           '<a id="child'+pos+'link" href="#">' +
             '<span id="child'+pos+'name">TEST OBJEKT</span>' +
