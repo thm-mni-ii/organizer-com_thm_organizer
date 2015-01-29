@@ -4,7 +4,6 @@
 **  Styles for:
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-
 @import '../../lib_thm_core/scss/variables';
 
 .navi-bar {
@@ -112,7 +111,7 @@ ul.subject-list {
 }
 
 .subject-label {
-  border-bottom: 2px solid #a4b0bb;
+//  border-bottom: 2px solid #a4b0bb;
   color: #3d494f;
   float: left;
   font-weight: bold;
@@ -123,4 +122,36 @@ ul.subject-list {
 .subject-content {
   float: left;
   width: 79%;
+}
+
+
+// Lavi's Changes
+.componentheading {
+  float: left;
+}
+
+.language-switches {
+  float: right;
+}
+
+.subject-list {
+
+  .subject-item {
+    overflow: auto; //to set height like the largest child
+    padding: 10px 10px;
+    margin: 2px 0;
+    border-bottom:1px solid rgba(164, 176, 187, 0.5);
+
+    ul {
+      margin-bottom: 0;
+    }
+
+    .subject-label {
+//      border-bottom: none;
+    }
+
+    .subject-content{
+      margin-left: 10px;
+    }
+  }
 }

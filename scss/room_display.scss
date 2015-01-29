@@ -2,7 +2,6 @@
 /* Styles for Monitor                                                         */
 /******************************************************************************/
 @import '../../lib_thm_core/scss/variables';
-@import 'room_display_Version3';
 
 .display-schedule {
   font-family: Verdana, Arial;
@@ -59,7 +58,6 @@
   width: 155px;
 
   .time {
-//    border-bottom: 1px solid rgba(128, 186, 36, 0.2)
   }
 
   .weekday {
@@ -71,18 +69,6 @@
 }
 
 /******************** content **********************************/
-// if Events exists
-.schedule-narrow {
-  @extend .schedule-area;
-  float: left;
-  width: 67%;
-  margin-right: 0 !important;
-
-  .block-title {
-    padding-left: 40px;
-  }
-}
-
 .schedule-area {
   margin: 0 48px;
   font-size: x-large;
@@ -151,9 +137,6 @@
   min-height: 13vh;
   line-height: 13vh;
 }
-
-/*************Events ****************************/
-
 /****************************************************ENDE*/
 
 .thm_organizer_is_registered {

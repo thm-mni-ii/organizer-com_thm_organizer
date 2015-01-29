@@ -5,7 +5,6 @@
 **              Backend - some definitions
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-
 @import '../../lib_thm_core/scss/mixins';
 @import '../../lib_thm_core/scss/variables';
 @import '../../lib_thm_core/scss/filters';
@@ -24,7 +23,7 @@ span.navi-tab {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   display: block;
-  float:left;
+  float: left;
   margin-bottom: -1px;
   padding: 4px 4px 5px 4px;
 
@@ -72,19 +71,19 @@ div#filter-bar div.filter-select select {
   margin-bottom: 0;
 }
 
-
 div.filter-bar {
   // filter label (Backend)
   label {
     display: inline;
-  }//überflüssig?!
+  }
+  //überflüssig?!
 
   // filter input (Backend, e.g. monitor manager)
   input {
     margin-bottom: 0;
-  }//überflüssig?!
+  }
+  //überflüssig?!
 }
-
 
 div.filter-search {
   // search label size
@@ -181,6 +180,7 @@ h3.group-bar {
   }
 }
 
+/*** wird nicht mehr benötigt, da icons über icon-fonts schon vorhanden sind **
 // ---------------------------------
 // Icons (Backend)
 // ---------------------------------
@@ -233,4 +233,58 @@ h3.group-bar {
 // icon of merge
 .icon-32-merge {
   @extend %icon-merge;
+}
+*/
+
+/*** Begin Lavi ***/
+/*Heading, Search-Bar ... */
+.componentheading {
+  float: left;
+}
+
+.language-switches {
+  float: right;
+}
+
+#j-main-container {
+  margin-left: 0px;
+  width: 100%;
+
+  .js-stools-container-bar {
+    &:first-child .btn-wrapper {
+      float: left;
+      padding-right: 5px;
+    }
+  }
+
+  .subject-list-container {
+    ul{
+      margin-left: 9px;
+    }
+    li{
+      list-style:none;
+      padding: 4px;
+    }
+    li:nth-child(odd) {
+      background-color: rgb(238, 238, 238);
+    }
+    .subject-name {
+      display: inline-block;
+      width: 475px;
+    }
+
+    .subject-teacher {
+
+    }
+
+    .subject-crp {
+      float: right;
+    }
+  }
+
+}
+
+.breadcrumb {
+  float: inherit;
+  width: 680px;
 }

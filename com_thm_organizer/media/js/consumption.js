@@ -8,6 +8,43 @@
 
 jQuery(document).ready(function ()
 {
+    // After testing this solution works only with Chrome - tested with Firefox, IE, Chrome
+    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    if (isChrome) {
+        fixHeader();
+    }
+
+    function fixHeader(){
+        jQuery('.consumption-table').scroll(function(){
+
+            if (jQuery('.consumption-table').scrollTop() >= 2) {
+                jQuery('.consumption-table').addClass('fixedTop');
+                var _top = jQuery(this).scrollTop();
+                jQuery('.fixedTop thead th').css('top', _top);
+            }
+            else {
+                jQuery('.consumption-table').removeClass('fixedTop');
+            }
+            if (jQuery('.consumption-table').scrollLeft() >= 2) {
+                jQuery('.consumption-table').addClass('fixedLeft');
+                var _left = jQuery(this).scrollLeft();
+                jQuery('.fixedLeft tbody tr th:first-child').css('left', _left);
+            }
+            else {
+                jQuery('.consumption-table').removeClass('fixedLeft');
+            }
+        });
+    //create div to hide overlapping at first cell while scrolling
+        if(jQuery('.consumption-table').length) {
+            var p = jQuery(".consumption-table");
+            var offset = p.offset();
+            jQuery('<div></div>').attr('class', 'whiteSpace').appendTo('body');
+            jQuery('.whiteSpace').offset({top: offset.top, left: offset.left});
+        }
+    }
+
+
+
     "use strict";
     jQuery("#export").click(function(e)
     {
@@ -15,20 +52,6 @@ jQuery(document).ready(function ()
         //just in case, prevent default behaviour
         e.preventDefault();
     });
-
-    fixHeader();
-
-    function fixHeader(){
-        var stickyOffset = $('.sticky').offset().top;
-
-        $(window).scroll(function(){
-            var sticky = $('.sticky'),
-                scroll = $(window).scrollTop();
-
-            if (scroll >= stickyOffset) sticky.addClass('fixed');
-            else sticky.removeClass('fixed');
-        });
-    }
 
     function downloadTable()
     {

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*  ------------------------------------
 **  Author:     Kristijan Pokas
 **  File:       subject_list.css
@@ -15,41 +16,135 @@ fieldset.filter-bar, div.filter-bar {
   overflow: auto;
   padding: 8px 4px 4px 4px;
   z-index: 12;
+  margin-bottom: 4px;
   -webkit-box-shadow: 2px 2px 4px #dddddd;
   -moz-box-shadow: 2px 2px 4px #dddddd;
   -ms-box-shadow: 2px 2px 4px #dddddd;
   -o-box-shadow: 2px 2px 4px #dddddd;
   box-shadow: 2px 2px 4px #dddddd; }
 
-.icon-48-organizer_colors {
-  background: url("../images/colors48.png") 0 0 no-repeat; }
+/*icons anpassen*/
+.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
+  font-weight: bold; }
 
-.icon-48-organizer_degrees {
-  background: url("../images/degrees48.png") 0 0 no-repeat; }
+.icon-add-Space {
+  font-size: 14px; }
 
-.icon-48-organizer_degree_programs {
-  background: url("../images/programs48.png") 0 0 no-repeat; }
+/*icons zur jeweiligen View im Header hinzufuegen */
+.icon-organizer::before {
+  content: "\e60b"; }
 
-.icon-48-organizer_fields {
-  background: url("../images/fields48.png") 0 0 no-repeat; }
+.icon-organizer_degrees::before {
+  content: "\e606"; }
 
-.icon-48-organizer_monitors {
-  background: url("../images/monitors48.png") 0 0 no-repeat; }
+.icon-organizer_users::before {
+  content: "\e01f"; }
 
-.icon-48-organizer_rooms {
-  background: url("../images/rooms48.png") 0 0 no-repeat; }
+.icon-organizer_monitors::before {
+  content: "\e01c"; }
 
-.icon-48-organizer_subjects {
-  background: url("../images/subjects48.png") 0 0 no-repeat; }
+.icon-organizer_teachers::before {
+  content: "\e604"; }
 
-.icon-48-organizer_subject_pools {
-  background: url("../images/pools48.png") 0 0 no-repeat; }
+.icon-organizer_subjects::before {
+  content: "\e603"; }
 
-.icon-48-organizer_teachers {
-  background: url("../images/teachers48.png") 0 0 no-repeat; }
+.icon-organizer_fields::before {
+  content: "\74"; }
 
-.icon-32-merge {
-  background: url("../images/icon-32-merge.png"); }
+.icon-organizer_colors::before {
+  content: "\e014"; }
+
+.icon-organizer_subject_pools::before {
+  content: "\43"; }
+
+.icon-organizer_rooms::before {
+  content: "\e60a"; }
+
+.icon-organizer_degree_programs::before {
+  content: "\31"; }
+
+.icon-organizer_schedules::before {
+  content: "\e600"; }
+
+.icon-organizer_categories::before {
+  content: "\e601"; }
+
+.icon-mni::before {
+  content: "\e600"; }
+
+/*icons zu sidebar hinzufuegen*/
+li a[href$="view=thm_organizer"]::before, li a[href$="option=com_thm_organizer"]::before {
+  font-family: icomoon;
+  content: "\e60b";
+  font-size: 16px;
+  padding-right: 8px;
+  color: #80ba24; }
+li a[href*="view=degree_manager"]::before {
+  font-family: icomoon;
+  content: "\e606";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=user_manager"]::before {
+  font-family: icomoon;
+  content: "\e01f";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=monitor_manager"]::before {
+  font-family: icomoon;
+  content: "\e01c";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=teacher_manager"]::before {
+  font-family: icomoon;
+  content: "\e604";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=subject_manager"]::before {
+  font-family: icomoon;
+  content: "\e603";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=field_manager"]::before {
+  font-family: icomoon;
+  content: "\74";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=color_manager"]::before {
+  font-family: icomoon;
+  content: "\e014";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=pool_manager"]::before {
+  font-family: icomoon;
+  content: "\43";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=room_manager"]::before {
+  font-family: icomoon;
+  content: "\e60a";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=program_manager"]::before {
+  font-family: icomoon;
+  content: "\31";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=schedule_manager"]::before {
+  font-family: icomoon;
+  content: "\e600";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=category_manager"]::before {
+  font-family: icomoon;
+  content: "\e601";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=virtual_schedule_manager"]::before {
+  font-family: icomoon;
+  content: "\e600";
+  font-size: 12px;
+  padding-right: 8px; }
 
 span.navi-tab {
   background-color: #eeeeee;
@@ -144,3 +239,89 @@ h3.group-bar, h3.group-bar a {
   line-height: 1.3;
   margin: 0;
   padding: 5px; }
+
+/*** wird nicht mehr ben├Âtigt, da icons ├╝ber icon-fonts schon vorhanden sind **
+// ---------------------------------
+// Icons (Backend)
+// ---------------------------------
+
+// icon of color manager
+.icon-48-organizer_colors {
+  @extend %icon-colors;
+}
+
+// icon of degree manager
+.icon-48-organizer_degrees {
+  @extend %icon-degrees;
+}
+
+// icon of field manager
+.icon-48-organizer_fields {
+  @extend %icon-fields;
+}
+
+// icon of program manager
+.icon-48-organizer_degree_programs {
+  @extend %icon-degree-programs;
+}
+
+// icon of monitor manager
+.icon-48-organizer_monitors {
+  @extend %icon-monitors;
+}
+
+// icon of room manager
+.icon-48-organizer_rooms {
+  @extend %icon-rooms;
+}
+
+// icon of subject manager
+.icon-48-organizer_subjects {
+  @extend %icon-subjects;
+}
+
+// icon of pool manager
+.icon-48-organizer_subject_pools {
+  @extend  %icon-subject-pools;
+}
+
+// icon of teacher manager
+.icon-48-organizer_teachers {
+  @extend %icon-teachers;
+}
+
+// icon of merge
+.icon-32-merge {
+  @extend %icon-merge;
+}
+*/
+/*** Begin Lavi ***/
+/*Heading, Search-Bar ... */
+.componentheading {
+  float: left; }
+
+.language-switches {
+  float: right; }
+
+#j-main-container {
+  margin-left: 0px;
+  width: 100%; }
+  #j-main-container .js-stools-container-bar:first-child .btn-wrapper {
+    float: left;
+    padding-right: 5px; }
+  #j-main-container .subject-list-container ul {
+    margin-left: 9px; }
+  #j-main-container .subject-list-container li {
+    list-style: none;
+    padding: 4px; }
+  #j-main-container .subject-list-container li:nth-child(odd) {
+    background-color: #eeeeee; }
+  #j-main-container .subject-list-container .subject-name {
+    display: inline-block;
+    width: 475px; }
+  #j-main-container .subject-list-container .subject-crp {
+    float: right; }
+
+.breadcrumb {
+  float: inherit;
+  width: 680px; }

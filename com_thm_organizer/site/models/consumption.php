@@ -436,7 +436,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $total = array('sum' => JText::_('COM_THM_ORGANIZER_TOTAL'));
         $degrees = $this->getNameArray('degrees', $columns, array('name'));
         $names = array_merge($total, $degrees);
-        $tableHead = '<tr><th></th>';
+        $tableHead = '<thead><tr><th></th>';
         $tableHead .= '<th>' . JText::_('COM_THM_ORGANIZER_TOTAL') . '</th>';
         foreach ($columns as $column)
         {
@@ -446,7 +446,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             }
             $tableHead .= '<th>' . $names[$column] . '</th>';
         }
-        $tableHead .= '</tr>';
+        $tableHead .= '</tr></thead>';
         return $tableHead . $summaryRow;
     }
 
