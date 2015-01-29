@@ -55,8 +55,8 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      */
     private function modifyDocument()
     {
+        JHtml::_('bootstrap.framework');
         JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.framework', true);
         JHtml::_('jquery.ui');
 
         $document = JFactory::getDocument();

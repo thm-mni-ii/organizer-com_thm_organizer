@@ -13,6 +13,14 @@
 require_once 'ungrouped_list.php';
 require_once 'grouped_list.php';
 ?>
+<script type="text/javascript" charset="utf-8">
+
+    function toggleContainer(id)
+    {
+        var container = jQuery('#' + id).toggle('slide', 1000);
+    }
+
+</script>
 <h1 class="componentheading"><?php echo $this->programName; ?></h1>
 <div class="language-switches">
     <?php

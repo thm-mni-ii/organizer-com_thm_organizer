@@ -153,7 +153,7 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
      */
     public function importLSFData()
     {
-        $success = JModel::getInstance('LSFSubject', 'THM_OrganizerModel')->importBatch();
+        $success = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel')->importBatch();
         if ($success)
         {
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');

@@ -843,7 +843,7 @@ class THM_OrganizerModelScheduler_Tree extends JModelLegacy
         $query->where('departmentname = ' . $dbo->quote($department));
         $query->where('semestername = ' . $dbo->quote($semester));
         $query->where('active = 1');
-        $dbo->setQuery($query);
+        $dbo->setQuery((string) $query);
 
         try
         {

@@ -10,10 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-jimport('joomla.application.component.view');
-jimport('joomla.application.component.helper');
-jimport('jquery.jquery');
-require_once JPATH_COMPONENT . '/helper/language.php';
+require_once JPATH_COMPONENT . '/helpers/language.php';
 
 /**
  * Class loads curriculum information into the view context
@@ -33,21 +30,30 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        JHtml::_('behavior.tooltip');
+        $params = JFactory::getApplication()->getParams();
+        $this->ecollabLink = $params->get('eCollabLink');
+        $this->modifyDocument();
+
+        THM_OrganizerHelperLanguage::setLanguage();
+        $this->item = $this->get('Item');
+        $params = array('view' => 'curriculum', 'id' => $this->item->id);
+        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+
+        parent::display($tpl);
+    }
+
+    /**
+     * Sets document scripts and styles
+     *
+     * @return  void
+     */
+    private function modifyDocument()
+    {
+        JHtml::_('bootstrap.tooltip');
+        JHtml::_('bootstrap.framework');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/curriculum.css');
-        $document->addScript($this->baseurl . '/media/com_thm_organizer/js/curriculum.js');
-
-        $this->ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
-        $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
-        $this->languageTag = JRequest::getVar('languageTag', $this->params->get('language'));
-        $this->langUrl = THM_OrganizerHelperLanguage::languageSwitch(
-                'curriculum',
-                ($this->languageTag == 'de') ? 'en' : 'de',
-                JRequest::getInt('Itemid')
-            );
-
-        parent::display($tpl);
+        $document->addScript($this->baseurl . '/libraries/thm_core/js/container.js');
     }
 }

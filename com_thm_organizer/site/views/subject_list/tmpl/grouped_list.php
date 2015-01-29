@@ -56,10 +56,10 @@ class THM_OrganizerTemplateGroupedList
             {
                 $style = ' style="background-color: #' . $group['bgColor']. '; color: #' . $group['textColor']. ';"';
             }
-            $script = ' onClick="toggleContainer(\'' . $params['name'] . '-' . $group['id'] . '\');"';
+            $script = ' onClick="jQuery(\'#' . $params['name'] . '-' . $group['id'] . '\').toggle(\'slide\', 1000);"';
             echo '<h3' . $style . $script . '>' . $group['name'] . '</h3>';
-
-            echo '<ul class="subject-list" id="' . $params['name'] . '-' . $group['id'] . '">';
+            echo '<div class="subject-list-container" id="' . $params['name'] . '-' . $group['id'] . '">';
+            echo '<ul class="subject-list">';
             $displayItems = array();
             foreach ($group['items'] AS $item)
             {
@@ -82,6 +82,7 @@ class THM_OrganizerTemplateGroupedList
             }
             echo implode($displayItems);
             echo '</ul>';
+            echo '</div>';
             echo '</div>';
         }
     }

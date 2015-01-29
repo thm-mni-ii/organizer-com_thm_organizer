@@ -242,7 +242,7 @@ class Com_THM_OrganizerInstallerScript
             }
             try
             {
-                $dbo->setQuery($query);
+                $dbo->setQuery((string) $query);
             }
             catch (Exception $exc)
             {

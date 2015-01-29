@@ -72,7 +72,7 @@ class THMGrid
             $query->order('CAST(SUBSTRING(tpid, 4) AS SIGNED INTEGER)');
  
             // Reset the query using our newly populated query object.
-            $dbo->setQuery($query);
+            $dbo->setQuery((string) $query);
  
             try 
             {

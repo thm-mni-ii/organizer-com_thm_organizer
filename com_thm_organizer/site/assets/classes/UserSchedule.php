@@ -145,7 +145,7 @@ class THMUserSchedule
             $query->delete($dbo->quoteName("{$this->_cfg['db_table']}"));
             $query->where("username = '$this->_username' ");
  
-            $dbo->setQuery($query);
+            $dbo->setQuery((string) $query);
  
             try
             {
@@ -172,7 +172,7 @@ class THMUserSchedule
             ->values(implode(',', $values));
              
             // Reset the query using our newly populated query object.
-            $dbo->setQuery($query);
+            $dbo->setQuery((string) $query);
             try
             {
                 // Execute the query in Joomla 2.5.

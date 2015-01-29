@@ -272,7 +272,7 @@ class THM_OrganizerModelScheduler extends JModelLegacy
 
         $query->select('*');
         $query->from('#__thm_organizer_teacher_fields');
-        $dbo->setQuery($query);
+        $dbo->setQuery((string) $query);
 
         try
         {

@@ -160,7 +160,7 @@ class JFormFieldScheduler extends JFormField
         $query->select('params');
         $query->from($dbo->quoteName('#__menu'));
         $query->where("id = '$menuID'");
-        $dbo->setQuery($query);
+        $dbo->setQuery((string) $query);
         try
         {
             $rawParams = $dbo->loadResult();

@@ -203,10 +203,10 @@ class THMICSBuilder extends THMAbstractBuilder
             $select = 'name as oname';
 
             // Get a db connection.
-            $db = JFactory::getDbo();
+            $dbo = JFactory::getDbo();
 
             // Create a new query object.
-            $query = $db->getQuery(true);
+            $query = $dbo->getQuery(true);
 
             // Select all records from the user profile table where key begins with "custom.".
             // Order it by the ordering field.
@@ -215,12 +215,12 @@ class THMICSBuilder extends THMAbstractBuilder
             $query->where('id IN ( $resourceIDs )');
 
             // Reset the query using our newly populated query object.
-            $db->setQuery($query);
+            $dbo->setQuery((string) $query);
 
             try
             {
                 // Load the results as a list of stdClass objects.
-                $classes = $db->loadObjectList();
+                $classes = $dbo->loadObjectList();
             }
             catch (runtimeException $e)
             {
@@ -228,7 +228,7 @@ class THMICSBuilder extends THMAbstractBuilder
             }
 
             // Create a new query object.
-            $query = $db->getQuery(true);
+            $query = $dbo->getQuery(true);
 
             // Select all records from the user profile table where key begins with "custom.".
             // Order it by the ordering field.
@@ -237,12 +237,12 @@ class THMICSBuilder extends THMAbstractBuilder
             $query->where("gpuntisID IN( $resourceIDs )");
 
             // Reset the query using our newly populated query object.
-            $db->setQuery($query);
+            $dbo->setQuery((string) $query);
 
             try
             {
                 // Load the results as a list of stdClass objects.
-                $teachers = $db->loadObjectList();
+                $teachers = $dbo->loadObjectList();
             }
             catch (runtimeException $e)
             {
@@ -250,7 +250,7 @@ class THMICSBuilder extends THMAbstractBuilder
             }
 
             // Create a new query object.
-            $query = $db->getQuery(true);
+            $query = $dbo->getQuery(true);
 
             // Select all records from the user profile table where key begins with "custom.".
             // Order it by the ordering field.
@@ -259,12 +259,12 @@ class THMICSBuilder extends THMAbstractBuilder
             $query->where("gpuntisID IN( $resourceIDs )");
 
             // Reset the query using our newly populated query object.
-            $db->setQuery($query);
+            $dbo->setQuery((string) $query);
 
             try
             {
                 // Load the results as a list of stdClass objects.
-                $rooms = $db->loadObjectList();
+                $rooms = $dbo->loadObjectList();
             }
             catch (runtimeException $e)
             {
@@ -540,7 +540,7 @@ class THMICSBuilder extends THMAbstractBuilder
         $query->select('*');
         $query->from('#__thm_organizer_schedules');
         $query->where('id = ' . $semesterID);
-        $dbo->setQuery($query);
+        $dbo->setQuery((string) $query);
 
         if ($dbo->getErrorMsg())
         {

@@ -1,48 +1,4 @@
 /**
- * This is a collection of function which deals with the creating a event button and the save changes if you leave.
- *
- */
-var oldMainToolbar = MySched.layout.getMainToolbar;
-
-/**
- * Creates the "create event" button and returns the toolbar
- *
- * @method MySched.layout.getMainToolbar
- * @return {object} newMainToolbar
- */
-MySched.layout.getMainToolbar = function ()
-{
-    var btnEvent = Ext.create('Ext.Button',
-    {
-        // Create event
-        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
-        id: 'btnEvent',
-        hidden: false,
-        iconCls: 'tbEvent',
-        handler: addNewEvent
-    });
-    var ToolbarObjects = oldMainToolbar();
-    var newMainToolbar = ToolbarObjects.AddTo(5, btnEvent);
-    return newMainToolbar;
-};
-
-/**
- * Object for the add event button
- */
-var addEvent = {
-    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENT_CREATE,
-    icon: MySched.mainPath + "images/calendar_add.png",
-    handler: function ()
-    {
-        addNewEvent(null, MySched.BlockMenu.day, MySched.BlockMenu.stime,
-        MySched.BlockMenu.etime);
-    },
-    xtype: "button"
-};
-
-MySched.BlockMenu.Menu[MySched.BlockMenu.Menu.length] = addEvent;
-
-/**
  * This method is called when the user leaves the page and checks if there are unsaved changes at the schedule and
  * informs the user.
  *

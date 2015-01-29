@@ -312,7 +312,7 @@ class THM_OrganizerModelSchedule_Navigation
         $query->from('#__thm_organizer_subjects');
         $query->where('externalID IS NOT NULL');
         $query->where('externalID <> ""');
-        $dbo->setQuery($query);
+        $dbo->setQuery((string) $query);
 
         return $dbo->loadObjectList("externalID");
     }
