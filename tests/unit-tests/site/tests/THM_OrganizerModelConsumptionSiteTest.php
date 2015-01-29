@@ -165,12 +165,14 @@ class THM_OrganizerModelConsumptionSiteTest extends TestCaseDatabase
     }
 
     /**
+     * ToDo: DEPRECATED !
      * Method to test the getConsumptionTable method
      *
      * @covers ::getConsumptionTable
      *
      * @return null
      */
+    /**
     public function testgetConsumptionTable_WithTypeRooms()
     {
         $expected = JPATH_TEST_STUBS . '/MNI_WS_Room_Table.txt';
@@ -183,14 +185,17 @@ class THM_OrganizerModelConsumptionSiteTest extends TestCaseDatabase
 
         $this->assertStringEqualsFile($expected, $actual);
     }
+     **/
 
     /**
+     * ToDo: DEPRECATED !
      * Method to test the getConsumptionTable method
      *
      * @covers ::getConsumptionTable
      *
      * @return null
      */
+    /**
     public function testgetConsumptionTable_WithTypeTeachers()
     {
         $expected = JPATH_TEST_STUBS . '/MNI_WS_Teacher_Table.txt';
@@ -203,6 +208,7 @@ class THM_OrganizerModelConsumptionSiteTest extends TestCaseDatabase
 
         $this->assertStringEqualsFile($expected, $actual);
     }
+     **/
 
     /**
      * Method to test the getNameArray method
