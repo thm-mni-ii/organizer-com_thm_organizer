@@ -231,11 +231,13 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return;
         }
         
          if (empty($schedules))
          {
              JFactory::getApplication()->redirect('index.php', JText::_('COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULES_FOR_DATE'), 'error');
+             return;
          }
 
          foreach ($schedules as $key => $schedule)
@@ -252,23 +254,27 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function getBlocks()
     {
-        $schedulePeriods = $this->_schedules[0]->periods;
+        $grids = $this->_schedules[0]->periods;
         $this->blocks = array();
-        foreach ($schedulePeriods as $period)
+        foreach ($grids as $name => $grid)
         {
-            if ($period->day == $this->params['date']['wday'])
+            if ($name == 'Haupt-Zeitraster')
             {
-                $this->blocks[$period->period] = array();
-                $this->blocks[$period->period]['period'] = $period->period;
-                $this->blocks[$period->period]['starttime'] = substr($period->starttime, 0, 2) . ":" . substr($period->starttime, 2);
-                $this->blocks[$period->period]['endtime'] = substr($period->endtime, 0, 2) . ":" . substr($period->endtime, 2);
-                $this->blocks[$period->period]['displayTime'] = $this->blocks[$period->period]['starttime'] . " - ";
-                $this->blocks[$period->period]['displayTime'] .= $this->blocks[$period->period]['endtime'];
+                foreach ($grid AS $number => $data)
+                {
+                    $starttime = substr($data->starttime, 0, 2) . ":" . substr($data->starttime, 2);
+                    $endtime = substr($data->endtime, 0, 2) . ":" . substr($data->endtime, 2);
+                    $this->blocks[$number] = array();
+                    $this->blocks[$number]['period'] = $number;
+                    $this->blocks[$number]['starttime'] = $starttime;
+                    $this->blocks[$number]['endtime'] = $endtime;
+                    $this->blocks[$number]['displayTime'] = "$starttime - $endtime";
+                }
             }
         }
-        foreach (array_keys($this->blocks) as $key)
+        foreach (array_keys($this->blocks) as $block)
         {
-            $this->setLessonData($key);
+            $this->setLessonData($block);
         }
     }
 

@@ -196,11 +196,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         {
             foreach ($this->schedule->calendar as $day => $blocks)
             {
-                // Sylength is not relevant for consumption and does not have object as a value
-                if ($day == 'sylength')
-                {
-                    continue;
-                }
                 $invalidDay = ($startDate > $day OR $endDate < $day);
                 if ($invalidDay)
                 {

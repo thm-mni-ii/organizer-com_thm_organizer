@@ -321,7 +321,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * Validates an individual period. (called dynamically from validateResourceNode)
+     * Validates an individual period. (called dynamically from validateResourceNode) No longer creates a full store for
+     * each day as the grid is the same every day.
      *
      * @param   object  &$periodNode  a resource node (SimpleXML)
      *
@@ -331,59 +332,71 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     protected function validatePeriod(&$periodNode)
     {
+
+        // Not actually referenced but evinces data inconsistencies in Untis
         $gpuntisID = trim((string) $periodNode[0]['id']);
-        $periodID = str_replace('TP_', '', $gpuntisID);
         if (empty($gpuntisID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIOD_ID_MISSING"), $this->scheduleErrors))
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIOD_ID_MISSING");
-            }
+            $this->setPeriodsError();
             return;
         }
-        $this->schedule->periods->$periodID = new stdClass;
-        $this->schedule->periods->$periodID->gpuntisID = $gpuntisID;
 
+        // Not actually referenced but evinces data inconsistencies in Untis
         $day = (int) $periodNode->day;
         if (empty($day))
         {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PERIOD_DAY_MISSING", $periodID);
+            $this->setPeriodsError();
             return;
-        }
-        else
-        {
-            $this->schedule->periods->$periodID->day = $day;
         }
 
         $period = (int) $periodNode->period;
         if (empty($period))
         {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PERIOD_PERIOD_MISSING", $periodID);
+            $this->setPeriodsError();
             return;
-        }
-        else
-        {
-            $this->schedule->periods->$periodID->period = $period;
         }
 
         $starttime = trim((string) $periodNode->starttime);
         if (empty($starttime))
         {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PERIOD_START_TIME_MISSING", $periodID);
-        }
-        else
-        {
-            $this->schedule->periods->$periodID->starttime = $starttime;
+            $this->setPeriodsError();
+            return;
         }
 
         $endtime = trim((string) $periodNode->endtime);
         if (empty($endtime))
         {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PERIOD_END_TIME_MISSING", $periodID);
+            $this->setPeriodsError();
+            return;
         }
-        else
+
+        $grid = (string) $periodNode->timegrid;
+
+        // For backward-compatibility a default grid name is set
+        if (empty($grid))
         {
-            $this->schedule->periods->$periodID->endtime = $endtime;
+            $grid = 'Haupt-Zeitraster';
+        }
+
+        // Set the grid if not already existent
+        if (empty($this->schedule->periods->$grid))
+        {
+            $this->schedule->periods->$grid = new stdClass;
+        }
+
+        $this->schedule->periods->$grid->$period = new stdClass;
+        $this->schedule->periods->$grid->$period->starttime = $starttime;
+        $this->schedule->periods->$grid->$period->endtime = $endtime;
+    }
+
+    /**
+     * Sets distinct error for inconsistent periods information
+     */
+    private function setPeriodsError()
+    {
+        if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"), $this->scheduleErrors))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
         }
     }
 
@@ -492,10 +505,18 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     private function initializeCalendar($syStartDate, $syEndDate)
     {
         $calendar = new stdClass;
+        $grids = $this->schedule->periods;
 
-        // Calculate the school year length
-        $syLength = floor(($syEndDate - $syStartDate) / 86400) + 1;
-        $calendar->sylength = $syLength;
+        // Get the maximum number of daily periods required
+        $maxPeriods = 0;
+        foreach ($grids AS $grid)
+        {
+            $gridIndexes = array_keys((array) $grid);
+            if (count($gridIndexes) > $maxPeriods)
+            {
+                $maxPeriods = count($gridIndexes);
+            }
+        }
 
         $currentDT = $syStartDate;
         for ($currentDT; $currentDT <= $syEndDate; $currentDT = strtotime('+1 day', $currentDT))
@@ -504,14 +525,9 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $currentDate = date('Y-m-d', $currentDT);
             $calendar->$currentDate = new stdClass;
 
-            // Add period indices
-            $dow = date('w', $currentDT);
-            foreach ($this->schedule->periods as $period)
+            for ($index = 1; $index <= $maxPeriods; $index++)
             {
-                if ($period->day == $dow)
-                {
-                    $calendar->$currentDate->{$period->period} = new stdClass;
-                }
+                $calendar->$currentDate->$index = new stdClass;
             }
         }
         $this->schedule->calendar = $calendar;

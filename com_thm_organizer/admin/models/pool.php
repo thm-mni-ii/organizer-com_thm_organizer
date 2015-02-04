@@ -192,6 +192,9 @@ class THM_OrganizerModelPool extends JModelLegacy
             $this->_scheduleModel->scheduleWarnings[]
                 = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_PROPERTY_MISSING', $longname, $poolID, $warningString);
         }
+
+        $grid = (string) $poolNode->timegrid;
+        $this->_scheduleModel->schedule->pools->$poolID->grid = empty($grid)? 'Haupt-Zeitraster' : $grid;
     }
 
     /**

@@ -121,8 +121,12 @@ class THM_OrganizerModelLesson extends JModelLegacy
             return;
         }
 
+        $possibleGrid = (string) $lessonNode->timegrid;
+        $grid = empty($possibleGrid)? 'Haupt-Zeitraster' : $possibleGrid;
+        $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->grid = $grid;
+
         $poolIDs = (string) $lessonNode->lesson_classes[0]['id'];
-        $poolsValid = $this->validatePools($poolIDs);
+        $poolsValid = $this->validatePools($poolIDs, $grid);
         if (!$poolsValid)
         {
             return;
@@ -140,14 +144,20 @@ class THM_OrganizerModelLesson extends JModelLegacy
         $occurrences = $this->validateRawOccurrences($rawOccurrences, $startDT, $endDT);
 
         $comment = trim((string) $lessonNode->text);
-        $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->comment = empty($comment)? '' : $comment;
+
+        // Ensures that the comment is set and empty. '.' is used in Untis to ensure that a comment is correctly associated.
+        if (empty($comment) OR $comment == '.')
+        {
+            $comment = '';
+        }
+        $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->comment = $comment;
 
         $periods = intval(trim($lessonNode->periods));
         $times = $lessonNode->xpath("times/time");
 
         // Cannot produce blocking errors
         $this->validatePeriodsAttribute($periods, $times);
-        $this->validateOccurrences($occurrences, $startDT, $times);
+        $this->validateOccurrences($occurrences, $startDT, $times, $grid);
     }
 
     /**
@@ -286,10 +296,11 @@ class THM_OrganizerModelLesson extends JModelLegacy
      * Validates the pools attribute and sets corresponding schedule elements
      * 
      * @param   string  $poolIDs  the ids of the associated pools as string
+     * @param   string  $grid     the name of the grid in which this lesson should be displayed
      *
      * @return  boolean  true if valid, otherwise false
      */
-    private function validatePools($poolIDs)
+    private function validatePools($poolIDs, $grid)
     {
         if (empty($poolIDs) AND !isset($this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools))
         {
@@ -303,6 +314,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools = new stdClass;
             }
             $poolIDs = explode(" ", $poolIDs);
+            $gridFound = false;
             foreach ($poolIDs as $poolID)
             {
                 $poolID = str_replace('CL_', '', $poolID);
@@ -313,6 +325,10 @@ class THM_OrganizerModelLesson extends JModelLegacy
                     {
                         $poolFound = true;
                         $poolID = $poolKey;
+                        if ($grid == $pool->grid)
+                        {
+                            $gridFound = true;
+                        }
                         break;
                     }
                 }
@@ -323,6 +339,12 @@ class THM_OrganizerModelLesson extends JModelLegacy
                     return false;
                 }
                 $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools->$poolID = '';
+            }
+            if (!$gridFound)
+            {
+                $this->_scheduleModel->scheduleErrors[]
+                    = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_POOL_GRID_INCONSISTENT', $this->_lessonName, $this->_lessonID, $grid);
+                return false;
             }
         }
         return true;
@@ -392,12 +414,13 @@ class THM_OrganizerModelLesson extends JModelLegacy
      */
     private function validateRawOccurrences($raw, $start, $end)
     {
+        $calendarDates = array_keys((array) $this->_scheduleModel->schedule->calendar);
         if (empty($raw))
         {
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_OCC_MISSING', $this->_lessonName, $this->_lessonID);
             return false;
         }
-        elseif (strlen($raw) != $this->_scheduleModel->schedule->calendar->sylength)
+        elseif (strlen($raw) != count($calendarDates))
         {
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_OCC_INVALID', $this->_lessonName, $this->_lessonID);
             return false;
@@ -437,13 +460,14 @@ class THM_OrganizerModelLesson extends JModelLegacy
     /**
      * Iterates over possible occurrences and validates them
      * 
-     * @param   array  $occurrences  an array of 'occurrences'
-     * @param   int    $currentDT    the starting timestamp
-     * @param   array  &$instances   the object containing the instances
+     * @param   array   $occurrences  an array of 'occurrences'
+     * @param   int     $currentDT    the starting timestamp
+     * @param   array   &$instances   the object containing the instances
+     * @param   string  $grid         the grid used by the lesson
      * 
      * @return  void
      */
-    private function validateOccurrences($occurrences, $currentDT, &$instances)
+    private function validateOccurrences($occurrences, $currentDT, &$instances, $grid)
     {
         if (count($instances) == 0)
         {
@@ -460,7 +484,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
 
             foreach ($instances as $instance)
             {
-                $valid = $this->validateInstance($instance, $currentDT);
+                $valid = $this->validateInstance($instance, $currentDT, $grid);
                 if (!$valid)
                 {
                     return;
@@ -476,13 +500,18 @@ class THM_OrganizerModelLesson extends JModelLegacy
      * 
      * @param   object  &$instance  the lesson instance
      * @param   int     $currentDT  the current date time in the iteration
+     * @param   string  $grid       the grid used by the lesson
      * 
      * @return  boolean  true if valid, otherwise false
      */
-    private function validateInstance(&$instance, $currentDT)
+    private function validateInstance(&$instance, $currentDT, $grid)
     {
         $currentDate = date('Y-m-d', $currentDT);
+
+        // Sporadic lessons occur on specific dates
         $assigned_date = strtotime(trim((string) $instance->assigned_date));
+
+        // The lesson is sporadic and does not occur on the date being currently iterated
         if (!empty($assigned_date) AND $assigned_date != $currentDT)
         {
             return true;
@@ -491,13 +520,13 @@ class THM_OrganizerModelLesson extends JModelLegacy
         $day = trim((string) $instance->assigned_day);
         $validDay = $this->validateInstanceDay($day, $currentDT);
         
-        // The day either was not valid, or was not a day on which the lesson occurs
+        // The lesson does not occur on the day (true) or the day is invalid (false)
         if ($validDay === true OR $validDay === false)
         {
             return $validDay;
         }
 
-        $period = $this->validatePeriod(trim((string) $instance->assigned_period), $currentDate);
+        $period = $this->validatePeriod(trim((string) $instance->assigned_period), $currentDate, $grid);
         if (!$period)
         {
             return false;
@@ -556,14 +585,35 @@ class THM_OrganizerModelLesson extends JModelLegacy
      * 
      * @param   string  $period       the period attribute
      * @param   string  $currentDate  the date in the current iteration
+     * @param   string  $grid         the grid used by the lesson
      * 
      * @return  boolean  true on success, 
      */
-    private function validatePeriod($period, $currentDate)
+    private function validatePeriod($period, $currentDate, $grid)
     {
         if (empty($period))
         {
             $error = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_PERIOD_NUMBER_MISSING', $this->_lessonName, $this->_lessonID);
+            if (!in_array($error, $this->_scheduleModel->scheduleErrors))
+            {
+                $this->_scheduleModel->scheduleErrors[] = $error;
+                return false;
+            }
+        }
+
+        if (!isset($this->_scheduleModel->schedule->periods->$grid))
+        {
+            $error = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_GRID_INCONSISTENT', $this->_lessonName, $this->_lessonID, $grid);
+            if (!in_array($error, $this->_scheduleModel->scheduleErrors))
+            {
+                $this->_scheduleModel->scheduleErrors[] = $error;
+                return false;
+            }
+        }
+
+        if (!isset($this->_scheduleModel->schedule->periods->$grid->$period))
+        {
+            $error = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_GRID_PERIOD_INCONSISTENT', $this->_lessonName, $this->_lessonID, $period, $grid);
             if (!in_array($error, $this->_scheduleModel->scheduleErrors))
             {
                 $this->_scheduleModel->scheduleErrors[] = $error;
