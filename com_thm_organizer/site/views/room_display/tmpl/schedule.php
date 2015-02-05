@@ -65,39 +65,44 @@ $metric = 0;
     </div>
     <div class="schedule-area schedule-wide">
 <?php
-        if (!empty($blocks))
+if (!empty($blocks))
+{
+    foreach ($blocks as $blockKey => $block)
+    {
+        $blockClass = ($blockNo % 2)? 'block-odd' : 'block-even';
+        $activeClass = ($time >= $block->starttime and $time <= $block->endtime)? 'active' : 'inactive';
+?>
+        <div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
+            <div class="block-time">
+                <?php echo $block->starttime . ' - ' . $block->endtime; ?>
+            </div>
+            <div class="block-data">
+<?php
+        if (!empty($block->lessons))
         {
-            foreach ($blocks as $blockKey => $block)
+            echo '<div class="block-title">';
+            foreach ($block->lessons as $lesson)
             {
-                $blockClass = ($blockNo % 2)? 'block-odd' : 'block-even';
-                $activeClass = ($time >= $block['starttime'] and $time <= $block['endtime'])? 'active' : 'inactive';
-?>
-                <div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
-                    <div class="block-time">
-                        <?php echo $block['starttime'] . ' - ' . $block['endtime']; ?>
-                    </div>
-                    <div class="block-data">
-                        <div class="block-title"><?php echo $block['title']; ?></div>
-<?php
-                if (!empty($block['extraInformation']))
-                {
-?>
-                        <div class="block-extra"><?php echo $block['extraInformation']; ?></div>
-<?php
-                }
-?>
-                    </div>
-                </div>
-<?php
-                $blockNo++;
+                echo '<span class="lesson-title">' . $lesson['title'] . '</span>';
+                echo '<span class="lesson-time">' . $lesson['time'] . '</span>';
+                echo '<br />';
             }
+            echo '</div>';
+            echo '<div class="block-extra">';
+            foreach ($block->lessons as $lesson)
+            {
+                echo '<span class="lesson-teacher">' . $lesson['teacher'] . '</span>';
+                echo '<br />';
+            }
+            echo '</div>';
         }
-        else
-        {
 ?>
-            <div class="schedule-block block-even incactive"><?php echo JText::_('COM_THM_ORGANIZER_NO_LESSONS'); ?></h2>
+            </div>
+        </div>
 <?php
-        }
+        $blockNo++;
+    }
+}
 ?>
     </div>
 </div>

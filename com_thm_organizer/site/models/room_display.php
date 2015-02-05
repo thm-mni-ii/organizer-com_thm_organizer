@@ -10,8 +10,6 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/teacher.php';
 
 if (!defined('SCHEDULE'))
 {
@@ -46,14 +44,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     public $blocks;
 
     private $_dbDate = "";
-
-    public $appointments = array();
-
-    public $information = array();
-
-    public $notices = array();
-
-    public $upcoming = array();
 
     /**
      * Constructor
@@ -142,7 +132,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $this->params['roomID'] = $monitorEntry->roomID;
     }
 
-
     /**
      * Determines which display behaviour is desired based on which layout was previously used
      *
@@ -197,8 +186,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setScheduleInformation()
     {
-        // For testing
-        //$this->params['date'] = getDate(strtotime('06.11.2014'));
         $this->params['date'] = getdate(time());
         $this->_dbDate = date('Y-m-d', $this->params['date'][0]);
         $this->setSchedules();
@@ -264,114 +251,215 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 {
                     $starttime = substr($data->starttime, 0, 2) . ":" . substr($data->starttime, 2);
                     $endtime = substr($data->endtime, 0, 2) . ":" . substr($data->endtime, 2);
-                    $this->blocks[$number] = array();
-                    $this->blocks[$number]['period'] = $number;
-                    $this->blocks[$number]['starttime'] = $starttime;
-                    $this->blocks[$number]['endtime'] = $endtime;
-                    $this->blocks[$number]['displayTime'] = "$starttime - $endtime";
+                    $this->blocks[$number] = new stdClass;
+                    $this->blocks[$number]->period = $number;
+                    $this->blocks[$number]->starttime = $starttime;
+                    $this->blocks[$number]->endtime = $endtime;
+                    $this->blocks[$number]->displayTime = "$starttime - $endtime";
                 }
             }
         }
-        foreach (array_keys($this->blocks) as $block)
-        {
-            $this->setLessonData($block);
-        }
+        $this->setLessonData();
+        $this->setDummyText();
     }
 
     /**
      * Adds basic lesson information to a block (if available)
      *
-     * @param   int  $blockID  the id of the block being iterated
-     *
      * @return void
      */
-    private function setLessonData($blockID)
+    private function setLessonData()
     {
-        $lessonFound = false;
-        $lessonTitle = $teacherText = '';
         foreach ($this->_schedules as $schedule)
         {
-            // No need to reiterate
-            if ($lessonFound)
+            $this->setBlocksDataBySchedule($schedule);
+        }
+    }
+
+    /**
+     * Sets schedule specific information for a given block
+     *
+     * @param   object  &$schedule  the schedule being iterated
+     *
+     * @return  void  sets information in the given block
+     */
+    private function setBlocksDataBySchedule(&$schedule)
+    {
+        foreach ($schedule->periods as $gridName => $grid)
+        {
+            $this->setLessonDataByGrid($schedule, $gridName, $grid);
+        }
+    }
+
+    /**
+     * Iterates through the blocks of a specific grid adding the lesson data to the display blocks
+     *
+     * @param   object  &$schedule  the schedule being iterated
+     * @param   string  $gridName   the name of the grid being iterated
+     * @param   object  $grid       the grid information
+     *
+     * @return  void  sets attributes of $this->blocks
+     */
+    private function setLessonDataByGrid(&$schedule, $gridName, &$grid)
+    {
+        foreach ($grid as $gridPeriod => $gridBlock)
+        {
+            foreach ($this->blocks as $planBlock)
+            {
+                $relevant = $this->getRelevance($gridBlock, $planBlock);
+                if ($relevant)
+                {
+                    $this->addLessonInformation($schedule, $planBlock->period, $gridName, $gridBlock);
+                }
+            }
+        }
+    }
+
+    /**
+     * Compares the start and end times of the two blocks, determining the relevancy of one block for the other
+     *
+     * @param   object  $gridBlock  the data for the grid block being iterated
+     * @param   object  $planBlock  the data for the plan block being iterated
+     *
+     * @return  bool  true if the grid block is relevant for the plan block, otherwise false
+     */
+    private function getRelevance($gridBlock, $planBlock)
+    {
+        $gbStarttime = substr($gridBlock->starttime, 0, 2) . ":" . substr($gridBlock->starttime, 2);
+        $gbEndtime = substr($gridBlock->endtime, 0, 2) . ":" . substr($gridBlock->endtime, 2);
+        $pbStarttime = substr($planBlock->starttime, 0, 2) . ":" . substr($planBlock->starttime, 2);
+        $pbEndtime = substr($planBlock->endtime, 0, 2) . ":" . substr($planBlock->endtime, 2);
+        $startIsRelevant = ($gbStarttime >= $pbStarttime AND $gbStarttime < $pbEndtime);
+        $endIsRelevant = ($gbEndtime > $pbStarttime AND $gbEndtime <= $pbEndtime);
+        return ($startIsRelevant OR $endIsRelevant);
+    }
+
+    /**
+     * Checks which grid blocks are relevant for the displayed block times
+     *
+     * @param   object  &$schedule  the schedule being iterated
+     * @param   int     $period     the period id of the block being iterated
+     * @param   array   $gridName   the block being iterated
+     * @param   object  $gridBlock  the data for the grid block being iterated
+     *
+     * @return  array   an array containing relevant block information
+     */
+    private function addLessonInformation($schedule, $period, $gridName, $gridBlock)
+    {
+        $lessons = $schedule->calendar->{$this->_dbDate}->$period;
+        foreach ($lessons AS $lessonID => $rooms)
+        {
+            $lesson = $schedule->lessons->$lessonID;
+
+            // This lesson will either be handled in another iteration or is not relevant
+            if ($lesson->grid != $gridName)
+            {
+                continue;
+            }
+
+            // The lesson no longer exists for this block
+            if (!empty($lessons->$lessonID->delta) AND $lessons->$lessonID->delta == 'removed')
             {
                 break;
             }
-            foreach ($schedule->calendar->{$this->_dbDate}->$blockID as $lessonID => $rooms)
+
+            foreach ($rooms as $roomID => $roomDelta)
             {
-                // No need to reiterate
-                if ($lessonFound)
+                // This is not a room
+                if ($roomID == 'delta')
                 {
-                    break;
+                    continue;
                 }
 
-                foreach ($rooms as $roomID => $roomDelta)
+                // The room being iterated is not relevant for the display
+                if ($roomID != $this->params['gpuntisID'])
                 {
-                    if ($roomID == 'delta')
+                    continue;
+                }
+
+                $subjects = (array)$schedule->lessons->$lessonID->subjects;
+                foreach ($subjects as $subjectID => $subjectDelta)
+                {
+                    if ($subjectDelta == 'removed')
                     {
-                        if ($roomDelta == 'removed')
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            continue;
-                        }
+                        unset($subjects[$subjectID]);
                     }
-                    if ($roomID == $this->params['gpuntisID'])
+                }
+
+                if (!isset($this->blocks[$period]->lessons))
+                {
+                    $this->blocks[$period]->lessons = array();
+                }
+
+                if (!isset($this->blocks[$period]->lessons[$lessonID]))
+                {
+                    $this->blocks[$period]->lessons[$lessonID] = array();
+                }
+
+                $subjectIDs = array_keys($subjects);
+
+                if (count($subjectIDs) > 1)
+                {
+                    $subjectNames = array();
+                    foreach ($subjectIDs as $subjectID)
                     {
-                        $lessonFound = true;
-                        $subjects = (array) $schedule->lessons->$lessonID->subjects;
-                        foreach ($subjects as $subjectID => $subjectDelta)
-                        {
-                            if ($subjectDelta == 'removed')
-                            {
-                                unset($subjects[$subjectID]);
-                            }
-                        }
-                        if (count($subjects) > 1)
-                        {
-                            $lessonName = $schedule->lessons->$lessonID->name;
-                        }
-                        else
-                        {
-                            $subjects = array_keys($subjects);
-                            $subjectID = array_shift($subjects);
-                            $longname = $schedule->subjects->$subjectID->longname;
-                            $shortname = $schedule->subjects->$subjectID->name;
-                            $lessonName = (strlen($longname) <= 30)? $longname : $shortname;
-                            $lessonName .= " - " . $schedule->lessons->$lessonID->description;
-                            $lessonTitle .= $lessonName;
-                        }
-                        $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
-                        $teachers = array();
-                        foreach ($teachersIDs as $teacherID => $teacherDelta)
-                        {
-                            if ($teacherDelta == 'removed')
-                            {
-                                unset($teachers[$teacherID]);
-                                continue;
-                            }
- 
-                            $teachers[$schedule->teachers->$teacherID->surname] = $schedule->teachers->$teacherID->surname;
-                        }
-                        $teacherText .= implode(', ', $teachers);
+                        $subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
                     }
+                    $lessonTitle = implode(', ', $subjectNames);
+                }
+                else
+                {
+                    $subjectID = array_shift($subjectIDs);
+                    $longname = $schedule->subjects->$subjectID->longname;
+                    $shortname = $schedule->subjects->$subjectID->name;
+
+                    // A little arbitrary but implementing settings is a little too much effort
+                    $lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
+                }
+                $lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
+                $this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
+
+                $teachersIDs = (array)$schedule->lessons->$lessonID->teachers;
+                $teachers = array();
+                foreach ($teachersIDs as $teacherID => $teacherDelta)
+                {
+                    if ($teacherDelta == 'removed')
+                    {
+                        unset($teachers[$teacherID]);
+                    }
+                    $teachers[$teacherID] = $schedule->teachers->$teacherID->surname;
+                }
+                $this->blocks[$period]->lessons[$lessonID]['teacher'] = implode(', ', $teachers);
+
+                if ($gridName != 'Haupt-Zeitraster')
+                {
+                    $this->blocks[$period]->lessons[$lessonID]['time'] = "($gridBlock->starttime - $gridBlock->endtime)";
+                }
+                else
+                {
+                    $this->blocks[$period]->lessons[$lessonID]['time'] = '';
                 }
             }
         }
-        if ($lessonFound)
+    }
+
+    /**
+     * Sets a dummy text for blocks without lesson information
+     *
+     * @return  void  sets attributes of $this->blocks
+     */
+    private function setDummyText()
+    {
+        foreach($this->blocks as $period => $block)
         {
-            $this->blocks[$blockID]['title'] = $lessonTitle;
-            $this->blocks[$blockID]['extraInformation'] = $teacherText;
-            $this->blocks[$blockID]['type'] = 'COM_THM_ORGANIZER_RD_TYPE_LESSON';
-            $this->blocks[$blockID]['teacherText'] = $teacherText;
-            $this->lessonsExist = true;
-        }
-        else
-        {
-            $this->blocks[$blockID]['title'] = JText::_('COM_THM_ORGANIZER_NO_INFORMATION_AVAILABLE');
-            $this->blocks[$blockID]['extraInformation'] = '';
-            $this->blocks[$blockID]['type'] = 'empty';
+            if (empty($block->lessons))
+            {
+                $this->blocks[$period]->lessons = array();
+                $this->blocks[$period]->lessons['DUMMY'] = array();
+                $this->blocks[$period]->lessons['DUMMY']['title'] = JText::_('COM_THM_ORGANIZER_NO_INFORMATION_AVAILABLE');
+                $this->blocks[$period]->lessons['DUMMY']['teacher'] = '';
+                $this->blocks[$period]->lessons['DUMMY']['time'] = '';
+            }
         }
     }
 }
