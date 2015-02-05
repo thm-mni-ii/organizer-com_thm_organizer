@@ -119,6 +119,9 @@ class THM_OrganizerModelSchedulerSiteTest extends TestCaseDatabase {
         $expected->active = "1";
         $expected->startdate = "2013-10-07";
         $expected->enddate = "2014-10-05";
+        $expected->term_startdate = "2013-10-29";
+        $expected->term_enddate = "2014-10-05";
+
         $this->assertEquals($expected, $actual);
     }
     
@@ -140,6 +143,9 @@ class THM_OrganizerModelSchedulerSiteTest extends TestCaseDatabase {
         $expected->active = "1";
         $expected->startdate = "2013-10-07";
         $expected->enddate = "2014-10-05";
+        $expected->term_startdate = "2013-10-29";
+        $expected->term_enddate = "2014-10-05";
+
         $this->assertEquals($expected, $actual);
     }
     

@@ -1,2 +1,2 @@
-'id','departmentname','semestername','creationdate','description','schedule','active','startdate','enddate','creationtime'
-'1','STK','WS','2013-10-29',,,1,'2013-10-07','2014-10-05',NULL
+'id','departmentname','semestername','creationdate','description','schedule','active','startdate','enddate','creationtime','term_startdate','term_enddate'
+'1','STK','WS','2013-10-29',,,1,'2013-10-07','2014-10-05',NULL,'2013-10-29','2014-10-05'

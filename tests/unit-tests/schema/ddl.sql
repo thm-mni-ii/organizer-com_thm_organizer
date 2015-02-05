@@ -48,7 +48,9 @@ CREATE TABLE IF NOT EXISTS `jos_thm_organizer_schedules` (
   `schedule` mediumblob NOT NULL,
   `active` TINYINT ( 1 ) NOT NULL DEFAULT '0',
   `startdate` date DEFAULT NULL,
-  `enddate` date DEFAULT NULL
+  `enddate` date DEFAULT NULL,
+  `term_startdate` date DEFAULT NULL,
+  `term_enddate` date DEFAULT NULL
 );
 
 CREATE TABLE jos_thm_organizer_colors

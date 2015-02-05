@@ -218,13 +218,14 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $seconds = $this->hours == SCHOOL? 2700 : 3600;
         foreach ($blocks as $blockNumber => $blockLessons)
         {
-            $starttime = $this->schedule->periods->$blockNumber->starttime;
-            $startDT = strtotime(substr($starttime, 0, 2) . ':' . substr($starttime, 2, 2) . ':00');
-            $endtime = $this->schedule->periods->$blockNumber->endtime;
-            $endDT = strtotime(substr($endtime, 0, 2) . ':' . substr($endtime, 2, 2) . ':00');
-            $hours = ($endDT - $startDT) / $seconds;
             foreach ($blockLessons as $lessonID => $lessonValues)
             {
+                $gridBlock =$this->schedule->periods->{$this->schedule->lessons->$lessonID->grid}->$blockNumber;
+                $starttime = $gridBlock->starttime;
+                $startDT = strtotime(substr($starttime, 0, 2) . ':' . substr($starttime, 2, 2) . ':00');
+                $endtime = $gridBlock->endtime;
+                $endDT = strtotime(substr($endtime, 0, 2) . ':' . substr($endtime, 2, 2) . ':00');
+                $hours = ($endDT - $startDT) / $seconds;
                 if (isset($lessonValues->delta) AND $lessonValues->delta == 'removed')
                 {
                     continue;

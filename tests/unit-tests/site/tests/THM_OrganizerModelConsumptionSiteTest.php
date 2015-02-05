@@ -147,7 +147,7 @@ class THM_OrganizerModelConsumptionSiteTest extends TestCaseDatabase
      */
     public function testsetConsumption()
     {
-        $expectedRooms = array('hours' => 396.0, 'type' => "D2");
+        $expectedRooms = array('hours' => 319.5, 'type' => "D2");
 
         $expectedTeachers = array();
 

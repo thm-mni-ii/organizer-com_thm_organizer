@@ -1343,6 +1343,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $data['startdate'] = $this->schedule->startdate;
         $data['enddate'] = $this->schedule->enddate;
         $data['active'] = 1;
+        $data['term_startdate'] = $this->schedule->termStartDate;
+        $data['term_enddate'] = $this->schedule->termEndDate;
 
         $row = JTable::getInstance('schedules', 'thm_organizerTable');
         $row->save($data);
