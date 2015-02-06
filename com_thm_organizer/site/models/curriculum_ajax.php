@@ -137,7 +137,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         
         if (empty($poolData->color))
         {
-            $poolData->color = 'ffffff';
+            $poolData->color = JComponentHelper::getParams('com_thm_organizer')->get('backgroundColor', '#ffffff');
         }
         $poolData->children = array();
         return $poolData;
@@ -223,7 +223,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
         if (empty($subjectData->color))
         {
-            $subjectData->color = 'ffffff';
+            $subjectData->color = JComponentHelper::getParams('com_thm_organizer')->get('backgroundColor', '#ffffff');
         }
         $subjectData->link = JRoute::_($subjectData->link);
         if (!empty($subjectData->externalID) AND !empty($this->_schedule))

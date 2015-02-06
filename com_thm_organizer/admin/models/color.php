@@ -32,10 +32,6 @@ class THM_OrganizerModelColor extends JModelLegacy
     public function save()
     {
         $data = JFactory::getApplication()->input->get('jform', array(), 'array');
-        
-        // Removes the hashtag
-        $data['color'] = substr($data['color'], 1);
-
         $table = JTable::getInstance('colors', 'thm_organizerTable');
         return $table->save($data);
     }

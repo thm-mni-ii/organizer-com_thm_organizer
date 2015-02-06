@@ -284,7 +284,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * Checks whether a mapping exists for the selected resource
      *
      * @param   int     $resourceID    the id of the resource
-     * @param   string  $resourceType  the type of the resource#
+     * @param   string  $resourceType  the type of the resource
      *
      * @return  bool true if the resource has an existing mapping, otherwise false
      */

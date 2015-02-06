@@ -159,7 +159,7 @@ class THM_OrganizerModelColorTest extends TestCaseDatabase
     	$this->data['id'] = '0';
     	JRequest::setVar('jform', $this->data, 'get');
     	
-    	$expected2[] = array($this->data['id'],$this->data['name'], substr($this->data['color'],1));
+    	$expected2[] = array($this->data['id'],$this->data['name'], $this->data['color']);
     	
     	$actual1 = $this->object->save();
     	$this->assertEquals($expected1, $actual1);
@@ -186,7 +186,7 @@ class THM_OrganizerModelColorTest extends TestCaseDatabase
     	$this->data['name'] = 'test';
     	$this->data['color'] = '#100';
     	JRequest::setVar('jform', $this->data, 'get');
-    	$expected2[] = array($this->data['name'], substr($this->data['color'],1));
+    	$expected2[] = array($this->data['name'], $this->data['color']);
     	 
     	$actual1 = $this->object->save();
     	$this->assertEquals($expected1, $actual1);
@@ -205,19 +205,19 @@ class THM_OrganizerModelColorTest extends TestCaseDatabase
     {
     	$expected1 = true;
     	 
-    	$prevalues= array('test1','100');
+    	$prevalues= array('test1','#ffffff');
     	$expected2 = array();
     	$expected2[] = $prevalues;
     	$this->InsertinTable('jos_thm_organizer_colors', 'name, color', $prevalues);
     	 
-    	$prevalues= array('test2','200');
+    	$prevalues= array('test2','#eeeeee');
     	$expected2[] = $prevalues;
     	$this->InsertinTable('jos_thm_organizer_colors', 'name, color', $prevalues);
     	
     	$this->data['name'] = 'test';
     	$this->data['color'] = '#001';
     	JRequest::setVar('jform', $this->data, 'get');
-    	$expected2[] = array($this->data['name'], substr($this->data['color'],1));
+    	$expected2[] = array($this->data['name'], $this->data['color']);
     
     	$actual1 = $this->object->save();
     	$this->assertEquals($expected1, $actual1);

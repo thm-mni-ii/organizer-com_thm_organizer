@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR ( 255 ) NOT NULL,
-  `color` VARCHAR ( 6 ) NOT NULL,
+  `color` VARCHAR ( 7 ) NOT NULL,
   PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

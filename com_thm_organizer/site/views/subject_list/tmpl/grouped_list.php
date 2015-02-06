@@ -54,7 +54,7 @@ class THM_OrganizerTemplateGroupedList
             $style = '';
             if (!empty($group['bgColor']))
             {
-                $style = ' style="background-color: #' . $group['bgColor']. '; color: #' . $group['textColor']. ';"';
+                $style = ' style="background-color: ' . $group['bgColor']. '; color: ' . $group['textColor']. ';"';
             }
             $script = ' onClick="jQuery(\'#' . $params['name'] . '-' . $group['id'] . '\').toggle(\'slide\', 1000);"';
             echo '<h3' . $style . $script . '>' . $group['name'] . '</h3>';

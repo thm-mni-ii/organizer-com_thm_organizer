@@ -1342,6 +1342,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $data['schedule'] = json_encode($this->schedule);
         $data['startdate'] = $this->schedule->startdate;
         $data['enddate'] = $this->schedule->enddate;
+        $data['term_startdate'] = $this->schedule->termStartDate;
+        $data['term_enddate'] = $this->schedule->termEndDate;
         $data['active'] = 1;
         $data['term_startdate'] = $this->schedule->termStartDate;
         $data['term_enddate'] = $this->schedule->termEndDate;

@@ -20,6 +20,33 @@
             size="40"
             required="true"
             default="H:i" />
+        <field
+            name="backgroundColor"
+            type="color"
+            label="COM_THM_ORGANIZER_BACKGROUND_COLOR"
+            description="COM_THM_ORGANIZER_BACKGROUND_COLOR_DESC"
+            class="inputbox color"
+            size="10"
+            required="true"
+            default="#eeeeee" />
+        <field
+            name="lightTextColor"
+            type="color"
+            label="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR"
+            description="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC"
+            class="inputbox color"
+            size="10"
+            required="true"
+            default="#eeeeee" />
+        <field
+            name="darkTextColor"
+            type="color"
+            label="COM_THM_ORGANIZER_TEXT_DARK_COLOR"
+            description="COM_THM_ORGANIZER_TEXT_DARK_COLOR_DESC"
+            class="inputbox color"
+            size="10"
+            required="true"
+            default="#4a5c66" />
     </fieldset>
     <fieldset name="eCollab"
               label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
