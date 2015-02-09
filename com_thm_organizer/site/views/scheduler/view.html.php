@@ -81,14 +81,15 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $this->joomlaItemid = $this->config['isMenu']? $app->getMenu()->getActive()->id : 0;
 
         $schedulerModel = $this->getModel();
-        $eventModel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
+        //$eventModel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
 
         $params = $app->getMenu()->getActive()->params;
-        $this->config['canWrite'] = $eventModel->canWrite;
+        $this->config['canWrite'] = false; //$eventModel->canWrite;
         $this->config['sessionID'] = $schedulerModel->getSessionID();
         $this->searchModuleID = $input->getString('moduleID', '');
         $this->displayModuleNumber = (bool) $params->get("displayModuleNumber", true);
         $this->config['deltaDisplayDays'] = (int) $params->get("deltaDisplayDays", 14);
+        $this->config['displayDaysInWeek'] = (int) $params->get("displayDaysInWeek", 1);
         $this->config['name'] = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
         $this->config['name'] .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
 
@@ -298,7 +299,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $scheduleObject['curriculumColors'] = array();
         $scheduleObject["Grid.load"] = $this->_schedule->periods;
         $scheduleObject["Calendar"] = $this->_schedule->calendar;
-        $scheduleObject["Events.load"] = $ajaxModel->executeTask("Events.load");
+        //$scheduleObject["Events.load"] = true; //$ajaxModel->executeTask("Events.load");
         $scheduleObject["UserSchedule.load"] = new stdClass;
         $scheduleObject["UserSchedule.load"]->respChanges = $ajaxModel->executeTask("UserSchedule.load", array("username" => "respChanges"));
         $scheduleObject["ScheduleDescription.load"] = new stdClass;

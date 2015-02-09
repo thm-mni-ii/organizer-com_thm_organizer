@@ -28,13 +28,14 @@ Ext.define('SchedGrid',
      */
     loadData: function (data)
     {
-        if (MySched.daytime.length > 0)
+        var scheduleGrid = MySched.gridData[this.ScheduleModel.scheduleGrid];
+
+        var scheduleGridLength = Object.keys(scheduleGrid).length;
+
+        for (var i = 1; i <= scheduleGridLength; i++)
         {
-            for (var i = 1; i < MySched.daytime[1].length; i++)
-            {
-                var index = i - 1;
-                data[index].time = MySched.daytime[1][i].stime + '<br/>-<br/>' + MySched.daytime[1][i].etime;
-            }
+            var index = i - 1;
+            data[index].time = addColonToTime(scheduleGrid[i].starttime) + '<br/>-<br/>' + addColonToTime(scheduleGrid[i].endtime);
         }
 
         // If the grid is also shown, show also the sporadic events
@@ -71,10 +72,124 @@ Ext.define('SchedGrid',
  */
 function getSchedGrid()
 {
+    // Default days in a week from mo till sa
+    var fields = ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    var columns = [
+        {
+            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME,
+            menuDisabled: true,
+            sortable: false,
+            dataIndex: 'time',
+            renderer: MySched.lectureCellRenderer,
+            width: 35
+        },
+        {
+            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,
+            menuDisabled: true,
+            sortable: false,
+            dataIndex: 'monday',
+            renderer: MySched.lectureCellRenderer,
+            flex: 1
+        },
+        {
+            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY,
+            menuDisabled: true,
+            sortable: false,
+            dataIndex: 'tuesday',
+            renderer: MySched.lectureCellRenderer,
+            flex: 1
+        },
+        {
+            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY,
+            menuDisabled: true,
+            sortable: false,
+            dataIndex: 'wednesday',
+            renderer: MySched.lectureCellRenderer,
+            flex: 1
+        },
+        {
+            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY,
+            menuDisabled: true,
+            sortable: false,
+            dataIndex: 'thursday',
+            renderer: MySched.lectureCellRenderer,
+            flex: 1
+        },
+        {
+            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY,
+            menuDisabled: true,
+            sortable: false,
+            dataIndex: 'friday',
+            renderer: MySched.lectureCellRenderer,
+            flex: 1
+        },
+        {
+            header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_SATURDAY,
+            menuDisabled: true,
+            sortable: false,
+            dataIndex: 'saturday',
+            renderer: MySched.lectureCellRenderer,
+            flex: 1
+        }];
+
+    if(MySched.displayDaysInWeek === "1")
+    {
+        fields = ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+        columns = [
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'time',
+                renderer: MySched.lectureCellRenderer,
+                width: 35
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'monday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'tuesday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'wednesday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'thursday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            },
+            {
+                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY,
+                menuDisabled: true,
+                sortable: false,
+                dataIndex: 'friday',
+                renderer: MySched.lectureCellRenderer,
+                flex: 1
+            }];
+    }
+
     Ext.create('Ext.data.Store',
     {
         storeId: 'gridStore',
-        fields: ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
+        fields: fields,
         data: {
             'items': []
         },
@@ -129,65 +244,7 @@ function getSchedGrid()
         store: Ext.data.StoreManager.lookup('gridStore'),
         height: 440,
         //width: 726,
-        columns:
-        [
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'time',
-                renderer: MySched.lectureCellRenderer,
-                width: 35
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'monday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'tuesday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'wednesday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'thursday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'friday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_SATURDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'saturday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            }
-        ],
+        columns: columns,
         viewConfig:
         {
             features: [rowBodyFeature],
@@ -457,7 +514,8 @@ MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, 
 
     if (colIndex > 0)
     {
-        var times = blocktotime(rowIndex + 1);
+
+        var times = blocktotime(rowIndex + 1, this.ScheduleModel.scheduleGrid);
         meta.tdAttr = "stime='" + times[0] + "' etime='" + times[1] + "'";
     }
 

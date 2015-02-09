@@ -26,6 +26,16 @@ Ext.define('ScheduleModel',
             this.visibleLessons = [];
             this.visibleEvents = [];
             this.superclass.constructor.call(this, id, new MySched.Collection());
+
+            if(config && config.grid)
+            {
+                this.scheduleGrid = config.grid;
+            }
+            else
+            {
+                this.scheduleGrid = "Haupt-Zeitraster";
+            }
+
             if (config && config.type && config.value)
             {
                 this.init(config.type, config.value);
@@ -217,8 +227,14 @@ Ext.define('ScheduleModel',
          */
         getGridData: function ()
         {
-            // 0-5 => blocks per day
-            var ret = [{},{},{},{},{},{}];
+            var scheduleGridLength = Object.keys(MySched.gridData[this.scheduleGrid]).length;
+
+            var ret = [];
+
+            for (var i = 0; i < scheduleGridLength; i++)
+            {
+                ret.push({})
+            }
 
             // Need a fix format for the grid
             // sporadic, not regular events
@@ -414,7 +430,7 @@ Ext.define('ScheduleModel',
 
                                         if (displayLesson === true)
                                         {
-                                            block = blockIndex - 1;
+                                            block = parseInt(blockIndex) - 1;
 
                                             if (!ret[block][dow])
                                             {
@@ -422,6 +438,40 @@ Ext.define('ScheduleModel',
                                             }
 
                                             ret[block][dow].push(v.getCellView(this, block, dow));
+
+                                            if(this.scheduleGrid !== v.data.grid)
+                                            {
+                                                var lessonGridOverlaps = true;
+                                                var lessonTime = blocktotime(blockIndex, v.data.grid);
+                                                while(lessonGridOverlaps)
+                                                {
+                                                    block = block + 1;
+                                                    blockIndex = parseInt(blockIndex) + 1;
+                                                    var scheduleTime = blocktotime(blockIndex, this.scheduleGrid);
+
+                                                    if(scheduleTime === false)
+                                                    {
+                                                        lessonGridOverlaps = false;
+                                                        continue;
+                                                    }
+
+                                                    var cond1 = (scheduleTime[0] < lessonTime[0] && scheduleTime[1] < lessonTime[0]);
+                                                    var cond2 = (scheduleTime[0] > lessonTime[1]);
+
+                                                    if (!(cond1 || cond2)) {
+                                                        if (!ret[block][dow]) {
+                                                            ret[block][dow] = [];
+                                                        }
+
+                                                        ret[(block)][dow].push(v.getCellView(this, block, dow));
+                                                    }
+                                                    else
+                                                    {
+                                                        lessonGridOverlaps = false;
+                                                    }
+                                                }
+                                            }
+
                                             this.visibleLessons.push(v.data);
                                         }
                                     }

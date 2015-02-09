@@ -284,7 +284,7 @@ MySched.Tree = function ()
          */
         showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
         {
-            var title;
+            var title, config = {};
             if(nodeID === null)
             {
                 nodeID = nodeKey;
@@ -306,6 +306,7 @@ MySched.Tree = function ()
             else
             {
                 var departmentType = "field", departmentField = "description", nodeFullName = nodeKey;
+                var grid = "Haupt-Zeitraster";
                 if (type === "teacher")
                 {
                     nodeFullName = getTeacherSurnameWithCutFirstName(nodeKey);
@@ -318,6 +319,7 @@ MySched.Tree = function ()
                 else if (type === "pool")
                 {
                     nodeFullName = MySched.Mapping.getPoolFullName(nodeKey);
+                    grid = MySched.Mapping.getGrid(nodeKey);
                     departmentType = "degree";
                     departmentField = "degree";
                 }
@@ -338,9 +340,11 @@ MySched.Tree = function ()
                 }
             }
 
+            config.grid = grid;
+
             if (type === "delta")
             {
-                new ScheduleModel(nodeID, title).init(type, nodeKey).show();
+                new ScheduleModel(nodeID, title, config).init(type, nodeKey).show();
             }
             else
             {
@@ -387,14 +391,14 @@ MySched.Tree = function ()
                                     MySched.Calendar.addAll(lessonDate);
                                 }
 
-                                new ScheduleModel(nodeID, title).init(type, nodeKey, semesterID).show();
+                                new ScheduleModel(nodeID, title, config).init(type, nodeKey, semesterID).show();
                             }
                         }
                     );
                 }
                 else
                 {
-                    new ScheduleModel(nodeID, title) .init(type, nodeKey, semesterID) .show();
+                    new ScheduleModel(nodeID, title, config) .init(type, nodeKey, semesterID) .show();
                 }
             }
         },

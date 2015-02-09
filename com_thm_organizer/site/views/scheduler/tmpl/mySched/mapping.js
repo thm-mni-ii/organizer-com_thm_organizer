@@ -113,6 +113,10 @@ MySched.Mapping = function ()
         {
             return this.def(this.pool.get(id, id), 'degree', id);
         },
+        getGrid: function(id)
+        {
+            return this.def(this.pool.get(id, id), 'grid', id);
+        },
         getRoomParent: function(id)
         {
             return this.def(this.room.get(id, id), 'description', id);

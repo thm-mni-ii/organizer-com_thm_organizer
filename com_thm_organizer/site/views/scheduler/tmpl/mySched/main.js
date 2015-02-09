@@ -133,25 +133,28 @@ MySched.Base = function ()
             {
                 length = GridData.size;
             }
-            // Here an array is created with all block lessons of a week.
-            for (var i = 1; i <= length; i++)
-            {
-                if (!MySched.daytime[GridData[i].day])
-                {
-                    MySched.daytime[GridData[i].day] = [];
-                    MySched.daytime[GridData[i].day].engName = numbertoday(GridData[i].day);
-                    MySched.daytime[GridData[i].day].gerName = weekdayEtoD(numbertoday(GridData[i].day));
-                    MySched.daytime[GridData[i].day].localName = "day";
-                }
-                if (!MySched.daytime[GridData[i].day][GridData[i].period])
-                {
-                    MySched.daytime[GridData[i].day][GridData[i].period] = [];
-                }
-                MySched.daytime[GridData[i].day][GridData[i].period].etime = GridData[i].endtime.substr(0, 5);
-                MySched.daytime[GridData[i].day][GridData[i].period].stime = GridData[i].starttime.substr(0, 5);
-                MySched.daytime[GridData[i].day][GridData[i].period].tpid = GridData[i].gpuntisID;
-                MySched.daytime[GridData[i].day][GridData[i].period].localName = "block";
-            }
+
+            MySched.gridData = GridData;
+
+            //// Here an array is created with all block lessons of a week.
+            //for (var i = 1; i <= length; i++)
+            //{
+            //    if (!MySched.daytime[GridData[i].day])
+            //    {
+            //        MySched.daytime[GridData[i].day] = [];
+            //        MySched.daytime[GridData[i].day].engName = numbertoday(GridData[i].day);
+            //        MySched.daytime[GridData[i].day].gerName = weekdayEtoD(numbertoday(GridData[i].day));
+            //        MySched.daytime[GridData[i].day].localName = "day";
+            //    }
+            //    if (!MySched.daytime[GridData[i].day][GridData[i].period])
+            //    {
+            //        MySched.daytime[GridData[i].day][GridData[i].period] = [];
+            //    }
+            //    MySched.daytime[GridData[i].day][GridData[i].period].etime = GridData[i].endtime.substr(0, 5);
+            //    MySched.daytime[GridData[i].day][GridData[i].period].stime = GridData[i].starttime.substr(0, 5);
+            //    MySched.daytime[GridData[i].day][GridData[i].period].tpid = GridData[i].gpuntisID;
+            //    MySched.daytime[GridData[i].day][GridData[i].period].localName = "block";
+            //}
 
             // Initialize the tree and the choice control
             // TODO: There are two possibilities:
@@ -292,51 +295,8 @@ MySched.Base = function ()
         afterLoad: function ()
         {
             MySched.eventlist = new EventListModel();
-            if (checkStartup("Events.load") === true)
-            {
-                // Add a object list of events to treeManager and start building the schedule
-                // TODO: Is TreeManager in use anymore?
-                //MySched.TreeManager.afterloadEvents(MySched.startup["Events.load"].data);
-                MySched.Base.myschedInit();
-            }
-            else
-            {
-                // If the object list of events is not in 'MySched.startup["Events.load"].data' the data will be
-                // fetched by this ajax request
-                Ext.Ajax.request(
-                    {
-                        url: _C('ajaxHandler'),
-                        method: 'POST',
-                        params: {
-                            jsid: MySched.SessionId,
-                            scheduletask: "Events.load"
-                        },
-                        failure: function (response, request)
-                        {
-                            MySched.Base.myschedInit();
-                        },
-                        success: function (response, request)
-                        {
-                            try
-                            {
-                                var eventList = [];
 
-                                if (response.responseText.length > 0)
-                                {
-                                    eventList = Ext.decode(response.responseText);
-                                }
-                                // TODO: Is TreeManager in use anymore?
-                                //MySched.TreeManager.afterloadEvents(eventList);
-
-                                MySched.Base.myschedInit();
-                            }
-                            catch (e)
-                            {
-                                // TODO: Noting to catch here
-                            }
-                        }
-                    });
-            }
+            MySched.Base.myschedInit();
         },
         /**
          * Creates the schedule with data, layout and events
@@ -753,18 +713,31 @@ function weekdayEtoD(week_day)
  *
  * @method blocktotime
  * @param {Number} block The block number
- * @returns {Object} * The Object with start and end time
+ * @returns {mixed} * The Object with start and end time else false
  */
 // TODO: used in different files, where to place it?
-function blocktotime(block)
+function blocktotime(block, scheduleGrid)
 {
-    if (Ext.isNumber(block) && typeof block !== "undefined" && MySched.daytime[1] !== null)
+    if (typeof block !== "undefined" && typeof MySched.gridData[scheduleGrid][block] !== "undefined")
     {
-        return { 0: MySched.daytime[1][block].stime, 1: MySched.daytime[1][block].etime };
+        return { 0: addColonToTime(MySched.gridData[scheduleGrid][block].starttime), 1: addColonToTime(MySched.gridData[scheduleGrid][block].endtime) };
     }
-    return { 0: null, 1: null };
+    return false;
 }
 
+/**
+ *  Takes a time string (xxxx) and will return xx:xx
+ *
+ * @method addColonToTime
+ * @param {string} time The time string
+ * @returns {string} * The time string with a colon
+ */
+function addColonToTime(time)
+{
+    var colon = ":"
+    var position = 2;
+    return [time.slice(0, position), colon, time.slice(position)].join('');
+}
 
 // I don't know if it is even called once, so I don't care what it is doing for now
 Ext.ux.collapsedPanelTitlePlugin = function ()

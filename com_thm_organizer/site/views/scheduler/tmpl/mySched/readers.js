@@ -37,29 +37,32 @@ Ext.extend(SchedJsonReader, Ext.data.JsonReader,
 
         Ext.Object.each(o, function (key, value, myself)
         {
-            var lecture = MySched.Base.getLecture(key);
-            if(Ext.isDefined(lecture))
+            if(value.block && Ext.isObject(value.calendar))
             {
-                records[records.length] = lecture;
-            }
-            else
-            {
-                for (var calendarIndex in value.calendar)
+                var lecture = MySched.Base.getLecture(key);
+                if(Ext.isDefined(lecture))
                 {
-                    if (value.calendar.hasOwnProperty(calendarIndex))
+                    records[records.length] = lecture;
+                }
+                else
+                {
+                    for (var calendarIndex in value.calendar)
                     {
-                        var block = value.calendar[calendarIndex];
-                        for (var blockIndex in block)
+                        if (value.calendar.hasOwnProperty(calendarIndex))
                         {
-                            if (block.hasOwnProperty(blockIndex))
+                            var block = value.calendar[calendarIndex];
+                            for (var blockIndex in block)
                             {
-                                var data = block[blockIndex];
-                                data.lessonData.delta = "removed";
+                                if (block.hasOwnProperty(blockIndex))
+                                {
+                                    var data = block[blockIndex];
+                                    data.lessonData.delta = "removed";
+                                }
                             }
                         }
                     }
+                    records[records.length] = new LectureModel(key, value, MySched.class_semester_id, "");
                 }
-                records[records.length] = new LectureModel(key, value, MySched.class_semester_id, "");
             }
         });
 

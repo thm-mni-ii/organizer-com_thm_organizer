@@ -172,7 +172,7 @@ MySched.layout = function ()
                             {
                                 if (Ext.isDefined(lectureData[lectureIndex]) && Ext.isDefined(lectureData[lectureIndex].setCellTemplate) === true)
                                 {
-                                    lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type);
+                                    lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type, MySched.selectedSchedule.scheduleGrid);
                                 }
                             }
 
@@ -189,6 +189,15 @@ MySched.layout = function ()
                     }
                     else
                     {
+                        var lectureData = MySched.Schedule.data.items;
+
+                        for (var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
+                        {
+                            if (Ext.isDefined(lectureData[lectureIndex]) && Ext.isDefined(lectureData[lectureIndex].setCellTemplate) === true)
+                            {
+                                lectureData[lectureIndex].setCellTemplate(MySched.Schedule.type, MySched.Schedule.scheduleGrid);
+                            }
+                        }
                         MySched.Schedule.refreshView();
                     }
                 }, this
@@ -379,7 +388,7 @@ MySched.layout = function ()
                             {
                                 if (Ext.isDefined(lectureData[lectureIndex].setCellTemplate) === true)
                                 {
-                                    lectureData[lectureIndex].setCellTemplate(type);
+                                    lectureData[lectureIndex].setCellTemplate(type, grid.ScheduleModel.scheduleGrid);
                                 }
                             }
                         }
@@ -866,7 +875,7 @@ MySched.layout = function ()
                 'Ext.Button',
                 {
                     // TxT DownloadButton
-                    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EXCEL,
+                    text: MySchedLanguage.COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL,
                     id: 'btnTxt',
                     iconCls: 'tbSaveTxt',
                     disabled: disableExcel,
@@ -876,7 +885,7 @@ MySched.layout = function ()
                         clickMenuHandler();
                         var txtwait = Ext.MessageBox.wait(
                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_GENERATED,
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EXCEL_CREATE,
+                            MySchedLanguage.COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL_CREATE,
                             {
                                 interval: 100,
                                 duration: 2000

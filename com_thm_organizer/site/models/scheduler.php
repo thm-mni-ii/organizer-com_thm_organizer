@@ -60,7 +60,7 @@ class THM_OrganizerModelScheduler extends JModelLegacy
 
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT s.session_id, s.username, s.usertype, u.email');
+        $query->select('DISTINCT s.session_id, s.username, u.email');
         $query->from('#__session AS s');
         $query->leftJoin('#__users AS u ON s.username = u.username');
         $query->where("s.username = '{$user->get('username')}'");

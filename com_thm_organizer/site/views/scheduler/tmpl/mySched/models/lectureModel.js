@@ -38,7 +38,7 @@ Ext.define('LectureModel',
             }
 
             //New CellStyle
-            this.setCellTemplate();
+            this.setCellTemplate(null, this.data.grid);
 
             var infoTemplateString = '<div>' + '<small><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {roomName}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ':</span><big> {teacherName}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL + ':</span> <br/>{poolName}<br/>';
             infoTemplateString += '</small></div>';
@@ -164,8 +164,41 @@ Ext.define('LectureModel',
          */
         getLessonTitle: function (d)
         {
-            var firstSubject = this.data.subjects.keys[0];
-            var lessonTitle = MySched.Mapping.getSubjectShortName(firstSubject);
+            var subjectKeys = this.data.subjects.keys;
+            var subjectNames = [];
+            var lessonTitle = "";
+
+            if(subjectKeys.length === 1)
+            {
+                lessonTitle = MySched.Mapping.getSubjectShortName(subjectKeys[0]);
+                if(lessonTitle === subjectKeys[0])
+                {
+                    lessonTitle = MySched.Mapping.getSubjectAbbreviation(subjectKeys[0]);
+                    if(lessonTitle === subjectKeys[0])
+                    {
+                        lessonTitle = MySched.Mapping.getSubjectName(subjectKeys[0]);
+                    }
+                }
+            }
+            else if(subjectKeys.length > 1)
+            {
+                for(var index = 0; index < subjectKeys.length; index++)
+                {
+                    var abbreviation = MySched.Mapping.getSubjectAbbreviation(subjectKeys[index]);
+                    if(abbreviation === subjectKeys[index])
+                    {
+                        abbreviation = MySched.Mapping.getSubjectName(subjectKeys[index]);
+                    }
+
+                    subjectNames.push(abbreviation);
+                }
+                lessonTitle = subjectNames.join(" / ");
+            }
+            else
+            {
+                lessonTitle = this.data.name;
+            }
+
             return lessonTitle;
         },
         /**
@@ -736,30 +769,14 @@ Ext.define('LectureModel',
          * @method setCellTemplate
          * @param {string} t Resource type (e.g. room, pool)
          */
-        setCellTemplate: function (t)
+        setCellTemplate: function (t, scheduleGrid)
         {
             var time = "";
-            var blocktimes = blocktotime(this.data.block);
-            if (this.data.showtime === "full")
+
+            if (scheduleGrid !== this.data.grid)
             {
-                if (blocktimes[0] !== this.data.stime || blocktimes[1] !== this.data.etime)
-                {
-                    time = "(" + this.data.stime + "-" + this.data.etime + ")";
-                }
-            }
-            else if (this.data.showtime === "first")
-            {
-                if (blocktimes[0] !== this.data.stime)
-                {
-                    time = "(ab " + this.data.stime + ")";
-                }
-            }
-            else if (this.data.showtime === "last")
-            {
-                if (blocktimes[1] !== this.data.etime)
-                {
-                    time = "(bis " + this.data.etime + ")";
-                }
+                var blocktimes = blocktotime(this.data.block, this.data.grid);
+                time = "<br/>(" + blocktimes[0] + "-" + blocktimes[1] + ")";
             }
 
             if (Ext.isObject(MySched.selectedSchedule))
