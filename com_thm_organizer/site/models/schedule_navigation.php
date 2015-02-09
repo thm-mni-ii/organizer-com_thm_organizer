@@ -183,8 +183,8 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return $this->failure();
         }
-
         $this->_activeScheduleData = json_decode($activeSchedule->schedule);
+
         unset($activeSchedule->schedule);
 
         $this->_treeData["pool"] = $this->_activeScheduleData->pools;
@@ -211,7 +211,7 @@ class THM_OrganizerModelSchedule_Navigation
                 'semesterID' => $activeSchedule->id,
                 'iconCls' => 'semesterjahr-root',
                 'checked' => $this->_checked,
-                'publicDefault' => $this->_publicDefault
+                'publicDefault' => $this->_publicDefault,
             );
             $root = new THM_OrganizerNode($rootNodeData);
         }
@@ -241,7 +241,8 @@ class THM_OrganizerModelSchedule_Navigation
             "treeData" => $this->_treeData,
             "treePublicDefault" => $this->_publicDefaultNode,
             "lessons" => $this->_activeScheduleData->lessons,
-            "calendar" => $this->_activeScheduleData->calendar
+            "calendar" => $this->_activeScheduleData->calendar,
+            "periods" => $this->_activeScheduleData->periods
         );
         return $return;
     }
