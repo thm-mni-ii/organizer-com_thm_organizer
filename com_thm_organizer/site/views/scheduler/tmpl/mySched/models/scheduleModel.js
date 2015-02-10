@@ -227,7 +227,7 @@ Ext.define('ScheduleModel',
          */
         getGridData: function ()
         {
-            var scheduleGridLength = Object.keys(MySched.gridData[this.scheduleGrid]).length;
+            var scheduleGridLength = getGridBlocks(this.scheduleGrid);
 
             var ret = [];
 
@@ -432,23 +432,16 @@ Ext.define('ScheduleModel',
                                         {
                                             block = parseInt(blockIndex) - 1;
 
-                                            if (!ret[block][dow])
-                                            {
-                                                ret[block][dow] = [];
-                                            }
-
-                                            ret[block][dow].push(v.getCellView(this, block, dow));
-
                                             if(this.scheduleGrid !== v.data.grid)
                                             {
                                                 var lessonGridOverlaps = true;
                                                 var lessonTime = blocktotime(blockIndex, v.data.grid);
-                                                while(lessonGridOverlaps)
-                                                {
-                                                    block = block + 1;
-                                                    blockIndex = parseInt(blockIndex) + 1;
-                                                    var scheduleTime = blocktotime(blockIndex, this.scheduleGrid);
+                                                var scheduleGridLength = getGridBlocks(this.scheduleGrid);
 
+                                                for(var gridIndex = 1; gridIndex <= scheduleGridLength; gridIndex++)
+                                                {
+                                                    block = gridIndex - 1;
+                                                    var scheduleTime = blocktotime(gridIndex, this.scheduleGrid);
                                                     if(scheduleTime === false)
                                                     {
                                                         lessonGridOverlaps = false;
@@ -470,6 +463,15 @@ Ext.define('ScheduleModel',
                                                         lessonGridOverlaps = false;
                                                     }
                                                 }
+                                            }
+                                            else
+                                            {
+                                                if (!ret[block][dow])
+                                                {
+                                                    ret[block][dow] = [];
+                                                }
+
+                                                ret[block][dow].push(v.getCellView(this, block, dow));
                                             }
 
                                             this.visibleLessons.push(v.data);

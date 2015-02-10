@@ -739,6 +739,22 @@ function addColonToTime(time)
     return [time.slice(0, position), colon, time.slice(position)].join('');
 }
 
+/**
+ *  Function to get the blocks of a schedule grid
+ *
+ * @method getGridLength
+ * @param {string} scheduleGrid The name of a schedule grid
+ * @returns {integer} * The number of blocks in a schedule grid if the grid is undefined returns false.
+ */
+function getGridBlocks(scheduleGrid)
+{
+    if(typeof MySched.gridData[scheduleGrid] !== "undefined")
+    {
+        return Object.keys(MySched.gridData[scheduleGrid]).length;
+    }
+    return false;
+}
+
 // I don't know if it is even called once, so I don't care what it is doing for now
 Ext.ux.collapsedPanelTitlePlugin = function ()
 {
