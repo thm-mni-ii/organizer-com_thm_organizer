@@ -146,7 +146,11 @@ Ext.define('MySched.Model',
                     break;
                 default:
                 case 'json':
-                    var returnValue = Ext.encode(d);
+                    var exportData = {};
+                    exportData.grid = MySched.gridData[MySched.selectedSchedule.scheduleGrid];
+                    exportData.data = d;
+                    exportData.daysPerWeek = MySched.displayDaysInWeek;
+                    var returnValue = Ext.encode(exportData);
                     return returnValue;
             }
         },

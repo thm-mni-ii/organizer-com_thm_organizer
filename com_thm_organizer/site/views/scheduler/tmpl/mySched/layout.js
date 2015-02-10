@@ -612,8 +612,8 @@ MySched.layout = function ()
                                 {
                                     Ext.MessageBox.hide();
                                     Ext.Msg.alert(
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
                                 },
                                 success: function (response)
                                 {
@@ -640,8 +640,8 @@ MySched.layout = function ()
                                     else
                                     {
                                         Ext.Msg.alert(
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD,
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
                                     }
                                 }
                             });
@@ -687,8 +687,8 @@ MySched.layout = function ()
                                 {
                                     Ext.MessageBox.hide();
                                     Ext.Msg.alert(
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
                                 },
                                 success: function (response)
                                 {
@@ -715,8 +715,8 @@ MySched.layout = function ()
                                     else
                                     {
                                         Ext.Msg.alert(
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_DOWNLOAD,
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_PDF_ERROR);
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
                                     }
                                 }
                             }
@@ -769,8 +769,8 @@ MySched.layout = function ()
                                 {
                                     Ext.MessageBox.hide();
                                     Ext.Msg.alert(
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD_ERROR
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR
                                     );
                                 },
                                 success: function (response, ret)
@@ -854,8 +854,8 @@ MySched.layout = function ()
                                     catch (e)
                                     {
                                         Ext.Msg.alert(
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD,
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL_DOWNLOAD_ERROR);
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
                                     }
                                 }
                             }
@@ -908,8 +908,8 @@ MySched.layout = function ()
                                 {
                                     Ext.MessageBox.hide();
                                     Ext.Msg.alert(
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CREATE_ERROR);
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
                                 },
                                 success: function (response)
                                 {
@@ -935,8 +935,8 @@ MySched.layout = function ()
                                     else
                                     {
                                         Ext.Msg.alert(
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CREATE_ERROR);
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
                                     }
                                 }
                             }

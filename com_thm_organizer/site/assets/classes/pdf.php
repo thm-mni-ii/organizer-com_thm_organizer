@@ -58,13 +58,13 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Method to create a ical schedule
      *
-     * @param   Object  $arr       The event object
+     * @param   Object  $scheduleData       The event object
      * @param   String  $username  The current logged in username
      * @param   String  $title     The schedule title
      *
      * @return Array An array with information about the status of the creation
      */
-    public function createSchedule($arr, $username, $title)
+    public function createSchedule($scheduleData, $username, $title)
     {
         // Defaultangaben fuer Header, Zellen und Tabelle definieren
         $headerSettings = array(
@@ -163,25 +163,37 @@ class THMPDFBuilder extends THMAbstractBuilder
                     'tuesday' => 2,
                     'wednesday' => 3,
                     'thursday' => 4,
-                    'friday' => 5
+                    'friday' => 5,
+                    'saturday' => 6
             );
 
-            // Erstellt Blanko Tabelle als Vorlage (sonst sind rahmen ungleich dick)
-            $dummy = array_fill(0, 7, array());
-            $sched = array_fill(0, 7, $dummy);
+            $scheduleGridLength = count((array) $scheduleData->grid);
 
-            // Zeitspalte definieren
-            $sched[0][0]["TEXT"] = "8:00\n-\n9:30";
-            $sched[1][0]["TEXT"] = "9:50\n-\n11:20";
-            $sched[2][0]["TEXT"] = "11:30\n-\n13:00";
-            $sched[3][0]["TEXT"] = " ";
-            $sched[4][0]["TEXT"] = "14:00\n-\n15:30";
-            $sched[5][0]["TEXT"] = "15:45\n-\n17:15";
-            $sched[6][0]["TEXT"] = "17:30\n-\n19:00";
- 
-            if (isset($arr[0]->htmlView))
+            // +1 for the time column
+            $daysPerWeek = 7;
+
+            if ($scheduleData->daysPerWeek == "1")
             {
-                $lessons = $arr[0]->htmlView;
+                $daysPerWeek = 6;
+            }
+
+            // Erstellt Blanko Tabelle als Vorlage (sonst sind rahmen ungleich dick)
+            $dummy = array_fill(0, $daysPerWeek, array());
+            $sched = array_fill(0, $scheduleGridLength, $dummy);
+
+            for ($index = 0; $index < $scheduleGridLength; $index++)
+            {
+                // Zeitspalte definieren
+                $sched[$index][0]["TEXT"] = substr_replace($scheduleData->grid->{$index + 1}->starttime, ":", 2, 0) . "\n-\n" . substr_replace($scheduleData->grid->{$index + 1}->endtime, ":", 2, 0);
+            }
+
+            // For the lunchtime
+            array_splice( $sched, 3, 0, array($dummy) );
+            $sched[3][0]["TEXT"] = " ";
+
+            if (isset($scheduleData->data[0]->htmlView))
+            {
+                $lessons = $scheduleData[0]->htmlView;
                 foreach ($lessons as $block => $event)
                 {
                     foreach ($event as $day => $html)
@@ -215,7 +227,7 @@ class THMPDFBuilder extends THMAbstractBuilder
             }
             else
             {
-                $lessons = $arr;
+                $lessons = $scheduleData->data;
  
                 foreach ($lessons as $k => $l)
                 {
@@ -251,14 +263,14 @@ class THMPDFBuilder extends THMAbstractBuilder
             $pdf->SetAutoPageBreak(true, 13);
             $pdf->SetTopMargin(13);
             $pdf->AddPage('L');
-            $columns = 6;
+            $columns = $daysPerWeek;
 
             // Styles fuer die Formatierung-Tags setzten
             $pdf->SetStyle("b", "arial", "b", 10, "0, 0, 0");
             $pdf->SetStyle("i", "arial", "I", 10, "0, 0, 0");
             $pdf->SetStyle("small", "arial", "", 8, "0, 0, 0");
 
-            // Tabelle initialisieren mit 6 Spalten
+            // Tabelle initialisieren
             $pdf->Table_Init($columns, true, true);
 
             // Formatierung fuer die Tabelle setzen
@@ -272,7 +284,17 @@ class THMPDFBuilder extends THMAbstractBuilder
 
             // Breite und Text des Headers setzten
             $header_type[0]['WIDTH'] = 20;
-            $header_type[1]['WIDTH'] = $header_type[2]['WIDTH'] = $header_type[3]['WIDTH'] = $header_type[4]['WIDTH'] = $header_type[5]['WIDTH'] = 50;
+
+            if ($scheduleData->daysPerWeek == "0")
+            {
+                $header_type[1]['WIDTH'] = $header_type[2]['WIDTH'] = $header_type[3]['WIDTH'] = $header_type[4]['WIDTH'] = $header_type[5]['WIDTH'] = $header_type[6]['WIDTH'] = 45;
+                $header_type[6]['TEXT']  = JText::_("SATURDAY");
+            }
+            else
+            {
+                $header_type[1]['WIDTH'] = $header_type[2]['WIDTH'] = $header_type[3]['WIDTH'] = $header_type[4]['WIDTH'] = $header_type[5]['WIDTH'] = 50;
+            }
+
             $header_type[0]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME");
             $header_type[1]['TEXT']  = JText::_("MONDAY");
             $header_type[2]['TEXT']  = JText::_("TUESDAY");
@@ -302,12 +324,12 @@ class THMPDFBuilder extends THMAbstractBuilder
 
             // Definition einer leeren Zeile mit dickerem Rand zum Blocktrennen
             $blankLine = array_fill(
-                    0, 6, array(
-                            'LN_SIZE' => 0.1,
-                            'TEXT' => ' ',
-                            'BRD_SIZE' => 0.7,
-                            'BRD_TYPE' => 'T'
-                    )
+                0, $columns, array(
+                    'LN_SIZE' => 0.1,
+                    'TEXT' => ' ',
+                    'BRD_SIZE' => 0.7,
+                    'BRD_TYPE' => 'T'
+                )
             );
             $counter = 0;
 
