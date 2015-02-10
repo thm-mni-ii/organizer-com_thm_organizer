@@ -274,11 +274,11 @@ class THMPDFBuilder extends THMAbstractBuilder
             $header_type[0]['WIDTH'] = 20;
             $header_type[1]['WIDTH'] = $header_type[2]['WIDTH'] = $header_type[3]['WIDTH'] = $header_type[4]['WIDTH'] = $header_type[5]['WIDTH'] = 50;
             $header_type[0]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME");
-            $header_type[1]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY");
-            $header_type[2]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY");
-            $header_type[3]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY");
-            $header_type[4]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY");
-            $header_type[5]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY");
+            $header_type[1]['TEXT']  = JText::_("MONDAY");
+            $header_type[2]['TEXT']  = JText::_("TUESDAY");
+            $header_type[3]['TEXT']  = JText::_("WEDNESDAY");
+            $header_type[4]['TEXT']  = JText::_("THURSDAY");
+            $header_type[5]['TEXT']  = JText::_("FRIDAY");
             $pdf->Set_Header_Type($header_type);
             $pdf->Draw_Header();
 

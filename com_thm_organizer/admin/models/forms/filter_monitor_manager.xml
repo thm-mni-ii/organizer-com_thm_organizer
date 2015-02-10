@@ -20,7 +20,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_ROOM</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="ip"
@@ -32,7 +32,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_IP</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="useDefaults"
@@ -41,7 +41,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_DEFAULT</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_DEFAULT_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_DEFAULT_NO</option>
         </field>
@@ -53,7 +53,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_DISPLAY_BEHAVIOUR</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_DAILY_PLAN</option>
             <option value="2">COM_THM_ORGANIZER_MIXED_PLAN</option>
             <option value="3">COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
@@ -70,7 +70,7 @@
             valueParameter="content"
 			>
 			<option value="">COM_THM_ORGANIZER_FILTER_CONTENT</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
             <option value="-1">JNONE</option>
 		</field>
     </fields>

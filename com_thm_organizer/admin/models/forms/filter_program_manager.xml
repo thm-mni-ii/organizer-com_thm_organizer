@@ -20,7 +20,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="degreeID"
@@ -32,7 +32,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_DEGREE</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="version"
@@ -44,7 +44,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_VERSION</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
 		<field
 			name="fieldID"
@@ -56,7 +56,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
             <option value="-1">JNONE</option>
 		</field>
     </fields>

@@ -813,7 +813,7 @@ class THM_OrganizerModelSchedule_Navigation
         $allNodeData = array(
             'id' => "$categoryKey;ALL",
             'nodeKey' => 'ALL',
-            'text' => JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_MYSCHED_ALL'),
+            'text' => JText::_('JALL'),
             'gpuntisID' => "mySched_ALL",
             'type' => $category,
             'semesterID' => $scheduleID,

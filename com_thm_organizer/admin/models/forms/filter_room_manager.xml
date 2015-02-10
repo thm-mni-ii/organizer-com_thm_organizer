@@ -20,7 +20,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="longname"
@@ -32,7 +32,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_DISPLAY_NAME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="typeID"
@@ -45,7 +45,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_TYPE</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
     </fields>
 	<fields name="list">

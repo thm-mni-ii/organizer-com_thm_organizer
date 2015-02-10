@@ -20,7 +20,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="username"
@@ -32,7 +32,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_USERNAME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="program_manager"
@@ -41,7 +41,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM_MANAGER</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_PROGRAM_MANAGER_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_PROGRAM_MANAGER_NO</option>
         </field>
@@ -52,7 +52,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_PLANNER</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_PLANNER_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_PLANNER_NO</option>
         </field>

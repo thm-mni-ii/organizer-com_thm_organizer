@@ -19,7 +19,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_ORGANIZATION</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="semestername"
@@ -31,7 +31,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_PLANNING_PERIOD</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="active"
@@ -40,7 +40,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_STATE</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_ACTIVE_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_ACTIVE_NO</option>
         </field>
@@ -55,7 +55,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_CREATION_DATE</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
         <field
             name="creationtime"
@@ -68,7 +68,7 @@
             onchange="this.form.submit();"
             >
             <option value="">COM_THM_ORGANIZER_FILTER_CREATION_TIME</option>
-            <option value="">COM_THM_ORGANIZER_FILTER_ALL</option>
+            <option value="">JALL</option>
         </field>
     </fields>
     <fields name="list">

@@ -160,7 +160,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
         asort($resources);
         $selectedResources = $this->model->selected[$typeName];
         $options = array();
-        $options[] = JHtml::_('select.option', '*', JText::_('COM_THM_ORGANIZER_FILTER_ALL'));
+        $options[] = JHtml::_('select.option', '*', JText::_('JALL'));
         foreach ($resources as $resourceID => $resourceName)
         {
             $options[] = JHtml::_('select.option', $resourceID, $resourceName);
