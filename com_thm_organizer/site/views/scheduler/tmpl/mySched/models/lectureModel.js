@@ -667,7 +667,7 @@ Ext.define('LectureModel',
                         changedStatus = "module" + pools[poolIndex];
                     }
 
-                    HTML = '<small moduleID="' + poolIndex +  '" class="modulename ' + changedStatus + '">' + poolName + '</small>';
+                    HTML = '<small poolID="' + poolIndex +  '" class="modulename ' + changedStatus + '">' + poolName + '</small>';
                     ret.push(HTML);
                 }
             }

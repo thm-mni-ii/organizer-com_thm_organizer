@@ -223,7 +223,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 {
                     'click': function (e)
                     {
-                        this.showSchedule(e, 'module');
+                        this.showSchedule(e, 'pool');
                     },
                     scope: this
                 });
