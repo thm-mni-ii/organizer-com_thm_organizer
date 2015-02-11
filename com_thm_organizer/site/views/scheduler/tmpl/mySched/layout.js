@@ -885,7 +885,7 @@ MySched.layout = function ()
                         clickMenuHandler();
                         var txtwait = Ext.MessageBox.wait(
                             "",
-                            MySchedLanguage.COM_THM_ORGANIZER_ACTION_EXPORT_CREATE,
+                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
                             {
                                 interval: 100,
                                 duration: 2000
