@@ -746,7 +746,7 @@ MySched.layout = function ()
                         clickMenuHandler();
                         var icalwait = Ext.MessageBox.wait(
                             "",
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_CREATE,
+                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
                             {
                                 interval: 100,
                                 duration: 2000

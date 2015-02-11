@@ -78,13 +78,13 @@ class THMICALBuilder extends THMAbstractBuilder
     /**
      * Method to create a ical schedule
      *
-     * @param   Object  $lessons   The event object
+     * @param   Object  $scheduleGrid   The event object
      * @param   String  $username  The current logged in username
      * @param   String  $title     The schedule title
      *
      * @return Array An array with information about the status of the creation
      */
-    public function createSchedule($lessons, $username, $title)
+    public function createSchedule($scheduleGrid, $username, $title)
     {
         $planningPeriod = JRequest::getVar('departmentAndSemester');
  
@@ -126,7 +126,7 @@ class THMICALBuilder extends THMAbstractBuilder
         $vTimeZone1->setComponent($vTimeZone2);
         $vCalendar->setComponent($vTimeZone1);
 
-        foreach ($lessons as $lesson)
+        foreach ($scheduleGrid->data as $lesson)
         {
             $vCalendar = $this->setEvent($vCalendar, $lesson);
         }
@@ -260,7 +260,7 @@ class THMICALBuilder extends THMAbstractBuilder
      */
     private function getActiveSchedule($planningPeriod = null)
     {
-        $schedulerModel = JModel::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false));
+        $schedulerModel = JModelLegacy::getInstance('scheduler', 'thm_organizerModel', array('ignore_request' => false));
         $activeSchedule = $schedulerModel->getActiveSchedule($planningPeriod);
  
         return $activeSchedule;
