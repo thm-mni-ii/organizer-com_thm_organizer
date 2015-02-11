@@ -61,8 +61,6 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/tree.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/subscribe.js"></script>
-    <script type="text/javascript" charset="utf-8"
-            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/newPEvent.js"></script>
     <!-- Models -->
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/model.js"></script>
@@ -105,6 +103,7 @@ if ($this->config['canWrite'] === true)
             Ext.decode(decodeURIComponent('<?php echo rawurlencode(json_encode($this->requestResources['subjects'])); ?>'));
         MySched.joomlaItemid = '<?php echo $this->joomlaItemid; ?>';
         MySched.languageTag = '<?php echo $this->config['languageTag']; ?>';
+        MySched.displayDaysInWeek = '<?php echo $this->config['displayDaysInWeek']; ?>';
         MySched.FPDFInstalled = <?php echo $this->libraries['fpdf']? 'true' : 'false'; ?>;
         MySched.iCalcreatorInstalled = <?php echo $this->libraries['iCalcreator']? 'true' : 'false'; ?>;
         MySched.PHPExcelInstalled = <?php echo $this->libraries['PHPExcel']? 'true' : 'false'; ?>;

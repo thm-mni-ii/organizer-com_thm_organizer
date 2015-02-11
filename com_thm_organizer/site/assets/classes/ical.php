@@ -126,7 +126,7 @@ class THMICALBuilder extends THMAbstractBuilder
         $vTimeZone1->setComponent($vTimeZone2);
         $vCalendar->setComponent($vTimeZone1);
 
-        foreach ($scheduleGrid->data as $lesson)
+        foreach ($scheduleGrid as $lesson)
         {
             $vCalendar = $this->setEvent($vCalendar, $lesson);
         }

@@ -99,8 +99,8 @@ MySched.Authorize = function ()
                             {
                                 MySched.CookieProvider.clear('authToken');
                                 Ext.Msg.alert(
-                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED,
-                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED_MSG1 + json.errors.reason + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED_MSG2,
+                                MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED,
+                                MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG1 + json.errors.reason + MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG2,
                                 this.showAuthForm(),
                                 this);
                             }
@@ -110,8 +110,8 @@ MySched.Authorize = function ()
                     catch (e)
                     {
                         Ext.Msg.alert(
-                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED,
-                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AUTHORIZE_FAILED_MSG3,
+                        MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED,
+                        MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG3,
                         this.showAuthForm(), this);
                     }
                 },

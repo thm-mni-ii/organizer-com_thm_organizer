@@ -118,20 +118,22 @@ Ext.define('MySched.Model',
          */
         exportData: function (type, pers)
         {
-            var d = [];
+            var exportData = {};
             if (pers === "personal")
             {
-                d = this.asPersArray();
+                exportData = this.asPersArray();
             }
             else
             {
                 if (type === "jsonpdf")
                 {
-                    d = this.asArrayForPDF();
+                    exportData.grid = MySched.gridData[MySched.selectedSchedule.scheduleGrid];
+                    exportData.data = this.asArrayForPDF();
+                    exportData.daysPerWeek = MySched.displayDaysInWeek;
                 }
                 else
                 {
-                    d = this.asArray();
+                    exportData = this.asArray();
                 }
             }
 
@@ -139,17 +141,13 @@ Ext.define('MySched.Model',
             {
                 case 'arr':
                 case 'array':
-                    return d;
+                    return exportData;
                 case 'xml':
                     alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_XML_NOT_IMPLEMENTED);
                     exit();
                     break;
                 default:
                 case 'json':
-                    var exportData = {};
-                    exportData.grid = MySched.gridData[MySched.selectedSchedule.scheduleGrid];
-                    exportData.data = d;
-                    exportData.daysPerWeek = MySched.displayDaysInWeek;
                     var returnValue = Ext.encode(exportData);
                     return returnValue;
             }

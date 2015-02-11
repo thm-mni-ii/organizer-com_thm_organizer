@@ -24,15 +24,6 @@ MySched.Mapping = function ()
             this.roomtype = new MySched.Collection();
             this.degree = new MySched.Collection();
             this.field = new MySched.Collection();
-            this.types = {
-                teacher: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER,
-                pool: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL,
-                room: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM,
-                subject: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SUBJECTS,
-                roomtype: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOMTYPE,
-                degree: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DEGREE,
-                field: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FIELD
-            };
         },
         /**
          * TODO: Do know exactly. Getting Data from an array, but why this way?
@@ -178,10 +169,6 @@ MySched.Mapping = function ()
         getLectureDescription: function (id)
         {
             return this.def(this.subject.get(id, id), 'desc', id);
-        },
-        getFullTypeName: function (id)
-        {
-            return this.types[id.toLowerCase()];
         },
         getDegreeName: function (id)
         {

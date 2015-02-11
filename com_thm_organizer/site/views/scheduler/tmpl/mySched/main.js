@@ -615,40 +615,6 @@ MySched.Base = function ()
     };
 }();
 
-
-Ext.form.VTypes.ValidTimeText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_VALID_STARTTIME_LESSER;
-// TODO: I don't know where it is used and that is the point I am too afraid of asking
-Ext.form.VTypes.ValidTime = function (arg, field)
-{
-    if (field.id === "starttiid")
-    {
-        if (!Ext.getCmp('endtiid').getValue())
-        {
-            return true;
-        }
-        if (Ext.getCmp('starttiid').getValue() < Ext.getCmp('endtiid').getValue())
-        {
-            return true;
-        }
-        return false;
-    }
-    else
-    {
-        if (!Ext.getCmp('starttiid').getValue())
-        {
-            Ext.getCmp('starttiid').validate();
-        }
-        if (Ext.getCmp('starttiid').getValue() < Ext.getCmp('endtiid').getValue())
-        {
-            Ext.getCmp('starttiid').validate();
-            return true;
-        }
-        return false;
-    }
-
-};
-
-
 // TODO: used in different files, where to place it?
 /**
  * Converts the weekday from string to the corresponding number

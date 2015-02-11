@@ -22,7 +22,7 @@ window.onbeforeunload = function ()
         if (tabs[i].ScheduleModel.status === "unsaved")
         {
 
-            return MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULER_CHANGED;
+            return MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_CHANGED;
         }
     }
 };

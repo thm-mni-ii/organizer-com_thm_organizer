@@ -258,10 +258,10 @@ Ext.define('ScheduleModel',
                 MySched.displaySemesterBeginDialog = false;
                 Ext.MessageBox.show(
                     {
-                        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_NOT_STARTED,
+                        title: MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_SEMESTER_NOT_STARTED,
                         cls: "mysched_semesterbegin",
                         buttons: Ext.MessageBox.YESNO,
-                        msg: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SEMESTER_JUMP_TO_START,
+                        msg: MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_SEMESTER_JUMP_TO_START,
                         width: 400,
                         modal: true,
                         closable: false,

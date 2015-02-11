@@ -228,31 +228,6 @@ MySched.layout = function ()
 
             var treeData = MySched.Tree.init();
 
-            // TODO Can be deleted?
-            // Linker Bereich der Info und Ubersichtsliste enthaelt
-//            this.w_leftMenu = Ext.create('Ext.panel.Panel',
-//            {
-//                id: 'leftMenu',
-//                title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_LOADING,
-//                region: 'west',
-////                hidden: hideTreePanel,
-//                split: false,
-//                width: 242,
-//                minSize: 242,
-//                maxSize: 242,
-//                collapsible: false,
-//                collapsed: false,
-//                autoScroll: false,
-//                headerCfg: {
-//                    tag: '',
-//                    cls: 'x-panel-header mySched_techheader',
-//                    // Default class not applied if Custom
-//                    // element specified
-//                    html: ''
-//                },
-//                items: [treeData]
-//            });
-
             this.w_leftMenu = treeData;
 
             this.w_leftMenu.on("expand", function ()

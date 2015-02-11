@@ -642,83 +642,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             }
         },
         /**
-         * Edit a Lesson
-         * TODO: is it in use anymore?
-         */
-        editLesson: function ()
-        {
-            console.log("selectionManager editLesson: is it in use anymore");
-            "use strict";
-
-            var el, id;
-            if (this.selectLectureId)
-            {
-                id = this.selectLectureId;
-                el = Ext.get(id);
-                // oder ueber DD oder ButtonLeiste
-            }
-            else
-            {
-                el = this.selectEl;
-                id = el.id;
-            }
-            var lesson = MySched.Base.getLecture(id);
-            newPEvent(numbertoday(lesson.data.dow),
-                lesson.data.stime, lesson.data.etime,
-                lesson.data.subject, lesson.data.teacher.replace(/\s+/g, ','), lesson.data.pool.replace(/\s+/g, ','), lesson.data.room.replace(/\s+/g, ','), lesson.data.lock,
-                lesson.data.key);
-        },
-        /**
-         * Delete a Lesson
-         * @param {String} id the id
-         * TODO: is it in use anymore?
-         *
-         */
-        deleteLesson: function (id)
-        {
-            console.log("selectionManager editLesson: is it in use anymore");
-            "use strict";
-
-            var el;
-            if (!id)
-            {
-                if (this.selectLectureId)
-                {
-                    id = this.selectLectureId;
-                    el = Ext.get(id);
-                    // oder ueber DD oder ButtonLeiste
-                }
-                else
-                {
-                    el = this.selectEl;
-                    id = el.id;
-                }
-            }
-
-            var tab = MySched.layout.tabpanel.getComponent(MySched.Base.schedule.getLecture(id)
-                .data.responsible);
-            if (tab)
-            {
-                tab.ScheduleModel.removeLecture(tab.ScheduleModel.getLecture(id));
-            }
-            MySched.selectedSchedule.removeLecture(MySched.selectedSchedule.getLecture(id));
-            MySched.Schedule.removeLecture(MySched.Schedule.getLecture(id));
-            MySched.responsibleChanges.removeLecture(MySched.responsibleChanges.getLecture(id));
-            MySched.Base.schedule.removeLecture(MySched.Base.schedule.getLecture(id));
-
-            // Minus Icon kann ueber mouseout nicht mehr
-            // ausgeblendet werden -> Also Manuell
-            this.selectButton.hide();
-            this.selectButton.dom.src = this.lectureAddButton;
-            this.selectLectureId = null;
-            this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD;
-            this.fireEvent("lectureDel", el);
-
-            // Refresh
-            MySched.selectedSchedule.refreshView();
-            MySched.Schedule.refreshView();
-        },
-        /**
          * Handles the MouseDown Event.
          *
          * @method onMouseDown
@@ -818,28 +741,6 @@ function showLessonMenu(e)
 
     destroyMenu();
 
-    var editLesson = {
-        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CHANGE,
-        icon: MySched.mainPath + "images/icon-edit.png",
-        handler: function ()
-        {
-            destroyMenu();
-            MySched.SelectionManager.editLesson();
-        },
-        xtype: "button"
-    };
-
-    var deleteLesson = {
-        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELETE,
-        icon: MySched.mainPath + "images/icon-delete.png",
-        handler: function ()
-        {
-            destroyMenu();
-            MySched.SelectionManager.deleteLesson();
-        },
-        xtype: "button"
-    };
-
     var addLesson = {
         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ADD,
         icon: MySched.mainPath + "images/add.png",
@@ -900,11 +801,6 @@ function showLessonMenu(e)
             menuItems[menuItems.length] = addLesson;
         }
 
-    }
-    if ((lesson.data.owner === MySched.Authorize.user && Ext.isDefined(lesson.data.owner)) && lesson.data.owner !== "gpuntis")
-    {
-        menuItems[menuItems.length] = editLesson;
-        menuItems[menuItems.length] = deleteLesson;
     }
 
     menuItems[menuItems.length] = infoLesson;
