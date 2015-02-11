@@ -21,9 +21,9 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelField_Manager extends THM_CoreModelList
+class THM_OrganizerModelDepartment_Manager extends THM_CoreModelList
 {
-    protected $defaultOrdering = 'f.field';
+    protected $defaultOrdering = 'name';
 
     protected $defaultDirection = 'ASC';
 
@@ -36,7 +36,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array('f.field','c.name');
+            $config['filter_fields'] = array('short_name','name');
         }
         parent::__construct($config);
     }
@@ -50,15 +50,15 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
     {
         // Create the query
         $query = $this->_db->getQuery(true);
-        $select = "f.id, f.field, c.name, c.color, ";
-        $parts = array("'index.php?option=com_thm_organizer&view=field_edit&id='","f.id");
+        $select = "d.id, d.short_name, d.name, a.rules, ";
+        $parts = array("'index.php?option=com_thm_organizer&view=department_edit&id='","d.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
-        $query->from('#__thm_organizer_fields AS f');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->from('#__thm_organizer_departments AS d');
+        $query->innerJoin('#__assets AS a ON d.asset_id = a.id');
 
-        $this->setSearchFilter($query, array('field', 'gpuntisID', 'color'));
-        $this->setValueFilters($query, array('field', 'colorID'));
+        $this->setSearchFilter($query, array('short_name', 'name'));
+        $this->setValueFilters($query, array('short_name', 'name'));
 
         $this->setOrdering($query);
 
@@ -83,21 +83,17 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+            if ($this->actions->{'core.admin'})
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            }
-            if ($this->actions->{'core.edit'})
-            {
-                $field = JHtml::_('link', $item->link, $item->field);
+                $return[$index]['short_name'] = JHtml::_('link', $item->link, $item->short_name);
+                $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
             }
             else
             {
-                $field = $item->field;
+                $return[$index]['short_name'] = $item->short_name;
+                $return[$index]['name'] = $item->name;
             }
-            $return[$index]['field'] = $field;
-            $colorOutput = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
-            $return[$index]['colorID'] = $colorOutput;
             $index++;
         }
         return $return;
@@ -114,12 +110,12 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+        if ($this->actions->{'core.admin'})
         {
             $headers['checkbox'] = '';
         }
-        $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
-        $headers['colorID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
+        $headers['short_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'f.field', $direction, $ordering);
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'c.name', $direction, $ordering);
 
         return $headers;
     }

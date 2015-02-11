@@ -46,12 +46,33 @@ class THM_OrganizerViewTeacher_Manager extends THM_CoreViewList
     protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_VIEW_TITLE'), 'organizer_teachers');
-        JToolbarHelper::addNew('teacher.add');
-        JToolbarHelper::editList('teacher.edit');
-        JToolbarHelper::custom('teacher.mergeAll', 'merge-all', 'merge-all', 'COM_THM_ORGANIZER_ACTION_MERGE_AUTO', false);
-        JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-        JToolbarHelper::deleteList('', 'teacher.delete');
-        JToolbarHelper::divider();
-        JToolbarHelper::preferences('com_thm_organizer');
+        $actions = $this->getModel()->actions;
+
+        if ($actions->{'core.create'})
+        {
+            JToolbarHelper::addNew('teacher.add');
+        }
+
+        if ($actions->{'core.edit'})
+        {
+            JToolbarHelper::editList('teacher.edit');
+        }
+
+        if ($actions->{'core.edit'} AND $actions->{'core.delete'})
+        {
+            JToolbarHelper::custom('teacher.mergeAll', 'merge-all', 'merge-all', 'COM_THM_ORGANIZER_ACTION_MERGE_AUTO', false);
+            JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        }
+
+        if ($actions->{'core.delete'})
+        {
+            JToolbarHelper::deleteList('', 'teacher.delete');
+        }
+
+        if ($actions->{'core.admin'})
+        {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer');
+        }
     }
 }

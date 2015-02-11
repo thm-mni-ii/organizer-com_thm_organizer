@@ -1,10 +1,13 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_users` (
-  `userID` INT ( 11 ) NOT NULL,
-  `program_manager` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  `planner` TINYINT ( 1 ) NOT NULL DEFAULT '0',
-  KEY ( `userID` )
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
+  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` INT ( 11 ) NOT NULL,
+  `short_name` VARCHAR ( 50 ) NOT NULL,
+  `name` VARCHAR ( 255 ) NOT NULL,
+  KEY ( `id` ),
+  UNIQUE ( `short_name` ),
+  UNIQUE ( `name` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
@@ -251,10 +254,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   UNIQUE KEY ( `ip` ),
   KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-ALTER TABLE `#__thm_organizer_users`
-ADD CONSTRAINT `users_userid_fk` FOREIGN KEY (`userID`)
-REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_virtual_schedules`
 ADD CONSTRAINT `virtual_schedules_semestername_fk` FOREIGN KEY (`semestername`)

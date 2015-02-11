@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field name="id"
+               type="hidden" />
+        <field type="text"
+               name="short_name"
+               label="COM_THM_ORGANIZER_SHORT_NAME"
+               description="COM_THM_ORGANIZER_SHORT_NAME"
+               size="10"
+               maxlength="50"
+               class="inputbox"
+               required="true"/>
+        <field name="name"
+               type="text"
+               class="inputbox color"
+               size="200"
+               label="COM_THM_ORGANIZER_NAME"
+               description="COM_THM_ORGANIZER_NAME_DESC"
+               required="true"/>
+        <field name="asset_id"
+               type="hidden"
+               filter="unset"/>
+        <field name="rules"
+               type="rules"
+               label="JCONFIG_PERMISSIONS_LABEL"
+               validate="rules"
+               filter="rules"
+               component="com_thm_organizer"
+               section="department" />
+    </fieldset>
+</form>

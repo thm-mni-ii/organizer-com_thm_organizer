@@ -48,10 +48,28 @@ class THM_OrganizerViewField_Manager extends THM_CoreViewList
     protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_VIEW_TITLE'), 'organizer_fields');
-        JToolbarHelper::addNew('field.add');
-        JToolbarHelper::editList('field.edit');
-        JToolbarHelper::deleteList('', 'field.delete');
-        JToolbarHelper::divider();
-        JToolbarHelper::preferences('com_thm_organizer');
+
+        $actions = $this->getModel()->actions;
+
+        if ($actions->{'core.create'})
+        {
+            JToolbarHelper::addNew('field.add');
+        }
+
+        if ($actions->{'core.edit'})
+        {
+            JToolbarHelper::editList('field.edit');
+        }
+
+        if ($actions->{'core.delete'})
+        {
+            JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'field.delete');
+        }
+
+        if ($actions->{'core.admin'})
+        {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer');
+        }
     }
 }

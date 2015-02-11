@@ -803,17 +803,23 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     /**
      * Activates the selected schedule
      *
+     * @param   int  $scheduleID  the explicit id of the schedule to activate
+     *
      * @return  true on success, otherwise false
      */
-    public function activate()
+    public function activate($scheduleID = 0)
     {
         $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-        if (empty($scheduleIDs))
+        if (empty($scheduleID))
         {
-            return true;
+            $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+            if (empty($scheduleIDs))
+            {
+                return true;
+            }
+            $scheduleID = $scheduleIDs[0];
         }
-        $scheduleExists = $scheduleRow->load($scheduleIDs[0]);
+        $scheduleExists = $scheduleRow->load($scheduleID);
         if (!$scheduleExists)
         {
             return true;
@@ -827,7 +833,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->_db->transactionStart();
 
         $zeroQuery = $this->_db->getQuery(true);
-        $zeroQuery->update('#__thm_organizerschedules');
+        $zeroQuery->update('#__thm_organizer_schedules');
         $zeroQuery->set("active = '0'");
         $zeroQuery->where("departmentname = '$scheduleRow->departmentname'");
         $zeroQuery->where("semestername = '$scheduleRow->semestername'");
@@ -842,6 +848,42 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->_db->transactionRollback();
             return false;
         }
+        $success = $scheduleRow->store();
+        if ($success)
+        {
+            $this->_db->transactionCommit();
+            return true;
+        }
+        else
+        {
+            $this->_db->transactionRollback();
+            return false;
+        }
+    }
+
+    /**
+     * Activates the selected schedule
+     *
+     * @param   int  $scheduleID  the explicit id of the schedule to activate
+     *
+     * @return  true on success, otherwise false
+     */
+    public function deactivate($scheduleID)
+    {
+        if (empty($scheduleID))
+        {
+            return false;
+        }
+
+        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+        $scheduleExists = $scheduleRow->load($scheduleID);
+        if (!$scheduleExists)
+        {
+            return false;
+        }
+
+        $this->_db->transactionStart();
+        $scheduleRow->active = 0;
         $success = $scheduleRow->store();
         if ($success)
         {
@@ -1429,5 +1471,27 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
         $schedule->load($scheduleID);
         return $schedule->delete();
+    }
+
+    /**
+     * Toggles the monitor's use of default settings
+     *
+     * @return  boolean  true on success, otherwise false
+     */
+    public function toggle()
+    {
+        $input = JFactory::getApplication()->input;
+        $scheduleID = $input->getInt('id', 0);
+        if (empty($scheduleID))
+        {
+            return false;
+        }
+
+        $value = $input->getInt('value', 1);
+        if ($value)
+        {
+            return $this->deactivate($scheduleID);
+        }
+        return $this->activate($scheduleID);
     }
 }

@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class THM_OrganizerModelDegrees for component com_thm_organizer
@@ -38,6 +39,7 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
             $config['filter_fields'] = array('name', 'abbreviation', 'lsfDegree');
         }
         parent::__construct($config);
+        THM_OrganizerHelperComponent::addActions($this);
     }
 
     /**
@@ -56,6 +58,7 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         $query->from('#__thm_organizer_degrees');
         $columns = array('name', 'abbreviation', 'lsfDegree');
         $this->setSearchFilter($query, $columns);
+        $idColumns = array('filter.name', 'filter.abbreviation', 'filter.lsfDegree');
         $this->setIDFilter($query, 'id', $columns);
         $this->setOrdering($query);
         return $query;
@@ -79,10 +82,25 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['abbreviation'] = JHtml::_('link', $item->link, $item->abbreviation);
-            $return[$index]['lsfDegree'] = JHtml::_('link', $item->link, $item->lsfDegree);
+            if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+            {
+                $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            }
+            if ($this->actions->{'core.edit'})
+            {
+                $name = JHtml::_('link', $item->link, $item->name);
+                $abbreviation = JHtml::_('link', $item->link, $item->abbreviation);
+                $lsfDegree = JHtml::_('link', $item->link, $item->lsfDegree);
+            }
+            else
+            {
+                $name = $item->name;
+                $abbreviation = $item->abbreviation;
+                $lsfDegree = $item->lsfDegree;
+            }
+            $return[$index]['name'] = $name;
+            $return[$index]['abbreviation'] = $abbreviation;
+            $return[$index]['lsfDegree'] = $lsfDegree;
             $index++;
         }
         return $return;
@@ -99,7 +117,10 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers['checkbox'] = '';
+        if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+        {
+            $headers['checkbox'] = '';
+        }
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['abbreviation'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ABBREVIATION', 'abbreviation', $direction, $ordering);
         $headers['lsfDegree'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_LSF_DEGREE', 'lsfDegree', $direction, $ordering);

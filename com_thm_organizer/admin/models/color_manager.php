@@ -28,16 +28,6 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
     protected $defaultDirection = 'ASC';
 
     /**
-     * Constructor to set the config array and call the parent constructor
-     *
-     * @param   Array  $config  Configuration  (default: Array)
-     */
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-    }
-
-    /**
      * Method to get all colors from the database
      *
      * @return  JDatabaseQuery
@@ -79,8 +69,19 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+            if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+            {
+                $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            }
+            if ($this->actions->{'core.edit'})
+            {
+                $name = JHtml::_('link', $item->link, $item->name);
+            }
+            else
+            {
+                $name = $item->name;
+            }
+            $return[$index]['name'] = $name;
             $return[$index]['color'] = THM_OrganizerHelperComponent::getColorField($item->color, $item->color);
             $index++;
         }
@@ -98,7 +99,10 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
         $direction = $this->state->get('list.direction', $this->defaultDirection);
 
         $headers = array();
-        $headers['checkbox'] = '';
+        if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+        {
+            $headers['checkbox'] = '';
+        }
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['color'] = JText::_('COM_THM_ORGANIZER_COLOR');
 

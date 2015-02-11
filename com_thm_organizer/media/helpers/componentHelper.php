@@ -47,11 +47,6 @@ class THM_OrganizerHelperComponent
             $viewName == 'degree_manager'
         );
         JHtmlSidebar::addEntry(
-            JText::_('COM_THM_ORGANIZER_USER_MANAGER_TITLE'),
-            'index.php?option=com_thm_organizer&amp;view=user_manager',
-            $viewName == 'user_manager'
-        );
-        JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE'),
             'index.php?option=com_thm_organizer&amp;view=monitor_manager',
             $viewName == 'monitor_manager'
@@ -60,6 +55,11 @@ class THM_OrganizerHelperComponent
             JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
             'index.php?option=com_thm_organizer&amp;view=teacher_manager',
             $viewName == 'teacher_manager'
+        );
+        JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=department_manager',
+            $viewName == 'department_manager'
         );
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE'),
@@ -103,6 +103,71 @@ class THM_OrganizerHelperComponent
         );
 
         $view->sidebar = JHtmlSidebar::render();
+    }
+
+
+    /**
+     * Set variables for user actions.
+     *
+     * @param   object  &$object  the object calling the function (manager model or edit view)
+     *
+     * @return void
+     */
+    public static function addActions(&$object)
+    {
+        $user	= JFactory::getUser();
+        $result	= new JObject;
+
+        $path = JPATH_ADMINISTRATOR . '/components/com_thm_organizer/access.xml';
+        $actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
+        foreach ($actions as $action)
+        {
+            $result->set($action->name, $user->authorise($action->name, 'com_thm_organizer'));
+        }
+
+        $object->actions = $result;
+    }
+
+    /**
+     * Checks access for edit views
+     *
+     * @param   object  &$model  the model checking permissions
+     * @param   int     $itemID  the id if the resource to be edited (empty for new entries)
+     *
+     * @return  bool  true if the user can access the edit view, otherwise false
+     */
+    public static function allowEdit(&$model, $itemID = 0)
+    {
+        $name = $model->get('name');
+
+        // Views only accessible as a component administrator
+        $adminViews = array('department_edit', 'monitor_edit');
+        if (in_array($name, $adminViews))
+        {
+            return $model->actions->{'core.admin'};
+        }
+
+        // Views accessible with component create/edit access
+        $resourceEditViews = array('color_edit', 'degree_edit', 'field_edit', 'room_edit', 'teacher_edit');
+        if (in_array($name, $resourceEditViews))
+        {
+            if ((int) $itemID > 0)
+            {
+                return $model->actions->{'core.edit'};
+            }
+            return $model->actions->{'core.create'};
+        }
+
+        // Merge views always deal with existing resources and implicitly delete one or more entries in doing so
+        $resourceMergeViews = array('room_merge', 'teacher_merge');
+        if (in_array($name, $resourceMergeViews))
+        {
+            return ($model->actions->{'core.edit'} AND $model->actions->{'core.delete'});
+        }
+
+        $departmentEditViews = array('pool_edit', 'program_edit', 'schedule_edit', 'subject_edit');
+
+        return false;
     }
 
     /**

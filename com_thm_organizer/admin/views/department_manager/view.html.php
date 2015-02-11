@@ -3,23 +3,24 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewColor_Manager
+ * @name        THM_OrganizerViewField_Manager
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
-defined('_JEXEC') or die;;
+defined('_JEXEC') or die;
 jimport('thm_core.list.view');
 
 /**
- * Class loads persistent information about all colors into display context
+ * Class THM_OrganizerViewColors for component com_thm_organizer
+ * Class provides methods to display the view colors
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewColor_Manager extends THM_CoreViewList
+class THM_OrganizerViewDepartment_Manager extends THM_CoreViewList
 {
     public $items;
 
@@ -33,8 +34,6 @@ class THM_OrganizerViewColor_Manager extends THM_CoreViewList
      * @param   Object  $tpl  template  (default: null)
      *
      * @return  void
-     * 
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function display($tpl = null)
     {
@@ -48,27 +47,16 @@ class THM_OrganizerViewColor_Manager extends THM_CoreViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_VIEW_TITLE'), 'organizer_colors');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_VIEW_TITLE'), 'organizer_departments');
 
         $actions = $this->getModel()->actions;
 
-        if ($actions->{'core.create'})
+        $isAdmin = ($actions->{'core.admin'});
+        if ($isAdmin)
         {
-            JToolbarHelper::addNew('color.add');
-        }
-
-        if ($actions->{'core.edit'})
-        {
-            JToolbarHelper::editList('color.edit');
-        }
-
-        if ($actions->{'core.delete'})
-        {
-            JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'color.delete');
-        }
-
-        if ($actions->{'core.admin'})
-        {
+            JToolbarHelper::addNew('department.add');
+            JToolbarHelper::editList('department.edit');
+            JToolbarHelper::deleteList('', 'department.delete');
             JToolbarHelper::divider();
             JToolbarHelper::preferences('com_thm_organizer');
         }

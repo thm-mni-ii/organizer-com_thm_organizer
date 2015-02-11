@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelColor_Edit
+ * @name        THM_OrganizerModelField_Edit
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.edit.model');
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class loads form data to edit an entry.
@@ -20,10 +19,8 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelColor_Edit extends THM_CoreModelEdit
+class THM_OrganizerModelDepartment_Edit extends THM_CoreModelEdit
 {
-    public $actions = null;
-
     /**
      * Constructor.
      *

@@ -30,28 +30,4 @@ class THM_OrganizerModelTeacher_Merge extends THM_CoreModelForm
     {
         parent::__construct($config);
     }
-
-    /**
-     * Method to get the form
-     *
-     * @param   Array    $data      Data         (default: Array)
-     * @param   Boolean  $loadData  Load data
-     *
-     * @return  mixed  JForm object on success, False on error.
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function getForm($data = array(), $loadData = true)
-    {
-        $option = $this->get('option');
-        $name = $this->get('name');
-        $form = $this->loadForm("$option.$name", $name, array('control' => 'jform', 'load_data' => false));
-
-        if (empty($form))
-        {
-            return false;
-        }
-
-        return $form;
-    }
 }
