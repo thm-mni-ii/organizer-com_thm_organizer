@@ -88,8 +88,8 @@ MySched.InfoPanel = function ()
                     failure: function ()
                     {
                         Ext.Msg.alert(
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE_ERROR);
+                            MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_NOTICE,
+                            MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_NOTICE_ERROR);
                     },
                     scope: this,
                     success: function (resp)

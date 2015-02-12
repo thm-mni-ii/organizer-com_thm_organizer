@@ -446,8 +446,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     if (subjectNo === subjects.keys[0])
                     {
                         Ext.Msg.alert(
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
+                            MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_NOTICE,
+                            MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_LESSON_MODULENR_UNKNOWN);
                         return;
                     }
 
@@ -467,8 +467,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 if (!Ext.isString(subjects.keys[0]))
                 {
                     Ext.Msg.alert(
-                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NOTICE,
-                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_MODULENR_UNKNOWN);
+                        MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_NOTICE,
+                        MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_LESSON_MODULENR_UNKNOWN);
                     return;
                 }
             }
