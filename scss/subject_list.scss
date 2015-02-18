@@ -180,7 +180,7 @@ h3.group-bar {
   }
 }
 
-/*** wird nicht mehr benötigt, da icons über icon-fonts schon vorhanden sind **
+/*** wird nicht mehr benoetigt, da icons ueber icon-fonts schon vorhanden sind **
 // ---------------------------------
 // Icons (Backend)
 // ---------------------------------
@@ -236,8 +236,8 @@ h3.group-bar {
 }
 */
 
-/*** Begin Lavi ***/
-/*Heading, Search-Bar ... */
+// Begin Lavi
+//Heading, Search-Bar
 .componentheading {
   float: left;
 }
@@ -256,16 +256,21 @@ h3.group-bar {
       padding-right: 5px;
     }
   }
-
+  // content
   .subject-list-container {
-    ul{
-      margin-left: 9px;
+    a {
+      color: $thm-grau-color;
     }
-    li{
-      list-style:none;
+    ul {
+      margin-left: 0px;
+    }
+    li {
+      list-style: none;
+    //  padding: 4px 9px;
       padding: 4px;
+      margin: 0 5px;
     }
-    li:nth-child(odd) {
+    li:nth-child(even) {
       background-color: rgb(238, 238, 238);
     }
     .subject-name {
@@ -273,15 +278,32 @@ h3.group-bar {
       width: 475px;
     }
 
-    .subject-teacher {
+    .module-id {
+      padding-left: 5px;
+    }
 
+    .subject-teacher {
+      margin-left: 15px;
     }
 
     .subject-crp {
       float: right;
     }
+    h3 {
+      padding: 7px;
+      margin-top: 0px;
+    }
   }
 
+  #pool, #teacher, #field {
+    &>.subject-list-container {
+      border: 1px solid #eeeeee;
+      margin-bottom: 5px;
+      h3{
+        border-bottom: 1px solid #eeeeee;
+      }
+    }
+  }
 }
 
 .breadcrumb {
