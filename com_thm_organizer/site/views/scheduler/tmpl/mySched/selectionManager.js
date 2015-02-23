@@ -20,18 +20,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         init: function ()
         {
             "use strict";
-
-            // defines which event will be thrown
-            this.addEvents(
-                {
-                    beforeSelect: true,
-                    select: true,
-                    beforeUnselect: true,
-                    unselect: true,
-                    lectureAdd: true,
-                    lectureDel: true
-                }
-            );
         },
         /**
          * Stops the selection

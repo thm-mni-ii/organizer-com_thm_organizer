@@ -27,6 +27,7 @@ externLinks.lectureRemoveButton = '<?php echo $removeButtonLink; ?>';
 externLinks.mainPath = '<?php echo $mainPath; ?>';
 externLinks.curriculumLink = '<?php echo $curriculumLink; ?>';
 externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
+
 </script>
 <div id="MySchedMainW" class="MySchedMainW">
     <script type="text/javascript" charset="utf-8">
@@ -59,6 +60,8 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/selectionManager.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/tree.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/SelectBox.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/subscribe.js"></script>
     <!-- Models -->

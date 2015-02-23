@@ -57,7 +57,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $input = $app->input;
         $this->loadLanguage();
 
-        $libraryInstalled = jimport('extjs4.extjs4');
+        $libraryInstalled = jimport('thm_core.js.extjs.extjs');
         if (!$libraryInstalled)
         {
             $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_EXTJS4_LIBRARY_NOT_INSTALLED'), 'error');

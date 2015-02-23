@@ -40,19 +40,6 @@ Ext.define('ScheduleModel',
             {
                 this.init(config.type, config.value);
             }
-            this.addEvents(
-                {
-                    beforeLectureAdd: true,
-                    lectureAdd: true,
-                    beforeLectureRemove: true,
-                    lectureRemove: true,
-                    beforeClear: true,
-                    clear: true,
-                    beforeSave: true,
-                    save: true,
-                    changed: true
-                }
-            );
         },
         /**
          * Setting some variable width information of the display schedule and adding events to the event list
@@ -103,10 +90,6 @@ Ext.define('ScheduleModel',
          */
         addLecture: function (l)
         {
-            if (this.fireEvent("beforeLectureAdd", l) === false)
-            {
-                return;
-            }
             // adds a lecture
             this.data.add(l.id, l);
 
@@ -114,7 +97,6 @@ Ext.define('ScheduleModel',
             this.blockCache = null;
             this.markChanged();
 
-            this.fireEvent("lectureAdd", l);
         },
         /**
          * TODO: Don't know what for and if it in use
@@ -124,14 +106,8 @@ Ext.define('ScheduleModel',
          */
         clear: function ()
         {
-            console.log("check");
-            if (this.fireEvent("beforeClear", this) === false)
-            {
-                return this.data.clear();
-            }
             this.blockCache = null;
             this.markChanged();
-            this.fireEvent("clear", this);
         },
         /**
          * Remove a lecture from "my schedule"
@@ -141,17 +117,13 @@ Ext.define('ScheduleModel',
          */
         removeLecture: function (l)
         {
-            if (this.fireEvent("beforeLectureRemove", l) === false)
-            {
-                return;
-            }
 
-            if (this.blockCache && Ext.type(l) === 'object')
+            if (this.blockCache && Ext.typeOf(l) === 'object')
             {
                 this.blockCache[l.getWeekDay()][l.getBlock() - 1]--;
             }
 
-            if (Ext.type(l) === 'object')
+            if (Ext.typeOf(l) === 'object')
             {
                 this.data.removeAtKey(l.getId());
             }
@@ -161,7 +133,6 @@ Ext.define('ScheduleModel',
             }
 
             this.markChanged();
-            this.fireEvent("lectureRemove", l);
         },
         /**
          * Return the lecture with the id
@@ -722,7 +693,6 @@ Ext.define('ScheduleModel',
          */
         parseLectures: function (o)
         {
-            this.fireEvent('load', this);
             var r = o.resultSet.records;
             var l, key;
             for (var i = 0, len = r.length; i < len; i++)
@@ -984,7 +954,6 @@ Ext.define('ScheduleModel',
             {
                 return;
             }
-            this.fireEvent("changed", this);
             this.changed = true;
         },
         /**
@@ -1013,11 +982,6 @@ Ext.define('ScheduleModel',
             // check if the user is registered
             if (MySched.Authorize.user !== null)
             {
-                if (this.fireEvent("beforeSave", this, url) === false)
-                {
-                    return;
-                }
-
                 var defaultParams, data;
                 if (scheduletask === "UserSchedule.save")
                 {
@@ -1099,8 +1063,8 @@ Ext.define('ScheduleModel',
 
                             }
                         }
-                    });
-                this.fireEvent("save", this, url);
+                    }
+                );
                 this.markUnchanged();
             }
             else

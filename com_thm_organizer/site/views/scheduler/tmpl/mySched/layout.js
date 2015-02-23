@@ -226,9 +226,11 @@ MySched.layout = function ()
                     });
             }
 
-            var treeData = MySched.Tree.init();
+            //var treeData = MySched.Tree.init();
+            var treeData = MySched.SelectBoxes.init();
 
             this.w_leftMenu = treeData;
+
 
             this.w_leftMenu.on("expand", function ()
             {
@@ -248,20 +250,15 @@ MySched.layout = function ()
                 }
             });
 
-            this.rightviewport = Ext.create('Ext.Panel',
+
+            this.rightviewport = Ext.create(
+                'Ext.Panel',
                 {
                     id: "rightviewport",
                     region: 'center',
                     items: [this.w_topMenu, this.tabpanel]
-                });
-
-//            this.leftviewport = Ext.create('Ext.Panel',
-//            {
-//                id: "leftviewport",
-//                region: 'west',
-//                hidden: hideTreePanel,
-//                items: [this.w_leftMenu]
-//            });
+                }
+            );
 
             this.leftviewport = this.w_leftMenu;
 
@@ -286,8 +283,9 @@ MySched.layout = function ()
 
             if(!hideTreePanel)
             {
-                MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
-                MySched.treeLoadMask.show();
+                // TODO: Maybe is not needed anymore
+                //MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
+                //MySched.treeLoadMask.show();
             }
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
@@ -386,6 +384,7 @@ MySched.layout = function ()
                     else
                     {
 
+                        console.log(id);
                         tab = Ext.apply(
                             // default values - if already set they keep
                             Ext.apply(grid,
@@ -397,7 +396,8 @@ MySched.layout = function ()
                                 }),
                             {
                                 // They will be overwritten if they exist
-                                id: id,
+                                // TODO: There is a problem with the ID!!!
+                                //id: id,
                                 title: title
                             });
                     }

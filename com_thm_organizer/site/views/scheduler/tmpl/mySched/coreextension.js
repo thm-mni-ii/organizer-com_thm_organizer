@@ -3,7 +3,7 @@
  *
  */
 Ext.override(
-    Ext.picker.Date,
+    "Ext.picker.Date",
     {
         /**
          * The calendar is calculated and which dates must be shown.

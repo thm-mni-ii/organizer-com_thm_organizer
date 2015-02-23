@@ -1,5 +1,7 @@
-Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;
-Ext.MessageBox.buttonText.no = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO;
+// TODO change text
+//Ext.MessageBox.buttonText.yes = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_YES;
+//Ext.MessageBox.buttonText.no = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO;
+//var MySched = Ext.define('MySched');
 Ext.ns('MySched');
 
 // specialization of collection
@@ -12,14 +14,18 @@ MySched.Collection = function ()
  *
  * @class MySched.Collection
  */
-Ext.extend(
-    MySched.Collection, Ext.util.MixedCollection,
+Ext.define(
+    "MySched.Collection",
     {
+        extend: "Ext.util.MixedCollection",
         /**
          *
          * @param el
          * @return {*}
          */
+        constructor: function (config) {
+            this.callParent(arguments); // calls Ext.panel.Panel's constructor
+        },
         getKey: function (el)
         {
             console.log(el);
@@ -104,7 +110,7 @@ Ext.extend(
 
 // configuration object
 MySched.Config = new MySched.Collection();
-MySched.Calendar = new MySched.Collection();
+MySched.Calendar = Ext.create("MySched.Collection");
 
 /**
  * Fast access to the configuration object
@@ -200,112 +206,6 @@ Ext.override(Ext.dd.DragZone,
     }
 
 });
-
-/**
- * Erweiterung des GridViews
- * TODO: Maybe obsolete, it seems to be never used
- */
-Ext.override(
-    Ext.grid.View,
-    {
-        // private
-        // Nur grid als Uebergabeparameter fuer den renderer
-        // hinzugefuegt
-        /**
-         *
-         * @param cs
-         * @param rs
-         * @param ds
-         * @param startRow
-         * @param colCount
-         * @param stripe
-         * @return {string}
-         */
-        doAutoRender: function (cs, rs, ds, startRow, colCount, stripe)
-        {
-            console.log("lib.js doAutoRender: maybe never used?");
-            var ts = this.templates,
-                ct = ts.cell,
-                rt = ts.row,
-                last = colCount - 1,
-                tstyle = 'width:' + this.getTotalWidth() + ';';
-
-            // buffers
-            var buf = [], cb, c, p = {}, rp = { tstyle: tstyle }, r;
-            for (var j = 0, len = rs.length; j < len; j++)
-            {
-                r = rs[j];
-                cb = [];
-                var rowIndex = (j + startRow);
-
-                for (var i = 0; i < colCount; i++)
-                {
-                    c = cs[i];
-                    p.id = c.id;
-                    p.css = i === 0 ? 'x-grid3-cell-first ' : (i === last ? 'x-grid3-cell-last ' : '');
-                    var block;
-                    if (j < 3)
-                    {
-                        block = j + 1;
-                    }
-                    else
-                    {
-                        block = j;
-                    }
-                    var blotimes;
-                    if (block < rs.length)
-                    {
-                        blotimes = blocktotime(block);
-                        p.attr = p.cellAttr = "stime=" + blotimes[0] + " etime=" + blotimes[1] + " dow=" + i;
-                    }
-                    // ****** Aenderung start - this.grid
-                    // hinzugefuegt
-                    p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds, this.grid);
-                    // ****** Aenderung stop
-                    var pos = p.value.toString().indexOf('class=MySched_event');
-                    if (pos !== -1)
-                    {
-                        p.css = p.css + "MySched_event_block ";
-                    }
-                    p.style = c.style;
-                    if (typeof p.value === 'undefined' || p.value === "")
-                    {
-                        p.value = "&#160;";
-                    }
-                    if (r.dirty && typeof r.modified[c.name] !== 'undefined')
-                    {
-                        p.css += ' x-grid3-dirty-cell';
-                    }
-                    cb[cb.length] = ct.apply(p);
-
-                    if (j === 3 && i === 0)
-                    {
-                        cb[cb.length - 1] = cb[cb.length - 1].replace("<td class=", "<td colspan=\"7\" class=");
-                        break;
-                    }
-                }
-                var alt = [];
-                if (stripe && ((rowIndex + 1) % 2 === 0))
-                {
-                    alt[0] = "x-grid3-row-alt";
-                }
-                if (r.dirty)
-                {
-                    alt[1] = " x-grid3-dirty-row";
-                }
-                rp.cols = colCount;
-                if (this.getRowClass)
-                {
-                    alt[2] = this.getRowClass(r, rowIndex, rp, ds);
-                }
-                rp.alt = alt.join(" ");
-                rp.cells = cb.join("");
-                buf[buf.length] = rt.apply(rp);
-            }
-            return buf.join("");
-        }
-    }
-);
 
 /**
  * Check wheter the event objects are corresponding with the lesson objects

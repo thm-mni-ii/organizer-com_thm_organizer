@@ -15,13 +15,14 @@ Ext.define('MySched.Model',
          */
         constructor: function (id, d)
         {
+            this.callParent(arguments);
             this.id = id;
             this.data = {};
             this.eventList = new MySched.Collection();
             this.responsible = null;
 
             // IMPORTANT!! Generate deep copy, otherwise just the references will be copied
-            if (Ext.type(d) === 'object' || Ext.type(d) === 'array')
+            if (Ext.typeOf(d) === 'object' || Ext.typeOf(d) === 'array')
             {
                 Ext.apply(this.data, d);
             }
@@ -49,7 +50,7 @@ Ext.define('MySched.Model',
          */
         getData: function (addData)
         {
-            if (Ext.type(addData) !== 'object')
+            if (Ext.typeOf(addData) !== 'object')
             {
                 return this.data;
             }

@@ -256,7 +256,7 @@ MySched.Tree = function ()
                         var semesterID = data.semesterID;
                         var plantypeID = data.plantype;
                         var type = data.type;
-
+                        console.log(nodeID);
                         MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                     }
                     else if (rec.isExpanded())
@@ -412,11 +412,11 @@ MySched.Tree = function ()
         {
             if (append === true)
             {
-                this.tree.setTitle(this.tree.title + title);
+                //this.tree.setTitle(this.tree.title + title);
             }
             else
             {
-                this.tree.setTitle(title);
+                //this.tree.setTitle(title);
             }
         },
         /**

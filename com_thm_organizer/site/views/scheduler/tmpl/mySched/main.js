@@ -182,11 +182,11 @@ MySched.Base = function ()
             MySched.Schedule.on(
                 {
                     // actions and what they perform
-                    'lectureAdd': function ()
+                    lectureAdd: function ()
                     {
                         Ext.ComponentMgr.get('btnEmpty').enable();
                     },
-                    'lectureDel': function ()
+                    lectureDel: function ()
                     {
                         if (MySched.Schedule.isEmpty())
                         {
@@ -197,7 +197,7 @@ MySched.Base = function ()
                             }
                         }
                     },
-                    'changed': function ()
+                    changed: function ()
                     {
                         var contentAnchorTip = Ext.getCmp('content-anchor-tip');
                         if (contentAnchorTip)
@@ -221,19 +221,19 @@ MySched.Base = function ()
                         var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                         tab.ScheduleModel.status = "unsaved";
                     },
-                    'save': function (s)
+                    save: function (s)
                     {
                         var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                         tab.ScheduleModel.status = "saved";
                         Ext.ComponentMgr.get('btnSave').disable();
                     },
-                    'load': function (s)
+                    load: function (s)
                     {
                         MySched.Base.createUserSchedule();
                         Ext.ComponentMgr.get('btnSave').disable();
                         var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     },
-                    'clear': function (s)
+                    clear: function (s)
                     {}
                 }
             );
@@ -353,8 +353,8 @@ MySched.Base = function ()
                 MySched.session.begin = jsonData.startdate;
                 MySched.session.end = jsonData.enddate;
                 MySched.session.creationdate = jsonData.creationdate;
-                Ext.ComponentMgr.get('selectTree').setTitle(
-                    MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
+                //Ext.ComponentMgr.get('selectTree').setTitle(
+                //    MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
                 // Managed the visibility of the Add/Del Buttons at the toolbar
                 MySched.SelectionManager.on('select', function (el)
                 {
