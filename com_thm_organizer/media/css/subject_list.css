@@ -41,10 +41,6 @@ fieldset.filter-bar, div.filter-bar {
   content: "\e606";
 }
 
-.icon-organizer_users::before {
-  content: "\e01f";
-}
-
 .icon-organizer_monitors::before {
   content: "\e01c";
 }

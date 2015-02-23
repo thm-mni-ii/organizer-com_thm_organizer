@@ -166,8 +166,111 @@ class THM_OrganizerHelperComponent
         }
 
         $departmentEditViews = array('pool_edit', 'program_edit', 'schedule_edit', 'subject_edit');
+        if (in_array($name, $departmentEditViews))
+        {
+            if (!empty($itemID))
+            {
+                $resourceName = str_replace('_edit', '', $name);
+                return self::allowDeptResourceEdit($resourceName, $itemID);
+            }
+            return self::allowDeptResourceCreate();
+        }
 
         return false;
+    }
+
+    /**
+     * Checks whether the user has access to a department
+     *
+     * @return  bool  true if the user has access to at least one department, otherwise false
+     */
+    public static function allowDeptResourceEdit($resourceName, $itemID)
+    {
+        $user = JFactory::getUser();
+
+        // Core admin sets this implicitly
+        $isAdmin = $user->authorise('core.admin', "com_thm_organizer");
+        $canEdit = $user->authorise('organizer.manage', "com_thm_organizer.$resourceName.$itemID");
+        if ($isAdmin OR $canEdit)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether the user has access to a department
+     *
+     * @return  bool  true if the user has access to at least one department, otherwise false
+     */
+    public static function allowDeptResourceCreate()
+    {
+        $allowedDepartments = self::getAccessibleDepartments();
+        return count($allowedDepartments)? true : false;
+    }
+
+    /**
+     * Gets the ids of for which the user is authorized access
+     *
+     * @return  array  the department ids, empty if user has no access
+     */
+    public static function getAccessibleDepartments()
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id')->from('#__thm_organizer_departments');
+        $dbo->setQuery((string) $query);
+
+        try
+        {
+            $departmentIDs = $dbo->loadColumn();
+        }
+        catch(Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return array();
+        }
+
+        // Don't bother checking departments if the user is an administrator
+        $user = JFactory::getUser();
+        if ($user->authorise('core.admin'))
+        {
+            return $departmentIDs;
+        }
+
+        $allowedDepartmentIDs = array();
+        foreach ($departmentIDs as $departmentID)
+        {
+            $isComponentAdmin = $user->authorise('core.admin', "com_thm_organizer.department.$departmentID");
+            $canManageDepartment = $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID");
+            if ($isComponentAdmin OR $canManageDepartment)
+            {
+                $allowedDepartmentIDs[] = $departmentID;
+            }
+        }
+
+        return $allowedDepartmentIDs;
+    }
+
+    /**
+     * Removes inherited groups before Joomla erroneously sets the value to 0
+     *
+     * @param   array  &$rules  the rules from the form
+     *
+     * @return  void  unsets group indexes with a truly empty value
+     */
+    public static function cleanRules(&$rules)
+    {
+        foreach ($rules as $rule => $groups)
+        {
+            foreach ($groups as $group => $value)
+            {
+                if (empty($value) AND $value !== 0)
+                {
+                    unset($rules[$rule][$group]);
+                }
+            }
+        }
     }
 
     /**

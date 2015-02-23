@@ -46,4 +46,5 @@ DROP TABLE IF EXISTS `#__thm_organizer_frequencies`;
 DROP TABLE IF EXISTS `#__thm_organizer_proof`;
 DROP TABLE IF EXISTS `#__thm_organizer_pforms`;
 DROP TABLE IF EXISTS `#__thm_organizer_methods`;
+DROP TABLE IF EXISTS `#__thm_organizer_departments`;
 

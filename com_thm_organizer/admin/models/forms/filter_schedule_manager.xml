@@ -18,7 +18,7 @@
             table="thm_organizer_schedules"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_ORGANIZATION</option>
+            <option value="">COM_THM_ORGANIZER_FILTER_DEPARTMENT</option>
             <option value="">JALL</option>
         </field>
         <field

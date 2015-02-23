@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.database.table');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * Class representing the majors table.
@@ -45,8 +46,8 @@ class THM_OrganizerTableDepartments extends JTable
     {
         if (isset($array['rules']) && is_array($array['rules']))
         {
-            $this->cleanRules($array['rules']);
-            $rules = new JAccessRules($array['rules']);echo "<pre>" . print_r($rules, true) . "</pre>";
+            THM_OrganizerHelperComponent::cleanRules($array['rules']);
+            $rules = new JAccessRules($array['rules']);
             $this->setRules($rules);
         }
         return parent::bind($array, $ignore);
@@ -78,26 +79,4 @@ class THM_OrganizerTableDepartments extends JTable
         $asset->loadByName('com_thm_organizer');
         return $asset->id;
     }
-
-    /**
-     * Removes inherited groups before Joomla erroneously sets the value to 0
-     *
-     * @param   array  &$rules  the rules from the form
-     *
-     * @return  void  unsets group indexes with a truly empty value
-     */
-    private function cleanRules(&$rules)
-    {
-        foreach ($rules as $rule => $groups)
-        {
-            foreach ($groups as $group => $value)
-            {
-                if (empty($value) AND $value !== 0)
-                {
-                    unset($rules[$rule][$group]);
-                }
-            }
-        }
-    }
-
 }

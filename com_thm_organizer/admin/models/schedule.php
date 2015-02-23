@@ -91,13 +91,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         try
         {
+            $statusReport['scheduleID'] = $this->saveSchedule();
             $this->saveFields();
-            $this->saveSubjects();
-            $this->saveTeachers();
+            $this->saveSubjectFields();
+            $this->saveTeacherFields();
             $this->saveRoomTypes();
             $this->saveRooms();
             $this->setReference();
-            $statusReport['scheduleID'] = $this->saveSchedule();
             $this->_db->transactionCommit();
         }
         catch (Exception $exception)
@@ -572,60 +572,78 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * Persists teacher information from the uploaded schedule
+     * Saves subject <-> field association information from the uploaded schedule
      *
      * @return void
      */
-    private function saveSubjects()
+    private function saveSubjectFields()
     {
         foreach ($this->schedule->subjects as $subject)
         {
-            if (!empty($subject->subjectNo))
+            // Both of these attributes may be blank
+            $process = (!empty($subject->subjectNo) AND !empty($subject->description));
+            if ($process)
             {
                 $subjectData = array();
                 $subjectData['externalID'] = $subject->subjectNo;
                 $subjectRow = JTable::getInstance('subjects', 'thm_organizerTable');
-                $subjectRow->load($subjectData);
-                if (!empty($subject->description))
+                $subjectFound = $subjectRow->load($subjectData);
+                if (!$subjectFound)
                 {
-                    $fieldData = array();
-                    $fieldData['gpuntisID'] = $this->schedule->fields->{$subject->description}->gpuntisID;
-                    $fieldRow = JTable::getInstance('Fields', 'thm_organizerTable');
-                    $fieldExists = $fieldRow->load($fieldData);
-                    if ($fieldExists)
-                    {
-                        $subjectRow->fieldID = $fieldRow->id;
-                        $subjectRow->store();
-                    }
+                    continue;
                 }
+
+                $fieldData = array();
+                $fieldData['gpuntisID'] = $this->schedule->fields->{$subject->description}->gpuntisID;
+                $fieldRow = JTable::getInstance('Fields', 'thm_organizerTable');
+                $fieldFound = $fieldRow->load($fieldData);
+                if (!$fieldFound)
+                {
+                    continue;
+                }
+
+                $subjectRow->fieldID = $fieldRow->id;
+                $subjectRow->store();
             }
         }
     }
 
     /**
-     * Persists teacher information from the uploaded schedule
+     * Saves teacher <-> field association information from the uploaded schedule
      *
      * @return void
      */
-    private function saveTeachers()
+    private function saveTeacherFields()
     {
         foreach ($this->schedule->teachers as $teacher)
         {
-            $pullData = array();
-            $pullData['gpuntisID'] = $teacher->gpuntisID;
-            $teacherRow = JTable::getInstance('teachers', 'thm_organizerTable');
-            $teacherRow->load($pullData);
-            if (!empty($teacher->description))
+            // This attribute may be missing
+            if (empty($teacher->description))
             {
-                $pullData['gpuntisID'] = $this->schedule->fields->{$teacher->description}->gpuntisID;
-                $fieldRow = JTable::getInstance('Fields', 'thm_organizerTable');
-                $fieldExists = $fieldRow->load($pullData);
-                if ($fieldExists)
-                {
-                    $teacher->fieldID = $fieldRow->id;
-                }
+                continue;
             }
-            $teacherRow->save($teacher);
+
+            // This attribute creates a hard error if missing, so it should not have been able to come this far without
+            $teacherData = array();
+            $teacherData['gpuntisID'] = $teacher->gpuntisID;
+            $teacherRow = JTable::getInstance('teachers', 'thm_organizerTable');
+            $teacherFound = $teacherRow->load($teacherData);
+            if (!$teacherFound)
+            {
+                continue;
+            }
+
+            $fieldData = array();
+            $fieldData['gpuntisID'] = $this->schedule->fields->{$teacher->description}->gpuntisID;
+            $fieldRow = JTable::getInstance('Fields', 'thm_organizerTable');
+            $fieldFound = $fieldRow->load($fieldData);
+            if (!$fieldFound)
+            {
+                continue;
+            }
+
+            $teacher->fieldID = $fieldRow->id;
+            $teacherRow->store($teacher);
         }
     }
 
@@ -1374,12 +1392,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     private function saveSchedule()
     {
+        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+
         $data = array();
+        $data['departmentID'] = $formData['departmentID'];
         $data['departmentname'] = $this->schedule->departmentname;
         $data['semestername'] = $this->schedule->semestername;
         $data['creationdate'] = $this->schedule->creationdate;
         $data['creationtime'] = $this->schedule->creationtime;
-        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
         $data['description'] = $this->_db->escape($formData['description']);
         $data['schedule'] = json_encode($this->schedule);
         $data['startdate'] = $this->schedule->startdate;

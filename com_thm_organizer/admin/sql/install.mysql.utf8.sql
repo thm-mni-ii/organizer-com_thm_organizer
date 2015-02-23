@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` INT(11) NOT NULL DEFAULT '0',
+  `departmentID` INT(11) UNSIGNED DEFAULT NULL,
   `departmentname` VARCHAR ( 50 ) NOT NULL,
   `semestername` VARCHAR ( 50 ) NOT NULL,
   `creationdate` date DEFAULT NULL,
@@ -80,6 +82,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` INT(11) NOT NULL DEFAULT '0',
+  `departmentID` INT(11) UNSIGNED DEFAULT NULL,
   `subject_de` varchar(255) NOT NULL,
   `subject_en` varchar(255) NOT NULL,
   `version` year (4) DEFAULT NULL,
@@ -255,6 +259,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   KEY `roomID` ( `roomID` )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+ALTER TABLE `#__thm_organizer_schedules`
+ADD CONSTRAINT `schedules_departmentid_fk` FOREIGN KEY (`departmentID`)
+REFERENCES `#__thm_organizer_departments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
 ALTER TABLE `#__thm_organizer_virtual_schedules`
 ADD CONSTRAINT `virtual_schedules_semestername_fk` FOREIGN KEY (`semestername`)
 REFERENCES `#__thm_organizer_schedules` (`semestername`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -266,6 +274,10 @@ REFERENCES `#__thm_organizer_virtual_schedules` (`id`) ON DELETE CASCADE ON UPDA
 ALTER TABLE `#__thm_organizer_fields`
 ADD CONSTRAINT `fields_colorid_fk` FOREIGN KEY (`colorID`)
 REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_programs`
+ADD CONSTRAINT `programs_departmentid_fk` FOREIGN KEY (`departmentID`)
+REFERENCES `#__thm_organizer_departments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_programs`
 ADD CONSTRAINT `programs_degreeid_fk` FOREIGN KEY (`degreeID`)

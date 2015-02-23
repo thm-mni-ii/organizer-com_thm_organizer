@@ -33,4 +33,49 @@ class THM_OrganizerTableSchedules extends JTable
     {
         parent::__construct('#__thm_organizer_schedules', 'id', $dbo);
     }
+
+    /**
+     * Overridden bind function
+     *
+     * @param   array  $array   named array
+     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+     *
+     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
+     */
+    public function bind($array, $ignore = '')
+    {
+        if (isset($array['rules']) && is_array($array['rules']))
+        {
+            THM_OrganizerHelperComponent::cleanRules($array['rules']);
+            $rules = new JAccessRules($array['rules']);
+            $this->setRules($rules);
+        }
+        return parent::bind($array, $ignore);
+    }
+
+    protected function _getAssetTitle()
+    {
+        return "Organizer Schedule $this->departmentname - $this->semestername";
+    }
+    /**
+     * Sets the department asset name
+     *
+     * @return  void
+     */
+    protected function _getAssetName()
+    {
+        return "com_thm_organizer.schedule.$this->id";
+    }
+
+    /**
+     * Sets the parent as the component root
+     *
+     * @return  int  the asset id of the component root
+     */
+    protected function _getAssetParentId(JTable $table = null, $id = null)
+    {
+        $asset = JTable::getInstance('Asset');
+        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
+        return $asset->id;
+    }
 }
