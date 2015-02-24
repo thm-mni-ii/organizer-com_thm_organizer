@@ -299,7 +299,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $scheduleObject['curriculumColors'] = array();
         $scheduleObject["Grid.load"] = $this->_schedule->periods;
         $scheduleObject["Calendar"] = $this->_schedule->calendar;
-        //$scheduleObject["Events.load"] = true; //$ajaxModel->executeTask("Events.load");
+
+        // $scheduleObject["Events.load"] = true; //$ajaxModel->executeTask("Events.load");
         $scheduleObject["UserSchedule.load"] = new stdClass;
         $scheduleObject["UserSchedule.load"]->respChanges = $ajaxModel->executeTask("UserSchedule.load", array("username" => "respChanges"));
         $scheduleObject["ScheduleDescription.load"] = new stdClass;
