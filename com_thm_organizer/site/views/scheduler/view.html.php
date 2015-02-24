@@ -85,7 +85,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         // $eventModel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
         $params = $app->getMenu()->getActive()->params;
 
-        //$eventModel->canWrite;
+        // $eventModel->canWrite;
         $this->config['canWrite'] = false;
         $this->config['sessionID'] = $schedulerModel->getSessionID();
         $this->searchModuleID = $input->getString('moduleID', '');
