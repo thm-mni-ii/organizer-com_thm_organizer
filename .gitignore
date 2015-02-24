@@ -6,6 +6,7 @@
 .idea
 nbproject/
 com_thm_organizer/admin/com_thm_organizer.xml
+atlassian-ide-plugin.xml
 
 # OS generated files   #
 ########################
