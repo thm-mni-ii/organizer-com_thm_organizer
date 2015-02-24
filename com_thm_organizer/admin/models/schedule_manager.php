@@ -49,11 +49,13 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "id, departmentname, semestername, active, creationdate, creationtime ";
-        $query->select($select)->from("#__thm_organizer_schedules");
+        $select = "s.id, d.short_name AS departmentname, semestername, active, creationdate, creationtime ";
+        $query->select($select);
+        $query->from("#__thm_organizer_schedules AS s");
+        $query->innerJoin("#__thm_organizer_departments AS d ON s.departmentID = d.id");
 
-        $this->setSearchFilter($query, array('departmentname', 'semestername'));
-        $this->setValueFilters($query, array('departmentname', 'semestername', 'active', 'creationdate', 'creationtime'));
+        $this->setSearchFilter($query, array('departmentname', 'semestername', 'd.name'));
+        $this->setValueFilters($query, array('departmentID', 'semestername', 'active', 'creationdate', 'creationtime'));
 
         $this->setOrdering($query);
 
@@ -78,12 +80,25 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['departmentname'] = $item->departmentname;
-            $return[$index]['semestername'] = $item->semestername;
-            $return[$index]['active'] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
-            $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
-            $return[$index]['creationtime'] = THM_OrganizerHelperComponent::formatTime($item->creationtime);
+            $canEdit = THM_OrganizerHelperComponent::allowDeptResourceEdit('schedule', $item->id);
+            if ($canEdit)
+            {
+                $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+                $return[$index]['departmentID'] = $item->departmentname;
+                $return[$index]['semestername'] = $item->semestername;
+                $return[$index]['active'] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
+                $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
+                $return[$index]['creationtime'] = THM_OrganizerHelperComponent::formatTime($item->creationtime);
+            }
+            else
+            {
+                $return[$index]['checkbox'] = '';
+                $return[$index]['departmentID'] = $item->departmentname;
+                $return[$index]['semestername'] = $item->semestername;
+                $return[$index]['active'] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'), null, false);
+                $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
+                $return[$index]['creationtime'] = THM_OrganizerHelperComponent::formatTime($item->creationtime);
+            }
             $index++;
         }
         return $return;
@@ -101,7 +116,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
 
         $headers = array();
         $headers['checkbox'] = '';
-        $headers['departmentname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentname', $direction, $ordering);
+        $headers['departmentID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentname', $direction, $ordering);
         $headers['semestername'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNING_PERIOD', 'semestername', $direction, $ordering);
         $headers['active'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_STATE', 'active', $direction, $ordering);
         $headers['creationdate'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_DATE', 'creationdate', $direction, $ordering);

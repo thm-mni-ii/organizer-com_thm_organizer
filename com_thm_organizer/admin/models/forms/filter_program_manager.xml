@@ -19,7 +19,6 @@
             label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
             <option value="">JALL</option>
         </field>
         <field
@@ -31,7 +30,6 @@
             label="COM_THM_ORGANIZER_DEGREE"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_DEGREE</option>
             <option value="">JALL</option>
         </field>
         <field
@@ -43,22 +41,17 @@
             label="COM_THM_ORGANIZER_VERSION"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_VERSION</option>
             <option value="">JALL</option>
         </field>
-		<field
-			name="fieldID"
+        <field
+            name="departmentID"
             type="genericlist"
-            valueColumn="f.id"
-            textColumn="f.field"
-            table="thm_organizer_programs AS p,thm_organizer_fields AS f ON p.fieldID = f.id"
-            label="COM_THM_ORGANIZER_FIELD"
-            onchange="this.form.submit();"
-            >
-            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
+            valueColumn="d.id"
+            textColumn="d.short_name"
+            table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID"
+            onchange="this.form.submit();" >
             <option value="">JALL</option>
-            <option value="-1">JNONE</option>
-		</field>
+        </field>
     </fields>
 	<fields name="list">
 		<field

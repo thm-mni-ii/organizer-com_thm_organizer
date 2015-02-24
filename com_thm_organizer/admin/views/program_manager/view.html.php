@@ -48,17 +48,23 @@ class THM_OrganizerViewProgram_Manager extends THM_CoreViewList
     protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_degree_programs');
-        JToolbarHelper::addNew('program.add');
-        JToolbarHelper::editList('program.edit');
-        JToolbarHelper::custom(
-                               'program.importLSFData',
-                               'import',
-                               '',
-                               'COM_THM_ORGANIZER_ACTION_IMPORT',
-                               true
-                              );
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
-        JToolbarHelper::divider();
-        JToolbarHelper::preferences('com_thm_organizer', '500');
+        if (count(THM_OrganizerHelperComponent::getAccessibleDepartments()))
+        {
+            JToolbarHelper::addNew('program.add');
+            JToolbarHelper::editList('program.edit');
+            JToolbarHelper::custom(
+                'program.importLSFData',
+                'import',
+                '',
+                'COM_THM_ORGANIZER_ACTION_IMPORT',
+                true
+            );
+            JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
+        }
+        if ($this->getModel()->actions->{'core.admin'})
+        {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer', '500');
+        }
     }
 }

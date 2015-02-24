@@ -11,14 +11,12 @@
             name="checkbox"
             type="checkall" />
         <field
-            name="departmentname"
+            name="departmentID"
             type="genericlist"
-            valueColumn="departmentname"
-            textColumn="departmentname"
-            table="thm_organizer_schedules"
-            onchange="this.form.submit();"
-            >
-            <option value="">COM_THM_ORGANIZER_FILTER_DEPARTMENT</option>
+            valueColumn="d.id"
+            textColumn="d.short_name"
+            table="thm_organizer_schedules AS s,thm_organizer_departments AS d ON d.id = s.departmentID"
+            onchange="this.form.submit();" >
             <option value="">JALL</option>
         </field>
         <field
@@ -30,7 +28,6 @@
             label="COM_THM_ORGANIZER_PLANNING_PERIOD"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_PLANNING_PERIOD</option>
             <option value="">JALL</option>
         </field>
         <field
@@ -39,7 +36,6 @@
             label="COM_THM_ORGANIZER_STATE"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_STATE</option>
             <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_ACTIVE_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_ACTIVE_NO</option>
@@ -54,7 +50,6 @@
             label="COM_THM_ORGANIZER_CREATION_DATE"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_CREATION_DATE</option>
             <option value="">JALL</option>
         </field>
         <field
@@ -67,7 +62,6 @@
             label="COM_THM_ORGANIZER_CREATION_TIME"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_CREATION_TIME</option>
             <option value="">JALL</option>
         </field>
     </fields>

@@ -37,7 +37,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array('subject', 'abbreviation', 'version', 'field');
+            $config['filter_fields'] = array('subject', 'abbreviation', 'version', 'departmentID');
         }
 
         parent::__construct($config);
@@ -54,7 +54,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         $query = $this->_db->getQuery(true);
         $subjectColumn = "subject_{$language[0]}";
         $select = "$subjectColumn AS subject, version, lsfDegree, lsfFieldID, ";
-        $select .= "dp.id as id, field, color, abbreviation, ";
+        $select .= "dp.id AS id, d.abbreviation AS abbreviation, dpt.short_name AS departmentname, ";
         $parts = array("'index.php?option=com_thm_organizer&view=program_edit&id='","dp.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
@@ -62,11 +62,11 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
 
         $searchColumns = array('subject_de', 'subject_en', 'version', 'field', 'd.name', 'description_de', 'description_en');
         $this->setSearchFilter($query, $searchColumns);
-        $this->setValueFilters($query, array( 'degreeID', 'version', 'fieldID'));
+        $this->setValueFilters($query, array( 'degreeID', 'version', 'departmentID'));
         $this->setLocalizedFilters($query, array('subject'));
 
         $this->setOrdering($query);
@@ -92,24 +92,22 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['subject'] = JHtml::_('link', $item->link, $item->subject);
-            $return[$index]['degreeID'] = JHtml::_('link', $item->link, $item->abbreviation);
-            $return[$index]['version'] = JHtml::_('link', $item->link, $item->version);
-            if (!empty($item->field))
+            $canEdit = THM_OrganizerHelperComponent::allowDeptResourceEdit('program', $item->id);
+            if ($canEdit)
             {
-                if (!empty($item->color))
-                {
-                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField($item->field, $item->color);
-                }
-                else
-                {
-                    $return[$index]['fieldID'] = $item->field;
-                }
+                $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+                $return[$index]['subject'] = JHtml::_('link', $item->link, $item->subject);
+                $return[$index]['degreeID'] = JHtml::_('link', $item->link, $item->abbreviation);
+                $return[$index]['version'] = JHtml::_('link', $item->link, $item->version);
+                $return[$index]['departmentID'] = JHtml::_('link', $item->link, $item->departmentname);
             }
             else
             {
-                $return[$index]['fieldID'] = '';
+                $return[$index]['checkbox'] = '';
+                $return[$index]['subject'] = $item->subject;
+                $return[$index]['degreeID'] = $item->abbreviation;
+                $return[$index]['version'] = $item->version;
+                $return[$index]['departmentID'] = $item->departmentname;
             }
             $index++;
         }
@@ -131,7 +129,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         $headers['subject'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'subject', $direction, $ordering);
         $headers['degreeID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE', 'abbreviation', $direction, $ordering);
         $headers['version'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_VERSION', 'version', $direction, $ordering);
-        $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
+        $headers['departmentID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentID', $direction, $ordering);
 
         return $headers;
     }

@@ -53,10 +53,17 @@ class THM_OrganizerTableSchedules extends JTable
         return parent::bind($array, $ignore);
     }
 
+    /**
+     * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
+     * that there is some context available in a unified access manager.
+     *
+     * @return  string  The string to use as the title in the asset table.
+     */
     protected function _getAssetTitle()
     {
         return "Organizer Schedule $this->departmentname - $this->semestername";
     }
+
     /**
      * Sets the department asset name
      *

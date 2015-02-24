@@ -32,36 +32,6 @@ class THM_OrganizerTablePrograms extends JTable
     }
 
     /**
-     * Method to store a row in the database from the JTable instance properties.
-     *
-     * @param   boolean  $updateNulls  True to update fields even if they are null.
-     *
-     * @return  boolean  True on success.
-     */
-    public function store($updateNulls = true)
-    {
-        return parent::store(true);
-    }
-
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return  boolean  true
-     */
-    public function check()
-    {
-        $nullColumns = array('fieldID');
-        foreach ($nullColumns as $nullColumn)
-        {
-            if (!strlen($this->$nullColumn))
-            {
-                $this->$nullColumn = NULL;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Overridden bind function
      *
      * @param   array  $array   named array
@@ -80,10 +50,17 @@ class THM_OrganizerTablePrograms extends JTable
         return parent::bind($array, $ignore);
     }
 
+    /**
+     * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
+     * that there is some context available in a unified access manager.
+     *
+     * @return  string  The string to use as the title in the asset table.
+     */
     protected function _getAssetTitle()
     {
-        return "Organizer Program $this->departmentname - $this->semestername";
+        return "com_thm_organizer.program.$this->id";
     }
+
     /**
      * Sets the department asset name
      *

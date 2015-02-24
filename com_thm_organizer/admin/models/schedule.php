@@ -91,13 +91,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         try
         {
-            $statusReport['scheduleID'] = $this->saveSchedule();
             $this->saveFields();
             $this->saveSubjectFields();
             $this->saveTeacherFields();
             $this->saveRoomTypes();
             $this->saveRooms();
             $this->setReference();
+            $statusReport['scheduleID'] = $this->saveSchedule();
             $this->_db->transactionCommit();
         }
         catch (Exception $exception)
