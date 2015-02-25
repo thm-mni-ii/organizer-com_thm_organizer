@@ -30,7 +30,7 @@ MySched.InfoPanel = function ()
         {
             console.log("MySched.InfoPanel showInfo: maybe never used?");
             var text = false;
-            if (Ext.type(el) === 'object')
+            if (Ext.typeOf(el) === 'object')
             {
 
                 var l = MySched.Base.getLecture(el.id);

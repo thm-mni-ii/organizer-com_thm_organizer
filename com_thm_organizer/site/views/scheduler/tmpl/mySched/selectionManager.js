@@ -36,7 +36,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         {
             "use strict";
 
-            if (Ext.type(o) === 'object')
+            if (Ext.typeOf(o) === 'object')
             {
                 // Only below the given object
                 var dom = o.dom || Ext.get(o).dom;
