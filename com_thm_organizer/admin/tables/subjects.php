@@ -5,12 +5,12 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerTableSubjects
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.table');
+jimport('thm_core.tables.assets');
 /**
  * Class representing the assets table.
  *
@@ -18,7 +18,7 @@ jimport('joomla.application.component.table');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.tables
  */
-class THM_OrganizerTableSubjects extends JTable
+class THM_OrganizerTableSubjects extends THM_CoreTableAssets
 {
     /**
      * Constructor to call the parent constructor
@@ -28,18 +28,6 @@ class THM_OrganizerTableSubjects extends JTable
     public function __construct(&$dbo)
     {
         parent::__construct('#__thm_organizer_subjects', 'id', $dbo);
-    }
-
-    /**
-     * Method to store a row in the database from the JTable instance properties.
-     *
-     * @param   boolean  $updateNulls  True to update fields even if they are null.
-     *
-     * @return  boolean  True on success.
-     */
-    public function store($updateNulls = true)
-    {
-        return parent::store(true);
     }
 
     /**
@@ -58,5 +46,29 @@ class THM_OrganizerTableSubjects extends JTable
             }
         }
         return true;
+    }
+
+    /**
+     * Sets the department asset name
+     *
+     * @return  void
+     */
+    protected function _getAssetName()
+    {
+        return "com_thm_organizer.subject.$this->id";
+    }
+
+    /**
+     * Sets the parent as the component root
+     *
+     * @return  int  the asset id of the component root
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function _getAssetParentId(JTable $table = null, $id = null)
+    {
+        $asset = JTable::getInstance('Asset');
+        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
+        return $asset->id;
     }
 }

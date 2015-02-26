@@ -100,6 +100,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` INT(11) NOT NULL DEFAULT '0',
+  `departmentID` INT(11) UNSIGNED DEFAULT NULL,
   `lsfID` INT(11) UNSIGNED DEFAULT NULL,
   `hisID` INT(11) UNSIGNED DEFAULT NULL,
   `externalID` varchar(45) DEFAULT '',
@@ -132,6 +134,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` INT(11) NOT NULL DEFAULT '0',
+  `departmentID` INT(11) UNSIGNED DEFAULT NULL,
   `lsfID` INT(11) UNSIGNED DEFAULT NULL,
   `hisID` INT(11) UNSIGNED DEFAULT NULL,
   `externalID` varchar(45) NOT NULL DEFAULT '',
@@ -288,8 +292,16 @@ ADD CONSTRAINT `programs_fieldid_fk` FOREIGN KEY (`fieldID`)
 REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_pools`
+ADD CONSTRAINT `pools_departmentid_fk` FOREIGN KEY (`departmentID`)
+REFERENCES `#__thm_organizer_departments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_pools`
 ADD CONSTRAINT `pools_fieldid_fk` FOREIGN KEY (`fieldID`)
 REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_subjects`
+ADD CONSTRAINT `subjects_departmentid_fk` FOREIGN KEY (`departmentID`)
+REFERENCES `#__thm_organizer_departments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_subjects`
 ADD CONSTRAINT `subjects_frequencyid_fk` FOREIGN KEY (`frequencyID`)

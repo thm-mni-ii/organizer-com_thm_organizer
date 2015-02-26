@@ -78,6 +78,8 @@ class THM_OrganizerTableSchedules extends JTable
      * Sets the parent as the component root
      *
      * @return  int  the asset id of the component root
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getAssetParentId(JTable $table = null, $id = null)
     {

@@ -31,32 +31,45 @@ class THM_OrganizerTablePools extends JTable
     }
 
     /**
-     * Method to store a row in the database from the JTable instance properties.
+     * Overridden bind function
      *
-     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     * @param   array  $array   named array
+     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
-     * @return  boolean  True on success.
+     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
      */
-    public function store($updateNulls = true)
+    public function bind($array, $ignore = '')
     {
-        return parent::store(true);
+        if (isset($array['rules']) && is_array($array['rules']))
+        {
+            THM_OrganizerHelperComponent::cleanRules($array['rules']);
+            $rules = new JAccessRules($array['rules']);
+            $this->setRules($rules);
+        }
+        return parent::bind($array, $ignore);
     }
 
     /**
-     * Set the table column names which are allowed to be null
+     * Sets the department asset name
      *
-     * @return  boolean  true
+     * @return  void
      */
-    public function check()
+    protected function _getAssetName()
     {
-        $nullColumns = array('lsfID', 'hisID', 'fieldID');
-        foreach ($nullColumns as $nullColumn)
-        {
-            if (!strlen($this->$nullColumn))
-            {
-                $this->$nullColumn = NULL;
-            }
-        }
-        return true;
+        return "com_thm_organizer.pool.$this->id";
+    }
+
+    /**
+     * Sets the parent as the component root
+     *
+     * @return  int  the asset id of the component root
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function _getAssetParentId(JTable $table = null, $id = null)
+    {
+        $asset = JTable::getInstance('Asset');
+        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
+        return $asset->id;
     }
 }

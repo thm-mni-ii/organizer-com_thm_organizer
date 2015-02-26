@@ -28,10 +28,10 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      *
      * @return  array  empty if the program could not be found
      */
-    private function getLSFQueryData($programID)
+    private function getSavedProgramData($programID)
     {
         $lsfDataQuery = $this->_db->getQuery(true);
-        $lsfDataQuery->select("lsfFieldID AS program, lsfDegree AS degree, version");
+        $lsfDataQuery->select("lsfFieldID AS program, lsfDegree AS degree, version, departmentID");
         $lsfDataQuery->from('#__thm_organizer_programs AS p');
         $lsfDataQuery->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $lsfDataQuery->where("p.id = '$programID'");
@@ -81,15 +81,15 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      */
     public function importSingle($programID)
     {
-        $lsfData = $this->getLSFQueryData($programID);
-        if (empty($lsfData))
+        $programData = $this->getSavedProgramData($programID);
+        if (empty($programData))
         {
             JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_LSFDATA_MISSING', 'error');
             return false;
         }
 
         $client = new THM_OrganizerLSFClient;
-        $program = $client->getModules($lsfData['program'], $lsfData['degree'], $lsfData['version']);
+        $program = $client->getModules($programData['program'], $programData['degree'], $programData['version']);
         if (empty($program))
         {
             return false;
@@ -104,7 +104,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
                 return false;
             }
 
-            $childrenImported = $this->processChildNodes($program);
+            $childrenImported = $this->processChildNodes($program, $programData['departmentID']);
             if (!$childrenImported)
             {
                 return false;
@@ -122,18 +122,19 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
     /**
      * Processes the child nodes of the program root node
      *
-     * @param   object  &$program  the simplexml object object containing program information
+     * @param   object  &$program      the simplexml object object containing program information
+     * @param   int     $departmentID  the id of the department to which this data belongs
      *
      * @return  boolean  true on success, otherwise false
      */
-    private function processChildNodes(&$program)
+    private function processChildNodes(&$program, $departmentID)
     {
         $lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
         $lsfPoolModel = JModelLegacy::getInstance('LSFPool', 'THM_OrganizerModel');
         foreach ($program->gruppe as $resource)
         {
             $stubProcessed = isset($resource->modulliste->modul)?
-                $lsfPoolModel->processStub($resource) : $lsfSubjectModel->processStub($resource);
+                $lsfPoolModel->processStub($resource, $departmentID) : $lsfSubjectModel->processStub($resource, $departmentID);
             if (!$stubProcessed)
             {
                 return false;

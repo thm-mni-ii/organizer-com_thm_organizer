@@ -48,11 +48,12 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     /**
      * Creates a subject entry if none exists and imports data to fill it
      *
-     * @param   object  &$stub  a simplexml object containing rudimentary subject data
+     * @param   object  &$stub         a simplexml object containing rudimentary subject data
+     * @param   int     $departmentID  the id of the department to which this data belongs
      *
      * @return  boolean true on success, otherwise false
      */
-    public function processStub(&$stub)
+    public function processStub(&$stub, $departmentID)
     {
         $lsfID = (string) (empty($stub->modulid)?  $stub->pordid : $stub->modulid);
         if (empty($lsfID))
@@ -67,10 +68,19 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         }
 
         $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        $table->load(array('lsfID' => $lsfID));
+
+        // Attempt to load using the departmentID
+        $table->load(array('lsfID' => $lsfID, 'departmentID' => $departmentID));
         if (empty($table->id))
         {
-            $data = array('lsfID' => $lsfID);
+            // Check for a non-migrated row
+            $table->load(array('lsfID' => $lsfID));
+        }
+
+        // No row was found => create one
+        if (empty($table->id))
+        {
+            $data = array('lsfID' => $lsfID, 'departmentID' => $departmentID);
             $stubSaved = $table->save($data);
             if (!$stubSaved)
             {
@@ -109,6 +119,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $lsfData = !empty($subject->lsfID)?
             $client->getModuleByModulid($subject->lsfID) : $client->getModuleByNrMni($subject->externalID);
 
+        // The system administrator does not wish to display entries with this value
         $blocked = strtolower((string) $lsfData->modul->sperrmh) == 'x';
         if ($blocked)
         {

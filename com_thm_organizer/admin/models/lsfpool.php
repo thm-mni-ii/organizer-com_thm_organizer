@@ -24,11 +24,12 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
     /**
      * Creates a pool entry if none exists and calls
      *
-     * @param   object  &$stub  a simplexml object containing rudimentary subject data
+     * @param   object  &$stub         a simplexml object containing rudimentary subject data
+     * @param   int     $departmentID  the id of the department to which this data belongs
      *
      * @return  mixed  int value of subject id on success, otherwise false
      */
-    public function processStub(&$stub)
+    public function processStub(&$stub, $departmentID)
     {
         $valid = ((!empty($stub->pordid) OR !empty($stub->modulid))
          AND (!empty($stub->nrhis) OR !empty($stub->modulnrhis)));
@@ -49,6 +50,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
         $pool = JTable::getInstance('pools', 'thm_organizerTable');
         $pool->load(array('lsfID' => $lsfID, 'hisID' => $hisID));
 
+        $pool->departmentID = $departmentID;
         $pool->lsfID = $lsfID;
         $pool->hisID = $hisID;
         $this->setAttribute($pool, 'externalID', (string) $stub->alphaid);
@@ -65,7 +67,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
             return false;
         }
 
-        return $this->processChildren($stub);
+        return $this->processChildren($stub, $departmentID);
     }
 
     /**
@@ -95,11 +97,12 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
     /**
      * Processes the children of the stub element
      * 
-     * @param   object  &$stub  the pool element
+     * @param   object  &$stub         the pool element
+     * @param   int     $departmentID  the id of the department to which this data belongs
      * 
      * @return  boolean true on success, otherwise false
      */
-    private function processChildren(&$stub)
+    private function processChildren(&$stub, $departmentID)
     {
         if (!empty($stub->modulliste->modul))
         {
@@ -108,11 +111,11 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
             {
                 if (isset($subStub->modulliste->modul))
                 {
-                    $stubProcessed = $this->processStub($subStub);
+                    $stubProcessed = $this->processStub($subStub, $departmentID);
                 }
                 else
                 {
-                    $stubProcessed = $lsfSubjectModel->processStub($subStub);
+                    $stubProcessed = $lsfSubjectModel->processStub($subStub, $departmentID);
                 }
                 if (!$stubProcessed)
                 {

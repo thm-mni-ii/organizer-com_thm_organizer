@@ -23,7 +23,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerModelDepartment_Manager extends THM_CoreModelList
 {
-    protected $defaultOrdering = 'name';
+    protected $defaultOrdering = 'short_name';
 
     protected $defaultDirection = 'ASC';
 

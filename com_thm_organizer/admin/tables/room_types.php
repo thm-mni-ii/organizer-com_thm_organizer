@@ -3,16 +3,15 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerTableroom_types
- * @description room_types table class
+ * @name        THM_OrganizerTableRoom_Types
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.table');
+jimport('joomla.database.table');
 
 /**
  * Class representing the room_types table.
@@ -20,7 +19,6 @@ jimport('joomla.application.component.table');
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class THM_OrganizerTableRoom_Types extends JTable
 {

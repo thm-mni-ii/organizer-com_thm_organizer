@@ -3,24 +3,23 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerTablerooms
- * @description rooms table class
+ * @name        THM_OrganizerTableRooms
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.table');
+jimport('joomla.database.table');
+
 /**
  * Class representing the rooms table.
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
-class THM_OrganizerTablerooms extends JTable
+class THM_OrganizerTableRooms extends JTable
 {
     /**
      * Constructor function for the class representing the rooms table

@@ -138,14 +138,14 @@ class THM_OrganizerHelperComponent
      */
     public static function allowEdit(&$model, $itemID = 0)
     {
-        $name = $model->get('name');
-
-        // Views only accessible as a component administrator
-        $adminViews = array('department_edit', 'monitor_edit');
-        if (in_array($name, $adminViews))
+        // Admins can edit anything. Department and monitor editing is implicitly covered here.
+        $isAdmin = $model->actions->{'core.admin'};
+        if ($isAdmin)
         {
-            return $model->actions->{'core.admin'};
+            return true;
         }
+
+        $name = $model->get('name');
 
         // Views accessible with component create/edit access
         $resourceEditViews = array('color_edit', 'degree_edit', 'field_edit', 'room_edit', 'teacher_edit');
@@ -171,12 +171,45 @@ class THM_OrganizerHelperComponent
             if (!empty($itemID))
             {
                 $resourceName = str_replace('_edit', '', $name);
+                $initialized  = self::checkAssetInitialization($resourceName, $itemID);
+                if (!$initialized)
+                {
+                    return self::allowDeptResourceCreate();
+                }
                 return self::allowDeptResourceEdit($resourceName, $itemID);
             }
             return self::allowDeptResourceCreate();
         }
 
         return false;
+    }
+
+    /**
+     * Checks for resources which have not yet been saved as an asset allowing transitional edit access
+     *
+     * @param   string $resourceName  the name of the resource type
+     * @param   int    $itemID        the id of the item being checked
+     *
+     * @return  bool  true if the resource has an associated asset, otherwise false
+     */
+    public static function checkAssetInitialization($resourceName, $itemID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('asset_id')->from("#__thm_organizer_{$resourceName}s")->where("id = '$itemID'");
+        $dbo->setQuery((string) $query);
+
+        try
+        {
+            $assetID = $dbo->loadResult();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
+        }
+
+        return empty($assetID)? false : true;
     }
 
     /**
@@ -250,27 +283,6 @@ class THM_OrganizerHelperComponent
         }
 
         return $allowedDepartmentIDs;
-    }
-
-    /**
-     * Removes inherited groups before Joomla erroneously sets the value to 0
-     *
-     * @param   array  &$rules  the rules from the form
-     *
-     * @return  void  unsets group indexes with a truly empty value
-     */
-    public static function cleanRules(&$rules)
-    {
-        foreach ($rules as $rule => $groups)
-        {
-            foreach ($groups as $group => $value)
-            {
-                if (empty($value) AND $value !== 0)
-                {
-                    unset($rules[$rule][$group]);
-                }
-            }
-        }
     }
 
     /**

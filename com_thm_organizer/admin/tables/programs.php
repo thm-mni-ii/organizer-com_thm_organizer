@@ -11,7 +11,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.table');
+jimport('thm_core.tables.assets');
 /**
  * Class representing the majors table.
  *
@@ -19,7 +19,7 @@ jimport('joomla.application.component.table');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerTablePrograms extends JTable
+class THM_OrganizerTablePrograms extends THM_CoreTableAssets
 {
     /**
      * Constructor function for the class representing the majors table
@@ -32,33 +32,21 @@ class THM_OrganizerTablePrograms extends JTable
     }
 
     /**
-     * Overridden bind function
+     * Set the table column names which are allowed to be null
      *
-     * @param   array  $array   named array
-     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-     *
-     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
+     * @return  boolean  true
      */
-    public function bind($array, $ignore = '')
+    public function check()
     {
-        if (isset($array['rules']) && is_array($array['rules']))
+        $nullColumns = array('fieldID');
+        foreach ($nullColumns as $nullColumn)
         {
-            THM_OrganizerHelperComponent::cleanRules($array['rules']);
-            $rules = new JAccessRules($array['rules']);
-            $this->setRules($rules);
+            if (!strlen($this->$nullColumn))
+            {
+                $this->$nullColumn = NULL;
+            }
         }
-        return parent::bind($array, $ignore);
-    }
-
-    /**
-     * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
-     * that there is some context available in a unified access manager.
-     *
-     * @return  string  The string to use as the title in the asset table.
-     */
-    protected function _getAssetTitle()
-    {
-        return "com_thm_organizer.program.$this->id";
+        return true;
     }
 
     /**
@@ -75,6 +63,8 @@ class THM_OrganizerTablePrograms extends JTable
      * Sets the parent as the component root
      *
      * @return  int  the asset id of the component root
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getAssetParentId(JTable $table = null, $id = null)
     {

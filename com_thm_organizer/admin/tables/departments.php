@@ -10,8 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.database.table');
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+jimport('thm_core.tables.assets');
 
 /**
  * Class representing the majors table.
@@ -20,10 +19,8 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerTableDepartments extends JTable
+class THM_OrganizerTableDepartments extends THM_CoreTableAssets
 {
-    public $asset_id;
-
     /**
      * Constructor function for the class representing the majors table
      *
@@ -32,25 +29,6 @@ class THM_OrganizerTableDepartments extends JTable
     public function __construct(&$dbo)
     {
         parent::__construct('#__thm_organizer_departments', 'id', $dbo);
-    }
-
-    /**
-     * Overridden bind function
-     *
-     * @param   array  $array   named array
-     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-     *
-     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
-     */
-    public function bind($array, $ignore = '')
-    {
-        if (isset($array['rules']) && is_array($array['rules']))
-        {
-            THM_OrganizerHelperComponent::cleanRules($array['rules']);
-            $rules = new JAccessRules($array['rules']);
-            $this->setRules($rules);
-        }
-        return parent::bind($array, $ignore);
     }
 
     /**
@@ -79,6 +57,8 @@ class THM_OrganizerTableDepartments extends JTable
      * Sets the parent as the component root
      *
      * @return  int  the asset id of the component root
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getAssetParentId(JTable $table = null, $id = null)
     {
