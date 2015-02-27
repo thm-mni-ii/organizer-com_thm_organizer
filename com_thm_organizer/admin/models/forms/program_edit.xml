@@ -75,7 +75,7 @@
                label="COM_THM_ORGANIZER_DESC"
                description="COM_THM_ORGANIZER_DESC_DESC_EN" />
     </fieldset>
-    <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS">
+    <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS" displayinitial="0">
         <field name="children"
                type="children"
                label="COM_THM_ORGANIZER_CHILDREN"

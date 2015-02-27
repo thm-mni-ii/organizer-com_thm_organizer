@@ -19,7 +19,6 @@
             label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_NAME</option>
             <option value="">JALL</option>
         </field>
         <field
@@ -28,7 +27,6 @@
             label="COM_THM_ORGANIZER_PROGRAM"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -41,7 +39,6 @@
             label="COM_THM_ORGANIZER_FIELD"
             onchange="this.form.submit();"
             >
-            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>

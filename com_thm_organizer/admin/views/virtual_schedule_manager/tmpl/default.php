@@ -14,4 +14,6 @@ defined('_JEXEC') or die;
 jimport('thm_core.list.template');
 ?>
 <div id="j-sidebar-container" class="span2"><?php echo $this->sidebar; ?></div>
-<h2>Under Construction</h2>
+<div id="j-main-container" class="span10 j-toggle-main">
+    <h2>Under Construction</h2>
+</div>
