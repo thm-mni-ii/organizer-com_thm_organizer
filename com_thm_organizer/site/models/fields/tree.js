@@ -1,7 +1,11 @@
 /*global Ext, MySched, MySchedLanguage, changePublicDefaultHighlight, images */
 /*jshint strict: false */
+
+// TODO: Something in this function destroys the tree panel and nothing will be shown
 Ext.override(Ext.tree.Column,
+//Ext.define('TreeColumOverride',
 {
+    //override: 'Ext.tree.Column',
     initComponent: function()
     {
         var origRenderer = this.renderer || this.defaultRenderer;
@@ -18,7 +22,7 @@ Ext.override(Ext.tree.Column,
             var imgText = '<img src="{1}" class="{0}" />';
 
             var checkboxText = "";
-
+    //console.log(record);
             if(record.isLeaf())
             {
                 if(record.raw.publicDefault === undefined || record.raw.publicDefault === '')
@@ -35,7 +39,8 @@ Ext.override(Ext.tree.Column,
                 checkboxText += '<img id="' + record.data.id + '_fake" class="MySched_checkbox_fake" src="' + images[record.data.checked] + '">';
             }
 
-            var formattedValue = origRenderer.apply(origScope, arguments);
+            //var formattedValue = origRenderer.apply(origScope, arguments);
+            var formattedValue = ""
             var href = record.get('href');
             var target = record.get('hrefTarget');
             var cls = record.get('cls');
@@ -108,12 +113,14 @@ Ext.override(Ext.tree.Column,
             {
                 metaData.tdCls += ' ' + cls;
             }
+            //console.log(formattedValue);
             return buf.join("") + formattedValue;
         };
 
         this.callParent(arguments);
     }
 });
+
 
 function changeIconHighlight (event)
 {
@@ -228,7 +235,8 @@ function setStatus(event)
     }
     record.data.checked = inputField.value;
 }
-
+// TODO check if this is correct => changed Ext.data.Tree.prototype.check into Ext.data.TreeModel.prototype.check
+/*
 Ext.data.Tree.prototype.check = function(state, descend, bulk)
 {
     this.data.checked = state;
@@ -251,6 +259,8 @@ Ext.data.Tree.prototype.check = function(state, descend, bulk)
         this.fireEvent('check', this, state);
     }
 };
+*/
+
 
 Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
 {
@@ -359,8 +369,9 @@ Ext.tree.Panel.prototype.doGray = function(node)
         node = this.getRootNode();
     }
     var id = node.data.id+"_fake";
-    clickBox = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
-    if(Ext.isDefined(clickBox))
+    clickBox = Ext.dom.Query.selectNode("[id="+id+"]", tree.dom);
+    //console.log(Ext.isDefined(clickBox));
+    if(clickBox)
     {
         clickBox.setStyle('opacity', '1');
         clickBox.setStyle('border', 'none');
@@ -390,7 +401,7 @@ Ext.tree.Panel.prototype.doGray = function(node)
     if(gray === true)
     {
         clickBox = Ext.DomQuery.selectNode("[id="+id+"]", tree.dom);
-        if(Ext.isDefined(clickBox))
+        if(clickBox)
         {
             clickBox.setStyle('opacity', '0.4');
             clickBox.setStyle('border', '1px solid gray');
@@ -437,28 +448,31 @@ Ext.onReady(function()
 {
     Ext.QuickTips.init();
 
-    tree = Ext.create('Ext.tree.Panel', {
-        title: ' ',
-        id: 'selectTree',
-        preventHeader: true,
-        height: 470,
-        autoscroll: true,
-        rootVisible: false,
-        pathSeparator: '#',
-        ddGroup: 'lecture',
-        ddConfig: { enableDrag: true },
-        layout: { type: 'fit' },
-        root: {
-            id: 'rootTreeNode',
-            text: 'root',
-            expanded: true,
-            children: null
+    tree = Ext.create(
+        'Ext.tree.Panel',
+        {
+            title: ' ',
+            id: 'selectTree',
+            preventHeader: true,
+            height: 470,
+            autoscroll: true,
+            rootVisible: false,
+            pathSeparator: '#',
+            ddGroup: 'lecture',
+            ddConfig: { enableDrag: true },
+            layout: { type: 'fit' },
+            root: {
+                id: 'rootTreeNode',
+                text: 'root',
+                expanded: true,
+                children: null
+            }
         }
-    });
+    );
 
     // render the tree
     tree.render('tree-div');
- 
+
     var treeView = tree.getView();
     treeView.on('itemadd', function(records, index, node, eOpts)
     {
@@ -477,6 +491,7 @@ Ext.onReady(function()
         }
     });
 });
+
 
 function checkBoxEvents(node)
 {

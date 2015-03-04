@@ -4,6 +4,7 @@ var loadMask = null;
 
 Ext.onReady(function()
 {
+
     Ext.get('jform_params_departmentSemesterSelection').on({
         'change': function (e) {
             e.stopEvent();
@@ -16,12 +17,12 @@ Ext.onReady(function()
     });
 
     var initselectBox = Ext.get('jform_params_departmentSemesterSelection');
-    var initselectedItems = initselectBox.dom.getSelected();
+    var initselectedItems = initselectBox.getValue();//initselectBox.dom.getSelected();
     if(initselectedItems.length > 0)
     {
-        var initselectedItem = initselectedItems[0];
-        var initselectedItemValue = initselectedItem.value;
-        loadTreeData(initselectedItemValue);
+        //var initselectedItem = initselectedItems[0];
+        //var initselectedItemValue = initselectedItem.value;
+        loadTreeData(initselectedItems);
     }
 });
 
@@ -31,8 +32,8 @@ function loadTreeData(selectedItemValue)
     {
         loadMask.destroy();
     }
-    loadMask = new Ext.LoadMask("selectTree", { msg: "Loading..." });
-    loadMask.show();
+    //loadMask = new Ext.LoadMask("selectTree", { msg: "Loading..." });
+    //loadMask.show();
 
     Ext.Ajax.request(
     {
@@ -49,14 +50,24 @@ function loadTreeData(selectedItemValue)
             var json = Ext.decode(response.responseText);
             var newtree = json.tree;
             var rootNode = tree.getRootNode();
+
+
             rootNode.removeAll(true);
             rootNode.appendChild(newtree);
             tree.update();
+            tree.updateLayout();
 
-            checkBoxEvents();
+
+            //tree.s
+            //tree.updateBox();
+
+            //tree.unmask();
+
+            //checkBoxEvents();
 
             tree.doGray();
-
+            //console.log(tree.child());
+            //console.log(tree);
             if (loadMask)
             {
                 loadMask.destroy();

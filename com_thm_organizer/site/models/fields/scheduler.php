@@ -83,8 +83,8 @@ class JFormFieldScheduler extends JFormField
         {
             var dbElement = Ext.get('jform_params_id'),
                 pdElement = Ext.get('jform_params_publicDefaultID');
-
-            dbElement.dom.value = Ext.encode(tree.getChecked());
+            var tst = tree.getChecked();
+            dbElement.dom.value = Ext.encode(tst);
             pdElement.dom.value = Ext.encode(tree.getPublicDefault());
         }
 
