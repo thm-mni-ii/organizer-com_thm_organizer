@@ -5,24 +5,30 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 .navi-bar {
-  margin-bottom: 3px; }
+  margin-bottom: 3px;
+}
 
 span.navi-tab {
-  padding: 3px 9px; }
+  padding: 3px 9px;
+}
 
 .navi-tab .active {
   background-color: #b7bec2;
   border-left: 1px solid #a4b0bb;
   border-right: 1px solid #a4b0bb;
-  border-top: 1px solid #a4b0bb; }
+  border-top: 1px solid #a4b0bb;
+}
 .navi-tab .inactive {
   background-color: #6b7e88;
-  border-left: none; }
+  border-left: none;
+}
 .navi-tab .active a {
   color: #3d494f;
-  font-weight: bold; }
+  font-weight: bold;
+}
 .navi-tab .inactive a {
-  color: #eeeeee; }
+  color: #eeeeee;
+}
 
 .filter-bar {
   background-color: #b7bec2;
@@ -32,72 +38,91 @@ span.navi-tab {
   border-top: none;
   color: #3d494f;
   font-weight: bold;
-  padding: 3px 9px; }
+  padding: 3px 9px;
+}
 
 div.filter-bar button {
-  padding: 3px 9px; }
+  padding: 3px 9px;
+}
 
 .filter-search {
-  float: left; }
+  float: left;
+}
 
 .filter-select {
-  float: right; }
+  float: right;
+}
 
 .subject-div table.subject-list {
   border: none;
-  width: 100%; }
+  width: 100%;
+}
 
 ul.subject-list tr th a {
   background-color: #3d494f;
-  color: white; }
+  color: white;
+}
 
 .group-bar {
   border: none;
   font-weight: bold;
-  padding: 9px 3px; }
+  padding: 9px 3px;
+}
 
 .subject-name {
   display: inline-block;
-  width: 50%; }
+  width: 50%;
+}
 
 .subject-responsible {
   display: inline-block;
-  width: 25%; }
+  width: 25%;
+}
 
 .subject-crp {
   display: inline-block;
-  width: 12%; }
+  width: 12%;
+}
 
 .row1 {
-  background-color: #f7f7f7; }
+  background-color: #f7f7f7;
+}
 
 .subject-item {
   clear: both;
-  padding: 15px 10px; }
+  padding: 15px 10px;
+}
 
 .subject-label {
   color: #3d494f;
   float: left;
   font-weight: bold;
   margin-right: 10px;
-  width: 15%; }
+  width: 15%;
+}
 
 .subject-content {
   float: left;
-  width: 79%; }
+  width: 79%;
+}
 
 .componentheading {
-  float: left; }
+  float: left;
+}
 
 .language-switches {
-  float: right; }
+  float: right;
+}
 
 .subject-list .subject-item {
   overflow: auto;
   padding: 10px 10px;
   margin: 2px 0;
-  border-bottom: 1px solid rgba(164, 176, 187, 0.5); }
-  .subject-list .subject-item ul {
-    margin-bottom: 0; }
-  .subject-list .subject-item .subject-content {
-    margin-left: 10px; }
+  border-bottom: 1px solid rgba(164, 176, 187, 0.5);
+}
+.subject-list .subject-item ul {
+  margin-bottom: 0;
+}
+.subject-list .subject-item .subject-content {
+  margin-left: 10px;
+}

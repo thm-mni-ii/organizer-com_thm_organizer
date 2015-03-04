@@ -61,5 +61,6 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/subject_list.css');
+        $document->addScript($this->baseurl . '/libraries/thm_core/js/container.js');
     }
 }

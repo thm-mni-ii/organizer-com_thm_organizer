@@ -54,11 +54,11 @@ class THM_OrganizerTemplateGroupedList
             $style = '';
             if (!empty($group['bgColor']))
             {
-                $style = ' style="background-color: ' . $group['bgColor']. '; color: ' . $group['textColor']. ';"';
+                $style = ' style="background-color: ' . $group['bgColor']. '; color: ' . $group['textColor']. '; margin: -1px; ."';
             }
-            $script = ' onClick="jQuery(\'#' . $params['name'] . '-' . $group['id'] . '\').toggle(\'slide\', 1000);"';
+            $script = ' onclick="toggleContainer(\'#' . $params['name'] . '-' . $group['id'] . '\')"';
             echo '<h3' . $style . $script . '>' . $group['name'] . '</h3>';
-            echo '<div class="subject-list-container" id="' . $params['name'] . '-' . $group['id'] . '">';
+            echo '<div class="subject-list-container hidden" id="' . $params['name'] . '-' . $group['id'] . '">';
             echo '<ul class="subject-list">';
             $displayItems = array();
             foreach ($group['items'] AS $item)
