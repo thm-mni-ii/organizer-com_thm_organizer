@@ -226,8 +226,8 @@ MySched.layout = function ()
                     });
             }
 
-            var treeData = MySched.Tree.init();
-            //var treeData = MySched.SelectBoxes.init();
+            //var treeData = MySched.Tree.init();
+            var treeData = MySched.SelectBoxes.init();
 
             this.w_leftMenu = treeData;
 

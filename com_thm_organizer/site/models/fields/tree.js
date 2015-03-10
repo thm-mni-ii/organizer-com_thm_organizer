@@ -40,13 +40,14 @@ Ext.override(Ext.tree.Column,
             }
 
             //var formattedValue = origRenderer.apply(origScope, arguments);
-            var formattedValue = ""
+            var formattedValue = record.data.text;
             var href = record.get('href');
             var target = record.get('hrefTarget');
             var cls = record.get('cls');
 
             while (record)
             {
+                //console.log(record);
                 if (!record.isRoot() || (record.isRoot() && view.rootVisible))
                 {
                     if (record.getDepth() === depth)
@@ -103,7 +104,9 @@ Ext.override(Ext.tree.Column,
                         }
                     }
                 }
+                //buf.unshift(record.data.text);
                 record = record.parentNode;
+                //console.log(buf);
             }
             if (href)
             {
@@ -113,7 +116,7 @@ Ext.override(Ext.tree.Column,
             {
                 metaData.tdCls += ' ' + cls;
             }
-            //console.log(formattedValue);
+            //console.log(arguments);
             return buf.join("") + formattedValue;
         };
 
@@ -180,7 +183,7 @@ function setPublicDefaultStatus(event)
 
 function setStatus(event)
 {
-
+    console.log("setStatus");
     var clickBox = event.getTarget('.MySched_checkbox_fake', 5, true);
     var inputField = clickBox.dom.getPrevious();
 
@@ -236,9 +239,10 @@ function setStatus(event)
     record.data.checked = inputField.value;
 }
 // TODO check if this is correct => changed Ext.data.Tree.prototype.check into Ext.data.TreeModel.prototype.check
-/*
-Ext.data.Tree.prototype.check = function(state, descend, bulk)
+
+Ext.data.TreeStore.prototype.check = function(state, descend, bulk)
 {
+    //console.log(state);
     this.data.checked = state;
     if(this.ui.checkbox)
     {
@@ -259,7 +263,7 @@ Ext.data.Tree.prototype.check = function(state, descend, bulk)
         this.fireEvent('check', this, state);
     }
 };
-*/
+
 
 
 Ext.tree.Panel.prototype.getChecked = function(node, checkedArr)
@@ -474,8 +478,17 @@ Ext.onReady(function()
     tree.render('tree-div');
 
     var treeView = tree.getView();
+    tree.on('itemappend', function(me, node, refNode, eOpts){
+            /*console.log(me);
+            console.log(eOpts);
+            console.log(node);*/
+            checkBoxEvents(node.parenNode);
+            tree.doGray();
+        }
+    );
     treeView.on('itemadd', function(records, index, node, eOpts)
     {
+        console.log("on item add");
         checkBoxEvents(node[0].getParent());
         tree.doGray();
     });
@@ -495,7 +508,7 @@ Ext.onReady(function()
 
 function checkBoxEvents(node)
 {
-
+    //console.log(node);
     if(!Ext.isDefined(node))
     {
         node = tree.getRootNode();

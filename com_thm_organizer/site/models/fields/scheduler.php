@@ -79,15 +79,19 @@ class JFormFieldScheduler extends JFormField
 
     Joomla.submitbutton = function(task, type)
     {
+
         if (task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
         {
             var dbElement = Ext.get('jform_params_id'),
                 pdElement = Ext.get('jform_params_publicDefaultID');
             var tst = tree.getChecked();
-            dbElement.dom.value = Ext.encode(tst);
+            //console.log(Ext.encode(selectBoxes.getSelectedValues()));
+            dbElement.dom.value = Ext.encode(selectBoxes.getSelectedValues());
             pdElement.dom.value = Ext.encode(tree.getPublicDefault());
         }
-
+        //console.log(dbElement);
+        //console.log(pdElement);
+        //return false;
         if (task == 'item.setType' || task == 'item.setMenuType')
         {
             if (task == 'item.setType')
@@ -141,6 +145,7 @@ class JFormFieldScheduler extends JFormField
         $doc->addStyleSheet("$root/libraries/extjs4/css/ext-all-gray.css");
         $doc->addStyleSheet("$root/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
         $doc->addScript("$root/components/com_thm_organizer/models/fields/tree.js");
+        $doc->addScript("$root/components/com_thm_organizer/models/fields/selectBoxes.js");
         $doc->addScript("$root/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
     }
 

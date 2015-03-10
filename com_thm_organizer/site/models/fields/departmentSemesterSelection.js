@@ -56,8 +56,10 @@ function loadTreeData(selectedItemValue)
             rootNode.appendChild(newtree);
             tree.update();
             tree.updateLayout();
-
-
+            var val = document.getElementById('jform_params_id').value;
+            selectBoxes.init(newtree, val);
+            var Panel = selectBoxes.render("as");
+            Panel.render('tree-div');
             //tree.s
             //tree.updateBox();
 

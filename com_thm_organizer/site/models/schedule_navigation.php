@@ -374,6 +374,37 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return true;
         }
+        //var_dump($nodeID);
+        //var_dump($this->_treeData->INT.MNI);
+        foreach($this->_checked as $element)
+        {
+            //$parts = explode(";", $element);
+            //echo $element . " === " . $nodeID . "<br>";
+            if(stristr($nodeID, $element) !== false) {
+                //var_dump($element);
+                return true;
+            }
+            $checkedParts = explode(";", $element);
+            $nodeParts = explode(";", $nodeID);
+            // count 4 means element is root. There is maybe a better check.
+            if(count($checkedParts) > count($nodeParts) && count($nodeParts) > 4)
+            {
+                array_splice($checkedParts,count($nodeParts));
+                $short = implode(";", $checkedParts);
+                if($short === $nodeID) {
+                    //var_dump(count($nodeParts));
+                    //var_dump($short);
+                    //var_dump($nodeID);
+                    return true;
+                }
+            }
+
+            //var_dump($this->_treeData[$parts[count($parts)-1]]);
+            //var_dump($this->_treeData[$element]);
+        }
+        //var_dump($nodeID);
+        //die();
+        return false;
 
         // The hidden value takes priority over other values
         foreach ($this->_checked as $checkedKey => $checkedValue)
