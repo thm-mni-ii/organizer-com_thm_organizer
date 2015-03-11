@@ -54,6 +54,7 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/curriculum.css');
+        $document->addScript($this->baseurl . '/media/com_thm_organizer/js/curriculum.js');
         $document->addScript($this->baseurl . '/libraries/thm_core/js/container.js');
     }
 }

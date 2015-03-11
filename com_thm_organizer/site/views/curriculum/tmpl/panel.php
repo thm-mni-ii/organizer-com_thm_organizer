@@ -31,7 +31,8 @@ class THM_OrganizerTemplateCurriculumPanel
         }
         $display = ($type == 'modal')? 'hidden' : 'shown';
         echo '<div id="panel-' . $pool->mapping . '" class="' . $type . '-panel ' . $display . '">';
-        echo '<div class="' . $type . '-panel-head"' . $headStyle . '>';
+        $script = ($type=='main')? ' onclick="toggleContainer(\'#main-panel-items-' .$pool->mapping . '\')"' : '';
+        echo '<div class="' . $type . '-panel-head"' . $headStyle . $script .'>';
         echo '<div class="' . $type . ' panel-title">';
         echo '<span class="' . $type . '-panel-name">'. $pool->name . '</span>';
         echo '<span class="' . $type . '-panel-crp">('. $crpText . ')</span>';
@@ -41,7 +42,9 @@ class THM_OrganizerTemplateCurriculumPanel
             echo '<div class="' . $type . '-panel-description">' . $pool->description . '</div>';
         }
         echo '</div>';
-        echo '<div class="' . $type . '-panel-items">';
+        $display = ($type == 'main')? 'hidden' : 'shown';
+        $mainID = ($type=='main')? 'id="main-panel-items-'.$pool->mapping.'"' : '';
+        echo '<div class="' . $type . '-panel-items ' . $display .'" '.$mainID .'">';
         foreach ($pool->children AS $item)
         {
             THM_OrganizerTemplateCurriculumItemPanel::render($item);

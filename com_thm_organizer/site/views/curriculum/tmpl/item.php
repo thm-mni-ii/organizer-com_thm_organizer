@@ -36,7 +36,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
         echo '<span class="item-code">' .  $externalID . '</span>';
         echo '<span class="item-crp">' .  $crpText . '</span>';
         echo '</div>';
-        echo '<span class="item-name">' . $element->name . '</span>';
+        echo '<div class="item-name">' . $element->name . '</div>';
         echo '<div class="item-tools">';
         if (!empty($element->teacherName))
         {

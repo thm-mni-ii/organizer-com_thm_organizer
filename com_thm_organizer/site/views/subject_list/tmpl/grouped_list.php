@@ -56,6 +56,7 @@ class THM_OrganizerTemplateGroupedList
             {
                 $style = ' style="background-color: ' . $group['bgColor']. '; color: ' . $group['textColor']. '; margin: -1px; ."';
             }
+       //     $script = ' onClick="jQuery(\'#' . $params['name'] . '-' . $group['id'] . '\').toggle(\'slide\', 1000);"';
             $script = ' onclick="toggleContainer(\'#' . $params['name'] . '-' . $group['id'] . '\')"';
             echo '<h3' . $style . $script . '>' . $group['name'] . '</h3>';
             echo '<div class="subject-list-container hidden" id="' . $params['name'] . '-' . $group['id'] . '">';

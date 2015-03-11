@@ -211,3 +211,306 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
 div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   padding: 5px;
 }
+//Beginn Lavi *******************************************************************************
+
+.view-curriculum {
+  font-family: Verdana, Arial, sans-serif;
+}
+
+//Header
+@media (min-width: 768px) {
+  .componentheading {
+    float: left;
+    width: 89%;
+  }
+
+  .language-switches {
+    float: right;
+  }
+
+  //content
+  .curriculum {
+    margin-top: 75px;
+  }
+}
+
+//main-panel
+.main-panel {
+  margin-top: 2px;
+  border: $border-color;
+}
+
+//.main-panel-head //.modal-panel-head
+.main-panel-head, .modal-panel-head{
+  background-color: $thm-grau-color; //wenn keine Farbe dynamisch zugewiesen wird
+  color: white;
+  margin-top: -1px;
+  margin-left: -1px;
+  margin-right: -1px;
+}
+.main-panel-head{
+  cursor: pointer;  //nur main-panel-head kann auf- und zugeklappt werden
+}
+
+.panel-title {
+  padding: 0.5em 0.5em 0.5em 2.2em;
+
+  .main-panel-crp, .modal-panel-crp {
+    padding-left: 5px;
+  }
+}
+
+//main-panel-items
+.main-panel-items {
+  margin: 2px 1px 3px 1px;  //für 5 Kästchen
+
+  .item {
+    outline: 1px outset white;
+    box-shadow: inset 0px -1px 10px #bbbbbb;
+    margin: 3px;
+    background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
+    background-image: -moz-linear-gradient(123deg,lighten(#eeeeee, 4%) 0, #eeeeee 100%);
+    background-image: linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
+    background-position: 50% 50%;
+    display: inline-table;
+    position: relative;
+    font-size: 11px;
+    background-color: $bg-color;
+
+    .item-head {
+      border: $border-color;
+      padding: 3px 5px;
+      background-color: #71A126;
+      color: white;
+      height: 18px;
+      margin-top: -1px;
+      margin-left: -1px;
+      margin-right: -1px;
+
+      .item-crp {
+        float: right;
+        padding-left: 5px;
+      }
+    }
+
+    .item-name {
+      -ms-word-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-all;
+      padding: 5px;
+      overflow: hidden;
+    }
+
+    .item-tools {
+      position: absolute;
+      bottom: 3px;
+      left: 0;
+      right: 0;
+      text-align: center;
+
+      .btn{
+        padding: 4px 6px;
+      }
+    }
+  }
+}
+
+//modal-panel
+.modal-panel {
+  @extend .main-panel;
+  margin: 8px -2px 20px -2px;
+  position: absolute;
+  text-align: left;
+  background-color: white;
+  z-index: 5;
+  @include box-shadow(0, 10px, 10px, rgba(0, 0, 0, 0.3));
+}
+
+.modal-panel-head{
+ // margin: 0;
+//  -webkit-border-radius: 0;
+//  -moz-border-radius: 0;
+//  border-radius: 0;
+}
+
+//panel-title
+.modal {
+  position: inherit !important;
+  margin-left: 0 !important;
+  width: inherit !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  @extend .panel-title;
+  background-color: inherit !important;
+  font-size: 13px;
+}
+
+.modal-panel-items {
+  margin: 3px 0px 3px 8px; //für 5 Kästchen
+//  margin: 3px 0;
+  max-height: 400px;
+  overflow: auto;
+
+  .item{
+    width: 167px;
+  }
+}
+
+
+//Breiten der Items anpassen ********************************************
+.main-panel-items .item{
+//  width: 167px;   // für 4 Kästchen
+//  height: 130px;  // für 4 Kästchen
+    width: 133px; // für 5 Kästchen
+    height: 135px;
+  //margin: 1px;
+}
+
+//positionierung der einzelnen modal-panel wenn ursprünglich 5 Kästchen pro Zeile da sind
+// Für 5 Kaestchen
+@media (min-width: 980px) {
+  .modal-panel{
+    width: 590px;
+  }
+
+  .main-panel-items {
+    > .item:nth-of-type(5n+1) {
+      .modal-panel {
+        left: 48px;
+      }
+    }
+
+    > .item:nth-of-type(5n+2) {
+      .modal-panel {
+        left: -91px;
+      }
+    }
+    > .item:nth-of-type(5n+3) {
+      .modal-panel {
+        left: -230px;
+      }
+    }
+    > .item:nth-of-type(5n+4) {
+      .modal-panel {
+        left: -369px;
+      }
+    }
+    > .item:nth-of-type(5n+5) {
+      .modal-panel {
+        left: -508px;
+      }
+    }
+  }
+}
+//für 4 Kästchen
+@media (min-width: 660px) and (max-width: 767px) {
+  .modal-panel{
+    width: 450px;
+  }
+  .main-panel-items {
+    > .item:nth-of-type(4n+1) {
+      .modal-panel {
+        left: 48px;
+      }
+    }
+    > .item:nth-of-type(4n+2) {
+      .modal-panel {
+        left: -91px;
+      }
+    }
+    > .item:nth-of-type(4n+3) {
+      .modal-panel {
+        left: -230px;
+      }
+    }
+    > .item:nth-of-type(4n+4) {
+      .modal-panel {
+        left: -369px;
+      }
+    }
+  }
+}
+
+//für 3 Kästchen
+@media (min-width: 768px) and (max-width:979px) {
+  .modal-panel{
+    width: 450px;
+  }
+  .main-panel-items {
+    > .item:nth-of-type(3n+1) {
+      .modal-panel {
+        left: 48px;
+      }
+    }
+    > .item:nth-of-type(3n+2) {
+      .modal-panel {
+        left: -91px;
+      }
+    }
+    > .item:nth-of-type(3n+3) {
+      .modal-panel {
+        left: -230px;
+      }
+    }
+  }
+}
+@media (min-width: 520px) and (max-width:659px) {
+  .modal-panel{
+    width: 310px;
+  }
+
+  .main-panel-items {
+    > .item:nth-of-type(3n+1) {
+      .modal-panel {
+        left: 48px;
+      }
+    }
+    > .item:nth-of-type(3n+2) {
+      .modal-panel {
+        left: -91px;
+      }
+    }
+    > .item:nth-of-type(3n+3) {
+      .modal-panel {
+        left: -230px;
+      }
+    }
+  }
+}
+
+//für max 2 Kästchen
+@media (max-width: 519px){
+  .main-panel-items{
+    text-align: center;
+  }
+  .modal{
+    padding-left: 6px;
+  }
+ .modal-panel-items{
+   margin: 0;
+   overflow-y:scroll;
+ }
+}
+
+/*
+@media (min-width: 980px) {
+  .main-panel-items {
+    > .item:nth-of-type(3n+1) {
+      .modal-panel {
+        left: 52px;
+      }
+    }
+    > .item:nth-of-type(3n+2) {
+      .modal-panel {
+        left: -179px;
+      }
+    }
+    > .item:nth-of-type(3n+3) {
+      .modal-panel {
+        left: -410px;
+      }
+    }
+  }
+}*/
