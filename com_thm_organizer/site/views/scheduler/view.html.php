@@ -182,7 +182,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
     private function prepareDocument()
     {
         $doc = JFactory::getDocument();
-        $doc->addStyleSheet($this->baseurl . '/libraries/extjs4/css/ext-all-gray.css');
+        $doc->addStyleSheet($this->baseurl . "/libraries/thm_core/js/extjs/css/ext-theme-gray-all.css");
         $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
     }
 

@@ -51,12 +51,12 @@ function loadTreeData(selectedItemValue)
             var newtree = json.tree;
             var rootNode = tree.getRootNode();
 
-
             rootNode.removeAll(true);
             rootNode.appendChild(newtree);
             tree.update();
             tree.updateLayout();
             var val = document.getElementById('jform_params_id').value;
+            console.log(val);
             selectBoxes.init(newtree, val);
             var Panel = selectBoxes.render("as");
             Panel.render('tree-div');

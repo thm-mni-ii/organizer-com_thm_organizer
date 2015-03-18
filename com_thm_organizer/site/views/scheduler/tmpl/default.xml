@@ -29,6 +29,14 @@
             <field name="id" type="hidden" description="Tooltip ;)" />
             <field name="publicDefaultID" type="hidden"
                 description="Tooltip ;)" />
+            <field name="displayRoomSchedule" type="radio" label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DISPLAY_ROOMSCHEDULE" default="1" description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DISPLAY_ROOMSCHEDULE_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+            <field name="displayTeacherSchedule" type="radio" label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DISPLAY_TEACHERSCHEDULE" default="1" description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DISPLAY_TEACHERSCHEDULE_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
         </fieldset>
         <fieldset name="advanced">
             <field name="loadLessonsOnStartUp" type="radio" label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_LOAD_ON_STARTUP_TITLE" default="1" description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_LOAD_ON_STARTUP_DESC">

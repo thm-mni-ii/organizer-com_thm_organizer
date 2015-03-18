@@ -90,6 +90,9 @@ class THM_OrganizerModelSchedule_Navigation
         $menuID = $this->processMenuLocation();
         $menuItem = $app->getMenu()->getItem($menuID);
 
+        $this->displayRoom = $app->getParams('com_thm_organizer')->get('displayRoomSchedule', '');
+        $this->displayTeacher = $app->getParams('com_thm_organizer')->get('displayTeacherSchedule', '');
+
         if (empty($menuItem))
         {
             $this->schedule = $app->input->getString('departmentSemesterSelection', '');
@@ -374,37 +377,36 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return true;
         }
-        //var_dump($nodeID);
-        //var_dump($this->_treeData->INT.MNI);
+        //var_dump($this->displayRoom);
+        // TODO this has to be changed; The given ids are a black list. But subject schedules should not be shown
         foreach($this->_checked as $element)
         {
             //$parts = explode(";", $element);
             //echo $element . " === " . $nodeID . "<br>";
-            if(stristr($nodeID, $element) !== false) {
-                //var_dump($element);
-                return true;
-            }
             $checkedParts = explode(";", $element);
             $nodeParts = explode(";", $nodeID);
-            // count 4 means element is root. There is maybe a better check.
-            if(count($checkedParts) > count($nodeParts) && count($nodeParts) > 4)
-            {
-                array_splice($checkedParts,count($nodeParts));
-                $short = implode(";", $checkedParts);
-                if($short === $nodeID) {
-                    //var_dump(count($nodeParts));
-                    //var_dump($short);
-                    //var_dump($nodeID);
-                    return true;
-                }
+
+            if(count($nodeParts) === 4){
+                return false;
             }
 
-            //var_dump($this->_treeData[$parts[count($parts)-1]]);
-            //var_dump($this->_treeData[$element]);
+            if (count($nodeParts) >= 5){
+                // 'subject' should not shown any more
+                if($nodeParts[4] === 'subject'){
+                    return false;
+                }
+                // check if
+                if($nodeParts[4] === 'room' && $this->displayRoom == 0){
+                    return false;
+                }
+                if(stristr($nodeID, $element) !== false) {
+                    return false;
+                }
+            }
         }
         //var_dump($nodeID);
         //die();
-        return false;
+        return true;
 
         // The hidden value takes priority over other values
         foreach ($this->_checked as $checkedKey => $checkedValue)

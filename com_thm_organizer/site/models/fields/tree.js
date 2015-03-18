@@ -475,7 +475,7 @@ Ext.onReady(function()
     );
 
     // render the tree
-    tree.render('tree-div');
+    //tree.render('tree-div');
 
     var treeView = tree.getView();
     tree.on('itemappend', function(me, node, refNode, eOpts){

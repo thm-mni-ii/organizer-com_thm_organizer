@@ -130,9 +130,20 @@ MySched.SelectBoxes = function ()
                 }
                 this.selectBoxes.push(tmpSBox);
             }
+            //console.log(this.scheduleData[i].children);
+
             for(var i = 0; i < this.scheduleData.length;i++)
             {
-                this.levelData[0].push({"name":this.scheduleData[i].text, "id":this.scheduleData[i].id, "level":0});
+                //console.log(this.scheduleData[i]);
+                //var data = this.scheduleData[i];
+                var org = this.scheduleData[i];
+                /*while(data.children.length <= 1){
+                    data = data.children[0];
+                }*/
+                //if(this.scheduleData[i].children.length <= 1){
+                //    console.log("one kid");
+               // }
+                this.levelData[0].push({"name":org.text, "id":org.id, "level":0});
             }
             //console.log(this.levelData[0].length);
             //this.stores[0].beginUpdate();
@@ -193,16 +204,19 @@ MySched.SelectBoxes = function ()
             var level = SelectedItem.get('level')+1;
             var id = SelectedItem.get('id');
             var item = this.findItemInTree(id, this.scheduleData);
-            console.log("changed val");
             //console.log(children);
             if(item.children) {
                 this.levelData[level] = [];
-                for (var i = 0; i < item.children.length; i++) {
-                    this.levelData[level].push({"name": item.children[i].text, "id": item.children[i].id, "level": level});
+                console.log(item.children.length);
+                var element = item;
+                while(element.children && element.children.length <= 1){
+                    element = element.children[0];
+                }
+                for (var i = 0; i < element.children.length; i++) {
+                    this.levelData[level].push({"name": element.children[i].text, "id": element.children[i].id, "level": level});
                 }
                 this.stores[level].setData(this.levelData[level]);
                 for(var i = 0; i <= this.maxDepth;i++) {
-                    //console.log(i + " <=  " + level);
                     if(i <= level)
                     {
                         //console.log("unlock + " + i);
@@ -210,10 +224,13 @@ MySched.SelectBoxes = function ()
                     }
                     else
                     {
-                        console.log(this.stores[i]);
-                        this.stores[i].setValue();
+                        //this.stores[i].setValue();
                         this.stores[i].setData({});
                         this.selectBoxes[i].setDisabled(true);
+
+                    }
+                    if(i >= level){
+                        this.selectBoxes[i].clearValue( );
                     }
                 }
                 // TODO maybe delete all stores under this level

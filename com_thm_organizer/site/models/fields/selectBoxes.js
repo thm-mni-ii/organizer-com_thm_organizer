@@ -3,48 +3,48 @@ var selectBoxes = (function(win){
     function createSelectBoxes(data){
         this.selectBoxesElements = [];
         this.stores = [];
-        console.log(this.selectedValues);
-        //console.log(data['children']);
+        //console.log(data);
         for(var i = 0; i < data.children.length; i++)
         {
-            this.stores[i] = Ext.create(
-                'Ext.data.Store', {
-                    model: 'SelectBoxModel',
-                    data: getDataForStore(data.children[i])
-                }
-            );
-            //console.log(i);
-            //console.log(data.children[i]);
-            var tempSBox = Ext.create(
-                'Ext.form.field.ComboBox',
-                {
-                    fieldLabel: data.children[i].text,
-                    height:60,
-                    multiSelect: true,
-                    width: '100%',
-                    minWidth: 200,
-                    cls: 'level_' + i,
-                    displayField: 'name',
-                    store: this.stores[i],
-                    queryMode: 'local',
-                    listeners: {
-                        select: function(combo, records, eOpts) {
-                            //MySched.SelectBoxes.changedSelectBoxValue(records[0]);
+            if(data.children[i].gpuntisID !== 'subject') {
+                this.stores[i] = Ext.create(
+                    'Ext.data.Store', {
+                        model: 'SelectBoxModel',
+                        data: getDataForStore(data.children[i])
+                    }
+                );
+                //console.log(i);
+                console.log(data.children[i]);
+                var tempSBox = Ext.create(
+                    'Ext.form.field.ComboBox',
+                    {
+                        fieldLabel: data.children[i].text,
+                        height: 60,
+                        multiSelect: true,
+                        width: '100%',
+                        minWidth: 200,
+                        cls: 'level_' + i,
+                        displayField: 'name',
+                        store: this.stores[i],
+                        queryMode: 'local',
+                        listeners: {
+                            select: function (combo, records, eOpts) {
+                                //MySched.SelectBoxes.changedSelectBoxValue(records[0]);
+                            }
                         }
                     }
+                );
+                var allRecords = [];
+                console.log(this.selectedValues);
+                for (var j = 0; j < this.selectedValues.length; j++) {
+                    var rec = tempSBox.findRecord('id', this.selectedValues[j]);
+                    if (rec) {
+                        allRecords.push(rec);
+                    }
                 }
-            );
-            var allRecords = [];
-            for(var j = 0; j < this.selectedValues.length; j++)
-            {
-                var rec = tempSBox.findRecord('id', this.selectedValues[j]);
-                if(rec)
-                {
-                    allRecords.push(rec);
-                }
+                tempSBox.select(allRecords);
+                this.selectBoxesElements.push(tempSBox);
             }
-            tempSBox.select(allRecords);
-            this.selectBoxesElements.push(tempSBox);
         }
         //console.log(this.selectBoxesElements);
     }
@@ -86,11 +86,11 @@ var selectBoxes = (function(win){
     {
         //console.log(this.selectBoxesElements);
         //console.log(selectBoxesElements);
-        console.log(this.rawData);
+        //console.log(this.rawData);
         var ObjectString = [];
         for(var i= 0; i < this.selectBoxesElements.length; i++)
         {
-            console.log(this.selectBoxesElements[i] );
+            //console.log(this.selectBoxesElements[i] );
             var value = this.selectBoxesElements[i].getValue();
             if(value.length > 0)
             {
@@ -109,18 +109,19 @@ var selectBoxes = (function(win){
          //       console.log(index);
             }
         }
-        console.log(ObjectString);
+        //console.log(ObjectString);
         return ObjectString;
     }
     function setVariables(schedData,selected)
     {
+        console.log(selected);
         this.selectedValues = Ext.decode(selected);
         this.rawData = schedData;
     }
     return {
         init: function(data, selected)
         {
-            console.log(data);
+            console.log(selected);
             Ext.define(
                 'SelectBoxModel',
                 {
@@ -143,7 +144,7 @@ var selectBoxes = (function(win){
         getSelectedValues: function()
         {
             var values = getSelection();
-            console.log(values);
+            //console.log(values);
             return values;
 
         }
