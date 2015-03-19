@@ -118,34 +118,7 @@ class THM_OrganizerControllerColorAdminTest extends TestCaseDatabase
      */
     public function testedit()
     {
-        $this->markTestSkipped(
-            'Waiting for decision redirect or parent::display in controller.'
-        );
-
         $expected = "index.php?option=com_thm_organizer&view=color_edit";
-
-         // Mock the JSession object and mark the get-method to be manipulated
-        $sessionMock = $this->getMock("JSession", array("get"));
-        
-        $userMock = $this->getMock("JUser", array("authorise"));
-
-        $userMock->expects($this->exactly(1))
-            ->method('authorise')
-            ->with('core.admin')
-            ->will($this->returnValue(true));
-
-        $reflector = new ReflectionProperty('JUser', '_authLevels');
-        $reflector->setAccessible(true);
-        $reflector->setValue($userMock, array(1,2,3,4,5,6,7,8,9,10));
-
-        // Let calls to the get-method with paramter 'user' return our JUser object.
-        $sessionMock->expects($this->exactly(1))
-            ->method('get')
-            ->with('user')
-            ->will($this->returnValue($userMock));
-
-        // Set our JSession mock object in the JFactory
-        JFactory::$session = $sessionMock;
 
         $actual = $this->object->edit();
 
@@ -190,7 +163,7 @@ class THM_OrganizerControllerColorAdminTest extends TestCaseDatabase
     
     	$reflector = new ReflectionProperty(get_class($this->object), 'redirect');
     	$reflector->setAccessible(true);
-    
+
     	$this->assertEquals($expected, $actual);
     }
     
@@ -201,46 +174,16 @@ class THM_OrganizerControllerColorAdminTest extends TestCaseDatabase
      */
     public function testadd()
     {
-        $this->markTestSkipped(
-            'Waiting for decision redirect or parent::display in controller.'
-        );
-    	$expected1 =  "index.php?option=com_thm_organizer&view=color_edit";
-    	$expected2 = "0";
-    
-    	// Mock the JSession object and mark the get-method to be manipulated
-    	$sessionMock = $this->getMock("JSession", array("get"));
-    
-    	$userMock = $this->getMock("JUser", array("authorise"));
-    
-    	$userMock->expects($this->exactly(1))
-    	->method('authorise')
-    	->with('core.admin')
-    	->will($this->returnValue(true));
-    
-    	$reflector = new ReflectionProperty('JUser', '_authLevels');
-    	$reflector->setAccessible(true);
-    	$reflector->setValue($userMock, array(1,2,3,4,5,6,7,8,9,10));
-    
-    	// Let calls to the get-method with paramter 'user' return our JUser object.
-    	$sessionMock->expects($this->exactly(1))
-    	->method('get')
-    	->with('user')
-    	->will($this->returnValue($userMock));
-    
-    	// Set our JSession mock object in the JFactory
-        JFactory::$session = $sessionMock;
+    	$expected =  "index.php?option=com_thm_organizer&view=color_edit";
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->object->add();
 
         $reflector = new ReflectionProperty(get_class($this->object), 'redirect');
         $reflector->setAccessible(true);
-        $actual1 = $reflector->getValue($this->object);
-        
-        $actual2 =  JRequest::getVar('id');
+        $actual = $reflector->getValue($this->object);
 
-        $this->assertEquals($expected1, $actual1);
-        $this->assertEquals($expected2, $actual2);
+        $this->assertEquals($expected, $actual);
     }
     
     /**

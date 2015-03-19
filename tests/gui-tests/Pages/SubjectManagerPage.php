@@ -38,8 +38,6 @@ class SubjectManagerPage extends iCampusAdminManagerPage
 	public $toolbar = array (
 			'New' => 'toolbar-new',
 			'Edit' => 'toolbar-edit',
-            'Import' => 'toolbar-import',
-            'Import All' => 'toolbar-import-all',
             'Delete' => 'toolbar-delete',
 			'Options' => 'toolbar-options'
 			);

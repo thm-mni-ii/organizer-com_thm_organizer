@@ -9,7 +9,7 @@
             />
         <field
             name="checkbox"
-            type="checkall" />
+            type="CheckAll" />
         <field
             name="name"
             type="genericlist"

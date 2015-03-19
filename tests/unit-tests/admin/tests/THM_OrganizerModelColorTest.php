@@ -155,7 +155,7 @@ class THM_OrganizerModelColorTest extends TestCaseDatabase
     	$expected1 = true;
     	$expected2 = array();
     	$this->data['name'] = 'test';
-    	$this->data['color'] = '#100';
+    	$this->data['color'] = '100';
     	$this->data['id'] = '0';
     	JRequest::setVar('jform', $this->data, 'get');
     	
@@ -184,7 +184,7 @@ class THM_OrganizerModelColorTest extends TestCaseDatabase
     	$this->InsertinTable('jos_thm_organizer_colors', 'name, color', $prevalues);
     	
     	$this->data['name'] = 'test';
-    	$this->data['color'] = '#100';
+    	$this->data['color'] = '100';
     	JRequest::setVar('jform', $this->data, 'get');
     	$expected2[] = array($this->data['name'], $this->data['color']);
     	 

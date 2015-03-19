@@ -95,6 +95,7 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
         $dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
         $dataSet->addTable('jos_thm_organizer_colors', JPATH_TEST_DATABASE . '/jos_thm_organizer_colors.csv');
+        $dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
         
         return $dataSet;
     }

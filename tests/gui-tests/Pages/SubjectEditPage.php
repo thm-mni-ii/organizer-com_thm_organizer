@@ -42,7 +42,6 @@ class SubjectEditPage extends iCampusAdminEditPage
 	public $toolbar = array (
 		'Create' => 'toolbar-apply',
 		'Save & Close' => 'toolbar-save',
-		'Save & New' => 'toolbar-save-new',
 		'Cancel' => 'toolbar-cancel'
 	);
 

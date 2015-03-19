@@ -52,6 +52,7 @@ class PoolEditPage extends iCampusAdminEditPage
 	 * @since 3.2
 	 */
 	public $inputFields = array (
+            array('label' => 'Department', 'id' => 'jform_departmentID', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'LSF ID', 'id' => 'jform_lsfID', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'HIS ID', 'id' => 'jform_hisID', 'type' => 'input', 'tab' => 'details'),
             array('label' => 'Module ID', 'id' => 'jform_externalID', 'type' => 'input', 'tab' => 'details'),
