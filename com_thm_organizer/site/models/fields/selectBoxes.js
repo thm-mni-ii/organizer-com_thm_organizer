@@ -14,7 +14,7 @@ var selectBoxes = (function(win){
                     }
                 );
                 //console.log(i);
-                console.log(data.children[i]);
+                //console.log(data.children[i]);
                 var tempSBox = Ext.create(
                     'Ext.form.field.ComboBox',
                     {
@@ -35,7 +35,7 @@ var selectBoxes = (function(win){
                     }
                 );
                 var allRecords = [];
-                console.log(this.selectedValues);
+                //console.log(this.selectedValues);
                 for (var j = 0; j < this.selectedValues.length; j++) {
                     var rec = tempSBox.findRecord('id', this.selectedValues[j]);
                     if (rec) {
@@ -80,6 +80,8 @@ var selectBoxes = (function(win){
         {
             mainPanel.add(this.selectBoxesElements[i]);
         }
+        mainPanel.updateLayout();
+        console.log(mainPanel);
         return mainPanel;
     }
     function getSelection()
@@ -115,7 +117,10 @@ var selectBoxes = (function(win){
     function setVariables(schedData,selected)
     {
         console.log(selected);
-        this.selectedValues = Ext.decode(selected);
+        this.selectedValues = '';
+        if(selected !== '') {
+            this.selectedValues = Ext.decode(selected);
+        }
         this.rawData = schedData;
     }
     return {
@@ -134,10 +139,10 @@ var selectBoxes = (function(win){
             );
             setVariables(data, selected);
             createSelectBoxes(data[0]);
-
         },
-        render: function(element)
+        render: function()
         {
+            //console.log("render");
             //console.log(this);
             return createPanel();
         },

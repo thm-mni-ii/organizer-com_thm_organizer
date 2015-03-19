@@ -58,8 +58,11 @@ function loadTreeData(selectedItemValue)
             var val = document.getElementById('jform_params_id').value;
             console.log(val);
             selectBoxes.init(newtree, val);
-            var Panel = selectBoxes.render("as");
+            var Panel = selectBoxes.render();
+            console.log(Panel);
             Panel.render('tree-div');
+
+            Panel.updateLayout();
             //tree.s
             //tree.updateBox();
 
@@ -67,7 +70,6 @@ function loadTreeData(selectedItemValue)
 
             //checkBoxEvents();
 
-            tree.doGray();
             //console.log(tree.child());
             //console.log(tree);
             if (loadMask)

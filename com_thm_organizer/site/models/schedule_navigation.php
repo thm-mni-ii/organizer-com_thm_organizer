@@ -378,27 +378,35 @@ class THM_OrganizerModelSchedule_Navigation
             return true;
         }
         //var_dump($this->displayRoom);
-        // TODO this has to be changed; The given ids are a black list. But subject schedules should not be shown
-        foreach($this->_checked as $element)
-        {
-            //$parts = explode(";", $element);
-            //echo $element . " === " . $nodeID . "<br>";
-            $checkedParts = explode(";", $element);
-            $nodeParts = explode(";", $nodeID);
 
-            if(count($nodeParts) === 4){
+
+        $nodeParts = explode(";", $nodeID);
+        // do not show root node
+        if(count($nodeParts) === 4){
+            return false;
+        }
+        if (count($nodeParts) >= 5){
+            // 'subject' should not shown any more
+            if($nodeParts[4] === 'subject'){
                 return false;
             }
+            if($nodeParts[4] === 'room' && $this->displayRoom == 0){
+                return false;
+            }
+        }
+
+        foreach($this->_checked as $element)
+        {
+            $checkedParts = explode(";", $element);
+            //$parts = explode(";", $element);
+            //echo $element . " === " . $nodeID . "<br>";
+
+            //var_dump($nodeParts);
+            //var_dump(count($nodeParts));
+
 
             if (count($nodeParts) >= 5){
-                // 'subject' should not shown any more
-                if($nodeParts[4] === 'subject'){
-                    return false;
-                }
                 // check if
-                if($nodeParts[4] === 'room' && $this->displayRoom == 0){
-                    return false;
-                }
                 if(stristr($nodeID, $element) !== false) {
                     return false;
                 }
