@@ -17,23 +17,16 @@ Ext.onReady(function()
     });
 
     var initselectBox = Ext.get('jform_params_departmentSemesterSelection');
-    var initselectedItems = initselectBox.getValue();//initselectBox.dom.getSelected();
+    var initselectedItems = initselectBox.getValue();
     if(initselectedItems.length > 0)
     {
-        //var initselectedItem = initselectedItems[0];
-        //var initselectedItemValue = initselectedItem.value;
         loadTreeData(initselectedItems);
     }
 });
 
 function loadTreeData(selectedItemValue)
 {
-    if (loadMask)
-    {
-        loadMask.destroy();
-    }
-    //loadMask = new Ext.LoadMask("selectTree", { msg: "Loading..." });
-    //loadMask.show();
+    Ext.get('myTabContent').mask("Loading");
 
     Ext.Ajax.request(
     {
@@ -51,18 +44,14 @@ function loadTreeData(selectedItemValue)
             var newtree = json.tree;
             var rootNode = tree.getRootNode();
 
-            rootNode.removeAll(true);
-            rootNode.appendChild(newtree);
-            tree.update();
-            tree.updateLayout();
             var val = document.getElementById('jform_params_id').value;
-            console.log(val);
+            //console.log(val);
             selectBoxes.init(newtree, val);
             var Panel = selectBoxes.render();
-            console.log(Panel);
-            Panel.render('tree-div');
+            //console.log(Panel);
+            //Panel.render('tree-div');
 
-            Panel.updateLayout();
+            //Panel.updateLayout();
             //tree.s
             //tree.updateBox();
 
@@ -72,10 +61,7 @@ function loadTreeData(selectedItemValue)
 
             //console.log(tree.child());
             //console.log(tree);
-            if (loadMask)
-            {
-                loadMask.destroy();
-            }
+            Ext.get('myTabContent').unmask();
         }
     });
 }

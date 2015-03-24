@@ -75,13 +75,15 @@ MySched.SelectBoxes = function ()
                                     }
                                 }
                             }
-                            console.log(treeData);
+                            //console.log(treeData);
                             MySched.scheduleDataReady = true;
                             MySched.SelectBoxes.createSelectBoxes(json.tree);
+                            Ext.get('selectBoxes-body').unmask();
                         }
                     }
                 );
             }
+            //this.selectPanel.mask("Loading");
             return this.selectPanel;
         },
         /**
@@ -129,14 +131,14 @@ MySched.SelectBoxes = function ()
                     tmpSBox.setDisabled(true);
                 }
                 this.selectBoxes.push(tmpSBox);
+                this.selectPanel.unmask();
             }
-            //console.log(this.scheduleData[i].children);
 
             for(var i = 0; i < this.scheduleData.length;i++)
             {
                 //console.log(this.scheduleData[i]);
                 //var data = this.scheduleData[i];
-                var org = this.scheduleData[i];
+                var org = this.scheduleData[i];//.children[0];
                 /*while(data.children.length <= 1){
                     data = data.children[0];
                 }*/
@@ -207,12 +209,13 @@ MySched.SelectBoxes = function ()
             //console.log(children);
             if(item.children) {
                 this.levelData[level] = [];
-                console.log(item.children.length);
+                //console.log(item.children.length);
                 var element = item;
                 while(element.children && element.children.length <= 1){
                     element = element.children[0];
                 }
                 for (var i = 0; i < element.children.length; i++) {
+                    //console.log(element.children[i]);
                     this.levelData[level].push({"name": element.children[i].text, "id": element.children[i].id, "level": level});
                 }
                 this.stores[level].setData(this.levelData[level]);

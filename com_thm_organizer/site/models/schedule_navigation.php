@@ -203,6 +203,7 @@ class THM_OrganizerModelSchedule_Navigation
         $this->resolveTeachers($schedulerModel->getTeachers());
 
         $isDisplayed = $this->displayNode($this->schedule);
+
         if ($isDisplayed)
         {
             $rootNodeData = array(
@@ -377,8 +378,6 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return true;
         }
-        //var_dump($this->displayRoom);
-
 
         $nodeParts = explode(";", $nodeID);
         // do not show root node
@@ -393,57 +392,22 @@ class THM_OrganizerModelSchedule_Navigation
             if($nodeParts[4] === 'room' && $this->displayRoom == 0){
                 return false;
             }
+            if($nodeParts[4] === 'teacher' && $this->displayTeacher == 0){
+                return false;
+            }
         }
 
         foreach($this->_checked as $element)
         {
             $checkedParts = explode(";", $element);
-            //$parts = explode(";", $element);
-            //echo $element . " === " . $nodeID . "<br>";
-
-            //var_dump($nodeParts);
-            //var_dump(count($nodeParts));
-
 
             if (count($nodeParts) >= 5){
-                // check if
                 if(stristr($nodeID, $element) !== false) {
                     return false;
                 }
             }
         }
-        //var_dump($nodeID);
-        //die();
         return true;
-
-        // The hidden value takes priority over other values
-        foreach ($this->_checked as $checkedKey => $checkedValue)
-        {
-            $stringPosition = strpos($nodeID, $checkedKey . ";");
-            if ($stringPosition !== false AND $checkedValue == 'hidden')
-            {
-                return false;
-            }
-        }
-
-        // These values affect the nodes themselves
-        $intrinsicValues = array("checked", "intermediate");
-        if (isset($this->_checked[$nodeID]) AND in_array($this->_checked[$nodeID], $intrinsicValues))
-        {
-            return true;
-        }
-
-        // These values affect the children of marked nodes
-        $dependantValues = array("selected", "intermediate");
-        foreach ($this->_checked as $checkedKey => $checkedValue)
-        {
-            $stringPosition = strpos($nodeID, $checkedKey . ";");
-            if ($stringPosition !== false AND in_array($checkedValue, $dependantValues))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

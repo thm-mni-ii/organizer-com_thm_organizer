@@ -231,7 +231,6 @@ MySched.layout = function ()
 
             this.w_leftMenu = treeData;
 
-
             this.w_leftMenu.on("expand", function ()
             {
                 if (MySched.selectedSchedule)
@@ -287,6 +286,8 @@ MySched.layout = function ()
                 //MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
                 //MySched.treeLoadMask.show();
             }
+            //Ext.get('selectBoxes-body').unmask();
+            Ext.get('selectBoxes-body').mask('Loading');
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
             if (calendar)

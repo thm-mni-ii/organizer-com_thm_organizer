@@ -24,8 +24,8 @@
             <field type="spacer"
                 default="&lt;b&gt;COM_THM_ORGANIZER_RIA_SEMESTER_TREE&lt;/b&gt;&lt;hr/&gt;"></field>
             <field name="tree" type="scheduler"
-                label="COM_THM_ORGANIZER_RIA_TREE_TITLE"
-                description="COM_THM_ORGANIZER_RIA_TREE_DESCRIPTION" />
+                label=""
+                description="" />
             <field name="id" type="hidden" description="Tooltip ;)" />
             <field name="publicDefaultID" type="hidden"
                 description="Tooltip ;)" />

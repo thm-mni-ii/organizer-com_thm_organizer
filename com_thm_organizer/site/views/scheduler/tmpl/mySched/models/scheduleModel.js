@@ -788,7 +788,8 @@ Ext.define('ScheduleModel',
         show: function (ret, closeable)
         {
             // TODO
-            console.log("What is this?: " + closeable);
+            //console.log("What is this?: " + closeable);
+            //console.log(this.getGridData());
             if (closeable !== false)
             {
                 closeable = true;

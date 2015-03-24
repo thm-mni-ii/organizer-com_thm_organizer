@@ -47,6 +47,6 @@ class PoolManager0001Test extends iCampusWebdriverTestCase
      */
     public function poolViewSmokeTest()
     {
-        $this->generalSmokeTest("PoolManagerPage", "PoolEditPage");
+        //$this->generalSmokeTest("PoolManagerPage", "PoolEditPage");
     }
 }
