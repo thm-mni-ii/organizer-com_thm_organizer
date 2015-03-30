@@ -12,11 +12,12 @@ MySched.SelectBoxes = function ()
          */
         init: function ()
         {
+            console.log(MySched.session.creationdate );
             // TODO: config the select Panel
             this.selectPanel = Ext.create(
                 'Ext.panel.Panel',
                 {
-                    title: 'Select Boxes',
+                    title: 'Stand vom',
                     id: 'selectBoxes',
                     region: 'west',
                     bodyPadding: 5,
@@ -136,21 +137,18 @@ MySched.SelectBoxes = function ()
 
             for(var i = 0; i < this.scheduleData.length;i++)
             {
-                //console.log(this.scheduleData[i]);
-                //var data = this.scheduleData[i];
-                var org = this.scheduleData[i];//.children[0];
-                /*while(data.children.length <= 1){
-                    data = data.children[0];
-                }*/
-                //if(this.scheduleData[i].children.length <= 1){
-                //    console.log("one kid");
-               // }
-                this.levelData[0].push({"name":org.text, "id":org.id, "level":0});
+                this.levelData[0].push({"name":this.scheduleData[i].text, "id":this.scheduleData[i].id, "level":0});
+                if(this.scheduleData.length === 1){
+                    this.selectBoxes[0].select(this.scheduleData[i].text);
+                }
             }
-            //console.log(this.levelData[0].length);
-            //this.stores[0].beginUpdate();
+
             this.stores[0].setData(this.levelData[0]);
-            //this.stores[0].endUpdate();
+            // if there is only one item selected show the children in the next selectbox
+            if(this.scheduleData.length === 1){
+                var allRecords = this.stores[0].snapshot || this.stores[0].data;
+                MySched.SelectBoxes.changedSelectBoxValue(allRecords.items[0]);
+            }
             this.recreate();
         },
         /**
@@ -164,7 +162,6 @@ MySched.SelectBoxes = function ()
             this.selectPanel.removeAll();
             for (var i = 0; i < this.selectBoxes.length; i++)
             {
-                //this.selectBoxes[i].setStore(this.stores[i]);
                 this.selectPanel.add(this.selectBoxes[i]);
             }
             this.selectPanel.updateLayout();
@@ -206,16 +203,18 @@ MySched.SelectBoxes = function ()
             var level = SelectedItem.get('level')+1;
             var id = SelectedItem.get('id');
             var item = this.findItemInTree(id, this.scheduleData);
-            //console.log(children);
             if(item.children) {
                 this.levelData[level] = [];
-                //console.log(item.children.length);
                 var element = item;
+                // if current element has just one child search for the next child that have more than just one child
                 while(element.children && element.children.length <= 1){
+                    this.levelData[level].push({"name": element.children[0].text, "id": element.children[0].id, "level": level});
+                    this.stores[level].setData(this.levelData[level]);
+                    this.selectBoxes[level].select(element.children[0].text);
                     element = element.children[0];
+                    level++;
                 }
                 for (var i = 0; i < element.children.length; i++) {
-                    //console.log(element.children[i]);
                     this.levelData[level].push({"name": element.children[i].text, "id": element.children[i].id, "level": level});
                 }
                 this.stores[level].setData(this.levelData[level]);
@@ -236,7 +235,6 @@ MySched.SelectBoxes = function ()
                         this.selectBoxes[i].clearValue( );
                     }
                 }
-                // TODO maybe delete all stores under this level
             }
             else
             {
@@ -276,6 +274,19 @@ MySched.SelectBoxes = function ()
                 }
             }
             return result;
+        },
+        /**
+         *
+         * @param title
+         * @param append
+         */
+        setTitle: function(title, append){
+            if(append){
+                this.selectPanel.setTitle(this.selectPanel.title + title);
+            } else {
+                this.selectPanel.setTitle(title);
+
+            }
         }
     }
 }();

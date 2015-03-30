@@ -353,8 +353,9 @@ MySched.Base = function ()
                 MySched.session.begin = jsonData.startdate;
                 MySched.session.end = jsonData.enddate;
                 MySched.session.creationdate = jsonData.creationdate;
-                //Ext.ComponentMgr.get('selectTree').setTitle(
-                //    MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
+
+                MySched.SelectBoxes.setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
+
                 // Managed the visibility of the Add/Del Buttons at the toolbar
                 MySched.SelectionManager.on('select', function (el)
                 {
