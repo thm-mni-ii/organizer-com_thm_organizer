@@ -426,6 +426,9 @@ class THM_OrganizerModelLesson extends JModelLegacy
             return false;
         }
 
+        // Increases the end value one day (Untis uses inclusive dates)
+        $end = strtotime('+1 day', $end);
+
         // 86400 is the number of seconds in a day 24 * 60 * 60
         $offset = floor(($start - strtotime($this->_scheduleModel->schedule->startdate)) / 86400);
         $length = floor(($end - $start) / 86400);
