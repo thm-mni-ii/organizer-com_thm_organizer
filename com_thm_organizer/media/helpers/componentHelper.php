@@ -296,7 +296,7 @@ class THM_OrganizerHelperComponent
     public static function getColorField($text, $bgColor)
     {
         $textColor = self::getTextColor($bgColor);
-        $style = 'color:' . $textColor . '; background-color:' . $bgColor . '; text-align:center';
+        $style = 'color: #' . $textColor . '; background-color: #' . $bgColor . '; text-align:center';
         return '<div class="color-preview" style="' . $style . '">' . $text . '</div>';
     }
 

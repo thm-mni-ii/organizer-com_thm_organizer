@@ -240,9 +240,11 @@ class Com_THM_OrganizerInstallerScript
             {
                 continue;
             }
+            $dbo->setQuery((string) $query);
+
             try
             {
-                $dbo->setQuery((string) $query);
+                $dbo->execute();
             }
             catch (Exception $exc)
             {
@@ -250,6 +252,7 @@ class Com_THM_OrganizerInstallerScript
                 JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
                 return false;
             }
+
         }
         $dbo->transactionCommit();
         return true;

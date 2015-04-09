@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 jimport('thm_core.list.view');
 
 /**
- * Class THM_OrganizerViewDegrees for component com_thm_organizer
  * Class provides methods to display the view degrees
  *
  * @category    Joomla.Component.Admin
