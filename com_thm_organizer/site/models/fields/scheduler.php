@@ -63,19 +63,6 @@ class JFormFieldScheduler extends JFormField
         externLinks = [], images = [];
 
     externLinks.ajaxHandler = '<?php echo JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'; ?>';
-    images.base = prefix + '/components/com_thm_organizer/models/fields/images/';
-    images.unchecked = prefix + '/components/com_thm_organizer/models/fields/images/unchecked.png';
-    images.unchecked_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/unchecked_highlighted.png';
-    images.checked = prefix + '/components/com_thm_organizer/models/fields/images/checked.png';
-    images.checked_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/checked_highlighted.png';
-    images.intermediate = prefix + '/components/com_thm_organizer/models/fields/images/intermediate.png';
-    images.intermediate_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/intermediate_highlighted.png';
-    images.selected = prefix + '/components/com_thm_organizer/models/fields/images/selected.png';
-    images.selected_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/selected_highlighted.png';
-    images.hidden = prefix + '/components/com_thm_organizer/models/fields/images/hidden.png';
-    images.hidden_highlighted = prefix + '/components/com_thm_organizer/models/fields/images/hideen_highlighted.png';
-    images.notdefault =  prefix + '/components/com_thm_organizer/models/fields/images/notdefault.png';
-    images.default = prefix + '/components/com_thm_organizer/models/fields/images/default.png';
 
     Joomla.submitbutton = function(task, type)
     {
@@ -84,37 +71,28 @@ class JFormFieldScheduler extends JFormField
         {
             var dbElement = Ext.get('jform_params_id'),
                 pdElement = Ext.get('jform_params_publicDefaultID');
-            var tst = tree.getChecked();
-            //console.log(document.forms.adminForm.elements.jform[params][displayRoomSchedule]);
-
-            /*$('#jform_params_displayRoomSchedule input').each(function() {
-                console.log($( this ));
-            });*/
-
             var displayOptions = [];
             var doEL = document.getElementsByName("jform[params][displayRoomSchedule]");
-            //console.log(doEL);
+
             for(var i = 0; i < doEL.length; i++){
                 if (doEL[i].checked === true && doEL[i].value == 0){
                     displayOptions.push('room');
                 }
             }
             doEL = document.getElementsByName("jform[params][displayTeacherSchedule]");
-            //console.log(doEL);
+
             for(var i = 0; i < doEL.length; i++){
                 if (doEL[i].checked === true && doEL[i].value == 0){
                     displayOptions.push('teacher');
                 }
             }
-            //console.log(selectBoxes.getSelectedValues());
-            var vals = selectBoxes.getSelectedValues();//.push(displayOptions);
+
+            var vals = selectBoxes.getSelectedValues();
             dbElement.dom.value = Ext.encode(vals);
-            pdElement.dom.value = Ext.encode(tree.getPublicDefault());
-            console.log(dbElement);
+
+            //pdElement.dom.value = Ext.encode(tree.getPublicDefault());
         }
 
-        //console.log(pdElement);
-        //return false;
         if (task == 'item.setType' || task == 'item.setMenuType')
         {
             if (task == 'item.setType')
@@ -166,7 +144,6 @@ class JFormFieldScheduler extends JFormField
         $root = JURI::root(true);
         $doc->addStyleSheet("$root/libraries/thm_core/js/extjs/css/ext-theme-gray-all.css");
         $doc->addStyleSheet("$root/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
-        $doc->addScript("$root/components/com_thm_organizer/models/fields/tree.js");
         $doc->addScript("$root/components/com_thm_organizer/models/fields/selectBoxes.js");
         $doc->addScript("$root/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
     }

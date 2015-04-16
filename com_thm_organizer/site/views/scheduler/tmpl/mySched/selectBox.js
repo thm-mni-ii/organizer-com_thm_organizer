@@ -1,33 +1,33 @@
 /**
+ * Create the select boxes with schedule data
  *
+ * @class MySched.SelectBoxes
  */
 MySched.SelectBoxes = function ()
 {
     var selectPanel, selectBoxes = [], scheduleData, levelData = [], stores = [], maxDepth;
     return {
         /**
-         * TODO
+         * Initialization. Create panel and model. Make ajax request to get schedule data
          *
-         * @return {Ext.panel.Panel|*}
+         * @method init
+         * @return {Ext.panel.Panel} * Returns the main panel
          */
         init: function ()
         {
-            console.log(MySched.session.creationdate );
-            // TODO: config the select Panel
             this.selectPanel = Ext.create(
                 'Ext.panel.Panel',
                 {
                     title: 'Stand vom',
                     id: 'selectBoxes',
                     region: 'west',
+                    editable: false,
                     bodyPadding: 5,
                     width: 242,
                     minSize: 242,
                     maxSize: 242,
                     height: 470,
                     scroll: false
-                    //bodyCls: 'MySched_SelectTree',
-                    //store: treeStore
                 }
             );
             Ext.define(
@@ -76,7 +76,6 @@ MySched.SelectBoxes = function ()
                                     }
                                 }
                             }
-                            //console.log(treeData);
                             MySched.scheduleDataReady = true;
                             MySched.SelectBoxes.createSelectBoxes(json.tree);
                             Ext.get('selectBoxes-body').unmask();
@@ -84,7 +83,6 @@ MySched.SelectBoxes = function ()
                     }
                 );
             }
-            //this.selectPanel.mask("Loading");
             return this.selectPanel;
         },
         /**
@@ -207,7 +205,7 @@ MySched.SelectBoxes = function ()
                 this.levelData[level] = [];
                 var element = item;
                 // if current element has just one child search for the next child that have more than just one child
-                while(element.children && element.children.length <= 1){
+                while((element.children && element.children.length <= 1) && level < this.maxDepth){
                     this.levelData[level].push({"name": element.children[0].text, "id": element.children[0].id, "level": level});
                     this.stores[level].setData(this.levelData[level]);
                     this.selectBoxes[level].select(element.children[0].text);
@@ -221,25 +219,21 @@ MySched.SelectBoxes = function ()
                 for(var i = 0; i <= this.maxDepth;i++) {
                     if(i <= level)
                     {
-                        //console.log("unlock + " + i);
                         this.selectBoxes[i].setDisabled(false);
                     }
                     else
                     {
-                        //this.stores[i].setValue();
                         this.stores[i].setData({});
                         this.selectBoxes[i].setDisabled(true);
 
                     }
                     if(i >= level){
-                        this.selectBoxes[i].clearValue( );
+                        this.selectBoxes[i].clearValue();
                     }
                 }
             }
             else
             {
-                //console.log("no children");
-                //console.log(item);
                 var plantypeID = "";
                 MySched.Tree.showScheduleTab(item.id, item.nodeKey, item.gpuntisID, item.semesterID, plantypeID, item.type);
             }
@@ -257,16 +251,11 @@ MySched.SelectBoxes = function ()
             var result = false;
             for(var i = 0; i < tree.length; i++)
             {
-                //console.log(this.scheduleData[i]);
                 if(tree[i].id == id){
-                    //console.log("found");
-                    //return tree[i].children;
                     return tree[i];
                 }
-                //console.log()
                 if(tree[i].hasOwnProperty('children') && tree[i].children)
                 {
-                    //console.log(tree[i]);
                     result =  this.findItemInTree(id, tree[i].children);
                     if(result !== false){
                         return result;
@@ -276,9 +265,11 @@ MySched.SelectBoxes = function ()
             return result;
         },
         /**
+         * Set the title of the panel
          *
-         * @param title
-         * @param append
+         * @method setTitle
+         * @param {String} title The title of the panel
+         * @param {Boolean} append Switch if the text should append or replace
          */
         setTitle: function(title, append){
             if(append){

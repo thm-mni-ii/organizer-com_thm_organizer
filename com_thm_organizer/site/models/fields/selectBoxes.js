@@ -1,9 +1,19 @@
+/**
+ * This class creates the select boxes for the backend
+ *
+ * @class selectBoxes
+ */
 var selectBoxes = (function(win){
     var selectBoxesElements = [], stores = [], rawData, selectedValues;
+
+    /**
+     * Creates all select boxes for all three sections (group, room, teacher)
+     *
+     * @param {object} data The schedule data
+     */
     function createSelectBoxes(data){
         this.selectBoxesElements = [];
         this.stores = [];
-        //console.log(data);
         for(var i = 0; i < data.children.length; i++)
         {
             if(data.children[i].gpuntisID !== 'subject') {
@@ -13,8 +23,6 @@ var selectBoxes = (function(win){
                         data: getDataForStore(data.children[i])
                     }
                 );
-                //console.log(i);
-                //console.log(data.children[i]);
                 var parent;
                 var show = false;
                 if(data.children[i].gpuntisID === 'pool'){
@@ -41,21 +49,17 @@ var selectBoxes = (function(win){
                         hidden: show,
                         renderTo: parent,
                         multiSelect: true,
+                        editable: false,
                         width: '100%',
                         minWidth: 200,
                         cls: 'level_' + i,
                         displayField: 'name',
                         store: this.stores[i],
-                        queryMode: 'local',
-                        listeners: {
-                            select: function (combo, records, eOpts) {
-                                //MySched.SelectBoxes.changedSelectBoxValue(records[0]);
-                            }
-                        }
+                        queryMode: 'local'
                     }
                 );
+
                 var allRecords = [];
-                //console.log(this.selectedValues);
                 for (var j = 0; j < this.selectedValues.length; j++) {
                     var rec = tempSBox.findRecord('id', this.selectedValues[j]);
                     if (rec) {
@@ -67,10 +71,15 @@ var selectBoxes = (function(win){
             }
         }
     }
+
+    /**
+     * Adding onclick event handler to ratio buttons
+     *
+     * @param {array} ratioButtons Array of radio buttons
+     * @param {integer} selectBoxId
+     */
     function ratioClick(ratioButtons, selectBoxId){
-        //console.log(ratioButtons);
         for(var i = 0; i < ratioButtons.length; i++){
-            //console.log(ratioButtons[i]);
             var hide = 0;
             if(i === 0){
                 hide = 1;
@@ -78,86 +87,73 @@ var selectBoxes = (function(win){
             ratioButtons[i].setAttribute('onclick', 'selectBoxes.toggleSelectBox(' + i + ', ' + selectBoxId + ')');
         }
     }
+
+    /**
+     * Fill the store with the correct data
+     *
+     * @param {array} storeData Data for the store
+     * @return {Array} data Array of objects for the store with schedule data
+     */
     function getDataForStore(storeData)
     {
         var data = [];
         for(var i=0;i < storeData.children.length;i++)
         {
-            //console.log(storeData.children[i]);
             data.push({"name":storeData.children[i].text, "id":storeData.children[i].id});
         }
         return data;
     }
-    function createPanel()
-    {
-        var mainPanel = Ext.create(
-            'Ext.panel.Panel',
-            {
-                title: 'Select Boxes',
-                id: 'selectBoxes',
-                region: 'west',
-                bodyPadding: 5,
-                width: '100%',
-                minSize: 242,
-                maxSize: 242,
-                height: 470,
-                scroll: false
-                //bodyCls: 'MySched_SelectTree',
-                //store: treeStore
-            }
-        );
-        for(var i = 0; i < this.selectBoxesElements.length; i++)
-        {
-            mainPanel.add(this.selectBoxesElements[i]);
-            this.selectBoxesElements[i].updateLayout();
-        }
-        mainPanel.updateLayout();
-        console.log(mainPanel);
-        //return mainPanel;
-    }
+    /**
+     * Get the selected values of the checkboxes
+     *
+     * @return {Array} ObjectString Array of ids of selected values
+     */
     function getSelection()
     {
         var ObjectString = [];
         for(var i= 0; i < this.selectBoxesElements.length; i++)
         {
-            //console.log(this.selectBoxesElements[i] );
             var value = this.selectBoxesElements[i].getValue();
-            if(value.length > 0)
-            {
-                //console.log(this.rawData[0].children[i]);
-                //TODO Needed for all selected
-                //ObjectString.push(this.rawData[0].children[i].id);
-            }
             for(var j = 0; j < value.length; j++)
             {
-             //   console.log(value[j]);
                 var record = this.selectBoxesElements[i].findRecordByValue(value[j]);
-           //     console.log(record.id);
-                //ObjectString += '{"' + record.id + '":"slected"},';
-                ObjectString.push(record.id);// = "selected";
-                var index = this.selectBoxesElements[i].getStore().indexOf(record);
-         //       console.log(index);
+                ObjectString.push(record.id);
             }
         }
-        //console.log(ObjectString);
         return ObjectString;
     }
+
+    /**
+     * Save data to variables
+     *
+     * @param {Object} schedData Schedule data
+     * @param {String} selected Saved selected ids
+     */
     function setVariables(schedData,selected)
     {
-        //console.log(selected);
         this.selectedValues = '';
         if(selected !== '') {
             this.selectedValues = Ext.decode(selected);
         }
         this.rawData = schedData;
     }
+    /**
+     * Returns the select boxes
+     *
+     * @return {Array} * Array of the select boxes
+     */
     function getSBoxes(){
         return this.selectBoxesElements;
     }
     return {
+        /**
+         * Initialization
+         *
+         * @param {object} data schedule data
+         * @param {string} selected selected ids
+         */
         init: function(data, selected)
         {
-            //console.log(selected);
             Ext.define(
                 'SelectBoxModel',
                 {
@@ -171,19 +167,23 @@ var selectBoxes = (function(win){
             setVariables(data, selected);
             createSelectBoxes(data[0]);
         },
-        render: function()
-        {
-            //console.log("render");
-            //console.log(this);
-            return createPanel();
-        },
+        /**
+         * Return the selected values
+         *
+         * @return {Array} values selected values
+         */
         getSelectedValues: function()
         {
             var values = getSelection();
-            //console.log(values);
             return values;
 
         },
+        /**
+         * Hide and show the select boxes
+         *
+         * @param {Integer} hide switch to hide and show
+         * @param {Integer} buttonNo Nomber of the button
+         */
         toggleSelectBox: function(hide, buttonNo)
         {
             var boxes = getSBoxes();
