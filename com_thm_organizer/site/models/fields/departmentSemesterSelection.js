@@ -32,7 +32,7 @@ Ext.onReady(function()
  */
 function loadTreeData(selectedItemValue)
 {
-    Ext.get('myTabContent').mask("Loading");
+    Ext.get('attrib-basic').mask("Loading");
 
     Ext.Ajax.request(
     {
@@ -52,7 +52,7 @@ function loadTreeData(selectedItemValue)
             var val = document.getElementById('jform_params_id').value;
             selectBoxes.init(newtree, val);
 
-            Ext.get('myTabContent').unmask();
+            Ext.get('attrib-basic').unmask();
         }
     });
 }

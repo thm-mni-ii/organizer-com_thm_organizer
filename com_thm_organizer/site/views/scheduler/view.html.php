@@ -12,6 +12,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
  * View class for the display of schedules
@@ -94,6 +95,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $this->config['displayDaysInWeek'] = (int) $params->get("displayDaysInWeek", 0);
         $this->config['name'] = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
         $this->config['name'] .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
+
+        $scheduleRow->creationdate = THM_OrganizerHelperComponent::formatDate($scheduleRow->creationdate);
 
         // Leaving this parameter alone for now because it may have side effects
         $this->semesterID = $scheduleRow->id;

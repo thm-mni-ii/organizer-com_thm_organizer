@@ -90,8 +90,8 @@ class THM_OrganizerModelSchedule_Navigation
         $menuID = $this->processMenuLocation();
         $menuItem = $app->getMenu()->getItem($menuID);
 
-        $this->displayRoom = $app->getParams('com_thm_organizer')->get('displayRoomSchedule', '');
-        $this->displayTeacher = $app->getParams('com_thm_organizer')->get('displayTeacherSchedule', '');
+        $this->displayRoom = $menuItem->params->get('displayRoomSchedule', '');
+        $this->displayTeacher = $menuItem->params->get('displayTeacherSchedule', '');
 
         if (empty($menuItem))
         {
@@ -381,18 +381,22 @@ class THM_OrganizerModelSchedule_Navigation
 
         $nodeParts = explode(";", $nodeID);
         // do not show root node
-        if(count($nodeParts) === 4){
+        if(count($nodeParts) === 4)
+        {
             return false;
         }
         if (count($nodeParts) >= 5){
             // 'subject' should not shown any more
-            if($nodeParts[4] === 'subject'){
+            if($nodeParts[4] === 'subject')
+            {
                 return false;
             }
-            if($nodeParts[4] === 'room' && $this->displayRoom == 0){
+            if($nodeParts[4] === 'room' && $this->displayRoom == 0)
+            {
                 return false;
             }
-            if($nodeParts[4] === 'teacher' && $this->displayTeacher == 0){
+            if($nodeParts[4] === 'teacher' && $this->displayTeacher == 0)
+            {
                 return false;
             }
         }
@@ -400,11 +404,9 @@ class THM_OrganizerModelSchedule_Navigation
         foreach($this->_checked as $element)
         {
             $checkedParts = explode(";", $element);
-
-            if (count($nodeParts) >= 5){
-                if(stristr($nodeID, $element) !== false) {
-                    return false;
-                }
+            if (count($nodeParts) >= 5 && stristr($nodeID, $element) !== false)
+            {
+                return false;
             }
         }
         return true;
@@ -818,7 +820,7 @@ class THM_OrganizerModelSchedule_Navigation
         $allNodeData = array(
             'id' => "$categoryKey;ALL",
             'nodeKey' => 'ALL',
-            'text' => JText::_('JALL'),
+            'text' => JText::_(COM_THM_ORGANIZER_RESOURCE_SELECTION_ALL),
             'gpuntisID' => "mySched_ALL",
             'type' => $category,
             'semesterID' => $scheduleID,

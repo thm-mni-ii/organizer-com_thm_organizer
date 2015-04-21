@@ -60,6 +60,7 @@ class JFormFieldScheduler extends JFormField
         menuID = <?php echo $menuID ?>,
         treeIDs = <?php echo $params->id; ?>,
         publicDefaultID = <?php echo $params->publicDefaultID; ?>,
+        COM_THM_ORGANIZER_SHOW_ALL = '<?php echo JText::_('COM_THM_ORGANIZER_SHOW_ALL'); ?>',
         externLinks = [], images = [];
 
     externLinks.ajaxHandler = '<?php echo JURI::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'; ?>';

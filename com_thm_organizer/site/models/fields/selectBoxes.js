@@ -3,7 +3,8 @@
  *
  * @class selectBoxes
  */
-var selectBoxes = (function(win){
+var selectBoxes = (function(win)
+{
     var selectBoxesElements = [], stores = [], rawData, selectedValues;
 
     /**
@@ -11,34 +12,40 @@ var selectBoxes = (function(win){
      *
      * @param {object} data The schedule data
      */
-    function createSelectBoxes(data){
+    function createSelectBoxes(data)
+    {
         this.selectBoxesElements = [];
         this.stores = [];
         for(var i = 0; i < data.children.length; i++)
         {
-            if(data.children[i].gpuntisID !== 'subject') {
+            if(data.children[i].gpuntisID !== 'subject')
+            {
                 this.stores[i] = Ext.create(
-                    'Ext.data.Store', {
+                    'Ext.data.Store',
+                    {
                         model: 'SelectBoxModel',
                         data: getDataForStore(data.children[i])
                     }
                 );
                 var parent;
                 var show = false;
-                if(data.children[i].gpuntisID === 'pool'){
+                if(data.children[i].gpuntisID === 'pool')
+                {
                     var parent = Ext.get("jform_params_departmentSemesterSelection-lbl").getParent().getParent();
                 }
-                if(data.children[i].gpuntisID === 'room'){
-                    var parent = Ext.get("jform_params_displayRoomSchedule-lbl").getParent().getParent();
-                    var doEL = document.getElementsByName("jform[params][displayRoomSchedule]");
-                    show = doEL[0].checked;
-                    ratioClick(doEL, i);
+                if(data.children[i].gpuntisID === 'room')
+                {
+                    parent = document.getElementById('jform_params_displayRoomSchedule').getParent().getParent();
+                    var select = document.getElementById('jform_params_displayRoomSchedule').getElementsByTagName('option');
+                    show = select[0].selected;
+                    ratioClick('jform_params_displayRoomSchedule', i);
                 }
-                if(data.children[i].gpuntisID === 'teacher'){
-                    var parent = Ext.get("jform_params_displayTeacherSchedule-lbl").getParent().getParent();
-                    var doEL = document.getElementsByName("jform[params][displayTeacherSchedule]");
-                    show = doEL[0].checked;
-                    ratioClick(doEL, i);
+                if(data.children[i].gpuntisID === 'teacher')
+                {
+                    parent = document.getElementById('jform_params_displayTeacherSchedule').getParent().getParent();
+                    var select = document.getElementById('jform_params_displayTeacherSchedule').getElementsByTagName('option');
+                    show = select[0].selected;
+                    ratioClick('jform_params_displayTeacherSchedule', i);
                 }
 
                 var tempSBox = Ext.create(
@@ -55,19 +62,33 @@ var selectBoxes = (function(win){
                         cls: 'level_' + i,
                         displayField: 'name',
                         store: this.stores[i],
-                        queryMode: 'local'
+                        queryMode: 'local',
+                        listeners: {
+                            click: {
+                                element: 'el',
+                                fn: function () {
+                                    selectBoxes.checkSelection();
+                                }
+                            }
+                        }
                     }
                 );
 
                 var allRecords = [];
-                for (var j = 0; j < this.selectedValues.length; j++) {
+                for (var j = 0; j < this.selectedValues.length; j++)
+                {
                     var rec = tempSBox.findRecord('id', this.selectedValues[j]);
-                    if (rec) {
+                    if (rec)
+                    {
                         allRecords.push(rec);
                     }
                 }
                 tempSBox.select(allRecords);
                 this.selectBoxesElements.push(tempSBox);
+                if (tempSBox.getValue().length <= 0)
+                {
+                    tempSBox.setValue(COM_THM_ORGANIZER_SHOW_ALL);
+                }
             }
         }
     }
@@ -78,14 +99,10 @@ var selectBoxes = (function(win){
      * @param {array} ratioButtons Array of radio buttons
      * @param {integer} selectBoxId
      */
-    function ratioClick(ratioButtons, selectBoxId){
-        for(var i = 0; i < ratioButtons.length; i++){
-            var hide = 0;
-            if(i === 0){
-                hide = 1;
-            }
-            ratioButtons[i].setAttribute('onclick', 'selectBoxes.toggleSelectBox(' + i + ', ' + selectBoxId + ')');
-        }
+    function ratioClick(selectId, selectBoxId)
+    {
+        var sboxes = document.getElementById(selectId + '_chzn');
+        sboxes.setAttribute('onclick', 'selectBoxes.toggleSelectBox(' + selectBoxId + ', "' + selectId + '_chzn")');
     }
 
     /**
@@ -124,6 +141,23 @@ var selectBoxes = (function(win){
     }
 
     /**
+     * Returns the selected values of a box
+     *
+     * @param {Integer} number Number of the box
+     * @return {Object} ObjectString The selected values
+     */
+    function getSelectionPerBox(number)
+    {
+        var ObjectString = [];
+        var value = this.selectBoxesElements[number].getValue();
+        for(var j = 0; j < value.length; j++)
+        {
+            var record = this.selectBoxesElements[number].findRecordByValue(value[j]);
+            ObjectString.push(record.id);
+        }
+        return ObjectString;
+    }
+    /**
      * Save data to variables
      *
      * @param {Object} schedData Schedule data
@@ -132,7 +166,8 @@ var selectBoxes = (function(win){
     function setVariables(schedData,selected)
     {
         this.selectedValues = '';
-        if(selected !== '') {
+        if(selected !== '')
+        {
             this.selectedValues = Ext.decode(selected);
         }
         this.rawData = schedData;
@@ -142,7 +177,8 @@ var selectBoxes = (function(win){
      *
      * @return {Array} * Array of the select boxes
      */
-    function getSBoxes(){
+    function getSBoxes()
+    {
         return this.selectBoxesElements;
     }
     return {
@@ -181,16 +217,31 @@ var selectBoxes = (function(win){
         /**
          * Hide and show the select boxes
          *
-         * @param {Integer} hide switch to hide and show
+         * @param {Integer} elementId id of the choosen select box
          * @param {Integer} buttonNo Nomber of the button
          */
-        toggleSelectBox: function(hide, buttonNo)
+        toggleSelectBox: function(buttonNo, elementId)
         {
-            var boxes = getSBoxes();
-            if(hide){
-                boxes[buttonNo].show();
-            } else {
+            var element = document.getElementById(elementId).getElementsByTagName('a')[0], boxes = getSBoxes();
+            if(element.rel.replace('value_', '') == "0")
+            {
                 boxes[buttonNo].hide();
+            } else {
+                boxes[buttonNo].show();
+            }
+        },
+        /**
+         * Add free text if nothing is selected
+         */
+        checkSelection: function()
+        {
+            var sboxes = getSBoxes();
+            for(var i = 0; i < sboxes.length; i++)
+            {
+                if(getSelectionPerBox(i) <= 0)
+                {
+                    sboxes[i].setValue(COM_THM_ORGANIZER_SHOW_ALL);
+                }
             }
         }
     }

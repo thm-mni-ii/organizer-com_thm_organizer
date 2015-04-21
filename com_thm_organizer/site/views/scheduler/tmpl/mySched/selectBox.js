@@ -103,10 +103,12 @@ MySched.SelectBoxes = function ()
             for (var i = 0; i <= this.maxDepth; i++)
             {
                 this.levelData[i] = [];
-                this.stores[i] = Ext.create('Ext.data.Store', {
-                    model: 'SelectBoxModel',
-                    data: this.levelData[i]
-                });
+                this.stores[i] = Ext.create('Ext.data.Store',
+                    {
+                        model: 'SelectBoxModel',
+                        data: this.levelData[i]
+                    }
+                );
                 var tmpSBox = Ext.create(
                     'Ext.form.field.ComboBox',
                     {
@@ -119,14 +121,17 @@ MySched.SelectBoxes = function ()
                         store: this.stores[i],
                         queryMode: 'local',
                         typeAhead: true,
-                        listeners: {
-                            select: function(combo, records, eOpts) {
+                        listeners:
+                        {
+                            select: function(combo, records, eOpts)
+                            {
                                 MySched.SelectBoxes.changedSelectBoxValue(records[0]);
                             }
                         }
                     }
                 );
-                if (i > 0) {
+                if (i > 0)
+                {
                     tmpSBox.setDisabled(true);
                 }
                 this.selectBoxes.push(tmpSBox);
@@ -136,14 +141,16 @@ MySched.SelectBoxes = function ()
             for(var i = 0; i < this.scheduleData.length;i++)
             {
                 this.levelData[0].push({"name":this.scheduleData[i].text, "id":this.scheduleData[i].id, "level":0});
-                if(this.scheduleData.length === 1){
+                if(this.scheduleData.length === 1)
+                {
                     this.selectBoxes[0].select(this.scheduleData[i].text);
                 }
             }
 
             this.stores[0].setData(this.levelData[0]);
             // if there is only one item selected show the children in the next selectbox
-            if(this.scheduleData.length === 1){
+            if(this.scheduleData.length === 1)
+            {
                 var allRecords = this.stores[0].snapshot || this.stores[0].data;
                 MySched.SelectBoxes.changedSelectBoxValue(allRecords.items[0]);
             }
@@ -198,25 +205,44 @@ MySched.SelectBoxes = function ()
          */
         changedSelectBoxValue: function(SelectedItem)
         {
-            var level = SelectedItem.get('level')+1;
-            var id = SelectedItem.get('id');
-            var item = this.findItemInTree(id, this.scheduleData);
-            if(item.children) {
+            var level = SelectedItem.get('level')+ 1,
+                id = SelectedItem.get('id'),
+                item = this.findItemInTree(id, this.scheduleData),
+                plantypeID = "",
+                i = 0;
+
+            if(item.children)
+            {
                 this.levelData[level] = [];
                 var element = item;
                 // if current element has just one child search for the next child that have more than just one child
-                while((element.children && element.children.length <= 1) && level < this.maxDepth){
+                while((element.children && element.children.length <= 1))
+                {
                     this.levelData[level].push({"name": element.children[0].text, "id": element.children[0].id, "level": level});
                     this.stores[level].setData(this.levelData[level]);
                     this.selectBoxes[level].select(element.children[0].text);
                     element = element.children[0];
                     level++;
                 }
-                for (var i = 0; i < element.children.length; i++) {
-                    this.levelData[level].push({"name": element.children[i].text, "id": element.children[i].id, "level": level});
+                if(element.children)
+                {
+                    for (i = 0; i < element.children.length; i++)
+                    {
+                        this.levelData[level].push({
+                            "name": element.children[i].text,
+                            "id": element.children[i].id,
+                            "level": level
+                        });
+                    }
+                    this.stores[level].setData(this.levelData[level]);
                 }
-                this.stores[level].setData(this.levelData[level]);
-                for(var i = 0; i <= this.maxDepth;i++) {
+                else
+                {
+                    MySched.Tree.showScheduleTab(element.id, element.nodeKey, element.gpuntisID, element.semesterID, plantypeID, element.type);
+                }
+
+                for(i = 0; i <= this.maxDepth;i++)
+                {
                     if(i <= level)
                     {
                         this.selectBoxes[i].setDisabled(false);
@@ -227,14 +253,14 @@ MySched.SelectBoxes = function ()
                         this.selectBoxes[i].setDisabled(true);
 
                     }
-                    if(i >= level){
+                    if(i >= level)
+                    {
                         this.selectBoxes[i].clearValue();
                     }
                 }
             }
             else
             {
-                var plantypeID = "";
                 MySched.Tree.showScheduleTab(item.id, item.nodeKey, item.gpuntisID, item.semesterID, plantypeID, item.type);
             }
         },
@@ -251,7 +277,8 @@ MySched.SelectBoxes = function ()
             var result = false;
             for(var i = 0; i < tree.length; i++)
             {
-                if(tree[i].id == id){
+                if(tree[i].id == id)
+                {
                     return tree[i];
                 }
                 if(tree[i].hasOwnProperty('children') && tree[i].children)
@@ -271,10 +298,14 @@ MySched.SelectBoxes = function ()
          * @param {String} title The title of the panel
          * @param {Boolean} append Switch if the text should append or replace
          */
-        setTitle: function(title, append){
-            if(append){
+        setTitle: function(title, append)
+        {
+            if(append)
+            {
                 this.selectPanel.setTitle(this.selectPanel.title + title);
-            } else {
+            }
+            else
+            {
                 this.selectPanel.setTitle(title);
 
             }
