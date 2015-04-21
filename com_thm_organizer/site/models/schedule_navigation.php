@@ -90,15 +90,14 @@ class THM_OrganizerModelSchedule_Navigation
         $menuID = $this->processMenuLocation();
         $menuItem = $app->getMenu()->getItem($menuID);
 
-        $this->displayRoom = $menuItem->params->get('displayRoomSchedule', '');
-        $this->displayTeacher = $menuItem->params->get('displayTeacherSchedule', '');
-
         if (empty($menuItem))
         {
             $this->schedule = $app->input->getString('departmentSemesterSelection', '');
         }
         else
         {
+            $this->displayRoom = $menuItem->params->get('displayRoomSchedule', '');
+            $this->displayTeacher = $menuItem->params->get('displayTeacherSchedule', '');
             $this->setMenuProperties($menuItem);
         }
     }
