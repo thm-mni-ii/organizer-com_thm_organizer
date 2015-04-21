@@ -28,7 +28,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'r.longname';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     public $displayBehaviour = array();
 

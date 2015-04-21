@@ -188,7 +188,7 @@ MySched.Tree = function ()
                 'Ext.data.TreeStore',
                 {
                     folderSort: true,
-                    sorters: [{ property: 'text', direction: 'ASC' }],
+                    sorters: [{ property: 'text', direction: 'asc' }],
                     root: {
                         id: 'rootTreeNode',
                         text: 'root',

@@ -21,24 +21,6 @@ jimport('thm_core.list.view');
  */
 class THM_OrganizerViewDegree_Manager extends THM_CoreViewList
 {
-    public $items;
-
-    public $pagination;
-
-    public $state;
-
-    /**
-     * Method to get display
-     *
-     * @param   Object  $tpl  template  (default: null)
-     *
-     * @return  void
-     */
-    public function display($tpl = null)
-    {
-        parent::display($tpl);
-    }
-
     /**
      * Method to generate buttons for user interaction
      *

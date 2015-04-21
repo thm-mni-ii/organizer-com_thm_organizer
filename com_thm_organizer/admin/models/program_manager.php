@@ -26,7 +26,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'subject';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     /**
      * Constructor to set the config array and call the parent constructor

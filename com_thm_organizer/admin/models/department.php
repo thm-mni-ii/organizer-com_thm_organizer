@@ -25,7 +25,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
     /**
      * Attempts to save the form data
      *
-     * @return bool true on success, otherwise false
+     * @return mixed  int department id on success, otherwise false
      */
     public function save()
     {
@@ -52,6 +52,40 @@ class THM_OrganizerModelDepartment extends JModelLegacy
 
         return $department->id;
     }
+
+    /**
+     * Attempts to save altered form data as a new entry
+     *
+     * @return mixed  int department id on success, otherwise false
+     */
+    public function save2copy()
+    {
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
+        $data['id'] = '';
+        unset($data['asset_id']);
+
+        $this->_db->transactionStart();
+        $department = JTable::getInstance('departments', 'thm_organizerTable');
+        try
+        {
+            $deptSuccess = $department->save($data);
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+        if (!$deptSuccess)
+        {
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+        return $department->id;
+    }
+
     /**
      * Removes color entries from the database
      *

@@ -23,7 +23,7 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'r.longname';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     /**
      * Constructor to set the config array and call the parent constructor

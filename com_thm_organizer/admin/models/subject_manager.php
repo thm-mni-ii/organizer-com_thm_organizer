@@ -26,7 +26,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'name';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     public $programs = null;
 

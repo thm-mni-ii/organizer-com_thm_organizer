@@ -25,7 +25,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'f.field';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     /**
      * Constructor to set the config array and call the parent constructor

@@ -25,7 +25,7 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'name';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     /**
      * Method to get all colors from the database

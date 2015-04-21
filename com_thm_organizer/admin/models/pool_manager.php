@@ -26,7 +26,7 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'name';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     /**
      * constructor

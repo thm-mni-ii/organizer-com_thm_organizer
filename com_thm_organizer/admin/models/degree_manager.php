@@ -25,7 +25,7 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'name';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     /**
      * Constructor to set up the configuration and call the parent constructor

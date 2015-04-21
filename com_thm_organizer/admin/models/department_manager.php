@@ -25,7 +25,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_CoreModelList
 {
     protected $defaultOrdering = 'short_name';
 
-    protected $defaultDirection = 'ASC';
+    protected $defaultDirection = 'asc';
 
     /**
      * Constructor to set the config array and call the parent constructor

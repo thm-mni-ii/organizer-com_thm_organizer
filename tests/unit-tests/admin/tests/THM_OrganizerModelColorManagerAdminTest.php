@@ -117,7 +117,7 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
         $query2 = $this->_db->getQuery(true);
         $query2->select("id, name, color, 'index.php?option=com_thm_organizer&view=color_edit&id=' || id AS link");
         $query2->from('#__thm_organizer_colors');
-        $query2->order("name ASC");
+        $query2->order("name asc");
         $expected = $query2->__toString();
 
         $this->assertEquals($expected, $actual);
@@ -140,9 +140,9 @@ class THM_OrganizerModelColor_ManagerTest extends TestCaseDatabase
         $reflector->setAccessible(true);
         $state = $reflector->getValue($this->object);
 
-        $expected1 = "name ASC";
+        $expected1 = "name asc";
         $expected2 = "name";
-        $expected3 = "ASC";
+        $expected3 = "asc";
         $expected4 = "20";
         $expected5 = "0";
 

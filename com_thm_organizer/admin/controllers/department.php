@@ -73,11 +73,32 @@ class THM_OrganizerControllerDepartment extends JControllerLegacy
 
     /**
      * Performs access checks, makes call to the models's save function, and
-     * redirects to the degree manager view
+     * redirects to the department manager view
      *
      * @return  void
      */
     public function save()
+    {
+        $deptID = $this->getModel('department')->save2copy();
+        if (!empty($deptID))
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=department_manager', false), $msg);
+        }
+        else
+        {
+            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=department_manager', false), $msg, 'error');
+        }
+    }
+
+    /**
+     * Performs access checks, makes call to the models's save function, and
+     * redirects to the department manager view
+     *
+     * @return  void
+     */
+    public function save2copy()
     {
         $deptID = $this->getModel('department')->save();
         if (!empty($deptID))
@@ -94,7 +115,7 @@ class THM_OrganizerControllerDepartment extends JControllerLegacy
 
     /**
      * Performs access checks, makes call to the models's save function, and
-     * redirects to the degree manager view
+     * redirects to the department creation view
      *
      * @return  void
      */
