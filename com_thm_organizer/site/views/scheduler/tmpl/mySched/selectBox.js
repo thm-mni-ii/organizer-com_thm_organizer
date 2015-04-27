@@ -213,7 +213,9 @@ MySched.SelectBoxes = function ()
 
             if(item.children)
             {
-                this.levelData[level] = [];
+                for (i = level; i <= this.maxDepth; i ++){
+                    this.levelData[i] = [];
+                }
                 var element = item;
                 // if current element has just one child search for the next child that have more than just one child
                 while((element.children && element.children.length <= 1))
