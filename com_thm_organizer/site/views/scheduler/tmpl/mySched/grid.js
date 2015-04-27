@@ -202,6 +202,7 @@ function getSchedGrid()
         }
     });
 
+    console.log("build grid");
     /**
      * TODO Bad style to create a function this way
      * Returns an object with data for the rows
@@ -255,6 +256,7 @@ function getSchedGrid()
         cls: 'MySched_ScheduleGrid',
         scroll: false
     });
+    console.log(grid);
     return grid;
 }
 

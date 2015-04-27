@@ -342,6 +342,7 @@ MySched.layout = function ()
          */
         createTab: function (id, title, grid, type, closeable)
         {
+            console.log(grid);
             if (closeable !== false)
             {
                 closeable = true;
@@ -386,6 +387,7 @@ MySched.layout = function ()
                     {
 
                         console.log(id);
+                        console.log(grid);
                         tab = Ext.apply(
                             // default values - if already set they keep
                             Ext.apply(grid,
@@ -402,6 +404,7 @@ MySched.layout = function ()
                                 title: title
                             });
                     }
+                    console.log(tab);
                     this.tabpanel.add(tab);
                 }
                 if (Ext.getCmp('content-anchor-tip'))

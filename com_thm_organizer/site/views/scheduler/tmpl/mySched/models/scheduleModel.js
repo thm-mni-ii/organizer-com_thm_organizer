@@ -725,6 +725,7 @@ Ext.define('ScheduleModel',
                         iconCls: 'myScheduleIcon'
                     }
                 );
+                console.log("show sched")
                 MySched.layout.createTab('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE, grid, "mySchedule");
             }
             // Activate buttons if not empty
@@ -801,6 +802,7 @@ Ext.define('ScheduleModel',
                 return this.grid;
             }
             var name = this.title.replace(/\s*\/\s*/g, ' ');
+            console.log("open sched");
             MySched.layout.createTab(this.getId(), name, this.grid, this.type, closeable);
 
             if (this.type === "delta")
@@ -809,11 +811,12 @@ Ext.define('ScheduleModel',
             }
             else if (MySched.Authorize.role !== "user" || this.getId() !== "mySchedule")
             {
+                /*
                 this.dragzone = new Ext.dd.DragZone(this.getId(),
                     {
                         containerScroll: true,
                         ddGroup: 'lecture'
-                    });
+                    });*/
             }
         },
         /**

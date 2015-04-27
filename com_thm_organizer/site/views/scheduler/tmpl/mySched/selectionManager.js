@@ -78,12 +78,12 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 Ext.select('.status_icons_delete', false, activeTabDom).removeAllListeners();
                 Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
                 Ext.select('.status_icons_edit', false, activeTabDom).removeAllListeners();
-                Ext.select('.teachername', false, activeTabDom).removeAllListeners();
-                Ext.select('.lectureBox', false, activeTabDom).removeAllListeners();
-                Ext.select('.conMenu', false, activeTabDom).removeAllListeners();
+                //Ext.select('.teachername', false, activeTabDom).removeAllListeners();
+                //Ext.select('.lectureBox', false, activeTabDom).removeAllListeners();
+                //Ext.select('.conMenu', false, activeTabDom).removeAllListeners();
                 Ext.select('.MySchedEvent_joomla', false, activeTabDom).removeAllListeners();
-                Ext.select('.lecturename', false, activeTabDom).removeAllListeners();
-                Ext.select('.roomname', false, activeTabDom).removeAllListeners();
+                //Ext.select('.lecturename', false, activeTabDom).removeAllListeners();
+                //Ext.select('.roomname', false, activeTabDom).removeAllListeners();
                 Ext.select('.poolname', false, activeTabDom).removeAllListeners();
                 Ext.select('.status_icons_add', false, activeTabDom).removeAllListeners();
                 Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
@@ -121,6 +121,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     scope: this
                 });
 
+            /*
             // Subscribes event for teacher names
             Ext.select('.teachername', false, tab.dom)
                 .on(
@@ -158,7 +159,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-
+*/
             // Subscribe events for event names
             Ext.select('.MySchedEvent_name', false, tab.dom).on(
                 {
@@ -188,7 +189,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-
+/*
             // Subscribe events for room names
             Ext.select('.roomname', false, tab.dom)
                 .on(
@@ -203,7 +204,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-
+*/
             // Subscribe events for teacher things?
             // TODO: original comment!!! From now on we guessing what our code will do... no words
             Ext.select('.modulename', false, tab.dom)
@@ -215,7 +216,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-
+/*
             // Subscribe events for lecture box
             Ext.select('.lectureBox', false, tab.dom)
                 .on(
@@ -228,7 +229,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-
+*/
             // Subscribe events for
             // TODO original comment: Aboniert Events der Veranstaltungsboxen
             // TODO It was copy & paste from above
@@ -242,7 +243,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-
+/*
             Ext.select('.conMenu', false, tab.dom)
                 .on(
                 {
@@ -251,7 +252,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                         showBlockMenu(e);
                     },
                     scope: this
-                });
+                });*/
         },
         /**
          * Gets all the data if a new schedule is opend by clicking on an item in an schedule

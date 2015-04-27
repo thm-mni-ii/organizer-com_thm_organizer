@@ -449,10 +449,14 @@ function displayDelta()
     Ext.Date.clearTime(currentDate);
     var creationDate = convertEnglishDateStringToDateObject(MySched.session.creationdate);
 
-    creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
-    if(creationDate < currentDate)
+    console.log(creationDate);
+    if(creationDate)
     {
-        return false;
+        creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
+        if (creationDate < currentDate)
+        {
+            return false;
+        }
     }
     return true;
 }
