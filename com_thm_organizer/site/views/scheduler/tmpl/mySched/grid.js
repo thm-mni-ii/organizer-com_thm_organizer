@@ -226,9 +226,14 @@ function getSchedGrid()
             if (rowIndex === 2)
             {
                 return {
-                    rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME, // do
-                    // something with record
+                    rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME,
                     rowBodyCls: 'MySched_pause',
+                    rowBodyColspan: colspan
+                };
+            } else {
+                return {
+                    rowBody: '',
+                    rowBodyCls: '',
                     rowBodyColspan: colspan
                 };
             }

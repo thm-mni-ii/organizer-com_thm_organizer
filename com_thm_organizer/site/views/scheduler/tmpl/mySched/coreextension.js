@@ -207,7 +207,7 @@ Ext.override(
             }
 
             var calendarTooltip = Ext.select('.calendar_tooltip', false, document);
-            calendarTooltip.removeAllListeners();
+            calendarTooltip.clearListeners();
             calendarTooltip.on({
                 'mouseover' : function(e) {
                     e.stopEvent();
@@ -341,8 +341,8 @@ function calendar_tooltip (e)
 
         ttInfo.on('beforedestroy', function ()
         {
-            Ext.select('.dozname', false, this.el.dom).removeAllListeners();
-            Ext.select('.roomshortname', false, this.el.dom).removeAllListeners();
+            Ext.select('.dozname', false, this.el.dom).clearListeners();
+            Ext.select('.roomshortname', false, this.el.dom).clearListeners();
         });
 
         ttInfo.showAt(xy);

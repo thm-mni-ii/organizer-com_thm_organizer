@@ -18,7 +18,6 @@ MySched.InfoPanel = function ()
          */
         init: function ()
         {
-            console.log("MySched.InfoPanel init: init is the only method that is called form InfoPanel. Is it in use anymore?");
             this.el = Ext.get('infoPanel');
         },
         /**
