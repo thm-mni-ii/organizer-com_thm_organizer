@@ -221,21 +221,16 @@ function getSchedGrid()
          */
         getAdditionalData: function (data, rowIndex, record, orig)
         {
-            var headerCt = this.view.headerCt,
+            var lunchTime = {rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME, rowBodyCls: 'MySched_pause', rowBodyColspan: colspan},
+                normalBreak = {rowBody: '', rowBodyCls: '', rowBodyColspan: colspan},
+                headerCt = this.view.headerCt,
                 colspan = headerCt.getColumnCount();
+
             if (rowIndex === 2)
             {
-                return {
-                    rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME,
-                    rowBodyCls: 'MySched_pause',
-                    rowBodyColspan: colspan
-                };
+                return lunchTime;
             } else {
-                return {
-                    rowBody: '',
-                    rowBodyCls: '',
-                    rowBodyColspan: colspan
-                };
+                return normalBreak;
             }
         }
     });
