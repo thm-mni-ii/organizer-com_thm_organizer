@@ -635,7 +635,7 @@ MySched.layout = function ()
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE,
                     id: 'btnWeekPdf',
                     iconCls: 'tbSavePdf',
-                    disabled: true,
+                    disabled: disablePDF,
                     tooltip: {
                         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE_PDF_DESC
                     },
@@ -949,7 +949,19 @@ MySched.layout = function ()
                     id: 'btnMenu',
                     iconCls: 'tbDownload',
                     disabled: false,
-                    menu: [btnSavePdf, btnSaveWeekPdf, btnICal, btnSaveTxt]
+                    clicked: false,
+                    menu: [btnSavePdf, btnSaveWeekPdf, btnICal, btnSaveTxt],
+                    listeners: {
+                        click: function(){
+                            if(this.clicked === true){
+                                this.hideMenu();
+                                this.clicked = false;
+                            }else{
+                                this.showMenu();
+                                this.clicked = true;
+                            }
+                        }
+                    }
                 }
             );
 
