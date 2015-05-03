@@ -121,6 +121,7 @@ MySched.SelectBoxes = function ()
                         store: this.stores[i],
                         queryMode: 'local',
                         typeAhead: true,
+                        emptyText: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SELECT_OPTION,
                         listeners:
                         {
                             select: function(combo, records, eOpts)
