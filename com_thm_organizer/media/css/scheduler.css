@@ -1,0 +1,138 @@
+.control-group .chzn-container {
+  width: 260px !important;
+}
+.control-group .x-form-item-label-default {
+  width: 180px !important;
+  float: left;
+}
+.control-group .x-form-text-field-body-default {
+  min-width: 900px;
+  max-width: 900px;
+  float: left;
+}
+.control-group .x-form-item-default {
+  height: auto !important;
+  margin-top: 15px;
+}
+.control-group .x-form-text-wrap-default {
+  border-style: none;
+}
+.control-group .x-form-text-wrap-default input {
+  margin: 0;
+}
+.control-group .x-form-text {
+  height: 29px !important;
+  background-color: #4a5c66;
+  color: white;
+  border-radius: 3px 0 0 3px;
+}
+.control-group .x-form-trigger-wrap {
+  height: auto;
+}
+
+.x-form-text-default {
+  background-image: none;
+}
+
+.control-group:first-child {
+  margin-bottom: 0;
+}
+
+#ext-element-7 + .control-group {
+  display: none;
+}
+
+.control-group:last-child {
+  margin-top: 40px;
+  margin-bottom: 40px !important;
+}
+
+.ym-wrapper {
+  max-width: 85em !important;
+}
+
+.scheduler {
+  color: #4a5c66;
+}
+.scheduler #selectBoxes .x-form-text-default {
+  background-image: none;
+}
+.scheduler #selectBoxes .x-field-default:first-child {
+  margin-top: 29px;
+}
+.scheduler #selectBoxes .x-field-default {
+  height: 0px !important;
+  margin-bottom: 25px;
+}
+.scheduler #selectBoxes .x-form-text-wrap-default {
+  border-style: none;
+}
+.scheduler #selectBoxes .x-form-text-wrap-default input {
+  margin: 0;
+}
+.scheduler #selectBoxes .x-form-text {
+  height: 29px !important;
+  background-color: #4a5c66;
+  color: white;
+  border-radius: 3px 0 0 3px;
+  font-size: small;
+}
+.scheduler #selectBoxes .x-form-trigger-wrap {
+  height: auto;
+}
+.scheduler #rightviewport #topMenu {
+  margin-bottom: 15px;
+}
+.scheduler #rightviewport #topMenu .x-form-text {
+  padding: 0 6px !important;
+  border-radius: 3px 0 0 3px;
+}
+.scheduler #rightviewport #topMenu .x-form-text-wrap-default {
+  border-style: none;
+}
+.scheduler #rightviewport #topMenu .x-form-text-wrap-default input {
+  margin: 0;
+}
+.scheduler #rightviewport .x-grid-view {
+  height: 412px !important;
+}
+.scheduler #rightviewport .x-grid-item-container {
+  margin-bottom: 2px;
+}
+.scheduler #rightviewport .lectureBox {
+  outline: 1px outset white;
+  box-shadow: inset 0px 0px 6px #bbbbbb;
+  background-image: -webkit-linear-gradient(-33deg, #fbfbfb 0, #eeeeee 100%);
+  background-image: -moz-linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
+  background-image: linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
+  background-position: 50% 50%;
+  background-color: #eeeeee;
+  margin-bottom: 4px;
+  padding: 4px;
+}
+.scheduler #rightviewport .x-grid-cell {
+  padding: 4px 2px;
+}
+.scheduler #rightviewport .x-grid-cell-inner {
+  padding: 0;
+}
+.scheduler #rightviewport .x-grid-rowbody-tr {
+  display: none;
+}
+.scheduler #rightviewport .MySched_pause {
+  display: table-row;
+}
+.scheduler #rightviewport table {
+  margin-bottom: 0;
+}
+
+.x-boundlist li {
+  margin: 0;
+  padding: 6px;
+}
+
+.x-form-trigger-default {
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}

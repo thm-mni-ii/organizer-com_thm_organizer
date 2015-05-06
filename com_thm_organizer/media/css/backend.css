@@ -29,6 +29,10 @@
   content: "\e604";
 }
 
+.icon-organizer_departments::before {
+  content: "\e244";
+}
+
 .icon-organizer_subjects::before {
   content: "\e603";
 }
@@ -94,6 +98,12 @@ li a[href*="view=monitor_manager"]::before {
 li a[href*="view=teacher_manager"]::before {
   font-family: icomoon;
   content: "\e604";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=department_manager"]::before {
+  font-family: icomoon;
+  content: "\e244";
   font-size: 12px;
   padding-right: 8px;
 }

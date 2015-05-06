@@ -147,6 +147,8 @@ class JFormFieldScheduler extends JFormField
         $doc->addStyleSheet("$root/components/com_thm_organizer/models/fields/css/schedule_selection_tree.css");
         $doc->addScript("$root/components/com_thm_organizer/models/fields/selectBoxes.js");
         $doc->addScript("$root/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
+        $doc->addStyleSheet("$root/media/com_thm_organizer/css/scheduler.css");
+
     }
 
     /**

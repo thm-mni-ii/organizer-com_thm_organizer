@@ -81,7 +81,7 @@ function getSchedGrid()
             sortable: false,
             dataIndex: 'time',
             renderer: MySched.lectureCellRenderer,
-            width: 35
+            width: 50
         },
         {
             header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,
@@ -142,7 +142,7 @@ function getSchedGrid()
                 sortable: false,
                 dataIndex: 'time',
                 renderer: MySched.lectureCellRenderer,
-                width: 35
+                width: 50
             },
             {
                 header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,

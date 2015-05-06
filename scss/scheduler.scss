@@ -1,0 +1,192 @@
+
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+
+//Backend *********************************************************
+.control-group {
+  .chzn-container{
+    width: 260px !important;
+  }
+  
+  .x-form-item-label-default{
+    width: 180px !important;
+    float: left;
+  }
+
+  .x-form-text-field-body-default{
+    min-width: 900px;
+    max-width: 900px;
+    float: left;
+  }
+
+  .x-form-item-default {
+    height: auto !important;
+    margin-top: 15px;
+  }
+
+  .x-form-text-wrap-default {
+    border-style: none;
+    input {
+      margin: 0;
+    }
+  }
+
+  .x-form-text {
+    height: 29px !important;
+    background-color: #4a5c66;
+    color: white;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .x-form-trigger-wrap {
+    height: auto;
+  }
+
+}
+
+.x-form-text-default{
+  background-image: none;
+}
+
+//wegen div space als zweites Element, beansprucht zu viel Platz
+.control-group:first-child {
+  margin-bottom: 0;
+}
+
+//spacer
+#ext-element-7 + .control-group {
+  display: none;
+}
+
+.control-group:last-child {
+  margin-top: 40px;
+  margin-bottom: 40px !important;
+}
+
+// Frontend ************************************************
+
+// Hintergrund-Breite erweitern
+.ym-wrapper {
+  max-width: 85em !important;
+}
+
+.scheduler {
+  color: #4a5c66;
+
+  // select Boxes
+  #selectBoxes {
+
+    .x-form-text-default{
+      background-image: none;
+    }
+
+    //  .x-autocontainer-innerCt:first-child .x-field-default {
+    .x-field-default:first-child {
+      margin-top: 29px;
+    }
+
+    .x-field-default {
+      height: 0px !important;
+      margin-bottom: 25px;
+    }
+
+    .x-form-text-wrap-default {
+      border-style: none;
+
+      input {
+        margin: 0;
+      }
+    }
+
+    .x-form-text {
+      height: 29px !important;
+      background-color: #4a5c66;
+      color: white;
+      border-radius: 3px 0 0 3px;
+      font-size: small;
+    }
+
+    .x-form-trigger-wrap {
+      height: auto;
+    }
+  }
+
+  //right viewport
+  #rightviewport {
+
+    //top Menu
+    #topMenu {
+      margin-bottom: 15px;
+
+      // Date picker
+
+      .x-form-text {
+        padding: 0 6px !important;
+        border-radius: 3px 0 0 3px;
+      }
+
+      .x-form-text-wrap-default {
+        border-style: none;
+
+        input {
+          margin: 0;
+        }
+      }
+    }
+
+    // table
+    .x-grid-view{
+      height: 412px !important;
+    }
+    .x-grid-item-container{
+      margin-bottom: 2px;
+    }
+
+    .lectureBox{
+      outline: 1px outset white;
+      box-shadow: inset 0px 0px 6px #bbbbbb;
+      background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
+      background-image: -moz-linear-gradient(123deg,lighten(#eeeeee, 5%) 0, #eeeeee 100%);
+      background-image: linear-gradient(123deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
+      background-position: 50% 50%;
+      background-color: $bg-color;
+
+      margin-bottom: 4px;
+      padding: 4px;
+    }
+
+    .x-grid-cell{
+   //   width: inherit !important;
+      padding: 4px 2px;
+
+    }
+    .x-grid-cell-inner{
+      padding: 0;
+    }
+
+    .x-grid-rowbody-tr{
+      display: none;
+    }
+
+    .MySched_pause{
+      display: table-row;
+    }
+    table{
+      margin-bottom: 0;
+    }
+  }
+}
+
+// select Boxes nicht sichtbare Auswahl
+.x-boundlist {
+  li {
+    margin: 0;
+    padding: 6px;
+  }
+}
+
+.x-form-trigger-default{
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
