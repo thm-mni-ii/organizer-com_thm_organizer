@@ -950,18 +950,7 @@ MySched.layout = function ()
                     iconCls: 'tbDownload',
                     disabled: false,
                     clicked: false,
-                    menu: [btnSavePdf, btnSaveWeekPdf, btnICal, btnSaveTxt],
-                    listeners: {
-                        click: function(){
-                            if(this.clicked === true){
-                                this.hideMenu();
-                                this.clicked = false;
-                            }else{
-                                this.showMenu();
-                                this.clicked = true;
-                            }
-                        }
-                    }
+                    menu: [btnSavePdf, btnSaveWeekPdf, btnICal, btnSaveTxt]
                 }
             );
 

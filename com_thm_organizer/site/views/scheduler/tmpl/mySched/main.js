@@ -14,7 +14,7 @@ MySched.loadedLessons = [];
 MySched.mainPath = externLinks.mainPath;
 MySched.displaySemesterBeginDialog = true;
 MySched.scheduleDataReady = false;
-Ext.Ajax.timeout = 60000;
+Ext.Ajax.setTimeout(60000);
 MySched.Config.addAll(
     {
         // Determine how the additional information should be shown

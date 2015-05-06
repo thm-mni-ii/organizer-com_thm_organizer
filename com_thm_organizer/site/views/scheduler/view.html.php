@@ -65,6 +65,13 @@ class THM_OrganizerViewScheduler extends JViewLegacy
             return false;
         }
 
+        $document = JFactory::getDocument();
+        $headData = $document->getHeadData();
+        $scripts = $headData['scripts'];
+        unset($scripts[JURI::root() . 'libraries/thm_core/js/extjs/resolveDocument.js']);
+        $headData['scripts'] = $scripts;
+        $document->setHeadData($headData);
+
         $validRequest = $this->validateRequest();
         if (!$validRequest)
         {
