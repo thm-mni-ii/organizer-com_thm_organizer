@@ -104,7 +104,7 @@ class THMPDFBuilder extends THMAbstractBuilder
                 'T_SIZE' => 11,
                 'T_FONT' => 'Arial',
                 'T_ALIGN' => 'C',
-                'V_ALIGN' => 'T',
+                'V_ALIGN' => 'M',
                 'T_TYPE' => '',
                 'LN_SIZE' => 4,
                 'BG_COLOR' => array(
@@ -259,9 +259,9 @@ class THMPDFBuilder extends THMAbstractBuilder
             }
 
             // PDF Anlegen
-            $pdf = new MySchedPdf;
+            $pdf = new MySchedPdf($title);
             $pdf->SetAutoPageBreak(true, 13);
-            $pdf->SetTopMargin(13);
+            $pdf->SetTopMargin(8);
             $pdf->AddPage('L');
             $columns = $daysPerWeek;
 

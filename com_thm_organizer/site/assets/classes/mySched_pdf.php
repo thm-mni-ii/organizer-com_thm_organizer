@@ -26,12 +26,33 @@ jimport('fpdf.fpdf');
 class MySchedPdf extends FPDF_TABLE
 {
     /**
+     * Schedule Title
+     *
+     * @var    String
+     */
+    private $_title = null;
+
+    /**
      * Constructor which perfom initial tasks
      */
-    public function __construct()
+    public function __construct($title)
     {
+        $this->_title = $title;
         parent::FPDF('L');
         $this->AliasNbPages();
+    }
+
+    /**
+     * Method to set the header of the pdf document
+     *
+     * @return Array An array with information about the status of the creation
+     */
+    public function Header()
+    {
+        $this->SetFont('Arial','B',15);
+        $this->Cell(124);
+        $this->Cell(30,10, '' . $this->_title . '',0,0,'C');
+        $this->Ln(15);
     }
 
     /**
@@ -44,11 +65,8 @@ class MySchedPdf extends FPDF_TABLE
         $date = date('d.m.Y');
 
         $this->SetY(-15);
-        $this->SetFont('Courier', '', 8);
-        $this->Cell(90, 10, 'MySched-Generator ver 0.1', 0, 0, 'L');
         $this->SetFont('Arial', 'B', 8);
-        $this->Cell(90, 10, 'Erstellt: ' . $date . '   -   Seite ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
-        $this->SetFont('Courier', '', 8);
-        $this->Cell(90, 10, 'http://www.thm.de', 0, 0, 'R');
+        $this->Cell(124);
+        $this->Cell(30, 10, 'Erstellt: ' . $date . '   -   Seite ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 }
