@@ -209,7 +209,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $name = $subject->$nameAttribute;
         $category = (string) $textNode->kategorie;
         $language = (string) $textNode->sprache;
-        $text = (string) $textNode->txt;
+
+        /**
+         * SimpleXML is terrible with mixed content. Since there is no guarantee what a node's format is, this needs to
+         * be processed manually.
+         */
+        $originalNode = $textNode->txt->FormattedText->asXML();
+        $stringNode = (string) $originalNode;
+        $text = $this->stripFTTag($stringNode);
+
         switch ($category)
         {
             case 'Creditpoints/Arbeitsaufwand':
@@ -284,6 +292,21 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $this->setStarAttribute($subject, $category, $text);
                 break;
         }
+    }
+
+    /**
+     * Removes the formatted text tag on a text node
+     *
+     * @param   string  $node  the xml node as a string
+     *
+     * @return  string  the node without its formatted text shell
+     */
+    private function stripFTTag($node)
+    {
+        $temp1 = str_replace('<FormattedText>', '', $node);
+        $temp2 = str_replace('<formattedtext>', '', $temp1);
+        $temp3 = str_replace('</FormattedText>', '', $temp2);
+        return str_replace('</formattedtext>', '', $temp3);
     }
 
     /**

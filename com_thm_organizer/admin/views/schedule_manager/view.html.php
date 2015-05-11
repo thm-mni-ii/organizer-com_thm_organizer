@@ -58,6 +58,12 @@ class THM_OrganizerViewSchedule_Manager extends THM_CoreViewList
             JToolbarHelper::custom('schedule.setReference', 'diff', 'diff', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);
             JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
         }
+        // No departments are available and must first be created
+        elseif ($this->getModel()->actions->{'core.admin'})
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_DEPARTMENTS'), 'notice');
+        }
+
         if ($this->getModel()->actions->{'core.admin'})
         {
             JToolbarHelper::divider();

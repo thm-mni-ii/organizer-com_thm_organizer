@@ -61,6 +61,12 @@ class THM_OrganizerViewProgram_Manager extends THM_CoreViewList
             );
             JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
         }
+        // No departments are available and must first be created
+        elseif ($this->getModel()->actions->{'core.admin'})
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_DEPARTMENTS'), 'notice');
+        }
+
         if ($this->getModel()->actions->{'core.admin'})
         {
             JToolbarHelper::divider();

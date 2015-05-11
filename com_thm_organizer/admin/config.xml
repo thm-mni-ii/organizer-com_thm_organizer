@@ -136,21 +136,6 @@
             directory="images/thm_organizer/"
             exclude=""/>
     </fieldset>
-    <fieldset name="scheduler"
-              label="COM_THM_ORGANIZER_SCHEDULE_APPLICATION_TITLE"
-              description="COM_THM_ORGANIZER_SCHEDULE_APPLICATION_DESCRIPTION">
-        <field
-            id="linkEvents"
-            name="linkEvents"
-            type="list"
-            label="COM_THM_ORGANIZER_EVENT_CREATION"
-            default="1"
-            description="COM_THM_ORGANIZER_EVENT_CREATION_DESC"
-            class="inputbox">
-            <option value="0">JNO</option>
-            <option value="1">JYES</option>
-        </field>
-    </fieldset>
     <fieldset name="permissions"
               label="JCONFIG_PERMISSIONS_LABEL"
               description="JCONFIG_PERMISSIONS_DESC">
