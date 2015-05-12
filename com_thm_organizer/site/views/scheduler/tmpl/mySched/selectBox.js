@@ -18,6 +18,7 @@ MySched.SelectBoxes = function ()
             this.selectPanel = Ext.create(
                 'Ext.panel.Panel',
                 {
+                    plugins: 'responsive',
                     title: 'Stand vom',
                     id: 'selectBoxes',
                     region: 'west',
@@ -27,7 +28,19 @@ MySched.SelectBoxes = function ()
                     minSize: 242,
                     maxSize: 242,
                     height: 470,
-                    scroll: false
+                    scroll: false,
+                    responsiveConfig: {
+                        'width <= 1100': {
+                            collapsible: true,
+                            collapsed: true
+                        },
+                        'width <= 400': {
+
+                        },
+                        'width > 400 && width <= 1000': {
+
+                        }
+                    }
                 }
             );
             Ext.define(
@@ -94,13 +107,14 @@ MySched.SelectBoxes = function ()
          */
         createSelectBoxes: function(data)
         {
+            var i = 0,tmpSBox, preSelectedValue = '', preSelectedId = 0;
             this.stores = [];
             this.levelData = [];
             this.selectBoxes = [];
             this.scheduleData = data;
             this.maxDepth = this.getDepthOfTree(this.scheduleData, 0);
 
-            for (var i = 0; i <= this.maxDepth; i++)
+            for (i = 0; i <= this.maxDepth; i++)
             {
                 this.levelData[i] = [];
                 this.stores[i] = Ext.create('Ext.data.Store',
@@ -109,7 +123,7 @@ MySched.SelectBoxes = function ()
                         data: this.levelData[i]
                     }
                 );
-                var tmpSBox = Ext.create(
+                tmpSBox = Ext.create(
                     'Ext.form.field.ComboBox',
                     {
                         height:60,
@@ -139,7 +153,7 @@ MySched.SelectBoxes = function ()
                 this.selectPanel.unmask();
             }
 
-            for(var i = 0; i < this.scheduleData.length;i++)
+            for(i = 0; i < this.scheduleData.length;i++)
             {
                 this.levelData[0].push({"name":this.scheduleData[i].text, "id":this.scheduleData[i].id, "level":0});
                 if(this.scheduleData.length === 1)
@@ -149,12 +163,21 @@ MySched.SelectBoxes = function ()
             }
 
             this.stores[0].setData(this.levelData[0]);
-            // if there is only one item selected show the children in the next selectbox
-            if(this.scheduleData.length === 1)
-            {
-                var allRecords = this.stores[0].snapshot || this.stores[0].data;
-                MySched.SelectBoxes.changedSelectBoxValue(allRecords.items[0]);
+
+            // group plans (pool) are always default. If this has only one child also these child is preselected.
+            var allRecords = this.stores[0].snapshot || this.stores[0].data;
+            for(i = 0; i < allRecords.items.length; i++){
+                if(allRecords.items[i].id.indexOf('pool') >= 0)
+                {
+                    preSelectedValue = allRecords.items[i].data.name;
+                    preSelectedId = i;
+                }
             }
+            if(preSelectedValue !== '')
+            {
+                this.selectBoxes[0].select(preSelectedValue);
+            }
+            MySched.SelectBoxes.changedSelectBoxValue(allRecords.items[preSelectedId]);
             this.recreate();
         },
         /**

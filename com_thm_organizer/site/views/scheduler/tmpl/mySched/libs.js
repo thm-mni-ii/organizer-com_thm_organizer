@@ -449,7 +449,6 @@ function displayDelta()
     Ext.Date.clearTime(currentDate);
     var creationDate = convertEnglishDateStringToDateObject(MySched.session.creationdate);
 
-    console.log(creationDate);
     if(creationDate)
     {
         creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);

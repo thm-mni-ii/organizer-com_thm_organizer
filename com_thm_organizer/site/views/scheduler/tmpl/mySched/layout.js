@@ -1015,6 +1015,7 @@ MySched.layout = function ()
             var menuedatepicker = Ext.create(
                 'Ext.form.field.Date',
                 {
+                    plugins: 'responsive',
                     id: 'menuedatepicker',
                     showWeekNumber: true,
                     format: 'd.m.Y',
@@ -1022,6 +1023,11 @@ MySched.layout = function ()
                     editable: false,
                     value: inidate,
                     startDay: 1,
+                    responsiveConfig: {
+                        'width <= 1100': {
+                            hidden: true
+                        }
+                    },
                     // disabledDays: [0, 6],
                     listeners: {
                         'change': function ()
@@ -1144,6 +1150,25 @@ MySched.layout = function ()
                 scope: this,
                 iconCls: 'MySched_nextWeekIcon'
             };
+
+            var tabletViewButtons = Ext.create(
+                'Ext.Button',
+                {
+                    plugins: 'responsive',
+                    text: "Tag",
+                    id: 'myDay',
+                    iconCls: 'myDayBut',
+                    hidden: false,
+                    responsiveConfig: {
+                        'width > 1100': {
+                            hidden: true
+                        },
+                        'width <= 400': {
+                            hidden: true
+                        }
+                    }
+                }
+            );
 
             return [prevWeek, menuedatepicker, nextWeek, btnSave, btnMenu, '->', btnInfo, btnEmpty, btnAdd, btnDel];
         }
