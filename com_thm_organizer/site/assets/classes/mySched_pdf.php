@@ -12,7 +12,7 @@
  */
 defined('_JEXEC') or die;
 
-jimport('fpdf.fpdf');
+jimport('thm_core.fpdf.fpdf');
 
 /**
  * Class MySchedPdf for component com_thm_organizer

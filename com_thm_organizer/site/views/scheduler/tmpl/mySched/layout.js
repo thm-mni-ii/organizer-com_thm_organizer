@@ -543,7 +543,7 @@ MySched.layout = function ()
             );
 
             var disablePDF = true;
-            if(MySched.FPDFInstalled === true)
+            if(MySched.FPDFInstalled)
             {
                 disablePDF = false;
             }
@@ -705,7 +705,7 @@ MySched.layout = function ()
             );
 
             var disableICal = true;
-            if(MySched.iCalcreatorInstalled === true)
+            if(MySched.iCalcreatorInstalled)
             {
                 disableICal = false;
             }
@@ -844,7 +844,7 @@ MySched.layout = function ()
             );
 
             var disableExcel = true;
-            if(MySched.PHPExcelInstalled === true)
+            if(MySched.PHPExcelInstalled)
             {
                 disableExcel = false;
             }
