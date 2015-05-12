@@ -296,7 +296,7 @@ class THM_OrganizerHelperComponent
     public static function getColorField($text, $bgColor)
     {
         $textColor = self::getTextColor($bgColor);
-        $style = 'color: #' . $textColor . '; background-color: #' . $bgColor . '; text-align:center';
+        $style = 'color: ' . $textColor . '; background-color: #' . $bgColor . '; text-align:center';
         return '<div class="color-preview" style="' . $style . '">' . $text . '</div>';
     }
 
@@ -318,11 +318,11 @@ class THM_OrganizerHelperComponent
         $brightness = $relativeBrightness / 255000;
         if ($brightness >= 0.6)
         {
-            return $params->get('darkTextColor', '4a5c66');
+            return $params->get('darkTextColor', '#4a5c66');
         }
         else
         {
-            return $params->get('lightTextColor', 'eeeeee');
+            return $params->get('lightTextColor', '#eeeeee');
         }
     }
 
