@@ -315,8 +315,8 @@ class THM_OrganizerHelperComponent
         $green = hexdec(substr($color, 2, 2));
         $blue = hexdec(substr($color, 4, 2));
         $relativeBrightness = ($red * 299) + ($green * 587) + ($blue * 114);
-        $brightness = $relativeBrightness / 255000;
-        if ($brightness >= 0.6)
+        $brightness = $relativeBrightness / 1000;
+        if ($brightness >= 128)
         {
             return $params->get('darkTextColor', '#4a5c66');
         }
