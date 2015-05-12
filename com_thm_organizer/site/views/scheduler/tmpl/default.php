@@ -61,7 +61,7 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/tree.js"></script>
     <script type="text/javascript" charset="utf-8"
-            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/SelectBox.js"></script>
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/selectBox.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/subscribe.js"></script>
     <!-- Models -->
