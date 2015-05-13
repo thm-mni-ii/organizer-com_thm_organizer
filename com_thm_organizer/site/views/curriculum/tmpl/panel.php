@@ -27,7 +27,7 @@ class THM_OrganizerTemplateCurriculumPanel
         if (!empty($pool->bgColor))
         {
             $textColor = THM_OrganizerHelperComponent::getTextColor($pool->bgColor);
-            $headStyle .= ' style="background-color: ' . $pool->bgColor . '; color: ' . $textColor . '"';
+            $headStyle .= ' style="background-color: #' . $pool->bgColor . '; color: ' . $textColor . '"';
         }
         $display = ($type == 'modal')? 'hidden' : 'shown';
         echo '<div id="panel-' . $pool->mapping . '" class="' . $type . '-panel ' . $display . '">';

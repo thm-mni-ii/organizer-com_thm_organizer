@@ -29,7 +29,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
         if (!empty($element->bgColor))
         {
             $textColor = THM_OrganizerHelperComponent::getTextColor($element->bgColor);
-            $headStyle .= ' style="background-color: ' . $element->bgColor . '; color: ' . $textColor . '"';
+            $headStyle .= ' style="background-color: #' . $element->bgColor . '; color: ' . $textColor . '"';
         }
         echo '<div class="item">';
         echo '<div class="item-head"' . $headStyle. '>';
