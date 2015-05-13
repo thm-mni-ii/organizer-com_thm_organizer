@@ -20,12 +20,12 @@ JFormHelper::loadFieldClass('list');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldProgramID extends JFormFieldList
+class JFormFieldProgramid extends JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'programID';
+    protected $type = 'programid';
 
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
