@@ -107,7 +107,7 @@ MySched.SelectBoxes = function ()
          */
         createSelectBoxes: function(data)
         {
-            var i = 0,tmpSBox, preSelectedValue = '', preSelectedId = 0;
+            var i = 0, tmpSBox, preSelectedValue = '', preSelectedId = 0;
             this.stores = [];
             this.levelData = [];
             this.selectBoxes = [];
@@ -134,7 +134,7 @@ MySched.SelectBoxes = function ()
                         displayField: 'name',
                         store: this.stores[i],
                         queryMode: 'local',
-                        typeAhead: true,
+                        editable: false,
                         emptyText: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SELECT_OPTION,
                         listeners:
                         {
@@ -166,7 +166,8 @@ MySched.SelectBoxes = function ()
 
             // group plans (pool) are always default. If this has only one child also these child is preselected.
             var allRecords = this.stores[0].snapshot || this.stores[0].data;
-            for(i = 0; i < allRecords.items.length; i++){
+            for(i = 0; i < allRecords.items.length; i++)
+            {
                 if(allRecords.items[i].id.indexOf('pool') >= 0)
                 {
                     preSelectedValue = allRecords.items[i].data.name;

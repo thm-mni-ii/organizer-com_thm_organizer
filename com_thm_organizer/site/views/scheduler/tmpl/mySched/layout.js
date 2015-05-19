@@ -4,6 +4,8 @@
  * @class MySched.layout
  * @constructor
  */
+var MOBILE_WIDTH_MAX = 400, TABLET_WIDTH_MAX = 1100;
+
 MySched.layout = function ()
 {
     "use strict";
@@ -260,18 +262,25 @@ MySched.layout = function ()
             );
 
             this.leftviewport = this.w_leftMenu;
-
             // 	finally, creation of the complete layout
             this.viewport = Ext.create('Ext.panel.Panel',
                 {
+                    plugins: 'responsive',
                     id: "viewport",
                     layout: "border",
                     renderTo: "MySchedMainW",
                     width: 968,
                     height: 500,
-                    minSize: 968,
-                    maxSize: 968,
-                    items: [this.leftviewport, this.rightviewport]
+                    //minSize: 968,
+                    //maxSize: 968,
+                    items: [this.leftviewport, this.rightviewport],
+                    responsiveConfig: {
+                        'width <= TABLET_WIDTH_MAX':
+                        {
+                            // TODO What is a useful max width
+                            maxWidth: document.getElementById('MySchedMainW').clientWidth
+                        }
+                    }
                 });
 
             var hideTreePanel = false;
@@ -280,13 +289,6 @@ MySched.layout = function ()
                 hideTreePanel = true;
             }
 
-            if(!hideTreePanel)
-            {
-                // TODO: Maybe is not needed anymore
-                //MySched.treeLoadMask = new Ext.LoadMask(Ext.getCmp('selectTree').el, {msg:"Loading..."});
-                //MySched.treeLoadMask.show();
-            }
-            //Ext.get('selectBoxes-body').unmask();
             Ext.get('selectBoxes-body').mask('Loading');
 
             var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
@@ -1024,7 +1026,7 @@ MySched.layout = function ()
                     value: inidate,
                     startDay: 1,
                     responsiveConfig: {
-                        'width <= 1100': {
+                        'width <= TABLET_WIDTH_MAX': {
                             hidden: true
                         }
                     },
@@ -1122,6 +1124,7 @@ MySched.layout = function ()
 
             // previous week button
             var prevWeek = {
+                plugins: 'responsive',
                 id: 'MySched_prevWeek',
                 tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_PREVIOUS_WEEK,
                 handler: function()
@@ -1132,12 +1135,18 @@ MySched.layout = function ()
                     calendar.setValue(currentDate);
                 },
                 scope: this,
-                iconCls: 'MySched_prevWeekIcon'
+                iconCls: 'MySched_prevWeekIcon',
+                responsiveConfig: {
+                    'width <= TABLET_WIDTH_MAX': {
+                        hidden: false
+                    }
+                },
             };
 
 
             // next week button
             var nextWeek = {
+                plugins: 'responsive',
                 id: 'MySched_nextWeek',
                 tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_NEXT_WEEK,
                 handler: function()
@@ -1148,27 +1157,13 @@ MySched.layout = function ()
                     calendar.setValue(currentDate);
                 },
                 scope: this,
-                iconCls: 'MySched_nextWeekIcon'
-            };
-
-            var tabletViewButtons = Ext.create(
-                'Ext.Button',
-                {
-                    plugins: 'responsive',
-                    text: "Tag",
-                    id: 'myDay',
-                    iconCls: 'myDayBut',
-                    hidden: false,
-                    responsiveConfig: {
-                        'width > 1100': {
-                            hidden: true
-                        },
-                        'width <= 400': {
-                            hidden: true
-                        }
+                iconCls: 'MySched_nextWeekIcon',
+                responsiveConfig: {
+                    'width <= TABLET_WIDTH_MAX': {
+                        hidden: false
                     }
                 }
-            );
+            };
 
             return [prevWeek, menuedatepicker, nextWeek, btnSave, btnMenu, '->', btnInfo, btnEmpty, btnAdd, btnDel];
         }
