@@ -1,19 +1,18 @@
-
 @import '../../lib_thm_core/scss/mixins';
 @import '../../lib_thm_core/scss/variables';
 
 //Backend *********************************************************
 .control-group {
-  .chzn-container{
+  .chzn-container {
     width: 260px !important;
   }
-  
-  .x-form-item-label-default{
+
+  .x-form-item-label-default {
     width: 180px !important;
     float: left;
   }
 
-  .x-form-text-field-body-default{
+  .x-form-text-field-body-default {
     min-width: 900px;
     max-width: 900px;
     float: left;
@@ -36,6 +35,11 @@
     background-color: #4a5c66;
     color: white;
     border-radius: 3px 0 0 3px;
+
+    // Alternative - von thm.de
+    //   border: 2px solid #4a5c66;
+    //   border-radius: 0;
+    //   overflow: hidden;
   }
 
   .x-form-trigger-wrap {
@@ -44,7 +48,7 @@
 
 }
 
-.x-form-text-default{
+.x-form-text-default {
   background-image: none;
 }
 
@@ -68,6 +72,9 @@
 // Hintergrund-Breite erweitern
 .ym-wrapper {
   max-width: 85em !important;
+  .ym-column-main {
+    background-color: white;
+  }
 }
 
 .scheduler {
@@ -76,13 +83,13 @@
   // select Boxes
   #selectBoxes {
 
-    .x-form-text-default{
+    .x-form-text-default {
       background-image: none;
     }
 
     //  .x-autocontainer-innerCt:first-child .x-field-default {
     .x-field-default:first-child {
-      margin-top: 29px;
+      margin-top: 39px;
     }
 
     .x-field-default {
@@ -95,15 +102,22 @@
 
       input {
         margin: 0;
+        background-color: white;
       }
     }
 
     .x-form-text {
       height: 29px !important;
-      background-color: #4a5c66;
-      color: white;
-      border-radius: 3px 0 0 3px;
       font-size: small;
+
+      //  background-color: #4a5c66;
+      //  color: white;
+      //  border-radius: 3px 0 0 3px;
+
+      // Alternative - von thm.de
+      border: 2px solid #4a5c66;
+      border-radius: 0;
+      overflow: hidden;
     }
 
     .x-form-trigger-wrap {
@@ -116,13 +130,13 @@
 
     //top Menu
     #topMenu {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
 
       // Date picker
-
       .x-form-text {
         padding: 0 6px !important;
         border-radius: 3px 0 0 3px;
+        background-color: #FAFAFA;
       }
 
       .x-form-text-wrap-default {
@@ -134,19 +148,67 @@
       }
     }
 
-    // table
-    .x-grid-view{
-      height: 412px !important;
+    // table header
+    .x-tab-bar-body {
+      position: absolute;
+      //    top: -3px;
     }
-    .x-grid-item-container{
+    .x-grid-header-ct {
+      //     margin-top: 20px;
+    }
+
+    .x-box-scroller-body-horizontal {
+      height: 37px !important;
+      left: 5px;
+      width: 680px !important;
+    }
+
+    .x-tab {
+      border: none;
+      background-image: none;
+      padding: 10px;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      background-color: white;
+      //    width: 100px;
+    }
+
+    .x-tab-active {
+      background-color: #dfeec8;
+    }
+
+    .x-tab-over {
+      background-color: #dfe5e6;
+    }
+
+    .x-panel > .x-panel-body {
+          margin-top: 2px;
+    }
+
+    .x-tab-closable.x-tab-default .x-tab-button {
+      padding-right: 4px;
+    }
+
+    .x-box-scroller {
+      top: 9px;
+      height: 21px;
+    }
+
+    // table
+    .x-grid-view {
+      height: 401px !important;
+    }
+
+    .x-grid-item-container {
       margin-bottom: 2px;
     }
 
-    .lectureBox{
+    .lectureBox {
       outline: 1px outset white;
       box-shadow: inset 0px 0px 6px #bbbbbb;
       background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
-      background-image: -moz-linear-gradient(123deg,lighten(#eeeeee, 5%) 0, #eeeeee 100%);
+      background-image: -moz-linear-gradient(123deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
       background-image: linear-gradient(123deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
       background-position: 50% 50%;
       background-color: $bg-color;
@@ -155,23 +217,44 @@
       padding: 4px;
     }
 
-    .x-grid-cell{
-   //   width: inherit !important;
+    .x-grid-cell {
+      //   width: inherit !important;
       padding: 4px 2px;
-
     }
-    .x-grid-cell-inner{
+    .x-grid-cell-inner {
       padding: 0;
     }
 
-    .x-grid-rowbody-tr{
-      display: none;
+    .x-grid-row {
+      &:first-child td {
+        background-color: #ffffff;
+      }
     }
 
-    .MySched_pause{
-      display: table-row;
+    .x-grid-rowbody-tr {
+      //  display: none;
+      background-color: #FAFAFA;
+      td {
+        padding: 0;
+      }
+
     }
-    table{
+
+    .x-grid-cell-last {
+      padding-right: 18px;
+    }
+
+    .MySched_pause {
+      display: table-row;
+      background-color: #CCCCCC;
+
+      .x-grid-td {
+        text-align: center;
+        padding: 0;
+      }
+    }
+
+    table {
       margin-bottom: 0;
     }
   }
@@ -185,7 +268,7 @@
   }
 }
 
-.x-form-trigger-default{
+.x-form-trigger-default {
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;

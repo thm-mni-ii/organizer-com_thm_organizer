@@ -221,10 +221,10 @@ function getSchedGrid()
          */
         getAdditionalData: function (data, rowIndex, record, orig)
         {
-            var lunchTime = {rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME, rowBodyCls: 'MySched_pause', rowBodyColspan: colspan},
-                normalBreak = {rowBody: '', rowBodyCls: '', rowBodyColspan: colspan},
-                headerCt = this.view.headerCt,
-                colspan = headerCt.getColumnCount();
+            var headerCt = this.view.headerCt,
+                colspan = headerCt.getColumnCount(),
+                lunchTime = {rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME, rowBodyCls: 'MySched_pause', rowBodyColspan: colspan},
+                normalBreak = {rowBody: '', rowBodyCls: '', rowBodyColspan: colspan};
 
             if (rowIndex === 2)
             {
@@ -411,12 +411,12 @@ function addNewEvent(eventid, sdate, stime, etime)
     {
         adds = "&startdate=" + date;
     }
-    
+
     if(!Ext.isEmpty(stime))
     {
         adds += "&starttime=" + stime;
     }
-    
+
     if(!Ext.isEmpty(etime))
     {
         adds += "&endtime=" + etime;
