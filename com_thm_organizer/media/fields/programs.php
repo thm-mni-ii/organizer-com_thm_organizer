@@ -106,9 +106,41 @@ jQuery(document).ready(function(){
             jQuery('#jformparentID').val(selectedParents);
 
             // from lib_thm_core
-            refreshChoosen('jformparentID');
+            refreshChoosen('jformparentID div.');
         });
     });
+
+    addRemoveHandler();
+    addAddHandler();
+
+    function addAddHandler()
+    {
+        jQuery('#jformparentID_chzn div.chzn-drop').click(function(element) {
+            toogleElement(element.target.innerHTML, true);
+            addRemoveHandler();
+        });
+    }
+
+    function addRemoveHandler()
+    {
+        jQuery('div#jformparentID_chzn a.search-choice-close').click(function (element) {
+            toogleElement(element.target.parentElement.childNodes[0].innerHTML, false);
+            addAddHandler();
+        });
+    }
+
+    function toogleElement(chosenElement, value)
+    {
+        jQuery("#jformparentID").chosen("destroy");
+        jQuery("select#jformparentID option").each(function() {
+            if(chosenElement == $( this).innerHTML)
+            {
+                jQuery(this).prop('selected', value);
+
+            }
+        });
+        jQuery("#jformparentID").chosen();
+    }
 });
 </script>
     <?php

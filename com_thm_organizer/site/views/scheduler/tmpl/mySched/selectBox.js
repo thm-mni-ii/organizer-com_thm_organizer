@@ -270,7 +270,7 @@ MySched.SelectBoxes = function ()
 
                 for(i = 0; i <= this.maxDepth;i++)
                 {
-                    if(i <= level)
+                    if(i <= level && this.levelData[i].length > 1)
                     {
                         this.selectBoxes[i].setDisabled(false);
                     }

@@ -1027,7 +1027,7 @@ MySched.layout = function ()
                     startDay: 1,
                     responsiveConfig: {
                         'width <= TABLET_WIDTH_MAX': {
-                            hidden: true
+                            disabled: true
                         }
                     },
                     // disabledDays: [0, 6],

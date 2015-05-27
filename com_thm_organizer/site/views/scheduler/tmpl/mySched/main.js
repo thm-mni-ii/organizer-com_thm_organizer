@@ -100,6 +100,26 @@ MySched.Base = function ()
          */
         init: function ()
         {
+            if(screen.width < TABLET_WIDTH_MAX && window.location.href.search('tmpl=component') == -1 )
+            {
+                var redirectURL = '';
+                if(window.location.href.search('index.php') == -1)
+                {
+                    redirectURL = '?tmpl=component';
+                }
+                else
+                {
+                    if(window.location.href.search(/\?/) == -1)
+                    {
+                        redirectURL = '?tmpl=component';
+                    }
+                    else
+                    {
+                        redirectURL = '&tmpl=component';
+                    }
+                }
+                window.location.href = window.location.href + redirectURL;
+            }
             if (Ext.isString(MySched.startup) === true)
             {
                 try
