@@ -110,8 +110,18 @@ jQuery(document).ready(function(){
         });
     });
 
-    addRemoveHandler();
-    addAddHandler();
+    function toogleElement(chosenElement, value)
+    {
+        jQuery("#jformparentID").chosen("destroy");
+        jQuery("select#jformparentID option").each(function() {
+            if(chosenElement == $( this).innerHTML)
+            {
+                jQuery(this).prop('selected', value);
+
+            }
+        });
+        jQuery("#jformparentID").chosen();
+    }
 
     function addAddHandler()
     {
@@ -129,18 +139,8 @@ jQuery(document).ready(function(){
         });
     }
 
-    function toogleElement(chosenElement, value)
-    {
-        jQuery("#jformparentID").chosen("destroy");
-        jQuery("select#jformparentID option").each(function() {
-            if(chosenElement == $( this).innerHTML)
-            {
-                jQuery(this).prop('selected', value);
-
-            }
-        });
-        jQuery("#jformparentID").chosen();
-    }
+    addRemoveHandler();
+    addAddHandler();
 });
 </script>
     <?php
