@@ -53,6 +53,10 @@ fieldset.filter-bar, div.filter-bar {
   content: "\e604";
 }
 
+.icon-organizer_departments::before {
+  content: "\e244";
+}
+
 .icon-organizer_subjects::before {
   content: "\e603";
 }
@@ -118,6 +122,12 @@ li a[href*="view=monitor_manager"]::before {
 li a[href*="view=teacher_manager"]::before {
   font-family: icomoon;
   content: "\e604";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=department_manager"]::before {
+  font-family: icomoon;
+  content: "\e244";
   font-size: 12px;
   padding-right: 8px;
 }
@@ -347,6 +357,10 @@ h3.group-bar, h3.group-bar a {
   @extend %icon-merge;
 }
 */
+.hidden {
+  display: none;
+}
+
 .componentheading {
   float: left;
 }
@@ -354,17 +368,39 @@ h3.group-bar, h3.group-bar a {
 .language-switches {
   float: right;
 }
+.language-switches img {
+  border: none;
+  padding-top: 0;
+}
 
 #j-main-container {
   margin-left: 0px;
   width: 100%;
 }
+#j-main-container .js-stools-container-bar {
+  position: relative;
+  float: right;
+}
+#j-main-container .js-stools-container-bar label {
+  position: absolute;
+  z-index: 2;
+  padding: 5px 10px;
+}
+#j-main-container .js-stools-container-bar .input-append button {
+  padding: 1px 10px;
+}
 #j-main-container .js-stools-container-bar:first-child .btn-wrapper {
   float: left;
   padding-right: 5px;
 }
+#j-main-container .js-stools-container-bar:first-child .btn-wrapper .js-stools-btn-clear {
+  padding: 3px 10px;
+}
+#j-main-container .js-stools-container-bar:first-child .btn-wrapper .js-stools-btn-clear .icon-delete:before {
+  margin-left: 0;
+}
 #j-main-container .nav {
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 #j-main-container .subject-list-container a {
   color: #4a5c66;
@@ -374,20 +410,18 @@ h3.group-bar, h3.group-bar a {
 }
 #j-main-container .subject-list-container li {
   list-style: none;
-  padding: 4px;
+  padding: 4px 20px;
+  margin-left: 0;
 }
 #j-main-container .subject-list-container li:nth-child(odd) {
   background-color: #eeeeee;
 }
 #j-main-container .subject-list-container .subject-name {
   display: inline-block;
-  width: 475px;
+  width: 600px;
 }
 #j-main-container .subject-list-container .module-id {
   padding-left: 5px;
-}
-#j-main-container .subject-list-container .subject-teacher {
-  margin-left: 15px;
 }
 #j-main-container .subject-list-container .subject-crp {
   float: right;
@@ -408,7 +442,6 @@ h3.group-bar, h3.group-bar a {
   margin-bottom: 4px;
 }
 #j-main-container #pool > .subject-list-container .subject-list, #j-main-container #teacher > .subject-list-container .subject-list, #j-main-container #field > .subject-list-container .subject-list {
-  padding: 4px 0;
   margin: 0;
 }
 

@@ -236,8 +236,12 @@ h3.group-bar {
 }
 */
 
-// Beginn Lavi
+// Beginn Lavi **********************************
 //Heading, Search-Bar
+
+.hidden {
+  display: none;
+}
 
 .componentheading {
   float: left;
@@ -245,6 +249,11 @@ h3.group-bar {
 
 .language-switches {
   float: right;
+
+  img {
+    border: none;
+    padding-top: 0;
+  }
 }
 
 #j-main-container {
@@ -253,14 +262,44 @@ h3.group-bar {
 
   //search-Area
   .js-stools-container-bar {
+    position: relative;
+    float: right;
+    label {
+      position: absolute;
+      z-index: 2;
+      padding: 5px 10px;
+    }
+
+    .input-append {
+      button {
+        padding: 1px 10px;
+
+        .icon-search {
+          //      background-image: none;
+          //      &::before{
+          //        font-family: IcoMoon;
+          //        content: "\53";
+        }
+      }
+    }
+
     &:first-child .btn-wrapper {
       float: left;
       padding-right: 5px;
+
+      .js-stools-btn-clear {
+        padding: 3px 10px;
+
+        .icon-delete:before {
+          margin-left: 0;
+        }
+      }
     }
   }
 
   .nav {
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+    // margin-bottom: 0;
   }
 
   // content
@@ -275,7 +314,8 @@ h3.group-bar {
 
     li {
       list-style: none;
-      padding: 4px;
+      padding: 4px 20px;
+      margin-left: 0;
     }
 
     li:nth-child(odd) {
@@ -284,7 +324,7 @@ h3.group-bar {
 
     .subject-name {
       display: inline-block;
-      width: 475px;
+      width: 600px;
     }
 
     .module-id {
@@ -292,7 +332,7 @@ h3.group-bar {
     }
 
     .subject-teacher {
-      margin-left: 15px;
+      //    margin-left: 15px;
     }
 
     .subject-crp {
@@ -313,19 +353,19 @@ h3.group-bar {
     & > .subject-list-container {
       margin-bottom: 4px;
       .subject-list {
-        padding: 4px 0;
+        //     padding: 4px 0;
         margin: 0;
       }
     }
   }
 }
 
-.shown{
-  border: 1px solid #eeeeee;
-  border-top: none;
-}
+  .shown {
+    border: 1px solid #eeeeee;
+    border-top: none;
+  }
 
-.breadcrumb {
-  float: inherit;
-  width: 680px;
-}
+  .breadcrumb {
+    float: inherit;
+    width: 680px;
+  }
