@@ -211,14 +211,23 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
 div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   padding: 5px;
 }
+
 //Beginn Lavi *******************************************************************************
+
+.hidden{
+  display: none;
+}
 
 .view-curriculum {
   font-family: Verdana, Arial, sans-serif;
 }
 
 //Header
-@media (min-width: 768px) {
+//@media (min-width: 768px) {
+.componentheader {
+
+  height: 75px;
+
   .componentheading {
     float: left;
     width: 89%;
@@ -226,13 +235,18 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 
   .language-switches {
     float: right;
+
+    img {
+      border: none;
+    }
   }
+}
 
   //content
   .curriculum {
-    margin-top: 75px;
+ //   margin-top: 75px;
   }
-}
+//}
 
 //main-panel
 .main-panel {
@@ -262,7 +276,9 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 
 //main-panel-items
 .main-panel-items {
-  margin: 2px 1px 3px 1px;  //für 5 Kästchen
+  margin: 2px 1px 3px 1px;
+  margin-left: 2px;
+ // width: 700px; //für 5 Kästchen
 
   .item {
     outline: 1px outset white;
@@ -294,11 +310,19 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
     }
 
     .item-name {
+      // hyphens aren't supported in Chrome ...
+      -webkit-hyphens: auto;
+      -moz-hyphens: auto;
+      -ms-hyphens: auto;
+      hyphens: auto;
+
+      // so word-wrap is needed for Chrome
       -ms-word-wrap: break-word;
       word-wrap: break-word;
-      word-break: break-all;
+    //  word-break: break-all;
       padding: 5px;
       overflow: hidden;
+      width: inherit;
     }
 
     .item-tools {
@@ -310,6 +334,11 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 
       .btn{
         padding: 4px 6px;
+      }
+
+      .icon-grid-view-2:before{
+        margin-left: 0;
+        font-size: 14px;
       }
     }
   }
@@ -326,17 +355,11 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   @include box-shadow(0, 10px, 10px, rgba(0, 0, 0, 0.3));
 }
 
-.modal-panel-head{
- // margin: 0;
-//  -webkit-border-radius: 0;
-//  -moz-border-radius: 0;
-//  border-radius: 0;
-}
-
 //panel-title
 .modal {
   position: inherit !important;
   margin-left: 0 !important;
+  margin-top: 0 !important;
   width: inherit !important;
   border: none !important;
   -webkit-box-shadow: none !important;

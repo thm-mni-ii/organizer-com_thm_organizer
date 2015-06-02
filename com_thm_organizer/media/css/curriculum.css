@@ -206,24 +206,28 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   padding: 5px;
 }
 
+.hidden {
+  display: none;
+}
+
 .view-curriculum {
   font-family: Verdana, Arial, sans-serif;
 }
 
-@media (min-width: 768px) {
-  .componentheading {
-    float: left;
-    width: 89%;
-  }
-
-  .language-switches {
-    float: right;
-  }
-
-  .curriculum {
-    margin-top: 75px;
-  }
+.componentheader {
+  height: 75px;
 }
+.componentheader .componentheading {
+  float: left;
+  width: 89%;
+}
+.componentheader .language-switches {
+  float: right;
+}
+.componentheader .language-switches img {
+  border: none;
+}
+
 .main-panel, .modal-panel {
   margin-top: 2px;
   border: 1px solid #bbbbbb;
@@ -250,6 +254,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 
 .main-panel-items {
   margin: 2px 1px 3px 1px;
+  margin-left: 2px;
 }
 .main-panel-items .item {
   outline: 1px outset white;
@@ -279,11 +284,15 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   padding-left: 5px;
 }
 .main-panel-items .item .item-name {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
   -ms-word-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-all;
   padding: 5px;
   overflow: hidden;
+  width: inherit;
 }
 .main-panel-items .item .item-tools {
   position: absolute;
@@ -294,6 +303,10 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 .main-panel-items .item .item-tools .btn {
   padding: 4px 6px;
+}
+.main-panel-items .item .item-tools .icon-grid-view-2:before {
+  margin-left: 0;
+  font-size: 14;
 }
 
 .modal-panel {
@@ -312,6 +325,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 .modal {
   position: inherit !important;
   margin-left: 0 !important;
+  margin-top: 0 !important;
   width: inherit !important;
   border: none !important;
   -webkit-box-shadow: none !important;

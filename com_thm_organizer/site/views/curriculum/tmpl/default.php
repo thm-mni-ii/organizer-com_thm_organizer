@@ -15,22 +15,23 @@ require_once 'item.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/pool.php';
 ?>
-<h1 class="componentheading">
-    <?php echo $this->item->name; ?>
-</h1>
-<div class="language-switches">
-<?php
-foreach ($this->languageSwitches AS $switch)
-{
-    echo $switch;
-}
-?>
+<div class="componentheader">
+    <h1 class="componentheading">
+        <?php echo $this->item->name; ?>
+    </h1>
+
+    <div class="language-switches">
+        <?php
+        foreach ($this->languageSwitches AS $switch) {
+            echo $switch;
+        }
+        ?>
+    </div>
 </div>
 <div class="curriculum">
-<?php
-foreach ($this->item->children AS $pool)
-{
-    THM_OrganizerTemplateCurriculumPanel::render($pool, 'main');
-}
-?>
+    <?php
+    foreach ($this->item->children AS $pool) {
+        THM_OrganizerTemplateCurriculumPanel::render($pool, 'main');
+    }
+    ?>
 </div>
