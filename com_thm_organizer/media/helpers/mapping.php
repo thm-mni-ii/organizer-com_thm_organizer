@@ -471,8 +471,6 @@ class THM_OrganizerHelperMapping
      * @param   array   &$selectedParents  the selected parents
      * 
      * @return  string  HTML option
-     *
-     * @throws  exception
      */
     public static function getPoolOption(&$mapping, &$selectedParents)
     {
@@ -483,9 +481,10 @@ class THM_OrganizerHelperMapping
         {
             $poolsTable->load($mapping['poolID']);
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return '';
         }
 
         $nameColumn = "name_$shortTag";

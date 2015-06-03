@@ -23,68 +23,15 @@ defined('_JEXEC') or die;
  */
 class THMAuth
 {
-    /**
-     * Joomla data abstraction
-     *
-     * @var    DataAbstraction
-     */
-    private $_JDA = null;
-
-    /**
-     * Config
-     *
-     * @var    Object
-     */
-    private $_cfg = null;
 
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
      * @param   MySchedConfig    $cfg  A object which has configurations including
      */
-    public function __construct($JDA, $cfg)
+    public function __construct($cfg)
     {
-        $this->_JDA = $JDA;
         $this->_cfg = $cfg;
-    }
-
-    /**
-     * Method to check the username and password
-     *
-     * @param   String  $username   The username to check
-     * @param   String  $passwd     The password to check
-     * @param   Array   $addRights  Additional rights that this user have
-     *
-     * @return An array which has the result including
-     */
-    public function ldap( $username, $passwd, $addRights = null )
-    {
-        $ldap = new LdapAuth(
-                    $this->_cfg['ldap_server'], $this->_cfg['ldap_base'],
-                    $this->_cfg['ldap_filter'], $this->_cfg['ldap_protocol'], $this->_cfg['ldap_useSSH']
-                );
-        $user = $ldap->authenticateUser($username, $passwd);
-        if (!empty($user))
-        {
-            $role = self::mapLdapRole($user[ 'role' ]);
-
-            // ALLES OK
-            return array(
-                 'success' => true,
-                    'username' => $username,
-                    'role' => $role, // User, registered, author, editor, publisher
-                    'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
-            );
-        }
-
-        // FEHLER
-        return array(
-             'success' => false,
-             'errors' => array(
-                     'reason' => 'Authentifizierung fehlgeschlagen. Username oder Passwort falsch.'
-             )
-        );
     }
 
     /**
@@ -138,12 +85,12 @@ class THMAuth
         $addRights = array( );
         JFactory::getSession()->set('joomlaSid', $token);
 
-        $userRoles = $this->_JDA->getUserRoles();
+        $userRoles = JFactory::getUser()->groups;
         $userRole = reset($userRoles);
 
         return array(
                 'success' => true,
-                'username' => $this->_JDA->getUserName(),
+                'username' => JFactory::getUser()->username,
                 'role' => strtolower($userRole), // User, registered, author, editor, publisher
                 'additional_rights' => $addRights // 'doz' => array( 'knei', 'igle' ), ...
         );

@@ -40,54 +40,45 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             {
                 // Only below the given object
                 var dom = o.dom || Ext.get(o).dom;
-                Ext.select('.status_icons_delete', false, dom).removeAllListeners();
-                Ext.select('.status_icons_info', false, dom).removeAllListeners();
-                Ext.select('.status_icons_edit', false, dom).removeAllListeners();
-                Ext.select('.teachername', false, dom).removeAllListeners();
-                Ext.select('.lectureBox', false, dom).removeAllListeners();
-                Ext.select('.conMenu', false, dom).removeAllListeners();
-                Ext.select('.MySchedEvent_joomla', false, dom).removeAllListeners();
-                Ext.select('.lecturename', false, dom).removeAllListeners();
-                Ext.select('.roomname', false, dom).removeAllListeners();
-                Ext.select('.poolname', false, dom).removeAllListeners();
-                Ext.select('.status_icons_add', false, dom).removeAllListeners();
-                Ext.select('.status_icons_info', false, dom).removeAllListeners();
-                Ext.select('.status_icons_estudy', false, dom).removeAllListeners();
+                Ext.select('.status_icons_delete', false, dom).clearListeners();
+                Ext.select('.status_icons_edit', false, dom).clearListeners();
+                Ext.select('.teachername', false, dom).clearListeners();
+                Ext.select('.lectureBox', false, dom).clearListeners();
+                Ext.select('.conMenu', false, dom).clearListeners();
+                Ext.select('.MySchedEvent_joomla', false, dom).clearListeners();
+                Ext.select('.lecturename', false, dom).clearListeners();
+                Ext.select('.roomname', false, dom).clearListeners();
+                Ext.select('.poolname', false, dom).clearListeners();
+                Ext.select('.status_icons_add', false, dom).clearListeners();
             }
             else if (o === true)
             {
                 // All
-                Ext.select('.status_icons_delete').removeAllListeners();
-                Ext.select('.status_icons_info').removeAllListeners();
-                Ext.select('.status_icons_edit').removeAllListeners();
-                Ext.select('.teachername').removeAllListeners();
-                Ext.select('.lectureBox').removeAllListeners();
-                Ext.select('.conMenu').removeAllListeners();
-                Ext.select('.MySched_event_joomla').removeAllListeners();
-                Ext.select('.lecturename').removeAllListeners();
-                Ext.select('.roomname').removeAllListeners();
-                Ext.select('.poolname').removeAllListeners();
-                Ext.select('.status_icons_add').removeAllListeners();
-                Ext.select('.status_icons_info').removeAllListeners();
-                Ext.select('.status_icons_estudy').removeAllListeners();
+                Ext.select('.status_icons_delete').clearListeners();
+                Ext.select('.status_icons_edit').clearListeners();
+                Ext.select('.teachername').clearListeners();
+                Ext.select('.lectureBox').clearListeners();
+                Ext.select('.conMenu').clearListeners();
+                Ext.select('.MySched_event_joomla').clearListeners();
+                Ext.select('.lecturename').clearListeners();
+                Ext.select('.roomname').clearListeners();
+                Ext.select('.poolname').clearListeners();
+                Ext.select('.status_icons_add').clearListeners();
             }
             else if (MySched.layout.tabpanel.items.getCount() > 0)
             {
                 // only the active tab
                 var activeTabDom = MySched.layout.tabpanel.getActiveTab().getEl().dom;
-                Ext.select('.status_icons_delete', false, activeTabDom).removeAllListeners();
-                Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
-                Ext.select('.status_icons_edit', false, activeTabDom).removeAllListeners();
-                //Ext.select('.teachername', false, activeTabDom).removeAllListeners();
-                //Ext.select('.lectureBox', false, activeTabDom).removeAllListeners();
-                //Ext.select('.conMenu', false, activeTabDom).removeAllListeners();
-                Ext.select('.MySchedEvent_joomla', false, activeTabDom).removeAllListeners();
-                //Ext.select('.lecturename', false, activeTabDom).removeAllListeners();
-                //Ext.select('.roomname', false, activeTabDom).removeAllListeners();
-                Ext.select('.poolname', false, activeTabDom).removeAllListeners();
-                Ext.select('.status_icons_add', false, activeTabDom).removeAllListeners();
-                Ext.select('.status_icons_info', false, activeTabDom).removeAllListeners();
-                Ext.select('.status_icons_estudy', false, activeTabDom).removeAllListeners();
+                Ext.select('.status_icons_delete', false, activeTabDom).clearListeners();
+                Ext.select('.status_icons_edit', false, activeTabDom).clearListeners();
+                //Ext.select('.teachername', false, activeTabDom).clearListeners();
+                //Ext.select('.lectureBox', false, activeTabDom).clearListeners();
+                //Ext.select('.conMenu', false, activeTabDom).clearListeners();
+                Ext.select('.MySchedEvent_joomla', false, activeTabDom).clearListeners();
+                //Ext.select('.lecturename', false, activeTabDom).clearListeners();
+                //Ext.select('.roomname', false, activeTabDom).clearListeners();
+                Ext.select('.poolname', false, activeTabDom).clearListeners();
+                Ext.select('.status_icons_add', false, activeTabDom).clearListeners();
             }
         },
         /**
@@ -107,23 +98,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 return;
             }
 
-            Ext.select('.status_icons_info', false, tab.dom)
-                .on(
-                {
-                    'click': function (e)
-                    {
-                        if (e.button === 0)
-                        {
-                            e.stopEvent();
-                            this.showModuleInformation(e);
-                        }
-                    },
-                    scope: this
-                });
-
-            /*
-            // Subscribes event for teacher names
-            Ext.select('.teachername', false, tab.dom)
+            // Addes events for the  teacher names
+            Ext.select('.teachername', true, tab.dom)
                 .on(
                 {
                     'click': function (e)
@@ -136,8 +112,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     scope: this
                 });
 
-            // Subscribe events for lecturenames
-            Ext.select('.lecturename', false, tab.dom).on(
+            // Adds events to the subject names
+            Ext.select('.lecturename', true, tab.dom)
+                .on(
                 {
                     'mouseover': function (e)
                     {
@@ -159,39 +136,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-*/
-            // Subscribe events for event names
-            Ext.select('.MySchedEvent_name', false, tab.dom).on(
-                {
-                    'mouseover': function (e)
-                    {
-                        e.stopEvent();
-                        this.showEventInformation(e);
-                    },
-                    'mouseout': function ()
-                    {
-                        var contentAnchorTip = Ext.getCmp('content-anchor-tip');
-                        if (contentAnchorTip)
-                        {
-                            contentAnchorTip.destroy();
-                        }
-                    },
-                    'click': function (e)
-                    {
-                        if (e.button === 0)
-                        {
-                            e.stopEvent();
-                        }
-                        if (MySched.Authorize.user !== null && MySched.Authorize.role !== 'user' && MySched.Authorize.role !== 'registered')
-                        {
-                            addNewEvent(e.target.id);
-                        }
-                    },
-                    scope: this
-                });
-/*
-            // Subscribe events for room names
-            Ext.select('.roomname', false, tab.dom)
+
+            // Adds events to the room names
+            Ext.select('.roomname', true, tab.dom)
                 .on(
                 {
                     'click': function (e)
@@ -204,10 +151,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-*/
-            // Subscribe events for teacher things?
-            // TODO: original comment!!! From now on we guessing what our code will do... no words
-            Ext.select('.modulename', false, tab.dom)
+
+            // Adds events to the pool names
+            Ext.select('.modulename', true, tab.dom)
                 .on(
                 {
                     'click': function (e)
@@ -218,6 +164,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 });
 /*
             // Subscribe events for lecture box
+            // What is a lecture box?
             Ext.select('.lectureBox', false, tab.dom)
                 .on(
                 {
@@ -230,10 +177,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     scope: this
                 });
 */
-            // Subscribe events for
-            // TODO original comment: Aboniert Events der Veranstaltungsboxen
-            // TODO It was copy & paste from above
-            Ext.select('.status_icons_add', false, tab.dom)
+            // Adds events to the plus icon
+            Ext.select('.status_icons_add', true, tab.dom)
                 .on(
                 {
                     'click': function (e)
@@ -243,7 +188,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
+
 /*
+            // Assuming this is the context menu -> throws js errors right now
             Ext.select('.conMenu', false, tab.dom)
                 .on(
                 {
@@ -252,7 +199,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                         showBlockMenu(e);
                     },
                     scope: this
-                });*/
+                });
+*/
         },
         /**
          * Gets all the data if a new schedule is opend by clicking on an item in an schedule
@@ -572,6 +520,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD;
             }
         },
+
         /**
          * Will be called on click of the HoverButton or on click of the delete button or adds an event
          * TODO original comment; Beim klick auf dem HoverButton ausgeloest, be DD oder Klick auf einen Button Entfernt oder Fuegt Veranstaltung hinzu

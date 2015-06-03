@@ -27,13 +27,6 @@ jimport('PHPExcel.PHPExcel');
 class THMICSBuilder extends THMAbstractBuilder
 {
     /**
-     * Joomla data abstraction
-     *
-     * @var    DataAbstraction
-     */
-    private $_JDA = null;
-
-    /**
      * Config
      *
      * @var    Object
@@ -64,12 +57,10 @@ class THMICSBuilder extends THMAbstractBuilder
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
      * @param   Object           $cfg  A object which has configurations including
      */
-    public function __construct($JDA, $cfg)
+    public function __construct($cfg)
     {
-        $this->_JDA = $JDA;
         $this->_cfg = $cfg;
     }
 
@@ -148,7 +139,7 @@ class THMICSBuilder extends THMAbstractBuilder
 
             $this->_objPHPExcel->setActiveSheetIndex(0);
             $objWriter = PHPExcel_IOFactory::createWriter($this->_objPHPExcel, 'Excel5');
-            $objWriter->save($this->_cfg['pdf_downloadFolder'] . $title . ".xls");
+            $objWriter->save($this->_cfg->pdf_downloadFolder . $title . ".xls");
         }
         catch (Exception $e)
         {

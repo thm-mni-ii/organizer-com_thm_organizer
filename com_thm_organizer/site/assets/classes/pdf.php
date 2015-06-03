@@ -26,13 +26,6 @@ require_once dirname(__FILE__) . "/mySched_pdf.php";
 class THMPDFBuilder extends THMAbstractBuilder
 {
     /**
-     * Joomla data abstraction
-     *
-     * @var    DataAbstraction
-     */
-    private $_JDA = null;
-
-    /**
      * Config
      *
      * @var    Object
@@ -42,13 +35,11 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   DataAbstraction  $JDA      An object to abstract the joomla methods
      * @param   Object           $cfg      An object which has configurations including
      * @param   Object           $options  An object which has options including
      */
-    public function __construct($JDA, $cfg, $options)
+    public function __construct($cfg, $options)
     {
-        $this->_JDA = $JDA;
         $this->_cfg = $cfg;
         $this->startdate = $options["startdate"];
         $this->enddate = $options["enddate"];
@@ -145,17 +136,16 @@ class THMPDFBuilder extends THMAbstractBuilder
                 $title = $username . " - " . $title;
             }
 
-            if ($username != "" && $this->_cfg['sync_files'] == 1)
+            if ($username != "" && $this->_cfg->syncFiles == 1)
             {
-                if (!is_dir($this->_cfg['pdf_downloadFolder'] . $path))
+                if (!is_dir($this->_cfg->pdf_downloadFolder . $path))
                 {
                     // Ordner erstellen
-                    @mkdir($this->_cfg['pdf_downloadFolder'] . $path, 0700);
+                    @mkdir($this->_cfg->pdf_downloadFolder . $path, 0700);
                 }
             }
 
-            // $pdfLink = $this->_cfg['pdf_downloadFolder'] . $path . $title . '.pdf';
-            $pdfLink = $this->_cfg['pdf_downloadFolder'] . $path . $title . '.pdf';
+            $pdfLink = $this->_cfg->pdf_downloadFolder . $path . $title . '.pdf';
 
             // Array um Wochentage in spalten zu mappen
             $assign = array(

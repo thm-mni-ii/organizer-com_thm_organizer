@@ -28,13 +28,6 @@ jimport('iCalcreator.iCalcreator');
 class THMICALBuilder extends THMAbstractBuilder
 {
     /**
-     * Joomla data abstraction
-     *
-     * @var    DataAbstraction
-     */
-    private $_JDA = null;
-
-    /**
      * Config
      *
      * @var    Object
@@ -66,12 +59,10 @@ class THMICALBuilder extends THMAbstractBuilder
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
      * @param   Object           $cfg  A object which has configurations including
      */
-    public function __construct($JDA, $cfg)
+    public function __construct($cfg)
     {
-        $this->_JDA = $JDA;
         $this->_cfg = $cfg;
     }
 
@@ -131,7 +122,7 @@ class THMICALBuilder extends THMAbstractBuilder
             $vCalendar = $this->setEvent($vCalendar, $lesson);
         }
 
-        $vCalendar->saveCalendar($this->_cfg['pdf_downloadFolder'], $title . '.ics');
+        $vCalendar->saveCalendar($this->_cfg->pdf_downloadFolder, $title . '.ics');
         $resparr['url'] = "false";
         return array("success" => true,"data" => $resparr);
     }

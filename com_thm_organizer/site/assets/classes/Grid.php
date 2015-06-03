@@ -26,13 +26,6 @@ defined('_JEXEC') or die;
 class THMGrid
 {
     /**
-     * Joomla data abstraction
-     *
-     * @var    DataAbstraction
-     */
-    private $_JDA = null;
-
-    /**
      * Semester id
      *
      * @var    Integer
@@ -44,10 +37,9 @@ class THMGrid
      *
      * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
      */
-    public function __construct($JDA)
+    public function __construct()
     {
-        $this->_JDA = $JDA;
-        $this->_semID = $JDA->getSemID();
+        $this->_semID = JFactory::getApplication()->input->getString('semesterID');
     }
 
     /**

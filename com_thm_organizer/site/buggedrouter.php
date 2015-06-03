@@ -81,9 +81,10 @@ function setSubjectDetailsSegments(&$query, &$segments)
     {
         $name = $dbo->loadResult();
     }
-    catch (runtimeException $e)
+    catch (Exception $exc)
     {
-        throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+        JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+        return;
     }
     
     $safeName = JFilterOutput::stringURLSafe($name);
@@ -129,9 +130,10 @@ function setSubjectListSegments(&$query, &$segments, &$item)
     {
         $name = $dbo->loadResult();
     }
-    catch (runtimeException $e)
+    catch (Exception $exc)
     {
-        throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+        JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+        return;
     }
 
     $segments[] = 'subject_list:' . JFilterOutput::stringURLSafe($name);

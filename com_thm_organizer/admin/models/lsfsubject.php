@@ -671,8 +671,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   string  $possibleModuleNumber  a possible external id of the subject
      * 
      * @return  mixed  int  subject id on success, otherwise false
-     *
-     * @throws  exception
      */
     private function getModuleID($possibleModuleNumber)
     {
@@ -685,9 +683,10 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         {
             $moduleID = $this->_db->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
         
         return $moduleID;
@@ -700,8 +699,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   array  $postrequisites  the id for which this subject is required
      * 
      * @return  boolean  true on success, otherwise false
-     *
-     * @throws  exception
      */
     private function savePostrequisites($subjectID, $postrequisites)
     {
@@ -720,9 +717,10 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             {
                 $entryExists = $this->_db->loadResult();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                return false;
             }
 
             if (!$entryExists)

@@ -41,10 +41,9 @@ class THM_OrganizerHelperUserScheduleSiteTest extends TestCaseDatabase
 
         JFactory::$application = $this->getMockCmsApp();
 
-        $_JDA = new THM_OrganizerDataAbstraction;
-        $_CFG = new mySchedConfig($_JDA);
+        $_CFG = new mySchedConfig();
 
-        $this->object = new THMUserSchedule($_JDA, $_CFG);
+        $this->object = new THMUserSchedule($_CFG);
     }
 
     /**

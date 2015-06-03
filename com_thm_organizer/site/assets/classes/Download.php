@@ -69,18 +69,18 @@ class THMDownload
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-     * @param   MySchedConfig    $CFG  A object which has configurations including
+     * @param   MySchedConfig    $cfg  A object which has configurations including
      *
      */
-    public function __construct($JDA, $CFG)
+    public function __construct($cfg)
     {
-        $this->_username = $JDA->getRequest("username");
-        $this->_title    = $JDA->getRequest("title");
-        $this->_what     = $JDA->getRequest("what");
-        $this->_save     = $JDA->getRequest("save");
-        $this->_cfg      = $CFG->getCFG();
-        $this->_doc        = $JDA->getDoc();
+        $input = JFactory::getApplication()->input;
+        $this->_username = $input->getString("username");
+        $this->_title = $input->getString("title");
+        $this->_what = $input->getString("what");
+        $this->_save = $input->get("save");
+        $this->_cfg = $cfg;
+        $this->_doc = JFactory::getDocument();
     }
 
     /**
@@ -100,8 +100,8 @@ class THMDownload
                 $this->_title = $this->_username . " - " . $this->_title;
             }
 
-            $tmpFile = $this->_cfg[ 'pdf_downloadFolder' ] . $path . 'stundenplan.' . $this->_what;
-            $file    = $this->_cfg[ 'pdf_downloadFolder' ] . $path . $this->_title . '.' . $this->_what;
+            $tmpFile = $this->_cfg->pdf_downloadFolder . $path . 'stundenplan.' . $this->_what;
+            $file    = $this->_cfg->pdf_downloadFolder . $path . $this->_title . '.' . $this->_what;
 
             if (empty($this->_title) || $this->_title == 'undefined')
             {
@@ -125,7 +125,7 @@ class THMDownload
 
                 if ($this->_save == "true")
                 {
-                    @copy($file, $this->_cfg['pdf_downloadFolder'] . $path . $this->_username . '.' . $this->_what);
+                    @copy($file, $this->_cfg->pdf_downloadFolder . $path . $this->_username . '.' . $this->_what);
                 }
                 elseif ($this->_what == "pdf")
                 {

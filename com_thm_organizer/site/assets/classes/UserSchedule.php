@@ -52,13 +52,6 @@ class THMUserSchedule
    private $_cfg = null;
 
    /**
-    * Joomla data abstraction
-    *
-    * @var    DataAbstraction
-    */
-   private $_JDA = null;
-
-   /**
     * Semester id
     *
     * @var    Integer
@@ -68,14 +61,12 @@ class THMUserSchedule
    /**
     * Constructor with the joomla data abstraction object and configuration object
     *
-    * @param   DataAbstraction  $JDA      A object to abstract the joomla methods
-    * @param   Object           $CFG      A object which has configurations including
-    * @param   Array            $options  Options
+    * @param   Object  $cfg      A object which has configurations including
+    * @param   Array   $options  Options
     */
-   public function __construct($JDA, $CFG, $options = array())
+   public function __construct($cfg, $options = array())
    {
-      $this->_JDA = $JDA;
-      $this->_jsid = $this->_JDA->getUserSessionID();
+      $this->_jsid = session_id();
       $this->_json = file_get_contents("php://input");
  
       if (isset($options["username"]))
@@ -84,17 +75,17 @@ class THMUserSchedule
       }
       else
       {
-         $this->_username = $this->_JDA->getUserName();
+         $this->_username = JFactory::getUser()->username;
       }
 
-      $this->_cfg = $CFG->getCFG();
+      $this->_cfg = $cfg;
       if (isset($options["semesterID"]))
       {
          $this->_semID = $options["semesterID"];
       }
       else
       {
-         $this->_semID = $this->_JDA->getRequest("semesterID");
+         $this->_semID = JFactory::getApplication()->input->getString("semesterID");
       }
    }
 
@@ -106,7 +97,7 @@ class THMUserSchedule
    public function save()
    {
       // Wenn die Anfragen nicht durch Ajax von MySched kommt
-      $requestedWith = JRequest::getVar('HTTP_X_REQUESTED_WITH', '', 'SERVER');
+      $requestedWith = JFactory::getApplication()->input->get->server('HTTP_X_REQUESTED_WITH', '');
       if (isset($requestedWith))
       {
          if ($requestedWith != 'XMLHttpRequest')
@@ -142,7 +133,7 @@ class THMUserSchedule
             $query = $dbo->getQuery(true);
 
             // Alte Eintraege loeschen - Performanter als abfragen und Updaten
-            $query->delete($dbo->quoteName("{$this->_cfg['db_table']}"));
+            $query->delete($dbo->quoteName("{$this->_cfg->userScheduleTable}"));
             $query->where("username = '$this->_username' ");
  
             $dbo->setQuery((string) $query);
@@ -167,7 +158,7 @@ class THMUserSchedule
  
             // Prepare the insert query.
             $query
-            ->insert($dbo->quoteName("{$this->_cfg['db_table']}"))
+            ->insert('#__thm_organizer_user_schedules')
             ->columns($dbo->quoteName($columns))
             ->values(implode(',', $values));
              

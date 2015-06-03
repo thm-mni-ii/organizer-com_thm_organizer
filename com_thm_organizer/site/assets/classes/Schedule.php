@@ -60,13 +60,6 @@ class THMSchedule
     private $_what = null;
 
     /**
-     * Joomla data abstraction
-     *
-     * @var    DataAbstraction
-     */
-    private $_JDA = null;
-
-    /**
      * Config
      *
      * @var    Object
@@ -76,20 +69,19 @@ class THMSchedule
     /**
      * Constructor with the joomla data abstraction object and configuration object
      *
-     * @param   DataAbstraction  $JDA  An object to abstract the joomla methods
-     * @param   MySchedConfig    $CFG  An object which has configurations including
+     * @param   MySchedConfig    $cfg  An object which has configurations including
      */
-    public function __construct($JDA, $CFG)
+    public function __construct($cfg)
     {
+        $input = JFactory::getApplication()->input;
         $this->_arr      = json_decode(file_get_contents("php://input"));
-        $this->_username = $JDA->getRequest("username");
-        $this->_title    = $JDA->getRequest("title");
-        $this->_what     = $JDA->getRequest("what");
-        $this->startdate = $JDA->getRequest("startdate");
-        $this->enddate = $JDA->getRequest("enddate");
-        $this->semesterID = $JDA->getRequest("semesterID");
-        $this->_cfg = $CFG->getCFG();
-        $this->_JDA = $JDA;
+        $this->_username = $input->getString("username");
+        $this->_title    = $input->getString("title");
+        $this->_what     = $input->getString("what");
+        $this->startdate = $input->getString("startdate");
+        $this->enddate = $input->getString("enddate");
+        $this->semesterID = $input->getString("semesterID");
+        $this->_cfg = $cfg;
     }
 
     /**
@@ -103,17 +95,17 @@ class THMSchedule
         if ($this->_what == "pdf")
         {
             require_once dirname(__FILE__) . "/pdf.php";
-            $this->_builder = new THMPDFBuilder($this->_JDA, $this->_cfg, $options);
+            $this->_builder = new THMPDFBuilder($this->_cfg, $options);
         }
         elseif ($this->_what == "ics")
         {
             require_once dirname(__FILE__) . "/ics.php";
-            $this->_builder = new THMICSBuilder($this->_JDA, $this->_cfg, $options);
+            $this->_builder = new THMICSBuilder($this->_cfg, $options);
         }
         elseif ($this->_what == "ical")
         {
             require_once dirname(__FILE__) . "/ical.php";
-            $this->_builder = new THMICALBuilder($this->_JDA, $this->_cfg, $options);
+            $this->_builder = new THMICALBuilder($this->_cfg, $options);
         }
 
         $direktor = new THMScheduleDirector($this->_builder);

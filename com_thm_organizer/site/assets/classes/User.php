@@ -50,27 +50,19 @@ class THMUser
     */
    private $_cfg = null;
 
-   /**
-    * Joomla data abstraction
-    *
-    * @var    DataAbstraction
-    */
-   private $_JDA = null;
-
-   /**
-    * Constructor with the joomla data abstraction object and configuration object
-    *
-    * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
-    * @param   MySchedConfig    $CFG  A object which has configurations including
-    */
-   public function __construct($JDA, $CFG)
-   {
-      $this->_JDA = $JDA;
-      $this->_username = $this->_JDA->getRequest("username");
-      $this->_token    = $this->_JDA->getRequest("token");
-      $this->_passwd   = $this->_JDA->getRequest("passwd");
-      $this->_cfg = $CFG->getCFG();
-   }
+    /**
+     * Constructor with the joomla data abstraction object and configuration object
+     *
+     * @param   MySchedConfig    $cfg  A object which has configurations including
+     */
+    public function __construct($cfg)
+    {
+        $input = JFactory::getApplication()->input;
+        $this->_username = $input->getString("username");
+        $this->_token    = $input->get("token");
+        $this->_passwd   = $input->get("passwd");
+        $this->_cfg = $cfg;
+    }
 
    /**
     * Method to authenticate a user
@@ -80,10 +72,10 @@ class THMUser
    public function auth()
    {
       // Nur Anfragen ueber HTTPS werden zugelassen -
-      if (isset($this->_cfg['REQUIRE_HTTPS']))
+      if (isset($this->_cfg->requireHTTPS))
       {
          $protocol = JRequest::getVar('SERVER_PROTOCOL', '', 'SERVER');
-         if ($this->_cfg['REQUIRE_HTTPS'] && !strstr(strtolower($protocol), 'https'))
+         if ($this->_cfg->requireHTTPS && !strstr(strtolower($protocol), 'https'))
          {
             return array("success" => true, "data" => array(
                   'error' => "Schwerer Fehler: Keine Verschl&Atilde;&frac14;sselte Verbindung vorhanden!"
@@ -97,19 +89,10 @@ class THMUser
          /*
          * Ueberpruefung ob Token korrekt sind
          */
-         $auth = new THMAuth($this->_JDA, $this->_cfg);
+         $auth = new THMAuth($this->_cfg);
          return array("data" => $auth->joomla($this->_token));
 
          // Hier werden die Logindaten des Users gecheckt
       }
-      elseif ($this->_username && $this->_passwd)
-      {
-         /*
-         * Ueberpruefung ob Angaben korrekt sind
-         */
-         $auth = new THMAuth($this->_JDA, $this->_cfg);
-         return array("data" => $auth->ldap($this->_username, $this->_passwd));
-      }
-
    }
 }

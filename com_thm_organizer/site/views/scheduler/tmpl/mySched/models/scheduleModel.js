@@ -507,7 +507,7 @@ Ext.define('ScheduleModel',
             var defaultParams = {
                 username: username,
                 jsid: MySched.SessionId,
-                semesterID: MySched.modules_semester_id,
+                semesterID: MySched.class_semester_id,
                 scheduletask: scheduleTask
             };
 
@@ -1001,7 +1001,7 @@ Ext.define('ScheduleModel',
                     defaultParams = {
                         jsid: MySched.SessionId,
                         sid: MySched.Base.sid,
-                        semesterID: MySched.modules_semester_id,
+                        semesterID: MySched.class_semester_id,
                         id: this.id,
                         scheduletask: scheduletask
                     };

@@ -26,12 +26,6 @@ include_once JPATH_COMPONENT . "/assets/classes/config.php";
  */
 class THM_OrganizerModelAjaxhandler extends JModelLegacy
 {
-    /**
-     * Joomla data abstraction
-     *
-     * @var    DataAbstraction
-     */
-    private $_JDA = null;
 
     /**
      * Configuration
@@ -46,8 +40,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        $this->_JDA = new THM_OrganizerDataAbstraction;
-        $this->_CFG = new mySchedConfig($this->_JDA);
+        $this->_CFG = new mySchedConfig();
     }
 
     /**
@@ -106,11 +99,11 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
 
         if (count($options) == 0)
         {
-            $class = new $className($this->_JDA, $this->_CFG);
+            $class = new $className($this->_CFG);
         }
         else
         {
-            $class = new $className($this->_JDA, $this->_CFG, $options);
+            $class = new $className($this->_CFG, $options);
         }
 
         return $class;

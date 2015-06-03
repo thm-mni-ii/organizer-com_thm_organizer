@@ -82,22 +82,21 @@ class THM_OrganizerModelAjaxhandlerSiteTest extends TestCaseDatabase
      */
     public function testexecuteTask_THMUserSchedules(){
 
-        $_JDA = new THM_OrganizerDataAbstraction;
-        $_CFG = new mySchedConfig($_JDA);
+        $_CFG = new mySchedConfig();
 
         // TEST UserSchedule.load
         require_once JPATH_COMPONENT . "/assets/classes/UserSchedule.php";
-        $class = new THMUserSchedule($_JDA, $_CFG);
+        $class = new THMUserSchedule($_CFG);
 
         // Mock the getEvents method for $class and $this->object
-        $class = $this->getMockBuilder(get_class($class))->setConstructorArgs(array($_JDA, $_CFG))->setMethods(array("load"))->getMock();
+        $class = $this->getMockBuilder(get_class($class))->setConstructorArgs(array($_CFG))->setMethods(array("load"))->getMock();
 
         $class->expects($this->exactly(2))
             ->method('load')
             ->will($this->returnValue(array("success" => true,"data" => array())));
 
 
-        $this->object = $this->getMockBuilder(get_class($this->object))->setConstructorArgs(array($_JDA, $_CFG))->setMethods(array("getClass"))->getMock();
+        $this->object = $this->getMockBuilder(get_class($this->object))->setConstructorArgs(array($_CFG))->setMethods(array("getClass"))->getMock();
 
         $this->object->expects($this->exactly(1))
             ->method('getClass')

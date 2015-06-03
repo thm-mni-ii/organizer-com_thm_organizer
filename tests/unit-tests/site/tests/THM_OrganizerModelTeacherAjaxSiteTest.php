@@ -72,20 +72,8 @@ class THM_OrganizerModelTeacherAjaxSiteTest extends TestCaseDatabase {
         $this->data['programID'] = "1";
         $this->data['poolID'] = "-1";
         $this->data['title'] = "test";
-        /*$this->data['userID'] = JFactory::getUser()->id;
-        $this->data['alias'] = JApplication::stringURLSafe($this->data['title']);
-        $this->data['fulltext'] = "test"; //$this->getDbo()->escape($data['description']);
-        $this->data['startdate'] = date("d.m.Y");
-        $this->data['starttime'] = date("H:i");
-        $this->data['endtime'] = date("H:i");
-        $this->data['id'] = 0;
-        $this->data['contentCatID'] = "1";*/
-        
-        
-        //$date = JFactory::getDate();
-        //var_dump($date);
-        //var_dump(JFactory::getApplication()->getCfg('dbtype'));
-        JRequest::setVar('jform', $this->data, 'get');
+
+        JFactory::getApplication()->input->set->get('jform', $this->data);
     }
 
     /**
