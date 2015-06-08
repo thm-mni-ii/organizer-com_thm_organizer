@@ -802,7 +802,13 @@ Ext.define('ScheduleModel',
                 return this.grid;
             }
             var name = this.title.replace(/\s*\/\s*/g, ' ');
-            console.log("open sched");
+
+            if (name.length > 32){
+                var nameArr = name.split("-");
+                var idArr = this.getId().split(";");
+                name = nameArr[0] + ' - ' + idArr[5];
+            }
+
             MySched.layout.createTab(this.getId(), name, this.grid, this.type, closeable);
 
             if (this.type === "delta")
