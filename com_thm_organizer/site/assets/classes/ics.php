@@ -55,7 +55,7 @@ class THMICSBuilder extends THMAbstractBuilder
     private $_activeScheduleData = null;
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
+     * Constructor with the configuration object
      *
      * @param   Object           $cfg  A object which has configurations including
      */

@@ -67,7 +67,7 @@ class THMSchedule
     private $_cfg = null;
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
+     * Constructor with the configuration object
      *
      * @param   MySchedConfig    $cfg  An object which has configurations including
      */

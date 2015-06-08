@@ -126,7 +126,7 @@ class THM_OrganizerNode
     public $cls = "";
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
+     * Constructor
      *
      * @param   array  $parameters  the configuration parameters
      */

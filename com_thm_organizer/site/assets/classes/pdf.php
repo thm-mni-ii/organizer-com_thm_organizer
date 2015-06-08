@@ -33,7 +33,7 @@ class THMPDFBuilder extends THMAbstractBuilder
     private $_cfg = null;
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
+     * Constructor with the configuration object
      *
      * @param   Object           $cfg      An object which has configurations including
      * @param   Object           $options  An object which has options including

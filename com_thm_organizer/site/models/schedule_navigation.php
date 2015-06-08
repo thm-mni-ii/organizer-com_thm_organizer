@@ -80,7 +80,7 @@ class THM_OrganizerModelSchedule_Navigation
     private $_languageTag = "de-DE";
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
+     * Constructor with the configuration object
      */
     public function __construct()
     {

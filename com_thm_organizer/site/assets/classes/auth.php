@@ -25,7 +25,7 @@ class THMAuth
 {
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
+     * Constructor with the joomla data configuration object
      *
      * @param   MySchedConfig    $cfg  A object which has configurations including
      */

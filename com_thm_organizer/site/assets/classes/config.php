@@ -43,7 +43,7 @@ class MySchedConfig
     public $syncFiles = 0;
 
     /**
-     * Constructor with the joomla data abstraction object
+     * Constructor
      */
     public function __construct()
     {

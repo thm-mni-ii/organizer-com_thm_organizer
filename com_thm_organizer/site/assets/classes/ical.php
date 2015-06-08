@@ -54,10 +54,9 @@ class THMICALBuilder extends THMAbstractBuilder
      * @var    Object
      */
     private $_pools = null;
- 
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
+     * Constructor with the configuration object
      *
      * @param   Object           $cfg  A object which has configurations including
      */

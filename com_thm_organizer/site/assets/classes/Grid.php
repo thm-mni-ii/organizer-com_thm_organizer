@@ -33,9 +33,7 @@ class THMGrid
     private $_semID = null;
 
     /**
-     * Constructor with the joomla data abstraction object and configuration object
-     *
-     * @param   DataAbstraction  $JDA  A object to abstract the joomla methods
+     * Constructor
      */
     public function __construct()
     {
