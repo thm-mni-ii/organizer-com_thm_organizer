@@ -110,7 +110,7 @@ jQuery(document).ready(function(){
         });
     });
 
-    function toogleElement(chosenElement, value)
+    function toggleElement(chosenElement, value)
     {
         jQuery("#jformparentID").chosen("destroy");
         jQuery("select#jformparentID option").each(function() {
@@ -126,7 +126,7 @@ jQuery(document).ready(function(){
     function addAddHandler()
     {
         jQuery('#jformparentID_chzn div.chzn-drop').click(function(element) {
-            toogleElement(element.target.innerHTML, true);
+            toggleElement(element.target.innerHTML, true);
             addRemoveHandler();
         });
     }
@@ -134,7 +134,7 @@ jQuery(document).ready(function(){
     function addRemoveHandler()
     {
         jQuery('div#jformparentID_chzn a.search-choice-close').click(function (element) {
-            toogleElement(element.target.parentElement.childNodes[0].innerHTML, false);
+            toggleElement(element.target.parentElement.childNodes[0].innerHTML, false);
             addAddHandler();
         });
     }
