@@ -113,6 +113,10 @@ ul.subject-list tr th a {
 .language-switches {
   float: right;
 }
+.language-switches img {
+  border: none;
+  padding-top: 0;
+}
 
 .subject-list .subject-item {
   overflow: auto;

@@ -132,6 +132,11 @@ ul.subject-list {
 
 .language-switches {
   float: right;
+
+  img {
+    border: none;
+    padding-top: 0;
+  }
 }
 
 .subject-list {

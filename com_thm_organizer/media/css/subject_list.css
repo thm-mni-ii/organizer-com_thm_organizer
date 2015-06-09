@@ -389,6 +389,15 @@ h3.group-bar, h3.group-bar a {
 #j-main-container .js-stools-container-bar .input-append button {
   padding: 1px 10px;
 }
+#j-main-container .js-stools-container-bar .input-append button .icon-search {
+  background: none;
+}
+#j-main-container .js-stools-container-bar .input-append button .icon-search::before {
+  content: "\53";
+  font-size: 14px;
+  line-height: 0.5;
+  margin-left: 0;
+}
 #j-main-container .js-stools-container-bar:first-child .btn-wrapper {
   float: left;
   padding-right: 5px;
@@ -410,7 +419,7 @@ h3.group-bar, h3.group-bar a {
 }
 #j-main-container .subject-list-container li {
   list-style: none;
-  padding: 4px 20px;
+  padding: 4px 20px 4px 19px;
   margin-left: 0;
 }
 #j-main-container .subject-list-container li:nth-child(odd) {
@@ -453,4 +462,8 @@ h3.group-bar, h3.group-bar a {
 .breadcrumb {
   float: inherit;
   width: 680px;
+}
+
+.tab-content {
+  overflow: visible;
 }

@@ -225,8 +225,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 //Header
 //@media (min-width: 768px) {
 .componentheader {
-
-  height: 75px;
+  height: 50px;
 
   .componentheading {
     float: left;
@@ -292,6 +291,9 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
     position: relative;
     font-size: 11px;
     background-color: $bg-color;
+    vertical-align: top;
+    width: 133px;
+    height: 135px;
 
     .item-head {
       border: $border-color;
@@ -316,7 +318,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
       -ms-hyphens: auto;
       hyphens: auto;
 
-      // so word-wrap is needed for Chrome
+      //... so word-wrap is needed for Chrome
       -ms-word-wrap: break-word;
       word-wrap: break-word;
     //  word-break: break-all;
@@ -371,37 +373,27 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 
 .modal-panel-items {
-  margin: 3px 0px 3px 8px; //für 5 Kästchen
+ // margin: 3px 0px 3px 8px; //für 5 Kästchen
 //  margin: 3px 0;
   max-height: 400px;
   overflow: auto;
 
   .item{
-    width: 167px;
+ //   width: 167px;
   }
-}
-
-
-//Breiten der Items anpassen ********************************************
-.main-panel-items .item{
-//  width: 167px;   // für 4 Kästchen
-//  height: 130px;  // für 4 Kästchen
-    width: 133px; // für 5 Kästchen
-    height: 135px;
-  //margin: 1px;
 }
 
 //positionierung der einzelnen modal-panel wenn ursprünglich 5 Kästchen pro Zeile da sind
 // Für 5 Kaestchen
 @media (min-width: 980px) {
   .modal-panel{
-    width: 590px;
+    width: 614px;
   }
 
   .main-panel-items {
     > .item:nth-of-type(5n+1) {
       .modal-panel {
-        left: 48px;
+        left: 58px;
       }
     }
 
@@ -427,6 +419,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
     }
   }
 }
+
 //für 4 Kästchen
 @media (min-width: 660px) and (max-width: 767px) {
   .modal-panel{
@@ -435,7 +428,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   .main-panel-items {
     > .item:nth-of-type(4n+1) {
       .modal-panel {
-        left: 48px;
+        left: 58px;
       }
     }
     > .item:nth-of-type(4n+2) {
@@ -459,12 +452,12 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 //für 3 Kästchen
 @media (min-width: 768px) and (max-width:979px) {
   .modal-panel{
-    width: 450px;
+    width: 465px;
   }
   .main-panel-items {
     > .item:nth-of-type(3n+1) {
       .modal-panel {
-        left: 48px;
+        left: 58px;
       }
     }
     > .item:nth-of-type(3n+2) {
@@ -481,13 +474,13 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 @media (min-width: 520px) and (max-width:659px) {
   .modal-panel{
-    width: 310px;
+    width: 316px;
   }
 
   .main-panel-items {
     > .item:nth-of-type(3n+1) {
       .modal-panel {
-        left: 48px;
+        left: 58px;
       }
     }
     > .item:nth-of-type(3n+2) {
@@ -506,11 +499,12 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 //für max 2 Kästchen
 @media (max-width: 519px){
   .main-panel-items{
-    text-align: center;
+ //   text-align: center;
   }
   .modal{
     padding-left: 6px;
   }
+
  .modal-panel-items{
    margin: 0;
    overflow-y:scroll;

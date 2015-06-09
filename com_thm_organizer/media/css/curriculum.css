@@ -215,7 +215,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 
 .componentheader {
-  height: 75px;
+  height: 50px;
 }
 .componentheader .componentheading {
   float: left;
@@ -268,6 +268,9 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   position: relative;
   font-size: 11px;
   background-color: #eeeeee;
+  vertical-align: top;
+  width: 133px;
+  height: 135px;
 }
 .main-panel-items .item .item-head {
   border: 1px solid #bbbbbb;
@@ -306,7 +309,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 .main-panel-items .item .item-tools .icon-grid-view-2:before {
   margin-left: 0;
-  font-size: 14;
+  font-size: 14px;
 }
 
 .modal-panel {
@@ -336,26 +339,17 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 
 .modal-panel-items {
-  margin: 3px 0px 3px 8px;
   max-height: 400px;
   overflow: auto;
-}
-.modal-panel-items .item {
-  width: 167px;
-}
-
-.main-panel-items .item {
-  width: 133px;
-  height: 135px;
 }
 
 @media (min-width: 980px) {
   .modal-panel {
-    width: 590px;
+    width: 614px;
   }
 
   .main-panel-items > .item:nth-of-type(5n+1) .modal-panel {
-    left: 48px;
+    left: 58px;
   }
   .main-panel-items > .item:nth-of-type(5n+2) .modal-panel {
     left: -91px;
@@ -376,7 +370,7 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   }
 
   .main-panel-items > .item:nth-of-type(4n+1) .modal-panel {
-    left: 48px;
+    left: 58px;
   }
   .main-panel-items > .item:nth-of-type(4n+2) .modal-panel {
     left: -91px;
@@ -390,11 +384,11 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 @media (min-width: 768px) and (max-width: 979px) {
   .modal-panel {
-    width: 450px;
+    width: 465px;
   }
 
   .main-panel-items > .item:nth-of-type(3n+1) .modal-panel {
-    left: 48px;
+    left: 58px;
   }
   .main-panel-items > .item:nth-of-type(3n+2) .modal-panel {
     left: -91px;
@@ -405,11 +399,11 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 }
 @media (min-width: 520px) and (max-width: 659px) {
   .modal-panel {
-    width: 310px;
+    width: 316px;
   }
 
   .main-panel-items > .item:nth-of-type(3n+1) .modal-panel {
-    left: 48px;
+    left: 58px;
   }
   .main-panel-items > .item:nth-of-type(3n+2) .modal-panel {
     left: -91px;
@@ -419,10 +413,6 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   }
 }
 @media (max-width: 519px) {
-  .main-panel-items {
-    text-align: center;
-  }
-
   .modal {
     padding-left: 6px;
   }

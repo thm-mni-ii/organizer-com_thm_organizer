@@ -275,10 +275,13 @@ h3.group-bar {
         padding: 1px 10px;
 
         .icon-search {
-          //      background-image: none;
-          //      &::before{
-          //        font-family: IcoMoon;
-          //        content: "\53";
+          background: none;   //default: bootstrap-sprites
+          &::before {
+            content: "\53";
+            font-size: 14px;
+            line-height: 0.5;
+            margin-left: 0;
+          }
         }
       }
     }
@@ -314,7 +317,7 @@ h3.group-bar {
 
     li {
       list-style: none;
-      padding: 4px 20px;
+      padding: 4px 20px 4px 19px;
       margin-left: 0;
     }
 
@@ -360,12 +363,17 @@ h3.group-bar {
   }
 }
 
-  .shown {
-    border: 1px solid #eeeeee;
-    border-top: none;
-  }
+.shown {
+  border: 1px solid #eeeeee;
+  border-top: none;
+}
 
-  .breadcrumb {
-    float: inherit;
-    width: 680px;
-  }
+.breadcrumb {
+  float: inherit;
+  width: 680px;
+}
+
+//Überschreiben von bootstrap.css
+.tab-content {
+  overflow: visible;
+}
