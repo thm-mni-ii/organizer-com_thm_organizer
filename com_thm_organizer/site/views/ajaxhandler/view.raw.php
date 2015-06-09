@@ -39,7 +39,7 @@ class THM_OrganizerViewAjaxHandler extends JViewLegacy
     {
         $model = $this->getModel();
 
-        $task = JRequest::getCmd('scheduletask');
+        $task = JFactory::getApplication()->input->getCmd('scheduletask');
 
         $output = $model->executeTask($task);
 

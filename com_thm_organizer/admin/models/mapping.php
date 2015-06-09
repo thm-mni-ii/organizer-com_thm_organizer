@@ -626,7 +626,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      */
     private function getChildrenFromForm()
     {
-        $children = array();
+        $children = array();JFactory::getApplication()->input->post;
         $childKeys = preg_grep('/^child[0-9]+$/', array_keys($_POST));
         foreach ($childKeys as $childKey)
         {
@@ -774,7 +774,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $poolData['display_type'] = ($data['display_type'] == 0) ? (0) : (1);
         $poolData['enable_desc'] = ($data['enable_desc'] == 0) ? (0) : (1);
         $poolData['children'] = $this->getChildrenFromForm();
-                
+
         $parentIDs = $data['parentID'];
         $orderings = array();
         foreach ($parentIDs as $parentID)

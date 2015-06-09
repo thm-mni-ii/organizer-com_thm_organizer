@@ -76,7 +76,7 @@ class THMICALBuilder extends THMAbstractBuilder
      */
     public function createSchedule($scheduleGrid, $username, $title)
     {
-        $planningPeriod = JRequest::getVar('departmentAndSemester');
+        $planningPeriod = JFactory::getApplication()->input->getString('departmentAndSemester');
  
         $activeSchedule = $this->getActiveSchedule($planningPeriod);
  

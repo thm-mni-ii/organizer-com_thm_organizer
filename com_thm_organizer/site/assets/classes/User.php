@@ -74,7 +74,7 @@ class THMUser
       // Nur Anfragen ueber HTTPS werden zugelassen -
       if (isset($this->_cfg->requireHTTPS))
       {
-         $protocol = JRequest::getVar('SERVER_PROTOCOL', '', 'SERVER');
+         $protocol = JFactory::getApplication()->input->server->getString('SERVER_PROTOCOL', '');
          if ($this->_cfg->requireHTTPS && !strstr(strtolower($protocol), 'https'))
          {
             return array("success" => true, "data" => array(
