@@ -31,7 +31,7 @@ class THM_OrganizerTemplateCurriculumPanel
         }
         $display = ($type == 'modal')? 'hidden' : 'shown';
         echo '<div id="panel-' . $pool->mapping . '" class="' . $type . '-panel ' . $display . '">';
-        $script = ($type=='main')? ' onclick="toggleContainer(\'#main-panel-items-' .$pool->mapping . '\')"' : '';
+        $script = ($type=='main')? ' onclick="toggleGroupDisplay(\'#main-panel-items-' .$pool->mapping . '\')"' : '';
         echo '<div class="' . $type . '-panel-head"' . $headStyle . $script .'>';
         echo '<div class="' . $type . ' panel-title">';
         echo '<span class="' . $type . '-panel-name">'. $pool->name . '</span>';

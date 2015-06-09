@@ -44,7 +44,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
         }
         if (!empty($element->children))
         {
-            $script = 'onclick="toggleContainer(\'#panel-' . $element->mapping . '\')"';
+            $script = 'onclick="toggleGroupDisplay(\'#panel-' . $element->mapping . '\')"';
             echo '<a class="btn hasTooltip" ' . $script . ' title="' . JText::_('COM_THM_ORGANIZER_ACTION_OPEN_POOL') . '"><icon class="icon-grid-view-2"></icon></a>';
             THM_OrganizerTemplateCurriculumPanel::render($element);
         }
