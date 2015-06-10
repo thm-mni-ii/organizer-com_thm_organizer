@@ -93,6 +93,6 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      */
     public function delete()
     {
-        return THM_OrganizerHelper::delete('fields');
+        return THM_OrganizerHelper::delete('departments');
     }
 }
