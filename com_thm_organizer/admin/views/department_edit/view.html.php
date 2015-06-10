@@ -48,6 +48,14 @@ class THM_OrganizerViewDepartment_Edit extends THM_CoreViewEdit
         JToolbarHelper::apply('department.apply');
         JToolbarHelper::save('department.save');
         JToolbarHelper::save2new('department.save2new');
-        JToolbarHelper::cancel('department.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        if (!$isNew)
+        {
+            JToolbarHelper::save2copy('department.save2copy');
+            JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CLOSE');
+        }
+        else
+        {
+            JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CANCEL');
+        }
     }
 }

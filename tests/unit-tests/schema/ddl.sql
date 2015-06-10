@@ -118,19 +118,6 @@ CREATE TABLE `jos_thm_organizer_teachers` (
 );
 
 --
--- Table structure for table `jos_usergroups`
---
-
-CREATE TABLE `jos_usergroups` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `parent_id` INTEGER NOT NULL DEFAULT '0',
-  `lft` INTEGER NOT NULL DEFAULT '0',
-  `rgt` INTEGER NOT NULL DEFAULT '0',
-  `title` TEXT NOT NULL DEFAULT '',
-  CONSTRAINT `idx_usergroups_parent_title_lookup` UNIQUE (`parent_id`,`title`)
-);
-
---
 -- Table structure for table `jos_viewlevels`
 --
 

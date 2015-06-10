@@ -79,7 +79,7 @@ class THM_OrganizerControllerDepartment extends JControllerLegacy
      */
     public function save()
     {
-        $deptID = $this->getModel('department')->save2copy();
+        $deptID = $this->getModel('department')->save();
         if (!empty($deptID))
         {
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
@@ -100,7 +100,7 @@ class THM_OrganizerControllerDepartment extends JControllerLegacy
      */
     public function save2copy()
     {
-        $deptID = $this->getModel('department')->save();
+        $deptID = $this->getModel('department')->save2copy();
         if (!empty($deptID))
         {
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
@@ -121,6 +121,7 @@ class THM_OrganizerControllerDepartment extends JControllerLegacy
      */
     public function save2new()
     {
+        $oldId = $this->input->post->get('jform', array(), 'array')['id'];
         $deptID = $this->getModel('department')->save();
         if (!empty($deptID))
         {
@@ -130,7 +131,7 @@ class THM_OrganizerControllerDepartment extends JControllerLegacy
         else
         {
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-            $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=department_edit', false), $msg, 'error');
+            $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=department_edit&id=$oldId", false), $msg, 'error');
         }
     }
 
