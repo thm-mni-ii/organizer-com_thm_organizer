@@ -67,7 +67,7 @@ class THM_OrganizerViewRoom_Manager extends THM_CoreViewList
 
         if ($actions->{'core.delete'})
         {
-            JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'color.delete');
+            JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room.delete');
         }
 
         if ($actions->{'core.admin'})
