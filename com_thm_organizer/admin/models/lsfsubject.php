@@ -522,7 +522,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     private function resolvePrerequisites($originalText, $languageTag, &$prerequisites)
     {
         $modules = array();
-        $parts = preg_split('[\,|\ ]', $originalText);
+        $noApostropheText = str_replace("'", "", $originalText);
+        $parts = preg_split('[\,|\ ]', $noApostropheText);
         foreach ($parts as $part)
         {
             if (preg_match('/[0-9]+/', $part))
