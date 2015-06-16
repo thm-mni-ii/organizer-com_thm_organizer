@@ -370,7 +370,7 @@ h3.group-bar, h3.group-bar a {
 }
 .language-switches img {
   border: none;
-  padding-top: 0;
+  padding-top: 2px;
 }
 
 #j-main-container {
@@ -395,21 +395,36 @@ h3.group-bar, h3.group-bar a {
 #j-main-container .js-stools-container-bar .input-append button .icon-search::before {
   content: "\53";
   font-size: 14px;
-  line-height: 0.5;
-  margin-left: 0;
 }
 #j-main-container .js-stools-container-bar:first-child .btn-wrapper {
   float: left;
   padding-right: 5px;
 }
-#j-main-container .js-stools-container-bar:first-child .btn-wrapper .js-stools-btn-clear {
-  padding: 3px 10px;
+#j-main-container .js-stools-container-bar:nth-child(1) .btn-wrapper .js-stools-btn-clear {
+  background: white;
 }
-#j-main-container .js-stools-container-bar:first-child .btn-wrapper .js-stools-btn-clear .icon-delete:before {
+#j-main-container .js-stools-container-bar:nth-child(1) .btn-wrapper .js-stools-btn-clear:hover {
+  color: white;
+  background-color: #4a5d66;
+}
+#j-main-container .js-stools-container-bar:nth-child(1) .btn-wrapper .js-stools-btn-clear .icon-delete:before {
   margin-left: 0;
 }
 #j-main-container .nav {
-  margin-bottom: 4px;
+  margin-bottom: 0;
+  border-bottom-color: white;
+  padding-bottom: 1px;
+}
+#j-main-container .nav > li > a {
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-radius: 0;
+}
+#j-main-container .tab-content {
+  padding: 4px 0;
+  border: 1px solid white;
+  border-top: none;
+  background-color: white;
 }
 #j-main-container .subject-list-container a {
   color: #4a5c66;
@@ -440,11 +455,6 @@ h3.group-bar, h3.group-bar a {
   margin-top: 0px;
   margin-bottom: 0px;
   border: 1px solid #eeeeee;
-  -webkit-border-radius: 2px 2px 0 0;
-  -moz-border-radius: 2px 2px 0 0;
-  -ms-border-radius: 2px 2px 0 0;
-  -o-border-radius: 2px 2px 0 0;
-  border-radius: 2px 2px 0 0;
   cursor: pointer;
 }
 #j-main-container #pool > .subject-list-container, #j-main-container #teacher > .subject-list-container, #j-main-container #field > .subject-list-container {
@@ -452,6 +462,9 @@ h3.group-bar, h3.group-bar a {
 }
 #j-main-container #pool > .subject-list-container .subject-list, #j-main-container #teacher > .subject-list-container .subject-list, #j-main-container #field > .subject-list-container .subject-list {
   margin: 0;
+}
+#j-main-container #pool > .subject-list-container:last-child, #j-main-container #teacher > .subject-list-container:last-child, #j-main-container #field > .subject-list-container:last-child {
+  margin-bottom: 0;
 }
 
 .shown {

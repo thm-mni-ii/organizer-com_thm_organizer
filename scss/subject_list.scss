@@ -252,7 +252,7 @@ h3.group-bar {
 
   img {
     border: none;
-    padding-top: 0;
+    padding-top: 2px;
   }
 }
 
@@ -264,6 +264,7 @@ h3.group-bar {
   .js-stools-container-bar {
     position: relative;
     float: right;
+
     label {
       position: absolute;
       z-index: 2;
@@ -276,11 +277,12 @@ h3.group-bar {
 
         .icon-search {
           background: none;   //default: bootstrap-sprites
+
           &::before {
             content: "\53";
             font-size: 14px;
-            line-height: 0.5;
-            margin-left: 0;
+     //       line-height: 0.5;
+      //      margin-left: 0;
           }
         }
       }
@@ -289,9 +291,15 @@ h3.group-bar {
     &:first-child .btn-wrapper {
       float: left;
       padding-right: 5px;
+    }
 
+    &:nth-child(1) .btn-wrapper{
       .js-stools-btn-clear {
-        padding: 3px 10px;
+        background: white;
+        &:hover{
+          color: white;
+          background-color: #4a5d66;
+        }
 
         .icon-delete:before {
           margin-left: 0;
@@ -301,8 +309,23 @@ h3.group-bar {
   }
 
   .nav {
-    margin-bottom: 4px;
-    // margin-bottom: 0;
+  //  margin-bottom: 4px;
+   margin-bottom: 0;
+    border-bottom-color: white;
+    padding-bottom: 1px;
+
+    & > li > a{
+      border: 1px solid #ddd;
+      border-bottom: none;
+      border-radius: 0;
+    }
+  }
+
+  .tab-content{
+    padding: 4px 0;
+    border: 1px solid white;
+    border-top: none;
+    background-color: white;
   }
 
   // content
@@ -347,7 +370,6 @@ h3.group-bar {
       margin-top: 0px;
       margin-bottom: 0px;
       border: 1px solid #eeeeee;
-      @include border-radius(2px 2px 0 0);
       cursor: pointer;
     }
   }
@@ -358,6 +380,9 @@ h3.group-bar {
       .subject-list {
         //     padding: 4px 0;
         margin: 0;
+      }
+      &:last-child{
+        margin-bottom: 0;
       }
     }
   }
