@@ -11,22 +11,10 @@
  */
 defined('_JEXEC') or die;
 
-if (!defined('SCHEDULE'))
-{
-    define('SCHEDULE', 1);
-}
-if (!defined('ALTERNATING'))
-{
-    define('ALTERNATING', 2);
-}
-if (!defined('CONTENT'))
-{
-    define('CONTENT', 3);
-}
-if (!defined('APPOINTMENTS'))
-{
-    define('APPOINTMENTS', 4);
-}
+define('SCHEDULE', 1);
+define('ALTERNATING', 2);
+define('CONTENT', 3);
+define('APPOINTMENTS', 4);
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -102,7 +90,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $this->params['schedule_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
             $this->params['content_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
             $this->params['content'] = JComponentHelper::getParams('com_thm_organizer')->get('content');
-            return;
+            $defaultLayout = JComponentHelper::getParams('com_thm_organizer')->get('display');
         }
         else
         {
@@ -112,21 +100,21 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $this->params['content'] = $monitorEntry->content;
         }
 
-        if ($this->params['display'] == SCHEDULE)
+        $useComponentDisplay = ($monitorEntry->useDefaults AND !empty($defaultLayout));
+        $monitorDisplayValue = (empty($this->params['display']))? SCHEDULE : $this->params['display'];
+        $displayValue = $useComponentDisplay? $defaultLayout : $monitorDisplayValue;
+
+        switch ($displayValue)
         {
+            case ALTERNATING:
+                $this->setAlternatingLayout();
+                break;
+            case CONTENT:
+                $this->params['layout'] = 'content';
+                break;
+            case SCHEDULE:
+            default:
             $this->params['layout'] = 'schedule';
-        }
-        if ($this->params['display'] == ALTERNATING)
-        {
-            $this->setAlternatingLayout();
-        }
-        if ($this->params['display'] == CONTENT)
-        {
-            $this->params['layout'] = 'content';
-        }
-        if ($this->params['display'] == APPOINTMENTS)
-        {
-            $this->params['layout'] = 'appointments';
         }
 
         $this->params['roomID'] = $monitorEntry->roomID;
