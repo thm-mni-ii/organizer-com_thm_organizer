@@ -106,8 +106,9 @@ jQuery(document).ready(function(){
             jQuery('#jformparentID').val(selectedParents);
 
             // from lib_thm_core
-            refreshChoosen('jformparentID div.');
+            refreshChoosen('jformparentID');
         });
+        refreshChoosen('jformparentID');
     });
 
     function toggleElement(chosenElement, value)
@@ -141,6 +142,7 @@ jQuery(document).ready(function(){
 
     addRemoveHandler();
     addAddHandler();
+
 });
 </script>
     <?php
