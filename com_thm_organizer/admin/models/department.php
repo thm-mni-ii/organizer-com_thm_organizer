@@ -61,8 +61,10 @@ class THM_OrganizerModelDepartment extends JModelLegacy
     public function save2copy()
     {
         $data = JFactory::getApplication()->input->get('jform', array(), 'array');
-        $data['id'] = '';
-        unset($data['asset_id']);
+        if (isset($data['id']))
+        {
+            unset($data['id']);
+        }
 
         $this->_db->transactionStart();
         $department = JTable::getInstance('departments', 'thm_organizerTable');
