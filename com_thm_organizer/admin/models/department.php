@@ -61,17 +61,14 @@ class THM_OrganizerModelDepartment extends JModelLegacy
     public function save2copy()
     {
         $data = JFactory::getApplication()->input->get('jform', array(), 'array');
-        if (isset($data['id']))
-        {
-            unset($data['id']);
-        }
+        $data['id'] = '';
+        unset($data['asset_id']);
 
         $this->_db->transactionStart();
-        $table = JTable::getInstance('departments', 'thm_organizerTable');
-
+        $department = JTable::getInstance('departments', 'thm_organizerTable');
         try
         {
-            $deptSuccess = $table->save($data);
+            $deptSuccess = $department->save($data);
         }
         catch (Exception $exc)
         {
@@ -86,11 +83,11 @@ class THM_OrganizerModelDepartment extends JModelLegacy
             return false;
         }
 
-        return $table->id;
+        return $department->id;
     }
 
     /**
-     * Removes color entries from the database
+     * Removes departments entries from the database
      *
      * @return  boolean true on success, otherwise false
      */
