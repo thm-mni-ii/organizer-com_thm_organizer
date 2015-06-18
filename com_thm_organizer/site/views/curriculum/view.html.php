@@ -22,6 +22,34 @@ require_once JPATH_COMPONENT . '/helpers/language.php';
 class THM_OrganizerViewCurriculum extends JViewLegacy
 {
     /**
+     * The HTML Strings for language switch buttons
+     *
+     * @var string
+     */
+    public $languageSwitches;
+
+    /**
+     * The data to be displayed
+     *
+     * @var object
+     */
+    public $item;
+
+    /**
+     * The maximum number of items to be displayed per line
+     *
+     * @var integer
+     */
+    public $maxItems;
+
+    /**
+     * The link to the ecollaboration platform
+     *
+     * @var string
+     */
+    public $ecollabLink;
+
+    /**
      * Method to get display
      *
      * @param   Object  $tpl  template  (default: null)
@@ -30,14 +58,16 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $params = JFactory::getApplication()->getParams();
-        $this->ecollabLink = $params->get('eCollabLink');
         $this->modifyDocument();
+
+        $menu = JFactory::getApplication()->getMenu()->getActive();
+        $this->maxItems = $menu->params->get('maxItems', 5);
+        $this->ecollabLink = $menu->params->get('eCollabLink', '');
 
         THM_OrganizerHelperLanguage::setLanguage();
         $this->item = $this->get('Item');
-        $params = array('view' => 'curriculum', 'id' => $this->item->id);
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        $lsParams = array('view' => 'curriculum', 'id' => $this->item->id);
+        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($lsParams);
 
         parent::display($tpl);
     }

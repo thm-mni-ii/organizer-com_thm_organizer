@@ -17,11 +17,12 @@ class THM_OrganizerTemplateCurriculumItemPanel
     /**
      * Generates the HTML output for a main panel element
      *
-     * @param   object  &$element  the element to be rendered
+     * @param   object   &$element  the element to be rendered
+     * @param   integer  $width     the width of the element to be displayed
      *
      * @return  void  generates HTML output
      */
-    public static function render(&$element)
+    public function render(&$element, $width = 20)
     {
         $headStyle = '';
         $moduleNumber = empty($element->externalID)? '' : $element->externalID;
@@ -41,26 +42,34 @@ class THM_OrganizerTemplateCurriculumItemPanel
         if (!empty($element->bgColor))
         {
             $textColor = THM_OrganizerHelperComponent::getTextColor($element->bgColor);
-            $headStyle .= ' style="background-color: ' . $element->bgColor . '; color: ' . $textColor . '"';
+            $headStyle .= ' style="background-color: ' . $element->bgColor . '; color: ' . $textColor . ';"';
         }
-        echo '<div class="item">';
-        echo '<div class="item-head"' . $headStyle. '>';
-        echo '<span class="item-code">' . $moduleNumberHTML . '</span>';
-        echo '<span class="item-crp">' .  $crpHTML . '</span>';
-        echo '</div>';
-        echo '<div class="item-name">' . $nameHTML . '</div>';
-        echo '<div class="item-tools">';
-        if (!empty($element->teacherName))
-        {
-            echo '<a class="btn hasTooltip" href="#" title="' . $element->teacherName . '"><icon class="icon-user"></icon></a>';
-        }
-        if (!empty($element->children))
-        {
+?>
+<div class="item" style="width: <?php echo $width; ?>%;">
+    <div class="item-head" <?php echo $headStyle; ?>>
+        <span class="item-code"><?php echo $moduleNumberHTML; ?></span>
+        <span class="item-crp"><?php echo $crpHTML; ?></span>
+    </div>
+    <div class="item-name"><?php echo $nameHTML; ?></div>
+    <div class="item-tools">
+<?php if (!empty($element->teacherName)): ?>
+        <a class="btn hasTooltip" href="#" title="<?php echo $element->teacherName; ?>"><icon class="icon-user"></icon></a>
+<?php endif; ?>
+<?php
+if (!empty($element->children))
+{
             $script = 'onclick="toggleGroupDisplay(\'#panel-' . $element->mapping . '\')"';
-            echo '<a class="btn hasTooltip" ' . $script . ' title="' . JText::_('COM_THM_ORGANIZER_ACTION_OPEN_POOL') . '"><icon class="icon-grid-view-2"></icon></a>';
-            THM_OrganizerTemplateCurriculumPanel::render($element);
+?>
+        <a class="btn hasTooltip" <?php echo $script; ?> title="<?php echo JText::_('COM_THM_ORGANIZER_ACTION_OPEN_POOL'); ?>">
+            <icon class="icon-grid-view-2"></icon>
+        </a>
+<?php
+            $panel = new THM_OrganizerTemplateCurriculumPanel;
+            $panel->render($element);
         }
-        echo '</div>';
-        echo '</div>';
+?>
+    </div>
+</div>
+<?php
     }
 }

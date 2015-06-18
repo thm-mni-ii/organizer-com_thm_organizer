@@ -295,7 +295,6 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   word-wrap: break-word;
   padding: 5px;
   overflow: hidden;
-  width: inherit;
 }
 .main-panel-items .item .item-tools {
   position: absolute;

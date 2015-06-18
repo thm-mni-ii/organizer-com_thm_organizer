@@ -33,7 +33,7 @@ foreach ($this->languageSwitches AS $switch)
 <?php
 foreach ($this->item->children AS $pool)
 {
-    THM_OrganizerTemplateCurriculumPanel::render($pool, 'main');
+    THM_OrganizerTemplateCurriculumPanel::render($pool, 'main', $this->maxItems);
 }
 ?>
 </div>
