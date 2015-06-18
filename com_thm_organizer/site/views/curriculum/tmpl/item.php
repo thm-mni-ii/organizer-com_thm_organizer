@@ -23,20 +23,32 @@ class THM_OrganizerTemplateCurriculumItemPanel
      */
     public static function render(&$element)
     {
-        $externalID = empty($element->externalID)? '' : $element->externalID;
-        $crpText = $element->type == 'subject'? $element->CrP . ' CrP' : THM_OrganizerHelperPool::getCrPText($element);
         $headStyle = '';
+        $moduleNumber = empty($element->externalID)? '' : $element->externalID;
+        if ($element->type == 'subject')
+        {
+            $linkAttribs = array('target' => '_blank');
+            $moduleNumberHTML = JHtml::link($element->link, $moduleNumber, $linkAttribs);
+            $crpHTML = JHtml::link($element->link, $element->CrP, $linkAttribs);
+            $nameHTML = JHtml::link($element->link, $element->name, $linkAttribs);
+        }
+        else
+        {
+            $moduleNumberHTML = $moduleNumber;
+            $crpHTML = THM_OrganizerHelperPool::getCrPText($element);
+            $nameHTML = $element->name;
+        }
         if (!empty($element->bgColor))
         {
             $textColor = THM_OrganizerHelperComponent::getTextColor($element->bgColor);
-            $headStyle .= ' style="background-color: #' . $element->bgColor . '; color: ' . $textColor . '"';
+            $headStyle .= ' style="background-color: ' . $element->bgColor . '; color: ' . $textColor . '"';
         }
         echo '<div class="item">';
         echo '<div class="item-head"' . $headStyle. '>';
-        echo '<span class="item-code">' .  $externalID . '</span>';
-        echo '<span class="item-crp">' .  $crpText . '</span>';
+        echo '<span class="item-code">' . $moduleNumberHTML . '</span>';
+        echo '<span class="item-crp">' .  $crpHTML . '</span>';
         echo '</div>';
-        echo '<div class="item-name">' . $element->name . '</div>';
+        echo '<div class="item-name">' . $nameHTML . '</div>';
         echo '<div class="item-tools">';
         if (!empty($element->teacherName))
         {

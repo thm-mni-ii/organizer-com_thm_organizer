@@ -184,9 +184,17 @@ class THM_OrganizerModelCurriculum extends JModelItem
      */
     private function getSubject($subjectID, $mappingID)
     {
-        $langTag = THM_CoreHelper::getLanguageShortTag();
         $query = $this->_db->getQuery(true);
-        $query->select("s.id, externalID, name_$langTag AS name, creditpoints AS CrP, color AS bgColor");
+
+        $langTag = THM_CoreHelper::getLanguageShortTag();
+        $select = "s.id, externalID, name_$langTag AS name, creditpoints AS CrP, color AS bgColor, ";
+        $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
+        $menuIDParam = empty($menuID)? '' : "&Itemid=$menuID";
+        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}{$menuIDParam}&id='";
+        $parts = array("$subjectLink","s.id");
+        $select .= $query->concatenate($parts, "") . " AS link";
+
+        $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON f.id = s.fieldID');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
