@@ -3,8 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        ICSBauer
- * @description ICSBauer file from com_thm_organizer
+ * @name        THMICSBuilder
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -29,35 +28,35 @@ class THMICSBuilder extends THMAbstractBuilder
     /**
      * Config
      *
-     * @var    Object
+     * @var  Object
      */
     private $_cfg = null;
 
     /**
      * Excel
      *
-     * @var    Object
+     * @var  Object
      */
     private $_objPHPExcel = null;
 
     /**
      * Active Schedule
      *
-     * @var    Object
+     * @var  Object
      */
     private $_activeSchedule = null;
 
     /**
      * Active Schedule data
      *
-     * @var    Object
+     * @var  Object
      */
     private $_activeScheduleData = null;
 
     /**
      * Constructor with the configuration object
      *
-     * @param   Object           $cfg  A object which has configurations including
+     * @param   Object  $cfg  A object which has configurations including
      */
     public function __construct($cfg)
     {
@@ -101,12 +100,12 @@ class THMICSBuilder extends THMAbstractBuilder
             }
             else
             {
-                return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
+                return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULE_FOUND"));
             }
 
             if ($this->_activeSchedule == false)
             {
-                return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
+                return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULE_FOUND"));
             }
 
             if (is_object($this->_activeSchedule) && is_string($this->_activeSchedule->schedule))
@@ -118,13 +117,12 @@ class THMICSBuilder extends THMAbstractBuilder
 
                 if ($this->_activeScheduleData == null)
                 {
-                    // Cant decode json
-                    return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'));
+                    return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_SCHEDULE_FLAWED"));
                 }
             }
             else
             {
-                return JError::raiseWarning(404, JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'));
+                return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULE_FOUND"));
             }
 
             $this->setLessonHead();
@@ -133,9 +131,6 @@ class THMICSBuilder extends THMAbstractBuilder
             $this->_objPHPExcel->createSheet();
             $this->_objPHPExcel->setActiveSheetIndex(1);
             $this->_objPHPExcel->getActiveSheet()->setTitle(JText::_("COM_THM_ORGANIZER_SCHEDULER_SPORADIC_EVENTS"));
-
-            $this->setEventHead();
-            $this->setEventContent($arr);
 
             $this->_objPHPExcel->setActiveSheetIndex(0);
             $objWriter = PHPExcel_IOFactory::createWriter($this->_objPHPExcel, 'Excel5');
@@ -148,136 +143,11 @@ class THMICSBuilder extends THMAbstractBuilder
 
         if ($success)
         {
-            return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_FILE_CREATED"));
+            return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATED"));
         }
         else
         {
-            return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
-        }
-    }
-
-    /**
-     * Method to set the excel header
-     *
-     * @return  void
-     */
-    private function setEventHead()
-    {
-        $this->_objPHPExcel->getActiveSheet()
-            ->setCellValue('A1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TITLE"))
-            ->setCellValue('B1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DESCRIPTION"))
-            ->setCellValue('C1', JText::_("COM_THM_ORGANIZER_SCHEDULER_AFFECTED_RESOURCE"))
-            ->setCellValue('D1', JText::_("COM_THM_ORGANIZER_SCHEDULER_CATEGORY"))
-            ->setCellValue('E1', JText::_("COM_THM_ORGANIZER_SCHEDULER_DATE_OF"))
-            ->setCellValue('F1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_DATE"))
-            ->setCellValue('G1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME_OF"))
-            ->setCellValue('H1', JText::_("COM_THM_ORGANIZER_SCHEDULER_TO_TIME"));
-
-        $this->_objPHPExcel->getActiveSheet()->getStyle('A1:H1')->getFont()->setBold(true);
-    }
-
-    /**
-     * Method to create a ical schedule
-     *
-     * @param   Object  $arr  The event object
-     *
-     * @return  void
-     */
-    private function setEventContent($arr)
-    {
-        $row = 2;
-        foreach ($arr->events as $item)
-        {
-            $resourceIDs = "'" . implode("', '", (array) $item->data->objects) . "'";
-            $resString = "";
-
-            $select = 'name as oname';
-
-            // Get a db connection.
-            $dbo = JFactory::getDbo();
-
-            // Create a new query object.
-            $query = $dbo->getQuery(true);
-
-            // Select all records from the user profile table where key begins with "custom.".
-            // Order it by the ordering field.
-            $query->select($select);
-            $query->from('#__thm_organizer_classes');
-            $query->where('id IN ( $resourceIDs )');
-
-            // Reset the query using our newly populated query object.
-            $dbo->setQuery((string) $query);
-
-            try
-            {
-                // Load the results as a list of stdClass objects.
-                $classes = $dbo->loadObjectList();
-            }
-            catch (runtimeException $e)
-            {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-            }
-
-            // Create a new query object.
-            $query = $dbo->getQuery(true);
-
-            // Select all records from the user profile table where key begins with "custom.".
-            // Order it by the ordering field.
-            $query->select($select);
-            $query->from('#__thm_organizer_teachers');
-            $query->where("gpuntisID IN( $resourceIDs )");
-
-            // Reset the query using our newly populated query object.
-            $dbo->setQuery((string) $query);
-
-            try
-            {
-                // Load the results as a list of stdClass objects.
-                $teachers = $dbo->loadObjectList();
-            }
-            catch (runtimeException $e)
-            {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-            }
-
-            // Create a new query object.
-            $query = $dbo->getQuery(true);
-
-            // Select all records from the user profile table where key begins with "custom.".
-            // Order it by the ordering field.
-            $query->select($select);
-            $query->from('#__thm_organizer_rooms');
-            $query->where("gpuntisID IN( $resourceIDs )");
-
-            // Reset the query using our newly populated query object.
-            $dbo->setQuery((string) $query);
-
-            try
-            {
-                // Load the results as a list of stdClass objects.
-                $rooms = $dbo->loadObjectList();
-            }
-            catch (runtimeException $e)
-            {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
-            }
-
-            $resources = array_merge($classes, array_merge($teachers, $rooms));
-            if (count($resources) > 0)
-            {
-                $resString = implode(", ", $resources);
-            }
-
-            $this->_objPHPExcel->getActiveSheet()
-                ->setCellValue('A' . $row, $item->data->title)
-                ->setCellValue('B' . $row, $item->data->edescription)
-                ->setCellValue('C' . $row, $resString)
-                ->setCellValue('D' . $row, $item->data->category)
-                ->setCellValue('E' . $row, $item->data->startdate)
-                ->setCellValue('F' . $row, $item->data->enddate)
-                ->setCellValue('G' . $row, $item->data->starttime)
-                ->setCellValue('H' . $row, $item->data->endtime);
-            $row++;
+            return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATION_FAIL"));
         }
     }
 
@@ -533,18 +403,14 @@ class THMICSBuilder extends THMAbstractBuilder
         $query->where('id = ' . $semesterID);
         $dbo->setQuery((string) $query);
 
-        if ($dbo->getErrorMsg())
-        {
-            return false;
-        }
-
         try
         {
             $result = $dbo->loadObject();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            return false;
         }
 
         if ($result === null)

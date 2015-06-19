@@ -12,6 +12,13 @@
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_SITE . '/helpers/pool.php';
 
+/**
+ * Class renders curriculum item panel information
+ *
+ * @category    Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ */
 class THM_OrganizerTemplateCurriculumItemPanel
 {
     /**
@@ -64,8 +71,7 @@ if (!empty($element->children))
             <icon class="icon-grid-view-2"></icon>
         </a>
 <?php
-            $panel = new THM_OrganizerTemplateCurriculumPanel;
-            $panel->render($element);
+            THM_OrganizerTemplateCurriculumPanel::render($element);
         }
 ?>
     </div>
