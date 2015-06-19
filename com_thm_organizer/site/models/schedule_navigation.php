@@ -422,7 +422,7 @@ class THM_OrganizerModelSchedule_Navigation
     private function getCategoryNodes($key, $scheduleID)
     {
         $categoryNodes = array();
-        $categories = array("teacher", "room", "pool", "subject");
+        $categories = array("teacher", "room", "pool");
 
         foreach ($categories as $category)
         {
@@ -445,7 +445,8 @@ class THM_OrganizerModelSchedule_Navigation
                 );
                 $categoryNode = new THM_OrganizerNode($categoryNodeData);
             }
-            $allDisplayed = $this->displayNode($nodeKey . ";ALL");
+
+            $allDisplayed = ($category != 'pool')? $this->displayNode($nodeKey . ";ALL") : false;
             $subcategories = $this->getSubcategoryNodes($nodeKey, $category, $scheduleID, $allDisplayed);
 
             if (empty($subcategories))
