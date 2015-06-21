@@ -57,7 +57,7 @@ class THMPDFBuilder extends THMAbstractBuilder
      */
     public function createSchedule($scheduleData, $username, $title)
     {
-        // Defaultangaben fuer Header, Zellen und Tabelle definieren
+        // Default angaben fuer Header, Zellen und Tabelle definieren
         $headerSettings = array(
              'WIDTH' => 6,
                 'T_COLOR' => array(
@@ -121,6 +121,7 @@ class THMPDFBuilder extends THMAbstractBuilder
                 ),
                 'BRD_SIZE' => 0.7
         );
+
 
         if (isset($username) && isset($title))
         {

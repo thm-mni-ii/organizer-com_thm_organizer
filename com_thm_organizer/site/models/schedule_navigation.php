@@ -379,30 +379,31 @@ class THM_OrganizerModelSchedule_Navigation
         }
 
         $nodeParts = explode(";", $nodeID);
-        // do not show root node
+
+        // Do not show root node
         if(count($nodeParts) === 4)
         {
             return false;
         }
-        if (count($nodeParts) >= 5){
+        if (count($nodeParts) >= 5)
+        {
             // 'subject' should not shown any more
-            if($nodeParts[4] === 'subject')
+            if ($nodeParts[4] === 'subject')
             {
                 return false;
             }
-            if($nodeParts[4] === 'room' && $this->displayRoom == 0)
+            if ($nodeParts[4] === 'room' && $this->displayRoom == 0)
             {
                 return false;
             }
-            if($nodeParts[4] === 'teacher' && $this->displayTeacher == 0)
+            if ($nodeParts[4] === 'teacher' && $this->displayTeacher == 0)
             {
                 return false;
             }
         }
 
-        foreach($this->_checked as $element)
+        foreach ($this->_checked as $element)
         {
-            $checkedParts = explode(";", $element);
             if (count($nodeParts) >= 5 && stristr($nodeID, $element) !== false)
             {
                 return false;

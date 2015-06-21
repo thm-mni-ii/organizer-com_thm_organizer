@@ -350,35 +350,40 @@ class THM_OrganizerHelperMapping
     }
 
     /**
-     * Retrieves the ids of pool children both direct and indirect
+     * Retrieves the ids of both direct and indirect pool children
      * 
      * @param   array  &$mappings  the current mappings of the pool
      * 
      * @return  array  the ids of the children of a pool
-     *
-     * @throws  exception
      */
     public static function getChildren(&$mappings)
     {
         $dbo = JFactory::getDbo();
         $children = array();
-        foreach ($mappings AS $mapping)
+
+        // The children should be the same regardless of which mapping is used, so we just take the last one
+        $mapping = array_pop($mappings);
+
+        // If mappings was empty mapping can be null
+        if (empty($mapping))
         {
-            $childrenQuery = $dbo->getQuery(true);
-            $childrenQuery->select('id')->from('#__thm_organizer_mappings');
-            $childrenQuery->where("lft > '{$mapping['lft']}'");
-            $childrenQuery->where("rgt < '{$mapping['rgt']}'");
-            $childrenQuery->where("parentID IS NULL");
-            $dbo->setQuery((string) $childrenQuery);
-            try 
-            {
-                return array_merge($children, $dbo->loadColumn());
-            }
-            catch (Exception $exc)
-            {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-                return array();
-            }
+            return array();
+        }
+
+        $childrenQuery = $dbo->getQuery(true);
+        $childrenQuery->select('id')->from('#__thm_organizer_mappings');
+        $childrenQuery->where("lft > '{$mapping['lft']}'");
+        $childrenQuery->where("rgt < '{$mapping['rgt']}'");
+        $dbo->setQuery((string) $childrenQuery);
+        try
+        {
+            // This ensures that an array is returned even if no entries were found
+            return array_merge($children, $dbo->loadColumn());
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            return array();
         }
     }
 

@@ -160,7 +160,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return;
+            return null;
         }
 
         if (empty($pool))
@@ -208,7 +208,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return;
+            return null;
         }
 
         if (empty($subject))

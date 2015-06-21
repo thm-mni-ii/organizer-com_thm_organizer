@@ -33,7 +33,9 @@ class MySchedPdf extends FPDF_TABLE
     private $_title = null;
 
     /**
-     * Constructor which perfom initial tasks
+     * Constructor which performs initial tasks
+     *
+     * @param   string  $title  the title for the pdf
      */
     public function __construct($title)
     {
@@ -49,9 +51,9 @@ class MySchedPdf extends FPDF_TABLE
      */
     public function Header()
     {
-        $this->SetFont('Arial','B',15);
+        $this->SetFont('Arial', 'B', 15);
         $this->Cell(124);
-        $this->Cell(30,10, '' . $this->_title . '',0,0,'C');
+        $this->Cell(30,10, '' . $this->_title . '', 0, 0, 'C');
         $this->Ln(15);
     }
 

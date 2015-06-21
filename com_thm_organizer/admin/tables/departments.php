@@ -45,7 +45,7 @@ class THM_OrganizerTableDepartments extends THM_CoreTableAssets
     /**
      * Sets the department asset name
      *
-     * @return  void
+     * @return  string
      */
     protected function _getAssetName()
     {

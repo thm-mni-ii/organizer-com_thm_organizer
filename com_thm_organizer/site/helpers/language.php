@@ -51,7 +51,7 @@ class THM_OrganizerHelperLanguage
     /**
      * Sets the language to the one requested
      *
-     * @return  void  sets the default language for joomla
+     * @return  array  html links for language redirection
      */
     public static function getLanguageSwitches($params)
     {

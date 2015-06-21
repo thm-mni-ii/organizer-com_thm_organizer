@@ -64,35 +64,27 @@ class THMUser
         $this->_cfg = $cfg;
     }
 
-   /**
-    * Method to authenticate a user
-    *
-    * @return Array An array with information if the user is authenticated
-    */
-   public function auth()
-   {
-      // Nur Anfragen ueber HTTPS werden zugelassen -
-      if (isset($this->_cfg->requireHTTPS))
-      {
-         $protocol = JFactory::getApplication()->input->server->getString('SERVER_PROTOCOL', '');
-         if ($this->_cfg->requireHTTPS && !strstr(strtolower($protocol), 'https'))
-         {
-            return array("success" => true, "data" => array(
-                  'error' => "Schwerer Fehler: Keine Verschl&Atilde;&frac14;sselte Verbindung vorhanden!"
-            ));
-         }
-      }
+    /**
+     * Method to authenticate a user
+     *
+     * @return Array An array with information if the user is authenticated
+     */
+    public function auth()
+    {
+        // HTTPS Required?
+        $protocol = JFactory::getApplication()->input->server->getString('SERVER_PROTOCOL', '');
+        if (!empty($this->_cfg->requireHTTPS) AND !strstr(strtolower($protocol), 'https'))
+        {
+            return array("success" => true, "data" => array('error' => JText::_('COM_THM_ORGANIZER_MESSAGE_HTTPS_REQUIRED')));
+        }
 
-      // Nur Token Verifikation - Token ist die SessionId von Joomla und wird mit der DB verglichen
-      if ($this->_token)
-      {
-         /*
-         * Ueberpruefung ob Token korrekt sind
-         */
+        // Token required. Probably always present in the Joomla environment, but we can check anyways.
+        if (empty($this->_token))
+        {
+            return array("success" => false, "data" => array('error' => JText::_('COM_THM_ORGANIZER_MESSAGE_TOKEN_REQUIRED')));
+        }
+
          $auth = new THMAuth($this->_cfg);
          return array("data" => $auth->joomla($this->_token));
-
-         // Hier werden die Logindaten des Users gecheckt
-      }
    }
 }

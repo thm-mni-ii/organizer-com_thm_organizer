@@ -52,7 +52,7 @@ class THM_OrganizerTablePools extends JTable
     /**
      * Sets the department asset name
      *
-     * @return  void
+     * @return  string
      */
     protected function _getAssetName()
     {

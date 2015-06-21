@@ -187,8 +187,8 @@ class THM_OrganizerHelperComponent
     /**
      * Checks for resources which have not yet been saved as an asset allowing transitional edit access
      *
-     * @param   string $resourceName  the name of the resource type
-     * @param   int    $itemID        the id of the item being checked
+     * @param   string  $resourceName  the name of the resource type
+     * @param   int     $itemID        the id of the item being checked
      *
      * @return  bool  true if the resource has an associated asset, otherwise false
      */
@@ -214,6 +214,9 @@ class THM_OrganizerHelperComponent
 
     /**
      * Checks whether the user has access to a department
+     *
+     * @param   string  $resourceName  the name of the resource type
+     * @param   int     $itemID        the id of the resource
      *
      * @return  bool  true if the user has access to at least one department, otherwise false
      */
@@ -258,7 +261,7 @@ class THM_OrganizerHelperComponent
         {
             $departmentIDs = $dbo->loadColumn();
         }
-        catch(Exception $exc)
+        catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
@@ -310,7 +313,7 @@ class THM_OrganizerHelperComponent
     public static function getTextColor($bgColor)
     {
         $color = substr($bgColor, 1);
-        $params =JComponentHelper::getParams('com_thm_organizer');
+        $params = JComponentHelper::getParams('com_thm_organizer');
         $red = hexdec(substr($color, 0, 2));
         $green = hexdec(substr($color, 2, 2));
         $blue = hexdec(substr($color, 4, 2));
@@ -335,7 +338,7 @@ class THM_OrganizerHelperComponent
      */
     public static function formatDate($date)
     {
-        $params =JComponentHelper::getParams('com_thm_organizer');
+        $params = JComponentHelper::getParams('com_thm_organizer');
         $dateFormat = $params->get('dateFormat', 'd.m.Y');
         return date($dateFormat, strtotime($date));
     }
@@ -349,7 +352,7 @@ class THM_OrganizerHelperComponent
      */
     public static function formatTime($time)
     {
-        $params =JComponentHelper::getParams('com_thm_organizer');
+        $params = JComponentHelper::getParams('com_thm_organizer');
         $timeFormat = $params->get('timeFormat', 'H:i');
         return date($timeFormat, strtotime($time));
     }

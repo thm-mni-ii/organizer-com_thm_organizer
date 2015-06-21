@@ -27,14 +27,16 @@ class THM_OrganizerTemplateCurriculumPanel
      * @param   string  $type   the pool display type
      *
      * @return  void  generates HTML output
+     *
+     * @SuppressWarnings("PMD.NPathComplexity")
      */
     public static function render(&$pool, $type = 'modal')
     {
         $displayHead = ($type == 'modal')? 'hidden' : 'shown';
-        $displayDescription = (!empty($pool->enable_desc) AND !empty($pool->description));
+        $dontDisplayDesc = (empty($pool->enable_desc) OR empty($pool->description));
         echo '<div id="panel-' . $pool->mapping . '" class="' . $type . '-panel ' . $displayHead . '">';
         self::renderHead($pool, $type);
-        if ($displayDescription)
+        if (!$dontDisplayDesc)
         {
             echo '<div class="' . $type . '-panel-description">' . $pool->description . '</div>';
 
@@ -60,7 +62,7 @@ class THM_OrganizerTemplateCurriculumPanel
             $textColor = THM_OrganizerHelperComponent::getTextColor($pool->bgColor);
             $headStyle .= ' style="background-color: ' . $pool->bgColor . '; color: ' . $textColor . '"';
         }
-        $script = ($type=='main')? ' onclick="toggleGroupDisplay(\'#main-panel-items-' . $pool->mapping . '\')"' : '';
+        $script = ($type == 'main')? ' onclick="toggleGroupDisplay(\'#main-panel-items-' . $pool->mapping . '\')"' : '';
         echo '<div class="' . $type . '-panel-head" ' . $headStyle . $script . '>';
         echo '<div class="' . $type . ' panel-title">';
         echo '<span class="' . $type . '-panel-name">' . $pool->name . '</span>';
@@ -76,6 +78,8 @@ class THM_OrganizerTemplateCurriculumPanel
      * @param   string  $type   the pool display type
      *
      * @return  void  generates HTML output
+     *
+     * @SuppressWarnings("PMD.NPathComplexity")
      */
     private static function renderBody(&$pool, $type)
     {
@@ -89,6 +93,7 @@ class THM_OrganizerTemplateCurriculumPanel
         echo '<div class="' . $type . '-panel-items ' . $displayBody . '" ' . $mainID . '>';
         foreach ($pool->children AS $element)
         {
+
             if ($childIndex === 1)
             {
                 echo '<div class="panel-row">';
@@ -101,7 +106,7 @@ class THM_OrganizerTemplateCurriculumPanel
             {
                 echo '</div>';
             }
-            $childIndex = $isRowEnd? 1 : $childIndex +1;
+            $childIndex = $isRowEnd? 1 : $childIndex + 1;
             $childNumber++;
         }
         echo '</div>';

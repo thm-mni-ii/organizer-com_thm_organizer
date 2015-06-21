@@ -130,9 +130,9 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         {
             $poolData = $dbo->loadObject();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
         
         if (empty($poolData->color))
@@ -173,7 +173,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
         
         return $programData;
@@ -214,7 +214,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
         
         if (empty($subjectData))
@@ -270,7 +270,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
         
         if (empty($mappings))
@@ -330,7 +330,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
         
         return $childOrder;
@@ -360,7 +360,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
 
         foreach ($currentSchedules as $currentSchedule)
