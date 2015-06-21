@@ -73,7 +73,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return;
         }
 
@@ -102,7 +102,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return;
         }
 
@@ -159,7 +159,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return;
         }
 
@@ -207,7 +207,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return;
         }
 

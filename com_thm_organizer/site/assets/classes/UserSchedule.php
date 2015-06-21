@@ -3,8 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        UserSchedule
- * @description UserSchedule file from com_thm_organizer
+ * @name        THMUserSchedule
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -89,133 +88,90 @@ class THMUserSchedule
       }
    }
 
-   /**
+    /**
     * Method to save a user schedule
     *
     * @return Array An array with information whether the schedule could be saved
     */
-   public function save()
-   {
-      // Wenn die Anfragen nicht durch Ajax von MySched kommt
-      $requestedWith = JFactory::getApplication()->input->get->server('HTTP_X_REQUESTED_WITH', '');
-      if (isset($requestedWith))
-      {
-         if ($requestedWith != 'XMLHttpRequest')
-         {
-            echo JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED");
-            return array("success" => false,"data" => array(
-                     'code' => 2,
-                     'errors' => array(
-                           'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED")
-                     )
-                ));
-         }
-      }
-      else
-      {
-         echo JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED");
-         return array("success" => false,"data" => array(
-                     'code' => 2,
-                     'errors' => array(
-                           'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_PERMISSION_DENIED")
-                     )
-               ));
-      }
+    public function save()
+    {
+        // Ensures the requests came from the scheduler view
+        $requestedWith = JFactory::getApplication()->input->get->server('HTTP_X_REQUESTED_WITH', '');
+        if (empty($requestedWith) OR $requestedWith != 'XMLHttpRequest')
+        {
+             return array(
+                'success' => false,
+                'data' => array('code' => 2, 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_EXTERNAL_DENIED")))
+            );
+        }
 
-      if (isset($this->_jsid))
-      {
-         if ($this->_username != null && $this->_username != "")
-         {
+        $validSession = (isset($this->_jsid) AND !empty($this->_username));
+        if ($validSession)
+        {
             $timestamp = time();
 
             $dbo = JFactory::getDbo();
  
             $query = $dbo->getQuery(true);
 
-            // Alte Eintraege loeschen - Performanter als abfragen und Updaten
-            $query->delete($dbo->quoteName("{$this->_cfg->userScheduleTable}"));
-            $query->where("username = '$this->_username' ");
- 
+            // Remove older entries
+            $query->delete($dbo->quoteName("{$this->_cfg->userScheduleTable}"))->where("username = '$this->_username' ");
             $dbo->setQuery((string) $query);
  
             try
             {
-                $result = $dbo->execute();
+                $dbo->execute();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                return array(
+                    'success' => false,
+                    'data' => array('code' => $exc->getCode(), 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR")))
+                );
             }
  
             // Create a new query object.
             $query = $dbo->getQuery(true);
  
-            // Insert columns.
-            $columns = array('username', 'data', 'created');
- 
-            // Insert values.
-            $values = array($dbo->quote($this->_username), $dbo->quote($this->_json), $dbo->quote($timestamp));
- 
             // Prepare the insert query.
-            $query
-            ->insert('#__thm_organizer_user_schedules')
-            ->columns($dbo->quoteName($columns))
-            ->values(implode(',', $values));
-             
-            // Reset the query using our newly populated query object.
+            $columns = array('username', 'data', 'created');
+            $values = array($dbo->quote($this->_username), $dbo->quote($this->_json), $dbo->quote($timestamp));
+            $query->insert('#__thm_organizer_user_schedules')->columns($dbo->quoteName($columns))->values(implode(',', $values));
             $dbo->setQuery((string) $query);
             try
             {
-                // Execute the query in Joomla 2.5.
                 $result = $dbo->execute();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                return array(
+                    'success' => false,
+                    'data' => array('code' => $exc->getCode(), 'errors' => array( 'reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR")))
+                );
             }
- 
+
+            // Schedule saved successfully
             if ($result === true)
             {
-               // ALLES OK
-               return array("success" => true,"data" => array(
-                   'code' => 1,
-                   'errors' => array()
-               ));
+               return array("success" => true,"data" => array('code' => 1, 'errors' => array()));
             }
             else
             {
-               // FEHLER
-               return array("success" => false,"data" => array(
-                     'code' => 2,
-                     'errors' => array(
-                           'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_SAVE_SCHEDULE_ERROR")
-                     )
-               ));
+                return array(
+                    'success' => false,
+                    'data' => array('code' => 2, 'errors' => array( 'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_SAVE_SCHEDULE_ERROR")))
+                );
             }
-         }
-         else
-         {
+        }
+        else
+        {
             // FEHLER
-            return array("success" => false,"data" => array(
-                'code' => 'expire',
-                'errors' => array(
-                      'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")
-                )
-            ));
-         }
-
-      }
-      else
-      {
-         // FEHLER
-         return array("success" => false,"data" => array(
-             'code' => 'expire',
-               'errors' => array(
-                     'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")
-               )
-         ));
-      }
-   }
+            return array(
+                'success' => false,
+                'data' => array('code' => 'expire', 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_INVALID_SESSION")))
+            );
+        }
+    }
 
     /**
      * Method to load a user schedule
@@ -239,9 +195,12 @@ class THMUserSchedule
             {
                 $rows = $dbo->loadObject();
             }
-            catch (runtimeException $e)
+            catch (Exception $exc)
             {
-                throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+                return array(
+                    'success' => false,
+                    'data' => array('code' => $exc->getCode(), 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR")))
+                );
             }
  
             if (is_object($rows) AND isset($rows->data))
@@ -259,8 +218,9 @@ class THMUserSchedule
         else
         {
             // SESSION FEHLER
-            return array("success" => false, "data" => array('code' => 'expire',
-               'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_INVALID_SESSION")))
+            return array(
+                'success' => false,
+                'data' => array('code' => 'expire', 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_INVALID_SESSION")))
             );
         }
     }

@@ -116,7 +116,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 $this->_db->transactionRollback();
                 return false;
             }
@@ -209,7 +209,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
         return true;
@@ -237,7 +237,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
         return true;

@@ -249,7 +249,7 @@ class Com_THM_OrganizerInstallerScript
             catch (Exception $exc)
             {
                 $dbo->transactionRollback();
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return false;
             }
 

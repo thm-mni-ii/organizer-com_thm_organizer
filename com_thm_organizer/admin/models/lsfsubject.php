@@ -588,7 +588,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return $moduleInformation;
         }
 
@@ -614,7 +614,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
@@ -633,7 +633,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 }
                 catch (Exception $exc)
                 {
-                    JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                    JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                     return false;
                 }
             }
@@ -686,7 +686,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
         
@@ -720,7 +720,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return false;
             }
 
@@ -737,7 +737,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 }
                 catch (Exception $exc)
                 {
-                    JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                    JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                     return false;
                 }
             }

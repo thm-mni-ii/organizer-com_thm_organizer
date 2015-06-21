@@ -301,7 +301,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
         
@@ -346,7 +346,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
@@ -385,7 +385,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
@@ -425,7 +425,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
@@ -439,7 +439,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
@@ -456,7 +456,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
@@ -475,7 +475,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
@@ -494,7 +494,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
         return true;
@@ -576,7 +576,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
         
@@ -595,7 +595,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
 
@@ -686,7 +686,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
         }
         
         if ( !empty($existingOrder))
@@ -708,7 +708,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
         }
         
         return empty($maxOrder)? 1 : $maxOrder + 1;
@@ -734,7 +734,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
         
@@ -826,7 +826,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
         
@@ -842,7 +842,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return false;
             }
 
@@ -950,7 +950,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
         

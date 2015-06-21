@@ -32,12 +32,12 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramName($resourceType, $resourceID)
     {
-        $resourceRanges = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
+        $resourceRanges = self::getResourceRanges($resourceType, $resourceID);
         if (empty($resourceRanges))
         {
             return JText::_('JNONE');
         }
-        $programs = THM_OrganizerHelperMapping::getResourcePrograms($resourceRanges);
+        $programs = self::getResourcePrograms($resourceRanges);
         if (empty($programs))
         {
             return JText::_('JNONE');
@@ -56,18 +56,18 @@ class THM_OrganizerHelperMapping
      * Retrieves a string value representing the degree programs to which the
      * pool is ordered. Used in subject manager view.
      *
-     * @param   int     $resourceID    the id of the resource
+     * @param   int  $resourceID  the id of the resource
      *
      * @return  string  string representing the associated program(s)
      */
     public static function getPoolName($resourceID)
     {
-        $resourceRanges = THM_OrganizerHelperMapping::getResourceRanges('subject', $resourceID);
+        $resourceRanges = self::getResourceRanges('subject', $resourceID);
         if (empty($resourceRanges))
         {
             return JText::_('JNONE');
         }
-        $pools = THM_OrganizerHelperMapping::getSubjectPools($resourceRanges);
+        $pools = self::getSubjectPools($resourceRanges);
         if (empty($pools))
         {
             return JText::_('JNONE');
@@ -120,7 +120,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
     }
@@ -159,7 +159,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
     }
@@ -167,13 +167,13 @@ class THM_OrganizerHelperMapping
     /**
      * Retrieves the names of the programs to which a resource is ordered
      *
-     * @param   array  $resourceRanges  the left and right values of the resource's mappings
+     * @param   array  $ranges  the left and right values of the resource's mappings
      *
      * @return  array  the names of the programs to which the pool is ordered
      */
     public static function getSubjectPools($ranges)
     {
-        $dbo= JFactory::getDbo();
+        $dbo = JFactory::getDbo();
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->select("lft");
         $lftQuery->from('#__thm_organizer_pools AS p');
@@ -188,6 +188,7 @@ class THM_OrganizerHelperMapping
 
 
         $pools = array();
+
         // Each range is a unique pool association
         foreach ($ranges AS $borders)
         {
@@ -209,13 +210,13 @@ class THM_OrganizerHelperMapping
                 }
                 catch (Exception $exc)
                 {
-                    JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                    JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                     return array();
                 }
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
         }
@@ -249,7 +250,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
     }
@@ -287,7 +288,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
     }
@@ -320,7 +321,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             $mappings = $mappingIDs = $parentIDs = array();
             return;
         }
@@ -331,7 +332,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             $mappingIDs = $parentIDs = array();
             return;
         }
@@ -342,7 +343,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             $mappingIDs = array();
             return;
         }
@@ -375,7 +376,7 @@ class THM_OrganizerHelperMapping
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
         }
@@ -412,7 +413,7 @@ class THM_OrganizerHelperMapping
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
             
@@ -455,7 +456,7 @@ class THM_OrganizerHelperMapping
             }
             catch (Exception $exc)
             {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
             
@@ -467,8 +468,8 @@ class THM_OrganizerHelperMapping
     /**
      * Gets a HTML option based upon a pool mapping
      * 
-     * @param   array   &$mapping          the pool mapping entry
-     * @param   array   &$selectedParents  the selected parents
+     * @param   array  &$mapping          the pool mapping entry
+     * @param   array  &$selectedParents  the selected parents
      * 
      * @return  string  HTML option
      */
@@ -483,7 +484,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return '';
         }
 
@@ -524,9 +525,9 @@ class THM_OrganizerHelperMapping
     /**
      * Gets a HTML option based upon a program mapping
      * 
-     * @param   array    &$mapping          the program mapping entry
-     * @param   array    &$selectedParents  the selected parents
-     * @param   string  $resourceType  the type of resource
+     * @param   array   &$mapping          the program mapping entry
+     * @param   array   &$selectedParents  the selected parents
+     * @param   string  $resourceType      the type of resource
      * 
      * @return  string  HTML option
      *
@@ -553,7 +554,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return '';
         }
     }
@@ -586,7 +587,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
     }
@@ -623,7 +624,7 @@ class THM_OrganizerHelperMapping
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
     }

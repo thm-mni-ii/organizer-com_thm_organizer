@@ -17,19 +17,27 @@ $title = $this->params->get('page_title', '');
 ?>
 <div id="consumption" class="consumption">
     <form id='statistic-form' name='statistic-form' enctype='multipart/form-data' method='post' action='index.php?' >
-        <?php if (!empty($showHeading)): ?>
+<?php
+if (!empty($showHeading))
+{
+?>
         <h2 class="componentheading">
             <?php echo $title; ?>
         </h2>
-        <?php endif; ?>
-        <?php if (!empty($this->model->schedule)): ?>
+<?php
+}
+if (!empty($this->model->schedule))
+{
+?>
         <div class="button-panel">
             <button type="submit" value="submit"><i class="icon-forward-2"></i> <?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
             <button onclick="jQuery('#reset').val('1')"><i class="icon-delete"></i> <?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET'); ?></button>
             <button id="export"><i class="icon-download"></i> <?php echo JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL"); ?></button>
             <input type="hidden" id="reset" name="reset" value="0" />
         </div>
-        <?php endif; ?>
+<?php
+}
+?>
         <div class="filter-bar">
             <div class="filter-header">
                 <div class="control-group">
@@ -37,7 +45,10 @@ $title = $this->params->get('page_title', '');
                         <?php echo $this->scheduleSelectBox; ?>
                     </div>
                 </div>
-                <?php if (!empty($this->model->schedule)): ?>
+<?php
+if (!empty($this->model->schedule))
+{
+?>
                 <div class="control-group">
                     <div class="controls">
                         <?php echo $this->typeSelectBox; ?>
@@ -64,9 +75,14 @@ $title = $this->params->get('page_title', '');
                         <?php echo JHtml::calendar($this->model->endDate, 'enddate', 'enddate', '%d.%m.%Y') ?>
                     </div>
                 </div>
-                <?php endif; ?>
+<?php
+}
+?>
             </div>
-            <?php if (!empty($this->model->schedule)): ?>
+<?php
+if (!empty($this->model->schedule))
+{
+?>
             <div class="filter-toggle">
                 <a class="toggle-link" onclick="toggle();">
                     <span id="filter-toggle-image" class="toggle-button toggle-closed"></span>
@@ -74,7 +90,10 @@ $title = $this->params->get('page_title', '');
                 </a>
             </div>
             <div id="filter-resource" class="filter-resource" style="display: none">
-            <?php if ($this->model->type == ROOM): ?>
+<?php
+    if ($this->model->type == ROOM)
+    {
+?>
                 <div class="control-group">
                     <div class="control-label">
                         <label for="roomtypes"><?php echo JText::_('COM_THM_ORGANIZER_TYPE')?></label>
@@ -91,8 +110,11 @@ $title = $this->params->get('page_title', '');
                         <?php echo $this->roomsSelectBox; ?>
                     </div>
                 </div>
-            <?php endif; ?>
-            <?php if ($this->model->type == TEACHER): ?>
+<?php
+    }
+    if ($this->model->type == TEACHER)
+    {
+?>
                 <div class="control-group">
                     <div class="control-label">
                         <label for="fields"><?php echo JText::_('COM_THM_ORGANIZER_FIELD')?></label>
@@ -109,13 +131,22 @@ $title = $this->params->get('page_title', '');
                         <?php echo $this->teachersSelectBox; ?>
                     </div>
                 </div>
-            <?php endif; ?>
+<?php
+    }
+?>
             </div>
-            <?php endif; ?>
+<?php
+}
+?>
         </div>
-        <?php if (!empty($this->model->schedule)): ?>
+<?php
+if (!empty($this->model->schedule))
+{
+?>
         <?php echo $this->table; ?>
-        <?php endif; ?>
+<?php
+}
+?>
         <input type='hidden' name='option' value='com_thm_organizer' />
         <input type='hidden' name='view' value='consumption' />
     </form>

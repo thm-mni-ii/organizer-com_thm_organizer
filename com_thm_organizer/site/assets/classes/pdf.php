@@ -35,8 +35,8 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Constructor with the configuration object
      *
-     * @param   Object           $cfg      An object which has configurations including
-     * @param   Object           $options  An object which has options including
+     * @param   Object  $cfg      An object which has configurations including
+     * @param   Object  $options  An object which has options including
      */
     public function __construct($cfg, $options)
     {
@@ -49,9 +49,9 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Method to create a ical schedule
      *
-     * @param   Object  $scheduleData       The event object
-     * @param   String  $username  The current logged in username
-     * @param   String  $title     The schedule title
+     * @param   Object  $scheduleData  The event object
+     * @param   String  $username      The current logged in username
+     * @param   String  $title         The schedule title
      *
      * @return Array An array with information about the status of the creation
      */
@@ -167,18 +167,20 @@ class THMPDFBuilder extends THMAbstractBuilder
                 $daysPerWeek = 6;
             }
 
-            // Erstellt Blanko Tabelle als Vorlage (sonst sind rahmen ungleich dick)
+            // Creates an empty table as a template, otherwise the frame border widths are inconsistent
             $dummy = array_fill(0, $daysPerWeek, array());
             $sched = array_fill(0, $scheduleGridLength, $dummy);
 
             for ($index = 0; $index < $scheduleGridLength; $index++)
             {
-                // Zeitspalte definieren
-                $sched[$index][0]["TEXT"] = substr_replace($scheduleData->grid->{$index + 1}->starttime, ":", 2, 0) . "\n-\n" . substr_replace($scheduleData->grid->{$index + 1}->endtime, ":", 2, 0);
+                // Create text for the time column
+                $sched[$index][0]["TEXT"] = substr_replace($scheduleData->grid->{$index + 1}->starttime, ":", 2, 0);
+                $sched[$index][0]["TEXT"] .= "\n-\n";
+                $sched[$index][0]["TEXT"] .= substr_replace($scheduleData->grid->{$index + 1}->endtime, ":", 2, 0);
             }
 
             // For the lunchtime
-            array_splice( $sched, 3, 0, array($dummy) );
+            array_splice($sched, 3, 0, array($dummy));
             $sched[3][0]["TEXT"] = " ";
 
             if (isset($scheduleData->data[0]->htmlView))
@@ -277,15 +279,26 @@ class THMPDFBuilder extends THMAbstractBuilder
 
             if ($scheduleData->daysPerWeek == "0")
             {
-                $header_type[1]['WIDTH'] = $header_type[2]['WIDTH'] = $header_type[3]['WIDTH'] = $header_type[4]['WIDTH'] = $header_type[5]['WIDTH'] = $header_type[6]['WIDTH'] = 45;
+                $header_type[1]['WIDTH'] = 45;
+                $header_type[2]['WIDTH'] = 45;
+                $header_type[3]['WIDTH'] = 45;
+                $header_type[4]['WIDTH'] = 45;
+                $header_type[5]['WIDTH'] = 45;
+                $header_type[6]['WIDTH'] = 45;
                 $header_type[6]['TEXT']  = JText::_("SATURDAY");
             }
             else
             {
-                $header_type[1]['WIDTH'] = $header_type[2]['WIDTH'] = $header_type[3]['WIDTH'] = $header_type[4]['WIDTH'] = $header_type[5]['WIDTH'] = 50;
+                $header_type[1]['WIDTH'] = 50;
+                $header_type[2]['WIDTH'] = 50;
+                $header_type[3]['WIDTH'] = 50;
+                $header_type[4]['WIDTH'] = 50;
+                $header_type[5]['WIDTH'] = 50;
             }
 
             $header_type[0]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME");
+
+            // These are falsely flagged in the metrics. The coding standard needs to be extended for them.
             $header_type[1]['TEXT']  = JText::_("MONDAY");
             $header_type[2]['TEXT']  = JText::_("TUESDAY");
             $header_type[3]['TEXT']  = JText::_("WEDNESDAY");
@@ -409,24 +422,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 
             $pdf->Draw_Table_Border();
 
-            $sporadic = array();
-
-            // Sporadische Veranstaltungen werden
-            // als Liste darunter angezeigt
-            if (count($sporadic) > 0)
-            {
-                $pdf->Ln(10);
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(70, 6, JText::_("COM_THM_ORGANIZER_SCHEDULER_SPORADIC_LESSONS") . ':', 'B', 2);
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Ln(3);
-                foreach ($sporadic as $l)
-                {
-                    $pdf->Cell(0, 5, $l, 0, 2);
-                }
-            }
-
-            // Dokument wird lokal gespeichern
+            // The document will be saved locally
             @$pdf->Output($pdfLink, 'F');
 
             if (is_file($pdfLink))

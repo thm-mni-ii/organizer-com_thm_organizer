@@ -83,7 +83,7 @@ function setSubjectDetailsSegments(&$query, &$segments)
     }
     catch (Exception $exc)
     {
-        JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+        JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
         return;
     }
     
@@ -132,7 +132,7 @@ function setSubjectListSegments(&$query, &$segments, &$item)
     }
     catch (Exception $exc)
     {
-        JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+        JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
         return;
     }
 
