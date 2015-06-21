@@ -28,9 +28,16 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Config
      *
-     * @var    Object
+     * @var  object
      */
     private $_cfg = null;
+
+    /**
+     * The pdf object
+     *
+     * @var  object
+     */
+    private $_pdf = null;
 
     /**
      * Constructor with the configuration object
@@ -57,383 +64,374 @@ class THMPDFBuilder extends THMAbstractBuilder
      */
     public function createSchedule($scheduleData, $username, $title)
     {
-        // Default angaben fuer Header, Zellen und Tabelle definieren
-        $headerSettings = array(
-             'WIDTH' => 6,
-                'T_COLOR' => array(
-                        80,
-                        80,
-                        80
-                ),
-                'T_SIZE' => 14,
-                'T_FONT' => 'Arial',
-                'T_ALIGN' => 'C',
-                'V_ALIGN' => 'T',
-                'T_TYPE' => 'B',
-                'LN_SIZE' => 7,
-                'BG_COLOR' => array(
-                        255,
-                        255,
-                        255
-                ),
-                'BRD_COLOR' => array(
-                        150,
-                        150,
-                        150
-                ),
-                'BRD_SIZE' => 0.1,
-                'BRD_TYPE' => '1',
-                'BRD_TYPE_NEW_PAGE' => '',
-                'TEXT' => ''
-        );
-        $dataSettings   = array(
-             'T_COLOR' => array(
-                     0,
-                     0,
-                     0
-             ),
-                'T_SIZE' => 11,
-                'T_FONT' => 'Arial',
-                'T_ALIGN' => 'C',
-                'V_ALIGN' => 'M',
-                'T_TYPE' => '',
-                'LN_SIZE' => 4,
-                'BG_COLOR' => array(
-                        255,
-                        255,
-                        255
-                ),
-                'BRD_COLOR' => array(
-                        150,
-                        150,
-                        150
-                ),
-                'BRD_SIZE' => 0.1,
-                'BRD_TYPE' => '1',
-                'BRD_TYPE_NEW_PAGE' => ''
-        );
-        $tableSettings  = array(
-             'TB_ALIGN' => 'C',
-                'BRD_COLOR' => array(
-                        150,
-                        150,
-                        150
-                ),
-                'BRD_SIZE' => 0.7
-        );
+        $this->_pdf = new MySchedPdf($this->getTitle($username, $title));
+        $this->setPDFSettings();
 
+        $rows = count((array) $scheduleData->grid);
+        $columns = $scheduleData->daysPerWeek == "1"? 6 : 7;
 
-        if (isset($username) && isset($title))
+        $this->_pdf->Table_Init($columns, true, true);
+        $this->_pdf->Set_Table_Type($this->getTableSettings());
+        $this->_pdf->Set_Header_Type($this->getHeaderData($columns));
+        $this->_pdf->Draw_Header();
+        $this->_pdf->Set_Data_Type($this->getDataSettings($columns));
+
+        // Creates an empty table as a template, otherwise the frame border widths are inconsistent
+        $emptyRow = array_fill(0, $columns, array());
+        $schedule = array_fill(0, $rows, $emptyRow);
+
+        $this->fillTimeColumn($scheduleData, $schedule, $rows);
+        $this->setScheduleData($scheduleData, $schedule);
+
+        $endThird = substr_replace($scheduleData->grid->{4}->endtime, ":", 2, 0);
+        $startFourth = substr_replace($scheduleData->grid->{5}->starttime, ":", 2, 0);
+        $addLunchBreak = $endThird != $startFourth;
+        if ($addLunchBreak)
         {
-            $path = "";
+            array_splice($schedule, 3, 0, array($emptyRow));
+            $schedule[3][0]["TEXT"] = '';
+        }
 
-            if (!$title)
+        $separatorSettings = array('LN_SIZE' => 0.1, 'TEXT' => ' ', 'BRD_SIZE' => 0.7, 'BRD_TYPE' => 'T');
+        $separator = array_fill(0, $columns, $separatorSettings);
+        $counter = 0;
+
+        // Fill the schedule table
+        ksort($schedule);
+        foreach ($schedule as $row)
+        {
+            $counter++;
+            $this->_pdf->Draw_Data($separator);
+
+            if ($addLunchBreak AND $counter == 4)
             {
-                $title = 'stundenplan';
+                $data = array(0 => array());
+                $data[0]['TEXT'] = JText::_("COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME");
+                $data[0]['COLSPAN'] = 7;
+                $this->_pdf->Draw_Data($data);
+                continue;
             }
 
-            if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "")
+            $maxEntries = $this->getMaxEntries($row);
+            for ($index = 0; $index < $maxEntries; $index++)
             {
-                $title = $username . " - " . $title;
-            }
-
-            if ($username != "" && $this->_cfg->syncFiles == 1)
-            {
-                if (!is_dir($this->_cfg->pdf_downloadFolder . $path))
+                $data = array();
+                foreach ($row as $colNumber => $column)
                 {
-                    // Ordner erstellen
-                    @mkdir($this->_cfg->pdf_downloadFolder . $path, 0700);
-                }
-            }
-
-            $pdfLink = $this->_cfg->pdf_downloadFolder . $path . $title . '.pdf';
-
-            // Array um Wochentage in spalten zu mappen
-            $assign = array(
-                    'monday' => 1,
-                    'tuesday' => 2,
-                    'wednesday' => 3,
-                    'thursday' => 4,
-                    'friday' => 5,
-                    'saturday' => 6
-            );
-
-            $scheduleGridLength = count((array) $scheduleData->grid);
-
-            // +1 for the time column
-            $daysPerWeek = 7;
-
-            if ($scheduleData->daysPerWeek == "1")
-            {
-                $daysPerWeek = 6;
-            }
-
-            // Creates an empty table as a template, otherwise the frame border widths are inconsistent
-            $dummy = array_fill(0, $daysPerWeek, array());
-            $sched = array_fill(0, $scheduleGridLength, $dummy);
-
-            for ($index = 0; $index < $scheduleGridLength; $index++)
-            {
-                // Create text for the time column
-                $sched[$index][0]["TEXT"] = substr_replace($scheduleData->grid->{$index + 1}->starttime, ":", 2, 0);
-                $sched[$index][0]["TEXT"] .= "\n-\n";
-                $sched[$index][0]["TEXT"] .= substr_replace($scheduleData->grid->{$index + 1}->endtime, ":", 2, 0);
-            }
-
-            // For the lunchtime
-            array_splice($sched, 3, 0, array($dummy));
-            $sched[3][0]["TEXT"] = " ";
-
-            if (isset($scheduleData->data[0]->htmlView))
-            {
-                $lessons = $scheduleData[0]->htmlView;
-                foreach ($lessons as $block => $event)
-                {
-                    foreach ($event as $day => $html)
+                    // Time column text is not indexed, so an index is simulated to prevent redundant output
+                    if ($colNumber == 0 AND $index == 0)
                     {
-                        foreach ($html as $value)
-                        {
-                            $cell = "";
-                            $cell = str_replace('<br/>', "\n", $value);
-                            $cell = str_replace('<br>', "\n", $cell);
-                            $cell = strip_tags($cell, "<b><i><small>");
-                            $cell = preg_replace("/class=\"lecturename_dis\s*\"/", "", $cell);
-                            $cell = preg_replace("/class=\"lecturename\s*\"/", "", $cell);
-                            $cell = preg_replace("/class=\"\"\s*/", "", $cell);
-                            $cell = preg_replace("/class=\"roomshortname\s*\"/", "", $cell);
-                            $cell = preg_replace("/class=\"oldroom\s*\"/", "", $cell);
-
-                            if (is_int($assign[$day]))
-                            {
-                                if ($block > 2)
-                                {
-                                    $sched[$block + 1][$assign[$day]][] = $cell;
-                                }
-                            }
-                            else
-                            {
-                                $sched[$block][$assign[$day]][] = $cell;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                $lessons = $scheduleData->data;
- 
-                foreach ($lessons as $k => $l)
-                {
-                    if (isset($l->cell))
-                    {
-                        $l->cell = str_replace('<br/>', "\n", $l->cell);
-                        $l->cell = str_replace('<br>', "\n", $l->cell);
-                        $l->cell = strip_tags($l->cell, "<b><i><small>");
-                        $l->cell = preg_replace("/class=\"lecturename_dis\s*\"/", "", $l->cell);
-                        $l->cell = preg_replace("/class=\"lecturename\s*\"/", "", $l->cell);
-                        $l->cell = preg_replace("/class=\"\"\s*/", "", $l->cell);
-                        $l->cell = preg_replace("/class=\"roomshortname\s*\"/", "", $l->cell);
-                        $l->cell = preg_replace("/class=\"oldroom\s*\"/", "", $l->cell);
- 
-                        if (($l->block) > 3)
-                        {
-                            $sched[$l->block][$l->dow][] = $l->cell;
-                        }
-                        else
-                        {
-                            $sched[$l->block - 1][$l->dow][] = $l->cell;
-                        }
-                    }
-                    else
-                    {
-
-                    }
-                }
-            }
-
-            // PDF Anlegen
-            $pdf = new MySchedPdf($title);
-            $pdf->SetAutoPageBreak(true, 13);
-            $pdf->SetTopMargin(8);
-            $pdf->AddPage('L');
-            $columns = $daysPerWeek;
-
-            // Styles fuer die Formatierung-Tags setzten
-            $pdf->SetStyle("b", "arial", "b", 10, "0, 0, 0");
-            $pdf->SetStyle("i", "arial", "I", 10, "0, 0, 0");
-            $pdf->SetStyle("small", "arial", "", 8, "0, 0, 0");
-
-            // Tabelle initialisieren
-            $pdf->Table_Init($columns, true, true);
-
-            // Formatierung fuer die Tabelle setzen
-            $pdf->Set_Table_Type($tableSettings);
-
-            // Default-Formatierung fuer den Header setzen
-            for ($i = 0; $i < $columns; $i++)
-            {
-                $header_type[$i] = $headerSettings;
-            }
-
-            // Breite und Text des Headers setzten
-            $header_type[0]['WIDTH'] = 20;
-
-            if ($scheduleData->daysPerWeek == "0")
-            {
-                $header_type[1]['WIDTH'] = 45;
-                $header_type[2]['WIDTH'] = 45;
-                $header_type[3]['WIDTH'] = 45;
-                $header_type[4]['WIDTH'] = 45;
-                $header_type[5]['WIDTH'] = 45;
-                $header_type[6]['WIDTH'] = 45;
-                $header_type[6]['TEXT']  = JText::_("SATURDAY");
-            }
-            else
-            {
-                $header_type[1]['WIDTH'] = 50;
-                $header_type[2]['WIDTH'] = 50;
-                $header_type[3]['WIDTH'] = 50;
-                $header_type[4]['WIDTH'] = 50;
-                $header_type[5]['WIDTH'] = 50;
-            }
-
-            $header_type[0]['TEXT']  = JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME");
-
-            // These are falsely flagged in the metrics. The coding standard needs to be extended for them.
-            $header_type[1]['TEXT']  = JText::_("MONDAY");
-            $header_type[2]['TEXT']  = JText::_("TUESDAY");
-            $header_type[3]['TEXT']  = JText::_("WEDNESDAY");
-            $header_type[4]['TEXT']  = JText::_("THURSDAY");
-            $header_type[5]['TEXT']  = JText::_("FRIDAY");
-            $pdf->Set_Header_Type($header_type);
-            $pdf->Draw_Header();
-
-            // Default-Formatierung fuer die Daten Zellen setzen
-            $data_subtype = $dataSettings;
-
-            // Reset the array
-            $data_type    = Array();
-            for ($i = 0; $i < $columns; $i++)
-            {
-                $data_type[$i] = $data_subtype;
-            }
-
-            // Spezielle eigenschaften fuer die Zeitspalte setzen
-            $data_type[0]['V_ALIGN']  = 'M';
-            $data_type[0]['T_ALIGN']  = 'C';
-            $data_type[0]['T_SIZE']   = '11';
-            $data_type[0]['LN_SIZE']  = '5';
-            $data_type[0]['BRD_TYPE'] = "LR";
-            $pdf->Set_Data_Type($data_type);
-
-            // Definition einer leeren Zeile mit dickerem Rand zum Blocktrennen
-            $blankLine = array_fill(
-                0, $columns, array(
-                    'LN_SIZE' => 0.1,
-                    'TEXT' => ' ',
-                    'BRD_SIZE' => 0.7,
-                    'BRD_TYPE' => 'T'
-                )
-            );
-            $counter = 0;
-
-            // Daten in Tabelle einfuegen
-            ksort($sched);
-            foreach ($sched as $line)
-            {
-                $counter++;
-
-                // Maximale Eintraege pro Zeile ermitteln
-                $max = 1;
-                foreach ($line as $col)
-                {
-                    if (isset($col['TEXT']))
-                    {
+                        $data[$colNumber] = $column;
                         continue;
                     }
-                    else
-                    {
 
-                    }
-
-                    if (count($col) > $max)
+                    if (!empty($column[$index]))
                     {
-                        $max = count($col);
+                        $data[$colNumber]['TEXT'] = $column[$index];
+                        $data[$colNumber]['BRD_TYPE'] = ($index == 0)? "LR" : "TLR";
                     }
                     else
                     {
-
+                        $data[$colNumber]['TEXT'] = ' ';
+                        $data[$colNumber]['BRD_TYPE'] = 'LR';
                     }
                 }
-
-                // Zeichnet abstandslinie
-                $pdf->Draw_Data($blankLine);
-
-                // Zellen definieren und fuellen
-                for ($i = 0; $i < $max; $i++)
-                {
-                    $data = array();
-                    foreach ($line as $k => $col)
-                    {
-                        if ($counter == 4)
-                        {
-                            if (is_int($k))
-                            {
-                                $data[$k]['TEXT']    = JText::_("COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME");
-                                $data[$k]['COLSPAN'] = 7;
-                            }
-                        }
-                        else
-                        {
-                            // Textfeld in der Zeitspalte wird besonders behandelt
-                            if ($i == 0 && $k == 0)
-                            {
-                                // Standardbelegung mit einer Lecture
-                                $data[$k]               = $col;
-                                $data[$k]['BRD_TYPE'] = "LR";
-                            }
-                            elseif (isset($col[$i]))
-                            {
-                                $data[$k]['TEXT'] = $col[$i];
-
-                                // Wenn nur ein eintrag existiert hat er weder oben noch unten rand
-                                if ($i == 0 && !isset($col[$i + 1]))
-                                {
-                                    $data[$k]['BRD_TYPE'] = "LR";
-                                }
-                                elseif ($i == 0) // Der erste Eintrag eines Blocks hat oben keinen Rand
-                                {
-                                    $data[$k]['BRD_TYPE'] = "BLR";
-                                }
-                                elseif (!isset($col[$i + 1])) // Die letze Lecture eines Blocks hat keinen Rand unten
-                                {
-                                    $data[$k]['BRD_TYPE'] = "TLR";
-                                }
-                            }
-                            else // Leeres feld - Simuliertes RowSpanning
-                            {
-                                $data[$k]['TEXT']     = ' ';
-                                $data[$k]['BRD_TYPE'] = 'LR';
-                            }
-                        }
-                    }
-                    $pdf->Draw_Data($data);
-                }
-            }
-
-            $pdf->Draw_Table_Border();
-
-            // The document will be saved locally
-            @$pdf->Output($pdfLink, 'F');
-
-            if (is_file($pdfLink))
-            {
-                return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_FILE_CREATED"));
-            }
-            else
-            {
-                return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
+                $this->_pdf->Draw_Data($data);
             }
         }
+
+        $this->_pdf->Draw_Table_Border();
+
+        // The document will be saved locally
+        $pdfLink = $this->_cfg->pdf_downloadFolder . $title . '.pdf';
+        @$this->_pdf->Output($pdfLink, 'F');
+
+        if (is_file($pdfLink))
+        {
+            return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATED"));
+        }
+
+        return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATION_FAIL"));
+    }
+
+    /**
+     * Gets the title
+     *
+     * @param   string  $username      The current logged in username
+     * @param   string  $title         The schedule title
+     *
+     * @return  string  the document title
+     */
+    private function getTitle($username = '', $title = '')
+    {
+        if (empty($title))
+        {
+            return 'stundenplan';
+        }
+
+        if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") AND !empty($username))
+        {
+            return $username . " - " . $title;
+        }
+
+        return $title;
+    }
+
+    /**
+     * Sets document and tag properties for the PDF file
+     *
+     * @return  void  sets document and tag properties
+     */
+    private function setPDFSettings()
+    {
+        // Page settings
+        $this->_pdf->SetAutoPageBreak(true, 13);
+        $this->_pdf->SetTopMargin(8);
+        $this->_pdf->AddPage('L');
+
+        // Format tag settings
+        $this->_pdf->SetStyle("b", "arial", "b", 10, "0, 0, 0");
+        $this->_pdf->SetStyle("i", "arial", "I", 10, "0, 0, 0");
+        $this->_pdf->SetStyle("small", "arial", "", 8, "0, 0, 0");
+    }
+
+    /**
+     * Gets the table settings used for schedule pdf files
+     *
+     * @return  array  the table settings
+     */
+    private function getTableSettings()
+    {
+        $brdColor = array(150, 150, 150);
+        $tableSettings = array(
+            'TB_ALIGN' => 'C',
+            'BRD_COLOR' => $brdColor,
+            'BRD_SIZE' => 0.7
+        );
+        return $tableSettings;
+    }
+
+    /**
+     * Gets the data needed for the construction of the headers
+     *
+     * @param   int  $columns  the number of schedule columns
+     *
+     * @return  array  the header data
+     */
+    private function getHeaderData($columns)
+    {
+        // These are falsely flagged in the metrics. The coding standard needs to be extended for them.
+        $days = array(
+            0 => JText::_("COM_THM_ORGANIZER_SCHEDULER_TIME"),
+            1 => JText::_("MONDAY"),
+            2 => JText::_("TUESDAY"),
+            3 => JText::_("WEDNESDAY"),
+            4 => JText::_("THURSDAY"),
+            5 => JText::_("FRIDAY"),
+            6 => JText::_("SATURDAY")
+        );
+
+        $headerData = array();
+        $headerSettings = $this->getHeaderSettings();
+        $width = count($columns) == 7? 45 : 50;
+        for ($index = 0; $index < $columns; $index++)
+        {
+            $headerData[$index] = $headerSettings;
+            $headerData[$index]['WIDTH'] = $index === 0? 20 : $width;
+            $headerData[$index]['TEXT'] = $days[$index];
+        }
+
+        return $headerData;
+    }
+
+    /**
+     * Gets the header settings used for schedule pdf files
+     *
+     * @return  array  the header settings
+     */
+    private function getHeaderSettings()
+    {
+        $tColor = array(80, 80, 80);
+        $bgColor = array(255, 255, 255);
+        $brdColor = array(150, 150, 150);
+        $headerSettings = array(
+            'WIDTH' => 6,
+            'T_COLOR' => $tColor,
+            'T_SIZE' => 14,
+            'T_FONT' => 'Arial',
+            'T_ALIGN' => 'C',
+            'V_ALIGN' => 'T',
+            'T_TYPE' => 'B',
+            'LN_SIZE' => 7,
+            'BG_COLOR' => $bgColor,
+            'BRD_COLOR' => $brdColor,
+            'BRD_SIZE' => 0.1,
+            'BRD_TYPE' => '1',
+            'BRD_TYPE_NEW_PAGE' => '',
+            'TEXT' => ''
+        );
+        return $headerSettings;
+    }
+
+    /**
+     * Gets the data settings used for schedule pdf files
+     *
+     * @param   int  $columns  the number of schedule columns
+     *
+     * @return  array  the data settings
+     */
+    private function getDataSettings($columns)
+    {
+        $tColor = array(0, 0, 0);
+        $bgColor = array(255, 255, 255);
+        $brdColor = array(150, 150, 150);
+        $generalSettings = array(
+            'T_COLOR' => $tColor,
+            'T_SIZE' => 11,
+            'T_FONT' => 'Arial',
+            'T_ALIGN' => 'C',
+            'V_ALIGN' => 'M',
+            'T_TYPE' => '',
+            'LN_SIZE' => 4,
+            'BG_COLOR' => $bgColor,
+            'BRD_COLOR' => $brdColor,
+            'BRD_SIZE' => 0.1,
+            'BRD_TYPE' => '1',
+            'BRD_TYPE_NEW_PAGE' => ''
+        );
+
+        $dataSettings= array();
+        for ($i = 0; $i < $columns; $i++)
+        {
+            $dataSettings[$i] = $generalSettings;
+        }
+
+        // Special properties for the time column
+        $dataSettings[0]['V_ALIGN']  = 'M';
+        $dataSettings[0]['T_ALIGN']  = 'C';
+        $dataSettings[0]['T_SIZE']   = 11;
+        $dataSettings[0]['LN_SIZE']  = 5;
+        $dataSettings[0]['BRD_TYPE'] = "R";
+        $dataSettings[0]['BRD_SIZE'] = 0.3;
+
+        return $dataSettings;
+    }
+
+    /**
+     * Fills the time label column with values
+     *
+     * @param   object  $scheduleData  the object with the schedule data
+     * @param   array   $schedule      the array holding the schedule data for the pdf document
+     * @param   int     $rows          the number of rows
+     *
+     * @return  void  sets data in the schedule
+     */
+    private function fillTimeColumn(&$scheduleData, &$schedule, $rows)
+    {
+        for ($index = 0; $index < $rows; $index++)
+        {
+            $schedule[$index][0]["TEXT"] = substr_replace($scheduleData->grid->{$index + 1}->starttime, ":", 2, 0);
+            $schedule[$index][0]["TEXT"] .= "\n-\n";
+            $schedule[$index][0]["TEXT"] .= substr_replace($scheduleData->grid->{$index + 1}->endtime, ":", 2, 0);
+        }
+    }
+
+    /**
+     * Sets the schedule data to be displayed in the pdf
+     *
+     * @param   object  &$scheduleData  the schedule data from the HTML diplay
+     * @param   array   &$schedule      the schedule data for the PDF display
+     *
+     * @return  void  sets data in the schedule to be output
+     */
+    private function setScheduleData(&$scheduleData, &$schedule)
+    {
+        // What creates this difference? Does it still have to be taken into consideration?
+        if (isset($scheduleData->data[0]->htmlView))
+        {
+            // Array mapping weekdays to their numerical values
+            $assign = array(
+                'monday' => 1,
+                'tuesday' => 2,
+                'wednesday' => 3,
+                'thursday' => 4,
+                'friday' => 5,
+                'saturday' => 6
+            );
+
+            $lessons = $scheduleData[0]->htmlView;
+            foreach ($lessons as $block => $event)
+            {
+                foreach ($event as $day => $html)
+                {
+                    foreach ($html as $value)
+                    {
+                        $output = $this->getPDFOutput($value);
+                        $schedule[$block][$assign[$day]][] = $output;
+                    }
+                }
+            }
+        }
+        else
+        {
+            $lessons = $scheduleData->data;
+            foreach ($lessons as $key => $lesson)
+            {
+                if (isset($lesson->cell))
+                {
+                    $output = $this->getPDFOutput($lesson->cell);
+
+                    // Thin assignment ($l->block - 1) seems odd, like it would write data to the time column?
+                    $schedule[$lesson->block - 1][$lesson->dow][] = $output;
+                }
+            }
+        }
+    }
+
+    /**
+     * Processes the displayed HTML output for PDF output
+     *
+     * @param   string  $htmlLesson  the HTML lesson output
+     *
+     * @return  mixed|string
+     */
+    private function getPDFOutput($htmlLesson)
+    {
+        $pdfLesson = str_replace('<br/>', "\n", $htmlLesson);
+        $pdfLesson = str_replace('<br>', "\n", $pdfLesson);
+        $pdfLesson = strip_tags($pdfLesson, "<b><i><small>");
+        $pdfLesson = preg_replace("/class=\"lecturename_dis\s*\"/", "", $pdfLesson);
+        $pdfLesson = preg_replace("/class=\"lecturename\s*\"/", "", $pdfLesson);
+        $pdfLesson = preg_replace("/class=\"\"\s*/", "", $pdfLesson);
+        $pdfLesson = preg_replace("/class=\"roomshortname\s*\"/", "", $pdfLesson);
+        $pdfLesson = preg_replace("/class=\"oldroom\s*\"/", "", $pdfLesson);
+        return $pdfLesson;
+    }
+
+    /**
+     * Find the maximum number of entries in a single column for the row
+     *
+     * @param  array  &$row  the row being iterated
+     *
+     * @return  int  the maximum number of entries for the row
+     */
+    private function getMaxEntries(&$row)
+    {
+        // Find the maximum number of entries in a single column for the row
+        $maxEntries = 1;
+        foreach ($row as $column)
+        {
+            // Apparently only the time column has this property set
+            if (isset($column['TEXT']))
+            {
+                continue;
+            }
+
+            if (count($column) > $maxEntries)
+            {
+                $maxEntries = count($column);
+            }
+        }
+        return $maxEntries;
     }
 }

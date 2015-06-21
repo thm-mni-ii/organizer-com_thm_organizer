@@ -38,11 +38,6 @@ class MySchedConfig
     public $requireHTTPS = false;
 
     /**
-     * Whether or not the user's files should be synchronized?
-     */
-    public $syncFiles = 0;
-
-    /**
      * Constructor
      */
     public function __construct()
