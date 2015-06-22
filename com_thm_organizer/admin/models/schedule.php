@@ -64,13 +64,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public $refSchedule = null;
 
     /**
-     * Teacher model object
-     *
-     * @var object
-     */
-    private $teacherModel = null;
-
-    /**
      * saves a schedule in the database for later use
      *
      * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
@@ -391,6 +384,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
     /**
      * Sets distinct error for inconsistent periods information
+     *
+     * @return  void  creates an error text for period/block validation
      */
     private function setPeriodsError()
     {
@@ -415,7 +410,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $gpuntisID = trim((string) $descriptionNode[0]['id']);
         if (empty($gpuntisID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_DSM_ID_MISSING"), $this->scheduleErrors))
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING"), $this->scheduleErrors))
             {
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
             }

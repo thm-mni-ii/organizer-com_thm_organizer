@@ -159,7 +159,7 @@ class THMUserSchedule
             {
                 return array(
                     'success' => false,
-                    'data' => array('code' => 2, 'errors' => array( 'reason' => JText::_("COM_THM_ORGANIZER_SCHEDULER_SAVE_SCHEDULE_ERROR")))
+                    'data' => array('code' => 2, 'errors' => array( 'reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL")))
                 );
             }
         }

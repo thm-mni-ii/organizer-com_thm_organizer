@@ -171,7 +171,7 @@ class THM_OrganizerModelScheduler extends JModelLegacy
         }
         catch (Exception $exc)
         {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             return false;
         }
 

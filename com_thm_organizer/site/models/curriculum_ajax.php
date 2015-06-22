@@ -76,8 +76,6 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param   int  $right  the right value for the program
      *
      * @return  mixed  array on success, otherwise false
-     *
-     * @throws  exception
      */
     private function getFieldColors($left, $right)
     {
@@ -94,14 +92,13 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         
         try 
         {
-            $fieldColors = $this->_db->setQuery((string) $query)->loadAssocList();
+            return $this->_db->setQuery((string) $query)->loadAssocList();
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            return false;
         }
-        
-        return $fieldColors;
     }
 
     /**

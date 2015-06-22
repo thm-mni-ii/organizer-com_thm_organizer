@@ -12,6 +12,7 @@
  */
 require_once 'ungrouped_list.php';
 require_once 'grouped_list.php';
+$subjectsText = JText::_('COM_THM_ORGANIZER_SUBJECTS');
 ?>
 <h1 class="componentheading"><?php echo $this->programName; ?></h1>
 <div class="language-switches">
@@ -30,12 +31,12 @@ require_once 'grouped_list.php';
                 <div class="clearfix">
                     <div class="js-stools-container-bar">
                         <label for="filter_search" class="element-invisible">
-                            <?php echo JText::_('JSEARCH_FILTER'); ?>
+                            <?php echo JText::_('COM_THM_ORGANIZER_SEARCH_SUBJECTS'); ?>
                         </label>
                         <div class="btn-wrapper input-append">
                             <input type="text" name="search" id="filter_search"
                                    value="<?php echo $this->escape($this->state->get('search')); ?>"
-                                   title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_TITLE'); ?>" />
+                                   title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_SUBJECTS'); ?>" />
                             <button type="submit" class="btn hasTooltip"
                                     title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
                                 <i class="icon-search"></i>

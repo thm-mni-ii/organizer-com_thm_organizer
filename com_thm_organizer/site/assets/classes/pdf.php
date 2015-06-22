@@ -6,7 +6,7 @@
  * @name        THMPDFBuilder
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2014 Technische Hochschule Mittelhessen
+ * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -119,9 +119,9 @@ class THMPDFBuilder extends THMAbstractBuilder
 
         if (is_file($pdfLink))
         {
-            return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_FILE_CREATED"));
+            return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATED"));
         }
-        return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
+        return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATION_FAIL"));
     }
 
     /**

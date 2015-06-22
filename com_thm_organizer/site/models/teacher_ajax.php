@@ -31,9 +31,9 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
     }
 
     /**
-     * Retrieves subject entries from the database
+     * Retrieves teacher entries from the database
      * 
-     * @return  string  the subjects which fit the selected resource
+     * @return  string  the teachers who hold courses for the selected program and pool
      */
     public function teachersByProgramOrPool()
     {
@@ -73,7 +73,8 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            return '[]';
         }
 
         if (empty($teachers))

@@ -62,7 +62,6 @@ class THM_OrganizerViewVirtual_Schedule_Edit extends JViewLegacy
     {
         $title = ($this->getModel()->getID())?
             JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_EDIT_EDIT_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE_EDIT_NEW_VIEW_TITLE');
-        $title .= " " . JText::_('COM_THM_ORGANIZER_VIRTUAL_SCHEDULE');
         JToolbarHelper::title($title, "organizer_virtual_schedules");
         JToolbarHelper::save('virtual_schedule.save');
         JToolbarHelper::cancel('virtual_schedule.cancel');

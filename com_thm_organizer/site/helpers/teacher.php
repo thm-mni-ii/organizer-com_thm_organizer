@@ -39,9 +39,10 @@ class THM_OrganizerHelperTeacher
         {
             $picture = $dbo->loadResult();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            return '';
         }
 
         if (!empty($picture))
@@ -76,9 +77,10 @@ class THM_OrganizerHelperTeacher
         {
             $teacherData = $dbo->loadAssoc();
         }
-        catch (runtimeException $e)
+        catch (Exception $exc)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            return array();
         }
         
         return $teacherData;
@@ -222,13 +224,12 @@ class THM_OrganizerHelperTeacher
         
         try
         {
-            $userID = $dbo->loadResult();
+            return $dbo->loadResult();
         }
         catch (runtimeException $e)
         {
-            throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            return null;
         }
-        
-        return $userID;
     }
 }
