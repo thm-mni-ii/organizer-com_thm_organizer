@@ -50,7 +50,7 @@ class THMScheduleDirector
      *
      * @return Array An array with information about the status of the creation
      */
-    public function createSchedule( $arr, $username, $title )
+    public function createSchedule($arr, $username, $title)
     {
         return $this->_builder->createSchedule($arr, $username, $title);
     }

@@ -54,33 +54,15 @@ class THM_OrganizerTemplateGroupedList
             $style = '';
             if (!empty($group['bgColor']))
             {
-                $style = ' style="background-color: ' . $group['bgColor']. '; color: ' . $group['textColor']. '; margin: -1px; ."';
+                $style = ' style="background-color: ' . $group['bgColor'] . '; color: ' . $group['textColor'] . '; margin: -1px; ."';
             }
-       //     $script = ' onClick="jQuery(\'#' . $params['name'] . '-' . $group['id'] . '\').toggle(\'slide\', 1000);"';
             $script = ' onclick="toggleGroupDisplay(\'#' . $params['name'] . '-' . $group['id'] . '\')"';
             echo '<h3' . $style . $script . '>' . $group['name'] . '</h3>';
             echo '<div class="subject-list-container hidden" id="' . $params['name'] . '-' . $group['id'] . '">';
             echo '<ul class="subject-list">';
-            $displayItems = array();
-            foreach ($group['items'] AS $item)
-            {
-                // entry already exists and the teacher for the subject being iterated is not responsible
-                if (!empty($displayItems['id']) AND $item->teacherResp == 2)
-                {
-                    continue;
-                }
 
-                $displayItem = '';
-                $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
-                $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '">XXXX</a>';
+            $displayItems = self::getDisplayItems($group);
 
-                $displayItem .= '<li>';
-                $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
-                $displayItem .= '<span class="subject-teacher">' . str_replace('XXXX', $item->teacherName, $link) . '</span>';
-                $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . '</span>';
-                $displayItem .= '</li>';
-                $displayItems[$item->id] = $displayItem;
-            }
             echo implode($displayItems);
             echo '</ul>';
             echo '</div>';
@@ -122,5 +104,37 @@ class THM_OrganizerTemplateGroupedList
         }
         ksort($groups);
         return $groups;
+    }
+
+    /**
+     * Gets the items to be displayed for the group being currently iterated
+     *
+     * @param   array  &$group  the group being iterated
+     *
+     * @return  array  the items to be displayed in the group
+     */
+    private static function getDisplayItems(&$group)
+    {
+        $displayItems = array();
+        foreach ($group['items'] AS $item)
+        {
+            // Entry already exists and the teacher is not responsible for the subject being iterated
+            if (!empty($displayItems['id']) AND $item->teacherResp == 2)
+            {
+                continue;
+            }
+
+            $displayItem = '';
+            $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
+            $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '">XXXX</a>';
+
+            $displayItem .= '<li>';
+            $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
+            $displayItem .= '<span class="subject-teacher">' . str_replace('XXXX', $item->teacherName, $link) . '</span>';
+            $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . '</span>';
+            $displayItem .= '</li>';
+            $displayItems[$item->id] = $displayItem;
+        }
+        return $displayItems;
     }
 }

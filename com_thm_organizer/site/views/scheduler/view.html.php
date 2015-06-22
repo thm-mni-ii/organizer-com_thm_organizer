@@ -77,7 +77,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $validRequest = $this->validateRequest();
         if (!$validRequest)
         {
-            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'), 'error');
+            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACTIVE_SCHEDULE'), 'error');
             return false;
         }
 
@@ -248,7 +248,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $invalidRow = (!is_object($scheduleRow) OR !is_string($scheduleRow->schedule));
         if ($invalidRow)
         {
-            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_SCHEDULER_NO_ACTIVE_SCHEDULE'), 'error');
+            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACTIVE_SCHEDULE'), 'error');
             return false;
         }
 
@@ -257,14 +257,14 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 
         if (empty($schedule))
         {
-            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_SCHEDULER_DATA_FLAWED'), 'error');
+            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_FLAWED'), 'error');
             return false;
         }
 
         $validResources = $this->validateResources($schedule);
         if (!$validResources)
         {
-            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_SCHEDULER_IMPORTANT_DATA_MISSING'), 'error');
+            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_FLAWED'), 'error');
             return false;
         }
         $this->_schedule = $schedule;

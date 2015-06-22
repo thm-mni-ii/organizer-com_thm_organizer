@@ -33,5 +33,5 @@ abstract class THMAbstractBuilder
      *
      * @return void
      */
-    abstract protected function createSchedule( $arr, $username, $title );
+    abstract public function createSchedule($arr, $username, $title);
 }

@@ -1,18 +1,33 @@
 <?php
 /**
- * @category    Joomla <extension type>
- * @package     THM_<extension family>
- * @subpackage  <extension name>.<admin/site>
- * @name        <class name>
+ * @category    Joomla component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.site
+ * @name        THM_OrganizerHelperTeacher
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
+
 defined('_JEXEC') or die;
 
+/**
+ * Provides functions dealing with pool data
+ *
+ * @category    Joomla.Component.Site
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.site
+ */
 class THM_OrganizerHelperPool
 {
+    /**
+     * Creates a text for the required pool credit points
+     *
+     * @param   object  &$pool  the pool
+     *
+     * @return  string  the required amount of credit points
+     */
     public static function getCrPText(&$pool)
     {
         $minCrPExists = !empty($pool->minCrP);

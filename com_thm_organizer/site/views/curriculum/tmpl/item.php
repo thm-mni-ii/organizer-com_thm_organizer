@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        curriculum view item panel layout
+ * @name        THM_OrganizerTemplateCurriculumItemPanel
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -59,18 +59,20 @@ class THM_OrganizerTemplateCurriculumItemPanel
     </div>
     <div class="item-name"><?php echo $nameHTML; ?></div>
     <div class="item-tools">
-<?php if (!empty($element->teacherName)): ?>
-        <a class="btn hasTooltip" href="#" title="<?php echo $element->teacherName; ?>"><icon class="icon-user"></icon></a>
-<?php endif; ?>
 <?php
-if (!empty($element->children))
-{
+        if (!empty($element->teacherName))
+        {
+    ?>
+    <a class="btn hasTooltip" href="#" title="<?php echo $element->teacherName; ?>">
+        <icon class="icon-user"></icon>
+    </a>
+<?php
+        }
+        if (!empty($element->children))
+        {
             $script = 'onclick="toggleGroupDisplay(\'#panel-' . $element->mapping . '\')"';
-?>
-        <a class="btn hasTooltip" <?php echo $script; ?> title="<?php echo JText::_('COM_THM_ORGANIZER_ACTION_OPEN_POOL'); ?>">
-            <icon class="icon-grid-view-2"></icon>
-        </a>
-<?php
+            echo '<a class="btn hasTooltip" ' . $script . ' title="' . JText::_('COM_THM_ORGANIZER_ACTION_OPEN_POOL') . '">';
+            echo '<icon class="icon-grid-view-2"></icon></a>';
             THM_OrganizerTemplateCurriculumPanel::render($element);
         }
 ?>

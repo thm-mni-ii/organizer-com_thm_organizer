@@ -69,8 +69,7 @@ class THMDownload
     /**
      * Constructor with the configuration object
      *
-     * @param   MySchedConfig    $cfg  A object which has configurations including
-     *
+     * @param   MySchedConfig  $cfg  A object which has configurations including
      */
     public function __construct($cfg)
     {
@@ -107,7 +106,7 @@ class THMDownload
             {
                 if (!file_exists($tmpFile))
                 {
-                    echo JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE');
+                    echo JText::_('COM_THM_ORGANIZER_MESSAGE_FILE_CREATION_FAIL');
                 }
                 else
                 {
@@ -118,7 +117,7 @@ class THMDownload
 
             if (!file_exists($file))
             {
-                echo JText::_('COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_NO_FILE');
+                echo JText::_('COM_THM_ORGANIZER_MESSAGE_FILE_CREATION_FAIL');
             }
             else
             {

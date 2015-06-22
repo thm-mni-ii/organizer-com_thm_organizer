@@ -49,12 +49,15 @@ class THM_OrganizerTableDepartments extends THM_CoreTableAssets
      */
     protected function _getAssetName()
     {
-        $k = $this->_tbl_key;
-        return 'com_thm_organizer.department.'.(int) $this->$k;
+        $key = $this->_tbl_key;
+        return 'com_thm_organizer.department.' . (int) $this->$key;
     }
 
     /**
      * Sets the parent as the component root
+     *
+     * @param   JTable  $table  the JTable object
+     * @param   int     $id     the resource id
      *
      * @return  int  the asset id of the component root
      *

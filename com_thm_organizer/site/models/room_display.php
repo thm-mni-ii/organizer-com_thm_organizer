@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 define('SCHEDULE', 1);
 define('ALTERNATING', 2);
 define('CONTENT', 3);
-define('APPOINTMENTS', 4);
 
 /**
  * Retrieves lesson and event data for a single room and day

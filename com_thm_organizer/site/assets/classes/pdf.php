@@ -3,10 +3,10 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        PDFBauer
- * @description PDFBauer file from com_thm_organizer
+ * @name        THMPDFBuilder
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2014 Technische Hochschule Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -15,20 +15,18 @@ require_once dirname(__FILE__) . "/AbstractBuilder.php";
 require_once dirname(__FILE__) . "/mySched_pdf.php";
 
 /**
- * Class PDFBauer for component com_thm_organizer
  * Class provides methods to create a schedule in pdf format
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
 class THMPDFBuilder extends THMAbstractBuilder
 {
     /**
      * Config
      *
-     * @var  object
+     * @var    Object
      */
     private $_cfg = null;
 
@@ -54,11 +52,11 @@ class THMPDFBuilder extends THMAbstractBuilder
     }
 
     /**
-     * Method to create a ical schedule
+     * Method to create a PDF schedule
      *
-     * @param   Object  $scheduleData  The event object
-     * @param   String  $username      The current logged in username
-     * @param   String  $title         The schedule title
+     * @param   Object  $scheduleData  the schedule object
+     * @param   String  $username      the joomla username
+     * @param   String  $title         the schedule title
      *
      * @return Array An array with information about the status of the creation
      */
@@ -96,7 +94,6 @@ class THMPDFBuilder extends THMAbstractBuilder
         $separator = array_fill(0, $columns, $separatorSettings);
         $counter = 0;
 
-        // Fill the schedule table
         ksort($schedule);
         foreach ($schedule as $row)
         {
@@ -112,53 +109,26 @@ class THMPDFBuilder extends THMAbstractBuilder
                 continue;
             }
 
-            $maxEntries = $this->getMaxEntries($row);
-            for ($index = 0; $index < $maxEntries; $index++)
-            {
-                $data = array();
-                foreach ($row as $colNumber => $column)
-                {
-                    // Time column text is not indexed, so an index is simulated to prevent redundant output
-                    if ($colNumber == 0 AND $index == 0)
-                    {
-                        $data[$colNumber] = $column;
-                        continue;
-                    }
-
-                    if (!empty($column[$index]))
-                    {
-                        $data[$colNumber]['TEXT'] = $column[$index];
-                        $data[$colNumber]['BRD_TYPE'] = ($index == 0)? "LR" : "TLR";
-                    }
-                    else
-                    {
-                        $data[$colNumber]['TEXT'] = ' ';
-                        $data[$colNumber]['BRD_TYPE'] = 'LR';
-                    }
-                }
-                $this->_pdf->Draw_Data($data);
-            }
+            $this->renderRow($row);
         }
 
         $this->_pdf->Draw_Table_Border();
 
-        // The document will be saved locally
         $pdfLink = $this->_cfg->pdf_downloadFolder . $title . '.pdf';
         @$this->_pdf->Output($pdfLink, 'F');
 
         if (is_file($pdfLink))
         {
-            return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATED"));
+            return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_FILE_CREATED"));
         }
-
-        return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATION_FAIL"));
+        return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_SCHEDULER_NO_FILE_CREATED"));
     }
 
     /**
      * Gets the title
      *
-     * @param   string  $username      The current logged in username
-     * @param   string  $title         The schedule title
+     * @param   string  $username  the current logged in username
+     * @param   string  $title     the schedule title
      *
      * @return  string  the document title
      */
@@ -233,7 +203,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 
         $headerData = array();
         $headerSettings = $this->getHeaderSettings();
-        $width = count($columns) == 7? 45 : 50;
+        $width = $columns == 7? 45 : 50;
         for ($index = 0; $index < $columns; $index++)
         {
             $headerData[$index] = $headerSettings;
@@ -300,7 +270,7 @@ class THMPDFBuilder extends THMAbstractBuilder
             'BRD_TYPE_NEW_PAGE' => ''
         );
 
-        $dataSettings= array();
+        $dataSettings = array();
         for ($i = 0; $i < $columns; $i++)
         {
             $dataSettings[$i] = $generalSettings;
@@ -320,9 +290,9 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Fills the time label column with values
      *
-     * @param   object  $scheduleData  the object with the schedule data
-     * @param   array   $schedule      the array holding the schedule data for the pdf document
-     * @param   int     $rows          the number of rows
+     * @param   object  &$scheduleData  the object with the schedule data
+     * @param   array   &$schedule      the array holding the schedule data for the pdf document
+     * @param   int     $rows           the number of rows
      *
      * @return  void  sets data in the schedule
      */
@@ -339,10 +309,12 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Sets the schedule data to be displayed in the pdf
      *
-     * @param   object  &$scheduleData  the schedule data from the HTML diplay
+     * @param   object  &$scheduleData  the schedule data from the HTML display
      * @param   array   &$schedule      the schedule data for the PDF display
      *
      * @return  void  sets data in the schedule to be output
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function setScheduleData(&$scheduleData, &$schedule)
     {
@@ -381,7 +353,7 @@ class THMPDFBuilder extends THMAbstractBuilder
                 {
                     $output = $this->getPDFOutput($lesson->cell);
 
-                    // Thin assignment ($l->block - 1) seems odd, like it would write data to the time column?
+                    // This assignment ($l->block - 1) seems odd, like it would write data to the time column?
                     $schedule[$lesson->block - 1][$lesson->dow][] = $output;
                 }
             }
@@ -409,9 +381,47 @@ class THMPDFBuilder extends THMAbstractBuilder
     }
 
     /**
+     * Renders the row being iterated
+     *
+     * @param   array  &$row  the row being iterated
+     *
+     * @return  void
+     */
+    private function renderRow(&$row)
+    {
+        $maxEntries = $this->getMaxEntries($row);
+
+        for ($columnEntry = 0; $columnEntry < $maxEntries; $columnEntry++)
+        {
+            $data = array();
+            foreach ($row as $columnIndex => $column)
+            {
+                // Time column text is not indexed, so an index is simulated to prevent redundant output
+                if ($columnEntry == 0 && $columnIndex == 0)
+                {
+                    $data[$columnIndex] = $column;
+                    continue;
+                }
+
+                if (!empty($column[$columnEntry]))
+                {
+                    $data[$columnIndex]['TEXT'] = $column[$columnEntry];
+                    $data[$columnIndex]['BRD_TYPE'] = ($columnEntry == 0)? "LR" : "TLR";
+                }
+                else
+                {
+                    $data[$columnIndex]['TEXT'] = ' ';
+                    $data[$columnIndex]['BRD_TYPE'] = 'LR';
+                }
+            }
+            $this->_pdf->Draw_Data($data);
+        }
+    }
+
+    /**
      * Find the maximum number of entries in a single column for the row
      *
-     * @param  array  &$row  the row being iterated
+     * @param   array  &$row  the row being iterated
      *
      * @return  int  the maximum number of entries for the row
      */
