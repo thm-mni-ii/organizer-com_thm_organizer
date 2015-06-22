@@ -222,56 +222,6 @@ function getSubjectdesc(mninr)
     });
 }
 
-// TODO: Maybe it is not in use anymore
-function zeigeTermine(rooms)
-{
-    console.log("function zeigeTermine: Maybe it is not in use anymore");
-    if (Ext.ComponentMgr.get('sporadicPanel').collapsed)
-    {
-        Ext.ComponentMgr.get('sporadicPanel').expand();
-    }
-
-    var counterall = 0;
-    var allrooms = Ext.ComponentMgr.get('sporadicPanel').body.select("p[id]");
-    var index;
-    for (index in allrooms.elements)
-    {
-        if (!Ext.isFunction(allrooms.elements[index]) && allrooms.elements[index].style !== null)
-        {
-            allrooms.elements[index].style.display = "none";
-            counterall++;
-        }
-    }
-
-    rooms = rooms.replace(/<[^>]*>/g, "").replace(/[\n\r]/g, '').replace(/ +/g, ' ').replace(/^\s+/g, '').replace(/\s+$/g, '').split(",");
-    var counter = 0, room;
-    for (var i = 0; i < rooms.length; i++)
-    {
-        room = rooms[i].replace(/[\n\r]/g, '').replace(/ +/g, ' ').replace(/^\s+/g, '').replace(/\s+$/g, '');
-        var pos = room.search(/\s/);
-        if (pos !== -1)
-        {
-            room = room.substring(0, pos);
-        }
-        var selectedroomevents = Ext.ComponentMgr.get('sporadicPanel').body.select("p[id^=" + room + "_]");
-        for (index in selectedroomevents.elements)
-        {
-            if (selectedroomevents.elements.hasOwnProperty(index) &&
-                !Ext.isFunction(selectedroomevents.elements[index]) &&
-                selectedroomevents.elements[index].style !== null)
-            {
-                selectedroomevents.elements[index].style.display = "block";
-                counter++;
-            }
-        }
-    }
-
-    if (counter !== 0)
-    {
-        Ext.ComponentMgr.get('sporadicPanel').setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SINGLE_EVENT + ' - ' + room + ' (' + counter + ')');
-    }
-}
-
 /**
  * Checks if the given variable is not empty or undefined
  *

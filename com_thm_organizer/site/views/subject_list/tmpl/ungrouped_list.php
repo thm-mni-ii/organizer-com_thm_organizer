@@ -44,7 +44,7 @@ class THM_OrganizerTemplateUngroupedList
 
                 $displayItem = '';
                 $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
-                $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '">XXXX</a>';
+                $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '" target="_blank">XXXX</a>';
 
                 $displayItem .= '<li>';
                 $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
