@@ -8,7 +8,6 @@
 		<const name="JTEST_DATABASE_SQLSRV_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
 	</php>
 	-->
-
 	<testsuites>
         <testsuite name="com_thm_organizer_site">
             <directory>tests</directory>
