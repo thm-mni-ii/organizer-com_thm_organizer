@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 define('SCHEDULE', 1);
 define('ALTERNATING', 2);
 define('CONTENT', 3);
+define('APPOINTMENTS', 4);
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -79,9 +80,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Sets display parameters
      *
-     * @param   object  $monitorEntry  the JTable object for the monitors table
-     *
-     * @return  void
+     * @param $monitorEntry
      */
     private function setParams(&$monitorEntry)
     {
@@ -276,7 +275,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         foreach ($schedule->periods as $gridName => $grid)
         {
-            $this->setGridLessons($schedule, $gridName, $grid);
+            $this->setLessonDataByGrid($schedule, $gridName, $grid);
         }
     }
 
@@ -285,22 +284,20 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @param   object  &$schedule  the schedule being iterated
      * @param   string  $gridName   the name of the grid being iterated
-     * @param   object  &$grid      the grid information
+     * @param   object  $grid       the grid information
      *
      * @return  void  sets attributes of $this->blocks
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    private function setGridLessons(&$schedule, $gridName, &$grid)
+    private function setLessonDataByGrid(&$schedule, $gridName, &$grid)
     {
         foreach ($grid as $gridPeriod => $gridBlock)
         {
             foreach ($this->blocks as $planBlock)
             {
-                $relevant = $this->hasRelevance($gridBlock, $planBlock);
+                $relevant = $this->getRelevance($gridBlock, $planBlock);
                 if ($relevant)
                 {
-                    $this->setLessons($schedule, $planBlock->period, $gridName, $gridBlock);
+                    $this->addLessonInformation($schedule, $planBlock->period, $gridName, $gridBlock);
                 }
             }
         }
@@ -314,7 +311,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @return  bool  true if the grid block is relevant for the plan block, otherwise false
      */
-    private function hasRelevance($gridBlock, $planBlock)
+    private function getRelevance($gridBlock, $planBlock)
     {
         $gbStarttime = substr($gridBlock->starttime, 0, 2) . ":" . substr($gridBlock->starttime, 2);
         $gbEndtime = substr($gridBlock->endtime, 0, 2) . ":" . substr($gridBlock->endtime, 2);
@@ -335,7 +332,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @return  array   an array containing relevant block information
      */
-    private function setLessons(&$schedule, $period, $gridName, $gridBlock)
+    private function addLessonInformation($schedule, $period, $gridName, $gridBlock)
     {
         $lessons = $schedule->calendar->{$this->_dbDate}->$period;
         foreach ($lessons AS $lessonID => $rooms)
@@ -354,100 +351,82 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 break;
             }
 
-            $this->setPlannedLessons($schedule, $period, $rooms, $gridName, $gridBlock, $lessonID, $rooms);
-        }
-    }
-
-    /**
-     * Checks whether the lesson is associated with the room being displayed and sets the lesson data
-     *
-     * @param   object  &$schedule  the schedule being iterated
-     * @param   int     $period     the period id of the block being iterated
-     * @param   array   $gridName   the block being iterated
-     * @param   object  $gridBlock  the data for the grid block being iterated
-     * @param   string  $lessonID   the id of the lesson being iterated
-     * @param   object  $rooms      the rooms associated with the lesson being iterated
-     */
-    private function setPlannedLessons(&$schedule, $period,$gridName, $gridBlock, $lessonID, $rooms)
-    {
-        foreach ($rooms as $roomID => $roomDelta)
-        {
-            /**
-             * If the roomID is delta it is an attribute showing changes to the lesson block. If the roomDelta is
-             * removed then the room is no longer relevant to the lesson
-             */
-            if ($roomID == 'delta' OR $roomDelta == 'removed')
+            foreach ($rooms as $roomID => $roomDelta)
             {
-                continue;
-            }
-
-            // The room being iterated is not relevant for the display
-            if ($roomID != $this->params['gpuntisID'])
-            {
-                continue;
-            }
-
-            $subjects = (array) $schedule->lessons->$lessonID->subjects;
-            foreach ($subjects as $subjectID => $subjectDelta)
-            {
-                if ($subjectDelta == 'removed')
+                // This is not a room
+                if ($roomID == 'delta')
                 {
-                    unset($subjects[$subjectID]);
+                    continue;
                 }
-            }
 
-            if (!isset($this->blocks[$period]->lessons))
-            {
-                $this->blocks[$period]->lessons = array();
-            }
-
-            if (!isset($this->blocks[$period]->lessons[$lessonID]))
-            {
-                $this->blocks[$period]->lessons[$lessonID] = array();
-            }
-
-            $subjectIDs = array_keys($subjects);
-
-            if (count($subjectIDs) > 1)
-            {
-                $subjectNames = array();
-                foreach ($subjectIDs as $subjectID)
+                // The room being iterated is not relevant for the display
+                if ($roomID != $this->params['gpuntisID'])
                 {
-                    $subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
+                    continue;
                 }
-                $lessonTitle = implode(', ', $subjectNames);
-            }
-            else
-            {
-                $subjectID = array_shift($subjectIDs);
-                $longname = $schedule->subjects->$subjectID->longname;
-                $shortname = $schedule->subjects->$subjectID->name;
 
-                // A little arbitrary but implementing settings is a little too much effort
-                $lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
-            }
-            $lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
-            $this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
-
-            $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
-            $teachers = array();
-            foreach ($teachersIDs as $teacherID => $teacherDelta)
-            {
-                if ($teacherDelta == 'removed')
+                $subjects = (array)$schedule->lessons->$lessonID->subjects;
+                foreach ($subjects as $subjectID => $subjectDelta)
                 {
-                    unset($teachers[$teacherID]);
+                    if ($subjectDelta == 'removed')
+                    {
+                        unset($subjects[$subjectID]);
+                    }
                 }
-                $teachers[$teacherID] = $schedule->teachers->$teacherID->surname;
-            }
-            $this->blocks[$period]->lessons[$lessonID]['teacher'] = implode(', ', $teachers);
 
-            if ($gridName != 'Haupt-Zeitraster')
-            {
-                $this->blocks[$period]->lessons[$lessonID]['time'] = "($gridBlock->starttime - $gridBlock->endtime)";
-            }
-            else
-            {
-                $this->blocks[$period]->lessons[$lessonID]['time'] = '';
+                if (!isset($this->blocks[$period]->lessons))
+                {
+                    $this->blocks[$period]->lessons = array();
+                }
+
+                if (!isset($this->blocks[$period]->lessons[$lessonID]))
+                {
+                    $this->blocks[$period]->lessons[$lessonID] = array();
+                }
+
+                $subjectIDs = array_keys($subjects);
+
+                if (count($subjectIDs) > 1)
+                {
+                    $subjectNames = array();
+                    foreach ($subjectIDs as $subjectID)
+                    {
+                        $subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
+                    }
+                    $lessonTitle = implode(', ', $subjectNames);
+                }
+                else
+                {
+                    $subjectID = array_shift($subjectIDs);
+                    $longname = $schedule->subjects->$subjectID->longname;
+                    $shortname = $schedule->subjects->$subjectID->name;
+
+                    // A little arbitrary but implementing settings is a little too much effort
+                    $lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
+                }
+                $lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
+                $this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
+
+                $teachersIDs = (array)$schedule->lessons->$lessonID->teachers;
+                $teachers = array();
+                foreach ($teachersIDs as $teacherID => $teacherDelta)
+                {
+                    if ($teacherDelta == 'removed')
+                    {
+                        unset($teachers[$teacherID]);
+                    }
+                    $teachers[$teacherID] = $schedule->teachers->$teacherID->surname;
+                }
+                $this->blocks[$period]->lessons[$lessonID]['teacher'] = implode(', ', $teachers);
+
+                if ($gridName != 'Haupt-Zeitraster')
+                {
+                    $this->blocks[$period]->lessons[$lessonID]['time'] = "($gridBlock->starttime - $gridBlock->endtime)";
+                }
+                else
+                {
+                    $this->blocks[$period]->lessons[$lessonID]['time'] = '';
+                }
             }
         }
     }
@@ -459,7 +438,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setDummyText()
     {
-        foreach ($this->blocks as $period => $block)
+        foreach($this->blocks as $period => $block)
         {
             if (empty($block->lessons))
             {
