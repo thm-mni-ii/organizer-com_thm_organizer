@@ -13,7 +13,7 @@
   padding: 3em 48px;
   border-bottom: 1px solid #ECECEC;
   box-shadow: 0px 5px 3px #888888;
-  margin-bottom: 1%;
+  margin-bottom: 10px;
   position: relative;
 }
 
@@ -41,7 +41,7 @@
   font-weight: bold;
   font-size: 230%;
   position: absolute;
-  top: 11px;
+  top: 12px;
   right: 48px;
 }
 .date-info .weekday {
@@ -51,52 +51,42 @@
 /******************** content **********************************/
 .schedule-area {
   margin: 0 48px;
-  font-size: 3vh;
+  font-size: x-large;
 }
 
 .schedule-block {
-  min-height: 10vh;
-  line-height: 10vh;
-  padding: 0 2%;
+  padding: 3% 0.5em;
   background-color: #eeeeee;
   border-bottom: 3px solid white;
 }
 
 .block-time {
   float: left;
-  min-width: 15%;
 }
 
 .block-title {
+  float: left;
   font-weight: bold;
   word-wrap: break-word;
-  padding-left: 10%;
-  float: left;
+  padding-left: 15%;
 }
 
 .block-extra {
   text-align: right;
   word-wrap: break-word;
-  float: right;
+  min-width: 155px;
 }
 
 .active {
   background-color: #9C132D;
   color: white;
   font-weight: bold;
-  min-height: 30vh;
-  line-height: 30vh;
+  padding: 5% 0.5em;
 }
 .active .block-data {
-  font-size: 120%;
   font-size: larger;
-}
-.active .block-extra {
-  min-height: 30vh;
-  line-height: 30vh;
 }
 
 .nothingActive {
-  min-height: 13vh;
-  line-height: 13vh;
+  padding: 3% 0.5em;
 }
