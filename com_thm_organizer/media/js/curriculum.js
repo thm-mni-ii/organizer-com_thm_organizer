@@ -4,12 +4,6 @@
 jQuery(document).ready(function ()
 {
     getColorAndChangeCSS();
-
-    //Change width of Item if wanted or needed
-/*
-    var itemWidth = "170px";
-    changeWidthOfItem(itemWidth);
-*/
 });
 
 // get background-color of .item-head, get 20% darker color of this and change css properties for boxShadow

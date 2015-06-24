@@ -49,7 +49,7 @@ class THM_OrganizerTemplateCurriculumPanel
      * Generates the HTML output for a panel element header
      *
      * @param   object  &$pool  the element to be rendered
-     * @param   string  $type   the pool display type
+     * @param   string  $type   the pool display type (main for first level pools|modal for others)
      *
      * @return  void  generates HTML output
      */
@@ -62,8 +62,12 @@ class THM_OrganizerTemplateCurriculumPanel
             $textColor = THM_OrganizerHelperComponent::getTextColor($pool->bgColor);
             $headStyle .= ' style="background-color: ' . $pool->bgColor . '; color: ' . $textColor . '"';
         }
-        $script = ($type == 'main')? ' onclick="toggleGroupDisplay(\'#main-panel-items-' . $pool->mapping . '\')"' : '';
-        echo '<div class="' . $type . '-panel-head" ' . $headStyle . $script . '>';
+        $script = ($type == 'main')?
+            ' onclick="toggleGroupDisplay(\'#main-panel-items-' . $pool->mapping . '\')"' :
+            ' onclick="toggleGroupDisplay(\'#panel-' . $pool->mapping . '\')"';;
+        $iconClass = $type == 'main'? 'icon-plus-2' : 'icon-cancel-2';
+        echo '<div class="' . $type . '-panel-head" ' . $headStyle . '>';
+        echo '<a ' . $script . '><i class="' . $iconClass . '"></i></a>';
         echo '<div class="' . $type . ' panel-title">';
         echo '<span class="' . $type . '-panel-name">' . $pool->name . '</span>';
         echo '<span class="' . $type . '-panel-crp">(' . $crpText . ')</span>';
