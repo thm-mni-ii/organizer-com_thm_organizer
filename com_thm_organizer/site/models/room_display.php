@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 define('SCHEDULE', 1);
 define('ALTERNATING', 2);
 define('CONTENT', 3);
-define('APPOINTMENTS', 4);
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -80,7 +79,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Sets display parameters
      *
-     * @param $monitorEntry
+     * @param   object  $monitorEntry  the JTable object for the monitors table
+     *
+     * @return  void
      */
     private function setParams(&$monitorEntry)
     {
@@ -275,7 +276,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     {
         foreach ($schedule->periods as $gridName => $grid)
         {
-            $this->setLessonDataByGrid($schedule, $gridName, $grid);
+            $this->setGridLessons($schedule, $gridName, $grid);
         }
     }
 
@@ -284,20 +285,22 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @param   object  &$schedule  the schedule being iterated
      * @param   string  $gridName   the name of the grid being iterated
-     * @param   object  $grid       the grid information
+     * @param   object  &$grid      the grid information
      *
      * @return  void  sets attributes of $this->blocks
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    private function setLessonDataByGrid(&$schedule, $gridName, &$grid)
+    private function setGridLessons(&$schedule, $gridName, &$grid)
     {
         foreach ($grid as $gridPeriod => $gridBlock)
         {
             foreach ($this->blocks as $planBlock)
             {
-                $relevant = $this->getRelevance($gridBlock, $planBlock);
+                $relevant = $this->hasRelevance($gridBlock, $planBlock);
                 if ($relevant)
                 {
-                    $this->addLessonInformation($schedule, $planBlock->period, $gridName, $gridBlock);
+                    $this->setLessons($schedule, $planBlock->period, $gridName, $gridBlock);
                 }
             }
         }
@@ -311,7 +314,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @return  bool  true if the grid block is relevant for the plan block, otherwise false
      */
-    private function getRelevance($gridBlock, $planBlock)
+    private function hasRelevance($gridBlock, $planBlock)
     {
         $gbStarttime = substr($gridBlock->starttime, 0, 2) . ":" . substr($gridBlock->starttime, 2);
         $gbEndtime = substr($gridBlock->endtime, 0, 2) . ":" . substr($gridBlock->endtime, 2);
@@ -332,9 +335,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @return  array   an array containing relevant block information
      */
-    private function addLessonInformation($schedule, $period, $gridName, $gridBlock)
+    private function setLessons(&$schedule, $period, $gridName, $gridBlock)
     {
         $lessons = $schedule->calendar->{$this->_dbDate}->$period;
+
         foreach ($lessons AS $lessonID => $rooms)
         {
             $lesson = $schedule->lessons->$lessonID;
@@ -365,7 +369,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                     continue;
                 }
 
-                $subjects = (array)$schedule->lessons->$lessonID->subjects;
+                $subjects = (array) $schedule->lessons->$lessonID->subjects;
                 foreach ($subjects as $subjectID => $subjectDelta)
                 {
                     if ($subjectDelta == 'removed')
@@ -407,7 +411,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 $lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
                 $this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
 
-                $teachersIDs = (array)$schedule->lessons->$lessonID->teachers;
+                $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
                 $teachers = array();
                 foreach ($teachersIDs as $teacherID => $teacherDelta)
                 {
@@ -438,7 +442,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      */
     private function setDummyText()
     {
-        foreach($this->blocks as $period => $block)
+        foreach ($this->blocks as $period => $block)
         {
             if (empty($block->lessons))
             {
