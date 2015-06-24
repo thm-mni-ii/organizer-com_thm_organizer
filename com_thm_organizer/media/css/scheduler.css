@@ -47,97 +47,153 @@
   margin-bottom: 40px !important;
 }
 
-.ym-wrapper {
-  max-width: 85em !important;
-}
-.ym-wrapper .ym-column-main {
-  background-color: white;
+#viewport, #viewport-body {
+  width: inherit !important;
 }
 
 .scheduler {
   color: #4a5c66;
 }
+.scheduler .x-form-text-wrap-default {
+  border-style: none;
+}
+.scheduler input[type="text"].x-form-field {
+  height: 2.5em;
+  margin: 0;
+  cursor: default;
+}
+.scheduler input[type="text"]:disabled {
+  cursor: not-allowed;
+}
 .scheduler #selectBoxes .x-form-text-default {
   background-image: none;
 }
 .scheduler #selectBoxes .x-field-default:first-child {
-  margin-top: 39px;
+  margin-top: 48px;
 }
 .scheduler #selectBoxes .x-field-default {
   height: 0px !important;
   margin-bottom: 25px;
 }
-.scheduler #selectBoxes .x-form-text-wrap-default {
-  border-style: none;
-}
-.scheduler #selectBoxes .x-form-text-wrap-default input {
-  margin: 0;
-  background-color: white;
-}
-.scheduler #selectBoxes .x-form-text {
-  height: 29px !important;
-  font-size: small;
-  border: 2px solid #4a5c66;
-  border-radius: 0;
-  overflow: hidden;
-}
 .scheduler #selectBoxes .x-form-trigger-wrap {
   height: auto;
+}
+.scheduler #rightviewport {
+  margin-left: 30px !important;
 }
 .scheduler #rightviewport #topMenu {
   margin-bottom: 10px;
 }
-.scheduler #rightviewport #topMenu .x-form-text {
-  padding: 0 6px !important;
-  border-radius: 3px 0 0 3px;
-  background-color: #FAFAFA;
+.scheduler #rightviewport #topMenu .MySched_prevWeekIcon {
+  background-image: none;
+  position: relative;
 }
-.scheduler #rightviewport #topMenu .x-form-text-wrap-default {
-  border-style: none;
+.scheduler #rightviewport #topMenu .MySched_prevWeekIcon:before {
+  font-family: icomoon;
+  content: "\7c";
+  font-size: 20px;
+  color: #4a5c66;
+  vertical-align: text-bottom;
+  position: absolute;
+  right: 0;
+  top: 8px;
+}
+.scheduler #rightviewport #topMenu .MySched_nextWeekIcon {
+  background-image: none;
+  position: relative;
+}
+.scheduler #rightviewport #topMenu .MySched_nextWeekIcon:before {
+  font-family: icomoon;
+  content: "\7b";
+  font-size: 20px;
+  color: #4a5c66;
+  vertical-align: text-bottom;
+  position: absolute;
+  left: -2px;
+  top: 8px;
+}
+.scheduler #rightviewport #topMenu .x-field {
+  width: 135px;
+}
+.scheduler #rightviewport #topMenu .x-form-trigger-wrap {
+  border: 2px solid #4a5d66;
+  background-color: white;
 }
 .scheduler #rightviewport #topMenu .x-form-text-wrap-default input {
-  margin: 0;
+  width: 100px;
+  text-align: center;
+  background-image: none;
+  box-shadow: none;
+  border: none;
 }
-.scheduler #rightviewport .x-tab-bar-body {
+.scheduler #rightviewport #topMenu .x-form-date-trigger-default {
+  vertical-align: middle;
+  padding-right: 10px;
+}
+.scheduler #rightviewport #topMenu .x-form-date-trigger-default:before {
+  font-family: icomoon;
+  content: "\44";
+  font-size: 20px;
+  color: #4a5c66;
+}
+.scheduler #rightviewport #topMenu #btnMenu {
+  margin-left: 20px;
+}
+.scheduler #rightviewport #topMenu #btnMenu .x-btn-icon-el {
+  display: none;
+}
+.scheduler #rightviewport #topMenu #btnMenu .x-btn-inner {
+  width: 90px;
+  font-size: 14px;
+}
+.scheduler #rightviewport #topMenu #btnMenu .x-btn-wrap-default-toolbar-small::after {
+  background-image: none;
+  font-family: icomoon;
+  content: "\e021";
+  font-size: 20px;
+  color: #4a5c66;
+}
+.scheduler #rightviewport #tabpanel .x-tab-bar-body {
   position: absolute;
 }
-.scheduler #rightviewport .x-box-scroller-body-horizontal {
+.scheduler #rightviewport #tabpanel .x-box-scroller-body-horizontal {
   height: 37px !important;
-  left: 5px;
-  width: 680px !important;
 }
-.scheduler #rightviewport .x-tab {
-  border: none;
+.scheduler #rightviewport #tabpanel .x-tab {
   background-image: none;
   padding: 10px;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
   background-color: white;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-radius: 0;
 }
-.scheduler #rightviewport .x-tab-active {
+.scheduler #rightviewport #tabpanel .x-tab-active {
   background-color: #dfeec8;
 }
-.scheduler #rightviewport .x-tab-over {
+.scheduler #rightviewport #tabpanel .x-tab-over {
   background-color: #dfe5e6;
 }
-.scheduler #rightviewport .x-panel > .x-panel-body {
-  margin-top: 2px;
+.scheduler #rightviewport #tabpanel #tabpanel-body {
+  background-color: white;
+  border: 1px solid #ddd;
 }
-.scheduler #rightviewport .x-tab-closable.x-tab-default .x-tab-button {
+.scheduler #rightviewport #tabpanel .x-tab-closable.x-tab-default .x-tab-button {
   padding-right: 4px;
 }
-.scheduler #rightviewport .x-box-scroller {
+.scheduler #rightviewport #tabpanel .x-box-scroller {
   top: 9px;
   height: 21px;
 }
-.scheduler #rightviewport .x-grid-view {
-  height: 401px !important;
+.scheduler #rightviewport #tabpanel .x-grid-view {
+  height: 383px !important;
 }
-.scheduler #rightviewport .x-grid-item-container {
+.scheduler #rightviewport #tabpanel .x-grid-item-container {
   margin-bottom: 2px;
 }
-.scheduler #rightviewport .lectureBox {
+.scheduler #rightviewport #tabpanel .lectureBox {
   outline: 1px outset white;
   box-shadow: inset 0px 0px 6px #bbbbbb;
   background-image: -webkit-linear-gradient(-33deg, #fbfbfb 0, #eeeeee 100%);
@@ -148,29 +204,29 @@
   margin-bottom: 4px;
   padding: 4px;
 }
-.scheduler #rightviewport .x-grid-cell {
+.scheduler #rightviewport #tabpanel .x-grid-cell {
   padding: 4px 2px;
 }
-.scheduler #rightviewport .x-grid-cell-inner {
+.scheduler #rightviewport #tabpanel .x-grid-cell-inner {
   padding: 0;
 }
-.scheduler #rightviewport .x-grid-row:first-child td {
+.scheduler #rightviewport #tabpanel .x-grid-row:first-child td {
   background-color: #ffffff;
 }
-.scheduler #rightviewport .x-grid-rowbody-tr {
+.scheduler #rightviewport #tabpanel .x-grid-rowbody-tr {
   background-color: #FAFAFA;
 }
-.scheduler #rightviewport .x-grid-rowbody-tr td {
+.scheduler #rightviewport #tabpanel .x-grid-rowbody-tr td {
   padding: 0;
 }
-.scheduler #rightviewport .x-grid-cell-last {
+.scheduler #rightviewport #tabpanel .x-grid-cell-last {
   padding-right: 18px;
 }
-.scheduler #rightviewport .MySched_pause {
+.scheduler #rightviewport #tabpanel .MySched_pause {
   display: table-row;
   background-color: #CCCCCC;
 }
-.scheduler #rightviewport .MySched_pause .x-grid-td {
+.scheduler #rightviewport #tabpanel .MySched_pause .x-grid-td {
   text-align: center;
   padding: 0;
 }
@@ -184,7 +240,28 @@
 }
 
 .x-form-trigger-default {
-  -webkit-border-radius: 0 3px 3px 0;
-  -moz-border-radius: 0 3px 3px 0;
-  border-radius: 0 3px 3px 0;
+  background-image: none;
+  border: none;
+}
+
+body.x-border-layout-ct, div.x-border-layout-ct {
+  background-color: transparent;
+}
+
+.x-panel-header-default {
+  background-color: transparent;
+}
+
+.x-panel-header-default-top {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.x-panel-body-default {
+  background-color: transparent;
+}
+
+.x-toolbar-default {
+  background-color: transparent;
 }

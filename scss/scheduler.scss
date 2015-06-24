@@ -69,16 +69,27 @@
 
 // Frontend ************************************************
 
-// Hintergrund-Breite erweitern
-.ym-wrapper {
-  max-width: 85em !important;
-  .ym-column-main {
-    background-color: white;
-  }
+// Hintergrund-Breite anpassen
+#viewport, #viewport-body {
+  width: inherit !important;
 }
 
 .scheduler {
   color: #4a5c66;
+
+  // for select-boxes and menuedatepicker box
+  .x-form-text-wrap-default {
+    border-style: none;
+  }
+  input[type="text"].x-form-field {
+    height: 2.5em;
+    margin: 0;
+    cursor: default;
+  }
+
+  input[type="text"]:disabled {
+    cursor: not-allowed;
+  }
 
   // select Boxes
   #selectBoxes {
@@ -87,37 +98,13 @@
       background-image: none;
     }
 
-    //  .x-autocontainer-innerCt:first-child .x-field-default {
     .x-field-default:first-child {
-      margin-top: 39px;
+      margin-top: 48px;
     }
 
     .x-field-default {
       height: 0px !important;
       margin-bottom: 25px;
-    }
-
-    .x-form-text-wrap-default {
-      border-style: none;
-
-      input {
-        margin: 0;
-        background-color: white;
-      }
-    }
-
-    .x-form-text {
-      height: 29px !important;
-      font-size: small;
-
-      //  background-color: #4a5c66;
-      //  color: white;
-      //  border-radius: 3px 0 0 3px;
-
-      // Alternative - von thm.de
-      border: 2px solid #4a5c66;
-      border-radius: 0;
-      overflow: hidden;
     }
 
     .x-form-trigger-wrap {
@@ -127,133 +114,218 @@
 
   //right viewport
   #rightviewport {
+    margin-left: 30px !important;
 
     //top Menu
     #topMenu {
       margin-bottom: 10px;
 
+      //Icon before datePicker
+      .MySched_prevWeekIcon {
+        background-image: none;
+        position: relative;
+
+        &:before {
+          font-family: icomoon;
+          content: "\7c";
+          font-size: 20px;
+          color: $thm-grau-color;
+          vertical-align: text-bottom;
+          position: absolute;
+          right: 0;
+          top: 8px;
+        }
+      }
+
+      //Icon after datePicker
+      .MySched_nextWeekIcon {
+        background-image: none;
+        position: relative;
+
+        &:before {
+          font-family: icomoon;
+          content: "\7b";
+          font-size: 20px;
+          color: $thm-grau-color;
+          vertical-align: text-bottom;
+          position: absolute;
+          left: -2px;
+          top: 8px;
+        }
+      }
+
       // Date picker
-      .x-form-text {
-        padding: 0 6px !important;
-        border-radius: 3px 0 0 3px;
-        background-color: #FAFAFA;
+      .x-field {
+        width: 135px;
+      }
+
+      .x-form-trigger-wrap {
+        border: 2px solid #4a5d66;
+        background-color: white;
       }
 
       .x-form-text-wrap-default {
-        border-style: none;
-
         input {
-          margin: 0;
+          //kommt an andere Stelle in thm...
+          width: 100px;
+          text-align: center;
+          background-image: none;
+          box-shadow: none;
+          border: none;
         }
       }
-    }
 
-    // table header
-    .x-tab-bar-body {
-      position: absolute;
-      //    top: -3px;
-    }
-    .x-grid-header-ct {
-      //     margin-top: 20px;
-    }
+      //Calendar-Icon
+      .x-form-date-trigger-default {
+        vertical-align: middle;
+        padding-right: 10px;
 
-    .x-box-scroller-body-horizontal {
-      height: 37px !important;
-      left: 5px;
-      width: 680px !important;
-    }
+        &:before {
+          font-family: icomoon;
+          content: "\44";
+          font-size: 20px;
+          color: $thm-grau-color;
+        }
+      }
 
-    .x-tab {
-      border: none;
-      background-image: none;
-      padding: 10px;
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0;
-      background-color: white;
-      //    width: 100px;
-    }
+      //Download-area
+      #btnMenu {
+        margin-left: 20px;
 
-    .x-tab-active {
-      background-color: #dfeec8;
-    }
+        .x-btn-icon-el {
+          //removed an icon, because there are two
+          display: none;
+        }
 
-    .x-tab-over {
-      background-color: #dfe5e6;
-    }
+        .x-btn-inner {
+          //text "Download"
+          width: 90px;
+          font-size: 14px;
+        }
 
-    .x-panel > .x-panel-body {
-          margin-top: 2px;
-    }
+        //change Download-Icon
+        .x-btn-wrap-default-toolbar-small::after {
+          background-image: none;
+          font-family: icomoon;
+          content: "\e021";
+          font-size: 20px;
+          color: $thm-grau-color;
+        }
 
-    .x-tab-closable.x-tab-default .x-tab-button {
-      padding-right: 4px;
-    }
-
-    .x-box-scroller {
-      top: 9px;
-      height: 21px;
+      }
     }
 
     // table
-    .x-grid-view {
-      height: 401px !important;
-    }
+    #tabpanel {
 
-    .x-grid-item-container {
-      margin-bottom: 2px;
-    }
-
-    .lectureBox {
-      outline: 1px outset white;
-      box-shadow: inset 0px 0px 6px #bbbbbb;
-      background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
-      background-image: -moz-linear-gradient(123deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
-      background-image: linear-gradient(123deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
-      background-position: 50% 50%;
-      background-color: $bg-color;
-
-      margin-bottom: 4px;
-      padding: 4px;
-    }
-
-    .x-grid-cell {
-      //   width: inherit !important;
-      padding: 4px 2px;
-    }
-    .x-grid-cell-inner {
-      padding: 0;
-    }
-
-    .x-grid-row {
-      &:first-child td {
-        background-color: #ffffff;
+      // table header *******************************
+      .x-tab-bar-body {
+        position: absolute;
+        //    top: -3px;
       }
-    }
 
-    .x-grid-rowbody-tr {
-      //  display: none;
-      background-color: #FAFAFA;
-      td {
+      .x-grid-header-ct {
+        //     margin-top: 20px;
+      }
+
+      .x-box-scroller-body-horizontal {
+        height: 37px !important;
+      }
+
+      .x-tab {
+        background-image: none;
+        padding: 10px;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        border-radius: 0;
+      }
+
+      .x-tab-active {
+        background-color: #dfeec8;
+      }
+
+      .x-tab-over {
+        background-color: #dfe5e6;
+      }
+
+      //hier geändert
+      #tabpanel-body {
+        background-color: white;
+        border: 1px solid #ddd;
+      }
+
+      .x-tab-closable.x-tab-default .x-tab-button {
+        padding-right: 4px;
+      }
+
+      .x-box-scroller {
+        top: 9px;
+        height: 21px;
+      }
+
+      // table content ****************************
+      .x-grid-view {
+        height: 383px !important;
+      }
+
+      .x-grid-item-container {
+        margin-bottom: 2px;
+      }
+
+      .lectureBox {
+        outline: 1px outset white;
+        box-shadow: inset 0px 0px 6px #bbbbbb;
+        background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
+        background-image: -moz-linear-gradient(123deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
+        background-image: linear-gradient(123deg, lighten(#eeeeee, 5%) 0, #eeeeee 100%);
+        background-position: 50% 50%;
+        background-color: $bg-color;
+
+        margin-bottom: 4px;
+        padding: 4px;
+      }
+
+      .x-grid-cell {
+        //   width: inherit !important;
+        padding: 4px 2px;
+      }
+      .x-grid-cell-inner {
         padding: 0;
       }
 
-    }
+      .x-grid-row {
+        &:first-child td {
+          background-color: #ffffff;
+        }
+      }
 
-    .x-grid-cell-last {
-      padding-right: 18px;
-    }
+      .x-grid-rowbody-tr {
+        //  display: none;
+        background-color: #FAFAFA;
+        td {
+          padding: 0;
+        }
 
-    .MySched_pause {
-      display: table-row;
-      background-color: #CCCCCC;
+      }
 
-      .x-grid-td {
-        text-align: center;
-        padding: 0;
+      .x-grid-cell-last {
+        padding-right: 18px;
+      }
+
+      .MySched_pause {
+        display: table-row;
+        background-color: #CCCCCC;
+
+        .x-grid-td {
+          text-align: center;
+          padding: 0;
+        }
       }
     }
-
     table {
       margin-bottom: 0;
     }
@@ -268,8 +340,33 @@
   }
 }
 
+//nicht benötigte Gifs von ext-theme-gray-all.css
 .x-form-trigger-default {
-  -webkit-border-radius: 0 3px 3px 0;
-  -moz-border-radius: 0 3px 3px 0;
-  border-radius: 0 3px 3px 0;
+  background-image: none;
+  border: none;
+  // display: none;
 }
+
+//overwrite background-color of ext-theme-gray-all.css
+body.x-border-layout-ct, div.x-border-layout-ct {
+  background-color: transparent;
+}
+
+.x-panel-header-default {
+  background-color: transparent;
+}
+
+.x-panel-header-default-top {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.x-panel-body-default {
+  background-color: transparent;
+}
+
+.x-toolbar-default {
+  background-color: transparent;
+}
+
