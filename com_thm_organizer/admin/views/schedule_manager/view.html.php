@@ -53,7 +53,6 @@ class THM_OrganizerViewSchedule_Manager extends THM_CoreViewList
         if (count(THM_OrganizerHelperComponent::getAccessibleDepartments()))
         {
             JToolbarHelper::addNew('schedule.add');
-            JToolbarHelper::custom('schedule.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolBarHelper::makeDefault('schedule.activate', 'COM_THM_ORGANIZER_ACTION_ACTIVATE');
             JToolbarHelper::custom('schedule.setReference', 'diff', 'diff', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);
             JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
