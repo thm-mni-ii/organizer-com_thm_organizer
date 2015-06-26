@@ -5,8 +5,7 @@
             name="search"
             type="text"
             label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-            hint="JSEARCH_FILTER"
-            />
+            hint="JSEARCH_FILTER" />
         <field
             name="checkbox"
             type="CheckAll" />
@@ -17,8 +16,7 @@
             textColumn="name"
             table="thm_organizer_subjects"
             label="COM_THM_ORGANIZER_NAME"
-            onchange="this.form.submit();"
-            >
+            onchange="this.form.submit();" >
             <option value="">JALL</option>
         </field>
         <field
@@ -28,8 +26,7 @@
             textColumn="externalID"
             table="thm_organizer_subjects"
             label="COM_THM_ORGANIZER_SUBJECT"
-            onchange="this.form.submit();"
-            >
+            onchange="this.form.submit();" >
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -50,8 +47,7 @@
             name="programID"
             type="programID"
             label="COM_THM_ORGANIZER_PROGRAM"
-            onchange="this.form.submit();"
-            >
+            onchange="this.form.submit();" >
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
             <option value="-1">JNONE</option>
         </field>
@@ -59,8 +55,7 @@
             name="poolID"
             type="poolID"
             label="COM_THM_ORGANIZER_POOL"
-            onchange="this.form.submit();"
-            >
+            onchange="this.form.submit();" >
             <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -71,7 +66,6 @@
 			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"
-			onchange="this.form.submit();"
-		/>
+			onchange="this.form.submit();" />
 	</fields>
 </form>

@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldPoolID
+ * @name        JFormFieldProgramID
  * @author      James Antrim, <james.antrim@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.helpers.corehelper');
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -21,12 +20,12 @@ JFormHelper::loadFieldClass('list');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldPoolID extends JFormFieldList
+class JFormFieldProgramID extends JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'poolID';
+    protected $type = 'programID';
 
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -35,36 +34,27 @@ class JFormFieldPoolID extends JFormFieldList
      */
     public function getOptions()
     {
-        $programID = JFactory::getSession()->get('programID');
-        if (empty($programID))
-        {
-            return parent::getOptions();
-        }
-
-        $programRanges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
-        if (empty($programRanges) OR count($programRanges) > 1)
-        {
-            return parent::getOptions();
-        }
-
         $shortTag = THM_CoreHelper::getLanguageShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("p.id AS value, p.name_$shortTag AS text");
-        $query->from('#__thm_organizer_pools AS p');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.poolID');
-        $query->where("lft > '{$programRanges[0]['lft']}'");
-        $query->where("rgt < '{$programRanges[0]['rgt']}'");
+
+        $nameParts = array("dp.subject_$shortTag", 'd.abbreviation', 'dp.version' );
+        $nameSelect = $query->concatenate($nameParts, ', ') ." AS text";
+
+        $query->select("dp.id AS value, $nameSelect");
+        $query->from('#__thm_organizer_programs AS dp');
+        $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
         $query->order('text ASC');
         $dbo->setQuery((string) $query);
 
         try
         {
-            $pools = $dbo->loadAssocList();
+            $programs = $dbo->loadAssocList();
             $options = array();
-            foreach ($pools as $pool)
+            foreach ($programs as $program)
             {
-                $options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
+                $options[] = JHtml::_('select.option', $program['value'], $program['text']);
             }
             return array_merge(parent::getOptions(), $options);
         }
