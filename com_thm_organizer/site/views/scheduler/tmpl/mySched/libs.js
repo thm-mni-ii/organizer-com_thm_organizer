@@ -253,7 +253,7 @@ function showevent(event, arr, selectedScheduleid)
             var id = divcollection[index].getAttribute("id");
             if (id !== null)
             {
-                id = id.split("##");
+                id = id.split(";;");
                 var lesson = lessons.data.map[id[1]];
                 if (!Ext.isObject(lesson))
                 {
@@ -617,3 +617,5 @@ Ext.define(
         }
     }
 );
+
+Ext.dom.Element.prototype.validIdRe = /^[a-z_][\.\;a-z0-9\-_]*$/i;

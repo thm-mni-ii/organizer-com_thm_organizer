@@ -142,9 +142,9 @@ Ext.define('ScheduleModel',
          */
         getLecture: function (id)
         {
-            if (id.match('##'))
+            if (id.match(';;'))
             {
-                id = id.split('##')[1];
+                id = id.split(';;')[1];
             }
             if (MySched.selectedSchedule.type === "delta")
             {
@@ -947,9 +947,9 @@ Ext.define('ScheduleModel',
             {
                 l = l.getId();
             }
-            if (l.match('##'))
+            if (l.match(';;'))
             {
-                l = l.split('##')[1];
+                l = l.split(';;')[1];
             }
             return this.data.containsKey(l);
         },

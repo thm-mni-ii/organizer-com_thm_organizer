@@ -547,8 +547,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 id = el.id;
             }
 
-            var tabID = id.split('##')[0];
-            var lessonID = id.split('##')[1];
+            var tabID = id.split(';;')[0];
+            var lessonID = id.split(';;')[1];
 
             if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
             {
