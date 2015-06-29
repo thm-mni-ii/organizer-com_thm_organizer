@@ -711,7 +711,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         {
             $checkQuery = $this->_db->getQuery(true);
             $checkQuery->select("COUNT(*)");
-            $checkQuery->from('#__thm_organizer_subjects')->where("subjectID = '$postrequisiteID'")->where("prerequisite = '$subjectID'");
+            $checkQuery->from('#__thm_organizer_prerequisites')->where("subjectID = '$postrequisiteID'")->where("prerequisite = '$subjectID'");
             $this->_db->setQuery((string) $checkQuery);
             
             try
@@ -730,7 +730,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $insertQuery->insert('#__thm_organizer_prerequisites');
                 $insertQuery->columns('subjectID, prerequisite');
                 $insertQuery->values("'$postrequisiteID', '$subjectID'");
-                $this->_db->setQuery((string) $insertQuery);
+                $this->_db->setQuery((string) $insertQuery);echo "<pre>" . print_r((string) $insertQuery, true) . "</pre>";
                 try
                 {
                     $this->_db->execute();
