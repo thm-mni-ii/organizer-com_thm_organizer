@@ -20,7 +20,6 @@ Ext.define('TeacherModel',
      */
     constructor: function (teacher)
     {
-        console.log("TeacherModel constructor: maybe never used?");
         this.superclass.constructor.call(this, teacher, teacher);
     },
     /**
@@ -30,7 +29,6 @@ Ext.define('TeacherModel',
      */
     getName: function ()
     {
-        console.log(MySched.Mapping.getTeacherName(this.id));
         return MySched.Mapping.getTeacherName(this.id);
     },
     /**
@@ -40,7 +38,6 @@ Ext.define('TeacherModel',
      */
     getObjects: function ()
     {
-        console.log(MySched.Mapping.getObjects("teacher", this.id));
         return MySched.Mapping.getObjects("teacher", this.id);
     }
 });
@@ -56,7 +53,6 @@ Ext.define('RoomModel',
 
     constructor: function (room)
     {
-        console.log("RoomModel constructor: maybe never used?");
         this.superclass.constructor.call(this, room, room);
     },
     getName: function ()
@@ -80,7 +76,6 @@ Ext.define('PoolModel',
 
     constructor: function (pool)
     {
-        console.log("RoomModel constructor: maybe never used?");
         this.superclass.constructor.call(this, pool, pool);
     },
     getName: function ()
@@ -108,7 +103,6 @@ Ext.define('SubjectModel',
 
     constructor: function (subject)
     {
-        console.log("SubjectModel constructor: maybe never used?");
         this.superclass.constructor.call(this, subject, subject);
     },
     getName: function ()

@@ -27,7 +27,6 @@ MySched.InfoPanel = function ()
          */
         showInfo: function (el)
         {
-            console.log("MySched.InfoPanel showInfo: maybe never used?");
             var text = false;
             if (Ext.typeOf(el) === 'object')
             {
@@ -58,7 +57,6 @@ MySched.InfoPanel = function ()
          */
         updateDetailInfoClickHandler: function ()
         {
-            console.log("MySched.InfoPanel updateDetailInfoClickHandler: maybe never used?");
             this.el.select('.detailInfoBtn')
                 .on('click', this.detailInfoClick,
                 this);
@@ -71,7 +69,6 @@ MySched.InfoPanel = function ()
          */
         detailInfoClick: function (e)
         {
-            console.log("MySched.InfoPanel detailInfoClick: maybe never used?");
             // Splitte Id - zb. info_room_i136
             var tmp = e.target.id.split('_');
             // Holt die geforderte Info vom Server ab.
@@ -121,7 +118,6 @@ MySched.InfoPanel = function ()
          */
         showDetailInfo: function (text, title)
         {
-            console.log("MySched.InfoPanel showDetailInfo: maybe never used?");
             var mode = _C('infoMode');
             // Je nach Mode wird es im normalen InfoFenster oder als Popup
             // angezeigt.
@@ -149,7 +145,6 @@ MySched.InfoPanel = function ()
          */
         clearInfo: function ()
         {
-            console.log("MySched.InfoPanel clearInfo: maybe never used?");
             Ext.get('infoPanel')
                 .update('');
         }

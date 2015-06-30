@@ -256,7 +256,6 @@ MySched.Tree = function ()
                         var semesterID = data.semesterID;
                         var plantypeID = data.plantype;
                         var type = data.type;
-                        console.log(nodeID);
                         MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
                     }
                     else if (rec.isExpanded())
@@ -425,7 +424,6 @@ MySched.Tree = function ()
          */
         refreshTreeData: function ()
         {
-            console.log("tree.js refreshTreeData: is it in use anymore");
             if (this.teacher)
             {
                 this.root.removeChild(this.teacher);
@@ -460,7 +458,6 @@ MySched.Tree = function ()
          */
         setTreeData: function (data)
         {
-            console.log("tree.js setTreeData: is it in use anymore");
             var type = data.id, i;
             this[type] = data;
             var imgs = Ext.DomQuery.select('img[class=x-tree-ec-icon x-tree-elbow-end-plus]',

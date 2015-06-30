@@ -744,7 +744,6 @@ Ext.ux.collapsedPanelTitlePlugin = function ()
 {
     this.init = function (p)
     {
-        console.log("(main.js) collapsedPanelTitlePlugin. maybe never used?");
         if (p.collapsible)
         {
             var r = p.region;

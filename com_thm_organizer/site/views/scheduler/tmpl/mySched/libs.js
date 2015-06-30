@@ -28,7 +28,6 @@ Ext.define(
         },
         getKey: function (el)
         {
-            console.log(el);
             if (typeof el === 'object' && typeof el.getId === 'function')
             {
                 return el.getId();
@@ -69,7 +68,6 @@ Ext.define(
          */
         getField: function (field)
         {
-            console.log("lib.js getField: maybe never used?");
             var ret = [];
             this.each(function (e) { this.push(e[field]); }, ret);
             return ret;
@@ -133,7 +131,6 @@ function _C (a)
  */
 String.prototype.equal = function (str)
 {
-    console.log("lib.js String.prototype.equal: maybe never used?");
     return this.toLowerCase() === str.toLowerCase();
 };
 
@@ -228,7 +225,6 @@ Ext.override(Ext.dd.DragZone,
  */
 function showevent(event, arr, selectedScheduleid)
 {
-    console.log("grid.js showevent: maybe never used?");
     if (event.source === "estudy")
     {
         return 5;
@@ -297,7 +293,6 @@ function showevent(event, arr, selectedScheduleid)
  */
 function lessoncontains(obj, arr)
 {
-    console.log("grid.js lessoncontains: maybe never used?");
     if (obj !== null)
     {
         for (var lessonindex in arr)
@@ -497,10 +492,6 @@ function getTeacherSurnameWithCutFirstName(teacherKey)
  */
 function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
 {
-    console.log(startTime);
-    console.log(endTime);
-    console.log(eventStartDate);
-    console.log(eventEndDate);
     if(eventStartDate < eventEndDate)
     {
         endTime = "19:00";
@@ -537,7 +528,6 @@ function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
             returnBlocks.push(blockIndex);
         }
     }
-    console.log(returnBlocks);
     return returnBlocks;
 }
 

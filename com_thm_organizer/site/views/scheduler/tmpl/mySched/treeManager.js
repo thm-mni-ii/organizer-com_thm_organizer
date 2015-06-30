@@ -32,7 +32,6 @@ MySched.TreeManager = function ()
         // TODO: I think it is never used and obsolete
         afterloadEvents: function (eventList)
         {
-            console.log("TreeManager.afterloadEvents: maybe never used?");
             for (var e in eventList)
             {
                 if (Ext.isObject(eventList[e]))
@@ -50,7 +49,6 @@ MySched.TreeManager = function ()
         // TODO: I think it is never used and obsolete
         add: function (lecture)
         {
-            console.log("TreeManager.add: maybe never used?");
             if (Ext.isObject(lecture))
             {
                 this.teacherTree.addAll(lecture.getTeacher().asArray());
@@ -138,8 +136,6 @@ MySched.TreeManager = function ()
         processTreeData: function (json, type, accMode, name, baseTree)
         {
             var treeData = json.treeData;
-            console.log(processTreeData);
-            console.log(json, type, accMode, name, baseTree);
 
             /*
              * if (accMode !== 'none') { treeRoot.appendChild(children); }
@@ -171,7 +167,6 @@ MySched.TreeManager = function ()
          */
         createTree: function (baseTree, type, data, name)
         {
-            console.log("createTree");
             // Generelle Rechteuberpruefung auf diese Uebersichtsliste
             var accMode = MySched.Authorize.checkAccessMode(type);
 

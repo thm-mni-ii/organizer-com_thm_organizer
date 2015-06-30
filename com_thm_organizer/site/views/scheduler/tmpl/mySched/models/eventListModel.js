@@ -35,7 +35,6 @@ Ext.define('EventListModel',
             this.data.add(e.data.id, e);
         },
         /**
-         * TODO
          *
          * @method getEvent
          * @param id
@@ -44,7 +43,6 @@ Ext.define('EventListModel',
         getEvent: function (id)
         {
             //TODO: never called
-            console.log("EventListModel getEvent: " + id);
             var idsplit = id.split("_");
             var datas = this.data.filterBy(function (o, k)
             {

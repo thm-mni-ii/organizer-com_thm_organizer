@@ -155,7 +155,6 @@ MySched.Authorize = function ()
          */
         checkAccessMode: function (type)
         {
-            console.log("Authorize checkAccessMode: maybe never used?");
             var part = false;
             // Ueberprueft vorkommen in ALL und dann in type - entweder muss *
             // oder id vorkommen
@@ -196,7 +195,6 @@ MySched.Authorize = function ()
          */
         checkAccess: function (type, id)
         {
-            console.log("Authorize checkAccess: maybe never used?");
             if (Ext.isEmpty(id))
             {
                 id = 'keyKommtBestimmtNichtVor';
@@ -242,7 +240,6 @@ MySched.Authorize = function ()
          */
         checkCookieToken: function ()
         {
-            console.log("Authorize checkCookieToken: maybe never used?");
             var token = MySched.CookieProvider.get('authToken');
             if (token)
             {
@@ -261,7 +258,6 @@ MySched.Authorize = function ()
          */
         showAuthForm: function (funcAfterAuth)
         {
-            console.log("Authorize showAuthForm: maybe never used?");
             if (this.user && MySched.Base.sid)
             {
                 return true;

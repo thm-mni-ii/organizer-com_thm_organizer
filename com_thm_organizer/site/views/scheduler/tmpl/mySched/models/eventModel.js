@@ -17,9 +17,6 @@ Ext.define('EventModel',
          */
         constructor: function (id, data)
         {
-            console.log("EventModel.constructor: maybe never used?");
-            console.log(id);
-            console.log(data);
             this.id = id;
             this.data = data;
 

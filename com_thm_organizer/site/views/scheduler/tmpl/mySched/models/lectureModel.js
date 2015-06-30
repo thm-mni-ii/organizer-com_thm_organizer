@@ -414,7 +414,6 @@ Ext.define('LectureModel',
          */
         loadTeacher: function (arr)
         {
-            console.log("lectureModel loadTeacher: maybe never used?");
             if (arr)
             {
                 var myteacher = arr.split(" ");
@@ -433,7 +432,6 @@ Ext.define('LectureModel',
          */
         loadRoom: function (arr)
         {
-            console.log("lectureModel loadRoom: maybe never used?");
             if (arr)
             {
                 var myroom = arr.split(" ");
@@ -448,7 +446,6 @@ Ext.define('LectureModel',
          */
         loadSubject: function (arr)
         {
-            console.log("lectureModel loadSubject: maybe never used?");
             if (arr)
             {
                 var mySubject = arr.split(" ");
@@ -463,7 +460,6 @@ Ext.define('LectureModel',
          */
         loadPool: function (arr)
         {
-            console.log("lectureModel loadPool: maybe never used?");
             if (arr)
             {
                 var myPool = arr.split(" ");
@@ -595,9 +591,6 @@ Ext.define('LectureModel',
          */
         getNames: function (col, shortVersion)
         {
-            console.log("LectureModel.getNames: maybe never used?");
-            console.log(col);
-            console.log(shortVersion);
             var ret = [];
             col.each(function (e)
             {
@@ -629,8 +622,6 @@ Ext.define('LectureModel',
          */
         getPoolFull: function (col)
         {
-            console.log("LectureModel.getPoolFull: maybe never used?");
-            console.log(col);
             var ret = [];
             col.each(function (e)
             {
@@ -701,7 +692,6 @@ Ext.define('LectureModel',
          */
         getTeacher: function ()
         {
-            console.log("LectureModel.getTeacher: maybe never used?");
             return this.teacher;
         },
         /**
@@ -712,7 +702,6 @@ Ext.define('LectureModel',
          */
         getPool: function ()
         {
-            console.log("LectureModel.getPool: maybe never used?");
             return this.pool;
         },
         /**
@@ -723,7 +712,6 @@ Ext.define('LectureModel',
          */
         getRoom: function ()
         {
-            console.log("LectureModel.getRoom: maybe never used?");
             return this.room;
         },
         /**
@@ -827,7 +815,6 @@ Ext.define('LectureModel',
          */
         setInfoTemplate: function (t)
         {
-            console.log("LectureModel.setInfoTemplate: maybe never used?");
             this.infoTemplate.set(t, true);
         },
         /**
@@ -873,7 +860,6 @@ Ext.define('LectureModel',
          */
         getSporadicView: function (relObj)
         {
-            console.log("LectureModel.getSporadicView: maybe never used?");
             var d = this.getDetailData({ parentId: relObj.getId() });
             if (relObj.getId() !== 'mySchedule' && MySched.Schedule.lectureExists(this))
             {
@@ -959,7 +945,6 @@ Ext.define('LectureModel',
          */
         isSporadic: function ()
         {
-            console.log("LectureModel.isSporadic: maybe never used?");
             return this.data.type === 'sporadic';
         }
     }

@@ -18,7 +18,6 @@ document.getElementById("MySchedMainW").appendChild(prediv);
  */
 function addLoadEvent(func)
 {
-    console.log("preLoadingMessage addLoadEvent: is it in use anymore?");
     var oldonload = window.onload;
     if (typeof window.onload !== 'function ')
     {
@@ -38,6 +37,5 @@ function addLoadEvent(func)
 
 addLoadEvent(function ()
 {
-    console.log("preLoadingMessage addLoadEvent: is it in use anymore?");
     document.getElementById("preloadMessage").style.display = "none";
 });

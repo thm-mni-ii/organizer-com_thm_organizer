@@ -255,7 +255,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
          */
         showEventInformation: function (e)
         {
-            console.log(e);
             "use strict";
 
             var el = e.getTarget('.MySchedEvent_joomla', 5, true);
@@ -473,7 +472,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
          */
         onMouseOver: function (e)
         {
-            console.log("selectManager.js onMouseOver: is it in use anymore?");
             "use strict";
 
             // Determines active event
@@ -500,7 +498,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
          */
         onMouseOut: function (e)
         {
-            console.log("selectManager.js onMouseOut: is it in use anymore?");
             "use strict";
 
             var el = Ext.get(e.getRelatedTarget());
@@ -660,7 +657,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
  */
 function showLessonMenu(e)
 {
-    console.log("TODO showLessonMenu: make documentation");
     "use strict";
 
     e.stopEvent();
@@ -755,8 +751,6 @@ function showLessonMenu(e)
  */
 function subjectNoHandler (element)
 {
-    console.log("TODO subjectNoHandler: make documentation");
-    console.log(element);
     var link = MySched.Mapping.getSubjectLink(element.id);
     if (link !== '')
     {
@@ -770,7 +764,6 @@ function subjectNoHandler (element)
  */
 function showBlockMenu(e)
 {
-    console.log("TODO showBlockMenu: make documentation");
     "use strict";
     e.stopEvent();
 
@@ -799,7 +792,6 @@ function showBlockMenu(e)
  */
 function destroyMenu()
 {
-    console.log("TODO destroyMenu: make documentation");
     "use strict";
     var rMenu = Ext.getCmp('responsibleMenu');
     var oMenu = Ext.getCmp('ownerMenu');

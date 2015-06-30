@@ -501,7 +501,6 @@ Ext.define('ScheduleModel',
         load: function (url, type, cb, scope, username, tmi)
         {
             //TODO
-            console.log("What is this?: " + tmi);
             var scheduleTask = 'UserSchedule.load';
 
             var defaultParams = {
@@ -533,7 +532,6 @@ Ext.define('ScheduleModel',
         checkLectureVersion: function (against)
         {
             var ret = {};
-            console.log("scheduleModle.js checkLectureVersion: is it in use anymore?");
             this.data.each(function (v)
             {
                 v.data.css = "";
@@ -622,7 +620,6 @@ Ext.define('ScheduleModel',
         preParseLectures: function (o, arg)
         {
             //TODO
-            console.log("What is this?: " + arg);
             // Call function after Auth and delete it -> clicked save
             if (MySched.Authorize.afterAuthCallback)
             {
@@ -641,7 +638,6 @@ Ext.define('ScheduleModel',
         loadsavedLectures: function (o, arg)
         {
             //TODO
-            console.log("(scheduleModel) loadsavedLectures. maybe never used?");
             if (o.resultSet !== null)
             {
                 var r = o.resultSet.records, e;
@@ -754,7 +750,6 @@ Ext.define('ScheduleModel',
                         iconCls: 'myScheduleIcon'
                     }
                 );
-                console.log("show sched")
                 MySched.layout.createTab('mySchedule', MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE, grid, "mySchedule");
             }
             // Activate buttons if not empty
@@ -785,7 +780,6 @@ Ext.define('ScheduleModel',
         parseLecturesdiff: function (o, arg)
         {
             //TODO
-            console.log("(scheduleModel) parseLecturesdiff. maybe never used?");
             // Fuegt dem Uebergabeparameter das Result hinzu
             Ext.applyIf(arg.params,
                 {
@@ -818,8 +812,6 @@ Ext.define('ScheduleModel',
         show: function (ret, closeable)
         {
             // TODO
-            //console.log("What is this?: " + closeable);
-            //console.log(this.getGridData());
             if (closeable !== false)
             {
                 closeable = true;

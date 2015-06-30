@@ -56,7 +56,6 @@ Ext.define('SchedGrid',
      */
     setSporadicLectures: function (data)
     {
-        console.log("SchedGrid.setSporadicLectures: maybe never used?");
         this.sporadics = [];
         if (!data || data.length === 0)
         {
@@ -202,7 +201,6 @@ function getSchedGrid()
         }
     });
 
-    console.log("build grid");
     /**
      * TODO Bad style to create a function this way
      * Returns an object with data for the rows
@@ -256,7 +254,6 @@ function getSchedGrid()
         cls: 'MySched_ScheduleGrid',
         scroll: false
     });
-    console.log(grid);
     return grid;
 }
 
@@ -267,7 +264,6 @@ function getSchedGrid()
  */
 function showEventdesc(index)
 {
-    console.log("grid.js showEventdesc: maybe never used?");
     if (Ext.ComponentMgr.get("datdescription") === null || typeof Ext.ComponentMgr.get("datdescription") === "undefined")
     {
         this.eventWindow = Ext.create('Ext.Window',
@@ -305,7 +301,6 @@ Ext.apply(Ext.form.VTypes,
      */
     daterange: function (val, field)
     {
-        console.log("grid.js daterange: maybe never used?");
         var date = field.parseDate(val);
 
         if (!date)
@@ -335,7 +330,6 @@ Ext.apply(Ext.form.VTypes,
 
     password: function (val, field)
     {
-        console.log("grid.js password: maybe never used?");
         if (field.initialPassField)
         {
             var pwd = Ext.getCmp(field.initialPassField);
@@ -454,7 +448,6 @@ function addNewEvent(eventid, sdate, stime, etime)
  */
 function newEventonLoad(iframe)
 {
-    console.log("grid.js newEventonLoad: maybe never used?");
     var eventForm = Ext.DomQuery.select('form[id=eventForm]',
     iframe.contentDocument.documentElement);
     eventForm = eventForm[0];

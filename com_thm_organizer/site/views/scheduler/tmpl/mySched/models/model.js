@@ -63,7 +63,6 @@ Ext.define('MySched.Model',
          */
         setParent: function (p)
         {
-            console.log("model.setParent: maybe never used?");
             this.parent = p;
         },
         /**
@@ -73,7 +72,6 @@ Ext.define('MySched.Model',
          */
         getParent: function ()
         {
-            console.log("model.getParent: maybe never used?");
             return this.parent;
         },
         /**
@@ -84,7 +82,6 @@ Ext.define('MySched.Model',
          */
         asArray: function ()
         {
-            console.log("model.asArray: maybe never used?");
             var ret = [];
             var d = this.data;
             if (d.asArray)
@@ -103,7 +100,6 @@ Ext.define('MySched.Model',
                 }
                 this[this.length] = e;
             }, ret);
-            console.log(ret);
             if (ret.length === 1)
             {
                 return ret[0];
