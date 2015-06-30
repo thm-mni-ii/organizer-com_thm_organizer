@@ -40,8 +40,8 @@ class THMPDFBuilder extends THMAbstractBuilder
     /**
      * Constructor with the configuration object
      *
-     * @param   Object  $cfg      An object which has configurations including
-     * @param   Object  $options  An object which has options including
+     * @param   object  $cfg      an object which has configurations including
+     * @param   array   $options  an object which has options including
      */
     public function __construct($cfg, $options)
     {
@@ -62,7 +62,7 @@ class THMPDFBuilder extends THMAbstractBuilder
      */
     public function createSchedule($scheduleData, $username, $title)
     {
-        $this->_pdf = new MySchedPdf($this->getTitle($username, $title));
+        $this->_pdf = new MySchedPdf($this->getTitle($username, $title), $this->startdate, $this->enddate);
         $this->setPDFSettings();
 
         $rows = count((array) $scheduleData->grid);

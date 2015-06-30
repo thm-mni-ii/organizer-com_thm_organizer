@@ -118,6 +118,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 {
                     'mouseover': function (e)
                     {
+                        //console.log(e);
+                        //console.log(e.parentEvent.getTarget('.lectureBox', document.body, true));
                         e.stopEvent();
                         this.showInformation(e);
                     },
@@ -412,6 +414,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         showInformation: function (e)
         {
             "use strict";
+            console.log('showInformation');
 
             var id, el;
             if (typeof e === "undefined")
@@ -430,7 +433,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             }
             else
             {
-                el = e.getTarget('.lectureBox', 5, true);
+                el = e.getTarget('.lectureBox', document.body, true);
+                //console.log(el);
             }
 
             if (Ext.getCmp('content-anchor-tip'))
@@ -522,6 +526,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         lecture2ScheduleHandler: function ()
         {
             "use strict";
+
+            console.log('lecture2ScheduleHandler');
 
             // Action is called by HoverButton
             var id, el;

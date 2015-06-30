@@ -349,8 +349,14 @@ MySched.Base = function ()
             MySched.InfoPanel.init();
             MySched.SelectionManager.init();
 
-            // Create the layout
-            MySched.layout.buildLayout();
+            // Detect whether the user is running desktop, tablet or phone
+            if(Ext.os.is.Phone){
+                // Create the layout for Phone devices
+                MySched.layout.buildMobileLayout();
+            } else{
+                // Create the layout for Desktop / Tablet
+                MySched.layout.buildBasicLayout();
+            }
 
             MySched.Base.setScheduleDescription(MySched.startup["ScheduleDescription.load"].data);
         },

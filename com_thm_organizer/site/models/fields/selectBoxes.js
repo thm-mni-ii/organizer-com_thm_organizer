@@ -16,31 +16,31 @@ var selectBoxes = (function(win)
     {
         this.selectBoxesElements = [];
         this.stores = [];
-        for(var i = 0; i < data.children.length; i++)
+        for(var i = 0; i < data.length; i++)
         {
-            if(data.children[i].gpuntisID !== 'subject')
+            if(data[i].gpuntisID !== 'subject')
             {
                 this.stores[i] = Ext.create(
                     'Ext.data.Store',
                     {
                         model: 'SelectBoxModel',
-                        data: getDataForStore(data.children[i])
+                        data: getDataForStore(data[i])
                     }
                 );
                 var parent;
                 var show = false;
-                if(data.children[i].gpuntisID === 'pool')
+                if(data[i].gpuntisID === 'pool')
                 {
                     var parent = Ext.get("jform_params_departmentSemesterSelection-lbl").getParent().getParent();
                 }
-                if(data.children[i].gpuntisID === 'room')
+                if(data[i].gpuntisID === 'room')
                 {
                     parent = document.getElementById('jform_params_displayRoomSchedule').getParent().getParent();
                     var select = document.getElementById('jform_params_displayRoomSchedule').getElementsByTagName('option');
                     show = select[0].selected;
                     ratioClick('jform_params_displayRoomSchedule', i);
                 }
-                if(data.children[i].gpuntisID === 'teacher')
+                if(data[i].gpuntisID === 'teacher')
                 {
                     parent = document.getElementById('jform_params_displayTeacherSchedule').getParent().getParent();
                     var select = document.getElementById('jform_params_displayTeacherSchedule').getElementsByTagName('option');
@@ -51,7 +51,7 @@ var selectBoxes = (function(win)
                 var tempSBox = Ext.create(
                     'Ext.form.field.ComboBox',
                     {
-                        fieldLabel: data.children[i].text,
+                        fieldLabel: data[i].text,
                         height: 60,
                         hidden: show,
                         renderTo: parent,
@@ -201,7 +201,7 @@ var selectBoxes = (function(win)
                 }
             );
             setVariables(data, selected);
-            createSelectBoxes(data[0]);
+            createSelectBoxes(data);
         },
         /**
          * Return the selected values

@@ -33,13 +33,34 @@ class MySchedPdf extends FPDF_TABLE
     private $_title = null;
 
     /**
+     * Schedule Startdate
+     *
+     * @var    String
+     */
+    private $_startdate = null;
+
+    /**
+     * Schedule Enddate
+     *
+     * @var    String
+     */
+    private $_enddate = null;
+    
+    /**
      * Constructor which performs initial tasks
      *
      * @param   string  $title  the title for the pdf
      */
-    public function __construct($title)
+    public function __construct($title, $startdate, $enddate)
     {
         $this->_title = $title;
+
+        $this->_enddate = DateTime::createFromFormat('Y-m-d', $enddate);
+        $this->_enddate = $this->_enddate->sub(new DateInterval('P2D'));
+        $this->_enddate = $this->_enddate->format('d.m.y');
+
+        $this->_startdate = DateTime::createFromFormat('Y-m-d', $startdate);
+        $this->_startdate = $this->_startdate->format('d.m.y');
         parent::FPDF('L');
         $this->AliasNbPages();
     }
@@ -53,7 +74,7 @@ class MySchedPdf extends FPDF_TABLE
     {
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(124);
-        $this->Cell(30,10, '' . $this->_title . '', 0, 0, 'C');
+        $this->Cell(30,10, '' . $this->_title . ' - Woche '. $this->_startdate . ' bis ' . $this->_enddate, 0, 0, 'C');
         $this->Ln(15);
     }
 
