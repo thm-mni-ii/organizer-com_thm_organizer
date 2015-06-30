@@ -13,7 +13,6 @@ MySched.daytime = [];
 MySched.loadedLessons = [];
 MySched.mainPath = externLinks.mainPath;
 MySched.displaySemesterBeginDialog = true;
-MySched.scheduleDataReady = false;
 Ext.Ajax.setTimeout(60000);
 MySched.Config.addAll(
     {
@@ -365,8 +364,6 @@ MySched.Base = function ()
         {
             if (Ext.isObject(jsonData))
             {
-                MySched.Tree.setTitle(jsonData.description, true);
-
                 MySched.session.begin = jsonData.startdate;
                 MySched.session.end = jsonData.enddate;
                 MySched.session.creationdate = jsonData.creationdate;
@@ -629,6 +626,137 @@ MySched.Base = function ()
             }
             // determine new state
             MySched.freeBusyState = state;
+        },
+        /**
+         * Get the data from the server to the according schedule and shows it
+         *
+         * @method showScheduleTab
+         * @param {string} nodeID The id of the resource
+         * @param {string} nodeKey The nodekey of the resource
+         * @param {string} gpuntisID The gpunits id
+         * @param {string} semesterID The id of the semester
+         * @param {string} plantypeID TODO Was always undefined at tests
+         * @param {string} type The type of the ressource (e.g. teacher or room)
+         */
+        showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
+        {
+            var title, config = {};
+            if(nodeID === null)
+            {
+                nodeID = nodeKey;
+            }
+
+            if (type === null)
+            {
+                type = gpuntisID;
+            }
+            var department = null;
+            if (type === "delta")
+            {
+                title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL;
+            }
+            else if (type === "respChanges")
+            {
+                title = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_OWN;
+            }
+            else
+            {
+                var departmentType = "field", departmentField = "description", nodeFullName = nodeKey;
+                var grid = "Haupt-Zeitraster";
+                if (type === "teacher")
+                {
+                    nodeFullName = getTeacherSurnameWithCutFirstName(nodeKey);
+                }
+                else if (type === "room")
+                {
+                    nodeFullName = MySched.Mapping.getRoomName(nodeKey);
+                    departmentType = "roomtype";
+                }
+                else if (type === "pool")
+                {
+                    nodeFullName = MySched.Mapping.getPoolFullName(nodeKey);
+                    grid = MySched.Mapping.getGrid(nodeKey);
+                    departmentType = "degree";
+                    departmentField = "degree";
+                }
+                else if (type === "subject")
+                {
+                    nodeFullName = MySched.Mapping.getSubjectName(nodeKey);
+                }
+
+                department = MySched.Mapping.getObjectField(type, nodeKey, departmentField);
+                var departmentName = MySched.Mapping.getObjectField(departmentType, department, "name");
+                if (typeof department === "undefined" || department === "none" || department === null || department === departmentName)
+                {
+                    title = nodeFullName;
+                }
+                else
+                {
+                    title = nodeFullName + " - " + departmentName;
+                }
+            }
+
+            config.grid = grid;
+
+            if (type === "delta")
+            {
+                new ScheduleModel(nodeID, title, config).init(type, nodeKey).show();
+            }
+            else
+            {
+                if (MySched.loadLessonsOnStartUp === false)
+                {
+                    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
+                        .value);
+                    var currentMoFrDate = getCurrentMoFrDate();
+
+                    Ext.Ajax.request(
+                        {
+                            url: _C('ajaxHandler'),
+                            method: 'POST',
+                            params: {
+                                nodeKey: nodeKey,
+                                gpuntisID: gpuntisID,
+                                semesterID: semesterID,
+                                scheduletask: "Ressource.load",
+                                type: type,
+                                startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+                                enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
+                            },
+                            failure: function (response)
+                            {
+                                Ext.Msg.alert(
+                                    MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+                                    MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+                            },
+                            success: function (response)
+                            {
+                                var json = Ext.decode(response.responseText);
+                                var lessonData = json.lessonData;
+                                var lessonDate = json.lessonDate;
+                                for (var item in lessonData)
+                                {
+                                    if (Ext.isObject(lessonData[item]))
+                                    {
+                                        var record = new LectureModel(item, lessonData[item], semesterID, plantypeID);
+                                        MySched.Base.schedule.addLecture(record);
+                                    }
+                                }
+                                if (Ext.isObject(lessonDate))
+                                {
+                                    MySched.Calendar.addAll(lessonDate);
+                                }
+
+                                new ScheduleModel(nodeID, title, config).init(type, nodeKey, semesterID).show();
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    new ScheduleModel(nodeID, title, config) .init(type, nodeKey, semesterID) .show();
+                }
+            }
         }
     };
 }();

@@ -245,7 +245,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
             nodeID = semesterID + ";" + type + ";" + parent + ";" + nodeKey;
 
-            MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
+            MySched.Base.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
         },
         /**
          * TODO Could not been tested but should be in use

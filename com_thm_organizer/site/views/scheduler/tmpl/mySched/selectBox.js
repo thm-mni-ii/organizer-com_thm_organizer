@@ -89,9 +89,9 @@ MySched.SelectBoxes = function ()
                                     }
                                 }
                             }
-                            MySched.scheduleDataReady = true;
                             MySched.SelectBoxes.createSelectBoxes(json.tree);
                             Ext.get('selectBoxes-body').unmask();
+                            MySched.Schedule.fireEvent("dataLoaded", MySched.Schedule);
                         }
                     }
                 );
@@ -265,7 +265,7 @@ MySched.SelectBoxes = function ()
                 }
                 else
                 {
-                    MySched.Tree.showScheduleTab(element.id, element.nodeKey, element.gpuntisID, element.semesterID, plantypeID, element.type);
+                    MySched.Base.showScheduleTab(element.id, element.nodeKey, element.gpuntisID, element.semesterID, plantypeID, element.type);
                 }
 
                 for(i = 0; i <= this.maxDepth;i++)
@@ -288,7 +288,7 @@ MySched.SelectBoxes = function ()
             }
             else
             {
-                MySched.Tree.showScheduleTab(item.id, item.nodeKey, item.gpuntisID, item.semesterID, plantypeID, item.type);
+                MySched.Base.showScheduleTab(item.id, item.nodeKey, item.gpuntisID, item.semesterID, plantypeID, item.type);
             }
         },
         /**

@@ -137,7 +137,10 @@ MySched.Authorize = function ()
 
             // Creating the schedule for the user
             MySched.Base.createUserSchedule();
-            MySched.Authorize.loadUserSchedule();
+
+            MySched.Schedule.on("dataLoaded", function(){
+                MySched.Authorize.loadUserSchedule();
+            });
 
             MySched.layout.viewport.doLayout();
             MySched.selectedSchedule.responsible = this.user;

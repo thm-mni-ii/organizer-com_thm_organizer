@@ -91,7 +91,7 @@ Ext.define('ScheduleModel',
         addLecture: function (l)
         {
             // adds a lecture
-            this.data.add(l.id, l);
+            var lecture = this.data.add(l.id, l);
 
             // thereby, blockCache is getting inconsistent
             this.blockCache = null;
@@ -655,28 +655,6 @@ Ext.define('ScheduleModel',
                 }
             }
 
-            if (!MySched.SessionId)
-            {
-                var tree = MySched.Tree.tree;
-
-                var treeRoot = tree.getRootNode();
-
-                var semid = treeRoot.firstChild.data.id;
-
-                semid = semid.split(".");
-
-                semid = semid[0];
-
-                var deltaid = semid + ".1.delta";
-
-                var deltaSched = new ScheduleModel(deltaid, MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DELTA_CENTRAL).init("delta", deltaid);
-                deltaSched.show();
-                MySched.layout.viewport.doLayout();
-                MySched.selectedSchedule.responsible = "delta";
-
-                MySched.Schedule.status = "saved";
-            }
-
             return;
         },
         /**
@@ -735,10 +713,8 @@ Ext.define('ScheduleModel',
                 };
                 Ext.defer(func, 50);
                 this.eventsloaded = null;
-                if (MySched.scheduleDataReady === true)
-                {
-                    this.refreshView();
-                }
+
+                this.refreshView();
             }
             else
             {

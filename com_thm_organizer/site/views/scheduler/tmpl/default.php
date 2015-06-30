@@ -42,24 +42,17 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
     <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/mapping.js"></script>
     <script type="text/javascript" charset="utf-8"
-        src="components/com_thm_organizer/views/scheduler/tmpl/mySched/readers.js"></script>
-    <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/grid.js"></script>
     <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/main.js"></script>
     <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/plugins.js"></script>
-
-    <script type="text/javascript" charset="utf-8"
-            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/treeManager.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/layout.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/infoPanel.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/selectionManager.js"></script>
-    <script type="text/javascript" charset="utf-8"
-            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/tree.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/selectBox.js"></script>
     <script type="text/javascript" charset="utf-8"
