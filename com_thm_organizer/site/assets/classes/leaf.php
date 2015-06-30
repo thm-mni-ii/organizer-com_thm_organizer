@@ -132,7 +132,7 @@ class THM_OrganizerLeaf
      */
     public function  __construct($parameters)
     {
-        $this->id = $parameters['id'];
+        $this->id = str_replace(".", "-", $parameters['id']);
         $this->nodeKey = $parameters['nodeKey'];
         $this->gpuntisID = $parameters['resource']->gpuntisID;
         $this->type = $parameters['category'];

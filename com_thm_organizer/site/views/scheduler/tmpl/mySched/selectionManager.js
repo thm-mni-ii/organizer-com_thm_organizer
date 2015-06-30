@@ -162,10 +162,10 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-/*
+
             // Subscribe events for lecture box
             // What is a lecture box?
-            Ext.select('.lectureBox', false, tab.dom)
+            Ext.select('.lectureBox', true, tab.dom)
                 .on(
                 {
                     'mousedown': this.onMouseDown,
@@ -176,7 +176,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-*/
+
             // Adds events to the plus icon
             Ext.select('.status_icons_add', true, tab.dom)
                 .on(
@@ -189,9 +189,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     scope: this
                 });
 
-/*
+
             // Assuming this is the context menu -> throws js errors right now
-            Ext.select('.conMenu', false, tab.dom)
+            Ext.select('.conMenu', true, tab.dom)
                 .on(
                 {
                     'contextmenu': function (e)
@@ -200,7 +200,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-*/
+
         },
         /**
          * Gets all the data if a new schedule is opend by clicking on an item in an schedule
@@ -246,12 +246,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             nodeID = semesterID + ";" + type + ";" + parent + ";" + nodeKey;
 
             MySched.Tree.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
-
-            var record = MySched.Tree.tree.getRootNode().findChild("id",nodeID, true);
-            var path = record.getPath("id", "#");
-            MySched.Tree.tree.expandPath(path, "id", "#");
-            MySched.Tree.tree.getSelectionModel().select(record);
-
         },
         /**
          * TODO Could not been tested but should be in use
@@ -547,8 +541,8 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 id = el.id;
             }
 
-            var tabID = id.split(';;')[0];
-            var lessonID = id.split(';;')[1];
+            var tabID = id.split('__')[0];
+            var lessonID = id.split('__')[1];
 
             if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
             {

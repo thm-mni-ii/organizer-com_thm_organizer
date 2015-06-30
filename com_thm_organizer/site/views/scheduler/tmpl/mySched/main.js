@@ -233,10 +233,7 @@ MySched.Base = function ()
                             }
                         }
 
-                        if(MySched.FPDFInstalled)
-                        {
-                            Ext.ComponentMgr.get('btnSave').enable();
-                        }
+                        Ext.ComponentMgr.get('btnSave').enable();
 
                         var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                         tab.ScheduleModel.status = "unsaved";

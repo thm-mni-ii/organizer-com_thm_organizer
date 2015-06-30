@@ -132,7 +132,7 @@ class THM_OrganizerNode
      */
     public function  __construct($parameters)
     {
-        $this->id = $parameters['id'];
+        $this->id = str_replace(".", "-", $parameters['id']);
         $this->nodeKey = $parameters['nodeKey'];
         $this->text = $parameters['text'];
         $this->gpuntisID = $parameters['gpuntisID'];

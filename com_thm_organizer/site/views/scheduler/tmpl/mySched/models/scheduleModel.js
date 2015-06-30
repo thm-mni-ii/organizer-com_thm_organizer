@@ -142,9 +142,9 @@ Ext.define('ScheduleModel',
          */
         getLecture: function (id)
         {
-            if (id.match(';;'))
+            if (id.match('__'))
             {
-                id = id.split(';;')[1];
+                id = id.split('__')[1];
             }
             if (MySched.selectedSchedule.type === "delta")
             {
@@ -511,19 +511,17 @@ Ext.define('ScheduleModel',
                 scheduletask: scheduleTask
             };
 
-            this.reader = new SchedJsonReader();
-
-            this.proxy = Ext.create('Ext.data.proxy.Rest',
+            Ext.Ajax.request(
                 {
                     url: url,
-                    extraParams: defaultParams,
-                    reader: this.reader
-                });
-
-            this.proxy.read(new Ext.data.Operation(
-                {
-                    action: 'read'
-                }), cb, scope);
+                    method: 'GET',
+                    params: defaultParams,
+                    success: function (response, request) {
+                        this.preParseLectures(Ext.decode(response.responseText, true));
+                    },
+                    scope: scope || this
+                }
+            );
         },
         /**
          * Check whether existing events yet exist
@@ -691,14 +689,45 @@ Ext.define('ScheduleModel',
          * @method parseLectures
          * @param {Object} o Ajax request
          */
-        parseLectures: function (o)
+        parseLectures: function (records)
         {
-            var r = o.resultSet.records;
-            var l, key;
-            for (var i = 0, len = r.length; i < len; i++)
+            var l, key, lecture, lectures = [];
+
+            Ext.Object.each(records, function (key, value, myself)
             {
-                var e = r[i];
-                this.data.add(e.id, e);
+                if(value.block && Ext.isObject(value.calendar))
+                {
+                    var lecture = MySched.Base.getLecture(key);
+                    if(Ext.isDefined(lecture))
+                    {
+                        lectures[lectures.length] = lecture;
+                    }
+                    else
+                    {
+                        for (var calendarIndex in value.calendar)
+                        {
+                            if (value.calendar.hasOwnProperty(calendarIndex))
+                            {
+                                var block = value.calendar[calendarIndex];
+                                for (var blockIndex in block)
+                                {
+                                    if (block.hasOwnProperty(blockIndex))
+                                    {
+                                        var data = block[blockIndex];
+                                        data.lessonData.delta = "removed";
+                                    }
+                                }
+                            }
+                        }
+                        lectures[lectures.length] = new LectureModel(key, value, MySched.class_semester_id, "");
+                    }
+                }
+            });
+
+            for (var i = 0, len = lectures.length; i < len; i++)
+            {
+                lecture = lectures[i];
+                this.data.add(lecture.id, lecture);
             }
 
             if (MySched.layout.tabpanel.getComponent('mySchedule'))
@@ -803,9 +832,9 @@ Ext.define('ScheduleModel',
             }
             var name = this.title.replace(/\s*\/\s*/g, ' ');
 
-            if (name.length > 32){
+            if (name.length > 40){
                 var nameArr = name.split("-");
-                var idArr = this.getId().split(";");
+                var idArr = this.getId().split("_");
                 name = nameArr[0] + ' - ' + idArr[5];
             }
 
@@ -817,8 +846,7 @@ Ext.define('ScheduleModel',
             }
             else if (MySched.Authorize.role !== "user" || this.getId() !== "mySchedule")
             {
-                /*
-                this.dragzone = new Ext.dd.DragZone(this.getId(),
+                /*this.dragzone = new Ext.dd.DragZone(this.getId(),
                     {
                         containerScroll: true,
                         ddGroup: 'lecture'
@@ -947,9 +975,9 @@ Ext.define('ScheduleModel',
             {
                 l = l.getId();
             }
-            if (l.match(';;'))
+            if (l.match('__'))
             {
-                l = l.split(';;')[1];
+                l = l.split('__')[1];
             }
             return this.data.containsKey(l);
         },
@@ -964,6 +992,7 @@ Ext.define('ScheduleModel',
             {
                 return;
             }
+            this.fireEvent('changed', this);
             this.changed = true;
         },
         /**
@@ -977,6 +1006,7 @@ Ext.define('ScheduleModel',
             {
                 return;
             }
+            this.fireEvent('save', this);
             this.changed = false;
         },
         /**

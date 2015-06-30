@@ -13,6 +13,7 @@
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_SITE . "/assets/classes/node.php";
 require_once JPATH_COMPONENT_SITE . "/assets/classes/leaf.php";
+
 /**
  * Class TreeView for component com_thm_organizer
  * Class provides methods to create the tree view for mysched
@@ -201,24 +202,6 @@ class THM_OrganizerModelSchedule_Navigation
         $this->resolveRooms($schedulerModel->getRooms());
         $this->resolveTeachers($schedulerModel->getTeachers());
 
-        $isDisplayed = $this->displayNode($this->schedule);
-
-        if ($isDisplayed)
-        {
-            $rootNodeData = array(
-                'id' => $this->schedule,
-                'nodeKey' => $activeSchedule->id,
-                'text' => $activeSchedule->semestername,
-                'gpuntisID' => $activeSchedule->id,
-                'type' => null,
-                'semesterID' => $activeSchedule->id,
-                'iconCls' => 'semesterjahr-root',
-                'checked' => $this->_checked,
-                'publicDefault' => $this->_publicDefault,
-            );
-            $root = new THM_OrganizerNode($rootNodeData);
-        }
-
         $children = $this->getCategoryNodes($this->schedule, $activeSchedule->id);
         if (empty($children))
         {
@@ -378,7 +361,7 @@ class THM_OrganizerModelSchedule_Navigation
             return true;
         }
 
-        $nodeParts = explode(";", $nodeID);
+        $nodeParts = explode("_", $nodeID);
 
         // Do not show root node
         if(count($nodeParts) === 4)
@@ -427,7 +410,7 @@ class THM_OrganizerModelSchedule_Navigation
 
         foreach ($categories as $category)
         {
-            $nodeKey = $key . ";" . $category;
+            $nodeKey = $key . "_" . $category;
             $textConstant = 'COM_THM_ORGANIZER_SCHEDULER_' . $category . 'PLAN';
 
             $isDisplayed = $this->displayNode($nodeKey);
@@ -447,7 +430,7 @@ class THM_OrganizerModelSchedule_Navigation
                 $categoryNode = new THM_OrganizerNode($categoryNodeData);
             }
 
-            $allDisplayed = ($category != 'pool')? $this->displayNode($nodeKey . ";ALL") : false;
+            $allDisplayed = ($category != 'pool')? $this->displayNode($nodeKey . "_ALL") : false;
             $subcategories = $this->getSubcategoryNodes($nodeKey, $category, $scheduleID, $allDisplayed);
 
             if (empty($subcategories))
@@ -494,7 +477,7 @@ class THM_OrganizerModelSchedule_Navigation
 
         foreach ($subcategories as $subcategoryKey => $subcategory)
         {
-            $subcategoryID = "$key;$subcategoryKey";
+            $subcategoryID = $key . "_" . $subcategoryKey;
 
             $resources = array_filter(
                 (array) $subcategoriesData, function ($resource) use ($category, $subcategoryKey)
@@ -576,7 +559,7 @@ class THM_OrganizerModelSchedule_Navigation
     {
         foreach ($parameters['resources'] as $resourceKey => $resource)
         {
-            $nodeID = "{$parameters['subcategoryID']};$resourceKey";
+            $nodeID = $parameters['subcategoryID'] . "_" . $resourceKey;
 
             $hasLessons = ($this->_frontend == false)?
                 true : $this->resourceIsPlanned($resourceKey, $parameters['category']);

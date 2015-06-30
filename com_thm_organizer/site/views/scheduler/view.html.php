@@ -67,13 +67,6 @@ class THM_OrganizerViewScheduler extends JViewLegacy
             return false;
         }
 
-        $document = JFactory::getDocument();
-        $headData = $document->getHeadData();
-        $scripts = $headData['scripts'];
-        unset($scripts[JURI::root() . 'libraries/thm_core/js/extjs/resolveDocument.js']);
-        $headData['scripts'] = $scripts;
-        $document->setHeadData($headData);
-
         $validRequest = $this->validateRequest();
         if (!$validRequest)
         {
@@ -102,8 +95,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $this->displayModuleNumber = (bool) $params->get("displayModuleNumber", true);
         $this->config['deltaDisplayDays'] = (int) $params->get("deltaDisplayDays", 14);
         $this->config['displayDaysInWeek'] = (int) $params->get("displayDaysInWeek", 0);
-        $this->config['name'] = $scheduleRow->departmentname . ";" . $scheduleRow->semestername . ";";
-        $this->config['name'] .= $scheduleRow->startdate . ";" . $scheduleRow->enddate;
+        $this->config['name'] = $scheduleRow->departmentname . "_" . $scheduleRow->semestername . "_";
+        $this->config['name'] .= $scheduleRow->term_startdate . "_" . $scheduleRow->term_enddate;
 
         $scheduleRow->creationdate = THM_OrganizerHelperComponent::formatDate($scheduleRow->creationdate);
 

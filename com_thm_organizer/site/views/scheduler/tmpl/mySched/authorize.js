@@ -83,8 +83,7 @@ MySched.Authorize = function ()
                 },
                 success: function (response, request)
                 {
-                    try
-                    {
+
                         var json = Ext.decode(response.responseText);
                         if (json.success)
                         {
@@ -106,14 +105,7 @@ MySched.Authorize = function ()
                             }
 
                         }
-                    }
-                    catch (e)
-                    {
-                        Ext.Msg.alert(
-                        MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED,
-                        MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG3,
-                        this.showAuthForm(), this);
-                    }
+
                 },
                 scope: scope || this
             });

@@ -96,7 +96,8 @@ class THMUserSchedule
     public function save()
     {
         // Ensures the requests came from the scheduler view
-        $requestedWith = JFactory::getApplication()->input->get->server('HTTP_X_REQUESTED_WITH', '');
+
+        $requestedWith = $_SERVER['HTTP_X_REQUESTED_WITH'];
         if (empty($requestedWith) OR $requestedWith != 'XMLHttpRequest')
         {
              return array(
@@ -115,7 +116,7 @@ class THMUserSchedule
             $query = $dbo->getQuery(true);
 
             // Remove older entries
-            $query->delete($dbo->quoteName("{$this->_cfg->userScheduleTable}"))->where("username = '$this->_username' ");
+            $query->delete($dbo->quoteName("#__thm_organizer_user_schedules"))->where("username = '$this->_username' ");
             $dbo->setQuery((string) $query);
  
             try
