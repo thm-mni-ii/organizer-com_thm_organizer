@@ -46,13 +46,12 @@
   text-align: right;
   color: $thm-gruen-color;
   font-weight: bold;
-  font-size: 230%;
+  font-size: 250%;
   position: absolute;
-  top: 12px;
+  bottom: 39px;
   right: 48px;
 
   .time {
-
   }
 
   .weekday {
@@ -67,11 +66,11 @@
 /******************** content **********************************/
 .schedule-area {
   margin: 0 48px;
-  font-size: x-large;
+  font-size: 200%;
 }
 
 .schedule-block {
-  padding: 3% 0.5em;
+  padding: 46px 0.5em;
   background-color: rgb(238, 238, 238);
   border-bottom: 3px solid white;
 }
@@ -88,7 +87,7 @@
   float: left;
   font-weight: bold;
   word-wrap: break-word;
-  padding-left: 15%;
+  padding-left: 8%;
 }
 
 .block-extra {
@@ -104,7 +103,7 @@
   background-color: #9C132D;
   color: white;
   font-weight: bold;
-  padding: 5% 0.5em;
+  padding: 60px 0.5em;
 
   .block-time {
   }
@@ -118,6 +117,5 @@
 }
 
 .nothingActive{
-  padding: 3% 0.5em;
+  padding:49px 0.5em;
 }
-

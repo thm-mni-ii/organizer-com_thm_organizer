@@ -59,7 +59,6 @@ $metric = 0;
         </div>
         <div class='date-info'>
             <div class='time'><?php echo $time; ?></div>
-            <div class='weekday'><?php echo JText::_($dayName); ?></div>
             <div class='date'><?php echo date('d.m.Y'); ?></div>
         </div>
     </div>
