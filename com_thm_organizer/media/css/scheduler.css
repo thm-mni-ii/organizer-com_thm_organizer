@@ -1,3 +1,166 @@
+/*icons anpassen*/
+.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
+  font-weight: bold;
+}
+
+.icon-add-Space {
+  font-size: 14px;
+}
+
+/*icons zur jeweiligen View im Header hinzufuegen */
+.icon-organizer::before {
+  content: "\e60b";
+}
+
+.icon-organizer_degrees::before {
+  content: "\e606";
+}
+
+.icon-organizer_users::before {
+  content: "\e01f";
+}
+
+.icon-organizer_monitors::before {
+  content: "\e01c";
+}
+
+.icon-organizer_teachers::before {
+  content: "\e604";
+}
+
+.icon-organizer_departments::before {
+  content: "\e244";
+}
+
+.icon-organizer_subjects::before {
+  content: "\e603";
+}
+
+.icon-organizer_fields::before {
+  content: "\74";
+}
+
+.icon-organizer_colors::before {
+  content: "\e014";
+}
+
+.icon-organizer_subject_pools::before {
+  content: "\43";
+}
+
+.icon-organizer_rooms::before {
+  content: "\e60a";
+}
+
+.icon-organizer_degree_programs::before {
+  content: "\31";
+}
+
+.icon-organizer_schedules::before {
+  content: "\e600";
+}
+
+.icon-organizer_categories::before {
+  content: "\e601";
+}
+
+.icon-mni::before {
+  content: "\e600";
+}
+
+/*icons zu sidebar hinzufuegen*/
+li a[href$="view=thm_organizer"]::before, li a[href$="option=com_thm_organizer"]::before {
+  font-family: icomoon;
+  content: "\e60b";
+  font-size: 16px;
+  padding-right: 8px;
+  color: #80ba24;
+}
+li a[href*="view=degree_manager"]::before {
+  font-family: icomoon;
+  content: "\e606";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=user_manager"]::before {
+  font-family: icomoon;
+  content: "\e01f";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=monitor_manager"]::before {
+  font-family: icomoon;
+  content: "\e01c";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=teacher_manager"]::before {
+  font-family: icomoon;
+  content: "\e604";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=department_manager"]::before {
+  font-family: icomoon;
+  content: "\e244";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=subject_manager"]::before {
+  font-family: icomoon;
+  content: "\e603";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=field_manager"]::before {
+  font-family: icomoon;
+  content: "\74";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=color_manager"]::before {
+  font-family: icomoon;
+  content: "\e014";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=pool_manager"]::before {
+  font-family: icomoon;
+  content: "\43";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=room_manager"]::before {
+  font-family: icomoon;
+  content: "\e60a";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=program_manager"]::before {
+  font-family: icomoon;
+  content: "\31";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=schedule_manager"]::before {
+  font-family: icomoon;
+  content: "\e600";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=category_manager"]::before {
+  font-family: icomoon;
+  content: "\e601";
+  font-size: 12px;
+  padding-right: 8px;
+}
+li a[href*="view=virtual_schedule_manager"]::before {
+  font-family: icomoon;
+  content: "\e600";
+  font-size: 12px;
+  padding-right: 8px;
+}
+
 .control-group .chzn-container {
   width: 260px !important;
 }
@@ -47,12 +210,16 @@
   margin-bottom: 40px !important;
 }
 
-#viewport, #viewport-body {
+.MySchedMainW {
+  color: #4a5c66;
+}
+
+.MySchedMainW > .x-border-box, .x-panel-body {
   width: inherit !important;
 }
 
-.scheduler {
-  color: #4a5c66;
+.x-form-text-default {
+  background-image: none;
 }
 
 .x-form-text-wrap-default {
@@ -69,38 +236,36 @@ input[type="text"]:disabled {
   cursor: not-allowed;
 }
 
-#selectBoxes .x-form-text-default {
-  background-image: none;
-}
-#selectBoxes .x-field-default:first-child {
+.x-border-layout-ct > .x-border-item:nth-child(1) .x-field-default:first-child {
   margin-top: 48px;
 }
-#selectBoxes .x-field-default {
+.x-border-layout-ct > .x-border-item:nth-child(1) .x-field-default {
   height: 0px !important;
   margin-bottom: 25px;
 }
-#selectBoxes .x-form-trigger-wrap {
+.x-border-layout-ct > .x-border-item:nth-child(1) .x-form-trigger-wrap {
   height: auto;
 }
 
 @media screen and (min-device-width: 1200px) {
-  #rightviewport {
+  .x-border-layout-ct > .x-border-item:nth-child(2) {
     margin-left: 30px !important;
+    width: inherit !important;
   }
 }
 @media screen and (max-device-width: 1199px) {
-  #rightviewport {
+  .x-border-layout-ct > .x-border-item:nth-child(2) {
     margin-left: 5px;
   }
 }
-#rightviewport #topMenu {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) {
   margin-bottom: 10px;
 }
-#rightviewport #topMenu .MySched_prevWeekIcon {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_prevWeekIcon {
   background-image: none;
   position: relative;
 }
-#rightviewport #topMenu .MySched_prevWeekIcon:before {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_prevWeekIcon:before {
   font-family: icomoon;
   content: "\7c";
   font-size: 20px;
@@ -110,11 +275,11 @@ input[type="text"]:disabled {
   right: 0;
   top: 8px;
 }
-#rightviewport #topMenu .MySched_nextWeekIcon {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_nextWeekIcon {
   background-image: none;
   position: relative;
 }
-#rightviewport #topMenu .MySched_nextWeekIcon:before {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_nextWeekIcon:before {
   font-family: icomoon;
   content: "\7b";
   font-size: 20px;
@@ -124,92 +289,104 @@ input[type="text"]:disabled {
   left: -2px;
   top: 8px;
 }
-#rightviewport #topMenu .x-field {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-field {
   width: 135px;
 }
-#rightviewport #topMenu .x-form-trigger-wrap {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-trigger-wrap {
   border: 2px solid #4a5d66;
   background-color: white;
 }
-#rightviewport #topMenu .x-form-text-wrap-default input {
-  width: 100px;
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default input {
+  width: 100px !important;
   text-align: center;
-  background-image: none;
+  background-image: none !important;
   box-shadow: none;
-  border: none;
+  border: none !important;
 }
-#rightviewport #topMenu .x-form-date-trigger-default {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default {
   vertical-align: middle;
   padding-right: 10px;
 }
 @-moz-document url-prefix() {
-  #rightviewport #topMenu .x-form-date-trigger-default {
+  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default {
     padding-right: 30px;
     padding-top: 16px;
   }
 }
-#rightviewport #topMenu .x-form-date-trigger-default:before {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default:before {
   font-family: icomoon;
   content: "\44";
   font-size: 20px;
   color: #4a5c66;
 }
-#rightviewport #topMenu #btnSave {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave {
   border: none;
   margin-left: 15px !important;
 }
-#rightviewport #topMenu #btnSave .x-btn-inner {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner {
   font-size: 14px;
+  width: 110px;
 }
-#rightviewport #topMenu #btnMenu {
-  margin-left: 20px;
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner::before {
+  font-family: icomoon-special;
+  content: "\e962";
+  font-size: 15px;
+  color: #4a5c66;
+  padding-right: 10px;
 }
-#rightviewport #topMenu #btnMenu .x-btn-icon-el {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .tbSave {
+  background-image: none;
   display: none;
 }
-#rightviewport #topMenu #btnMenu .x-btn-inner {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu {
+  margin-left: 20px;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-icon-el {
+  display: none;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-inner {
   width: 90px;
   font-size: 14px;
 }
-#rightviewport #topMenu #btnMenu .x-btn-wrap-default-toolbar-small::after {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small::after {
   background-image: none;
   font-family: icomoon;
   content: "\e021";
   font-size: 20px;
   color: #4a5c66;
 }
-@media screen\0 {
-  #rightviewport #topMenu #btnMenu .x-btn-inner {
+@media screen \0 {
+  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-inner {
     text-align: left;
   }
-  #rightviewport #topMenu #btnMenu .x-btn-arrow-right {
+  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right {
     margin-left: 15px;
   }
-  #rightviewport #topMenu #btnMenu .x-btn-arrow-right::before {
+  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right::before {
     background-image: none;
     font-family: icomoon;
     content: "\e021";
     font-size: 20px;
     color: #4a5c66;
   }
-  #rightviewport #topMenu #btnMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
     background-image: none;
     display: none;
   }
 }
-#rightviewport #tabpanel .x-box-scroller-body-horizontal {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-body-horizontal {
   height: 37px !important;
 }
-#rightviewport #tabpanel .x-tab-bar {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-bar {
   background-color: transparent;
 }
-#rightviewport #tabpanel .x-tab-bar-strip {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-bar-strip {
   height: 3px;
   background-color: #F6F6F6;
   border: 1px solid #ddd;
   border-bottom: none;
 }
-#rightviewport #tabpanel .x-tab {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab {
   background-image: none;
   padding: 10px;
   -webkit-border-radius: 0;
@@ -220,77 +397,87 @@ input[type="text"]:disabled {
   border-bottom: none;
   border-radius: 0;
 }
-#rightviewport #tabpanel .x-tab-active {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-active {
   background-color: #dfeec8;
 }
-#rightviewport #tabpanel .x-tab-over {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-over {
   background-color: #dfe5e6;
 }
-#rightviewport #tabpanel #tabpanel-body {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) #tabpanel-body {
   background-color: white;
   border: 1px solid #ddd;
   border-top: none;
 }
-#rightviewport #tabpanel .x-tab-closable.x-tab-default .x-tab-button {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-closable.x-tab-default .x-tab-button {
   padding-right: 4px;
 }
-#rightviewport #tabpanel .x-box-scroller {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller {
   top: 9px;
   height: 21px;
 }
-#rightviewport #tabpanel .myScheduleIcon {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .myScheduleIcon {
   background-image: none;
 }
-#rightviewport #tabpanel .myScheduleIcon::before {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .myScheduleIcon::before {
   font-family: icomoon;
   content: "\43";
   font-size: 12px;
   color: #4a5c66;
 }
-#rightviewport #tabpanel .x-grid-view {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-view {
   height: 383px !important;
 }
-#rightviewport #tabpanel .x-grid-item-container {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-item-container {
   margin-bottom: 2px;
 }
-#rightviewport #tabpanel .lectureBox {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .lectureBox {
   outline: 1px outset white;
   box-shadow: inset 0px 0px 6px #bbbbbb;
   background-image: -webkit-linear-gradient(-33deg, #fbfbfb 0, #eeeeee 100%);
   background-image: -moz-linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
   background-image: linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
-  background-position: 50% 50%;
   background-color: #eeeeee;
   margin-bottom: 4px;
   padding: 4px;
 }
-#rightviewport #tabpanel .x-grid-cell {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .lectureBox_cho {
+  outline: 1px outset #333;
+  box-shadow: inset 0px 0px 6px #c8e2a1;
+  background-image: -webkit-linear-gradient(-33deg, #e6f2d4 0, #dfeec8 100%);
+  background-image: -moz-linear-gradient(123deg, #e6f2d4 0, #dfeec8 100%);
+  background-image: linear-gradient(123deg, #e6f2d4 0, #dfeec8 100%);
+  background-color: #dfeec8;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .blockOccupied {
+  background-color: #4a5c66;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell {
   padding: 4px 2px;
 }
-#rightviewport #tabpanel .x-grid-cell-inner {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-inner {
   padding: 0;
 }
-#rightviewport #tabpanel .x-grid-row:first-child td {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-first {
   background-color: #ffffff;
 }
-#rightviewport #tabpanel .x-grid-rowbody-tr {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-rowbody-tr {
   background-color: #FAFAFA;
 }
-#rightviewport #tabpanel .x-grid-rowbody-tr td {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-rowbody-tr td {
   padding: 0;
 }
-#rightviewport #tabpanel .x-grid-cell-last {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-last {
   padding-right: 18px;
 }
-#rightviewport #tabpanel .MySched_pause {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .MySched_pause {
   display: table-row;
   background-color: #CCCCCC;
 }
-#rightviewport #tabpanel .MySched_pause .x-grid-td {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .MySched_pause .x-grid-td {
   text-align: center;
   padding: 0;
 }
-#rightviewport table {
+.x-border-layout-ct > .x-border-item:nth-child(2) table {
   margin-bottom: 0;
 }
 
@@ -305,24 +492,16 @@ input[type="text"]:disabled {
   width: 0 !important;
 }
 
-body.x-border-layout-ct, div.x-border-layout-ct {
-  background-color: transparent;
-}
-
-.x-panel-header-default {
-  background-color: transparent;
+body.x-border-layout-ct,
+div.x-border-layout-ct,
+.x-panel-header-default,
+.x-panel-body-default,
+.x-toolbar-default {
+  background-color: transparent !important;
 }
 
 .x-panel-header-default-top {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-
-.x-panel-body-default {
-  background-color: transparent;
-}
-
-.x-toolbar-default {
-  background-color: transparent;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
