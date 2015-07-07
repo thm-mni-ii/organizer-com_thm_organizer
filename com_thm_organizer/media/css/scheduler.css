@@ -249,7 +249,7 @@ input[type="text"]:disabled {
 
 @media screen and (min-device-width: 1200px) {
   .x-border-layout-ct > .x-border-item:nth-child(2) {
-    margin-left: 30px !important;
+    margin-left: 5px !important;
     width: inherit !important;
   }
 }
@@ -295,6 +295,10 @@ input[type="text"]:disabled {
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-trigger-wrap {
   border: 2px solid #4a5d66;
   background-color: white;
+  position: relative;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default {
+  float: right;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default input {
   width: 100px !important;
@@ -303,36 +307,45 @@ input[type="text"]:disabled {
   box-shadow: none;
   border: none !important;
 }
+@-moz-document url-prefix() {
+  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default input {
+    float: right;
+    text-align: right;
+  }
+}
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default {
   vertical-align: middle;
   padding-right: 10px;
-}
-@-moz-document url-prefix() {
-  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default {
-    padding-right: 30px;
-    padding-top: 16px;
-  }
+  float: left;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default:before {
   font-family: icomoon;
   content: "\44";
   font-size: 20px;
   color: #4a5c66;
+  position: absolute;
+  top: 16px;
+  top: 18px\0;
+  left: 12px;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave {
   border: none;
   margin-left: 15px !important;
+  top: 9px !important;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner {
   font-size: 14px;
-  width: 110px;
+  width: 104px;
+  text-align: center;
+  padding-left: 21px;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner::before {
   font-family: icomoon-special;
   content: "\e962";
-  font-size: 15px;
+  font-size: 20px;
   color: #4a5c66;
-  padding-right: 10px;
+  position: absolute;
+  left: 0;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .tbSave {
   background-image: none;
@@ -345,37 +358,47 @@ input[type="text"]:disabled {
   display: none;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-inner {
-  width: 90px;
+  width: 84px;
   font-size: 14px;
 }
-.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small::after {
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small {
+  margin-left: 5px;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small::before {
   background-image: none;
   font-family: icomoon;
   content: "\e021";
   font-size: 20px;
   color: #4a5c66;
 }
-@media screen \0 {
-  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-inner {
-    text-align: left;
-  }
-  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right {
-    margin-left: 15px;
-  }
-  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right::before {
-    background-image: none;
-    font-family: icomoon;
-    content: "\e021";
-    font-size: 20px;
-    color: #4a5c66;
-  }
-  .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
-    background-image: none;
-    display: none;
-  }
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+  background-image: none;
+  display: none;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-body-horizontal {
   height: 37px !important;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-left {
+  background-image: none;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-left::before {
+  font-family: icomoon;
+  content: "\e008";
+  color: #4a5c66;
+  font-size: 16px;
+  position: absolute;
+  top: 11px;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-right {
+  background-image: none;
+}
+.x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-right::before {
+  font-family: icomoon;
+  content: "\e006";
+  color: #4a5c66;
+  font-size: 16px;
+  position: absolute;
+  top: 11px;
 }
 .x-border-layout-ct > .x-border-item:nth-child(2) .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-bar {
   background-color: transparent;
@@ -504,4 +527,43 @@ div.x-border-layout-ct,
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+}
+
+.tbSaveICal {
+  background-image: none !important;
+}
+.tbSaveICal::before {
+  font-family: icomoon;
+  content: "\e273";
+  font-size: 16px;
+  color: #4a5c66;
+  position: absolute;
+  top: 10px;
+  left: 3px;
+}
+
+.tbSavePdf {
+  background-image: none !important;
+}
+.tbSavePdf::before {
+  font-family: icomoon-special;
+  content: "\eada";
+  font-size: 16px;
+  color: #4a5c66;
+  position: absolute;
+  top: 10px;
+  left: 3px;
+}
+
+.tbSaveTxt {
+  background-image: none !important;
+}
+.tbSaveTxt::before {
+  font-family: icomoon-special;
+  content: "\eadd";
+  font-size: 16px;
+  color: #4a5c66;
+  position: absolute;
+  top: 10px;
+  left: 3px;
 }

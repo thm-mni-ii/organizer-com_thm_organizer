@@ -115,7 +115,7 @@ input[type="text"]:disabled {
 
   // for large screens
   @media screen and (min-device-width: 1200px) {
-    margin-left: 30px !important;
+    margin-left: 5px !important;
     width: inherit !important;
   }
   //für tablets und kleiner
@@ -169,15 +169,25 @@ input[type="text"]:disabled {
     .x-form-trigger-wrap {
       border: 2px solid #4a5d66;
       background-color: white;
+      position: relative;
     }
 
     .x-form-text-wrap-default {
+      float: right;
+      
       input {
         width: 100px !important;
         text-align: center;
         background-image: none !important;
         box-shadow: none;
         border: none !important;
+
+        // Target Firefox only; text-align
+        @-moz-document url-prefix() {
+          float: right;
+          text-align: right;
+        }
+
       }
     }
 
@@ -185,18 +195,18 @@ input[type="text"]:disabled {
     .x-form-date-trigger-default {
       vertical-align: middle;
       padding-right: 10px;
-
-      // Target Firefox only; vertical-align not working here
-      @-moz-document url-prefix() {
-        padding-right: 30px;
-        padding-top: 16px;
-      }
+      float: left;
 
       &:before {
         font-family: icomoon;
         content: "\44";
         font-size: 20px;
         color: $thm-grau-color;
+        position: absolute;
+        top: 16px;
+        top: 18px\0; //just for IE
+        left: 12px;
+
       }
     }
 
@@ -204,21 +214,25 @@ input[type="text"]:disabled {
     #btnSave {
       border: none;
       margin-left: 15px !important;
+      top: 9px !important;    //an download-area text-höhe angepasst
 
       .x-btn-inner {
         font-size: 14px;
-        width: 110px;
+        width: 104px;
+        text-align: center;
+        padding-left: 21px;
 
         &::before {
           font-family: icomoon-special;
           content: "\e962";
-          font-size: 15px;
+          font-size: 20px;
           color: $thm-grau-color;
-          padding-right: 10px;
+          position: absolute;
+          left: 0;
         }
       }
 
-      .tbSave{
+      .tbSave {
         background-image: none;
         display: none;
       }
@@ -235,45 +249,26 @@ input[type="text"]:disabled {
 
       //text "Download"
       .x-btn-inner {
-        width: 90px;
+        width: 84px;
         font-size: 14px;
       }
 
       //change Download-Icon
-      .x-btn-wrap-default-toolbar-small::after {
-        background-image: none;
-        font-family: icomoon;
-        content: "\e021";
-        font-size: 20px;
-        color: $thm-grau-color;
+      .x-btn-wrap-default-toolbar-small {
+        margin-left: 5px;
+        &::before {
+          background-image: none;
+          font-family: icomoon;
+          content: "\e021";
+          font-size: 20px;
+          color: $thm-grau-color;
+        }
       }
 
-      // just for IE, ::after not supported, so ::before used
-      @media screen \0
-      {
-        .x-btn-inner {
-          //text "Download"
-          text-align: left;
-        }
-
-        //change Download-Icon
-        .x-btn-arrow-right {
-          margin-left: 15px;
-
-          &::before {
-            background-image: none;
-            font-family: icomoon;
-            content: "\e021";
-            font-size: 20px;
-            color: $thm-grau-color;
-          }
-        }
-
-        //remove button after Download-Text
-        .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
-          background-image: none;
-          display: none;
-        }
+      //remove button after Download-Text
+      .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+        background-image: none;
+        display: none;
       }
 
     }
@@ -286,6 +281,34 @@ input[type="text"]:disabled {
     // table header *******************************
     .x-box-scroller-body-horizontal {
       height: 37px !important;
+    }
+
+    //icon left to scroll, if there are muck tabs open
+    .x-box-scroller-left{
+      background-image: none;
+
+      &::before {
+        font-family: icomoon;
+        content: "\e008";
+        color: $thm-grau-color;
+        font-size: 16px;
+        position: absolute;
+        top: 11px;
+      }
+    }
+
+    //icon right to scroll, if there are muck tabs open
+    .x-box-scroller-right{
+      background-image: none;
+
+      &::before {
+        font-family: icomoon;
+        content: "\e006";
+        color: $thm-grau-color;
+        font-size: 16px;
+        position: absolute;
+        top: 11px;
+      }
     }
 
     .x-tab-bar {
@@ -444,4 +467,50 @@ div.x-border-layout-ct,
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+}
+
+// download-area popup Icons
+//icon ical
+.tbSaveICal{
+  background-image: none !important;
+
+  &::before{
+    font-family: icomoon;
+    content: "\e273";
+    font-size: 16px;
+    color: $thm-grau-color;
+    position: absolute;
+    top: 10px;
+    left: 3px;
+  }
+}
+
+//icon pdf
+.tbSavePdf{
+  background-image: none !important;
+
+  &::before{
+    font-family: icomoon-special;
+    content: "\eada";
+    font-size: 16px;
+    color: $thm-grau-color;
+    position: absolute;
+    top: 10px;
+    left: 3px;
+  }
+}
+
+//icon excel
+.tbSaveTxt{
+  background-image: none !important;
+
+  &::before{
+    font-family: icomoon-special;
+    content: "\eadd";
+    font-size: 16px;
+    color: $thm-grau-color;
+    position: absolute;
+    top: 10px;
+    left: 3px;
+  }
 }
