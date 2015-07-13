@@ -127,6 +127,14 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             return $subjectModel->deleteEntry($subject->id);
         }
 
+        foreach ($subject AS $property => $value)
+        {
+            if ($value == '<FormattedText/>')
+            {
+                $subject->$property = '';
+            }
+        }
+
         return $this->parseAttributes($subject, $lsfData->modul);
     }
 
@@ -216,7 +224,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
          */
         $originalNode = $textNode->txt->FormattedText->asXML();
         $stringNode = (string) $originalNode;
-        $text = $this->stripFTTag($stringNode);
+        $tmpText = $this->stripFTTag($stringNode);
+        $text = $tmpText == '<FormattedText/>'? '' : $tmpText;
 
         switch ($category)
         {
@@ -252,7 +261,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                     $msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
                     JFactory::getApplication()->enqueueMessage($msg, 'warning');
                 }
-                $this->setAttribute($subject, "content_$language", $text);
                 break;
             case 'Verwendbarkeit des Moduls':
                 $prerequisites = $this->getPostrequisites($text);
@@ -263,7 +271,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                     JFactory::getApplication()->enqueueMessage($msg, 'warning');
                     break;
                 }
-                $this->setAttribute($subject, "content_$language", $text);
                 break;
             case 'Prüfungsvorleistungen':
                 $this->setAttribute($subject, "preliminary_work_$language", $text);
@@ -275,7 +282,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $this->setAttribute($subject, "evaluation_$language", $text);
                 break;
             case 'Empfohlene Voraussetzungen':
-                $prerequisites = $this->setPrerequisites($subject, $text, $language);
+                $prerequisites = $this->setPrerequisites($subject, $text, $language, 'recommended_');
                 $prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
                 if (!$prerequisitesSaved)
                 {
@@ -283,7 +290,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                     JFactory::getApplication()->enqueueMessage($msg, 'warning');
                     break;
                 }
-                $this->setAttribute($subject, "content_$language", $text);
                 break;
             case 'Fachkompetenz':
             case 'Methodenkompetenz':
@@ -499,14 +505,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param   object  &$subject  the subject data
      * @param   array   $text      the subjects language specific requirements
      * @param   string  $language  the language tag
+     * @param   string  $type      the prerequisite type (added after the fact)
      * 
      * @return  array  an array with prerequisites if any were found
      */
-    private function setPrerequisites(&$subject, $text, $language)
+    private function setPrerequisites(&$subject, $text, $language, $type = '')
     {
         $prerequisites = array();
         $text = $this->resolvePrerequisites($text, $language, $prerequisites);
-        $this->setAttribute($subject, "prerequisites_$language", $text);
+        $this->setAttribute($subject, "{$type}prerequisites_$language", $text);
         return $prerequisites;
     }
 

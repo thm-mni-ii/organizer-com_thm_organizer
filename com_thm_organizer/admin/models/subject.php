@@ -95,34 +95,32 @@ class THM_OrganizerModelSubject extends JModelLegacy
         {
             $this->cleanStarProperty($data, $property);
         }
-        $success = $table->save($data);
- 
-        // New subjects have no mappings
-        if ($success AND empty($data['id']))
+        $subjectSuccess = $table->save($data);
+
+        if (!$subjectSuccess)
         {
-            if ($success)
-            {
-                $this->_db->transactionCommit();
-                return $table->id;
-            }
             $this->_db->transactionRollback();
             return false;
         }
-        else
-        {
-            try
-            {
-                $this->processFormTeachers($data);
-            }
-            catch (Exception $exc)
-            {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-                $this->_db->transactionRollback();
-                return false;
-            }
 
-            $success = $this->processFormMappings($table->id, $data);
-            if (!$success)
+        $new = empty($data['id']);
+        $data['id'] = $table->id;
+
+        if (!$this->processFormTeachers($data))
+        {
+            $this->_db->transactionRollback();
+            return false;
+        }
+        if (!$this->processFormPrerequisites($data))
+        {
+            $this->_db->transactionRollback();
+            return false;
+        }
+
+        if (!$new)
+        {
+            $mappingSuccess = $this->processFormMappings($table->id, $data);
+            if (!$mappingSuccess)
             {
                 $this->_db->transactionRollback();
                 return false;
@@ -158,11 +156,15 @@ class THM_OrganizerModelSubject extends JModelLegacy
     private function processFormTeachers(&$data)
     {
         $subjectID = $data['id'];
-        $this->removeTeachers($subjectID);
 
-        if (!empty($data['responsibleID']))
+        if (!$this->removeTeachers($subjectID))
         {
-            foreach ($data['responsibleID'] AS $responsibleID)
+            return false;
+        }
+
+        if (!empty($data['responsible']))
+        {
+            foreach ($data['responsible'] AS $responsibleID)
             {
                 $respAdded = $this->addTeacher($subjectID, $responsibleID, RESPONSIBLE);
                 if (!$respAdded)
@@ -230,6 +232,97 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $query = $this->_db->getQuery(true);
         $query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
         $query->values("'$subjectID', '$teacherID', '$responsibility'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Processes the subject pre- & postrequisites selected for the subject
+     *
+     * @param   array  &$data  the post data
+     *
+     * @return  bool  true on success, otherwise false
+     */
+    private function processFormPrerequisites(&$data)
+    {
+        $subjectID = $data['id'];
+
+        if (!$this->removePrerequisites($subjectID))
+        {
+            return false;
+        }
+
+        if (!empty($data['prerequisites']))
+        {
+            foreach ($data['prerequisites'] AS $prerequisiteID)
+            {
+                $preAdded = $this->addPrerequisite($subjectID, $prerequisiteID);
+                if (!$preAdded)
+                {
+                    return false;
+                }
+            }
+        }
+        if (!empty($data['postrequisites']))
+        {
+            foreach ($data['postrequisites'] AS $postrequisiteID)
+            {
+                $postAdded = $this->addPrerequisite($postrequisiteID, $subjectID);
+                if (!$postAdded)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Removes pre- & postrequisite associations for the given subject
+     *
+     * @param   int  $subjectID       the subject id
+     *
+     * @return  boolean
+     */
+    public function removePrerequisites($subjectID)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $this->_db->execute();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Adds a prerequisite association
+     *
+     * @param   int    $subjectID     the id of the subject
+     * @param   array  $prerequisite  the id of the prerequisite
+     *
+     * @return  bool  true on success, otherwise false
+     */
+    public function addPrerequisite($subjectID, $prerequisite)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite');
+        $query->values("'$subjectID', '$prerequisite'");
         $this->_db->setQuery((string) $query);
         try
         {

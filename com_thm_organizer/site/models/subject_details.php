@@ -44,7 +44,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $select .= "objective_$langTag AS objective, content_$langTag AS content, instructionLanguage, ";
         $select .= "preliminary_work_$langTag AS preliminary_work, literature, creditpoints, expenditure, ";
         $select .= "present, independent, proof_$langTag AS proof, frequency_$langTag AS frequency, ";
-        $select .= "method_$langTag AS method, ";
+        $select .= "method_$langTag AS method, recommended_prerequisites_$langTag as recommended_prerequisites, ";
         $select .= "prerequisites_$langTag AS prerequisites, aids_$langTag AS aids, ";
         $select .= "evaluation_$langTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
 

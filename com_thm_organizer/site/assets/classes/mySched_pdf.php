@@ -4,7 +4,6 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        MySchedPdf
- * @description MySchedPdf file from com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2014 TH Mittelhessen
  * @license     GNU GPL v.2

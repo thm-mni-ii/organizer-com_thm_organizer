@@ -177,11 +177,13 @@ if ($this->item->self_competence !== null)
     }
     echo '</div></div>';
 }
-if (!empty($this->item->language))
+if (!empty($this->item->instructionLanguage))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_LANGUAGE') . '</div>';
-    echo '<div class="subject-content">' . ($this->item->language == 'D')? 'Deutsch' : 'English' . '</div>';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_INSTRUCTION_LANGUAGE') . '</div>';
+    echo '<div class="subject-content">';
+    echo ($this->item->instructionLanguage == 'D')? 'Deutsch' : 'English';
+    echo '</div>';
     echo '</div>';
 }
 if (!empty($this->item->expenditureOutput))
@@ -247,6 +249,14 @@ if (!empty($this->item->prerequisites))
     echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PREREQUISITES') . '</div>';
     echo '<div class="subject-content">';
     echo $this->item->prerequisites;
+    echo '</div></div>';
+}
+if (!empty($this->item->recommended_prerequisites))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES') . '</div>';
+    echo '<div class="subject-content">';
+    echo $this->item->recommended_prerequisites;
     echo '</div></div>';
 }
 if (!empty($this->item->prerequisiteOf))
