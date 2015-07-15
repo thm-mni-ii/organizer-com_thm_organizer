@@ -89,6 +89,6 @@ class MySchedPdf extends FPDF_TABLE
         $this->SetY(-15);
         $this->SetFont('Arial', 'B', 8);
         $this->Cell(124);
-        $this->Cell(30, 10, 'Erstellt: ' . $date . '   -   Seite ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        $this->Cell(30, 10, 'Erstellt: ' . $date . '   -    Zeitraum: ' . $this->_startdate . ' bis ' . $this->_enddate . '   -   Seite ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 }

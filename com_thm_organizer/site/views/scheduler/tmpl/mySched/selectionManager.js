@@ -138,7 +138,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     },
                     scope: this
                 });
-
             // Adds events to the room names
             Ext.select('.roomname', true, tab.dom)
                 .on(
@@ -218,6 +217,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             var target = e.getTarget();
             var id = target.getAttribute(type+"ID");
 
+
             var nodeID = null;
             var nodeKey = null;
             var gpuntisID = null;
@@ -245,7 +245,10 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 return;
             }
 
-            nodeID = semesterID + ";" + type + ";" + parent + ";" + nodeKey;
+            nodeID = semesterID + "_" + type + "_" + parent + "_" + nodeKey;
+
+            var regExp = /\./gi;
+            nodeID = nodeID.replace(regExp, "-");
 
             MySched.Base.showScheduleTab(nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type);
         },
@@ -414,7 +417,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         showInformation: function (e)
         {
             "use strict";
-            console.log('showInformation');
 
             var id, el;
             if (typeof e === "undefined")
@@ -526,8 +528,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         lecture2ScheduleHandler: function ()
         {
             "use strict";
-
-            console.log('lecture2ScheduleHandler');
 
             // Action is called by HoverButton
             var id, el;

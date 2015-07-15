@@ -308,7 +308,6 @@ MySched.layout = function ()
         buildMobileLayout: function ()
         {
             // Creates TabPanel
-            console.log('Mobile layout');
             this.tabpanel = Ext.create('Ext.tab.Panel',
                 {
                     resizeTabs: false,
@@ -333,25 +332,15 @@ MySched.layout = function ()
                     MySched.selectedSchedule = o.ScheduleModel;
 
                     var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
-                    console.log();
-                    console.log(weekpointer);
 
                     var currentMoFrDate = getCurrentMoFrDate();
-                    console.log(currentMoFrDate);
                     var selectedSchedule = MySched.selectedSchedule;
-                    console.log(selectedSchedule);
                     var nodeKey = selectedSchedule.key;
-                    console.log(nodeKey);
                     var nodeID = selectedSchedule.id;
-                    console.log(nodeID);
                     var gpuntisID = selectedSchedule.gpuntisID;
-                    console.log(gpuntisID);
                     var semesterID = selectedSchedule.semesterID;
-                    console.log(semesterID);
                     var plantypeID = "";
-                    console.log(plantypeID);
                     var type = selectedSchedule.type;
-                    console.log(type);
 
                     if (MySched.Schedule.status === "unsaved")
                     {
@@ -364,7 +353,6 @@ MySched.layout = function ()
 
                     if(MySched.selectedSchedule.id !== "mySchedule")
                     {
-                        console.log('Layout request begin');
                         if (MySched.loadLessonsOnStartUp === false)
                         {
                             Ext.Ajax.request(
@@ -403,8 +391,6 @@ MySched.layout = function ()
                                                 MySched.Base.schedule.addLecture(record);
                                             }
                                         }
-                                        console.log('LessonDate im success');
-                                        console.log(lessonDate);
                                         if (Ext.isObject(lessonDate))
                                         {
                                             MySched.Calendar.addAll(lessonDate);
@@ -461,13 +447,10 @@ MySched.layout = function ()
 
                             var lectureData = MySched.selectedSchedule.data.items;
 
-                            console.log(lectureData);
-
                             for (var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
                             {
                                 if (Ext.isDefined(lectureData[lectureIndex]) && Ext.isDefined(lectureData[lectureIndex].setCellTemplate) === true)
                                 {
-                                    console.log(MySched.selectedSchedule.scheduleGrid);
                                     lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type, MySched.selectedSchedule.scheduleGrid);
                                 }
                             }
@@ -638,6 +621,13 @@ MySched.layout = function ()
          */
         createTab: function (id, title, grid, type, closeable)
         {
+            for(var key in this.tabpanel.items.map){
+                if(id == this.tabpanel.items.map[key].ScheduleModel.id){
+                    this.tabpanel.setActiveTab(this.tabpanel.items.map[key].tab.card);
+                    return;
+                }
+            }
+
             if (closeable !== false)
             {
                 closeable = true;
@@ -735,11 +725,6 @@ MySched.layout = function ()
 
                     var tabBar = this.tabpanel.getTabBar();
                     initializePatientDragZone(tabBar.activeTab, tabData);
-                }
-
-                if(this.tabpanel.items.length === 1)
-                {
-                    MySched.selectedSchedule.refreshView();
                 }
             }
         },

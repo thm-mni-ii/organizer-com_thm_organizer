@@ -800,10 +800,13 @@ Ext.define('ScheduleModel',
             }
             var name = this.title.replace(/\s*\/\s*/g, ' ');
 
-            if (name.length > 40){
+            if (name.length > 40 && Ext.isDefined(idArr)){
                 var nameArr = name.split("-");
                 var idArr = this.getId().split("_");
                 name = nameArr[0] + ' - ' + idArr[5];
+            }
+            else if (name.length > 40){
+                name = name.substring(0, 36) + '...';
             }
 
             MySched.layout.createTab(this.getId(), name, this.grid, this.type, closeable);

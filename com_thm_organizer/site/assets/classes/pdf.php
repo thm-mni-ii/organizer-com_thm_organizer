@@ -114,7 +114,15 @@ class THMPDFBuilder extends THMAbstractBuilder
 
         $this->_pdf->Draw_Table_Border();
 
-        $pdfLink = $this->_cfg->pdf_downloadFolder . $title . '.pdf';
+        if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE"))
+        {
+            $pdfLink = $this->_cfg->pdf_downloadFolder . $username . " - " . $title . '.pdf';
+        }
+        else
+        {
+            $pdfLink = $this->_cfg->pdf_downloadFolder . $title . '.pdf';
+        }
+
         @$this->_pdf->Output($pdfLink, 'F');
 
         if (is_file($pdfLink))

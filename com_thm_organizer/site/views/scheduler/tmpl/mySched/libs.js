@@ -608,4 +608,4 @@ Ext.define(
     }
 );
 
-Ext.dom.Element.prototype.validIdRe = /^[a-z_][\.a-z0-9\-_]*$/i;
+Ext.dom.Element.prototype.validIdRe = /^[a-z_][\.a-zäöü0-9\-_]*$/i;
