@@ -191,15 +191,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     private function setAttribute(&$subject, $key, $value, $default = '')
     {
-        if (empty($value))
-        {
-            $subject->$key = empty($subject->$key)?
-                $default : $subject->$key;
-        }
-        else
-        {
-            $subject->$key = $value;
-        }
+        $subject->$key = empty($value)? $default : $value;
     }
 
     /**
@@ -737,7 +729,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $insertQuery->insert('#__thm_organizer_prerequisites');
                 $insertQuery->columns('subjectID, prerequisite');
                 $insertQuery->values("'$postrequisiteID', '$subjectID'");
-                $this->_db->setQuery((string) $insertQuery);echo "<pre>" . print_r((string) $insertQuery, true) . "</pre>";
+                $this->_db->setQuery((string) $insertQuery);
                 try
                 {
                     $this->_db->execute();

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>15.07.2015</creationDate>
+    <copyright>TH Mittelhessen 2015</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>james.antrim@nm.thm.de</authorEMail>
+    <authorUrl>www.thm.de</authorUrl>
+    <layout title="COM_THM_ORGANIZER_DEPUTAT_TITLE">
+        <message>COM_THM_ORGANIZER_DEPUTAT_DESCRIPTION</message>
+    </layout>
+</metadata>

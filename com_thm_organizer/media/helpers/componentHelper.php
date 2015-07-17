@@ -176,7 +176,7 @@ class THM_OrganizerHelperComponent
                 {
                     return self::allowDeptResourceCreate();
                 }
-                return self::allowDeptResourceEdit($resourceName, $itemID);
+                return self::allowResourceManage($resourceName, $itemID);
             }
             return self::allowDeptResourceCreate();
         }
@@ -220,7 +220,7 @@ class THM_OrganizerHelperComponent
      *
      * @return  bool  true if the user has access to at least one department, otherwise false
      */
-    public static function allowDeptResourceEdit($resourceName, $itemID)
+    public static function allowResourceManage($resourceName, $itemID)
     {
         $user = JFactory::getUser();
 

@@ -191,7 +191,7 @@
                description="COM_THM_ORGANIZER_EVALUATION_DE_DESC"
                hint="gem. § 9 der Allg. Bestimmungen (Teil I der PO)"/>
         <field name="description_de"
-               type="editor"
+               type="textarea"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_DESC_DE"
@@ -278,7 +278,7 @@
                description="COM_THM_ORGANIZER_EVALUATION_EN_DESC"
                hint="acc. § 9 of the gen. provisions (Part I of the PO)" />
         <field name="description_en"
-               type="editor"
+               type="textarea"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_DESC_EN"

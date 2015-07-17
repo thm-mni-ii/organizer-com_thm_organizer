@@ -179,6 +179,22 @@ class THM_OrganizerHelperTeacher
     }
 
     /**
+     * Generates a default teacher text based upon organizer's internal data
+     *
+     * @param   mixed  $teacherData  array or object with teacher data
+     *                               (objects are converted internally to arrays)
+     *
+     * @return  string  the default name of the teacher
+     */
+    public static function getLNFName($teacherData)
+    {
+        $teacherData = is_object($teacherData)? (array) $teacherData : $teacherData;
+        $forename = empty($teacherData['forename'])? '' : ", {$teacherData['forename']}";
+        $surname = $teacherData['surname'];
+        return $surname . $forename;
+    }
+
+    /**
      * Method to determine the name of a given module
      *
      * @param   int  $userID  the user id of the teacher

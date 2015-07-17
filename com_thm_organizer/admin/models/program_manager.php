@@ -92,7 +92,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $canEdit = THM_OrganizerHelperComponent::allowDeptResourceEdit('program', $item->id);
+            $canEdit = THM_OrganizerHelperComponent::allowResourceManage('program', $item->id);
             if ($canEdit)
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);

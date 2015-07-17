@@ -80,7 +80,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         foreach ($items as $item)
         {
             $return[$index] = array();
-            $canEdit = THM_OrganizerHelperComponent::allowDeptResourceEdit('schedule', $item->id);
+            $canEdit = THM_OrganizerHelperComponent::allowResourceManage('schedule', $item->id);
             if ($canEdit)
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
