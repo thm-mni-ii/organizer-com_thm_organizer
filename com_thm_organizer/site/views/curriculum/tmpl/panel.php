@@ -68,7 +68,7 @@ class THM_OrganizerTemplateCurriculumPanel
         $iconClass = $type == 'main'? 'icon-plus-2' : 'icon-cancel-2';
         echo '<div class="' . $type . '-panel-head" ' . $headStyle . '>';
         echo '<a ' . $script . '><i class="' . $iconClass . '"></i></a>';
-        echo '<div class="' . $type . ' panel-title">';
+        echo '<div class="' . $type . ' panel-title" '. $script . '> ';
         echo '<span class="' . $type . '-panel-name">' . $pool->name . '</span>';
         echo '<span class="' . $type . '-panel-crp">(' . $crpText . ')</span>';
         echo '</div>';

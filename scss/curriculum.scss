@@ -1,229 +1,21 @@
 /*  ------------------------------------
-**  Author:     Kristijan Pokas
+**  Author:     Lavi
 **  File:       curriculum.css
 **  Styles for: Frontend
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-
 @import '../../lib_thm_core/scss/mixins';
 @import '../../lib_thm_core/scss/variables';
 
-// ------------------------------------ //
-// STUDY PATH box settings              //
-// ------------------------------------ //
-
-// study path container
-div.curriculum_legend {
-  background-color: $bg-color;
-  border: $border-color;
-  color: $fcolor;
-  float: right;
-  font-family: $font;
-  font-size: $fsize;
-  margin-right: 5px;
-  margin-top: 2px;
-  padding: 5px;
-  width: 245px;
-
-  @include border-radius(2px);
-  @include box-shadow(2px, 2px, 4px, $shadow-color);
-}
-
-// ul definitions
-ul.fieldList {
-  font-size: $fsize-list;
-  list-style-type: none;
-  padding: 0 2px;
-}
-
-// list item spacing
-li.fieldItem {
-  padding: 2px 0;
-}
-
-// color field definitions
-span.fieldColor {
-  border: $border-color;
-  display: inline-block;
-  height: 11px;
-  width: 11px;
-}
-
-// text field definitions
-span.fieldText {
-  display: inline-block;
-  padding: 0 0 2px 2px;
-}
-
-// ------------------------------------ //
-// ACCORDION CURRICULUM settings        //
-// ------------------------------------ //
-
-// curriculum container
-div.curriuculum_container.ui-accordion.ui-widget.ui-helper-reset {
-  float: left;
-  font-family: $font;
-  padding: 0 4px;
-  width: 682px;
-}
-
-// default definition of the accordion widget
-h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons,
-h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
-  background-color: $bg-color;
-  background-image: none;
-  border: $border-color;
-  color: $fcolor;
-  font-family: $font;
-  font-size: $fsize;
-}
-
-// h3 definitions of the accordion widget (active)
-h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-top.ui-accordion-icons {
-  @include box-shadow(2px, 2px, 4px, $shadow-color);
-}
-
-// h3 definitions of the accordion widget (default)
-h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
-  font-weight: normal;
-}
-
-// h3 hover color definitions
-h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons.ui-state-hover {
-  @include colors(rgb(74, 92, 102),rgb(238, 238, 238));
-}
-
-// tab switch image active
-h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-s {
-  background: url('../images/active_tab.png') 0 0 no-repeat;
-}
-
-// tab image default
-h3 > span.ui-accordion-header-icon.ui-icon.ui-icon-triangle-1-e {
-  background: url('../images/default_tab.png') 0 0 no-repeat;
-}
-
-// horizontal item panel
-div.gridster.ready.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active {
-  background-color: $bg-color-panel;
-  border-top: none;
-  border-left: $border-color;
-  border-right: $border-color;
-  border-bottom: $border-color;
-  padding: 4px;
-
-  @include box-shadow(2px, 2px, 4px, $shadow-color);
-}
-
-// item list of the semester
-li.icon_container.gs-w {
-  background-color: $bg-color;
-  border: $border-color;
-  display: inline-block;
-  position: absolute;
-
-  @include border-radius(3px);
-  @include box-shadow(2px, 2px, 4px, $shadow-color);
-}
-
-li.icon_container.empty.gs-w {
-  visibility: hidden;
-}
-
-// item header definitions
-.icon_container_head {
-  border-bottom: $border-color;
-  font-size: $fsize-small;
-  padding: 2px;
-  text-align: left; /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/
-}
-
-// dark font in item header
-.dark-text {
-  color: $fcolor;
-}
-
-// light font in item header
-.light-text {
-  color: $fcolor-light;
-}
-
-// item content definitions
-.icon_container_body {
-  color: $fcolor;
-  font-size: $fsize-small;
-  font-weight: normal; /*überflüssig / Getestet in IE, Chrome, Firefox, Opera*/
-  hyphens: auto;
-  padding: 5px;
-  word-wrap: break-word;
-}
-
-// item content, when contained a link
-a.curriculumLink:link,
-a.curriculumLink:hover,
-a.curriculumLink:visited,
-a.curriculumLink:focus {
-  color: $fcolor;
-  font-family: $font;
-  font-size: $fsize-small;
-  font-weight: normal;
-  text-decoration: none;
-  outline: none;
-}
-
-// icon position in item list
-.itemTools {
-  left: 25%;
-  position: absolute;
-  top: 70%;
-}
-
-// teacher image definitions
-.teacherImage {
-  max-height: 25px;
-  width: 20px;
-}
-
-.curriculum_dialog_list {
-  display: inline-table;
-  margin: 15px 10px 10px 10px;
-  text-align: $text-align-center;
-}
-
-.semesterHeader {
-  background-color: #B0B0B0;
-}
-
-/* jquery ui writes inline styles for this element :( *//*---> old comment <---*/
-// dialog panel definitions
-div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front {
-  border: $border-color;
-  font-family: $font;
-  max-height: 425px !important;
-  overflow-y: auto;
-  top: 175px !important;
-  width: 694px !important;
-
-  @include box-shadow(2px, 2px, 8px, rgb(150, 150, 150));
-}
-
-// pool dialog panel
-div.poolDialog.ui-dialog-content.ui-widget-content.ready {
-  padding: 5px;
-}
-
-//Beginn Lavi *******************************************************************************
-
-.hidden{
+.hidden {
   display: none;
 }
 
 .view-curriculum {
-  font-family: Verdana, Arial, sans-serif;
+  //  font-family: Verdana, Arial, sans-serif;
 }
 
 //Header
-//@media (min-width: 768px) {
 .componentheader {
   height: 50px;
 
@@ -241,32 +33,48 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   }
 }
 
-  //content
-  .curriculum {
- //   margin-top: 75px;
-  }
-//}
+//content
+.curriculum {
+  position: relative;
+}
 
 //main-panel
 .main-panel {
-  margin-top: 2px;
+  // margin-top: 2px;
   border: $border-color;
+  margin-bottom: 5px;
 }
 
 //.main-panel-head //.modal-panel-head
-.main-panel-head, .modal-panel-head{
+.main-panel-head, .modal-panel-head {
   background-color: $thm-grau-color; //wenn keine Farbe dynamisch zugewiesen wird
-  color: white;
+  color: white; //wenn keine Farbe dynamisch zugewiesen wird
   margin-top: -1px;
   margin-left: -1px;
   margin-right: -1px;
 }
-.main-panel-head{
-  cursor: pointer;  //nur main-panel-head kann auf- und zugeklappt werden
+
+.main-panel-head {
+  // cursor: pointer;  //nur main-panel-head kann auf- und zugeklappt werden
+  padding: 12px 20px 10px 15px;
+
+  // Icon "+" / "-"
+  a {
+    float: right;
+    cursor: pointer;
+
+    i::before {
+      color: $thm-grau-color;
+      font-size: 17px;
+    }
+  }
+
 }
 
 .panel-title {
-  padding: 0.5em 0.5em 0.5em 2.2em;
+  font-family: "THM-Medium";
+  font-size: 130%;
+  cursor: pointer;
 
   .main-panel-crp, .modal-panel-crp {
     padding-left: 5px;
@@ -277,83 +85,121 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
 .main-panel-items {
   margin: 2px 1px 3px 1px;
   margin-left: 2px;
- // width: 700px; //für 5 Kästchen
+}
 
-  .item {
-    outline: 1px outset white;
-    box-shadow: inset 0px -1px 10px #bbbbbb;
-    margin: 3px;
-    background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
-    background-image: -moz-linear-gradient(123deg,lighten(#eeeeee, 4%) 0, #eeeeee 100%);
-    background-image: linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
-    background-position: 50% 50%;
-    display: inline-table;
-    position: relative;
-    font-size: 11px;
-    background-color: $bg-color;
-    vertical-align: top;
-    width: 133px;
-    height: 135px;
+.main-panel-items .item, .modal-panel-items .item {
+  outline: 1px outset white;
+  box-shadow: inset 0px -1px 10px #bbbbbb;
+  margin: 3px;
+  background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
+  background-image: -moz-linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
+  background-image: linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
+  background-position: 50% 50%;
+  display: inline-table;
+  position: relative;
+  font-size: 11px;
+  background-color: $bg-color;
+  vertical-align: top;
+  width: 133px;
+  height: 135px;
 
-    .item-head {
-      border: $border-color;
-      padding: 3px 5px;
-      background-color: #71A126;
-      color: white;
-      height: 18px;
-      margin-top: -1px;
-      margin-left: -1px;
-      margin-right: -1px;
+  .item-head {
+    border: $border-color;
+    padding: 3px 5px;
+    background-color: #71A126;
+    color: white;
+    height: 18px;
+    margin-top: -1px;
+    margin-left: -1px;
+    margin-right: -1px;
+    font-size: 110%;
 
-      .item-crp {
-        float: right;
-        padding-left: 5px;
+    .item-crp {
+      float: right;
+      padding-left: 5px;
+    }
+  }
+
+  .item-name {
+    // hyphens aren't supported in Chrome ...
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+
+    //... so word-wrap is needed for Chrome
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    padding: 5px;
+    overflow: hidden;
+  }
+
+  .item-tools {
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    .btn {
+      padding: 2px 10px;
+      border: none;
+      box-shadow: none;
+
+    }
+
+    .icon-grid-view-2 {
+      margin-bottom: 8px;
+
+      &:before {
+        margin-left: -1px;
+        font-size: 17px;
       }
     }
 
-    .item-name {
-      // hyphens aren't supported in Chrome ...
-      -webkit-hyphens: auto;
-      -moz-hyphens: auto;
-      -ms-hyphens: auto;
-      hyphens: auto;
+    .icon-user{
+      background-image: none;
+      margin-bottom: 8px;
 
-      //... so word-wrap is needed for Chrome
-      -ms-word-wrap: break-word;
-      word-wrap: break-word;
-    //  word-break: break-all;
-      padding: 5px;
-      overflow: hidden;
-    }
-
-    .item-tools {
-      position: absolute;
-      bottom: 3px;
-      left: 0;
-      right: 0;
-      text-align: center;
-
-      .btn{
-        padding: 4px 6px;
-      }
-
-      .icon-grid-view-2:before{
-        margin-left: 0;
-        font-size: 14px;
+      &:before{
+        font-family: icomoon;
+        content: "\22";
+        font-size: 17px;
+        position: absolute;
+        margin-left: -8px;
       }
     }
   }
 }
 
-//modal-panel
+// } main-panel-items
+
 .modal-panel {
   @extend .main-panel;
-  margin: 8px -2px 20px -2px;
   position: absolute;
+  //  position: relative;
   text-align: left;
   background-color: white;
   z-index: 5;
   @include box-shadow(0, 10px, 10px, rgba(0, 0, 0, 0.3));
+  width: 750px;
+  top: -4px;
+  margin-left: 15%;
+}
+
+.modal-panel-head {
+  padding: 10px;
+
+  //icon to close popup
+  a {
+    float: right;
+    cursor: pointer;
+
+    i::before {
+      color: $thm-grau-color;
+      font-size: 17px;
+    }
+  }
 }
 
 //panel-title
@@ -368,165 +214,23 @@ div.poolDialog.ui-dialog-content.ui-widget-content.ready {
   box-shadow: none !important;
   @extend .panel-title;
   background-color: inherit !important;
-  font-size: 13px;
+  -webkit-border-radius: 0 !important; //overwrite bootstrap
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .modal-panel-items {
- // margin: 3px 0px 3px 8px; //für 5 Kästchen
-//  margin: 3px 0;
-  max-height: 400px;
+  max-height: 423px;
   overflow: auto;
+  margin: 3px;
 
-  .item{
- //   width: 167px;
+  .item-name {
+    -ms-word-break: break-all;
+    word-break: break-all;
   }
 }
 
-//positionierung der einzelnen modal-panel wenn ursprünglich 5 Kästchen pro Zeile da sind
-// Für 5 Kaestchen
-@media (min-width: 980px) {
-  .modal-panel{
-    width: 614px;
-  }
-
-  .main-panel-items {
-    > .item:nth-of-type(5n+1) {
-      .modal-panel {
-        left: 58px;
-      }
-    }
-
-    > .item:nth-of-type(5n+2) {
-      .modal-panel {
-        left: -91px;
-      }
-    }
-    > .item:nth-of-type(5n+3) {
-      .modal-panel {
-        left: -230px;
-      }
-    }
-    > .item:nth-of-type(5n+4) {
-      .modal-panel {
-        left: -369px;
-      }
-    }
-    > .item:nth-of-type(5n+5) {
-      .modal-panel {
-        left: -508px;
-      }
-    }
-  }
+//if popup is shown, rest is more transparent
+.modal-panel.shown ~ div {
+  opacity: 0.3;
 }
-
-//für 4 Kästchen
-@media (min-width: 660px) and (max-width: 767px) {
-  .modal-panel{
-    width: 450px;
-  }
-  .main-panel-items {
-    > .item:nth-of-type(4n+1) {
-      .modal-panel {
-        left: 58px;
-      }
-    }
-    > .item:nth-of-type(4n+2) {
-      .modal-panel {
-        left: -91px;
-      }
-    }
-    > .item:nth-of-type(4n+3) {
-      .modal-panel {
-        left: -230px;
-      }
-    }
-    > .item:nth-of-type(4n+4) {
-      .modal-panel {
-        left: -369px;
-      }
-    }
-  }
-}
-
-//für 3 Kästchen
-@media (min-width: 768px) and (max-width:979px) {
-  .modal-panel{
-    width: 465px;
-  }
-  .main-panel-items {
-    > .item:nth-of-type(3n+1) {
-      .modal-panel {
-        left: 58px;
-      }
-    }
-    > .item:nth-of-type(3n+2) {
-      .modal-panel {
-        left: -91px;
-      }
-    }
-    > .item:nth-of-type(3n+3) {
-      .modal-panel {
-        left: -230px;
-      }
-    }
-  }
-}
-@media (min-width: 520px) and (max-width:659px) {
-  .modal-panel{
-    width: 316px;
-  }
-
-  .main-panel-items {
-    > .item:nth-of-type(3n+1) {
-      .modal-panel {
-        left: 58px;
-      }
-    }
-    > .item:nth-of-type(3n+2) {
-      .modal-panel {
-        left: -91px;
-      }
-    }
-    > .item:nth-of-type(3n+3) {
-      .modal-panel {
-        left: -230px;
-      }
-    }
-  }
-}
-
-//für max 2 Kästchen
-@media (max-width: 519px){
-  .main-panel-items{
- //   text-align: center;
-  }
-  .modal{
-    padding-left: 6px;
-  }
-
- .modal-panel-items{
-   margin: 0;
-   overflow-y:scroll;
- }
-}
-
-/*
-@media (min-width: 980px) {
-  .main-panel-items {
-    > .item:nth-of-type(3n+1) {
-      .modal-panel {
-        left: 52px;
-      }
-    }
-    > .item:nth-of-type(3n+2) {
-      .modal-panel {
-        left: -179px;
-      }
-    }
-    > .item:nth-of-type(3n+3) {
-      .modal-panel {
-        left: -410px;
-      }
-    }
-  }
-}*/
