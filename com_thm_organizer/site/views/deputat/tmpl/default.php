@@ -68,7 +68,7 @@ if (!empty($this->model->schedule))
 if (!empty($this->model->schedule))
 {
 ?>
-        <?php echo $this->table; ?>
+        <?php echo $this->tables; ?>
 <?php
 }
 ?>

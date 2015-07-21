@@ -29,6 +29,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
     public $reset = false;
 
+    public $lessonValues = null;
+
     public $deputat = null;
 
     public $selected = array();
@@ -148,7 +150,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     public function calculateDeputat()
     {
-        $this->deputat = array();
+        $this->lessonValues = array();
 
         $startdate =  (!empty($this->schedule->termStartDate))? $this->schedule->termStartDate : $this->schedule->startdate;
         $enddate =  (!empty($this->schedule->termEndDate))? $this->schedule->termEndDate : $this->schedule->enddate;
@@ -161,6 +163,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             }
             $this->resolveTime($day, $blocks);
         }
+        $this->convertLessonValues();
+        asort($this->deputat);
     }
 
     /**
@@ -232,7 +236,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 $this->setDeputat($day, $blockNumber, $lessonID, $teacherID, $hours);
             }
         }
-        asort($this->deputat);
     }
 
     /**
@@ -246,32 +249,19 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function setDeputat($day, $blockNumber, $lessonID, $teacherID, $hours = 0)
     {
-        if (empty($this->deputat[$teacherID]))
+        if (empty($this->lessonValues[$lessonID]))
         {
-            $this->deputat[$teacherID] = array();
-            $this->deputat[$teacherID]['name'] = THM_OrganizerHelperTeacher::getLNFName($this->schedule->teachers->$teacherID);
-            $this->deputat[$teacherID]['summary'] = array();
-            $this->deputat[$teacherID]['tally'] = array();
+            $this->lessonValues[$lessonID] = array();
+            $this->lessonValues[$lessonID]['teacherID'] = $teacherID;
+            $this->lessonValues[$lessonID]['teacherName'] = THM_OrganizerHelperTeacher::getLNFName($this->schedule->teachers->$teacherID);
+            $this->lessonValues[$lessonID]['subjectName'] = $this->getSubjectName($lessonID);
         }
-
-        $subjectName = $this->getSubjectName($lessonID);
-        $rate = $this->getRate($subjectName);
-        $poolName = $this->getPoolName($lessonID);
-        $lessonType = $this->schedule->lessons->$lessonID->description;
 
         // Tallied items have flat payment values and are correspondingly not tracked as accurately
         $isTallied = $this->isTallied($lessonID);
         if ($isTallied)
         {
-
-            if (empty($this->deputat[$teacherID]['tally'][$subjectName]))
-            {
-                $this->deputat[$teacherID]['tally'][$subjectName] = array();
-                $this->deputat[$teacherID]['tally'][$subjectName]['rate'] = $rate;
-                $this->deputat[$teacherID]['tally'][$subjectName]['count'] = 1;
-                return;
-            }
-            $this->deputat[$teacherID]['tally'][$subjectName]['count']++;
+            $this->lessonValues[$lessonID]['type'] = 'tally';
             return;
         }
 
@@ -280,41 +270,47 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         // Some 'lesson' types are irrelevant for deputat calculation;
         if (in_array($lessonType, $this->irrelevantTypes))
         {
+            unset($this->lessonValues[$lessonID]);
             return;
         }
 
         $DOWConstant = strtoupper(date('l', strtotime($day)));
         $weekday = JText::_($DOWConstant);
 
-        $subjectIndex = "$subjectName-$lessonType";
-        $plannedBlock = "$weekday-$blockNumber";
-        if (empty($this->deputat[$teacherID]['summary'][$subjectIndex]))
+        $previousPools = empty($this->lessonValues[$lessonID]['pools'])?
+            array() : $this->lessonValues[$lessonID]['pools'];
+        $mergedPools = array_merge($previousPools, $this->getPools($lessonID));
+        $pools = array_unique($mergedPools);
+        $this->lessonValues[$lessonID]['type'] = 'summary';
+        $this->lessonValues[$lessonID]['lessonType'] = $lessonType;
+        $this->lessonValues[$lessonID]['pools'] = $pools;
+        if (!isset($this->lessonValues[$lessonID]['periods']))
         {
-            $this->deputat[$teacherID]['summary'][$subjectIndex] = array();
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['subjects'] = $subjectName;
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['type'] = $lessonType;
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'] = $poolName;
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'] = array();
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['startdate'] = THM_OrganizerHelperComponent::formatDate($day);
+            $this->lessonValues[$lessonID]['periods'] = array();
+        }
+        if (!isset($this->lessonValues[$lessonID]['startdate']))
+        {
+            $this->lessonValues[$lessonID]['startdate'] = THM_OrganizerHelperComponent::formatDate($day);
         }
 
-        if (empty($this->deputat[$teacherID]['summary'][$subjectIndex]['hours']))
+        if (empty($this->lessonValues[$lessonID]['hours']))
         {
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['hours'] = $hours;
+            $this->lessonValues[$lessonID]['hours'] = $hours;
         }
         else
         {
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['hours'] += $hours;
+            $this->lessonValues[$lessonID]['hours'] += $hours;
         }
 
-        if (!in_array($plannedBlock, $this->deputat[$teacherID]['summary'][$subjectIndex]['periods']))
+        $plannedBlock = "$weekday-$blockNumber";
+        if (!in_array($plannedBlock, $this->lessonValues[$lessonID]['periods']))
         {
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'][$plannedBlock] = $hours;
+            $this->lessonValues[$lessonID]['periods'][$plannedBlock] = $hours;
         }
 
-        $this->deputat[$teacherID]['summary'][$subjectIndex]['sws']
-            = array_sum($this->deputat[$teacherID]['summary'][$subjectIndex]['periods']);
-        $this->deputat[$teacherID]['summary'][$subjectIndex]['enddate'] = THM_OrganizerHelperComponent::formatDate($day);
+        $this->lessonValues[$lessonID]['sws']
+            = array_sum($this->lessonValues[$lessonID]['periods']);
+        $this->lessonValues[$lessonID]['enddate'] = THM_OrganizerHelperComponent::formatDate($day);
 
         return;
     }
@@ -336,11 +332,15 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 unset($subjects[$subject]);
                 continue;
             }
-            if ($subject == 'KOL.B')
+            if (strpos($subject, 'KOL.B') !== false)
             {
                 return 'Betreuung von Bachelorarbeiten';
             }
-            if ($subject == 'KOL.M')
+            if (strpos($subject, 'KOL.D') !== false)
+            {
+                return 'Betreuung von Diplomarbeiten';
+            }
+            if (strpos($subject, 'KOL.M') !== false)
             {
                 return 'Betreuung von Masterarbeiten';
             }
@@ -350,33 +350,13 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     }
 
     /**
-     * Gets the rate at which lessons are converted to scholastic weekly hours
-     *
-     * @param   string  $subjectName  the 'subject' name
-     *
-     * @return  float|int  the conversion rate
-     */
-    private function getRate($subjectName)
-    {
-        if ($subjectName == 'Betreuung von Bachelorarbeiten')
-        {
-            return 0.3;
-        }
-        if ($subjectName == 'Betreuung von Masterarbeiten')
-        {
-            return 0.6;
-        }
-        return 1;
-    }
-
-    /**
-     * Creates a concatenated subject name from the relevant subject names for the lesson
+     * Creates a concatenated pool name from the relevant pool keys for the lesson
      *
      * @param   string  $lessonID  the id of the lesson
      *
      * @return  string  the concatenated name of the subject(s)
      */
-    private function getPoolName($lessonID)
+    private function getPools($lessonID)
     {
         $pools = (array) $this->schedule->lessons->$lessonID->pools;
         foreach ($pools AS $pool => $delta)
@@ -388,7 +368,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         }
         $poolIDs = array_keys($pools);
         asort($poolIDs);
-        return implode(', ', $poolIDs);
+        return $poolIDs;
     }
 
     /**
@@ -412,118 +392,197 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     }
 
     /**
-     * Function to get a table displaying resource consumption for a schedule
-     * 
-     * @return  string  a HTML string for a consumption table
+     * Converts the individual lessons into the actual deputat
+     *
+     * @return  void  sets the deputat object variable
      */
-    public function getDeputatTable()
+    private function convertLessonValues()
     {
-        $table = "<table id='thm_organizer-deputat-table' ";
-        $table .= "class='deputat-table'>";
+        $this->deputat = array();
 
-        foreach ($this->deputat as $deputat)
+        // Ensures unique ids for block lessons
+        $blockCounter = 1;
+        $skipValues = array();
+
+        foreach ($this->lessonValues as $lessonID => $lessonValues)
         {
-            $displaySummary = count($deputat['summary']);
-            $displayTally = count($deputat['tally']);
-            $display = ($displaySummary OR $displayTally);
-            if ($display)
+            if (in_array($lessonID, $skipValues))
             {
-                $table .= '<tr class="teacher-header"><th colspan="6">' . $deputat['name'] . '</th></tr>';
-                if ($displaySummary)
+                continue;
+            }
+
+            $teacherID = $lessonValues['teacherID'];
+            if (empty($this->deputat[$teacherID]))
+            {
+                $this->deputat[$teacherID] = array();
+                $this->deputat[$teacherID]['name'] = $lessonValues['teacherName'];
+            }
+
+            if ($lessonValues['type'] == 'tally')
+            {
+                $this->setTallyDeputat($lessonValues);
+                unset($this->lessonValues[$lessonID]);
+                continue;
+            }
+
+            $subjectIndex = "{$lessonValues['subjectName']}-{$lessonValues['lessonType']}";
+
+            // Current threshhold for a block lesson is 20 scholastic hours per week (10 periods)
+            if (count($lessonValues['periods']) > 20)
+            {
+                $blockIndex = "$subjectIndex-$blockCounter";
+                $this->setSummaryDeputat($lessonValues, $blockIndex);
+
+                // Block lessons are listed individually => no need to compare
+                unset($this->lessonValues[$lessonID]);
+                continue;
+            }
+
+            // The initial summary deputat
+            $this->setSummaryDeputat($lessonValues, $subjectIndex);
+
+            foreach ($this->lessonValues as $comparisonID => $comparisonValues)
+            {
+                // The lesson should not be compared to itself
+                if ($lessonID == $comparisonID)
                 {
-                    $table .= '<tr class="group-header">';
-                    $table .= '<th>Lehrveranstaltung</th>';
-                    $table .= '<th>Art<br/>(Kürzel)</th>';
-                    $table .= '<th>Studiengang Semester</th>';
-                    $table .= '<th>Wochentag u. Stunde<br/>(bei Blockveranstalt. Datum)</th>';
-                    $table .= '<th>SWS</th>';
-                    $table .= '<th>Gemeldetes Deputat (Summe)</th>';
-                    $table .= '</tr>';
-                    $table .= $this->getSummaryRows($deputat);
+                    continue;
                 }
-                if ($displayTally)
+
+                if ($this->isAggregationPlausible($lessonValues, $comparisonValues))
                 {
-                    $table .= '<tr class="group-header">';
-                    $table .= '<th colspan="3">Art der Abschlussarbeit<br/>(nur bei Betreuung als Referent/in)</th>';
-                    $table .= '<th>Umfang der Anrechnung in SWS je Arbeit<br />(insgesamt max. 2 SWS)</th>';
-                    $table .= '<th>Anzahl der Arbeiten</th>';
-                    $table .= '<th>Gemeldetes Deputat (SWS)</th>';
-                    $table .= '</tr>';
-                    $table .= $this->getTallyRows($deputat);
+                    $this->aggregate($teacherID, $subjectIndex, $comparisonValues);
+
+                    // Aggregated lessons should not be reiterated
+                    $skipValues[] = $comparisonID;
+                    continue;
                 }
             }
-        }
 
-        $table .= '</table>';
-        return $table;
+            // Reduces nested iteration
+            unset($this->lessonValues[$lessonID]);
+        }
+        asort($this->deputat);
     }
 
     /**
-     * Retrieves a rows containing information about
+     * Sets the values for tallied lessons
      *
-     * @param   array   &$deputat  the table columns
+     * @param   array  &$lessonValues  the values for the lesson being iterated
      *
-     * @return  string  HTML String for the summary row
+     * @return  void  sets values in the object variable $deputat
      */
-    private function getSummaryRows(&$deputat)
+    private function setTallyDeputat(&$lessonValues)
     {
-        $style = 'style ="vnd.ms-excel.numberformat:@;"';
-
-        $rows = array();
-        $swsSum = 0;
-        $realSum = 0;
-        foreach ($deputat['summary'] as $summary)
+        if (empty($this->deputat[$lessonValues['teacherID']]['tally']))
         {
-            $periodsText = (count($summary['periods']) > 10)?
-                "{$summary['startdate']} bis {$summary['enddate']}" : implode(', ', array_keys($summary['periods']));
-            $row = '<tr>';
-            $row .= '<td>' . $summary['subjects'] . '</td>';
-            $row .= '<td>' . $summary['type'] . '</td>';
-            $row .= '<td>' . $summary['pools'] . '</td>';
-            $row .= '<td>' . $periodsText . '</td>';
-            $row .= '<td ' . $style . '>' . $summary['sws'] . '</td>';
-            $swsSum += $summary['sws'];
-            $row .= '<td ' . $style . '>' . $summary['hours'] . '</td>';
-            $realSum += $summary['hours'];
-            $row .= '</tr>';
-            $rows[] = $row;
+            $this->deputat[$lessonValues['teacherID']]['tally'] = array();
         }
-        $sumRow = '<tr>';
-        $sumRow .= '<td></td>';
-        $sumRow .= '<td></td>';
-        $sumRow .= '<td></td>';
-        $sumRow .= '<td>Summe</td>';
-        $sumRow .= '<td ' . $style . '>' . $swsSum . '</td>';
-        $sumRow .= '<td ' . $style . '>' . $realSum . '</td>';
-        $sumRow .= '</tr>';
-        $rows[] = $sumRow;
-
-        return implode('', $rows);
+        $subjectName = $lessonValues['subjectName'];
+        if (empty($this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]))
+        {
+            $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName] = array();
+        }
+        $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['rate'] = $this->getRate($subjectName);
+        if (empty($this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['count']))
+        {
+            $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['count'] = 1;
+            return;
+        }
+        $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['count']++;
+        return;
     }
+
     /**
-     * Retrieves a row containing a summary of the column values in all the other rows. In the process it removes
-     * columns without values.
+     * Gets the rate at which lessons are converted to scholastic weekly hours
      *
-     * @param   array   &$deputat  the table columns
+     * @param   string  $subjectName  the 'subject' name
      *
-     * @return  string  HTML String for the summary row
+     * @return  float|int  the conversion rate
      */
-    private function getTallyRows(&$deputat)
+    private function getRate($subjectName)
     {
-        $style = 'style ="vnd.ms-excel.numberformat:@;"';
-        $rows = array();
-        foreach ($deputat['tally'] as $name => $data)
+        $params = JFactory::getApplication()->getParams();
+        if ($subjectName == 'Betreuung von Bachelorarbeiten')
         {
-            $row = '<tr>';
-            $row .= '<td colspan="3">' . $name . '</td>';
-            $row .= '<td ' . $style . '>' . $data['rate'] . '</td>';
-            $row .= '<td ' . $style . '>' . $data['count'] . '</td>';
-            $row .= '<td ' . $style . '>' . ($data['rate'] * $data['count']) . '</td>';
-            $row .= '</tr>';
-            $rows[] = $row;
+            return floatval('0.' . $params->get('bachelor_value', 25));
+        }
+        if ($subjectName == 'Betreuung von Diplomarbeiten')
+        {
+            return floatval('0.' . $params->get('master_value', 50));
+        }
+        if ($subjectName == 'Betreuung von Masterarbeiten')
+        {
+            return floatval('0.' . $params->get('master_value', 50));
+        }
+        return 1;
+    }
+
+    /**
+     * Sets the values for summarized lessons
+     *
+     * @param   array   &$lessonValues  the values for the lesson being iterated
+     * @param   string  $index          the index to be used for the lesson
+     *
+     * @return  void  sets values in the object variable $deputat
+     */
+    private function setSummaryDeputat(&$lessonValues, $index)
+    {
+        $teacherID = $lessonValues['teacherID'];
+        if (empty($this->deputat[$lessonValues['teacherID']]['summary']))
+        {
+            $this->deputat[$teacherID]['summary'] = array();
+        }
+        $this->deputat[$teacherID]['summary'][$index] = array();
+        $this->deputat[$teacherID]['summary'][$index]['name'] = $lessonValues['subjectName'];
+        $this->deputat[$teacherID]['summary'][$index]['type'] = $lessonValues['lessonType'];
+        $this->deputat[$teacherID]['summary'][$index]['pools'] = $lessonValues['pools'];
+        $this->deputat[$teacherID]['summary'][$index]['periods'] = $lessonValues['periods'];
+        $this->deputat[$teacherID]['summary'][$index]['sws'] = $lessonValues['sws'];
+        $this->deputat[$teacherID]['summary'][$index]['hours'] = $lessonValues['hours'];
+        $this->deputat[$teacherID]['summary'][$index]['startdate'] = $lessonValues['startdate'];
+        $this->deputat[$teacherID]['summary'][$index]['enddate'] = $lessonValues['enddate'];
+        return;
+    }
+
+    /**
+     * Checks lesson values to determine the plausibility of aggregation
+     *
+     * @param   array  $lessonValues      the values for the lesson being iterated in the outer loop
+     * @param   array  $comparisonValues  the values for the lesson being iterated in the inner loop
+     *
+     * @return  bool  true if the lessons are a plausible match, otherwise false
+     */
+    private function isAggregationPlausible($lessonValues, $comparisonValues)
+    {
+        // Tallied and block lessons are handled differently
+        if ($comparisonValues['type'] == 'tally' OR count($comparisonValues['periods']) > 20)
+        {
+            return false;
         }
 
-        return implode('', $rows);
+        $teacherPlausible = $lessonValues['teacherID'] == $comparisonValues['teacherID'];
+        $subjectsPlausible = $lessonValues['subjectName'] == $comparisonValues['subjectName'];
+        $typesPlausible = $lessonValues['lessonType'] == $comparisonValues['lessonType'];
+        return ($teacherPlausible AND $subjectsPlausible AND $typesPlausible);
+    }
+
+    /**
+     * Aggregates similar lessons to a single output
+     *
+     * @param   string  $teacherID     the id of the teacher
+     * @param   string  $subjectIndex  the index of this group of lessons in the array
+     * @param   array   $aggValues     the values to be aggregated
+     */
+    private function aggregate($teacherID, $subjectIndex, $aggValues)
+    {
+        $aggregatedPools = array_merge($this->deputat[$teacherID]['summary'][$subjectIndex]['pools'], $aggValues['pools']);
+        array_unique($aggregatedPools);
+        $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'] = $aggregatedPools;
+        $aggregatedPeriods = array_merge($this->deputat[$teacherID]['summary'][$subjectIndex]['periods'], $aggValues['periods']);
+        $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'] = $aggregatedPeriods;
+        $this->deputat[$teacherID]['summary'][$subjectIndex]['sws'] += $aggValues['sws'];
+        $this->deputat[$teacherID]['summary'][$subjectIndex]['hours'] += $aggValues['hours'];
     }
 
     /**

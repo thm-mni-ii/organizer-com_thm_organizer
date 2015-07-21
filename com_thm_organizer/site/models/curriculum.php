@@ -95,6 +95,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->select('*');
         $query->from('#__thm_organizer_mappings');
         $query->where("parentID = '$element->mapping'");
+        $query->order("ordering ASC");
         $this->_db->setQuery((string) $query);
         try
         {
@@ -109,7 +110,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $element->children = array();
         foreach ($children as $child)
         {
-            $order = $child->ordering;
+            $order = (int) $child->ordering;
             if (!empty($child->poolID))
             {
                 $element->children[$order] = $this->getPool($child->poolID, $child->id);

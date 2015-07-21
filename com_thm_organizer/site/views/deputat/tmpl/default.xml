@@ -10,4 +10,32 @@
     <layout title="COM_THM_ORGANIZER_DEPUTAT_TITLE">
         <message>COM_THM_ORGANIZER_DEPUTAT_DESCRIPTION</message>
     </layout>
+    <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
+        <fieldset name="basic" label="COM_THM_ORGANIZER_DEPUTAT_SETTINGS">
+            <field name="bachelor_value"
+                   type="integer"
+                   default="25"
+                   label="COM_THM_ORGANIZER_BACHELOR_VALUE"
+                   description="COM_THM_ORGANIZER_BACHELOR_VALUE_DESC"
+                   first="5"
+                   last="100"
+                   step="5" />
+            <field name="diploma_value"
+                   type="integer"
+                   default="50"
+                   label="COM_THM_ORGANIZER_DIPLOMA_VALUE"
+                   description="COM_THM_ORGANIZER_DIPLOMA_VALUE_DESC"
+                   first="5"
+                   last="100"
+                   step="5" />
+            <field name="master_value"
+                   type="integer"
+                   default="50"
+                   label="COM_THM_ORGANIZER_MASTER_VALUE"
+                   description="COM_THM_ORGANIZER_MASTER_VALUE_DESC"
+                   first="5"
+                   last="100"
+                   step="5" />
+        </fieldset>
+    </fields>
 </metadata>

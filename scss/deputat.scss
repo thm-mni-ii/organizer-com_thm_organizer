@@ -35,13 +35,13 @@
     background-image: none;
     border: $border-color;
     color: $fcolor;
-    display: block;
+    display: table;
     font-family: $font;
     font-size: $fsize;
     margin-bottom: .4em;
     margin-top: .4em;
     max-height: 45em;
-    max-width: 100%;
+    width: 100%;
     overflow-x: auto;
     overflow-y: auto;
     @include border-radius(3px);

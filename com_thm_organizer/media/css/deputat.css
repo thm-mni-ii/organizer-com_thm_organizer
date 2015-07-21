@@ -58,13 +58,13 @@
     background-image: none;
     border: 1px solid #bbbbbb;
     color: #4a5c66;
-    display: block;
+    display: table;
     font-family: Verdana, Arial;
     font-size: 13px;
     margin-bottom: .4em;
     margin-top: .4em;
     max-height: 45em;
-    max-width: 100%;
+    width: 100%;
     overflow-x: auto;
     overflow-y: auto;
     -webkit-border-radius: 3px;
