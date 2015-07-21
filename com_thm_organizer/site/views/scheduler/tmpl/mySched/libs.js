@@ -599,7 +599,7 @@ Ext.define(
         {
             e.preventDefault();
 
-            if( target && e.button === 1  )
+            if( target && e.button === 1 && !(this.tabBar.getComponent(target.id).title == MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE))
             {
                 var item = this.tabBar.getComponent(target.id);
                 item.onCloseClick();
