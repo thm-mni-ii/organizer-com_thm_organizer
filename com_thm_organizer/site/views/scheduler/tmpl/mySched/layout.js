@@ -1226,7 +1226,8 @@ MySched.layout = function ()
                     iconCls: 'tbDownload',
                     disabled: false,
                     clicked: false,
-                    menu: [btnSavePdf, btnICal, btnSaveTxt]
+                    menu: [btnSavePdf]
+                    //menu: [btnSavePdf, btnICal, btnSaveTxt]
                 }
             );
 
