@@ -10,8 +10,33 @@
     <layout title="COM_THM_ORGANIZER_DEPUTAT_TITLE">
         <message>COM_THM_ORGANIZER_DEPUTAT_DESCRIPTION</message>
     </layout>
-    <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
+    <fields name="params" addfieldpath="/libraries/thm_core/fields">
         <fieldset name="basic" label="COM_THM_ORGANIZER_DEPUTAT_SETTINGS">
+            <field name="departmentID"
+                   type="genericlist"
+                   valueColumn="id"
+                   textColumn="short_name"
+                   table="thm_organizer_departments"
+                   label="COM_THM_ORGANIZER_DEPARTMENT"
+                   description="COM_THM_ORGANIZER_DEPARTMENT_DESC">
+                <option value="">JALL</option>
+            </field>
+            <field name="deputat_weeks"
+                   type="integer"
+                   default="13"
+                   label="COM_THM_ORGANIZER_DEPUTAT_WEEKS"
+                   description="COM_THM_ORGANIZER_DEPUTAT_WEEKS_DESC"
+                   first="1"
+                   last="52"
+                   step="1" />
+            <field name="deputat_weeks"
+                   type="integer"
+                   default="13"
+                   label="COM_THM_ORGANIZER_DEPUTAT_WEEKS"
+                   description="COM_THM_ORGANIZER_DEPUTAT_WEEKS_DESC"
+                   first="1"
+                   last="52"
+                   step="1" />
             <field name="bachelor_value"
                    type="integer"
                    default="25"

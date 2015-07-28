@@ -37,9 +37,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
     public $teachers = array();
 
-    public $irrelevantTypes = array();
+    public $irrelevant = array();
 
-    public $irrelevantTeacherPrefixes = array();
+    public $departmentName = '';
 
 
     /**
@@ -67,13 +67,46 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function setObjectProperties()
     {
+        $this->params = JFactory::getApplication()->getParams();
+        $departmentID = $this->params->get('departmentID', 0);
+        if (!empty($departmentID))
+        {
+            $this->setDepartmentName($departmentID);
+        }
         $input = JFactory::getApplication()->input;
         $this->reset = $input->getBool('reset', false);
         $this->selected = array();
         $this->teachers = array();
-        $this->irrelevantTypes = array('K', 'SIT', 'PRÜ');
-        $this->irrelevantTeacherPrefixes = array('NN.', 'DIV.', 'FS.', 'FS.', 'TUTOR.', 'SW');
+        $this->irrelevant['methods'] = array('K', 'SIT', 'PRÜ');
+        $this->irrelevant['teachers'] = array('NN.', 'DIV.', 'FS.', 'FS.', 'TUTOR.', 'SW');
+        $this->irrelevant['pools'] = array('TERMINE.');
+        $this->irrelevant['subjects'] = array('NN.');
         $this->setSchedule();
+    }
+
+    /**
+     * Resolves the department id to its name
+     *
+     * @param   int  $departmentID  the id of the department
+     *
+     * @return  void  sets the object variable $departmentName on success
+     */
+    private function setDepartmentName($departmentID)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('name')->from('#__thm_organizer_departments')->where("id = '$departmentID'");
+        $dbo->setQuery((string) $query);
+        try
+        {
+            $this->departmentName = $dbo->loadResult();
+            return;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+            return;
+        }
     }
 
     /**
@@ -89,6 +122,11 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $query->select($select);
         $query->from("#__thm_organizer_schedules");
         $query->where("active = '1'");
+        $departmentID = $this->params->get('departmentID', 0);
+        if (!empty($departmentID))
+        {
+            $query->where("departmentID = '$departmentID'");
+        }
         $query->order('name');
 
         $this->_db->setQuery((string) $query);
@@ -164,7 +202,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             $this->resolveTime($day, $blocks);
         }
         $this->convertLessonValues();
-        asort($this->deputat);
     }
 
     /**
@@ -222,7 +259,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             }
 
             $irrelevant = false;
-            foreach ($this->irrelevantTeacherPrefixes AS $prefix)
+            foreach ($this->irrelevant['teachers'] AS $prefix)
             {
                 if (strpos($teacherID, $prefix) === 0)
                 {
@@ -249,6 +286,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function setDeputat($day, $blockNumber, $lessonID, $teacherID, $hours = 0)
     {
+        $subjectIsRelevant = $this->isRelevantSubject($lessonID);
+        if (!$subjectIsRelevant)
+        {
+            return;
+        }
+
         if (empty($this->lessonValues[$lessonID]))
         {
             $this->lessonValues[$lessonID] = array();
@@ -268,7 +311,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $lessonType = $this->schedule->lessons->$lessonID->description;
 
         // Some 'lesson' types are irrelevant for deputat calculation;
-        if (in_array($lessonType, $this->irrelevantTypes))
+        if (in_array($lessonType, $this->irrelevant['methods']))
         {
             unset($this->lessonValues[$lessonID]);
             return;
@@ -293,26 +336,46 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             $this->lessonValues[$lessonID]['startdate'] = THM_OrganizerHelperComponent::formatDate($day);
         }
 
-        if (empty($this->lessonValues[$lessonID]['hours']))
-        {
-            $this->lessonValues[$lessonID]['hours'] = $hours;
-        }
-        else
-        {
-            $this->lessonValues[$lessonID]['hours'] += $hours;
-        }
-
         $plannedBlock = "$weekday-$blockNumber";
-        if (!in_array($plannedBlock, $this->lessonValues[$lessonID]['periods']))
+        if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID]['periods']))
         {
-            $this->lessonValues[$lessonID]['periods'][$plannedBlock] = $hours;
+            $this->lessonValues[$lessonID]['periods'][$plannedBlock] = array();
+        }
+        if (!array_key_exists($day, $this->lessonValues[$lessonID]['periods'][$plannedBlock]))
+        {
+            $this->lessonValues[$lessonID]['periods'][$plannedBlock][$day] = $hours;
         }
 
-        $this->lessonValues[$lessonID]['sws']
-            = array_sum($this->lessonValues[$lessonID]['periods']);
         $this->lessonValues[$lessonID]['enddate'] = THM_OrganizerHelperComponent::formatDate($day);
 
         return;
+    }
+
+    /**
+     * Checks whether the subject is relevant
+     *
+     * @param   string  $lessonID  the id of the lesson
+     *
+     * @return  bool  true if relevant, otherwise false
+     */
+    private function isRelevantSubject($lessonID)
+    {
+        $subjects = (array) $this->schedule->lessons->$lessonID->subjects;
+        foreach ($subjects AS $subject => $delta)
+        {
+            if ($delta == 'removed')
+            {
+                continue;
+            }
+            foreach ($this->irrelevant['subjects'] AS $prefix)
+            {
+                if (strpos($subject, $prefix) !== false)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -462,7 +525,13 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             // Reduces nested iteration
             unset($this->lessonValues[$lessonID]);
         }
-        asort($this->deputat);
+
+        function cmp($a, $b)
+        {
+            return strcmp($a["name"], $b["name"]);
+        }
+
+        usort($this->deputat, "cmp");
     }
 
     /**
@@ -538,11 +607,102 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $this->deputat[$teacherID]['summary'][$index]['type'] = $lessonValues['lessonType'];
         $this->deputat[$teacherID]['summary'][$index]['pools'] = $lessonValues['pools'];
         $this->deputat[$teacherID]['summary'][$index]['periods'] = $lessonValues['periods'];
-        $this->deputat[$teacherID]['summary'][$index]['sws'] = $lessonValues['sws'];
-        $this->deputat[$teacherID]['summary'][$index]['hours'] = $lessonValues['hours'];
+        $this->deputat[$teacherID]['summary'][$index]['hours'] = $this->getSummaryHours($lessonValues['periods']);
         $this->deputat[$teacherID]['summary'][$index]['startdate'] = $lessonValues['startdate'];
         $this->deputat[$teacherID]['summary'][$index]['enddate'] = $lessonValues['enddate'];
+        uksort($this->deputat[$teacherID]['summary'][$index]['periods'], 'self::periodSort');
+        ksort($this->deputat[$teacherID]['summary']);
         return;
+    }
+
+    /**
+     * Sorts two period keys. (Callable)
+     *
+     * @param   string  $keyOne  the first key
+     * @param   string  $keyTwo  the second key
+     *
+     * @return int
+     */
+    private static function periodSort($keyOne, $keyTwo)
+    {
+        list($dayOne, $blockOne) = explode('-', $keyOne);
+        $dayOne = self::getDayNumber($dayOne);
+        list($dayTwo, $blockTwo) = explode('-', $keyTwo);
+        $dayTwo = self::getDayNumber($dayTwo);
+
+        if ($dayOne < $dayTwo)
+        {
+            return -1;
+        }
+
+        if ($dayOne > $dayTwo)
+        {
+            return 1;
+        }
+
+        if ($blockOne < $blockTwo)
+        {
+            return -1;
+        }
+
+        if ($blockOne > $blockTwo)
+        {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Converts day names to the their order number
+     *
+     * @param   string  $dayName  the name of the day
+     *
+     * @return  int  the number of the day
+     */
+    private static function getDayNumber($dayName)
+    {
+        switch($dayName)
+        {
+            case 'Monday':
+            case 'Montag':
+                return 1;
+            case 'Tuesday':
+            case 'Dienstag':
+                return 2;
+            case 'Wednesday':
+            case 'Mittwoch':
+                return 3;
+            case 'Thursday':
+            case 'Donnerstag':
+                return 4;
+            case 'Friday':
+            case 'Freitag':
+                return 5;
+            case 'Saturday':
+            case 'Samstag':
+                return 6;
+            case 'Sunday':
+            case 'Sonntag':
+                return 7;
+        }
+    }
+
+    /**
+     * Gets the total hours from an array with the structure period > date > hours
+     *
+     * @param   array  $periods  the periods for the lesson
+     *
+     * @return  int  the sum of the lesson's hours
+     */
+    private function getSummaryHours($periods)
+    {
+        $sum = 0;
+        foreach ($periods AS $period)
+        {
+            $sum += array_sum($period);
+        }
+        return $sum;
     }
 
     /**
@@ -579,10 +739,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $aggregatedPools = array_merge($this->deputat[$teacherID]['summary'][$subjectIndex]['pools'], $aggValues['pools']);
         array_unique($aggregatedPools);
         $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'] = $aggregatedPools;
-        $aggregatedPeriods = array_merge($this->deputat[$teacherID]['summary'][$subjectIndex]['periods'], $aggValues['periods']);
+        $aggregatedPeriods = array_merge_recursive($this->deputat[$teacherID]['summary'][$subjectIndex]['periods'], $aggValues['periods']);
+        uksort($aggregatedPeriods, 'self::periodSort');
         $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'] = $aggregatedPeriods;
-        $this->deputat[$teacherID]['summary'][$subjectIndex]['sws'] += $aggValues['sws'];
-        $this->deputat[$teacherID]['summary'][$subjectIndex]['hours'] += $aggValues['hours'];
+        $this->deputat[$teacherID]['summary'][$subjectIndex]['hours'] = $this->getSummaryHours($aggregatedPeriods);
     }
 
     /**
@@ -592,33 +752,39 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     public function getTeacherNames()
     {
-        $names = array();
-        foreach ($this->schedule->teachers as $key => $teacher)
+        $teachers = array();
+        foreach ($this->deputat AS $teacherID => $deputat)
         {
-            $names[$key] = THM_OrganizerHelperTeacher::getDefaultName($teacher);
+            $displaySummary = !empty($deputat['summary']);
+            $displayTally = !empty($deputat['tally']);
+            $display = ($displaySummary OR $displayTally);
+            if (!$display)
+            {
+                unset($this->deputat[$teacherID]);
+                continue;
+            }
+            $teachers[$teacherID] = $deputat['name'];
         }
-        asort($names);
-        return $names;
+        asort($teachers);
+        return $teachers;
     }
 
     /**
-     * Gets the list of selected resources
-     *
-     * @param   string  $type  the resource type (rooms|roomtypes|teachers|fields)
+     * Gets the list of selected teachers
      *
      * @return  void
      */
-    private function setSelected($type)
+    private function setSelected()
     {
         $default = array();
         $default[] = '*';
-        $selected = JFactory::getApplication()->input->get($type, $default, 'array');
-        $useDefault = ($this->reset OR (count($selected) > 1 AND in_array('*', $selected)));
+        $selected = JFactory::getApplication()->input->get('teachers', $default, 'array');
+        $useDefault = (count($selected) > 1 AND in_array('*', $selected));
         if ($useDefault)
         {
-            $this->selected[$type] = $default;
+            $this->selected = $default;
             return;
         }
-        $this->selected[$type] = $selected;
+        $this->selected = $selected;
     }
 }
