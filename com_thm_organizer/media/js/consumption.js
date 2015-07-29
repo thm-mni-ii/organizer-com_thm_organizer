@@ -6,6 +6,8 @@
  *
  **/
 
+
+
 jQuery(document).ready(function ()
 {
     // After testing this solution works only with Chrome - tested with Firefox, IE, Chrome
@@ -34,13 +36,17 @@ jQuery(document).ready(function ()
                 jQuery('.consumption-table').removeClass('fixedLeft');
             }
         });
-    //create div to hide overlapping at first cell while scrolling
-        if(jQuery('.consumption-table').length) {
-            var p = jQuery(".consumption-table");
-            var offset = p.offset();
-            jQuery('<div></div>').attr('class', 'whiteSpace').appendTo('body');
-            jQuery('.whiteSpace').offset({top: offset.top, left: offset.left});
-        }
+
+    //create div to hide overlapping at first cell while scrolling and add height and width to this
+        jQuery('<div></div>').attr('class', 'whiteSpace').appendTo('body');
+        var whiteSpace =  jQuery('.whiteSpace');
+
+        var theadHeight = jQuery('.consumption-table thead').height() - 2;
+        whiteSpace.css('height',theadHeight);
+
+        var tbodyFirstWidth = jQuery('.consumption-table tbody tr th').width() + 13;
+        whiteSpace.css('width',tbodyFirstWidth);
+        positionWhiteSpace();
     }
 
 
@@ -118,6 +124,7 @@ jQuery(document).ready(function ()
     });
 });
 
+
 function toggle()
 {
     "use strict";
@@ -133,4 +140,25 @@ function toggle()
         toggleSpan.addClass('toggle-closed');
     }
     jQuery("#filter-resource").toggle();
+}
+
+
+jQuery(document).click(function(e)
+{
+    if (jQuery('#filter-toggle-image').hasClass("toggle-open")) {
+        positionWhiteSpace();
+    }
+    if (jQuery('#filter-toggle-image').hasClass("toggle-closed")) {
+        positionWhiteSpace();
+    }
+});
+
+function positionWhiteSpace()
+{
+    if(jQuery('.consumption-table').length)
+    {
+        var p = jQuery(".consumption-table");
+        var offset = p.offset();
+        jQuery('.whiteSpace').offset({top: offset.top +1, left: offset.left + 1});
+    }
 }

@@ -10,6 +10,7 @@
 
 .consumption {
   color: $fcolor;
+
   // Allows the buttons to be on the same line as the header
   h2.componentheading {
     float: left;
@@ -33,6 +34,7 @@
     -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
     @include border-radius(4px);
+    cursor: pointer;
   }
 
   // Table element styles
@@ -84,19 +86,11 @@
     }
   }
 
-  thead {
-    //  display: block;
-  }
-
-  tbody {
-    //  @extend thead;
-  }
-
   div.filter-bar {
     @extend %fieldset;
     @include border-radius(3px);
 
-    min-height: 80px;
+    min-height: 250px;
 
     div.filter-item {
       display: inline-block;
@@ -139,12 +133,15 @@
 }
 
 .filter-header {
+  margin-bottom: .4em;
+
   @media (min-width: 768px) {
     margin: 4px 25px;
 
     .control-group:nth-of-type(1), .control-group:nth-of-type(2), .control-group:nth-of-type(3) {
       width: 55%;
       float: left;
+
       .chzn-container-single .chzn-single {
         @include border-radius(3px);
       }
@@ -161,37 +158,70 @@
     .control-group:nth-of-type(4) {
       display: inline-block;
       width: 45%;
+
       .control-label {
         float: left;
-        padding-top: 4px;
+        padding-top: 7px;
+        font-size: 14px;
       }
 
       .controls {
-        float: right;
-        //     padding-left: 10px;
+        float: left;
+        margin-left: 10px;
       }
     }
 
     .control-group:nth-of-type(5) {
       @extend .control-group:nth-of-type(4);
+
       .control-label {
-        width: 75px;
+        width: 88px;
         text-align: right;
-        padding-top: 1px;
       }
     }
   }
 
-  margin-bottom: .4em;
   .input-append {
     margin-bottom: 0px;
+
     input {
-      max-width: 100px;
-      height: 15px;
+      max-width: 115px;
+      height: 24.5px; //
     }
 
     #enddate_img, #startdate_img {
-      height: 25px;
+      z-index: 0;
+
+      .icon-calendar {
+        background-image: none;
+        width: 20px\0; //just for IE
+        height:20px\0; //just for IE
+
+        &::before {
+          font-family: icomoon;
+          content: "\44";
+          font-size: 17px;
+          position: absolute;
+          margin-left: -7px;
+          margin-left: 0px\0; //just for IE
+          color: $thm-grau-color;
+        }
+      }
+
+      &:hover {
+        //when hovered on calender-icon, the color don't have to be changed
+        color: $thm-grau-color;
+        -webkit-transition: none;
+        -moz-transition: none;
+        -ms-transition: none;
+        -o-transition: none;
+        transition: none;
+      }
+
+      &:focus {
+        //remove some border around the icon, when clicked
+        outline: none;
+      }
     }
   }
 }
@@ -202,29 +232,41 @@
   margin-left: .6em;
   margin-right: .6em;
   overflow: auto;
-  min-height: 150px;
+  min-height: 250px;
 
   @media (min-width: 768px) {
+
     .control-group:nth-of-type(1) {
       width: 60%;
       float: left;
+
       .controls select {
         width: 95%;
       }
     }
+
     .control-group:nth-of-type(2) {
       width: 40%;
       float: right;
+
       .controls select {
         width: 95%;
       }
     }
   }
-  .chzn-container-multi .chzn-choices li {
-    float: none;
-    margin-right: 5px;
-    margin-top: 5px;
+
+  .chzn-container-multi {
+    height: auto !important;
+    background-image: none !important;
+    background-color: white !important;
+
+    .chzn-choices li {
+      float: none;
+      margin-right: 5px;
+      margin-top: 5px;
+    }
   }
+
   .chzn-container .chzn-results li.highlighted {
     @include linearGradient(#62c462, #51a351);
   }
@@ -286,24 +328,73 @@ a.toggle-link:focus {
 /* Styles for fixed first Row and fixed first Column */
 .fixedTop {
   thead th {
-    background-color: white;
+    background-color: #F2F4F5;
     position: relative;
     top: 0;
   }
 }
 
 .fixedLeft {
-  tbody tr th{
-    background-color: white;
+  tbody tr th {
+    background-color: #F2F4F5;
     position: relative;
     left: 0;
   }
 }
 
-.whiteSpace{
-  height:92px;
-  width:105px;
-  background-color:white;
-  border-top: 1px solid #bbbbbb;
-  border-left:1px solid #bbbbbb;
+.whiteSpace {
+  position: absolute;
+  margin-top: 11px;
+  background-color: #F2F4F5;
+}
+
+//overwrite chosen icon in selectBox
+.chzn-container-single .chzn-single div b {
+  background-image: none;
+}
+
+//overwrite height for selectBox, so text wouldn't be cut in firefox
+.chzn-single {
+  height: 30px !important;
+}
+
+//add border to popup-calender
+.calendar {
+  border: 2px solid $thm-grau-color;
+}
+
+//change icons in button-panel
+.icon-forward-2 {
+  background-image: none;
+
+  &::before {
+    font-family: icomoon;
+    content: "\e205";
+    font-size: 16px;
+    color: $thm-grau-color;
+    position: relative;
+    right: 2px;
+  }
+}
+
+.icon-delete:before{
+  position: relative;
+  top: 2px;
+  right: 2px;
+  color: $thm-grau-color;
+}
+
+//excel-download
+.icon-download {
+  background-image: none;
+
+  &::before {
+    font-family: icomoon;
+    content: "\e00b";
+    font-size: 16px;
+    color: $thm-grau-color;
+    position: relative;
+    top: 1px;
+    right: 3px;
+  }
 }
