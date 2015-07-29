@@ -164,30 +164,30 @@ table.deputat-table {
   width: 100%;
   @include box-shadow(2px, 2px, 4px, $shadow-color);
 
-  tbody
+  th {
+    background-color: #ffffff;
+    height: 1.4em;
+    text-align: $text-align-center;
+  }
+
+  thead
   {
-    tr
-    {
-      th {
-        background-color: #ffffff;
-        height: 1.4em;
-        text-align: $text-align-center;
-      }
-
-      td {
-        background-color: #ffffff;
-        font-size: $fsize;
-        height: 1.4em;
-        text-align: $text-align-center;
-      }
-
-    }
-
     tr.teacher-header th
     {
       font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
       font-size: large;
       border-bottom: none;
+    }
+  }
+
+  tbody
+  {
+    tr td
+    {
+      background-color: #ffffff;
+      font-size: $fsize;
+      height: 1.4em;
+      text-align: $text-align-center;
     }
 
     tr.sum-header th
@@ -198,12 +198,25 @@ table.deputat-table {
       border-left: none;
     }
 
-    tr.data-row td
+    tr[class^="data-row"] td
     {
+      vertical-align: middle;
       border: 1px solid #bbb;
+
+      a
+      {
+        display: block;
+        float: right;
+        margin-right: 10px;
+        i
+        {
+          color: #4a5c66;
+          font-size: smaller;
+        }
+      }
     }
 
-    tr.sum-row
+    tr[class^="sum-row"]
     {
       td
       {

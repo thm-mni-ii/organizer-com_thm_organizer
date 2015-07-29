@@ -86,7 +86,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
     private function makeScheduleSelectBox()
     {
         $scheduleID = $this->model->scheduleID;
-        $schedules = $this->getModel()->getActiveSchedules();
+        $schedules = $this->model->getDepartmentSchedules();
 
         $options = array();
         $options[] = JHtml::_('select.option', 0, JText::_("COM_THM_ORGANIZER_FILTER_SCHEDULE"));
@@ -130,7 +130,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
     public function getDeputatTables()
     {
         $tables = array();
-        foreach ($this->model->deputat as $deputat)
+        foreach ($this->model->deputat as $teacherID => $deputat)
         {
             $displaySummary = !empty($deputat['summary']);
             $displayTally = !empty($deputat['tally']);
@@ -140,10 +140,12 @@ class THM_OrganizerViewDeputat extends JViewLegacy
             //$buttonPanel .= JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_FORM");
             //$buttonPanel .= '<i class="icon-download"></i></button></div>';
 
-            $table = '<table class="deputat-table"><tbody class="deputat-table-body">';
-            $table .= '<tr class="teacher-header"><th colspan="5">' . $deputat['name'] . '</th></tr>';
+            $table = '<table class="deputat-table" id="deputat-table-' . $teacherID . '">';
+            $table .= '<thead class="deputat-table-head-' . $teacherID . '">';
+            $table .= '<tr class="teacher-header"><th colspan="5">' . $deputat['name'] . '</th></tr></thead>';
             if ($displaySummary)
             {
+                $table .= '<tbody class="deputat-table-body" id="deputat-table-body-sum-' . $teacherID . '">';
                 $table .= '<tr class="sum-header">';
                 $table .= '<th>Lehrveranstaltung</th>';
                 $table .= '<th>Art<br/>(Kürzel)</th>';
@@ -151,10 +153,12 @@ class THM_OrganizerViewDeputat extends JViewLegacy
                 $table .= '<th>Wochentag u. Stunde<br/>(bei Blockveranstalt. Datum)</th>';
                 $table .= '<th>Gemeldetes Deputat (SWS)<br/> und Summe</th>';
                 $table .= '</tr>';
-                $table .= $this->getSummaryRows($deputat);
+                $table .= $this->getSummaryRows($teacherID, $deputat);
+                $table .= '</tbody>';
             }
             if ($displayTally)
             {
+                $table .= '<tbody class="deputat-table-body" id="deputat-table-body-tally-' . $teacherID . '">';
                 $extraClass = $displaySummary? 'second-group': '';
                 $table .= '<tr class="tally-header ' . $extraClass . '">';
                 $table .= '<th>Rechtsgrundlage<br/>gemäß LVVO</th>';
@@ -163,9 +167,10 @@ class THM_OrganizerViewDeputat extends JViewLegacy
                 $table .= '<th>Anzahl der Arbeiten</th>';
                 $table .= '<th>Gemeldetes Deputat (SWS)</th>';
                 $table .= '</tr>';
-                $table .= $this->getTallyRows($deputat);
+                $table .= $this->getTallyRows($teacherID, $deputat);
+                $table .= '</tbody>';
             }
-            $table .= '</tbody></table>';
+            $table .= '</table>';
             $tables[] = $buttonPanel . $table;
         }
         return implode('', $tables);
@@ -174,40 +179,50 @@ class THM_OrganizerViewDeputat extends JViewLegacy
     /**
      * Retrieves a rows containing information about
      *
-     * @param   array   &$deputat  the table columns
+     * @param   int    $teacherID  the teacherID
+     * @param   array  &$deputat   the table columns
      *
      * @return  string  HTML String for the summary row
      */
-    private function getSummaryRows(&$deputat)
+    private function getSummaryRows($teacherID, &$deputat)
     {
-        $style = 'style ="vnd.ms-excel.numberformat:@;"';
-
         $rows = array();
         $swsSum = 0;
         $realSum = 0;
         $weeks = $this->params->get('deputat_weeks', 13);
+        $rowNumber = 0;
         foreach ($deputat['summary'] as $summary)
         {
+            $remove = '<a id="remove-data-row-' . $teacherID . '-' . $rowNumber . '" onclick="removeRow(this)">';
+            $remove .= '<i class="icon-delete"></i>';
+            $remove .= '</a>';
             $periodsText = (count($summary['periods']) > 10)?
                 "{$summary['startdate']} bis {$summary['enddate']}" : implode(', ', array_keys($summary['periods']));
-            $row = '<tr class="data-row">';
+            $row = '<tr class="data-row" id="data-row-' . $teacherID . '-' . $rowNumber . '">';
             $row .= '<td>' . $summary['name'] . '</td>';
             $row .= '<td>' . $summary['type'] . '</td>';
             $row .= '<td>' . implode(',', $summary['pools']) . '</td>';
             $row .= '<td>' . $periodsText . '</td>';
             $sws = ceil((int) $summary['hours'] / $weeks);
-            $row .= '<td ' . $style . '>' . $sws . ' (' . $summary['hours'] . ')</td>';
+            $row .= '<td>';
+            $row .= '<span class="row-sws" id="row-sws-' . $teacherID . '-' . $rowNumber . '">' . $sws . '</span>';
+            $row .= ' (<span class="row-sws" id="row-total-' . $teacherID . '-' . $rowNumber . '">' . $summary['hours'] . '</span>)';
+            $row .= $remove . '</td>';
             $swsSum += $sws;
             $realSum += $summary['hours'];
             $row .= '</tr>';
             $rows[] = $row;
+            $rowNumber++;
         }
-        $sumRow = '<tr class="sum-row">';
+        $sumRow = '<tr class="sum-row-' . $teacherID . '">';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td>Summe</td>';
-        $sumRow .= '<td ' . $style . '>' . $swsSum . ' (' . $realSum . ')</td>';
+        $sumRow .= '<td>';
+        $sumRow .= '<span class="sum-sws" id="sum-sws-' . $teacherID . '">' . $swsSum . '</span>';
+        $sumRow .= ' (<span class="sum-total" id="sum-total-' . $teacherID . '">' . $realSum . '</span>)';
+        $sumRow .= '</td>';
         $sumRow .= '</tr>';
         $rows[] = $sumRow;
 
@@ -218,34 +233,34 @@ class THM_OrganizerViewDeputat extends JViewLegacy
      * Retrieves a row containing a summary of the column values in all the other rows. In the process it removes
      * columns without values.
      *
-     * @param   array   &$deputat  the table columns
+     * @param   int    $teacherID  the teacherID
+     * @param   array  &$deputat   the table columns
      *
      * @return  string  HTML String for the summary row
      */
-    private function getTallyRows(&$deputat)
+    private function getTallyRows($teacherID, &$deputat)
     {
-        $style = 'style ="vnd.ms-excel.numberformat:@;"';
         $rows = array();
         $swsSum = 0;
         foreach ($deputat['tally'] as $name => $data)
         {
             $sws = $data['rate'] * $data['count'];
             $swsSum += $sws;
-            $row = '<tr class="data-row">';
+            $row = '<tr class="data-row-' . $teacherID . '">';
             $row .= '<td>LVVO § 2 (5)</td>';
             $row .= '<td>' . $name . '</td>';
-            $row .= '<td ' . $style . '>' . $data['rate'] . '</td>';
-            $row .= '<td ' . $style . '>' . $data['count'] . '</td>';
-            $row .= '<td ' . $style . '>' . $sws . '</td>';
+            $row .= '<td>' . $data['rate'] . '</td>';
+            $row .= '<td>' . $data['count'] . '</td>';
+            $row .= '<td>' . $sws . '</td>';
             $row .= '</tr>';
             $rows[] = $row;
         }
-        $sumRow = '<tr class="sum-row">';
+        $sumRow = '<tr class="sum-row-' . $teacherID . '">';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td>Summe</td>';
-        $sumRow .= '<td ' . $style . '>' . $swsSum . '</td>';
+        $sumRow .= '<td>' . $swsSum . '</td>';
         $sumRow .= '</tr>';
         $rows[] = $sumRow;
 

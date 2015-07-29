@@ -57,6 +57,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             $this->calculateDeputat();
             $this->teachers = $this->getTeacherNames();
             $this->setSelected('teachers');
+            $this->restrictDeputat();
         }
     }
 
@@ -95,11 +96,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     {
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('name')->from('#__thm_organizer_departments')->where("id = '$departmentID'");
+        $query->select('short_name')->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery((string) $query);
         try
         {
-            $this->departmentName = $dbo->loadResult();
+            $departmentName = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
+            $this->departmentName = $departmentName. ' ' . $dbo->loadResult();
             return;
         }
         catch (Exception $exc)
@@ -114,7 +116,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @return array An array with the schedules
      */
-    public function getActiveSchedules()
+    public function getDepartmentSchedules()
     {
         $query = $this->_db->getQuery(true);
         $columns = array('departmentname', 'semestername');
@@ -199,20 +201,24 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             {
                 continue;
             }
-            $this->resolveTime($day, $blocks);
+            $this->resolveTime($this->schedule, $day, $blocks);
         }
+        $teacherIDs = array_keys((array)$this->schedule->teachers);
+        $this->checkOtherSchedules($teacherIDs, $startdate, $enddate);
         $this->convertLessonValues();
     }
 
     /**
      * Sets consumption by instance (block + lesson)
      *
-     * @param   string  $day      the day being iterated
-     * @param   object  &$blocks  the blocks of the date being iterated
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $day        the day being iterated
+     * @param   object  &$blocks    the blocks of the date being iterated
+     * @param   array   &$teachers  teachers to compare against if the schedule is not the original
      * 
      * @return  void
      */
-    private function resolveTime($day, &$blocks)
+    private function resolveTime(&$schedule, $day, &$blocks, &$teachers = null)
     {
         $seconds = 2700;
         foreach ($blocks as $blockNumber => $blockLessons)
@@ -226,14 +232,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 }
 
                 // Calculate the scholastic hours (45 minutes)
-                $gridBlock =$this->schedule->periods->{$this->schedule->lessons->$lessonID->grid}->$blockNumber;
+                $gridBlock =$schedule->periods->{$schedule->lessons->$lessonID->grid}->$blockNumber;
                 $startTime = $gridBlock->starttime;
                 $startDT = strtotime(substr($startTime, 0, 2) . ':' . substr($startTime, 2, 2) . ':00');
                 $endTime = $gridBlock->endtime;
                 $endDT = strtotime(substr($endTime, 0, 2) . ':' . substr($endTime, 2, 2) . ':00');
                 $hours = ($endDT - $startDT) / $seconds;
 
-                $this->setDeputatByInstance($day, $blockNumber, $lessonID, $hours);
+                $this->setDeputatByInstance($schedule, $day, $blockNumber, $lessonID, $hours, $teachers);
             }
         }
     }
@@ -241,19 +247,30 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Iterates the lesson associated pools for the purpose of teacher consumption
      *
+     * @param   object  &$schedule    the schedule being processed
      * @param   string  $day          the day being iterated
      * @param   int     $blockNumber  the block number being iterated
      * @param   string  $lessonID     the lesson ID
      * @param   int     $hours        the number of school hours for the lesson
+     * @param   array   &$teachers    teachers to compare against if the schedule is not the original
      *
      * @return  void
      */
-    private function setDeputatByInstance($day, $blockNumber, $lessonID, $hours)
+    private function setDeputatByInstance(&$schedule, $day, $blockNumber, $lessonID, $hours, &$teachers = null)
     {
-        $teachers = $this->schedule->lessons->$lessonID->teachers;
-        foreach ($teachers as $teacherID => $teacherDelta)
+        $scheduleTeachers = $schedule->lessons->$lessonID->teachers;
+        foreach ($scheduleTeachers as $teacherID => $teacherDelta)
         {
             if ($teacherDelta == 'removed')
+            {
+                continue;
+            }
+
+            /**
+             * The function was called during the iteration of the schedule of another department. Only the teachers
+             * from the original are relevant.
+             */
+            if (!empty($teachers) AND !in_array($teacherID, $teachers))
             {
                 continue;
             }
@@ -270,7 +287,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
             if (!$irrelevant)
             {
-                $this->setDeputat($day, $blockNumber, $lessonID, $teacherID, $hours);
+                $this->setDeputat($schedule, $day, $blockNumber, $lessonID, $teacherID, $hours);
             }
         }
     }
@@ -278,15 +295,18 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Sets the pertinent deputat information
      *
+     * @param   object  &$schedule    the schedule being processed
      * @param   string  $day          the day being iterated
      * @param   int     $blockNumber  the block number being iterated
      * @param   string  $lessonID     the lesson being iterated
      * @param   string  $teacherID    the teacher being iterated
      * @param   int     $hours        the number of school hours for the lesson
+     *
+     * @return  void  sets object values
      */
-    private function setDeputat($day, $blockNumber, $lessonID, $teacherID, $hours = 0)
+    private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $teacherID, $hours = 0)
     {
-        $subjectIsRelevant = $this->isRelevantSubject($lessonID);
+        $subjectIsRelevant = $this->isRelevantSubject($schedule, $lessonID);
         if (!$subjectIsRelevant)
         {
             return;
@@ -296,19 +316,19 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $this->lessonValues[$lessonID] = array();
             $this->lessonValues[$lessonID]['teacherID'] = $teacherID;
-            $this->lessonValues[$lessonID]['teacherName'] = THM_OrganizerHelperTeacher::getLNFName($this->schedule->teachers->$teacherID);
-            $this->lessonValues[$lessonID]['subjectName'] = $this->getSubjectName($lessonID);
+            $this->lessonValues[$lessonID]['teacherName'] = THM_OrganizerHelperTeacher::getLNFName($schedule->teachers->$teacherID);
+            $this->lessonValues[$lessonID]['subjectName'] = $this->getSubjectName($schedule, $lessonID);
         }
 
         // Tallied items have flat payment values and are correspondingly not tracked as accurately
-        $isTallied = $this->isTallied($lessonID);
+        $isTallied = $this->isTallied($schedule, $lessonID);
         if ($isTallied)
         {
             $this->lessonValues[$lessonID]['type'] = 'tally';
             return;
         }
 
-        $lessonType = $this->schedule->lessons->$lessonID->description;
+        $lessonType = $schedule->lessons->$lessonID->description;
 
         // Some 'lesson' types are irrelevant for deputat calculation;
         if (in_array($lessonType, $this->irrelevant['methods']))
@@ -322,7 +342,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
         $previousPools = empty($this->lessonValues[$lessonID]['pools'])?
             array() : $this->lessonValues[$lessonID]['pools'];
-        $mergedPools = array_merge($previousPools, $this->getPools($lessonID));
+        $mergedPools = array_merge($previousPools, $this->getPools($schedule, $lessonID));
         $pools = array_unique($mergedPools);
         $this->lessonValues[$lessonID]['type'] = 'summary';
         $this->lessonValues[$lessonID]['lessonType'] = $lessonType;
@@ -354,13 +374,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Checks whether the subject is relevant
      *
+     * @param   object  &$schedule    the schedule being processed
      * @param   string  $lessonID  the id of the lesson
      *
      * @return  bool  true if relevant, otherwise false
      */
-    private function isRelevantSubject($lessonID)
+    private function isRelevantSubject(&$schedule, $lessonID)
     {
-        $subjects = (array) $this->schedule->lessons->$lessonID->subjects;
+        $subjects = (array) $schedule->lessons->$lessonID->subjects;
         foreach ($subjects AS $subject => $delta)
         {
             if ($delta == 'removed')
@@ -381,13 +402,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Creates a concatenated subject name from the relevant subject names for the lesson
      *
-     * @param   string  $lessonID  the id of the lesson
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $lessonID   the id of the lesson
      *
      * @return  string  the concatenated name of the subject(s)
      */
-    private function getSubjectName($lessonID)
+    private function getSubjectName(&$schedule, $lessonID)
     {
-        $subjects = (array) $this->schedule->lessons->$lessonID->subjects;
+        $subjects = (array) $schedule->lessons->$lessonID->subjects;
         foreach ($subjects AS $subject => $delta)
         {
             if ($delta == 'removed')
@@ -407,7 +429,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             {
                 return 'Betreuung von Masterarbeiten';
             }
-            $subjects[$subject] = $this->schedule->subjects->{$subject}->longname;
+            $subjects[$subject] = $schedule->subjects->{$subject}->longname;
         }
         return implode('/', $subjects);
     }
@@ -415,13 +437,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Creates a concatenated pool name from the relevant pool keys for the lesson
      *
+     * @param   object  &$schedule  the schedule being processed
      * @param   string  $lessonID  the id of the lesson
      *
      * @return  string  the concatenated name of the subject(s)
      */
-    private function getPools($lessonID)
+    private function getPools(&$schedule, $lessonID)
     {
-        $pools = (array) $this->schedule->lessons->$lessonID->pools;
+        $pools = (array) $schedule->lessons->$lessonID->pools;
         foreach ($pools AS $pool => $delta)
         {
             if ($delta == 'removed')
@@ -437,13 +460,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Checks whether the lesson should be tallied instead of summarized. (Oral exams or colloquia)
      *
+     * @param   object  &$schedule  the schedule being processed
      * @param   string  $lessonID  the id of the lesson
      *
      * @return  bool  true if the lesson should be tallied instead of summarized, otherwise false
      */
-    private function isTallied($lessonID)
+    private function isTallied(&$schedule, $lessonID)
     {
-        $subjects = $this->schedule->lessons->$lessonID->subjects;
+        $subjects = $schedule->lessons->$lessonID->subjects;
         foreach ($subjects as $subjectID => $delta)
         {
             if ($delta != 'removed' AND strpos($subjectID, 'KOL.') !== false)
@@ -776,15 +800,129 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function setSelected()
     {
-        $default = array();
-        $default[] = '*';
+        $default = array('*');
         $selected = JFactory::getApplication()->input->get('teachers', $default, 'array');
-        $useDefault = (count($selected) > 1 AND in_array('*', $selected));
-        if ($useDefault)
+
+        // Returns a hard false if value is not in array
+        $allSelected = array_search('*', $selected);
+
+        // Normal indexes and the default (all) were selected
+        $unsetDefault = (count($selected) > 1 AND $allSelected !== false);
+        if ($unsetDefault)
         {
-            $this->selected = $default;
+            unset($selected[$allSelected]);
+        }
+
+        $this->selected = $selected;
+    }
+
+    /**
+     * Restricts the displayed deputat to the selected teachers
+     *
+     * @return  void  unsets deputat indexes
+     */
+    private function restrictDeputat()
+    {
+        // Returns a hard false if value is not in array
+        $allSelected = array_search('*', $this->selected);
+        if ($allSelected !== false)
+        {
             return;
         }
-        $this->selected = $selected;
+
+        $indexes = array_keys($this->deputat);
+        foreach ($indexes AS $index)
+        {
+            if (!in_array($index, $this->selected))
+            {
+                unset($this->deputat[$index]);
+            }
+        }
+    }
+
+    /**
+     * Checks for the cross department deputat of teachers belonging to the department
+     *
+     * @param   object  &$teachers  the teachers listed in the original schedule
+     * @param   string  $startdate  the startdate of the original schedule
+     * @param   string  $enddate    the enddate of the original schedule
+     *
+     * @return  void  adds deputat to the lesson values array
+     */
+    private function checkOtherSchedules($teachers, $startdate, $enddate)
+    {
+        $schedulesIDs = $this->getPlausibleScheduleIDs($startdate, $enddate);
+        if (empty($schedulesIDs))
+        {
+            return;
+        }
+
+        foreach ($schedulesIDs AS $scheduleID)
+        {
+            $schedule = $this->getSchedule($scheduleID);
+            foreach ($schedule->calendar as $day => $blocks)
+            {
+                if ($day < $startdate OR $day > $enddate)
+                {
+                    continue;
+                }
+                $this->resolveTime($schedule, $day, $blocks, $teachers);
+            }
+            unset($schedule);
+        }
+    }
+
+    /**
+     * Checks the database for plausible schedules
+     *
+     * @param   string  $startdate  the startdate of the original schedule
+     * @param   string  $enddate    the enddate of the original schedule
+     *
+     * @return  mixed  array on success, otherwise null
+     */
+    private function getPlausibleScheduleIDs($startdate, $enddate)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('id');
+        $query->from("#__thm_organizer_schedules");
+        $query->where("term_startdate = '$startdate'");
+        $query->where("term_enddate = '$enddate'");
+        $query->where("active = '1'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            return $this->_db->loadColumn();
+        }
+        catch (Exception $exception)
+        {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            return null;
+        }
+    }
+
+    /**
+     * Checks the database for plausible schedules
+     *
+     * @param   int  $scheduleID  the id of the schedule to be iterated
+     *
+     * @return  mixed  array on success, otherwise null
+     */
+    private function getSchedule($scheduleID)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('schedule');
+        $query->from("#__thm_organizer_schedules");
+        $query->where("id = '$scheduleID'");
+        $this->_db->setQuery((string) $query);
+        try
+        {
+            $result = $this->_db->loadResult();
+            return json_decode($result);
+        }
+        catch (Exception $exception)
+        {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            return null;
+        }
     }
 }

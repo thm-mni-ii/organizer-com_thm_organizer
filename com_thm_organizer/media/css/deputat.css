@@ -101,29 +101,37 @@ table.deputat-table {
   -ms-box-shadow: 2px 2px 4px #dddddd;
   -o-box-shadow: 2px 2px 4px #dddddd;
   box-shadow: 2px 2px 4px #dddddd; }
-  table.deputat-table tbody tr th {
+  table.deputat-table th {
     background-color: #ffffff;
     height: 1.4em;
     text-align: center; }
+  table.deputat-table thead tr.teacher-header th {
+    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
+    font-size: large;
+    border-bottom: none; }
   table.deputat-table tbody tr td {
     background-color: #ffffff;
     font-size: 13px;
     height: 1.4em;
     text-align: center; }
-  table.deputat-table tbody tr.teacher-header th {
-    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
-    font-size: large;
-    border-bottom: none; }
   table.deputat-table tbody tr.sum-header th {
     border-top: none;
     border-right: none;
     border-bottom: 1px solid #bbbbbb;
     border-left: none; }
-  table.deputat-table tbody tr.data-row td {
+  table.deputat-table tbody tr[class^="data-row"] td {
+    vertical-align: middle;
     border: 1px solid #bbb; }
-  table.deputat-table tbody tr.sum-row td {
+    table.deputat-table tbody tr[class^="data-row"] td a {
+      display: block;
+      float: right;
+      margin-right: 10px; }
+      table.deputat-table tbody tr[class^="data-row"] td a i {
+        color: #4a5c66;
+        font-size: smaller; }
+  table.deputat-table tbody tr[class^="sum-row"] td {
     border: 1px solid #bbb; }
-  table.deputat-table tbody tr.sum-row td.empty-cell {
+  table.deputat-table tbody tr[class^="sum-row"] td.empty-cell {
     background: transparent;
     border: none; }
 

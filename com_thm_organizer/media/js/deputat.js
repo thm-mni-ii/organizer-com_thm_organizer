@@ -73,3 +73,36 @@ jQuery(document).ready(function ()
         }
     });
 });
+
+function removeRow(link)
+{
+    var teacherID = link.id.split('-')[3], rowNumber = link.id.split('-')[4], rowSum, rowTotal, swsSum, swsSumValue,
+        swsTotal, swsTotalValue, tallyBodyExists;
+
+    rowSum = parseInt(jQuery('#row-sws-' + teacherID + '-' + rowNumber).text());
+    rowTotal = parseInt(jQuery('#row-total-' + teacherID + '-' + rowNumber).text());
+
+    swsSum = jQuery('#sum-sws-' + teacherID);
+    swsSumValue = parseInt(swsSum.text()) - rowSum;
+
+    // The removal does not close out the sum rows
+    if (swsSumValue > 0)
+    {
+        jQuery('#data-row-' + teacherID + '-' + rowNumber).remove();
+        swsSum.text(swsSumValue);
+
+        swsTotal = jQuery('#sum-total-' + teacherID);
+        swsTotalValue = parseInt(swsTotal.text()) - rowTotal;
+        swsTotal.text(swsTotalValue);
+        return;
+    }
+
+    tallyBodyExists = jQuery('#deputat-table-body-tally-' + teacherID).length;
+    if (tallyBodyExists)
+    {
+        jQuery('#deputat-table-body-sum-' + teacherID).remove();
+        return;
+    }
+
+    jQuery('#deputat-table-' + teacherID).remove();
+}
