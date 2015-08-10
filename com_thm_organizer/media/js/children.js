@@ -1,10 +1,45 @@
-/* deactivated forms for choosen */
-window.onload = function(){
-    var forms  = document.getElementsByTagName("form");
-    for(var i =  0; i < forms.length; i++){
-        forms[i].onsubmit = function() {return false};
-    }
-};
+/**
+ * Move the buttons from the tool bar to the right place
+ */
+function moveButton()
+{
+    var subjectButton = jQuery('#toolbar-popup-addSubject').detach(), poolButton = jQuery('#toolbar-popup-addPool').detach();
+    subjectButton.appendTo(jQuery('#childList').parent());
+    poolButton.appendTo(jQuery('#childList').parent());
+
+    poolButton = jQuery('#toolbar-popup-edit').detach();
+    poolButton.appendTo(jQuery('#childList').parent());
+}
+
+/**
+ * Gets all checked items and add the it the children table
+ *
+ * @param divID the id of the div
+ * @param type the type of the source
+ */
+function getCheckedItems(divID, type)
+{
+    var iframe = jQuery('iframe');
+    jQuery(divID + ' input:checked', iframe.contents()).each(function() {
+        var id = jQuery(this).val() + type;
+        var name = jQuery(jQuery(this).parent().parent().children()[1]).html();
+        var currentOrder = window.parent.getCurrentOrder();
+        var length = parseInt(currentOrder.length, 10);
+        createNewRow(length,'childList', id, name);
+    });
+}
+
+/**
+ * Calls function getCheckedItems() and calls the close button click event to close the iFrame
+ *
+ * @param divID the id of the div
+ * @param type the type of the source
+ */
+function closeIframeWindow(divID, type)
+{
+    getCheckedItems(divID, type);
+    jQuery( "button.close" ).trigger( "click" );
+}
 
 /**
  * Moves the values of the calling row up one row in the children table
@@ -269,21 +304,39 @@ function overrideElementWithDummy(position)
  * @param {int} tableID
  * @returns {void}
  */
-function createNewRow(lastPosition, tableID) 
+function createNewRow(lastPosition, tableID, moduleID, ModuleName)
 {
     "use strict";
+    var mId = 0, name='TEST OBJEKT';
+    if(typeof moduleID !== 'undefined')
+    {
+        mId = moduleID;
+    }
+    if(typeof ModuleName !== 'undefined')
+    {
+        name = ModuleName;
+    }
 
     var nextClassRow;
-    var lastClassRow = document.getElementById('childRow' + lastPosition).className;
-    
-    if (lastClassRow === null) {
-        nextClassRow = 'row1';
-    }
-    else if (lastClassRow === 'row0')
+    var lastClassRow;
+    var row = document.getElementById('childRow' + lastPosition);
+    if(row)
     {
-        nextClassRow = 'row1';
-    } 
-    else 
+        lastClassRow = row.className;
+        if (lastClassRow === null)
+        {
+            nextClassRow = 'row1';
+        }
+        else if (lastClassRow === 'row0')
+        {
+            nextClassRow = 'row1';
+        }
+        else
+        {
+            nextClassRow = 'row0';
+        }
+    }
+    else
     {
         nextClassRow = 'row0';
     }
@@ -293,9 +346,9 @@ function createNewRow(lastPosition, tableID)
     jQuery( '<tr id="childRow'+pos+'" class="'+nextClassRow+'">' +
         '<td class="child-name">' +
           '<a id="child'+pos+'link" href="#">' +
-            '<span id="child'+pos+'name">TEST OBJEKT</span>' +
+            '<span id="child'+pos+'name">' + name + '</span>' +
           '</a>' +
-          '<input id="child'+pos+'" type="hidden" value="0" name="child'+pos+'">' +
+          '<input id="child'+pos+'" type="hidden" value="' + mId + '" name="child'+pos+'">' +
         '</td>' +
         '<td class="child-order">' +
         '<button class="btn btn-small" onclick="moveUp(\''+pos+'\');" title="Move Up"><span class="icon-previous"></span></button>' +
@@ -308,3 +361,15 @@ function createNewRow(lastPosition, tableID)
         '</tr>' 
     ).appendTo(document.getElementById(tableID).tBodies[0]);
 }
+
+/**
+ *  deactivated forms for choosen
+ */
+window.onload = function()
+{
+    var forms  = document.getElementsByTagName("form");
+    for(var i =  0; i < forms.length; i++){
+        forms[i].onsubmit = function() {return false};
+    }
+    moveButton();
+};

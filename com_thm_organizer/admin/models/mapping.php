@@ -632,7 +632,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $ordering = substr($childKey, 5);
             $aggregateInfo = JFactory::getApplication()->input->getString($childKey, '');
-            $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);            
+            $resourceID = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
             $resourceType = strpos($aggregateInfo, 'p')? 'pool' : 'subject';
           
             if ($resourceType == 'subject')
@@ -781,8 +781,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $orderings[$parentID] = $this->getOrdering($parentID, $poolData['poolID']);
         }
- 
-        $cleanSlate = $this->deleteByResourceID($poolData['poolID'], 'pool'); 
+
+        $cleanSlate = $this->deleteByResourceID($poolData['poolID'], 'pool');
         if ($cleanSlate)
         {
             foreach ($parentIDs as $parentID)

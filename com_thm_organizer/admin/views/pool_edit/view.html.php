@@ -48,5 +48,27 @@ class THM_OrganizerViewPool_Edit extends THM_CoreViewEdit
         JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_ACTION_APPLY_NEW' : 'COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
         JToolbarHelper::save('pool.save');
         JToolbarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+
+        $bar = JToolBar::getInstance('toolbar');
+
+        $sub_imgTitle = 'addSubject';
+        $sub_title = JText::_('COM_THM_ORGANIZER_ADD_SUBJECT');
+        $sub_link = 'index.php?option=com_thm_organizer&amp;view=subject_selection&amp;tmpl=component';
+        $sub_height = '600';
+        $sub_width = '900';
+        $sub_top = 0;
+        $sub_left = 0;
+        $bar->appendButton('Popup', $sub_imgTitle, $sub_title, $sub_link, $sub_width, $sub_height, $sub_top, $sub_left);
+
+        $pool_imgTitle = 'addPool';
+        $pool_title = JText::_('COM_THM_ORGANIZER_ADD_POOL');
+        $pool_link = 'index.php?option=com_thm_organizer&amp;view=pool_selection&amp;tmpl=component';
+        $pool_height = '600';
+        $pool_width = '900';
+        $pool_top = 0;
+        $pool_left = 0;
+        $bar->appendButton('Popup', $pool_imgTitle, $pool_title, $pool_link, $pool_width, $pool_height, $pool_top, $pool_left);
+
+
     }
 }

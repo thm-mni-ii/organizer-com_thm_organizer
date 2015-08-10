@@ -278,12 +278,12 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         $nodes = array();
         foreach ($mappings AS $mapping)
         {
-            $parent =& $children;
+            $parent = $children;
             if ($mapping['level'] > 1)
             {
                 for ($i = 1; $i < $mapping['level']; $i++)
                 {
-                    $parent =& $parent[$nodes[$i]]->children;
+                    $parent = $parent[$nodes[$i]]->children;
                 }
             }
             if (isset($mapping['poolID']))

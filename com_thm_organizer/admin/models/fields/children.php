@@ -40,11 +40,6 @@ class JFormFieldChildren extends JFormField
     {
         $children = $this->getChildren();
 
-        if (empty($children))
-        {
-            return '<span class="mock-input">' . JText::_('JNONE') . '</span>';
-        }
-
         $document = JFactory::getDocument();
         $document->addStyleSheet(JURI::root() . 'media/com_thm_organizer/css/children.css');
         $document->addScript(JURI::root() . "media/com_thm_organizer/js/children.js");
@@ -191,48 +186,51 @@ class JFormFieldChildren extends JFormField
         $makeLast = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
 
         $rowClass = 'row0';
-        $maxOrdering = max(array_keys($children));
-        for ($ordering = 1; $ordering <= $maxOrdering; $ordering++)
+        if(!empty($children))
         {
-            if (isset($children[$ordering]))
+            $maxOrdering = max(array_keys($children));
+            for ($ordering = 1; $ordering <= $maxOrdering; $ordering++)
             {
-                $childID = $children[$ordering]['id'];
-                $name = $children[$ordering]['name'];
-                $link = JRoute::_($children[$ordering]['link'], false);
-            }
-            else
-            {
-                $link = $name = $childID = '';
-            }
+                if (isset($children[$ordering]))
+                {
+                    $childID = $children[$ordering]['id'];
+                    $name = $children[$ordering]['name'];
+                    $link = JRoute::_($children[$ordering]['link'], false);
+                }
+                else
+                {
+                    $link = $name = $childID = '';
+                }
 
-            $html .= '<tr id="childRow' . $ordering . '" class="' . $rowClass . '">';
-            $html .= '<td class="child-name">';
-            $html .= '<a id="child' . $ordering . 'link" href="' . $link . '">';
-            $html .= '<span id="child' . $ordering . 'name">' . $name . '</span>';
-            $html .= '</a>';
-            $html .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" value="' . $childID . '" />';
-            $html .= '</td>';
-            $html .= '<td class="child-order">';
-            $html .= '<button class="btn btn-small" onclick="moveUp(\'' . $ordering . '\');" title="' . $moveUp . '">';
-            $html .= '<span class="icon-previous"></span>';
-            $html .= '</button>';
-            $html .= '<input type="text" title="Ordering" name="child' . $ordering . 'order" id="child' . $ordering . 'order" ';
-            $html .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="orderWithNumber(' . $ordering . ');"/>';
-            $html .= '<button class="btn btn-small" onclick="setEmptyElement(\'' . $ordering . '\');" title="' . $addSpace . '">';
-            $html .= '<span class="icon-add-Space"></span>';
-            $html .= '</button>';
-            $html .= '<button class="btn btn-small" onClick="removeRow(' . $ordering . ');" title="' . JText::_('JTOOLBAR_DELETE') . '" >';
-            $html .= '<span class="icon-trash"></span>';
-            $html .= '</button>';
-            $html .= '<button class="btn btn-small" onclick="moveDown(\'' . $ordering . '\');" title="' . $moveDown . '">';
-            $html .= '<span class="icon-next"></span>';
-            $html .= '</button>';
-            $html .= '<button class="btn btn-small" onclick="setElementOnLastPosition(\'' . $ordering . '\');" title="' . $makeLast . '">';
-            $html .= '<span class="icon-last"></span>';
-            $html .= '</button>';
-            $html .= '</td>';
-            $html .= '</tr>';
-            $rowClass = $rowClass == 'row0'? 'row1' : 'row0';
+                $html .= '<tr id="childRow' . $ordering . '" class="' . $rowClass . '">';
+                $html .= '<td class="child-name">';
+                $html .= '<a id="child' . $ordering . 'link" href="' . $link . '">';
+                $html .= '<span id="child' . $ordering . 'name">' . $name . '</span>';
+                $html .= '</a>';
+                $html .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" value="' . $childID . '" />';
+                $html .= '</td>';
+                $html .= '<td class="child-order">';
+                $html .= '<button class="btn btn-small" onclick="moveUp(\'' . $ordering . '\');" title="' . $moveUp . '">';
+                $html .= '<span class="icon-previous"></span>';
+                $html .= '</button>';
+                $html .= '<input type="text" title="Ordering" name="child' . $ordering . 'order" id="child' . $ordering . 'order" ';
+                $html .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="orderWithNumber(' . $ordering . ');"/>';
+                $html .= '<button class="btn btn-small" onclick="setEmptyElement(\'' . $ordering . '\');" title="' . $addSpace . '">';
+                $html .= '<span class="icon-add-Space"></span>';
+                $html .= '</button>';
+                $html .= '<button class="btn btn-small" onClick="removeRow(' . $ordering . ');" title="' . JText::_('JTOOLBAR_DELETE') . '" >';
+                $html .= '<span class="icon-trash"></span>';
+                $html .= '</button>';
+                $html .= '<button class="btn btn-small" onclick="moveDown(\'' . $ordering . '\');" title="' . $moveDown . '">';
+                $html .= '<span class="icon-next"></span>';
+                $html .= '</button>';
+                $html .= '<button class="btn btn-small" onclick="setElementOnLastPosition(\'' . $ordering . '\');" title="' . $makeLast . '">';
+                $html .= '<span class="icon-last"></span>';
+                $html .= '</button>';
+                $html .= '</td>';
+                $html .= '</tr>';
+                $rowClass = $rowClass == 'row0'? 'row1' : 'row0';
+            }
         }
         $html .= '</tbody>';
         $html .= '</table>';
