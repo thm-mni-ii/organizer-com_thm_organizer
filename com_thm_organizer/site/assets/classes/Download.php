@@ -134,6 +134,10 @@ class THMDownload
                 {
                     $this->_doc->setMimeEncoding('application/vnd.ms-excel');
                 }
+                elseif ($this->_what == "ical")
+                {
+                    $this->_doc->setMimeEncoding('application/ical');
+                }
                 else
                 {
                     // Ics
