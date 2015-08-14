@@ -12,8 +12,9 @@
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/AbstractBuilder.php";
 error_reporting(0);
+jimport('thm_core.PHPExcel.PHPExcel');
 
-jimport('PHPExcel.PHPExcel');
+
 
 /**
  * Class ICSBauer for component com_thm_organizer

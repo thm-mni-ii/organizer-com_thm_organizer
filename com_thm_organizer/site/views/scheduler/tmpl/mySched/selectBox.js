@@ -345,6 +345,7 @@ MySched.SelectBoxes = function ()
                 this.selectPanel.setTitle(title);
 
             }
+
         }
     }
 }();

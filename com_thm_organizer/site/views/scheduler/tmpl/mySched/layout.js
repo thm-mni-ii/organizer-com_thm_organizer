@@ -819,10 +819,11 @@ MySched.layout = function ()
             );
 
             var disablePDF = true;
-            if(MySched.FPDFInstalled)
+            if(MySched.FPDFInstalled )
             {
                 disablePDF = false;
             }
+
 
             // Export the schedule to pdf button
             var btnSavePdf = Ext.create(
@@ -837,7 +838,13 @@ MySched.layout = function ()
                     },
                     handler: function ()
                     {
+
                         clickMenuHandler();
+
+                        if (MySched.selectedSchedule == null) {
+                            Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_NO_SELECTED_SCHEDULE);
+                        }
+                        else {
                         var pdfwait = Ext.MessageBox.wait(
                             "",
                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
@@ -900,7 +907,7 @@ MySched.layout = function ()
                                     }
                                 }
                             });
-                    }
+                    }}
                 }
             );
 
@@ -915,69 +922,65 @@ MySched.layout = function ()
                     tooltip: {
                         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE_PDF_DESC
                     },
-                    handler: function ()
-                    {
+                    handler: function () {
                         clickMenuHandler();
-                        var pdfwait = Ext.MessageBox.wait(
-                            "",
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
-                            {
-                                interval: 100,
-                                duration: 2000
-                            });
 
-                        Ext.Ajax.request(
-                            {
-                                url: _C('ajaxHandler'),
-                                jsonData: MySched.selectedSchedule.exportAllData(true),
-                                method: 'POST',
-                                params: {
-                                    username: MySched.Authorize.user,
-                                    title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
-                                    what: "pdf",
-                                    scheduletask: "Schedule.export"
-                                },
-                                scope: pdfwait,
-                                failure: function ()
+                            var pdfwait = Ext.MessageBox.wait(
+                                "",
+                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
                                 {
-                                    Ext.MessageBox.hide();
-                                    Ext.Msg.alert(
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
-                                },
-                                success: function (response)
+                                    interval: 100,
+                                    duration: 2000
+                                });
+
+                            Ext.Ajax.request(
                                 {
-                                    Ext.MessageBox.hide();
-                                    if (response.responseText !== "Permission Denied!")
-                                    {
-                                        // Iframe for download will be created
-                                        Ext.core.DomHelper.append(
-                                            Ext.getBody(),
-                                            {
-                                                tag: 'iframe',
-                                                id: 'downloadIframe',
-                                                src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=pdf&save=false&scheduletask=Download.schedule",
-                                                style: 'display:none;z-index:10000;'
-                                            });
-                                        // Iframe will be deleted after 2 sec
-                                        var func = function ()
-                                        {
-                                            Ext.get('downloadIframe')
-                                                .remove();
-                                        };
-                                        Ext.defer(func, 2000);
-                                    }
-                                    else
-                                    {
+                                    url: _C('ajaxHandler'),
+                                    jsonData: MySched.selectedSchedule.exportAllData(true),
+                                    method: 'POST',
+                                    params: {
+                                        username: MySched.Authorize.user,
+                                        title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
+                                        what: "pdf",
+                                        scheduletask: "Schedule.export"
+                                    },
+                                    scope: pdfwait,
+                                    failure: function () {
+                                        Ext.MessageBox.hide();
                                         Ext.Msg.alert(
                                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
                                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
+                                    },
+                                    success: function (response) {
+                                        Ext.MessageBox.hide();
+                                        if (response.responseText !== "Permission Denied!") {
+                                            // Iframe for download will be created
+                                            Ext.core.DomHelper.append(
+                                                Ext.getBody(),
+                                                {
+                                                    tag: 'iframe',
+                                                    id: 'downloadIframe',
+                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=pdf&save=false&scheduletask=Download.schedule",
+                                                    style: 'display:none;z-index:10000;'
+                                                });
+                                            // Iframe will be deleted after 2 sec
+                                            var func = function () {
+                                                Ext.get('downloadIframe')
+                                                    .remove();
+                                            };
+                                            Ext.defer(func, 2000);
+                                        }
+                                        else {
+                                            Ext.Msg.alert(
+                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
+                                        }
                                     }
                                 }
-                            }
-                        );
+                            );
+                        }
                     }
-                }
+
             );
 
             var disableICal = true;
@@ -999,6 +1002,10 @@ MySched.layout = function ()
                     handler: function ()
                     {
                         clickMenuHandler();
+                        if (MySched.selectedSchedule == null) {
+                            Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_NO_SELECTED_SCHEDULE);
+                        }
+                        else {
                         var icalwait = Ext.MessageBox.wait(
                             "",
                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
@@ -1010,7 +1017,7 @@ MySched.layout = function ()
                         Ext.Ajax.request(
                             {
                                 url: _C('ajaxHandler'),
-                                jsonData: MySched.selectedSchedule.exportData(),
+                                jsonData: MySched.selectedSchedule.exportData("jsonICal"),
                                 method: 'POST',
                                 params: {
                                     username: MySched.Authorize.user,
@@ -1054,7 +1061,7 @@ MySched.layout = function ()
                                                                 {
                                                                     tag: 'iframe',
                                                                     id: 'downloadIframe',
-                                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=true&scheduletask=Download.schedule",
+                                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ical&save=true&scheduletask=Download.schedule",
                                                                     style: 'display:none;z-index:10000;'
                                                                 });
                                                             // Iframe will be deleted after 2 sec
@@ -1072,7 +1079,7 @@ MySched.layout = function ()
                                                                 {
                                                                     tag: 'iframe',
                                                                     id: 'downloadIframe',
-                                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=false&scheduletask=Download.schedule",
+                                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ical&save=false&scheduletask=Download.schedule",
                                                                     style: 'display:none;z-index:10000;'
                                                                 }
                                                             );
@@ -1116,7 +1123,7 @@ MySched.layout = function ()
                             }
                         );
                     }
-                }
+                }}
             );
 
             var disableExcel = true;
@@ -1138,6 +1145,10 @@ MySched.layout = function ()
                     handler: function ()
                     {
                         clickMenuHandler();
+                        if (MySched.selectedSchedule == null) {
+                            Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_NO_SELECTED_SCHEDULE);
+                        }
+                        else {
                         var txtwait = Ext.MessageBox.wait(
                             "",
                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
@@ -1155,7 +1166,7 @@ MySched.layout = function ()
                                 params: {
                                     username: MySched.Authorize.user,
                                     title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
-                                    what: "ics",
+                                    what: "xls",
                                     scheduletask: "Schedule.export"
                                 },
                                 scope: txtwait,
@@ -1196,7 +1207,7 @@ MySched.layout = function ()
                                 }
                             }
                         );
-                    }
+                    }}
                 }
             );
 
@@ -1225,15 +1236,16 @@ MySched.layout = function ()
                     id: 'btnMenu',
                     iconCls: 'tbDownload',
                     disabled: false,
-                    clicked: false,
-                    menu: [btnSavePdf]
-                    //menu: [btnSavePdf, btnICal, btnSaveTxt]
+                    clicked: true,
+                    //menu: [btnSavePdf]
+                    menu: [btnSavePdf, btnICal, btnSaveTxt]
+
                 }
             );
 
             function clickMenuHandler()
             {
-                btnMenu.hideMenu();
+               btnMenu.hideMenu();
             }
 
             // create clear button
@@ -1415,7 +1427,7 @@ MySched.layout = function ()
                     'width <= TABLET_WIDTH_MAX': {
                         hidden: false
                     }
-                },
+                }
             };
 
 

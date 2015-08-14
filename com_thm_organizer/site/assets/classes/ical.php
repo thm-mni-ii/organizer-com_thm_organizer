@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/AbstractBuilder.php";
 
-jimport('iCalcreator.iCalcreator');
+jimport('thm_core.iCalcreator.iCalcreator');
 
 /**
  * Class ICALBauer for component com_thm_organizer
@@ -81,6 +81,7 @@ class THMICALBuilder extends THMAbstractBuilder
         $activeSchedule = $this->getActiveSchedule($planningPeriod);
  
         $scheduleData = json_decode($activeSchedule->schedule);
+
  
         // To save memory unset schedule
         unset($activeSchedule->schedule);
@@ -96,7 +97,7 @@ class THMICALBuilder extends THMAbstractBuilder
             $title = $username . " - " . $title;
         }
 
-        $vCalendar = new vcalendar;
+        $vCalendar = new vcalendar();
         $vCalendar->setConfig('unique_id', "MySched");
         $vCalendar->setConfig("lang", "de");
         $vCalendar->setProperty("x-wr-calname", $title);

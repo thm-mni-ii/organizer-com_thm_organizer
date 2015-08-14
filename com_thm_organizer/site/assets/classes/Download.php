@@ -89,6 +89,7 @@ class THMDownload
      */
     public function schedule()
     {
+
         if (isset( $this->_username ) && isset( $this->_title ) && isset( $this->_what ) &&isset( $this->_save ) )
         {
             $path  = "/";
@@ -134,15 +135,12 @@ class THMDownload
                 {
                     $this->_doc->setMimeEncoding('application/vnd.ms-excel');
                 }
-                elseif ($this->_what == "ical")
-                {
-                    $this->_doc->setMimeEncoding('application/ical');
-                }
                 else
                 {
                     // Ics
                     $this->_doc->setMimeEncoding('text/calendar');
                 }
+
                 header("Content-Length: " . filesize($file));
                 header("Content-Disposition: attachment; filename=\"" . $this->_title . "." . $this->_what . "\"");
  

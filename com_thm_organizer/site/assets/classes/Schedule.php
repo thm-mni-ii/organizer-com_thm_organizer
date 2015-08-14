@@ -97,7 +97,7 @@ class THMSchedule
             require_once dirname(__FILE__) . "/pdf.php";
             $this->_builder = new THMPDFBuilder($this->_cfg, $options);
         }
-        elseif ($this->_what == "ics")
+        elseif ($this->_what == "xls")
         {
             require_once dirname(__FILE__) . "/ics.php";
             $this->_builder = new THMICSBuilder($this->_cfg, $options);
