@@ -120,7 +120,13 @@ MySched.SelectBoxes = function ()
                 this.stores[i] = Ext.create('Ext.data.Store',
                     {
                         model: 'SelectBoxModel',
-                        data: this.levelData[i]
+                        data: this.levelData[i],
+                        sorters: [
+                            {
+                                property : 'name',
+                                direction: 'ASC'
+                            }
+                        ]
                     }
                 );
                 tmpSBox = Ext.create(
