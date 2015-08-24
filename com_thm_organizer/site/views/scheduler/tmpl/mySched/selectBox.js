@@ -237,6 +237,7 @@ MySched.SelectBoxes = function ()
         changedSelectBoxValue: function(SelectedItem)
         {
             var level = SelectedItem.get('level')+ 1,
+                oiginalLevel = level,
                 id = SelectedItem.get('id'),
                 item = this.findItemInTree(id, this.scheduleData),
                 plantypeID = "",
