@@ -553,8 +553,16 @@ class THM_OrganizerHelperMapping
         try 
         {
             $name = $dbo->loadResult();
-            $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
-            $disabled = $resourceType == 'subject'? 'disabled' : '';
+            if ($resourceType == 'subject')
+            {
+                $selected = '';
+                $disabled = 'disabled';
+            }
+            else
+            {
+                $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
+                $disabled = '';
+            }
             return "<option value='{$mapping['id']}' $selected $disabled>$name</option>";
         }
         catch (Exception $exc)

@@ -99,8 +99,8 @@ class THMSchedule
         }
         elseif ($this->_what == "xls")
         {
-            require_once dirname(__FILE__) . "/ics.php";
-            $this->_builder = new THMICSBuilder($this->_cfg, $options);
+            require_once dirname(__FILE__) . "/xls.php";
+            $this->_builder = new THMXLSBuilder($this->_cfg, $options);
         }
         elseif ($this->_what == "ical")
         {
@@ -108,7 +108,7 @@ class THMSchedule
             $this->_builder = new THMICALBuilder($this->_cfg, $options);
         }
 
-        $direktor = new THMScheduleDirector($this->_builder);
-        return $direktor->createSchedule($this->_arr, $this->_username, $this->_title);
+        $director = new THMScheduleDirector($this->_builder);
+        return $director->createSchedule($this->_arr, $this->_username, $this->_title);
     }
 }

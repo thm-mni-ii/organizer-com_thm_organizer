@@ -237,7 +237,7 @@ MySched.SelectBoxes = function ()
         changedSelectBoxValue: function(SelectedItem)
         {
             var level = SelectedItem.get('level')+ 1,
-                oiginalLevel = level,
+                originalLevel = level,
                 id = SelectedItem.get('id'),
                 item = this.findItemInTree(id, this.scheduleData),
                 plantypeID = "",
@@ -273,7 +273,7 @@ MySched.SelectBoxes = function ()
                 else
                 {
                     MySched.Base.showScheduleTab(element.id, element.nodeKey, element.gpuntisID, element.semesterID, plantypeID, element.type);
-                    this.selectBoxes[oiginalLevel - 1].setValue(this.selectBoxes[oiginalLevel - 1].getSelection().data.name + ' ');
+                    this.selectBoxes[originalLevel - 1].setValue(this.selectBoxes[originalLevel - 1].getSelection().data.name + ' ');
                 }
 
                 for(i = 0; i <= this.maxDepth;i++)
@@ -297,7 +297,7 @@ MySched.SelectBoxes = function ()
             else
             {
                 MySched.Base.showScheduleTab(item.id, item.nodeKey, item.gpuntisID, item.semesterID, plantypeID, item.type);
-                this.selectBoxes[oiginalLevel - 1].setValue(this.selectBoxes[oiginalLevel - 1].getSelection().data.name + ' ');
+                this.selectBoxes[originalLevel - 1].setValue(this.selectBoxes[originalLevel - 1].getSelection().data.name + ' ');
             }
         },
         /**

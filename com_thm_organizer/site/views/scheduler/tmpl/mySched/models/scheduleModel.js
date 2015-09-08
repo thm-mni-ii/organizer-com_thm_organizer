@@ -41,6 +41,7 @@ Ext.define('ScheduleModel',
                 this.init(config.type, config.value);
             }
         },
+
         /**
          * Setting some variable width information of the display schedule and adding events to the event list
          *
@@ -82,6 +83,7 @@ Ext.define('ScheduleModel',
 
             return this;
         },
+
         /**
          * Adds a lecture to "my schedule"
          *
@@ -96,8 +98,8 @@ Ext.define('ScheduleModel',
             // thereby, blockCache is getting inconsistent
             this.blockCache = null;
             this.markChanged();
-
         },
+
         /**
          * TODO: Don't know what for and if it in use
          *
@@ -109,6 +111,7 @@ Ext.define('ScheduleModel',
             this.blockCache = null;
             this.markChanged();
         },
+
         /**
          * Remove a lecture from "my schedule"
          *
@@ -134,6 +137,7 @@ Ext.define('ScheduleModel',
 
             this.markChanged();
         },
+
         /**
          * Return the lecture with the id
          *
@@ -157,6 +161,7 @@ Ext.define('ScheduleModel',
             }
             return this.data.get(id);
         },
+
         /**
          * checks if data is empty
          *
@@ -167,6 +172,7 @@ Ext.define('ScheduleModel',
         {
             return this.data.isEmpty();
         },
+
         /**
          * Returns lectures of a specified type
          *
@@ -190,17 +196,16 @@ Ext.define('ScheduleModel',
                 return false;
             }, this);
         },
+
         /**
-         * Get all events of the current week and add them to the grid
+         * Get all schedule items for the current week and add them to the grid
          *
          * @method getGridData
          * @return {{}[]} TODO
          */
         getGridData: function ()
         {
-            var scheduleGridLength = getGridBlocks(this.scheduleGrid);
-
-            var ret = [];
+            var scheduleGridLength = getGridBlocks(this.scheduleGrid), ret = [];
 
             for (var i = 0; i < scheduleGridLength; i++)
             {
@@ -238,20 +243,21 @@ Ext.define('ScheduleModel',
                         closable: false,
                         fn: function (btn)
                         {
+                            var cd, beginDate, initialDate;
                             if (btn === "yes")
                             {
-                                var cd = Ext.ComponentMgr.get('menuedatepicker');
-                                var begindate = MySched.session.begin.split("-");
-                                var inidate = new Date(begindate[0], begindate[1] - 1, begindate[2]);
+                                cd = Ext.ComponentMgr.get('menuedatepicker');
+                                beginDate = MySched.session.begin.split("-");
+                                initialDate = new Date(beginDate[0], beginDate[1] - 1, beginDate[2]);
 
                                 if (typeof cd.menu === "undefined")
                                 {
-                                    cd.initialConfig.value = inidate;
+                                    cd.initialConfig.value = initialDate;
                                 }
                                 else
                                 {
-                                    cd.menu.picker.value = inidate;
-                                    cd.menu.picker.activeDate = inidate;
+                                    cd.menu.picker.value = initialDate;
+                                    cd.menu.picker.activeDate = initialDate;
                                 }
 
                                 cd.setValue(MySched.session.begin);

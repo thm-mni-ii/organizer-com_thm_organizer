@@ -14,18 +14,17 @@ MySched.layout = function ()
 
     return {
         /**
-         * Gibt den Ausgewaehlten Tab zurueck
+         * Returns the selected tab
          * TODO: Maybe obsolete, it seems to be never used
          *
          */
+
         getSelectedTab: function ()
         {
             return this.selectedTab;
         },
         /**
          * Generates the basic layout for desktop or tablet
-         *
-         * @mehtod buildDesktopLayout
          */
         buildBasicLayout: function ()
         {
@@ -33,15 +32,12 @@ MySched.layout = function ()
             this.tabpanel = Ext.create('Ext.tab.Panel',
                 {
                     resizeTabs: false,
-                    // turn on tab resizing
-                    // minTabWidth: 155,
-                    // tabWidth: 155,
-                    // heigth: 500,
                     enableTabScroll: true,
                     id: 'tabpanel',
                     plugins: [Ext.create('Ext.ux.TabCloseOnMiddleClick')],
                     region: 'center'
-                });
+                }
+            );
 
             this.tabpanel.on('tabchange',
                 function (panel, o)
@@ -684,7 +680,8 @@ MySched.layout = function ()
                                 // TODO: There is a problem with the ID!!!
                                 //id: id,
                                 title: title
-                            });
+                            }
+                        );
                     }
                     this.tabpanel.add(tab);
                 }
@@ -728,17 +725,22 @@ MySched.layout = function ()
                 }
             }
         },
+
         /**
          * Gives the toolbar back.
          * It creates all buttons and the calendar of the toolbar with its handler and style attributes
          *
          * @method getMainToolbar
-         * @return {array} * Returns all buttons of the toolbar
+         * @return {array}  Returns all buttons of the toolbar
          */
         getMainToolbar: function ()
         {
+            var btnSave, btnEmpty, disablePDF = true, btnSavePdf, btnSaveWeekPdf, disableICal = true, btnICal,
+                disableExcel = true, btnSaveTxt, btnAdd, downloadMenu, btnDel, btnInfo, tbFreeBusy, initialDate, menuedatepicker,
+                prevWeek, nextWeek;
+
             // Create the save schedule button
-            var btnSave = Ext.create(
+            btnSave = Ext.create(
                 'Ext.Button',
                 {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SAVE,
@@ -753,8 +755,9 @@ MySched.layout = function ()
                     }
                 }
             );
+
             // Create the "empty the schedule" button
-            var btnEmpty = Ext.create(
+            btnEmpty = Ext.create(
                 'Ext.Button',
                 {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EMPTY,
@@ -818,15 +821,13 @@ MySched.layout = function ()
                 }
             );
 
-            var disablePDF = true;
-            if(MySched.FPDFInstalled )
+            if(MySched.FPDFInstalled)
             {
                 disablePDF = false;
             }
 
-
             // Export the schedule to pdf button
-            var btnSavePdf = Ext.create(
+            btnSavePdf = Ext.create(
                 'Ext.Button',
                 {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
@@ -838,13 +839,14 @@ MySched.layout = function ()
                     },
                     handler: function ()
                     {
-
                         clickMenuHandler();
 
-                        if (MySched.selectedSchedule == null) {
+                        if (MySched.selectedSchedule == null)
+                        {
                             Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_NO_SELECTED_SCHEDULE);
                         }
-                        else {
+                        else
+                        {
                         var pdfwait = Ext.MessageBox.wait(
                             "",
                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
@@ -907,12 +909,13 @@ MySched.layout = function ()
                                     }
                                 }
                             });
-                    }}
+                        }
+                    }
                 }
             );
 
             // Save schedule of the week in pdf button
-            var btnSaveWeekPdf = Ext.create(
+            btnSaveWeekPdf = Ext.create(
                 'Ext.Button',
                 {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE,
@@ -922,75 +925,78 @@ MySched.layout = function ()
                     tooltip: {
                         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE_PDF_DESC
                     },
-                    handler: function () {
+                    handler: function ()
+                    {
                         clickMenuHandler();
+                        var pdfwait = Ext.MessageBox.wait(
+                            "",
+                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
+                            {
+                                interval: 100,
+                                duration: 2000
+                            });
 
-                            var pdfwait = Ext.MessageBox.wait(
-                                "",
-                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
+                        Ext.Ajax.request(
+                            {
+                                url: _C('ajaxHandler'),
+                                jsonData: MySched.selectedSchedule.exportAllData(true),
+                                method: 'POST',
+                                params: {
+                                    username: MySched.Authorize.user,
+                                    title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
+                                    what: "pdf",
+                                    scheduletask: "Schedule.export"
+                                },
+                                scope: pdfwait,
+                                failure: function ()
                                 {
-                                    interval: 100,
-                                    duration: 2000
-                                });
-
-                            Ext.Ajax.request(
+                                    Ext.MessageBox.hide();
+                                    Ext.Msg.alert(
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
+                                },
+                                success: function (response)
                                 {
-                                    url: _C('ajaxHandler'),
-                                    jsonData: MySched.selectedSchedule.exportAllData(true),
-                                    method: 'POST',
-                                    params: {
-                                        username: MySched.Authorize.user,
-                                        title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
-                                        what: "pdf",
-                                        scheduletask: "Schedule.export"
-                                    },
-                                    scope: pdfwait,
-                                    failure: function () {
-                                        Ext.MessageBox.hide();
+                                    Ext.MessageBox.hide();
+                                    if (response.responseText !== "Permission Denied!")
+                                    {
+                                        // Iframe for download will be created
+                                        Ext.core.DomHelper.append(
+                                            Ext.getBody(),
+                                            {
+                                                tag: 'iframe',
+                                                id: 'downloadIframe',
+                                                src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=pdf&save=false&scheduletask=Download.schedule",
+                                                style: 'display:none;z-index:10000;'
+                                            });
+                                        // Iframe will be deleted after 2 sec
+                                        var func = function ()
+                                        {
+                                            Ext.get('downloadIframe')
+                                                .remove();
+                                        };
+                                        Ext.defer(func, 2000);
+                                    }
+                                    else
+                                    {
                                         Ext.Msg.alert(
                                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
                                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
-                                    },
-                                    success: function (response) {
-                                        Ext.MessageBox.hide();
-                                        if (response.responseText !== "Permission Denied!") {
-                                            // Iframe for download will be created
-                                            Ext.core.DomHelper.append(
-                                                Ext.getBody(),
-                                                {
-                                                    tag: 'iframe',
-                                                    id: 'downloadIframe',
-                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=pdf&save=false&scheduletask=Download.schedule",
-                                                    style: 'display:none;z-index:10000;'
-                                                });
-                                            // Iframe will be deleted after 2 sec
-                                            var func = function () {
-                                                Ext.get('downloadIframe')
-                                                    .remove();
-                                            };
-                                            Ext.defer(func, 2000);
-                                        }
-                                        else {
-                                            Ext.Msg.alert(
-                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
-                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
-                                        }
                                     }
                                 }
-                            );
-                        }
+                            }
+                        );
                     }
-
+                }
             );
 
-            var disableICal = true;
             if(MySched.iCalcreatorInstalled)
             {
                 disableICal = false;
             }
 
             // Button for download schedule as ical
-            var btnICal = Ext.create(
+            btnICal = Ext.create(
                 'Ext.Button',
                 {
                     // ICal DownloadButton
@@ -1002,10 +1008,12 @@ MySched.layout = function ()
                     handler: function ()
                     {
                         clickMenuHandler();
-                        if (MySched.selectedSchedule == null) {
+                        if (MySched.selectedSchedule == null)
+                        {
                             Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_NO_SELECTED_SCHEDULE);
                         }
-                        else {
+                        else
+                        {
                         var icalwait = Ext.MessageBox.wait(
                             "",
                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
@@ -1126,14 +1134,13 @@ MySched.layout = function ()
                 }}
             );
 
-            var disableExcel = true;
             if(MySched.PHPExcelInstalled)
             {
                 disableExcel = false;
             }
 
             // Button for saving schedule as excel format
-            var btnSaveTxt = Ext.create(
+            btnSaveTxt = Ext.create(
                 'Ext.Button',
                 {
                     // TxT DownloadButton
@@ -1145,74 +1152,84 @@ MySched.layout = function ()
                     handler: function ()
                     {
                         clickMenuHandler();
-                        if (MySched.selectedSchedule == null) {
+                        if (MySched.selectedSchedule == null)
+                        {
                             Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_NO_SELECTED_SCHEDULE);
                         }
-                        else {
-                        var txtwait = Ext.MessageBox.wait(
-                            "",
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
-                            {
-                                interval: 100,
-                                duration: 2000
-                            }
-                        );
+                        else
+                        {
+                            var txtwait = Ext.MessageBox.wait(
+                                "",
+                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
+                                {
+                                    interval: 100,
+                                    duration: 2000
+                                }
+                            );
 
-                        Ext.Ajax.request(
-                            {
-                                url: _C('ajaxHandler'),
-                                jsonData: MySched.selectedSchedule.exportAllData(),
-                                method: 'POST',
-                                params: {
-                                    username: MySched.Authorize.user,
-                                    title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
-                                    what: "xls",
-                                    scheduletask: "Schedule.export"
-                                },
-                                scope: txtwait,
-                                failure: function ()
+                            Ext.Ajax.request(
                                 {
-                                    Ext.MessageBox.hide();
-                                    Ext.Msg.alert(
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
-                                },
-                                success: function (response)
-                                {
-                                    Ext.MessageBox.hide();
-                                    if (response.responseText !== "Permission Denied!")
+                                    url: _C('ajaxHandler'),
+                                    jsonData: MySched.selectedSchedule.exportAllData(),
+                                    method: 'POST',
+                                    params: {
+                                        username: MySched.Authorize.user,
+                                        title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
+                                        what: "xls",
+                                        scheduletask: "Schedule.export"
+                                    },
+                                    scope: txtwait,
+                                    failure: function ()
                                     {
-                                        // Iframe for download will be created
-                                        Ext.core.DomHelper.append(
-                                            Ext.getBody(),
-                                            {
-                                                tag: 'iframe',
-                                                id: 'downloadIframe',
-                                                src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=xls&save=false&scheduletask=Download.schedule",
-                                                style: 'display:none;z-index:10000;'
-                                            });
-                                        // Iframe will be deleted after 2 sec
-                                        var func = function ()
-                                        {
-                                            Ext.get('downloadIframe').remove();
-                                        };
-                                        Ext.defer(func, 2000);
-                                    }
-                                    else
-                                    {
+                                        Ext.MessageBox.hide();
                                         Ext.Msg.alert(
                                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
                                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
+                                    },
+                                    success: function (response)
+                                    {
+                                        var ajaxLink, func;
+
+                                        ajaxLink = _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=";
+                                        ajaxLink += encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '));
+                                        ajaxLink += "&what=xls&save=false&scheduletask=Download.schedule";
+
+                                        Ext.MessageBox.hide();
+                                        if (response.responseText !== "Permission Denied!")
+                                        {
+
+                                            Ext.core.DomHelper.append(
+                                                Ext.getBody(),
+                                                {
+                                                    tag: 'iframe',
+                                                    id: 'downloadIframe',
+                                                    src: ajaxLink,
+                                                    style: 'display:none;z-index:10000;'
+                                                }
+                                            );
+
+                                            func = function ()
+                                            {
+                                                Ext.get('downloadIframe').remove();
+                                            };
+                                            Ext.defer(func, 2000);
+                                        }
+                                        else
+                                        {
+                                            Ext.Msg.alert(
+                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
+                                        }
                                     }
                                 }
-                            }
-                        );
-                    }}
+                            );
+                        }
+                    }
                 }
             );
 
             // create event Button
-            var btnAdd = Ext.create('Ext.Button',
+            btnAdd = Ext.create('Ext.Button',
                 {
                     // addButton
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ADD,
@@ -1228,16 +1245,15 @@ MySched.layout = function ()
                 }
             );
 
-            // create menu button
-            var btnMenu = Ext.create('Ext.Button',
+            // Create the download options button
+            downloadMenu = Ext.create('Ext.Button',
                 {
                     // MenuButton
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
-                    id: 'btnMenu',
+                    id: 'downloadMenu',
                     iconCls: 'tbDownload',
                     disabled: false,
                     clicked: true,
-                    //menu: [btnSavePdf]
                     menu: [btnSavePdf, btnICal, btnSaveTxt]
 
                 }
@@ -1245,11 +1261,11 @@ MySched.layout = function ()
 
             function clickMenuHandler()
             {
-               btnMenu.hideMenu();
+               downloadMenu.hideMenu();
             }
 
             // create clear button
-            var btnDel = Ext.create('Ext.Button',
+            btnDel = Ext.create('Ext.Button',
                 {
                     // clearButton
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_REMOVE,
@@ -1266,7 +1282,7 @@ MySched.layout = function ()
             );
 
             // create info button
-            var btnInfo = Ext.create(
+            btnInfo = Ext.create(
                 'Ext.Button',
                 {
                     // InfoButton
@@ -1280,7 +1296,8 @@ MySched.layout = function ()
             );
 
             // Create free/busy button
-            var tbFreeBusy = Ext.create('Ext.Button',
+            tbFreeBusy = Ext.create(
+                'Ext.Button',
                 {
                     // Free/busy Button
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FREE_BUSY,
@@ -1290,18 +1307,16 @@ MySched.layout = function ()
                     enableToggle: true,
                     pressed: MySched.freeBusyState,
                     toggleHandler: MySched.Base.freeBusyHandler,
-                    tooltip: {
-                        text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FREE_BUSY_DESC
-                    }
+                    tooltip: { text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_FREE_BUSY_DESC }
                 }
             );
 
             Ext.DatePicker.prototype.startDay = 1;
 
-            var inidate = new Date();
+            initialDate = new Date();
 
             // create calendar
-            var menuedatepicker = Ext.create(
+            menuedatepicker = Ext.create(
                 'Ext.form.field.Date',
                 {
                     plugins: 'responsive',
@@ -1310,14 +1325,9 @@ MySched.layout = function ()
                     format: 'd.m.Y',
                     useQuickTips: false,
                     editable: false,
-                    value: inidate,
+                    value: initialDate,
                     startDay: 1,
-                    responsiveConfig: {
-                        'width <= TABLET_WIDTH_MAX': {
-                            disabled: true
-                        }
-                    },
-                    // disabledDays: [0, 6],
+                    responsiveConfig: { 'width <= TABLET_WIDTH_MAX': { disabled: true } },
                     listeners: {
                         'change': function ()
                         {
@@ -1325,16 +1335,15 @@ MySched.layout = function ()
                             {
                                 if(MySched.selectedSchedule.id !== "mySchedule")
                                 {
-                                    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
-
-                                    var currentMoFrDate = getCurrentMoFrDate();
-                                    var selectedSchedule = MySched.selectedSchedule;
-                                    var nodeKey = selectedSchedule.key;
-                                    var nodeID = selectedSchedule.id;
-                                    var gpuntisID = selectedSchedule.gpuntisID;
-                                    var semesterID = selectedSchedule.semesterID;
-                                    var plantypeID = "";
-                                    var type = selectedSchedule.type;
+                                    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value),
+                                        currentMoFrDate = getCurrentMoFrDate(),
+                                        selectedSchedule = MySched.selectedSchedule,
+                                        nodeKey = selectedSchedule.key,
+                                        nodeID = selectedSchedule.id,
+                                        gpuntisID = selectedSchedule.gpuntisID,
+                                        semesterID = selectedSchedule.semesterID,
+                                        plantypeID = "",
+                                        type = selectedSchedule.type;
 
                                     if (MySched.loadLessonsOnStartUp === false)
                                     {
@@ -1355,14 +1364,16 @@ MySched.layout = function ()
                                                 },
                                                 failure: function (response)
                                                 {
-                                                    Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
-                                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
+                                                    Ext.Msg.alert(
+                                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
+                                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR
+                                                    );
                                                 },
                                                 success: function (response)
                                                 {
-                                                    var json = Ext.decode(response.responseText);
-                                                    var lessonData = json.lessonData;
-                                                    var lessonDate = json.lessonDate;
+                                                    var json = Ext.decode(response.responseText),
+                                                        lessonData = json.lessonData,
+                                                        lessonDate = json.lessonDate;
                                                     for (var item in lessonData)
                                                     {
                                                         if (Ext.isObject(lessonData[item]))
@@ -1374,6 +1385,7 @@ MySched.layout = function ()
                                                             MySched.Base.schedule.addLecture(record);
                                                         }
                                                     }
+
                                                     if (Ext.isObject(lessonDate))
                                                     {
                                                         MySched.Calendar.addAll(lessonDate);
@@ -1404,55 +1416,52 @@ MySched.layout = function ()
                 }
             );
 
-            menuedatepicker.on('expand', function(me, e) {
-                var calendarPicker = me.getPicker();
-                calendarPicker.el.dom.firstChild.title = "";
-            }, null, {single: true});
+            menuedatepicker.on(
+                'expand',
+                function(me, e)
+                {
+                    var calendarPicker = me.getPicker();
+                    calendarPicker.el.dom.firstChild.title = "";
+                },
+                null,
+                {single: true}
+            );
 
             // previous week button
-            var prevWeek = {
+            prevWeek = {
                 plugins: 'responsive',
                 id: 'MySched_prevWeek',
                 tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_PREVIOUS_WEEK,
                 handler: function()
                 {
-                    var calendar = Ext.ComponentMgr.get('menuedatepicker');
-                    var currentDate = calendar.getValue();
+                    var calendar = Ext.ComponentMgr.get('menuedatepicker'),
+                        currentDate = calendar.getValue();
                     currentDate.setDate(currentDate.getDate() - 7);
                     calendar.setValue(currentDate);
                 },
                 scope: this,
                 iconCls: 'MySched_prevWeekIcon',
-                responsiveConfig: {
-                    'width <= TABLET_WIDTH_MAX': {
-                        hidden: false
-                    }
-                }
+                responsiveConfig: { 'width <= TABLET_WIDTH_MAX': { hidden: false } }
             };
 
-
             // next week button
-            var nextWeek = {
+            nextWeek = {
                 plugins: 'responsive',
                 id: 'MySched_nextWeek',
                 tooltip: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DISPLAY_NEXT_WEEK,
                 handler: function()
                 {
-                    var calendar = Ext.ComponentMgr.get('menuedatepicker');
-                    var currentDate = calendar.getValue();
+                    var calendar = Ext.ComponentMgr.get('menuedatepicker'),
+                        currentDate = calendar.getValue();
                     currentDate.setDate(currentDate.getDate() + 7);
                     calendar.setValue(currentDate);
                 },
                 scope: this,
                 iconCls: 'MySched_nextWeekIcon',
-                responsiveConfig: {
-                    'width <= TABLET_WIDTH_MAX': {
-                        hidden: false
-                    }
-                }
+                responsiveConfig: { 'width <= TABLET_WIDTH_MAX': { hidden: false } }
             };
 
-            return [prevWeek, menuedatepicker, nextWeek, btnSave, btnMenu, '->', btnInfo, btnEmpty, btnAdd, btnDel];
+            return [prevWeek, menuedatepicker, nextWeek, btnSave, downloadMenu, '->', btnInfo, btnEmpty, btnAdd, btnDel];
         }
     };
 }();
@@ -1464,45 +1473,54 @@ MySched.layout = function ()
  * @param {object} dragElement The elements that are draggable
  * @param {object} tabData Information like id of the tab
  */
-function initializePatientDragZone(dragElement, tabData) {
-    dragElement.dragZone = Ext.create('Ext.dd.DragZone', dragElement.getEl(), {
+function initializePatientDragZone(dragElement, tabData)
+{
+    dragElement.dragZone = Ext.create(
+        'Ext.dd.DragZone',
+        dragElement.getEl(),
+        {
+            ddGroup: 'lecture',
+            containerScroll: true,
 
-        ddGroup: 'lecture',
-        containerScroll: true,
-        /**
-         * On receipt of a mousedown event, see if it is within a draggable element.
-         * Return a drag data object if so. The data object can contain arbitrary application
-         * data, but it should also contain a DOM element in the ddel property to provide a proxy to drag.
-         *
-         * @method getDragData
-         * @param {object} e The mouse event
-         * @return {object} * TODO
-         */
-        getDragData: function(e) {
-            var sourceEl = e.currentTarget;
-            if (sourceEl) {
-                var d = sourceEl.cloneNode(true);
-                d.id = Ext.id();
-                d.style.left = 0;
+            /**
+             * On receipt of a mousedown event, see if it is within a draggable element.
+             * Return a drag data object if so. The data object can contain arbitrary application
+             * data, but it should also contain a DOM element in the ddel property to provide a proxy to drag.
+             *
+             * @method getDragData
+             * @param {object} e The mouse event
+             * @return {object} * TODO
+             */
+            getDragData: function(e)
+            {
+                var sourceEl = e.currentTarget;
+                if (sourceEl)
+                {
+                    var d = sourceEl.cloneNode(true);
+                    d.id = Ext.id();
+                    d.style.left = 0;
 
-                dragElement.dragData = {
-                    sourceEl: sourceEl,
-                    repairXY: Ext.fly(sourceEl).getXY(),
-                    ddel: d,
-                    patientData: tabData
-                };
-                return dragElement.dragData;
+                    dragElement.dragData = {
+                        sourceEl: sourceEl,
+                        repairXY: Ext.fly(sourceEl).getXY(),
+                        ddel: d,
+                        patientData: tabData
+                    };
+                    return dragElement.dragData;
+                }
+            },
+
+            /**
+             * Provide coordinates for the proxy to slide back to on failed drag.
+             * This is the original XY coordinates of the draggable element.
+             *
+             * @method getRepairXY
+             * @return {array} * X and Y coordinates
+             */
+            getRepairXY: function()
+            {
+                return this.dragData.repairXY;
             }
-        },
-        /**
-         * Provide coordinates for the proxy to slide back to on failed drag.
-         * This is the original XY coordinates of the draggable element.
-         *
-         * @method getRepairXY
-         * @return {array} * X and Y coordinates
-         */
-        getRepairXY: function() {
-            return this.dragData.repairXY;
         }
-    });
+    );
 }

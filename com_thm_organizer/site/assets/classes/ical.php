@@ -82,7 +82,6 @@ class THMICALBuilder extends THMAbstractBuilder
  
         $scheduleData = json_decode($activeSchedule->schedule);
 
- 
         // To save memory unset schedule
         unset($activeSchedule->schedule);
         $this->_subjects = $scheduleData->subjects;
@@ -97,7 +96,7 @@ class THMICALBuilder extends THMAbstractBuilder
             $title = $username . " - " . $title;
         }
 
-        $vCalendar = new vcalendar();
+        $vCalendar = new vcalendar;
         $vCalendar->setConfig('unique_id', "MySched");
         $vCalendar->setConfig("lang", "de");
         $vCalendar->setProperty("x-wr-calname", $title);

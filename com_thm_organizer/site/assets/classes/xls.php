@@ -14,17 +14,14 @@ require_once dirname(__FILE__) . "/AbstractBuilder.php";
 error_reporting(0);
 jimport('thm_core.PHPExcel.PHPExcel');
 
-
-
 /**
- * Class ICSBauer for component com_thm_organizer
  * Class provides methods to create a schedule in excel format
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THMICSBuilder extends THMAbstractBuilder
+class THMXLSBuilder extends THMAbstractBuilder
 {
     /**
      * Config

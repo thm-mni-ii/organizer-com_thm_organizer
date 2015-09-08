@@ -373,27 +373,27 @@ input[type="text"]:disabled {
   background-image: none;
   display: none;
 }
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu {
+#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu {
   margin-left: 20px;
 }
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-icon-el {
+#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-icon-el {
   display: none;
 }
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-inner {
+#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-inner {
   width: 84px;
   font-size: 14px;
 }
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small {
+#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-wrap-default-toolbar-small {
   margin-left: 5px;
 }
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small::before {
+#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-wrap-default-toolbar-small::before {
   background-image: none;
   font-family: icomoon;
   content: "\e021";
   font-size: 20px;
   color: #4a5c66;
 }
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
   background-image: none;
   display: none;
 }
