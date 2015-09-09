@@ -101,8 +101,8 @@ if ($this->config['canWrite'] === true)
         MySched.languageTag = '<?php echo $this->config['languageTag']; ?>';
         MySched.displayDaysInWeek = '<?php echo $this->config['displayDaysInWeek']; ?>';
         MySched.FPDFInstalled = <?php echo $this->fpdf; ?>;
-        MySched.iCalcreatorInstalled = <?php echo $this->phpexcel; ?>;
-        MySched.PHPExcelInstalled = <?php echo $this->ical; ?>;
+        MySched.iCalcreatorInstalled = <?php echo $this->ics; ?>;
+        MySched.PHPExcelInstalled = <?php echo $this->phpexcel; ?>;
         MySched.schedulerFromMenu = <?php echo $this->config['isMenu']? 'true' : 'false'; ?>;
         MySched.displayModuleNumber = <?php echo $this->displayModuleNumber? 'true' : 'false'; ?>;
         Ext.application({

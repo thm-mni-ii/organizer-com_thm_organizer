@@ -178,18 +178,6 @@ div.dozInfo div ul {
 	cursor: pointer;
 }
 
-.step1 {
-	background: url(../images/step_1.png) no-repeat left center;
-}
-
-.step2 {
-	background: url(../images/step_2.png) no-repeat left center;
-}
-
-.step3 {
-	background: url(../images/step_3.png) no-repeat left center;
-}
-
 /* Toolbar ButtonIcons */
 Button.tbSave {
 	background: url(../images/disk.png) no-repeat left center;
@@ -215,16 +203,8 @@ Button.tbInfo {
 	background: url(../images/information.png) no-repeat left center;
 }
 
-Button.tbSubscribe {
-	background: url(../images/table_edit.png) no-repeat left center;
-}
-
-img.tbSaveICal {
+img.tbSaveICS {
 	background: url(../images/ICalIcon.png) no-repeat left center;
-}
-
-Button.tbPEvent {
-	background: url(/../images/calendar_add.png) no-repeat left center;
 }
 
 Button.tbEvent {
@@ -277,7 +257,6 @@ img.mySched_terminicon {
  */
 .x-toolbar {
 	background-color: #FFFFFF;
-	background-image: url();
 	border-color: #FFFFFF;
 }
 
@@ -398,66 +377,43 @@ ul.x-tab-strip-top {
 }
 
 .mySched_noBackground .x-window-tl .x-window-tr .x-window-tc {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-tl .x-window-tr {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-tl {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-bwrap .x-window-ml .x-window-mr {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-bwrap .x-window-ml {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-bwrap {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-bl .x-window-br .x-window-bc {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-bl .x-window-br {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-bl {
-	background-image: url();
 	background-color: transparent;
 }
 
 .mySched_noBackground .x-window-mc {
-	background-image: url();
 	background-color: transparent !important;
-}
-
-.x-shadow .xstl,.x-shadow .xstc,.x-shadow .xstr,.x-shadow .xsbl,.x-shadow .xsbc,.x-shadow .xsbr
-	{
-	background-image: url();
-}
-
-.x-shadow .xsml,.x-shadow .xsmr {
-	background-image: url();
-}
-
-.x-shadow .xsmc {
-	background-image: url();
 }
 
 .x-ie-shadow {
@@ -550,7 +506,6 @@ small.classhorter:hover {
 }
 
 .ajaxloader_DIS {
-	background: url();
 	width: 16px;
 	height: 16px;
 	float: left;
@@ -809,7 +764,6 @@ div.x-tree-selected a {
 }
 
 .content_column li {
-	list-style-image: url() !important;
 	margin: 0px !important;
 }
 

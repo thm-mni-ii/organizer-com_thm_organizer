@@ -130,18 +130,12 @@ class THMDownload
                 {
                     $this->_doc->setMimeEncoding('application/pdf');
                 }
-                elseif ($this->_what == "xls")
-                {
-                    $this->_doc->setMimeEncoding('application/vnd.ms-excel');
-                }
-                elseif ($this->_what == "ical")
-                {
-                    $this->_doc->setMimeEncoding('application/ical');
-                }
-                else
+                elseif ($this->_what == "ics")
                 {
                     $this->_doc->setMimeEncoding('text/calendar');
                 }
+
+                // Todo: Add some kind of default encoding for errors.
 
                 header("Content-Length: " . filesize($file));
                 header("Content-Disposition: attachment; filename=\"" . $this->_title . "." . $this->_what . "\"");

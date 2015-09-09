@@ -3,62 +3,67 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        ICALBauer
- * @description ICALBauer file from com_thm_organizer
+ * @name        THMICSBuilder
+ * @description Creates ICS files for com_thm_organizer
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/AbstractBuilder.php";
-
-jimport('thm_core.iCalcreator.iCalcreator');
+require_once JPATH_BASE . "/libraries/thm_core/icalcreator/iCalcreator.php";
 
 /**
- * Class ICALBauer for component com_thm_organizer
- *
- * Class provides methods to create a schedule in ical format
+ * Class provides methods to create a schedule in ics format
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  * @link        www.mni.thm.de
  */
-class THMICALBuilder extends THMAbstractBuilder
+class THMICSBuilder extends THMAbstractBuilder
 {
     /**
      * Config
      *
-     * @var    Object
+     * @var  Object
      */
     private $_cfg = null;
 
     /**
      * List with all subjects
      *
-     * @var    Object
+     * @var  Object
      */
     private $_subjects = null;
 
     /**
      * List with all teachers
      *
-     * @var    Object
+     * @var  Object
      */
     private $_teachers = null;
 
     /**
      * List with all modules
      *
-     * @var    Object
+     * @var  Object
      */
     private $_pools = null;
 
     /**
+     * List with all schedule grids
+     *
+     * @var  Object
+     */
+    private $_grids = null;
+
+    /**
      * Constructor with the configuration object
      *
-     * @param   Object           $cfg  A object which has configurations including
+     * @param   Object  $cfg  A object which has configurations including
      */
     public function __construct($cfg)
     {
@@ -66,20 +71,18 @@ class THMICALBuilder extends THMAbstractBuilder
     }
 
     /**
-     * Method to create a ical schedule
+     * Method to create a ics schedule
      *
-     * @param   Object  $scheduleGrid   The event object
-     * @param   String  $username  The current logged in username
-     * @param   String  $title     The schedule title
+     * @param   Object  $scheduleGrid  The event object
+     * @param   String  $username      The current logged in username
+     * @param   String  $title         The schedule title
      *
      * @return Array An array with information about the status of the creation
      */
     public function createSchedule($scheduleGrid, $username, $title)
     {
         $planningPeriod = JFactory::getApplication()->input->getString('departmentAndSemester');
- 
         $activeSchedule = $this->getActiveSchedule($planningPeriod);
- 
         $scheduleData = json_decode($activeSchedule->schedule);
 
         // To save memory unset schedule
@@ -90,13 +93,15 @@ class THMICALBuilder extends THMAbstractBuilder
         unset($scheduleData->teachers);
         $this->_pools = $scheduleData->pools;
         unset($scheduleData->pools);
+        $this->_grids = $scheduleData->periods;
+        unset($scheduleData->periods);
  
         if ($title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $username != "")
         {
             $title = $username . " - " . $title;
         }
 
-        $vCalendar = new vcalendar;
+        $vCalendar = new vcalendar();
         $vCalendar->setConfig('unique_id', "MySched");
         $vCalendar->setConfig("lang", "de");
         $vCalendar->setProperty("x-wr-calname", $title);
@@ -139,14 +144,15 @@ class THMICALBuilder extends THMAbstractBuilder
         $lessonSubject = key($lesson->subjects);
         $lessonName = $this->_subjects->{$lessonSubject}->longname;
  
-        $lessonTeachers = implode(", ",
-                    $this->getTeacherNames(
-                            array_merge(
-                                    array_keys((array) $lesson->teachers, ""),
-                                    array_keys((array) $lesson->teachers, "new")
-                                    )
-                            )
-                );
+        $lessonTeachers = implode(
+            ", ",
+            $this->getTeacherNames(
+                array_merge(
+                    array_keys((array) $lesson->teachers, ""),
+                    array_keys((array) $lesson->teachers, "new")
+                )
+            )
+        );
  
         $lessonComment = $lesson->comment;
         foreach ($lesson->calendar as $calendarKey => $calendarValue)
@@ -167,21 +173,21 @@ class THMICALBuilder extends THMAbstractBuilder
                         $lessonBeginTime = explode(":", $lessonTime[0]);
                         $lessonEndTime = explode(":", $lessonTime[1]);
  
-                        $lessonStartDate  = array(
-                                "year" => $lessonDate[0],
-                                "month" => $lessonDate[1],
-                                "day" => $lessonDate[2],
-                                "hour" => $lessonBeginTime[0],
-                                "min" => $lessonBeginTime[1],
-                                "sec" => 0
+                        $lessonStartDate = array(
+                            "year" => $lessonDate[0],
+                            "month" => $lessonDate[1],
+                            "day" => $lessonDate[2],
+                            "hour" => $lessonBeginTime[0],
+                            "min" => $lessonBeginTime[1],
+                            "sec" => 0
                         );
-                        $lessonEndDate    = array(
-                                "year" => $lessonDate[0],
-                                "month" => $lessonDate[1],
-                                "day" => $lessonDate[2],
-                                "hour" => $lessonEndTime[0],
-                                "min" => $lessonEndTime[1],
-                                "sec" => 0
+                        $lessonEndDate = array(
+                            "year" => $lessonDate[0],
+                            "month" => $lessonDate[1],
+                            "day" => $lessonDate[2],
+                            "hour" => $lessonEndTime[0],
+                            "min" => $lessonEndTime[1],
+                            "sec" => 0
                         );
 
                         $e = new vevent;

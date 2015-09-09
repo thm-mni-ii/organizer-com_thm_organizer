@@ -1,72 +1,55 @@
 /*icons anpassen*/
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 .icon-add-Space {
-  font-size: 14px;
-}
+  font-size: 14px; }
 
 /*icons zur jeweiligen View im Header hinzufuegen */
 .icon-organizer::before {
-  content: "\e60b";
-}
+  content: "\e60b"; }
 
 .icon-organizer_degrees::before {
-  content: "\e606";
-}
+  content: "\e606"; }
 
 .icon-organizer_users::before {
-  content: "\e01f";
-}
+  content: "\e01f"; }
 
 .icon-organizer_monitors::before {
-  content: "\e01c";
-}
+  content: "\e01c"; }
 
 .icon-organizer_teachers::before {
-  content: "\e604";
-}
+  content: "\e604"; }
 
 .icon-organizer_departments::before {
-  content: "\e244";
-}
+  content: "\e244"; }
 
 .icon-organizer_subjects::before {
-  content: "\e603";
-}
+  content: "\e603"; }
 
 .icon-organizer_fields::before {
-  content: "\74";
-}
+  content: "\74"; }
 
 .icon-organizer_colors::before {
-  content: "\e014";
-}
+  content: "\e014"; }
 
 .icon-organizer_subject_pools::before {
-  content: "\43";
-}
+  content: "\43"; }
 
 .icon-organizer_rooms::before {
-  content: "\e60a";
-}
+  content: "\e60a"; }
 
 .icon-organizer_degree_programs::before {
-  content: "\31";
-}
+  content: "\31"; }
 
 .icon-organizer_schedules::before {
-  content: "\e600";
-}
+  content: "\e600"; }
 
 .icon-organizer_categories::before {
-  content: "\e601";
-}
+  content: "\e601"; }
 
 .icon-mni::before {
-  content: "\e600";
-}
+  content: "\e600"; }
 
 /*icons zu sidebar hinzufuegen*/
 li a[href$="view=thm_organizer"]::before, li a[href$="option=com_thm_organizer"]::before {
@@ -74,187 +57,148 @@ li a[href$="view=thm_organizer"]::before, li a[href$="option=com_thm_organizer"]
   content: "\e60b";
   font-size: 16px;
   padding-right: 8px;
-  color: #80ba24;
-}
+  color: #80ba24; }
 li a[href*="view=degree_manager"]::before {
   font-family: icomoon;
   content: "\e606";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=user_manager"]::before {
   font-family: icomoon;
   content: "\e01f";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=monitor_manager"]::before {
   font-family: icomoon;
   content: "\e01c";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=teacher_manager"]::before {
   font-family: icomoon;
   content: "\e604";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=department_manager"]::before {
   font-family: icomoon;
   content: "\e244";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=subject_manager"]::before {
   font-family: icomoon;
   content: "\e603";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=field_manager"]::before {
   font-family: icomoon;
   content: "\74";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=color_manager"]::before {
   font-family: icomoon;
   content: "\e014";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=pool_manager"]::before {
   font-family: icomoon;
   content: "\43";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=room_manager"]::before {
   font-family: icomoon;
   content: "\e60a";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=program_manager"]::before {
   font-family: icomoon;
   content: "\31";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=schedule_manager"]::before {
   font-family: icomoon;
   content: "\e600";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=category_manager"]::before {
   font-family: icomoon;
   content: "\e601";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 li a[href*="view=virtual_schedule_manager"]::before {
   font-family: icomoon;
   content: "\e600";
   font-size: 12px;
-  padding-right: 8px;
-}
+  padding-right: 8px; }
 
 .control-group .chzn-container {
-  width: 260px !important;
-}
+  width: 260px !important; }
 .control-group .x-form-item-label-default {
   width: 180px !important;
-  float: left;
-}
+  float: left; }
 .control-group .x-form-text-field-body-default {
   min-width: 900px;
   max-width: 900px;
-  float: left;
-}
+  float: left; }
 .control-group .x-form-item-default {
   height: auto !important;
-  margin-top: 15px;
-}
+  margin-top: 15px; }
 .control-group .x-form-text-wrap-default {
-  border-style: none;
-}
-.control-group .x-form-text-wrap-default input {
-  margin: 0;
-}
+  border-style: none; }
+  .control-group .x-form-text-wrap-default input {
+    margin: 0; }
 .control-group .x-form-text {
   height: 29px !important;
   background-color: #4a5c66;
   color: white;
-  border-radius: 3px 0 0 3px;
-}
+  border-radius: 3px 0 0 3px; }
 .control-group .x-form-trigger-wrap {
-  height: auto;
-}
+  height: auto; }
 
 .x-form-text-default {
-  background-image: none;
-}
+  background-image: none; }
 
 .control-group:first-child {
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 #ext-element-7 + .control-group {
-  display: none;
-}
+  display: none; }
 
 .control-group:last-child {
   margin-top: 40px;
-  margin-bottom: 40px !important;
-}
+  margin-bottom: 40px !important; }
 
 .MySchedMainW {
-  color: #4a5c66;
-}
+  color: #4a5c66; }
 
 .MySchedMainW > .x-border-box, .x-panel-body {
-  width: inherit !important;
-}
+  width: inherit !important; }
 
 .x-form-text-default {
-  background-image: none;
-}
+  background-image: none; }
 
 .x-form-text-wrap-default {
-  border-style: none;
-}
+  border-style: none; }
 
 input[type="text"].x-form-field {
   height: 2.5em;
   margin: 0;
-  cursor: default;
-}
+  cursor: default; }
 
 input[type="text"]:disabled {
-  cursor: not-allowed;
-}
+  cursor: not-allowed; }
 
 #selectBoxes .x-field-default:first-child {
-  margin-top: 48px;
-}
-@media screen and (max-device-width: 1199px) {
-  #selectBoxes .x-field-default:first-child {
-    margin-top: 25px;
-  }
-}
+  margin-top: 48px; }
+  @media screen and (max-device-width: 1199px) {
+    #selectBoxes .x-field-default:first-child {
+      margin-top: 25px; } }
 #selectBoxes .x-field-default {
   height: 0 !important;
-  margin-bottom: 25px;
-}
+  margin-bottom: 25px; }
 #selectBoxes .x-form-trigger-wrap {
-  height: auto;
-}
+  height: auto; }
 
 .x-tool-img {
-  background-image: none;
-}
+  background-image: none; }
 
 .x-tool-before-title::before {
   font-family: icomoon;
@@ -263,8 +207,7 @@ input[type="text"]:disabled {
   color: #4a5c66;
   position: absolute;
   top: 4px;
-  left: -2px;
-}
+  left: -2px; }
 
 .x-tool-after-title::before {
   font-family: icomoon;
@@ -273,323 +216,258 @@ input[type="text"]:disabled {
   color: #4a5c66;
   position: absolute;
   top: 7px;
-  left: -7px;
-}
+  left: -7px; }
 
 #rightviewport {
   margin-left: 5px !important;
-  width: inherit !important;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) {
-  margin-bottom: 10px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_prevWeekIcon {
-  background-image: none;
-  position: relative;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_prevWeekIcon:before {
-  font-family: icomoon;
-  content: "\7c";
-  font-size: 20px;
-  color: #4a5c66;
-  vertical-align: text-bottom;
-  position: absolute;
-  right: 0;
-  top: 8px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_nextWeekIcon {
-  background-image: none;
-  position: relative;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_nextWeekIcon:before {
-  font-family: icomoon;
-  content: "\7b";
-  font-size: 20px;
-  color: #4a5c66;
-  vertical-align: text-bottom;
-  position: absolute;
-  left: -2px;
-  top: 8px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-field {
-  width: 135px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-trigger-wrap {
-  border: 2px solid #4a5d66;
-  background-color: white;
-  position: relative;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default {
-  float: right;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default input {
-  width: 100px !important;
-  text-align: center;
-  background-image: none !important;
-  box-shadow: none;
-  border: none !important;
-}
+  width: inherit !important; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) {
+    margin-bottom: 10px; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_prevWeekIcon {
+      background-image: none;
+      position: relative; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_prevWeekIcon:before {
+        font-family: icomoon;
+        content: "\7c";
+        font-size: 20px;
+        color: #4a5c66;
+        vertical-align: text-bottom;
+        position: absolute;
+        right: 0;
+        top: 8px; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_nextWeekIcon {
+      background-image: none;
+      position: relative; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .MySched_nextWeekIcon:before {
+        font-family: icomoon;
+        content: "\7b";
+        font-size: 20px;
+        color: #4a5c66;
+        vertical-align: text-bottom;
+        position: absolute;
+        left: -2px;
+        top: 8px; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-field {
+      width: 135px; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-trigger-wrap {
+      border: 2px solid #4a5d66;
+      background-color: white;
+      position: relative; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default {
+      float: right; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default input {
+        width: 100px !important;
+        text-align: center;
+        background-image: none !important;
+        box-shadow: none;
+        border: none !important; }
 @-moz-document url-prefix() {
   #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-text-wrap-default input {
     float: right;
-    text-align: right;
-  }
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default {
-  vertical-align: middle;
-  padding-right: 10px;
-  float: left;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default:before {
-  font-family: icomoon;
-  content: "\44";
-  font-size: 20px;
-  color: #4a5c66;
-  position: absolute;
-  top: 16px;
-  top: 18px \0;
-  left: 12px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave {
-  border: none;
-  margin-left: 15px !important;
-  top: 9px !important;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner {
-  font-size: 14px;
-  width: 104px;
-  text-align: center;
-  padding-left: 21px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner::before {
-  font-family: icomoon-special;
-  content: "\e962";
-  font-size: 20px;
-  color: #4a5c66;
-  position: absolute;
-  left: 0;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .tbSave {
-  background-image: none;
-  display: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu {
-  margin-left: 20px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-icon-el {
-  display: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-inner {
-  width: 84px;
-  font-size: 14px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-wrap-default-toolbar-small {
-  margin-left: 5px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-wrap-default-toolbar-small::before {
-  background-image: none;
-  font-family: icomoon;
-  content: "\e021";
-  font-size: 20px;
-  color: #4a5c66;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #downloadMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
-  background-image: none;
-  display: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-body-horizontal {
-  height: 37px !important;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-left {
-  background-image: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-left::before {
-  font-family: icomoon;
-  content: "\e008";
-  color: #4a5c66;
-  font-size: 16px;
-  position: absolute;
-  top: 11px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-right {
-  background-image: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-right::before {
-  font-family: icomoon;
-  content: "\e006";
-  color: #4a5c66;
-  font-size: 16px;
-  position: absolute;
-  top: 11px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-bar {
-  background-color: transparent;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-bar-strip {
-  height: 3px;
-  background-color: #F6F6F6;
-  border: 1px solid #ddd;
-  border-bottom: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab {
-  background-image: none;
-  padding: 10px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-bottom: none;
-  border-radius: 0;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-active {
-  background-color: #dfeec8;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-over {
-  background-color: #dfe5e6;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) #tabpanel-body {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-top: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-closable.x-tab-default .x-tab-button {
-  padding-right: 4px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller {
-  top: 9px;
-  height: 21px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .myScheduleIcon {
-  background-image: none;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .myScheduleIcon::before {
-  font-family: icomoon;
-  content: "\43";
-  font-size: 12px;
-  color: #4a5c66;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-view {
-  height: 383px !important;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-item-container {
-  margin-bottom: 2px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .lectureBox {
-  outline: 1px outset white;
-  box-shadow: inset 0 0 6px #bbbbbb;
-  background-image: -webkit-linear-gradient(-33deg, #fbfbfb 0, #eeeeee 100%);
-  background-image: -moz-linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
-  background-image: linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
-  background-color: #eeeeee;
-  margin-bottom: 4px;
-  padding: 4px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .lectureBox_cho {
-  outline: 1px outset #333;
-  box-shadow: inset 0 0 6px #c8e2a1;
-  background-image: -webkit-linear-gradient(-33deg, #e6f2d4 0, #dfeec8 100%);
-  background-image: -moz-linear-gradient(123deg, #e6f2d4 0, #dfeec8 100%);
-  background-image: linear-gradient(123deg, #e6f2d4 0, #dfeec8 100%);
-  background-color: #dfeec8;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .blockOccupied {
-  background-color: #4a5c66;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell {
-  padding: 4px 2px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-inner {
-  padding: 0;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-first {
-  background-color: #ffffff;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-rowbody-tr {
-  background-color: #FAFAFA;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-rowbody-tr td {
-  padding: 0;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-last {
-  padding-right: 18px;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .MySched_pause {
-  display: table-row;
-  background-color: #CCCCCC;
-}
-#rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .MySched_pause .x-grid-td {
-  text-align: center;
-  padding: 0;
-}
-#rightviewport table {
-  margin-bottom: 0;
-}
+    text-align: right; } }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default {
+      vertical-align: middle;
+      padding-right: 10px;
+      float: left; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) .x-form-date-trigger-default:before {
+        font-family: icomoon;
+        content: "\44";
+        font-size: 20px;
+        color: #4a5c66;
+        position: absolute;
+        top: 16px;
+        top: 18px \0;
+        left: 12px; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave {
+      border: none;
+      margin-left: 15px !important;
+      top: 9px !important; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner {
+        font-size: 14px;
+        width: 104px;
+        text-align: center;
+        padding-left: 21px; }
+        #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .x-btn-inner::before {
+          font-family: icomoon-special;
+          content: "\e962";
+          font-size: 20px;
+          color: #4a5c66;
+          position: absolute;
+          left: 0; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnSave .tbSave {
+        background-image: none;
+        display: none; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu {
+      margin-left: 20px; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-icon-el {
+        display: none; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-inner {
+        width: 84px;
+        font-size: 14px; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small {
+        margin-left: 5px; }
+        #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-wrap-default-toolbar-small::before {
+          background-image: none;
+          font-family: icomoon;
+          content: "\e021";
+          font-size: 20px;
+          color: #4a5c66; }
+      #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(1) #btnMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+        background-image: none;
+        display: none; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-body-horizontal {
+    height: 37px !important; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-left {
+    background-image: none; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-left::before {
+      font-family: icomoon;
+      content: "\e008";
+      color: #4a5c66;
+      font-size: 16px;
+      position: absolute;
+      top: 11px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-right {
+    background-image: none; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller-right::before {
+      font-family: icomoon;
+      content: "\e006";
+      color: #4a5c66;
+      font-size: 16px;
+      position: absolute;
+      top: 11px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-bar {
+    background-color: transparent; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-bar-strip {
+    height: 3px;
+    background-color: #F6F6F6;
+    border: 1px solid #ddd;
+    border-bottom: none; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab {
+    background-image: none;
+    padding: 10px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 0; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-active {
+    background-color: #dfeec8; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-over {
+    background-color: #dfe5e6; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) #tabpanel-body {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-top: none; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-tab-closable.x-tab-default .x-tab-button {
+    padding-right: 4px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-box-scroller {
+    top: 9px;
+    height: 21px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .myScheduleIcon {
+    background-image: none; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .myScheduleIcon::before {
+      font-family: icomoon;
+      content: "\43";
+      font-size: 12px;
+      color: #4a5c66; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-view {
+    height: 383px !important; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-item-container {
+    margin-bottom: 2px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .lectureBox {
+    outline: 1px outset white;
+    box-shadow: inset 0 0 6px #bbbbbb;
+    background-image: -webkit-linear-gradient(-33deg, #fbfbfb 0, #eeeeee 100%);
+    background-image: -moz-linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
+    background-image: linear-gradient(123deg, #fbfbfb 0, #eeeeee 100%);
+    background-color: #eeeeee;
+    margin-bottom: 4px;
+    padding: 4px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .lectureBox_cho {
+    outline: 1px outset #333;
+    box-shadow: inset 0 0 6px #c8e2a1;
+    background-image: -webkit-linear-gradient(-33deg, #e6f2d4 0, #dfeec8 100%);
+    background-image: -moz-linear-gradient(123deg, #e6f2d4 0, #dfeec8 100%);
+    background-image: linear-gradient(123deg, #e6f2d4 0, #dfeec8 100%);
+    background-color: #dfeec8; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .blockOccupied {
+    background-color: #4a5c66; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell {
+    padding: 4px 2px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-inner {
+    padding: 0; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-first {
+    background-color: #ffffff; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-rowbody-tr {
+    background-color: #FAFAFA; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-rowbody-tr td {
+      padding: 0; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .x-grid-cell-last {
+    padding-right: 18px; }
+  #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .MySched_pause {
+    display: table-row;
+    background-color: #CCCCCC; }
+    #rightviewport .x-autocontainer-innerCt > .x-panel:nth-child(2) .MySched_pause .x-grid-td {
+      text-align: center;
+      padding: 0; }
+  #rightviewport table {
+    margin-bottom: 0; }
 
 .x-boundlist li {
   margin: 0;
-  padding: 6px;
-}
+  padding: 6px; }
 
 .x-mask {
-  background-color: white !important;
-}
+  background-color: white !important; }
 
 .x-form-trigger-default {
   background-image: none;
   border: none;
-  width: 0 !important;
-}
+  width: 0 !important; }
 
 body.x-border-layout-ct,
 div.x-border-layout-ct,
 .x-panel-header-default,
 .x-panel-body-default,
 .x-toolbar-default {
-  background-color: transparent !important;
-}
+  background-color: transparent !important; }
 
 .x-panel-header-default-top {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}
+  box-shadow: none !important; }
 
-.tbSaveICal {
-  background-image: none !important;
-}
-.tbSaveICal::before {
-  font-family: icomoon;
-  content: "\e273";
-  font-size: 16px;
-  color: #4a5c66;
-  position: absolute;
-  top: 10px;
-  left: 3px;
-}
+.tbSaveICS {
+  background-image: none !important; }
+  .tbSaveICS::before {
+    font-family: icomoon;
+    content: "\e273";
+    font-size: 16px;
+    color: #4a5c66;
+    position: absolute;
+    top: 10px;
+    left: 3px; }
 
 .tbSavePdf {
-  background-image: none !important;
-}
-.tbSavePdf::before {
-  font-family: icomoon-special;
-  content: "\eada";
-  font-size: 16px;
-  color: #4a5c66;
-  position: absolute;
-  top: 10px;
-  left: 3px;
-}
+  background-image: none !important; }
+  .tbSavePdf::before {
+    font-family: icomoon-special;
+    content: "\eada";
+    font-size: 16px;
+    color: #4a5c66;
+    position: absolute;
+    top: 10px;
+    left: 3px; }
 
 .tbSaveTxt {
-  background-image: none !important;
-}
-.tbSaveTxt::before {
-  font-family: icomoon-special;
-  content: "\eadd";
-  font-size: 16px;
-  color: #4a5c66;
-  position: absolute;
-  top: 10px;
-  left: 3px;
-}
+  background-image: none !important; }
+  .tbSaveTxt::before {
+    font-family: icomoon-special;
+    content: "\eadd";
+    font-size: 16px;
+    color: #4a5c66;
+    position: absolute;
+    top: 10px;
+    left: 3px; }

@@ -120,18 +120,15 @@ Ext.define('MySched.Model',
             {
                 exportData = this.asPersArray();
             }
+            else if (type === "jsonpdf")
+            {
+                exportData.grid = MySched.gridData[MySched.selectedSchedule.scheduleGrid];
+                exportData.data = this.asArrayForPDF();
+                exportData.daysPerWeek = MySched.displayDaysInWeek;
+            }
             else
             {
-                if (type === "jsonpdf")
-                {
-                    exportData.grid = MySched.gridData[MySched.selectedSchedule.scheduleGrid];
-                    exportData.data = this.asArrayForPDF();
-                    exportData.daysPerWeek = MySched.displayDaysInWeek;
-                }
-                else
-                {
-                    exportData = this.asArray();
-                }
+                exportData = this.asArray();
             }
 
             switch (type)
@@ -144,7 +141,6 @@ Ext.define('MySched.Model',
                     exit();
                     break;
                 default:
-                case 'json':
                     var returnValue = Ext.encode(exportData);
                     return returnValue;
             }

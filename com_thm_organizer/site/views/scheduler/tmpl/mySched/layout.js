@@ -601,7 +601,7 @@ MySched.layout = function ()
                                 },
                                 scope: this
                             }],
-                        html: "<small style='float:right; font-style:italic;'>Version " + MySched.version + "</small>" + "<p style='font-weight:bold;'>&Auml;nderungen sind farblich markiert: <br /> <p style='padding-left:10px;'> <span style='background-color: #00ff00;' >Neue Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ff4444;' >Gel&ouml;schte Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ffff00;' >Ge&auml;nderte Veranstatung (neuer Raum, neuer Dozent)</span> </p><p style='padding-left:10px;'> <span style='background-color: #ffaa00;' >Ge&auml;nderte Veranstaltung (neue Zeit:von)</span>, <span style='background-color: #ffff00;' >Ge&auml;nderte Veranstaltung (neue Zeit:zu)</span></p></p>" + "<b>Version: 2.1.6:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen der Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick auf Veranstaltung).</li>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen von eigenen Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick in einen Block).</li>" + "<li style='padding-left:10px;'>NEU: Navigation &uuml;ber den Dozent, Raum, Fachbereich einer Veranstaltung.</li>" + "<li style='padding-left:10px;'>NEU: Navigation durch einzelne Wochen &uuml;ber einen Kalender (Men&uuml;leiste).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Anzeige von Terminen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Terminen &uuml;ber Termintitel (Mauszeiger &uuml;ber Titel).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Veranstaltungen &uuml;ber Veranstaltungstitel (Klick auf den Titel).</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.5:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Pers&ouml;nliche Termine k&ouml;nnen &uuml;ber den Men&uuml;punkt 'Neuer Termin' oder per Klick in einen Block angelegt werden.</li>" + "<li style='padding-left:10px;'>NEU: Berechtigte Benutzer d&uuml;rfen im Panel 'Einzel Termine' neue Termine anlegen oder alte editieren.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: &Auml;nderungen werden wie ein Stundenplan aufgerufen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Nur registrierte Benutzer haben Zugriff auf alle Funktionen.</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.4:</b>" + "<li style='padding-left:10px;'>NEU: In der Infoanzeige von Veranstaltungen kann die Modulbeschreibung abgerufen werden.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden nur noch an betroffenen Tagen angezeigt.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden bei Klick auf das orangene Ausrufezeichen angezeigt.</li>" + "<br/>" + "<b>Version: 2.1.3:</b>" + "" + "<li style='padding-left:10px;'>NEU: Stundenpl&auml;ne k&ouml;nnen als Terminkalendar heruntergeladen werden. (Men&uuml;punkt ICal Download)</li>" + "<li style='padding-left:10px;'>NEU: Navigationsleiste kann eingeklappt werden.</li>" + "<li style='padding-left:10px;'>NEU: Veranstaltungen k&ouml;nnen per Doppelklick hinzugef&uuml;gt / entfernt werden.</li>" + "<li style='padding-left:10px;'>NEU: Bei &Auml;nderungen zu Ihrem abgespeicherten Plan werden jetzt sinnvolle Vorschl&auml;ge gemacht.</li>" + "<li style='padding-left:10px;'>NEU: Kontrastreiche Men&uuml;s, sinnvollere Neuanordnung des Men&uuml;s.</li>" + "<li style='padding-left:10px;'>NEU: Seitentitel auch als Titel des pdf-download.</li>" + "<li style='padding-left:10px;'>NEU: Kleinere Texte bei den Einzelterminen.</li>" + "<br/>" + "<b>Version: 2.1.2:</b>" + "" + "<li style='padding-left:10px;'>NEU: MNI Style</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: PDF Download und PDF Dateiname bezieht sich auf den aktiven Tab</li>"
+                        html: "<small style='float:right; font-style:italic;'>Version " + MySched.version + "</small>" + "<p style='font-weight:bold;'>&Auml;nderungen sind farblich markiert: <br /> <p style='padding-left:10px;'> <span style='background-color: #00ff00;' >Neue Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ff4444;' >Gel&ouml;schte Veranstaltung</span></p> <p style='padding-left:10px;'><span style='background-color: #ffff00;' >Ge&auml;nderte Veranstatung (neuer Raum, neuer Dozent)</span> </p><p style='padding-left:10px;'> <span style='background-color: #ffaa00;' >Ge&auml;nderte Veranstaltung (neue Zeit:von)</span>, <span style='background-color: #ffff00;' >Ge&auml;nderte Veranstaltung (neue Zeit:zu)</span></p></p>" + "<b>Version: 2.1.6:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen der Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick auf Veranstaltung).</li>" + "<li style='padding-left:10px;'>NEU: Hinzuf&uuml;gen von eigenen Veranstaltungen &uuml;ber Kontextmenu (Rechtsklick in einen Block).</li>" + "<li style='padding-left:10px;'>NEU: Navigation &uuml;ber den Dozent, Raum, Fachbereich einer Veranstaltung.</li>" + "<li style='padding-left:10px;'>NEU: Navigation durch einzelne Wochen &uuml;ber einen Kalender (Men&uuml;leiste).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Anzeige von Terminen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Terminen &uuml;ber Termintitel (Mauszeiger &uuml;ber Titel).</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Informationen zu Veranstaltungen &uuml;ber Veranstaltungstitel (Klick auf den Titel).</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.5:</b>" + "<ul>" + "<li style='padding-left:10px;'>NEU: Pers&ouml;nliche Termine k&ouml;nnen &uuml;ber den Men&uuml;punkt 'Neuer Termin' oder per Klick in einen Block angelegt werden.</li>" + "<li style='padding-left:10px;'>NEU: Berechtigte Benutzer d&uuml;rfen im Panel 'Einzel Termine' neue Termine anlegen oder alte editieren.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: &Auml;nderungen werden wie ein Stundenplan aufgerufen.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Nur registrierte Benutzer haben Zugriff auf alle Funktionen.</li>" + "</ul>" + "<br/>" + "<b>Version: 2.1.4:</b>" + "<li style='padding-left:10px;'>NEU: In der Infoanzeige von Veranstaltungen kann die Modulbeschreibung abgerufen werden.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden nur noch an betroffenen Tagen angezeigt.</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: Termine werden bei Klick auf das orangene Ausrufezeichen angezeigt.</li>" + "<br/>" + "<b>Version: 2.1.3:</b>" + "" + "<li style='padding-left:10px;'>NEU: Stundenpl&auml;ne k&ouml;nnen als Terminkalendar heruntergeladen werden. (Men&uuml;punkt ICS Download)</li>" + "<li style='padding-left:10px;'>NEU: Navigationsleiste kann eingeklappt werden.</li>" + "<li style='padding-left:10px;'>NEU: Veranstaltungen k&ouml;nnen per Doppelklick hinzugef&uuml;gt / entfernt werden.</li>" + "<li style='padding-left:10px;'>NEU: Bei &Auml;nderungen zu Ihrem abgespeicherten Plan werden jetzt sinnvolle Vorschl&auml;ge gemacht.</li>" + "<li style='padding-left:10px;'>NEU: Kontrastreiche Men&uuml;s, sinnvollere Neuanordnung des Men&uuml;s.</li>" + "<li style='padding-left:10px;'>NEU: Seitentitel auch als Titel des pdf-download.</li>" + "<li style='padding-left:10px;'>NEU: Kleinere Texte bei den Einzelterminen.</li>" + "<br/>" + "<b>Version: 2.1.2:</b>" + "" + "<li style='padding-left:10px;'>NEU: MNI Style</li>" + "<li style='padding-left:10px;'>GE&Auml;NDERT: PDF Download und PDF Dateiname bezieht sich auf den aktiven Tab</li>"
                     });
                 this.infoWindow.show();
             }
@@ -735,7 +735,7 @@ MySched.layout = function ()
          */
         getMainToolbar: function ()
         {
-            var btnSave, btnEmpty, disablePDF = true, btnSavePdf, btnSaveWeekPdf, disableICal = true, btnICal,
+            var btnSave, btnEmpty, disablePDF = true, btnSavePdf, btnSaveWeekPdf, disableICS = true, btnICS,
                 disableExcel = true, btnSaveTxt, btnAdd, downloadMenu, btnDel, btnInfo, tbFreeBusy, initialDate, menuedatepicker,
                 prevWeek, nextWeek;
 
@@ -992,19 +992,18 @@ MySched.layout = function ()
 
             if(MySched.iCalcreatorInstalled)
             {
-                disableICal = false;
+                disableICS = false;
             }
 
-            // Button for download schedule as ical
-            btnICal = Ext.create(
+            // Button for download schedule as ics
+            btnICS = Ext.create(
                 'Ext.Button',
                 {
-                    // ICal DownloadButton
-                    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICAL,
-                    id: 'btnICal',
-                    iconCls: 'tbSaveICal',
-                    disabled: disableICal,
-                    tooltip: { text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICAL_DESC },
+                    text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ICS,
+                    id: 'btnICS',
+                    iconCls: 'tbSaveICS',
+                    disabled: disableICS,
+                    tooltip: { text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ICS_DESC },
                     handler: function ()
                     {
                         clickMenuHandler();
@@ -1014,124 +1013,126 @@ MySched.layout = function ()
                         }
                         else
                         {
-                        var icalwait = Ext.MessageBox.wait(
-                            "",
-                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
-                            {
-                                interval: 100,
-                                duration: 2000
-                            }
-                        );
-                        Ext.Ajax.request(
-                            {
-                                url: _C('ajaxHandler'),
-                                jsonData: MySched.selectedSchedule.exportData("jsonICal"),
-                                method: 'POST',
-                                params: {
-                                    username: MySched.Authorize.user,
-                                    title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
-                                    what: "ical",
-                                    scheduletask: "Schedule.export",
-                                    departmentAndSemester: MySched.departmentAndSemester
-                                },
-                                scope: icalwait,
-                                failure: function (response, ret)
+                            var icsWait = Ext.MessageBox.wait(
+                                "",
+                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_CREATE,
                                 {
-                                    Ext.MessageBox.hide();
-                                    Ext.Msg.alert(
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
-                                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR
-                                    );
-                                },
-                                success: function (response, ret)
+                                    interval: 100,
+                                    duration: 2000
+                                }
+                            );
+                            Ext.Ajax.request(
                                 {
-                                    Ext.MessageBox.hide();
-                                    try
+                                    url: _C('ajaxHandler'),
+                                    jsonData: MySched.selectedSchedule.exportData("ics", false),
+                                    method: 'POST',
+                                    params: {
+                                        username: MySched.Authorize.user,
+                                        title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
+                                        what: "ics",
+                                        scheduletask: "Schedule.export",
+                                        departmentAndSemester: MySched.departmentAndSemester
+                                    },
+                                    scope: icsWait,
+                                    failure: function (response, ret)
                                     {
-                                        var responseData = [];
-                                        responseData = Ext.decode(response.responseText);
-                                        if (responseData.url !== "false")
-                                        {
-                                            Ext.MessageBox.show(
-                                                {
-                                                    minWidth: 500,
-                                                    title: "Synchronisieren",
-                                                    msg: '<strong style="font-weight:bold">Link</strong>:<br/>' + responseData.url + '<br/>Wollen Sie den Terminkalendar ersetzen?',
-                                                    buttons: Ext.Msg.YESNO,
-                                                    fn: function (btn,text)
-                                                    {
-                                                        var func;
-                                                        if (btn === "yes")
-                                                        {
-                                                            // Iframe for download will be created
-                                                            Ext.core.DomHelper.append(
-                                                                Ext.getBody(),
-                                                                {
-                                                                    tag: 'iframe',
-                                                                    id: 'downloadIframe',
-                                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ical&save=true&scheduletask=Download.schedule",
-                                                                    style: 'display:none;z-index:10000;'
-                                                                });
-                                                            // Iframe will be deleted after 2 sec
-                                                            func = function ()
-                                                            {
-                                                                Ext.get('downloadIframe').remove();
-                                                            };
-                                                            Ext.defer(func, 2000);
-                                                        }
-                                                        else
-                                                        {
-                                                            // Iframe for download will be created
-                                                            Ext.core.DomHelper.append(
-                                                                Ext.getBody(),
-                                                                {
-                                                                    tag: 'iframe',
-                                                                    id: 'downloadIframe',
-                                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ical&save=false&scheduletask=Download.schedule",
-                                                                    style: 'display:none;z-index:10000;'
-                                                                }
-                                                            );
-                                                            // Iframe will be deleted after 2 sec
-                                                            func = function ()
-                                                            {
-                                                                Ext.get('downloadIframe').remove();
-                                                            };
-                                                            Ext.defer(func, 2000);
-                                                        }
-                                                    }
-                                                }
-                                            );
-                                        }
-                                        else
-                                        {
-                                            // Iframe for download will be created
-                                            Ext.core.DomHelper.append(
-                                                Ext.getBody(),
-                                                {
-                                                    tag: 'iframe',
-                                                    id: 'downloadIframe',
-                                                    src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=false&scheduletask=Download.schedule",
-                                                    style: 'display:none;z-index:10000;'
-                                                });
-                                            // Iframe will be deleted after 2 sec
-                                            var func = function ()
-                                            {
-                                                Ext.get('downloadIframe').remove();
-                                            };
-                                            Ext.defer(func, 2000);
-                                        }
-                                    }
-                                    catch (e)
-                                    {
+                                        Ext.MessageBox.hide();
                                         Ext.Msg.alert(
                                             MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR);
+                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR
+                                        );
+                                    },
+                                    success: function (response, ret)
+                                    {
+                                        Ext.MessageBox.hide();
+                                        try
+                                        {
+                                            var responseData = [];
+                                            responseData = Ext.decode(response.responseText);
+                                            if (responseData.url !== "false")
+                                            {
+                                                Ext.MessageBox.show(
+                                                    {
+                                                        minWidth: 500,
+                                                        title: "Synchronisieren",
+                                                        msg: '<strong style="font-weight:bold">Link</strong>:<br/>' + responseData.url + '<br/>Wollen Sie den Terminkalendar ersetzen?',
+                                                        buttons: Ext.Msg.YESNO,
+                                                        fn: function (btn,text)
+                                                        {
+                                                            var func;
+                                                            if (btn === "yes")
+                                                            {
+                                                                // Iframe for download will be created
+                                                                Ext.core.DomHelper.append(
+                                                                    Ext.getBody(),
+                                                                    {
+                                                                        tag: 'iframe',
+                                                                        id: 'downloadIframe',
+                                                                        src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=true&scheduletask=Download.schedule",
+                                                                        style: 'display:none;z-index:10000;'
+                                                                    });
+                                                                // Iframe will be deleted after 2 sec
+                                                                func = function ()
+                                                                {
+                                                                    Ext.get('downloadIframe').remove();
+                                                                };
+                                                                Ext.defer(func, 2000);
+                                                            }
+                                                            else
+                                                            {
+                                                                // Iframe for download will be created
+                                                                Ext.core.DomHelper.append(
+                                                                    Ext.getBody(),
+                                                                    {
+                                                                        tag: 'iframe',
+                                                                        id: 'downloadIframe',
+                                                                        src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=false&scheduletask=Download.schedule",
+                                                                        style: 'display:none;z-index:10000;'
+                                                                    }
+                                                                );
+                                                                // Iframe will be deleted after 2 sec
+                                                                func = function ()
+                                                                {
+                                                                    Ext.get('downloadIframe').remove();
+                                                                };
+                                                                Ext.defer(func, 2000);
+                                                            }
+                                                        }
+                                                    }
+                                                );
+                                            }
+                                            else
+                                            {
+                                                // Iframe for download will be created
+                                                Ext.core.DomHelper.append(
+                                                    Ext.getBody(),
+                                                    {
+                                                        tag: 'iframe',
+                                                        id: 'downloadIframe',
+                                                        src: _C('ajaxHandler') + '&username=' + MySched.Authorize.user + "&title=" + encodeURIComponent(MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' ')) + "&what=ics&save=false&scheduletask=Download.schedule",
+                                                        style: 'display:none;z-index:10000;'
+                                                    });
+                                                // Iframe will be deleted after 2 sec
+                                                var func = function ()
+                                                {
+                                                    Ext.get('downloadIframe').remove();
+                                                };
+                                                Ext.defer(func, 2000);
+                                            }
+                                        }
+                                        catch (e)
+                                        {
+                                            Ext.Msg.alert(
+                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD,
+                                                MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_ERROR
+                                            );
+                                        }
                                     }
                                 }
-                            }
-                        );
+                            );
+                        }
                     }
-                }}
+                }
             );
 
             if(MySched.PHPExcelInstalled)
@@ -1254,7 +1255,7 @@ MySched.layout = function ()
                     iconCls: 'tbDownload',
                     disabled: false,
                     clicked: true,
-                    menu: [btnSavePdf, btnICal, btnSaveTxt]
+                    menu: [btnSavePdf, btnICS]
 
                 }
             );
