@@ -832,7 +832,7 @@ MySched.layout = function ()
                 {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE,
                     id: 'btnPdf',
-                    iconCls: 'tbSavePdf',
+                    iconCls: 'tbSavePdfA4',
                     disabled: disablePDF,
                     tooltip: {
                         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DOWNLOAD_PDF_DESC
@@ -920,7 +920,7 @@ MySched.layout = function ()
                 {
                     text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE,
                     id: 'btnWeekPdf',
-                    iconCls: 'tbSavePdf',
+                    iconCls: 'tbSavePdfA4',
                     disabled: disablePDF,
                     tooltip: {
                         text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_WEEK_SCHEDULE_PDF_DESC

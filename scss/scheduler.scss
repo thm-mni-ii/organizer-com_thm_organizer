@@ -260,7 +260,7 @@ input[type="text"]:disabled {
     }
 
     //Download-area
-    #btnMenu {
+    #downloadMenu {
       margin-left: 20px;
 
       .x-btn-icon-el {
@@ -514,7 +514,7 @@ div.x-border-layout-ct,
 }
 
 //icon pdf
-.tbSavePdf {
+.tbSavePdfA4 {
   background-image: none !important;
 
   &::before {
