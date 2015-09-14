@@ -2,9 +2,9 @@
 <extension type="component" version="3.0" method="upgrade">
     <name>COM_THM_ORGANIZER</name>
     <author>James Antrim</author>
-    <authorEMail>james.antrim@mni.thm.de</authorEMail>
+    <authorEmail>james.antrim@mni.thm.de</authorEmail>
     <author>Wolf Rost</author>
-    <authorEMail>wolf.rost@mni.thm.de</authorEMail>
+    <authorEmail>wolf.rost@mni.thm.de</authorEmail>
     <author>Alexander Boll</author>
     <authorEmail>alexander.boll@mni.thm.de</authorEmail>
     <authorUrl>www.mni.thm.de</authorUrl>
@@ -96,6 +96,6 @@
        <package name="pkg_thm_organizer" git="git://scm.thm.de/icampus/pkg_thm_organizer.git"/>
     </packages>
     <updateservers>
-        <server type="extension" name="THM Organizer Component Update" priority="1">https://www.thm.de/thmupdate/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=11</server>
+        <server type="collection" name="THM Organizer Component Update" priority="1">https://www.thm.de/thmupdate/index.php?option=com_ars&amp;view=update&amp;task=all&amp;format=xml</server>
     </updateservers>
 </extension>
