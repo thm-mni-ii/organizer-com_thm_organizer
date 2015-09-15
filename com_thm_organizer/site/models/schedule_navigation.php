@@ -361,6 +361,8 @@ class THM_OrganizerModelSchedule_Navigation
             return true;
         }
 
+        $nodeID = str_replace(".", "-", $nodeID);
+
         $nodeParts = explode("_", $nodeID);
 
         // Do not show root node
