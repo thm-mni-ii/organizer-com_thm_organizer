@@ -12,8 +12,9 @@
  */
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+
 $params = $this->model->params;
-$blocks = $this->model->blocks;
 $dayName = strtoupper(date('l'));
 $time = date('H:i');
 $blockNo = 0;
@@ -27,30 +28,10 @@ $metric = 0;
     }
     window.onload = function() {
         timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
-
-        /* Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
-        * dazu wird ein neuer Klassennamen benötigt.
-         */
-        var scheduleBlockElement = document.getElementsByClassName("schedule-block");
-        var bool = testforactiveelements(scheduleBlockElement);
-        if (bool==false){
-           for (var i=0; i<scheduleBlockElement.length; i++) {
-               scheduleBlockElement[i].className += " nothingActive";
-           }
-       }
     }
-
-     testforactiveelements = function( scheduleBlockElement){
-         var bool=false;
-      for (var i=0; i<scheduleBlockElement.length; i++) {
-          if (scheduleBlockElement[i].classList.contains("active")) {
-             var  bool = true;
-          }
-      }
-         return bool;
   }
 </script>
-<div class='display-schedule'>
+<div class='display-events'>
     <div class='head'>
         <div class='banner'>
             <div class='thm-logo'><img src="media/com_thm_organizer/images/thm_logo.png" alt="THM-Logo"/><!--Dummy Text for THM-LOGO--></div>
@@ -62,46 +43,37 @@ $metric = 0;
             <div class='date'><?php echo date('d.m.Y'); ?></div>
         </div>
     </div>
-    <div class="schedule-area schedule-wide">
+    <div class="display-area">
+    <?php foreach ($this->model->events as $date => $events):
+        $displayedEvents = 0; ?>
+        <div class="event-date">
+            <div class="event-date-head"><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></div>
 <?php
-if (!empty($blocks))
-{
-    foreach ($blocks as $blockKey => $block)
-    {
-        $blockClass = ($blockNo % 2)? 'block-odd' : 'block-even';
-        $activeClass = ($time >= $block->starttime and $time <= $block->endtime)? 'active' : 'inactive';
-?>
-        <div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
-            <div class="block-time">
-                <?php echo $block->starttime . ' - ' . $block->endtime; ?>
-            </div>
-            <div class="block-data">
-<?php
-        if (!empty($block->lessons))
+$rowNumber = 0;
+foreach ($events as $event):
+    foreach ($event['blocks'] as $block):
+        $rowClass = 'row' . ($rowNumber % 2);
+        $rowNumber++;
+        $rooms = implode(', ', $block['rooms']);
+        $speakersArray = array();
+        foreach ($block['speakers'] as $speaker)
         {
-            echo '<div class="block-title">';
-            foreach ($block->lessons as $lesson)
-            {
-                echo '<span class="lesson-title">' . $lesson['title'] . '</span>';
-                echo '<span class="lesson-time">' . $lesson['time'] . '</span>';
-                echo '<br />';
-            }
-            echo '</div>';
-            echo '<div class="block-extra">';
-            foreach ($block->lessons as $lesson)
-            {
-                echo '<span class="lesson-teacher">' . $lesson['teacher'] . '</span>';
-                echo '<br />';
-            }
-            echo '</div>';
+            $speakersArray[] = implode(', ', array_filter($speaker));
         }
-?>
+        $speakers = implode(' / ', $speakersArray); ?>
+            <div class="<?php echo $rowClass; ?>">
+                <div class="event-times">
+                    <?php echo THM_OrganizerHelperComponent::formatTime($block['starttime']); ?><br/>
+                    -<br/>
+                    <?php echo THM_OrganizerHelperComponent::formatTime($block['endtime']); ?>
+                </div>
+                <div class="event-names"><?php echo $event['name']; ?></div>
+                <div class="event-speakers"><?php echo $speakers; ?></div>
+                <div class="event-comment"><?php echo $event['comment']; ?></div>
             </div>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
         </div>
-<?php
-        $blockNo++;
-    }
-}
-?>
+    <?php endforeach; ?>
     </div>
 </div>

@@ -101,7 +101,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         try
         {
             $departmentName = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
-            $this->departmentName = $departmentName. ' ' . $dbo->loadResult();
+            $this->departmentName = $departmentName . ' ' . $dbo->loadResult();
             return;
         }
         catch (Exception $exc)
@@ -192,8 +192,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     {
         $this->lessonValues = array();
 
-        $startdate =  (!empty($this->schedule->termStartDate))? $this->schedule->termStartDate : $this->schedule->startdate;
-        $enddate =  (!empty($this->schedule->termEndDate))? $this->schedule->termEndDate : $this->schedule->enddate;
+        $startdate = (!empty($this->schedule->termStartDate))? $this->schedule->termStartDate : $this->schedule->startdate;
+        $enddate = (!empty($this->schedule->termEndDate))? $this->schedule->termEndDate : $this->schedule->enddate;
 
         foreach ($this->schedule->calendar as $day => $blocks)
         {
@@ -203,7 +203,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             }
             $this->resolveTime($this->schedule, $day, $blocks);
         }
-        $teacherIDs = array_keys((array)$this->schedule->teachers);
+        $teacherIDs = array_keys((array) $this->schedule->teachers);
         $this->checkOtherSchedules($teacherIDs, $startdate, $enddate);
         $this->convertLessonValues();
     }
@@ -232,7 +232,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 }
 
                 // Calculate the scholastic hours (45 minutes)
-                $gridBlock =$schedule->periods->{$schedule->lessons->$lessonID->grid}->$blockNumber;
+                $gridBlock = $schedule->periods->{$schedule->lessons->$lessonID->grid}->$blockNumber;
                 $startTime = $gridBlock->starttime;
                 $startDT = strtotime(substr($startTime, 0, 2) . ':' . substr($startTime, 2, 2) . ':00');
                 $endTime = $gridBlock->endtime;
@@ -374,8 +374,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Checks whether the subject is relevant
      *
-     * @param   object  &$schedule    the schedule being processed
-     * @param   string  $lessonID  the id of the lesson
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $lessonID   the id of the lesson
      *
      * @return  bool  true if relevant, otherwise false
      */
@@ -438,7 +438,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Creates a concatenated pool name from the relevant pool keys for the lesson
      *
      * @param   object  &$schedule  the schedule being processed
-     * @param   string  $lessonID  the id of the lesson
+     * @param   string  $lessonID   the id of the lesson
      *
      * @return  string  the concatenated name of the subject(s)
      */
@@ -461,7 +461,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Checks whether the lesson should be tallied instead of summarized. (Oral exams or colloquia)
      *
      * @param   object  &$schedule  the schedule being processed
-     * @param   string  $lessonID  the id of the lesson
+     * @param   string  $lessonID   the id of the lesson
      *
      * @return  bool  true if the lesson should be tallied instead of summarized, otherwise false
      */
@@ -550,9 +550,17 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             unset($this->lessonValues[$lessonID]);
         }
 
-        function cmp($a, $b)
+        /**
+         * Compares the string values of two array indexes
+         *
+         * @param   array  $one  the first array
+         * @param   array  $two  the second array
+         *
+         * @return  int  see return value for strcmp
+         */
+        function cmp($one, $two)
         {
-            return strcmp($a["name"], $b["name"]);
+            return strcmp($one["name"], $two["name"]);
         }
 
         usort($this->deputat, "cmp");
@@ -646,6 +654,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param   string  $keyTwo  the second key
      *
      * @return int
+     *
+     * @SuppressWarnings(PMD.UnusedPrivateMethod)
      */
     private static function periodSort($keyOne, $keyTwo)
     {
@@ -686,7 +696,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private static function getDayNumber($dayName)
     {
-        switch($dayName)
+        switch ($dayName)
         {
             case 'Monday':
             case 'Montag':
@@ -757,6 +767,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param   string  $teacherID     the id of the teacher
      * @param   string  $subjectIndex  the index of this group of lessons in the array
      * @param   array   $aggValues     the values to be aggregated
+     *
+     * @return  void  alters object variables
      */
     private function aggregate($teacherID, $subjectIndex, $aggValues)
     {
@@ -843,7 +855,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Checks for the cross department deputat of teachers belonging to the department
      *
-     * @param   object  &$teachers  the teachers listed in the original schedule
+     * @param   object  $teachers   the teachers listed in the original schedule
      * @param   string  $startdate  the startdate of the original schedule
      * @param   string  $enddate    the enddate of the original schedule
      *

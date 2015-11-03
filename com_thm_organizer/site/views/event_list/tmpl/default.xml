@@ -36,6 +36,52 @@
                 <option value="6">SATURDAY</option>
                 <option value="0">SUNDAY</option>
             </field>
+            <field name="startdate"
+                   type="calendar"
+                   label="COM_THM_ORGANIZER_START_DATE"
+                   description="COM_THM_ORGANIZER_START_DATE_DESC"
+                   format="%Y-%m-%d" />
+            <field name="enddate"
+                   type="calendar"
+                   label="COM_THM_ORGANIZER_END_DATE"
+                   description="COM_THM_ORGANIZER_END_DATE_DESC"
+                   format="%Y-%m-%d" />
+            <field name="show_org"
+                   type="list"
+                   class="chzn-color-state"
+                   label="COM_THM_ORGANIZER_ORG_ENABLE"
+                   description="COM_THM_ORGANIZER_ORG_ENABLE_DESC"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="show_rooms"
+                   type="list"
+                   class="chzn-color-state"
+                   label="COM_THM_ORGANIZER_ROOMS_ENABLE"
+                   description="COM_THM_ORGANIZER_ROOMS_ENABLE_DESC"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="show_names"
+                   type="list"
+                   class="chzn-color-state"
+                   label="COM_THM_ORGANIZER_NAMES_ENABLE"
+                   description="COM_THM_ORGANIZER_NAMES_ENABLE_DESC"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="show_comment"
+                   type="list"
+                   class="chzn-color-state"
+                   label="COM_THM_ORGANIZER_COMMENT_ENABLE"
+                   description="COM_THM_ORGANIZER_COMMENT_ENABLE_DESC"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
         </fieldset>
     </fields>
 </metadata>

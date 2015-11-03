@@ -42,7 +42,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
     private $_currentEvent;
 
-    private $_dbDate;
+    private $_startDate;
+
+    private $_endDate;
 
     /**
      * Constructor
@@ -138,19 +140,22 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     private function setEvents()
     {
         $this->setRoomInformation();
-        $this->setDate();
-        $this->setSchedules();
+        $this->setDates();
+        $this->setScheduleIDs();
         $this->events = array();
         if (empty($this->rooms) OR empty($this->_schedules))
         {
             return;
         }
 
-        foreach ($this->_schedules AS $key => $schedule)
+        foreach ($this->_schedules AS $id)
         {
-            $this->_currentSchedule = $key;
+            $scheduleEntry = JTable::getInstance('schedules', 'thm_organizerTable');
+            $scheduleEntry->load($id);
+            $this->_currentSchedule = json_decode($scheduleEntry->schedule);
             $this->setScheduleData();
         }
+        ksort($this->events);
         $this->cleanEventBlockData();
     }
 
@@ -191,6 +196,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                 unset($this->rooms[$roomID]);
             }
         }
+        if ( $this->params['layout'] == 'registered')
+        {
+            $this->params['roomName'] = array_shift(array_values($rooms));
+        }
         $this->rooms = $rooms;
     }
 
@@ -211,10 +220,13 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Sets the date used for comparison
      */
-    private function setDate()
+    private function setDates()
     {
         $date = getdate(time());
-        $this->_dbDate = date('Y-m-d', $date[0]);
+        $startDate = $this->params->get('startdate', '');
+        $this->_startDate = empty($startDate)? date('Y-m-d', $date[0]) : $startDate;
+        $endDate = $this->params->get('enddate', '');
+        $this->_endDate = empty($endDate)? '' : $endDate;
     }
 
     /**
@@ -222,14 +234,15 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      *
      * @return  void
      */
-    private function setSchedules()
+    private function setScheduleIDs()
     {
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("schedule");
+        $query->select("id");
         $query->from("#__thm_organizer_schedules");
-        $query->where("startdate <= '$this->_dbDate'");
-        $query->where("enddate >= '$this->_dbDate'");
+        $query->where("startdate <= '$this->_startDate'");
+        $qEndDate = empty($this->_endDate)? $this->_startDate : $this->_endDate;
+        $query->where("enddate >= '$qEndDate'");
         $query->where("active = 1");
         $dbo->setQuery((string) $query);
 
@@ -249,10 +262,6 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             return;
         }
 
-        foreach ($schedules as $key => $schedule)
-        {
-            $schedules[$key] = json_decode($schedule);
-        }
         $this->_schedules = $schedules;
     }
 
@@ -263,15 +272,21 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function setScheduleData()
     {
-        $calendar = $this->_schedules[$this->_currentSchedule]->calendar;
-        $currentStamp = strtotime($this->_dbDate);
+        $calendar = $this->_currentSchedule->calendar;
+        $startStamp = strtotime($this->_startDate);
+        $endStamp = empty($this->_endDate)? '' : strtotime($this->_endDate);
         foreach ($calendar AS $date => $blocks)
         {
             // We aren't interested in past dates
             $dateStamp = strtotime($date);
-            if ($dateStamp < $currentStamp)
+            if ($dateStamp < $startStamp)
             {
                 continue;
+            }
+
+            if (!empty($endStamp) AND $dateStamp > $endStamp)
+            {
+                break;
             }
 
             // We are only interested in selected weekdays
@@ -294,8 +309,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function setDateData()
     {
-        $schedule = $this->_schedules[$this->_currentSchedule];
-        $dateEvents = $schedule->calendar->{$this->_currentDate};
+        $dateEvents = $this->_currentSchedule->calendar->{$this->_currentDate};
         foreach ($dateEvents as $block => $events)
         {
             if (empty($events))
@@ -313,8 +327,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function setBlockData()
     {
-        $schedule = $this->_schedules[$this->_currentSchedule];
-        $blockEvents = $schedule->calendar->{$this->_currentDate}->{$this->_currentBlock};
+        $blockEvents = $this->_currentSchedule->calendar->{$this->_currentDate}->{$this->_currentBlock};
         foreach ($blockEvents as $event => $rooms)
         {
             if (empty($rooms))
@@ -334,7 +347,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function setEventData()
     {
-        $schedule = $this->_schedules[$this->_currentSchedule];
+        $schedule = $this->_currentSchedule;
         $event = $schedule->calendar->{$this->_currentDate}->{$this->_currentBlock}->{$this->_currentEvent};
 
         // The event block has been removed
@@ -352,7 +365,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             return;
         }
 
-        $event = $this->_schedules[$this->_currentSchedule]->lessons->{$this->_currentEvent};
+        $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
 
         // Events which have been removed are not relevant.
         if (!empty($event->delta) AND $event->delta == 'removed')
@@ -373,7 +386,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             $this->events[$this->_currentDate][$this->_currentEvent]['organization'] = $schedule->departmentname;
             $this->setEventName();
             $this->setEventType();
-            $this->setEventDescription();
+            $this->setEventComment();
             $this->setEventGrid();
             $this->events[$this->_currentDate][$this->_currentEvent]['blocks'] = array();
         }
@@ -388,7 +401,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function getRelevantBlockRooms()
     {
-        $event = $this->_schedules[$this->_currentSchedule]->calendar->{$this->_currentDate}->{$this->_currentBlock}->{$this->_currentEvent};
+        $event = $this->_currentSchedule->calendar->{$this->_currentDate}->{$this->_currentBlock}->{$this->_currentEvent};
 
         $relevantRooms = array();
         foreach ($event as $roomKey => $delta)
@@ -414,8 +427,8 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function setEventName()
     {
-        $event = $this->_schedules[$this->_currentSchedule]->lessons->{$this->_currentEvent};
-        $names = $this->_schedules[$this->_currentSchedule]->subjects;
+        $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
+        $names = $this->_currentSchedule->subjects;
 
         $name = '';
         foreach ($event->subjects AS $nameKey => $delta)
@@ -445,8 +458,8 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function setEventType()
     {
-        $event = $this->_schedules[$this->_currentSchedule]->lessons->{$this->_currentEvent};
-        $types = $this->_schedules[$this->_currentSchedule]->lessontypes;
+        $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
+        $types = $this->_currentSchedule->lessontypes;
         $invalidType = (empty($event->description) OR empty($types->{$event->description}) OR empty($types->{$event->description}->name));
         if ($invalidType)
         {
@@ -464,11 +477,11 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      *
      * @return  void  sets an object variable
      */
-    private function setEventDescription()
+    private function setEventComment()
     {
-        $event = $this->_schedules[$this->_currentSchedule]->lessons->{$this->_currentEvent};
-        $description = empty($event->comment)? '' : $event->comment;
-        $this->events[$this->_currentDate][$this->_currentEvent]['description'] = $description;
+        $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
+        $comment = empty($event->comment)? '' : $event->comment;
+        $this->events[$this->_currentDate][$this->_currentEvent]['comment'] = $comment;
     }
 
     /**
@@ -478,7 +491,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function setEventGrid()
     {
-        $event = $this->_schedules[$this->_currentSchedule]->lessons->{$this->_currentEvent};
+        $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
         $grid = empty($event->grid)? 'Haupt-Zeitraster' : $event->grid;
         $this->events[$this->_currentDate][$this->_currentEvent]['grid'] = $grid;
     }
@@ -494,7 +507,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     {
         $blockData = array();
         $gridName = $this->events[$this->_currentDate][$this->_currentEvent]['grid'];
-        $gridBlock = $this->_schedules[$this->_currentSchedule]->periods->{$gridName}->{$this->_currentBlock};
+        $gridBlock = $this->_currentSchedule->periods->{$gridName}->{$this->_currentBlock};
         $blockData['starttime'] = $gridBlock->starttime;
         $blockData['endtime'] = $gridBlock->endtime;
         $blockData['rooms'] = $blockRooms;
@@ -510,8 +523,8 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function getEventBlockTeachers()
     {
-        $event = $this->_schedules[$this->_currentSchedule]->lessons->{$this->_currentEvent};
-        $allSpeakers = $this->_schedules[$this->_currentSchedule]->teachers;
+        $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
+        $allSpeakers = $this->_currentSchedule->teachers;
 
         $speakers = array();
         foreach ($event->teachers AS $speakerKey => $delta)
@@ -536,7 +549,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         {
             foreach ($events AS $key => $value)
             {
-                if (count($value['blocks'] === 1))
+                if (count($value['blocks']) === 1)
                 {
                     continue;
                 }
@@ -545,6 +558,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                 $comparisonValue = array();
                 foreach ($value['blocks'] AS $number => $data)
                 {
+
                     // Initialize
                     if (empty($comparisonValue))
                     {
@@ -555,6 +569,8 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
                     $sameRooms = $comparisonValue['rooms'] === $data['rooms'];
                     $sameSpeakers = $comparisonValue['speakers'] === $data['speakers'];
+
+                    // The block data for the events is divergent
                     if (!$sameRooms OR !$sameSpeakers)
                     {
                         $comparisonKey = $number;
@@ -562,10 +578,18 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                         continue;
                     }
 
-                    if (($number -1) == $comparisonKey)
+                    // Events are sequential
+                    if (($number - 1) == $comparisonKey)
                     {
-                        $comparisonKey = $number;
                         $comparisonValue['endtime'] = $data['endtime'];
+
+                        // Update the item
+                        $this->events[$date][$key]['blocks'][$number] = $comparisonValue;
+
+                        // Remove the item being compared to
+                        unset($this->events[$date][$key]['blocks'][$comparisonKey]);
+
+                        $comparisonKey = $number;
                         continue;
                     }
                 }
