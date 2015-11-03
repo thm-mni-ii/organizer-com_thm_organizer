@@ -7,11 +7,11 @@
     <licence>GNU GPL v.2</licence>
     <authorEMail>james.antrim@nm.thm.de</authorEMail>
     <authorUrl>www.thm.de</authorUrl>
-    <layout title="COM_THM_ORGANIZER_ROOM_EVENT_LIST_TITLE">
-        <message>COM_THM_ORGANIZER_ROOM_EVENT_LIST_DESCRIPTION</message>
+    <layout title="COM_THM_ORGANIZER_EVENT_LIST_TITLE">
+        <message>COM_THM_ORGANIZER_EVENT_LIST_DESCRIPTION</message>
     </layout>
     <fields name="params" addfieldpath="/libraries/thm_core/fields">
-        <fieldset name="basic" label="COM_THM_ORGANIZER_ROOM_EVENT_LIST_SETTINGS">
+        <fieldset name="basic" label="COM_THM_ORGANIZER_EVENT_LIST_SETTINGS">
             <field name="rooms"
                    type="genericlist"
                    valueColumn="id"

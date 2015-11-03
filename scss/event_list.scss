@@ -1,0 +1,121 @@
+/******************************************************************************/
+/* Styles for Monitor                                                         */
+/******************************************************************************/
+@import '../../lib_thm_core/scss/variables';
+
+.display-schedule {
+  font-family: Verdana, Arial;
+  margin: auto 0;
+  line-height: normal;
+  color: $thm-grau-color;
+}
+
+/************** header *********************************************/
+.head {
+  padding: 3em 48px;
+  border-bottom: 1px solid #ECECEC;
+  box-shadow: 0px 5px 3px #888888;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.banner {
+}
+
+.thm-logo {
+  padding-top: 5px;
+  width: 210px;
+  float: left;
+
+  img {
+    width: 210px;
+    height: 69px;
+  }
+}
+
+.room-name {
+  text-align: center;
+  // anpassen an THM-Schriftgröße des Bildes - manuell
+  font-size: 95px;
+  font-weight: bold;
+  line-height: 72px;
+  margin: 0 205px 0 210px
+}
+
+.date-info {
+  text-align: right;
+  color: $thm-gruen-color;
+  font-weight: bold;
+  font-size: 250%;
+  position: absolute;
+  bottom: 39px;
+  right: 48px;
+
+  .time {
+  }
+
+  .weekday {
+    text-transform: uppercase;
+  }
+
+  .date {
+  }
+}
+
+
+/******************** content **********************************/
+.schedule-area {
+  margin: 0 48px;
+  font-size: 200%;
+}
+
+.schedule-block {
+  padding: 46px 0.5em;
+  background-color: rgb(238, 238, 238);
+  border-bottom: 3px solid white;
+}
+
+.block-time {
+  float: left;
+}
+
+
+.block-data {
+}
+
+.block-title {
+  float: left;
+  font-weight: bold;
+  word-wrap: break-word;
+  padding-left: 8%;
+}
+
+.block-extra {
+  text-align: right;
+  word-wrap: break-word;
+  min-width: 155px;
+}
+
+.inactive {
+}
+
+.active {
+  background-color: #9C132D;
+  color: white;
+  font-weight: bold;
+  padding: 60px 0.5em;
+
+  .block-time {
+  }
+
+  .block-data {
+    font-size: larger;
+  }
+
+  .block-extra {
+  }
+}
+
+.nothingActive{
+  padding:49px 0.5em;
+}

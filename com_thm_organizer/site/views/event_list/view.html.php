@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
  * @category  Joomla.Component.Site
  * @package   thm_organizer
  */
-class THM_OrganizerViewRoom_Event_List extends JViewLegacy
+class THM_OrganizerViewEvent_List extends JViewLegacy
 {
     /**
      * Loads persistent data into the view context
@@ -45,6 +45,6 @@ class THM_OrganizerViewRoom_Event_List extends JViewLegacy
     {
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
-        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/room_event_list.css");
+        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/event_list.css");
     }
 }
