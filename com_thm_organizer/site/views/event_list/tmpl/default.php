@@ -21,10 +21,15 @@ $showComment = $this->model->params->get('show_comment', true);
 $title = $this->model->params->get('page_title', '');
 ?>
 <div id="event-list" class="component-container">
-<?php if (!empty($showHeading)): ?>
-<h2 class="blacomponentheading"><?php echo $title; ?></h2>
-<?php endif; ?>
-<?php foreach ($this->model->events as $date => $events): ?>
+<?php
+if (!empty($showHeading)) {
+    ?>
+    <h2 class="blacomponentheading"><?php echo $title; ?></h2>
+<?php
+}
+foreach ($this->model->events as $date => $events)
+{
+?>
     <div class="event-date">
         <div class="event-date-head"><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></div>
         <table>
@@ -32,25 +37,43 @@ $title = $this->model->params->get('page_title', '');
                 <tr class="list-head">
                     <th class="time-column"><?php echo JText::_('COM_THM_ORGANIZER_START_TIME'); ?></th>
                     <th class="time-column"><?php echo JText::_('COM_THM_ORGANIZER_END_TIME'); ?></th>
-                    <?php if ($showRooms): ?>
+<?php
+    if ($showRooms)
+    {
+?>
                     <th class="rooms-column"><?php echo JText::_('COM_THM_ORGANIZER_ROOMS'); ?></th>
-                    <?php endif; ?>
-                    <?php if ($showOrg): ?>
+<?php
+    }
+    if ($showOrg)
+    {
+?>
                     <th class="org-column"><?php echo JText::_('COM_THM_ORGANIZER_ORGANIZATION'); ?></th>
-                    <?php endif; ?>
+<?php
+    }
+?>
                     <th class="speakers-column"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERS'); ?></th>
-                    <?php if ($showNames): ?>
+<?php
+    if ($showNames)
+    {
+?>
                     <th class="name-column"><?php echo JText::_('COM_THM_ORGANIZER_SUBJECTS'); ?></th>
-                    <?php endif; ?>
-                    <?php if ($showComment): ?>
+<?php
+    }
+    if ($showComment)
+    {
+?>
                     <th class="comment-column"><?php echo JText::_('COM_THM_ORGANIZER_COMMENT'); ?></th>
-                    <?php endif; ?>
+<?php
+    }
+?>
                 </tr>
             </thead>
-            <?php
-            $rowNumber = 0;
-            foreach ($events as $event):
-            foreach ($event['blocks'] as $block):
+<?php
+    $rowNumber = 0;
+    foreach ($events as $event)
+    {
+        foreach ($event['blocks'] as $block)
+        {
             $rowClass = 'row' . ($rowNumber % 2);
             $rowNumber++;
             $rooms = implode(', ', $block['rooms']);
@@ -67,23 +90,43 @@ $title = $this->model->params->get('page_title', '');
                 <td class="time-column">
                     <?php echo THM_OrganizerHelperComponent::formatTime($block['endtime']); ?>
                 </td>
-                <?php if ($showRooms): ?>
+<?php
+            if ($showRooms)
+            {
+?>
                 <td class="rooms-column"><?php echo $rooms; ?></td>
-                <?php endif; ?>
-                <?php if ($showOrg): ?>
+<?php
+            }
+            if ($showOrg)
+            {
+?>
                 <td class="org-column"><?php echo $event['organization']; ?></td>
-                <?php endif; ?>
+<?php
+            }
+?>
                 <td class="speakers-column"><?php echo $speakers; ?></td>
-                <?php if ($showNames): ?>
+<?php
+            if ($showNames)
+            {
+?>
                 <td class="name-column"><?php echo $event['name']; ?></td>
-                <?php endif; ?>
-                <?php if ($showComment): ?>
+<?php
+            }
+            if ($showComment)
+            {
+?>
                 <td class="comment-column"><?php echo $event['comment']; ?></td>
-                <?php endif; ?>
+<?php
+            }
+?>
             </tr>
-            <?php endforeach; ?>
-            <?php endforeach; ?>
+<?php
+        }
+    }
+?>
         </table>
     </div>
-<?php endforeach; ?>
+<?php
+}
+?>
 </div>

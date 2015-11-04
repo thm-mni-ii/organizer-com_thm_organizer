@@ -128,7 +128,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     {
         $app = JFactory::getApplication();
         $base = JURI::root() . 'index.php?';
-        $query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
+        $query = $app->input->server->get('QUERY_STRING', '', 'raw');
+        $query .= (strpos($query, 'com_thm_organizer') !== false)? '' : '&option=com_thm_organizer';
+        $query .= (strpos($query, 'event_list') !== false)? '' : '&view=event_list';
+        $query .='&tmpl=component';
         $app->redirect($base . $query);
     }
 
@@ -181,7 +184,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
         $roomEntry = JTable::getInstance('rooms', 'thm_organizerTable');
         $rooms = array();
-        foreach ($this->rooms AS $roomID => $roomValue)
+        foreach (array_keys($this->rooms) AS $roomID)
         {
             try
             {
@@ -218,7 +221,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     }
 
     /**
-     * Sets the date used for comparison
+     * Sets the dates used
+     *
+     * @return  void  sets object variables $_startDate and $_endDate
      */
     private function setDates()
     {
@@ -275,7 +280,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         $calendar = $this->_currentSchedule->calendar;
         $startStamp = strtotime($this->_startDate);
         $endStamp = empty($this->_endDate)? '' : strtotime($this->_endDate);
-        foreach ($calendar AS $date => $blocks)
+        foreach (array_keys((array) $calendar) AS $date)
         {
             // We aren't interested in past dates
             $dateStamp = strtotime($date);
@@ -323,7 +328,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     }
 
     /**
-     * 
+     * Sets the event data for the block being iterated
+     *
+     * @return  void  sets object variables
      */
     private function setBlockData()
     {
@@ -499,7 +506,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Sets block specific data such as times and rooms.
      *
-     * @param  $blockRooms  the rooms found by the previous relevance check
+     * @param   array  $blockRooms  the rooms found by the previous relevance check
      *
      * @return  void  sets object variables
      */
@@ -543,6 +550,11 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         return $speakers;
     }
 
+    /**
+     * Consolidates events that take place in multiple sequential blocks
+     *
+     * @return  void  sets object variables
+     */
     private function cleanEventBlockData()
     {
         foreach ($this->events AS $date => $events)

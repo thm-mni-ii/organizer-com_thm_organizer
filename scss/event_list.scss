@@ -144,16 +144,59 @@
     margin: 0 48px;
     text-align: center;
 
-    .row* {
-      background-color: rgb(238, 238, 238);
-      border-bottom: 3px solid white;
-      clear: both;
+    .exp-text {
+      font-size: 115%;
+      font-weight: bold;
+      padding: 10px 0;
+    }
+
+    .event-date-head {
+      border: 1px solid #405e9a;
+      font-size: 110%;
+      position: relative;
+      left: -1px;
+    }
+
+    .row1{
+      background-color: #f2f5f6;
+    }
+
+    .event-times, .event-main, .event-comment{
+      display: inline-block;
       float: left;
-      padding: 46px 0.5em;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .event-times, .event-names, .event-speakers, .event-comment{
+      font-size: 110%;
+      padding: 10px 0;
     }
 
     .event-times {
-      float: left;
+      width: 6%;
+    }
+
+    .event-main {
+      width: 70%;
+    }
+
+    .main-wide {
+      width: 90%;
+    }
+
+    .event-names {
+      font-size: 115%;
+      font-weight: bold;
+    }
+
+    .event-comment {
+      width: 20%;
+    }
+
+    .comment-head {
+      font-size: 80%;
     }
   }
 }
