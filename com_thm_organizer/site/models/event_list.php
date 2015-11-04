@@ -160,6 +160,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         }
         ksort($this->events);
         $this->cleanEventBlockData();
+        $this->sortEventBlockData();
     }
 
     /**
@@ -606,6 +607,45 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Sorts the events according to their starting time and rooms
+     *
+     * @return  void  sets object variables
+     */
+    private function sortEventBlockData()
+    {
+        /**
+         * Compares the values of two arrays
+         *
+         * @param   array  $one  the first array
+         * @param   array  $two  the second array
+         *
+         * @return  int  see strcmp
+         */
+        function compareEvents($one, $two)
+        {
+            $oneBlocks = $one["blocks"];
+            $oneBlock = array_shift($oneBlocks);
+            $twoBlocks = $two["blocks"];
+            $twoBlock = array_shift($twoBlocks);
+            $startTimeComparison = strcmp($oneBlock['starttime'], $twoBlock["starttime"]);
+            if ($startTimeComparison !== 0)
+            {
+                return $startTimeComparison;
+            }
+
+            $oneRooms = implode(', ', $oneBlock['rooms']);
+            $twoRooms = implode(', ', $twoBlock['rooms']);
+            return strcmp($oneRooms, $twoRooms);
+        }
+
+        foreach ($this->events AS $date => $events)
+        {
+            uasort($events, 'compareEvents');
+            $this->events[$date] = $events;
         }
     }
 }
