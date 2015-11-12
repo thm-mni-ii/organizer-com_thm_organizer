@@ -5,13 +5,13 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelSubject_Ajax
  * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-require_once JPATH_ADMINISTRATOR . '/components/com_thm_organizer/assets/helpers/mapping.php';
+require_once JPATH_BASE . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class provides methods for building a model of the curriculum in JSON format
