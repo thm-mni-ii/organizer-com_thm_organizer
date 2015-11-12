@@ -149,30 +149,28 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      */
     private function setTeachers(&$subject)
     {
-        $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, null, true);
+        $teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, null, true, false);
         if (empty($teacherData))
         {
             return;
         }
 
+        $executors = array();
         $teachers = array();
         foreach ($teacherData as $teacher)
         {
-            // todo: get names from groups names when they are far enough along
             $teacher['name'] = THM_OrganizerHelperTeacher::getDefaultName($teacher);
 
-            // Teacher is responsible this should overwrite any existing entry for the teacher
             if ($teacher['teacherResp'] == '1')
             {
-                $teacher['name'] .= ' (' . JText::_('COM_THM_ORGANIZER_RESPONSIBLE') . ')';
-                $teachers[$teacher['id']] = $teacher;
+                $executors[$teacher['id']] = $teacher;
             }
-            // The teacher entry is not yet in the array
-            elseif (empty($teachers[$teacher['id']]))
+            else
             {
                 $teachers[$teacher['id']] = $teacher;
             }
         }
+        $subject->executors = $executors;
         $subject->teachers = $teachers;
     }
 

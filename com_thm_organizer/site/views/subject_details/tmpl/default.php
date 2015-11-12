@@ -32,21 +32,42 @@ foreach ($this->languageSwitches AS $switch)
 if (!empty($this->item->externalID))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_MODULE_CODE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_MODULE_CODE') . '</div>';
     echo '<div class="subject-content">' . $this->item->externalID . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->short_name))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SHORT_NAME') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SHORT_NAME') . '</div>';
     echo '<div class="subject-content">' . $this->item->short_name . '</div>';
+    echo '</div>';
+}
+if (!empty($this->item->executors))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_MODULE_EXECUTORS') . '</div>';
+    echo '<div class="subject-content"><ul>';
+    foreach ($this->item->executors as $executor)
+    {
+        echo '<li>';
+        if (!empty($teacher['link']))
+        {
+            echo '<a href="' . $executor['link'] . '">' . $executor['name'] . '</a>';
+        }
+        else
+        {
+            echo $executor['name'];
+        }
+        echo '</li>';
+    }
+    echo '</ul></div>';
     echo '</div>';
 }
 if (!empty($this->item->teachers))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_TEACHERS') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_TEACHERS') . '</div>';
     echo '<div class="subject-content"><ul>';
     foreach ($this->item->teachers as $teacher)
     {
@@ -67,28 +88,28 @@ if (!empty($this->item->teachers))
 if (!empty($this->item->description))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SHORT_DESCRIPTION') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SHORT_DESCRIPTION') . '</div>';
     echo '<div class="subject-content">' . $this->item->description . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->objective))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_OBJECTIVES') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_OBJECTIVES') . '</div>';
     echo '<div class="subject-content">' . $this->item->objective . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->content))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_CONTENTS') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_CONTENTS') . '</div>';
     echo '<div class="subject-content">' . $this->item->content . '</div>';
     echo '</div>';
 }
 if ($this->item->expertise  !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_EXPERTISE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_EXPERTISE') . '</div>';
     echo '<div class="subject-content">';
     if ($this->item->expertise == '3')
     {
@@ -111,7 +132,7 @@ if ($this->item->expertise  !== null)
 if ($this->item->method_competence !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_METHOD_COMPETENCE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_METHOD_COMPETENCE') . '</div>';
     echo '<div class="subject-content">';
     if ($this->item->method_competence == '3')
     {
@@ -134,7 +155,7 @@ if ($this->item->method_competence !== null)
 if ($this->item->social_competence  !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SOCIAL_COMPETENCE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SOCIAL_COMPETENCE') . '</div>';
     echo '<div class="subject-content">';
     if ($this->item->social_competence == '3')
     {
@@ -157,7 +178,7 @@ if ($this->item->social_competence  !== null)
 if ($this->item->self_competence !== null)
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SELF_COMPETENCE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SELF_COMPETENCE') . '</div>';
     echo '<div class="subject-content">';
     if ($this->item->self_competence == '3')
     {
@@ -180,7 +201,7 @@ if ($this->item->self_competence !== null)
 if (!empty($this->item->instructionLanguage))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_INSTRUCTION_LANGUAGE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_INSTRUCTION_LANGUAGE') . '</div>';
     echo '<div class="subject-content">';
     echo ($this->item->instructionLanguage == 'D')? 'Deutsch' : 'English';
     echo '</div>';
@@ -189,28 +210,28 @@ if (!empty($this->item->instructionLanguage))
 if (!empty($this->item->expenditureOutput))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_EXPENDITURE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_EXPENDITURE') . '</div>';
     echo '<div class="subject-content">' . $this->item->expenditureOutput . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->sws))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_SWS') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SWS') . '</div>';
     echo '<div class="subject-content">' . $this->item->sws . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->method))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_METHOD') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_METHOD') . '</div>';
     echo '<div class="subject-content">' . $this->item->method . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->preliminary_work))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PRELIMINARY_WORK') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_PRELIMINARY_WORK') . '</div>';
     echo '<div class="subject-content">' . $this->item->preliminary_work . '</div>';
     echo '</div>';
 }
@@ -218,35 +239,35 @@ if (!empty($this->item->proof))
 {
     $method = empty($this->item->pform)? '' : ' ( ' . $this->item->pform . ' )';
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PROOF') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_PROOF') . '</div>';
     echo '<div class="subject-content">' . $this->item->proof . $method . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->frequency))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_AVAILABILITY') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_AVAILABILITY') . '</div>';
     echo '<div class="subject-content">' . $this->item->frequency . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->literature))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_LITERATURE') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_LITERATURE') . '</div>';
     echo '<div class="subject-content" id="litverz">' . $this->item->literature . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->aids))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_STUDY_AIDS') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_STUDY_AIDS') . '</div>';
     echo '<div class="subject-content">' . $this->item->aids . '</div>';
     echo '</div>';
 }
 if (!empty($this->item->prerequisites))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PREREQUISITES') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_PREREQUISITES') . '</div>';
     echo '<div class="subject-content">';
     echo $this->item->prerequisites;
     echo '</div></div>';
@@ -254,7 +275,7 @@ if (!empty($this->item->prerequisites))
 if (!empty($this->item->recommended_prerequisites))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES') . '</div>';
     echo '<div class="subject-content">';
     echo $this->item->recommended_prerequisites;
     echo '</div></div>';
@@ -262,7 +283,7 @@ if (!empty($this->item->recommended_prerequisites))
 if (!empty($this->item->prerequisiteOf))
 {
     echo '<div class="subject-item">';
-    echo '<div class="subject-label">' . JText::_('COM_THM_ORGANIZER_PREREQUISITE_FOR') . '</div>';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_PREREQUISITE_FOR') . '</div>';
     echo '<div class="subject-content"><ul>';
     foreach ($this->item->prerequisiteOf as $of)
     {

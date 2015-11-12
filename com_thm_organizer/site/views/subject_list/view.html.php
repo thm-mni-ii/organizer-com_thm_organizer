@@ -25,6 +25,8 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 {
     public $languageSwitches = array();
 
+    public $lang;
+
     /**
      * Method to get display
      *
@@ -35,7 +37,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
     public function display($tpl = null)
     {
         $this->modifyDocument();
-        THM_OrganizerHelperLanguage::setLanguage();
+        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
         $this->state = $this->get('State');
         $this->items = $this->get('items');

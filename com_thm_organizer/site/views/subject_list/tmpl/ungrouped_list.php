@@ -37,7 +37,7 @@ class THM_OrganizerTemplateUngroupedList
             foreach ($view->items AS $item)
             {
                 // entry already exists and the teacher for the subject being iterated is not responsible
-                if (!empty($displayItems['id']) AND $item->teacherResp == 2)
+                if (!empty($displayItems[$item->id]) AND $item->teacherResp === '2')
                 {
                     continue;
                 }

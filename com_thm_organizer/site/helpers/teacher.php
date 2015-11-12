@@ -93,10 +93,11 @@ class THM_OrganizerHelperTeacher
      * @param   int   $responsibility  represents the teacher's level of
      *                                 responsibility for the subject
      * @param   bool  $multiple        whether or not multiple results are desired
+     * @param   bool  $unique          whether or not unique results are desired
      *
      * @return  array  an array of teacher data
      */
-    public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false)
+    public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false, $unique = true)
     {
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);
@@ -122,7 +123,10 @@ class THM_OrganizerHelperTeacher
                 JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
-            self::ensureUnique($teacherList);
+            if ($unique)
+            {
+                self::ensureUnique($teacherList);
+            }
             return $teacherList;
         }
         try

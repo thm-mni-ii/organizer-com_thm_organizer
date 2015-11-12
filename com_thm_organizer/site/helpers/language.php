@@ -26,30 +26,35 @@ class THM_OrganizerHelperLanguage
      *
      * @return  void
      */
-    public static function setLanguage()
+    public static function getLanguage()
     {
         $app = JFactory::getApplication();
-        $requested = $app->input->get('languageTag', '');
+        $default = THM_CoreHelper::getLanguageShortTag();
+        $requested = $app->input->get('languageTag', $default);
         $supportedLanguages = array('en', 'de');
         if (in_array($requested, $supportedLanguages))
         {
-            $lang = JFactory::getApplication()->getLanguage();
-            if ($requested == 'en')
+            switch ($requested)
             {
-                $lang->setLanguage('en-GB');
-                return;
+                case 'de':
+                    $lang = new JLanguage('de-DE');
+                    break;
+                case 'en':
+                default:
+                    $lang = new JLanguage('en-GB');
+                    break;
             }
-            if ($requested == 'de')
-            {
-                $lang->setLanguage('de-DE');
-                return;
-            }
-            $lang->setLanguage('en-GB');
         }
+        else
+        {
+            $lang = new JLanguage('en-GB');
+        }
+        $lang->load('com_thm_organizer');
+        return $lang;
     }
 
     /**
-     * Sets the language to the one requested
+     * Sets the language to the one requested. This can only be called after getLanguage().
      *
      * @return  array  html links for language redirection
      */
@@ -63,9 +68,10 @@ class THM_OrganizerHelperLanguage
         {
             $params['Itemid'] = $menuID;
         }
+        $requested = $input->getString('languageTag', '');
 
         $languageSwitches = array();
-        $current = THM_CoreHelper::getLanguageShortTag();
+        $current = empty($requested)? THM_CoreHelper::getLanguageShortTag() : $requested;
         $supportedLanguages = array('en', 'de');
         foreach ($supportedLanguages AS $supported)
         {

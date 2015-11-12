@@ -58,18 +58,18 @@ $subjectsText = JText::_('COM_THM_ORGANIZER_SUBJECTS');
         <?php echo JHtml::_('form.token'); ?>
 <?php
 echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'list'));
-echo JHtml::_('bootstrap.addTab', 'myTab', 'list', JText::_('COM_THM_ORGANIZER_ALPHABETICAL'));
+echo JHtml::_('bootstrap.addTab', 'myTab', 'list', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
 THM_OrganizerTemplateUngroupedList::render($this);
 echo JHtml::_('bootstrap.endTab');
-echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', JText::_('COM_THM_ORGANIZER_BY_GROUP'));
+echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('COM_THM_ORGANIZER_BY_GROUP'));
 $poolParams = array('order' => 'lft', 'name' => 'pool', 'id' => 'poolID', 'bgColor' => 'poolColor');
 THM_OrganizerTemplateGroupedList::render($this, $poolParams);
 echo JHtml::_('bootstrap.endTab');
-echo JHtml::_('bootstrap.addTab', 'myTab', 'teacher', JText::_('COM_THM_ORGANIZER_BY_TEACHER'));
+echo JHtml::_('bootstrap.addTab', 'myTab', 'teacher', $this->lang->_('COM_THM_ORGANIZER_BY_TEACHER'));
 $teacherParams = array('order' => 'teacherName', 'name' => 'teacherName', 'id' => 'teacherID', 'bgColor' => 'teacherColor');
 THM_OrganizerTemplateGroupedList::render($this, $teacherParams);
 echo JHtml::_('bootstrap.endTab');
-echo JHtml::_('bootstrap.addTab', 'myTab', 'field', JText::_('COM_THM_ORGANIZER_BY_FIELD'));
+echo JHtml::_('bootstrap.addTab', 'myTab', 'field', $this->lang->_('COM_THM_ORGANIZER_BY_FIELD'));
 $teacherParams = array('order' => 'field', 'name' => 'field', 'id' => 'fieldID', 'bgColor' => 'subjectColor');
 THM_OrganizerTemplateGroupedList::render($this, $teacherParams);
 echo JHtml::_('bootstrap.endTab');

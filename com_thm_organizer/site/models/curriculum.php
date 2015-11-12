@@ -22,6 +22,8 @@ require_once JPATH_COMPONENT . '/helpers/teacher.php';
  */
 class THM_OrganizerModelCurriculum extends JModelItem
 {
+    private $langTag;
+
     /**
      * Method to get an array of data items.
      *
@@ -29,7 +31,8 @@ class THM_OrganizerModelCurriculum extends JModelItem
      */
     public function getItem()
     {
-        $params = JFactory::getApplication()->getParams();
+        $app = JFactory::getApplication();
+        $params = $app->getParams();
         $program = new stdClass;
 
         $programID = $params->get('programID', 0);
@@ -38,6 +41,9 @@ class THM_OrganizerModelCurriculum extends JModelItem
             return $program;
         }
         $program->id = $programID;
+
+        $defaultLang = THM_CoreHelper::getLanguageShortTag();
+        $this->langTag = $app->input->get('languageTag', $defaultLang);
 
         $this->setProgramInformation($program);
         if (empty($program->name))
@@ -59,9 +65,8 @@ class THM_OrganizerModelCurriculum extends JModelItem
      */
     private function setProgramInformation(&$program)
     {
-        $langTag = THM_CoreHelper::getLanguageShortTag();
         $query = $this->_db->getQuery(true);
-        $query->select("p.subject_$langTag AS name, d.abbreviation, p.version, m.id AS mapping");
+        $query->select("p.subject_$this->langTag AS name, d.abbreviation, p.version, m.id AS mapping");
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
@@ -145,9 +150,8 @@ class THM_OrganizerModelCurriculum extends JModelItem
      */
     private function getPool($poolID, $mappingID)
     {
-        $langTag = THM_CoreHelper::getLanguageShortTag();
         $query = $this->_db->getQuery(true);
-        $query->select("p.id, name_$langTag AS name, description_$langTag AS description, minCrP, maxCrP, enable_desc, color AS bgColor");
+        $query->select("p.id, name_$this->langTag AS name, description_$this->langTag AS description, minCrP, maxCrP, enable_desc, color AS bgColor");
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
@@ -187,11 +191,10 @@ class THM_OrganizerModelCurriculum extends JModelItem
     {
         $query = $this->_db->getQuery(true);
 
-        $langTag = THM_CoreHelper::getLanguageShortTag();
-        $select = "s.id, externalID, name_$langTag AS name, creditpoints AS CrP, color AS bgColor, ";
+        $select = "s.id, externalID, name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
         $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
         $menuIDParam = empty($menuID)? '' : "&Itemid=$menuID";
-        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}{$menuIDParam}&id='";
+        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";
         $parts = array("$subjectLink","s.id");
         $select .= $query->concatenate($parts, "") . " AS link";
 

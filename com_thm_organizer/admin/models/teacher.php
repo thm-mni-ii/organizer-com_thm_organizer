@@ -600,6 +600,8 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         $this->validateForename($teacherNode, $teacherID, $warningString);
         $userid = trim((string) $teacherNode->payrollnumber);
         $this->_scheduleModel->schedule->teachers->$teacherID->username = empty($userid)? '' :$userid;
+        $title = trim((string) $teacherNode->title);
+        $this->_scheduleModel->schedule->teachers->$teacherID->title = empty($title)? '' :$title;
         $this->validateDescription($teacherNode, $teacherID, $warningString);
 
         if (!empty($warningString))
