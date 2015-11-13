@@ -78,8 +78,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $this->reset = $input->getBool('reset', false);
         $this->selected = array();
         $this->teachers = array();
-        $this->irrelevant['methods'] = array('K', 'SIT', 'PRÜ');
-        $this->irrelevant['teachers'] = array('NN.', 'DIV.', 'FS.', 'FS.', 'TUTOR.', 'SW');
+        $this->irrelevant['methods'] = array('K', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG');
+        $this->irrelevant['teachers'] = array('NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW');
         $this->irrelevant['pools'] = array('TERMINE.');
         $this->irrelevant['subjects'] = array('NN.');
         $this->setSchedule();
@@ -315,16 +315,22 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         if (empty($this->lessonValues[$lessonID]))
         {
             $this->lessonValues[$lessonID] = array();
-            $this->lessonValues[$lessonID]['teacherID'] = $teacherID;
-            $this->lessonValues[$lessonID]['teacherName'] = THM_OrganizerHelperTeacher::getLNFName($schedule->teachers->$teacherID);
-            $this->lessonValues[$lessonID]['subjectName'] = $this->getSubjectName($schedule, $lessonID);
+        }
+
+        if (empty($this->lessonValues[$lessonID][$teacherID]))
+        {
+            $this->lessonValues[$lessonID][$teacherID] = array();
+            $this->lessonValues[$lessonID][$teacherID]['teacherName']
+                = THM_OrganizerHelperTeacher::getLNFName($schedule->teachers->$teacherID);
+            $this->lessonValues[$lessonID][$teacherID]['subjectName']
+                = $this->getSubjectName($schedule, $lessonID);
         }
 
         // Tallied items have flat payment values and are correspondingly not tracked as accurately
         $isTallied = $this->isTallied($schedule, $lessonID);
         if ($isTallied)
         {
-            $this->lessonValues[$lessonID]['type'] = 'tally';
+            $this->lessonValues[$lessonID][$teacherID]['type'] = 'tally';
             return;
         }
 
@@ -337,36 +343,42 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             return;
         }
 
-        $DOWConstant = strtoupper(date('l', strtotime($day)));
-        $weekday = JText::_($DOWConstant);
 
-        $previousPools = empty($this->lessonValues[$lessonID]['pools'])?
-            array() : $this->lessonValues[$lessonID]['pools'];
+        $previousPools = empty($this->lessonValues[$lessonID][$teacherID]['pools'])?
+            array() : $this->lessonValues[$lessonID][$teacherID]['pools'];
         $mergedPools = array_merge($previousPools, $this->getPools($schedule, $lessonID));
         $pools = array_unique($mergedPools);
-        $this->lessonValues[$lessonID]['type'] = 'summary';
-        $this->lessonValues[$lessonID]['lessonType'] = $lessonType;
-        $this->lessonValues[$lessonID]['pools'] = $pools;
-        if (!isset($this->lessonValues[$lessonID]['periods']))
+        if (empty($pools))
         {
-            $this->lessonValues[$lessonID]['periods'] = array();
-        }
-        if (!isset($this->lessonValues[$lessonID]['startdate']))
-        {
-            $this->lessonValues[$lessonID]['startdate'] = THM_OrganizerHelperComponent::formatDate($day);
+            unset($this->lessonValues[$lessonID]);
+            return;
         }
 
+        $this->lessonValues[$lessonID][$teacherID]['type'] = 'summary';
+        $this->lessonValues[$lessonID][$teacherID]['lessonType'] = $lessonType;
+        $this->lessonValues[$lessonID][$teacherID]['pools'] = $pools;
+        if (!isset($this->lessonValues[$lessonID][$teacherID]['periods']))
+        {
+            $this->lessonValues[$lessonID][$teacherID]['periods'] = array();
+        }
+        if (!isset($this->lessonValues[$lessonID][$teacherID]['startdate']))
+        {
+            $this->lessonValues[$lessonID][$teacherID]['startdate'] = THM_OrganizerHelperComponent::formatDate($day);
+        }
+
+        $DOWConstant = strtoupper(date('l', strtotime($day)));
+        $weekday = JText::_($DOWConstant);
         $plannedBlock = "$weekday-$blockNumber";
-        if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID]['periods']))
+        if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID][$teacherID]['periods']))
         {
-            $this->lessonValues[$lessonID]['periods'][$plannedBlock] = array();
+            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = array();
         }
-        if (!array_key_exists($day, $this->lessonValues[$lessonID]['periods'][$plannedBlock]))
+        if (!array_key_exists($day, $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock]))
         {
-            $this->lessonValues[$lessonID]['periods'][$plannedBlock][$day] = $hours;
+            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock][$day] = $hours;
         }
 
-        $this->lessonValues[$lessonID]['enddate'] = THM_OrganizerHelperComponent::formatDate($day);
+        $this->lessonValues[$lessonID][$teacherID]['enddate'] = THM_OrganizerHelperComponent::formatDate($day);
 
         return;
     }
@@ -451,6 +463,13 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             {
                 unset($pools[$pool]);
             }
+            foreach ($this->irrelevant['pools'] as $irrelevant)
+            {
+                if (strpos($pool, $irrelevant) === 0)
+                {
+                    unset($pools[$pool]);
+                }
+            }
         }
         $poolIDs = array_keys($pools);
         asort($poolIDs);
@@ -491,58 +510,64 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $blockCounter = 1;
         $skipValues = array();
 
-        foreach ($this->lessonValues as $lessonID => $lessonValues)
+        foreach ($this->lessonValues as $lessonID => $teacherIDs)
         {
-            if (in_array($lessonID, $skipValues))
+            foreach($teacherIDs as $teacherID => $lessonValues)
             {
-                continue;
-            }
-
-            $teacherID = $lessonValues['teacherID'];
-            if (empty($this->deputat[$teacherID]))
-            {
-                $this->deputat[$teacherID] = array();
-                $this->deputat[$teacherID]['name'] = $lessonValues['teacherName'];
-            }
-
-            if ($lessonValues['type'] == 'tally')
-            {
-                $this->setTallyDeputat($lessonValues);
-                unset($this->lessonValues[$lessonID]);
-                continue;
-            }
-
-            $subjectIndex = "{$lessonValues['subjectName']}-{$lessonValues['lessonType']}";
-
-            // Current threshhold for a block lesson is 20 scholastic hours per week (10 periods)
-            if (count($lessonValues['periods']) > 20)
-            {
-                $blockIndex = "$subjectIndex-$blockCounter";
-                $this->setSummaryDeputat($lessonValues, $blockIndex);
-
-                // Block lessons are listed individually => no need to compare
-                unset($this->lessonValues[$lessonID]);
-                continue;
-            }
-
-            // The initial summary deputat
-            $this->setSummaryDeputat($lessonValues, $subjectIndex);
-
-            foreach ($this->lessonValues as $comparisonID => $comparisonValues)
-            {
-                // The lesson should not be compared to itself
-                if ($lessonID == $comparisonID)
+                if (in_array($lessonID, $skipValues))
                 {
                     continue;
                 }
 
-                if ($this->isAggregationPlausible($lessonValues, $comparisonValues))
+                if (empty($this->deputat[$teacherID]))
                 {
-                    $this->aggregate($teacherID, $subjectIndex, $comparisonValues);
+                    $this->deputat[$teacherID] = array();
+                    $this->deputat[$teacherID]['name'] = $lessonValues['teacherName'];
+                }
 
-                    // Aggregated lessons should not be reiterated
-                    $skipValues[] = $comparisonID;
+                if ($lessonValues['type'] == 'tally')
+                {
+                    $this->setTallyDeputat($teacherID, $lessonValues);
+                    unset($this->lessonValues[$lessonID]);
                     continue;
+                }
+
+                $subjectIndex = "{$lessonValues['subjectName']}-{$lessonValues['lessonType']}";
+
+                // Current threshhold for a block lesson is 20 scholastic hours per week (10 periods)
+                if (count($lessonValues['periods']) > 20)
+                {
+                    $blockIndex = "$subjectIndex-$blockCounter";
+                    $this->setSummaryDeputat($teacherID, $lessonValues, $blockIndex);
+
+                    // Block lessons are listed individually => no need to compare
+                    unset($this->lessonValues[$lessonID]);
+                    continue;
+                }
+
+                // The initial summary deputat
+                $this->setSummaryDeputat($teacherID, $lessonValues, $subjectIndex);
+
+                foreach ($this->lessonValues as $comparisonID => $compTeacherIDs)
+                {
+                    // The lesson should not be compared to itself
+                    if ($lessonID == $comparisonID)
+                    {
+                        continue;
+                    }
+
+                    $teacherTeaches = array_key_exists($teacherID, $compTeacherIDs);
+                    $plausible = $teacherTeaches?
+                        $this->isAggregationPlausible($teacherID, $lessonValues, $compTeacherIDs[$teacherID])
+                        : false;
+                    if ($plausible)
+                    {
+                        $this->aggregate($teacherID, $subjectIndex, $compTeacherIDs[$teacherID]);
+
+                        // Aggregated lessons should not be reiterated
+                        $skipValues[] = $comparisonID;
+                        continue;
+                    }
                 }
             }
 
@@ -569,28 +594,29 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Sets the values for tallied lessons
      *
+     * @param   string  $teacherID      the teacher's id
      * @param   array  &$lessonValues  the values for the lesson being iterated
      *
      * @return  void  sets values in the object variable $deputat
      */
-    private function setTallyDeputat(&$lessonValues)
+    private function setTallyDeputat($teacherID, &$lessonValues)
     {
-        if (empty($this->deputat[$lessonValues['teacherID']]['tally']))
+        if (empty($this->deputat[$teacherID]['tally']))
         {
-            $this->deputat[$lessonValues['teacherID']]['tally'] = array();
+            $this->deputat[$teacherID]['tally'] = array();
         }
         $subjectName = $lessonValues['subjectName'];
-        if (empty($this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]))
+        if (empty($this->deputat[$teacherID]['tally'][$subjectName]))
         {
-            $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName] = array();
+            $this->deputat[$teacherID]['tally'][$subjectName] = array();
         }
-        $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['rate'] = $this->getRate($subjectName);
-        if (empty($this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['count']))
+        $this->deputat[$teacherID]['tally'][$subjectName]['rate'] = $this->getRate($subjectName);
+        if (empty($this->deputat[$teacherID]['tally'][$subjectName]['count']))
         {
-            $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['count'] = 1;
+            $this->deputat[$teacherID]['tally'][$subjectName]['count'] = 1;
             return;
         }
-        $this->deputat[$lessonValues['teacherID']]['tally'][$subjectName]['count']++;
+        $this->deputat[$teacherID]['tally'][$subjectName]['count']++;
         return;
     }
 
@@ -622,15 +648,15 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Sets the values for summarized lessons
      *
+     * @param   string  $teacherID      the teacher's id
      * @param   array   &$lessonValues  the values for the lesson being iterated
      * @param   string  $index          the index to be used for the lesson
      *
      * @return  void  sets values in the object variable $deputat
      */
-    private function setSummaryDeputat(&$lessonValues, $index)
+    private function setSummaryDeputat($teacherID, &$lessonValues, $index)
     {
-        $teacherID = $lessonValues['teacherID'];
-        if (empty($this->deputat[$lessonValues['teacherID']]['summary']))
+        if (empty($this->deputat[$teacherID]['summary']))
         {
             $this->deputat[$teacherID]['summary'] = array();
         }
@@ -742,12 +768,13 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Checks lesson values to determine the plausibility of aggregation
      *
-     * @param   array  $lessonValues      the values for the lesson being iterated in the outer loop
-     * @param   array  $comparisonValues  the values for the lesson being iterated in the inner loop
+     * @param   string  $teacherID         the iterated teacher's id
+     * @param   array   $lessonValues      the values for the lesson being iterated in the outer loop
+     * @param   array   $comparisonValues  the values for the lesson being iterated in the inner loop
      *
      * @return  bool  true if the lessons are a plausible match, otherwise false
      */
-    private function isAggregationPlausible($lessonValues, $comparisonValues)
+    private function isAggregationPlausible($teacherID, $lessonValues, $comparisonValues)
     {
         // Tallied and block lessons are handled differently
         if ($comparisonValues['type'] == 'tally' OR count($comparisonValues['periods']) > 20)
@@ -755,10 +782,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             return false;
         }
 
-        $teacherPlausible = $lessonValues['teacherID'] == $comparisonValues['teacherID'];
         $subjectsPlausible = $lessonValues['subjectName'] == $comparisonValues['subjectName'];
         $typesPlausible = $lessonValues['lessonType'] == $comparisonValues['lessonType'];
-        return ($teacherPlausible AND $subjectsPlausible AND $typesPlausible);
+        return ($subjectsPlausible AND $typesPlausible);
     }
 
     /**
