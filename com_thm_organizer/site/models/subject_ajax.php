@@ -40,32 +40,46 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         $input = JFactory::getApplication()->input;
         $programID = $input->getString('programID', '-1');
         $teacherID = $input->getString('teacherID', '-1');
-        $lang = $input->getString('languageTag', 'de');
         if ($programID == '-1' AND $teacherID == '-1')
         {
             return '[]';
         }
 
-        $boundaries = $this->getBoundaries();
-
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, s.name_{$lang} AS name, s.externalID";
-        $query->select($select)->from('#__thm_organizer_subjects AS s');
+
+        $lang = JFactory::getApplication()->input->getString('languageTag', 'de');
+        $select = "DISTINCT s.id, s.name_{$lang} AS name, s.externalID, s.creditpoints, ";
+        $select .= "t.surname, t.forename, t.title, t.username ";
+        $query->select($select);
+
+        $query->from('#__thm_organizer_subjects AS s');
+
+        $boundaries = $this->getBoundaries();
         if (!empty($boundaries))
         {
             $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
             $query->where("m.lft >= '{$boundaries['lft']}'");
             $query->where("m.rgt <= '{$boundaries['rgt']}'");
         }
+
         if ($teacherID != '-1')
         {
             $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id');
+            $query->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
             $query->where("st.teacherID = '$teacherID'");
         }
+        else
+        {
+            $query->leftJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id');
+            $query->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
+            $query->where("st.teacherResp = '1'");
+        }
+
         $query->order('name');
+        $query->group('s.id');
+
         $dbo->setQuery((string) $query);
-        
         try 
         {
             $subjects = $dbo->loadObjectList();
