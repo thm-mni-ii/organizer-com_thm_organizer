@@ -3,10 +3,9 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModeldetails
- * @description THM_OrganizerModeldetails component site model
- * @author      Markus Baier, <markus.baier@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @name        THM_OrganizerModelSubject_Details
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -37,7 +36,8 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             return new stdClass;
         }
 
-        $langTag = THM_CoreHelper::getLanguageShortTag();
+        $input = JFactory::getApplication()->input;
+        $langTag = $input->getString('languageTag', THM_CoreHelper::getLanguageShortTag());
         $query = $this->_db->getQuery(true);
 
         $select = "s.id, externalID, name_$langTag AS name, description_$langTag AS description, ";

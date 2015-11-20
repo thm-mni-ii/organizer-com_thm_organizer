@@ -95,9 +95,11 @@ class THM_OrganizerHelperLanguage
      */
     private static function languageSwitch($url, $newLanguage)
     {
-        $imgPath = JURI::root() . "/media/com_thm_organizer/images/$newLanguage.png";
+        $constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
+        $imgPath = JURI::root() . "/templates/thm/images/assets/icon_earth.jpg";
         $switch = '<a href="' . JRoute::_($url) . '">';
         $switch .= '<img class="btn flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
+        $switch .= JText::_($constants[$newLanguage]);
         $switch .= '</a>';
         return $switch;
     }

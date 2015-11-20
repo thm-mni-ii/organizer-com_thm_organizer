@@ -199,7 +199,7 @@ thead tr:nth-child(1) th {
   /* IE10+ */
   background: linear-gradient(to bottom, #cce3a7 0%, #B9D986 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
   /* IE6-9 */
   padding-top: 5px;
   padding-bottom: 2px;
@@ -240,7 +240,7 @@ thead tr:nth-last-child(1) th {
   /* IE10+ */
   background: linear-gradient(to bottom, #B9D986 0%, #cce3a7 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
   /* IE6-9 */
   padding-top: 0px;
   padding-left: 0px;
@@ -293,7 +293,7 @@ tbody tr:first-child td {
   /* IE10+ */
   background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
   /* IE6-9 */
 }
 
@@ -338,7 +338,7 @@ tbody tr:first-child td {
   /* IE10+ */
   background: linear-gradient(to bottom, #ffffff 0%, #f4f4f4 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
   /* IE6-9 */
   line-height: 14px;
 }
@@ -357,7 +357,7 @@ tbody tr:first-child td {
   /* IE10+ */
   background: linear-gradient(to bottom, #B9D986 0%, #cce3a7 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
   /* IE6-9 */
   border: 1px solid #bbb;
   -webkit-border-radius: 3px;
@@ -381,7 +381,7 @@ tbody tr:first-child td {
   /* IE10+ */
   background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
   /* IE6-9 */
 }
 #mapping table, #mappings table {
