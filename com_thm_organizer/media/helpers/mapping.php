@@ -584,7 +584,8 @@ class THM_OrganizerHelperMapping
      */
     public static function getBoundaries($resourceType, $resourceID)
     {
-        if ($resourceID == '-1')
+        $invalidID = (empty($resourceID) OR $resourceID == 'null' OR $resourceID == '-1');
+        if ($invalidID)
         {
             return false;
         }
@@ -596,13 +597,95 @@ class THM_OrganizerHelperMapping
         
         try 
         {
-            return $dbo->loadAssoc();
+            $boundaries = $dbo->loadAssoc();
         }
         catch (Exception $exc)
         {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
+
+        if ($resourceType == 'program')
+        {
+            return array($boundaries);
+        }
+        $bla = self::removeExclusions($boundaries);
+
+        return $bla;
+    }
+
+    /**
+     * Retrieves the mapping boundaries of the selected resource
+     *
+     * @param   int  $boundaries  the boundaries of a single pool
+     *
+     * @return  array  array of arrays with boundary values
+     *
+     * @throws  exception
+     */
+    public static function removeExclusions($boundaries)
+    {
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('lft, rgt')->from('#__thm_organizer_mappings');
+        $query->where("poolID IS NOT NULL");
+        $query->where("lft > '{$boundaries['lft']}' AND rgt < '{$boundaries['rgt']}'");
+        $query->order('lft');
+        $dbo->setQuery((string) $query);
+
+        try
+        {
+            $exclusions = $dbo->loadAssocList();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            return array();
+        }
+
+        if (empty($exclusions))
+        {
+            return array($boundaries);
+        }
+
+        $boundarySet = array();
+        foreach ($exclusions as $exclusion)
+        {
+            // Child has no children => has no impact on output
+            if ($exclusion['lft'] +1 == $exclusion['rgt'])
+            {
+                continue;
+            }
+
+            // Not an immediate child
+            if ($exclusion['lft'] != $boundaries['lft'] + 1)
+            {
+                // Create a new boundary from the current left to the exclusion
+                $boundary = array('lft' => $boundaries['lft'], 'rgt' => $exclusion['lft']);
+
+                // Change the new left to the other side of the exclusion
+                $boundaries['lft'] = $exclusion['rgt'];
+
+                $boundarySet[] = $boundary;
+            }
+            else
+            {
+                // Change the new left to the other side of the exclusion
+                $boundaries['lft'] = $exclusion['rgt'];
+            }
+
+            if ($boundaries['lft'] >= $boundaries['rgt'])
+            {
+                break;
+            }
+        }
+
+        // Remnants after exclusions still exist
+        if ($boundaries['lft'] < $boundaries['rgt'])
+        {
+            $boundarySet[] = $boundaries;
+        }
+        return $boundarySet;
     }
 
     /**

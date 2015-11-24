@@ -512,7 +512,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
         foreach ($this->lessonValues as $lessonID => $teacherIDs)
         {
-            foreach($teacherIDs as $teacherID => $lessonValues)
+            foreach ($teacherIDs as $teacherID => $lessonValues)
             {
                 if (in_array($lessonID, $skipValues))
                 {
@@ -558,7 +558,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
                     $teacherTeaches = array_key_exists($teacherID, $compTeacherIDs);
                     $plausible = $teacherTeaches?
-                        $this->isAggregationPlausible($teacherID, $lessonValues, $compTeacherIDs[$teacherID])
+                        $this->isAggregationPlausible($lessonValues, $compTeacherIDs[$teacherID])
                         : false;
                     if ($plausible)
                     {
@@ -594,7 +594,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Sets the values for tallied lessons
      *
-     * @param   string  $teacherID      the teacher's id
+     * @param   string  $teacherID     the teacher's id
      * @param   array  &$lessonValues  the values for the lesson being iterated
      *
      * @return  void  sets values in the object variable $deputat
@@ -768,13 +768,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Checks lesson values to determine the plausibility of aggregation
      *
-     * @param   string  $teacherID         the iterated teacher's id
      * @param   array   $lessonValues      the values for the lesson being iterated in the outer loop
      * @param   array   $comparisonValues  the values for the lesson being iterated in the inner loop
      *
      * @return  bool  true if the lessons are a plausible match, otherwise false
      */
-    private function isAggregationPlausible($teacherID, $lessonValues, $comparisonValues)
+    private function isAggregationPlausible($lessonValues, $comparisonValues)
     {
         // Tallied and block lessons are handled differently
         if ($comparisonValues['type'] == 'tally' OR count($comparisonValues['periods']) > 20)

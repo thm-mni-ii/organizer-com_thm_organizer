@@ -40,8 +40,10 @@ $metric = 0;
     <div class="display-area">
         <div class="exp-text"><?php echo JText::_('COM_THM_ORGANIZER_NEXT_4'); ?></div>
 <?php
-foreach ($this->model->events as $date => $events) {
-    if ($metric >= 4) {
+foreach ($this->model->events as $date => $events)
+{
+    if ($metric >= 4)
+    {
         break;
     }
     $displayedEvents = 0; ?>
@@ -49,12 +51,14 @@ foreach ($this->model->events as $date => $events) {
         <div class="event-date-head"><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></div>
         <?php
         $rowNumber = 0;
-        foreach ($events as $event) {
+        foreach ($events as $event)
+        {
             if ($metric >= 4)
             {
                 break;
             }
-            foreach ($event['blocks'] as $block) {
+            foreach ($event['blocks'] as $block)
+            {
                 $metric++;
                 if ($metric > 4)
                 {
@@ -64,7 +68,8 @@ foreach ($this->model->events as $date => $events) {
                 $rowNumber++;
                 $rooms = implode(', ', $block['rooms']);
                 $speakersArray = array();
-                foreach ($block['speakers'] as $speaker) {
+                foreach ($block['speakers'] as $speaker)
+                {
                     $speakersArray[] = implode(', ', array_filter($speaker));
                 }
                 $speakers = implode(' / ', $speakersArray);

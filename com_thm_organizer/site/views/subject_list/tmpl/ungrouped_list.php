@@ -23,7 +23,7 @@ class THM_OrganizerTemplateUngroupedList
     /**
      * Renders subject information
      *
-     * @param   array   &$view   the view context
+     * @param   array  &$view  the view context
      *
      * @return  void
      */
@@ -36,7 +36,7 @@ class THM_OrganizerTemplateUngroupedList
             $displayItems = array();
             foreach ($view->items AS $item)
             {
-                // entry already exists and the teacher for the subject being iterated is not responsible
+                // Entry already exists and the teacher for the subject being iterated is not responsible
                 if (!empty($displayItems[$item->id]) AND $item->teacherResp === '2')
                 {
                     continue;

@@ -48,7 +48,9 @@ class MySchedPdf extends FPDF_TABLE
     /**
      * Constructor which performs initial tasks
      *
-     * @param   string  $title  the title for the pdf
+     * @param   string  $title      the title for the pdf
+     * @param   string  $startdate  the start date
+     * @param   string  $enddate    the end date
      */
     public function __construct($title, $startdate, $enddate)
     {
@@ -73,7 +75,7 @@ class MySchedPdf extends FPDF_TABLE
     {
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(124);
-        $this->Cell(30,10, '' . $this->_title . ' - Woche '. $this->_startdate . ' bis ' . $this->_enddate, 0, 0, 'C');
+        $this->Cell(30, 10, '' . $this->_title . ' - Woche ' . $this->_startdate . ' bis ' . $this->_enddate, 0, 0, 'C');
         $this->Ln(15);
     }
 

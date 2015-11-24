@@ -52,17 +52,25 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
             $resourceID = $programID;
         }
 
-        $boundaries = THM_OrganizerHelperMapping::getBoundaries($resourceType, $resourceID);
+        $boundarySet = THM_OrganizerHelperMapping::getBoundaries($resourceType, $resourceID);
 
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT t.id, t.forename, t.surname")->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
-        if (!empty($boundaries))
+        if (!empty($boundarySet))
         {
-            $query->where("m.lft >= '{$boundaries['lft']}'");
-            $query->where("m.rgt <= '{$boundaries['rgt']}'");
+            $where = '';
+            $initial = true;
+            foreach ($boundarySet as $boundaries)
+            {
+                $where .= $initial?
+                    "((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
+                    : " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
+                $initial = false;
+            }
+            $query->where($where . ')');
         }
         $query->order('t.surname');
         $dbo->setQuery((string) $query);

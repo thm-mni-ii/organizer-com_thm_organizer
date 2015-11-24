@@ -135,11 +135,6 @@ class THM_OrganizerViewDeputat extends JViewLegacy
             $displaySummary = !empty($deputat['summary']);
             $displayTally = !empty($deputat['tally']);
 
-            $buttonPanel = '';
-            //$buttonPanel .= '<div class="button-panel"><button id="export">';
-            //$buttonPanel .= JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_FORM");
-            //$buttonPanel .= '<i class="icon-download"></i></button></div>';
-
             $table = '<table class="deputat-table" id="deputat-table-' . $teacherID . '">';
             $table .= '<thead class="deputat-table-head-' . $teacherID . '">';
             $table .= '<tr class="teacher-header"><th colspan="5">' . $deputat['name'] . '</th></tr></thead>';
@@ -171,7 +166,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
                 $table .= '</tbody>';
             }
             $table .= '</table>';
-            $tables[] = $buttonPanel . $table;
+            $tables[] = $table;
         }
         return implode('', $tables);
     }

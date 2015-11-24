@@ -47,12 +47,11 @@ class JFormFieldParentPool extends JFormField
     /**
      * Gets pool options for a select list. All parameters come from the
      *
-     *
-     * @throws Exception
+     * @return  array  the options
      */
     public function getOptions()
     {
-        // get basic resource data
+        // Get basic resource data
         $resourceID = JFactory::getApplication()->input->getInt('id', 0);
         $contextParts = explode('.', $this->form->getName());
         $resourceType = str_replace('_edit', '', $contextParts[1]);

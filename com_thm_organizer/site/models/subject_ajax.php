@@ -55,12 +55,20 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 
         $query->from('#__thm_organizer_subjects AS s');
 
-        $boundaries = $this->getBoundaries();
-        if (!empty($boundaries))
+        $boundarySet = $this->getBoundaries();
+        if (!empty($boundarySet))
         {
             $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
-            $query->where("m.lft >= '{$boundaries['lft']}'");
-            $query->where("m.rgt <= '{$boundaries['rgt']}'");
+            $where = '';
+            $initial = true;
+            foreach ($boundarySet as $boundaries)
+            {
+                $where .= $initial?
+                    "((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
+                    : " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
+                $initial = false;
+            }
+            $query->where($where . ')');
         }
 
         if ($teacherID != '-1')
@@ -77,7 +85,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         }
 
         $query->order('name');
-        $query->group('s.id');
+        $query->group('s.id');//echo "<pre>" . print_r((string) $query, true) . "</pre>";
 
         $dbo->setQuery((string) $query);
         try 
@@ -115,12 +123,10 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
             $poolBoundaries = THM_OrganizerHelperMapping::getBoundaries('pool', $poolID);
         }
 
-        if (!empty($poolBoundaries))
+        $validPool = (!empty($poolBoundaries) AND $this->poolInProgram($poolBoundaries, $programBoundaries));
+        if ($validPool)
         {
-            if ($this->poolInProgram($poolBoundaries, $programBoundaries))
-            {
-                return $poolBoundaries;
-            }
+            return $poolBoundaries;
         }
 
         return $programBoundaries;
@@ -137,8 +143,11 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      */
     private function poolInProgram($poolBoundaries, $programBoundaries)
     {
-        $leftValid = $poolBoundaries['lft'] > $programBoundaries['lft'];
-        $rightValid = $poolBoundaries['rgt'] < $programBoundaries['rgt'];
+        $first = $poolBoundaries[0];
+        $last = end($poolBoundaries);
+
+        $leftValid = $first['lft'] > $programBoundaries[0]['lft'];
+        $rightValid = $last['rgt'] < $programBoundaries[0]['rgt'];
         if ($leftValid AND $rightValid)
         {
             return true;

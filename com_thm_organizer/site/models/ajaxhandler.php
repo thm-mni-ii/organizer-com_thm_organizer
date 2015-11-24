@@ -39,7 +39,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        $this->_CFG = new mySchedConfig();
+        $this->_CFG = new mySchedConfig;
     }
 
     /**
@@ -73,7 +73,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
                 return $schedNavModel->load($options);
             }
             $classname = $taskArray[0];
-            if(file_exists(JPATH_COMPONENT . "/assets/classes/" . $classname . ".php"))
+            if (file_exists(JPATH_COMPONENT . "/assets/classes/" . $classname . ".php"))
             {
                 require_once JPATH_COMPONENT . "/assets/classes/" . $classname . ".php";
             }
@@ -92,6 +92,14 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
         }
     }
 
+    /**
+     * Instantiates a new Class. Seems a little superfluous...
+     *
+     * @param   string  $className  the name of the class
+     * @param   array   $options    the parameters for the object
+     *
+     * @return  object  the newly instantiated class
+     */
     public function getClass($className, $options)
     {
         $class = null;

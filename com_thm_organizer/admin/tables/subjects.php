@@ -42,7 +42,7 @@ class THM_OrganizerTableSubjects extends THM_CoreTableAssets
         {
             if (!strlen($this->$nullColumn))
             {
-                $this->$nullColumn = NULL;
+                $this->$nullColumn = null;
             }
         }
         return true;
@@ -60,6 +60,9 @@ class THM_OrganizerTableSubjects extends THM_CoreTableAssets
 
     /**
      * Sets the parent as the component root
+     *
+     * @param   JTable   $table  A JTable object for the asset parent.
+     * @param   integer  $id     Id to look up
      *
      * @return  int  the asset id of the component root
      *

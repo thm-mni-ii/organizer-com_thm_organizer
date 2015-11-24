@@ -191,10 +191,10 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $query->select("p.id, p.name_{$lang} AS name, m.level");
         $query->from('#__thm_organizer_pools AS p');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-        if (!empty($programBounds))
+        if (!empty($programBounds[0]))
         {
-            $query->where("m.lft >= '{$programBounds['lft']}'");
-            $query->where("m.rgt <= '{$programBounds['rgt']}'");
+            $query->where("m.lft >= '{$programBounds[0]['lft']}'");
+            $query->where("m.rgt <= '{$programBounds[0]['rgt']}'");
         }
         if (!empty($teacherClauses))
         {

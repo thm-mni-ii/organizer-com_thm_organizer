@@ -64,11 +64,11 @@ class THM_OrganizerTemplateCurriculumPanel
         }
         $script = ($type == 'main')?
             ' onclick="toggleGroupDisplay(\'#main-panel-items-' . $pool->mapping . '\')"' :
-            ' onclick="toggleGroupDisplay(\'#panel-' . $pool->mapping . '\')"';;
+            ' onclick="toggleGroupDisplay(\'#panel-' . $pool->mapping . '\')"';
         $iconClass = $type == 'main'? 'icon-plus-2' : 'icon-cancel-2';
         echo '<div class="' . $type . '-panel-head" ' . $headStyle . '>';
         echo '<a ' . $script . '><i class="' . $iconClass . '"></i></a>';
-        echo '<div class="' . $type . ' panel-title" '. $script . '> ';
+        echo '<div class="' . $type . ' panel-title" ' . $script . '> ';
         echo '<span class="' . $type . '-panel-name">' . $pool->name . '</span>';
         echo '<span class="' . $type . '-panel-crp">(' . $crpText . ')</span>';
         echo '</div>';
@@ -88,7 +88,7 @@ class THM_OrganizerTemplateCurriculumPanel
     private static function renderBody(&$pool, $type)
     {
         $displayBody = ($type == 'main')? 'hidden' : 'shown';
-        $mainID = ($type=='main')? 'id="main-panel-items-' . $pool->mapping . '"' : '';
+        $mainID = ($type == 'main')? 'id="main-panel-items-' . $pool->mapping . '"' : '';
         $maxItems = (int) JFactory::getApplication()->getMenu()->getActive()->params->get('maxItems', 5);
         $itemWidth = 100 / $maxItems - 2;
         $childIndex = $childNumber = 1;
