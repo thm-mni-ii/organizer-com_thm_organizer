@@ -25,8 +25,8 @@
   margin-top: 4px; }
 
 .ui-accordion-header {
-  background-color: #eeeeee;
-  border: 1px solid #bbbbbb;
+  background-color: #f2f5f6;
+  border: 1px solid #77858c;
   -webkit-box-shadow: 2px 2px 4px #dddddd;
   -moz-box-shadow: 2px 2px 4px #dddddd;
   -ms-box-shadow: 2px 2px 4px #dddddd;
@@ -37,7 +37,7 @@
   padding: 4px; }
 
 .ui-widget {
-  font-family: Verdana, Arial;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
   font-size: 13px; }
 
 .ui-state-default {
@@ -51,4 +51,4 @@
 
 h3.ui-state-hover {
   background-color: #4a5c66 !important;
-  color: #eeeeee; }
+  color: #ffffff; }

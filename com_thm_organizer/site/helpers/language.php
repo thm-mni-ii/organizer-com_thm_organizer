@@ -98,7 +98,7 @@ class THM_OrganizerHelperLanguage
         $constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
         $imgPath = JURI::root() . "/templates/thm/images/assets/icon_earth.jpg";
         $switch = '<a href="' . JRoute::_($url) . '">';
-        $switch .= '<img class="btn flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
+        $switch .= '<img class="flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
         $switch .= JText::_($constants[$newLanguage]);
         $switch .= '</a>';
         return $switch;

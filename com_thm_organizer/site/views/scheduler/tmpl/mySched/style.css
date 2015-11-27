@@ -53,7 +53,7 @@ div.MySchedexternURLClass_DIS {
     padding: 2px;
     margin: 2px;
     background: #EEE;
-    border: 1px solid #CCC;
+    border: 1px solid #77858c;
     -moz-opacity: 0.9;
     text-align: center;
     text-shadow: 0 1px 1px white;
@@ -112,7 +112,7 @@ div.teacherInfo div ul {
 }
 
 .x-grid-row .blockBusy {
-    background-color: #667e9a;
+    background-color: #a4adb2;
 }
 
 .x-grid-row .blockOccupied {
@@ -415,9 +415,9 @@ small.removed {
 
 /* Ext-Style overrides */
 .x-grid-row .x-grid-cell {
-    border-right: 1px solid #ECECEC;
-    border-bottom: 1px solid #ECECEC;
-    border-top: 0;
+    border-right: 1px solid #77858c;
+    border-bottom: 1px solid #77858c;
+    border-top: 1px solid #77858c;
 }
 
 .x-panel-body-default {

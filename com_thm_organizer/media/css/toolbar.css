@@ -16,6 +16,9 @@
 .thm_organizer_list_span {
   background-image: url("../../../media/com_thm_organizer/images/icon-32-list.png"); }
 
+.thm_organizer_event_span {
+  background-image: url("../../../media/com_thm_organizer/images/icon-32-event.png"); }
+
 .thm_organizer_save_span {
   background-image: url("../../../media/com_thm_organizer/images/icon-32-save.png"); }
 
@@ -50,6 +53,9 @@
 
 .icon-organizer_teachers::before {
   content: "\e604"; }
+
+.icon-organizer_departments::before {
+  content: "\e244"; }
 
 .icon-organizer_subjects::before {
   content: "\e603"; }
@@ -103,6 +109,11 @@ li a[href*="view=monitor_manager"]::before {
 li a[href*="view=teacher_manager"]::before {
   font-family: icomoon;
   content: "\e604";
+  font-size: 12px;
+  padding-right: 8px; }
+li a[href*="view=department_manager"]::before {
+  font-family: icomoon;
+  content: "\e244";
   font-size: 12px;
   padding-right: 8px; }
 li a[href*="view=subject_manager"]::before {
@@ -174,7 +185,7 @@ li a[href*="view=virtual_schedule_manager"]::before {
   width: 32px; }
 
 .Popup {
-  background: #eeeeee;
+  background: #f2f5f6;
   bottom: 70px;
   display: none;
   height: 650px;

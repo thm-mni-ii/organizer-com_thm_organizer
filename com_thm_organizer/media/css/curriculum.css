@@ -1,69 +1,57 @@
-/*  ------------------------------------
-**  Author:     Lavi
-**  File:       curriculum.css
-**  Styles for: Frontend
-**  Site:       www.mni.thm.de
-**  ------------------------------------ */
+div.language-switches a {
+  color: #394a59; }
+  div.language-switches a :hover {
+    color: #394a59; }
+  div.language-switches a img {
+    margin-bottom: -2px;
+    margin-right: 5px; }
+
 .hidden {
-  display: none;
-}
+  display: none; }
 
 .componentheader {
-  height: 50px;
-}
-.componentheader .componentheading {
-  float: left;
-  width: 89%;
-}
-.componentheader .language-switches {
-  float: right;
-}
-.componentheader .language-switches img {
-  border: none;
-}
+  height: 50px; }
+  .componentheader .componentheading {
+    float: left;
+    width: 89%; }
+  .componentheader .language-switches {
+    float: right; }
+    .componentheader .language-switches img {
+      border: none; }
 
 .curriculum {
-  position: relative;
-}
+  position: relative; }
 
 .main-panel, .modal-panel {
-  border: 1px solid #bbbbbb;
-  margin-bottom: 5px;
-}
+  border: 1px solid #77858c;
+  margin-bottom: 5px; }
 
 .main-panel-head, .modal-panel-head {
   background-color: #4a5c66;
   color: white;
   margin-top: -1px;
   margin-left: -1px;
-  margin-right: -1px;
-}
+  margin-right: -1px; }
 
 .main-panel-head {
-  padding: 12px 20px 10px 15px;
-}
-.main-panel-head a {
-  float: right;
-  cursor: pointer;
-}
-.main-panel-head a i::before {
-  color: #4a5c66;
-  font-size: 17px;
-}
+  padding: 12px 20px 10px 15px; }
+  .main-panel-head a {
+    float: right;
+    cursor: pointer; }
+    .main-panel-head a i::before {
+      color: #4a5c66;
+      font-size: 17px; }
 
 .panel-title, .modal {
   font-family: "THM-Medium";
   font-size: 130%;
-  cursor: pointer;
-}
-.panel-title .main-panel-crp, .modal .main-panel-crp, .panel-title .modal-panel-crp, .modal .modal-panel-crp {
-  padding-left: 5px;
-}
+  cursor: pointer; }
+  .panel-title .main-panel-crp, .modal .main-panel-crp, .panel-title .modal-panel-crp, .modal .modal-panel-crp {
+    padding-left: 5px; }
 
 .main-panel-items {
   margin: 2px 1px 3px 1px;
-  margin-left: 2px;
-}
+  margin-left: 2px; }
 
 .main-panel-items .item, .modal-panel-items .item {
   outline: 1px outset white;
@@ -76,66 +64,56 @@
   display: inline-table;
   position: relative;
   font-size: 11px;
-  background-color: #eeeeee;
+  background-color: #f2f5f6;
   vertical-align: top;
   width: 133px;
-  height: 135px;
-}
-.main-panel-items .item .item-head, .modal-panel-items .item .item-head {
-  border: 1px solid #bbbbbb;
-  padding: 3px 5px;
-  background-color: #71A126;
-  color: white;
-  height: 18px;
-  margin-top: -1px;
-  margin-left: -1px;
-  margin-right: -1px;
-  font-size: 110%;
-}
-.main-panel-items .item .item-head .item-crp, .modal-panel-items .item .item-head .item-crp {
-  float: right;
-  padding-left: 5px;
-}
-.main-panel-items .item .item-name, .modal-panel-items .item .item-name {
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
-  -ms-word-wrap: break-word;
-  word-wrap: break-word;
-  padding: 5px;
-  overflow: hidden;
-}
-.main-panel-items .item .item-tools, .modal-panel-items .item .item-tools {
-  position: absolute;
-  bottom: 3px;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-.main-panel-items .item .item-tools .btn, .modal-panel-items .item .item-tools .btn {
-  padding: 2px 10px;
-  border: none;
-  box-shadow: none;
-}
-.main-panel-items .item .item-tools .icon-grid-view-2, .modal-panel-items .item .item-tools .icon-grid-view-2 {
-  margin-bottom: 8px;
-}
-.main-panel-items .item .item-tools .icon-grid-view-2:before, .modal-panel-items .item .item-tools .icon-grid-view-2:before {
-  margin-left: -1px;
-  font-size: 17px;
-}
-.main-panel-items .item .item-tools .icon-user, .modal-panel-items .item .item-tools .icon-user {
-  background-image: none;
-  margin-bottom: 8px;
-}
-.main-panel-items .item .item-tools .icon-user:before, .modal-panel-items .item .item-tools .icon-user:before {
-  font-family: icomoon;
-  content: "\22";
-  font-size: 17px;
-  position: absolute;
-  margin-left: -8px;
-}
+  height: 135px; }
+  .main-panel-items .item .item-head, .modal-panel-items .item .item-head {
+    border: 1px solid #77858c;
+    padding: 3px 5px;
+    background-color: #71A126;
+    color: white;
+    height: 18px;
+    margin-top: -1px;
+    margin-left: -1px;
+    margin-right: -1px;
+    font-size: 110%; }
+    .main-panel-items .item .item-head .item-crp, .modal-panel-items .item .item-head .item-crp {
+      float: right;
+      padding-left: 5px; }
+  .main-panel-items .item .item-name, .modal-panel-items .item .item-name {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    padding: 5px;
+    overflow: hidden; }
+  .main-panel-items .item .item-tools, .modal-panel-items .item .item-tools {
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    right: 0;
+    text-align: center; }
+    .main-panel-items .item .item-tools .btn, .modal-panel-items .item .item-tools .btn {
+      padding: 2px 10px;
+      border: none;
+      box-shadow: none; }
+    .main-panel-items .item .item-tools .icon-grid-view-2, .modal-panel-items .item .item-tools .icon-grid-view-2 {
+      margin-bottom: 8px; }
+      .main-panel-items .item .item-tools .icon-grid-view-2:before, .modal-panel-items .item .item-tools .icon-grid-view-2:before {
+        margin-left: -1px;
+        font-size: 17px; }
+    .main-panel-items .item .item-tools .icon-user, .modal-panel-items .item .item-tools .icon-user {
+      background-image: none;
+      margin-bottom: 8px; }
+      .main-panel-items .item .item-tools .icon-user:before, .modal-panel-items .item .item-tools .icon-user:before {
+        font-family: icomoon;
+        content: "\22";
+        font-size: 17px;
+        position: absolute;
+        margin-left: -8px; }
 
 .modal-panel {
   position: absolute;
@@ -149,20 +127,16 @@
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
   width: 750px;
   top: -4px;
-  margin-left: 15%;
-}
+  margin-left: 15%; }
 
 .modal-panel-head {
-  padding: 10px;
-}
-.modal-panel-head a {
-  float: right;
-  cursor: pointer;
-}
-.modal-panel-head a i::before {
-  color: #4a5c66;
-  font-size: 17px;
-}
+  padding: 10px; }
+  .modal-panel-head a {
+    float: right;
+    cursor: pointer; }
+    .modal-panel-head a i::before {
+      color: #4a5c66;
+      font-size: 17px; }
 
 .modal {
   position: inherit !important;
@@ -176,19 +150,15 @@
   background-color: inherit !important;
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
-  border-radius: 0 !important;
-}
+  border-radius: 0 !important; }
 
 .modal-panel-items {
   max-height: 423px;
   overflow: auto;
-  margin: 3px;
-}
-.modal-panel-items .item-name {
-  -ms-word-break: break-all;
-  word-break: break-all;
-}
+  margin: 3px; }
+  .modal-panel-items .item-name {
+    -ms-word-break: break-all;
+    word-break: break-all; }
 
 .modal-panel.shown ~ div {
-  opacity: 0.3;
-}
+  opacity: 0.3; }
