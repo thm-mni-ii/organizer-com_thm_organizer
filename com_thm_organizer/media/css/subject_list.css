@@ -5,23 +5,6 @@
 **              Backend - some definitions
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-fieldset.filter-bar, div.filter-bar {
-  background-color: #f2f5f6;
-  border: 1px solid #77858c;
-  clear: both;
-  color: #394a59;
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  overflow: auto;
-  padding: 8px 4px 4px 4px;
-  z-index: 12;
-  margin-bottom: 4px;
-  -webkit-box-shadow: 2px 2px 4px #dddddd;
-  -moz-box-shadow: 2px 2px 4px #dddddd;
-  -ms-box-shadow: 2px 2px 4px #dddddd;
-  -o-box-shadow: 2px 2px 4px #dddddd;
-  box-shadow: 2px 2px 4px #dddddd; }
-
 /*icons anpassen*/
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
   font-weight: bold; }
@@ -161,65 +144,6 @@ div.language-switches a {
     margin-bottom: -2px;
     margin-right: 5px; }
 
-span.navi-tab {
-  background-color: #f2f5f6;
-  border-left: 1px solid #77858c;
-  border-right: 1px solid #77858c;
-  border-top: 1px solid #77858c;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  display: block;
-  float: left;
-  margin-bottom: -1px;
-  padding: 4px 4px 5px 4px;
-  -webkit-box-shadow: 2px 0 4px #dddddd;
-  -moz-box-shadow: 2px 0 4px #dddddd;
-  -ms-box-shadow: 2px 0 4px #dddddd;
-  -o-box-shadow: 2px 0 4px #dddddd;
-  box-shadow: 2px 0 4px #dddddd; }
-  span.navi-tab .inactive {
-    z-index: -100; }
-    span.navi-tab .inactive a {
-      font-weight: normal; }
-  span.navi-tab a {
-    color: #394a59;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
-    font-size: 13px; }
-  span.navi-tab .active a {
-    font-weight: bold; }
-
-fieldset.filter-bar, div.filter-bar {
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px; }
-
-div#filter-bar div.filter-select select {
-  margin-bottom: 0; }
-
-div.filter-bar label {
-  display: inline; }
-div.filter-bar input {
-  margin-bottom: 0; }
-
-div.filter-search label {
-  font-size: 13px; }
-div.filter-search button {
-  border: 2px solid #4a5c66;
-  color: #394a59;
-  font-size: 13px;
-  padding: 2px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px; }
-
-ul li.subject-item {
-  clear: both;
-  padding: 2px 0; }
-ul li.row1.subject-item {
-  background-color: #f2f5f6; }
-
 div.subject-name, div.subject-responsible, div.subject-crp {
   display: inline-block; }
 
@@ -229,12 +153,6 @@ div.subject-name, div.subject-responsible, div.subject-name a, div.subject-respo
   font-size: 13px;
   font-weight: normal; }
 
-div.subject-name {
-  width: 55%; }
-
-div.subject-responsible {
-  width: 25%; }
-
 div.subject-crp {
   width: 10%; }
 
@@ -242,115 +160,48 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
   float: left;
   width: 100%; }
 
-h3.group-bar, h3.group-bar a {
-  color: #394a59; }
-
-.subject-list li.subject-item {
-  line-height: 1.3;
-  list-style-image: url("../images/thm_li.png");
-  padding: 4px; }
-
-.subject-list.grouped li.subject-item {
-  line-height: 1.3;
-  margin: 0;
-  padding: 5px; }
-
-/*** wird nicht mehr benoetigt, da icons ueber icon-fonts schon vorhanden sind **
-// ---------------------------------
-// Icons (Backend)
-// ---------------------------------
-
-// icon of color manager
-.icon-48-organizer_colors {
-  @extend %icon-colors;
-}
-
-// icon of degree manager
-.icon-48-organizer_degrees {
-  @extend %icon-degrees;
-}
-
-// icon of field manager
-.icon-48-organizer_fields {
-  @extend %icon-fields;
-}
-
-// icon of program manager
-.icon-48-organizer_degree_programs {
-  @extend %icon-degree-programs;
-}
-
-// icon of monitor manager
-.icon-48-organizer_monitors {
-  @extend %icon-monitors;
-}
-
-// icon of room manager
-.icon-48-organizer_rooms {
-  @extend %icon-rooms;
-}
-
-// icon of subject manager
-.icon-48-organizer_subjects {
-  @extend %icon-subjects;
-}
-
-// icon of pool manager
-.icon-48-organizer_subject_pools {
-  @extend  %icon-subject-pools;
-}
-
-// icon of teacher manager
-.icon-48-organizer_teachers {
-  @extend %icon-teachers;
-}
-
-// icon of merge
-.icon-32-merge {
-  @extend %icon-merge;
-}
-*/
-.hidden {
-  display: none; }
-
-.componentheading {
-  float: left; }
-
-.language-switches {
-  float: right; }
-  .language-switches img {
-    border: none;
-    padding-top: 2px; }
-
 #j-main-container {
   margin-left: 0px;
   width: 100%; }
-  #j-main-container .js-stools-container-bar {
+  #j-main-container .toolbar {
     position: relative;
     float: right; }
-    #j-main-container .js-stools-container-bar label {
-      position: absolute;
-      z-index: 2;
-      padding: 5px 10px; }
-    #j-main-container .js-stools-container-bar .input-append button {
-      padding: 1px 10px; }
-      #j-main-container .js-stools-container-bar .input-append button .icon-search {
-        background: none; }
-        #j-main-container .js-stools-container-bar .input-append button .icon-search::before {
+    #j-main-container .toolbar .tool-wrapper {
+      display: inline-block; }
+    #j-main-container .toolbar .language-switches {
+      margin-right: 5px; }
+      #j-main-container .toolbar .language-switches img {
+        border: none;
+        padding-top: 2px; }
+    #j-main-container .toolbar button {
+      border: none; }
+    #j-main-container .toolbar .search input[type="text"] {
+      background-color: #dfe5e6;
+      border: none;
+      box-shadow: none;
+      padding: 4px 6px;
+      width: 120px; }
+    #j-main-container .toolbar .search .btn-search {
+      margin-bottom: -4px;
+      margin-left: -22px;
+      padding: 0; }
+      #j-main-container .toolbar .search .btn-search .icon-search {
+        background: none;
+        color: #394a59; }
+        #j-main-container .toolbar .search .btn-search .icon-search::before {
           content: "\53";
           font-size: 14px; }
-    #j-main-container .js-stools-container-bar:first-child .btn-wrapper {
-      float: left;
-      padding-right: 5px; }
-    #j-main-container .js-stools-container-bar:nth-child(1) .btn-wrapper .js-stools-btn-clear {
-      background: white; }
-      #j-main-container .js-stools-container-bar:nth-child(1) .btn-wrapper .js-stools-btn-clear:hover {
-        color: white;
-        background-color: #4a5d66; }
-      #j-main-container .js-stools-container-bar:nth-child(1) .btn-wrapper .js-stools-btn-clear .icon-delete:before {
-        margin-left: 0; }
+    #j-main-container .toolbar .search .btn-reset {
+      background-color: white;
+      color: #394a59;
+      margin-left: 8px; }
+    #j-main-container .toolbar .search .btn-reset:hover {
+      background-color: white;
+      color: #394a59;
+      margin-left: 8px; }
   #j-main-container .nav.nav-tabs {
     border-bottom: 2px solid #4a5c66;
+    margin-top: 15px;
     margin-bottom: 0; }
     #j-main-container .nav.nav-tabs > li {
       margin-left: 2px; }
@@ -372,29 +223,37 @@ h3.group-bar, h3.group-bar a {
     border: 1px solid white;
     border-top: none;
     background-color: white; }
-  #j-main-container .subject-list-container a {
-    color: #394a59; }
-  #j-main-container .subject-list-container ul {
-    margin-left: 0px; }
-  #j-main-container .subject-list-container li {
-    list-style: none;
-    padding: 4px 20px 4px 19px;
-    margin-left: 0; }
-  #j-main-container .subject-list-container li:nth-child(even) {
-    background-color: #f2f5f6; }
-  #j-main-container .subject-list-container .subject-name {
-    display: inline-block;
-    width: 600px; }
-  #j-main-container .subject-list-container .module-id {
-    padding-left: 5px; }
-  #j-main-container .subject-list-container .subject-crp {
-    float: right; }
-  #j-main-container .subject-list-container h3 {
-    padding: 4px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    border: 1px solid #eeeeee;
-    cursor: pointer; }
+    #j-main-container .tab-content .subject-list-container h5 {
+      background-color: #dfe5e6;
+      cursor: pointer;
+      margin-bottom: 0px;
+      margin-top: 10px;
+      padding: 6px 12px; }
+      #j-main-container .tab-content .subject-list-container h5 a {
+        color: #394a59; }
+    #j-main-container .tab-content .subject-list-container :first-child h5 {
+      margin-top: 6px; }
+    #j-main-container .tab-content .subject-list-container ul {
+      margin-left: 0px; }
+    #j-main-container .tab-content .subject-list-container li {
+      list-style: none;
+      padding: 6px 20px 6px 19px;
+      margin-left: 0; }
+    #j-main-container .tab-content .subject-list-container li:nth-child(even) {
+      background-color: #f2f5f6; }
+    #j-main-container .tab-content .subject-list-container .subject-name {
+      display: inline-block;
+      width: 600px; }
+    #j-main-container .tab-content .subject-list-container .subject-teacher {
+      display: inline-block; }
+    #j-main-container .tab-content .subject-list-container .subject-crp {
+      display: inline-block;
+      float: right;
+      width: 10%; }
+    #j-main-container .tab-content .subject-list-container .module-id {
+      padding-left: 5px; }
+    #j-main-container .tab-content .subject-list-container a {
+      color: #394a59; }
   #j-main-container #pool > .subject-list-container, #j-main-container #teacher > .subject-list-container, #j-main-container #field > .subject-list-container {
     margin-bottom: 4px; }
     #j-main-container #pool > .subject-list-container .subject-list, #j-main-container #teacher > .subject-list-container .subject-list, #j-main-container #field > .subject-list-container .subject-list {

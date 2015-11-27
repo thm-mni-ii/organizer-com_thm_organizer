@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once 'item.php';
 
 /**
  * Displays event information
@@ -24,12 +25,13 @@ class THM_OrganizerTemplateGroupedList
     /**
      * Renders subject information
      *
-     * @param   array  &$view   the view context
-     * @param   array  $params  the group parameters (order, name, id)
+     * @param   array   &$view   the view context
+     * @param   array   $params  the group parameters (order, name, id)
+     * @param   string  $type    the type of group
      *
      * @return  void
      */
-    public static function render(&$view, $params)
+    public static function render(&$view, $params, $type)
     {
         if (empty($view->items))
         {
@@ -54,14 +56,16 @@ class THM_OrganizerTemplateGroupedList
             $style = '';
             if (!empty($group['bgColor']))
             {
-                $style = ' style="background-color: ' . $group['bgColor'] . '; color: ' . $group['textColor'] . '; margin: -1px; ."';
+                $style = ' style="border-left: 8px solid';
+                $style .= empty($group['bgColor'])? 'transparent' : $group['bgColor'];
+                $style .= ';."';
             }
             $script = ' onclick="toggleGroupDisplay(\'#' . $params['name'] . '-' . $group['id'] . '\')"';
-            echo '<h3' . $style . $script . '>' . $group['name'] . '</h3>';
+            echo '<h5' . $style . $script . '>' . $group['name'] . '</h3>';
             echo '<div class="subject-list-container hidden" id="' . $params['name'] . '-' . $group['id'] . '">';
             echo '<ul class="subject-list">';
 
-            $displayItems = self::getDisplayItems($group);
+            $displayItems = self::getDisplayItems($group, $type);
 
             echo implode($displayItems);
             echo '</ul>';
@@ -109,11 +113,12 @@ class THM_OrganizerTemplateGroupedList
     /**
      * Gets the items to be displayed for the group being currently iterated
      *
-     * @param   array  &$group  the group being iterated
+     * @param   array   &$group  the group being iterated
+     * @param   string  $type    the type of group
      *
      * @return  array  the items to be displayed in the group
      */
-    private static function getDisplayItems(&$group)
+    private static function getDisplayItems(&$group, $type)
     {
         $displayItems = array();
         foreach ($group['items'] AS $item)
@@ -123,17 +128,7 @@ class THM_OrganizerTemplateGroupedList
             {
                 continue;
             }
-
-            $displayItem = '';
-            $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
-            $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '" target="_blank">XXXX</a>';
-
-            $displayItem .= '<li>';
-            $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
-            $displayItem .= '<span class="subject-teacher">' . str_replace('XXXX', $item->teacherName, $link) . '</span>';
-            $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . '</span>';
-            $displayItem .= '</li>';
-            $displayItems[$item->id] = $displayItem;
+            $displayItems[$item->id] = THM_OrganizerTemplateItem::render($item, $type);
         }
         return $displayItems;
     }

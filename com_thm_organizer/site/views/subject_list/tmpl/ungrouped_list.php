@@ -10,6 +10,7 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die;
+require_once 'item.php';
 
 /**
  * Displays event information
@@ -36,22 +37,11 @@ class THM_OrganizerTemplateUngroupedList
             $displayItems = array();
             foreach ($view->items AS $item)
             {
-                // Entry already exists and the teacher for the subject being iterated is not responsible
-                if (!empty($displayItems[$item->id]) AND $item->teacherResp === '2')
+                if (!empty($displayItems[$item->id]) AND $item->teacherResp == 2)
                 {
                     continue;
                 }
-
-                $displayItem = '';
-                $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
-                $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '" target="_blank">XXXX</a>';
-
-                $displayItem .= '<li>';
-                $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
-                $displayItem .= '<span class="subject-teacher">' . str_replace('XXXX', $item->teacherName, $link) . '</span>';
-                $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . '</span>';
-                $displayItem .= '</li>';
-                $displayItems[$item->id] = $displayItem;
+                $displayItems[$item->id] = THM_OrganizerTemplateItem::render($item);
             }
             echo implode($displayItems);
             echo '</ul>';
