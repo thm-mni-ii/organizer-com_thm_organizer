@@ -72,8 +72,8 @@ class THM_OrganizerModelSubject_List extends JModelList
         $query = $this->_db->getQuery(true);
 
         $select = "s.id, s.name_$languageTag AS subject, s.creditpoints, s.externalID, s.fieldID, sf.field, sc.color as subjectColor, ";
-        $select .= "m2.poolID, p.name_$languageTag AS pool, m2.lft, pc.color as poolColor, ";
-        $select .= "st.teacherID, t.surname, t.forename, tc.color AS teacherColor, st.teacherResp, ";
+        $select .= "m2.poolID, p.name_$languageTag AS pool, m2.lft, m2.rgt, pf.field as poolField, pc.color as poolColor, ";
+        $select .= "st.teacherID, t.surname, t.forename, tc.color AS teacherColor, st.teacherResp, tf.field as teacherField, ";
         $parts = array("$subjectLink","s.id");
         $select .= $query->concatenate($parts, "") . " AS subjectLink";
         $query->select($select);

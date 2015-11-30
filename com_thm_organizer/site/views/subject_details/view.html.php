@@ -60,23 +60,4 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/subject_details.css');
     }
-
-    /**
-     * Creates teacher output
-     *
-     * @param   array  $teacher  the teacher item
-     *
-     * @return  void  creates HTML output
-     */
-    public function getTeacherOutput($teacher)
-    {
-        if (!empty($teacher['link']))
-        {
-            echo '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
-        }
-        else
-        {
-            echo $teacher['name'];
-        }
-    }
 }

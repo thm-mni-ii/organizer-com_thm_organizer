@@ -16,6 +16,25 @@ $oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.p
 $twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
 $threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 
+/**
+ * Creates teacher output
+ *
+ * @param   array  $teacher  the teacher item
+ *
+ * @return  void  creates HTML output
+ */
+function getTeacherOutput($teacher)
+{
+    if (!empty($teacher['link']))
+    {
+        echo '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
+    }
+    else
+    {
+        echo $teacher['name'];
+    }
+}
+
 ?>
 <div class="toolbar">
     <div class="tool-wrapper language-switches">
@@ -56,7 +75,7 @@ if (!empty($this->item->executors))
         foreach ($this->item->executors as $executor)
         {
             echo '<li>';
-            $this->getTeacherOutput($executor);
+            getTeacherOutput($executor);
             echo '</li>';
         }
         echo '</ul>';
@@ -64,7 +83,7 @@ if (!empty($this->item->executors))
     else
     {
         $executor = array_values($this->item->executors)[0];
-        $this->getTeacherOutput($executor);
+        getTeacherOutput($executor);
     }
     echo '</div>';
     echo '</div>';
@@ -80,7 +99,7 @@ if (!empty($this->item->teachers))
         foreach ($this->item->teachers as $teacher)
         {
             echo '<li>';
-            $this->getTeacherOutput($teacher);
+            getTeacherOutput($teacher);
             echo '</li>';
         }
         echo '</ul>';
@@ -88,7 +107,7 @@ if (!empty($this->item->teachers))
     else
     {
         $teacher = array_values($this->item->teachers)[0];
-        $this->getTeacherOutput($teacher);
+        getTeacherOutput($teacher);
     }
     echo '</div>';
     echo '</div>';

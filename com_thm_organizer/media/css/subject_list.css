@@ -238,6 +238,11 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
       padding: 6px 12px; }
       #j-main-container .tab-content .subject-list-container h5 a {
         color: #394a59; }
+    #j-main-container .tab-content .subject-list-container a.pool-anchor {
+      display: block;
+      position: relative;
+      top: -60px;
+      visibility: hidden; }
     #j-main-container .tab-content .subject-list-container :first-child h5 {
       margin-top: 6px; }
     #j-main-container .tab-content .subject-list-container ul {

@@ -31,26 +31,30 @@ class THM_OrganizerTemplateItem
      */
     public static function render(&$item, $type = '')
     {
-        // Entry already exists and the teacher is not responsible for the subject being iterated
-        if (!empty($displayItems['id']) AND $item->teacherResp == 2)
-        {
-            return;
-        }
-
         $displayItem = '';
         $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
-        $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '" target="_blank">XXXX</a>';
-        $style = ' style="border-left: 8px solid ';
-        $style .= empty($item->subjectColor)? 'transparent' : $item->subjectColor;
-        $style .= ';."';
+        $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '">XXXX</a>';
 
-        $displayItem .= '<li ' . $style . '>';
+        $borderStyle = ' style="border-left: 8px solid ';
+        $borderStyle .= empty($item->subjectColor)? 'transparent' : $item->subjectColor;
+        $borderStyle .= ';."';
+
+        $field = empty($item->field)? '' : $item->field;
+        $fieldStyle = ' style="height: 19px; width: 12px !important; position: relative; left: -29px;';
+        $fieldStyle .= empty($item->field)? ' cursor: default;"' : ' cursor: help;"';
+
+        $displayItem .= '<li ' . $borderStyle . '>';
+        $displayItem .= '<span class="subject-field hasTooltip" ';
+        $displayItem .= $fieldStyle . ' title="' . $field . '">&nbsp;&nbsp;&nbsp;</span>';
         $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
-        if ($type != 'teacher')
+        if ($type != 'teacher' && !empty($item->teacherName))
         {
             $displayItem .= '<span class="subject-teacher">' . $item->teacherName . '</span>';
         }
-        $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . ' CrP</span>';
+        if (!empty($item->creditpoints))
+        {
+            $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . ' CrP</span>';
+        }
         $displayItem .= '</li>';
         return $displayItem;
     }
