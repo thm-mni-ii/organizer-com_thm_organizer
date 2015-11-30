@@ -46,6 +46,10 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
 
     .tool-wrapper {
       display: inline-block;
+
+      a, button {
+        cursor: pointer;
+      }
     }
 
     .language-switches {
@@ -110,6 +114,7 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
     margin-bottom: 0;
 
     & > li{
+      margin-bottom: 0;
       margin-left: 2px;
     }
 
@@ -126,14 +131,16 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
     }
 
     & > li > a:hover {
-      background-color: $background-navigation;
-      height: calc(100% - 1px);
-      margin-top: -1px;
+      background-color: $background;
     }
 
     & > li.active > a {
       background: $background-grey;
       color: $foreground;
+
+      &:hover {
+        background: $background-grey;
+      }
     }
   }
 
@@ -148,7 +155,7 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
 
       h5 {
         background-color: $background-navigation;
-        cursor: pointer;
+        cursor: default;
         margin-bottom: 0px;
         margin-top: 10px;
         padding: 6px 12px;

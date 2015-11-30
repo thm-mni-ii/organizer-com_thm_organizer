@@ -15,18 +15,20 @@ $noStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/0stars.pn
 $oneStar = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_ONE_STAR');
 $twoStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
 $threeStars = JHtml::image(JURI::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
+
 ?>
-<h1 class="componentheading">
-    <?php echo $this->item->name; ?>
-</h1>
-<div class="language-switches">
-<?php
-foreach ($this->languageSwitches AS $switch)
-{
-    echo $switch;
-}
-?>
+<div class="toolbar">
+    <div class="tool-wrapper language-switches">
+        <?php
+        foreach ($this->languageSwitches AS $switch)
+        {
+            echo $switch;
+        }
+        ?>
+    </div>
 </div>
+<div class="clearfix"></div>
+<h1 class="componentheading"><?php echo $this->item->name; ?></h1>
 <div class="subject-list">
 <?php
 if (!empty($this->item->externalID))
@@ -47,42 +49,48 @@ if (!empty($this->item->executors))
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_MODULE_EXECUTORS') . '</div>';
-    echo '<div class="subject-content"><ul>';
-    foreach ($this->item->executors as $executor)
+    echo '<div class="subject-content">';
+    if (count($this->item->executors) > 1)
     {
-        echo '<li>';
-        if (!empty($teacher['link']))
+        echo '<ul>';
+        foreach ($this->item->executors as $executor)
         {
-            echo '<a href="' . $executor['link'] . '">' . $executor['name'] . '</a>';
+            echo '<li>';
+            $this->getTeacherOutput($executor);
+            echo '</li>';
         }
-        else
-        {
-            echo $executor['name'];
-        }
-        echo '</li>';
+        echo '</ul>';
     }
-    echo '</ul></div>';
+    else
+    {
+        $executor = array_values($this->item->executors)[0];
+        $this->getTeacherOutput($executor);
+    }
+    echo '</div>';
     echo '</div>';
 }
 if (!empty($this->item->teachers))
 {
     echo '<div class="subject-item">';
     echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_TEACHERS') . '</div>';
-    echo '<div class="subject-content"><ul>';
-    foreach ($this->item->teachers as $teacher)
+    echo '<div class="subject-content">';
+    if (count($this->item->teachers) > 1)
     {
-        echo '<li>';
-        if (!empty($teacher['link']))
+        echo '<ul>';
+        foreach ($this->item->teachers as $teacher)
         {
-            echo '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
+            echo '<li>';
+            $this->getTeacherOutput($teacher);
+            echo '</li>';
         }
-        else
-        {
-            echo $teacher['name'];
-        }
-        echo '</li>';
+        echo '</ul>';
     }
-    echo '</ul></div>';
+    else
+    {
+        $teacher = array_values($this->item->teachers)[0];
+        $this->getTeacherOutput($teacher);
+    }
+    echo '</div>';
     echo '</div>';
 }
 if (!empty($this->item->description))

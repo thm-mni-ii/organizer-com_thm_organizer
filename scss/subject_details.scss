@@ -7,144 +7,33 @@
 @import '../../lib_thm_core/scss/variables';
 @import '_language_switch';
 
-
-.navi-bar {
-  margin-bottom: 3px;
-}
-
-
-span.navi-tab {
-  padding: 3px 9px;
-}
-
-.navi-tab {
-  .active {
-    background-color: #b7bec2;
-    border-left: 1px solid #a4b0bb;
-    border-right: 1px solid #a4b0bb;
-    border-top: 1px solid #a4b0bb;
-  }
-
-  .inactive {
-    background-color: #6b7e88;
-    border-left: none;
-  }
-
-  .active a {
-    color: #3d494f;
-    font-weight: bold;
-  }
-
-  .inactive a {
-    color: $font-color-light;
-  }
-}
-
-.filter-bar {
-  background-color: #b7bec2;
-  border-bottom: none;
-  border-left: 1px solid #a4b0bb;
-  border-right: 1px solid #a4b0bb;
-  border-top: none;
-  color: #3d494f;
-  font-weight: bold;
-  padding: 3px 9px;
-}
-
-div.filter-bar {
-  button {
-    padding: 3px 9px;
-  }
-}
-
-.filter-search {
-  float: left;
-}
-
-.filter-select {
+//search-Area
+.toolbar {
+  position: relative;
   float: right;
-}
 
-.subject-div {
-  table.subject-list {
-    border: none;
-    width: 100%;
-  }
-}
+  .tool-wrapper {
+    display: inline-block;
 
-ul.subject-list {
-  tr {
-    th {
-      a {
-        background-color: #3d494f;
-        color: white;
-      }
+    a, button {
+      cursor: pointer;
     }
   }
-}
 
-.group-bar {
-  border: none;
-  font-weight: bold;
-  padding: 9px 3px;
-}
+  .language-switches {
+    margin-right: 5px;
 
-.subject-name {
-  display: inline-block;
-  width: 50%;
-}
-
-.subject-responsible {
-  display: inline-block;
-  width: 25%;
-}
-
-.subject-crp {
-  display: inline-block;
-  width: 12%;
-}
-
-.row1 {
-  background-color: #f7f7f7;
-}
-
-.subject-item {
-  clear: both;
-  padding: 15px 10px;
-}
-
-.subject-label {
-//  border-bottom: 2px solid #a4b0bb;
-  color: #3d494f;
-  float: left;
-  font-weight: bold;
-  margin-right: 10px;
-  width: 15%;
-}
-
-.subject-content {
-  float: left;
-  width: 79%;
-}
-
-
-// Lavi's Changes
-.componentheading {
-  float: left;
-}
-
-.language-switches {
-  float: right;
-
-  img {
-    border: none;
-    padding-top: 0;
+    img {
+      border: none;
+      padding-top: 2px;
+    }
   }
 }
 
 .subject-list {
 
   .subject-item {
+    clear: both;
     overflow: auto; //to set height like the largest child
     padding: 10px 10px;
     margin: 2px 0;
@@ -155,11 +44,17 @@ ul.subject-list {
     }
 
     .subject-label {
-//      border-bottom: none;
+      color: #3d494f;
+      float: left;
+      font-weight: bold;
+      padding-right: 20px;
+      width: 18%;
     }
 
     .subject-content{
       margin-left: 10px;
+      float: left;
+      width: 79%;
     }
   }
 }
