@@ -9,7 +9,7 @@
 @import '../../lib_thm_core/scss/filters';
 
 .consumption {
-  color: $fcolor;
+  color: $font-color;
 
   // Allows the buttons to be on the same line as the header
   h2.componentheading {
@@ -40,11 +40,11 @@
   // Table element styles
   table.consumption-table {
     background-image: none;
-    border: $border-color;
-    color: $fcolor;
+    border: $border-table;
+    color: $font-color;
     display: block;
-    font-family: $font;
-    font-size: $fsize;
+    font-family: $font-family;
+    font-size: $font-size;
     margin-bottom: .4em;
     margin-top: .4em;
     max-height: 45em;
@@ -56,12 +56,12 @@
 
     tr {
       th {
-        font-size: $fsize;
+        font-size: $font-size;
         height: 1.4em;
-        text-align: $text-align-center;
+        text-align: center;
 
         .degree-use-total {
-          border-top: $border-color;
+          border-top: $border-table;
           font-weight: normal;
         }
 
@@ -71,9 +71,9 @@
       }
 
       td {
-        font-size: $fsize;
+        font-size: $font-size;
         height: 1.4em;
-        text-align: $text-align-center;
+        text-align: center;
       }
     }
 
@@ -204,13 +204,13 @@
           position: absolute;
           margin-left: -7px;
           margin-left: 0px\0; //just for IE
-          color: $thm-grau-color;
+          color: $background-grey;
         }
       }
 
       &:hover {
         //when hovered on calender-icon, the color don't have to be changed
-        color: $thm-grau-color;
+        color: $background-grey;
         -webkit-transition: none;
         -moz-transition: none;
         -ms-transition: none;
@@ -302,9 +302,9 @@ a.toggle-link:link,
 a.toggle-link:hover,
 a.toggle-link:visited,
 a.toggle-link:focus {
-  color: $fcolor;
+  color: $font-color;
   cursor: pointer;
-  font-size: $fsize;
+  font-size: $font-size;
   font-weight: normal;
   text-decoration: none;
 }
@@ -360,7 +360,7 @@ a.toggle-link:focus {
 
 //add border to popup-calender
 .calendar {
-  border: 2px solid $thm-grau-color;
+  border: 2px solid $background-grey;
 }
 
 //change icons in button-panel
@@ -371,7 +371,7 @@ a.toggle-link:focus {
     font-family: icomoon;
     content: "\e205";
     font-size: 16px;
-    color: $thm-grau-color;
+    color: $background-grey;
     position: relative;
     right: 2px;
   }
@@ -381,7 +381,7 @@ a.toggle-link:focus {
   position: relative;
   top: 2px;
   right: 2px;
-  color: $thm-grau-color;
+  color: $background-grey;
 }
 
 //excel-download
@@ -392,7 +392,7 @@ a.toggle-link:focus {
     font-family: icomoon;
     content: "\e00b";
     font-size: 16px;
-    color: $thm-grau-color;
+    color: $background-grey;
     position: relative;
     top: 1px;
     right: 3px;

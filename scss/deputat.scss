@@ -6,7 +6,7 @@
 
   font-family: 'THM-Regular', Arial, Helvetica, sans-serif;
 
-  color: $fcolor;
+  color: $font-color;
   // Allows the buttons to be on the same line as the header
   div.componentheading {
     padding-left: 2.5%;
@@ -49,10 +49,10 @@
 
   div.filter-bar
   {
-    background-color: $bg-color;
-    border: $border-color;
-    color: $fcolor;
-    font-size: $fsize;
+    background-color: $background;
+    border: $border;
+    color: $font-color;
+    font-size: $font-size;
     padding: 8px 4px 4px 4px;
     z-index: 12;
     margin-bottom: 4px;
@@ -154,10 +154,10 @@
 // Table element styles
 table.deputat-table {
   background-image: none;
-  border: $border-color;
-  color: $fcolor;
+  border: $border-table;
+  color: $font-color;
   display: table;
-  font-size: $fsize;
+  font-size: $font-size;
   margin-bottom: .4em;
   margin-top: .4em;
   max-height: 45em;
@@ -167,7 +167,7 @@ table.deputat-table {
   th {
     background-color: #ffffff;
     height: 1.4em;
-    text-align: $text-align-center;
+    text-align: center;
   }
 
   thead
@@ -185,16 +185,16 @@ table.deputat-table {
     tr td
     {
       background-color: #ffffff;
-      font-size: $fsize;
+      font-size: $font-size;
       height: 1.4em;
-      text-align: $text-align-center;
+      text-align: center;
     }
 
     tr.sum-header th
     {
       border-top: none;
       border-right: none;
-      border-bottom: $border-color;
+      border-bottom: $border-table;
       border-left: none;
     }
 
@@ -210,7 +210,7 @@ table.deputat-table {
         margin-right: 10px;
         i
         {
-          color: #4a5c66;
+          color: $grey-100;
           font-size: smaller;
         }
       }

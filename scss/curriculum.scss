@@ -1,11 +1,6 @@
-/*  ------------------------------------
-**  Author:     Lavi
-**  File:       curriculum.css
-**  Styles for: Frontend
-**  Site:       www.mni.thm.de
-**  ------------------------------------ */
 @import '../../lib_thm_core/scss/mixins';
 @import '../../lib_thm_core/scss/variables';
+@import '_language_switch';
 
 .hidden {
   display: none;
@@ -41,13 +36,13 @@
 //main-panel
 .main-panel {
   // margin-top: 2px;
-  border: $border-color;
+  border: $border;
   margin-bottom: 5px;
 }
 
 //.main-panel-head //.modal-panel-head
 .main-panel-head, .modal-panel-head {
-  background-color: $thm-grau-color; //wenn keine Farbe dynamisch zugewiesen wird
+  background-color: $background-grey; //wenn keine Farbe dynamisch zugewiesen wird
   color: white; //wenn keine Farbe dynamisch zugewiesen wird
   margin-top: -1px;
   margin-left: -1px;
@@ -64,7 +59,7 @@
     cursor: pointer;
 
     i::before {
-      color: $thm-grau-color;
+      color: $background-grey;
       font-size: 17px;
     }
   }
@@ -98,13 +93,13 @@
   display: inline-table;
   position: relative;
   font-size: 11px;
-  background-color: $bg-color;
+  background-color: $background;
   vertical-align: top;
   width: 133px;
   height: 135px;
 
   .item-head {
-    border: $border-color;
+    border: $border;
     padding: 3px 5px;
     background-color: #71A126;
     color: white;
@@ -196,7 +191,7 @@
     cursor: pointer;
 
     i::before {
-      color: $thm-grau-color;
+      color: $background-grey;
       font-size: 17px;
     }
   }

@@ -13,7 +13,7 @@
 .thm_organizer_action_link_preview {
   margin: 0;
   padding: 1px 5px;
-  text-align: $text-align-center;
+  text-align: center;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -99,7 +99,7 @@
 
 // popup window of preview
 .Popup {
-  background: $bg-color;
+  background: $background;
   bottom: 70px;
   display: none;
   height: 650px;
@@ -108,7 +108,7 @@
   overflow: hidden;
   padding: 10px;
   position: fixed;
-  text-align: $text-align-center;
+  text-align: center;
   top: 70px;
   width: 920px;
   z-index: 3;
@@ -163,7 +163,7 @@ body.loading {
   padding-left: 4px;
   padding-right: 1px;
   padding-top: 1px;
-  text-align: $text-align-center;
+  text-align: center;
   text-decoration: none;
   white-space: nowrap;
   width: 2px;

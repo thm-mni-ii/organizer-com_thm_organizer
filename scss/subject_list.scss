@@ -9,115 +9,7 @@
 @import '../../lib_thm_core/scss/variables';
 @import '../../lib_thm_core/scss/filters';
 @import '../../lib_thm_core/scss/icons';
-
-// ---------------------------------
-// TAB settings
-// ---------------------------------
-
-// tab definitions
-span.navi-tab {
-  background-color: $bg-color;
-  border-left: $border-color;
-  border-right: $border-color;
-  border-top: $border-color;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  display: block;
-  float: left;
-  margin-bottom: -1px;
-  padding: 4px 4px 5px 4px;
-
-  @include box-shadow(2px, 0, 4px, $shadow-color);
-
-  // tab link
-  .inactive {
-    z-index: -100;
-
-    // inactive tabs
-    a {
-      font-weight: normal;
-    }
-  }
-
-  a {
-    color: $fcolor;
-    font-family: $font;
-    font-size: $fsize;
-  }
-
-  //clicked tab
-  .active {
-    a {
-      font-weight: bold;
-    }
-  }
-}
-
-// ---------------------------------
-// FILTER FORM settings
-// ---------------------------------
-
-// filter form definitions
-fieldset.filter-bar, div.filter-bar {
-  @extend %fieldset;
-
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-// filter select list (Backend, e.g. select global settings...)
-div#filter-bar div.filter-select select {
-  margin-bottom: 0;
-}
-
-div.filter-bar {
-  // filter label (Backend)
-  label {
-    display: inline;
-  }
-  //überflüssig?!
-
-  // filter input (Backend, e.g. monitor manager)
-  input {
-    margin-bottom: 0;
-  }
-  //überflüssig?!
-}
-
-div.filter-search {
-  // search label size
-  label {
-    font-size: $fsize;
-  }
-
-  // button styles
-  button {
-    border: $border-color;
-    color: $fcolor;
-    font-size: $fsize;
-    padding: 2px;
-
-    @include border-radius(3px);
-  }
-}
-
-// ---------------------------------
-// MODULE LIST settings
-// ---------------------------------
-
-ul {
-  // clear the floating in the list item
-  li.subject-item {
-    clear: both;
-    padding: 2px 0;
-  }
-
-  // row1 has gray colored li
-  li.row1.subject-item {
-    background-color: $bg-color;
-  }
-}
+@import '_language_switch';
 
 // float the div boxes
 div.subject-name, div.subject-responsible, div.subject-crp {
@@ -126,20 +18,10 @@ div.subject-name, div.subject-responsible, div.subject-crp {
 
 // style definitions of module list
 div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
-  color: $fcolor;
-  font-family: $font;
-  font-size: $fsize;
+  color: $font-color;
+  font-family: $font-family;
+  font-size: $font-size;
   font-weight: normal;
-}
-
-// title of module column
-div.subject-name {
-  width: 55%;
-}
-
-// lecturer column
-div.subject-responsible {
-  width: 25%;
 }
 
 // credit points column
@@ -153,224 +35,169 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
   width: 100%;
 }
 
-// color of the widget title
-h3.group-bar {
-  color: $fcolor;
-
-  a {
-    @extend h3.group-bar;
-  }
-}
-
-// definitions of the list items (overview)
-.subject-list {
-  li.subject-item {
-    line-height: $line-height;
-    list-style-image: url('../images/thm_li.png');
-    padding: 4px;
-  }
-}
-
-// definitions of the list items (group view)
-.subject-list.grouped {
-  li.subject-item {
-    line-height: $line-height;
-    margin: 0;
-    padding: 5px;
-  }
-}
-
-/*** wird nicht mehr benoetigt, da icons ueber icon-fonts schon vorhanden sind **
-// ---------------------------------
-// Icons (Backend)
-// ---------------------------------
-
-// icon of color manager
-.icon-48-organizer_colors {
-  @extend %icon-colors;
-}
-
-// icon of degree manager
-.icon-48-organizer_degrees {
-  @extend %icon-degrees;
-}
-
-// icon of field manager
-.icon-48-organizer_fields {
-  @extend %icon-fields;
-}
-
-// icon of program manager
-.icon-48-organizer_degree_programs {
-  @extend %icon-degree-programs;
-}
-
-// icon of monitor manager
-.icon-48-organizer_monitors {
-  @extend %icon-monitors;
-}
-
-// icon of room manager
-.icon-48-organizer_rooms {
-  @extend %icon-rooms;
-}
-
-// icon of subject manager
-.icon-48-organizer_subjects {
-  @extend %icon-subjects;
-}
-
-// icon of pool manager
-.icon-48-organizer_subject_pools {
-  @extend  %icon-subject-pools;
-}
-
-// icon of teacher manager
-.icon-48-organizer_teachers {
-  @extend %icon-teachers;
-}
-
-// icon of merge
-.icon-32-merge {
-  @extend %icon-merge;
-}
-*/
-
-// Beginn Lavi **********************************
-//Heading, Search-Bar
-
-.hidden {
-  display: none;
-}
-
-.componentheading {
-  float: left;
-}
-
-.language-switches {
-  float: right;
-
-  img {
-    border: none;
-    padding-top: 2px;
-  }
-}
-
 #j-main-container {
   margin-left: 0px;
   width: 100%;
 
   //search-Area
-  .js-stools-container-bar {
+  .toolbar {
     position: relative;
     float: right;
 
-    label {
-      position: absolute;
-      z-index: 2;
-      padding: 5px 10px;
+    .tool-wrapper {
+      display: inline-block;
     }
 
-    .input-append {
-      button {
-        padding: 1px 10px;
+    .language-switches {
+      margin-right: 5px;
+
+      img {
+        border: none;
+        padding-top: 2px;
+      }
+    }
+
+    button {
+      border: none;
+    }
+
+    .search {
+
+      input[type="text"] {
+        background-color: $background-navigation;
+        border: none;
+        box-shadow: none;
+        margin-right: -22px;
+        padding: 4px 6px;
+        width: 159px;
+      }
+
+      .btn-search {
+        background-color: $background-navigation;
+        bottom: -2px;
+        left: -2px;
+        padding: 0;
+        position: relative;
 
         .icon-search {
-          background: none;   //default: bootstrap-sprites
+          background: none;
+          color: $font-color;
 
           &::before {
             content: "\53";
             font-size: 14px;
-     //       line-height: 0.5;
-      //      margin-left: 0;
           }
         }
       }
-    }
 
-    &:first-child .btn-wrapper {
-      float: left;
-      padding-right: 5px;
-    }
+      .btn-reset {
+        background-color: $foreground;
+        color: $font-color;
+        margin-left: 8px;
+      }
 
-    &:nth-child(1) .btn-wrapper{
-      .js-stools-btn-clear {
-        background: white;
-        &:hover{
-          color: white;
-          background-color: #4a5d66;
-        }
-
-        .icon-delete:before {
-          margin-left: 0;
-        }
+      .btn-reset:hover {
+        background-color: $foreground;
+        color: $font-color;
+        margin-left: 8px;
       }
     }
   }
 
-  .nav {
-  //  margin-bottom: 4px;
-   margin-bottom: 0;
-    border-bottom-color: white;
-    padding-bottom: 1px;
+  .nav.nav-tabs {
+    border-bottom: $border-thick;
+    margin-top: 15px;
+    margin-bottom: 0;
 
-    & > li > a{
-      border: 1px solid #ddd;
+    & > li{
+      margin-left: 2px;
+    }
+
+    & > li:first-child {
+      margin-left: 10px;
+    }
+
+    & > li > a, & > li.active > a {
+      border-top: $border-thick;
+      border-right: $border-thick;
       border-bottom: none;
+      border-left: $border-thick;
       border-radius: 0;
     }
+
+    & > li > a:hover {
+      background-color: $background-navigation;
+      height: calc(100% - 1px);
+      margin-top: -1px;
+    }
+
+    & > li.active > a {
+      background: $background-grey;
+      color: $foreground;
+    }
   }
 
-  .tab-content{
-    padding: 4px 0;
-    border: 1px solid white;
+  .tab-content {
+    padding: 0;
     border-top: none;
     background-color: white;
-  }
 
-  // content
-  .subject-list-container {
-    a {
-      color: $thm-grau-color;
-    }
 
-    ul {
-      margin-left: 0px;
-    }
+    // content
+    .subject-list-container {
 
-    li {
-      list-style: none;
-      padding: 4px 20px 4px 19px;
-      margin-left: 0;
-    }
+      h5 {
+        background-color: $background-navigation;
+        cursor: pointer;
+        margin-bottom: 0px;
+        margin-top: 10px;
+        padding: 6px 12px;
 
-    li:nth-child(odd) {
-      background-color: rgb(238, 238, 238);
-    }
+        a {
+          color: $font-color;
+        }
+      }
 
-    .subject-name {
-      display: inline-block;
-      width: 600px;
-    }
+      :first-child h5{
+        margin-top: 6px;
+      }
 
-    .module-id {
-      padding-left: 5px;
-    }
+      ul {
+        margin-left: 0px;
+      }
 
-    .subject-teacher {
-      //    margin-left: 15px;
-    }
+      li {
+        list-style: none;
+        padding: 6px 20px 6px 19px;
+        margin-left: 0;
+      }
 
-    .subject-crp {
-      float: right;
-    }
+      li:nth-child(even) {
+        background-color: $background;
+      }
 
-    h3 {
-      padding: 4px;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      border: 1px solid #eeeeee;
-      cursor: pointer;
+      .subject-name {
+        display: inline-block;
+        width: 600px;
+      }
+
+      .subject-teacher {
+        display: inline-block;
+      }
+
+      .subject-crp {
+        display: inline-block;
+        float:right;
+        width: 10%;
+      }
+
+      .module-id {
+        padding-left: 5px;
+      }
+
+      a {
+        color: $font-color;
+      }
     }
   }
 

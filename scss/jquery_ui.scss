@@ -41,8 +41,8 @@
 
 // accordion header definitions
 .ui-accordion-header {
-  background-color: $bg-color;
-  border: $border-color;
+  background-color: $background;
+  border: $border;
 
   @include box-shadow(2px, 2px, 4px, $shadow-color);
 }
@@ -54,8 +54,8 @@
 
 // title of the widget (font definitions)
 .ui-widget {
-  font-family: $font;
-  font-size: $fsize;
+  font-family: $font-family;
+  font-size: $font-size;
 }
 
 // widget titles (default state)
@@ -75,5 +75,5 @@
 // hover effect of widget titles
 h3.ui-state-hover {
   background-color: $bg-color-widget !important;
-  color: $fcolor-light;
+  color: $font-color-light;
 }

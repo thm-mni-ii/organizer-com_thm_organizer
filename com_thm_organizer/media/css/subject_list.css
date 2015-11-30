@@ -179,12 +179,15 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
       background-color: #dfe5e6;
       border: none;
       box-shadow: none;
+      margin-right: -22px;
       padding: 4px 6px;
-      width: 120px; }
+      width: 159px; }
     #j-main-container .toolbar .search .btn-search {
-      margin-bottom: -4px;
-      margin-left: -22px;
-      padding: 0; }
+      background-color: #dfe5e6;
+      bottom: -2px;
+      left: -2px;
+      padding: 0;
+      position: relative; }
       #j-main-container .toolbar .search .btn-search .icon-search {
         background: none;
         color: #394a59; }
@@ -213,14 +216,15 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
       border-bottom: none;
       border-left: 2px solid #4a5c66;
       border-radius: 0; }
-      #j-main-container .nav.nav-tabs > li > a :hover, #j-main-container .nav.nav-tabs > li.active > a :hover {
-        background-color: #f2f5f6; }
+    #j-main-container .nav.nav-tabs > li > a:hover {
+      background-color: #dfe5e6;
+      height: calc(100% - 1px);
+      margin-top: -1px; }
     #j-main-container .nav.nav-tabs > li.active > a {
       background: #4a5c66;
       color: white; }
   #j-main-container .tab-content {
     padding: 0;
-    border: 1px solid white;
     border-top: none;
     background-color: white; }
     #j-main-container .tab-content .subject-list-container h5 {

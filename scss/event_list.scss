@@ -1,6 +1,4 @@
-/******************************************************************************/
-/* Styles for Browsers                                                         */
-/******************************************************************************/
+@import '../../lib_thm_core/scss/variables';
 
 @media(max-width: 480px) {
 
@@ -48,7 +46,7 @@
 
   table{
     thead{
-      background-color: #405e9a;
+      background-color: $blue-75;
       font-family: 'THM-Medium';
       text-transform: uppercase;
       tr{
@@ -70,7 +68,7 @@
 }
 
 .event-date-head{
-  background-color: #405e9a;
+  background-color: $blue-75;
   color: white;
   font-size: 1.6rem;
   padding-top: 6px;
@@ -96,7 +94,7 @@
   font-family: 'THM-Medium', Verdana, Arial;
   margin: auto 0;
   line-height: normal;
-  color: $thm-grau-color;
+  color: $background-grey;
 
 
   /************** header *********************************************/
@@ -130,7 +128,7 @@
 
   .date-info {
     text-align: right;
-    color: $thm-gruen-color;
+    color: $thm;
     font-weight: bold;
     font-size: 250%;
     position: absolute;
@@ -151,14 +149,14 @@
     }
 
     .event-date-head {
-      border: 1px solid #405e9a;
+      border: 1px solid $blue-75;
       font-size: 110%;
       position: relative;
       left: -1px;
     }
 
     .row1{
-      background-color: #f2f5f6;
+      background-color: $background;
     }
 
     .event-times, .event-main, .event-comment{
