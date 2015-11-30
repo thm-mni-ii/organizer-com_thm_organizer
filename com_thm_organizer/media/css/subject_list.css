@@ -168,6 +168,8 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
     float: right; }
     #j-main-container .toolbar .tool-wrapper {
       display: inline-block; }
+      #j-main-container .toolbar .tool-wrapper a, #j-main-container .toolbar .tool-wrapper button {
+        cursor: pointer; }
     #j-main-container .toolbar .language-switches {
       margin-right: 5px; }
       #j-main-container .toolbar .language-switches img {
@@ -207,6 +209,7 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
     margin-top: 15px;
     margin-bottom: 0; }
     #j-main-container .nav.nav-tabs > li {
+      margin-bottom: 0;
       margin-left: 2px; }
     #j-main-container .nav.nav-tabs > li:first-child {
       margin-left: 10px; }
@@ -217,19 +220,19 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
       border-left: 2px solid #4a5c66;
       border-radius: 0; }
     #j-main-container .nav.nav-tabs > li > a:hover {
-      background-color: #dfe5e6;
-      height: calc(100% - 1px);
-      margin-top: -1px; }
+      background-color: #f2f5f6; }
     #j-main-container .nav.nav-tabs > li.active > a {
       background: #4a5c66;
       color: white; }
+      #j-main-container .nav.nav-tabs > li.active > a:hover {
+        background: #4a5c66; }
   #j-main-container .tab-content {
     padding: 0;
     border-top: none;
     background-color: white; }
     #j-main-container .tab-content .subject-list-container h5 {
       background-color: #dfe5e6;
-      cursor: pointer;
+      cursor: default;
       margin-bottom: 0px;
       margin-top: 10px;
       padding: 6px 12px; }

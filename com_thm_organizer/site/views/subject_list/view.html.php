@@ -43,7 +43,8 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
         $this->items = $this->get('items');
         $this->pagination = $this->get('Pagination');
 
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches(array('view' => 'subject_list'));
+        $switchParams = array('view' => 'subject_list', 'form' => true);
+        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($switchParams);
 
         $model = $this->getModel();
         $this->programName = $model->programName;
@@ -63,6 +64,5 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
         $document = JFactory::getDocument();
         $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/subject_list.css');
-        $document->addScript($this->baseurl . '/libraries/thm_core/js/container.js');
     }
 }

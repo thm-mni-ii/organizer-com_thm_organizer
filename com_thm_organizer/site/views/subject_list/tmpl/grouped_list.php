@@ -58,10 +58,9 @@ class THM_OrganizerTemplateGroupedList
             {
                 $style = ' style="border-left: 8px solid';
                 $style .= empty($group['bgColor'])? 'transparent' : $group['bgColor'];
-                $style .= ';."';
+                $style .= ';"';
             }
-            $script = ' onclick="toggleGroupDisplay(\'#' . $params['name'] . '-' . $group['id'] . '\')"';
-            echo '<h5' . $style . $script . '>' . $group['name'] . '</h3>';
+            echo '<h5' . $style . '>' . $group['name'] . '</h3>';
             echo '<div class="subject-list-container hidden" id="' . $params['name'] . '-' . $group['id'] . '">';
             echo '<ul class="subject-list">';
 

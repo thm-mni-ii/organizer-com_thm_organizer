@@ -149,10 +149,9 @@ class THM_OrganizerModelSubject_List extends JModelList
         $menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
         $this->state->set('menuID', $menuID);
 
-        $params = JFactory::getApplication()->getMenu()->getItem($menuID)->params;
+        $params = $app->getMenu()->getItem($menuID)->params;
 
-        $menuProgramID = $params->get('programID');
-        $programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID', $menuProgramID);
+        $programID = $params->get('programID');
         $this->state->set('programID', $programID);
 
         $search = $app->input->get('search', '');
