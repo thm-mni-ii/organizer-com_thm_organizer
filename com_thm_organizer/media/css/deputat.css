@@ -1,91 +1,150 @@
-/*
-Error: Undefined variable: "$border-tab".
-        on line 197 of deputat.scss
+.deputat {
+  font-family: 'THM-Regular', Arial, Helvetica, sans-serif;
+  color: #394a59; }
+  .deputat div.componentheading {
+    padding-left: 2.5%;
+    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
+    font-size: 228.57143%;
+    margin-bottom: 10px; }
+  .deputat div.button-panel {
+    float: right;
+    margin-top: 9px;
+    margin-bottom: 9px; }
+  .deputat div.button-group {
+    padding-left: 36%; }
+  .deputat div.button-panel button, .deputat div.button-group button {
+    background: #ffffff;
+    color: #4a5d66;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 21px;
+    margin-bottom: 0;
+    text-align: center;
+    text-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+    border: 2px solid #4a5d66;
+    vertical-align: text-top;
+    padding: .2em .8em .05em .6em; }
+  .deputat div.filter-bar {
+    background-color: #f2f5f6;
+    border: 1px solid #77858c;
+    color: #394a59;
+    font-size: 13px;
+    padding: 8px 4px 4px 4px;
+    z-index: 12;
+    margin-bottom: 4px;
+    -webkit-box-shadow: 2px 2px 4px #dddddd;
+    -moz-box-shadow: 2px 2px 4px #dddddd;
+    -ms-box-shadow: 2px 2px 4px #dddddd;
+    -o-box-shadow: 2px 2px 4px #dddddd;
+    box-shadow: 2px 2px 4px #dddddd; }
+    .deputat div.filter-bar ::after {
+      content: "";
+      display: table;
+      clear: both; }
+    .deputat div.filter-bar .filter-header {
+      margin-bottom: .4em; }
+      @media (min-width: 768px) {
+        .deputat div.filter-bar .filter-header {
+          margin: 4px 25px; }
+          .deputat div.filter-bar .filter-header .deputat-settings {
+            float: left;
+            width: 45%; }
+            .deputat div.filter-bar .filter-header .deputat-settings .deputat-settings-description {
+              font-size: large;
+              margin-bottom: 14px; }
+          .deputat div.filter-bar .filter-header .selection-settings {
+            float: right;
+            width: 45%; }
+          .deputat div.filter-bar .filter-header .control-group {
+            display: block;
+            width: 100%; }
+            .deputat div.filter-bar .filter-header .control-group .control-label, .deputat div.filter-bar .filter-header .control-group .controls {
+              display: inline-block; }
+            .deputat div.filter-bar .filter-header .control-group .control-label {
+              font-size: 14px;
+              width: 35%; }
+            .deputat div.filter-bar .filter-header .control-group .controls div#scheduleID_chzn {
+              -webkit-appearance: none;
+              -moz-appearance: none; }
+            .deputat div.filter-bar .filter-header .control-group .controls div#teachers_chzn {
+              height: auto;
+              border: 2px solid #4a5d66;
+              width: 276px !important;
+              padding: 0;
+              background: white;
+              -webkit-appearance: none;
+              -moz-appearance: none; }
+            .deputat div.filter-bar .filter-header .control-group .controls li.search-choice {
+              background: #eeeeee;
+              border-radius: 0; } }
+      .deputat div.filter-bar .filter-header .input-append {
+        margin-bottom: 0px; }
+        .deputat div.filter-bar .filter-header .input-append input {
+          max-width: 100px;
+          height: 15px; }
 
-192: 
-193:     tr.sum-header th
-194:     {
-195:       border-top: none;
-196:       border-right: none;
-197:       border-bottom: $border-tab;
-198:       border-left: none;
-199:     }
-200: 
-201:     tr[class^="data-row"] td
-202:     {
+table.deputat-table {
+  background-image: none;
+  border: 1px solid #77858c;
+  color: #394a59;
+  display: table;
+  font-size: 13px;
+  margin-bottom: .4em;
+  margin-top: .4em;
+  max-height: 45em;
+  width: 100%;
+  -webkit-box-shadow: 2px 2px 4px #dddddd;
+  -moz-box-shadow: 2px 2px 4px #dddddd;
+  -ms-box-shadow: 2px 2px 4px #dddddd;
+  -o-box-shadow: 2px 2px 4px #dddddd;
+  box-shadow: 2px 2px 4px #dddddd; }
+  table.deputat-table th {
+    background-color: #ffffff;
+    height: 1.4em;
+    text-align: center; }
+  table.deputat-table thead tr.teacher-header th {
+    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
+    font-size: large;
+    border-bottom: none; }
+  table.deputat-table tbody tr td {
+    background-color: #ffffff;
+    font-size: 13px;
+    height: 1.4em;
+    text-align: center; }
+  table.deputat-table tbody tr.sum-header th {
+    border-top: none;
+    border-right: none;
+    border-bottom: 1px solid #77858c;
+    border-left: none; }
+  table.deputat-table tbody tr[class^="data-row"] td {
+    vertical-align: middle;
+    border: 1px solid #bbb; }
+    table.deputat-table tbody tr[class^="data-row"] td a {
+      display: block;
+      float: right;
+      margin-right: 10px; }
+      table.deputat-table tbody tr[class^="data-row"] td a i {
+        color: #4a5c66;
+        font-size: smaller; }
+  table.deputat-table tbody tr[class^="sum-row"] td {
+    border: 1px solid #bbb; }
+  table.deputat-table tbody tr[class^="sum-row"] td.empty-cell {
+    background: transparent;
+    border: none; }
 
-Backtrace:
-deputat.scss:197
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/script/tree/variable.rb:49:in `_perform'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/script/tree/node.rb:50:in `perform'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:395:in `visit_prop'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `block (2 levels) in visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `map'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `block in visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:429:in `visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `block (2 levels) in visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `map'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `block in visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:429:in `visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `block (2 levels) in visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `map'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:431:in `block in visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:429:in `visit_rule'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `map'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:157:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:8:in `visit'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:36:in `css_tree'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:20:in `render'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/engine.rb:278:in `render'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `each'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin.rb:82:in `update_stylesheets'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/sass_scss.rb:361:in `watch_or_update'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/sass_scss.rb:51:in `process_result'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/base.rb:52:in `parse'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/base.rb:19:in `parse!'
-C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/bin/scss:13:in `<top (required)>'
-C:/Ruby21/bin/scss:23:in `load'
-C:/Ruby21/bin/scss:23:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Undefined variable: \"$border-tab\".\A         on line 197 of deputat.scss\A \A 192: \A 193:     tr.sum-header th\A 194:     {\A 195:       border-top: none;\A 196:       border-right: none;\A 197:       border-bottom: $border-tab;\A 198:       border-left: none;\A 199:     }\A 200: \A 201:     tr[class^=\"data-row\"] td\A 202:     {"; }
+@media print {
+  .deputat table.deputat-table {
+    overflow: visible;
+    margin-bottom: 4em; }
+
+  .deputat table.deputat-table tr td {
+    background-color: white; } }
+.whiteSpace {
+  height: 92px;
+  width: 105px;
+  background-color: white;
+  border-top: 1px solid #bbbbbb;
+  border-left: 1px solid #bbbbbb; }

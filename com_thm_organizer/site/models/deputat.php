@@ -306,8 +306,11 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $teacherID, $hours = 0)
     {
-        $subjectIsRelevant = $this->isRelevantSubject($schedule, $lessonID);
-        if (!$subjectIsRelevant)
+        $subjectIsRelevant = $this->isSubjectRelevant($schedule, $lessonID);
+        $lessonType = $this->isTypeRelevant($schedule, $lessonID);
+
+        $invalidLesson = (!$subjectIsRelevant OR empty($lessonType));
+        if ($invalidLesson)
         {
             return;
         }
@@ -317,16 +320,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             $this->lessonValues[$lessonID] = array();
         }
 
-        if (empty($this->lessonValues[$lessonID][$teacherID]))
-        {
-            $this->lessonValues[$lessonID][$teacherID] = array();
-            $this->lessonValues[$lessonID][$teacherID]['teacherName']
-                = THM_OrganizerHelperTeacher::getLNFName($schedule->teachers->$teacherID);
-            $this->lessonValues[$lessonID][$teacherID]['subjectName']
-                = $this->getSubjectName($schedule, $lessonID);
-        }
+        $this->setLessonTeacher($schedule, $lessonID, $teacherID);
 
-        // Tallied items have flat payment values and are correspondingly not tracked as accurately
+        // Tallied items have flat payment values and are correspondingly not tracked as accurately.
         $isTallied = $this->isTallied($schedule, $lessonID);
         if ($isTallied)
         {
@@ -334,20 +330,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             return;
         }
 
-        $lessonType = $schedule->lessons->$lessonID->description;
-
-        // Some 'lesson' types are irrelevant for deputat calculation;
-        if (in_array($lessonType, $this->irrelevant['methods']))
-        {
-            unset($this->lessonValues[$lessonID]);
-            return;
-        }
-
-
-        $previousPools = empty($this->lessonValues[$lessonID][$teacherID]['pools'])?
-            array() : $this->lessonValues[$lessonID][$teacherID]['pools'];
-        $mergedPools = array_merge($previousPools, $this->getPools($schedule, $lessonID));
-        $pools = array_unique($mergedPools);
+        $pools = $this->getPools($schedule, $lessonID, $teacherID);
         if (empty($pools))
         {
             unset($this->lessonValues[$lessonID]);
@@ -391,7 +374,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @return  bool  true if relevant, otherwise false
      */
-    private function isRelevantSubject(&$schedule, $lessonID)
+    private function isSubjectRelevant(&$schedule, $lessonID)
     {
         $subjects = (array) $schedule->lessons->$lessonID->subjects;
         foreach ($subjects AS $subject => $delta)
@@ -409,6 +392,48 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             }
         }
         return true;
+    }
+
+    /**
+     * Checks whether the lesson type is relevant
+     *
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $lessonID   the id of the lesson
+     *
+     * @return  mixed  string type if relevant, otherwise false
+     */
+    private function isTypeRelevant(&$schedule, $lessonID)
+    {
+        $lessonType = $schedule->lessons->$lessonID->description;
+        if (in_array($lessonType, $this->irrelevant['methods']))
+        {
+            return false;
+        }
+        return $lessonType;
+    }
+
+
+
+    /**
+     * Associates a teacher with a given lesson
+     *
+     * @param   object  &$schedule   the schedule being processed
+     * @param   string  $lessonID    the id of the lesson
+     * @param   string  $teacherID   the id of the teacher
+     *
+     * @return  void  sets object variables
+     */
+    private function setLessonTeacher(&$schedule, $lessonID, $teacherID)
+    {
+        // Check for existing association
+        if (empty($this->lessonValues[$lessonID][$teacherID]))
+        {
+            $this->lessonValues[$lessonID][$teacherID] = array();
+            $this->lessonValues[$lessonID][$teacherID]['teacherName']
+                = THM_OrganizerHelperTeacher::getLNFName($schedule->teachers->$teacherID);
+            $this->lessonValues[$lessonID][$teacherID]['subjectName']
+                = $this->getSubjectName($schedule, $lessonID);
+        }
     }
 
     /**
@@ -451,29 +476,37 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @param   object  &$schedule  the schedule being processed
      * @param   string  $lessonID   the id of the lesson
+     * @param   string  $teacherID   the id of the teacher
      *
      * @return  string  the concatenated name of the subject(s)
      */
-    private function getPools(&$schedule, $lessonID)
+    private function getPools(&$schedule, $lessonID, $teacherID)
     {
-        $pools = (array) $schedule->lessons->$lessonID->pools;
-        foreach ($pools AS $pool => $delta)
+
+        $previousPoolIDs = empty($this->lessonValues[$lessonID][$teacherID]['pools'])?
+            array() : $this->lessonValues[$lessonID][$teacherID]['pools'];
+
+
+        $newPools = (array) $schedule->lessons->$lessonID->pools;
+        foreach ($newPools AS $pool => $delta)
         {
             if ($delta == 'removed')
             {
-                unset($pools[$pool]);
+                unset($newPools[$pool]);
             }
             foreach ($this->irrelevant['pools'] as $irrelevant)
             {
                 if (strpos($pool, $irrelevant) === 0)
                 {
-                    unset($pools[$pool]);
+                    unset($newPools[$pool]);
                 }
             }
         }
-        $poolIDs = array_keys($pools);
-        asort($poolIDs);
-        return $poolIDs;
+        $newPoolIDs = array_keys($newPools);
+        asort($newPoolIDs);
+
+        $mergedPools = array_merge($previousPoolIDs, $newPoolIDs);
+        return array_unique($mergedPools);
     }
 
     /**
