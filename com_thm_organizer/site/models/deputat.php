@@ -412,14 +412,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         return $lessonType;
     }
 
-
-
     /**
      * Associates a teacher with a given lesson
      *
-     * @param   object  &$schedule   the schedule being processed
-     * @param   string  $lessonID    the id of the lesson
-     * @param   string  $teacherID   the id of the teacher
+     * @param   object  &$schedule  the schedule being processed
+     * @param   string  $lessonID   the id of the lesson
+     * @param   string  $teacherID  the id of the teacher
      *
      * @return  void  sets object variables
      */
@@ -476,7 +474,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @param   object  &$schedule  the schedule being processed
      * @param   string  $lessonID   the id of the lesson
-     * @param   string  $teacherID   the id of the teacher
+     * @param   string  $teacherID  the id of the teacher
      *
      * @return  string  the concatenated name of the subject(s)
      */
@@ -627,8 +625,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Sets the values for tallied lessons
      *
-     * @param   string  $teacherID     the teacher's id
-     * @param   array  &$lessonValues  the values for the lesson being iterated
+     * @param   string  $teacherID      the teacher's id
+     * @param   array   &$lessonValues  the values for the lesson being iterated
      *
      * @return  void  sets values in the object variable $deputat
      */

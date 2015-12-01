@@ -171,6 +171,13 @@ class JFormFieldChildren extends JFormField
         }
     }
 
+    /**
+     * Generates the HTML Output for the children field
+     *
+     * @param   array  &$children  the children of the resource being edited
+     *
+     * @return  string  the HTML string for the children field
+     */
     private function getHTML(&$children)
     {
         $html = '<table id="childList" class="table table-striped">';
@@ -186,7 +193,7 @@ class JFormFieldChildren extends JFormField
         $makeLast = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
 
         $rowClass = 'row0';
-        if(!empty($children))
+        if (!empty($children))
         {
             $maxOrdering = max(array_keys($children));
             for ($ordering = 1; $ordering <= $maxOrdering; $ordering++)
