@@ -799,8 +799,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Checks lesson values to determine the plausibility of aggregation
      *
-     * @param   array   $lessonValues      the values for the lesson being iterated in the outer loop
-     * @param   array   $comparisonValues  the values for the lesson being iterated in the inner loop
+     * @param   array  $lessonValues      the values for the lesson being iterated in the outer loop
+     * @param   array  $comparisonValues  the values for the lesson being iterated in the inner loop
      *
      * @return  bool  true if the lessons are a plausible match, otherwise false
      */
