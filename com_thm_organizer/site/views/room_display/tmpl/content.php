@@ -23,4 +23,4 @@ window.onload = function(){
     timer = setTimeout('auto_reload()', <?php echo $this->model->params['content_refresh']; ?>000);
 }
 </script>
-<img src="images/thm_organizer/<?php echo $this->content; ?>" >
+<img src="images/thm_organizer/<?php echo $this->model->params['content']; ?>" >
