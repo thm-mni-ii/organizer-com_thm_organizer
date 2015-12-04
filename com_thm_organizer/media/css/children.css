@@ -136,6 +136,9 @@ li a[href*="view=virtual_schedule_manager"]::before {
 .child-order input.text-area-order {
   width: 2em; }
 
+#childList .btn, #childList input[type="text"] {
+  margin-right: 4px; }
+
 .modal-body {
   overflow-y: hidden;
   min-height: 450px; }

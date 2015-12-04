@@ -324,11 +324,11 @@ tbody tr:first-child td {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
   /* IE6-9 */ }
 #mapping table, #mappings table {
-  width: auto; }
+  width: 98%; }
 #mapping thead tr:nth-child(1) th, #mappings thead tr:nth-child(1) th {
   padding: 5px 0 5px 8px; }
 #mapping thead .thm_organizer_pools_ordering, #mappings thead .thm_organizer_pools_ordering {
-  width: 170px; }
+  width: 200px; }
 #mapping tbody .child-order .btn-small, #mappings tbody .child-order .btn-small {
   padding: 1px 4px;
   font-size: 12px;

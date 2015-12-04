@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class THM_OrganizerModelSubject_Selection for component com_thm_organizer
@@ -27,23 +28,50 @@ class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
 
     protected $defaultDirection = 'asc';
 
+    public $programs = null;
 
-    protected function getListQuery()
+    public $pools = null;
+
+
+    protected function _getListQuery()
     {
-        $query = $this->_db->getQuery(true);
+        $dbo = JFactory::getDBO();
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
 
-        $select = 'id, name_de, externalID, ';
-        $parts = array("'index.php?option=com_thm_organizer&view=pool_edit&id='", "0");
-        $select .= $query->concatenate($parts, "") . " AS link";
+        // Create the sql query
+        $query = $dbo->getQuery(true);
+        $select = "DISTINCT s.id, externalID, name_$shortTag AS name ";
         $query->select($select);
-        $query->from('#__thm_organizer_subjects');
-        $query->order('name_de ASC');
+        $query->from('#__thm_organizer_subjects AS s');
 
-        $columns = array('id', 'name_de', 'externalID');
-        $this->setSearchFilter($query, $columns);
-        $this->setValueFilters($query, $columns);
+        $searchFields = array('name_de', 'short_name_de', 'abbreviation_de', 'name_en', 'short_name_en',
+                              'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
+                              'description_en', 'objective_en', 'content_en'
+        );
+        $this->setSearchFilter($query, $searchFields);
+        $this->setValueFilters($query, array('externalID', 'fieldID'));
+        $this->setLocalizedFilters($query, array('name'));
+
+        $programID = $this->state->get('list.programID', '');
+        THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'subject');
+        $poolID = $this->state->get('list.poolID', '');
+        THM_OrganizerHelperMapping::setResourceIDFilter($query, $poolID, 'pool', 'subject');
+
+        $this->setOrdering($query);
 
         return $query;
+    }
+
+    /**
+     * Method to get the total number of items for the data set.
+     *
+     * @param   string  $idColumn  the main id column of the list query
+     *
+     * @return  integer  The total number of items available in the data set.
+     */
+    public function getTotal()
+    {
+        return parent::getTotal('s.id');
     }
 
     /**
@@ -65,8 +93,8 @@ class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
         {
             $return[$index] = array();
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name'] = $item->name_de;
-            $return[$index]['modulId'] = $item->externalID;
+            $return[$index]['name'] = $item->name;
+            $return[$index]['externalID'] = $item->externalID;
             $index++;
         }
         return $return;

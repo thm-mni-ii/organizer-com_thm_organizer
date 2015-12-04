@@ -4,6 +4,7 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewSubject_Selection
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -11,7 +12,6 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.view');
-JHtml::_('jquery.framework');
 
 /**
  * Class provides methods to display the view degrees
@@ -40,6 +40,7 @@ class THM_OrganizerViewSubject_Selection extends THM_CoreViewList
     protected function modifyDocument()
     {
         parent::modifyDocument();
+        JHtml::_('jquery.framework');
         JHtml::_('searchtools.form', '#adminForm', array());
 
         $document = Jfactory::getDocument();

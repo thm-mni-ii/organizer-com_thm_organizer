@@ -208,10 +208,12 @@ class JFormFieldChildren extends JFormField
                 {
                     $link = $name = $childID = '';
                 }
+                $icon = empty($children[$ordering]['subjectID'])? 'list' : 'book';
 
                 $html .= '<tr id="childRow' . $ordering . '" class="' . $rowClass . '">';
                 $html .= '<td class="child-name">';
                 $html .= '<a id="child' . $ordering . 'link" href="' . $link . '">';
+                $html .= '<span id="child' . $ordering . 'icon" class="icon-' . $icon . '"></span>';
                 $html .= '<span id="child' . $ordering . 'name">' . $name . '</span>';
                 $html .= '</a>';
                 $html .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" value="' . $childID . '" />';

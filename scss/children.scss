@@ -11,6 +11,12 @@
   width: 2em;
 }
 
+#childList {
+  .btn, input[type="text"] {
+    margin-right: 4px;
+  }
+}
+
 .modal-body{
   overflow-y: hidden;
   min-height: 450px;
