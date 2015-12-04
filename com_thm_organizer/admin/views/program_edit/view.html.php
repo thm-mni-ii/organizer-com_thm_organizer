@@ -55,15 +55,13 @@ class THM_OrganizerViewProgram_Edit extends THM_CoreViewEdit
         {
             JToolbarHelper::save2copy('program.save2copy');
             JToolbarHelper::cancel('program.cancel', 'JTOOLBAR_CLOSE');
-            $image = 'edit';
-            $title = JText::_('COM_THM_ORGANIZER_ADD_POOL');
-            $link = 'index.php?option=com_thm_organizer&amp;view=pool_selection&amp;tmpl=component';
-            $height = '600';
-            $width = '900';
-            $top = 0;
-            $left = 0;
-            $bar = JToolBar::getInstance('toolbar');
-            $bar->appendButton('Popup', $image, $title, $link, $width, $height, $top, $left);
+
+            $toolbar = JToolBar::getInstance('toolbar');
+
+            $poolIcon = 'list';
+            $poolTitle = JText::_('COM_THM_ORGANIZER_ADD_POOL');
+            $poolLink = 'index.php?option=com_thm_organizer&amp;view=pool_selection&amp;tmpl=component';
+            $toolbar->appendButton('Popup', $poolIcon, $poolTitle, $poolLink);
         }
     }
 }

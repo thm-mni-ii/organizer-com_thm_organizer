@@ -32,8 +32,17 @@ class THM_OrganizerViewSubject_Selection extends THM_CoreViewList
         JToolbarHelper::addNew('pool.addSubject', 'COM_THM_ORGANIZER_ACTION_ADD', true);
     }
 
-    function display($tpl = null)
+    /**
+     * Adds styles and scripts to the document
+     *
+     * @return  void  modifies the document
+     */
+    protected function modifyDocument()
     {
-        parent::display($tpl);
+        parent::modifyDocument();
+        JHtml::_('searchtools.form', '#adminForm', array());
+
+        $document = Jfactory::getDocument();
+        $document->addStyleSheet($this->baseurl . "../../media/com_thm_organizer/css/child_selection.css");
     }
 }

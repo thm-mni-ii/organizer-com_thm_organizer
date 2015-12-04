@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter" >
+    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
         <field
                 name="search"
                 type="text"

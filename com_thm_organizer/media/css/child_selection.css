@@ -129,17 +129,33 @@ li a[href*="view=virtual_schedule_manager"]::before {
   font-size: 12px;
   padding-right: 8px; }
 
-.thm_organizer_children {
-  float: left;
-  padding-top: 5px; }
+.contentpane.component #j-main-container.j-toggle-main {
+  float: none;
+  margin-left: 0;
+  width: 98%; }
 
-.child-order input.text-area-order {
-  width: 2em; }
-
-.modal-body {
-  overflow-y: hidden;
-  min-height: 450px; }
-  .modal-body iframe.iframe {
-    height: auto;
-    min-height: 450px;
+#adminForm {
+  width: 100%; }
+  #adminForm .js-stools-container-bar {
     width: 100%; }
+    #adminForm .js-stools-container-bar .js-stools-field-list {
+      margin-bottom: 0; }
+      #adminForm .js-stools-container-bar .js-stools-field-list .chzn-single {
+        padding: 1px; }
+        #adminForm .js-stools-container-bar .js-stools-field-list .chzn-single > span {
+          margin-left: 4px;
+          margin-right: 22px; }
+
+.btn-wrapper, .ordering-select {
+  display: inline-block;
+  float: left;
+  margin-right: 4px; }
+
+.btn-wrapper.input-append {
+  margin-bottom: 0; }
+
+.ordering-select select {
+  margin-bottom: 0; }
+
+#toolbar-new {
+  float: right; }

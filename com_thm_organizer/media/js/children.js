@@ -3,12 +3,15 @@
  */
 function moveButton()
 {
-    var subjectButton = jQuery('#toolbar-popup-addSubject').detach(), poolButton = jQuery('#toolbar-popup-addPool').detach();
-    subjectButton.appendTo(jQuery('#childList').parent());
-    poolButton.appendTo(jQuery('#childList').parent());
+    var poolButton = jQuery('#toolbar-popup-list').detach(),
+        subjectButton = jQuery('#toolbar-popup-book').detach();
 
-    poolButton = jQuery('#toolbar-popup-edit').detach();
-    poolButton.appendTo(jQuery('#childList').parent());
+    poolButton.appendTo(jQuery('#children-toolbar'));
+    if (subjectButton.length)
+    {
+        subjectButton.appendTo(jQuery('#children-toolbar'));
+    }
+
 }
 
 /**

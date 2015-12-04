@@ -241,6 +241,7 @@ class JFormFieldChildren extends JFormField
         }
         $html .= '</tbody>';
         $html .= '</table>';
+        $html .= '<div class="btn-toolbar" id="children-toolbar"></div>';
 
         return $html;
     }
