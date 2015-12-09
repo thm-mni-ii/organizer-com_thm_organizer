@@ -22,8 +22,9 @@ $title = $this->model->params->get('page_title', '');
 ?>
 <div id="event-list" class="component-container">
 <?php
-if (!empty($showHeading)) {
-    ?>
+if (!empty($showHeading))
+{
+?>
     <h2 class="blacomponentheading"><?php echo $title; ?></h2>
 <?php
 }

@@ -20,42 +20,46 @@ $blockNo = 0;
 $metric = 0;
 ?>
 <script type="text/javascript">
-    var timer = null;
-    function auto_reload()
-    {
-        window.location = document.URL;
-    }
-    window.onload = function() {
-        timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
+var timer = null;
+function auto_reload()
+{
+    window.location = document.URL;
+}
+window.onload = function() {
+    timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
 
-        /* Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
-        * dazu wird ein neuer Klassennamen benötigt.
-         */
-        var scheduleBlockElement = document.getElementsByClassName("schedule-block");
-        var bool = testforactiveelements(scheduleBlockElement);
-        if (bool==false){
-           for (var i=0; i<scheduleBlockElement.length; i++) {
-               scheduleBlockElement[i].className += " nothingActive";
-           }
+    /**
+     * Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
+     * dazu wird ein neuer Klassennamen benötigt.
+     */
+    var scheduleBlockElement = document.getElementsByClassName("schedule-block");
+    var bool = testforactiveelements(scheduleBlockElement);
+    if (bool==false)
+    {
+       for (var i=0; i<scheduleBlockElement.length; i++)
+       {
+           scheduleBlockElement[i].className += " nothingActive";
        }
     }
+}
 
-     testforactiveelements = function( scheduleBlockElement){
-         var bool=false;
-      for (var i=0; i<scheduleBlockElement.length; i++) {
-          if (scheduleBlockElement[i].classList.contains("active")) {
-             var  bool = true;
-          }
+ testforactiveelements = function( scheduleBlockElement) {
+    var active =false;
+    for (var i=0; i<scheduleBlockElement.length; i++)
+    {
+      if (scheduleBlockElement[i].classList.contains("active"))
+      {
+         var  active = true;
       }
-         return bool;
-  }
+    }
+    return active;
+}
 </script>
 <div class='display-schedule'>
     <div class='head'>
         <div class='banner'>
-            <div class='thm-logo'><img src="media/com_thm_organizer/images/thm_logo.png" alt="THM-Logo"/><!--Dummy Text for THM-LOGO--></div>
+            <div class='thm-logo'><img src="media/com_thm_organizer/images/thm_logo.png" alt="THM-Logo"/></div>
             <div class="room-name"><?php echo $params['roomName']; ?></div>
-   <!--         <div class="thm-text"><img src="media/com_thm_organizer/images/thm_text_dinpro_compact.png" alt="THM-Logo"/><!--Dummy Text for TECHNISCHE&nbsp;HOCHSCHULE&nbsp;MITTELHESSEN</div> -->
         </div>
         <div class='date-info'>
             <div class='time'><?php echo $time; ?></div>

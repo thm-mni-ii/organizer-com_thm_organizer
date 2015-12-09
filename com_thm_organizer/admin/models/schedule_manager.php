@@ -86,7 +86,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
                 $return[$index]['departmentID'] = $item->departmentname;
                 $return[$index]['semestername'] = $item->semestername;
-                $return[$index]['active'] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
+                $return[$index]['active']
+                    = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
                 $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
                 $return[$index]['creationtime'] = THM_OrganizerHelperComponent::formatTime($item->creationtime);
             }
@@ -95,7 +96,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
                 $return[$index]['checkbox'] = '';
                 $return[$index]['departmentID'] = $item->departmentname;
                 $return[$index]['semestername'] = $item->semestername;
-                $return[$index]['active'] = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'), null, false);
+                $return[$index]['active']
+                    = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'), null, false);
                 $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
                 $return[$index]['creationtime'] = THM_OrganizerHelperComponent::formatTime($item->creationtime);
             }

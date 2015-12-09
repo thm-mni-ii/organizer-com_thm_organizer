@@ -40,7 +40,8 @@ $resetVisibility .= ';"';
                     <i class="icon-search"></i>
                 </button>
                 <button type="button" class="btn-reset hasTooltip" <?php echo $resetVisibility; ?>
-                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();">
+                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
+                        onclick="document.getElementById('filter_search').value='';this.form.submit();">
                     <i class="icon-delete"></i>
                 </button>
             </div>

@@ -79,7 +79,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Sets display parameters
      *
-     * @param   object  $monitorEntry  the JTable object for the monitors table
+     * @param   object  &$monitorEntry  the JTable object for the monitors table
      *
      * @return  void
      */
@@ -357,26 +357,17 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 
             foreach ($rooms as $roomID => $roomDelta)
             {
-                // This is not a room
-                if ($roomID == 'delta')
-                {
-                    continue;
-                }
-
-                // The room being iterated is not relevant for the display
-                if ($roomID != $this->params['gpuntisID'])
+                $notARoom = $roomID == 'delta';
+                $irrelevant = $roomID != $this->params['gpuntisID'];
+                $removed = (!$notARoom AND $roomDelta == 'removed');
+                $skip = ($notARoom OR $irrelevant OR $removed);
+                if ($skip)
                 {
                     continue;
                 }
 
                 $subjects = (array) $schedule->lessons->$lessonID->subjects;
-                foreach ($subjects as $subjectID => $subjectDelta)
-                {
-                    if ($subjectDelta == 'removed')
-                    {
-                        unset($subjects[$subjectID]);
-                    }
-                }
+                $this->filterSubjects($subjects);
 
                 if (!isset($this->blocks[$period]->lessons))
                 {
@@ -389,25 +380,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 }
 
                 $subjectIDs = array_keys($subjects);
+                $lessonTitle = $this->getLessonTitle($subjectIDs, $schedule);
 
-                if (count($subjectIDs) > 1)
-                {
-                    $subjectNames = array();
-                    foreach ($subjectIDs as $subjectID)
-                    {
-                        $subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
-                    }
-                    $lessonTitle = implode(', ', $subjectNames);
-                }
-                else
-                {
-                    $subjectID = array_shift($subjectIDs);
-                    $longname = $schedule->subjects->$subjectID->longname;
-                    $shortname = $schedule->subjects->$subjectID->name;
-
-                    // A little arbitrary but implementing settings is a little too much effort
-                    $lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
-                }
                 $lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
                 $this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
 
@@ -433,6 +407,55 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 }
             }
         }
+    }
+
+    /**
+     * Removes removed subjects from the list of subjects associated with a given lesson
+     *
+     * @param   array  &$subjects  the lesson's subjects
+     *
+     * @return  void  removes indexes from &$subjects
+     */
+    private function filterSubjects(&$subjects)
+    {
+        foreach ($subjects as $subjectID => $subjectDelta)
+        {
+            if ($subjectDelta == 'removed')
+            {
+                unset($subjects[$subjectID]);
+            }
+        }
+    }
+
+    /**
+     * Generates the base lesson title from the ids of the associated subjects
+     *
+     * @param   array   $subjectIDs  the ids of the relevant subjects
+     * @param   object  &$schedule   the schedule being iterated
+     *
+     * @return  string  the lesson title
+     */
+    private function getLessonTitle($subjectIDs, &$schedule)
+    {
+        if (count($subjectIDs) > 1)
+        {
+            $subjectNames = array();
+            foreach ($subjectIDs as $subjectID)
+            {
+                $subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
+            }
+            $lessonTitle = implode(', ', $subjectNames);
+        }
+        else
+        {
+            $subjectID = array_shift($subjectIDs);
+            $longname = $schedule->subjects->$subjectID->longname;
+            $shortname = $schedule->subjects->$subjectID->name;
+
+            // A little arbitrary but implementing settings is a little too much effort
+            $lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
+        }
+        return $lessonTitle;
     }
 
     /**

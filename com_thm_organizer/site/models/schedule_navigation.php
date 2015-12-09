@@ -366,7 +366,7 @@ class THM_OrganizerModelSchedule_Navigation
         $nodeParts = explode("_", $nodeID);
 
         // Do not show root node
-        if(count($nodeParts) === 4)
+        if (count($nodeParts) === 4)
         {
             return false;
         }
