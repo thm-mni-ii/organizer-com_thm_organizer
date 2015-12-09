@@ -37,12 +37,13 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
         $shortTag = THM_CoreHelper::getLanguageShortTag();
         $select = "DISTINCT p.id, name_$shortTag AS name, field, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=pool_selection&id='","p.id");
-        $select .= $query->concatenate($parts, "") . "AS link ";
+        $select .= $query->concatenate($parts, "") . " AS link ";
         $query->select($select);
 
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->leftJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
 
         $searchColumns = array('name_de', 'short_name_de', 'abbreviation_de', 'description_de',
                                 'name_en', 'short_name_en', 'abbreviation_en', 'description_en'
@@ -51,12 +52,144 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
         $this->setLocalizedFilters($query, array('name'));
         $this->setValueFilters($query, array('fieldID'));
 
+        // Only pools
+        $query->where('m.programID IS NULL AND m.subjectID IS NULL');
+
         $programID = $this->state->get('filter.programID', '');
-        THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'pool');
+
+        // Program filter selection made
+        if (!empty($programID))
+        {
+            // Pools unassociated with programs => no mappings
+            if ($programID == -1)
+            {
+                $query->where("m.id IS NULL");
+            }
+            else
+            {
+                $this->setProgramFilter($query, $programID);
+            }
+        }
+
+        // Mapping filters are irrelevant without mappings :)
+        if ($programID != -1)
+        {
+            $this->setMappingFilters($query);
+        }
 
         $this->setOrdering($query);
 
         return $query;
+    }
+
+    /**
+     * Sets the program id filter for a query. Used in pool manager and subject manager.
+     *
+     * @param   object  &$query            the query object
+     * @param   int     $programID        the id of the resource from the filter
+     *
+     * @return  void  sets query object variables
+     */
+    public function setProgramFilter(&$query, $programID)
+    {
+        if (!is_numeric($programID))
+        {
+            return;
+        }
+
+        $ranges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
+        if (empty($ranges))
+        {
+            return;
+        }
+
+        // Specific association
+        $query->where("m.lft > '{$ranges[0]['lft']}'");
+        $query->where("m.rgt < '{$ranges[0]['rgt']}'");
+    }
+
+    /**
+     * Sets exclusions for parent and child pools based on mapping values.
+     *
+     * @param   object  &$query  the query object
+     */
+    private function setMappingFilters(&$query)
+    {
+        $type = $this->state->{'list.type'};
+        $resourceID = $this->state->{'list.id'};
+
+        $invalid = (($type != 'program' AND $type != 'pool') OR $resourceID == 0);
+        if ($invalid)
+        {
+            return;
+        }
+
+        $boundarySets = THM_OrganizerHelperMapping::getBoundaries($type, $resourceID);//echo "<pre>" . print_r($boundarySets, true) . "</pre>";
+        if (empty($boundarySets))
+        {
+            return;
+        }
+
+        $newQuery = $this->_db->getQuery(true);
+        $newQuery->select('poolID')->from('#__thm_organizer_mappings');
+        $newQuery->where('poolID IS NOT NULL');
+        foreach ($boundarySets as $boundarySet)
+        {
+            $newQuery->where("(lft BETWEEN '{$boundarySet['lft']}' AND '{$boundarySet['rgt']}')");
+            $query->where("NOT (m.lft < '{$boundarySet['lft']}' AND m.rgt > '{$boundarySet['rgt']}')");
+        }
+        $query->where("p.id NOT IN (" . (string) $newQuery . ")");
+    }
+
+    /**
+     * Overwrites the JModelList populateState function
+     *
+     * @param   string  $ordering   the column by which the table is should be ordered
+     * @param   string  $direction  the direction in which this column should be ordered
+     *
+     * @return  void  sets object state variables
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        parent::populateState($ordering, $direction);
+
+        $input = JFactory::getApplication()->input;
+        $list = JFactory::getApplication()->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array');
+
+        $postType = $input->get('type', '');
+        $type = empty($list['type'])? $postType : $list['type'];
+        $this->setState('list.type', $type);
+
+        $postID = $input->get('id', 0);
+        $resourceID = empty($list['type'])? $postID : $list['id'];
+        $this->setState('list.id', $resourceID);
+    }
+
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     */
+    protected function loadFormData()
+    {
+        $data = parent::loadFormData();
+        $data->list['type'] = $this->state->{'list.type'};
+        $data->list['id'] = $this->state->{'list.id'};
+        return $data;
+    }
+
+    /**
+     * Method to get the total number of items for the data set.
+     *
+     * @param   string  $idColumn  the main id column of the list query
+     *
+     * @return  integer  The total number of items available in the data set.
+     */
+    public function getTotal()
+    {
+        return parent::getTotal('p.id');
     }
 
     /**

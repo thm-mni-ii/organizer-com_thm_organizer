@@ -29,7 +29,7 @@ class THM_OrganizerViewPool_Selection extends THM_CoreViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::addNew('program.addPool', 'COM_THM_ORGANIZER_ACTION_ADD', true);
+        JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
     }
 
     /**

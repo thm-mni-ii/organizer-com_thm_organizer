@@ -42,7 +42,8 @@ class THM_OrganizerViewPool_Edit extends THM_CoreViewEdit
      */
     protected function addToolBar()
     {
-        $isNew = ($this->item->id == 0);
+        $resourceID = (isset($this->item->id) AND is_numeric($this->item->id))? $this->item->id : 0;
+        $isNew = ($resourceID == 0);
         $title = $isNew ? JText::_('COM_THM_ORGANIZER_POOL_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_POOL_EDIT_EDIT_VIEW_TITLE');
         JToolbarHelper::title($title, 'organizer_subject_pools');
         JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_ACTION_APPLY_NEW' : 'COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
@@ -51,14 +52,15 @@ class THM_OrganizerViewPool_Edit extends THM_CoreViewEdit
 
         $toolbar = JToolBar::getInstance('toolbar');
 
+        $baseURL = 'index.php?option=com_thm_organizer&amp;tmpl=component&amp;type=pool&amp;id=' . $resourceID . '&amp;';
         $poolIcon = 'list';
         $poolTitle = JText::_('COM_THM_ORGANIZER_ADD_POOL');
-        $poolLink = 'index.php?option=com_thm_organizer&amp;view=pool_selection&amp;tmpl=component';
+        $poolLink = $baseURL .'view=pool_selection';
         $toolbar->appendButton('Popup', $poolIcon, $poolTitle, $poolLink);
 
         $subjectIcon = 'book';
         $subjectTitle = JText::_('COM_THM_ORGANIZER_ADD_SUBJECT');
-        $subjectLink = 'index.php?option=com_thm_organizer&amp;view=subject_selection&amp;tmpl=component';
+        $subjectLink = $baseURL .'view=subject_selection';
         $toolbar->appendButton('Popup', $subjectIcon, $subjectTitle, $subjectLink);
     }
 }

@@ -77,6 +77,18 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
     }
 
     /**
+     * Method to get the total number of items for the data set.
+     *
+     * @param   string  $idColumn  the main id column of the list query
+     *
+     * @return  integer  The total number of items available in the data set.
+     */
+    public function getTotal()
+    {
+        return parent::getTotal('p.id');
+    }
+
+    /**
      * Method to overwrite the getItems method in order to set the program name
      *
      * @return  array  an array of objects fulfilling the request criteria
@@ -147,6 +159,6 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
     {
         JForm::addFieldPath(JPATH_ROOT . '/media/com_thm_organizer/fields');
         JForm::addFieldPath(JPATH_ROOT . '/libraries/thm_core/fields');
-        parent::loadFormData();
+        return parent::loadFormData();
     }
 }

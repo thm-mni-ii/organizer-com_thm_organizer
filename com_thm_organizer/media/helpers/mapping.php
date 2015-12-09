@@ -575,20 +575,22 @@ class THM_OrganizerHelperMapping
     /**
      * Retrieves the mapping boundaries of the selected resource
      *
-     * @param   string  $resourceType  the type of the selected resource
-     * @param   int     $resourceID    the id of the selected resource
+     * @param   string   $resourceType       the type of the selected resource
+     * @param   int      $resourceID         the id of the selected resource
+     * @param   boolean  $excludeChildPools  whether the return values should have child pools filtered out
      *
      * @return  mixed  array with boundary values on success, otherwise false
      *
      * @throws  exception
      */
-    public static function getBoundaries($resourceType, $resourceID)
+    public static function getBoundaries($resourceType, $resourceID, $excludeChildPools = true)
     {
         $invalidID = (empty($resourceID) OR $resourceID == 'null' OR $resourceID == '-1');
         if ($invalidID)
         {
             return false;
         }
+
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('lft, rgt')->from('#__thm_organizer_mappings');
@@ -597,7 +599,7 @@ class THM_OrganizerHelperMapping
         
         try 
         {
-            $boundaries = $dbo->loadAssoc();
+            $ufBoundarySet = $dbo->loadAssocList();
         }
         catch (Exception $exc)
         {
@@ -605,13 +607,19 @@ class THM_OrganizerHelperMapping
             return array();
         }
 
-        if ($resourceType == 'program')
+        if ($resourceType == 'program' OR !$excludeChildPools)
         {
-            return array($boundaries);
+            return $ufBoundarySet;
         }
-        $bla = self::removeExclusions($boundaries);
 
-        return $bla;
+        $filteredBoundarySet = array();
+        foreach ($ufBoundarySet as $ufBoundaries)
+        {
+            $filteredBoundaries = self::removeExclusions($ufBoundaries);
+            $filteredBoundarySet = array_merge($filteredBoundarySet);
+        }
+
+        return $filteredBoundaries;
     }
 
     /**

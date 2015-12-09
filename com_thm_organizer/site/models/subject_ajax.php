@@ -85,7 +85,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         }
 
         $query->order('name');
-        $query->group('s.id');//echo "<pre>" . print_r((string) $query, true) . "</pre>";
+        $query->group('s.id');
 
         $dbo->setQuery((string) $query);
         try 
