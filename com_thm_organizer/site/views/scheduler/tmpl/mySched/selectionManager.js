@@ -49,7 +49,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 Ext.select('.lecturename', false, dom).clearListeners();
                 Ext.select('.roomname', false, dom).clearListeners();
                 Ext.select('.poolname', false, dom).clearListeners();
-                Ext.select('.status_icons_add', false, dom).clearListeners();
+                Ext.select('.control_icon', false, dom).clearListeners();
             }
             else if (o === true)
             {
@@ -63,7 +63,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 Ext.select('.lecturename').clearListeners();
                 Ext.select('.roomname').clearListeners();
                 Ext.select('.poolname').clearListeners();
-                Ext.select('.status_icons_add').clearListeners();
+                Ext.select('.control_icon').clearListeners();
             }
             else if (MySched.layout.tabpanel.items.getCount() > 0)
             {
@@ -78,7 +78,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 //Ext.select('.lecturename', false, activeTabDom).clearListeners();
                 //Ext.select('.roomname', false, activeTabDom).clearListeners();
                 Ext.select('.poolname', false, activeTabDom).clearListeners();
-                Ext.select('.status_icons_add', false, activeTabDom).clearListeners();
+                Ext.select('.control_icon', false, activeTabDom).clearListeners();
             }
         },
         /**
@@ -179,7 +179,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 });
 
             // Adds events to the plus icon
-            Ext.select('.status_icons_add', true, tab.dom)
+            Ext.select('.control_icon', true, tab.dom)
                 .on(
                 {
                     'click': function (e)

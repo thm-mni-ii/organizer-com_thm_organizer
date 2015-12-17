@@ -283,7 +283,7 @@ div#main {
 
           .x-btn-icon-el {
             //removed an icon, because there are two
-            display: none;
+            background-image: none;
           }
 
           //change Download-Icon
@@ -318,7 +318,14 @@ div#main {
           font-family: icomoon;
           content: "\43";
           font-size: 12px;
-          color: #4a5c66;
+          color: $font-color;
+        }
+
+        .x-tab-active .myScheduleIcon::before {
+          font-family: icomoon;
+          content: "\43";
+          font-size: 12px;
+          color: $foreground;
         }
       }
 
@@ -353,19 +360,55 @@ div#main {
 
       .x-tab {
         background-color: $foreground;
-        border: 1px solid $background;
+        border: 2px solid $grey-75;
         border-bottom: none;
+        color: $font-color;
         margin-bottom: 3px;
         padding: 10px;
+
+        .x-tab-inner-default {
+          line-height: 1rem;
+          font-size: .85rem;
+          font-weight: normal;
+        }
+
+        .x-tab-button-default {
+          height: auto;
+        }
+
+        .x-tab-close-btn {
+          background: transparent;
+          background-image: none;
+          positon: relative;
+
+          &:before {
+            color: $background-grey;
+            content: "\49";
+            font-family: icomoon;
+            font-size: 10px;
+            position: absolute;
+            right: 3px;
+            top: 8px;
+            vertical-align: text-bottom;
+          }
+        }
       }
 
-      .x-tab-active {
-        background-color: $background-navigation;
+      .x-tab.x-tab-active {
+
+        background-color: $background-grey;
         border: $border-thick;
-        border-bottom: none;
+
+        .x-tab-inner-default {
+          color: $foreground;
+        }
+        .x-tab-close-btn:before {
+            color: $foreground;
+        }
       }
 
       .x-tab-bar-strip {
+        background-color: $background-grey;
         border: $border-thick;
         border-bottom: none;
       }
@@ -376,8 +419,20 @@ div#main {
         border-top: none;
 
         .x-grid-header-ct {
+
           border: none;
           border-bottom: $border-thick;
+
+          .x-column-header{
+            background-color: $background-grey;
+          }
+
+          .x-column-header-text {
+            color: $foreground;
+            font-size: .8rem;
+            font-weight: normal;
+            line-height: .9rem;
+          }
         }
 
         .x-grid-item {
@@ -388,8 +443,13 @@ div#main {
             background-color: $foreground;
           }
 
-          &:first-child .x-grid-row .x-grid-cell {
+          &:first-child {
+
             border-top: none;
+
+            .x-grid-row .x-grid-cell {
+              border-top: none;
+            }
           }
 
           &:last-child .x-grid-rowbody-tr {
@@ -399,38 +459,82 @@ div#main {
           .x-grid-row {
 
             .x-grid-cell {
+
               border: $border;
+              padding: 6px;
 
+              .x-grid-cell-inner {
 
-              .lectureBox {
-                cursor: move;
-                z-index: 1000;
-                padding: 2px;
-                margin: 2px;
-                background: $background;
-                border: $border;
-                text-align: center;
-                text-shadow: 0 1px 1px white;
-                overflow: hidden;
-                white-space: pre-wrap;
+                padding: 0;
+                padding-bottom: 4px;
+
+                .lectureBox {
+                  background: $background;
+                  border: $border;
+                  cursor: move;
+                  font-size: .75rem;
+                  margin: 2px;
+                  overflow: hidden;
+                  padding: 4px;
+                  text-align: center;
+                  white-space: pre-wrap;
+                  z-index: 1000;
+
+                  .lecturename {
+                    cursor: pointer;
+                    font-size: .8rem;
+                    font-weight: bold;
+                    margin: -2px;
+                    word-wrap: break-word;
+                    white-space: normal;
+                  }
+
+                  .status_icons .control_icon{
+
+                    font-size: 10px;
+
+                    &.icon-plus-2 {
+                      color: $font-color;
+                    }
+
+                    &.icon-delete {
+                      color: $red-100;
+                    }
+
+                  }
+                }
               }
             }
 
             .x-grid-cell-first {
+
               border-left: none;
+              font-size: .8rem;
+              vertical-align: middle;
+
+              .x-grid-cell-inner {
+                font-weight: bold;
+                padding: 0;
+              }
             }
           }
         }
 
         .x-grid-rowbody-tr{
 
-          &.MySched_pause .x-grid-rowbody{
-            padding: 6px;
-            text-align: center;
+          .x-grid-cell-rowbody{
+
+            padding: 0;
+
+            .x-grid-rowbody{
+              padding: 2px;
+            }
           }
 
-          .x-grid-cell-rowbody{
-            padding: 0;
+          &.MySched_pause .x-grid-rowbody{
+            font-size: .9rem;
+            padding: 8px;
+            text-align: center;
           }
         }
       }
