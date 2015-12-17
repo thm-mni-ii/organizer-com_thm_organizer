@@ -1,5 +1,5 @@
-/*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks, addNewEvent, numbertoday,
- _C, getCurrentMoFrDate, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
+/*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks,
+ numbertoday, _C, getCurrentMoFrDate, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
  */
@@ -154,32 +154,6 @@ MySched.Base = function ()
             }
 
             MySched.gridData = GridData;
-
-            //// Here an array is created with all block lessons of a week.
-            //for (var i = 1; i <= length; i++)
-            //{
-            //    if (!MySched.daytime[GridData[i].day])
-            //    {
-            //        MySched.daytime[GridData[i].day] = [];
-            //        MySched.daytime[GridData[i].day].engName = numbertoday(GridData[i].day);
-            //        MySched.daytime[GridData[i].day].gerName = weekdayEtoD(numbertoday(GridData[i].day));
-            //        MySched.daytime[GridData[i].day].localName = "day";
-            //    }
-            //    if (!MySched.daytime[GridData[i].day][GridData[i].period])
-            //    {
-            //        MySched.daytime[GridData[i].day][GridData[i].period] = [];
-            //    }
-            //    MySched.daytime[GridData[i].day][GridData[i].period].etime = GridData[i].endtime.substr(0, 5);
-            //    MySched.daytime[GridData[i].day][GridData[i].period].stime = GridData[i].starttime.substr(0, 5);
-            //    MySched.daytime[GridData[i].day][GridData[i].period].tpid = GridData[i].gpuntisID;
-            //    MySched.daytime[GridData[i].day][GridData[i].period].localName = "block";
-            //}
-
-            // Initialize the tree and the choice control
-            // TODO: There are two possibilities:
-            // 1. I don't understand how and why TreeManager is used
-            // 2. TreeManager is not in use anymore and was not removed from source code. And if it is so: WTF?
-            //MySched.TreeManager.init();
 
             // Initialize the name/acronym mapping
             MySched.Mapping.init();
@@ -368,13 +342,18 @@ MySched.Base = function ()
          */
         setScheduleDescription: function (jsonData)
         {
+            var headerTitle, uploadDateText;
+
             if (Ext.isObject(jsonData))
             {
                 MySched.session.begin = jsonData.startdate;
                 MySched.session.end = jsonData.enddate;
                 MySched.session.creationdate = jsonData.creationdate;
+                uploadDateText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate;
 
-                MySched.SelectBoxes.setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
+                headerTitle = '<span class="schedule-title">' + 'DUMMYTEXT FB' + '</span>';
+                headerTitle += '<span class="upload-date">(' + uploadDateText + ')</span>';
+                MySched.headerPanel.setTitle(headerTitle);
 
                 // Managed the visibility of the Add/Del Buttons at the toolbar
                 MySched.SelectionManager.on('select', function (el)

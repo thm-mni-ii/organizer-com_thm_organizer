@@ -28,9 +28,8 @@ Ext.define('SchedGrid',
      */
     loadData: function (data)
     {
-        var scheduleGrid = MySched.gridData[this.ScheduleModel.scheduleGrid];
-
-        var scheduleGridLength = Object.keys(scheduleGrid).length;
+        var scheduleGrid = MySched.gridData[this.ScheduleModel.scheduleGrid],
+            scheduleGridLength = Object.keys(scheduleGrid).length;
 
         for (var i = 1; i <= scheduleGridLength; i++)
         {
@@ -71,9 +70,10 @@ Ext.define('SchedGrid',
  */
 function getSchedGrid()
 {
+    var fields, columns, rowBodyFeature;
     // Default days in a week from mo till sa
-    var fields = ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    var columns = [
+    fields = ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    columns = [
         {
             header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME,
             menuDisabled: true,
@@ -131,58 +131,11 @@ function getSchedGrid()
             flex: 1
         }];
 
+    // No Saturdays
     if(MySched.displayDaysInWeek === "1")
     {
-        fields = ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-        columns = [
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TIME,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'time',
-                renderer: MySched.lectureCellRenderer,
-                width: 50
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_MONDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'monday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_TUESDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'tuesday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_WEDNESDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'wednesday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_THURSDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'thursday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            },
-            {
-                header: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_DAY_FRIDAY,
-                menuDisabled: true,
-                sortable: false,
-                dataIndex: 'friday',
-                renderer: MySched.lectureCellRenderer,
-                flex: 1
-            }];
+        fields.pop();
+        columns.pop();
     }
 
     Ext.create('Ext.data.Store',
@@ -206,7 +159,7 @@ function getSchedGrid()
      * Returns an object with data for the rows
      *
      */
-    var rowBodyFeature = Ext.create('Ext.grid.feature.RowBody',
+    rowBodyFeature = Ext.create('Ext.grid.feature.RowBody',
     {
         /**
          * This method returns an object with attributes for the rows
@@ -241,8 +194,6 @@ function getSchedGrid()
     {
         title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TITLE_UNKNOWN,
         store: Ext.data.StoreManager.lookup('gridStore'),
-        height: 440,
-        //width: 726,
         columns: columns,
         viewConfig:
         {
@@ -255,36 +206,6 @@ function getSchedGrid()
         scroll: false
     });
     return grid;
-}
-
-/**
- * TODO Maybe obsolete, it seems to be never used
- *
- * @param index
- */
-function showEventdesc(index)
-{
-    if (Ext.ComponentMgr.get("datdescription") === null || typeof Ext.ComponentMgr.get("datdescription") === "undefined")
-    {
-        this.eventWindow = Ext.create('Ext.Window',
-        {
-            id: "datdescription",
-            title: MySched.eventlist[index].title + " - Beschreibung",
-            bodyStyle: "background-color: #FFF; padding: 7px;",
-            frame: false,
-            buttons: [
-            {
-                text: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_CLOSE,
-                handler: function ()
-                {
-                    this.eventWindow.close();
-                },
-                scope: this
-            }],
-            html: MySched.eventlist[index].datdescription
-        });
-        this.eventWindow.show();
-    }
 }
 
 /**
@@ -340,144 +261,6 @@ Ext.apply(Ext.form.VTypes,
 
     passwordText: 'Passwords do not match'
 });
-
-/**
- * This function process the start and end date into other formats and opens a new window to create an event.
- *
- * @param {string} eventid Id of the event
- * @param {string} sdate Start date as weekday
- * @param {string} stime Start time of the event
- * @param {string} etime Endtime of the event
- */
-function addNewEvent(eventid, sdate, stime, etime)
-{
-    if (Ext.isObject(eventid) || eventid === null || typeof eventid === "undefined")
-    {
-        eventid = "0";
-    }
-    else
-    {
-        eventid = eventid.split("_");
-        eventid = eventid[1];
-    }
-
-    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
-
-    var adds = "";
-    var date = null;
-
-    if (Ext.isString(sdate))
-    {
-        var daynumber = daytonumber(sdate);
-
-        weekpointer = getMonday(weekpointer);
-
-        for (var i = 0; i < 7; i++)
-        {
-            if (weekpointer.getDay() === daynumber)
-            {
-                date = Ext.Date.format(weekpointer, "d.m.Y");
-                break;
-            }
-            else
-            {
-                weekpointer.setDate(weekpointer.getDate() + 1);
-            }
-        }
-    }
-    else
-    {
-        weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
-            .value);
-        date = Ext.Date.format(weekpointer, "d.m.Y");
-    }
-
-    if (typeof etime === "undefined")
-    {
-        etime = "";
-    }
-    if (typeof stime === "undefined")
-    {
-        stime = "";
-    }
-
-    if(!Ext.isEmpty(date))
-    {
-        adds = "&startdate=" + date;
-    }
-
-    if(!Ext.isEmpty(stime))
-    {
-        adds += "&starttime=" + stime;
-    }
-
-    if(!Ext.isEmpty(etime))
-    {
-        adds += "&endtime=" + etime;
-    }
-
-    var key = MySched.selectedSchedule.key;
-
-    if(MySched.selectedSchedule.type === "room")
-    {
-        var roomID = MySched.Mapping.getRoomDbID(key);
-        if(roomID !== key)
-        {
-            adds += "&roomID=" + roomID;
-        }
-    }
-    else if(MySched.selectedSchedule.type === "teacher")
-    {
-        var teacherID = MySched.Mapping.getTeacherDbID(key);
-        if(teacherID !== key)
-        {
-            adds += "&teacherID=" + teacherID;
-        }
-    }
-    adds += "&scheduleCall=1";
-
-    window.open(externLinks.eventLink + eventid + adds);
-}
-
-/**
- * This function add a hidden input field to the form in the passed iframe
- * TODO: Maybe obsolete, it seems to be never used
- *
- * @author Wolf
- * @param {object} iframe The iframe which called this function
- */
-function newEventonLoad(iframe)
-{
-    var eventForm = Ext.DomQuery.select('form[id=eventForm]',
-    iframe.contentDocument.documentElement);
-    eventForm = eventForm[0];
-
-    var cancel = Ext.DomQuery.select('button[id=btncancel]', eventForm);
-    cancel = cancel[0];
-
-    if (eventForm !== null && cancel !== null)
-    {
-        var formparent = eventForm.parentElement;
-        if (!Ext.isObject(formparent))
-        {
-            formparent = eventForm.getParent();
-        }
-        formparent.style.cssText = "";
-        var input = document.createElement("input");
-        var parent = cancel.parentElement;
-        if (!Ext.isObject(parent))
-        {
-            parent = cancel.getParent();
-        }
-        parent.removeChild(cancel);
-
-        input.setAttribute("type", "hidden");
-        input.setAttribute("name", "mysched");
-        input.setAttribute("value", "1");
-
-        eventForm.appendChild(input);
-    }
-}
 
 /**
  * Special renderer for events

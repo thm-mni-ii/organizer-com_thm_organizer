@@ -46,21 +46,6 @@ div.MySchedexternURLClass_DIS {
     text-decoration: none;
 }
 
-.lectureBox {
-    font-size: 11px;
-    cursor: move;
-    z-index: 1000;
-    padding: 2px;
-    margin: 2px;
-    background: #EEE;
-    border: 1px solid #77858c;
-    -moz-opacity: 0.9;
-    text-align: center;
-    text-shadow: 0 1px 1px white;
-    overflow: hidden;
-    white-space: pre-wrap;
-}
-
 .lectureBox_reserve {
     color: red;
 }
@@ -123,39 +108,10 @@ div.teacherInfo div ul {
     background-color: #FFFFFF;
 }
 
-.myScheduleIcon, .respChangesIcon, .DiffIcon {
-    background: url(../images/table.png) no-repeat left center;
-}
-
-.myScheduleIconSave, .respChangesIconSave, .DiffIconSave {
-    background: url(../images/table_save.png) no-repeat left center;
-}
-
-.teacherIconSave {
-    background: url(../images/teacherIcon_save.png) no-repeat left center;
-}
-
-.roomIconSave {
-    background: url(../images/roomIcon_save.png) no-repeat left center;
-}
-
-.clasIconSave {
-    background: url(../images/clasIcon_save.png) no-repeat left center;
-}
-
 /* Änderungen Top Icon Style */
 .top_icon_image {
     background-color: green;
     font-weight: bold;
-}
-
-/* Calendar Style */
-.MySched_nextWeekIcon{
-    background-image: url(../../../../../../media/com_thm_organizer/images/right-btn.gif);
-}
-
-.MySched_prevWeekIcon{
-    background-image: url(../../../../../../media/com_thm_organizer/images/left-btn.gif);
 }
 
 /* MNI Style */
@@ -201,14 +157,6 @@ div.teacherInfo div ul {
     background: url(../images/excel.png) no-repeat left center;
 }
 
-.tbLogin {
-    background: url(../images/key.png) no-repeat left center;
-}
-
-.tbLogout {
-    background: url(../images/door_in.png) no-repeat left center;
-}
-
 .tbInfo {
     background: url(../images/information.png) no-repeat left center;
 }
@@ -219,14 +167,6 @@ div.teacherInfo div ul {
 
 .tbSaveICS {
     background: url(../images/ICalIcon.png) no-repeat left center;
-}
-
-.tbPEvent {
-    background: url(/../images/calendar_add.png) no-repeat left center;
-}
-
-.tbEvent {
-    background: url(../images/calendar_add.png) no-repeat left center;
 }
 
 .tbDownload {
@@ -413,61 +353,8 @@ small.removed {
     color: #aaaaaa;
 }
 
-/* Ext-Style overrides */
-.x-grid-row .x-grid-cell {
-    border-right: 1px solid #77858c;
-    border-bottom: 1px solid #77858c;
-    border-top: 1px solid #77858c;
-}
-
-.x-panel-body-default {
-    border-width: 0;
-}
-
-.x-panel .x-grid-body {
-    border-width: 0;
-}
-
-.x-panel-header-default {
-    background-color: #FFF;
-    background-image: none;
-    border-width: 0;
-}
-
-.x-toolbar-default {
-    background-color: #FFF;
-    background-image: none;
-    border-color: #D0D0D0;
-}
-
-.x-tab-bar {
-    background-color: #FFF;
-    background-image: none;
-    border: 0;
-}
-
-.x-toolbar {
-    border: 0;
-}
-
-.x-tab-bar-body {
-    border-color: #FFF;
-}
-
-.x-panel-header-default-top {
-    -moz-box-shadow: #FFF 0 1px 0 0 inset;
-    -webkit-box-shadow: #FFF 0 1px 0 0 inset;
-    -o-box-shadow: #FFF 0 1px 0 0 inset;
-    box-shadow: #FFF 0 1px 0 0 inset;
-}
-
 .x-ie .x-btn button {
     overflow-x: hidden;
-}
-
-button .x-tab-inner {
-    overflow-x: hidden;
-    overflow-y: hidden;
 }
 
 .x-border-box .x-tab-bar-top .x-tab-bar-strip {

@@ -6,43 +6,29 @@
 MySched.SelectBoxes = function ()
 {
     var selectPanel, selectBoxes = [], scheduleData, levelData = [], stores = [], maxDepth;
+
     return {
+
         /**
-         * Initialization. Create panel and model. Make ajax request to get schedule data
+         * Creates the panel and its model. Makes an ajax request to get schedule data.
          *
-         * @method init
          * @return {Ext.panel.Panel} * Returns the main panel
          */
         init: function ()
         {
+            var children = [];
+
             this.selectPanel = Ext.create(
                 'Ext.panel.Panel',
                 {
-                    plugins: 'responsive',
-                    title: 'Stand vom',
                     id: 'selectBoxes',
-                    region: 'west',
+                    height: 50,
+                    width: 585,
                     editable: false,
-                    bodyPadding: 5,
-                    width: 242,
-                    minSize: 242,
-                    maxSize: 242,
-                    height: 470,
-                    scroll: false,
-                    responsiveConfig: {
-                        'width <= 1100': {
-                            collapsible: true,
-                            collapsed: true
-                        },
-                        'width <= 400': {
-
-                        },
-                        'width > 400 && width <= 1000': {
-
-                        }
-                    }
+                    scroll: false
                 }
             );
+
             Ext.define(
                 'SelectBoxModel',
                 {
@@ -53,7 +39,7 @@ MySched.SelectBoxes = function ()
                     ]
                 }
             );
-            var children = [];
+
             if(Ext.isObject(MySched.startup["TreeView.load"]))
             {
                 children = MySched.startup["TreeView.load"].data.tree;
@@ -98,11 +84,11 @@ MySched.SelectBoxes = function ()
             }
             return this.selectPanel;
         },
+
         /**
          * Creates all needed comboboxes depending on the depth of the tree (schedule data). Also creates the stores
          * and empty data for every store except the store for the highest level of the tree.
          *
-         * @method createSelectBoxes
          * @param {object} data The data of schedule in the shape of a tree
          */
         createSelectBoxes: function(data)
@@ -134,9 +120,8 @@ MySched.SelectBoxes = function ()
                     {
                         height:60,
                         multiSelect: false,
-                        width: 220,
-                        minWidth: 200,
-                        cls: 'level_' + i,
+                        width: 175,
+                        class: 'level_' + i,
                         displayField: 'name',
                         store: this.stores[i],
                         queryMode: 'local',
@@ -170,7 +155,10 @@ MySched.SelectBoxes = function ()
 
             this.stores[0].setData(this.levelData[0]);
 
-            // group plans (pool) are always default. If this has only one child also these child is preselected.
+            /**
+             * Program plans (pools) are preselected by default. If this has only one child also these child is
+             * preselected.
+             */
             var allRecords = this.stores[0].snapshot || this.stores[0].data;
             for(i = 0; i < allRecords.items.length; i++)
             {
@@ -187,6 +175,7 @@ MySched.SelectBoxes = function ()
             MySched.SelectBoxes.changedSelectBoxValue(allRecords.items[preSelectedId]);
             this.recreate();
         },
+
         /**
          * Deletes all elements form the select panel and adds the select boxes.
          *
@@ -228,6 +217,7 @@ MySched.SelectBoxes = function ()
             }
             return level;
         },
+
         /**
          * Fill the stores with the correct values according to the selection of the user.
          *
@@ -300,6 +290,7 @@ MySched.SelectBoxes = function ()
                 this.selectBoxes[originalLevel - 1].setValue(this.selectBoxes[originalLevel - 1].getSelection().data.name + ' ');
             }
         },
+
         /**
          * Searches through a tree to find an item with the given id
          *
@@ -326,26 +317,6 @@ MySched.SelectBoxes = function ()
                 }
             }
             return result;
-        },
-        /**
-         * Set the title of the panel
-         *
-         * @method setTitle
-         * @param {String} title The title of the panel
-         * @param {Boolean} append Switch if the text should append or replace
-         */
-        setTitle: function(title, append)
-        {
-            if(append)
-            {
-                this.selectPanel.setTitle(this.selectPanel.title + title);
-            }
-            else
-            {
-                this.selectPanel.setTitle(title);
-
-            }
-
         }
     }
 }();

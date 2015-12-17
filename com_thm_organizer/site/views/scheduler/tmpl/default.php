@@ -48,6 +48,8 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
     <script type="text/javascript" charset="utf-8"
         src="components/com_thm_organizer/views/scheduler/tmpl/mySched/plugins.js"></script>
     <script type="text/javascript" charset="utf-8"
+            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/header.js"></script>
+    <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/layout.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/infoPanel.js"></script>
@@ -55,8 +57,6 @@ externLinks.ajaxHandler = '<?php echo $ajaxHandler; ?>';
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/selectionManager.js"></script>
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/selectBox.js"></script>
-    <script type="text/javascript" charset="utf-8"
-            src="components/com_thm_organizer/views/scheduler/tmpl/mySched/subscribe.js"></script>
     <!-- Models -->
     <script type="text/javascript" charset="utf-8"
             src="components/com_thm_organizer/views/scheduler/tmpl/mySched/models/model.js"></script>
@@ -78,6 +78,10 @@ if ($this->config['canWrite'] === true)
 {
             require_once "components/com_thm_organizer/views/scheduler/tmpl/mySched/advancedFunctions.js";
 }
+    $document = JFactory::getDocument();
+    $renderer = $document->loadRenderer('module');
+    $modules  = JModuleHelper::getModules('login');
+    $login = $renderer->render($modules[0]);
 ?>
         // TODO: This should be done in another way. especially look at: MySched.startup
         MySched.SessionId = '<?php echo $this->config['sessionID']; ?>';
@@ -109,5 +113,6 @@ if ($this->config['canWrite'] === true)
             name: 'Scheduler',
             launch: MySched.Base.init
         });
+        MySched.siteLogin = <?php echo json_encode($login); ?>;
     </script>
 </div>
