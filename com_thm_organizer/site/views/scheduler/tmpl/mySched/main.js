@@ -351,7 +351,7 @@ MySched.Base = function ()
                 MySched.session.creationdate = jsonData.creationdate;
                 uploadDateText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate;
 
-                headerTitle = '<span class="schedule-title">' + 'DUMMYTEXT FB' + '</span>';
+                headerTitle = '<span class="schedule-title">' + MySched.pageTitle + '</span>';
                 headerTitle += '<span class="upload-date">(' + uploadDateText + ')</span>';
                 MySched.headerPanel.setTitle(headerTitle);
 

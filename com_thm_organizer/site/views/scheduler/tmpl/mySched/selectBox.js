@@ -118,7 +118,7 @@ MySched.SelectBoxes = function ()
                 tmpSBox = Ext.create(
                     'Ext.form.field.ComboBox',
                     {
-                        height:60,
+                        height:40,
                         multiSelect: false,
                         width: 175,
                         class: 'level_' + i,

@@ -10,8 +10,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         hoverEl: new MySched.Collection(),
         selectButton: null,
         selectLectureId: null,
-        lectureAddButton: externLinks.lectureAddButton,
-        lectureRemoveButton: externLinks.lectureRemoveButton,
+
         /**
          * Initialize
          *
@@ -468,54 +467,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             );
 
             ttInfo.showAt(xy);
-        },
-        /**
-         * Wenn the MoudeOver event was called
-         *
-         * @method onMouseOver
-         * @param {Object} e Mouse Event
-         * TODO: I think it is not in use anymore
-         */
-        onMouseOver: function (e)
-        {
-            "use strict";
-
-            // Determines active event
-            var el = e.getTarget('.lectureBox', 5, true);
-            if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
-            {
-                this.selectLectureId = el.id;
-                // If the event exist, set HoverButton on delete
-                if (MySched.Schedule.lectureExists(el.id))
-                {
-                    this.selectButton.dom.src = this.lectureRemoveButton;
-                    this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE;
-                }
-                // Show HoverButton
-                this.selectButton.show()
-                    .alignTo(el, 'tr-tr', [-4, 5]);
-            }
-        },
-        /**
-         * Wenn das MouseOut Event ausgeloest wurde
-         *
-         * @param {Object} e Event
-         * TODO: I think it is not in use anymore
-         */
-        onMouseOut: function (e)
-        {
-            "use strict";
-
-            var el = Ext.get(e.getRelatedTarget());
-            // Blendet HoverButton aus, und resetet ihn auf
-            // hinzufuegen
-            if (!el || el.id !== 'lectureSelectButton')
-            {
-                this.selectButton.hide();
-                this.selectButton.dom.src = this.lectureAddButton;
-                this.selectLectureId = null;
-                this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD;
-            }
         },
 
         /**
