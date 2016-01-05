@@ -71,291 +71,336 @@ div#main {
 
   .MySchedMainW {
 
+    color: $background-grey;
+
     // Lets the viewport expand to full width
-    & > .x-border-box, .x-panel-body {
+    & > .x-border-box, .x-panel-body, .x-box-inner, .x-box-target {
       background-color: $foreground;
       border: none;
-      width: inherit !important;
+      width: 100% !important;
     }
 
-    color: $background-grey;
+    #viewport, #viewport-body {
+      border-bottom: 2px solid $grey-75;
+    }
 
     /* Header, Resource Selection and Toolbar *************************************************************************/
 
     #topPanel {
 
-      margin-bottom: 10px;
+      width: 100% !important;
 
-      /* Header *******************************************************************************************************/
+      #topPanel-body {
 
-      #headerPanel .x-panel-header {
+        width: 100% !important;
 
-        background-color: $foreground;
-        border: none;
-        box-shadow: none;
-        padding: 0;
+        /* Header */
 
-        .x-panel-header-title-default {
+        #headerPanel {
 
-          line-height: 22px;
+          width: 100% !important;
 
-          .schedule-title, .upload-date {
-            display: inline-block;
-          }
+          .x-panel-header {
 
-          .schedule-title {
-            font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-            font-size: 20px;
-            font-weight: normal;
-            margin-right: 10px;
-          }
-        }
-      }
+            background-color: $foreground;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            width: 100% !important;
 
-      /* Resource Selection & Toolbar *********************************************************************************/
+            .x-panel-header-title {
 
-      .x-form-text-default {
-        background-image: none;
-      }
+              line-height: 22px;
+              width: 100% !important;
 
-      .x-form-text-wrap-default {
-        border-style: none;
-      }
+              .schedule-title, .upload-date {
+                display: inline-block;
+              }
 
-      input[type="text"].x-form-field {
-        border: $border;
-        cursor: default;
-        height: 2.5em;
-        margin: 0;
-      }
+              .schedule-title {
+                font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+                font-size: 20px;
+                font-weight: normal;
+                margin-right: 10px;
+              }
 
-      input[type="text"]:disabled {
-        cursor: not-allowed;
-      }
-
-      #selectBoxes-body {
-
-        #selectBoxes-innerCt {
-          padding: 0 !important;
-
-          .x-field-default {
-
-            display: inline-block;
-            margin-right: 20px;
-
-            .x-form-field {
-              background-color: $background;
-              background: url('../images/select.png') no-repeat right white;
-              background-size: 18px;
-              overflow: hidden;
-              padding-right: 24px;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              width: 175px;
+              .externallogin {
+                float: right;
+              }
             }
           }
         }
-      }
 
-      #buttonPanel .x-toolbar{
+        /* Resource Selection & Toolbar */
 
-        background-color: $foreground;
-        border: none;
+        #toolbarPanel {
 
-        // This masks ext-js's hover class
-        .x-btn-over.x-btn-default-toolbar-small, .x-btn-over.x-icon-el {
+          width: 100% !important;
+        }
+
+        .x-form-text-default {
+          background-image: none;
+        }
+
+        .x-form-text-wrap-default {
+          border-style: none;
+        }
+
+        input[type="text"].x-form-field {
+          border: $border;
+          cursor: default;
+          height: 2.5em;
+          margin: 0;
+        }
+
+        input[type="text"]:disabled {
+          cursor: not-allowed;
+        }
+
+        #selectBoxes-body {
+
+          #selectBoxes-innerCt {
+            padding: 0 !important;
+
+            .x-field-default {
+
+              display: inline-block;
+              margin-right: 10px;
+              width: calc(33% - 10px) !important;
+
+              .x-form-trigger-wrap {
+
+                height: 37px;
+
+                .x-form-field {
+                  background-color: $background;
+                  background: url('../images/select.png') no-repeat right white;
+                  background-size: 18px;
+                  overflow: hidden;
+                  padding-right: 24px;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  width: 175px;
+                }
+              }
+            }
+          }
+        }
+
+        #buttonPanel .x-toolbar {
+
           background-color: $foreground;
-          background-image: none;
           border: none;
-        }
+          padding: 0;
 
-        // for tablet: change icon for expanding select Boxes
-        .x-tool-img {
-          background-image: none;
-        }
-
-        //Icon before datePicker
-        .MySched_prevWeekIcon {
-
-          background-image: none;
-          position: relative;
-
-          &:before {
-            font-family: icomoon;
-            content: "\7c";
-            font-size: 20px;
-            color: $background-grey;
-            vertical-align: text-bottom;
-            position: absolute;
-            right: 0;
-            top: 8px;
-          }
-        }
-
-        .x-form-trigger-wrap {
-
-          width: 125px;
-
-          // The date picker
-          input[type="text"].x-form-field {
-            padding-right: 12px;
-            text-align: right;
-            width: 130px;
+          .x-btn {
+            border: none;
+            top: 7px !important;
           }
 
-          //Calendar-Icon
-          .x-form-date-trigger-default {
-            vertical-align: middle;
-            padding-right: 10px;
-            float: left;
-
-            &:before {
-              font-family: icomoon;
-              content: "\44";
-              font-size: 20px;
-              color: $background-grey;
-              position: absolute;
-              top: 16px;
-              top: 18px \0; //just for IE
-              left: 12px;
-            }
+          // This masks ext-js's hover class
+          .x-btn-over.x-btn-default-toolbar-small, .x-btn-over.x-icon-el {
+            background-color: $foreground;
+            background-image: none;
+            border: none;
           }
-        }
 
-        #MySched_nextWeek {
+          // for tablet: change icon for expanding select Boxes
+          .x-tool-img {
+            background-image: none;
+          }
 
-          margin-left: -20px;
-          margin-right: 15px;
-
-          //Icon after datePicker
-          .MySched_nextWeekIcon {
+          //Icon before datePicker
+          .MySched_prevWeekIcon {
 
             background-image: none;
             position: relative;
 
             &:before {
               font-family: icomoon;
-              content: "\7b";
+              content: "\7c";
               font-size: 20px;
               color: $background-grey;
               vertical-align: text-bottom;
               position: absolute;
-              left: -2px;
+              right: 0;
               top: 8px;
             }
           }
-        }
 
-        .x-btn-inner {
-          font-size: 14px;
-          text-align: left;
-          width: 130px;
-        }
+          .x-form-trigger-wrap {
 
-        //Save-area
-        #btnSave {
-          border: none;
-          margin-right: 10px;
-          top: 9px !important; //an download-area text-höhe angepasst
+            height: 37px;
+            width: 125px;
 
-          .x-btn-inner {
-            padding-left: 16px;
-            width: 110px;
+            // The date picker
+            input[type="text"].x-form-field {
+              padding-right: 12px;
+              text-align: right;
+              width: 130px;
+            }
 
-            &::before {
-              font-family: icomoon-special;
-              content: "\e962";
-              font-size: 20px;
-              color: $background-grey;
-              position: absolute;
-              left: 0;
+            //Calendar-Icon
+            .x-form-date-trigger-default {
+              vertical-align: middle;
+              padding-right: 10px;
+              float: left;
+
+              &:before {
+                font-family: icomoon;
+                content: "\44";
+                font-size: 20px;
+                color: $background-grey;
+                position: absolute;
+                top: 16px;
+                top: 18px \0; //just for IE
+                left: 12px;
+              }
             }
           }
 
-          .tbSave {
-            background-image: none;
-            display: none;
-          }
-        }
+          #MySched_nextWeek {
 
-        //Download-area
-        #downloadMenu {
+            margin-left: -20px;
+            margin-right: 15px;
 
-          .x-btn-icon-el {
-            //removed an icon, because there are two
-            background-image: none;
-          }
+            //Icon after datePicker
+            .MySched_nextWeekIcon {
 
-          //change Download-Icon
-          .x-btn-wrap-default-toolbar-small::before {
-            background-image: none;
-            font-family: icomoon;
-            content: "\e021";
-            font-size: 20px;
-            color: $background-grey;
-          }
+              background-image: none;
+              position: relative;
 
-          //remove button after Download-Text
-          .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
-            background-image: none;
-            display: none;
+              &:before {
+                font-family: icomoon;
+                content: "\7b";
+                font-size: 20px;
+                color: $background-grey;
+                vertical-align: text-bottom;
+                position: absolute;
+                left: -2px;
+                top: 8px;
+              }
+            }
           }
 
+          .x-btn-inner {
+
+            font-size: 14px;
+            padding-left: 16px;
+            text-align: left;
+            width: 110px;
+
+            &::before {
+              color: $background-grey;
+              font-size: 20px;
+              left: 0;
+              position: absolute;
+            }
+          }
+
+          //Save-area
+          #btnSave {
+            margin-right: 10px;
+
+            .x-btn-inner::before {
+              font-family: icomoon-special;
+              content: "\e962";
+            }
+
+            .tbSave {
+              display: none;
+            }
+          }
+
+          //Download-area
+          #downloadMenu {
+
+            .x-btn-icon-el {
+              background-image: none;
+            }
+
+            .x-btn-inner::before {
+              content: "\e021";
+              font-family: icomoon;
+            }
+
+            .tbDownload {
+              display: none;
+            }
+
+
+            //remove button after Download-Text
+            .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+              background-image: none;
+              display: none;
+            }
+
+          }
         }
       }
     }
 
+    /* Schedules */
     #tabPanel {
 
-      width: inherit !important;
+      top: 91px !important;
+      width: 100% !important;
 
       .x-tab-bar {
 
         background-color: $foreground;
         border: 0;
+        width: 100% !important;
 
-        .myScheduleIcon::before {
-          font-family: icomoon;
-          content: "\43";
-          font-size: 12px;
-          color: $font-color;
-        }
+        .x-tab-bar-body {
 
-        .x-tab-active .myScheduleIcon::before {
-          font-family: icomoon;
-          content: "\43";
-          font-size: 12px;
-          color: $foreground;
+          width: 100% !important;
+
+          .x-box-scroller {
+            background: transparent;
+            background-image: none;
+            positon: relative;
+
+            &:before {
+              color: $background-grey;
+              content: "\7c";
+              font-family: icomoon;
+              font-size: 20px;
+              position: absolute;
+              top: 18px;
+              vertical-align: text-bottom;
+            }
+          }
+
+          .x-box-scroller-right::before {
+            content: "\7b";
+            right: 5px;
+            top: 18px;
+            z-index: 999;
+          }
+
+          .x-box-scroller-body-horizontal {
+            width: 100% !important;
+          }
+
+          .myScheduleIcon::before {
+            font-family: icomoon;
+            content: "\43";
+            font-size: 12px;
+            color: $font-color;
+          }
+
+          .x-tab-active .myScheduleIcon::before {
+            font-family: icomoon;
+            content: "\43";
+            font-size: 12px;
+            color: $foreground;
+          }
         }
       }
 
       .x-tab-bar-strip, .x-grid-header-ct, .x-grid-rowbody-tr{
         background-color: $background-navigation;
-      }
-
-      .x-box-scroller {
-        background: transparent;
-        background-image: none;
-        positon: relative;
-
-        &:before {
-          color: $background-grey;
-          content: "\7c";
-          font-family: icomoon;
-          font-size: 20px;
-          position: absolute;
-          vertical-align: text-bottom;
-        }
-      }
-
-      .x-box-scroller-left::before {
-          content: "\7c";
-          top: 18px;
-      }
-
-      .x-box-scroller-right::before {
-          content: "\7b";
-          top: 18px;
       }
 
       .x-tab {
@@ -417,21 +462,33 @@ div#main {
 
         border: $border-thick;
         border-top: none;
+        width: 100% !important;
 
         .x-grid-header-ct {
 
           border: none;
           border-bottom: $border-thick;
+          width: 100% !important;
 
-          .x-column-header{
-            background-color: $background-grey;
-          }
+          .x-box-inner{
 
-          .x-column-header-text {
-            color: $foreground;
-            font-size: .8rem;
-            font-weight: normal;
-            line-height: .9rem;
+            width: 100% !important;
+
+            .x-box-target {
+
+              width: 100% !important;
+
+              .x-column-header {
+                background-color: $background-grey;
+              }
+
+              .x-column-header-text {
+                color: $foreground;
+                font-size: .8rem;
+                font-weight: normal;
+                line-height: .9rem;
+              }
+            }
           }
         }
 
@@ -560,14 +617,4 @@ body{
   .x-mask {
     background-color: white !important;
   }
-
-  .x-css-shadow{
-  }
-}
-
-//nicht benötigte Gifs von ext-theme-gray-all.css
-.x-form-trigger-default {
-  background-image: none;
-  border: none;
-  width: 0 !important; // for firefox: display none doesn't work
 }

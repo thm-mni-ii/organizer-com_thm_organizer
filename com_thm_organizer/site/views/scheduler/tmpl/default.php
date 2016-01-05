@@ -111,4 +111,5 @@ if ($this->config['canWrite'] === true)
         });
         MySched.siteLogin = <?php echo json_encode($login); ?>;
     </script>
+    <div style="clear:both"></div>
 </div>

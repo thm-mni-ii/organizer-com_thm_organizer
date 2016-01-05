@@ -171,178 +171,197 @@ li a[href*="view=virtual_schedule_manager"]::before {
 /**********************************************************************************************************************/
 div#main .MySchedMainW {
   color: #4a5c66;
-  /* Header, Resource Selection and Toolbar *************************************************************************/ }
-  div#main .MySchedMainW > .x-border-box, div#main .MySchedMainW .x-panel-body {
+  /* Header, Resource Selection and Toolbar *************************************************************************/
+  /* Schedules */ }
+  div#main .MySchedMainW > .x-border-box, div#main .MySchedMainW .x-panel-body, div#main .MySchedMainW .x-box-inner, div#main .MySchedMainW .x-box-target {
     background-color: white;
     border: none;
-    width: inherit !important; }
-  div#main .MySchedMainW #topPanel #topPanel-body {
-    /* Header *******************************************************************************************************/
-    /* Resource Selection & Toolbar *********************************************************************************/ }
-    div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header {
-      background-color: white;
-      border: none;
-      box-shadow: none;
-      padding: 0; }
-      div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title-default {
-        line-height: 22px; }
-        div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title-default .schedule-title, div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title-default .upload-date {
-          display: inline-block; }
-        div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title-default .schedule-title {
-          font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-          font-size: 20px;
-          font-weight: normal;
-          margin-right: 10px; }
-    div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-default {
-      background-image: none; }
-    div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-wrap-default {
-      border-style: none; }
-    div#main .MySchedMainW #topPanel #topPanel-body input[type="text"].x-form-field {
-      border: 1px solid #77858c;
-      cursor: default;
-      height: 2.5em;
-      margin: 0; }
-    div#main .MySchedMainW #topPanel #topPanel-body input[type="text"]:disabled {
-      cursor: not-allowed; }
-    div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt {
-      padding: 0 !important; }
-      div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default {
-        display: inline-block;
-        margin-right: 10px;
-        width: calc(33% - 10px) !important; }
-        div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap {
-          height: 37px; }
-          div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap .x-form-field {
-            background-color: #f2f5f6;
-            background: url("../images/select.png") no-repeat right white;
-            background-size: 18px;
-            overflow: hidden;
-            padding-right: 24px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            width: 175px; }
-    div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar {
-      background-color: white;
-      border: none;
-      padding: 0; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn {
-        border: none;
-        top: 7px !important; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-btn-default-toolbar-small, div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-icon-el {
-        background-color: white;
-        background-image: none;
-        border: none; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-tool-img {
+    width: 100% !important; }
+  div#main .MySchedMainW #viewport, div#main .MySchedMainW #viewport-body {
+    border-bottom: 2px solid #77858c; }
+  div#main .MySchedMainW #topPanel {
+    width: 100% !important; }
+    div#main .MySchedMainW #topPanel #topPanel-body {
+      width: 100% !important;
+      /* Header */
+      /* Resource Selection & Toolbar */ }
+      div#main .MySchedMainW #topPanel #topPanel-body #headerPanel {
+        width: 100% !important; }
+        div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header {
+          background-color: white;
+          border: none;
+          box-shadow: none;
+          padding: 0;
+          width: 100% !important; }
+          div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title {
+            line-height: 22px;
+            width: 100% !important; }
+            div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .schedule-title, div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .upload-date {
+              display: inline-block; }
+            div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .schedule-title {
+              font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+              font-size: 20px;
+              font-weight: normal;
+              margin-right: 10px; }
+            div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .externallogin {
+              float: right; }
+      div#main .MySchedMainW #topPanel #topPanel-body #toolbarPanel {
+        width: 100% !important; }
+      div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-default {
         background-image: none; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon {
-        background-image: none;
-        position: relative; }
-        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon:before {
-          font-family: icomoon;
-          content: "\7c";
-          font-size: 20px;
-          color: #4a5c66;
-          vertical-align: text-bottom;
-          position: absolute;
-          right: 0;
-          top: 8px; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap {
-        height: 37px;
-        width: 125px; }
-        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap input[type="text"].x-form-field {
-          padding-right: 12px;
-          text-align: right;
-          width: 130px; }
-        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default {
-          vertical-align: middle;
-          padding-right: 10px;
-          float: left; }
-          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default:before {
-            font-family: icomoon;
-            content: "\44";
-            font-size: 20px;
-            color: #4a5c66;
-            position: absolute;
-            top: 16px;
-            top: 18px \0;
-            left: 12px; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek {
-        margin-left: -20px;
-        margin-right: 15px; }
-        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon {
+      div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-wrap-default {
+        border-style: none; }
+      div#main .MySchedMainW #topPanel #topPanel-body input[type="text"].x-form-field {
+        border: 1px solid #77858c;
+        cursor: default;
+        height: 2.5em;
+        margin: 0; }
+      div#main .MySchedMainW #topPanel #topPanel-body input[type="text"]:disabled {
+        cursor: not-allowed; }
+      div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt {
+        padding: 0 !important; }
+        div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default {
+          display: inline-block;
+          margin-right: 10px;
+          width: calc(33% - 10px) !important; }
+          div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap {
+            height: 37px; }
+            div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap .x-form-field {
+              background-color: #f2f5f6;
+              background: url("../images/select.png") no-repeat right white;
+              background-size: 18px;
+              overflow: hidden;
+              padding-right: 24px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              width: 175px; }
+      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar {
+        background-color: white;
+        border: none;
+        padding: 0; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn {
+          border: none;
+          top: 7px !important; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-btn-default-toolbar-small, div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-icon-el {
+          background-color: white;
+          background-image: none;
+          border: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-tool-img {
+          background-image: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon {
           background-image: none;
           position: relative; }
-          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon:before {
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon:before {
             font-family: icomoon;
-            content: "\7b";
+            content: "\7c";
             font-size: 20px;
             color: #4a5c66;
             vertical-align: text-bottom;
             position: absolute;
-            left: -2px;
+            right: 0;
             top: 8px; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner {
-        font-size: 14px;
-        padding-left: 16px;
-        text-align: left;
-        width: 110px; }
-        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner::before {
-          color: #4a5c66;
-          font-size: 20px;
-          left: 0;
-          position: absolute; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave {
-        margin-right: 10px; }
-        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .x-btn-inner::before {
-          font-family: icomoon-special;
-          content: "\e962"; }
-        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .tbSave {
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap {
+          height: 37px;
+          width: 125px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap input[type="text"].x-form-field {
+            padding-right: 12px;
+            text-align: right;
+            width: 130px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default {
+            vertical-align: middle;
+            padding-right: 10px;
+            float: left; }
+            div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default:before {
+              font-family: icomoon;
+              content: "\44";
+              font-size: 20px;
+              color: #4a5c66;
+              position: absolute;
+              top: 16px;
+              top: 18px \0;
+              left: 12px; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek {
+          margin-left: -20px;
+          margin-right: 15px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon {
+            background-image: none;
+            position: relative; }
+            div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon:before {
+              font-family: icomoon;
+              content: "\7b";
+              font-size: 20px;
+              color: #4a5c66;
+              vertical-align: text-bottom;
+              position: absolute;
+              left: -2px;
+              top: 8px; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner {
+          font-size: 14px;
+          padding-left: 16px;
+          text-align: left;
+          width: 110px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner::before {
+            color: #4a5c66;
+            font-size: 20px;
+            left: 0;
+            position: absolute; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave {
+          margin-right: 10px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .x-btn-inner::before {
+            font-family: icomoon-special;
+            content: "\e962"; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .tbSave {
+            display: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-icon-el {
+          background-image: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-inner::before {
+          content: "\e021";
+          font-family: icomoon; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .tbDownload {
           display: none; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-icon-el {
-        background-image: none; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-inner::before {
-        content: "\e021";
-        font-family: icomoon; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .tbDownload {
-        display: none; }
-      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
-        background-image: none;
-        display: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+          background-image: none;
+          display: none; }
   div#main .MySchedMainW #tabPanel {
     top: 91px !important;
-    width: inherit !important; }
+    width: 100% !important; }
     div#main .MySchedMainW #tabPanel .x-tab-bar {
       background-color: white;
-      border: 0; }
-      div#main .MySchedMainW #tabPanel .x-tab-bar .myScheduleIcon::before {
-        font-family: icomoon;
-        content: "\43";
-        font-size: 12px;
-        color: #394a59; }
-      div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-active .myScheduleIcon::before {
-        font-family: icomoon;
-        content: "\43";
-        font-size: 12px;
-        color: white; }
+      border: 0;
+      width: 100% !important; }
+      div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body {
+        width: 100% !important; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller {
+          background: transparent;
+          background-image: none;
+          positon: relative; }
+          div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller:before {
+            color: #4a5c66;
+            content: "\7c";
+            font-family: icomoon;
+            font-size: 20px;
+            position: absolute;
+            top: 18px;
+            vertical-align: text-bottom; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller-right::before {
+          content: "\7b";
+          right: 5px;
+          top: 18px;
+          z-index: 999; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller-body-horizontal {
+          width: 100% !important; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .myScheduleIcon::before {
+          font-family: icomoon;
+          content: "\43";
+          font-size: 12px;
+          color: #394a59; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-tab-active .myScheduleIcon::before {
+          font-family: icomoon;
+          content: "\43";
+          font-size: 12px;
+          color: white; }
     div#main .MySchedMainW #tabPanel .x-tab-bar-strip, div#main .MySchedMainW #tabPanel .x-grid-header-ct, div#main .MySchedMainW #tabPanel .x-grid-rowbody-tr {
       background-color: #dfe5e6; }
-    div#main .MySchedMainW #tabPanel .x-box-scroller {
-      background: transparent;
-      background-image: none;
-      positon: relative; }
-      div#main .MySchedMainW #tabPanel .x-box-scroller:before {
-        color: #4a5c66;
-        content: "\7c";
-        font-family: icomoon;
-        font-size: 20px;
-        position: absolute;
-        vertical-align: text-bottom; }
-    div#main .MySchedMainW #tabPanel .x-box-scroller-left::before {
-      content: "\7c";
-      top: 18px; }
-    div#main .MySchedMainW #tabPanel .x-box-scroller-right::before {
-      content: "\7b";
-      top: 18px; }
     div#main .MySchedMainW #tabPanel .x-tab {
       background-color: white;
       border: 2px solid #77858c;
@@ -382,17 +401,23 @@ div#main .MySchedMainW {
       border-bottom: none; }
     div#main .MySchedMainW #tabPanel .x-tabpanel-child {
       border: 2px solid #4a5c66;
-      border-top: none; }
+      border-top: none;
+      width: 100% !important; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct {
         border: none;
-        border-bottom: 2px solid #4a5c66; }
-        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-column-header {
-          background-color: #4a5c66; }
-        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-column-header-text {
-          color: white;
-          font-size: .8rem;
-          font-weight: normal;
-          line-height: .9rem; }
+        border-bottom: 2px solid #4a5c66;
+        width: 100% !important; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner {
+          width: 100% !important; }
+          div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target {
+            width: 100% !important; }
+            div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header {
+              background-color: #4a5c66; }
+            div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header-text {
+              color: white;
+              font-size: .8rem;
+              font-weight: normal;
+              line-height: .9rem; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item {
         margin-bottom: 0; }
         div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item.x-grid-item-alt {
@@ -458,8 +483,3 @@ body .x-boundlist {
     padding: 6px; }
 body .x-mask {
   background-color: white !important; }
-
-.x-form-trigger-default {
-  background-image: none;
-  border: none;
-  width: 0 !important; }

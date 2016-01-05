@@ -1,3 +1,4 @@
+/*global MySched */
 /**
  * Create the select boxes with schedule data
  *
