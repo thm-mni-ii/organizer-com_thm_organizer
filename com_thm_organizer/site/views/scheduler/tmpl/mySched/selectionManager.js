@@ -10,8 +10,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
         hoverEl: new MySched.Collection(),
         selectButton: null,
         selectLectureId: null,
-        lectureAddButton: externLinks.lectureAddButton,
-        lectureRemoveButton: externLinks.lectureRemoveButton,
+
         /**
          * Initialize
          *
@@ -49,7 +48,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 Ext.select('.lecturename', false, dom).clearListeners();
                 Ext.select('.roomname', false, dom).clearListeners();
                 Ext.select('.poolname', false, dom).clearListeners();
-                Ext.select('.status_icons_add', false, dom).clearListeners();
+                Ext.select('.control_icon', false, dom).clearListeners();
             }
             else if (o === true)
             {
@@ -63,7 +62,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 Ext.select('.lecturename').clearListeners();
                 Ext.select('.roomname').clearListeners();
                 Ext.select('.poolname').clearListeners();
-                Ext.select('.status_icons_add').clearListeners();
+                Ext.select('.control_icon').clearListeners();
             }
             else if (MySched.layout.tabpanel.items.getCount() > 0)
             {
@@ -78,7 +77,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 //Ext.select('.lecturename', false, activeTabDom).clearListeners();
                 //Ext.select('.roomname', false, activeTabDom).clearListeners();
                 Ext.select('.poolname', false, activeTabDom).clearListeners();
-                Ext.select('.status_icons_add', false, activeTabDom).clearListeners();
+                Ext.select('.control_icon', false, activeTabDom).clearListeners();
             }
         },
         /**
@@ -179,7 +178,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                 });
 
             // Adds events to the plus icon
-            Ext.select('.status_icons_add', true, tab.dom)
+            Ext.select('.control_icon', true, tab.dom)
                 .on(
                 {
                     'click': function (e)
@@ -468,54 +467,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             );
 
             ttInfo.showAt(xy);
-        },
-        /**
-         * Wenn the MoudeOver event was called
-         *
-         * @method onMouseOver
-         * @param {Object} e Mouse Event
-         * TODO: I think it is not in use anymore
-         */
-        onMouseOver: function (e)
-        {
-            "use strict";
-
-            // Determines active event
-            var el = e.getTarget('.lectureBox', 5, true);
-            if (el.id.substr(0, 4) !== "delta" && MySched.Authorize.user !== null && MySched.Authorize.role !== "user")
-            {
-                this.selectLectureId = el.id;
-                // If the event exist, set HoverButton on delete
-                if (MySched.Schedule.lectureExists(el.id))
-                {
-                    this.selectButton.dom.src = this.lectureRemoveButton;
-                    this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE;
-                }
-                // Show HoverButton
-                this.selectButton.show()
-                    .alignTo(el, 'tr-tr', [-4, 5]);
-            }
-        },
-        /**
-         * Wenn das MouseOut Event ausgeloest wurde
-         *
-         * @param {Object} e Event
-         * TODO: I think it is not in use anymore
-         */
-        onMouseOut: function (e)
-        {
-            "use strict";
-
-            var el = Ext.get(e.getRelatedTarget());
-            // Blendet HoverButton aus, und resetet ihn auf
-            // hinzufuegen
-            if (!el || el.id !== 'lectureSelectButton')
-            {
-                this.selectButton.hide();
-                this.selectButton.dom.src = this.lectureAddButton;
-                this.selectLectureId = null;
-                this.selectButton.dom.qtip = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD;
-            }
         },
 
         /**

@@ -115,8 +115,8 @@ class THM_OrganizerHelperComponent
      */
     public static function addActions(&$object)
     {
-        $user	= JFactory::getUser();
-        $result	= new JObject;
+        $user = JFactory::getUser();
+        $result = new JObject;
 
         $path = JPATH_ADMINISTRATOR . '/components/com_thm_organizer/access.xml';
         $actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
@@ -226,7 +226,7 @@ class THM_OrganizerHelperComponent
 
         // Core admin sets this implicitly
         $isAdmin = $user->authorise('core.admin', "com_thm_organizer");
-        $canEdit = $user->authorise('organizer.manage', "com_thm_organizer.$resourceName.$itemID");
+        $canEdit = $user->authorise('core.manage', "com_thm_organizer.$resourceName.$itemID");
         if ($isAdmin OR $canEdit)
         {
             return true;

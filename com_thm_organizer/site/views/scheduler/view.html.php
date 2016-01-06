@@ -33,6 +33,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 
     public $semesterID = 0;
 
+    public $params;
+
     public $config = array();
 
     public $libraries = array();
@@ -86,16 +88,15 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 
         $schedulerModel = $this->getModel();
 
-        // $eventModel = JModelLegacy::getInstance('event_manager', 'thm_organizerModel', array('ignore_request' => false, 'display_type' => 4));
-        $params = $app->getMenu()->getActive()->params;
+        $this->params = $app->getMenu()->getActive()->params;
 
         // $eventModel->canWrite;
         $this->config['canWrite'] = false;
         $this->config['sessionID'] = $schedulerModel->getSessionID();
         $this->searchModuleID = $input->getString('moduleID', '');
-        $this->displayModuleNumber = (bool) $params->get("displayModuleNumber", true);
-        $this->config['deltaDisplayDays'] = (int) $params->get("deltaDisplayDays", 14);
-        $this->config['displayDaysInWeek'] = (int) $params->get("displayDaysInWeek", 0);
+        $this->displayModuleNumber = (bool) $this->params->get("displayModuleNumber", true);
+        $this->config['deltaDisplayDays'] = (int) $this->params->get("deltaDisplayDays", 14);
+        $this->config['displayDaysInWeek'] = (int) $this->params->get("displayDaysInWeek", 0);
         $this->config['name'] = $scheduleRow->departmentname . "_" . $scheduleRow->semestername . "_";
         $this->config['name'] .= $scheduleRow->term_startdate . "_" . $scheduleRow->term_enddate;
 

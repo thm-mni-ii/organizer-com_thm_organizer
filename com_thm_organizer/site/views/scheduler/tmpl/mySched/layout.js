@@ -33,7 +33,8 @@ MySched.layout = function ()
                 {
                     resizeTabs: false,
                     enableTabScroll: true,
-                    id: 'tabpanel',
+                    id: 'tabPanel',
+                    width: 1000,
                     plugins: [Ext.create('Ext.ux.TabCloseOnMiddleClick')],
                     region: 'center'
                 }
@@ -50,7 +51,6 @@ MySched.layout = function ()
                     MySched.selectedSchedule = o.ScheduleModel;
 
                     var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
-
                     var currentMoFrDate = getCurrentMoFrDate();
                     var selectedSchedule = MySched.selectedSchedule;
                     var nodeKey = selectedSchedule.key;
@@ -200,89 +200,52 @@ MySched.layout = function ()
                 }, this
             );
 
-            // if the header of the THM should be displayed
-            if (_C('showHeader'))
-            {
-                this.w_topMenu = Ext.create('Ext.Panel',
-                    {
-                        id: 'topMenu',
-                        region: 'north',
-                        bodyStyle: 'text-align:center;',
-                        html: _C('headerHTML'),
-                        bbar: this.getMainToolbar()
-                    });
-                // ..and if not
-            }
-            else
-            {
-                this.w_topMenu = Ext.create('Ext.Panel',
-                    {
-                        id: 'topMenu',
-                        region: 'north',
-                        bbar: this.getMainToolbar()
-                    });
-            }
+            this.headerPanel = MySched.headerPanel.init();
 
-            //var treeData = MySched.Tree.init();
-            var treeData = MySched.SelectBoxes.init();
+            this.selectionPanel = MySched.SelectBoxes.init();
 
-            this.w_leftMenu = treeData;
-
-            this.w_leftMenu.on("expand", function ()
-            {
-                if (MySched.selectedSchedule)
+            this.buttonPanel = Ext.create('Ext.Panel',
                 {
-                    MySched.selectedSchedule.eventsloaded = null;
-                    MySched.selectedSchedule.refreshView();
-                }
-            });
+                    id: 'buttonPanel',
+                    flex: 2,
+                    height: 50,
+                    bbar: this.getMainToolbar()
+                });
 
-            this.w_leftMenu.on("collapse", function ()
-            {
-                if (MySched.selectedSchedule)
+            this.toolbarPanel  = Ext.create('Ext.panel.Panel',
                 {
-                    MySched.selectedSchedule.eventsloaded = null;
-                    MySched.selectedSchedule.refreshView();
-                }
-            });
-
-
-            this.rightviewport = Ext.create(
-                'Ext.Panel',
-                {
-                    id: "rightviewport",
+                    layout: {
+                        type: 'hbox',
+                        pack: 'start',
+                        align: 'stretch'
+                    },
+                    id: "toolbarPanel",
                     region: 'center',
-                    items: [this.w_topMenu, this.tabpanel]
-                }
-            );
+                    height: 50,
+                    width: 1060,
+                    items: [this.selectionPanel, this.buttonPanel]
+                });
 
-            this.leftviewport = this.w_leftMenu;
+            this.topPanel = Ext.create('Ext.panel.Panel',
+                {
+                    id: "topPanel",
+                    region: 'north',
+                    layout: "border",
+                    height: 81,
+                    width: 1060,
+                    items: [this.headerPanel, this.toolbarPanel]
+                });
+
             // 	finally, creation of the complete layout
             this.viewport = Ext.create('Ext.panel.Panel',
                 {
-                    plugins: 'responsive',
                     id: "viewport",
                     layout: "border",
+                    height: 900,
+                    width: 1060,
                     renderTo: "MySchedMainW",
-                    width: 968,
-                    height: 500,
-                    //minSize: 968,
-                    //maxSize: 968,
-                    items: [this.leftviewport, this.rightviewport],
-                    responsiveConfig: {
-                        'width <= TABLET_WIDTH_MAX':
-                        {
-                            // TODO What is a useful max width
-                            maxWidth: document.getElementById('MySchedMainW').clientWidth
-                        }
-                    }
+                    items: [this.topPanel, this.tabpanel]
                 });
-
-            var hideTreePanel = false;
-            if(MySched.schedulerFromMenu === false)
-            {
-                hideTreePanel = true;
-            }
 
             Ext.get('selectBoxes-body').mask('Loading');
 
@@ -296,284 +259,7 @@ MySched.layout = function ()
                 imgs[i].alt = "calendar";
             }
         },
-        /**
-         * Generates the layout for phone devices
-         *
-         * @mehtod buildMobileLayout
-         */
-        buildMobileLayout: function ()
-        {
-            // Creates TabPanel
-            this.tabpanel = Ext.create('Ext.tab.Panel',
-                {
-                    resizeTabs: false,
-                    // turn on tab resizing
-                    // minTabWidth: 155,
-                    // tabWidth: 155,
-                    // heigth: 500,
-                    enableTabScroll: true,
-                    id: 'tabpanel',
-                    plugins: [Ext.create('Ext.ux.TabCloseOnMiddleClick')],
-                    region: 'center'
-                });
 
-            this.tabpanel.on('tabchange',
-                function (panel, o)
-                {
-                    var contentAnchorTip = Ext.getCmp('content-anchor-tip');
-                    if (contentAnchorTip)
-                    {
-                        contentAnchorTip.destroy();
-                    }
-                    MySched.selectedSchedule = o.ScheduleModel;
-
-                    var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
-
-                    var currentMoFrDate = getCurrentMoFrDate();
-                    var selectedSchedule = MySched.selectedSchedule;
-                    var nodeKey = selectedSchedule.key;
-                    var nodeID = selectedSchedule.id;
-                    var gpuntisID = selectedSchedule.gpuntisID;
-                    var semesterID = selectedSchedule.semesterID;
-                    var plantypeID = "";
-                    var type = selectedSchedule.type;
-
-                    if (MySched.Schedule.status === "unsaved")
-                    {
-                        Ext.ComponentMgr.get('btnSave').enable();
-                    }
-                    else
-                    {
-                        Ext.ComponentMgr.get('btnSave').disable();
-                    }
-
-                    if(MySched.selectedSchedule.id !== "mySchedule")
-                    {
-                        if (MySched.loadLessonsOnStartUp === false)
-                        {
-                            Ext.Ajax.request(
-                                {
-                                    url: _C('ajaxHandler'),
-                                    method: 'POST',
-                                    params: {
-                                        nodeID: nodeID,
-                                        nodeKey: nodeKey,
-                                        gpuntisID: gpuntisID,
-                                        semesterID: semesterID,
-                                        scheduletask: "Ressource.load",
-                                        plantypeID: plantypeID,
-                                        type: type,
-                                        startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
-                                        enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
-                                    },
-                                    failure: function (response)
-                                    {
-                                        Ext.Msg.alert(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ERROR,
-                                            MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_ERROR);
-                                    },
-                                    success: function (response)
-                                    {
-                                        var json = Ext.decode(response.responseText);
-                                        var lessonData = json.lessonData;
-                                        var lessonDate = json.lessonDate;
-                                        for (var item in lessonData)
-                                        {
-                                            if (Ext.isObject(lessonData[item]))
-                                            {
-                                                var record = new LectureModel(
-                                                    item,
-                                                    lessonData[item], semesterID,
-                                                    plantypeID);
-                                                MySched.Base.schedule.addLecture(record);
-                                            }
-                                        }
-                                        if (Ext.isObject(lessonDate))
-                                        {
-                                            MySched.Calendar.addAll(lessonDate);
-                                        }
-
-                                        MySched.selectedSchedule.eventsloaded = null;
-                                        MySched.selectedSchedule.init(type, nodeKey, semesterID);
-                                        // Called tab will be reloaded
-                                        if (MySched.Schedule.status === "unsaved")
-                                        {
-                                            Ext.ComponentMgr.get('btnSave').enable();
-                                        }
-                                        else
-                                        {
-                                            Ext.ComponentMgr.get('btnSave').disable();
-                                        }
-
-                                        var lectureData = MySched.selectedSchedule.data.items;
-
-                                        for (var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
-                                        {
-                                            if (Ext.isDefined(lectureData[lectureIndex]) && Ext.isDefined(lectureData[lectureIndex].setCellTemplate) === true)
-                                            {
-                                                lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type);
-                                            }
-                                        }
-
-                                        MySched.selectedSchedule.eventsloaded = null;
-                                        o.ScheduleModel.refreshView();
-
-                                        // maybe somewhere a hanging AddLectureButton will fade out
-                                        // orig.: Evtl. irgendwo haengender AddLectureButton wird ausgeblendet
-                                        // TODO serious, who writes such a comment
-                                        /* MySched.SelectionManager.selectButton.hide(); */
-                                        MySched.SelectionManager.unselect();
-                                        this.selectedTab = o;
-                                    }
-                                }
-                            );
-                        }
-                        else
-                        {
-                            MySched.selectedSchedule.eventsloaded = null;
-                            MySched.selectedSchedule.init(type, nodeKey, semesterID);
-                            // Called tab will be reloaded
-                            if (MySched.Schedule.status === "unsaved")
-                            {
-                                Ext.ComponentMgr.get('btnSave').enable();
-                            }
-                            else
-                            {
-                                Ext.ComponentMgr.get('btnSave').disable();
-                            }
-
-                            var lectureData = MySched.selectedSchedule.data.items;
-
-                            for (var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
-                            {
-                                if (Ext.isDefined(lectureData[lectureIndex]) && Ext.isDefined(lectureData[lectureIndex].setCellTemplate) === true)
-                                {
-                                    lectureData[lectureIndex].setCellTemplate(MySched.selectedSchedule.type, MySched.selectedSchedule.scheduleGrid);
-                                }
-                            }
-
-                            MySched.selectedSchedule.eventsloaded = null;
-                            o.ScheduleModel.refreshView();
-
-                            // maybe somewhere a hanging AddLectureButton will fade out
-                            // orig.: Evtl. irgendwo haengender AddLectureButton wird ausgeblendet
-                            // no comment...
-                            /* MySched.SelectionManager.selectButton.hide(); */
-                            MySched.SelectionManager.unselect();
-                            this.selectedTab = o;
-                        }
-                    }
-                    else
-                    {
-                        var lectureData = MySched.Schedule.data.items;
-
-                        for (var lectureIndex = 0; lectureIndex < lectureData.length; lectureIndex++)
-                        {
-                            if (Ext.isDefined(lectureData[lectureIndex]) && Ext.isDefined(lectureData[lectureIndex].setCellTemplate) === true)
-                            {
-                                lectureData[lectureIndex].setCellTemplate(MySched.Schedule.type, MySched.Schedule.scheduleGrid);
-                            }
-                        }
-                        MySched.Schedule.refreshView();
-                    }
-                }, this
-            );
-
-            // if the header of the THM should be displayed
-            if (_C('showHeader'))
-            {
-                this.w_topMenu = Ext.create('Ext.Panel',
-                    {
-                        id: 'topMenu',
-                        region: 'north',
-                        bodyStyle: 'text-align:center;',
-                        html: _C('headerHTML'),
-                        bbar: this.getMainToolbar()
-                    });
-                // ..and if not
-            }
-            else
-            {
-                this.w_topMenu = Ext.create('Ext.Panel',
-                    {
-                        id: 'topMenu',
-                        region: 'north',
-                        bbar: this.getMainToolbar()
-                    });
-            }
-
-            //var treeData = MySched.Tree.init();
-            var treeData = MySched.SelectBoxes.init();
-
-            this.w_leftMenu = treeData;
-
-            this.w_leftMenu.on("expand", function ()
-            {
-                if (MySched.selectedSchedule)
-                {
-                    MySched.selectedSchedule.eventsloaded = null;
-                    MySched.selectedSchedule.refreshView();
-                }
-            });
-
-            this.w_leftMenu.on("collapse", function ()
-            {
-                if (MySched.selectedSchedule)
-                {
-                    MySched.selectedSchedule.eventsloaded = null;
-                    MySched.selectedSchedule.refreshView();
-                }
-            });
-
-
-            this.rightviewport = Ext.create(
-                'Ext.Panel',
-                {
-                    id: "rightviewport",
-                    region: 'center',
-                    items: [this.w_topMenu, this.tabpanel]
-                }
-            );
-
-            this.leftviewport = this.w_leftMenu;
-            // 	finally, creation of the complete layout
-            this.viewport = Ext.create('Ext.panel.Panel',
-                {
-                    plugins: 'responsive',
-                    id: "viewport",
-                    layout: "border",
-                    renderTo: "MySchedMainW",
-                    width: 968,
-                    height: 500,
-                    //minSize: 968,
-                    //maxSize: 968,
-                    items: [this.leftviewport, this.rightviewport],
-                    responsiveConfig: {
-                        'width <= TABLET_WIDTH_MAX':
-                        {
-                            // TODO What is a useful max width
-                            maxWidth: document.getElementById('MySchedMainW').clientWidth
-                        }
-                    }
-                });
-
-            var hideTreePanel = false;
-            if(MySched.schedulerFromMenu === false)
-            {
-                hideTreePanel = true;
-            }
-
-            Ext.get('selectBoxes-body').mask('Loading');
-
-            var calendar = Ext.ComponentMgr.get('menuedatepicker'), imgs;
-            if (calendar)
-            {
-                imgs = Ext.DomQuery.select('img[class=x-form-trigger x-form-date-trigger]', calendar.container.dom);
-            }
-            for (var i = 0; i < imgs.length; i++)
-            {
-                imgs[i].alt = "calendar";
-            }
-        },
         /**
          * Shows the information window of MySched
          *
@@ -661,7 +347,9 @@ MySched.layout = function ()
                             {
                                 // They will be overwritten if they exist
                                 id: id,
-                                title: title
+                                title: title,
+                                offsetLeft: 0,
+                                offsetRight: 2
                             });
                     }
                     else
@@ -679,7 +367,9 @@ MySched.layout = function ()
                                 // They will be overwritten if they exist
                                 // TODO: There is a problem with the ID!!!
                                 //id: id,
-                                title: title
+                                title: title,
+                                offsetLeft: 0,
+                                offsetRight: 2
                             }
                         );
                     }
@@ -735,9 +425,19 @@ MySched.layout = function ()
          */
         getMainToolbar: function ()
         {
-            var btnSave, btnEmpty, disablePDF = true, btnSavePdf, btnSaveWeekPdf, disableICS = true, btnICS,
-                disableExcel = true, btnSaveTxt, btnAdd, downloadMenu, btnDel, btnInfo, tbFreeBusy, initialDate, menuedatepicker,
-                prevWeek, nextWeek;
+            var btnSave, btnEmpty,
+                btnSavePdf, disablePDF = true,
+                btnSaveWeekPdf,
+                btnICS, disableICS = true,
+                disableExcel = true,
+                btnSaveTxt, btnAdd, downloadMenu,
+                btnDel,
+                btnInfo,
+                tbFreeBusy,
+                initialDate,
+                menuedatepicker,
+                prevWeek,
+                nextWeek;
 
             // Create the save schedule button
             btnSave = Ext.create(

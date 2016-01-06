@@ -1,5 +1,5 @@
-/*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks, addNewEvent, numbertoday,
- _C, getCurrentMoFrDate, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
+/*global Ext, MySched, MySchedLanguage, LectureModel, ScheduleModel, EventListModel, EventModel, externLinks,
+ numbertoday, _C, getCurrentMoFrDate, numbertoday, getTeacherSurnameWithCutFirstName, loadMask */
 /**
  * mySched - Mainclass by Thorsten Buss and Wolf Rost
  */
@@ -19,15 +19,8 @@ MySched.Config.addAll(
         // Determine how the additional information should be shown
         infoMode: 'popup',
         ajaxHandler: externLinks.ajaxHandler,
-        // TODO: I think this is obsolte, maybe change to moodle?
-        estudycourse: MySched.mainPath + 'php/estudy_course.php',
         infoUrl: MySched.mainPath + 'php/info.php',
-        showHeader: false,
-        // should the header area been shown?
-        headerHTML: '<img src="http://www.mni.thm.de/templates/fh/Bilder/Header.png" title="fh-header" alt="fh-header"/>',
         enableSubscribing: false,
-        // Activates the button and the function 'enlist' ('Einschreiben')
-        logoutTarget: 'http://www.mni.thm.de'
     }
 );
 
@@ -154,32 +147,6 @@ MySched.Base = function ()
             }
 
             MySched.gridData = GridData;
-
-            //// Here an array is created with all block lessons of a week.
-            //for (var i = 1; i <= length; i++)
-            //{
-            //    if (!MySched.daytime[GridData[i].day])
-            //    {
-            //        MySched.daytime[GridData[i].day] = [];
-            //        MySched.daytime[GridData[i].day].engName = numbertoday(GridData[i].day);
-            //        MySched.daytime[GridData[i].day].gerName = weekdayEtoD(numbertoday(GridData[i].day));
-            //        MySched.daytime[GridData[i].day].localName = "day";
-            //    }
-            //    if (!MySched.daytime[GridData[i].day][GridData[i].period])
-            //    {
-            //        MySched.daytime[GridData[i].day][GridData[i].period] = [];
-            //    }
-            //    MySched.daytime[GridData[i].day][GridData[i].period].etime = GridData[i].endtime.substr(0, 5);
-            //    MySched.daytime[GridData[i].day][GridData[i].period].stime = GridData[i].starttime.substr(0, 5);
-            //    MySched.daytime[GridData[i].day][GridData[i].period].tpid = GridData[i].gpuntisID;
-            //    MySched.daytime[GridData[i].day][GridData[i].period].localName = "block";
-            //}
-
-            // Initialize the tree and the choice control
-            // TODO: There are two possibilities:
-            // 1. I don't understand how and why TreeManager is used
-            // 2. TreeManager is not in use anymore and was not removed from source code. And if it is so: WTF?
-            //MySched.TreeManager.init();
 
             // Initialize the name/acronym mapping
             MySched.Mapping.init();
@@ -321,8 +288,9 @@ MySched.Base = function ()
          */
         myschedInit: function ()
         {
-            var lessonData = MySched.startup.Lessons;
-            var plantypeID = "";
+            var lessonData = MySched.startup.Lessons,
+                plantypeID = "",
+                isMobile = false;
 
             // iterate through lessonData which contains very single lecture with some information and
             // make it to a lecture model and add is to the schedule
@@ -349,14 +317,7 @@ MySched.Base = function ()
             MySched.InfoPanel.init();
             MySched.SelectionManager.init();
 
-            // Detect whether the user is running desktop, tablet or phone
-            if(Ext.os.is.Phone){
-                // Create the layout for Phone devices
-                MySched.layout.buildMobileLayout();
-            } else{
-                // Create the layout for Desktop / Tablet
-                MySched.layout.buildBasicLayout();
-            }
+            MySched.layout.buildBasicLayout();
 
             MySched.Base.setScheduleDescription(MySched.startup["ScheduleDescription.load"].data);
         },
@@ -368,13 +329,22 @@ MySched.Base = function ()
          */
         setScheduleDescription: function (jsonData)
         {
+            var headerTitle, uploadDateText;
+
             if (Ext.isObject(jsonData))
             {
                 MySched.session.begin = jsonData.startdate;
                 MySched.session.end = jsonData.enddate;
                 MySched.session.creationdate = jsonData.creationdate;
+                uploadDateText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate;
 
-                MySched.SelectBoxes.setTitle(MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate);
+                headerTitle = '<span class="schedule-title">' + MySched.pageTitle + '</span>';
+                headerTitle += '<span class="upload-date">(' + uploadDateText + ')</span>';
+                if (Ext.os.is.Phone)
+                {
+                    headerTitle += MySched.siteLogin;
+                }
+                MySched.headerPanel.setTitle(headerTitle);
 
                 // Managed the visibility of the Add/Del Buttons at the toolbar
                 MySched.SelectionManager.on('select', function (el)

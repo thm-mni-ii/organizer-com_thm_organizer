@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 jimport('thm_core.edit.model');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/referrer.php';
 
 /**
  * Class THM_OrganizerModelSubject_Edit for component com_thm_organizer

@@ -40,12 +40,12 @@ Ext.define('LectureModel',
             //New CellStyle
             this.setCellTemplate(null, this.data.grid);
 
-            var infoTemplateString = '<div>' + '<small><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {roomName}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ':</span><big> {teacherName}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL + ':</span> <br/>{poolName}<br/>';
-            infoTemplateString += '</small></div>';
+            var infoTemplateString = '<div>' + '<span><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {roomName}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ':</span><big> {teacherName}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL + ':</span> <br/>{poolName}<br/>';
+            infoTemplateString += '</span></div>';
 
             this.infoTemplate = new Ext.Template(infoTemplateString);
 
-            this.sporadicTemplate = new Ext.Template('<div id="{parentId}__{id}" block="{lessonBlock}" dow="{lessonDow}" class="{css} sporadicBox lectureBox">' + '<b>{desc}</b> <small><i>({desc:defaultValue("' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DESCRIPTION + '")})</i> ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ': {room_short} - ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ': {teacher_name} - {poolName}</small>' + '</div>');
+            this.sporadicTemplate = new Ext.Template('<div id="{parentId}__{id}" block="{lessonBlock}" dow="{lessonDow}" class="{css} sporadicBox lectureBox">' + '<span>{desc}</span> <span><i>({desc:defaultValue("' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DESCRIPTION + '")})</i> ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ': {room_short} - ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ': {teacher_name} - {poolName}</span>' + '</div>');
         },
         /**
          * Returns detailed data for a resource
@@ -289,15 +289,15 @@ Ext.define('LectureModel',
                 {
                     if (d.parentId === "mySchedule")
                     {
-                        ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
+                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="control_icon icon-delete"></span>';
                     }
                     else if (d.parentId !== "mySchedule" && MySched.Schedule.lectureExists(this))
                     {
-                        ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="status_icons_add" src="' + MySched.mainPath + '/images/delete.png" width="12" heigth="12"/>';
+                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="control_icon icon-delete"></span>';
                     }
                     else
                     {
-                        ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="status_icons_add" src="' + MySched.mainPath + '/images/add.png" width="12" heigth="12"/>';
+                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="control_icon icon-plus-2"></span>';
                     }
                 }
             }
@@ -333,11 +333,11 @@ Ext.define('LectureModel',
                             temp = MySched.Mapping.getObject("room", room);
                             if (!temp)
                             {
-                                r += '<small class="' + rooms[room] + '"> ' + room + ' </small>, ';
+                                r += '<span class="' + rooms[room] + '"> ' + room + ' </span>, ';
                             }
                             else
                             {
-                                r += '<small class="' + rooms[room] + '"> ' + temp.name + ' </small>, ';
+                                r += '<span class="' + rooms[room] + '"> ' + temp.name + ' </span>, ';
                             }
                             r += "<br/>";
                         }
@@ -360,11 +360,11 @@ Ext.define('LectureModel',
                             temp = MySched.Mapping.getObject("teacher", teacher);
                             if (!temp)
                             {
-                                t += '<small class="' + teachers[teacher] + '"> ' + teacher + ' </small>, ';
+                                t += '<span class="' + teachers[teacher] + '"> ' + teacher + ' </span>, ';
                             }
                             else
                             {
-                                t += '<small class="' + teachers[teacher] + '"> ' + temp.name + ' </small>, ';
+                                t += '<span class="' + teachers[teacher] + '"> ' + temp.name + ' </span>, ';
                             }
                             t += "<br/>";
                         }
@@ -387,11 +387,11 @@ Ext.define('LectureModel',
                             temp = MySched.Mapping.getObject("pool", pool);
                             if (!temp)
                             {
-                                c += '<small class="' + pools[pool] + '"> ' + pool + ' </small>, ';
+                                c += '<span class="' + pools[pool] + '"> ' + pool + ' </span>, ';
                             }
                             else
                             {
-                                c += '<small class="' + pools[pool] + '"> ' + temp.department + " - " + temp.name + ' </small>, ';
+                                c += '<span class="' + pools[pool] + '"> ' + temp.department + " - " + temp.name + ' </span>, ';
                             }
                             c += "<br/>";
                         }
@@ -514,7 +514,7 @@ Ext.define('LectureModel',
                         continue;
                     }
 
-                    var roomNameHTML = '<small roomID="' + roomIndex +  '" class="roomname ' + changedStatus + '">' + roomName + '</small>';
+                    var roomNameHTML = '<span roomID="' + roomIndex +  '" class="roomname ' + changedStatus + '">' + roomName + '</span>';
                     ret.push(roomNameHTML);
                 }
             }
@@ -575,7 +575,7 @@ Ext.define('LectureModel',
                         continue;
                     }
 
-                    var teacherNameHTML = '<small teacherID="' + teacherIndex +  '" class="teachername ' +  changedStatus + '">' + teacherName + '</small>';
+                    var teacherNameHTML = '<span teacherID="' + teacherIndex +  '" class="teachername ' +  changedStatus + '">' + teacherName + '</span>';
                     ret.push(teacherNameHTML);
                 }
             }
@@ -658,7 +658,7 @@ Ext.define('LectureModel',
                         changedStatus = "module" + pools[poolIndex];
                     }
 
-                    HTML = '<small poolID="' + poolIndex +  '" class="modulename ' + changedStatus + '">' + poolName + '</small>';
+                    HTML = '<span poolID="' + poolIndex +  '" class="modulename ' + changedStatus + '">' + poolName + '</span>';
                     ret.push(HTML);
                 }
             }
@@ -777,15 +777,15 @@ Ext.define('LectureModel',
 
             if (t === "room")
             {
-                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description}</b> {moduleNr} {comment}<br/>{teacherName} / {poolName} {lessonEvents}' + time + '{statusIcons}</div>');
+                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<span class="lecturename">{lessonTitle}{description}</span> {moduleNr} {comment}<br/>{teacherName} / {poolName} {lessonEvents}' + time + '{statusIcons}</div>');
             }
             else if (t === "teacher")
             {
-                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description}</b> {moduleNr} {comment}<br/>{poolName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
+                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<span class="lecturename">{lessonTitle}{description}</span> {moduleNr} {comment}<br/>{poolName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
             }
             else if (t === "subject")
             {
-                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<b class="lecturename">{lessonTitle}{description}</b> {moduleNr} {comment}<br/>{poolName} / {teacherName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
+                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} scheduleBox lectureBox">' + '<span class="lecturename">{lessonTitle}{description}</span> {moduleNr} {comment}<br/>{poolName} / {teacherName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
             }
             else
             {
@@ -804,7 +804,7 @@ Ext.define('LectureModel',
                     lectureCSS = "lecturename";
                 }
 
-                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" style="{curriculumColor}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + poolCSS + '">' + '{topIcon}<b class="' + lectureCSS + '">{lessonTitle}{description} </b> {moduleNr} {comment}<br/>{teacherName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
+                this.cellTemplate = new Ext.Template('<div id="{parentId}__{key}" style="{curriculumColor}" block="{lessonBlock}" dow="{lessonDow}" class="{css} {deltaStatus} ' + poolCSS + '">' + '{topIcon}<span class="' + lectureCSS + '">{lessonTitle}{description} </span> {moduleNr} {comment}<br/>{teacherName} / {roomName} {lessonEvents}' + time + '{statusIcons}</div>');
             }
         },
         /**
