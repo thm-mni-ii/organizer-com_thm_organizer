@@ -46,21 +46,6 @@ Ext.define('SchedGrid',
         // TODO Seems to be always empty. Is it really useful
         return this.store.loadData(data);
 
-    },
-    /**
-     * Cleans up the sporadic events and sets up the new ones
-     * TODO Maybe obsolete. It seems to be not in use anymore
-     *
-     * @param {Object} data
-     */
-    setSporadicLectures: function (data)
-    {
-        this.sporadics = [];
-        if (!data || data.length === 0)
-        {
-            return;
-        }
-        Ext.each(data, function (e) { this.sporadics.push(e); }, this);
     }
 });
 
@@ -71,7 +56,7 @@ Ext.define('SchedGrid',
 function getSchedGrid()
 {
     var fields, columns, rowBodyFeature;
-    // Default days in a week from mo till sa
+
     fields = ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     columns = [
         {
@@ -265,86 +250,93 @@ Ext.apply(Ext.form.VTypes,
 /**
  * Special renderer for events
  *
- * @param {string} data Start and end date of a block as string
- * @param {Object} meta Object with class and style attributes
- * @param {Object} record TODO Don't know what it is
- * @param {number} rowIndex Index of the row
- * @param {number} colIndex Index of the column
- * @param {Object} store TODO Don't know
+ * @param {string} times     Start and end date of a block as string
+ * @param {Object} output    Object with class and style attributes
+ * @param {Object} redundant Object containing most of the other parameters here. Unused. Seems to be mandated by extjs.
+ * @param {number} rowIndex  Index of the row
+ * @param {number} colIndex  Index of the column
+ * @param {Object} store     Object containing the tab information
  */
-MySched.lectureCellRenderer = function (data, meta, record, rowIndex, colIndex, store)
+MySched.lectureCellRenderer = function (times, output, redundant, rowIndex, colIndex, store)
 {
+    var weekPointer, headerCt, header, dayCountClass, userLessonCount, columnClass;
+
     /**
      * This method appends a string to a given class name and returns it
      *
      * @method cl
-     * @param {string} css A css class name
-     * @return {string} * A css class name
+     * @param {string} statusClass A css class name
+     * @return {string} A css class name
      */
-    function cl(css)
+    function appendStatus(statusClass)
     {
         if (MySched.freeBusyState)
         {
-            return css + ' ';
+            return statusClass + ' ';
         }
-        return css + '_DIS ';
+        return statusClass + '_DIS ';
     }
 
-    if (colIndex > 0)
+    switch (store.config.fields.length)
     {
-
-        var times = blocktotime(rowIndex + 1, this.ScheduleModel.scheduleGrid);
-        meta.tdAttr = "stime='" + times[0] + "' etime='" + times[1] + "'";
+        case 7:
+            dayCountClass = 'days-6';
+            break;
+        case 6:
+            dayCountClass= 'days-5';
     }
 
     // show date behind the day
-    if (colIndex > 0 && rowIndex === 0)
+    if (rowIndex === 0 && colIndex > 0)
     {
-        var weekpointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker')
-            .value);
+        weekPointer = Ext.Date.clone(Ext.ComponentMgr.get('menuedatepicker').value);
+        weekPointer = getMonday(weekPointer);
+        weekPointer.setDate(weekPointer.getDate() + (colIndex - 1));
 
-        weekpointer = getMonday(weekpointer);
-        weekpointer.setDate(weekpointer.getDate() + (colIndex - 1));
+        headerCt = this.ScheduleModel.grid.getView().getHeaderCt();
 
-        var headerCt = this.ScheduleModel.grid.getView().getHeaderCt();
+        header = headerCt.getHeaderAtIndex(colIndex);
 
-        var header = headerCt.getHeaderAtIndex(colIndex);
-
-        if (Ext.Date.format(Ext.ComponentMgr.get('menuedatepicker').value, "d.m.Y") === Ext.Date.format(weekpointer, "d.m.Y"))
+        if (Ext.Date.format(Ext.ComponentMgr.get('menuedatepicker').value, "d.m.Y") === Ext.Date.format(weekPointer, "d.m.Y"))
         {
-            header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")</b>");
+            header.setText("<b>" + weekdayEtoD(numbertoday(colIndex)) + "   (" + Ext.Date.format(weekPointer, "d.m") + ")</b>");
+            header.addCls(dayCountClass);
         }
         else
         {
-            header.setText(weekdayEtoD(numbertoday(colIndex)) + " (" + Ext.Date.format(weekpointer, "d.m.") + ")");
+            header.setText(weekdayEtoD(numbertoday(colIndex)) + "   (" + Ext.Date.format(weekPointer, "d.m") + ")");
+            header.addCls(dayCountClass);
         }
     }
 
     if (colIndex === 0)
     {
-        return '<div class="scheduleBox timeBox">' + data + '</div>';
+        return '<div class="scheduleBox timeBox">' + times + '</div>';
     }
 
-    var blockStatus = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
-    if (blockStatus === 1 && this.ScheduleModel.id !== "mySchedule")
+    userLessonCount = MySched.Schedule.getBlockStatus(colIndex, rowIndex);
+    if (userLessonCount === 1 && this.ScheduleModel.id !== "mySchedule")
     {
-        meta.tdCls += cl('blockBusy');
-        meta.tdCls += cl('conMenu');
+        output.tdCls += appendStatus('blockBusy');
+        output.tdCls += appendStatus('conMenu');
     }
-    else if (blockStatus > 1 && this.ScheduleModel.id !== "mySchedule")
+    else if (userLessonCount > 1 && this.ScheduleModel.id !== "mySchedule")
     {
-        meta.tdCls += cl('blockOccupied');
-        meta.tdCls += cl('conMenu');
+        output.tdCls += appendStatus('blockOccupied');
+        output.tdCls += appendStatus('conMenu');
     }
     else
     {
-        meta.tdCls += cl('blockFree');
-        meta.tdCls += cl('conMenu');
+        output.tdCls += appendStatus('blockFree');
+        output.tdCls += appendStatus('conMenu');
     }
 
-    if (Ext.isEmpty(data))
+    output.tdCls = dayCountClass;
+
+
+    if (Ext.isEmpty(times))
     {
         return '';
     }
-    return data.join("\n");
+    return times.join("\n");
 };

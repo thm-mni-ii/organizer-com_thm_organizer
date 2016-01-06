@@ -92,22 +92,6 @@ div.teacherInfo div ul {
     padding-left: 25px;
 }
 
-.x-grid-row .blockFree {
-    background-color: #FFFFFF;
-}
-
-.x-grid-row .blockBusy {
-    background-color: #a4adb2;
-}
-
-.x-grid-row .blockOccupied {
-    background-color: #002959;
-}
-
-.x-grid-row .blockFree_DIS,.blockBusy_DIS,.blockOccupied_DIS {
-    background-color: #FFFFFF;
-}
-
 /* Änderungen Top Icon Style */
 .top_icon_image {
     background-color: green;
@@ -135,13 +119,6 @@ div.teacherInfo div ul {
 
 .content_column {
     padding-top: 0 !important;
-}
-
-#topMenu * {
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 /* Toolbar ButtonIcons */
@@ -204,12 +181,6 @@ small.removed {
     color: #FF4444;
 }
 
-.mySched_terminicon {
-    height: 12px;
-    width: 12px;
-    margin-bottom: -2px;
-}
-
 /* Lecture Styles */
 .lecturename {
     cursor: pointer;
@@ -257,11 +228,6 @@ small.removed {
     cursor: pointer;
 }
 
-.MySched_SelectTree {
-    padding: 3px;
-    border: 0;
-}
-
 /* Status Icons */
 .status_icons {
     text-align: right;
@@ -269,12 +235,6 @@ small.removed {
 }
 
 .status_icons_add {
-    cursor: pointer;
-    padding-left: 1px;
-    padding-right: 1px;
-}
-
-.status_icons_estudy {
     cursor: pointer;
     padding-left: 1px;
     padding-right: 1px;
@@ -351,12 +311,4 @@ small.removed {
 {
     text-decoration: line-through;
     color: #aaaaaa;
-}
-
-.x-ie .x-btn button {
-    overflow-x: hidden;
-}
-
-.x-border-box .x-tab-bar-top .x-tab-bar-strip {
-    height: 7px;
 }

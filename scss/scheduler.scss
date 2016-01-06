@@ -74,14 +74,14 @@ div#main {
     color: $background-grey;
 
     // Lets the viewport expand to full width
-    & > .x-border-box, .x-panel-body, .x-box-inner, .x-box-target {
+    .x-border-box, .x-panel-body, .x-box-inner, .x-box-target, .x-grid-view, .x-grid-item-container {
       background-color: $foreground;
       border: none;
       width: 100% !important;
     }
 
     #viewport, #viewport-body {
-      border-bottom: 2px solid $grey-75;
+      border-bottom: $border-thick;
     }
 
     /* Header, Resource Selection and Toolbar *************************************************************************/
@@ -400,7 +400,7 @@ div#main {
       }
 
       .x-tab-bar-strip, .x-grid-header-ct, .x-grid-rowbody-tr{
-        background-color: $background-navigation;
+        background-color: $green-25;
       }
 
       .x-tab {
@@ -456,6 +456,7 @@ div#main {
         background-color: $background-grey;
         border: $border-thick;
         border-bottom: none;
+        height: 7px;
       }
 
       .x-tabpanel-child {
@@ -466,20 +467,26 @@ div#main {
 
         .x-grid-header-ct {
 
+          background: $background-grey;
           border: none;
           border-bottom: $border-thick;
           width: 100% !important;
 
           .x-box-inner{
 
+            background: $background-grey;
+            height: 28px !important;
+            padding-bottom: 6px;
             width: 100% !important;
 
             .x-box-target {
 
-              width: 100% !important;
+              width: calc(100% + 6px) !important;
 
               .x-column-header {
                 background-color: $background-grey;
+                display: inline-block;
+                position: static !important;
               }
 
               .x-column-header-text {
@@ -514,6 +521,18 @@ div#main {
           }
 
           .x-grid-row {
+
+            .blockFree, .blockBusy_DIS, .blockOccupied_DIS {
+              background-color: $foreground;
+            }
+
+            .blockBusy {
+              background-color: #a4adb2;
+            }
+
+            .blockOccupied {
+              background-color: #002959;
+            }
 
             .x-grid-cell {
 
@@ -574,22 +593,31 @@ div#main {
                 padding: 0;
               }
             }
+
+            .x-grid-cell-last {
+              border-right: none;
+            }
           }
+        }
+
+        // Used in both the header and the items
+        .days-5 {
+          width: calc(20% - 10px) !important;
+        }
+
+        .days-6 {
+          width: calc(16.6% - 8.3px) !important;
         }
 
         .x-grid-rowbody-tr{
 
           .x-grid-cell-rowbody{
-
             padding: 0;
-
-            .x-grid-rowbody{
-              padding: 2px;
-            }
           }
 
           &.MySched_pause .x-grid-rowbody{
             font-size: .9rem;
+            font-weight: bold;
             padding: 8px;
             text-align: center;
           }

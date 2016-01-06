@@ -173,12 +173,12 @@ div#main .MySchedMainW {
   color: #4a5c66;
   /* Header, Resource Selection and Toolbar *************************************************************************/
   /* Schedules */ }
-  div#main .MySchedMainW > .x-border-box, div#main .MySchedMainW .x-panel-body, div#main .MySchedMainW .x-box-inner, div#main .MySchedMainW .x-box-target {
+  div#main .MySchedMainW .x-border-box, div#main .MySchedMainW .x-panel-body, div#main .MySchedMainW .x-box-inner, div#main .MySchedMainW .x-box-target, div#main .MySchedMainW .x-grid-view, div#main .MySchedMainW .x-grid-item-container {
     background-color: white;
     border: none;
     width: 100% !important; }
   div#main .MySchedMainW #viewport, div#main .MySchedMainW #viewport-body {
-    border-bottom: 2px solid #77858c; }
+    border-bottom: 2px solid #4a5c66; }
   div#main .MySchedMainW #topPanel {
     width: 100% !important; }
     div#main .MySchedMainW #topPanel #topPanel-body {
@@ -361,7 +361,7 @@ div#main .MySchedMainW {
           font-size: 12px;
           color: white; }
     div#main .MySchedMainW #tabPanel .x-tab-bar-strip, div#main .MySchedMainW #tabPanel .x-grid-header-ct, div#main .MySchedMainW #tabPanel .x-grid-rowbody-tr {
-      background-color: #dfe5e6; }
+      background-color: #dfeec8; }
     div#main .MySchedMainW #tabPanel .x-tab {
       background-color: white;
       border: 2px solid #77858c;
@@ -398,21 +398,28 @@ div#main .MySchedMainW {
     div#main .MySchedMainW #tabPanel .x-tab-bar-strip {
       background-color: #4a5c66;
       border: 2px solid #4a5c66;
-      border-bottom: none; }
+      border-bottom: none;
+      height: 7px; }
     div#main .MySchedMainW #tabPanel .x-tabpanel-child {
       border: 2px solid #4a5c66;
       border-top: none;
       width: 100% !important; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct {
+        background: #4a5c66;
         border: none;
         border-bottom: 2px solid #4a5c66;
         width: 100% !important; }
         div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner {
+          background: #4a5c66;
+          height: 28px !important;
+          padding-bottom: 6px;
           width: 100% !important; }
           div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target {
-            width: 100% !important; }
+            width: calc(100% + 6px) !important; }
             div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header {
-              background-color: #4a5c66; }
+              background-color: #4a5c66;
+              display: inline-block;
+              position: static !important; }
             div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header-text {
               color: white;
               font-size: .8rem;
@@ -428,6 +435,12 @@ div#main .MySchedMainW {
             border-top: none; }
         div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item:last-child .x-grid-rowbody-tr {
           display: none; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockFree, div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockBusy_DIS, div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockOccupied_DIS {
+          background-color: white; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockBusy {
+          background-color: #a4adb2; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockOccupied {
+          background-color: #002959; }
         div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell {
           border: 1px solid #77858c;
           padding: 6px; }
@@ -465,12 +478,17 @@ div#main .MySchedMainW {
           div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first .x-grid-cell-inner {
             font-weight: bold;
             padding: 0; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-last {
+          border-right: none; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-5 {
+        width: calc(20% - 10px) !important; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-6 {
+        width: calc(16.6% - 8.3px) !important; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr .x-grid-cell-rowbody {
         padding: 0; }
-        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr .x-grid-cell-rowbody .x-grid-rowbody {
-          padding: 2px; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr.MySched_pause .x-grid-rowbody {
         font-size: .9rem;
+        font-weight: bold;
         padding: 8px;
         text-align: center; }
 
