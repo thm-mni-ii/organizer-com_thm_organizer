@@ -474,6 +474,7 @@ div#main .MySchedMainW {
         div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first {
           border-left: none;
           font-size: .8rem;
+          max-width: 50px;
           vertical-align: middle; }
           div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first .x-grid-cell-inner {
             font-weight: bold;
@@ -481,9 +482,13 @@ div#main .MySchedMainW {
         div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-last {
           border-right: none; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-5 {
-        width: calc(20% - 10px) !important; }
+        min-width: calc(20% - 10px) !important;
+        width: calc(20% - 10px) !important;
+        max-width: calc(20% - 10px) !important; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-6 {
-        width: calc(16.6% - 8.3px) !important; }
+        min-width: calc(16.6% - 8.3px) !important;
+        width: calc(16.6% - 8.3px) !important;
+        max-width: calc(16.6% - 8.3px) !important; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr .x-grid-cell-rowbody {
         padding: 0; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr.MySched_pause .x-grid-rowbody {

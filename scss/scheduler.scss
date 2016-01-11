@@ -586,6 +586,7 @@ div#main {
 
               border-left: none;
               font-size: .8rem;
+              max-width: 50px;
               vertical-align: middle;
 
               .x-grid-cell-inner {
@@ -602,11 +603,19 @@ div#main {
 
         // Used in both the header and the items
         .days-5 {
+
+          // Safari is too cool to use the width attribute, so these have to be more explicit. :(
+          min-width: calc(20% - 10px) !important;
           width: calc(20% - 10px) !important;
+          max-width: calc(20% - 10px) !important;
         }
 
         .days-6 {
+
+          // Safari is too cool to use the width attribute, so these have to be more explicit. :(
+          min-width: calc(16.6% - 8.3px) !important;
           width: calc(16.6% - 8.3px) !important;
+          max-width: calc(16.6% - 8.3px) !important;
         }
 
         .x-grid-rowbody-tr{
