@@ -8,10 +8,10 @@
     <author>Alexander Boll</author>
     <authorEmail>alexander.boll@mni.thm.de</authorEmail>
     <authorUrl>www.mni.thm.de</authorUrl>
-    <creationDate>December 2015</creationDate>
-    <copyright>TH Mittelhessen 2015</copyright>
+    <creationDate>January 2016</creationDate>
+    <copyright>TH Mittelhessen 2016</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>3.2.9</version>
+    <version>3.3.0</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
