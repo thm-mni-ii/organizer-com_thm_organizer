@@ -4,7 +4,7 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerTableTeachers
- * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de

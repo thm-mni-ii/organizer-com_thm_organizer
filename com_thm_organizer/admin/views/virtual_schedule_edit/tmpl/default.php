@@ -4,9 +4,9 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin.view
  * @name        virtual schedule edit default template
- * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

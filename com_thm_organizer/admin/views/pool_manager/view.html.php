@@ -4,8 +4,8 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewPool_Manager
- * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

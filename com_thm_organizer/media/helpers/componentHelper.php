@@ -4,9 +4,9 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
  * @name        provides functions useful to multiple component files
- * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */
@@ -373,5 +373,91 @@ class THM_OrganizerHelperComponent
         $params =JComponentHelper::getParams('com_thm_organizer');
         $dateFormat = $params->get('dateFormat', 'd.m.Y');
         return date_format(date_create_from_format($dateFormat, $date), 'Y-m-d');
+    }
+
+    /**
+     * Creates a select box
+     *
+     * @param   mixed   $entries         a set of keys and values
+     * @param   string  $name            the name of the element
+     * @param   mixed   $attributes      optional attributes: object, array, or string in the form key => value(,)+
+     * @param   mixed   $selected        optional selected items
+     * @param   array   $defaultOptions  default options key => value
+     *
+     * @return  string  the html output for the select box
+     */
+    public static function selectBox($entries, $name, $attributes = null, $selected = null, $defaultOptions = null)
+    {
+        $options = array();
+
+        $defaultValid = (!empty($defaultOptions) AND is_array($defaultOptions));
+        if ($defaultValid)
+        {
+            foreach ($defaultOptions as $key => $value)
+            {
+                $options[] = JHTML::_('select.option', $key, $value);
+            }
+        }
+
+        $entriesValid = (is_array($entries) OR is_object($entries));
+        if ($entriesValid)
+        {
+            foreach ($entries as $key => $value)
+            {
+                $textValid = (is_string($value) OR is_numeric($value));
+                if (!$textValid)
+                {
+                    continue;
+                }
+                $options[] = JHTML::_('select.option', $key, $value);
+            }
+        }
+
+
+        $attribsInvalid = (empty($attributes)
+            OR (!is_object($attributes) AND !is_array($attributes) AND !is_string($attributes)));
+        if ($attribsInvalid)
+        {
+            $attributes = array();
+        }
+        elseif (is_object($attributes))
+        {
+            $attributes = (array) $attributes;
+        }
+        elseif (is_string($attributes))
+        {
+            $validString = preg_match("/^((\'[\w]+\'|\"[\w]+\") => (\'[\w]+\'|\"[\w]+\")[,]?)+$/", $attributes);
+            if ($validString)
+            {
+                $singleAttribs = explode(',', $attributes);
+                $attributes = array();
+                array_walk($singleAttribs, 'walk', $attributes);
+
+                function walk($val, $key, &$attributes)
+                {
+                    list($attibKey, $attribValue) = explode(' => ',$val);
+                    $attributes[$attibKey] = $attribValue;
+                }
+            }
+            else
+            {
+                $attributes = array();
+            }
+        }
+        if (empty($attributes['class']))
+        {
+            $attributes['class'] = 'organizer-select-box';
+        }
+        elseif (strpos('organizer-select-box', $attributes['class']) === false)
+        {
+            $attributes['class'] .= ' organizer-select-box';
+        }
+
+        $isMultiple = (!empty($attributes['multiple']) AND $attributes['multiple'] == 'multiple');
+        $multiple = $isMultiple? '[]' : '';
+
+        $name = "jform[$name]$multiple";
+
+        return JHTML::_('select.genericlist', $options, $name, $attributes, 'value','text', $selected);
     }
 }

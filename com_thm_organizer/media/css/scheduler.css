@@ -483,11 +483,9 @@ div#main .MySchedMainW {
           border-right: none; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-5 {
         min-width: calc(20% - 10px) !important;
-        width: calc(20% - 10px) !important;
         max-width: calc(20% - 10px) !important; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-6 {
         min-width: calc(16.6% - 8.3px) !important;
-        width: calc(16.6% - 8.3px) !important;
         max-width: calc(16.6% - 8.3px) !important; }
       div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr .x-grid-cell-rowbody {
         padding: 0; }

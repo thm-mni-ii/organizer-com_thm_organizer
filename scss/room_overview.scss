@@ -1,0 +1,355 @@
+@import '../../lib_thm_core/scss/variables';
+
+.header-container{}
+
+.form-container{
+
+  #adminForm{
+
+    a.chzn-single {
+      height: 2.5em;
+    }
+
+    select.organizer-select-box {
+      border: $border;
+    }
+
+    .basic-filters {
+
+      float: right;
+      margin-bottom: 1em;
+      min-width: 444px;
+
+      select {
+        height: 39px;
+        margin: 0 10px 0 0;
+        width: 130px !important;
+      }
+
+      #date{
+        border: $border;
+        height: 35px;
+      }
+
+      #date, .submit-button {
+        margin-bottom: 0;
+        padding: 0 12px 0 8px;
+        width: 130px;
+      }
+
+      .btn, .icon-next {
+        font-size: 16px;
+      }
+
+      .btn {
+
+        background: transparent;
+        border: none;
+        margin-left: -130px;
+        margin-right: 12px;
+        margin-top: -2px;
+        padding: 0;
+        width: 130px;
+
+        .icon-calendar {
+          background-image: none;
+
+          &:before {
+            margin-left: 48px;
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+
+      .btn:active, .btn:hover {
+        background-color: transparent;
+        box-shadow: none;
+        color: $font-color;
+      }
+
+      .btn:focus, .btn:active {
+        outline: none;
+      }
+
+      .submit-button {
+        background-color: $background-grey;
+        border-radius: 0;
+        border: $border;
+        color: $foreground;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "THM-Regular";
+        font-size: 1.0em;
+        line-height: 23px;
+        padding-bottom: 6px;
+        padding-top: 6px;
+        text-align: left;
+        text-shadow: none;
+        vertical-align: middle;
+
+        &:hover {
+          background-color: $foreground;
+          color: $background-grey;
+        }
+
+        .icon-next {
+          font-size: 18px;
+          margin-top: -2px;
+        }
+      }
+
+    }
+
+    .advanced-filters {
+
+      clear: both;
+
+      .advanced-filters-toggle {
+
+        background-color: $background-navigation;
+        border: $border;
+        cursor: pointer;
+        padding: 6px;
+
+        &:hover {
+          background-color: $foreground;
+        }
+
+        .icon-plus-2 {
+
+          display: inline-block;
+          float: right;
+          margin-right: 6px;
+
+          &::before {
+            color: $font-color;
+          }
+        }
+
+        .icon-cancel-2 {
+
+          display: inline-block;
+          float: right;
+          margin-right: 6px;
+
+          &::before {
+            color: $font-color;
+          }
+        }
+      }
+
+      .advanced-filters-container {
+
+        padding: 10px;
+
+        &.toggle-open {
+          display: block;
+        }
+
+        &.toggle-closed {
+          display: none;
+        }
+
+        .filter-container
+        {
+
+          border: none;
+          display: block;
+          float: left;
+          margin: 0;
+          padding: 0;
+          width: 33%;
+
+          select, label {
+            display: block;
+            float: left;
+            margin-right: 10px;
+          }
+
+          label {
+            text-align: right;
+            width: 80px;
+          }
+
+          select {
+            padding: 0;
+            width: 180px;
+          }
+        }
+
+      }
+    }
+  }
+}
+.overview-container-container{
+
+  width: 100%;
+
+  .overview-container{
+
+    width: 100%;
+
+    table {
+
+      border-bottom: $border;
+      margin-bottom: 0;
+      width: 100%;
+
+      thead tr {
+        display: block;
+        position: relative;
+      }
+
+      tbody {
+        display: block;
+        height: 600px;
+        overflow: auto;
+        width: 100%;
+      }
+
+      th{
+        background-color: $background-grey;
+        border: none;
+        color: $foreground;
+
+        &.day-width {
+          width: 147px;
+        }
+
+        &.block-width {
+          width: 17px;
+        }
+
+        &.day-row{
+          border-right: $border;
+          text-align: center;
+        }
+
+        &.day-row.day-width {
+          padding: 10px 4px;
+        }
+
+        &.block-row{
+          text-align: center;
+          border-right: $border;
+        }
+
+        &.room-row{
+          text-align: right;
+        }
+
+        &.room-column{
+          border-bottom: $border;
+          min-width: 90px;
+          max-width: 90px;
+          padding-right: 10px;
+          overflow: hidden;
+        }
+
+        &.day-row.room-column{
+          background-color: $foreground;
+          border-bottom: none;
+          border-right: none;
+        }
+
+        &.block-row.room-column{
+          background-color: $foreground;
+          border-bottom: none;
+          border-right: none;
+        }
+      }
+
+      td{
+        text-align: center;
+        border-right: $border;
+        border-bottom: $border;
+
+        &.day-width {
+          width: 148px;
+        }
+
+        &.block-width {
+          width: 17px;
+        }
+      }
+
+      th.block-column, td.block-column {
+        padding-left: 0.3em;
+        padding-right: 0.3em;
+      }
+
+      th.block-row, th.room-row, td.room-row {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+      }
+    }
+  }
+}
+
+div.tip-wrap {
+
+  color: $font-color;
+
+  div.tip {
+    background-color: $background-navigation;
+    border: $border;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 10px;
+
+    .tip-title {
+
+      div {
+        background-color: $foreground;
+        border: $border;
+        margin-top: 10px;
+        padding: 6px;
+      }
+
+      div:first-child {
+        background-color: $background-navigation;
+        border: none;
+        padding: 0;
+        text-align: center;
+        margin-top: 0;
+      }
+    }
+
+    .tip-text {
+      padding: 0;
+    }
+  }
+}
+
+div.loading-background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  background-color: $background-grey;
+  opacity: 0.4;
+}
+div.postloader {
+  background: $foreground url(../images/thm.gif) no-repeat center 10px;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  height: 20px;
+  left: 50%;
+  margin-left: -40px;
+  margin-top: -50px;
+  opacity: 1;
+  overflow: visible;
+  padding: 80px 10px 10px 10px;
+  position: fixed;
+  text-align: center;
+  top: 50%;
+  vertical-align: bottom;
+  width: 80px;
+  z-index: 999;
+}

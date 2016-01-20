@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerControllerSchedule
  * @author      James Antrim, <James.Antrim@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

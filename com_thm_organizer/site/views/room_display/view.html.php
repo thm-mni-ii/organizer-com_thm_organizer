@@ -4,9 +4,9 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewRoom_Display
- * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
- * @copyright   2014 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.mni.thm.de
  */

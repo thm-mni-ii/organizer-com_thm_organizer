@@ -2,7 +2,7 @@
 <extension type="component" version="3.0" method="upgrade">
     <name>COM_THM_ORGANIZER</name>
     <author>James Antrim</author>
-    <authorEmail>james.antrim@mni.thm.de</authorEmail>
+    <authorEmail>james.antrim@nm.thm.de</authorEmail>
     <author>Wolf Rost</author>
     <authorEmail>wolf.rost@mni.thm.de</authorEmail>
     <author>Alexander Boll</author>
