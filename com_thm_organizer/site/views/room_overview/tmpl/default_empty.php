@@ -11,13 +11,6 @@
  */
 defined('_JEXEC') or die;
 ?>
-<table>
-    <thead>
-        <tr>
-            <th class="block-column block-row">
-                <?php echo JText::_('COM_THM_ORGANIZER_FILTER_NO_RESULTS'); ?>
-            </th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<div class="no-results">
+    <?php echo JText::_('COM_THM_ORGANIZER_FILTER_NO_RESULTS'); ?>
+</div>

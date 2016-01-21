@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 $columnClass = 'days-' . count($this->model->grid);
 $startDate = $this->model->startDate;
 $blocks = $this->model->data[$startDate];
+
 ?>
 <table>
     <thead>

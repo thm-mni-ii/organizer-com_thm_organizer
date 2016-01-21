@@ -279,6 +279,16 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
         if ($eventsExist)
         {
             $this->data[$date] = $blocks;
+            return;
+        }
+
+        // Adds empty business days and sundays when explicitly called
+        $template = $this->state->get('template');
+        $isSunday = date('l', strtotime($date)) == 'Sunday';
+        $makeBlank = (!$isSunday OR ($template == DAY AND $isSunday));
+        if ($makeBlank)
+        {
+            $this->data[$date] = $blocks;
         }
     }
 
@@ -545,14 +555,24 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
         {
             $typeOK = false;
         }
+        elseif (!$filterTypes AND $filterRooms)
+        {
+            $typeOK = false;
+        }
+
         if ($filterRooms AND !in_array($room['name'], $filterRooms))
+        {
+            $roomOK = false;
+        }
+        elseif (!$filterRooms AND $filterTypes)
         {
             $roomOK = false;
         }
 
         $rooms[$room['name']] = $room['longname'];
 
-        $add = ($typeOK AND $roomOK);
+
+        $add = ($typeOK OR $roomOK);
         if ($add)
         {
             $this->selectedRooms[$room['name']] = $room['longname'];

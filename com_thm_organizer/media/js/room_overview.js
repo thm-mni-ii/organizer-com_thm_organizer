@@ -1,30 +1,5 @@
 /* global $, hideFilterText, showFilterText*/
 
-function toggleFilters()
-{
-    "use strict";
-    var toggleContainer = jQuery("#additional-filters-container"),
-        toggleIcon = jQuery("#toggle-icon"),
-        toggleText = jQuery("#toggle-text");
-
-    if (toggleContainer.hasClass('toggle-closed'))
-    {
-        toggleContainer.removeClass('toggle-closed');
-        toggleContainer.addClass('toggle-open');
-        toggleIcon.removeClass('icon-plus-2');
-        toggleIcon.addClass('icon-cancel-2');
-        toggleText.html(hideFilterText);
-    }
-    else
-    {
-        toggleContainer.removeClass('toggle-open');
-        toggleContainer.addClass('toggle-closed');
-        toggleIcon.removeClass('icon-cancel-2');
-        toggleIcon.addClass('icon-plus-2');
-        toggleText.html(showFilterText);
-    }
-}
-
 function showPostLoader() {
     $("body").append('<div class="loading-background"></div>');
     $("body").append('<div class="postloader">Loading</div>');
@@ -41,6 +16,17 @@ function cleanSelection (elementID, container)
         allIndex,
         newValues;
 
+    if (selectedValues === null)
+    {
+        selectedValues = ["-1"];
+        window[container] = selectedValues;
+        selectBox.val(selectedValues);
+        selectBox.trigger("liszt:updated");
+        return;
+    }
+
+    selectBox.chosen();
+
     newValues = selectedValues.diff(window[container]);
 
     // All index is new
@@ -50,6 +36,7 @@ function cleanSelection (elementID, container)
         selectedValues = ["-1"];
         window[container] = selectedValues;
         selectBox.val(selectedValues);
+        selectBox.trigger("liszt:updated");
         return;
     }
 
@@ -61,4 +48,5 @@ function cleanSelection (elementID, container)
 
     window[container] = selectedValues;
     selectBox.val(selectedValues);
+    selectBox.trigger("liszt:updated");
 }

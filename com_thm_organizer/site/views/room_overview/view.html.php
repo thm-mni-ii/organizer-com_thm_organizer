@@ -56,6 +56,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
         JHtml::_('jquery.ui');
         JHTML::_('behavior.calendar');
         JHTML::_('behavior.tooltip');
+        JHtml::_('formbehavior.chosen', 'select');
         $document = JFactory::getDocument();
         $document->setCharset("utf-8");
         JFactory::getDocument()->addScript($this->baseurl . '/media/com_thm_organizer/js/room_overview.js');
