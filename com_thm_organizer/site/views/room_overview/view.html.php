@@ -119,7 +119,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
         $blockText = "$blockNo. Block ($startTime - $endTime)<br />";
 
         $roomText = JText::_('COM_THM_ORGANIZER_ROOM') . " $roomNo<br />";
-        return '<div>' . $dateText . $blockText . $roomText . '</div>';
+        return htmlentities('<div>' . $dateText . $blockText . $roomText . '</div>');
     }
 
     /**
@@ -152,6 +152,6 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
             $eventTip[] = '</div>';
             $tips[] = implode('', $eventTip);
         }
-        return implode('', $tips);
+        return htmlentities(implode('', $tips));
     }
 }

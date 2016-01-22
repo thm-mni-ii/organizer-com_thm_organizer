@@ -45,7 +45,6 @@ class THM_OrganizerViewRoom_Display extends JViewLegacy
     private function modifyDocument()
     {
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/components/com_thm_organizer/assets/css/thm_organizer.css");
         $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/room_display.css");
     }
 }
