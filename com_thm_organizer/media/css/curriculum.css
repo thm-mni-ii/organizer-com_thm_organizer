@@ -109,8 +109,6 @@ div.language-switches a {
       background-image: none;
       margin-bottom: 8px; }
       .main-panel-items .item .item-tools .icon-user:before, .modal-panel-items .item .item-tools .icon-user:before {
-        font-family: icomoon;
-        content: "\22";
         font-size: 17px;
         position: absolute;
         margin-left: -8px; }

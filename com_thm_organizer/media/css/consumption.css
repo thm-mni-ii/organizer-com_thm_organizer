@@ -15,11 +15,11 @@
   padding: 8px 4px 4px 4px;
   z-index: 12;
   margin-bottom: 4px;
-  -webkit-box-shadow: 2px 2px 4px #dddddd;
-  -moz-box-shadow: 2px 2px 4px #dddddd;
-  -ms-box-shadow: 2px 2px 4px #dddddd;
-  -o-box-shadow: 2px 2px 4px #dddddd;
-  box-shadow: 2px 2px 4px #dddddd; }
+  -webkit-box-shadow: 2px 2px 4px #a4adb2;
+  -moz-box-shadow: 2px 2px 4px #a4adb2;
+  -ms-box-shadow: 2px 2px 4px #a4adb2;
+  -o-box-shadow: 2px 2px 4px #a4adb2;
+  box-shadow: 2px 2px 4px #a4adb2; }
 
 .consumption {
   color: #394a59; }
@@ -78,11 +78,11 @@
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
-    -webkit-box-shadow: 2px 2px 4px #dddddd;
-    -moz-box-shadow: 2px 2px 4px #dddddd;
-    -ms-box-shadow: 2px 2px 4px #dddddd;
-    -o-box-shadow: 2px 2px 4px #dddddd;
-    box-shadow: 2px 2px 4px #dddddd; }
+    -webkit-box-shadow: 2px 2px 4px #a4adb2;
+    -moz-box-shadow: 2px 2px 4px #a4adb2;
+    -ms-box-shadow: 2px 2px 4px #a4adb2;
+    -o-box-shadow: 2px 2px 4px #a4adb2;
+    box-shadow: 2px 2px 4px #a4adb2; }
     .consumption table.consumption-table tr th {
       font-size: 13px;
       height: 1.4em;
@@ -180,8 +180,6 @@
         width: 20px\0;
         height: 20px\0; }
         .filter-header .input-append #enddate_img .icon-calendar::before, .filter-header .input-append #startdate_img .icon-calendar::before {
-          font-family: icomoon;
-          content: "\44";
           font-size: 17px;
           position: absolute;
           margin-left: -7px;
@@ -307,8 +305,6 @@ a.toggle-link:focus {
 .icon-forward-2 {
   background-image: none; }
   .icon-forward-2::before {
-    font-family: icomoon;
-    content: "\e205";
     font-size: 16px;
     color: #4a5c66;
     position: relative;
@@ -323,8 +319,6 @@ a.toggle-link:focus {
 .icon-download {
   background-image: none; }
   .icon-download::before {
-    font-family: icomoon;
-    content: "\e00b";
     font-size: 16px;
     color: #4a5c66;
     position: relative;

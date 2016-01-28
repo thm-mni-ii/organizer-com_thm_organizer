@@ -30,9 +30,9 @@ if (!empty($this->model->schedule))
 {
 ?>
         <div class="button-panel">
-            <button type="submit" value="submit"><i class="icon-forward-2"></i> <?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
+            <button type="submit" value="submit"><i class="icon-arrow-right-2"></i> <?php echo JText::_('COM_THM_ORGANIZER_ACTION_CALCULATE'); ?></button>
             <button onclick="jQuery('#reset').val('1')"><i class="icon-delete"></i> <?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET'); ?></button>
-            <button id="export"><i class="icon-download"></i> <?php echo JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL"); ?></button>
+            <button id="export"><i class="icon-file-excel"></i> <?php echo JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL"); ?></button>
             <input type="hidden" id="reset" name="reset" value="0" />
         </div>
 <?php

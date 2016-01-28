@@ -198,8 +198,6 @@
         height:20px\0; //just for IE
 
         &::before {
-          font-family: icomoon;
-          content: "\44";
           font-size: 17px;
           position: absolute;
           margin-left: -7px;
@@ -368,8 +366,6 @@ a.toggle-link:focus {
   background-image: none;
 
   &::before {
-    font-family: icomoon;
-    content: "\e205";
     font-size: 16px;
     color: $background-grey;
     position: relative;
@@ -389,8 +385,6 @@ a.toggle-link:focus {
   background-image: none;
 
   &::before {
-    font-family: icomoon;
-    content: "\e00b";
     font-size: 16px;
     color: $background-grey;
     position: relative;

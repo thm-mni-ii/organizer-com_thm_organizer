@@ -379,6 +379,7 @@ class THMPDFBuilder extends THMAbstractBuilder
     {
         $pdfLesson = str_replace('<br/>', "\n", $htmlLesson);
         $pdfLesson = str_replace('<br>', "\n", $pdfLesson);
+        $pdfLesson = preg_replace('/[,|\s]*<span[^>]+class=[^>]*removed[^>]*>[^<]*<\/span>/', "", $pdfLesson, -1);
         $pdfLesson = strip_tags($pdfLesson, "<b><i><small>");
         $pdfLesson = preg_replace("/class=\"lecturename_dis\s*\"/", "", $pdfLesson);
         $pdfLesson = preg_replace("/class=\"lecturename\s*\"/", "", $pdfLesson);

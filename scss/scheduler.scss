@@ -218,7 +218,7 @@ div#main {
 
             &:before {
               font-family: icomoon;
-              content: "\7c";
+              content: "\e933";
               font-size: 20px;
               color: $background-grey;
               vertical-align: text-bottom;
@@ -272,7 +272,7 @@ div#main {
 
               &:before {
                 font-family: icomoon;
-                content: "\7b";
+                content: "\e932";
                 font-size: 20px;
                 color: $background-grey;
                 vertical-align: text-bottom;
@@ -363,7 +363,7 @@ div#main {
 
             &:before {
               color: $background-grey;
-              content: "\7c";
+              content: "\e933";
               font-family: icomoon;
               font-size: 20px;
               position: absolute;
@@ -373,7 +373,7 @@ div#main {
           }
 
           .x-box-scroller-right::before {
-            content: "\7b";
+            content: "\e932";
             right: 5px;
             top: 18px;
             z-index: 999;
@@ -385,14 +385,14 @@ div#main {
 
           .myScheduleIcon::before {
             font-family: icomoon;
-            content: "\43";
+            content: "\44";
             font-size: 12px;
             color: $font-color;
           }
 
           .x-tab-active .myScheduleIcon::before {
             font-family: icomoon;
-            content: "\43";
+            content: "\44";
             font-size: 12px;
             color: $foreground;
           }

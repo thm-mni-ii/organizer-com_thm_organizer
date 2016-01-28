@@ -253,7 +253,7 @@ div#main .MySchedMainW {
           position: relative; }
           div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon:before {
             font-family: icomoon;
-            content: "\7c";
+            content: "\e933";
             font-size: 20px;
             color: #4a5c66;
             vertical-align: text-bottom;
@@ -288,7 +288,7 @@ div#main .MySchedMainW {
             position: relative; }
             div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon:before {
               font-family: icomoon;
-              content: "\7b";
+              content: "\e932";
               font-size: 20px;
               color: #4a5c66;
               vertical-align: text-bottom;
@@ -337,14 +337,14 @@ div#main .MySchedMainW {
           positon: relative; }
           div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller:before {
             color: #4a5c66;
-            content: "\7c";
+            content: "\e933";
             font-family: icomoon;
             font-size: 20px;
             position: absolute;
             top: 18px;
             vertical-align: text-bottom; }
         div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller-right::before {
-          content: "\7b";
+          content: "\e932";
           right: 5px;
           top: 18px;
           z-index: 999; }
@@ -352,12 +352,12 @@ div#main .MySchedMainW {
           width: 100% !important; }
         div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .myScheduleIcon::before {
           font-family: icomoon;
-          content: "\43";
+          content: "\44";
           font-size: 12px;
           color: #394a59; }
         div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-tab-active .myScheduleIcon::before {
           font-family: icomoon;
-          content: "\43";
+          content: "\44";
           font-size: 12px;
           color: white; }
     div#main .MySchedMainW #tabPanel .x-tab-bar-strip, div#main .MySchedMainW #tabPanel .x-grid-header-ct, div#main .MySchedMainW #tabPanel .x-grid-rowbody-tr {
