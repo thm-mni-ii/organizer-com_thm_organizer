@@ -68,7 +68,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
 
         $searchFields = array('name_de', 'short_name_de', 'abbreviation_de', 'name_en', 'short_name_en',
                               'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
-                              'description_en', 'objective_en', 'content_en'
+                              'description_en', 'objective_en', 'content_en', 'lsfID'
                              );
         $this->setSearchFilter($query, $searchFields);
         $this->setValueFilters($query, array('externalID', 'fieldID'));

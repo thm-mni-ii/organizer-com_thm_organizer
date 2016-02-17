@@ -71,7 +71,8 @@ class THM_OrganizerTableSubjects extends THM_CoreTableAssets
     protected function _getAssetParentId(JTable $table = null, $id = null)
     {
         $asset = JTable::getInstance('Asset');
-        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
+        $name = empty($this->departmentID)? "com_thm_organizer" : "com_thm_organizer.department.$this->departmentID";
+        $asset->loadByName($name);
         return $asset->id;
     }
 }
