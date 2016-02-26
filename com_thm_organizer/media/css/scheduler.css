@@ -381,7 +381,7 @@ div#main .MySchedMainW {
         positon: relative; }
         div#main .MySchedMainW #tabPanel .x-tab .x-tab-close-btn:before {
           color: #4a5c66;
-          content: "\49";
+          content: "\e935";
           font-family: icomoon;
           font-size: 10px;
           position: absolute;
@@ -467,9 +467,9 @@ div#main .MySchedMainW {
                 white-space: normal; }
               div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon {
                 font-size: 10px; }
-                div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-plus-2 {
+                div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-add {
                   color: #394a59; }
-                div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-delete {
+                div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-remove {
                   color: #9c132e; }
         div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first {
           border-left: none;

@@ -65,7 +65,7 @@ class THM_OrganizerTemplateCurriculumPanel
         $script = ($type == 'main')?
             ' onclick="toggleGroupDisplay(\'#main-panel-items-' . $pool->mapping . '\')"' :
             ' onclick="toggleGroupDisplay(\'#panel-' . $pool->mapping . '\')"';
-        $iconClass = $type == 'main'? 'icon-plus-2' : 'icon-cancel-2';
+        $iconClass = $type == 'main'? 'icon-add' : 'icon-remove';
         echo '<div class="' . $type . '-panel-head" ' . $headStyle . '>';
         echo '<a ' . $script . '><i class="' . $iconClass . '"></i></a>';
         echo '<div class="' . $type . ' panel-title" ' . $script . '> ';

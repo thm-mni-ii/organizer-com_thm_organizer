@@ -310,7 +310,7 @@ a.toggle-link:focus {
     position: relative;
     right: 2px; }
 
-.icon-delete:before {
+.icon-remove:before {
   position: relative;
   top: 2px;
   right: 2px;

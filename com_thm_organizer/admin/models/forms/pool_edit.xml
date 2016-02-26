@@ -58,7 +58,7 @@
                label="COM_THM_ORGANIZER_CRP_MAX"
                description="COM_THM_ORGANIZER_CRP_MAX_DESC"
                required="true"
-               first="3"
+               first="0"
                last="120"
                step="1"
                default="24"/>

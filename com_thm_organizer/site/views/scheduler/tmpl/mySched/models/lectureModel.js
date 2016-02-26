@@ -289,15 +289,15 @@ Ext.define('LectureModel',
                 {
                     if (d.parentId === "mySchedule")
                     {
-                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="control_icon icon-delete"></span>';
+                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="control_icon icon-remove"></span>';
                     }
                     else if (d.parentId !== "mySchedule" && MySched.Schedule.lectureExists(this))
                     {
-                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="control_icon icon-delete"></span>';
+                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_REMOVE + '" class="control_icon icon-remove"></span>';
                     }
                     else
                     {
-                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="control_icon icon-plus-2"></span>';
+                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="control_icon icon-add"></span>';
                     }
                 }
             }
@@ -305,7 +305,7 @@ Ext.define('LectureModel',
             if ((d.owner === MySched.Authorize.user || (MySched.Authorize.user === MySched.modules_semester_author && d.type === "personal")) && Ext.isDefined(MySched.Authorize.user) && MySched.Authorize.user !== "")
             {
                 ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_CHANGE + '" class="status_icons_edit" src="' + MySched.mainPath + 'images/icon-edit.png" width="12" heigth="12"/>';
-                ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE + '" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-delete.png" width="12" heigth="12"/>';
+                ret += '<img data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_DELETE + '" class="status_icons_delete" src="' + MySched.mainPath + 'images/icon-remove.png" width="12" heigth="12"/>';
             }
             return ret + '</div>';
         },

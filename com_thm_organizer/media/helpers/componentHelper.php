@@ -31,7 +31,7 @@ class THM_OrganizerHelperComponent
         $viewName = $view->get('name');
 
         // No submenu creation while editing a resource
-        if (!strpos($viewName, 'manager') AND $viewName == 'thm_organizer')
+        if (strpos($viewName, 'edit'))
         {
             return;
         }

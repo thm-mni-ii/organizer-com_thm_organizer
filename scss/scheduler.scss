@@ -428,7 +428,7 @@ div#main {
 
           &:before {
             color: $background-grey;
-            content: "\49";
+            content: "\e935";
             font-family: icomoon;
             font-size: 10px;
             position: absolute;
@@ -569,11 +569,11 @@ div#main {
 
                     font-size: 10px;
 
-                    &.icon-plus-2 {
+                    &.icon-add {
                       color: $font-color;
                     }
 
-                    &.icon-delete {
+                    &.icon-remove {
                       color: $red-100;
                     }
 
