@@ -10,125 +10,65 @@
 
 .consumption {
   color: $font-color;
+}
 
-  // Allows the buttons to be on the same line as the header
-  h2.componentheading {
-    float: left;
-  }
-  // Groups buttons on the right
-  div.button-panel {
-    float: right;
-    margin-top: 9px;
-    margin-bottom: 9px;
-  }
+//********************************************************************************************************************//
+// toolbar
+//********************************************************************************************************************//
+// Groups buttons on the right
+div.button-panel {
+  float: right;
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
 
-  // Button styles
-  button {
-    padding: 4px 12px;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-    border: 1px solid #bbb;
-    border-bottom-color: #a2a2a2;
-    background-color: #f5f5f5;
-    @include linearGradient(#fff, #e6e6e6);
-    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
-    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
-    @include border-radius(4px);
-    cursor: pointer;
-  }
+// Button styles
+button {
+  padding: 4px 12px;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbb;
+  border-bottom-color: #a2a2a2;
+  background-color: #f5f5f5;
+  @include linearGradient(#fff, #e6e6e6);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+  @include border-radius(4px);
+  cursor: pointer;
+}
 
-  // Table element styles
-  table.consumption-table {
-    background-image: none;
-    border: $border-table;
-    color: $font-color;
-    display: block;
-    font-family: $font-family;
-    font-size: $font-size;
-    margin-bottom: .4em;
-    margin-top: .4em;
-    max-height: 45em;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: auto;
-    @include border-radius(3px);
-    @include box-shadow(2px, 2px, 4px, $shadow-color);
+//********************************************************************************************************************//
+// Filter-Bar
+//********************************************************************************************************************//
+.filter-bar {
+  @extend %fieldset;
+  @include border-radius(3px);
 
-    tr {
-      th {
-        font-size: $font-size;
-        height: 1.4em;
-        text-align: center;
+  min-height: 325px;
 
-        .degree-use-total {
-          border-top: $border-table;
-          font-weight: normal;
-        }
+  .filter-item {
+    display: inline-block;
+    margin-left: .4em;
+    margin-top: .5em;
 
-        .resource-use-total {
-          @extend .degree-use-total;
-        }
-      }
-
-      td {
-        font-size: $font-size;
-        height: 1.4em;
-        text-align: center;
-      }
-    }
-
-    tbody {
-      tr {
-        td {
-          border: 1px solid rgb(221, 221, 221);
-        }
-      }
-    }
-  }
-
-  div.filter-bar {
-    @extend %fieldset;
-    @include border-radius(3px);
-
-    min-height: 250px;
-
-    div.filter-item {
-      display: inline-block;
-      margin-left: .4em;
-      margin-top: .5em;
-
-      // Removes the floating calendars
-      img {
-        border: .1em solid rgb(0, 66, 137);
-        cursor: pointer;
-        margin: 0 0 -.1em .2em;
-
-        @include border-radius(.2em);
-        @include box-shadow(.2em, .2em, .4em, rgb(183, 183, 183));
-
-        &:hover {
-          @include box-shadow(.2em, .2em, .4em, rgb(135, 185, 24));
-        }
-      }
-    }
-  }
-
-  // definition for filter label
-  div.filter-item {
+    // definition for filter label
     label {
       min-width: 40em;
     }
-  }
-}
 
-@media print {
-  .consumption table.consumption-table {
-    overflow: visible;
-    margin-bottom: 4em;
-  }
+    // Removes the floating calendars
+    img {
+      border: .1em solid rgb(0, 66, 137);
+      cursor: pointer;
+      margin: 0 0 -.1em .2em;
 
-  .consumption table.consumption-table tr td {
-    background-color: white;
+      @include border-radius(.2em);
+      @include box-shadow(.2em, .2em, .4em, rgb(183, 183, 183));
+
+      &:hover {
+        @include box-shadow(.2em, .2em, .4em, rgb(135, 185, 24));
+      }
+    }
   }
 }
 
@@ -175,56 +115,59 @@
       @extend .control-group:nth-of-type(4);
 
       .control-label {
-        width: 88px;
+        width: 78px;
         text-align: right;
-      }
-    }
-  }
-
-  .input-append {
-    margin-bottom: 0px;
-
-    input {
-      max-width: 115px;
-      height: 24.5px; //
-    }
-
-    #enddate_img, #startdate_img {
-      z-index: 0;
-
-      .icon-calendar {
-        background-image: none;
-        width: 20px\0; //just for IE
-        height:20px\0; //just for IE
-
-        &::before {
-          font-size: 17px;
-          position: absolute;
-          margin-left: -7px;
-          margin-left: 0px\0; //just for IE
-          color: $background-grey;
-        }
-      }
-
-      &:hover {
-        //when hovered on calender-icon, the color don't have to be changed
-        color: $background-grey;
-        -webkit-transition: none;
-        -moz-transition: none;
-        -ms-transition: none;
-        -o-transition: none;
-        transition: none;
-      }
-
-      &:focus {
-        //remove some border around the icon, when clicked
-        outline: none;
       }
     }
   }
 }
 
+.input-append {
+  margin-bottom: 0px;
+
+  input {
+    max-width: 115px;
+    height: 24.5px;
+  }
+}
+
+#enddate_img, #startdate_img {
+  z-index: 0;
+  box-shadow: none;
+  top: 12px;
+
+  &:hover {
+    //when hovered on calender-icon, the color don't have to be changed
+    color: $background-grey;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+  }
+
+  &:focus {
+    //remove some border around the icon, when clicked
+    outline: none;
+  }
+}
+
+.icon-calendar {
+  background-image: none;
+  width: 20px \0; //just for IE
+  height: 20px \0; //just for IE
+
+  &::before {
+    font-size: 17px;
+    position: absolute;
+    margin-left: -7px;
+    margin-left: 0px \0; //just for IE
+    color: $background-grey;
+  }
+}
+
 // Container for resource filter items
+//********************************************************************************************************************//
 .filter-resource {
   margin-bottom: .6em;
   margin-left: .6em;
@@ -323,29 +266,6 @@ a.toggle-link:focus {
   background: url('../images/active_tab.png') 0 0 no-repeat;
 }
 
-/* Styles for fixed first Row and fixed first Column */
-.fixedTop {
-  thead th {
-    background-color: #F2F4F5;
-    position: relative;
-    top: 0;
-  }
-}
-
-.fixedLeft {
-  tbody tr th {
-    background-color: #F2F4F5;
-    position: relative;
-    left: 0;
-  }
-}
-
-.whiteSpace {
-  position: absolute;
-  margin-top: 11px;
-  background-color: #F2F4F5;
-}
-
 //overwrite chosen icon in selectBox
 .chzn-container-single .chzn-single div b {
   background-image: none;
@@ -373,7 +293,7 @@ a.toggle-link:focus {
   }
 }
 
-.icon-remove:before{
+.icon-remove:before {
   position: relative;
   top: 2px;
   right: 2px;
@@ -390,5 +310,84 @@ a.toggle-link:focus {
     position: relative;
     top: 1px;
     right: 3px;
+  }
+}
+
+//********************************************************************************************************************//
+// Table
+//********************************************************************************************************************//
+.consumption-table {
+  background-image: none;
+  border: $border-table;
+  color: $font-color;
+  display: block;
+  font-family: $font-family;
+  font-size: $font-size;
+  margin-bottom: .4em;
+  margin-top: .4em;
+  max-height: 45em;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  @include border-radius(3px);
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+
+  th, td {
+    font-size: $font-size;
+    height: 1.4em;
+    text-align: center;
+
+    /* doesn't exist anymore
+        .degree-use-total, .resource-use-total {
+          border-top: $border-table;
+          font-weight: normal;
+        } */
+  }
+
+  tbody {
+    td {
+      border: 1px solid rgb(221, 221, 221);
+    }
+  }
+}
+
+@media print {
+  .consumption-table {
+    overflow: visible;
+    margin-bottom: 4em;
+  }
+
+  .consumption-table td {
+    background-color: white;
+  }
+}
+
+//********************************************************************************************************************//
+// Styles for fixed first Row and fixed first Column
+//********************************************************************************************************************//
+.fixedTop {
+  thead th {
+    background-color: white;
+    position: relative;
+    top: 0;
+  }
+}
+
+.fixedLeft {
+  tbody tr th {
+    background-color: white;
+    position: relative;
+    left: 0;
+  }
+}
+
+.whiteSpace {
+  position: absolute;
+  background-color: white;
+  @media (min-width: 768px) {
+    margin-top: 11px;
+  }
+  @media (max-width: 767px) {
+    margin-top: 18px;
   }
 }

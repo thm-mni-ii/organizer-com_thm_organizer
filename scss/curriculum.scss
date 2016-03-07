@@ -6,41 +6,34 @@
   display: none;
 }
 
-.view-curriculum {
-  //  font-family: Verdana, Arial, sans-serif;
-}
-
+//********************************************************************************************************************//
 //Header
+//********************************************************************************************************************//
 .componentheader {
   height: 50px;
-
-  .componentheading {
-    float: left;
-    width: 89%;
-  }
-
-  .language-switches {
-    float: right;
-
-    img {
-      border: none;
-    }
-  }
 }
 
+.componentheading {
+  float: left;
+  width: 89%;
+}
+
+.language-switches {
+  float: right;
+}
+
+//********************************************************************************************************************//
 //content
+//********************************************************************************************************************//
 .curriculum {
-  position: relative;
+  position: relative; //necessary for popup modal-panel-items shown
 }
 
-//main-panel
 .main-panel {
-  // margin-top: 2px;
   border: $border;
   margin-bottom: 5px;
 }
 
-//.main-panel-head //.modal-panel-head
 .main-panel-head, .modal-panel-head {
   background-color: $background-grey; //wenn keine Farbe dynamisch zugewiesen wird
   color: white; //wenn keine Farbe dynamisch zugewiesen wird
@@ -63,7 +56,6 @@
       font-size: 17px;
     }
   }
-
 }
 
 .panel-title {
@@ -76,7 +68,6 @@
   }
 }
 
-//main-panel-items
 .main-panel-items {
   margin: 2px 1px 3px 1px;
   margin-left: 2px;
@@ -84,7 +75,7 @@
 
 .main-panel-items .item, .modal-panel-items .item {
   outline: 1px outset white;
-  box-shadow: inset 0px -1px 10px #bbbbbb;
+  @include box-shadow (inset 0px -1px 10px #bbbbbb);
   margin: 3px;
   background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
   background-image: -moz-linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
@@ -97,81 +88,76 @@
   vertical-align: top;
   width: 133px;
   height: 135px;
+}
 
-  .item-head {
-    border: $border;
-    padding: 3px 5px;
-    background-color: #71A126;
-    color: white;
-    height: 18px;
-    margin-top: -1px;
-    margin-left: -1px;
-    margin-right: -1px;
-    font-size: 110%;
+.item-head {
+  border: $border;
+  padding: 3px 5px;
+  background-color: #71A126;
+  color: white;
+  height: 18px;
+  margin-top: -1px;
+  margin-left: -1px;
+  margin-right: -1px;
+  font-size: 110%;
 
-    .item-crp {
-      float: right;
-      padding-left: 5px;
-    }
-  }
-
-  .item-name {
-    // hyphens aren't supported in Chrome ...
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
-
-    //... so word-wrap is needed for Chrome
-    -ms-word-wrap: break-word;
-    word-wrap: break-word;
-    padding: 5px;
-    overflow: hidden;
-  }
-
-  .item-tools {
-    position: absolute;
-    bottom: 3px;
-    left: 0;
-    right: 0;
-    text-align: center;
-
-    .btn {
-      padding: 2px 10px;
-      border: none;
-      box-shadow: none;
-
-    }
-
-    .icon-grid-2 {
-      margin-bottom: 8px;
-
-      &:before {
-        margin-left: -1px;
-        font-size: 17px;
-      }
-    }
-
-    .icon-user{
-      background-image: none;
-      margin-bottom: 8px;
-
-      &:before{
-        font-size: 17px;
-        position: absolute;
-        margin-left: -8px;
-      }
-    }
+  .item-crp {
+    float: right;
+    padding-left: 5px;
   }
 }
 
-// } main-panel-items
+.item-name {
+  // hyphens aren't supported in Chrome ...
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+
+  //... so word-wrap is needed for Chrome
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.item-tools {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  .btn {
+    padding: 2px 10px;
+    border: none;
+    @include box-shadow(none);
+
+  }
+}
+
+.icon-grid-view-2 {
+  padding-top: 5px;
+
+  &:before {
+    content: "\59";
+    margin-left: -1px;
+    font-size: 17px;
+  }
+}
+
+.icon-user {
+  padding-top: 5px;
+
+  &:before {
+    font-size: 17px;
+    margin-left: -2px;
+  }
+}
 
 .modal-panel {
   @extend .main-panel;
   position: absolute;
-  //  position: relative;
-  text-align: left;
   background-color: white;
   z-index: 5;
   @include box-shadow(0, 10px, 10px, rgba(0, 0, 0, 0.3));
@@ -202,14 +188,9 @@
   margin-top: 0 !important;
   width: inherit !important;
   border: none !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-  @extend .panel-title;
+  @include box-shadow(none !important);
   background-color: inherit !important;
-  -webkit-border-radius: 0 !important; //overwrite bootstrap
-  -moz-border-radius: 0 !important;
-  border-radius: 0 !important;
+  @include border-radius(0 !important);
 }
 
 .modal-panel-items {

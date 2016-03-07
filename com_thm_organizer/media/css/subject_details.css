@@ -5,41 +5,58 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 div.language-switches a {
-  color: #394a59; }
-  div.language-switches a :hover {
-    color: #394a59; }
-  div.language-switches a img {
-    margin-bottom: -2px;
-    margin-right: 5px; }
+  color: #394a59;
+}
+
+div.language-switches a :hover {
+  color: #394a59;
+}
+
+div.language-switches a img {
+  margin-bottom: -2px;
+  margin-right: 5px;
+}
 
 .toolbar {
   position: relative;
-  float: right; }
-  .toolbar .tool-wrapper {
-    display: inline-block; }
-    .toolbar .tool-wrapper a, .toolbar .tool-wrapper button {
-      cursor: pointer; }
-  .toolbar .language-switches {
-    margin-right: 5px; }
-    .toolbar .language-switches img {
-      border: none;
-      padding-top: 2px; }
+  float: right;
+}
 
-.subject-list .subject-item {
+.tool-wrapper {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.tool-wrapper a, .tool-wrapper button {
+  cursor: pointer;
+}
+
+.tool-wrapper img {
+  padding-top: 2px;
+}
+
+.subject-item {
   clear: both;
   overflow: auto;
   padding: 10px 10px;
   margin: 2px 0;
-  border-bottom: 1px solid rgba(164, 176, 187, 0.5); }
-  .subject-list .subject-item ul {
-    margin-bottom: 0; }
-  .subject-list .subject-item .subject-label {
-    color: #3d494f;
-    float: left;
-    font-weight: bold;
-    padding-right: 20px;
-    width: 18%; }
-  .subject-list .subject-item .subject-content {
-    margin-left: 10px;
-    float: left;
-    width: 79%; }
+  border-bottom: 1px solid rgba(164, 176, 187, 0.5);
+}
+
+.subject-item ul {
+  margin-bottom: 0;
+}
+
+.subject-label {
+  color: #3d494f;
+  float: left;
+  font-weight: bold;
+  padding-right: 20px;
+  width: 18%;
+}
+
+.subject-content {
+  margin-left: 10px;
+  float: left;
+  width: 79%;
+}
