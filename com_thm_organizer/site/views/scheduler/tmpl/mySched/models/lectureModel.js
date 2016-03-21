@@ -297,7 +297,7 @@ Ext.define('LectureModel',
                     }
                     else
                     {
-                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="control_icon icon-add"></span>';
+                        ret += '<span data-qtip="' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE_LESSON_ADD + '" class="control_icon icon-plus"></span>';
                     }
                 }
             }
