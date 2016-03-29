@@ -332,7 +332,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $scheduleObject["ScheduleDescription.load"] = new stdClass;
         $scheduleObject["ScheduleDescription.load"]->data = $scheduleRow;
 
-        $params = JFactory::getApplication()->getMenu()->getActive()->params;
+        $params = $this->params;
         $this->loadLessonsOnStartUp = $this->config['isMenu']? (bool) $params->get('loadLessonsOnStartUp', true) : true;
 
         if ($this->loadLessonsOnStartUp)

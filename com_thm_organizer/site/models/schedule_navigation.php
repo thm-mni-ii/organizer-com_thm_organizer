@@ -387,9 +387,29 @@ class THM_OrganizerModelSchedule_Navigation
             }
         }
 
+        if (count($nodeParts) < 6)
+        {
+            return true;
+        }
+
         foreach ($this->_checked as $element)
         {
-            if (count($nodeParts) >= 5 && stristr($nodeID, $element) !== false)
+            $elementParts = explode("_", $element);
+            if (empty($element) OR count($elementParts) < 6)
+            {
+                continue;
+            }
+            $elementParts = explode("_", $element);
+
+            // Differing resource types
+            $irrelevant = $elementParts[4] != $nodeParts[4];
+            if ($irrelevant)
+            {
+                continue;
+            }
+
+            // These are not the droids you're looking for ;)
+            if ($elementParts[5] == $nodeParts[5])
             {
                 return false;
             }

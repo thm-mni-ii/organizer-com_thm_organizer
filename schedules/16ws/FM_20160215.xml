@@ -1,0 +1,4246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document version="1.4" date="20160215" time="120456">
+  <general>
+    <schoolname>Untis 2016</schoolname>
+    <schoolyearbegindate>20151005</schoolyearbegindate>
+    <schoolyearenddate>20161002</schoolyearenddate>
+    <header1>THM</header1>
+    <footer>WS   </footer>
+    <termbegindate>20151005</termbegindate>
+    <termenddate>20160403</termenddate>
+  </general>
+  <timeperiods>
+    <timeperiod id="TP_1">
+      <day>1</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_2">
+      <day>1</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_3">
+      <day>1</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_4">
+      <day>1</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_5">
+      <day>1</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_6">
+      <day>1</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_7">
+      <day>2</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_8">
+      <day>2</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_9">
+      <day>2</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_10">
+      <day>2</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_11">
+      <day>2</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_12">
+      <day>2</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_13">
+      <day>3</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_14">
+      <day>3</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_15">
+      <day>3</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_16">
+      <day>3</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_17">
+      <day>3</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_18">
+      <day>3</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_19">
+      <day>4</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_20">
+      <day>4</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_21">
+      <day>4</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_22">
+      <day>4</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_23">
+      <day>4</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_24">
+      <day>4</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_25">
+      <day>5</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_26">
+      <day>5</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_27">
+      <day>5</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_28">
+      <day>5</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_29">
+      <day>5</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_30">
+      <day>5</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+    <timeperiod id="TP_31">
+      <day>6</day>
+      <period>1</period>
+      <starttime>0800</starttime>
+      <endtime>0930</endtime>
+    </timeperiod>
+    <timeperiod id="TP_32">
+      <day>6</day>
+      <period>2</period>
+      <starttime>0950</starttime>
+      <endtime>1120</endtime>
+    </timeperiod>
+    <timeperiod id="TP_33">
+      <day>6</day>
+      <period>3</period>
+      <starttime>1130</starttime>
+      <endtime>1300</endtime>
+    </timeperiod>
+    <timeperiod id="TP_34">
+      <day>6</day>
+      <period>4</period>
+      <starttime>1400</starttime>
+      <endtime>1530</endtime>
+    </timeperiod>
+    <timeperiod id="TP_35">
+      <day>6</day>
+      <period>5</period>
+      <starttime>1545</starttime>
+      <endtime>1715</endtime>
+    </timeperiod>
+    <timeperiod id="TP_36">
+      <day>6</day>
+      <period>6</period>
+      <starttime>1730</starttime>
+      <endtime>1900</endtime>
+    </timeperiod>
+  </timeperiods>
+  <descriptions>
+    <description id="DS_BAUM">
+      <longname>Baumaßnahmen</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_DIV">
+      <longname>Diverse</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_DS">
+      <longname>Datenschutz</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_FM">
+      <longname>Facility Management</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_HSP">
+      <longname>Hochschulsport</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_IO">
+      <longname>International Office</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_SPR">
+      <longname>Sprachen</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_THMO">
+      <longname>THM Orchester</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_ZEuUS">
+      <longname>ZEuUS</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_BR">
+      <longname>Büroraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_FS.C">
+      <longname>Fachsaal, Chemie</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_FS.P">
+      <longname>Fachsaal, Physik</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_GAR">
+      <longname>Gruppenarbeitsraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_HS.A">
+      <longname>Hörsaal, Auditorium</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_HS.G">
+      <longname>Hörsaal, Groß</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_HS.K">
+      <longname>Hörsaal, Klein</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_HS.M">
+      <longname>Hörsaal, Mittel</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_LAR">
+      <longname>Laborraum</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_PCL">
+      <longname>PC Labor</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_SR.G">
+      <longname>Seminarraum, Groß</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_SR.K">
+      <longname>Seminarraum, Klein</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_SR.M">
+      <longname>Seminarraum, Mittel</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_XRM">
+      <longname>Raum, nicht bekannt</longname>
+      <flags>R</flags>
+    </description>
+    <description id="DS_IVR">
+      <longname>Infoveranstaltung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_SCH">
+      <longname>Schulung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_STZ">
+      <longname>Sitzung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_SU">
+      <longname>Seminaristische Unterricht</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_TAG">
+      <longname>Tagung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_VER">
+      <longname>Veranstaltung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_VRT">
+      <longname>Vortrag</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_VSM">
+      <longname>Versammelung</longname>
+      <flags>U</flags>
+    </description>
+    <description id="DS_NAT">
+      <longname>Naturwissenschaften</longname>
+      <flags>F</flags>
+    </description>
+    <description id="DS_EXT">
+      <longname>externer Raum</longname>
+      <flags>R</flags>
+    </description>
+  </descriptions>
+  <departments>
+    <department id="DP_BAUM">
+      <longname>Baumaßnahmen</longname>
+    </department>
+    <department id="DP_HSP">
+      <longname>Hochschulsport</longname>
+    </department>
+    <department id="DP_IO">
+      <longname>International Office</longname>
+    </department>
+    <department id="DP_EXT">
+      <longname>THM Extern</longname>
+    </department>
+    <department id="DP_THM">
+      <longname>Zentrale THM Veranstaltungen</longname>
+    </department>
+    <department id="DP_VWA">
+      <longname>Verwaltungs und Wirtschafts-Akademie Gießen</longname>
+    </department>
+    <department id="DP_STB">
+      <longname>Studienberatung</longname>
+    </department>
+    <department id="DP_BRK">
+      <longname>Brückenkurse</longname>
+    </department>
+  </departments>
+  <rooms>
+    <room id="RM_A10.2.01">
+      <longname>A.2.01</longname>
+      <capacity>72</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_HS.M"/>
+      <external_name>A10.2.01</external_name>
+    </room>
+    <room id="RM_A10.2.02">
+      <longname>A.2.02</longname>
+      <capacity>72</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>A10.2.02</external_name>
+    </room>
+    <room id="RM_A10.2.03">
+      <longname>A.2.03</longname>
+      <capacity>56</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.2.03</external_name>
+    </room>
+    <room id="RM_A10.2.05">
+      <longname>A.2.05</longname>
+      <capacity>44</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.2.05</external_name>
+    </room>
+    <room id="RM_A10.3.01">
+      <longname>A.3.01</longname>
+      <capacity>72</capacity>
+      <flags>BOTW</flags>
+      <room_description id="DS_HS.M"/>
+      <external_name>A10.3.01</external_name>
+    </room>
+    <room id="RM_A10.3.02">
+      <longname>A.3.02</longname>
+      <capacity>72</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>A10.3.02</external_name>
+    </room>
+    <room id="RM_A10.3.03">
+      <longname>A.3.03</longname>
+      <capacity>44</capacity>
+      <flags>T</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.3.03</external_name>
+    </room>
+    <room id="RM_A10.3.05">
+      <longname>A.3.05</longname>
+      <capacity>52</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.3.05</external_name>
+    </room>
+    <room id="RM_A10.3.23">
+      <longname>A.3.23</longname>
+      <capacity>24</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.3.23</external_name>
+    </room>
+    <room id="RM_A10.3.24">
+      <longname>A.3.24</longname>
+      <capacity>24</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.3.24</external_name>
+    </room>
+    <room id="RM_A10.3.25">
+      <longname>A.3.25</longname>
+      <capacity>24</capacity>
+      <text>Fernseher</text>
+      <flags>TW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.3.25</external_name>
+    </room>
+    <room id="RM_A10.3.25A">
+      <longname>A.3.25A</longname>
+      <capacity>24</capacity>
+      <flags>T</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.3.25A</external_name>
+    </room>
+    <room id="RM_A10.4.01">
+      <longname>A.4.01</longname>
+      <capacity>56</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.4.01</external_name>
+    </room>
+    <room id="RM_A10.4.04">
+      <longname>A.4.04</longname>
+      <capacity>72</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>A10.4.04</external_name>
+    </room>
+    <room id="RM_A10.4.06">
+      <longname>A.4.06</longname>
+      <capacity>72</capacity>
+      <flags>BTW</flags>
+      <room_description id="DS_HS.M"/>
+      <external_name>A10.4.06</external_name>
+    </room>
+    <room id="RM_A10.4.20">
+      <longname>A.4.20</longname>
+      <text>63 Sitzplätze</text>
+      <flags>BOT</flags>
+      <room_description id="DS_FS.C"/>
+      <external_name>A10.4.20</external_name>
+    </room>
+    <room id="RM_A10.4.24">
+      <longname>A.4.24</longname>
+      <capacity>44</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.4.24</external_name>
+    </room>
+    <room id="RM_A10.4.25">
+      <longname>A.4.25</longname>
+      <capacity>72</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>A10.4.25</external_name>
+    </room>
+    <room id="RM_A10.5.03">
+      <longname>A.5.03</longname>
+      <capacity>50</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.K"/>
+      <external_name>A10.5.03</external_name>
+    </room>
+    <room id="RM_A10.5.04">
+      <longname>A.5.04</longname>
+      <capacity>52</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.5.04</external_name>
+    </room>
+    <room id="RM_A10.5.05">
+      <longname>A.5.05</longname>
+      <text>Elektroakustik (Zugang A.5.06)</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.5.05</external_name>
+    </room>
+    <room id="RM_A10.5.06">
+      <longname>A.5.06</longname>
+      <capacity>48</capacity>
+      <text>Zugang zu A.5.05</text>
+      <flags>OB</flags>
+      <room_description id="DS_GAR"/>
+      <external_name>A10.5.06</external_name>
+    </room>
+    <room id="RM_A10.5.20">
+      <longname>A.5.20</longname>
+      <capacity>60</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>A10.5.20</external_name>
+    </room>
+    <room id="RM_A10.5.23">
+      <longname>A.5.23</longname>
+      <text>Werkstoffkunde</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.5.23</external_name>
+    </room>
+    <room id="RM_A10.5.25">
+      <longname>A10.5.25</longname>
+      <capacity>24</capacity>
+      <room_description id="DS_GAR"/>
+      <external_name>A10.5.25</external_name>
+    </room>
+    <room id="RM_A10.5.26">
+      <longname>A.5.26</longname>
+      <capacity>40</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.5.26</external_name>
+    </room>
+    <room id="RM_A10.5.27">
+      <longname>A.5.27</longname>
+      <capacity>16</capacity>
+      <room_description id="DS_GAR"/>
+      <external_name>A10.5.27</external_name>
+    </room>
+    <room id="RM_A10.6.02">
+      <longname>A.6.02</longname>
+      <text>Vakuumtechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.6.02</external_name>
+    </room>
+    <room id="RM_A10.6.04">
+      <longname>A.6.04</longname>
+      <capacity>63</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.K"/>
+      <external_name>A10.6.04</external_name>
+    </room>
+    <room id="RM_A10.6.05">
+      <longname>A.6.05</longname>
+      <text>Physik Praktikumsraum</text>
+      <room_description id="DS_GAR"/>
+      <external_name>A10.6.05</external_name>
+    </room>
+    <room id="RM_A10.6.08">
+      <longname>A.6.08</longname>
+      <text>Lasergefahr</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.6.08</external_name>
+    </room>
+    <room id="RM_A10.6.09">
+      <longname>A.6.09</longname>
+      <text>Lasergefahr</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.6.09</external_name>
+    </room>
+    <room id="RM_A10.6.20">
+      <longname>A.6.20</longname>
+      <capacity>80</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.M"/>
+      <external_name>A10.6.20</external_name>
+    </room>
+    <room id="RM_A10.6.22">
+      <longname>A.6.22</longname>
+      <capacity>26</capacity>
+      <room_description id="DS_GAR"/>
+      <external_name>A10.6.22</external_name>
+    </room>
+    <room id="RM_A10.7.01">
+      <longname>A.7.01</longname>
+      <capacity>32</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_FS.P"/>
+      <external_name>A10.7.01</external_name>
+    </room>
+    <room id="RM_A10.7.20">
+      <longname>A.7.20</longname>
+      <text>Messtechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.7.20</external_name>
+    </room>
+    <room id="RM_A10.7.21">
+      <longname>A.7.21</longname>
+      <text>EMX Verträglichkeit</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.7.21</external_name>
+    </room>
+    <room id="RM_A10.7.22">
+      <longname>A10.7.22</longname>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.7.22</external_name>
+    </room>
+    <room id="RM_A10.7.23">
+      <longname>A.7.23</longname>
+      <text>Informationsübertragung / Digitalkommunikationstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.7.23</external_name>
+    </room>
+    <room id="RM_A10.7.25">
+      <longname>A.7.25</longname>
+      <text>EMV</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.7.25</external_name>
+    </room>
+    <room id="RM_A10.7.26A">
+      <longname>A.7.26A</longname>
+      <text>Informationsübertragung</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.7.26A</external_name>
+    </room>
+    <room id="RM_A10.7.27">
+      <longname>A.7.27</longname>
+      <text>Sensortechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.7.27</external_name>
+    </room>
+    <room id="RM_A10.8.08">
+      <longname>A.8.08</longname>
+      <capacity>35</capacity>
+      <flags>T</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A10.8.08</external_name>
+    </room>
+    <room id="RM_A10.8.15">
+      <longname>A.8.15</longname>
+      <capacity>168</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_FS.P"/>
+      <external_name>A10.8.15</external_name>
+    </room>
+    <room id="RM_A10.8.20">
+      <longname>A.8.20</longname>
+      <capacity>63</capacity>
+      <text>Strahlenschutz</text>
+      <room_description id="DS_FS.P"/>
+      <external_name>A10.8.20</external_name>
+    </room>
+    <room id="RM_A10.8.21">
+      <longname>A.8.21</longname>
+      <text>umschlossene Radionuklide</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.8.21</external_name>
+    </room>
+    <room id="RM_A10.8.22">
+      <longname>A.8.22</longname>
+      <text>analytische Chemie</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.8.22</external_name>
+    </room>
+    <room id="RM_A10.8.23">
+      <longname>A.8.23</longname>
+      <text>Strahlenschutz</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.8.23</external_name>
+    </room>
+    <room id="RM_A10.8.24">
+      <longname>A.8.24</longname>
+      <text>offene Radionuklide</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.8.24</external_name>
+    </room>
+    <room id="RM_A10.8.25">
+      <longname>A.8.25</longname>
+      <text>Strahlenschutz</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.8.25</external_name>
+    </room>
+    <room id="RM_A10.8.26">
+      <longname>A.8.26</longname>
+      <text>Strahlenschutz</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A10.8.26</external_name>
+    </room>
+    <room id="RM_A12.0.11">
+      <longname>A12.0.11</longname>
+      <text>Mikroprozessortechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A12.0.11</external_name>
+    </room>
+    <room id="RM_A12.0.12">
+      <longname>A12.0.12</longname>
+      <text>Robotik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A12.0.12</external_name>
+    </room>
+    <room id="RM_A12.1.11">
+      <longname>A12.1.11</longname>
+      <text>3D-Messtechik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A12.1.11</external_name>
+    </room>
+    <room id="RM_A12.1.12">
+      <longname>A12.1.12</longname>
+      <capacity>6</capacity>
+      <room_description id="DS_GAR"/>
+      <external_name>A12.1.12</external_name>
+    </room>
+    <room id="RM_A12.1.16">
+      <longname>A12.1.16</longname>
+      <capacity>30</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A12.1.16</external_name>
+    </room>
+    <room id="RM_A12.2.09">
+      <longname>A12.2.09</longname>
+      <capacity>28</capacity>
+      <text>Bioinformatik</text>
+      <flags>BOT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>A12.2.09</external_name>
+    </room>
+    <room id="RM_A12.3.04">
+      <longname>A12.3.04</longname>
+      <capacity>118</capacity>
+      <text>Bestühlung erweitert</text>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>A12.3.04</external_name>
+    </room>
+    <room id="RM_A12.3.05">
+      <longname>A12.3.05</longname>
+      <capacity>104</capacity>
+      <text>Bestühlung erweitert</text>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>A12.3.05</external_name>
+    </room>
+    <room id="RM_A12.U.06">
+      <longname>A12.U.06</longname>
+      <text>Kraftfahrzeugtechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A12.U.06</external_name>
+    </room>
+    <room id="RM_A15.0.05">
+      <longname>A15.0.05</longname>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.05</external_name>
+    </room>
+    <room id="RM_A15.0.10">
+      <longname>A15.0.10</longname>
+      <text>Fluidmechanik &amp; Strömungsmachinen</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.10</external_name>
+    </room>
+    <room id="RM_A15.0.18">
+      <longname>A15.0.18</longname>
+      <text>Baustoffprüfung</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.18</external_name>
+    </room>
+    <room id="RM_A15.0.23">
+      <longname>A15.0.23</longname>
+      <text>Klimatechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.23</external_name>
+    </room>
+    <room id="RM_A15.0.25">
+      <longname>A15.0.25</longname>
+      <text>Baustoffkunde &amp; Bauteilprüfung</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.25</external_name>
+    </room>
+    <room id="RM_A15.0.27">
+      <longname>A15.0.27</longname>
+      <text>Fertigungsmesstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.27</external_name>
+    </room>
+    <room id="RM_A15.0.28">
+      <longname>A15.0.28</longname>
+      <text>Fertigungsmesstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.28</external_name>
+    </room>
+    <room id="RM_A15.0.29">
+      <longname>A15.0.29</longname>
+      <text>Baustoffprüfung</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.0.29</external_name>
+    </room>
+    <room id="RM_A15.1.03">
+      <longname>A15.1.03</longname>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.03</external_name>
+    </room>
+    <room id="RM_A15.1.04A">
+      <longname>A15.1.04A</longname>
+      <text>BMT: Praktikumsraum</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.04A</external_name>
+    </room>
+    <room id="RM_A15.1.05">
+      <longname>A15.1.05</longname>
+      <text>Wärmetechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.05</external_name>
+    </room>
+    <room id="RM_A15.1.06">
+      <longname>A15.1.06</longname>
+      <text>Wärmetechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.06</external_name>
+    </room>
+    <room id="RM_A15.1.11">
+      <longname>A15.1.11</longname>
+      <text>Baustoffkunde</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.11</external_name>
+    </room>
+    <room id="RM_A15.1.14">
+      <longname>A15.1.14</longname>
+      <text>Bodenmechanik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.14</external_name>
+    </room>
+    <room id="RM_A15.1.15">
+      <longname>A15.1.15</longname>
+      <text>Bodenmechanik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.15</external_name>
+    </room>
+    <room id="RM_A15.1.16">
+      <longname>A15.1.16</longname>
+      <text>Baustoffkunde / Massivbau</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.16</external_name>
+    </room>
+    <room id="RM_A15.1.20">
+      <longname>A15.1.20</longname>
+      <text>Baukonstruktion / Bauphysik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.20</external_name>
+    </room>
+    <room id="RM_A15.1.27">
+      <longname>A15.1.27</longname>
+      <text>Hallraum</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A15.1.27</external_name>
+    </room>
+    <room id="RM_A20.0.07">
+      <longname>A20.0.07</longname>
+      <capacity>126</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>A20.0.07</external_name>
+    </room>
+    <room id="RM_A20.0.08">
+      <longname>A20.0.08</longname>
+      <capacity>28</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_HS.K"/>
+      <external_name>A20.0.08</external_name>
+    </room>
+    <room id="RM_A20.0.09">
+      <longname>A20.0.09</longname>
+      <capacity>28</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>A20.0.09</external_name>
+    </room>
+    <room id="RM_A20.1.07">
+      <longname>A20.1.07</longname>
+      <capacity>126</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>A20.1.07</external_name>
+    </room>
+    <room id="RM_A20.1.08">
+      <longname>A20.1.08</longname>
+      <capacity>28</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>A20.1.08</external_name>
+    </room>
+    <room id="RM_A20.1.09">
+      <longname>A20.1.09</longname>
+      <capacity>28</capacity>
+      <text>Rechnernetze</text>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>A20.1.09</external_name>
+    </room>
+    <room id="RM_A20.1.36">
+      <longname>A20.1.36</longname>
+      <capacity>246</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_HS.A"/>
+      <external_name>A20.1.36</external_name>
+    </room>
+    <room id="RM_A20.2.08">
+      <longname>A20.2.08</longname>
+      <capacity>20</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>A20.2.08</external_name>
+    </room>
+    <room id="RM_A20.2.09">
+      <longname>A20.2.09</longname>
+      <capacity>28</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>A20.2.09</external_name>
+    </room>
+    <room id="RM_A20.2.10">
+      <longname>A20.2.10</longname>
+      <capacity>28</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>A20.2.10</external_name>
+    </room>
+    <room id="RM_A20.3.07">
+      <longname>A20.3.07</longname>
+      <capacity>24</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>A20.3.07</external_name>
+    </room>
+    <room id="RM_A20.3.08">
+      <longname>A20.3.08</longname>
+      <text>Tonstudio</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A20.3.08</external_name>
+    </room>
+    <room id="RM_A20.3.10">
+      <longname>A20.3.10</longname>
+      <text>Vidoeatelier</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A20.3.10</external_name>
+    </room>
+    <room id="RM_A20.3.11">
+      <longname>A20.3.11</longname>
+      <text>Fotoatelier</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A20.3.11</external_name>
+    </room>
+    <room id="RM_A21.0.01">
+      <longname>A21.0.01</longname>
+      <capacity>148</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>A21.0.01</external_name>
+    </room>
+    <room id="RM_A21.0.02">
+      <longname>A21.0.02</longname>
+      <capacity>160</capacity>
+      <flags>B</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>A21.0.02</external_name>
+    </room>
+    <room id="RM_A21.0.03">
+      <longname>A21.0.03</longname>
+      <capacity>148</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>A21.0.03</external_name>
+    </room>
+    <room id="RM_A21.1.01">
+      <longname>A21.1.01</longname>
+      <text>Steuerungstechnik &amp; Robotik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.1.01</external_name>
+    </room>
+    <room id="RM_A21.1.02">
+      <longname>A21.1.02</longname>
+      <text>Nanoelectronics</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.1.02</external_name>
+    </room>
+    <room id="RM_A21.1.08">
+      <longname>A21.1.08</longname>
+      <text>Grundlagen Praktikum</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.1.08</external_name>
+    </room>
+    <room id="RM_A21.1.14">
+      <longname>A21.1.14</longname>
+      <text>Mechanische Arbeiten</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.1.14</external_name>
+    </room>
+    <room id="RM_A21.1.15">
+      <longname>A21.1.15</longname>
+      <text>Mikroelektronik &amp; Optoelektronik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.1.15</external_name>
+    </room>
+    <room id="RM_A21.2.01">
+      <longname>A21.2.01</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_PCL"/>
+      <external_name>A21.2.01</external_name>
+    </room>
+    <room id="RM_A21.2.06">
+      <longname>A21.2.06</longname>
+      <text>Komm. Tech.</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.2.06</external_name>
+    </room>
+    <room id="RM_A21.2.07">
+      <longname>A21.2.07</longname>
+      <text>Komm. Tech. / Dig. Sys.</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.2.07</external_name>
+    </room>
+    <room id="RM_A21.2.08">
+      <longname>A21.2.08</longname>
+      <room_description id="DS_XRM"/>
+      <external_name>A21.2.08</external_name>
+    </room>
+    <room id="RM_A21.2.14">
+      <longname>A21.2.14</longname>
+      <capacity>30</capacity>
+      <room_description id="DS_PCL"/>
+      <external_name>A21.2.14</external_name>
+    </room>
+    <room id="RM_A21.3.08">
+      <longname>A21.3.08</longname>
+      <text>Regelungstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.3.08</external_name>
+    </room>
+    <room id="RM_A21.3.09">
+      <longname>A21.3.09</longname>
+      <text>Mess- &amp; Regelungstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>A21.3.09</external_name>
+    </room>
+    <room id="RM_B13.0.01">
+      <longname>B13.0.01</longname>
+      <capacity>110</capacity>
+      <flags>B</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>B13.0.01</external_name>
+    </room>
+    <room id="RM_B13.0.02">
+      <longname>B13.0.02</longname>
+      <capacity>110</capacity>
+      <flags>B</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>B13.0.02</external_name>
+    </room>
+    <room id="RM_B13.0.03">
+      <longname>B13.0.03</longname>
+      <capacity>110</capacity>
+      <flags>B</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>B13.0.03</external_name>
+    </room>
+    <room id="RM_B13.2.06">
+      <longname>B13.2.06</longname>
+      <capacity>250</capacity>
+      <text>Atmos</text>
+      <flags>B</flags>
+      <room_description id="DS_EXT"/>
+      <external_name>B13.2.06</external_name>
+    </room>
+    <room id="RM_B14.2.13">
+      <longname>B14.2.13</longname>
+      <flags>B</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>B14.2.13</external_name>
+    </room>
+    <room id="RM_B14.2.14">
+      <longname>B14.2.14</longname>
+      <capacity>40</capacity>
+      <flags>B</flags>
+      <room_description id="DS_HS.K"/>
+      <external_name>B14.2.14</external_name>
+    </room>
+    <room id="RM_B14.3.13">
+      <longname>B14.3.13</longname>
+      <capacity>45</capacity>
+      <flags>B</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>B14.3.13</external_name>
+    </room>
+    <room id="RM_B14.3.14">
+      <longname>B14.3.14</longname>
+      <capacity>72</capacity>
+      <flags>B</flags>
+      <room_description id="DS_HS.M"/>
+      <external_name>B14.3.14</external_name>
+    </room>
+    <room id="RM_B14.3.15">
+      <longname>B14.3.15</longname>
+      <capacity>45</capacity>
+      <flags>B</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>B14.3.15</external_name>
+    </room>
+    <room id="RM_B14.4.13">
+      <longname>B14.4.13</longname>
+      <capacity>24</capacity>
+      <flags>B</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>B14.4.13</external_name>
+    </room>
+    <room id="RM_B14.4.15">
+      <longname>B14.4.15</longname>
+      <capacity>80</capacity>
+      <flags>B</flags>
+      <room_description id="DS_HS.M"/>
+      <external_name>B14.4.15</external_name>
+    </room>
+    <room id="RM_B14.4.16">
+      <longname>B14.4.16</longname>
+      <capacity>24</capacity>
+      <flags>B</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>B14.4.16</external_name>
+    </room>
+    <room id="RM_B20.10.08">
+      <longname>B20.10.08</longname>
+      <capacity>39</capacity>
+      <flags>BOW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>B20.10.08</external_name>
+    </room>
+    <room id="RM_B20.9.10">
+      <longname>B20.9.10</longname>
+      <capacity>42</capacity>
+      <text>21 Rechner</text>
+      <flags>BW</flags>
+      <room_description id="DS_HS.K"/>
+      <external_name>B20.9.10</external_name>
+    </room>
+    <room id="RM_B21.0.01">
+      <longname>B21.0.01</longname>
+      <capacity>320</capacity>
+      <flags>B</flags>
+      <room_description id="DS_HS.A"/>
+      <external_name>B21.0.01</external_name>
+    </room>
+    <room id="RM_C10.0.30">
+      <longname>C.0.30</longname>
+      <text>Tribiologie</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.0.30</external_name>
+    </room>
+    <room id="RM_C10.1.30">
+      <longname>C.1.30</longname>
+      <capacity>252</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_HS.A"/>
+      <external_name>C10.1.30</external_name>
+    </room>
+    <room id="RM_C10.2.10">
+      <longname>C.2.10</longname>
+      <capacity>48</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.2.10</external_name>
+    </room>
+    <room id="RM_C10.2.31">
+      <longname>C.2.31</longname>
+      <text>Biomechanik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.2.31</external_name>
+    </room>
+    <room id="RM_C10.2.32">
+      <longname>C.2.32</longname>
+      <text>Werkstoffprüfung</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.2.32</external_name>
+    </room>
+    <room id="RM_C10.2.33">
+      <longname>C.2.33</longname>
+      <capacity>56</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.2.33</external_name>
+    </room>
+    <room id="RM_C10.3.10">
+      <longname>C.3.10</longname>
+      <capacity>40</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.3.10</external_name>
+    </room>
+    <room id="RM_C10.3.34">
+      <longname>C.3.34</longname>
+      <capacity>58</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.3.34</external_name>
+    </room>
+    <room id="RM_C10.3.35">
+      <longname>C.3.35</longname>
+      <text>Werkstoffprüfung</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.3.35</external_name>
+    </room>
+    <room id="RM_C10.4.01">
+      <longname>C.4.01</longname>
+      <capacity>50</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.4.01</external_name>
+    </room>
+    <room id="RM_C10.4.03">
+      <longname>C.4.03</longname>
+      <capacity>15</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C10.4.03</external_name>
+    </room>
+    <room id="RM_C10.4.05">
+      <longname>C.4.05</longname>
+      <capacity>15</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C10.4.05</external_name>
+    </room>
+    <room id="RM_C10.4.06">
+      <longname>C.4.06</longname>
+      <capacity>15</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C10.4.06</external_name>
+    </room>
+    <room id="RM_C10.4.08">
+      <longname>C.4.08</longname>
+      <capacity>15</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C10.4.08</external_name>
+    </room>
+    <room id="RM_C10.4.10">
+      <longname>C.4.10</longname>
+      <capacity>15</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C10.4.10</external_name>
+    </room>
+    <room id="RM_C10.4.30">
+      <longname>C.4.30</longname>
+      <text>BMT: BP-Phase</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.4.30</external_name>
+    </room>
+    <room id="RM_C10.4.30A">
+      <longname>C.4.30A</longname>
+      <capacity>24</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.4.30A</external_name>
+    </room>
+    <room id="RM_C10.4.32">
+      <longname>C.4.32</longname>
+      <text>BMT: Praktikumsraum</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.4.32</external_name>
+    </room>
+    <room id="RM_C10.4.32A">
+      <longname>C.4.32A</longname>
+      <text>BMT: Praktikumsraum</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.4.32A</external_name>
+    </room>
+    <room id="RM_C10.5.03A">
+      <longname>C.5.03A</longname>
+      <text>Kältetechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.5.03A</external_name>
+    </room>
+    <room id="RM_C10.5.03B">
+      <longname>C.5.03B</longname>
+      <capacity>24</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C10.5.03B</external_name>
+    </room>
+    <room id="RM_C10.5.03C">
+      <longname>C.5.03C</longname>
+      <text>Heiztechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.5.03C</external_name>
+    </room>
+    <room id="RM_C10.5.06">
+      <longname>C.5.06</longname>
+      <text>3D Scan- &amp; Drücktechnologien</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.5.06</external_name>
+    </room>
+    <room id="RM_C10.5.08">
+      <longname>C.5.08</longname>
+      <text>Energietechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.5.08</external_name>
+    </room>
+    <room id="RM_C10.5.10">
+      <longname>C.5.10</longname>
+      <text>Prozess- &amp; Systemverfahrenstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.5.10</external_name>
+    </room>
+    <room id="RM_C10.5.30">
+      <longname>C.5.30</longname>
+      <text>Metalographie</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.5.30</external_name>
+    </room>
+    <room id="RM_C10.5.31">
+      <longname>C.5.31</longname>
+      <text>Schweißtechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.5.31</external_name>
+    </room>
+    <room id="RM_C10.6.01">
+      <longname>C.6.01</longname>
+      <text>Werkstofftechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.01</external_name>
+    </room>
+    <room id="RM_C10.6.05">
+      <longname>C.6.05</longname>
+      <text>Angewandte Optik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.05</external_name>
+    </room>
+    <room id="RM_C10.6.06">
+      <longname>C.6.06</longname>
+      <text>Sensorik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.06</external_name>
+    </room>
+    <room id="RM_C10.6.08">
+      <longname>C.6.08</longname>
+      <text>Angewndte Electronic</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.08</external_name>
+    </room>
+    <room id="RM_C10.6.09">
+      <longname>C.6.09</longname>
+      <text>Electronic / El. Antriebe</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.09</external_name>
+    </room>
+    <room id="RM_C10.6.10">
+      <longname>C.6.10</longname>
+      <text>Kunststofftechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.10</external_name>
+    </room>
+    <room id="RM_C10.6.11">
+      <longname>C.6.11</longname>
+      <text>Kunststofftechnik &amp; Keramik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.11</external_name>
+    </room>
+    <room id="RM_C10.6.30">
+      <longname>C.6.30</longname>
+      <text>Chemie Praktikumsraum</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.30</external_name>
+    </room>
+    <room id="RM_C10.6.31">
+      <longname>C.6.31</longname>
+      <text>Chemie Praktikumsraum</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.6.31</external_name>
+    </room>
+    <room id="RM_C10.7.01">
+      <longname>C.7.01</longname>
+      <text>Umweltanalytik &amp; Ökötoxikologie</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.7.01</external_name>
+    </room>
+    <room id="RM_C10.7.01A">
+      <longname>C.7.01A</longname>
+      <text>Wasseraufbereitung &amp; Abwassertechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.7.01A</external_name>
+    </room>
+    <room id="RM_C10.7.01B">
+      <longname>C.7.01B</longname>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.7.01B</external_name>
+    </room>
+    <room id="RM_C10.7.05">
+      <longname>C.7.05</longname>
+      <text>Wasseraufbereitung &amp; Luftreinhaltung</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.7.05</external_name>
+    </room>
+    <room id="RM_C10.7.30">
+      <longname>C.7.30</longname>
+      <text>Allgemeine Biologie</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.7.30</external_name>
+    </room>
+    <room id="RM_C10.7.31">
+      <longname>C.7.31</longname>
+      <text>Entsorgungstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.7.31</external_name>
+    </room>
+    <room id="RM_C10.7.32">
+      <longname>C.7.32</longname>
+      <text>Entsorgungstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.7.32</external_name>
+    </room>
+    <room id="RM_C10.7.33">
+      <longname>C.7.33</longname>
+      <text>Entsorgungstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.7.33</external_name>
+    </room>
+    <room id="RM_C10.8.01">
+      <longname>C.8.01</longname>
+      <capacity>40</capacity>
+      <flags>OT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.8.01</external_name>
+    </room>
+    <room id="RM_C10.8.03">
+      <longname>C.8.03</longname>
+      <capacity>40</capacity>
+      <flags>OTW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C10.8.03</external_name>
+    </room>
+    <room id="RM_C10.8.04">
+      <longname>C.8.04</longname>
+      <text>Regelungstechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.8.04</external_name>
+    </room>
+    <room id="RM_C10.8.06">
+      <longname>C.8.06</longname>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.8.06</external_name>
+    </room>
+    <room id="RM_C10.8.10">
+      <longname>C.8.10</longname>
+      <capacity>24</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C10.8.10</external_name>
+    </room>
+    <room id="RM_C10.U.30">
+      <longname>C.U.30</longname>
+      <text>Werkstofftechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.U.30</external_name>
+    </room>
+    <room id="RM_C10.U.31">
+      <longname>C.U.31</longname>
+      <text>Werkstofftechnik</text>
+      <room_description id="DS_LAR"/>
+      <external_name>C10.U.31</external_name>
+    </room>
+    <room id="RM_C13.0.12">
+      <longname>C13.0.12</longname>
+      <capacity>30</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C13.0.12</external_name>
+    </room>
+    <room id="RM_C13.0.13A">
+      <longname>C13.0.13A</longname>
+      <capacity>12</capacity>
+      <room_description id="DS_GAR"/>
+      <external_name>C13.0.13A</external_name>
+    </room>
+    <room id="RM_C13.0.13B">
+      <longname>C13.0.13B</longname>
+      <capacity>8</capacity>
+      <room_description id="DS_GAR"/>
+      <external_name>C13.0.13B</external_name>
+    </room>
+    <room id="RM_C13.0.13C">
+      <longname>C13.0.13C</longname>
+      <capacity>8</capacity>
+      <room_description id="DS_GAR"/>
+      <external_name>C13.0.13C</external_name>
+    </room>
+    <room id="RM_C13.0.14">
+      <longname>C13.0.14</longname>
+      <capacity>8</capacity>
+      <text>20 mit Möbel</text>
+      <room_description id="DS_GAR"/>
+      <external_name>C13.0.14</external_name>
+    </room>
+    <room id="RM_C13.0.21">
+      <longname>C13.0.21</longname>
+      <capacity>34</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C13.0.21</external_name>
+    </room>
+    <room id="RM_C13.0.22">
+      <longname>C13.0.22</longname>
+      <capacity>48</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C13.0.22</external_name>
+    </room>
+    <room id="RM_C13.0.23">
+      <longname>C13.0.23</longname>
+      <capacity>42</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C13.0.23</external_name>
+    </room>
+    <room id="RM_C13.1.10">
+      <longname>C13.1.10</longname>
+      <capacity>28</capacity>
+      <flags>BOW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C13.1.10</external_name>
+    </room>
+    <room id="RM_C13.1.12">
+      <longname>C13.1.12</longname>
+      <capacity>28</capacity>
+      <flags>BOW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C13.1.12</external_name>
+    </room>
+    <room id="RM_C13.1.29">
+      <longname>C13.1.29</longname>
+      <capacity>30</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C13.1.29</external_name>
+    </room>
+    <room id="RM_C14.0.03">
+      <longname>C14.0.03</longname>
+      <capacity>24</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C14.0.03</external_name>
+    </room>
+    <room id="RM_C14.0.05">
+      <longname>C14.0.05</longname>
+      <capacity>24</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C14.0.05</external_name>
+    </room>
+    <room id="RM_C14.0.06">
+      <longname>C14.0.06</longname>
+      <capacity>24</capacity>
+      <flags>BW</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C14.0.06</external_name>
+    </room>
+    <room id="RM_C14.1.17">
+      <longname>C14.1.17</longname>
+      <capacity>154</capacity>
+      <flags>BOTW</flags>
+      <room_description id="DS_HS.G"/>
+      <external_name>C14.1.17</external_name>
+    </room>
+    <room id="RM_C14.2.08">
+      <longname>C14.2.08</longname>
+      <capacity>30</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C14.2.08</external_name>
+    </room>
+    <room id="RM_C14.2.11">
+      <longname>C14.2.11</longname>
+      <capacity>28</capacity>
+      <flags>T</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C14.2.11</external_name>
+    </room>
+    <room id="RM_C14.U.11">
+      <longname>C14.U.11</longname>
+      <capacity>28</capacity>
+      <flags>O</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>C14.U.11</external_name>
+    </room>
+    <room id="RM_C15.0.01">
+      <longname>C15.0.01</longname>
+      <capacity>30</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C15.0.01</external_name>
+    </room>
+    <room id="RM_C15.0.02">
+      <longname>C15.0.02</longname>
+      <capacity>30</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C15.0.02</external_name>
+    </room>
+    <room id="RM_C15.0.03">
+      <longname>C15.0.03</longname>
+      <capacity>30</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C15.0.03</external_name>
+    </room>
+    <room id="RM_C15.0.05">
+      <longname>C15.0.05</longname>
+      <capacity>30</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C15.0.05</external_name>
+    </room>
+    <room id="RM_C21.0.04">
+      <longname>C21.0.04</longname>
+      <room_description id="DS_XRM"/>
+      <external_name>C21.0.04</external_name>
+    </room>
+    <room id="RM_C21.0.05">
+      <longname>C21.0.05</longname>
+      <room_description id="DS_XRM"/>
+      <external_name>C21.0.05</external_name>
+    </room>
+    <room id="RM_D10.3.01">
+      <longname>D10.3.01</longname>
+      <capacity>30</capacity>
+      <flags>B</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>D10.3.01</external_name>
+    </room>
+    <room id="RM_D10.3.02">
+      <longname>D10.3.02</longname>
+      <capacity>30</capacity>
+      <flags>B</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>D10.3.02</external_name>
+    </room>
+    <room id="RM_D12.0.10">
+      <longname>D12.0.10</longname>
+      <capacity>70</capacity>
+      <flags>B</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>D12.0.10</external_name>
+    </room>
+    <room id="RM_E10.0.02">
+      <longname>E10.0.02</longname>
+      <capacity>32</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>E10.0.02</external_name>
+    </room>
+    <room id="RM_E10.1.04">
+      <longname>E10.1.04</longname>
+      <capacity>36</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>E10.1.04</external_name>
+    </room>
+    <room id="RM_E10.1.09">
+      <longname>E10.1.09</longname>
+      <capacity>25</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_PCL"/>
+      <external_name>E10.1.09</external_name>
+    </room>
+    <room id="RM_E10.2.03">
+      <longname>E10.2.03</longname>
+      <capacity>48</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>E10.2.03</external_name>
+    </room>
+    <room id="RM_E10.2.04">
+      <longname>E10.2.04</longname>
+      <capacity>108</capacity>
+      <flags>BTW</flags>
+      <room_description id="DS_SR.G"/>
+      <external_name>E10.2.04</external_name>
+    </room>
+    <room id="RM_E10.2.05">
+      <longname>E10.2.05</longname>
+      <room_description id="DS_PCL"/>
+      <external_name>E10.2.05</external_name>
+    </room>
+    <room id="RM_E10.2.06">
+      <longname>E10.2.06</longname>
+      <room_description id="DS_XRM"/>
+      <external_name>E10.2.06</external_name>
+    </room>
+    <room id="RM_E15.0.04">
+      <longname>E15.0.04</longname>
+      <capacity>42</capacity>
+      <flags>BOT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>E15.0.04</external_name>
+    </room>
+    <room id="RM_E15.0.05">
+      <longname>E15.0.05</longname>
+      <capacity>36</capacity>
+      <flags>BT</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>E15.0.05</external_name>
+    </room>
+    <room id="RM_HH1">
+      <longname>Hessenhalle I</longname>
+      <capacity>380</capacity>
+      <room_description id="DS_EXT"/>
+      <external_name>HH1</external_name>
+    </room>
+    <room id="RM_HH3">
+      <longname>Hessenhalle III</longname>
+      <capacity>180</capacity>
+      <room_description id="DS_EXT"/>
+      <external_name>HH3</external_name>
+    </room>
+    <room id="RM_HH6">
+      <longname>Hessenhalle VI</longname>
+      <capacity>240</capacity>
+      <room_description id="DS_EXT"/>
+      <external_name>HH6</external_name>
+    </room>
+    <room id="RM_HH7">
+      <longname>Hessenhalle VII</longname>
+      <capacity>380</capacity>
+      <room_description id="DS_EXT"/>
+      <external_name>HH7</external_name>
+    </room>
+    <room id="RM_KONG">
+      <longname>Kongresshalle</longname>
+      <capacity>242</capacity>
+      <room_description id="DS_EXT"/>
+      <external_name>KONG</external_name>
+    </room>
+    <room id="RM_C50.2.07">
+      <longname>C50.2.07</longname>
+      <capacity>20</capacity>
+      <flags>BMW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C50.2.07</external_name>
+    </room>
+    <room id="RM_C50.2.08">
+      <longname>C50.2.08</longname>
+      <capacity>20</capacity>
+      <flags>BMW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C50.2.08</external_name>
+    </room>
+    <room id="RM_C50.2.09">
+      <longname>C50.2.09</longname>
+      <capacity>20</capacity>
+      <flags>BMW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C50.2.09</external_name>
+    </room>
+    <room id="RM_C50.2.10">
+      <longname>C50.2.10</longname>
+      <capacity>20</capacity>
+      <flags>BMW</flags>
+      <room_description id="DS_SR.M"/>
+      <external_name>C50.2.10</external_name>
+    </room>
+  </rooms>
+  <subjects>
+    <subject id="SU_BauArb">
+      <longname>Bauarbeiten</longname>
+    </subject>
+    <subject id="SU_BRKCH">
+      <longname>Brückenkurs Chemie</longname>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_BRKPR">
+      <longname>Brückenkurs Programmierung</longname>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_BRKM">
+      <longname>Brückenkurs Mathematik</longname>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_BRKPH">
+      <longname>Brückenkurs Physik</longname>
+      <subject_description id="DS_NAT"/>
+    </subject>
+    <subject id="SU_DASCH">
+      <longname>Datenschutz Veranstaltung</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_DEU">
+      <longname>Deutsch</longname>
+      <subject_description id="DS_SPR"/>
+    </subject>
+    <subject id="SU_DST">
+      <longname>Datenschutztag</longname>
+    </subject>
+    <subject id="SU_FM">
+      <longname>Facility Management</longname>
+    </subject>
+    <subject id="SU_GCC">
+      <longname>Games Couch Conference</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_GO">
+      <longname>Go Out!</longname>
+    </subject>
+    <subject id="SU_HIT">
+      <longname>Hochschulinformationstage</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_HSP">
+      <longname>Hochschulsport</longname>
+    </subject>
+    <subject id="SU_HVRMV">
+      <longname>Hugo-von-Ritgen-Medaillenverleihung</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_IO">
+      <longname>International Office</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_KF">
+      <longname>Krimifestival</longname>
+    </subject>
+    <subject id="SU_KIM">
+      <longname>Klasse in Masse</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_KLS">
+      <longname>Klausur</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_MINT">
+      <longname>MINT</longname>
+    </subject>
+    <subject id="SU_NN">
+      <longname>Unbekanntes Fach</longname>
+    </subject>
+    <subject id="SU_Proben">
+      <longname>Proben</longname>
+      <subject_description id="DS_THMO"/>
+    </subject>
+    <subject id="SU_PV">
+      <longname>Professoren Versammelung</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_PW">
+      <longname>Präsidentenwahl</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_SB">
+      <longname>Schulbesuch</longname>
+    </subject>
+    <subject id="SU_Schulung">
+      <longname>Schulung</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_Senat">
+      <longname>Senatsitzung</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_SLB">
+      <longname>Schülerbesuch</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_Tagung">
+      <longname>Fachtagung</longname>
+    </subject>
+    <subject id="SU_ÜFDLS">
+      <longname>Übergabefeier Deutschlandstipendien</longname>
+    </subject>
+    <subject id="SU_VDI">
+      <longname>Verein deutsche Ingenieure</longname>
+    </subject>
+    <subject id="SU_VRT">
+      <longname>Vortrag</longname>
+      <subject_description id="DS_DIV"/>
+    </subject>
+    <subject id="SU_WNF">
+      <longname>Weihnachtsfeier</longname>
+    </subject>
+    <subject id="SU_ZDH-Fach">
+      <longname>Fach des ZDH</longname>
+    </subject>
+    <subject id="SU_ZEuUS">
+      <longname>ZEuUS Tagung</longname>
+    </subject>
+  </subjects>
+  <teachers>
+    <teacher id="TR_Bahr">
+      <forename>Rebeca</forename>
+      <surname>Bahr</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>BahrR</external_name>
+    </teacher>
+    <teacher id="TR_Bastian">
+      <forename>Robbin Clarissa</forename>
+      <surname>Bastian</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>BastRC</external_name>
+    </teacher>
+    <teacher id="TR_DIV.THM">
+      <surname>Diverse THM Dozenten</surname>
+      <teacher_description id="DS_DIV"/>
+    </teacher>
+    <teacher id="TR_Fonseca">
+      <forename>Helena Fernandes da</forename>
+      <surname>Fonseca</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>FonsHF</external_name>
+    </teacher>
+    <teacher id="TR_Haugut">
+      <forename>Dennis</forename>
+      <surname>Haugut</surname>
+      <teacher_description id="DS_FM"/>
+    </teacher>
+    <teacher id="TR_Helbing">
+      <forename>Thomas</forename>
+      <surname>Helbing</surname>
+      <teacher_description id="DS_FM"/>
+    </teacher>
+    <teacher id="TR_Hofmann">
+      <forename>Dagmar</forename>
+      <surname>Hofmann</surname>
+      <teacher_description id="DS_HSP"/>
+      <external_name>HofmD</external_name>
+    </teacher>
+    <teacher id="TR_KuttDJ">
+      <forename>Jeanette</forename>
+      <surname>Kuttner-Diehl</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>KuttDJ</external_name>
+    </teacher>
+    <teacher id="TR_Michel">
+      <forename>Susanne</forename>
+      <surname>Michel</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>MichS</external_name>
+    </teacher>
+    <teacher id="TR_Monasterios">
+      <forename>Shila</forename>
+      <surname>Monasterios</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>MonaS</external_name>
+    </teacher>
+    <teacher id="TR_MüllES">
+      <forename>Stefanie</forename>
+      <surname>Müller-Eibich</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>MüllES</external_name>
+    </teacher>
+    <teacher id="TR_NN.EXT">
+      <surname>Externe Dozent</surname>
+      <teacher_description id="DS_DIV"/>
+    </teacher>
+    <teacher id="TR_NN.THM">
+      <surname>THM Dozent</surname>
+      <teacher_description id="DS_DIV"/>
+      <teacher_department id="DP_EXT"/>
+      <teacher_qualifications>
+        <teacher_qualification subject="SU_Soz"/>
+        <teacher_qualification subject="SU_Wir-Inf"/>
+      </teacher_qualifications>
+    </teacher>
+    <teacher id="TR_StefT">
+      <forename>Thomas</forename>
+      <surname>Steffens</surname>
+      <teacher_description id="DS_ZEuUS"/>
+      <external_name>StefT</external_name>
+      <teacher_qualifications>
+        <teacher_qualification subject="SU_Wir"/>
+        <teacher_qualification subject="SU_Ing"/>
+        <teacher_qualification subject="SU_Nat"/>
+      </teacher_qualifications>
+    </teacher>
+    <teacher id="TR_THMO">
+      <surname>THM Orchester</surname>
+      <teacher_description id="DS_THMO"/>
+    </teacher>
+    <teacher id="TR_Wehmer">
+      <forename>Silke</forename>
+      <surname>Wehmer</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>WehmS</external_name>
+    </teacher>
+    <teacher id="TR_Zalucki">
+      <forename>Michaela</forename>
+      <surname>Zalucki</surname>
+      <teacher_description id="DS_IO"/>
+      <external_name>ZaluM</external_name>
+    </teacher>
+    <teacher id="TR_Siegert">
+      <forename>Maria</forename>
+      <surname>Siegert</surname>
+      <external_name>SiegM</external_name>
+    </teacher>
+    <teacher id="TR_Heines">
+      <forename>Andreas</forename>
+      <surname>Heines</surname>
+      <teacher_description id="DS_DS"/>
+      <external_name>HeinA</external_name>
+    </teacher>
+    <teacher id="TR_Szwerinski">
+      <forename>Julia</forename>
+      <surname>Szwerinski</surname>
+      <teacher_description id="DS_DIV"/>
+    </teacher>
+  </teachers>
+  <classes>
+    <class id="CL_BAUM">
+      <longname>Baumaßnahmen</longname>
+      <classlevel>Baumaßnahmen</classlevel>
+      <class_description id="DS_BAUM"/>
+      <class_department id="DP_BAUM"/>
+    </class>
+    <class id="CL_BLIZ">
+      <longname>Zentrum für blinde und sehbehinderte Studierende</longname>
+      <classlevel>BliZ</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_THM"/>
+    </class>
+    <class id="CL_DIV.THM">
+      <longname>Diverse THM Veranstaltungen</longname>
+      <classlevel>Div. Veranst.</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_THM"/>
+    </class>
+    <class id="CL_EXT">
+      <longname>Externe Veranstaltungen</longname>
+      <classlevel>Ext. Veranst.</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_EXT"/>
+    </class>
+    <class id="CL_FM">
+      <longname>Facility Management Veranstaltungen</longname>
+      <classlevel>FM Veranst.</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_THM"/>
+    </class>
+    <class id="CL_HSP">
+      <longname>Hochschulsport</longname>
+      <classlevel>Hochschulsport</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_HSP"/>
+    </class>
+    <class id="CL_IO">
+      <longname>International Office</longname>
+      <classlevel>Int. Office</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_IO"/>
+    </class>
+    <class id="CL_NN">
+      <longname>keine Informationen</longname>
+      <classlevel>Unbekannt</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_EXT"/>
+    </class>
+    <class id="CL_RMEM">
+      <longname>Referat für Marketing und Eventmanagement</longname>
+      <classlevel>Ref. Mark. Ev. Man.</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_THM"/>
+    </class>
+    <class id="CL_STB">
+      <longname>Studienberatung</longname>
+      <classlevel>Studienberatung</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_STB"/>
+    </class>
+    <class id="CL_VWA">
+      <longname>Verwaltungs- und Wirtschafts-Akademie Gießen</longname>
+      <classlevel>Verw. Wirt. Akad.</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_VWA"/>
+    </class>
+    <class id="CL_BRK">
+      <longname>Brückenkürse</longname>
+      <classlevel>Brückenkurse</classlevel>
+      <class_description id="DS_DIV"/>
+      <class_department id="DP_BRK"/>
+    </class>
+  </classes>
+  <students/>
+  <lessons>
+    <lesson id="LS_256900">
+      <periods>2</periods>
+      <lesson_subject id="SU_DEU"/>
+      <lesson_teacher id="TR_NN.EXT"/>
+      <lesson_classes id="CL_EXT"/>
+      <teacher_value>61538</teacher_value>
+      <effectivebegindate>20151012</effectivebegindate>
+      <effectiveenddate>20160131</effectiveenddate>
+      <occurence>000000F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11FFFFFFFFFFFF111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A10.2.03 RM_A10.3.23 RM_A10.3.24 RM_A10.4.24 RM_A10.5.03 RM_A10.5.04 RM_A10.5.20 RM_A10.5.26"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A10.2.03 RM_A10.3.23 RM_A10.3.24 RM_A10.4.24 RM_A10.5.03 RM_A10.5.04 RM_A10.5.20 RM_A10.5.26"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_258700">
+      <periods>14</periods>
+      <lesson_subject id="SU_ZEuUS"/>
+      <lesson_teacher id="TR_StefT"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>26923</teacher_value>
+      <begindate>20160215</begindate>
+      <enddate>20160221</enddate>
+      <effectivebegindate>20160215</effectivebegindate>
+      <effectiveenddate>20160221</effectiveenddate>
+      <block>3,5,6</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F111111F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>TAG</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A20.1.36"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_258900">
+      <periods>9</periods>
+      <lesson_subject id="SU_PW"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>17307</teacher_value>
+      <begindate>20151012</begindate>
+      <enddate>20151018</enddate>
+      <effectivebegindate>20151012</effectivebegindate>
+      <effectiveenddate>20151018</effectiveenddate>
+      <block>6</block>
+      <occurence>000000F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VSM</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259000">
+      <periods>4</periods>
+      <lesson_subject id="SU_IO"/>
+      <lesson_teacher id="TR_Monasterios"/>
+      <lesson_classes id="CL_IO"/>
+      <teacher_value>7692</teacher_value>
+      <begindate>20151005</begindate>
+      <enddate>20151011</enddate>
+      <effectivebegindate>20151005</effectivebegindate>
+      <effectiveenddate>20151011</effectiveenddate>
+      <occurence>111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>IVR</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A10.2.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A10.2.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A10.2.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.2.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259100">
+      <periods>2</periods>
+      <lesson_subject id="SU_GO"/>
+      <lesson_teacher id="TR_Fonseca"/>
+      <lesson_classes id="CL_IO"/>
+      <teacher_value>3846</teacher_value>
+      <begindate>20151109</begindate>
+      <enddate>20151115</enddate>
+      <effectivebegindate>20151109</effectivebegindate>
+      <effectiveenddate>20151115</effectiveenddate>
+      <occurence>000000F000000F000000F000000F000000F111111F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>IVR</lesson_description>
+      <times>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259200">
+      <periods>9</periods>
+      <lesson_subject id="SU_ÜFDLS"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>17307</teacher_value>
+      <begindate>20151207</begindate>
+      <enddate>20151213</enddate>
+      <effectivebegindate>20151207</effectivebegindate>
+      <effectiveenddate>20151213</effectiveenddate>
+      <block>3,6</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259300">
+      <periods>1</periods>
+      <lesson_subject id="SU_NN"/>
+      <lesson_teacher id="TR_Helbing"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>1923</teacher_value>
+      <begindate>20151012</begindate>
+      <enddate>20151018</enddate>
+      <effectivebegindate>20151012</effectivebegindate>
+      <effectiveenddate>20151018</effectiveenddate>
+      <occurence>000000F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_D10.3.01 RM_D10.3.02"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259500">
+      <periods>2</periods>
+      <lesson_subject id="SU_NN"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>3846</teacher_value>
+      <begindate>20151116</begindate>
+      <enddate>20151122</enddate>
+      <effectivebegindate>20151116</effectivebegindate>
+      <effectiveenddate>20151122</effectiveenddate>
+      <block>2</block>
+      <occurence>000000F000000F000000F000000F000000F000000F111111F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259600">
+      <periods>2</periods>
+      <lesson_subject id="SU_HIT"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>3846</teacher_value>
+      <begindate>20160125</begindate>
+      <enddate>20160131</enddate>
+      <effectivebegindate>20160125</effectivebegindate>
+      <effectiveenddate>20160131</effectiveenddate>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F111111F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>IVR</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259700">
+      <yearly_periods>9</yearly_periods>
+      <lesson_subject id="SU_IO"/>
+      <lesson_teacher id="TR_MüllES"/>
+      <lesson_classes id="CL_IO"/>
+      <teacher_value>17307</teacher_value>
+      <begindate>20151109</begindate>
+      <enddate>20160131</enddate>
+      <effectivebegindate>20151109</effectivebegindate>
+      <effectiveenddate>20160131</effectiveenddate>
+      <block>4,4</block>
+      <occurence>000000F000000F000000F000000F000000F111111F111111F111111F111111F111111F111111F11FFFFFFFFFFFF111111F111111F111111F111111F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>IVR</lesson_description>
+      <times>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20151114</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20151114</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20151114</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20151114</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20160116</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20160116</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20160116</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20160116</assigned_date>
+          <assigned_room id="RM_C13.1.29"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20160128</assigned_date>
+          <assigned_room id="RM_A10.4.24"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259800">
+      <periods>6</periods>
+      <lesson_subject id="SU_MINT"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>11538</teacher_value>
+      <begindate>20160229</begindate>
+      <enddate>20160306</enddate>
+      <effectivebegindate>20160229</effectivebegindate>
+      <effectiveenddate>20160306</effectiveenddate>
+      <block>6</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F111111F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <text>bis 21 Uhr</text>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A21.0.01 RM_A21.0.02 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A21.0.01 RM_A21.0.02 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A21.0.01 RM_A21.0.02 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A21.0.01 RM_A21.0.02 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A21.0.01 RM_A21.0.02 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A21.0.01 RM_A21.0.02 RM_A21.0.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_259900">
+      <periods>1</periods>
+      <lesson_subject id="SU_IO"/>
+      <lesson_teacher id="TR_Wehmer"/>
+      <lesson_classes id="CL_IO"/>
+      <teacher_value>1923</teacher_value>
+      <begindate>20151207</begindate>
+      <enddate>20151213</enddate>
+      <effectivebegindate>20151207</effectivebegindate>
+      <effectiveenddate>20151213</effectiveenddate>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>IVR</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A10.4.06"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_260000">
+      <periods>3</periods>
+      <lesson_subject id="SU_HSP"/>
+      <lesson_teacher id="TR_Hofmann"/>
+      <lesson_classes id="CL_HSP"/>
+      <teacher_value>5769</teacher_value>
+      <begindate>20151012</begindate>
+      <enddate>20151018</enddate>
+      <effectivebegindate>20151012</effectivebegindate>
+      <effectiveenddate>20151018</effectiveenddate>
+      <block>3</block>
+      <occurence>000000F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_C21.0.04 RM_C21.0.05"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_C21.0.04 RM_C21.0.05"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_C21.0.04 RM_C21.0.05"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_260100">
+      <periods>6</periods>
+      <lesson_subject id="SU_Proben"/>
+      <lesson_teacher id="TR_THMO"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>11538</teacher_value>
+      <begindate>20151026</begindate>
+      <enddate>20151101</enddate>
+      <effectivebegindate>20151026</effectivebegindate>
+      <effectiveenddate>20151101</effectiveenddate>
+      <block>6</block>
+      <occurence>000000F000000F000000F111111F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A21.0.02"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A21.0.02"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A21.0.02"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A21.0.02"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A21.0.02"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_A21.0.02"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_260200">
+      <periods>4</periods>
+      <lesson_subject id="SU_SLB"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_STB"/>
+      <teacher_value>7692</teacher_value>
+      <begindate>20151207</begindate>
+      <enddate>20151213</enddate>
+      <effectivebegindate>20151207</effectivebegindate>
+      <effectiveenddate>20151213</effectiveenddate>
+      <block>4</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A12.1.16"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_260400">
+      <periods>3</periods>
+      <lesson_subject id="SU_Senat"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>5769</teacher_value>
+      <begindate>20160125</begindate>
+      <enddate>20160131</enddate>
+      <effectivebegindate>20160125</effectivebegindate>
+      <effectiveenddate>20160131</effectiveenddate>
+      <block>3</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F111111F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>STZ</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_260500">
+      <periods>6</periods>
+      <lesson_subject id="SU_DST"/>
+      <lesson_teacher id="TR_Heines"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>11538</teacher_value>
+      <begindate>20160222</begindate>
+      <enddate>20160228</enddate>
+      <effectivebegindate>20160222</effectivebegindate>
+      <effectiveenddate>20160228</effectiveenddate>
+      <block>6</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F111111F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VRT</lesson_description>
+      <times>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_261100">
+      <periods>25</periods>
+      <lesson_subject id="SU_BRKCH"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_BRK"/>
+      <teacher_value>48076</teacher_value>
+      <begindate>20160229</begindate>
+      <enddate>20160306</enddate>
+      <effectivebegindate>20160229</effectivebegindate>
+      <effectiveenddate>20160306</effectiveenddate>
+      <block>5,5,5,5,5</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F111111F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <text>bis 17 Uhr</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_261200">
+      <yearly_periods>13</yearly_periods>
+      <lesson_subject id="SU_NN"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>25000</teacher_value>
+      <begindate>20151005</begindate>
+      <enddate>20160117</enddate>
+      <effectivebegindate>20151005</effectivebegindate>
+      <effectiveenddate>20160117</effectiveenddate>
+      <occurence>111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F111111F11FFFFFFFFFFFF111111F111111F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151205</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151219</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151031</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151114</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20160109</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151212</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20160116</assigned_date>
+          <assigned_room id="RM_A10.3.05"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151010</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151017</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151024</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151121</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151107</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+        <time>
+          <assigned_day>6</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20151128</assigned_date>
+          <assigned_room id="RM_A20.0.07"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_261600">
+      <yearly_periods>9</yearly_periods>
+      <lesson_subject id="SU_GCC"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_DIV.THM"/>
+      <teacher_value>17307</teacher_value>
+      <begindate>20160418</begindate>
+      <enddate>20160424</enddate>
+      <effectivebegindate>20160418</effectivebegindate>
+      <effectiveenddate>20160424</effectiveenddate>
+      <block>3,6</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F0000FFFF00000F000000F000000F111111F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <lesson_description>VER</lesson_description>
+      <times>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20160420</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20160420</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20160420</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_date>20160421</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_date>20160421</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_date>20160421</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_date>20160421</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_date>20160421</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>6</assigned_period>
+          <assigned_starttime>1730</assigned_starttime>
+          <assigned_endtime>1900</assigned_endtime>
+          <assigned_date>20160421</assigned_date>
+          <assigned_room id="RM_B21.0.01"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_262200">
+      <periods>25</periods>
+      <lesson_subject id="SU_BRKM"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_BRK"/>
+      <teacher_value>48076</teacher_value>
+      <begindate>20160307</begindate>
+      <enddate>20160313</enddate>
+      <effectivebegindate>20160307</effectivebegindate>
+      <effectiveenddate>20160313</effectiveenddate>
+      <block>5,5,5,5,5</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F000000F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <text>bis 17 Uhr</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01 RM_A21.0.03"/>
+        </time>
+      </times>
+    </lesson>
+    <lesson id="LS_262100">
+      <periods>25</periods>
+      <lesson_subject id="SU_BRKPH"/>
+      <lesson_teacher id="TR_DIV.THM"/>
+      <lesson_classes id="CL_BRK"/>
+      <teacher_value>48076</teacher_value>
+      <begindate>20160314</begindate>
+      <enddate>20160320</enddate>
+      <effectivebegindate>20160314</effectivebegindate>
+      <effectiveenddate>20160320</effectiveenddate>
+      <block>5,5,5,5,5</block>
+      <occurence>000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F00FFFFFFFFFFFF000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F111111F0000FFFF00000F000000F000000F000000F000000F0000F0F000000FF00000F000F00F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F000000F</occurence>
+      <text>bis 17 Uhr</text>
+      <lesson_description>SU</lesson_description>
+      <times>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>1</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>2</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>3</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>4</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>1</assigned_period>
+          <assigned_starttime>0800</assigned_starttime>
+          <assigned_endtime>0930</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>2</assigned_period>
+          <assigned_starttime>0950</assigned_starttime>
+          <assigned_endtime>1120</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>3</assigned_period>
+          <assigned_starttime>1130</assigned_starttime>
+          <assigned_endtime>1300</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>4</assigned_period>
+          <assigned_starttime>1400</assigned_starttime>
+          <assigned_endtime>1530</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+        <time>
+          <assigned_day>5</assigned_day>
+          <assigned_period>5</assigned_period>
+          <assigned_starttime>1545</assigned_starttime>
+          <assigned_endtime>1715</assigned_endtime>
+          <assigned_room id="RM_A20.0.07 RM_A20.1.07 RM_A21.0.01"/>
+        </time>
+      </times>
+    </lesson>
+  </lessons>
+  <reductions/>
+  <reduction_reasons/>
+  <lesson_tables>
+    <lesson_table id="LT_BI">
+      <longname>Bioinformatik (BSC)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Grundl.Inf." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Chemie1" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Disk.Math." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Obj.orient.Prog." min_periods="16" max_periods="16"/>
+        <lesson_table_subject id="SU_Chemie2" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Algor.Datenstrukt." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Prog.inter.Sys." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Lin.Algebra" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Gene.Genomik" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Biophysik" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Stochastik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bio." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Softw.tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_DBsys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Softw.tech.Prakt." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bioinf.1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Biochem.1" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Betr.sys." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Mol.bio.1" min_periods="15" max_periods="15"/>
+        <lesson_table_subject id="SU_S-Bioinf." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_RechtInf." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Bildgeb.Verf.Med." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Protein3DStrukt." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Anally.num.Meth." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prakt.WI" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Pflegeman.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Cont.Man.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Dig.Sig.verarb." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Einf.mol.Model." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Gene.Alg." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Dig.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_RechnernetzeAnw." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Grundl.Robotik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prakt.UNIXProg.Env." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_OpenSourceProg.Werkz." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Komp.Framew." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Präs.Tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Intern.bas.Sys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Compilerbau" min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Mikroproz.tech." min_periods="6" max_periods="6"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_I-B">
+      <longname>Informatik (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_ABAP" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Algor.Datenstrukt." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Anally.num.Meth." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Betr.sys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Bildgeb.Verf.Med." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bioinf.1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Compilerbau" min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Cont.Man.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_DBsys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Dig.Sig.verarb." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Dig.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Disk.Math." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_DVBWL" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Einf.eingebet.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Gene.Alg." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Grundl.Inf." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Grundl.Robotik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Intern.bas.Sys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Komm.tech.KH" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Komp.Framew." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Konz.sys.nah.Prog." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_LeitSteuerKomm.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Lin.Algebra" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_LokaleNetze" min_periods="1" max_periods="2"/>
+        <lesson_table_subject id="SU_Mark.Komm.Intern." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Mikroproz.tech." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Naturw.tech.Grundl." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Obj.orient.Prog." min_periods="16" max_periods="16"/>
+        <lesson_table_subject id="SU_OpenSourceProg.Werkz." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Org.lehre" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Pflegeman.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prakt.Android" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prakt.eingebet.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prakt.UNIXProg.Env." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prakt.WI" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Präs.Tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Prog.inter.Sys." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Proj.Man." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_RechnernetzeAnw." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_RechtInf." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_S-Android" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Softw.tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Softw.tech.Prakt." min_periods="10" max_periods="10"/>
+        <lesson_table_subject id="SU_S-Rechnernetze" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Stochastik" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Tech.Engl." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Telemed." min_periods="2" max_periods="2"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_I-M">
+      <longname>Informatik (MSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Krypt.Sys.sich." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Logikform.Meth." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Entw.kompl.betr.Anw." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Präs.Gespr.Verhand.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_S-MScII" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Vert.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Effiz.Algor.Comp.graf." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Evo.Alg." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Künst.neuro.Netze" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_ECMAScr.App." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Loc.basedServ." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Dat.anly.Dat.Min." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bildv.Einf.Must.erk." min_periods="2" max_periods="2"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_II">
+      <longname>Ing.Inform. (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Grundl.Inf." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Obj.orient.Prog." min_periods="16" max_periods="16"/>
+        <lesson_table_subject id="SU_RechnernetzeAnw." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Naturw.tech.Grundl." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Disk.Math." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Prog.inter.Sys." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Lin.Algebra" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Anally.num.Meth." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Algor.Datenstrukt." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Dig.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prog.Logik" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Softw.tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Mikroproz.tech." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Dig.Sig.verarb." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Konz.sys.nah.Prog." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_DBsys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Einf.eingebet.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Proj.Man." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_LeitSteuerKomm.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Präs.Tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Prakt.eingebet.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Betr.sys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Softw.tech.Prakt." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bildgeb.Verf.Med." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_DVBWL" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Pflegeman.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Cont.Man.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_LokaleNetze" min_periods="1" max_periods="2"/>
+        <lesson_table_subject id="SU_Gene.Alg." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Stochastik" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Intern.bas.Sys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Mark.Komm.Intern." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Grundl.Robotik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Telemed." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Compilerbau" min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_S-Rechnernetze" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Bioinf.1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_RechtInf." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_OpenSourceProg.Werkz." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_ABAP" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Tech.Engl." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Komp.Framew." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Komm.tech.KH" min_periods="1" max_periods="1"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_MI">
+      <longname>Med.Inform. (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Med.Grundl.1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Grundl.Inf." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Obj.orient.Prog." min_periods="13" max_periods="13"/>
+        <lesson_table_subject id="SU_Ges.wesenGes.öko." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_KHbetr.lehre" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Disk.Math." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Prog.inter.Sys." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Lin.Algebra" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Algor.Datenstrukt." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Med.Grundl.2" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Dat.schutzDat.sich." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Softw.tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Stochastik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_DBsys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Inf.sys.Gesundh.wesen" min_periods="9" max_periods="9"/>
+        <lesson_table_subject id="SU_Med.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Proj.Man." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_KHprakt.Med.Inf." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Betr.sys." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Med.Doku." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Softw.tech.Prakt." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Bildgeb.Verf.Med." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Prakt.WI" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_DVBWL" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Org.lehre" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Pflegeman.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Mikroproz.tech." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Cont.Man.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Dig.Sig.verarb." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_LokaleNetze" min_periods="1" max_periods="2"/>
+        <lesson_table_subject id="SU_Einf.eingebet.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Gene.Alg." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_S-Med.Inf." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Intern.bas.Sys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Konz.sys.nah.Prog." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Dig.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Mark.Komm.Intern." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_RechnernetzeAnw." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Grundl.Robotik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Telemed." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Compilerbau" min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_LeitSteuerKomm.Sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Präs.Tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Naturw.tech.Grundl." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Prakt.UNIXProg.Env." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bioinf.1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_RechtInf." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_OpenSourceProg.Werkz." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_ABAP" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Tech.Engl." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Komp.Framew." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Komm.tech.KH" min_periods="1" max_periods="1"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_TRMD">
+      <longname>TRMD (MA)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_TRMD" min_periods="2" max_periods="2"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_UHSI">
+      <longname>Umwelt-Hygiene-Sicherheitsingenieurwesen (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Mathe1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Physik1" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Chemie1" min_periods="7" max_periods="7"/>
+        <lesson_table_subject id="SU_Elektrotech." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Physik2" min_periods="8" max_periods="8"/>
+        <lesson_table_subject id="SU_Chemie2" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Fremdspr.1" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Englisch1" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Statistik" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Mathe2" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Werkstoffk.Festlehre" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Steu.Reg.tech." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_SchallLärm" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Umw.recht" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Immi.schutz" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Allg.Öko." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Umw.analytik" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_UHSI-Proj." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Integ.Man.sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bod.Altl.San." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Entsorg.Wirtsch." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Trinkwasser" min_periods="7" max_periods="7"/>
+        <lesson_table_subject id="SU_Grundl.Sich.tech.Arbeitsu.gest." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Biomon." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Verw.Recht" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Fremdspr.2" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Tech.Gew.schutz" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Englisch2" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Soz.tech." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Umw.audit" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Hyg.Ents.wirt." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Anlag.Proz.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Umw.info.sys." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_RisikoQM" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Wass.Recyc.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Proz.leit.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Proz.ana.Verf.mess." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Stat.Meth." min_periods="1" max_periods="1"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_MP">
+      <longname>Medizinische Physik (MSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Phys.Tech.Str.ther.1" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Bildg.Sys.1" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Dosi.ion.Strahl." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bildverarbeitung" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_ITSys.Med." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Num.Verf.Sim." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Biosig.erf." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Hauptsem.MP" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Laseranw.Med." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Stat.Meth." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Klin.Asp.Rad." min_periods="1" max_periods="1"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_KTM">
+      <longname>KrankenhausTechnikManagement (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Mathe1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Physik1" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Chemie1" min_periods="7" max_periods="7"/>
+        <lesson_table_subject id="SU_Elektrotech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Physik2" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Chemie2" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Statistik" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Bautechnik1" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Mathe2" min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Ges.KHWesen" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Angew.Stat.KHT" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Funktst.Unter.Behand." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Steu.Reg.tech." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_BPS-Sem." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_CAD2" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Komm.tech.KH" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_KHplan.1" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Sond.geb.KHhyg." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Sani.tech." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Heiztech." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_KHplan.2" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Integ.Man.sys." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Proj.Geb.man." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_KHplan.3" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Grundl.Sich.tech.Arbeitsu.gest." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_EDV-KHTech." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Med.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Brandschutz" min_periods="2" max_periods="2"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_BMT">
+      <longname>Biomedizinische Technik (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Mathe1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Physik1" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Chemie1" min_periods="7" max_periods="7"/>
+        <lesson_table_subject id="SU_Elektrotech." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Physik2" min_periods="8" max_periods="8"/>
+        <lesson_table_subject id="SU_Chemie2" min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Statistik" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Mathe2" min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Einf.Progr." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Opti.Bildg." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Werkstoffk.Festlehre" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Ges.KHWesen" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Biomech.1" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Rap.Prototyp." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Sys.theo.Reg.tech." min_periods="7" max_periods="7"/>
+        <lesson_table_subject id="SU_Englisch1" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Orthopädie" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Dig.Sys." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Biophysik" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_BWL" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_RechtSich.MT" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Therap.Sys." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Elektromed." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Rehatech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Entw.med.Prod." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Pathomech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Sicherh.Tech.Med." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Klin.Lab." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Mark.Vertr." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Angew.Med.Phy." min_periods="7" max_periods="7"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_BMB">
+      <longname>Biomechanik Motorik Bewegungsanalyse (MSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Matlab 2" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Biomech.2" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bionik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Biomech." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Einf.Progr." min_periods="2" max_periods="2"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_BPT-B">
+      <longname>Biotech./Biopharm. Tech. (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Mathe1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Physik1" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Chemie1" min_periods="7" max_periods="7"/>
+        <lesson_table_subject id="SU_Elektrotech." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Physik2" min_periods="8" max_periods="8"/>
+        <lesson_table_subject id="SU_Chemie2" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Fremdspr.1" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Englisch1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Statistik" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Mathe2" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Biochem.1" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Werkstoffk.Festlehre" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Mol.bio.1" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Verf.Tech." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Praktika des 4. Sem." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Steu.Reg.tech." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Einf.Bioverf.tech." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Biophysik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Phytopharm." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Klin.Wirkstoffpr." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Bioprod.Aufarb." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Mol.bio.2" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Entw.med.Prod." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Fremdspr.2" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Pharma.Tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Biodatenanalyse" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Mark.Vertr." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Spez.Kap.Pharm." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Enzymetech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_RechtSich.BPT" min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Englisch2" min_periods="3" max_periods="3"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_BPT-M">
+      <longname>Biotech./Biopharm. Tech. (MSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Num.Verf.Sim." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Anlag.Proz.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_RisikoQM" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Biotech.Vert." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Proz.leit.tech." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Proz.ana.Verf.mess." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Stat.Meth." min_periods="1" max_periods="1"/>
+      </lesson_table_subjects>
+    </lesson_table>
+    <lesson_table id="LT_BWL">
+      <longname>Betriebswirtschaftslehre (BSc)</longname>
+      <lesson_table_subjects>
+        <lesson_table_subject id="SU_Untern.rechn." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Grundl.BWL" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Mathematik" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Angew.Mikroöko." min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_Marketing" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_ArbeitenTeam" min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Privatrecht.Grundl." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_ExternesRewe" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_PersonalOrg." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Statistik" min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Angew.Makroöko." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Wirtsch.inf." min_periods="5" max_periods="5"/>
+        <lesson_table_subject id="SU_Bus.Engl." min_periods="4" max_periods="6"/>
+        <lesson_table_subject id="SU_Wiss.Arbeiten" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_InternesRewe" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Privatrecht.Vert." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Steuerlehre" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Finanzwirtschaft" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_ITAnwend." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_Präs.Rhetorik" min_periods="12" max_periods="12"/>
+        <lesson_table_subject id="SU_Proj.Man." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Untern.führ.steuer." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Moderation" min_periods="11" max_periods="11"/>
+        <lesson_table_subject id="SU_Kostenman." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Operat.Control." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Strat.Control." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_BWLFin.inst." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Käuferverhalten" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Abs.pol.Instr." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Marktforschung" min_periods="3" max_periods="3"/>
+        <lesson_table_subject id="SU_MarketingMan." min_periods="4" max_periods="4"/>
+        <lesson_table_subject id="SU_BasiskompetenzenKMU" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Betr.gründung" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Untern.pol.Mittelst." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Qual.Komp.entw." min_periods="1" max_periods="2"/>
+        <lesson_table_subject id="SU_Kernaufg.Pers.arb." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Ertragsteuern" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Bil.steu.recht" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Wirtschaftsprüfung" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_GWDeutsch." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Org.Pers.GW" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Finanzman.Contr.KH" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Grundl.GW" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Dat.model.Dat.man." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Stand.softw.ReweCo." min_periods="6" max_periods="6"/>
+        <lesson_table_subject id="SU_Arbeitsrecht" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Akt.wirtsch.recht.Themen" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Wettb.Insolv.recht" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Gesell.recht" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Ausb.betr.PraxisFallstud." min_periods="1" max_periods="1"/>
+        <lesson_table_subject id="SU_Ausb.betr.PraxisGrundl." min_periods="1" max_periods="2"/>
+        <lesson_table_subject id="SU_Internat.Steuerrecht" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_AktuelleThemen" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Int.Finanzman." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Versicherungslehre" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Int.Rechnungslegung" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Allg.Steuerrecht" min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Rechtl.Grundl." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Fallst.Plansp.Proj." min_periods="2" max_periods="2"/>
+        <lesson_table_subject id="SU_Außenwirtschaft" min_periods="2" max_periods="2"/>
+      </lesson_table_subjects>
+    </lesson_table>
+  </lesson_tables>
+</document>
