@@ -49,7 +49,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "s.id, d.short_name AS departmentname, semestername, active, creationdate, creationtime ";
+        $select = "s.id, d.short_name AS departmentname, semestername, active, creationdate, creationtime, term_startdate, term_enddate";
         $query->select($select);
         $query->from("#__thm_organizer_schedules AS s");
         $query->innerJoin("#__thm_organizer_departments AS d ON s.departmentID = d.id");
@@ -85,7 +85,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
                 $return[$index]['departmentID'] = $item->departmentname;
-                $return[$index]['semestername'] = $item->semestername;
+                $return[$index]['semestername'] = $this->getSemesterName($item);
                 $return[$index]['active']
                     = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
                 $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
@@ -95,7 +95,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
             {
                 $return[$index]['checkbox'] = '';
                 $return[$index]['departmentID'] = $item->departmentname;
-                $return[$index]['semestername'] = $item->semestername;
+                $return[$index]['semestername'] = $this->getSemesterName($item);
                 $return[$index]['active']
                     = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'), null, false);
                 $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
@@ -125,5 +125,28 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         $headers['creationtime'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_TIME', 'creationtime', $direction, $ordering);
 
         return $headers;
+    }
+
+    /**
+     * returns the full semestername with year of semester out of the schedules date of term_start and end
+     *
+     * @param   object  $item  a schedule object
+     *
+     * @return string (e.g. 'WS 15/16')
+     */
+    private function getSemesterName($item)
+    {
+        $startDate = new DateTime($item->term_startdate);
+        $endDate = new DateTime($item->term_enddate);
+        $startYear = $startDate->format('y');
+        $endYear = $endDate->format('y');
+
+        $year = $startYear;
+        if ($startYear != $endYear)
+        {
+            $year = $startYear . '/' . $endYear;
+        }
+
+        return $item->semestername . ' ' . $year;
     }
 }

@@ -50,7 +50,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public $schedule = null;
 
     /**
-     * Object conteining information from a reference schedule
+     * Object containing information from a reference schedule
      *
      * @var object
      */
@@ -151,12 +151,12 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         if ($termStartDT < $syStartTime OR $termEndDT > $syEndTime OR $termStartDT >= $termEndDT)
         {
             $this->scheduleErrors[] = JText::sprintf(
-                                                      'COM_THM_ORGANIZER_ERROR_DATES_INCONSISTENT',
-                                                      date('d.m.Y', $syStartDate),
-                                                      date('d.m.Y', $syEndDate),
-                                                      date('d.m.Y', $termStartDT),
-                                                      date('d.m.Y', $termEndDT)
-                                                     );
+                  'COM_THM_ORGANIZER_ERROR_DATES_INCONSISTENT',
+                  date('d.m.Y', $syStartDate),
+                  date('d.m.Y', $syEndDate),
+                  date('d.m.Y', $termStartDT),
+                  date('d.m.Y', $termEndDT)
+             );
         }
 
         $this->schedule->periods = new stdClass;
