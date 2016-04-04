@@ -43,6 +43,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         {
             $config['filter_fields'] = array('r.longname', 'm.ip', 'm.useDefaults', 'm.display', 'm.content');
         }
+
         $this->displayBehaviour[DAILY] = JText::_('COM_THM_ORGANIZER_DAILY_PLAN');
         $this->displayBehaviour[MIXED] = JText::_('COM_THM_ORGANIZER_MIXED_PLAN');
         $this->displayBehaviour[CONTENT] = JText::_('COM_THM_ORGANIZER_CONTENT_DISPLAY');
@@ -183,8 +184,10 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
                 $return[$index]['display'] = $this->displayBehaviour[$item->display];
                 $return[$index]['content'] = $item->content;
             }
+
             $index++;
         }
+
         return $return;
     }
 
@@ -203,6 +206,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
         {
             $headers['checkbox'] = '';
         }
+
         $headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
         $headers['ip'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
         $headers['useDefaults'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEFAULT_SETTINGS', 'm.useDefault', $direction, $ordering);

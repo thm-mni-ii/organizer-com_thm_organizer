@@ -72,7 +72,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return;
         }
- 
+
         if (empty($teacherEntries))
         {
             return;
@@ -98,6 +98,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
                 {
                     $deletedIDs[] = $nextEntry['id'];
                 }
+
                 $nextIndex++;
                 $nextEntry = $teacherEntries[$nextIndex];
             }
@@ -170,7 +171,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return null;
         }
-        
+
         return $teachers;
     }
 
@@ -218,8 +219,10 @@ class THM_OrganizerModelTeacher extends JModelLegacy
                 $otherIDs[] = $value;
                 return true;
             }
+
             return false;
         }
+
         return true;
     }
 
@@ -246,6 +249,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             // Reformat the 'other' ids for use in queries
             $data['otherIDs'] = "'" . implode("', '", explode(',', $data['otherIDs'])) . "'";
         }
+
         if (!empty($data['fieldID']) AND empty($data['description']))
         {
             $data['field'] = $this->getField($data);
@@ -260,7 +264,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             $dbo->transactionRollback();
             return false;
         }
- 
+
         // Update entry with lowest ID
         $teacher = JTable::getInstance('teachers', 'thm_organizerTable');
         $success = $teacher->save($data);
@@ -313,6 +317,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -344,6 +349,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             $dbo->transactionRollback();
             return false;
         }
+
         return true;
     }
 
@@ -368,6 +374,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         {
             $data['gpuntisID'] = str_replace('TR_', '', $data['gpuntisID']);
         }
+
         $newID = $data['gpuntisID'];
 
         $scheduleQuery = $dbo->getQuery(true);
@@ -384,7 +391,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
-        
+
         if (empty($schedules))
         {
             return true;
@@ -412,6 +419,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -443,6 +451,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
                 return null;
             }
         }
+
         return empty($field)? null : str_replace('DS_', '', $field);
     }
 
@@ -472,7 +481,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
-        
+
         return $teacherUntisIDs;
     }
 
@@ -525,6 +534,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         {
             $schedule->teachers->$newID->forename = $teacher['forename'];
         }
+
         if (isset($teacher['username']))
         {
             $schedule->teachers->$newID->username = $teacher['username'];
@@ -562,6 +572,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
             return false;
         }
+
         return true;
     }
 
@@ -629,13 +640,16 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             {
                 $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING");
             }
+
             return false;
         }
+
         if (empty($externalID))
         {
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNAL_ID');
         }
+
         $gpuntisID = empty($externalID)? $internalID : $externalID;
         return $gpuntisID;
     }
@@ -656,6 +670,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING', $teacherID);
             return false;
         }
+
         $this->_scheduleModel->schedule->teachers->$teacherID->surname = $surname;
         return $surname;
     }
@@ -677,6 +692,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_FORENAME');
         }
+
         $this->_scheduleModel->schedule->teachers->$teacherID->forename = empty($forename)? '' : $forename;
     }
 
@@ -698,6 +714,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
         }
+
         $this->_scheduleModel->schedule->teachers->$teacherID->description
             = empty($descriptionID)? '' : $descriptionID;
     }

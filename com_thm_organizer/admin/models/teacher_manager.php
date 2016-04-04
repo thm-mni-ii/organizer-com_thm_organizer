@@ -93,6 +93,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             }
+
             if ($this->actions->{'core.edit'})
             {
                 $surname = JHtml::_('link', $item->link, $item->surname);
@@ -107,6 +108,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
                 $username = $itemUsername;
                 $gpuntisID = $itemGPUntisID;
             }
+
             $return[$index]['surname'] = $surname;
             $return[$index]['forename'] = $forename;
             $return[$index]['username'] = $username;
@@ -120,8 +122,10 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
             {
                 $return[$index]['fieldID'] = '';
             }
+
             $index++;
         }
+
         return $return;
     }
 
@@ -140,6 +144,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
         {
             $headers['checkbox'] = '';
         }
+
         $headers['surname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
         $headers['forename'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);
         $headers['username'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction, $ordering);

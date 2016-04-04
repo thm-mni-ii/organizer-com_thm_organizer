@@ -46,6 +46,7 @@ class THM_OrganizerTablePools extends JTable
             $rules = new JAccessRules($array['rules']);
             $this->setRules($rules);
         }
+
         return parent::bind($array, $ignore);
     }
 

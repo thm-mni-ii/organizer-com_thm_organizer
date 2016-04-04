@@ -47,6 +47,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -89,6 +90,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                     JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
                     return false;
                 }
+
                 $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
             }
 
@@ -102,13 +104,16 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 {
                     $mapped = $this->addLSFSubject($sub, $mappingsTable->id);
                 }
+
                 if (!$mapped)
                 {
                     return false;
                 }
             }
+
             return true;
         }
+
         if ($unwanted)
         {
             return true;
@@ -144,6 +149,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 {
                     return $this->deleteEntry($mappingsTable->id);
                 }
+
                 return true;
             }
 
@@ -158,12 +164,15 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
                 return false;
             }
+
             return true;
         }
+
         if ($unwanted)
         {
             return true;
         }
+
         JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_LOAD_FAIL', 'error');
         return false;
     }
@@ -187,6 +196,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return false;
         }
+
         $pool['rgt'] = (string) ($pool['lft'] + 1);
 
         $spaceMade = $this->shiftRight($pool['lft']);
@@ -200,7 +210,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return false;
         }
-        
+
         $mapping = JTable::getInstance('mappings', 'THM_OrganizerTable');
         $mappingAdded = $mapping->save($pool);
         if ($mappingAdded)
@@ -224,7 +234,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                         {
                             continue;
                         }
-                        
+
                         $child['level'] = $pool['level'] + 1;
                         $childAdded = $this->addSubject($child);
                         if (!$childAdded)
@@ -234,8 +244,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
                     }
                 }
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -257,6 +269,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return false;
         }
+
         $subject['rgt'] = (string) ($subject['lft'] + 1);
 
         $spaceMade = $this->shiftRight($subject['lft']);
@@ -277,6 +290,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return true;
         }
+
         return false;
     }
 
@@ -304,7 +318,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
-        
+
         return empty($count)? false : true;
     }
 
@@ -322,6 +336,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return false;
         }
+
         $dbo = JFactory::getDbo();
 
         $mappingIDsQuery = $dbo->getQuery(true);
@@ -338,6 +353,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 $mappingIDsQuery->where("subjectID = '$resourceID'");
                 break;
         }
+
         $dbo->setQuery((string) $mappingIDsQuery);
         
         try
@@ -361,6 +377,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 
@@ -400,6 +417,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 
@@ -497,6 +515,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
+
         return true;
     }
 
@@ -530,7 +549,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return false;
         }
- 
+
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->select('lft')->from('#__thm_organizer_mappings');
         $lftQuery->where("id = '$parentID'");
@@ -579,7 +598,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
-        
+
         if (!empty($firstID))
         {
             $childrenQuery = $dbo->getQuery(true);
@@ -614,6 +633,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 }
             }
         }
+
         return $children;
     }
 
@@ -641,6 +661,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 $children[$ordering]['subjectID'] = $resourceID;
                 $children[$ordering]['ordering'] = $ordering;
             }
+
             if ($resourceType == 'pool')
             {
                 $children[$ordering]['poolID'] = $resourceID;
@@ -649,6 +670,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 $children[$ordering]['children'] = $this->getChildren($resourceID);
             }
         }
+
         return $children;
     }
 
@@ -678,6 +700,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             $existingOrderQuery->where("poolID = '$resourceID'");
         }
+
         $dbo->setQuery((string) $existingOrderQuery);
         
         try 
@@ -688,7 +711,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
         }
-        
+
         if ( !empty($existingOrder))
         {
             return $existingOrder;
@@ -710,7 +733,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
         }
-        
+
         return empty($maxOrder)? 1 : $maxOrder + 1;
     }
 
@@ -737,7 +760,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
-        
+
         return $mappings;
     }
 
@@ -796,6 +819,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                     return false;
                 }
             }
+
             return true;
         }
         else
@@ -829,7 +853,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
-        
+
         if (empty($rootMapping))
         {
             $leftQuery = $dbo->getQuery(true);
@@ -865,6 +889,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             {
                 return false;
             }
+
             if (!empty($children) AND $cleanSlate)
             {
                 foreach ($children as $child)
@@ -889,6 +914,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                     }
                 }
             }
+
             return true;
         }
     }
@@ -928,6 +954,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -953,7 +980,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
-        
+
         return $mappings;
     }
 
@@ -979,10 +1006,13 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 {
                     return false;
                 }
+
                 continue;
             }
+
             unset($selectedParents[$index]);
         }
+
         return true;
     }
 
@@ -1010,6 +1040,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return false;
         }
+
         return true;
     }
 
@@ -1035,7 +1066,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         {
             return false;
         }
- 
+
         $rgtQuery = $dbo->getQuery(true);
         $rgtQuery->update('#__thm_organizer_mappings')->set('rgt = rgt + 2')->where("rgt >= '$value'");
         $dbo->setQuery((string) $rgtQuery);

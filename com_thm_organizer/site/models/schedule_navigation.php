@@ -118,6 +118,7 @@ class THM_OrganizerModelSchedule_Navigation
             $this->_frontend = true;
             return $frontendID;
         }
+
         $this->_frontend = false;
         return $backendID;
     }
@@ -186,6 +187,7 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return $this->failure();
         }
+
         $this->_activeScheduleData = json_decode($activeSchedule->schedule);
 
         unset($activeSchedule->schedule);
@@ -258,6 +260,7 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return;
         }
+
         foreach ($this->_treeData["subject"] as $subject)
         {
             if (isset($subjectData[$subject->subjectNo]))
@@ -268,6 +271,7 @@ class THM_OrganizerModelSchedule_Navigation
                 $subject->link = JRoute::_($subjectData[$subject->subjectNo]->link);
                 continue;
             }
+
             $subject->shortname = $subject->longname;
         }
     }
@@ -370,6 +374,7 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return false;
         }
+
         if (count($nodeParts) >= 5)
         {
             // 'subject' should not shown any more
@@ -377,10 +382,12 @@ class THM_OrganizerModelSchedule_Navigation
             {
                 return false;
             }
+
             if ($nodeParts[4] === 'room' && $this->displayRoom == 0)
             {
                 return false;
             }
+
             if ($nodeParts[4] === 'teacher' && $this->displayTeacher == 0)
             {
                 return false;
@@ -399,6 +406,7 @@ class THM_OrganizerModelSchedule_Navigation
             {
                 continue;
             }
+
             $elementParts = explode("_", $element);
 
             // Differing resource types
@@ -414,6 +422,7 @@ class THM_OrganizerModelSchedule_Navigation
                 return false;
             }
         }
+
         return true;
     }
 
@@ -472,7 +481,6 @@ class THM_OrganizerModelSchedule_Navigation
         }
 
         return $categoryNodes;
-
     }
 
     /**
@@ -508,12 +516,15 @@ class THM_OrganizerModelSchedule_Navigation
                     {
                         return $subcategoryKey === $resource->degree;
                     }
+
                     if (isset($resource->description))
                     {
                         return $subcategoryKey === $resource->description;
                     }
+
                     return false;
                 }
+
             );
 
             $resourceNodes = array();
@@ -597,6 +608,7 @@ class THM_OrganizerModelSchedule_Navigation
                 {
                     $this->_publicDefaultNode = $leafNode;
                 }
+
                 $parameters['resourceNodes'][] = $leafNode;
 
                 if ($parameters['allDisplayed'])
@@ -634,6 +646,7 @@ class THM_OrganizerModelSchedule_Navigation
                 {
                     return;
                 }
+
                 break;
             case "pool":
                 if (isset($resource->degree))
@@ -646,6 +659,7 @@ class THM_OrganizerModelSchedule_Navigation
                 {
                     return;
                 }
+
                 break;
             case "teacher":
             case "subject":
@@ -659,6 +673,7 @@ class THM_OrganizerModelSchedule_Navigation
                 {
                     return;
                 }
+
                 break;
         }
 
@@ -688,6 +703,7 @@ class THM_OrganizerModelSchedule_Navigation
                 $this->expandNodeWithOnlyChild($child->children);
             }
         }
+
         return;
     }
 
@@ -705,6 +721,7 @@ class THM_OrganizerModelSchedule_Navigation
         {
             return $this->roomIsPlanned($resourceID);
         }
+
         return $this->resourceInPlannedLesson($resourceID, $category);
     }
 
@@ -723,6 +740,7 @@ class THM_OrganizerModelSchedule_Navigation
             {
                 continue;
             }
+
             foreach ($day as $block)
             {
                 foreach ($block as $lesson)
@@ -734,6 +752,7 @@ class THM_OrganizerModelSchedule_Navigation
                 }
             }
         }
+
         return false;
     }
 
@@ -777,12 +796,14 @@ class THM_OrganizerModelSchedule_Navigation
             {
                 continue;
             }
+
             $lessonPlanned = $this->lessonIsPlannedInDay($day, $lessonKeys);
             if ($lessonPlanned)
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -809,6 +830,7 @@ class THM_OrganizerModelSchedule_Navigation
                 }
             }
         }
+
         return false;
     }
 
@@ -835,6 +857,5 @@ class THM_OrganizerModelSchedule_Navigation
             'publicDefault' => $this->_publicDefault
         );
         return new THM_OrganizerNode($allNodeData);
-
     }
 }

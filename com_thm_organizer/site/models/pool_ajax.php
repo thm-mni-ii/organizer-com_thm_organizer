@@ -42,6 +42,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         {
             return $options[0];
         }
+
         $programMappings = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
         $onlyProgramMappings = count($programEntries) == count($programMappings);
         if ($onlyProgramMappings AND $resourceType == 'subject')
@@ -98,6 +99,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         {
             return array();
         }
+
         $children = THM_OrganizerHelperMapping::getChildren($mappings);
         return array_merge($mappingIDs, $children);
     }
@@ -152,6 +154,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             {
                 continue;
             }
+
             if (!empty($mapping['poolID']))
             {
                 $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $parentIDs);
@@ -196,10 +199,12 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             $query->where("m.lft >= '{$programBounds[0]['lft']}'");
             $query->where("m.rgt <= '{$programBounds[0]['rgt']}'");
         }
+
         if (!empty($teacherClauses))
         {
             $query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
         }
+
         $query->order('lft');
         $this->_db->setQuery((string) $query);
         try
@@ -221,6 +226,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         {
             $pools[$key]->name  = THM_OrganizerHelperMapping::getIndentedPoolName($value->name, $value->level, false);
         }
+
         return json_encode($pools);
     }
 }

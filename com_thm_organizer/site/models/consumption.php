@@ -45,7 +45,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 
     public $endDate = '';
 
-
     /**
      * Sets construction model properties
      *
@@ -58,7 +57,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 
         if (!empty($this->schedule))
         {
-
             $this->setConsumption();
             if ($this->type == ROOM)
             {
@@ -102,6 +100,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             $this->selected[$resource] = array();
             $this->names[$resource] = array();
         }
+
         $this->setSchedule();
         $this->setDates();
     }
@@ -120,6 +119,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         {
             $rowKeys = array_merge($rowKeys, array_keys($resourceConsumption));
         }
+
         asort($rowKeys);
         return array_unique($rowKeys);
     }
@@ -201,6 +201,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 {
                     continue;
                 }
+
                 $this->setConsumptionByInstance($blocks);
             }
         }
@@ -230,10 +231,12 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 {
                     continue;
                 }
+
                 if ($this->type == TEACHER)
                 {
                     $this->setTeachersByInstance($lessonID, $hours);
                 }
+
                 if ($this->type == ROOM)
                 {
                     foreach ($lessonValues as $roomID => $roomDelta)
@@ -269,6 +272,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             {
                 continue;
             }
+
             $degree = $this->schedule->pools->$poolID->degree;
             foreach ($teachers as $teacherID => $teacherDelta)
             {
@@ -342,6 +346,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 {
                     continue;
                 }
+
                 $degree = $this->schedule->pools->$poolID->degree;
                 $this->setRoomConsumption($degree, $roomID, $hours);
             }
@@ -399,6 +404,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         {
             return '';
         }
+
         $table = "<table id='thm_organizer-consumption-table' ";
         $table .= "class='consumption-table'>";
 
@@ -440,8 +446,10 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             {
                 continue;
             }
+
             $tableHead .= '<th>' . $names[$column] . '</th>';
         }
+
         $tableHead .= '</tr></thead>';
         return $tableHead . $summaryRow;
     }
@@ -458,7 +466,6 @@ class THM_OrganizerModelConsumption extends JModelLegacy
      */
     private function getSummaryRow($type, &$columns, $rows)
     {
-
         $row = '<tr>';
         $style = 'style ="vnd.ms-excel.numberformat:@;"';
         $row .= '<th>' . JText::_('COM_THM_ORGANIZER_TOTAL') . '</th>';
@@ -469,14 +476,17 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             {
                 continue;
             }
+
             $sum = $this->getColumnSum($type, $column, $rows);
             if (!empty($sum))
             {
                 $row .= '<td ' . $style . '>' . $this->getColumnSum($type, $column, $rows) . '</th>';
                 continue;
             }
+
             unset($columns[$key]);
         }
+
         $row .= '</tr>';
         return $row;
     }
@@ -500,6 +510,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 $sum += $this->consumption[$type][$columnIndex][$resource]['hours'];
             }
         }
+
         return $sum;
     }
 
@@ -528,15 +539,19 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 {
                     continue;
                 }
+
                 $tableBody .= '<td ' . $style . '>';
                 if (isset($this->consumption[$type][$column][$row]))
                 {
                     $tableBody .= $this->consumption[$type][$column][$row]['hours'];
                 }
+
                 $tableBody .= '</td>';
             }
+
             $tableBody .= '</tr>';
         }
+
         return $tableBody;
     }
 
@@ -569,13 +584,16 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 {
                     continue;
                 }
+
                 if (!$initial)
                 {
                     $names[$resource] .= $separator;
                 }
+
                 $names[$resource] .= $this->schedule->$category->$resource->$property;
                 $initial = false;
             }
+
             if (empty($names[$resource]))
             {
                 unset($names[$resource]);
@@ -603,6 +621,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             $this->selected[$type] = $default;
             return;
         }
+
         $this->selected[$type] = $selected;
     }
 

@@ -124,6 +124,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             );
             return;
         }
+
         $useMediumText = (!empty($subject->creditpoints) AND !empty($subject->expenditure));
         if ($useMediumText)
         {
@@ -133,6 +134,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             );
             return;
         }
+
         if (!empty($subject->creditpoints))
         {
             $subject->expenditureOutput = JText::sprintf('COM_THM_ORGANIZER_EXPENDITURE_SHORT', $subject->creditpoints);

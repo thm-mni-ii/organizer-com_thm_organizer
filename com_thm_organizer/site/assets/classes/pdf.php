@@ -129,6 +129,7 @@ class THMPDFBuilder extends THMAbstractBuilder
         {
             return array("success" => true, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATED"));
         }
+
         return array("success" => false, "data" => JText::_("COM_THM_ORGANIZER_MESSAGE_FILE_CREATION_FAIL"));
     }
 
@@ -451,6 +452,7 @@ class THMPDFBuilder extends THMAbstractBuilder
                 $maxEntries = count($column);
             }
         }
+
         return $maxEntries;
     }
 }

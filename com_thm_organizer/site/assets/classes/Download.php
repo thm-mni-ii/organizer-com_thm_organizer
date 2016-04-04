@@ -121,7 +121,6 @@ class THMDownload
             }
             else
             {
-
                 if ($this->_save == "true")
                 {
                     @copy($file, $this->_cfg->pdf_downloadFolder . $path . $this->_username . '.' . $this->_what);

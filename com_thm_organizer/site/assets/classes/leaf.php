@@ -160,8 +160,10 @@ class THM_OrganizerLeaf
                     {
                         $this->text .= ", " . $resource->forename{0} . ".";
                     }
+
                     break;
                 }
+
                 $this->text = $this->nodeKey;
                 break;
             case "room":
@@ -170,6 +172,7 @@ class THM_OrganizerLeaf
                     $this->text = $resource->longname;
                     break;
                 }
+
                 $this->text = $this->nodeKey;
                 break;
             case  "pool":
@@ -178,6 +181,7 @@ class THM_OrganizerLeaf
                     $this->text = $resource->restriction;
                     break;
                 }
+
                 $this->text = $this->nodeKey;
                 break;
             case  "subject":
@@ -186,11 +190,13 @@ class THM_OrganizerLeaf
                     $this->text = $resource->shortname;
                     break;
                 }
+
                 if (!empty($resource->longname))
                 {
                     $this->text = $resource->longname;
                     break;
                 }
+
                 $this->text = $this->nodeKey;
                 break;
             default:
@@ -229,6 +235,7 @@ class THM_OrganizerLeaf
             {
                 $this->expanded = true;
             }
+
             $this->publicDefault = isset($publicDefault[$this->id])?
                 $publicDefault[$this->id] : "notdefault";
         }

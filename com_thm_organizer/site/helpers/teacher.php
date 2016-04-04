@@ -82,7 +82,7 @@ class THM_OrganizerHelperTeacher
             JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             return array();
         }
-        
+
         return $teacherData;
     }
 
@@ -110,6 +110,7 @@ class THM_OrganizerHelperTeacher
         {
             $query->where("st.teacherResp = '$responsibility'");
         }
+
         $query->order('surname ASC');
         $dbo->setQuery((string) $query);
         if ($multiple)
@@ -123,12 +124,15 @@ class THM_OrganizerHelperTeacher
                 JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
+
             if ($unique)
             {
                 self::ensureUnique($teacherList);
             }
+
             return $teacherList;
         }
+
         try
         {
             return $dbo->loadAssoc();
@@ -154,6 +158,7 @@ class THM_OrganizerHelperTeacher
         {
             $keysToIds[$key] = $item['id'];
         }
+
         $valueCount = array_count_values($keysToIds);
         foreach ($list as $key => $item)
         {
@@ -210,7 +215,6 @@ class THM_OrganizerHelperTeacher
         return  '';
     }
 
-    
     /**
      * Method to build the link to a user profile of THM Groups
      *

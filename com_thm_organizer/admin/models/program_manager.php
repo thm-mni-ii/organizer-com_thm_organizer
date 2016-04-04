@@ -109,8 +109,10 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
                 $return[$index]['version'] = $item->version;
                 $return[$index]['departmentID'] = $item->departmentname;
             }
+
             $index++;
         }
+
         return $return;
     }
 

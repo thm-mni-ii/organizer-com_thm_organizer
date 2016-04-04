@@ -105,7 +105,6 @@ class THM_OrganizerHelperComponent
         $view->sidebar = JHtmlSidebar::render();
     }
 
-
     /**
      * Set variables for user actions.
      *
@@ -155,6 +154,7 @@ class THM_OrganizerHelperComponent
             {
                 return $model->actions->{'core.edit'};
             }
+
             return $model->actions->{'core.create'};
         }
 
@@ -176,8 +176,10 @@ class THM_OrganizerHelperComponent
                 {
                     return self::allowDeptResourceCreate();
                 }
+
                 return self::allowResourceManage($resourceName, $itemID);
             }
+
             return self::allowDeptResourceCreate();
         }
 
@@ -231,6 +233,7 @@ class THM_OrganizerHelperComponent
         {
             return true;
         }
+
         return false;
     }
 
@@ -370,6 +373,7 @@ class THM_OrganizerHelperComponent
         {
             return '';
         }
+
         $params =JComponentHelper::getParams('com_thm_organizer');
         $dateFormat = $params->get('dateFormat', 'd.m.Y');
         return date_format(date_create_from_format($dateFormat, $date), 'Y-m-d');
@@ -409,10 +413,10 @@ class THM_OrganizerHelperComponent
                 {
                     continue;
                 }
+
                 $options[] = JHTML::_('select.option', $key, $value);
             }
         }
-
 
         $attribsInvalid = (empty($attributes)
             OR (!is_object($attributes) AND !is_array($attributes) AND !is_string($attributes)));
@@ -444,6 +448,7 @@ class THM_OrganizerHelperComponent
                 $attributes = array();
             }
         }
+
         if (empty($attributes['class']))
         {
             $attributes['class'] = 'organizer-select-box';

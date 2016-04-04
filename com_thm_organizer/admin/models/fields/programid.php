@@ -56,6 +56,7 @@ class JFormFieldProgramID extends JFormFieldList
             {
                 $options[] = JHtml::_('select.option', $program['value'], $program['text']);
             }
+
             return array_merge(parent::getOptions(), $options);
         }
         catch (Exception $exc)

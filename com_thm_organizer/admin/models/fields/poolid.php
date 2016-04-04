@@ -66,6 +66,7 @@ class JFormFieldPoolID extends JFormFieldList
             {
                 $options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
             }
+
             return array_merge(parent::getOptions(), $options);
         }
         catch (Exception $exc)

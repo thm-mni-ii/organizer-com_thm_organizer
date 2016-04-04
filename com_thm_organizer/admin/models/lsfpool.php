@@ -20,7 +20,6 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerModelLSFPool extends JModelLegacy
 {
-
     /**
      * Creates a pool entry if none exists and calls
      *
@@ -117,12 +116,14 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
                 {
                     $stubProcessed = $lsfSubjectModel->processStub($subStub, $departmentID);
                 }
+
                 if (!$stubProcessed)
                 {
                     return false;
                 }
             }
         }
+
         return true;
     }
 }

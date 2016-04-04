@@ -40,6 +40,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         {
             return $program;
         }
+
         $program->id = $programID;
 
         $defaultLang = THM_CoreHelper::getLanguageShortTag();
@@ -121,9 +122,9 @@ class THM_OrganizerModelCurriculum extends JModelItem
                 $element->children[$order] = $this->getPool($child->poolID, $child->id);
                 if (empty($element->children[$order]))
                 {
-
                     continue;
                 }
+
                 $this->setChildren($element->children[$order]);
             }
 

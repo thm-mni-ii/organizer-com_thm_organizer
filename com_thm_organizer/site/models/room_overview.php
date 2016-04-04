@@ -114,6 +114,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
         {
             $data['types'] = array('-1');
         }
+
         if (empty($data['rooms']))
         {
             $data['rooms'] = array('-1');
@@ -203,6 +204,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
         {
             $grid[$block] = (array) $times;
         }
+
         $this->grid = $grid;
     }
 
@@ -273,8 +275,10 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
             {
                 $this->getEvents($blocks, $blockNo, $events);
             }
+
             unset($this->_currentSchedule);
         }
+
         $eventsExist = $this->postProcessBlocks($blocks);
         if ($eventsExist)
         {
@@ -322,6 +326,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
                 {
                     continue;
                 }
+
                 $this->getEvent($blocks, $blockNo, $eventNo, $roomNo);
             }
         }
@@ -353,6 +358,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
             {
                 $blocks[$blockNo][$roomName] = array();
             }
+
             $blocks[$blockNo][$roomName][$eventNo] = $eventArray;
             return;
         }
@@ -455,6 +461,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
             $speakersArray[$key] = $speakerText;
         }
+
         return implode(' / ', $speakersArray);
     }
 
@@ -477,6 +484,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
             {
                 continue;
             }
+
             $eventsExist = true;
             ksort($rooms);
             $blocks[$blockNo] = $rooms;
@@ -484,6 +492,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
             $this->rooms = array_unique(array_merge($this->rooms, $roomKeys));
             asort($this->rooms);
         }
+
         return $eventsExist;
     }
 
@@ -570,7 +579,6 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
         }
 
         $rooms[$room['name']] = $room['longname'];
-
 
         $add = ($typeOK OR $roomOK);
         if ($add)

@@ -74,11 +74,13 @@ jQuery(document).ready(function(){
         {
             selectedPrograms = selectedPrograms.join(',');
         }
+
         var oldSelectedParents = jQuery('#jformparentID').val();
         if (jQuery.inArray('-1', selectedPrograms) != '-1'){
             jQuery("#jformprogramID").find('option').removeAttr("selected");
             return false;
         }
+
         var poolUrl = "<?php echo JURI::root(); ?>index.php?option=com_thm_organizer";
         poolUrl += "&view=pool_ajax&format=raw&task=parentOptions";
         poolUrl += "&id=<?php echo $resourceID; ?>";
@@ -103,6 +105,7 @@ jQuery(document).ready(function(){
             {
                 selectedParents = oldSelectedParents;
             }
+
             jQuery('#jformparentID').val(selectedParents);
 
             // from lib_thm_core
@@ -118,7 +121,6 @@ jQuery(document).ready(function(){
             if(chosenElement == $( this).innerHTML)
             {
                 jQuery(this).prop('selected', value);
-
             }
         });
         jQuery("#jformparentID").chosen();
@@ -142,7 +144,6 @@ jQuery(document).ready(function(){
 
     addRemoveHandler();
     addAddHandler();
-
 });
 </script>
     <?php

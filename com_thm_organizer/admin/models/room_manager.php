@@ -36,6 +36,7 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
         {
             $config['filter_fields'] = array('r.longname', 'roomtype', 'r.name');
         }
+
         parent::__construct($config);
     }
 
@@ -87,6 +88,7 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             }
+
             if ($this->actions->{'core.edit'})
             {
                 $name = JHtml::_('link', $item->link, $item->name);
@@ -99,11 +101,13 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
                 $longname = $item->longname;
                 $typeID = $item->type;
             }
+
             $return[$index]['name'] = $name;
             $return[$index]['longname'] = $longname;
             $return[$index]['typeID'] = $typeID;
             $index++;
         }
+
         return $return;
     }
 
@@ -122,6 +126,7 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
         {
             $headers['checkbox'] = '';
         }
+
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $ordering);
         $headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname', $direction, $ordering);
         $headers['typeID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);

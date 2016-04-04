@@ -58,6 +58,7 @@ class THM_OrganizerLSFClient
             $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');
             return false;
         }
+
         if ($result == "error in soap-request")
         {
             $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');

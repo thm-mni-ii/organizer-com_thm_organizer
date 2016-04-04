@@ -36,6 +36,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
         {
             $config['filter_fields'] = array('departmentname','semestername','creationdate','active');
         }
+
         parent::__construct($config);
     }
 
@@ -101,8 +102,10 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
                 $return[$index]['creationdate'] = THM_OrganizerHelperComponent::formatDate($item->creationdate);
                 $return[$index]['creationtime'] = THM_OrganizerHelperComponent::formatTime($item->creationtime);
             }
+
             $index++;
         }
+
         return $return;
     }
 

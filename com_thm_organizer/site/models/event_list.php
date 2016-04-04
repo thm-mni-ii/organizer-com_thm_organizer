@@ -55,7 +55,6 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         $app = JFactory::getApplication();
         $this->params = $app->getParams();
 
-
         $registeredRoom = $this->hasRegisteredRoom();
         if (!empty($registeredRoom))
         {
@@ -65,6 +64,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             {
                 $this->redirectToComponentTemplate();
             }
+
             $this->params['layout'] = 'registered';
             $this->rooms = array($registeredRoom);
             $this->_days = array(1, 2, 3, 4, 5, 6, 0);
@@ -111,11 +111,13 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         {
             return false;
         }
+
         $roomID = $monitorEntry->roomID;
         if (empty($roomID))
         {
             return false;
         }
+
         return $roomID;
     }
 
@@ -158,6 +160,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             $this->_currentSchedule = json_decode($scheduleEntry->schedule);
             $this->setScheduleData();
         }
+
         ksort($this->events);
         $this->cleanEventBlockData();
         $this->sortEventBlockData();
@@ -177,6 +180,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             {
                 return;
             }
+
             $this->rooms = $roomIDs;
         }
 
@@ -200,10 +204,12 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                 unset($this->rooms[$roomID]);
             }
         }
+
         if ( $this->params['layout'] == 'registered')
         {
             $this->params['roomName'] = array_shift(array_values($rooms));
         }
+
         $this->rooms = $rooms;
     }
 
@@ -425,6 +431,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                 $relevantRooms[$roomKey] = $this->rooms[$roomKey];
             }
         }
+
         return $relevantRooms;
     }
 
@@ -477,6 +484,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         {
             $type = $types->{$event->description}->name;
         }
+
         $this->events[$this->_currentDate][$this->_currentEvent]['type'] = $type;
     }
 
@@ -548,6 +556,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                 $speakers[$speakerKey]['forename'] = $allSpeakers->$speakerKey->forename;
             }
         }
+
         return $speakers;
     }
 
@@ -571,7 +580,6 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                 $comparisonValue = array();
                 foreach ($value['blocks'] AS $number => $data)
                 {
-
                     // Initialize
                     if (empty($comparisonValue))
                     {

@@ -68,6 +68,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
                     : " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
                 $initial = false;
             }
+
             $query->where($where . ')');
         }
 
@@ -152,6 +153,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         {
             return true;
         }
+
         return false;
     }
 }

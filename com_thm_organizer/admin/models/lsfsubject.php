@@ -226,6 +226,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 {
                     $this->setExpendituresFromText($subject, $text);
                 }
+
                 break;
             case 'Lehrformen':
                 $this->setAttribute($subject, "method_$language", $text);
@@ -253,6 +254,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                     $msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
                     JFactory::getApplication()->enqueueMessage($msg, 'warning');
                 }
+
                 break;
             case 'Verwendbarkeit des Moduls':
                 $prerequisites = $this->getPostrequisites($text);
@@ -263,6 +265,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                     JFactory::getApplication()->enqueueMessage($msg, 'warning');
                     break;
                 }
+
                 break;
             case 'Prüfungsvorleistungen':
                 $this->setAttribute($subject, "preliminary_work_$language", $text);
@@ -282,6 +285,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                     JFactory::getApplication()->enqueueMessage($msg, 'warning');
                     break;
                 }
+
                 break;
             case 'Fachkompetenz':
             case 'Methodenkompetenz':
@@ -333,6 +337,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             {
                 $this->setAttribute($subject, 'present', $hoursMatches[1][1]);
             }
+
             if (!empty($hoursMatches[1][2]))
             {
                 $this->setAttribute($subject, 'independent', $hoursMatches[1][2]);
@@ -377,18 +382,22 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         {
             $this->setAttribute($subject, 'creditpoints', (int) $dataObject->lp);
         }
+
         if (!empty($dataObject->aufwand))
         {
             $this->setAttribute($subject, 'expenditure', (int) $dataObject->aufwand);
         }
+
         if (!empty($dataObject->praesenzzeit))
         {
             $this->setAttribute($subject, 'present', (int) $dataObject->praesenzzeit);
         }
+
         if (!empty($dataObject->selbstzeit))
         {
             $this->setAttribute($subject, 'independent', (int) $dataObject->selbstzeit);
         }
+
         if (!empty($dataObject->sws))
         {
             $this->setAttribute($subject, 'sws', (int) $dataObject->sws);
@@ -488,6 +497,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -534,6 +544,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 }
             }
         }
+
         if (!empty($modules))
         {
             foreach ($modules AS $number => $module)
@@ -542,6 +553,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $originalText = str_replace($number, $module['link'], $originalText);
             }
         }
+
         return $originalText;
     }
 
@@ -590,7 +602,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return $moduleInformation;
         }
-
     }
 
     /**
@@ -637,6 +648,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 
@@ -662,6 +674,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 }
             }
         }
+
         return $postrequisites;
     }
 
@@ -688,7 +701,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
-        
+
         return $moduleID;
     }
 
@@ -706,6 +719,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         {
             return true;
         }
+
         foreach ($postrequisites AS $postrequisiteID)
         {
             $checkQuery = $this->_db->getQuery(true);
@@ -741,6 +755,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 
@@ -759,6 +774,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         {
             $value = strlen($value);
         }
+
         switch ($attribute)
         {
             case 'Fachkompetenz':
@@ -774,6 +790,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $attributeName = 'self_competence';
                 break;
         }
+
         $subject->$attributeName = $value;
     }
 
@@ -820,9 +837,11 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $msgType = 'error';
                 $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL_PARTIAL');
             }
+
             JFactory::getApplication()->enqueueMessage($msg, $msgType);
             return;
         }
+
         $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         JFactory::getApplication()->enqueueMessage($msg);
     }

@@ -71,6 +71,7 @@ class JFormFieldMergeByID extends JFormFieldList
                     $options[] = JHtml::_('select.option', $value['value'], $value['text']);
                 }
             }
+
             return count($options)? $options : parent::getOptions();
         }
         catch (Exception $exc)

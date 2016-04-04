@@ -39,6 +39,7 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
         {
             $config['filter_fields'] = array('name', 'field');
         }
+
         parent::__construct($config);
     }
 
@@ -105,7 +106,6 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
         $index = 0;
         foreach ($items as $item)
         {
-
             $return[$index] = array();
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
@@ -126,8 +126,10 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
             {
                 $return[$index]['fieldID'] = '';
             }
+
             $index++;
         }
+
         return $return;
     }
 

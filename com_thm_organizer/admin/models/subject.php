@@ -45,6 +45,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             }
             $this->_db->transactionCommit();
         }
+
         return true;
     }
 
@@ -70,6 +71,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         {
             return false;
         }
+
         return true;
     }
 
@@ -90,11 +92,13 @@ class THM_OrganizerModelSubject extends JModelLegacy
         {
             $data['fieldID'] = NULL;
         }
+
         $starProperties = array('expertise', 'self_competence', 'method_competence', 'social_competence');
         foreach ($starProperties as $property)
         {
             $this->cleanStarProperty($data, $property);
         }
+
         $subjectSuccess = $table->save($data);
 
         if (!$subjectSuccess)
@@ -111,6 +115,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             $this->_db->transactionRollback();
             return false;
         }
+
         if (!$this->processFormPrerequisites($data))
         {
             $this->_db->transactionRollback();
@@ -173,6 +178,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
                 }
             }
         }
+
         if (!empty($data['teacherID']))
         {
             foreach ($data['teacherID'] AS $teacherID)
@@ -184,6 +190,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 
@@ -204,6 +211,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         {
             $query->where("teacherResp = '$responsibility'");
         }
+
         $this->_db->setQuery((string) $query);
         try
         {
@@ -214,6 +222,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
+
         return true;
     }
 
@@ -242,6 +251,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
+
         return true;
     }
 
@@ -272,6 +282,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
                 }
             }
         }
+
         if (!empty($data['postrequisites']))
         {
             foreach ($data['postrequisites'] AS $postrequisiteID)
@@ -283,6 +294,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 
@@ -307,6 +319,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
+
         return true;
     }
 
@@ -333,6 +346,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
+
         return true;
     }
 
@@ -356,7 +370,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 
         return $model->saveSubject($data);
     }
-    
+
     /**
      * Checks whether subject nodes have the expected structure and required
      * information
@@ -377,6 +391,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             {
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING");
             }
+
             return;
         }
 
@@ -387,7 +402,6 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $this->_scheduleModel->schedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
         $this->_scheduleModel->schedule->subjects->$subjectIndex->name = $subjectID;
 
-        
         $longname = $this->validateLongname($subjectNode, $subjectIndex, $subjectID);
         if (!$longname)
         {
@@ -421,6 +435,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING', $subjectID);
             return false;
         }
+
         $this->_scheduleModel->schedule->subjects->$subjectIndex->longname = $longname;
         return $longname;
     }
@@ -442,6 +457,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_NUMBER');
         }
+
         $this->_scheduleModel->schedule->subjects->$subjectIndex->subjectNo = empty($subjectNo)? '' : $subjectNo;
     }
 
@@ -463,6 +479,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
         }
+
         $this->_scheduleModel->schedule->subjects->$subjectIndex->description = empty($descriptionID)? '' : $descriptionID;
     }
 }

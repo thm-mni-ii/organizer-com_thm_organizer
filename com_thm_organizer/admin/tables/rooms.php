@@ -58,6 +58,7 @@ class THM_OrganizerTableRooms extends JTable
                 $this->$nullColumn = NULL;
             }
         }
+
         return true;
     }
 }

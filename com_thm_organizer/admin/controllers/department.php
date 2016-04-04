@@ -165,5 +165,4 @@ class THM_OrganizerControllerDepartment extends JControllerLegacy
     {
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=department_manager', false));
     }
-
 }

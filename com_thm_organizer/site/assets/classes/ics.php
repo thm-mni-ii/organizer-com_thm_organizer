@@ -205,9 +205,10 @@ class THMICSBuilder extends THMAbstractBuilder
                 }
             }
         }
+
         return $vCalendar;
     }
- 
+
     /**
      * Method to check the username and password
      *
@@ -261,7 +262,7 @@ class THMICSBuilder extends THMAbstractBuilder
  
         return $activeSchedule;
     }
- 
+
     /**
      * Method to transform teacher ids to teacher names
      *
@@ -278,13 +279,13 @@ class THMICSBuilder extends THMAbstractBuilder
             {
                 $teachers[$index] = $this->_teachers->{$teacher}->surname;
             }
- 
+
             if (!empty($this->_teachers->{$teacher}->firstname))
             {
                 $teachers[$index] .= ", " . $this->_teachers->{$teacher}->firstname{0} . ".";
             }
         }
- 
+
         return $teachers;
     }
 }

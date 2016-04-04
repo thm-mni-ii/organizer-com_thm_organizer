@@ -29,7 +29,6 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
 
     protected $defaultDirection = 'asc';
 
-
     protected function getListQuery()
     {
         $query = $this->_db->getQuery(true);
@@ -138,6 +137,7 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
             $newQuery->where("(lft BETWEEN '{$boundarySet['lft']}' AND '{$boundarySet['rgt']}')");
             $query->where("NOT (m.lft < '{$boundarySet['lft']}' AND m.rgt > '{$boundarySet['rgt']}')");
         }
+
         $query->where("p.id NOT IN (" . (string) $newQuery . ")");
     }
 
@@ -229,8 +229,10 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
             {
                 $return[$index]['fieldID'] = '';
             }
+
             $index++;
         }
+
         return $return;
     }
 

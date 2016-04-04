@@ -32,7 +32,6 @@ class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
 
     public $pools = null;
 
-
     protected function _getListQuery()
     {
         $dbo = JFactory::getDBO();
@@ -97,6 +96,7 @@ class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
             $return[$index]['externalID'] = $item->externalID;
             $index++;
         }
+
         return $return;
     }
 
@@ -115,6 +115,7 @@ class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
         {
             $headers['checkbox'] = '';
         }
+
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction, $ordering);
 

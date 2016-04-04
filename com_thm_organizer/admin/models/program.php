@@ -52,6 +52,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
             }
             $this->_db->transactionCommit();
         }
+
         return true;
     }
 
@@ -92,6 +93,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
         {
             unset($data['id']);
         }
+
         $this->_db->transactionStart();
         $table = JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);

@@ -66,7 +66,7 @@ class THM_OrganizerControllerRoom extends JControllerLegacy
         $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_AUTO');
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=room_manager', false), $msg);
     }
- 
+
     /**
      * Performs access checks, calls the room model's autoMerge function. Should
      * the room entries be mergeable based upon plausibility constraints this is

@@ -91,6 +91,7 @@ class THM_OrganizerControllerPool extends JControllerLegacy
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $msgType = 'error';
         }
+
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=pool_manager', false), $msg, $msgType);
     }
 

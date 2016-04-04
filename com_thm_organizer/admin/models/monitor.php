@@ -34,6 +34,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
         {
             unset($data['roomID']);
         }
+
         $data['content'] = $data['content'] == '-1'? '' : $data['content'];
         $table = JTable::getInstance('monitors', 'thm_organizerTable');
         return $table->save($data);
@@ -56,6 +57,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
             $table->set('useDefaults', $input->getInt('useDefaults', 0));
             return $table->store();
         }
+
         return false;
     }
 
@@ -86,6 +88,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
             }
             $dbo->transactionCommit();
         }
+
         return $success;
     }
 

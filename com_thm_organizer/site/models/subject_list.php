@@ -41,12 +41,15 @@ class THM_OrganizerModelSubject_List extends JModelList
             {
                 $subjects[$index]->subjectTextColor = THM_OrganizerHelperComponent::getTextColor($subject->subjectColor);
             }
+
             if (!empty($subject->teacherColor))
             {
                 $subjects[$index]->teacherTextColor = THM_OrganizerHelperComponent::getTextColor($subject->teacherColor);
             }
+
             $subjects[$index]->teacherName = empty($subject->forename)? $subject->surname : "$subject->surname, $subject->forename";
         }
+
         return $subjects;
     }
 
@@ -128,7 +131,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
-        
+
         return $programData;
     }
 
@@ -184,6 +187,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         {
             return;
         }
+
         $where = "(s.name_de LIKE '$search' OR s.name_en LIKE '$search' OR ";
         $where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
         $where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";

@@ -41,7 +41,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
     public $departmentName = '';
 
-
     /**
      * Sets construction model properties
      *
@@ -74,6 +73,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $this->setDepartmentName($departmentID);
         }
+
         $input = JFactory::getApplication()->input;
         $this->reset = $input->getBool('reset', false);
         $this->selected = array();
@@ -129,6 +129,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $query->where("departmentID = '$departmentID'");
         }
+
         $query->order('name');
 
         $this->_db->setQuery((string) $query);
@@ -155,9 +156,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 unset($results[$key]);
             }
         }
+
         return $results;
     }
-    
+
     /**
      * Method to set a schedule by its id from the database
      *
@@ -201,8 +203,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             {
                 continue;
             }
+
             $this->resolveTime($this->schedule, $day, $blocks);
         }
+
         $teacherIDs = array_keys((array) $this->schedule->teachers);
         $this->checkOtherSchedules($teacherIDs, $startdate, $enddate);
         $this->convertLessonValues();
@@ -344,6 +348,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $this->lessonValues[$lessonID][$teacherID]['periods'] = array();
         }
+
         if (!isset($this->lessonValues[$lessonID][$teacherID]['startdate']))
         {
             $this->lessonValues[$lessonID][$teacherID]['startdate'] = THM_OrganizerHelperComponent::formatDate($day);
@@ -356,6 +361,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = array();
         }
+
         if (!array_key_exists($day, $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock]))
         {
             $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock][$day] = $hours;
@@ -383,6 +389,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             {
                 continue;
             }
+
             foreach ($this->irrelevant['subjects'] AS $prefix)
             {
                 if (strpos($subject, $prefix) !== false)
@@ -391,6 +398,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 
@@ -409,6 +417,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             return false;
         }
+
         return $lessonType;
     }
 
@@ -452,20 +461,25 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 unset($subjects[$subject]);
                 continue;
             }
+
             if (strpos($subject, 'KOL.B') !== false)
             {
                 return 'Betreuung von Bachelorarbeiten';
             }
+
             if (strpos($subject, 'KOL.D') !== false)
             {
                 return 'Betreuung von Diplomarbeiten';
             }
+
             if (strpos($subject, 'KOL.M') !== false)
             {
                 return 'Betreuung von Masterarbeiten';
             }
+
             $subjects[$subject] = $schedule->subjects->{$subject}->longname;
         }
+
         return implode('/', $subjects);
     }
 
@@ -480,10 +494,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function getPools(&$schedule, $lessonID, $teacherID)
     {
-
         $previousPoolIDs = empty($this->lessonValues[$lessonID][$teacherID]['pools'])?
             array() : $this->lessonValues[$lessonID][$teacherID]['pools'];
-
 
         $newPools = (array) $schedule->lessons->$lessonID->pools;
         foreach ($newPools AS $pool => $delta)
@@ -492,6 +504,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             {
                 unset($newPools[$pool]);
             }
+
             foreach ($this->irrelevant['pools'] as $irrelevant)
             {
                 if (strpos($pool, $irrelevant) === 0)
@@ -500,6 +513,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 }
             }
         }
+
         $newPoolIDs = array_keys($newPools);
         asort($newPoolIDs);
 
@@ -525,6 +539,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 return true;
             }
         }
+
         return false;
     }
 
@@ -636,17 +651,20 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $this->deputat[$teacherID]['tally'] = array();
         }
+
         $subjectName = $lessonValues['subjectName'];
         if (empty($this->deputat[$teacherID]['tally'][$subjectName]))
         {
             $this->deputat[$teacherID]['tally'][$subjectName] = array();
         }
+
         $this->deputat[$teacherID]['tally'][$subjectName]['rate'] = $this->getRate($subjectName);
         if (empty($this->deputat[$teacherID]['tally'][$subjectName]['count']))
         {
             $this->deputat[$teacherID]['tally'][$subjectName]['count'] = 1;
             return;
         }
+
         $this->deputat[$teacherID]['tally'][$subjectName]['count']++;
         return;
     }
@@ -665,14 +683,17 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             return floatval('0.' . $params->get('bachelor_value', 25));
         }
+
         if ($subjectName == 'Betreuung von Diplomarbeiten')
         {
             return floatval('0.' . $params->get('master_value', 50));
         }
+
         if ($subjectName == 'Betreuung von Masterarbeiten')
         {
             return floatval('0.' . $params->get('master_value', 50));
         }
+
         return 1;
     }
 
@@ -691,6 +712,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $this->deputat[$teacherID]['summary'] = array();
         }
+
         $this->deputat[$teacherID]['summary'][$index] = array();
         $this->deputat[$teacherID]['summary'][$index]['name'] = $lessonValues['subjectName'];
         $this->deputat[$teacherID]['summary'][$index]['type'] = $lessonValues['lessonType'];
@@ -793,6 +815,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         {
             $sum += array_sum($period);
         }
+
         return $sum;
     }
 
@@ -855,8 +878,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 unset($this->deputat[$teacherID]);
                 continue;
             }
+
             $teachers[$teacherID] = $deputat['name'];
         }
+
         asort($teachers);
         return $teachers;
     }
@@ -934,8 +959,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
                 {
                     continue;
                 }
+
                 $this->resolveTime($schedule, $day, $blocks, $teachers);
             }
+
             unset($schedule);
         }
     }

@@ -81,6 +81,7 @@ class THM_OrganizerHelper
         {
             return false;
         }
+
         return true;
     }
 }

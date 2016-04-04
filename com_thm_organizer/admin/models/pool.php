@@ -44,6 +44,7 @@ class THM_OrganizerModelPool extends JModelLegacy
             }
             $this->_db->transactionCommit();
         }
+
         return true;
     }
 
@@ -90,6 +91,7 @@ class THM_OrganizerModelPool extends JModelLegacy
         {
             unset($data['fieldID']);
         }
+
         $success = $table->save($data);
 
         // Successfully inserted a new pool
@@ -98,14 +100,14 @@ class THM_OrganizerModelPool extends JModelLegacy
             $this->_db->transactionCommit();
             return $table->id;
         }
- 
+
         // New pool unsuccessfully inserted
         elseif (empty($data['id']))
         {
             $this->_db->transactionRollback();
             return false;
         }
- 
+
         // Process mapping information
         else
         {
@@ -174,6 +176,7 @@ class THM_OrganizerModelPool extends JModelLegacy
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING', $poolID);
             return;
         }
+
         $this->_scheduleModel->schedule->pools->$poolID->longname = $poolID;
 
         $degreeID = $this->validateDegree($poolNode, $longname, $poolID);
@@ -181,6 +184,7 @@ class THM_OrganizerModelPool extends JModelLegacy
         {
             return;
         }
+
         $this->_scheduleModel->schedule->pools->$poolID->degree = $degreeID;
 
         $warningString = '';
@@ -215,8 +219,10 @@ class THM_OrganizerModelPool extends JModelLegacy
             {
                 $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING");
             }
+
             return false;
         }
+
         return $gpuntisID;
     }
 
@@ -242,6 +248,7 @@ class THM_OrganizerModelPool extends JModelLegacy
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING', $longname, $poolID, $degreeID);
             return false;
         }
+
         return $degreeID;
     }
 
@@ -261,6 +268,7 @@ class THM_OrganizerModelPool extends JModelLegacy
         {
             $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME');
         }
+
         $this->_scheduleModel->schedule->pools->$poolID->restriction = empty($restriction)? '' : $restriction;
     }
 
@@ -282,6 +290,7 @@ class THM_OrganizerModelPool extends JModelLegacy
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
         }
+
         $this->_scheduleModel->schedule->pools->$poolID->description = empty($descriptionID)? '' : $descriptionID;
     }
 }

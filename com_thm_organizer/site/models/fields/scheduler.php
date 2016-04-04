@@ -42,7 +42,6 @@ class JFormFieldScheduler extends JFormField
      */
     protected function getInput()
     {
-
         $libraryInstalled = jimport('thm_core.js.extjs.extjs');
         if (!$libraryInstalled)
         {
@@ -67,7 +66,6 @@ class JFormFieldScheduler extends JFormField
 
     Joomla.submitbutton = function(task, type)
     {
-
         if (task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
         {
             var dbElement = Ext.get('jform_params_id'),
@@ -105,6 +103,7 @@ class JFormFieldScheduler extends JFormField
             {
                 document.id('item-form').elements['jform[menutype]'].value = type;
             }
+
             Joomla.submitform('item.setType', document.id('item-form'));
         }
         else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
@@ -121,14 +120,15 @@ class JFormFieldScheduler extends JFormField
                 document.id(name).addClass('invalid');
             });
         }
-
     }
 
 </script>
 
         <style type="text/css">
         .x-tree-node-cb { float: none; }
+
         .MySched_scheduler_selection_icons { margin: 0; }
+
         </style>
         <div style="width: auto; height: auto;" id="tree-div"></div>
 <?php
@@ -148,7 +148,6 @@ class JFormFieldScheduler extends JFormField
         $doc->addScript("$root/components/com_thm_organizer/models/fields/selectBoxes.js");
         $doc->addScript("$root/components/com_thm_organizer/models/fields/departmentSemesterSelection.js");
         $doc->addStyleSheet("$root/media/com_thm_organizer/css/scheduler.css");
-
     }
 
     /**

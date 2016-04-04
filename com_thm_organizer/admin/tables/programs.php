@@ -46,6 +46,7 @@ class THM_OrganizerTablePrograms extends THM_CoreTableAssets
                 $this->$nullColumn = null;
             }
         }
+
         return true;
     }
 

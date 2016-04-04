@@ -36,9 +36,11 @@ class THM_OrganizerModelField extends JModelLegacy
         {
             unset($data['colorID']);
         }
+
         $table = JTable::getInstance('fields', 'thm_organizerTable');
         return $table->save($data);
     }
+
     /**
      * Removes color entries from the database
      *

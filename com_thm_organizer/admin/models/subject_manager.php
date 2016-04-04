@@ -43,6 +43,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
         {
             $config['filter_fields'] = array('name', 'externalID', 'fieldID');
         }
+
         parent::__construct($config);
     }
 
@@ -120,8 +121,10 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
             {
                 $return[$index]['fieldID'] = '';
             }
+
             $index++;
         }
+
         return $return;
     }
 

@@ -101,5 +101,4 @@ class THM_OrganizerControllerDegree extends JControllerLegacy
     {
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=degree_manager', false));
     }
-
 }

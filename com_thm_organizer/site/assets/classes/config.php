@@ -45,5 +45,4 @@ class MySchedConfig
         // Hier werden die PDF Dateien gespeichert (Muss nicht im Webroot liegen!)
         $this->pdf_downloadFolder = JFactory::getApplication()->get('tmp_path') . DIRECTORY_SEPARATOR;
     }
-
 }

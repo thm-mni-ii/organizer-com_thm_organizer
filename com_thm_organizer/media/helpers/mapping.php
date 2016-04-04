@@ -37,11 +37,13 @@ class THM_OrganizerHelperMapping
         {
             return JText::_('JNONE');
         }
+
         $programs = self::getResourcePrograms($resourceRanges);
         if (empty($programs))
         {
             return JText::_('JNONE');
         }
+
         if (count($programs) === 1)
         {
             return $programs[0];
@@ -67,11 +69,13 @@ class THM_OrganizerHelperMapping
         {
             return JText::_('JNONE');
         }
+
         $pools = self::getSubjectPools($resourceRanges);
         if (empty($pools))
         {
             return JText::_('JNONE');
         }
+
         if (count($pools) === 1)
         {
             return $pools[0];
@@ -81,7 +85,6 @@ class THM_OrganizerHelperMapping
             return JText::_('COM_THM_ORGANIZER_MULTIPLE_POOLS');
         }
     }
-
 
     /**
      * Retrieves the mapped left and right values for the resource's existing mappings.
@@ -111,6 +114,7 @@ class THM_OrganizerHelperMapping
         {
             $query->where("{$resourceType}ID = '$resourceID'");
         }
+
         JFactory::getDbo()->setQuery((string) $query);
 
         try
@@ -186,7 +190,6 @@ class THM_OrganizerHelperMapping
         $nameQuery->from('#__thm_organizer_pools AS p');
         $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
 
-
         $pools = array();
 
         // Each range is a unique pool association
@@ -220,6 +223,7 @@ class THM_OrganizerHelperMapping
                 return array();
             }
         }
+
         return $pools;
     }
 
@@ -272,6 +276,7 @@ class THM_OrganizerHelperMapping
         {
             $rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
         }
+
         $rangesClause = implode(' OR ', $rangeConditions);
 
         $query = $dbo->getQuery(true);
@@ -421,12 +426,13 @@ class THM_OrganizerHelperMapping
                 JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
-            
+
             if (!in_array($program, $programs))
             {
                 $programs[] = $program;
             }
         }
+
         return $programs;
     }
 
@@ -464,9 +470,10 @@ class THM_OrganizerHelperMapping
                 JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 return array();
             }
-            
+
             $programMappings = array_merge($programMappings, empty($results)? array() : $results);
         }
+
         return $programMappings;
     }
 
@@ -563,6 +570,7 @@ class THM_OrganizerHelperMapping
                 $selected = in_array($mapping['id'], $selectedParents)? 'selected' : '';
                 $disabled = '';
             }
+
             return "<option value='{$mapping['id']}' $selected $disabled>$name</option>";
         }
         catch (Exception $exc)
@@ -693,6 +701,7 @@ class THM_OrganizerHelperMapping
         {
             $boundarySet[] = $boundaries;
         }
+
         return $boundarySet;
     }
 
@@ -763,13 +772,13 @@ class THM_OrganizerHelperMapping
         // No associations
         if ($resourceID == '-1')
         {
-
             $conditions = array();
             foreach ($ranges as $range)
             {
                 $conditions[] = "( $alias.lft NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
                 $conditions[] = "( $alias.rgt NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
             }
+
             $where = implode(' AND ', $conditions);
             $query->where("( $where )");
             return;

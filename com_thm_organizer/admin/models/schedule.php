@@ -221,6 +221,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
                 return;
             }
+
             if ($severity == 'warning')
             {
                 $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
@@ -250,11 +251,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
                 return;
             }
+
             if ($severity == 'warning')
             {
                 $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
             }
         }
+
         if (!empty($regex) AND preg_match($regex, $value))
         {
             if ($severity == 'error')
@@ -262,6 +265,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
                 return;
             }
+
             if ($severity == 'warning')
             {
                 $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
@@ -297,6 +301,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 $model->validate($this, $resourceNode);
             }
+
             return;
         }
 
@@ -319,7 +324,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     protected function validatePeriod(&$periodNode)
     {
-
         // Not actually referenced but evinces data inconsistencies in Untis
         $gpuntisID = trim((string) $periodNode[0]['id']);
         if (empty($gpuntisID))
@@ -408,8 +412,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
             }
+
             return;
         }
+
         $descriptionID = str_replace('DS_', '', $gpuntisID);
 
         $longname = trim((string) $descriptionNode->longname);
@@ -468,8 +474,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING");
             }
+
             return;
         }
+
         $degreeID = str_replace('DP_', '', $gpuntisID);
         $this->schedule->degrees->$degreeID = new stdClass;
         $this->schedule->degrees->$degreeID->gpuntisID = $gpuntisID;
@@ -480,6 +488,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING", $degreeID);
             return;
         }
+
         $this->schedule->degrees->$degreeID->name = $degreeName;
     }
 
@@ -535,10 +544,12 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         {
             $statusReport['errors'] = "<br />" . implode("<br />", $this->scheduleErrors);
         }
+
         if (count($this->scheduleWarnings))
         {
             $statusReport['warnings'] = "<br />" . implode("<br />", $this->scheduleWarnings);
         }
+
         return $statusReport;
     }
 
@@ -686,6 +697,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 $data['type'] = $details[0];
             }
+
             $roomTypeRow->save($data);
         }
     }
@@ -747,6 +759,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 return false;
             }
+
             $this->schedule = json_decode($actual->schedule);
         }
 
@@ -770,8 +783,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 $this->_db->transactionRollback();
             }
+
             return false;
         }
+
         unset($reference);
 
         $this->schedule->referencedate = $referenceDate;
@@ -791,6 +806,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             $this->_db->transactionCommit();
         }
+
         return true;
     }
 
@@ -819,11 +835,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $pullData['enddate'] = $this->schedule->enddate;
             $pullData['active'] = 1;
         }
+
         // Entry through schedule manager
         else
         {
             $pullData = $referenceIDs[0];
         }
+
         $referenceLoaded = $reference->load($pullData);
 
         if ($referenceLoaded)
@@ -851,8 +869,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 return true;
             }
+
             $scheduleID = $scheduleIDs[0];
         }
+
         $scheduleExists = $scheduleRow->load($scheduleID);
         if (!$scheduleExists)
         {
@@ -882,6 +902,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->_db->transactionRollback();
             return false;
         }
+
         $success = $scheduleRow->store();
         if ($success)
         {
@@ -1020,18 +1041,21 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 continue;
             }
+
             foreach ($periods as $period => $lessons)
             {
                 if (empty($lessons))
                 {
                     continue;
                 }
+
                 foreach ($lessons as $lesson => $rooms)
                 {
                     if (empty($calendar->$date->$period->$lesson->delta))
                     {
                         continue;
                     }
+
                     switch ($calendar->$date->$period->$lesson->delta)
                     {
                         case 'new':
@@ -1047,6 +1071,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                                 {
                                     continue;
                                 }
+
                                 switch ($delta)
                                 {
                                     case 'new':
@@ -1142,6 +1167,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 continue;
             }
         }
+
         return $changesExist;
     }
 
@@ -1162,12 +1188,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 continue;
             }
+
             foreach ($periods as $period => $lessons)
             {
                 if (empty($lessons))
                 {
                     continue;
                 }
+
                 foreach ($lessons as $lessonID => $rooms)
                 {
                     if (!isset($refCalendar->$date->$period->$lessonID))
@@ -1183,6 +1211,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                             {
                                 continue;
                             }
+
                             if (!isset($refCalendar->$date->$period->$lessonID->$roomID))
                             {
                                 $calendar->$date->$period->$lessonID->$roomID = 'new';
@@ -1201,12 +1230,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 continue;
             }
+
             foreach ($periods as $period => $lessons)
             {
                 if (empty($lessons))
                 {
                     continue;
                 }
+
                 foreach ($lessons as $lessonID => $rooms)
                 {
                     if (!isset($calendar->$date->$period->$lessonID))
@@ -1216,15 +1247,18 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         {
                             $calendar->$date->$period->$lessonID->$roomID = '';
                         }
+
                         $calendar->$date->$period->$lessonID->delta = 'removed';
                         continue;
                     }
+
                     foreach ($rooms as $roomID => $delta)
                     {
                         if ($roomID == 'delta')
                         {
                             continue;
                         }
+
                         if (!isset($calendar->$date->$period->$lessonID->$roomID))
                         {
                             $calendar->$date->$period->$lessonID->$roomID = 'removed';
@@ -1296,6 +1330,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $schedule->load($scheduleID);
             return $schedule->active;
         }
+
         return false;
     }
 
@@ -1321,6 +1356,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 $this->_db->transactionRollback();
                 return false;
             }
+
             if (!$success)
             {
                 $this->_db->transactionRollback();
@@ -1364,6 +1400,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         {
             return $this->deactivate($scheduleID);
         }
+
         return $this->activate($scheduleID);
     }
 }

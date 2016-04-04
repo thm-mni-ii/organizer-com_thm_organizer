@@ -92,7 +92,6 @@ class THM_OrganizerControllerProgram extends JControllerLegacy
         }
     }
 
-
     /**
      * Performs access checks, makes call to the models's save function, and
      * redirects to the degree program manager view

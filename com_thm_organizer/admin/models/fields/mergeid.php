@@ -37,8 +37,8 @@ class JFormFieldMergeID extends JFormField
         {
             return '<input name="jform[otherIDs]" type="hidden" value="' . $others . '">';
         }
-        return '<input name="jform[id]" type="hidden" value="' . $first . '">';
 
+        return '<input name="jform[id]" type="hidden" value="' . $first . '">';
     }
 
     /**
@@ -48,7 +48,6 @@ class JFormFieldMergeID extends JFormField
      */
     public function getLabel()
     {
-
         return '';
     }
 }

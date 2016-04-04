@@ -97,6 +97,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         {
             $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex} = new stdClass;
         }
+
         $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->gpuntisID = $gpuntisID;
 
         $subjectID = str_replace('SU_', '', trim((string) $lessonNode->lesson_subject[0]['id']));
@@ -150,6 +151,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         {
             $comment = '';
         }
+
         $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->comment = $comment;
 
         $periods = intval(trim($lessonNode->periods));
@@ -176,8 +178,10 @@ class THM_OrganizerModelLesson extends JModelLegacy
             {
                 $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_LESSON_ID_MISSING");
             }
+
             return false;
         }
+
         return $untisID;
     }
 
@@ -201,12 +205,14 @@ class THM_OrganizerModelLesson extends JModelLegacy
                     = JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_MISSING", $this->_lessonID);
                 return false;
             }
+
             if (empty($this->_scheduleModel->schedule->subjects->$subjectIndex))
             {
                 $this->_scheduleModel->scheduleErrors[]
                     = JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING", $this->_lessonID, $subjectID);
                 return false;
             }
+
             $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->subjects = new stdClass;
         }
 
@@ -247,6 +253,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         {
             $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->description = $descriptionID;
         }
+
         return $descriptionID;
     }
 
@@ -277,6 +284,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                     break;
                 }
             }
+
             if (!$teacherFound)
             {
                 $this->_scheduleModel->scheduleErrors[]
@@ -284,14 +292,17 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 return false;
             }
         }
+
         if (!isset($this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers))
         {
             $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers = new stdClass;
         }
+
         if (!array_key_exists($teacherID, $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers))
         {
             $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->teachers->$teacherID = '';
         }
+
         return true;
     }
 
@@ -317,6 +328,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
             {
                 $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools = new stdClass;
             }
+
             $poolIDs = explode(" ", $poolIDs);
             $gridFound = false;
             foreach ($poolIDs as $poolID)
@@ -333,17 +345,21 @@ class THM_OrganizerModelLesson extends JModelLegacy
                         {
                             $gridFound = true;
                         }
+
                         break;
                     }
                 }
+
                 if (!$poolFound)
                 {
                     $this->_scheduleModel->scheduleErrors[]
                         = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_POOL_LACKING', $this->_lessonName, $this->_lessonID, $poolID);
                     return false;
                 }
+
                 $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools->$poolID = '';
             }
+
             if (!$gridFound)
             {
                 $this->_scheduleModel->scheduleErrors[]
@@ -351,6 +367,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -371,6 +388,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_START_DATE_MISSING', $this->_lessonName, $this->_lessonID);
             return false;
         }
+
         $startDateExists = array_key_exists($lessonStartDate, get_object_vars($this->_scheduleModel->schedule->calendar));
         if (!$startDateExists)
         {
@@ -386,6 +404,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_MISSING', $this->_lessonName, $this->_lessonID);
             return false;
         }
+
         $endDateExists = array_key_exists($lessonEndDate, get_object_vars($this->_scheduleModel->schedule->calendar));
         if (!$endDateExists)
         {
@@ -406,6 +425,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 );
             return false;
         }
+
         return true;
     }
 
@@ -460,6 +480,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
             $this->_scheduleModel->scheduleWarnings[]
                 = JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_PERIODS_MISSING", $this->_lessonName, $this->_lessonID);
         }
+
         $timesCount = count($times);
         if (isset($periods) and $periods > $timesCount)
         {
@@ -484,6 +505,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         {
             return;
         }
+
         foreach ($occurrences as $occurrence)
         {
             // Cannot take place on this index
@@ -503,6 +525,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
             }
             $currentDT = strtotime('+1 day', $currentDT);
         }
+
         return;
     }
 
@@ -542,7 +565,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
         {
             return false;
         }
-    
+
         $roomAttribute = trim((string) $instance->assigned_room[0]['id']);
         if (empty($roomAttribute))
         {
@@ -560,6 +583,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -583,11 +607,13 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 return false;
             }
         }
+
         if ($day != date('w', $currentDT))
         {
             // Does not occur on this date, no error
             return true;
         }
+
         return $day;
     }
 
@@ -711,6 +737,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                     break;
                 }
             }
+
             if (!$roomFound)
             {
                 $pools = implode(', ', array_keys($this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->pools));
@@ -725,6 +752,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 {
                     $this->_scheduleModel->scheduleErrors[] = $error;
                 }
+
                 return false;
             }
             else
@@ -733,6 +761,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 {
                     $this->_scheduleModel->schedule->calendar->$currentDate->$period->{$this->_lessonIndex} = new stdClass;
                 }
+
                 $lessonIndexes = get_object_vars($this->_scheduleModel->schedule->calendar->$currentDate->$period->{$this->_lessonIndex});
                 if (!empty($roomID) AND !in_array($roomID, $lessonIndexes))
                 {
@@ -740,6 +769,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 }
             }
         }
+
         return true;
     }
 }

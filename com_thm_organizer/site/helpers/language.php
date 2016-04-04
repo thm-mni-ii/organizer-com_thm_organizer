@@ -49,6 +49,7 @@ class THM_OrganizerHelperLanguage
         {
             $lang = new JLanguage('en-GB');
         }
+
         $lang->load('com_thm_organizer');
         return $lang;
     }
@@ -70,6 +71,7 @@ class THM_OrganizerHelperLanguage
         {
             $params['Itemid'] = $menuID;
         }
+
         $requested = $input->getString('languageTag', '');
 
         $languageSwitches = array();
@@ -85,6 +87,7 @@ class THM_OrganizerHelperLanguage
                 $languageSwitches[] = $submit? self::languageSwitch($supported) : self::languageLink($url, $supported);
             }
         }
+
         return $languageSwitches;
     }
 

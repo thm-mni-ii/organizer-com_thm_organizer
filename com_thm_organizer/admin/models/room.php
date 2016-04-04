@@ -97,6 +97,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
                 {
                     $deletedIDs[] = $nextEntry['id'];
                 }
+
                 $nextIndex++;
                 $nextEntry = $roomEntries[$nextIndex];
             }
@@ -149,7 +150,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
                 {
                     continue;
                 }
- 
+
                 if ($property == 'gpuntisID' OR $property == 'name')
                 {
                     if (preg_match('/\.[0-9]{3}$/', $value))
@@ -166,7 +167,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
                 {
                     $data[$property] = $value;
                 }
- 
+
                 // Propery already set and a value differentiation exists => manual merge
                 elseif ($data[$property] != $value)
                 {
@@ -175,6 +176,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
                         $otherIDs[] = $value;
                         continue;
                     }
+
                     if ($property == 'gpuntisID')
                     {
                         $data[$property] = str_replace('RM_', '', $data[$property]);
@@ -184,10 +186,12 @@ class THM_OrganizerModelRoom extends JModelLegacy
                             continue;
                         }
                     }
+
                     return false;
                 }
             }
         }
+
         $data['otherIDs'] = "'" . implode("', '", $otherIDs) . "'";
         return $this->merge($data);
     }
@@ -210,6 +214,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
             {
                 unset($data['typeID']);
             }
+
             $data['otherIDs'] = "'" . implode("', '", explode(',', $data['otherIDs'])) . "'";
         }
 
@@ -285,6 +290,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
             $this->_db->transactionRollback();
             return false;
         }
+
         return true;
     }
 
@@ -320,7 +326,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
-        
+
         if (empty($schedules))
         {
             return true;
@@ -375,6 +381,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -430,6 +437,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         {
             unset($schedule->rooms->$oldName);
         }
+
         foreach ($schedule->calendar as $date => $blocks)
         {
             $this->processDateReferences($schedule, $date, $blocks, $oldName, $newName);
@@ -558,13 +566,16 @@ class THM_OrganizerModelRoom extends JModelLegacy
             {
                 $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING");
             }
+
             return false;
         }
+
         if (empty($externalID))
         {
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNAL_ID');
         }
+
         $gpuntisID = empty($externalID)? $internalID : $externalID;
         return $gpuntisID;
     }
@@ -585,6 +596,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_ROOM_LONGNAME_MISSING', $roomID);
             return false;
         }
+
         $this->_scheduleModel->schedule->rooms->$roomID->longname = $longname;
         return $longname;
     }
@@ -607,6 +619,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_ROOM_TYPE');
         }
+
         $this->_scheduleModel->schedule->rooms->$roomID->description
             = empty($descriptionID)? '' : $descriptionID;
     }

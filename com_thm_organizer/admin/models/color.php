@@ -35,6 +35,7 @@ class THM_OrganizerModelColor extends JModelLegacy
         $table = JTable::getInstance('colors', 'thm_organizerTable');
         return $table->save($data);
     }
+
     /**
      * Removes color entries from the database
      *

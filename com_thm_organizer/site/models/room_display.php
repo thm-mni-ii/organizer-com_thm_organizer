@@ -136,6 +136,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $this->params['layout'] = 'content';
             return;
         }
+
         if ($displayed == 'schedule')
         {
             $this->params['layout'] = 'content';
@@ -209,7 +210,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return;
         }
-        
+
          if (empty($schedules))
          {
              JFactory::getApplication()->redirect('index.php', JText::_('COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULES_FOR_DATE'), 'error');
@@ -220,6 +221,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
          {
              $schedules[$key] = json_decode($schedule);
          }
+
          $this->_schedules = $schedules;
      }
 
@@ -248,6 +250,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 }
             }
         }
+
         $this->setLessonData();
         $this->setDummyText();
     }
@@ -393,8 +396,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                     {
                         unset($teachers[$teacherID]);
                     }
+
                     $teachers[$teacherID] = $schedule->teachers->$teacherID->surname;
                 }
+
                 $this->blocks[$period]->lessons[$lessonID]['teacher'] = implode(', ', $teachers);
 
                 if ($gridName != 'Haupt-Zeitraster')
@@ -444,6 +449,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             {
                 $subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
             }
+
             $lessonTitle = implode(', ', $subjectNames);
         }
         else
@@ -455,6 +461,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             // A little arbitrary but implementing settings is a little too much effort
             $lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
         }
+
         return $lessonTitle;
     }
 

@@ -85,6 +85,7 @@ class JFormFieldSubjects extends JFormField
                 unset($subjects[$key]);
                 continue;
             }
+
             $subjects[$key]['text'] = empty($subject['externalID'])? $subject['name'] : "{$subject['name']} ({$subject['externalID']})";
         }
 

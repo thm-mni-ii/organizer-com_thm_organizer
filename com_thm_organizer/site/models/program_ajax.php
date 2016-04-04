@@ -65,7 +65,7 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
             JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             return '[]';
         }
-        
+
         return json_encode($programs);
     }
 }

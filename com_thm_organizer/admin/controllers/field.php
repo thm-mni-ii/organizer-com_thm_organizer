@@ -83,6 +83,7 @@ class THM_OrganizerControllerField extends JControllerLegacy
         {
             return;
         }
+
         $success = $this->getModel('field')->delete();
         if ($success)
         {
@@ -94,7 +95,6 @@ class THM_OrganizerControllerField extends JControllerLegacy
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
             $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=field_manager', false), $msg, 'error');
         }
-
     }
 
     /**
@@ -108,6 +108,7 @@ class THM_OrganizerControllerField extends JControllerLegacy
         {
             return;
         }
+
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=field_manager', false));
     }
 }

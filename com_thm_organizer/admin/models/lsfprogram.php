@@ -46,7 +46,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return array();
         }
-        
+
         return empty($lsfData)? array() : $lsfData;
     }
 
@@ -116,6 +116,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -140,6 +141,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 
@@ -162,6 +164,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
                 return false;
             }
         }
+
         return true;
     }
 }

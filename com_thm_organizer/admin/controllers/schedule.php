@@ -62,6 +62,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
             {
                 JFactory::getApplication()->enqueueMessage($statusReport['warnings'], 'notice');
             }
+
             $this->setRedirect($url . 'edit');
             return;
         }
@@ -227,6 +228,7 @@ class THM_OrganizerControllerSchedule extends JControllerLegacy
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $type = 'error';
         }
+
         $this->setRedirect("index.php?option=com_thm_organizer&view=schedule_manager", $msg, $type);
     }
 }

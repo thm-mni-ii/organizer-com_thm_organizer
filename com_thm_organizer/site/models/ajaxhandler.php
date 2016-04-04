@@ -25,7 +25,6 @@ include_once JPATH_COMPONENT . "/assets/classes/config.php";
  */
 class THM_OrganizerModelAjaxhandler extends JModelLegacy
 {
-
     /**
      * Configuration
      *
@@ -72,6 +71,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
                 $schedNavModel = JModelLegacy::getInstance('Schedule_Navigation', 'THM_OrganizerModel', $options);
                 return $schedNavModel->load($options);
             }
+
             $classname = $taskArray[0];
             if (file_exists(JPATH_COMPONENT . "/assets/classes/" . $classname . ".php"))
             {
@@ -81,6 +81,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
             {
                 throw new Exception("Class " . $classname . " not found");
             }
+
             $classname = "THM" . $classname;
             $class = $this->getClass($classname, $options);
 

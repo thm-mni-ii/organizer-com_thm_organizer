@@ -69,6 +69,7 @@ class JFormFieldColors extends JFormField
             $value = 'value="' . $color->id . '"';
             $html .= "<option $style $selected $value >$color->name</option>";
         }
+
         $html .= "</select>";
         return $html;
     }

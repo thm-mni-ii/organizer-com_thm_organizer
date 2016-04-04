@@ -58,6 +58,7 @@ class THM_OrganizerTableFields extends JTable
                 $this->$nullColumn = NULL;
             }
         }
+
         return true;
     }
 }

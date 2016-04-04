@@ -23,7 +23,6 @@ defined('_JEXEC') or die;
  */
 class THMAuth
 {
-
     /**
      * Constructor with the joomla data configuration object
      *
@@ -70,6 +69,7 @@ class THMAuth
                 $role = 'registered';
                 break;
         }
+
         return $role;
     }
 

@@ -130,7 +130,7 @@ class THMUserSchedule
                     'data' => array('code' => $exc->getCode(), 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR")))
                 );
             }
- 
+
             // Create a new query object.
             $query = $dbo->getQuery(true);
  
@@ -203,7 +203,7 @@ class THMUserSchedule
                     'data' => array('code' => $exc->getCode(), 'errors' => array('reason' => JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR")))
                 );
             }
- 
+
             if (is_object($rows) AND isset($rows->data))
             {
                $data = $rows->data;

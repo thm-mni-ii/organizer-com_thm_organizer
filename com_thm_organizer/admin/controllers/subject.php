@@ -11,7 +11,6 @@
  */
 defined('_JEXEC') or die;
 
-
 /**
  * Class performs access checks, redirects and model function calls for data persistence
  *
@@ -91,6 +90,7 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $msgType = 'error';
         }
+
         $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=subject_manager", false), $msg, $msgType);
     }
 
@@ -145,7 +145,7 @@ class THM_OrganizerControllerSubject extends JControllerLegacy
     {
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
     }
- 
+
     /**
      * Perfoerms access checks and makes function calls for importing LSF Data
      *

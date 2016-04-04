@@ -62,6 +62,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
         {
             return;
         }
+
         $success = $this->getModel('color')->save();
         if ($success)
         {
@@ -87,6 +88,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
         {
             return;
         }
+
         $success = $this->getModel('color')->delete();
         if ($success)
         {
@@ -111,6 +113,7 @@ class THM_OrganizerControllerColor extends JControllerLegacy
         {
             return;
         }
+
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=color_manager', false));
     }
 }

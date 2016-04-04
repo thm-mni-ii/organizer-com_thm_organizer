@@ -131,11 +131,12 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
-        
+
         if (empty($poolData->color))
         {
             $poolData->color = JComponentHelper::getParams('com_thm_organizer')->get('backgroundColor', '#ffffff');
         }
+
         $poolData->children = array();
         return $poolData;
    }
@@ -172,7 +173,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
-        
+
         return $programData;
     }
 
@@ -213,15 +214,17 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
-        
+
         if (empty($subjectData))
         {
             return null;
         }
+
         if (empty($subjectData->color))
         {
             $subjectData->color = JComponentHelper::getParams('com_thm_organizer')->get('backgroundColor', '#ffffff');
         }
+
         $subjectData->link = JRoute::_($subjectData->link);
         if (!empty($subjectData->externalID) AND !empty($this->_schedule))
         {
@@ -234,6 +237,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
                 }
             }
         }
+
         $this->setTeacherProperties($subjectData);
         return $subjectData;
     }
@@ -269,7 +273,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
-        
+
         if (empty($mappings))
         {
             return $children;
@@ -286,6 +290,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
                     $parent = $parent[$nodes[$i]]->children;
                 }
             }
+
             if (isset($mapping['poolID']))
             {
                 $nodes[(int) $mapping['level']] = (int) $mapping['ordering'];
@@ -300,8 +305,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
                 $subjectData->mappingID = $mapping['id'];
                 $parent[(int) $mapping['ordering']] = $subjectData;
             }
-
         }
+
         return $children;
     }
 
@@ -329,7 +334,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         {
             throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
         }
-        
+
         return $childOrder;
     }
 
@@ -403,6 +408,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
                 $subjectData->teacherName = $defaultName;
                 return;
             }
+
             $subjectData->teacherPicture = THM_OrganizerHelperTeacher::getPicture($teacherData['userID']);
             $subjectData->teacherName = $teacherName;
             $subjectData->teacherProfileLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname'], $itemID);
@@ -411,6 +417,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         {
             $subjectData->teacherName = $defaultName;
         }
+
         if (!empty($teacherData['gpuntisID']) AND !empty($this->_scheduleLink))
         {
             $subjectData->teacherScheduleLink

@@ -23,7 +23,6 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerModelVirtual_Schedule_Manager extends JModelList
 {
-
     /**
      * Constructor that calls the parent constructor and intialise variables
      */
@@ -44,6 +43,4 @@ class THM_OrganizerModelVirtual_Schedule_Manager extends JModelList
 
         return $query;
     }
-
-
 }

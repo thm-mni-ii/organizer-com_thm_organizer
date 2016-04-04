@@ -30,5 +30,4 @@ class THM_OrganizerModelMonitor_Edit extends THM_CoreModelEdit
     {
         parent::__construct($config);
     }
-
 }

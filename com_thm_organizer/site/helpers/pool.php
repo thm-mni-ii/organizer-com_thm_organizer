@@ -40,14 +40,18 @@ class THM_OrganizerHelperPool
                 {
                     return "$pool->maxCrP CrP";
                 }
+
                 return "$pool->minCrP - $pool->maxCrP CrP";
             }
+
             return "max. $pool->maxCrP CrP";
         }
+
         if ($minCrPExists)
         {
             return "min. $pool->minCrP CrP";
         }
+
         return '';
     }
 }

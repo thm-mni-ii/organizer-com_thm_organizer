@@ -38,6 +38,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
         {
             $config['filter_fields'] = array('f.field','c.name');
         }
+
         parent::__construct($config);
     }
 
@@ -87,6 +88,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             }
+
             if ($this->actions->{'core.edit'})
             {
                 $field = JHtml::_('link', $item->link, $item->field);
@@ -95,11 +97,13 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
             {
                 $field = $item->field;
             }
+
             $return[$index]['field'] = $field;
             $colorOutput = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
             $return[$index]['colorID'] = $colorOutput;
             $index++;
         }
+
         return $return;
     }
 
@@ -118,6 +122,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
         {
             $headers['checkbox'] = '';
         }
+
         $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
         $headers['colorID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
 

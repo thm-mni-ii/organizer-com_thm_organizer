@@ -146,7 +146,6 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
         $this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=monitor_manager', false));
     }
 
-
     /**
      * Toggles category behaviour properties
      *
@@ -166,6 +165,7 @@ class THM_OrganizerControllermonitor extends JControllerLegacy
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
             $type = 'error';
         }
+
         $this->setRedirect("index.php?option=com_thm_organizer&view=monitor_manager", $msg, $type);
     }
 }

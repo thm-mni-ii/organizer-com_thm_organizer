@@ -45,6 +45,7 @@ class THM_OrganizerTableSubjects extends THM_CoreTableAssets
                 $this->$nullColumn = null;
             }
         }
+
         return true;
     }
 

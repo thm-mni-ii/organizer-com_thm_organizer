@@ -57,6 +57,7 @@ class THM_OrganizerTableTeachers extends JTable
                 $this->$nullColumn = NULL;
             }
         }
+
         return true;
     }
 }

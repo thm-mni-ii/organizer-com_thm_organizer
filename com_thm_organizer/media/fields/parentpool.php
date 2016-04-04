@@ -95,6 +95,7 @@ class JFormFieldParentPool extends JFormField
                 }
             }
         }
+
         return $options;
     }
 }

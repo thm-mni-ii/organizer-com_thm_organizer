@@ -38,6 +38,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_CoreModelList
         {
             $config['filter_fields'] = array('short_name','name');
         }
+
         parent::__construct($config);
     }
 
@@ -94,8 +95,10 @@ class THM_OrganizerModelDepartment_Manager extends THM_CoreModelList
                 $return[$index]['short_name'] = $item->short_name;
                 $return[$index]['name'] = $item->name;
             }
+
             $index++;
         }
+
         return $return;
     }
 
@@ -114,6 +117,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_CoreModelList
         {
             $headers['checkbox'] = '';
         }
+
         $headers['short_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'f.field', $direction, $ordering);
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'c.name', $direction, $ordering);
 
