@@ -120,10 +120,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     {
         $query = $this->_db->getQuery(true);
         $columns = array('departmentname', 'semestername');
-        $select = 'id, ' . $query->concatenate($columns, ' - ') . ' AS name';
+        $name = array($query->concatenate($columns, ' - '), ' SUBSTRING(term_enddate, 3, 2)');
+        $select = 'id, ' . $query->concatenate($name) . ' AS name';
         $query->select($select);
         $query->from("#__thm_organizer_schedules");
         $query->where("active = '1'");
+
         $departmentID = $this->params->get('departmentID', 0);
         if (!empty($departmentID))
         {
