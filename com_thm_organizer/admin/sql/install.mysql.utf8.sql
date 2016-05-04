@@ -29,25 +29,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   KEY `semestername` ( `semestername` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR ( 50 ) NOT NULL,
-  `type` VARCHAR ( 50 ) NOT NULL,
-  `responsible` VARCHAR ( 50 ) NOT NULL,
-  `department` VARCHAR ( 50 ) NOT NULL DEFAULT '',
-  `semestername` VARCHAR ( 50 ) NOT NULL,
-  PRIMARY KEY `id` ( `id` ),
-  KEY `semestername` ( `semestername` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_virtual_schedules_elements` (
-  `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `vid` INT ( 11 ) UNSIGNED NOT NULL,
-  `eid` VARCHAR ( 20 ) NOT NULL,
-  PRIMARY KEY `id` ( `id` ),
-  KEY `vid` ( `vid` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
   `username` VARCHAR ( 100 ) NOT NULL,
   `created` INT ( 11 ) UNSIGNED NOT NULL,
@@ -90,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `lsfFieldID` varchar(20) DEFAULT '',
   `degreeID` INT(11) unsigned DEFAULT NULL,
   `fieldID` INT(11) unsigned DEFAULT NULL,
+  `frequencyID` INT(1) UNSIGNED DEFAULT NULL,
   `description_de` text DEFAULT NULL,
   `description_en` text DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -269,14 +251,6 @@ ALTER TABLE `#__thm_organizer_schedules`
 ADD CONSTRAINT `schedules_departmentid_fk` FOREIGN KEY (`departmentID`)
 REFERENCES `#__thm_organizer_departments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
-ALTER TABLE `#__thm_organizer_virtual_schedules`
-ADD CONSTRAINT `virtual_schedules_semestername_fk` FOREIGN KEY (`semestername`)
-REFERENCES `#__thm_organizer_schedules` (`semestername`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_virtual_schedules_elements`
-ADD CONSTRAINT `virtual_schedules_elements_vid_fk` FOREIGN KEY (`vid`)
-REFERENCES `#__thm_organizer_virtual_schedules` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
 ALTER TABLE `#__thm_organizer_fields`
 ADD CONSTRAINT `fields_colorid_fk` FOREIGN KEY (`colorID`)
 REFERENCES `#__thm_organizer_colors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -292,6 +266,10 @@ REFERENCES `#__thm_organizer_degrees` (`id`) ON DELETE SET NULL ON UPDATE CASCAD
 ALTER TABLE `#__thm_organizer_programs`
 ADD CONSTRAINT `programs_fieldid_fk` FOREIGN KEY (`fieldID`)
 REFERENCES `#__thm_organizer_fields` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_programs`
+ADD CONSTRAINT `programs_frequencyid_fk` FOREIGN KEY (`frequencyID`)
+REFERENCES `#__thm_organizer_frequencies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_pools`
 ADD CONSTRAINT `pools_departmentid_fk` FOREIGN KEY (`departmentID`)

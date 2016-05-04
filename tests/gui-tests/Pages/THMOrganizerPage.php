@@ -38,7 +38,6 @@ class THMOrganizerPage extends AdminManagerPage
         'option=com_thm_organizer&view=pool_manager',
         'option=com_thm_organizer&view=program_manager',
         'option=com_thm_organizer&view=schedule_manager',
-        'option=com_thm_organizer&view=category_manager',
-        'option=com_thm_organizer&view=virtual_schedule_manager'
+        'option=com_thm_organizer&view=category_manager'
 	);
 }
