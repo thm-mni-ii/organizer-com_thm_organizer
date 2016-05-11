@@ -7,10 +7,11 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+jimport('thm_core.helpers.corehelper');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -24,7 +25,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
 {
-    protected $defaultOrdering = 'subject';
+    protected $defaultOrdering = 'name';
 
     protected $defaultDirection = 'asc';
 
@@ -37,7 +38,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array('subject', 'abbreviation', 'version', 'departmentID');
+            $config['filter_fields'] = array('dp.name', 'abbreviation', 'version', 'departmentID');
         }
 
         parent::__construct($config);
@@ -50,11 +51,10 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
      */
     protected function getListQuery()
     {
-        $language = explode('-', JFactory::getLanguage()->getTag());
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
         $query = $this->_db->getQuery(true);
-        $subjectColumn = "subject_{$language[0]}";
-        $select = "$subjectColumn AS subject, version, lsfDegree, lsfFieldID, ";
-        $select .= "dp.id AS id, d.abbreviation AS abbreviation, dpt.short_name AS departmentname, ";
+        $select = "dp.name_$shortTag AS name, version, ";
+        $select .= "dp.id AS id, d.abbreviation AS abbreviation, dpt.short_name_$shortTag AS departmentname, ";
         $parts = array("'index.php?option=com_thm_organizer&view=program_edit&id='","dp.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
@@ -64,10 +64,10 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
         $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
 
-        $searchColumns = array('subject_de', 'subject_en', 'version', 'field', 'd.name', 'description_de', 'description_en');
+        $searchColumns = array('dp.name_de', 'dp.name_en', 'version', 'field', 'd.name', 'description_de', 'description_en');
         $this->setSearchFilter($query, $searchColumns);
         $this->setValueFilters($query, array( 'degreeID', 'version', 'departmentID'));
-        $this->setLocalizedFilters($query, array('subject'));
+        $this->setLocalizedFilters($query, array('dp.name'));
 
         $this->setOrdering($query);
 
@@ -96,7 +96,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
             if ($canEdit)
             {
                 $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-                $return[$index]['subject'] = JHtml::_('link', $item->link, $item->subject);
+                $return[$index]['dp.name'] = JHtml::_('link', $item->link, $item->name);
                 $return[$index]['degreeID'] = JHtml::_('link', $item->link, $item->abbreviation);
                 $return[$index]['version'] = JHtml::_('link', $item->link, $item->version);
                 $return[$index]['departmentID'] = JHtml::_('link', $item->link, $item->departmentname);
@@ -104,7 +104,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
             else
             {
                 $return[$index]['checkbox'] = '';
-                $return[$index]['subject'] = $item->subject;
+                $return[$index]['dp.name'] = $item->name;
                 $return[$index]['degreeID'] = $item->abbreviation;
                 $return[$index]['version'] = $item->version;
                 $return[$index]['departmentID'] = $item->departmentname;
@@ -128,7 +128,7 @@ class THM_OrganizerModelProgram_Manager extends THM_CoreModelList
 
         $headers = array();
         $headers['checkbox'] = '';
-        $headers['subject'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'subject', $direction, $ordering);
+        $headers['dp.name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'dp.name', $direction, $ordering);
         $headers['degreeID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE', 'abbreviation', $direction, $ordering);
         $headers['version'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_VERSION', 'version', $direction, $ordering);
         $headers['departmentID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentID', $direction, $ordering);

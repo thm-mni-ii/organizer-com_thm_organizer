@@ -33,12 +33,12 @@
             <option value="">JALL</option>
         </field>
         <field
-            name="lsfDegree"
+            name="code"
             type="genericlist"
             valueColumn="id"
-            textColumn="lsfDegree"
+            textColumn="code"
             table="thm_organizer_degrees"
-            label="COM_THM_ORGANIZER_LSFDEGREE"
+            label="COM_THM_ORGANIZER_DEGREE_CODE"
             onchange="this.form.submit();"
             >
             <option value="">JALL</option>

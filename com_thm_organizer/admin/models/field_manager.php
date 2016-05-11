@@ -7,10 +7,11 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+jimport('thm_core.helpers.corehelper');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -23,7 +24,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerModelField_Manager extends THM_CoreModelList
 {
-    protected $defaultOrdering = 'f.field';
+    protected $defaultOrdering = 'field';
 
     protected $defaultDirection = 'asc';
 
@@ -36,7 +37,7 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array('f.field','c.name');
+            $config['filter_fields'] = array('field','name');
         }
 
         parent::__construct($config);
@@ -49,17 +50,20 @@ class THM_OrganizerModelField_Manager extends THM_CoreModelList
      */
     protected function getListQuery()
     {
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+
         // Create the query
         $query = $this->_db->getQuery(true);
-        $select = "f.id, f.field, c.name, c.color, ";
+        $select = "f.id, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=field_edit&id='","f.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
         $query->from('#__thm_organizer_fields AS f');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $this->setSearchFilter($query, array('field', 'gpuntisID', 'color'));
-        $this->setValueFilters($query, array('field', 'colorID'));
+        $this->setSearchFilter($query, array('field_de', 'field_en', 'gpuntisID', 'color'));
+        $this->setValueFilters($query, array('colorID'));
+        $this->setLocalizedFilters($query, array('field'));
 
         $this->setOrdering($query);
 

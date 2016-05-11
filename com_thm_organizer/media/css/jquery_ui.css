@@ -1,9 +1,3 @@
-/*  ------------------------------------
-**  Author:     Kristijan Pokas
-**  File:       jquery_ui.css
-**  Styles for: Frontend - Widget accordion (module catalogue)
-**  Site:       www.mni.thm.de
-**  ------------------------------------ */
 .ui-helper-reset {
   line-height: 1; }
 
@@ -27,11 +21,11 @@
 .ui-accordion-header {
   background-color: #f2f5f6;
   border: 1px solid #77858c;
-  -webkit-box-shadow: 2px 2px 4px #dddddd;
-  -moz-box-shadow: 2px 2px 4px #dddddd;
-  -ms-box-shadow: 2px 2px 4px #dddddd;
-  -o-box-shadow: 2px 2px 4px #dddddd;
-  box-shadow: 2px 2px 4px #dddddd; }
+  -webkit-box-shadow: 2px 2px 4px #a4adb2;
+  -moz-box-shadow: 2px 2px 4px #a4adb2;
+  -ms-box-shadow: 2px 2px 4px #a4adb2;
+  -o-box-shadow: 2px 2px 4px #a4adb2;
+  box-shadow: 2px 2px 4px #a4adb2; }
 
 .ui-accordion .ui-accordion-content {
   padding: 4px; }

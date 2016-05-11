@@ -35,6 +35,7 @@
                type="genericlist"
                valueColumn="id"
                textColumn="field"
+               localized="true"
                table="thm_organizer_fields"
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"

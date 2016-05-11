@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
@@ -94,9 +94,11 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function setDepartmentName($departmentID)
     {
+        $shortTag = THM_OrganizerHelperComponent::getLanguageShortTag();
+
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('short_name')->from('#__thm_organizer_departments')->where("id = '$departmentID'");
+        $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery((string) $query);
         try
         {

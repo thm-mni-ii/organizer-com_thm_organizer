@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
@@ -36,7 +36,7 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array('name', 'abbreviation', 'lsfDegree');
+            $config['filter_fields'] = array('name', 'abbreviation', 'code');
         }
 
         parent::__construct($config);
@@ -52,14 +52,13 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
     {
         // Perform the database request
         $query = $this->_db->getQuery(true);
-        $select = 'id, name, abbreviation, lsfDegree, ';
+        $select = "id, name, abbreviation, code, ";
         $parts = array("'index.php?option=com_thm_organizer&view=degree_edit&id='", "id");
         $select .= $query->concatenate($parts) . " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_degrees');
-        $columns = array('name', 'abbreviation', 'lsfDegree');
+        $columns = array('name', 'abbreviation', 'code');
         $this->setSearchFilter($query, $columns);
-        $idColumns = array('filter.name', 'filter.abbreviation', 'filter.lsfDegree');
         $this->setIDFilter($query, 'id', $columns);
         $this->setOrdering($query);
         return $query;
@@ -92,18 +91,18 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
             {
                 $name = JHtml::_('link', $item->link, $item->name);
                 $abbreviation = JHtml::_('link', $item->link, $item->abbreviation);
-                $lsfDegree = JHtml::_('link', $item->link, $item->lsfDegree);
+                $code = JHtml::_('link', $item->link, $item->code);
             }
             else
             {
                 $name = $item->name;
                 $abbreviation = $item->abbreviation;
-                $lsfDegree = $item->lsfDegree;
+                $code = $item->code;
             }
 
             $return[$index]['name'] = $name;
             $return[$index]['abbreviation'] = $abbreviation;
-            $return[$index]['lsfDegree'] = $lsfDegree;
+            $return[$index]['code'] = $code;
             $index++;
         }
 
@@ -128,7 +127,7 @@ class THM_OrganizerModelDegree_Manager extends THM_CoreModelList
 
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['abbreviation'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ABBREVIATION', 'abbreviation', $direction, $ordering);
-        $headers['lsfDegree'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_LSF_DEGREE', 'lsfDegree', $direction, $ordering);
+        $headers['code'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE_CODE', 'code', $direction, $ordering);
 
         return $headers;
     }

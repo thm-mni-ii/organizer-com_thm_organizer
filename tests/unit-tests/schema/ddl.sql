@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `jos_thm_organizer_schedules` (
 CREATE TABLE jos_thm_organizer_colors
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL DEFAULT '',
+    name_de TEXT NOT NULL DEFAULT '',
+    name_en TEXT NOT NULL DEFAULT '',
     color TEXT NOT NULL DEFAULT ''
 );
 

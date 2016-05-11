@@ -7,9 +7,10 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.helpers.corehelper');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 JFormHelper::loadFieldClass('list');
 
@@ -40,9 +41,10 @@ class JFormFieldDepartmentID extends JFormFieldList
             return parent::getOptions();
         }
 
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("id AS value, short_name AS text");
+        $query->select("id AS value, short_name_$shortTag AS text");
         $query->from('#__thm_organizer_departments');
         $query->where("id IN ( '" . implode("', '", $allowedIDs). "' )");
         $query->order('text ASC');

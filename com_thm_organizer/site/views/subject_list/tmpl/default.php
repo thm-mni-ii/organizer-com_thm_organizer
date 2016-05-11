@@ -8,7 +8,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 require_once 'ungrouped_list.php';
 require_once 'grouped_list.php';

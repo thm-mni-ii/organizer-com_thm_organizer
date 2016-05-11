@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
@@ -41,7 +41,7 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
         $defaultTag = $defaultArray[0];
         $language = JFactory::getApplication()->input->get('languageTag', $defaultTag);
         $query = $dbo->getQuery(true);
-        $concateQuery = array("dp.subject_$language","', ('", "d.abbreviation", "' '", " dp.version", "')'");
+        $concateQuery = array("dp.name_$language","', ('", "d.abbreviation", "' '", " dp.version", "')'");
         $query->select("dp.id, " . $query->concatenate($concateQuery, "") . " AS name");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');

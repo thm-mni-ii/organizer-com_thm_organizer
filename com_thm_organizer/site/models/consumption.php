@@ -8,7 +8,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
@@ -132,7 +132,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     public function getActiveSchedules()
     {
         $query = $this->_db->getQuery(true);
-        $columns = array('departmentname', 'semestername');
+        $planPeriodColumns = array('semestername', 'SUBSTR(term_enddate, 3, 2)');
+        $columns = array('departmentname', $query->concatenate($planPeriodColumns, ''));
         $select = 'id, ' . $query->concatenate($columns, ' - ') . ' AS name';
         $query->select($select);
         $query->from("#__thm_organizer_schedules");

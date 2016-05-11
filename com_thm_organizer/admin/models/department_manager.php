@@ -7,10 +7,11 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
+jimport('thm_core.helpers.corehelper');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -49,17 +50,19 @@ class THM_OrganizerModelDepartment_Manager extends THM_CoreModelList
      */
     protected function getListQuery()
     {
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+
         // Create the query
         $query = $this->_db->getQuery(true);
-        $select = "d.id, d.short_name, d.name, a.rules, ";
+        $select = "d.id, d.short_name_$shortTag AS short_name, d.name_$shortTag AS name, a.rules, ";
         $parts = array("'index.php?option=com_thm_organizer&view=department_edit&id='","d.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
         $query->from('#__thm_organizer_departments AS d');
         $query->innerJoin('#__assets AS a ON d.asset_id = a.id');
 
-        $this->setSearchFilter($query, array('short_name', 'name'));
-        $this->setValueFilters($query, array('short_name', 'name'));
+        $this->setSearchFilter($query, array('short_name_de', 'name_de','short_name_en', 'name_en'));
+        $this->setLocalizedFilters($query, array('short_name', 'name'));
 
         $this->setOrdering($query);
 

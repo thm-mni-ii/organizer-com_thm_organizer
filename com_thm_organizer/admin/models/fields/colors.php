@@ -8,9 +8,10 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+jimport('thm_core.helpers.corehelper');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -21,7 +22,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
- * @link        www.mni.thm.de
  */
 class JFormFieldColors extends JFormField
 {
@@ -61,13 +61,15 @@ class JFormFieldColors extends JFormField
         $html = "<select id = 'jform_colorID' name='jform[colorID]'>";
         $html .= '<option selected="selected" value="">' . JText::_('JNONE') . '</option>';
 
+        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $property = "name_$shortTag";
         foreach ($colors as $color)
         {
             $selected = $this->value == $color->id? "selected='selected'" : '';
             $textColor = THM_OrganizerHelperComponent::getTextColor($color->color);
             $style = 'style="background-color: ' . $color->color . '; color:' . $textColor . ';"';
             $value = 'value="' . $color->id . '"';
-            $html .= "<option $style $selected $value >$color->name</option>";
+            $html .= "<option $style $selected $value >" . $color->$property . "</option>";
         }
 
         $html .= "</select>";

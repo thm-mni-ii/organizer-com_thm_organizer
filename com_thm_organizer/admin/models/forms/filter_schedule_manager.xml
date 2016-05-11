@@ -1,79 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="filter" addfieldpath="/libraries/thm_core/fields">
-        <field
-            name="search"
-            type="text"
-            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-            hint="JSEARCH_FILTER"
-            />
-        <field
-            name="checkbox"
-            type="CheckAll" />
-        <field
-            name="departmentID"
-            type="genericlist"
-            valueColumn="d.id"
-            textColumn="d.short_name"
-            table="thm_organizer_schedules AS s,thm_organizer_departments AS d ON d.id = s.departmentID"
-            onchange="this.form.submit();" >
+    <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
+        <field name="search"
+               type="text"
+               label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
+               hint="JSEARCH_FILTER" />
+        <field name="checkbox"
+               type="CheckAll" />
+        <field name="departmentID"
+               type="genericlist"
+               valueColumn="d.id"
+               textColumn="d.short_name"
+               localized="true"
+               table="thm_organizer_schedules AS s,thm_organizer_departments AS d ON d.id = s.departmentID"
+               onchange="this.form.submit();" >
             <option value="">JALL</option>
         </field>
-        <field
-            name="semestername"
-            type="genericlist"
-            valueColumn="semestername"
-            textColumn="semestername"
-            table="thm_organizer_schedules"
-            label="COM_THM_ORGANIZER_PLANNING_PERIOD"
-            onchange="this.form.submit();"
-            >
+        <field name="semestername"
+               type="genericlist"
+               valueColumn="semestername"
+               textColumn="semestername"
+               table="thm_organizer_schedules"
+               label="COM_THM_ORGANIZER_PLANNING_PERIOD"
+               onchange="this.form.submit();" >
             <option value="">JALL</option>
         </field>
-        <field
-            name="active"
-            type="list"
-            label="COM_THM_ORGANIZER_STATE"
-            onchange="this.form.submit();"
-            >
+        <field name="active"
+               type="list"
+               label="COM_THM_ORGANIZER_STATE"
+               onchange="this.form.submit();" >
             <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_ACTIVE_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_ACTIVE_NO</option>
         </field>
-        <field
-            name="creationdate"
-            type="datelist"
-            format="date"
-            valueColumn="creationdate"
-            textColumn="creationdate"
-            table="thm_organizer_schedules"
-            label="COM_THM_ORGANIZER_CREATION_DATE"
-            onchange="this.form.submit();"
-            >
-            <option value="">JALL</option>
-        </field>
-        <field
-            name="creationtime"
-            type="datelist"
-            format="time"
-            valueColumn="creationtime"
-            textColumn="creationtime"
-            table="thm_organizer_schedules"
-            label="COM_THM_ORGANIZER_CREATION_TIME"
-            onchange="this.form.submit();"
-            >
+        <field name="created"
+               type="datelist"
+               format="date"
+               valueColumn="creationdate"
+               textColumn="creationdate"
+               table="thm_organizer_schedules"
+               label="COM_THM_ORGANIZER_CREATION_DATE"
+               onchange="this.form.submit();" >
             <option value="">JALL</option>
         </field>
     </fields>
     <fields name="list">
-        <field
-            name="limit"
-            type="limitbox"
-            class="input-mini"
-            default="25"
-            label="COM_CONTENT_LIST_LIMIT"
-            description="COM_CONTENT_LIST_LIMIT_DESC"
-            onchange="this.form.submit();"
-        />
+        <field name="limit"
+               type="limitbox"
+               class="input-mini"
+               default="25"
+               label="COM_CONTENT_LIST_LIMIT"
+               description="COM_CONTENT_LIST_LIMIT_DESC"
+               onchange="this.form.submit();" />
     </fields>
 </form>

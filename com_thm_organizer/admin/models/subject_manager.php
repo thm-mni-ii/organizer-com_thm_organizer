@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
@@ -41,7 +41,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
     {
         if (empty($config['filter_fields']))
         {
-            $config['filter_fields'] = array('name', 'externalID', 'fieldID');
+            $config['filter_fields'] = array('name', 'externalID', 'field');
         }
 
         parent::__construct($config);
@@ -59,7 +59,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
 
         // Create the sql query
         $query = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, externalID, name_$shortTag AS name, field, color, ";
+        $select = "DISTINCT s.id, externalID, s.name_$shortTag AS name, field_$shortTag AS field, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=subject_edit&id='","s.id");
         $select .= $query->concatenate($parts, "") . " AS link ";
         $query->select($select);
@@ -72,8 +72,8 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
                               'description_en', 'objective_en', 'content_en', 'lsfID'
                              );
         $this->setSearchFilter($query, $searchFields);
-        $this->setValueFilters($query, array('externalID', 'fieldID'));
-        $this->setLocalizedFilters($query, array('name'));
+        $this->setValueFilters($query, array('externalID'));
+        $this->setLocalizedFilters($query, array('name', 'field'));
 
         $programID = $this->state->get('list.programID', '');
         THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'subject');
@@ -110,16 +110,16 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
             {
                 if (!empty($item->color))
                 {
-                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField($item->field, $item->color);
+                    $return[$index]['field'] = THM_OrganizerHelperComponent::getColorField($item->field, $item->color);
                 }
                 else
                 {
-                    $return[$index]['fieldID'] = $item->field;
+                    $return[$index]['field'] = $item->field;
                 }
             }
             else
             {
-                $return[$index]['fieldID'] = '';
+                $return[$index]['field'] = '';
             }
 
             $index++;
@@ -142,7 +142,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
         $headers['checkbox'] = '';
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction, $ordering);
-        $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
+        $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
 
         return $headers;
     }

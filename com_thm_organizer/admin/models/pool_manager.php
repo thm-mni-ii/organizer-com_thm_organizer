@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
@@ -53,7 +53,7 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
         $query = $this->_db->getQuery(true);
 
         $shortTag = THM_CoreHelper::getLanguageShortTag();
-        $select = "DISTINCT p.id, name_$shortTag AS name, field, color, ";
+        $select = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag AS field, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=pool_edit&id='","p.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
@@ -66,7 +66,7 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
                                'name_en', 'short_name_en', 'abbreviation_en', 'description_en'
                               );
         $this->setSearchFilter($query, $searchColumns);
-        $this->setLocalizedFilters($query, array('name'));
+        $this->setLocalizedFilters($query, array('p.name'));
         $this->setValueFilters($query, array('fieldID'));
 
         $programID = $this->state->get('filter.programID', '');
@@ -75,18 +75,6 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
         $this->setOrdering($query);
 
         return $query;
-    }
-
-    /**
-     * Method to get the total number of items for the data set.
-     *
-     * @param   string  $idColumn  the main id column of the list query
-     *
-     * @return  integer  The total number of items available in the data set.
-     */
-    public function getTotal()
-    {
-        return parent::getTotal('p.id');
     }
 
     /**
@@ -162,5 +150,31 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
         JForm::addFieldPath(JPATH_ROOT . '/media/com_thm_organizer/fields');
         JForm::addFieldPath(JPATH_ROOT . '/libraries/thm_core/fields');
         return parent::loadFormData();
+    }
+
+    /**
+     * Overwrites the JModelList populateState function
+     *
+     * @param   string  $ordering   the column by which the table is should be ordered
+     * @param   string  $direction  the direction in which this column should be ordered
+     *
+     * @return  void  sets object state variables
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        parent::populateState($ordering, $direction);
+
+        $filter = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+        if (!empty($filter['name']))
+        {
+            $this->setState('filter.p.name', $filter['name']);
+        }
+        else
+        {
+            $pname = 'filter.p.name';
+            unset($this->state->$pname);
+        }
     }
 }

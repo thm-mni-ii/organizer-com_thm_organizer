@@ -22,8 +22,7 @@
         </field>
         <field name="typeID"
                type="mergeByID"
-               textColumn="type,subtype"
-               glue=", "
+               textColumn="type"
                tables="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON t.id = r.typeID"
                class="inputbox"
                label="COM_THM_ORGANIZER_TYPE"

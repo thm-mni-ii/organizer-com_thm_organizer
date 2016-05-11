@@ -7,7 +7,7 @@
  * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.helpers.corehelper');
@@ -67,7 +67,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
     private function setProgramInformation(&$program)
     {
         $query = $this->_db->getQuery(true);
-        $query->select("p.subject_$this->langTag AS name, d.abbreviation, p.version, m.id AS mapping");
+        $query->select("p.name_$this->langTag AS name, d.abbreviation, p.version, m.id AS mapping");
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
@@ -152,7 +152,9 @@ class THM_OrganizerModelCurriculum extends JModelItem
     private function getPool($poolID, $mappingID)
     {
         $query = $this->_db->getQuery(true);
-        $query->select("p.id, name_$this->langTag AS name, description_$this->langTag AS description, minCrP, maxCrP, enable_desc, color AS bgColor");
+        $select = "p.id, p.name_$this->langTag AS name, description_$this->langTag AS description, minCrP, maxCrP, ";
+        $select .= "enable_desc, color AS bgColor";
+        $query->select($select);
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
@@ -192,7 +194,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
     {
         $query = $this->_db->getQuery(true);
 
-        $select = "s.id, externalID, name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
+        $select = "s.id, externalID, s.name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
         $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
         $menuIDParam = empty($menuID)? '' : "&Itemid=$menuID";
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";

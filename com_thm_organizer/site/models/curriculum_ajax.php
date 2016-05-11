@@ -8,7 +8,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
@@ -155,7 +155,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         $languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
         $dbo = JFactory::getDBO();
         $query = $dbo->getQuery(true);     
-        $parts = array("p.subject_{$languageTag}","' ('", "d.abbreviation", "' '", "p.version", "')'");
+        $parts = array("p.name_{$languageTag}","' ('", "d.abbreviation", "' '", "p.version", "')'");
         $select = $query->concatenate($parts, "") . " AS name, ";
         $select .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$languageTag} AS description";
         $query->select($select);

@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.helpers.corehelper');
@@ -20,12 +20,12 @@ JFormHelper::loadFieldClass('list');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class JFormFieldProgramid extends JFormFieldList
+class JFormFieldProgramID extends JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'programid';
+    protected $type = 'programID';
 
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -38,7 +38,7 @@ class JFormFieldProgramid extends JFormFieldList
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $nameParts = array("dp.subject_$shortTag", 'd.abbreviation', 'dp.version' );
+        $nameParts = array("dp.name_$shortTag", 'd.abbreviation', 'dp.version' );
         $nameSelect = $query->concatenate($nameParts, ', ') ." AS text";
 
         $query->select("dp.id AS value, $nameSelect");

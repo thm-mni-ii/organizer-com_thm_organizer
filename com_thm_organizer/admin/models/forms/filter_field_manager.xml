@@ -9,7 +9,7 @@
         />
         <field
             name="field"
-            type="genericlist"
+            type="localizedlist"
             valueColumn="field"
             textColumn="field"
             table="thm_organizer_fields"
@@ -23,6 +23,7 @@
             type="genericlist"
             valueColumn="c.id"
             textColumn="name"
+            localized="true"
             table="thm_organizer_fields AS f,thm_organizer_colors AS c ON f.colorID = c.id"
             label="COM_THM_ORGANIZER_COLOR"
             onchange="this.form.submit();"

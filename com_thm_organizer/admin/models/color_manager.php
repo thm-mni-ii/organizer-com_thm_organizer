@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
@@ -34,17 +34,19 @@ class THM_OrganizerModelColor_Manager extends THM_CoreModelList
      */
     protected function getListQuery()
     {
+        $shortTag = THM_OrganizerHelperComponent::getLanguageShortTag();
         $query = $this->_db->getQuery(true);
 
-        $select = 'id, name, color, ';
+        $select = "id, name_$shortTag AS name, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=color_edit&id='", "id");
         $select .= $query->concatenate($parts, "") . " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_colors');
 
         $columns = array('name', 'color');
-        $this->setSearchFilter($query, $columns);
-        $this->setValueFilters($query, $columns);
+        $this->setSearchFilter($query, array('name_de', 'name_en', 'color'));
+        $this->setValueFilters($query, array('color'));
+        $this->setIDFilter($query, 'id', array('filter.name'));
 
         $this->setOrdering($query);
 

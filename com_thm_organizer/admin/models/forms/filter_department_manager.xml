@@ -9,7 +9,7 @@
         />
         <field
             name="short_name"
-            type="genericlist"
+            type="localizedlist"
             valueColumn="short_name"
             textColumn="short_name"
             table="thm_organizer_departments"
@@ -20,7 +20,7 @@
         </field>
         <field
             name="name"
-            type="genericlist"
+            type="localizedlist"
             valueColumn="name"
             textColumn="name"
             table="thm_organizer_departments"

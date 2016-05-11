@@ -8,7 +8,7 @@
  * @author      Wolf Rost, <Wolf.Rost@mni.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('joomla.form.helper');
@@ -24,7 +24,6 @@ JFormHelper::loadFieldClass('list');
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
 class JFormFieldScheduler extends JFormField
 {

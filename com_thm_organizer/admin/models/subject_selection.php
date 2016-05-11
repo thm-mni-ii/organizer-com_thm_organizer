@@ -7,7 +7,7 @@
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
@@ -120,5 +120,28 @@ class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
         $headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction, $ordering);
 
         return $headers;
+    }
+
+    /**
+     * Overwrites the JModelList populateState function
+     *
+     * @param   string  $ordering   the column by which the table is should be ordered
+     * @param   string  $direction  the direction in which this column should be ordered
+     *
+     * @return  void  sets object state variables
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        parent::populateState($ordering, $direction);
+
+        $session = JFactory::getSession();
+        $session->clear('programID');
+        $formProgramID = $this->state->get('list.programID', '');
+        if (!empty($formProgramID))
+        {
+            $session->set('programID', $formProgramID);
+        }
     }
 }

@@ -7,7 +7,7 @@
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 $mainPath = JURI::root(true) . '/components/com_thm_organizer/views/scheduler/tmpl/';
 $curriculumLink = JURI::root(true);

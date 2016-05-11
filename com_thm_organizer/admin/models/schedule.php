@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 JTable::addIncludePath(JPATH_BASE . '/administrator/components/com_thm_organizer/tables');
@@ -65,8 +65,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function upload()
     {
-        $this->validate();
-        $statusReport = $this->makeStatusReport();
+        $statusReport = $this->validate();
 
         if (!empty($this->scheduleErrors))
         {
@@ -198,8 +197,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             }
         }
 
-        $status = $this->makeStatusReport();
-        return $status;
+        return $this->makeStatusReport();
     }
 
     /**
@@ -687,17 +685,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $data['gpuntisID'] = $roomType->gpuntisID;
             $roomTypeRow = JTable::getInstance('room_types', 'thm_organizerTable');
             $roomTypeRow->load($data);
-            $details = explode(',', $roomType->name);
-            if (isset($details[1]))
-            {
-                $data['type'] = $details[0];
-                $data['subtype'] = $details[1];
-            }
-            else
-            {
-                $data['type'] = $details[0];
-            }
-
+            $data['type'] = $roomType->name;
             $roomTypeRow->save($data);
         }
     }
@@ -889,8 +877,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $zeroQuery = $this->_db->getQuery(true);
         $zeroQuery->update('#__thm_organizer_schedules');
         $zeroQuery->set("active = '0'");
-        $zeroQuery->where("departmentname = '$scheduleRow->departmentname'");
-        $zeroQuery->where("semestername = '$scheduleRow->semestername'");
+        $zeroQuery->where("plan_name = '$scheduleRow->plan_name'");
         $this->_db->setQuery((string) $zeroQuery);
         try
         {
@@ -1282,8 +1269,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         $data = array();
         $data['departmentID'] = $formData['departmentID'];
-        $data['departmentname'] = $this->schedule->departmentname;
-        $data['semestername'] = $this->schedule->semestername;
+        $departmentName = $this->schedule->departmentname;
+        $semesterName = $this->schedule->semestername;
+        $shortYear = substr($this->schedule->termEndDate, 2, 2);
+        $planName = "$departmentName-$semesterName-$shortYear";
+        $data['plan_name'] = $planName;
+        $data['departmentname'] = $departmentName;
+        $data['semestername'] = $semesterName;
         $data['creationdate'] = $this->schedule->creationdate;
         $data['creationtime'] = $this->schedule->creationtime;
         $data['description'] = $this->_db->escape($formData['description']);

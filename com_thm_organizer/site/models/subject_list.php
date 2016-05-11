@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . '/helpers/teacher.php';
@@ -74,9 +74,10 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         $query = $this->_db->getQuery(true);
 
-        $select = "s.id, s.name_$languageTag AS subject, s.creditpoints, s.externalID, s.fieldID, sf.field, sc.color as subjectColor, ";
-        $select .= "m2.poolID, p.name_$languageTag AS pool, m2.lft, m2.rgt, pf.field as poolField, pc.color as poolColor, ";
-        $select .= "st.teacherID, t.surname, t.forename, tc.color AS teacherColor, st.teacherResp, tf.field as teacherField, ";
+        $select = "s.id, s.name_$languageTag AS subject, s.creditpoints, s.externalID, s.fieldID, ";
+        $select .= "sf.field_$languageTag AS field, sc.color as subjectColor, m2.poolID, p.name_$languageTag AS pool, ";
+        $select .= "m2.lft, m2.rgt, pf.field_$languageTag as poolField, pc.color as poolColor, st.teacherID, ";
+        $select .= "t.surname, t.forename, tc.color AS teacherColor, st.teacherResp, tf.field_$languageTag as teacherField, ";
         $parts = array("$subjectLink","s.id");
         $select .= $query->concatenate($parts, "") . " AS subjectLink";
         $query->select($select);
@@ -113,7 +114,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $languageTag = $this->state->get('languageTag');
 
         $query = $this->_db->getQuery(true);
-        $parts = array("p.subject_$languageTag","' ('", "d.abbreviation", "' '", "p.version", "')'");
+        $parts = array("p.name_$languageTag","' ('", "d.abbreviation", "' '", "p.version", "')'");
         $query->select($query->concatenate($parts, "") . " AS name, lft, rgt");
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');

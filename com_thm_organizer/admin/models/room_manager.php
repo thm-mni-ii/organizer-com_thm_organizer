@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
@@ -49,9 +49,7 @@ class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
     {
         $query = $this->_db->getQuery(true);
 
-        $select = "r.id, r.gpuntisID, r.name, r.longname, t.id AS typeID, ";
-        $typeParts = array("t.type","', '", "t.subtype");
-        $select .= $query->concatenate($typeParts, "") . " AS type, ";
+        $select = "r.id, r.gpuntisID, r.name, r.longname, t.id AS typeID, t.type, ";
         $linkParts = array("'index.php?option=com_thm_organizer&view=room_edit&id='", "r.id");
         $select .= $query->concatenate($linkParts, "") . " AS link";
         $query->select($select);

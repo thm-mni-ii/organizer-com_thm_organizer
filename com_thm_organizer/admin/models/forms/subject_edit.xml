@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_SUBJECT_DETAILS" addfieldpath="/libraries/thm_core/fields">
+    <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_SUBJECT_DETAILS" addfieldpath="/media/com_thm_organizer/fields">
         <field name="id"
                type="hidden" />
         <field name="departmentID"
@@ -44,13 +44,13 @@
                type="genericlist"
                valueColumn="id"
                textColumn="field"
+               localized="true"
                table="thm_organizer_fields"
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
-               description="COM_THM_ORGANIZER_FIELD_DESC"
-               default="">
+               description="COM_THM_ORGANIZER_FIELD_DESC" >
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
-            <option value="-1">JNONE</option>
+            <option value="">JNONE</option>
         </field>
         <field type="spacer"
                name="spacer1"
@@ -122,18 +122,6 @@
             <option value="4">COM_THM_ORGANIZER_AVAILABILITY_AS_NEEDED</option>
             <option value="0">COM_THM_ORGANIZER_AVAILABILITY_APPT</option>
         </field>
-        <field name="fieldID"
-               type="genericlist"
-               valueColumn="id"
-               textColumn="field"
-               table="thm_organizer_fields"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_FIELD"
-               description="COM_THM_ORGANIZER_FIELD_DESC"
-               default="">
-            <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
-            <option value="-1">JNONE</option>
-        </field>
         <field name="spacer2"
                type="spacer"
                hr="true" />
@@ -196,7 +184,7 @@
                description="COM_THM_ORGANIZER_EVALUATION_DE_DESC"
                hint="gem. § 9 der Allg. Bestimmungen (Teil I der PO)"/>
         <field name="description_de"
-               type="textarea"
+               type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_DESC_DE"
@@ -267,7 +255,7 @@
                size="6"
                label="COM_THM_ORGANIZER_PRELIMINARY_WORK_EN"
                description="COM_THM_ORGANIZER_PRELIMINARY_WORK_EN_DESC"
-                hint="Successful completion of six homework assignments."/>
+               hint="Successful completion of six homework assignments."/>
         <field name="proof_en"
                type="text"
                class="inputbox"
@@ -283,7 +271,7 @@
                description="COM_THM_ORGANIZER_EVALUATION_EN_DESC"
                hint="acc. § 9 of the gen. provisions (Part I of the PO)" />
         <field name="description_en"
-               type="textarea"
+               type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_DESC_EN"

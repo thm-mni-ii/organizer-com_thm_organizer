@@ -8,7 +8,7 @@
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 
 /**
@@ -299,6 +299,18 @@ class THM_OrganizerHelperComponent
         $textColor = self::getTextColor($bgColor);
         $style = 'color: ' . $textColor . '; background-color: ' . $bgColor . '; text-align:center';
         return '<div class="color-preview" style="' . $style . '">' . $text . '</div>';
+    }
+
+    /**
+     * Retrieves the two letter language identifier
+     *
+     * @return  string
+     */
+    public static function getLanguageShortTag()
+    {
+        $fullTag = JFactory::getLanguage()->getTag();
+        $tagParts = explode('-', $fullTag);
+        return $tagParts[0];
     }
 
     /**

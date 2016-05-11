@@ -1,14 +1,4 @@
-/*  ------------------------------------
-**  Author:     Kristijan Pokas
-**  File:       subject_list.css
-**  Styles for: Frontend - Subject list (module catalogue)
-**              Backend - some definitions
-**  Site:       www.mni.thm.de
-**  ------------------------------------ */
-//@import '../../lib_thm_core/scss/mixins'; //not used
 @import '../../lib_thm_core/scss/variables';
-// @import '../../lib_thm_core/scss/filters'; //not used
-// @import '../../lib_thm_core/scss/icons'; //not used
 @import '_language_switch';
 
 // float the div boxes
@@ -110,6 +100,7 @@ button {
     border-bottom: none;
     border-left: $border-thick;
     border-radius: 0;
+    padding-left: 12px;
   }
 
   & > li > a:hover {

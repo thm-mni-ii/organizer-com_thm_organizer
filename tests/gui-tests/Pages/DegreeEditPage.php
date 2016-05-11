@@ -53,6 +53,6 @@ class DegreeEditPage extends iCampusAdminEditPage
 	public $inputFields = array (
 			array('label' => 'Name', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'header'),
 			array('label' => 'Abbreviation', 'id' => 'jform_abbreviation', 'type' => 'input', 'tab' => 'header'),
-            array('label' => 'LSF Degree', 'id' => 'jform_lsfDegree', 'type' => 'input', 'tab' => 'header')
+            array('label' => 'LSF Degree', 'id' => 'jform_code', 'type' => 'input', 'tab' => 'header')
 		);
 }

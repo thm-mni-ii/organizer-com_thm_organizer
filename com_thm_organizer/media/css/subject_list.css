@@ -1,58 +1,37 @@
-/*  ------------------------------------
-**  Author:     Kristijan Pokas
-**  File:       subject_list.css
-**  Styles for: Frontend - Subject list (module catalogue)
-**              Backend - some definitions
-**  Site:       www.mni.thm.de
-**  ------------------------------------ */
 div.language-switches a {
-  color: #394a59;
-}
-
-div.language-switches a :hover {
-  color: #394a59;
-}
-
-div.language-switches a img {
-  margin-bottom: -2px;
-  margin-right: 5px;
-}
+  color: #394a59; }
+  div.language-switches a :hover {
+    color: #394a59; }
+  div.language-switches a img {
+    margin-bottom: -2px;
+    margin-right: 5px; }
 
 div.subject-name, div.subject-responsible, div.subject-crp {
-  display: inline-block;
-}
+  display: inline-block; }
 
 div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
   color: #394a59;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
   font-size: 13px;
-  font-weight: normal;
-}
+  font-weight: normal; }
 
 div.subject-crp {
-  width: 10%;
-}
+  width: 10%; }
 
 div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
   float: left;
-  width: 100%;
-}
+  width: 100%; }
 
 .toolbar {
-  float: right;
-}
+  float: right; }
 
 .tool-wrapper {
-  display: inline-block;
-}
-
-.tool-wrapper a, .tool-wrapper button {
-  cursor: pointer;
-}
+  display: inline-block; }
+  .tool-wrapper a, .tool-wrapper button {
+    cursor: pointer; }
 
 button {
-  border: none;
-}
+  border: none; }
 
 .search input[type="text"] {
   background-color: #dfe5e6;
@@ -60,150 +39,110 @@ button {
   box-shadow: none;
   margin-right: -22px;
   padding: 4px 6px;
-  width: 159px;
-}
+  width: 159px; }
 
 .btn-search {
   background-color: inherit;
   bottom: -2px;
   left: -2px;
-  position: relative;
-}
+  position: relative; }
 
 .icon-search {
-  color: #394a59;
-}
+  color: #394a59; }
 
 .btn-reset {
   background-color: white;
   color: #394a59;
-  margin-left: 8px;
-}
+  margin-left: 8px; }
 
 .btn-reset:hover {
   background-color: white;
   color: #394a59;
-  margin-left: 8px;
-}
+  margin-left: 8px; }
 
 .nav.nav-tabs {
   border-bottom: 2px solid #4a5c66;
   margin-top: 15px;
-  margin-bottom: 0;
-}
-
-.nav.nav-tabs > li {
-  margin-bottom: 0;
-  margin-left: 2px;
-}
-
-.nav.nav-tabs > li:first-child {
-  margin-left: 10px;
-}
-
-.nav.nav-tabs > li > a, .nav.nav-tabs > li.active > a {
-  border-top: 2px solid #4a5c66;
-  border-right: 2px solid #4a5c66;
-  border-bottom: none;
-  border-left: 2px solid #4a5c66;
-  border-radius: 0;
-}
-
-.nav.nav-tabs > li > a:hover {
-  background-color: #f2f5f6;
-}
-
-.nav.nav-tabs > li.active > a {
-  background: #4a5c66;
-  color: white;
-}
-
-.nav.nav-tabs > li.active > a:hover {
-  background: #4a5c66;
-}
+  margin-bottom: 0; }
+  .nav.nav-tabs > li {
+    margin-bottom: 0;
+    margin-left: 2px; }
+  .nav.nav-tabs > li:first-child {
+    margin-left: 10px; }
+  .nav.nav-tabs > li > a, .nav.nav-tabs > li.active > a {
+    border-top: 2px solid #4a5c66;
+    border-right: 2px solid #4a5c66;
+    border-bottom: none;
+    border-left: 2px solid #4a5c66;
+    border-radius: 0;
+    padding-left: 12px; }
+  .nav.nav-tabs > li > a:hover {
+    background-color: #f2f5f6; }
+  .nav.nav-tabs > li.active > a {
+    background: #4a5c66;
+    color: white; }
+    .nav.nav-tabs > li.active > a:hover {
+      background: #4a5c66; }
 
 .tab-content {
   padding: 0;
   border-top: none;
-  background-color: white;
-}
+  background-color: white; }
 
 .subject-list-container h5 {
   background-color: #dfe5e6;
   cursor: default;
   margin-bottom: 0px;
   margin-top: 10px;
-  padding: 6px 12px;
-}
-
-.subject-list-container h5 a {
-  color: #394a59;
-}
+  padding: 6px 12px; }
+  .subject-list-container h5 a {
+    color: #394a59; }
 
 .active :first-child h5 {
-  margin-top: 6px;
-}
+  margin-top: 6px; }
 
 a.pool-anchor {
   display: block;
   position: relative;
   top: -60px;
-  visibility: hidden;
-}
+  visibility: hidden; }
 
 .subject-list-container .subject-list {
-  margin-left: 0px;
-}
-
-.subject-list-container .subject-list li {
-  list-style: none;
-  padding: 6px 20px 6px 19px;
-  margin-left: 0;
-}
-
-.subject-list-container .subject-list li:nth-child(even) {
-  background-color: #f2f5f6;
-}
-
-.subject-list-container .subject-list a {
-  color: #394a59;
-}
+  margin-left: 0px; }
+  .subject-list-container .subject-list li {
+    list-style: none;
+    padding: 6px 20px 6px 19px;
+    margin-left: 0; }
+  .subject-list-container .subject-list li:nth-child(even) {
+    background-color: #f2f5f6; }
+  .subject-list-container .subject-list a {
+    color: #394a59; }
 
 .subject-name {
   display: inline-block;
-  width: 600px;
-}
+  width: 600px; }
 
 .module-id {
-  padding-left: 5px;
-}
+  padding-left: 5px; }
 
 .subject-teacher {
-  display: inline-block;
-}
+  display: inline-block; }
 
 .subject-crp {
   display: inline-block;
   float: right;
-  width: 10%;
-}
+  width: 10%; }
 
 #pool > .subject-list-container, #teacher > .subject-list-container, #field > .subject-list-container {
-  margin-bottom: 4px;
-}
-
-#pool > .subject-list-container .subject-list, #teacher > .subject-list-container .subject-list, #field > .subject-list-container .subject-list {
-  margin: 0;
-}
-
-#pool > .subject-list-container:last-child, #teacher > .subject-list-container:last-child, #field > .subject-list-container:last-child {
-  margin-bottom: 0;
-}
+  margin-bottom: 4px; }
+  #pool > .subject-list-container .subject-list, #teacher > .subject-list-container .subject-list, #field > .subject-list-container .subject-list {
+    margin: 0; }
+  #pool > .subject-list-container:last-child, #teacher > .subject-list-container:last-child, #field > .subject-list-container:last-child {
+    margin-bottom: 0; }
 
 .shown {
   border: 1px solid #eeeeee;
-  border-top: none;
-}
+  border-top: none; }
 
 /* gibts nicht mehr
 .breadcrumb {
@@ -212,5 +151,4 @@ a.pool-anchor {
 }
 */
 .tab-content {
-  overflow: visible;
-}
+  overflow: visible; }

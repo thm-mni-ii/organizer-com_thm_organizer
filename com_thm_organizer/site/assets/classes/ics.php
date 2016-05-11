@@ -9,7 +9,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/AbstractBuilder.php";
@@ -21,7 +21,6 @@ require_once JPATH_BASE . "/libraries/thm_core/icalcreator/iCalcreator.php";
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
- * @link        www.mni.thm.de
  */
 class THMICSBuilder extends THMAbstractBuilder
 {

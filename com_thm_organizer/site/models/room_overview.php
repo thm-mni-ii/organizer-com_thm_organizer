@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
@@ -504,7 +504,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
     private function getRoomData()
     {
         $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT r.id AS roomID, r.name, r.longname, t.id AS typeID, t.type, t.subtype');
+        $query->select('DISTINCT r.id AS roomID, r.name, r.longname, t.id AS typeID, t.type');
         $query->from('#__thm_organizer_room_types AS t');
         $query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
         $query->order('r.longname ASC');

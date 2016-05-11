@@ -11,10 +11,10 @@
             name="checkbox"
             type="CheckAll" />
         <field
-            name="subject"
+            name="dp.name"
             type="localizedlist"
-            valueColumn="subject"
-            textColumn="subject"
+            valueColumn="name"
+            textColumn="name"
             table="thm_organizer_programs"
             label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"
@@ -48,6 +48,7 @@
             type="genericlist"
             valueColumn="d.id"
             textColumn="d.short_name"
+            localized="true"
             table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID"
             onchange="this.form.submit();" >
             <option value="">JALL</option>

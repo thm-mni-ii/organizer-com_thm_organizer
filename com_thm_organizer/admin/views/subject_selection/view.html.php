@@ -8,7 +8,7 @@
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.view');

@@ -13,8 +13,9 @@
         <field
             name="name"
             type="genericlist"
-            valueColumn="name"
+            valueColumn="id"
             textColumn="name"
+            localized="true"
             table="thm_organizer_colors"
             label="COM_THM_ORGANIZER_NAME"
             onchange="this.form.submit();"

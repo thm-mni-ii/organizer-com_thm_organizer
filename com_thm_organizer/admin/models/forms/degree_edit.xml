@@ -21,12 +21,12 @@
             description="COM_THM_ORGANIZER_ABBREVIATION_DESC"
             required="true" />
         <field
-            name="lsfDegree"
+            name="code"
             type="text"
             class="inputbox required"
             size="10"
-            label="COM_THM_ORGANIZER_LSF_DEGREE"
-            description="COM_THM_ORGANIZER_LSF_DEGREE_DESC"
+            label="COM_THM_ORGANIZER_DEGREE_CODE"
+            description="COM_THM_ORGANIZER_DEGREE_CODE_DESC"
             required="true" />
     </fieldset>
 </form>

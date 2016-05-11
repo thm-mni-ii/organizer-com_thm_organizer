@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.helpers.corehelper');
@@ -146,7 +146,7 @@ class THM_OrganizerHelperMapping
 
         $shortTag = THM_CoreHelper::getLanguageShortTag();
         $query = JFactory::getDbo()->getQuery(true);
-        $parts = array("dp.subject_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $parts = array("dp.name_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
         $select = "DISTINCT " . $query->concatenate($parts, "") . " As name";
         $query->select($select);
         $query->from('#__thm_organizer_programs AS dp');
@@ -239,7 +239,7 @@ class THM_OrganizerHelperMapping
         $shortTag = THM_CoreHelper::getLanguageShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $parts = array("dp.subject_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $parts = array("dp.name_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
         $text = $query->concatenate($parts, "") . " As text";
         $query->select("dp.id AS value, $text");
         $query->from('#__thm_organizer_programs AS dp');
@@ -550,7 +550,7 @@ class THM_OrganizerHelperMapping
         $shortTag = THM_CoreHelper::getLanguageShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $parts = array("dp.subject_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
+        $parts = array("dp.name_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
         $text = $query->concatenate($parts, "") . " As text";
         $query->select($text);
         $query->from('#__thm_organizer_programs AS dp');

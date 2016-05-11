@@ -7,7 +7,7 @@
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
  * @copyright   2015 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 jimport('thm_core.list.model');
@@ -29,12 +29,17 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
 
     protected $defaultDirection = 'asc';
 
+    /**
+     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+     *
+     * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+     */
     protected function getListQuery()
     {
         $query = $this->_db->getQuery(true);
 
         $shortTag = THM_CoreHelper::getLanguageShortTag();
-        $select = "DISTINCT p.id, name_$shortTag AS name, field, color, ";
+        $select = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag as field, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=pool_selection&id='","p.id");
         $select .= $query->concatenate($parts, "") . " AS link ";
         $query->select($select);
@@ -48,7 +53,7 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
                                 'name_en', 'short_name_en', 'abbreviation_en', 'description_en'
                             );
         $this->setSearchFilter($query, $searchColumns);
-        $this->setLocalizedFilters($query, array('name'));
+        $this->setLocalizedFilters($query, array('p.name'));
         $this->setValueFilters($query, array('fieldID'));
 
         // Only pools
@@ -82,114 +87,22 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
     }
 
     /**
-     * Sets the program id filter for a query. Used in pool manager and subject manager.
+     * Function to get table headers
      *
-     * @param   object  &$query            the query object
-     * @param   int     $programID        the id of the resource from the filter
-     *
-     * @return  void  sets query object variables
+     * @return array including headers
      */
-    public function setProgramFilter(&$query, $programID)
+    public function getHeaders()
     {
-        if (!is_numeric($programID))
-        {
-            return;
-        }
+        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
 
-        $ranges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
-        if (empty($ranges))
-        {
-            return;
-        }
+        $headers = array();
+        $headers['checkbox'] = '';
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
+        $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
 
-        // Specific association
-        $query->where("m.lft > '{$ranges[0]['lft']}'");
-        $query->where("m.rgt < '{$ranges[0]['rgt']}'");
-    }
-
-    /**
-     * Sets exclusions for parent and child pools based on mapping values.
-     *
-     * @param   object  &$query  the query object
-     */
-    private function setMappingFilters(&$query)
-    {
-        $type = $this->state->{'list.type'};
-        $resourceID = $this->state->{'list.id'};
-
-        $invalid = (($type != 'program' AND $type != 'pool') OR $resourceID == 0);
-        if ($invalid)
-        {
-            return;
-        }
-
-        $boundarySets = THM_OrganizerHelperMapping::getBoundaries($type, $resourceID);//echo "<pre>" . print_r($boundarySets, true) . "</pre>";
-        if (empty($boundarySets))
-        {
-            return;
-        }
-
-        $newQuery = $this->_db->getQuery(true);
-        $newQuery->select('poolID')->from('#__thm_organizer_mappings');
-        $newQuery->where('poolID IS NOT NULL');
-        foreach ($boundarySets as $boundarySet)
-        {
-            $newQuery->where("(lft BETWEEN '{$boundarySet['lft']}' AND '{$boundarySet['rgt']}')");
-            $query->where("NOT (m.lft < '{$boundarySet['lft']}' AND m.rgt > '{$boundarySet['rgt']}')");
-        }
-
-        $query->where("p.id NOT IN (" . (string) $newQuery . ")");
-    }
-
-    /**
-     * Overwrites the JModelList populateState function
-     *
-     * @param   string  $ordering   the column by which the table is should be ordered
-     * @param   string  $direction  the direction in which this column should be ordered
-     *
-     * @return  void  sets object state variables
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        parent::populateState($ordering, $direction);
-
-        $input = JFactory::getApplication()->input;
-        $list = JFactory::getApplication()->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array');
-
-        $postType = $input->get('type', '');
-        $type = empty($list['type'])? $postType : $list['type'];
-        $this->setState('list.type', $type);
-
-        $postID = $input->get('id', 0);
-        $resourceID = empty($list['type'])? $postID : $list['id'];
-        $this->setState('list.id', $resourceID);
-    }
-
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return  mixed  The data for the form.
-     */
-    protected function loadFormData()
-    {
-        $data = parent::loadFormData();
-        $data->list['type'] = $this->state->{'list.type'};
-        $data->list['id'] = $this->state->{'list.id'};
-        return $data;
-    }
-
-    /**
-     * Method to get the total number of items for the data set.
-     *
-     * @param   string  $idColumn  the main id column of the list query
-     *
-     * @return  integer  The total number of items available in the data set.
-     */
-    public function getTotal()
-    {
-        return parent::getTotal('p.id');
+        return $headers;
     }
 
     /**
@@ -237,21 +150,138 @@ class THM_OrganizerModelPool_Selection extends THM_CoreModelList
     }
 
     /**
-     * Function to get table headers
+     * Method to get the total number of items for the data set.
      *
-     * @return array including headers
+     * @return  integer  The total number of items available in the data set.
      */
-    public function getHeaders()
+    public function getTotal()
     {
-        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $query = $this->getListQuery();
+        $query->clear('select');
+        $query->clear('order');
+        $query->select('COUNT(DISTINCT p.id)');
+        $dbo = JFactory::getDbo();
+        $dbo->setQuery((string) $query);
 
-        $headers = array();
-        $headers['checkbox'] = '';
-        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-        $headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
-        $headers['fieldID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
+        try
+        {
+            $result = $dbo->loadResult();
+            return $result;
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage());
+            return null;
+        }
+    }
 
-        return $headers;
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     */
+    protected function loadFormData()
+    {
+        $data = parent::loadFormData();
+        $data->list['type'] = $this->state->{'list.type'};
+        $data->list['id'] = $this->state->{'list.id'};
+        return $data;
+    }
+
+    /**
+     * Overwrites the JModelList populateState function
+     *
+     * @param   string  $ordering   the column by which the table is should be ordered
+     * @param   string  $direction  the direction in which this column should be ordered
+     *
+     * @return  void  sets object state variables
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        parent::populateState($ordering, $direction);
+
+        $input = JFactory::getApplication()->input;
+        $list = JFactory::getApplication()->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array');
+
+        $postType = $input->get('type', '');
+        $type = empty($list['type'])? $postType : $list['type'];
+        $this->setState('list.type', $type);
+
+        $postID = $input->get('id', 0);
+        $resourceID = empty($list['type'])? $postID : $list['id'];
+        $this->setState('list.id', $resourceID);
+
+        $filter = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+        if (!empty($filter['name']))
+        {
+            $this->setState('filter.p.name', $filter['name']);
+        }
+        else
+        {
+            $pname = 'filter.p.name';
+            unset($this->state->$pname);
+        }
+    }
+
+    /**
+     * Sets exclusions for parent and child pools based on mapping values.
+     *
+     * @param   object  &$query  the query object
+     */
+    private function setMappingFilters(&$query)
+    {
+        $type = $this->state->{'list.type'};
+        $resourceID = $this->state->{'list.id'};
+
+        $invalid = (($type != 'program' AND $type != 'pool') OR $resourceID == 0);
+        if ($invalid)
+        {
+            return;
+        }
+
+        $boundarySets = THM_OrganizerHelperMapping::getBoundaries($type, $resourceID);
+        if (empty($boundarySets))
+        {
+            return;
+        }
+
+        $newQuery = $this->_db->getQuery(true);
+        $newQuery->select('poolID')->from('#__thm_organizer_mappings');
+        $newQuery->where('poolID IS NOT NULL');
+        foreach ($boundarySets as $boundarySet)
+        {
+            $newQuery->where("(lft BETWEEN '{$boundarySet['lft']}' AND '{$boundarySet['rgt']}')");
+            $query->where("NOT (m.lft < '{$boundarySet['lft']}' AND m.rgt > '{$boundarySet['rgt']}')");
+        }
+
+        $query->where("p.id NOT IN (" . (string) $newQuery . ")");
+    }
+
+    /**
+     * Sets the program id filter for a query. Used in pool manager and subject manager.
+     *
+     * @param   object  &$query            the query object
+     * @param   int     $programID        the id of the resource from the filter
+     *
+     * @return  void  sets query object variables
+     */
+    public function setProgramFilter(&$query, $programID)
+    {
+        if (!is_numeric($programID))
+        {
+            return;
+        }
+
+        $ranges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
+        if (empty($ranges))
+        {
+            return;
+        }
+
+        // Specific association
+        $query->where("m.lft > '{$ranges[0]['lft']}'");
+        $query->where("m.rgt < '{$ranges[0]['rgt']}'");
     }
 }

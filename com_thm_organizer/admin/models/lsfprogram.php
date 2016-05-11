@@ -7,7 +7,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
@@ -31,7 +31,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
     private function getSavedProgramData($programID)
     {
         $lsfDataQuery = $this->_db->getQuery(true);
-        $lsfDataQuery->select("lsfFieldID AS program, lsfDegree AS degree, version, departmentID");
+        $lsfDataQuery->select("lsfFieldID AS program, d.code AS degree, version, departmentID");
         $lsfDataQuery->from('#__thm_organizer_programs AS p');
         $lsfDataQuery->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $lsfDataQuery->where("p.id = '$programID'");
