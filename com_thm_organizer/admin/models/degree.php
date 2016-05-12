@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
- * Class THM_OrganizerModelDegree for component com_thm_organizer
- *
- * Class provides methods to deal with degree
+ * Class provides methods to deal with degrees
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer

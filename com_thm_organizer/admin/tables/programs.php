@@ -11,7 +11,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.tables.assets');
+require_once JPATH_ROOT . '/media/com_thm_organizer/tables/assets.php';
 /**
  * Class representing the majors table.
  *
@@ -19,7 +19,7 @@ jimport('thm_core.tables.assets');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerTablePrograms extends THM_CoreTableAssets
+class THM_OrganizerTablePrograms extends THM_OrganizerTableAssets
 {
     /**
      * Constructor function for the class representing the majors table

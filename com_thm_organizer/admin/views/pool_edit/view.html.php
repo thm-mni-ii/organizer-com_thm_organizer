@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
  * Class THM_OrganizerViewPool_Edit for component com_thm_organizer
@@ -21,7 +21,7 @@ jimport('thm_core.edit.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.thm.de
  */
-class THM_OrganizerViewPool_Edit extends THM_CoreViewEdit
+class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
 {
     /**
      * Method to get display

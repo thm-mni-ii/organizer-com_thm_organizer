@@ -4,13 +4,12 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        curriculum view
- * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once JPATH_COMPONENT . '/helpers/language.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class loads curriculum information into the view context
@@ -85,8 +84,8 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
         JHtml::_('bootstrap.framework');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/curriculum.css');
-        $document->addScript($this->baseurl . '/media/com_thm_organizer/js/curriculum.js');
-        $document->addScript($this->baseurl . '/libraries/thm_core/js/container.js');
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/curriculum.css');
+        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/curriculum.js');
+        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/container.js');
     }
 }

@@ -1,6 +1,6 @@
-DROP TABLE v7ocf_thm_organizer_virtual_schedules_elements;
+DROP TABLE `#__thm_organizer_virtual_schedules_elements`;
 
-DROP TABLE v7ocf_thm_organizer_virtual_schedules;
+DROP TABLE `#__thm_organizer_virtual_schedules`;
 
 ALTER TABLE `#__thm_organizer_programs` ADD `frequencyID` INT(1) UNSIGNED DEFAULT NULL;
 

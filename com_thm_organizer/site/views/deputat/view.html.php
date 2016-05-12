@@ -74,8 +74,8 @@ class THM_OrganizerViewDeputat extends JViewLegacy
         JHtml::_('formbehavior.chosen', 'select');
         $document = JFactory::getDocument();
         $document->setCharset("utf-8");
-        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/deputat.css");
-        $document->addScript($this->baseurl . '/media/com_thm_organizer/js/deputat.js');
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/deputat.css");
+        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/deputat.js');
     }
 
     /**

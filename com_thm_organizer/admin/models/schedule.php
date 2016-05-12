@@ -163,7 +163,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         $this->schedule->fields = new stdClass;
         $this->schedule->roomtypes = new stdClass;
-        $this->schedule->lessontypes = new stdClass;
+        $this->schedule->methods = new stdClass;
         $this->validateResourceNode('descriptions', 'Description', $xmlSchedule, 'DESCRIPTIONS');
 
         // Departments node holds degree names
@@ -195,7 +195,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 $lessonModel->validate($lessonNode);
             }
-        }
+        }echo "<pre>" . print_r($this->schedule, true) . "</pre>";die;
 
         return $this->makeStatusReport();
     }
@@ -446,9 +446,9 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 break;
             case 'u':
             case 'U':
-                $this->schedule->lessontypes->$descriptionID = new stdClass;
-                $this->schedule->lessontypes->$descriptionID->gpuntisID = $gpuntisID;
-                $this->schedule->lessontypes->$descriptionID->name = $longname;
+                $this->schedule->methods->$descriptionID = new stdClass;
+                $this->schedule->methods->$descriptionID->gpuntisID = $gpuntisID;
+                $this->schedule->methods->$descriptionID->name = $longname;
                 break;
         }
     }

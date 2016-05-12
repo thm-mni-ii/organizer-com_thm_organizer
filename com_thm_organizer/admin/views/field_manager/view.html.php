@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
  * Class THM_OrganizerViewColors for component com_thm_organizer
@@ -20,7 +20,7 @@ jimport('thm_core.list.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewField_Manager extends THM_CoreViewList
+class THM_OrganizerViewField_Manager extends THM_OrganizerViewList
 {
     public $items;
 

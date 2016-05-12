@@ -4,13 +4,12 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerHelperLanguage
- * @author      Markus Baier, <markus.baier@mni.thm.de>
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
 
 /**
  * Class provides methods used by organizer models for retrieving teacher data
@@ -29,7 +28,7 @@ class THM_OrganizerHelperLanguage
     public static function getLanguage()
     {
         $app = JFactory::getApplication();
-        $default = THM_CoreHelper::getLanguageShortTag();
+        $default = self::getShortTag();
         $requested = $app->input->get('languageTag', $default);
         $supportedLanguages = array('en', 'de');
         if (in_array($requested, $supportedLanguages))
@@ -55,6 +54,19 @@ class THM_OrganizerHelperLanguage
     }
 
     /**
+     * Retrieves the two letter language identifier
+     *
+     * @return  string
+     */
+    public static function getShortTag()
+    {
+        $fullTag = JFactory::getLanguage()->getTag();
+        $tagParts = explode('-', $fullTag);
+        return $tagParts[0];
+    }
+
+
+    /**
      * Sets the language to the one requested. This can only be called after getLanguage().
      *
      * @param   array  $params  the configuration parameters
@@ -75,7 +87,7 @@ class THM_OrganizerHelperLanguage
         $requested = $input->getString('languageTag', '');
 
         $languageSwitches = array();
-        $current = empty($requested)? THM_CoreHelper::getLanguageShortTag() : $requested;
+        $current = empty($requested)? self::getShortTag() : $requested;
         $supportedLanguages = array('en', 'de');
         $submit = !empty($params['form']);
         foreach ($supportedLanguages AS $supported)

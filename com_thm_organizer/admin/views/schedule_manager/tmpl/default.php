@@ -11,5 +11,5 @@
  */
 
 defined("_JEXEC") or die;
-jimport('thm_core.list.template');
-THM_CoreTemplateList::render($this);
+require_once JPATH_ROOT . '/media/com_thm_organizer/templates/list.php';
+THM_OrganizerTemplateList::render($this);

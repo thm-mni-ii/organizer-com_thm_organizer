@@ -242,7 +242,7 @@ class THM_OrganizerModelLesson extends JModelLegacy
                 = JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_TYPE_MISSING", $this->_lessonName, $this->_lessonID);
             return false;
         }
-        elseif (empty($this->_scheduleModel->schedule->lessontypes->$descriptionID))
+        elseif (empty($this->_scheduleModel->schedule->methods->$descriptionID))
         {
             $this->_scheduleModel->scheduleErrors[]
                 = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TYPE_LACKING', $this->_lessonName, $this->_lessonID, $descriptionID);

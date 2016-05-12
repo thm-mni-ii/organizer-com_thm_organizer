@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 
 define('DAILY', 1);
 define('MIXED', 2);
@@ -24,7 +24,7 @@ define('LESSON_LIST', 4);
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelMonitor_Manager extends THM_CoreModelList
+class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 {
     protected $defaultOrdering = 'r.longname';
 

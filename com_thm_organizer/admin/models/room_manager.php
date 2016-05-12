@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 /**
  * Class THM_OrganizerModelRooms for component com_thm_organizer
  * Class provides methods to deal with rooms
@@ -19,7 +19,7 @@ jimport('thm_core.list.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom_Manager extends THM_CoreModelList
+class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 {
     protected $defaultOrdering = 'r.longname';
 

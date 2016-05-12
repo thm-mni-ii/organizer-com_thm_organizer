@@ -10,9 +10,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.model');
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class THM_OrganizerModelTeachers for component com_thm_organizer
@@ -22,7 +22,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
+class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 {
     protected $defaultOrdering = 't.surname';
 
@@ -51,7 +51,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_CoreModelList
     protected function getListQuery()
     {
         // Create the query
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query = $this->_db->getQuery(true);
         $select = "t.id, t.surname, t.forename, t.username, t.gpuntisID, f.field_$shortTag AS field, c.color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=teacher_edit&id='","t.id");

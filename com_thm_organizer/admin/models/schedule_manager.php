@@ -10,8 +10,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class defining functions to be used for lesson resources
  *
@@ -19,7 +20,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
+class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 {
     protected $defaultOrdering = 'created';
 
@@ -47,7 +48,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_CoreModelList
      */
     protected function getListQuery()
     {
-        $shortTag = THM_OrganizerHelperComponent::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo = $this->getDbo();
         $query = $dbo->getQuery(true);
 

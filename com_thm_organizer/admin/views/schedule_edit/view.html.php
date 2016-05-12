@@ -12,7 +12,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('thm_core.edit.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
  * Class loading schedule data into output context
@@ -22,7 +22,7 @@ jimport('thm_core.edit.view');
  * @subpackage  com_thm_organizer.admin
  * @link        www.thm.de
  */
-class THM_OrganizerViewSchedule_Edit extends THM_CoreViewEdit
+class THM_OrganizerViewSchedule_Edit extends THM_OrganizerViewEdit
 {
     /**
      * loads persistent data into view context and intitiates functions for the

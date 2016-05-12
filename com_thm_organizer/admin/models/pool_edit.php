@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
  * Creates form data for a subject pool from information in the database.
@@ -19,7 +19,7 @@ jimport('thm_core.edit.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelPool_Edit extends THM_CoreModelEdit
+class THM_OrganizerModelPool_Edit extends THM_OrganizerModelEdit
 {
     /**
      * Constructor.

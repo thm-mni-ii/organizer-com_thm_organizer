@@ -10,5 +10,5 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.advancedtemplate');
-THM_CoreTemplateAdvanced::render($this);
+require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_tabbed.php';
+THM_OrganizerTemplateEdit_Tabbed::render($this);

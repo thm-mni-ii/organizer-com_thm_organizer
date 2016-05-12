@@ -1,14 +1,11 @@
-/**
- * Created by Lavi on 04.03.2015.
- */
 jQuery(document).ready(function ()
 {
     getColorAndChangeCSS();
     positionPopup();
 });
 
-// Schließe Popup (".modal-panel"), wenn außerhalb geklickt wird
-// Gefundene Lösung: http://stackoverflow.com/a/7385673
+// Schlieï¿½e Popup (".modal-panel"), wenn auï¿½erhalb geklickt wird
+// Gefundene Lï¿½sung: http://stackoverflow.com/a/7385673
 jQuery(document).mouseup(function(e)
 {
     var modalID = "#" + jQuery('.modal-panel.shown').attr('id');

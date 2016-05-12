@@ -5,12 +5,12 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerTableSubjects
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.tables.assets');
+require_once JPATH_ROOT . '/media/com_thm_organizer/tables/assets.php';
 /**
  * Class representing the assets table.
  *
@@ -18,7 +18,7 @@ jimport('thm_core.tables.assets');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin.tables
  */
-class THM_OrganizerTableSubjects extends THM_CoreTableAssets
+class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
 {
     /**
      * Constructor to call the parent constructor

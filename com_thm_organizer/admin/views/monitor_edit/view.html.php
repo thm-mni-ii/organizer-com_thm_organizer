@@ -12,7 +12,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('thm_core.edit.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
  * Class loading a monitor entry into the view context
@@ -21,7 +21,7 @@ jimport('thm_core.edit.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewMonitor_Edit extends THM_CoreViewEdit
+class THM_OrganizerViewMonitor_Edit extends THM_OrganizerViewEdit
 {
     /**
      * loads monitor information into the view context

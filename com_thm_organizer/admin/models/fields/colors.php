@@ -11,8 +11,8 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class JFormFieldColor for component com_thm_organizer
@@ -61,7 +61,7 @@ class JFormFieldColors extends JFormField
         $html = "<select id = 'jform_colorID' name='jform[colorID]'>";
         $html .= '<option selected="selected" value="">' . JText::_('JNONE') . '</option>';
 
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $property = "name_$shortTag";
         foreach ($colors as $color)
         {

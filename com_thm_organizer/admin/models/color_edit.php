@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -20,7 +20,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelColor_Edit extends THM_CoreModelEdit
+class THM_OrganizerModelColor_Edit extends THM_OrganizerModelEdit
 {
     public $actions = null;
 

@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 JFormHelper::loadFieldClass('list');
 
@@ -47,7 +47,7 @@ class JFormFieldPoolID extends JFormFieldList
             return parent::getOptions();
         }
 
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("p.id AS value, p.name_$shortTag AS text");

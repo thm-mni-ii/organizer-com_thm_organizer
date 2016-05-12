@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
  * Class THM_OrganizerModelSubject_Edit for component com_thm_organizer
@@ -20,7 +20,7 @@ jimport('thm_core.edit.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSubject_Edit extends THM_CoreModelEdit
+class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
 {
     /**
      * Constructor.

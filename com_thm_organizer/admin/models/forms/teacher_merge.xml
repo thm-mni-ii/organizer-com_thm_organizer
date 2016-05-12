@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset name="details" addfieldpath="/libraries/thm_core/fields">
+    <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
         <field name="surname"
                type="mergeByValue"
                class="inputbox"

@@ -5,12 +5,12 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewDepartment_Edit
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
  * Class THM_OrganizerViewField for component com_thm_organizer
@@ -21,7 +21,7 @@ jimport('thm_core.edit.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewDepartment_Edit extends THM_CoreViewEdit
+class THM_OrganizerViewDepartment_Edit extends THM_OrganizerViewEdit
 {
     /**
      * Method to get display

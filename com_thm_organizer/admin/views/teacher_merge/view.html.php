@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.form.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/form.php';
 /**
  * Class loads persistent teacher information into display context
  *
@@ -18,7 +18,7 @@ jimport('thm_core.form.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewTeacher_Merge extends THM_CoreViewForm
+class THM_OrganizerViewTeacher_Merge extends THM_OrganizerViewForm
 {
     public $form = null;
 

@@ -10,7 +10,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
 JFormHelper::loadFieldClass('list');
 
 /**

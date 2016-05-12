@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelRoom_display
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -474,7 +474,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     private function setEventType()
     {
         $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
-        $types = $this->_currentSchedule->lessontypes;
+
+        // Old json schedules will still have lessontypes as an index
+        $types = !empty($this->_currentSchedule->lessontypes)?
+            $this->_currentSchedule->lessontypes : $this->_currentSchedule->methods;
         $invalidType = (empty($event->description) OR empty($types->{$event->description}) OR empty($types->{$event->description}->name));
         if ($invalidType)
         {

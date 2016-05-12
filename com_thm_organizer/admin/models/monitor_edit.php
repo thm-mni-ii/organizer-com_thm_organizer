@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.edit.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
  * Class loads form data to edit an entry.
@@ -19,7 +19,7 @@ jimport('thm_core.edit.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelMonitor_Edit extends THM_CoreModelEdit
+class THM_OrganizerModelMonitor_Edit extends THM_OrganizerModelEdit
 {
     /**
      * Constructor

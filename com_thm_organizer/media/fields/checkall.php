@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        JFormFieldCheckAll
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -15,9 +15,9 @@ jimport('joomla.form.formfield');
 /**
  * Class loads a grid check all box
  *
- * @category    Joomla.Library
- * @package     thm_core
- * @subpackage  lib_thm_core.site
+ * @category    Joomla.Component.Media
+ * @package     thm_organizer
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldCheckAll extends JFormField
 {

@@ -11,7 +11,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -21,7 +21,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewSchedule_Manager extends THM_CoreViewList
+class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
 {
     public $items;
 

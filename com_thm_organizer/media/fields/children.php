@@ -2,8 +2,8 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldColor
+ * @subpackage  com_thm_organizer.media
+ * @name        JFormFieldChildren
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -12,13 +12,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Class JFormFieldColor for component com_thm_organizer
- *
  * Class provides methods to create a form field that contains the colors
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Media
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldChildren extends JFormField
 {

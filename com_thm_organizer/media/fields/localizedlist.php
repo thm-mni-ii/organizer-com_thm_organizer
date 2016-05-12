@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        JFormFieldLocalizedList
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -11,14 +11,14 @@
  */
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class loads a list of of localized entries for selection
  *
  * @category    Joomla.Component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldLocalizedList extends JFormFieldList
 {
@@ -42,7 +42,7 @@ class JFormFieldLocalizedList extends JFormFieldList
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $tag = THM_CoreHelper::getLanguageShortTag();
+        $tag = THM_OrganizerHelperLanguage::getShortTag();
         $valueColumn = $this->getAttribute('valueColumn') . "_$tag";
         $textColumn = $this->getAttribute('textColumn') . "_$tag";
 

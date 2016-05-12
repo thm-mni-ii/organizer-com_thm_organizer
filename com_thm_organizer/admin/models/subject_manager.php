@@ -10,9 +10,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.model');
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -22,7 +22,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
+class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 {
     protected $defaultOrdering = 'name';
 
@@ -55,7 +55,7 @@ class THM_OrganizerModelSubject_Manager extends THM_CoreModelList
     protected function getListQuery()
     {
         $dbo = JFactory::getDBO();
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
         // Create the sql query
         $query = $dbo->getQuery(true);

@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        JFormFieldParentPool
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -17,9 +17,9 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
  *
  * Class provides methods to create a form field
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Media
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldParentPool extends JFormField
 {

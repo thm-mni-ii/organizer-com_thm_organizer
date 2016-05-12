@@ -5,12 +5,12 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerViewPool_Selection
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 JHtml::_('jquery.framework');
 
 /**
@@ -20,7 +20,7 @@ JHtml::_('jquery.framework');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewPool_Selection extends THM_CoreViewList
+class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
 {
     /**
      * Method to generate buttons for user interaction
@@ -43,6 +43,6 @@ class THM_OrganizerViewPool_Selection extends THM_CoreViewList
         JHtml::_('searchtools.form', '#adminForm', array());
 
         $document = Jfactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "../../media/com_thm_organizer/css/child_selection.css");
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/child_selection.css");
     }
 }

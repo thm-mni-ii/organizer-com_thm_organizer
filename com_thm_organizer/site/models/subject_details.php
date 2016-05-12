@@ -5,11 +5,12 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelSubject_Details
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_COMPONENT . '/helpers/teacher.php';
 
 /**
@@ -37,7 +38,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         }
 
         $input = JFactory::getApplication()->input;
-        $langTag = $input->getString('languageTag', THM_CoreHelper::getLanguageShortTag());
+        $langTag = $input->getString('languageTag', THM_OrganizerHelperLanguage::getShortTag());
         $query = $this->_db->getQuery(true);
 
         $select = "s.id, externalID, name_$langTag AS name, description_$langTag AS description, ";
@@ -187,7 +188,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
     private function setPrerequisiteOf(&$subject)
     {
         $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
-        $langTag = THM_CoreHelper::getLanguageShortTag();
+        $langTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $link = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}&Itemid={$menuID}&id=";
         $dbo = JFactory::getDbo();

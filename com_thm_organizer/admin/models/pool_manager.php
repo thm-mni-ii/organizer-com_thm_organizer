@@ -10,8 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.model');
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
@@ -22,7 +21,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelPool_Manager extends THM_CoreModelList
+class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 {
     protected $defaultOrdering = 'name';
 
@@ -52,7 +51,7 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
     {
         $query = $this->_db->getQuery(true);
 
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $select = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag AS field, color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=pool_edit&id='","p.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
@@ -148,7 +147,6 @@ class THM_OrganizerModelPool_Manager extends THM_CoreModelList
     public function loadFormData()
     {
         JForm::addFieldPath(JPATH_ROOT . '/media/com_thm_organizer/fields');
-        JForm::addFieldPath(JPATH_ROOT . '/libraries/thm_core/fields');
         return parent::loadFormData();
     }
 

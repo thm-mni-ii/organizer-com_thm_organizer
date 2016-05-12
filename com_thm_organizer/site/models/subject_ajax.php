@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelSubject_Ajax
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */

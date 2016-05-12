@@ -5,12 +5,13 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelDeputat
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_COMPONENT . '/helpers/teacher.php';
 
 /**
@@ -94,7 +95,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function setDepartmentName($departmentID)
     {
-        $shortTag = THM_OrganizerHelperComponent::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);

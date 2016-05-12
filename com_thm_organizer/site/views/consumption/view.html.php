@@ -84,8 +84,8 @@ class THM_OrganizerViewConsumption extends JViewLegacy
         JHTML::_('behavior.calendar');
         JHtml::_('formbehavior.chosen', 'select');
         JFactory::getDocument()->setCharset("utf-8");
-        JFactory::getDocument()->addScript($this->baseurl . '/media/com_thm_organizer/js/consumption.js');
-        JFactory::getDocument()->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/consumption.css');
+        JFactory::getDocument()->addScript(JUri::root() . '/media/com_thm_organizer/js/consumption.js');
+        JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/consumption.css');
     }
 
     /**

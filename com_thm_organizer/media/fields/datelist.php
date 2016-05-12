@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        JFormFieldDateList
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Class loads a list of fields for selection
+ * Class loads a list of date fields for selection
  *
- * @category    Joomla.Library
- * @package     thm_core
- * @subpackage  com_thm_organizer.admin
+ * @category    Joomla.Component
+ * @package     THM_Organizer
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldDateList extends JFormFieldList
 {
@@ -53,8 +53,7 @@ class JFormFieldDateList extends JFormFieldList
         {
             $resources = $dbo->loadAssocList();
             $options = array();
-            $option = JFactory::getApplication()->input->get('option');
-            $params = JComponentHelper::getParams($option);
+            $params = JComponentHelper::getParams('com_thm_organizer');
             $type = $this->getAttribute('format');
             $format = $type == 'time'? $params->get('timeFormat', 'H:i') : $params->get('dateFormat', 'd.m.Y');
             foreach ($resources as $resource)

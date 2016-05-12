@@ -2,9 +2,9 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        JFormFieldGenericList
- * @author      James Antrim, <james.antrim@mni.thm.de>
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @category    Joomla.Component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldGenericList extends JFormFieldList
 {
@@ -93,8 +93,8 @@ class JFormFieldGenericList extends JFormFieldList
         $localized = $this->getAttribute('localized', false);
         if ($localized)
         {
-            jimport('thm_core.helpers.corehelper');
-            $tag = THM_CoreHelper::getLanguageShortTag();
+            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+            $tag = THM_OrganizerHelperLanguage::getShortTag();
             foreach ($textColumns as $key => $value)
             {
                 $textColumns[$key] = $value . '_' . $tag;

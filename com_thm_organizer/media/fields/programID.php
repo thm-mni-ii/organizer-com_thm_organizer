@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        JFormFieldProgramID
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -10,15 +10,15 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 JFormHelper::loadFieldClass('list');
 
 /**
  * Class creates a form field for subject-degree program association
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Media
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldProgramID extends JFormFieldList
 {
@@ -34,7 +34,7 @@ class JFormFieldProgramID extends JFormFieldList
      */
     public function getOptions()
     {
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 

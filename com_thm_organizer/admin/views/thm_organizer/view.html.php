@@ -34,8 +34,8 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
     {
         JHtml::_('behavior.tooltip');
         $document = Jfactory::getDocument();
-        $document->addStyleSheet($this->baseurl . '../../media/com_thm_organizer/css/backend.css');
-        $document->addStyleSheet($this->baseurl . "../../libraries/thm_core/fonts/iconfont.css");
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/backend.css');
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
 
         THM_OrganizerHelperComponent::addSubmenu($this);
 

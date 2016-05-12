@@ -4,15 +4,13 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @name        subject details view
- * @author      Markus Baier, <markus.baier@mni.thm.de>
  * @author      Wolf Rost,  <Wolf.Rost@mni.thm.de>
  * @author      James Antrim,  <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-jimport('thm_core.helpers.corehelper');
-require_once JPATH_COMPONENT . '/helpers/language.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class loads information about a subject into the view context
@@ -58,6 +56,6 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         JHtml::_('behavior.framework', true);
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . '/media/com_thm_organizer/css/subject_details.css');
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
     }
 }

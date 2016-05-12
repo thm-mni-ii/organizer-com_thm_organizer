@@ -5,13 +5,13 @@
  * @subpackage  com_thm_organizer.admin
  * @name        THM_OrganizerSubject_Selection
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.model');
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -22,7 +22,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
 */
-class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
+class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 {
     protected $defaultOrdering = 'name';
 
@@ -35,7 +35,7 @@ class THM_OrganizerModelSubject_Selection extends THM_CoreModelList
     protected function _getListQuery()
     {
         $dbo = JFactory::getDBO();
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
         // Create the sql query
         $query = $dbo->getQuery(true);

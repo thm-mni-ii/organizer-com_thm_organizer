@@ -11,5 +11,5 @@
  */
 
 defined('_JEXEC') or die;
-jimport('thm_core.edit.basictemplate');
-THM_CoreTemplateBasic::render($this);
+require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
+THM_OrganizerTemplateEdit_Basic::render($this);

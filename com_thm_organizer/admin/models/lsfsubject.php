@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/lsfapi.php';
 defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
 defined('TEACHER') OR define('TEACHER', 2);
@@ -204,7 +204,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     private function setObjectProperty(&$subject, &$textNode)
     {
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $nameAttribute = "name_$shortTag";
         $name = $subject->$nameAttribute;
         $category = (string) $textNode->kategorie;

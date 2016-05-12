@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.view');
+require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 /**
  * Class loads persistent teacher into a display list context
  *
@@ -18,7 +18,7 @@ jimport('thm_core.list.view');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerViewTeacher_Manager extends THM_CoreViewList
+class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
 {
     public $items;
 

@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        JFormFieldPrograms
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -10,15 +10,14 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class creates a form field for subject-degree program association
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Media
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  */
 class JFormFieldPrograms extends JFormField
 {
@@ -108,11 +107,15 @@ jQuery(document).ready(function(){
 
             jQuery('#jformparentID').val(selectedParents);
 
-            // from lib_thm_core
-            refreshChoosen('jformparentID');
+            refreshChosen('jformparentID');
         });
-        refreshChoosen('jformparentID');
+        refreshChosen('jformparentID');
     });
+
+    function refreshChosen(id){
+        jQuery("#" + id).chosen("destroy");
+        jQuery("#" + id).chosen();
+    }
 
     function toggleElement(chosenElement, value)
     {

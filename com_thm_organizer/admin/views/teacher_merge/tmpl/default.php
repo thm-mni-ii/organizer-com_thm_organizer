@@ -10,5 +10,5 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.form.backendtemplate');
-THM_CoreTemplateBackend::render($this);
+require_once JPATH_ROOT . '/media/com_thm_organizer/templates/form.php';
+THM_OrganizerTemplateForm::render($this);

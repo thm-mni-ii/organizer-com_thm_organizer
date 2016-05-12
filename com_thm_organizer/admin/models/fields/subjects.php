@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class loads a list of teachers for selection
@@ -61,7 +61,7 @@ class JFormFieldSubjects extends JFormField
             return $this->getDefault();
         }
 
-        $langTag = THM_CoreHelper::getLanguageShortTag();
+        $langTag = THM_OrganizerHelperLanguage::getShortTag();
         $subjectsQuery = $dbo->getQuery(true);
         $subjectsQuery->select("DISTINCT id AS value, name_$langTag AS name, externalID");
         $subjectsQuery->from('#__thm_organizer_subjects');

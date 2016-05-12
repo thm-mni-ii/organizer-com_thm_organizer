@@ -26,15 +26,21 @@
     <update>
         <schemas>
             <schemapath type="mysql">sql/updates/mysql</schemapath>
+            <schemapath type="mysqli">sql/updates/mysql</schemapath>
         </schemas>
     </update>
 
     <media destination="com_thm_organizer" folder="media">
+        <folder>css</folder>
+        <folder>fields</folder>
+        <folder>fonts</folder>
+        <folder>helpers</folder>
         <folder>images</folder>
         <folder>js</folder>
-        <folder>css</folder>
-        <folder>helpers</folder>
-        <folder>fields</folder>
+        <folder>models</folder>
+        <folder>tables</folder>
+        <folder>templates</folder>
+        <folder>views</folder>
         <filename>index.html</filename>
     </media>
 

@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.media
  * @name        THM_OrganizerHelperMapping
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.helpers.corehelper');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class provides methods used by organizer files for mappings
@@ -144,7 +144,7 @@ class THM_OrganizerHelperMapping
             $rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
         }
 
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query = JFactory::getDbo()->getQuery(true);
         $parts = array("dp.name_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
         $select = "DISTINCT " . $query->concatenate($parts, "") . " As name";
@@ -184,7 +184,7 @@ class THM_OrganizerHelperMapping
         $lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
         $lftQuery->order('lft DESC');
 
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $nameQuery = $dbo->getQuery(true);
         $nameQuery->select("DISTINCT p.name_$shortTag As name");
         $nameQuery->from('#__thm_organizer_pools AS p');
@@ -236,7 +236,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getAllPrograms()
     {
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $parts = array("dp.name_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");
@@ -487,7 +487,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getPoolOption(&$mapping, &$selectedParents)
     {
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
         
         try 
@@ -547,7 +547,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramOption(&$mapping, &$selectedParents, $resourceType)
     {
-        $shortTag = THM_CoreHelper::getLanguageShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $parts = array("dp.name_$shortTag","' ('", "d.abbreviation", "' '", "dp.version", "')'");

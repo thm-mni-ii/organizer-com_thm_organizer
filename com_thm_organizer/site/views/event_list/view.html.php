@@ -5,7 +5,7 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewRoom_Event_List
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -44,6 +44,6 @@ class THM_OrganizerViewEvent_List extends JViewLegacy
     private function modifyDocument()
     {
         $document = JFactory::getDocument();
-        $document->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/event_list.css");
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/event_list.css");
     }
 }

@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.form.model');
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 
 /**
  * Loads room entry information to be merged
@@ -19,7 +19,7 @@ jimport('thm_core.form.model');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom_Merge extends THM_CoreModelForm
+class THM_OrganizerModelRoom_Merge extends THM_OrganizerModelForm
 {
     /**
      * Constructor.

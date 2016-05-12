@@ -5,13 +5,13 @@
  * @subpackage  com_thm_organizer.admin
  * @name        pool selection default template
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
- * @copyright   2015 TH Mittelhessen
+ * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('thm_core.list.modal');
-THM_CoreTemplateModalList::render($this);
+require_once JPATH_ROOT . '/media/com_thm_organizer/templates/list_modal.php';
+THM_OrganizerTemplateList_Modal::render($this);
 ?>
 <script>
     jQuery( document ).ready(function() {

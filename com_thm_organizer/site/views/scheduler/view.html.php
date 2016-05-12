@@ -204,10 +204,10 @@ class THM_OrganizerViewScheduler extends JViewLegacy
     private function prepareDocument()
     {
         $doc = JFactory::getDocument();
-        $doc->addStyleSheet($this->baseurl . "/libraries/thm_core/js/extjs/css/ext-theme-gray-all.css");
-        $doc->addStyleSheet($this->baseurl . "/libraries/thm_core/fonts/iconfont-frontend.css");
-        $doc->addStyleSheet($this->baseurl . "/media/com_thm_organizer/css/scheduler.css");
-        $doc->addStyleSheet(JURI::root(true) . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
+        $doc->addStyleSheet(JUri::root() . "/libraries/thm_core/js/extjs/css/ext-theme-gray-all.css");
+        $doc->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont-frontend.css");
+        $doc->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/scheduler.css");
+        $doc->addStyleSheet(JUri::root() . "/components/com_thm_organizer/views/scheduler/tmpl/mySched/style.css");
     }
 
     /**
@@ -276,10 +276,22 @@ class THM_OrganizerViewScheduler extends JViewLegacy
      */
     private function validateResources(&$schedule)
     {
-        return (!empty($schedule->periods) AND !empty($schedule->fields) AND !empty($schedule->roomtypes)
-            AND !empty($schedule->lessontypes) AND !empty($schedule->degrees) AND !empty($schedule->rooms)
-            AND !empty($schedule->subjects) AND !empty($schedule->teachers) AND !empty($schedule->pools)
-            AND !empty($schedule->calendar) AND !empty($schedule->lessons));
+        $periodsEmpty = empty($schedule->periods);
+        $fieldsEmpty = empty($schedule->fields);
+        $roomTypesEmpty = empty($schedule->roomtypes);
+
+        // Lessontypes was renamed to methods, but old json schedules will still have the lessontypes index
+        $methodsEmpty = (empty($schedule->methods) AND empty($schedule->lessontypes));
+        $degreesEmpty = empty($schedule->degrees);
+        $roomsEmpty = empty($schedule->rooms);
+        $subjectsEmpty = empty($schedule->subjects);
+        $teachersEmpty = empty($schedule->teachers);
+        $poolsEmpty = empty($schedule->pools);
+        $calendarEmpty = empty($schedule->calendar);
+        $lessonsEmpty = empty($schedule->lessons);
+
+        return !($periodsEmpty OR $fieldsEmpty OR $roomTypesEmpty OR $methodsEmpty OR $degreesEmpty OR $roomsEmpty
+            OR $subjectsEmpty OR $teachersEmpty OR $poolsEmpty OR $calendarEmpty OR $lessonsEmpty);
     }
 
     /**
