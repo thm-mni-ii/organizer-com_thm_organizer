@@ -539,7 +539,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $capacity = trim((int) $roomNode->capacity);
         $this->_scheduleModel->schedule->rooms->$roomID->capacity = (empty($capacity))? '' : $capacity;
 
-        $this->validateDescription($roomNode, $roomID, $warningString);
+        $this->validateType($roomNode, $roomID, $warningString);
         
         if (!empty($warningString))
         {
@@ -610,17 +610,20 @@ class THM_OrganizerModelRoom extends JModelLegacy
      * 
      * @return  void
      */
-    private function validateDescription(&$roomNode, $roomID, &$warningString)
+    private function validateType(&$roomNode, $roomID, &$warningString)
     {
         $descriptionID = str_replace('DS_', '', trim((string) $roomNode->room_description[0]['id']));
-        if (empty($descriptionID)
-         OR empty($this->_scheduleModel->schedule->roomtypes->$descriptionID))
+        $invalidDescription = (empty($descriptionID) OR empty($this->_scheduleModel->schedule->roomtypes->$descriptionID));
+        if ($invalidDescription)
         {
             $warningString .= empty($warningString)? '' : ', ';
             $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_ROOM_TYPE');
+            $this->_scheduleModel->schedule->rooms->$roomID->description = '';
+            return;
         }
 
-        $this->_scheduleModel->schedule->rooms->$roomID->description
-            = empty($descriptionID)? '' : $descriptionID;
+        $this->_scheduleModel->schedule->rooms->$roomID->description = $descriptionID;
+        $this->_scheduleModel->schedule->rooms->$roomID->typeID
+            = $this->_scheduleModel->schedule->roomtypes->$descriptionID->id;
     }
 }

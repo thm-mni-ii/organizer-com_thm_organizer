@@ -27,6 +27,8 @@ class THM_OrganizerModelForm extends JModelForm
      * @param   Boolean  $loadData  Load data  (default: true)
      *
      * @return  mixed  JForm object on success, False on error.
+     * 
+     * @throws  Exception  if the user is not authorized to access the view
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

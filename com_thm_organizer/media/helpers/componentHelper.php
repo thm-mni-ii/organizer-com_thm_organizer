@@ -87,6 +87,11 @@ class THM_OrganizerHelperComponent
             $viewName == 'room_manager'
         );
         JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=room_type_manager',
+            $viewName == 'room_manager'
+        );
+        JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
             'index.php?option=com_thm_organizer&amp;view=program_manager',
             $viewName == 'program_manager'

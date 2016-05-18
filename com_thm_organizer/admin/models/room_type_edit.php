@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelColor_Edit
+ * @name        THM_OrganizerModelRoom_Type_Edit
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -19,7 +19,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelColor_Edit extends THM_OrganizerModelEdit
+class THM_OrganizerModelRoom_Type_Edit extends THM_OrganizerModelEdit
 {
     public $actions = null;
 

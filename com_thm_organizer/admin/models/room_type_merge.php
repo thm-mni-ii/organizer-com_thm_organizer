@@ -3,26 +3,24 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelColor_Edit
+ * @name        THM_OrganizerModelRoom_Type_Merge
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 
 /**
- * Class loads form data to edit an entry.
+ * Loads room type entry information to be merged
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelColor_Edit extends THM_OrganizerModelEdit
+class THM_OrganizerModelRoom_Type_Merge extends THM_OrganizerModelForm
 {
-    public $actions = null;
-
     /**
      * Constructor.
      *

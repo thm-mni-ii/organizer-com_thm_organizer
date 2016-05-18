@@ -80,7 +80,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->saveSubjectFields();
             $this->saveTeacherFields();
             $this->saveTeachers();
-            $this->saveRoomTypes();
             $this->saveRooms();
             $this->setReference();
             $statusReport['scheduleID'] = $this->saveSchedule();
@@ -195,7 +194,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             {
                 $lessonModel->validate($lessonNode);
             }
-        }echo "<pre>" . print_r($this->schedule, true) . "</pre>";die;
+        }
 
         return $this->makeStatusReport();
     }
@@ -440,9 +439,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 break;
             case 'r':
             case 'R':
-                $this->schedule->roomtypes->$descriptionID = new stdClass;
-                $this->schedule->roomtypes->$descriptionID->gpuntisID = $gpuntisID;
-                $this->schedule->roomtypes->$descriptionID->name = $longname;
+                $typeID = $this->roomTypeExists($descriptionID);
+                if ($typeID)
+                {
+                    $this->schedule->roomtypes->$descriptionID = new stdClass;
+                    $this->schedule->roomtypes->$descriptionID->gpuntisID = $gpuntisID;
+                    $this->schedule->roomtypes->$descriptionID->name = $longname;
+                    $this->schedule->roomtypes->$descriptionID->id = $typeID;
+                }
                 break;
             case 'u':
             case 'U':
@@ -451,6 +455,38 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 $this->schedule->methods->$descriptionID->name = $longname;
                 break;
         }
+    }
+
+    /**
+     * Checks whether the gpuntisID is already exists in the database
+     * 
+     * @param   string  $typeID  the gpuntis description id
+     * 
+     * @return  bool  true if the entry already exists, otherwise false
+     */
+    private function roomTypeExists($typeID)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('id')->from('#__thm_organizer_room_types')->where("gpuntisID = '$typeID'");
+        $this->_db->setQuery((string) $query);
+
+        try
+        {
+            $exists = $this->_db->loadResult();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            return false;
+        }
+
+        if (empty($exists))
+        {
+            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_INVALID_ROOM_TYPE", $typeID);
+            return false;
+        }
+
+        return $exists;
     }
 
     /**
@@ -673,24 +709,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * Persists room type information from the uploaded schedule
-     *
-     * @return void
-     */
-    private function saveRoomTypes()
-    {
-        foreach ($this->schedule->roomtypes as $roomType)
-        {
-            $data = array();
-            $data['gpuntisID'] = $roomType->gpuntisID;
-            $roomTypeRow = JTable::getInstance('room_types', 'thm_organizerTable');
-            $roomTypeRow->load($data);
-            $data['type'] = $roomType->name;
-            $roomTypeRow->save($data);
-        }
-    }
-
-    /**
      * Persists room information from the uploaded schedule
      *
      * @return void
@@ -703,16 +721,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $pullData['gpuntisID'] = $room->gpuntisID;
             $roomRow = JTable::getInstance('rooms', 'thm_organizerTable');
             $roomRow->load($pullData);
-            if (!empty($room->description))
-            {
-                $pullData['gpuntisID'] = $this->schedule->roomtypes->{$room->description}->gpuntisID;
-                $typeRow = JTable::getInstance('room_types', 'thm_organizerTable');
-                $typeExists = $typeRow->load($pullData);
-                if ($typeExists)
-                {
-                    $room->typeID = $typeRow->id;
-                }
-            }
             $roomRow->save($room);
         }
     }
@@ -885,7 +893,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         }
         catch (Exception $exception)
         {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             $this->_db->transactionRollback();
             return false;
         }
@@ -1344,7 +1352,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             }
             catch (Exception $exception)
             {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
                 $this->_db->transactionRollback();
                 return false;
             }

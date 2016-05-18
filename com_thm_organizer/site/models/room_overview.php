@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -503,8 +504,9 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
      */
     private function getRoomData()
     {
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT r.id AS roomID, r.name, r.longname, t.id AS typeID, t.type');
+        $query->select("DISTINCT r.id AS roomID, r.name, r.longname, t.id AS typeID, t.name_$shortTag AS type");
         $query->from('#__thm_organizer_room_types AS t');
         $query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
         $query->order('r.longname ASC');
