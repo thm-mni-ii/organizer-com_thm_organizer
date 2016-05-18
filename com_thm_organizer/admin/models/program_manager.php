@@ -64,7 +64,7 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
         $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
 
-        $searchColumns = array('dp.name_de', 'dp.name_en', 'version', 'field', 'd.name', 'description_de', 'description_en');
+        $searchColumns = array('dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en');
         $this->setSearchFilter($query, $searchColumns);
         $this->setValueFilters($query, array( 'degreeID', 'version', 'departmentID'));
         $this->setLocalizedFilters($query, array('dp.name'));
@@ -128,7 +128,7 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 
         $headers = array();
         $headers['checkbox'] = '';
-        $headers['dp.name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'dp.name', $direction, $ordering);
+        $headers['dp.name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['degreeID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE', 'abbreviation', $direction, $ordering);
         $headers['version'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_VERSION', 'version', $direction, $ordering);
         $headers['departmentID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentID', $direction, $ordering);

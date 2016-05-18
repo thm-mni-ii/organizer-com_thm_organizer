@@ -67,7 +67,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $searchFields = array('name_de', 'short_name_de', 'abbreviation_de', 'name_en', 'short_name_en',
+        $searchFields = array('s.name_de', 'short_name_de', 'abbreviation_de', 's.name_en', 'short_name_en',
                               'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
                               'description_en', 'objective_en', 'content_en', 'lsfID'
                              );

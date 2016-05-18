@@ -61,8 +61,8 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $searchColumns = array('name_de', 'short_name_de', 'abbreviation_de', 'description_de',
-                               'name_en', 'short_name_en', 'abbreviation_en', 'description_en'
+        $searchColumns = array('p.name_de', 'short_name_de', 'abbreviation_de', 'description_de',
+                               'p.name_en', 'short_name_en', 'abbreviation_en', 'description_en'
                               );
         $this->setSearchFilter($query, $searchColumns);
         $this->setLocalizedFilters($query, array('p.name'));
