@@ -475,9 +475,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     {
         $event = $this->_currentSchedule->lessons->{$this->_currentEvent};
 
-        // Old json schedules will still have lessontypes as an index
-        $types = !empty($this->_currentSchedule->lessontypes)?
-            $this->_currentSchedule->lessontypes : $this->_currentSchedule->methods;
+        $types = $this->_currentSchedule->methods;
         $invalidType = (empty($event->description) OR empty($types->{$event->description}) OR empty($types->{$event->description}->name));
         if ($invalidType)
         {

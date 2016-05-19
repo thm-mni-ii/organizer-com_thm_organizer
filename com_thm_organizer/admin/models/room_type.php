@@ -35,9 +35,6 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
     /**
      * Merges resource entries and cleans association tables.
      *
-     * @param   array  $data  array used by the automerge function to
-     *                        automatically set room values
-     *
      * @return  boolean  true on success, otherwise false
      */
     public function merge()
@@ -71,7 +68,7 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
         $deleteQuery = $this->_db->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_room_types');
         $deleteQuery->where("id IN ( $oldIDs )");
-        $this->_db->setQuery((string) $deleteQuery);
+        $this->_db->setQuery((string)$deleteQuery);
         try
         {
             $this->_db->execute();
@@ -98,39 +95,21 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
     /**
      * Processes the data for an individual schedule
      *
-     * @param   object  &$schedule    the schedule being processed
-     * @param   array   &$data        the data for the schedule db entry
-     * @param   array   $oldUntisIDs  the existing Untis IDs
+     * @param   object &$schedule the schedule being processed
+     * @param   array &$data the data for the schedule db entry
+     * @param   array $oldUntisIDs the existing Untis IDs
      *
      * @return  void
      */
     private function processSchedule(&$schedule, &$data, $oldUntisIDs)
     {
-        // Remove deprecated objects
-        foreach ($oldUntisIDs AS $untisID)
-        {
-            if (isset($schedule->roomtypes->$untisID))
-            {
-                unset($schedule->roomtypes->$untisID);
-            }
-        }
-
-        $newUntisID = $data['gpuntisID'];
-        if (!isset($schedule->roomtypes->$newUntisID))
-        {
-            $schedule->roomtypes->$newUntisID = new stdClass;
-            $schedule->roomtypes->$newUntisID->gpuntisID = $newUntisID;
-        }
-
-        $schedule->roomtypes->$newUntisID->name = $data['name_de'];
-
         // Update room associations
         foreach ($schedule->rooms AS $roomNo => $room)
         {
-            $update = (in_array($room->description, $oldUntisIDs) OR $room->description == $newUntisID);
+            $update = (in_array($room->description, $oldUntisIDs) OR $room->description == $data['gpuntisID']);
             if ($update)
             {
-                $schedule->rooms->$roomNo->description = $newUntisID;
+                $schedule->rooms->$roomNo->description = $data['gpuntisID'];
                 $schedule->rooms->$roomNo->typeID = $data['id'];
             }
         }
@@ -163,15 +142,15 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
 
         $table = JTable::getInstance('room_types', 'thm_organizerTable');
         $success = $table->save($data);
-        return $success? $table->id : false;
+        return $success ? $table->id : false;
     }
 
     /**
      * Replaces old room type associations
      *
-     * @param   int     $newID      the id onto which the room entries merge
-     * @param   string  $oldIDs     a string containing the ids to be replaced
-     * @param   string  $tableName  the unique part of the table name
+     * @param   int $newID the id onto which the room entries merge
+     * @param   string $oldIDs a string containing the ids to be replaced
+     * @param   string $tableName the unique part of the table name
      *
      * @return  boolean  true on success, otherwise false
      */
@@ -181,7 +160,7 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
         $query->update("#__thm_organizer_{$tableName}");
         $query->set("typeID = '$newID'");
         $query->where("typeID IN ( $oldIDs )");
-        $this->_db->setQuery((string) $query);
+        $this->_db->setQuery((string)$query);
         try
         {
             $this->_db->execute();
@@ -197,8 +176,8 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
     /**
      * Updates room data and lesson associations in active schedules
      *
-     * @param   array  &$data   room type data corresponding to a table row
-     * @param   mixed  $oldIDs  the Untis IDs to be replaced as a string or null for updates
+     * @param   array &$data room type data corresponding to a table row
+     * @param   mixed $oldIDs the Untis IDs to be replaced as a string or null for updates
      *
      * @return bool  true on success, otherwise false
      */
@@ -207,7 +186,7 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
         $scheduleQuery = $this->_db->getQuery(true);
         $scheduleQuery->select('id');
         $scheduleQuery->from('#__thm_organizer_schedules');
-        $this->_db->setQuery((string) $scheduleQuery);
+        $this->_db->setQuery((string)$scheduleQuery);
 
         try
         {
@@ -231,7 +210,7 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
             $oldUntisIDsQuery->from('#__thm_organizer_room_types');
             $oldUntisIDsQuery->where("id IN ( $oldIDs )");
             $oldUntisIDsQuery->where("gpuntisID IS NOT NULL");
-            $this->_db->setQuery((string) $oldUntisIDsQuery);
+            $this->_db->setQuery((string)$oldUntisIDsQuery);
 
             try
             {
@@ -256,7 +235,7 @@ class THM_OrganizerModelRoom_Type extends JModelLegacy
             $scheduleQuery->select('schedule');
             $scheduleQuery->from('#__thm_organizer_schedules');
             $scheduleQuery->where("id = '$scheduleID'");
-            $this->_db->setQuery((string) $scheduleQuery);
+            $this->_db->setQuery((string)$scheduleQuery);
 
             try
             {

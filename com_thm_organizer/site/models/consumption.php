@@ -12,6 +12,7 @@
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 define('ROOM', 1);
 define('TEACHER', 2);
 define('REAL', 1);
@@ -63,9 +64,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
                 $rooms = $this->getItems('rooms');
                 $this->names['rooms'] = $this->getNameArray('rooms', $rooms, array('longname'));
                 $this->setSelected('rooms');
-                $this->names['roomtypes'] = $this->getNameArray('roomtypes', $this->consumption['roomtypes']);
-                $this->setSelected('roomtypes');
-                $this->filterType('rooms', 'roomtypes');
+                $this->names['roomTypes'] = $this->getNameArray('roomTypes', $this->consumption['roomTypes']);
+                $this->setSelected('roomTypes');
+                $this->filterType('rooms', 'roomTypes');
                 $this->filterResource('rooms');
             }
 
@@ -94,7 +95,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
         $this->reset = $input->getBool('reset', false);
         $this->type = $input->getInt('type', ROOM);
         $this->hours = $input->getInt('hours', REAL);
-        $resources = array('rooms', 'teachers', 'roomtypes', 'fields');
+        $resources = array('rooms', 'teachers', 'roomTypes', 'fields');
         foreach ($resources as $resource)
         {
             $this->selected[$resource] = array();
@@ -187,7 +188,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     {
         $this->consumption = array();
         $this->consumption['rooms'] = array();
-        $this->consumption['roomtypes'] = array();
+        $this->consumption['roomTypes'] = array();
         $this->consumption['teachers'] = array();
         $this->consumption['fields'] = array();
 
@@ -370,27 +371,43 @@ class THM_OrganizerModelConsumption extends JModelLegacy
             $this->consumption['rooms'][$degree] = array();
         }
 
-        $typeKey = $this->schedule->rooms->$roomID->description;
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $query = $this->_db->getQuery(true);
+        $query->select("rt.gpuntisID, name_$shortTag AS name");
+        $query->from('#__thm_organizer_room_types AS rt');
+        $query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = rt.id');
+        $query->where("r.gpuntisID = '$roomID'");
+        $this->_db->setQuery((string) $query);
+
+        try
+        {
+            $type = $this->_db->loadAssoc();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_(''), 'error');
+            return;
+        }
+
+        if (empty($type))
+        {
+            return;
+        }
+
         if (!isset($this->consumption['rooms'][$degree][$roomID]))
         {
             $this->consumption['rooms'][$degree][$roomID] = array();
             $this->consumption['rooms'][$degree][$roomID]['hours'] = $hours;
-            $this->consumption['rooms'][$degree][$roomID]['type'] = $typeKey;
+            $this->consumption['rooms'][$degree][$roomID]['type'] = $type['gpuntisID'];
         }
         else
         {
             $this->consumption['rooms'][$degree][$roomID]['hours'] += $hours;
         }
 
-        if (empty($typeKey))
+        if (!isset($this->consumption['roomTypes'][$type['gpuntisID']]))
         {
-            return;
-        }
-
-        $typeValue = $this->schedule->roomtypes->$typeKey->name;
-        if (!isset($this->consumption['roomtypes'][$typeKey]))
-        {
-            $this->consumption['roomtypes'][$typeKey] = $typeValue;
+            $this->consumption['roomTypes'][$type['gpuntisID']] = $type['name'];
         }
     }
 
@@ -607,7 +624,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
     /**
      * Gets the list of selected resources
      *
-     * @param   string  $type  the resource type (rooms|roomtypes|teachers|fields)
+     * @param   string  $type  the resource type (rooms|room_types|teachers|fields)
      *
      * @return  void
      */

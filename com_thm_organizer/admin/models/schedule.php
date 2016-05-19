@@ -161,7 +161,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->validateResourceNode('timeperiods', 'Period', $xmlSchedule, 'PERIODS');
 
         $this->schedule->fields = new stdClass;
-        $this->schedule->roomtypes = new stdClass;
+        $this->schedule->room_types = new stdClass;
         $this->schedule->methods = new stdClass;
         $this->validateResourceNode('descriptions', 'Description', $xmlSchedule, 'DESCRIPTIONS');
 
@@ -170,7 +170,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->validateResourceNode('departments', 'Degree', $xmlSchedule, 'PROGRAMS');
 
         $this->schedule->rooms = new stdClass;
-        $this->validateResourceNode('rooms', 'room', $xmlSchedule, 'ROOMS', true);
+        $this->validateRoomsNode($xmlSchedule);
+
+        // No longer needed after room validation
+        unset($this->schedule->room_types);
 
         $this->schedule->subjects = new stdClass;
         $this->validateResourceNode('subjects', 'subject', $xmlSchedule, 'SUBJECTS', true);
@@ -269,6 +272,30 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             }
         }
         $this->schedule->$name = $value;
+        return;
+    }
+
+    /**
+     * Validates a resource node which has no external model
+     *
+     * @param   object  &$xmlObject    the xml object being validated
+     *
+     * @return  void
+     */
+    private function validateRoomsNode(&$xmlObject)
+    {
+        if (empty($xmlObject->rooms))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOMS_MISSING");
+            return;
+        }
+
+        $model = JModelLegacy::getInstance('room', 'THM_OrganizerModel');
+        foreach ($xmlObject->rooms->children() as $resourceNode)
+        {
+            $model->validate($this, $resourceNode);
+        }
+
         return;
     }
 
@@ -442,10 +469,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 $typeID = $this->roomTypeExists($descriptionID);
                 if ($typeID)
                 {
-                    $this->schedule->roomtypes->$descriptionID = new stdClass;
-                    $this->schedule->roomtypes->$descriptionID->gpuntisID = $gpuntisID;
-                    $this->schedule->roomtypes->$descriptionID->name = $longname;
-                    $this->schedule->roomtypes->$descriptionID->id = $typeID;
+                    $this->schedule->room_types->$descriptionID = new stdClass;
+                    $this->schedule->room_types->$descriptionID->gpuntisID = $gpuntisID;
+                    $this->schedule->room_types->$descriptionID->name = $longname;
+                    $this->schedule->room_types->$descriptionID->id = $typeID;
                 }
                 break;
             case 'u':

@@ -11,6 +11,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/language.php";
 require_once JPATH_COMPONENT_SITE . "/assets/classes/node.php";
 require_once JPATH_COMPONENT_SITE . "/assets/classes/leaf.php";
 
@@ -196,9 +197,6 @@ class THM_OrganizerModelSchedule_Navigation
         $this->_treeData["room"] = $this->_activeScheduleData->rooms;
         $this->_treeData["teacher"] = $this->_activeScheduleData->teachers;
         $this->_treeData["subject"] = $this->_activeScheduleData->subjects;
-        $this->_treeData["roomtype"] = $this->_activeScheduleData->roomtypes;
-        $this->_treeData["degree"] = $this->_activeScheduleData->degrees;
-        $this->_treeData["field"] = $this->_activeScheduleData->fields;
 
         $this->setSubjectTexts();
         $this->resolveRooms($schedulerModel->getRooms());
@@ -233,6 +231,53 @@ class THM_OrganizerModelSchedule_Navigation
             "periods" => $this->_activeScheduleData->periods
         );
         return $return;
+    }
+
+    /**
+     * Retrieves the room types for the schedule.
+     *
+     * @return  object
+     */
+    private function getRoomTypes()
+    {
+        $usedTypeIDs = array();
+        foreach ($this->_activeScheduleData->rooms as $key => $room)
+        {
+            $usedTypeIDs[$room->typeID] = $room->typeID;
+        }
+
+        $typeIDsString = "'" . implode("', '", $usedTypeIDs) . "'";
+
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("gpuntisID, name_$shortTag AS name");
+        $query->from('#__thm_organizer_room_types');
+        $query->where("id IN ( $typeIDsString )");
+        $dbo->setQuery((string) $query);
+
+        $types = new stdClass;
+
+        try
+        {
+            $results = $dbo->loadObjectList();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_(''), 'error');
+            return $types;
+        }
+
+
+        if (!empty($results))
+        {
+            foreach ($results AS $key => $type)
+            {
+                $types->{$type->gpuntisID} = $type;
+            }
+        }
+
+        return $types;
     }
 
     /**
@@ -639,7 +684,7 @@ class THM_OrganizerModelSchedule_Navigation
                 if (isset($resource->description))
                 {
                     $subcategory = $resource->description;
-                    $itemFieldType = $this->_activeScheduleData->roomtypes;
+                    $itemFieldType = $this->getRoomTypes();
                     $subcategorySet = true;
                 }
                 else

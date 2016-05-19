@@ -96,10 +96,10 @@ if (!empty($this->model->schedule))
 ?>
                 <div class="control-group">
                     <div class="control-label">
-                        <label for="roomtypes"><?php echo JText::_('COM_THM_ORGANIZER_TYPE')?></label>
+                        <label for="roomTypes"><?php echo JText::_('COM_THM_ORGANIZER_TYPE')?></label>
                     </div>
                     <div class="controls">
-                        <?php echo $this->roomtypesSelectBox; ?>
+                        <?php echo $this->roomTypesSelectBox; ?>
                     </div>
                 </div>
                 <div class="control-group">

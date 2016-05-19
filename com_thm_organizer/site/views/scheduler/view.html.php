@@ -278,10 +278,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
     {
         $periodsEmpty = empty($schedule->periods);
         $fieldsEmpty = empty($schedule->fields);
-        $roomTypesEmpty = empty($schedule->roomtypes);
-
-        // Lessontypes was renamed to methods, but old json schedules will still have the lessontypes index
-        $methodsEmpty = (empty($schedule->methods) AND empty($schedule->lessontypes));
+        $methodsEmpty = empty($schedule->methods);
         $degreesEmpty = empty($schedule->degrees);
         $roomsEmpty = empty($schedule->rooms);
         $subjectsEmpty = empty($schedule->subjects);
@@ -290,7 +287,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $calendarEmpty = empty($schedule->calendar);
         $lessonsEmpty = empty($schedule->lessons);
 
-        return !($periodsEmpty OR $fieldsEmpty OR $roomTypesEmpty OR $methodsEmpty OR $degreesEmpty OR $roomsEmpty
+        return !($periodsEmpty OR $fieldsEmpty OR $methodsEmpty OR $degreesEmpty OR $roomsEmpty
             OR $subjectsEmpty OR $teachersEmpty OR $poolsEmpty OR $calendarEmpty OR $lessonsEmpty);
     }
 

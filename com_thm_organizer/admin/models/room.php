@@ -613,7 +613,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
     private function validateType(&$roomNode, $roomID, &$warningString)
     {
         $descriptionID = str_replace('DS_', '', trim((string) $roomNode->room_description[0]['id']));
-        $invalidDescription = (empty($descriptionID) OR empty($this->_scheduleModel->schedule->roomtypes->$descriptionID));
+        $invalidDescription = (empty($descriptionID) OR empty($this->_scheduleModel->schedule->room_types->$descriptionID));
         if ($invalidDescription)
         {
             $warningString .= empty($warningString)? '' : ', ';
@@ -624,6 +624,6 @@ class THM_OrganizerModelRoom extends JModelLegacy
 
         $this->_scheduleModel->schedule->rooms->$roomID->description = $descriptionID;
         $this->_scheduleModel->schedule->rooms->$roomID->typeID
-            = $this->_scheduleModel->schedule->roomtypes->$descriptionID->id;
+            = $this->_scheduleModel->schedule->room_types->$descriptionID->id;
     }
 }

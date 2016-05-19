@@ -61,7 +61,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
             if ($this->model->type == ROOM)
             {
                 $this->makeResourceSelectBox('rooms');
-                $this->makeResourceSelectBox('roomtypes');
+                $this->makeResourceSelectBox('roomTypes');
             }
             if ($this->model->type == TEACHER)
             {
