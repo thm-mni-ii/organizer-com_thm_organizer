@@ -170,32 +170,35 @@ class THM_OrganizerModelPool extends JModelLegacy
         $this->_scheduleModel->schedule->pools->$poolID->name = $poolID;
         $this->_scheduleModel->schedule->pools->$poolID->localUntisID = str_replace('CL_', '', trim((string) $poolNode[0]['id']));
 
-        $longname = trim((string) $poolNode->longname);
-        if (empty($longname))
+        $longName = trim((string) $poolNode->longname);
+        if (empty($longName))
         {
             $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING', $poolID);
             return;
         }
 
-        $this->_scheduleModel->schedule->pools->$poolID->longname = $poolID;
-
-        $degreeID = $this->validateDegree($poolNode, $longname, $poolID);
-        if (empty($degreeID))
+        $restriction = trim((string) $poolNode->classlevel);
+        if (empty($restriction))
         {
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_NODE_NAME', $poolID);
             return;
         }
 
-        $this->_scheduleModel->schedule->pools->$poolID->degree = $degreeID;
-
-        $warningString = '';
-        $this->validateRestriction($poolNode, $poolID, $warningString);
-        $this->validateField($poolNode, $poolID, $warningString);
-
-        if (!empty($warningString))
+        $degreeID = str_replace('DP_', '', trim((string) $poolNode->class_department[0]['id']));
+        if (empty($degreeID))
         {
-            $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_PROPERTY_MISSING', $longname, $poolID, $warningString);
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING', $longName, $poolID);
+            return false;
         }
+        elseif (empty($this->_scheduleModel->schedule->degrees->$degreeID))
+        {
+            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING', $longName, $poolID, $degreeID);
+            return false;
+        }
+
+        $this->_scheduleModel->schedule->pools->$poolID->longname = $poolID;
+        $this->_scheduleModel->schedule->pools->$poolID->restriction = $restriction;
+        $this->_scheduleModel->schedule->pools->$poolID->degree = $degreeID;
 
         $grid = (string) $poolNode->timegrid;
         $this->_scheduleModel->schedule->pools->$poolID->grid = empty($grid)? 'Haupt-Zeitraster' : $grid;
@@ -224,73 +227,5 @@ class THM_OrganizerModelPool extends JModelLegacy
         }
 
         return $gpuntisID;
-    }
-
-    /**
-     * Validates the pools's degree
-     * 
-     * @param   object  &$poolNode  the pool node object
-     * @param   string  $longname   the name of the pool
-     * @param   string  $poolID     the pool's id
-     * 
-     * @return  mixed  string longname if valid, otherwise false
-     */
-    private function validateDegree(&$poolNode, $longname, $poolID)
-    {
-        $degreeID = str_replace('DP_', '', trim((string) $poolNode->class_department[0]['id']));
-        if (empty($degreeID))
-        {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING', $longname, $poolID);
-            return false;
-        }
-        elseif (empty($this->_scheduleModel->schedule->degrees->$degreeID))
-        {
-            $this->_scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING', $longname, $poolID, $degreeID);
-            return false;
-        }
-
-        return $degreeID;
-    }
-
-    /**
-     * Validates the pool's restriction (classlevel) attribute
-     * 
-     * @param   object  &$poolNode       the pool node object
-     * @param   string  $poolID          the pool's id
-     * @param   string  &$warningString  a string listing inconsistent fields
-     * 
-     * @return  void
-     */
-    private function validateRestriction(&$poolNode, $poolID, &$warningString)
-    {
-        $restriction = trim((string) $poolNode->classlevel);
-        if (empty($restriction))
-        {
-            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME');
-        }
-
-        $this->_scheduleModel->schedule->pools->$poolID->restriction = empty($restriction)? '' : $restriction;
-    }
-
-    /**
-     * Validates the pool's field (description) attribute
-     * 
-     * @param   object  &$poolNode       the pool node object
-     * @param   string  $poolID          the pool's id
-     * @param   string  &$warningString  a string listing inconsistent fields
-     * 
-     * @return  void
-     */
-    private function validateField(&$poolNode, $poolID, &$warningString)
-    {
-        $descriptionID = str_replace('DS_', '', trim((string) $poolNode->class_description[0]['id']));
-        if (empty($descriptionID)
-         OR empty($this->_scheduleModel->schedule->fields->$descriptionID))
-        {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
-        }
-
-        $this->_scheduleModel->schedule->pools->$poolID->description = empty($descriptionID)? '' : $descriptionID;
     }
 }

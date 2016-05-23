@@ -57,500 +57,210 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public $refSchedule = null;
 
     /**
-     * saves a schedule in the database for later use
+     * Activates the selected schedule
      *
-     * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
-     *                                 ['errors']      critical data inconsistencies
-     *                                 ['warnings']    minor data inconsistencies
+     * @param   int  $scheduleID  the explicit id of the schedule to activate
+     *
+     * @return  true on success, otherwise false
      */
-    public function upload()
+    public function activate($scheduleID = 0)
     {
-        $statusReport = $this->validate();
-
-        if (!empty($this->scheduleErrors))
+        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+        if (empty($scheduleID))
         {
-            return $statusReport;
+            $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+            if (empty($scheduleIDs))
+            {
+                return true;
+            }
+
+            $scheduleID = $scheduleIDs[0];
         }
+
+        $scheduleExists = $scheduleRow->load($scheduleID);
+        if (!$scheduleExists)
+        {
+            return true;
+        }
+
+        $schedule = json_decode($scheduleRow->schedule);
+        $this->sanitizeSchedule($schedule);
+        $scheduleRow->schedule = json_encode($schedule);
+        $scheduleRow->active = 1;
 
         $this->_db->transactionStart();
 
+        $zeroQuery = $this->_db->getQuery(true);
+        $zeroQuery->update('#__thm_organizer_schedules');
+        $zeroQuery->set("active = '0'");
+        $zeroQuery->where("plan_name = '$scheduleRow->plan_name'");
+        $this->_db->setQuery((string) $zeroQuery);
         try
         {
-            $this->saveFields();
-            $this->saveSubjectFields();
-            $this->saveTeacherFields();
-            $this->saveTeachers();
-            $this->saveRooms();
-            $this->setReference();
-            $statusReport['scheduleID'] = $this->saveSchedule();
-            $this->_db->transactionCommit();
+            $this->_db->execute();
         }
         catch (Exception $exception)
         {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             $this->_db->transactionRollback();
+            return false;
         }
 
-        return $statusReport;
-    }
-
-    /**
-     * Checks a given schedule in gp-untis xml format for data completeness and
-     * consistency and gives it basic structure
-     *
-     * @return  array  array of strings listing inconsistencies empty if none
-     *                 were found
-     */
-    public function validate()
-    {
-        $input = JFactory::getApplication()->input;
-        $formFiles = $input->files->get('jform', array(), 'array');
-        $file = $formFiles['file'];
-        $xmlSchedule = simplexml_load_file($file['tmp_name']);
-
-        $this->schedule         = new stdClass;
-        $this->scheduleErrors   = array();
-        $this->scheduleWarnings = array();
-
-        $formData = $input->get('jform', array(), 'array');
-        $rooms_required = isset($formData['rooms_required']);
-        $this->_teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
-
-        // General node
-        // Creation Date & Time
-        $creationDate = trim((string) $xmlSchedule[0]['date']);
-        $this->validateDateAttribute('creationdate', $creationDate, 'CREATION_DATE', 'error');
-        $creationTime = trim((string) $xmlSchedule[0]['time']);
-        $this->validateTextAttribute('creationtime', $creationTime, 'CREATION_TIME', 'error');
-
-        // School year dates
-        $syStartDate = trim((string) $xmlSchedule->general->schoolyearbegindate);
-        $this->validateDateAttribute('startdate', $syStartDate, 'SCHOOL_YEAR_START_DATE', 'error');
-        $syEndDate = trim((string) $xmlSchedule->general->schoolyearenddate);
-        $this->validateDateAttribute('enddate', $syEndDate, 'SCHOOL_YEAR_END_DATE', 'error');
-
-        // Organizational Data
-        $departmentname = trim((string) $xmlSchedule->general->header1);
-        $this->validateTextAttribute('departmentname', $departmentname, 'ORGANIZATION', 'error', '/[\#\;]/');
-        $semestername = trim((string) $xmlSchedule->general->footer);
-        $this->validateTextAttribute('semestername', $semestername, 'TERM_NAME', 'error', '/[\#\;]/');
-
-        // Term start & end dates
-        $startDate = trim((string) $xmlSchedule->general->termbegindate);
-        $this->validateDateAttribute('termStartDate', $startDate, 'TERM_START_DATE');
-        $endDate = trim((string) $xmlSchedule->general->termenddate);
-        $this->validateDateAttribute('termEndDate', $endDate, 'TERM_END_DATE');
-
-        // Checks if term and school year dates are consistent
-        $syStartTime = strtotime($syStartDate);
-        $syEndTime = strtotime($syEndDate);
-        $termStartDT = strtotime($startDate);
-        $termEndDT = strtotime($endDate);
-        if ($termStartDT < $syStartTime OR $termEndDT > $syEndTime OR $termStartDT >= $termEndDT)
+        $success = $scheduleRow->store();
+        if ($success)
         {
-            $this->scheduleErrors[] = JText::sprintf(
-                  'COM_THM_ORGANIZER_ERROR_DATES_INCONSISTENT',
-                  date('d.m.Y', $syStartDate),
-                  date('d.m.Y', $syEndDate),
-                  date('d.m.Y', $termStartDT),
-                  date('d.m.Y', $termEndDT)
-             );
-        }
-
-        $this->schedule->periods = new stdClass;
-        $this->validateResourceNode('timeperiods', 'Period', $xmlSchedule, 'PERIODS');
-
-        $this->schedule->fields = new stdClass;
-        $this->schedule->room_types = new stdClass;
-        $this->schedule->methods = new stdClass;
-        $this->validateResourceNode('descriptions', 'Description', $xmlSchedule, 'DESCRIPTIONS');
-
-        // Departments node holds degree names
-        $this->schedule->degrees = new stdClass;
-        $this->validateResourceNode('departments', 'Degree', $xmlSchedule, 'PROGRAMS');
-
-        $this->schedule->rooms = new stdClass;
-        $this->validateRoomsNode($xmlSchedule);
-
-        // No longer needed after room validation
-        unset($this->schedule->room_types);
-
-        $this->schedule->subjects = new stdClass;
-        $this->validateResourceNode('subjects', 'subject', $xmlSchedule, 'SUBJECTS', true);
-
-        $this->schedule->teachers = new stdClass;
-        $this->validateResourceNode('teachers', 'teacher', $xmlSchedule, 'TEACHERS', true);
-
-        $this->schedule->pools = new stdClass;
-        $this->validateResourceNode('classes', 'pool', $xmlSchedule, 'POOLS', true);
-
-        $this->initializeCalendar($syStartTime, $syEndTime);
-        $this->schedule->lessons = new stdClass;
-        if (empty($xmlSchedule->lessons))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_LESSONS_MISSING");
+            $this->_db->transactionCommit();
+            return true;
         }
         else
         {
-            $lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
-            foreach ($xmlSchedule->lessons->children() as $lessonNode)
-            {
-                $lessonModel->validate($lessonNode);
-            }
-        }
-
-        return $this->makeStatusReport();
-    }
-
-    /**
-     * Validates a date attribute
-     *
-     * @param   string  $name      the attribute name
-     * @param   string  $value     the attribute value
-     * @param   string  $constant  the unique text constant fragment
-     * @param   string  $severity  the severity of the item being inspected
-     *
-     * @return  void
-     */
-    public function validateDateAttribute($name, $value, $constant, $severity = 'error')
-    {
-        if (empty($value))
-        {
-            if ($severity == 'error')
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
-                return;
-            }
-
-            if ($severity == 'warning')
-            {
-                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
-            }
-        }
-        $this->schedule->$name = date('Y-m-d', strtotime($value));
-        return;
-    }
-
-    /**
-     * Validates a text attribute
-     *
-     * @param   string  $name      the attribute name
-     * @param   string  $value     the attribute value
-     * @param   string  $constant  the unique text constant fragment
-     * @param   string  $severity  the severity of the item being inspected
-     * @param   string  $regex     the regex to check the text against
-     *
-     * @return  void
-     */
-    private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
-    {
-        if (empty($value))
-        {
-            if ($severity == 'error')
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
-                return;
-            }
-
-            if ($severity == 'warning')
-            {
-                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
-            }
-        }
-
-        if (!empty($regex) AND preg_match($regex, $value))
-        {
-            if ($severity == 'error')
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
-                return;
-            }
-
-            if ($severity == 'warning')
-            {
-                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
-            }
-        }
-        $this->schedule->$name = $value;
-        return;
-    }
-
-    /**
-     * Validates a resource node which has no external model
-     *
-     * @param   object  &$xmlObject    the xml object being validated
-     *
-     * @return  void
-     */
-    private function validateRoomsNode(&$xmlObject)
-    {
-        if (empty($xmlObject->rooms))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOMS_MISSING");
-            return;
-        }
-
-        $model = JModelLegacy::getInstance('room', 'THM_OrganizerModel');
-        foreach ($xmlObject->rooms->children() as $resourceNode)
-        {
-            $model->validate($this, $resourceNode);
-        }
-
-        return;
-    }
-
-    /**
-     * Validates a resource node which has no external model
-     *
-     * @param   string  $nodeName      the name of the node to be processed (external name)
-     * @param   string  $resourceName  the name of the resource to be processed (internal name)
-     * @param   object  &$xmlObject    the xml object being validated
-     * @param   string  $constant      the unique text constant fragment
-     * @param   bool    $external      if the validation is in an external model
-     *
-     * @return  void
-     */
-    private function validateResourceNode($nodeName, $resourceName, &$xmlObject, $constant, $external = false)
-    {
-        if (empty($xmlObject->$nodeName))
-        {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
-            return;
-        }
-
-        if ($external)
-        {
-            $model = JModelLegacy::getInstance($resourceName, 'THM_OrganizerModel');
-            foreach ($xmlObject->$nodeName->children() as $resourceNode)
-            {
-                $model->validate($this, $resourceNode);
-            }
-
-            return;
-        }
-
-        $function = "validate$resourceName";
-        foreach ($xmlObject->$nodeName->children() as $resourceNode)
-        {
-            $this->$function($resourceNode);
+            $this->_db->transactionRollback();
+            return false;
         }
     }
 
     /**
-     * Validates an individual period. (called dynamically from validateResourceNode) No longer creates a full store for
-     * each day as the grid is the same every day.
+     * Checks if the first selected schedule is active
      *
-     * @param   object  &$periodNode  a resource node (SimpleXML)
-     *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     * @return boolean true if the schedule is active otherwise false
      */
-    protected function validatePeriod(&$periodNode)
+    public function checkIfActive()
     {
-        // Not actually referenced but evinces data inconsistencies in Untis
-        $gpuntisID = trim((string) $periodNode[0]['id']);
-        if (empty($gpuntisID))
+        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+        if (!empty($scheduleIDs))
         {
-            $this->setPeriodsError();
-            return;
+            $scheduleID = $scheduleIDs[0];
+            $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+            $schedule->load($scheduleID);
+            return $schedule->active;
         }
 
-        // Not actually referenced but evinces data inconsistencies in Untis
-        $day = (int) $periodNode->day;
-        if (empty($day))
-        {
-            $this->setPeriodsError();
-            return;
-        }
-
-        $period = (int) $periodNode->period;
-        if (empty($period))
-        {
-            $this->setPeriodsError();
-            return;
-        }
-
-        $starttime = trim((string) $periodNode->starttime);
-        if (empty($starttime))
-        {
-            $this->setPeriodsError();
-            return;
-        }
-
-        $endtime = trim((string) $periodNode->endtime);
-        if (empty($endtime))
-        {
-            $this->setPeriodsError();
-            return;
-        }
-
-        $grid = (string) $periodNode->timegrid;
-
-        // For backward-compatibility a default grid name is set
-        if (empty($grid))
-        {
-            $grid = 'Haupt-Zeitraster';
-        }
-
-        // Set the grid if not already existent
-        if (empty($this->schedule->periods->$grid))
-        {
-            $this->schedule->periods->$grid = new stdClass;
-        }
-
-        $this->schedule->periods->$grid->$period = new stdClass;
-        $this->schedule->periods->$grid->$period->starttime = $starttime;
-        $this->schedule->periods->$grid->$period->endtime = $endtime;
+        return false;
     }
 
     /**
-     * Sets distinct error for inconsistent periods information
+     * Activates the selected schedule
      *
-     * @return  void  creates an error text for period/block validation
+     * @param   int  $scheduleID  the explicit id of the schedule to activate
+     *
+     * @return  true on success, otherwise false
      */
-    private function setPeriodsError()
+    public function deactivate($scheduleID)
     {
-        if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"), $this->scheduleErrors))
+        if (empty($scheduleID))
         {
-            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
-        }
-    }
-
-    /**
-     * Checks whether department nodes have the expected structure and required
-     * information. (called dynamically from validateResourceNode)
-     *
-     * @param   object  &$descriptionNode  the description node to be validated (SimpleXML)
-     *
-     * @return  void
-     *
-     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
-     */
-    private function validateDescription(&$descriptionNode)
-    {
-        $gpuntisID = trim((string) $descriptionNode[0]['id']);
-        if (empty($gpuntisID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING"), $this->scheduleErrors))
-            {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
-            }
-
-            return;
-        }
-
-        $descriptionID = str_replace('DS_', '', $gpuntisID);
-
-        $longname = trim((string) $descriptionNode->longname);
-        if (empty($longname))
-        {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING", $descriptionID);
-            return;
-        }
-
-        $type = trim((string) $descriptionNode->flags);
-        if (empty($type))
-        {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING", $longname, $descriptionID);
-            return;
-        }
-
-        switch ($type)
-        {
-            case 'f':
-            case 'F':
-                $this->schedule->fields->$descriptionID = new stdClass;
-                $this->schedule->fields->$descriptionID->gpuntisID = $gpuntisID;
-                $this->schedule->fields->$descriptionID->name = $longname;
-                break;
-            case 'r':
-            case 'R':
-                $typeID = $this->roomTypeExists($descriptionID);
-                if ($typeID)
-                {
-                    $this->schedule->room_types->$descriptionID = new stdClass;
-                    $this->schedule->room_types->$descriptionID->gpuntisID = $gpuntisID;
-                    $this->schedule->room_types->$descriptionID->name = $longname;
-                    $this->schedule->room_types->$descriptionID->id = $typeID;
-                }
-                break;
-            case 'u':
-            case 'U':
-                $this->schedule->methods->$descriptionID = new stdClass;
-                $this->schedule->methods->$descriptionID->gpuntisID = $gpuntisID;
-                $this->schedule->methods->$descriptionID->name = $longname;
-                break;
-        }
-    }
-
-    /**
-     * Checks whether the gpuntisID is already exists in the database
-     * 
-     * @param   string  $typeID  the gpuntis description id
-     * 
-     * @return  bool  true if the entry already exists, otherwise false
-     */
-    private function roomTypeExists($typeID)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select('id')->from('#__thm_organizer_room_types')->where("gpuntisID = '$typeID'");
-        $this->_db->setQuery((string) $query);
-
-        try
-        {
-            $exists = $this->_db->loadResult();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
             return false;
         }
 
-        if (empty($exists))
+        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+        $scheduleExists = $scheduleRow->load($scheduleID);
+        if (!$scheduleExists)
         {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_INVALID_ROOM_TYPE", $typeID);
             return false;
         }
 
-        return $exists;
+        $this->_db->transactionStart();
+        $scheduleRow->active = 0;
+        $success = $scheduleRow->store();
+        if ($success)
+        {
+            $this->_db->transactionCommit();
+            return true;
+        }
+        else
+        {
+            $this->_db->transactionRollback();
+            return false;
+        }
     }
 
     /**
-     * Checks whether department nodes have the expected structure and required
-     * information. (called dynamically from validateResourceNode)
+     * Deletes the selected schedules
      *
-     * @param   SimpleXMLNode  &$departmentNode  the department node to be validated
-     *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     * @return boolean true on successful deletion of all selected schedules
+     *                 otherwise false
      */
-    protected function validateDegree(&$departmentNode)
+    public function delete()
     {
-        $gpuntisID = trim((string) $departmentNode[0]['id']);
-        if (empty($gpuntisID))
+        $this->_db->transactionStart();
+        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+        foreach ($scheduleIDs as $scheduleID)
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING"), $this->scheduleErrors))
+            try
             {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING");
+                $success = $this->deleteSingle($scheduleID);
+            }
+            catch (Exception $exception)
+            {
+                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+                $this->_db->transactionRollback();
+                return false;
             }
 
-            return;
+            if (!$success)
+            {
+                $this->_db->transactionRollback();
+                return false;
+            }
         }
+        $this->_db->transactionCommit();
+        return true;
+    }
 
-        $degreeID = str_replace('DP_', '', $gpuntisID);
-        $this->schedule->degrees->$degreeID = new stdClass;
-        $this->schedule->degrees->$degreeID->gpuntisID = $gpuntisID;
+    /**
+     * Deletes a single schedule
+     *
+     * @param   int  $scheduleID  the id of the schedule to be deleted
+     *
+     * @return boolean true on success otherwise false
+     */
+    public function deleteSingle($scheduleID)
+    {
+        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+        $schedule->load($scheduleID);
+        return $schedule->delete();
+    }
 
-        $degreeName = (string) $departmentNode->longname;
-        if (!isset($degreeName))
+    /**
+     * Sets the schedule to be referenced against
+     *
+     * @return  mixed  object if successful, otherwise null
+     */
+    private function getReferenceSchedule()
+    {
+        $reference = JTable::getInstance('schedules', 'thm_organizerTable');
+        $referenceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+
+        // Entry by upload of new schedule
+        if (empty($referenceIDs))
         {
-            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING", $degreeID);
-            return;
+            if (empty($this->schedule))
+            {
+                return null;
+            }
+
+            $pullData = array();
+            $pullData['departmentname'] = $this->schedule->departmentname;
+            $pullData['semestername'] = $this->schedule->semestername;
+            $pullData['startdate'] = $this->schedule->startdate;
+            $pullData['enddate'] = $this->schedule->enddate;
+            $pullData['active'] = 1;
         }
 
-        $this->schedule->degrees->$degreeID->name = $degreeName;
+        // Entry through schedule manager
+        else
+        {
+            $pullData = $referenceIDs[0];
+        }
+
+        $referenceLoaded = $reference->load($pullData);
+
+        if ($referenceLoaded)
+        {
+            return $reference;
+        }
+
+        return null;
     }
 
     /**
@@ -615,6 +325,192 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
+     * Checks whether the gpuntisID is already exists in the database
+     *
+     * @param   string  $typeID  the gpuntis description id
+     *
+     * @return  bool  true if the entry already exists, otherwise false
+     */
+    private function roomTypeExists($typeID)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('id')->from('#__thm_organizer_room_types')->where("gpuntisID = '$typeID'");
+        $this->_db->setQuery((string) $query);
+
+        try
+        {
+            $exists = $this->_db->loadResult();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            return false;
+        }
+
+        if (empty($exists))
+        {
+            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_INVALID_ROOM_TYPE", $typeID);
+            return false;
+        }
+
+        return $exists;
+    }
+
+    /**
+     * sanitizes a given lesson property
+     *
+     * @param   array  &$property  the array holding information about the property
+     *
+     * @return void
+     */
+    private function sanitizeLessonProperty(&$property)
+    {
+        foreach ($property as $key => $value)
+        {
+            switch ($value)
+            {
+                case 'new':
+                    $property->$key = '';
+                    continue;
+                case '':
+                    continue;
+                case 'removed':
+                    unset($property->$key);
+                    continue;
+            }
+        }
+    }
+
+    /**
+     * removes delta information from a schedule
+     *
+     * @param   array  &$lessons  the currently active schedule lessons
+     *
+     * @return void
+     */
+    private function sanitizeLessons(&$lessons)
+    {
+        foreach ($lessons as $lessonKey => $lesson)
+        {
+            if (isset($lesson->delta))
+            {
+                switch ($lesson->delta)
+                {
+                    case 'new':
+                        unset($lessons->$lessonKey->delta);
+                        continue;
+                    case 'removed':
+                        unset($lessons->$lessonKey);
+                        continue;
+                    case 'changed':
+                        $this->sanitizeLessonProperty($lessons->$lessonKey->subjects);
+                        $this->sanitizeLessonProperty($lessons->$lessonKey->teachers);
+                        $this->sanitizeLessonProperty($lessons->$lessonKey->pools);
+                        unset($lessons->$lessonKey->delta);
+                        continue;
+                }
+            }
+        }
+    }
+
+    /**
+     * sanitizes the calendar array of delta information
+     *
+     * @param   array  &$calendar  the calendar data to be sanitized
+     *
+     * @return void
+     */
+    private function sanitizeCalendar(&$calendar)
+    {
+        foreach ($calendar as $date => $periods)
+        {
+            if (!is_object($calendar->$date) OR empty($periods))
+            {
+                continue;
+            }
+
+            foreach ($periods as $period => $lessons)
+            {
+                if (empty($lessons))
+                {
+                    continue;
+                }
+
+                foreach ($lessons as $lesson => $rooms)
+                {
+                    if (empty($calendar->$date->$period->$lesson->delta))
+                    {
+                        continue;
+                    }
+
+                    switch ($calendar->$date->$period->$lesson->delta)
+                    {
+                        case 'new':
+                            unset($calendar->$date->$period->$lesson->delta);
+                            break;
+                        case 'removed':
+                            unset($calendar->$date->$period->$lesson);
+                            break;
+                        case 'changed':
+                            foreach ($rooms as $roomID => $delta)
+                            {
+                                if ($roomID == 'delta')
+                                {
+                                    continue;
+                                }
+
+                                switch ($delta)
+                                {
+                                    case 'new':
+                                        $calendar->$date->$period->$lesson->$roomID = '';
+                                        continue;
+                                    case '':
+                                        continue;
+                                    case 'removed':
+                                        unset($calendar->$date->$period->$lesson->$roomID);
+                                        continue;
+                                }
+                            }
+                            unset($calendar->$date->$period->$lesson->delta);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * removes delta information from a schedule
+     *
+     * @param   array  &$schedule  the currently active schedule
+     *
+     * @return void
+     */
+    public function sanitizeSchedule(&$schedule)
+    {
+        $this->sanitizeLessons($schedule->lessons);
+        $this->sanitizeCalendar($schedule->calendar);
+        if (isset($schedule->referencedate))
+        {
+            unset($schedule->referencedate);
+        }
+    }
+
+    /**
+     * Saves the comment for an uploaded schedule
+     *
+     * @return boolean true on success otherwise false
+     */
+    public function saveComment()
+    {
+        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
+        $data['description'] = $this->_db->escape($data['description']);
+        unset($data->startdate, $data->enddate, $data->creationdate);
+        $table = JTable::getInstance('schedules', 'thm_organizerTable');
+        return $table->save($data);
+    }
+
+    /**
      * Persists teacher field information from the uploaded schedule
      *
      * @return void
@@ -630,6 +526,58 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $data['field'] = $field->name;
             $row->save($data);
         }
+    }
+
+    /**
+     * Persists room information from the uploaded schedule
+     *
+     * @return void
+     */
+    private function saveRooms()
+    {
+        foreach ($this->schedule->rooms as $room)
+        {
+            $pullData = array();
+            $pullData['gpuntisID'] = $room->gpuntisID;
+            $roomRow = JTable::getInstance('rooms', 'thm_organizerTable');
+            $roomRow->load($pullData);
+            $roomRow->save($room);
+        }
+    }
+
+    /**
+     * Persists the schedule to be uploaded
+     *
+     * @return  mixed  integer scheduleID on success, otherwise false
+     */
+    private function saveSchedule()
+    {
+        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+
+        $data = array();
+        $data['departmentID'] = $formData['departmentID'];
+        $departmentName = $this->schedule->departmentname;
+        $semesterName = $this->schedule->semestername;
+        $shortYear = substr($this->schedule->termEndDate, 2, 2);
+        $planName = "$departmentName-$semesterName-$shortYear";
+        $data['plan_name'] = $planName;
+        $data['departmentname'] = $departmentName;
+        $data['semestername'] = $semesterName;
+        $data['creationdate'] = $this->schedule->creationdate;
+        $data['creationtime'] = $this->schedule->creationtime;
+        $data['description'] = $this->_db->escape($formData['description']);
+        $data['schedule'] = json_encode($this->schedule);
+        $data['startdate'] = $this->schedule->startdate;
+        $data['enddate'] = $this->schedule->enddate;
+        $data['term_startdate'] = $this->schedule->termStartDate;
+        $data['term_enddate'] = $this->schedule->termEndDate;
+        $data['active'] = 1;
+        $data['term_startdate'] = $this->schedule->termStartDate;
+        $data['term_enddate'] = $this->schedule->termEndDate;
+
+        $row = JTable::getInstance('schedules', 'thm_organizerTable');
+        $row->save($data);
+        return $row->id;
     }
 
     /**
@@ -736,464 +684,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * Persists room information from the uploaded schedule
-     *
-     * @return void
-     */
-    private function saveRooms()
-    {
-        foreach ($this->schedule->rooms as $room)
-        {
-            $pullData = array();
-            $pullData['gpuntisID'] = $room->gpuntisID;
-            $roomRow = JTable::getInstance('rooms', 'thm_organizerTable');
-            $roomRow->load($pullData);
-            $roomRow->save($room);
-        }
-    }
-
-    /**
-     * Creates the delta to the chosen reference schedule
-     *
-     * @return boolean true on successful delta creation, otherwise false
-     */
-    public function setReference()
-    {
-        $reference = $this->getReferenceSchedule();
-        if (empty($reference->id))
-        {
-            return true;
-        }
-
-        $this->refSchedule = json_decode($reference->schedule);
-
-        $actual = JTable::getInstance('schedules', 'thm_organizerTable');
-        if (empty($this->schedule))
-        {
-            $pullData = array(
-                'departmentname' => $this->refSchedule->departmentname,
-                'semestername' => $this->refSchedule->semestername,
-                'startdate' => $this->refSchedule->startdate,
-                'enddate' => $this->refSchedule->enddate,
-                'active' => 1
-            );
-            $actualExists = $actual->load($pullData);
-            if (!$actualExists)
-            {
-                return false;
-            }
-
-            $this->schedule = json_decode($actual->schedule);
-        }
-
-        $this->sanitizeSchedule($this->refSchedule);
-        $this->sanitizeSchedule($this->schedule);
-
-        // Function called from controller
-        if (!empty($actual->id))
-        {
-            $this->_db->transactionStart();
-        }
-
-        $referenceDate = $reference->creationdate;
-        $reference->set('schedule', json_encode($this->refSchedule));
-        $reference->set('active', 0);
-        $refSuccess = $reference->store();
-        if (!$refSuccess)
-        {
-            // Function called from controller
-            if (!empty($actual->id))
-            {
-                $this->_db->transactionRollback();
-            }
-
-            return false;
-        }
-
-        unset($reference);
-
-        $this->schedule->referencedate = $referenceDate;
-        $this->setLessonReference($this->schedule->lessons, $this->refSchedule->lessons);
-        $this->setCalendarReference($this->schedule->calendar, $this->refSchedule->calendar);
-
-        // Function called from controller
-        if (!empty($actual->id))
-        {
-            $actual->set('schedule', json_encode($this->schedule));
-            $actualSuccess = $actual->store();
-            if (!$actualSuccess)
-            {
-                $this->_db->transactionRollback();
-                return false;
-            }
-
-            $this->_db->transactionCommit();
-        }
-
-        return true;
-    }
-
-    /**
-     * Sets the schedule to be referenced against
-     *
-     * @return  mixed  object if successful, otherwise null
-     */
-    private function getReferenceSchedule()
-    {
-        $reference = JTable::getInstance('schedules', 'thm_organizerTable');
-        $referenceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-
-        // Entry by upload of new schedule
-        if (empty($referenceIDs))
-        {
-            if (empty($this->schedule))
-            {
-                return null;
-            }
-
-            $pullData = array();
-            $pullData['departmentname'] = $this->schedule->departmentname;
-            $pullData['semestername'] = $this->schedule->semestername;
-            $pullData['startdate'] = $this->schedule->startdate;
-            $pullData['enddate'] = $this->schedule->enddate;
-            $pullData['active'] = 1;
-        }
-
-        // Entry through schedule manager
-        else
-        {
-            $pullData = $referenceIDs[0];
-        }
-
-        $referenceLoaded = $reference->load($pullData);
-
-        if ($referenceLoaded)
-        {
-            return $reference;
-        }
-
-        return null;
-    }
-
-    /**
-     * Activates the selected schedule
-     *
-     * @param   int  $scheduleID  the explicit id of the schedule to activate
-     *
-     * @return  true on success, otherwise false
-     */
-    public function activate($scheduleID = 0)
-    {
-        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-        if (empty($scheduleID))
-        {
-            $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-            if (empty($scheduleIDs))
-            {
-                return true;
-            }
-
-            $scheduleID = $scheduleIDs[0];
-        }
-
-        $scheduleExists = $scheduleRow->load($scheduleID);
-        if (!$scheduleExists)
-        {
-            return true;
-        }
-
-        $schedule = json_decode($scheduleRow->schedule);
-        $this->sanitizeSchedule($schedule);
-        $scheduleRow->schedule = json_encode($schedule);
-        $scheduleRow->active = 1;
-
-        $this->_db->transactionStart();
-
-        $zeroQuery = $this->_db->getQuery(true);
-        $zeroQuery->update('#__thm_organizer_schedules');
-        $zeroQuery->set("active = '0'");
-        $zeroQuery->where("plan_name = '$scheduleRow->plan_name'");
-        $this->_db->setQuery((string) $zeroQuery);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exception)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            $this->_db->transactionRollback();
-            return false;
-        }
-
-        $success = $scheduleRow->store();
-        if ($success)
-        {
-            $this->_db->transactionCommit();
-            return true;
-        }
-        else
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
-    }
-
-    /**
-     * Activates the selected schedule
-     *
-     * @param   int  $scheduleID  the explicit id of the schedule to activate
-     *
-     * @return  true on success, otherwise false
-     */
-    public function deactivate($scheduleID)
-    {
-        if (empty($scheduleID))
-        {
-            return false;
-        }
-
-        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-        $scheduleExists = $scheduleRow->load($scheduleID);
-        if (!$scheduleExists)
-        {
-            return false;
-        }
-
-        $this->_db->transactionStart();
-        $scheduleRow->active = 0;
-        $success = $scheduleRow->store();
-        if ($success)
-        {
-            $this->_db->transactionCommit();
-            return true;
-        }
-        else
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
-    }
-
-    /**
-     * removes delta information from a schedule
-     *
-     * @param   array  &$schedule  the currently active schedule
-     *
-     * @return void
-     */
-    public function sanitizeSchedule(&$schedule)
-    {
-        $this->sanitizeLessons($schedule->lessons);
-        $this->sanitizeCalendar($schedule->calendar);
-        if (isset($schedule->referencedate))
-        {
-            unset($schedule->referencedate);
-        }
-    }
-
-    /**
-     * removes delta information from a schedule
-     *
-     * @param   array  &$lessons  the currently active schedule lessons
-     *
-     * @return void
-     */
-    private function sanitizeLessons(&$lessons)
-    {
-        foreach ($lessons as $lessonKey => $lesson)
-        {
-            if (isset($lesson->delta))
-            {
-                switch ($lesson->delta)
-                {
-                    case 'new':
-                        unset($lessons->$lessonKey->delta);
-                    continue;
-                    case 'removed':
-                        unset($lessons->$lessonKey);
-                    continue;
-                    case 'changed':
-                        $this->sanitizeLessonProperty($lessons->$lessonKey->subjects);
-                        $this->sanitizeLessonProperty($lessons->$lessonKey->teachers);
-                        $this->sanitizeLessonProperty($lessons->$lessonKey->pools);
-                        unset($lessons->$lessonKey->delta);
-                    continue;
-                }
-            }
-        }
-    }
-
-    /**
-     * sanitizes a given lesson property
-     *
-     * @param   array  &$property  the array holding information about the property
-     *
-     * @return void
-     */
-    private function sanitizeLessonProperty(&$property)
-    {
-        foreach ($property as $key => $value)
-        {
-            switch ($value)
-            {
-                case 'new':
-                    $property->$key = '';
-                continue;
-                case '':
-                continue;
-                case 'removed':
-                    unset($property->$key);
-                continue;
-            }
-        }
-    }
-
-    /**
-     * sanitizes the calendar array of delta information
-     *
-     * @param   array  &$calendar  the calendar data to be sanitized
-     *
-     * @return void
-     */
-    private function sanitizeCalendar(&$calendar)
-    {
-        foreach ($calendar as $date => $periods)
-        {
-            if (!is_object($calendar->$date) OR empty($periods))
-            {
-                continue;
-            }
-
-            foreach ($periods as $period => $lessons)
-            {
-                if (empty($lessons))
-                {
-                    continue;
-                }
-
-                foreach ($lessons as $lesson => $rooms)
-                {
-                    if (empty($calendar->$date->$period->$lesson->delta))
-                    {
-                        continue;
-                    }
-
-                    switch ($calendar->$date->$period->$lesson->delta)
-                    {
-                        case 'new':
-                            unset($calendar->$date->$period->$lesson->delta);
-                            break;
-                        case 'removed':
-                            unset($calendar->$date->$period->$lesson);
-                            break;
-                        case 'changed':
-                            foreach ($rooms as $roomID => $delta)
-                            {
-                                if ($roomID == 'delta')
-                                {
-                                    continue;
-                                }
-
-                                switch ($delta)
-                                {
-                                    case 'new':
-                                        $calendar->$date->$period->$lesson->$roomID = '';
-                                    continue;
-                                    case '':
-                                    continue;
-                                    case 'removed':
-                                        unset($calendar->$date->$period->$lesson->$roomID);
-                                    continue;
-                                }
-                            }
-                            unset($calendar->$date->$period->$lesson->delta);
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Examines the lessons of the new and old schedules to determine the delta
-     *
-     * @param   array  $lessons     the lessons of the new schedule
-     * @param   array  $refLessons  the lessons of the old schedule
-     *
-     * @return void
-     */
-    private function setLessonReference($lessons, $refLessons)
-    {
-        // Check for new lesson data
-        foreach ($lessons as $lessonID => $lesson)
-        {
-            // Lesson only exists in the new schedule
-            if (!isset($refLessons->$lessonID))
-            {
-                $lessons->$lessonID->delta = 'new';
-                continue;
-            }
-
-            // Lesson exists in both schedules -> compare properties
-            $subjectChanges = $this->setPropertyReference($lessons->$lessonID->subjects, $refLessons->$lessonID->subjects);
-            $teacherChanges = $this->setPropertyReference($lessons->$lessonID->teachers, $refLessons->$lessonID->teachers);
-            $moduleChanges = $this->setPropertyReference($lessons->$lessonID->pools, $refLessons->$lessonID->pools);
-
-            // Property indexes are not identical
-            if ($subjectChanges or $teacherChanges or $moduleChanges)
-            {
-                $lessons->$lessonID->delta = 'changed';
-            }
-        }
-
-        // Check for old lesson data
-        foreach ($refLessons as $lessonID => $lesson)
-        {
-            // Lesson only exists in old schedule
-            if (!isset($lessons->$lessonID))
-            {
-                $lessons->$lessonID = $refLessons->$lessonID;
-                $lessons->$lessonID->delta = 'removed';
-                continue;
-            }
-        }
-    }
-
-    /**
-     * examines a property of both schedules and creates a delta according to
-     * property indexes
-     *
-     * @param   array  &$property     the property of the new lesson to be examined
-     * @param   array  &$refProperty  the property of the old lesson to be examined
-     *
-     * @return boolean $changesExist true if a property index is not in both sets
-     */
-    private function setPropertyReference(&$property, &$refProperty)
-    {
-        $changesExist = false;
-        foreach ($property as $propertyID => $delta)
-        {
-            if (!isset($refProperty->$propertyID))
-            {
-                $property->$propertyID = 'new';
-                $changesExist = true;
-                continue;
-            }
-        }
-        foreach ($refProperty as $propertyID => $delta)
-        {
-            if (!isset($property->$propertyID))
-            {
-                $property->$propertyID = 'removed';
-                $changesExist = true;
-                continue;
-            }
-        }
-
-        return $changesExist;
-    }
-
-    /**
      * Examines the calendars of the actual and the reference schedules to
      * determine changes
      *
@@ -1294,122 +784,180 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * Persists the schedule to be uploaded
+     * Examines the lessons of the new and old schedules to determine the delta
      *
-     * @return  mixed  integer scheduleID on success, otherwise false
-     */
-    private function saveSchedule()
-    {
-        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
-
-        $data = array();
-        $data['departmentID'] = $formData['departmentID'];
-        $departmentName = $this->schedule->departmentname;
-        $semesterName = $this->schedule->semestername;
-        $shortYear = substr($this->schedule->termEndDate, 2, 2);
-        $planName = "$departmentName-$semesterName-$shortYear";
-        $data['plan_name'] = $planName;
-        $data['departmentname'] = $departmentName;
-        $data['semestername'] = $semesterName;
-        $data['creationdate'] = $this->schedule->creationdate;
-        $data['creationtime'] = $this->schedule->creationtime;
-        $data['description'] = $this->_db->escape($formData['description']);
-        $data['schedule'] = json_encode($this->schedule);
-        $data['startdate'] = $this->schedule->startdate;
-        $data['enddate'] = $this->schedule->enddate;
-        $data['term_startdate'] = $this->schedule->termStartDate;
-        $data['term_enddate'] = $this->schedule->termEndDate;
-        $data['active'] = 1;
-        $data['term_startdate'] = $this->schedule->termStartDate;
-        $data['term_enddate'] = $this->schedule->termEndDate;
-
-        $row = JTable::getInstance('schedules', 'thm_organizerTable');
-        $row->save($data);
-        return $row->id;
-    }
-
-    /**
-     * Saves the comment for an uploaded schedule
+     * @param   array  $lessons     the lessons of the new schedule
+     * @param   array  $refLessons  the lessons of the old schedule
      *
-     * @return boolean true on success otherwise false
+     * @return void
      */
-    public function saveComment()
+    private function setLessonReference($lessons, $refLessons)
     {
-        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
-        $data['description'] = $this->_db->escape($data['description']);
-        unset($data->startdate, $data->enddate, $data->creationdate);
-        $table = JTable::getInstance('schedules', 'thm_organizerTable');
-        return $table->save($data);
-    }
-
-    /**
-     * Checks if the first selected schedule is active
-     *
-     * @return boolean true if the schedule is active otherwise false
-     */
-    public function checkIfActive()
-    {
-        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-        if (!empty($scheduleIDs))
+        // Check for new lesson data
+        foreach ($lessons as $lessonID => $lesson)
         {
-            $scheduleID = $scheduleIDs[0];
-            $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
-            $schedule->load($scheduleID);
-            return $schedule->active;
+            // Lesson only exists in the new schedule
+            if (!isset($refLessons->$lessonID))
+            {
+                $lessons->$lessonID->delta = 'new';
+                continue;
+            }
+
+            // Lesson exists in both schedules -> compare properties
+            $subjectChanges = $this->setPropertyReference($lessons->$lessonID->subjects, $refLessons->$lessonID->subjects);
+            $teacherChanges = $this->setPropertyReference($lessons->$lessonID->teachers, $refLessons->$lessonID->teachers);
+            $moduleChanges = $this->setPropertyReference($lessons->$lessonID->pools, $refLessons->$lessonID->pools);
+
+            // Property indexes are not identical
+            if ($subjectChanges or $teacherChanges or $moduleChanges)
+            {
+                $lessons->$lessonID->delta = 'changed';
+            }
         }
 
-        return false;
+        // Check for old lesson data
+        foreach ($refLessons as $lessonID => $lesson)
+        {
+            // Lesson only exists in old schedule
+            if (!isset($lessons->$lessonID))
+            {
+                $lessons->$lessonID = $refLessons->$lessonID;
+                $lessons->$lessonID->delta = 'removed';
+                continue;
+            }
+        }
     }
 
     /**
-     * Deletes the selected schedules
+     * Sets distinct error for inconsistent periods information
      *
-     * @return boolean true on successful deletion of all selected schedules
-     *                 otherwise false
+     * @return  void  creates an error text for period/block validation
      */
-    public function delete()
+    private function setPeriodsError()
     {
-        $this->_db->transactionStart();
-        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-        foreach ($scheduleIDs as $scheduleID)
+        if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"), $this->scheduleErrors))
         {
-            try
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
+        }
+    }
+
+    /**
+     * examines a property of both schedules and creates a delta according to
+     * property indexes
+     *
+     * @param   array  &$property     the property of the new lesson to be examined
+     * @param   array  &$refProperty  the property of the old lesson to be examined
+     *
+     * @return boolean $changesExist true if a property index is not in both sets
+     */
+    private function setPropertyReference(&$property, &$refProperty)
+    {
+        $changesExist = false;
+        foreach ($property as $propertyID => $delta)
+        {
+            if (!isset($refProperty->$propertyID))
             {
-                $success = $this->deleteSingle($scheduleID);
+                $property->$propertyID = 'new';
+                $changesExist = true;
+                continue;
             }
-            catch (Exception $exception)
+        }
+        foreach ($refProperty as $propertyID => $delta)
+        {
+            if (!isset($property->$propertyID))
             {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+                $property->$propertyID = 'removed';
+                $changesExist = true;
+                continue;
+            }
+        }
+
+        return $changesExist;
+    }
+
+    /**
+     * Creates the delta to the chosen reference schedule
+     *
+     * @return boolean true on successful delta creation, otherwise false
+     */
+    public function setReference()
+    {
+        $reference = $this->getReferenceSchedule();
+        if (empty($reference->id))
+        {
+            return true;
+        }
+
+        $this->refSchedule = json_decode($reference->schedule);
+
+        $actual = JTable::getInstance('schedules', 'thm_organizerTable');
+        if (empty($this->schedule))
+        {
+            $pullData = array(
+                'departmentname' => $this->refSchedule->departmentname,
+                'semestername' => $this->refSchedule->semestername,
+                'startdate' => $this->refSchedule->startdate,
+                'enddate' => $this->refSchedule->enddate,
+                'active' => 1
+            );
+            $actualExists = $actual->load($pullData);
+            if (!$actualExists)
+            {
+                return false;
+            }
+
+            $this->schedule = json_decode($actual->schedule);
+        }
+
+        $this->sanitizeSchedule($this->refSchedule);
+        $this->sanitizeSchedule($this->schedule);
+
+        // Function called from controller
+        if (!empty($actual->id))
+        {
+            $this->_db->transactionStart();
+        }
+
+        $referenceDate = $reference->creationdate;
+        $reference->set('schedule', json_encode($this->refSchedule));
+        $reference->set('active', 0);
+        $refSuccess = $reference->store();
+        if (!$refSuccess)
+        {
+            // Function called from controller
+            if (!empty($actual->id))
+            {
+                $this->_db->transactionRollback();
+            }
+
+            return false;
+        }
+
+        unset($reference);
+
+        $this->schedule->referencedate = $referenceDate;
+        $this->setLessonReference($this->schedule->lessons, $this->refSchedule->lessons);
+        $this->setCalendarReference($this->schedule->calendar, $this->refSchedule->calendar);
+
+        // Function called from controller
+        if (!empty($actual->id))
+        {
+            $actual->set('schedule', json_encode($this->schedule));
+            $actualSuccess = $actual->store();
+            if (!$actualSuccess)
+            {
                 $this->_db->transactionRollback();
                 return false;
             }
 
-            if (!$success)
-            {
-                $this->_db->transactionRollback();
-                return false;
-            }
+            $this->_db->transactionCommit();
         }
-        $this->_db->transactionCommit();
+
         return true;
     }
 
     /**
-     * Deletes a single schedule
-     *
-     * @param   int  $scheduleID  the id of the schedule to be deleted
-     *
-     * @return boolean true on success otherwise false
-     */
-    public function deleteSingle($scheduleID)
-    {
-        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
-        $schedule->load($scheduleID);
-        return $schedule->delete();
-    }
-
-    /**
-     * Toggles the monitor's use of default settings
+     * Toggles the schedule's active status
      *
      * @return  boolean  true on success, otherwise false
      */
@@ -1429,5 +977,615 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         }
 
         return $this->activate($scheduleID);
+    }
+
+    /**
+     * saves a schedule in the database for later use
+     *
+     * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
+     *                                 ['errors']      critical data inconsistencies
+     *                                 ['warnings']    minor data inconsistencies
+     */
+    public function upload()
+    {
+        $statusReport = $this->validate();
+
+        if (!empty($this->scheduleErrors))
+        {
+            return $statusReport;
+        }
+
+        $this->_db->transactionStart();
+
+        try
+        {
+            $this->saveFields();
+            $this->saveSubjectFields();
+            $this->saveTeacherFields();
+            $this->saveTeachers();
+            $this->saveRooms();
+            $this->setReference();
+            $statusReport['scheduleID'] = $this->saveSchedule();
+            $this->_db->transactionCommit();
+        }
+        catch (Exception $exception)
+        {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            $this->_db->transactionRollback();
+        }
+
+        return $statusReport;
+    }
+
+    /**
+     * Checks a given schedule in gp-untis xml format for data completeness and
+     * consistency and gives it basic structure
+     *
+     * @return  array  array of strings listing inconsistencies empty if none
+     *                 were found
+     */
+    public function validate()
+    {
+        $input = JFactory::getApplication()->input;
+        $formFiles = $input->files->get('jform', array(), 'array');
+        $file = $formFiles['file'];
+        $xmlSchedule = simplexml_load_file($file['tmp_name']);
+
+        $this->schedule         = new stdClass;
+        $this->scheduleErrors   = array();
+        $this->scheduleWarnings = array();
+
+        $formData = $input->get('jform', array(), 'array');
+        $rooms_required = isset($formData['rooms_required']);
+        $this->_teacherModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
+
+        // General node
+        // Creation Date & Time
+        $creationDate = trim((string) $xmlSchedule[0]['date']);
+        $this->validateDateAttribute('creationdate', $creationDate, 'CREATION_DATE', 'error');
+        $creationTime = trim((string) $xmlSchedule[0]['time']);
+        $this->validateTextAttribute('creationtime', $creationTime, 'CREATION_TIME', 'error');
+
+        // School year dates
+        $syStartDate = trim((string) $xmlSchedule->general->schoolyearbegindate);
+        $this->validateDateAttribute('startdate', $syStartDate, 'SCHOOL_YEAR_START_DATE', 'error');
+        $syEndDate = trim((string) $xmlSchedule->general->schoolyearenddate);
+        $this->validateDateAttribute('enddate', $syEndDate, 'SCHOOL_YEAR_END_DATE', 'error');
+
+        // Organizational Data
+        $departmentname = trim((string) $xmlSchedule->general->header1);
+        $this->validateTextAttribute('departmentname', $departmentname, 'ORGANIZATION', 'error', '/[\#\;]/');
+        $semestername = trim((string) $xmlSchedule->general->footer);
+        $this->validateTextAttribute('semestername', $semestername, 'TERM_NAME', 'error', '/[\#\;]/');
+
+        // Term start & end dates
+        $startDate = trim((string) $xmlSchedule->general->termbegindate);
+        $this->validateDateAttribute('termStartDate', $startDate, 'TERM_START_DATE');
+        $endDate = trim((string) $xmlSchedule->general->termenddate);
+        $this->validateDateAttribute('termEndDate', $endDate, 'TERM_END_DATE');
+
+        // Checks if term and school year dates are consistent
+        $syStartTime = strtotime($syStartDate);
+        $syEndTime = strtotime($syEndDate);
+        $termStartDT = strtotime($startDate);
+        $termEndDT = strtotime($endDate);
+        if ($termStartDT < $syStartTime OR $termEndDT > $syEndTime OR $termStartDT >= $termEndDT)
+        {
+            $this->scheduleErrors[] = JText::sprintf(
+                'COM_THM_ORGANIZER_ERROR_DATES_INCONSISTENT',
+                date('d.m.Y', $syStartDate),
+                date('d.m.Y', $syEndDate),
+                date('d.m.Y', $termStartDT),
+                date('d.m.Y', $termEndDT)
+            );
+        }
+
+        $this->schedule->periods = new stdClass;
+        $this->validateResourceNode('timeperiods', 'Period', $xmlSchedule, 'PERIODS');
+
+        $this->validateDescriptionsNode($xmlSchedule);
+
+        // Departments node holds degree names
+        $this->schedule->degrees = new stdClass;
+        $this->validateResourceNode('departments', 'Degree', $xmlSchedule, 'PROGRAMS');
+
+        $this->validateRoomsNode($xmlSchedule);
+
+        // No longer needed after room validation
+        unset($this->schedule->room_types);
+
+        $this->validateSubjectsNode($xmlSchedule);
+        $this->validateTeachersNode($xmlSchedule);
+
+        // No longer needed after teacher validation
+        //unset($this->schedule->fields);
+
+        $this->validatePoolsNode($xmlSchedule);
+
+        $this->initializeCalendar($syStartTime, $syEndTime);
+        $this->schedule->lessons = new stdClass;
+        if (empty($xmlSchedule->lessons))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_LESSONS_MISSING");
+        }
+        else
+        {
+            $lessonModel = new THM_OrganizerModelLesson($this, $rooms_required);
+            foreach ($xmlSchedule->lessons->children() as $lessonNode)
+            {
+                $lessonModel->validate($lessonNode);
+            }
+
+            if (!empty($this->scheduleWarnings['LESSON-METHOD']))
+            {
+                $warningCount = $this->scheduleWarnings['LESSON-METHOD'];
+                unset($this->scheduleWarnings['LESSON-METHOD']);
+                $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_METHODID', $warningCount);
+            }
+        }
+
+        return $this->makeStatusReport();
+    }
+
+    /**
+     * Validates a date attribute
+     *
+     * @param   string  $name      the attribute name
+     * @param   string  $value     the attribute value
+     * @param   string  $constant  the unique text constant fragment
+     * @param   string  $severity  the severity of the item being inspected
+     *
+     * @return  void
+     */
+    public function validateDateAttribute($name, $value, $constant, $severity = 'error')
+    {
+        if (empty($value))
+        {
+            if ($severity == 'error')
+            {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                return;
+            }
+
+            if ($severity == 'warning')
+            {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+            }
+        }
+        $this->schedule->$name = date('Y-m-d', strtotime($value));
+        return;
+    }
+
+    /**
+     * Checks whether department nodes have the expected structure and required
+     * information. (called dynamically from validateResourceNode)
+     *
+     * @param   SimpleXMLNode  &$departmentNode  the department node to be validated
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     */
+    protected function validateDegree(&$departmentNode)
+    {
+        $gpuntisID = trim((string) $departmentNode[0]['id']);
+        if (empty($gpuntisID))
+        {
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING"), $this->scheduleErrors))
+            {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING");
+            }
+
+            return;
+        }
+
+        $degreeID = str_replace('DP_', '', $gpuntisID);
+        $this->schedule->degrees->$degreeID = new stdClass;
+        $this->schedule->degrees->$degreeID->gpuntisID = $gpuntisID;
+
+        $degreeName = (string) $departmentNode->longname;
+        if (!isset($degreeName))
+        {
+            $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING", $degreeID);
+            return;
+        }
+
+        $this->schedule->degrees->$degreeID->name = $degreeName;
+    }
+
+    /**
+     * Checks whether department nodes have the expected structure and required
+     * information. (called dynamically from validateResourceNode)
+     *
+     * @param   object  &$xmlObject  the xml object being validated
+     *
+     * @return  void
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     */
+    private function validateDescriptionsNode(&$xmlObject)
+    {
+        if (empty($xmlObject->descriptions))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING");
+            return;
+        }
+
+        $this->schedule->fields = new stdClass;
+        $this->schedule->room_types = new stdClass;
+        $this->schedule->methods = new stdClass;
+
+        foreach ($xmlObject->descriptions->children() as $descriptionNode)
+        {
+            $gpuntisID = trim((string) $descriptionNode[0]['id']);
+            if (empty($gpuntisID))
+            {
+                if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING"), $this->scheduleErrors))
+                {
+                    $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
+                }
+
+                return;
+            }
+
+            $descriptionID = str_replace('DS_', '', $gpuntisID);
+
+            $longName = trim((string) $descriptionNode->longname);
+            if (empty($longName))
+            {
+                $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING", $descriptionID);
+                return;
+            }
+
+            $type = trim((string) $descriptionNode->flags);
+            if (empty($type))
+            {
+                $this->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING", $longName, $descriptionID);
+                return;
+            }
+
+            switch ($type)
+            {
+                case 'f':
+                case 'F':
+                    $this->schedule->fields->$descriptionID = new stdClass;
+                    $this->schedule->fields->$descriptionID->gpuntisID = $gpuntisID;
+                    $this->schedule->fields->$descriptionID->name = $longName;
+                    break;
+                case 'r':
+                case 'R':
+                    $typeID = $this->roomTypeExists($descriptionID);
+                    if ($typeID)
+                    {
+                        $this->schedule->room_types->$descriptionID = new stdClass;
+                        $this->schedule->room_types->$descriptionID->gpuntisID = $gpuntisID;
+                        $this->schedule->room_types->$descriptionID->name = $longName;
+                        $this->schedule->room_types->$descriptionID->id = $typeID;
+                    }
+                    break;
+                case 'u':
+                case 'U':
+                    $this->schedule->methods->$descriptionID = new stdClass;
+                    $this->schedule->methods->$descriptionID->gpuntisID = $gpuntisID;
+                    $this->schedule->methods->$descriptionID->name = $longName;
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Validates an individual period. (called dynamically from validateResourceNode) No longer creates a full store for
+     * each day as the grid is the same every day.
+     *
+     * @param   object  &$periodNode  a resource node (SimpleXML)
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     */
+    protected function validatePeriod(&$periodNode)
+    {
+        // Not actually referenced but evinces data inconsistencies in Untis
+        $gpuntisID = trim((string) $periodNode[0]['id']);
+        if (empty($gpuntisID))
+        {
+            $this->setPeriodsError();
+            return;
+        }
+
+        // Not actually referenced but evinces data inconsistencies in Untis
+        $day = (int) $periodNode->day;
+        if (empty($day))
+        {
+            $this->setPeriodsError();
+            return;
+        }
+
+        $period = (int) $periodNode->period;
+        if (empty($period))
+        {
+            $this->setPeriodsError();
+            return;
+        }
+
+        $starttime = trim((string) $periodNode->starttime);
+        if (empty($starttime))
+        {
+            $this->setPeriodsError();
+            return;
+        }
+
+        $endtime = trim((string) $periodNode->endtime);
+        if (empty($endtime))
+        {
+            $this->setPeriodsError();
+            return;
+        }
+
+        $grid = (string) $periodNode->timegrid;
+
+        // For backward-compatibility a default grid name is set
+        if (empty($grid))
+        {
+            $grid = 'Haupt-Zeitraster';
+        }
+
+        // Set the grid if not already existent
+        if (empty($this->schedule->periods->$grid))
+        {
+            $this->schedule->periods->$grid = new stdClass;
+        }
+
+        $this->schedule->periods->$grid->$period = new stdClass;
+        $this->schedule->periods->$grid->$period->starttime = $starttime;
+        $this->schedule->periods->$grid->$period->endtime = $endtime;
+    }
+
+    /**
+     * Validates the pools (classes) node
+     *
+     * @param   object  &$xmlObject  the xml object being validated
+     *
+     * @return  void
+     */
+    private function validatePoolsNode(&$xmlObject)
+    {
+        if (empty($xmlObject->classes))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_POOLS_MISSING");
+            return;
+        }
+
+        $this->schedule->pools = new stdClass;
+
+        $poolsModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
+        foreach ($xmlObject->classes->children() as $resourceNode)
+        {
+            $poolsModel->validate($this, $resourceNode);
+        }
+
+        return;
+    }
+
+    /**
+     * Validates a resource node which has no external model
+     *
+     * @param   string  $nodeName      the name of the node to be processed (external name)
+     * @param   string  $resourceName  the name of the resource to be processed (internal name)
+     * @param   object  &$xmlObject    the xml object being validated
+     * @param   string  $constant      the unique text constant fragment
+     * @param   bool    $external      if the validation is in an external model
+     *
+     * @return  void
+     */
+    private function validateResourceNode($nodeName, $resourceName, &$xmlObject, $constant, $external = false)
+    {
+        if (empty($xmlObject->$nodeName))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+            return;
+        }
+
+        if ($external)
+        {
+            $model = JModelLegacy::getInstance($resourceName, 'THM_OrganizerModel');
+            foreach ($xmlObject->$nodeName->children() as $resourceNode)
+            {
+                $model->validate($this, $resourceNode);
+            }
+
+            return;
+        }
+
+        $function = "validate$resourceName";
+        foreach ($xmlObject->$nodeName->children() as $resourceNode)
+        {
+            $this->$function($resourceNode);
+        }
+    }
+
+    /**
+     * Validates the rooms node
+     *
+     * @param   object  &$xmlObject  the xml object being validated
+     *
+     * @return  void
+     */
+    private function validateRoomsNode(&$xmlObject)
+    {
+        if (empty($xmlObject->rooms))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOMS_MISSING");
+            return;
+        }
+
+        $this->schedule->rooms = new stdClass;
+
+        $roomsModel = JModelLegacy::getInstance('room', 'THM_OrganizerModel');
+        foreach ($xmlObject->rooms->children() as $resourceNode)
+        {
+            $roomsModel->validate($this, $resourceNode);
+        }
+
+        if (!empty($this->scheduleWarnings['ROOM-EXTERNALID']))
+        {
+            $warningCount = $this->scheduleWarnings['ROOM-EXTERNALID'];
+            unset($this->scheduleWarnings['ROOM-EXTERNALID']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING', $warningCount);
+        }
+
+        if (!empty($this->scheduleWarnings['ROOM-TYPE']))
+        {
+            $warningCount = $this->scheduleWarnings['ROOM-TYPE'];
+            unset($this->scheduleWarnings['ROOM-TYPE']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TYPE_MISSING', $warningCount);
+        }
+
+        return;
+    }
+
+    /**
+     * Validates the subjects node
+     *
+     * @param   object  &$xmlObject  the xml object being validated
+     *
+     * @return  void
+     */
+    private function validateSubjectsNode(&$xmlObject)
+    {
+        if (empty($xmlObject->subjects))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_SUBJECTS_MISSING");
+            return;
+        }
+
+        $this->schedule->subjects = new stdClass;
+
+        $subjectsModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
+        foreach ($xmlObject->subjects->children() as $resourceNode)
+        {
+            $subjectsModel->validate($this, $resourceNode);
+        }
+
+        if (!empty($this->scheduleWarnings['SUBJECT-NO']))
+        {
+            $warningCount = $this->scheduleWarnings['SUBJECT-NO'];
+            unset($this->scheduleWarnings['SUBJECT-NO']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_SUBJECTNO_MISSING', $warningCount);
+        }
+
+        if (!empty($this->scheduleWarnings['SUBJECT-FIELD']))
+        {
+            $warningCount = $this->scheduleWarnings['SUBJECT-FIELD'];
+            unset($this->scheduleWarnings['SUBJECT-FIELD']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING', $warningCount);
+        }
+
+        return;
+    }
+
+    /**
+     * Validates the teachers node
+     *
+     * @param   object  &$xmlObject  the xml object being validated
+     *
+     * @return  void
+     */
+    private function validateTeachersNode(&$xmlObject)
+    {
+        if (empty($xmlObject->teachers))
+        {
+            $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHERS_MISSING");
+            return;
+        }
+
+        $this->schedule->teachers = new stdClass;
+
+        $teachersModel = JModelLegacy::getInstance('teacher', 'THM_OrganizerModel');
+        foreach ($xmlObject->teachers->children() as $resourceNode)
+        {
+            $teachersModel->validate($this, $resourceNode);
+        }
+
+        if (!empty($this->scheduleWarnings['TEACHER-EXTERNALID']))
+        {
+            $warningCount = $this->scheduleWarnings['TEACHER-EXTERNALID'];
+            unset($this->scheduleWarnings['TEACHER-EXTERNALID']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING', $warningCount);
+        }
+
+        if (!empty($this->scheduleWarnings['TEACHER-FORENAME']))
+        {
+            $warningCount = $this->scheduleWarnings['TEACHER-FORENAME'];
+            unset($this->scheduleWarnings['TEACHER-FORENAME']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING', $warningCount);
+        }
+
+        if (!empty($this->scheduleWarnings['TEACHER-TITLE']))
+        {
+            $warningCount = $this->scheduleWarnings['TEACHER-TITLE'];
+            unset($this->scheduleWarnings['TEACHER-TITLE']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TITLE_MISSING', $warningCount);
+        }
+
+        if (!empty($this->scheduleWarnings['TEACHER-FIELD']))
+        {
+            $warningCount = $this->scheduleWarnings['TEACHER-FIELD'];
+            unset($this->scheduleWarnings['TEACHER-FIELD']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_FIELD_MISSING', $warningCount);
+        }
+
+        if (!empty($this->scheduleWarnings['TEACHER-USERNAME']))
+        {
+            $warningCount = $this->scheduleWarnings['TEACHER-USERNAME'];
+            unset($this->scheduleWarnings['TEACHER-USERNAME']);
+            $this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_USERNAME_MISSING', $warningCount);
+        }
+
+        return;
+    }
+
+    /**
+     * Validates a text attribute
+     *
+     * @param   string  $name      the attribute name
+     * @param   string  $value     the attribute value
+     * @param   string  $constant  the unique text constant fragment
+     * @param   string  $severity  the severity of the item being inspected
+     * @param   string  $regex     the regex to check the text against
+     *
+     * @return  void
+     */
+    private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
+    {
+        if (empty($value))
+        {
+            if ($severity == 'error')
+            {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                return;
+            }
+
+            if ($severity == 'warning')
+            {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+            }
+        }
+
+        if (!empty($regex) AND preg_match($regex, $value))
+        {
+            if ($severity == 'error')
+            {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+                return;
+            }
+
+            if ($severity == 'warning')
+            {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+            }
+        }
+        $this->schedule->$name = $value;
+        return;
     }
 }

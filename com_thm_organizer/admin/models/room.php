@@ -516,8 +516,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
     {
         $this->_scheduleModel = $scheduleModel;
 
-        $warningString = '';
-        $gpuntisID = $this->validateUntisID($roomNode, $warningString);
+        $gpuntisID = $this->validateUntisID($roomNode);
         if (!$gpuntisID)
         {
             return;
@@ -530,8 +529,8 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $this->_scheduleModel->schedule->rooms->$roomID->localUntisID
             = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
 
-        $longname = $this->validateLongname($roomNode, $roomID);
-        if (!$longname)
+        $displayName = $this->validateDisplayName($roomNode, $roomID);
+        if (!$displayName)
         {
             return;
         }
@@ -539,45 +538,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $capacity = trim((int) $roomNode->capacity);
         $this->_scheduleModel->schedule->rooms->$roomID->capacity = (empty($capacity))? '' : $capacity;
 
-        $this->validateType($roomNode, $roomID, $warningString);
-        
-        if (!empty($warningString))
-        {
-            $warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_ROOM_PROPERTY_MISSING", $longname, $roomID, $warningString);
-            $this->_scheduleModel->scheduleWarnings[] = $warning;
-        }
-    }
-
-    /**
-     * Validates the room's untis id
-     * 
-     * @param   object  &$roomNode       the room node object
-     * @param   string  &$warningString  a string with missing fields
-     * 
-     * @return  mixed  string untis id if valid, otherwise false
-     */
-    private function validateUntisID(&$roomNode, &$warningString)
-    {
-        $externalID = trim((string) $roomNode->external_name);
-        $internalID = trim((string) $roomNode[0]['id']);
-        if (empty($internalID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
-            {
-                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING");
-            }
-
-            return false;
-        }
-
-        if (empty($externalID))
-        {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNAL_ID');
-        }
-
-        $gpuntisID = empty($externalID)? $internalID : $externalID;
-        return $gpuntisID;
+        $this->validateType($roomNode, $roomID);
     }
 
     /**
@@ -588,7 +549,7 @@ class THM_OrganizerModelRoom extends JModelLegacy
      * 
      * @return  mixed  string longname if valid, otherwise false
      */
-    private function validateLongname(&$roomNode, $roomID)
+    private function validateDisplayName(&$roomNode, $roomID)
     {
         $longname = trim((string) $roomNode->longname);
         if (empty($longname))
@@ -604,20 +565,20 @@ class THM_OrganizerModelRoom extends JModelLegacy
     /**
      * Validates the room's description attribute
      * 
-     * @param   object  &$roomNode       the room node object
-     * @param   string  $roomID          the room's id
-     * @param   string  &$warningString  a string with missing fields
+     * @param   object  &$roomNode  the room node object
+     * @param   string  $roomID     the room's id
      * 
      * @return  void
      */
-    private function validateType(&$roomNode, $roomID, &$warningString)
+    private function validateType(&$roomNode, $roomID)
     {
         $descriptionID = str_replace('DS_', '', trim((string) $roomNode->room_description[0]['id']));
         $invalidDescription = (empty($descriptionID) OR empty($this->_scheduleModel->schedule->room_types->$descriptionID));
         if ($invalidDescription)
         {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_ROOM_TYPE');
+            $this->_scheduleModel->scheduleWarnings['ROOM-TYPE']
+                = empty($this->_scheduleModel->scheduleWarnings['ROOM-TYPE'])?
+                1 : $this->_scheduleModel->scheduleWarnings['ROOM-TYPE'] + 1;
             $this->_scheduleModel->schedule->rooms->$roomID->description = '';
             return;
         }
@@ -625,5 +586,42 @@ class THM_OrganizerModelRoom extends JModelLegacy
         $this->_scheduleModel->schedule->rooms->$roomID->description = $descriptionID;
         $this->_scheduleModel->schedule->rooms->$roomID->typeID
             = $this->_scheduleModel->schedule->room_types->$descriptionID->id;
+    }
+
+    /**
+     * Validates the room's untis id
+     *
+     * @param   object  &$roomNode  the room node object
+     *
+     * @return  mixed  string untis id if valid, otherwise false
+     */
+    private function validateUntisID(&$roomNode)
+    {
+        $externalID = trim((string) $roomNode->external_name);
+        $internalID = trim((string) $roomNode[0]['id']);
+        if (empty($internalID))
+        {
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
+            {
+                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING");
+            }
+
+            return false;
+        }
+
+        if (empty($externalID))
+        {
+            $this->_scheduleModel->scheduleWarnings['ROOM-EXTERNALID']
+                = empty($this->_scheduleModel->scheduleWarnings['ROOM-EXTERNALID'])?
+                1 : $this->_scheduleModel->scheduleWarnings['ROOM-EXTERNALID'] + 1;
+            $gpuntisID = $internalID;
+        }
+        else
+        {
+
+            $gpuntisID = $externalID;
+        }
+
+        return $gpuntisID;
     }
 }

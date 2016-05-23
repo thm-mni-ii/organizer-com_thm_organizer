@@ -589,8 +589,7 @@ class THM_OrganizerModelTeacher extends JModelLegacy
     {
         $this->_scheduleModel = $scheduleModel;
 
-        $warningString = '';
-        $gpuntisID = $this->validateUntisID($teacherNode, $warningString);
+        $gpuntisID = $this->validateUntisID($teacherNode);
         if (!$gpuntisID)
         {
             return;
@@ -606,60 +605,63 @@ class THM_OrganizerModelTeacher extends JModelLegacy
         if (!$surname)
         {
             return;
-        } 
-
-        $this->validateForename($teacherNode, $teacherID, $warningString);
-        $userid = trim((string) $teacherNode->payrollnumber);
-        $this->_scheduleModel->schedule->teachers->$teacherID->username = empty($userid)? '' :$userid;
-        $title = trim((string) $teacherNode->title);
-        $this->_scheduleModel->schedule->teachers->$teacherID->title = empty($title)? '' :$title;
-        $this->validateDescription($teacherNode, $teacherID, $warningString);
-
-        if (!empty($warningString))
-        {
-            $warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_TEACHER_PROPERTY_MISSING", $surname, $teacherID, $warningString);
-            $this->_scheduleModel->scheduleWarnings[] = $warning;
         }
+
+        $this->validateField($teacherNode, $teacherID);
+        $this->validateForename($teacherNode, $teacherID);
+        $this->validateTitle($teacherNode, $teacherID);
+        $this->validateUserName($teacherNode, $teacherID);
     }
 
     /**
-     * Validates the teacher's untis id
-     * 
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  &$warningString  a string with missing fields
-     * 
-     * @return  mixed  string untis id if valid, otherwise false
+     * Validates the teacher's field attribute
+     *
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $teacherID     the teacher's id
+     *
+     * @return  void
      */
-    private function validateUntisID(&$teacherNode, &$warningString)
+    private function validateField(&$teacherNode, $teacherID)
     {
-        $externalID = trim((string) $teacherNode->external_name);
-        $internalID = trim((string) $teacherNode[0]['id']);
-        if (empty($internalID))
+        $descriptionID = str_replace('DS_', '', trim($teacherNode->teacher_description[0]['id']));
+        if (empty($descriptionID) OR empty($this->_scheduleModel->schedule->fields->$descriptionID))
         {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
-            {
-                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING");
-            }
-
-            return false;
+            $this->_scheduleModel->scheduleWarnings['TEACHER-FIELD']
+                = empty($this->_scheduleModel->scheduleWarnings['TEACHER-FIELD'])?
+                1 : $this->_scheduleModel->scheduleWarnings['TEACHER-FIELD'] + 1;
         }
 
-        if (empty($externalID))
-        {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_EXTERNAL_ID');
-        }
-
-        $gpuntisID = empty($externalID)? $internalID : $externalID;
-        return $gpuntisID;
+        $this->_scheduleModel->schedule->teachers->$teacherID->description
+            = empty($descriptionID)? '' : $descriptionID;
     }
 
     /**
-     * Validates the teacher's surname
+     * Validates the teacher's forename attribute
      * 
      * @param   object  &$teacherNode  the teacher node object
      * @param   string  $teacherID     the teacher's id
      * 
+     * @return  void
+     */
+    private function validateForename(&$teacherNode, $teacherID)
+    {
+        $forename = trim((string) $teacherNode->forename);
+        if (empty($forename))
+        {
+            $this->_scheduleModel->scheduleWarnings['TEACHER-FORENAME']
+                = empty($this->_scheduleModel->scheduleWarnings['TEACHER-FORENAME'])?
+                1 : $this->_scheduleModel->scheduleWarnings['TEACHER-FORENAME'] + 1;
+        }
+
+        $this->_scheduleModel->schedule->teachers->$teacherID->forename = empty($forename)? '' : $forename;
+    }
+
+    /**
+     * Validates the teacher's surname
+     *
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $teacherID     the teacher's id
+     *
      * @return  mixed  string surname if valid, otherwise false
      */
     private function validateSurname(&$teacherNode, $teacherID)
@@ -676,46 +678,80 @@ class THM_OrganizerModelTeacher extends JModelLegacy
     }
 
     /**
-     * Validates the teacher's forename attribute
+     * Validates the teacher's description attribute
      * 
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     * @param   string  &$warningString  a string with missing fields
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $teacherID     the teacher's id
      * 
      * @return  void
      */
-    private function validateForename(&$teacherNode, $teacherID, &$warningString)
+    private function validateTitle(&$teacherNode, $teacherID)
     {
-        $forename = trim((string) $teacherNode->forename);
-        if (empty($forename))
+        $title = trim((string) $teacherNode->title);
+        if (empty($title))
         {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_FORENAME');
+            $this->_scheduleModel->scheduleWarnings['TEACHER-TITLE']
+                = empty($this->_scheduleModel->scheduleWarnings['TEACHER-TITLE'])?
+                1 : $this->_scheduleModel->scheduleWarnings['TEACHER-TITLE'] + 1;
         }
 
-        $this->_scheduleModel->schedule->teachers->$teacherID->forename = empty($forename)? '' : $forename;
+        $this->_scheduleModel->schedule->teachers->$teacherID->title = empty($title)? '' :$title;
+    }
+
+    /**
+     * Validates the teacher's untis id
+     *
+     * @param   object  &$teacherNode  the teacher node object
+     *
+     * @return  mixed  string untis id if valid, otherwise false
+     */
+    private function validateUntisID(&$teacherNode)
+    {
+        $externalID = trim((string) $teacherNode->external_name);
+        $internalID = trim((string) $teacherNode[0]['id']);
+        if (empty($internalID))
+        {
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING"), $this->_scheduleModel->scheduleErrors))
+            {
+                $this->_scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING");
+            }
+
+            return false;
+        }
+
+        if (empty($externalID))
+        {
+            $this->_scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']
+                = empty($this->_scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'])?
+                1 : $this->_scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'] + 1;
+            $gpuntisID = $internalID;
+        }
+        else
+        {
+            $gpuntisID = $externalID;
+        }
+
+        return $gpuntisID;
     }
 
     /**
      * Validates the teacher's description attribute
-     * 
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     * @param   string  &$warningString  a string with missing fields
-     * 
+     *
+     * @param   object  &$teacherNode  the teacher node object
+     * @param   string  $teacherID     the teacher's id
+     *
      * @return  void
      */
-    private function validateDescription(&$teacherNode, $teacherID, &$warningString)
+    private function validateUserName(&$teacherNode, $teacherID)
     {
-        $descriptionID = str_replace('DS_', '', trim($teacherNode->teacher_description[0]['id']));
-        if (empty($descriptionID)
-         OR empty($this->_scheduleModel->schedule->fields->$descriptionID))
+        $userName = trim((string) $teacherNode->payrollnumber);
+        if (empty($userName))
         {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
+            $this->_scheduleModel->scheduleWarnings['TEACHER-USERNAME']
+                = empty($this->_scheduleModel->scheduleWarnings['TEACHER-USERNAME'])?
+                1 : $this->_scheduleModel->scheduleWarnings['TEACHER-USERNAME'] + 1;
         }
 
-        $this->_scheduleModel->schedule->teachers->$teacherID->description
-            = empty($descriptionID)? '' : $descriptionID;
+        $this->_scheduleModel->schedule->teachers->$teacherID->username = empty($userName)? '' :$userName;
     }
 }

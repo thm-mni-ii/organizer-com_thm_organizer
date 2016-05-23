@@ -408,9 +408,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
             return;
         }
 
-        $warningString = '';
-        $this->validateSubjectNo($subjectNode, $subjectIndex, $warningString);
-        $this->validateField($subjectNode, $subjectIndex, $warningString);
+        $this->validateSubjectNo($subjectNode, $subjectIndex);
+        $this->validateField($subjectNode, $subjectIndex);
         if (!empty($warningString))
         {
             $warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longname, $subjectID, $warningString);
@@ -445,41 +444,45 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * 
      * @param   object  &$subjectNode    the subject node object
      * @param   string  $subjectIndex    the subject's interdepartment unique identifier
-     * @param   string  &$warningString  a string with missing fields
      * 
      * @return  void
      */
-    private function validateSubjectNo(&$subjectNode, $subjectIndex, &$warningString)
+    private function validateSubjectNo(&$subjectNode, $subjectIndex)
     {
         $subjectNo = trim((string) $subjectNode->text);
         if (empty($subjectNo))
         {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_NUMBER');
+            $this->_scheduleModel->scheduleWarnings['SUBJECT-NO']
+                = empty($this->_scheduleModel->scheduleWarnings['SUBJECT-NO'])?
+                1 : $this->_scheduleModel->scheduleWarnings['SUBJECT-NO'] + 1;
+            $this->_scheduleModel->schedule->subjects->$subjectIndex->subjectNo = '';
+            return;
         }
 
-        $this->_scheduleModel->schedule->subjects->$subjectIndex->subjectNo = empty($subjectNo)? '' : $subjectNo;
+        $this->_scheduleModel->schedule->subjects->$subjectIndex->subjectNo = $subjectNo;
     }
 
     /**
      * Validates the subject's field (description) attribute
      * 
-     * @param   object  &$subjectNode    the subject node object
-     * @param   string  $subjectIndex    the subject's interdepartment unique identifier
-     * @param   string  &$warningString  a string with missing fields
+     * @param   object  &$subjectNode  the subject node object
+     * @param   string  $subjectIndex  the subject's interdepartment unique identifier
      * 
      * @return  void
      */
-    private function validateField(&$subjectNode, $subjectIndex, &$warningString)
+    private function validateField(&$subjectNode, $subjectIndex)
     {
-        $descriptionID = str_replace('DS_', '', trim($subjectNode->subject_description[0]['id']));
-        if (empty($descriptionID)
-         OR empty($this->_scheduleModel->schedule->fields->$descriptionID))
+        $fieldID = str_replace('DS_', '', trim($subjectNode->subject_description[0]['id']));
+        $invalidField = (empty($fieldID) OR empty($this->_scheduleModel->schedule->fields->$fieldID));
+        if ($invalidField)
         {
-            $warningString .= empty($warningString)? '' : ', ';
-            $warningString .= JText::_('COM_THM_ORGANIZER_ERROR_FIELD');
+            $this->_scheduleModel->scheduleWarnings['SUBJECT-FIELD']
+                = empty($this->_scheduleModel->scheduleWarnings['SUBJECT-FIELD'])?
+                1 : $this->_scheduleModel->scheduleWarnings['SUBJECT-FIELD'] + 1;
+            $this->_scheduleModel->schedule->subjects->$subjectIndex->description = '';
+            return;
         }
 
-        $this->_scheduleModel->schedule->subjects->$subjectIndex->description = empty($descriptionID)? '' : $descriptionID;
+        $this->_scheduleModel->schedule->subjects->$subjectIndex->description = $fieldID;
     }
 }

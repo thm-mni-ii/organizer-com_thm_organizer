@@ -40,12 +40,12 @@ Ext.define('LectureModel',
             //New CellStyle
             this.setCellTemplate(null, this.data.grid);
 
-            var infoTemplateString = '<div>' + '<span><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {roomName}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ':</span><big> {teacherName}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL + ':</span> <br/>{poolName}<br/>';
+            var infoTemplateString = '<div>' + '<span><span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ':</span> {roomName}<br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_TEACHER + ':</span><big> {teacherName}</big><br/>' + '<span class="def">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL + ':</span> <br/>{poolName}<br/>';
             infoTemplateString += '</span></div>';
 
             this.infoTemplate = new Ext.Template(infoTemplateString);
 
-            this.sporadicTemplate = new Ext.Template('<div id="{parentId}__{id}" block="{lessonBlock}" dow="{lessonDow}" class="{css} sporadicBox lectureBox">' + '<span>{desc}</span> <span><i>({desc:defaultValue("' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DESCRIPTION + '")})</i> ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ': {room_short} - ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHER + ': {teacher_name} - {poolName}</span>' + '</div>');
+            this.sporadicTemplate = new Ext.Template('<div id="{parentId}__{id}" block="{lessonBlock}" dow="{lessonDow}" class="{css} sporadicBox lectureBox">' + '<span>{desc}</span> <span><i>({desc:defaultValue("' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_NO_DESCRIPTION + '")})</i> ' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_ROOM + ': {room_short} - ' + MySchedLanguage.COM_THM_ORGANIZER_TEACHER + ': {teacher_name} - {poolName}</span>' + '</div>');
         },
         /**
          * Returns detailed data for a resource
@@ -352,7 +352,7 @@ Ext.define('LectureModel',
                 if (lec.changes.teachers)
                 {
                     var teachers = lec.changes.teachers;
-                    t += "<span>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TEACHERS + ":<br/>";
+                    t += "<span>" + MySchedLanguage.COM_THM_ORGANIZER_TEACHERS + ":<br/>";
                     for (var teacher in teachers)
                     {
                         if (teachers.hasOwnProperty(teacher) && teacher !== "")

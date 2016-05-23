@@ -316,9 +316,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $teacherID, $hours = 0)
     {
         $subjectIsRelevant = $this->isSubjectRelevant($schedule, $lessonID);
-        $lessonType = $this->isTypeRelevant($schedule, $lessonID);
+        $lessonType = $this->getType($schedule, $lessonID);
 
-        $invalidLesson = (!$subjectIsRelevant OR empty($lessonType));
+        $invalidLesson = (!$subjectIsRelevant OR $lessonType === false);
         if ($invalidLesson)
         {
             return;
@@ -415,9 +415,15 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @return  mixed  string type if relevant, otherwise false
      */
-    private function isTypeRelevant(&$schedule, $lessonID)
+    private function getType(&$schedule, $lessonID)
     {
         $lessonType = $schedule->lessons->$lessonID->description;
+
+        if (empty($lessonType))
+        {
+            return '';
+        }
+
         if (in_array($lessonType, $this->irrelevant['methods']))
         {
             return false;
@@ -522,8 +528,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $newPoolIDs = array_keys($newPools);
         asort($newPoolIDs);
 
-        $mergedPools = array_merge($previousPoolIDs, $newPoolIDs);
-        return array_unique($mergedPools);
+        return array_unique(array_merge($previousPoolIDs, $newPoolIDs));
     }
 
     /**
@@ -856,8 +861,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function aggregate($teacherID, $subjectIndex, $aggValues)
     {
-        $aggregatedPools = array_merge($this->deputat[$teacherID]['summary'][$subjectIndex]['pools'], $aggValues['pools']);
-        array_unique($aggregatedPools);
+        $aggregatedPools = array_unique(array_merge($this->deputat[$teacherID]['summary'][$subjectIndex]['pools'], $aggValues['pools']));
         $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'] = $aggregatedPools;
         $aggregatedPeriods = array_merge_recursive($this->deputat[$teacherID]['summary'][$subjectIndex]['periods'], $aggValues['periods']);
         uksort($aggregatedPeriods, 'self::periodSort');

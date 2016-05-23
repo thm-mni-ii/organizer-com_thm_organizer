@@ -243,7 +243,10 @@ class THM_OrganizerModelSchedule_Navigation
         $usedTypeIDs = array();
         foreach ($this->_activeScheduleData->rooms as $key => $room)
         {
-            $usedTypeIDs[$room->typeID] = $room->typeID;
+            if (!empty($room->typeID))
+            {
+                $usedTypeIDs[$room->typeID] = $room->typeID;
+            }
         }
 
         $typeIDsString = "'" . implode("', '", $usedTypeIDs) . "'";

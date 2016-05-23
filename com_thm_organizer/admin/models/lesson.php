@@ -110,9 +110,12 @@ class THM_OrganizerModelLesson extends JModelLegacy
         // Set before completion so that the error message is built correctly
         $this->_lessonName = $lessonName;
 
-        $descriptionID = $this->validateDescription(str_replace('DS_', '', trim((string) $lessonNode->lesson_description)));
-        $lessonName .= " - $descriptionID";
-        $this->_lessonName .= " - $descriptionID";
+        $methodID = $this->validateMethod($lessonNode);
+        if (!empty($methodID))
+        {
+            $lessonName .= " - $methodID";
+        }
+
         $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->name = $lessonName;
 
         $teacherID = str_replace('TR_', '', trim((string) $lessonNode->lesson_teacher[0]['id']));
@@ -158,7 +161,6 @@ class THM_OrganizerModelLesson extends JModelLegacy
         $times = $lessonNode->xpath("times/time");
 
         // Cannot produce blocking errors
-        $this->validatePeriodsAttribute($periods, $times);
         $this->validateOccurrences($occurrences, $startDT, $times, $grid);
     }
 
@@ -230,31 +232,24 @@ class THM_OrganizerModelLesson extends JModelLegacy
     /**
      * Validates the description
      * 
-     * @param   string  $descriptionID  the id of the description
+     * @param   object  &$lessonNode  the lesson node
      * 
-     * @return  boolean  true on success, otherwise false
+     * @return  boolean  string the methodID on success, otherwise false
      */
-    private function validateDescription($descriptionID)
+    private function validateMethod(&$lessonNode)
     {
-        if (empty($descriptionID))
+        $methodID = str_replace('DS_', '', trim((string) $lessonNode->lesson_description));
+
+        if (empty($methodID) OR empty($this->_scheduleModel->schedule->methods->$methodID))
         {
-            $this->_scheduleModel->scheduleErrors[]
-                = JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_TYPE_MISSING", $this->_lessonName, $this->_lessonID);
-            return false;
-        }
-        elseif (empty($this->_scheduleModel->schedule->methods->$descriptionID))
-        {
-            $this->_scheduleModel->scheduleErrors[]
-                = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TYPE_LACKING', $this->_lessonName, $this->_lessonID, $descriptionID);
-            return false;
+            $this->_scheduleModel->scheduleWarnings['LESSON-METHOD']
+                = empty($this->_scheduleModel->scheduleWarnings['LESSON-METHOD'])?
+                1 : $this->_scheduleModel->scheduleWarnings['LESSON-METHOD'] + 1;
         }
 
-        if (!isset($this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->description))
-        {
-            $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->description = $descriptionID;
-        }
+        $this->_scheduleModel->schedule->lessons->{$this->_lessonIndex}->description = $methodID;
 
-        return $descriptionID;
+        return $methodID;
     }
 
     /**
@@ -463,30 +458,6 @@ class THM_OrganizerModelLesson extends JModelLegacy
 
         // Change occurrences from a string to an array of the appropriate length for iteration
         return str_split(substr($raw, $offset, $length));
-    }
-
-    /**
-     * Validates the lesson's periods attribute
-     * 
-     * @param   int    $periods  the number of periods alloted to the lesson
-     * @param   array  &$times   the planned occurrences of the lesson
-     * 
-     * @return  void
-     */
-    private function validatePeriodsAttribute($periods, &$times)
-    {
-        if (empty($periods))
-        {
-            $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_PERIODS_MISSING", $this->_lessonName, $this->_lessonID);
-        }
-
-        $timesCount = count($times);
-        if (isset($periods) and $periods > $timesCount)
-        {
-            $this->_scheduleModel->scheduleWarnings[]
-                = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_PERIODS_UNPLANNED', $this->_lessonName, $this->_lessonID);
-        }
     }
 
     /**
