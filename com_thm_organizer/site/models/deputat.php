@@ -79,7 +79,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $this->reset = $input->getBool('reset', false);
         $this->selected = array();
         $this->teachers = array();
-        $this->irrelevant['methods'] = array('K', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG');
+        $this->irrelevant['methods'] = array('KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG');
         $this->irrelevant['teachers'] = array('NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW');
         $this->irrelevant['pools'] = array('TERMINE.');
         $this->irrelevant['subjects'] = array('NN.');
