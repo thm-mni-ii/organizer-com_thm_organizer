@@ -269,6 +269,13 @@ if (!empty($this->item->proof))
     echo '<div class="subject-content">' . $this->item->proof . $method . '</div>';
     echo '</div>';
 }
+if (!empty($this->item->evaluation))
+{
+    echo '<div class="subject-item">';
+    echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_EVALUATION') . '</div>';
+    echo '<div class="subject-content">' . $this->item->evaluation . '</div>';
+    echo '</div>';
+}
 if (!empty($this->item->frequency))
 {
     echo '<div class="subject-item">';
