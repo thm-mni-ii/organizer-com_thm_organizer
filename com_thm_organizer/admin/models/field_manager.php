@@ -54,7 +54,7 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
 
         // Create the query
         $query = $this->_db->getQuery(true);
-        $select = "f.id, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
+        $select = "f.id, f.gpuntisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
         $parts = array("'index.php?option=com_thm_organizer&view=field_edit&id='","f.id");
         $select .= $query->concatenate($parts, "") . "AS link ";
         $query->select($select);
@@ -96,13 +96,16 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
             if ($this->actions->{'core.edit'})
             {
                 $field = JHtml::_('link', $item->link, $item->field);
+                $gpuntisID = JHtml::_('link', $item->link, $item->gpuntisID);
             }
             else
             {
                 $field = $item->field;
+                $gpuntisID = $item->gpuntisID;
             }
 
             $return[$index]['field'] = $field;
+            $return[$index]['gpuntisID'] = $gpuntisID;
             $colorOutput = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
             $return[$index]['colorID'] = $colorOutput;
             $index++;
@@ -128,6 +131,7 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
         }
 
         $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
+        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'f.gpuntisID', $direction, $ordering);
         $headers['colorID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
 
         return $headers;

@@ -77,6 +77,11 @@ class THM_OrganizerHelperComponent
             $viewName == 'color_manager'
         );
         JHtmlSidebar::addEntry(
+            JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE'),
+            'index.php?option=com_thm_organizer&amp;view=method_manager',
+            $viewName == 'method_manager'
+        );
+        JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
             'index.php?option=com_thm_organizer&amp;view=pool_manager',
             $viewName == 'pool_manager'
@@ -89,7 +94,7 @@ class THM_OrganizerHelperComponent
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE'),
             'index.php?option=com_thm_organizer&amp;view=room_type_manager',
-            $viewName == 'room_manager'
+            $viewName == 'room_type_manager'
         );
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),

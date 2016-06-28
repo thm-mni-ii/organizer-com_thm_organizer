@@ -61,7 +61,6 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
 
         if ($actions->{'core.edit'} AND $actions->{'core.delete'})
         {
-            JToolbarHelper::custom('room.mergeAll', 'merge-all', 'merge-all', 'COM_THM_ORGANIZER_ACTION_MERGE_AUTO', false);
             JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
         }
 

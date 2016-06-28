@@ -89,12 +89,23 @@ class JFormFieldMergeByID extends JFormFieldList
     private function resolveText(&$query)
     {
         $textColumn = $this->getAttribute('textColumn');
+        $textColumns = explode(',', $textColumn);
+
+        $localized = $this->getAttribute('localized', false);
+        if ($localized)
+        {
+            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+            $tag = THM_OrganizerHelperLanguage::getShortTag();
+            foreach ($textColumns as $key => $value)
+            {
+                $textColumns[$key] = $value . '_' . $tag;
+            }
+        }
         $glue = $this->getAttribute('glue');
 
-        $textColumns = explode(',', $textColumn);
         if (count($textColumns) === 1 OR empty($glue))
         {
-            return $textColumn;
+            return $textColumns[0];
         }
 
         return '( ' . $query->concatenate($textColumns, $glue) . ' )';

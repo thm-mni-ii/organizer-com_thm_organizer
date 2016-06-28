@@ -10,44 +10,148 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 
 /**
- * Class THM_OrganizerModelField for component com_thm_organizer
- * Class provides methods to deal with color
+ * Class provides methods for field entry database abstraction
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelField extends JModelLegacy
+class THM_OrganizerModelField extends THM_OrganizerModelMerge
 {
     /**
-     * save
+     * Removes the resource from the schedule
      *
-     * attempts to save the monitor form data
+     * @param   object  &$schedule   the schedule from which the resource will be removed
+     * @param   int     $resourceID  the id of the resource in the db
+     * @param   string  $gpuntisID   the gpuntis ID for the given resource
      *
-     * @return bool true on success, otherwise false
+     * @return  void  modifies the schedule
      */
-    public function save()
+    protected function removeFromSchedule(&$schedule, $resourceID, $gpuntisID)
     {
-        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
-        if (empty($data['colorID']))
+        foreach ($schedule->subjects AS $subjectGPUntisID => $subject)
         {
-            unset($data['colorID']);
+            $descriptionRelevant = (isset($subject->description) AND $subject->description == $gpuntisID);
+            $idRelevant = (isset($subject->fieldID) AND $subject->fieldID == $resourceID);
+            if ($descriptionRelevant OR $idRelevant)
+            {
+                if (isset($subject->description))
+                {
+                    unset($schedule->subjects->$subjectGPUntisID->description);
+                }
+                if (isset($subject->fieldID))
+                {
+                    unset($schedule->subjects->$subjectGPUntisID->fieldID);
+                }
+            }
         }
 
-        $table = JTable::getInstance('fields', 'thm_organizerTable');
-        return $table->save($data);
+        foreach ($schedule->teachers AS $teacherGPUntisID => $teacher)
+        {
+            $descriptionRelevant = (isset($teacher->description) AND $teacher->description == $gpuntisID);
+            $idRelevant = (isset($teacher->fieldID) AND $teacher->fieldID == $gpuntisID);
+            if ($descriptionRelevant OR $idRelevant)
+            {
+                if (isset($teacher->description))
+                {
+                    unset($schedule->teachers->$teacherGPUntisID->description);
+                }
+                if (isset($teacher->fieldID))
+                {
+                    unset($schedule->teachers->$teacherGPUntisID->fieldID);
+                }
+            }
+        }
     }
 
     /**
-     * Removes color entries from the database
+     * Updates key references to the entry being merged.
      *
-     * @return  boolean true on success, otherwise false
+     * @param   int    $newDBID   the id onto which the room entries merge
+     * @param   array  $oldDBIDs  an array containing the ids to be replaced
+     *
+     * @return  boolean  true on success, otherwise false
      */
-    public function delete()
+    protected function updateAssociations($newDBID, $oldDBIDs)
     {
-        return THM_OrganizerHelper::delete('fields');
+        $ppUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'plan_pools');
+        if (!$ppUpdated)
+        {
+            return false;
+        }
+
+        $psUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'plan_subjects');
+        if (!$psUpdated)
+        {
+            return false;
+        }
+
+        $ptUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'plan_teachers');
+        if (!$ptUpdated)
+        {
+            return false;
+        }
+
+        $poolsUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'pools');
+        if (!$poolsUpdated)
+        {
+            return false;
+        }
+
+        $programsUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'programs');
+        if (!$programsUpdated)
+        {
+            return false;
+        }
+
+        $subjectsUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'subjects');
+        if (!$subjectsUpdated)
+        {
+            return false;
+        }
+
+        return $this->updateAssociation('field', $newDBID, $oldDBIDs, 'teachers');
+    }
+
+    /**
+     * Processes the data for an individual schedule
+     *
+     * @param   object  &$schedule the schedule being processed
+     * @param   array   &$data the data for the schedule db entry
+     * @param   int     $newDBID        the new id to use for the merged resource in the database (and schedules)
+     * @param   string  $newGPUntisID   the new gpuntis ID to use for the merged resource in the schedule
+     * @param   array   $allGPUntisIDs  all gpuntis IDs for the resources to be merged
+     * @param   array   $allDBIDs       all db IDs for the resources to be merged
+     *
+     * @return  void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+    {
+        foreach ($schedule->subjects AS $subjectGPUntisID => $subject)
+        {
+            $descriptionRelevant = (isset($subject->description) AND in_array($subject->description, $allGPUntisIDs));
+            $idRelevant = (isset($subject->fieldID) AND in_array($subject->fieldID, $allDBIDs));
+            if ($descriptionRelevant OR $idRelevant)
+            {
+                $schedule->subjects->$subjectGPUntisID->description = $newGPUntisID;
+                $schedule->subjects->$subjectGPUntisID->fieldID = $newDBID;
+            }
+        }
+
+        foreach ($schedule->teachers AS $teacherGPUntisID => $teacher)
+        {
+            $descriptionRelevant = (isset($teacher->description) AND in_array($teacher->description, $allGPUntisIDs));
+            $idRelevant = (isset($teacher->fieldID) AND in_array($teacher->fieldID, $allDBIDs));
+            if ($descriptionRelevant OR $idRelevant)
+            {
+                $schedule->teachers->$teacherGPUntisID->description = $newGPUntisID;
+                $schedule->teachers->$teacherGPUntisID->fieldID = $newDBID;
+            }
+        }
     }
 }

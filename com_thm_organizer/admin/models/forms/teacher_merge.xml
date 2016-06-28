@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
+        <field name="gpuntisID"
+               type="mergeByValue"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_GPUNTISID"
+               description="COM_THM_ORGANIZER_GPUNTISID_DESC"
+               required="true" />
         <field name="surname"
                type="mergeByValue"
                class="inputbox"
@@ -21,16 +27,10 @@
                description="COM_THM_ORGANIZER_USERNAME_DESC" >
             <option value="">JNONE</option>
         </field>
-        <field name="gpuntisID"
-               type="mergeByValue"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_GPUNTISID"
-               description="COM_THM_ORGANIZER_GPUNTISID_DESC" >
-            <option value="">JNONE</option>
-        </field>
         <field name="fieldID"
                type="mergeByID"
                textColumn="field"
+               localized="true"
                tables="thm_organizer_teachers AS t,thm_organizer_fields AS f ON t.fieldID = f.id"
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"

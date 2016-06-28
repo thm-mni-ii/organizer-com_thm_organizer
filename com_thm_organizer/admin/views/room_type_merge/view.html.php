@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/form.php';
 
 /**
- * Class provides functions for merging room entries
+ * Class provides functions for merging room type entries
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer

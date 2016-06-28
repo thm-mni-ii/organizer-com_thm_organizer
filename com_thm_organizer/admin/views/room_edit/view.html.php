@@ -13,8 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
- * Class THM_OrganizerViewLecturer for component com_thm_organizer
- * Class provides methods to display the view lecturer
+ * Class provides loads room information into the view context
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer

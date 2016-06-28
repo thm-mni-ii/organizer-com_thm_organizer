@@ -277,8 +277,6 @@ class THM_OrganizerViewScheduler extends JViewLegacy
     private function validateResources(&$schedule)
     {
         $periodsEmpty = empty($schedule->periods);
-        $fieldsEmpty = empty($schedule->fields);
-        $methodsEmpty = empty($schedule->methods);
         $degreesEmpty = empty($schedule->degrees);
         $roomsEmpty = empty($schedule->rooms);
         $subjectsEmpty = empty($schedule->subjects);
@@ -287,8 +285,8 @@ class THM_OrganizerViewScheduler extends JViewLegacy
         $calendarEmpty = empty($schedule->calendar);
         $lessonsEmpty = empty($schedule->lessons);
 
-        return !($periodsEmpty OR $fieldsEmpty OR $methodsEmpty OR $degreesEmpty OR $roomsEmpty
-            OR $subjectsEmpty OR $teachersEmpty OR $poolsEmpty OR $calendarEmpty OR $lessonsEmpty);
+        return !($periodsEmpty OR $degreesEmpty OR $roomsEmpty OR $subjectsEmpty OR $teachersEmpty OR $poolsEmpty
+            OR $calendarEmpty OR $lessonsEmpty);
     }
 
     /**

@@ -65,7 +65,7 @@ abstract class THM_OrganizerViewEdit extends JViewLegacy
         $document = Jfactory::getDocument();
         $document -> addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
         $document -> addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
-        $document -> addScript(JUri::root() . "./media/com_thm_organizer/js/validators.js");
+        $document -> addScript(JUri::root() . "/media/com_thm_organizer/js/validators.js");
         $document -> addScript(JUri::root() . "/media/com_thm_organizer/js/submitButton.js");
     }
 }

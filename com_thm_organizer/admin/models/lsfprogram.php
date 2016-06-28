@@ -30,12 +30,12 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      */
     private function getSavedProgramData($programID)
     {
-        $lsfDataQuery = $this->_db->getQuery(true);
-        $lsfDataQuery->select("lsfFieldID AS program, d.code AS degree, version, departmentID");
-        $lsfDataQuery->from('#__thm_organizer_programs AS p');
-        $lsfDataQuery->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-        $lsfDataQuery->where("p.id = '$programID'");
-        $this->_db->setQuery((string) $lsfDataQuery);
+        $query = $this->_db->getQuery(true);
+        $query->select("p.code AS program, d.code AS degree, version, departmentID");
+        $query->from('#__thm_organizer_programs AS p');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+        $query->where("p.id = '$programID'");
+        $this->_db->setQuery((string) $query);
         
         try 
         {
@@ -84,7 +84,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         $programData = $this->getSavedProgramData($programID);
         if (empty($programData))
         {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_LSFDATA_MISSING', 'error');
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
             return false;
         }
 

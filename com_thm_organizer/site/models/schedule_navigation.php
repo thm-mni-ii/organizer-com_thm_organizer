@@ -283,6 +283,58 @@ class THM_OrganizerModelSchedule_Navigation
         return $types;
     }
 
+
+    /**
+     * Retrieves the fields for the resource type.
+     *
+     * @return  object
+     */
+    private function getFields($type)
+    {
+        $usedFieldIDs = array();
+        foreach ($this->_activeScheduleData->$type as $key => $resource)
+        {
+            if (!empty($resource->fieldID))
+            {
+                // Ensures the value only occurs once.
+                $usedFieldIDs[$resource->fieldID] = $resource->fieldID;
+            }
+        }
+
+        $fieldIDString = "'" . implode("', '", $usedFieldIDs) . "'";
+
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("gpuntisID, field_$shortTag AS name");
+        $query->from('#__thm_organizer_fields');
+        $query->where("id IN ( $fieldIDString )");
+        $dbo->setQuery((string) $query);
+
+        $fields = new stdClass;
+
+        try
+        {
+            $results = $dbo->loadObjectList();
+        }
+        catch (Exception $exc)
+        {
+            JFactory::getApplication()->enqueueMessage(JText::_(''), 'error');
+            return $fields;
+        }
+
+
+        if (!empty($results))
+        {
+            foreach ($results AS $key => $type)
+            {
+                $fields->{$type->gpuntisID} = $type;
+            }
+        }
+
+        return $fields;
+    }
+
     /**
      * Retrieves a standardized array on failure
      * 
@@ -713,8 +765,9 @@ class THM_OrganizerModelSchedule_Navigation
             case "subject":
                 if (isset($resource->description))
                 {
+                    $resourceType = $type . 's';
                     $subcategory = $resource->description;
-                    $itemFieldType = $this->_activeScheduleData->fields;
+                    $itemFieldType = $this->getFields($resourceType);
                     $subcategorySet = true;
                 }
                 else

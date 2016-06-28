@@ -71,6 +71,7 @@
             <menu alias="Subjects" link="option=com_thm_organizer&amp;view=subject_manager" view="subject_manager" alt="THM-Organizer/Subjects">COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE</menu>
             <menu alias="Fields" link="option=com_thm_organizer&amp;view=field_manager" view="field_manager" alt="THM-Organizer/Fields">COM_THM_ORGANIZER_FIELD_MANAGER_TITLE</menu>
             <menu alias="Colors" link="option=com_thm_organizer&amp;view=color_manager" view="color_manager" alt="THM-Organizer/Colors">COM_THM_ORGANIZER_COLOR_MANAGER_TITLE</menu>
+            <menu alias="Methods" link="option=com_thm_organizer&amp;view=method_manager" view="method_manager" alt="THM-Organizer/Methods">COM_THM_ORGANIZER_METHOD_MANAGER_TITLE</menu>
             <menu alias="Subject Pools" link="option=com_thm_organizer&amp;view=pool_manager" view="pool_manager" alt="THM-Organizer/Subject Pools">COM_THM_ORGANIZER_POOL_MANAGER_TITLE</menu>
             <menu alias="Rooms" link="option=com_thm_organizer&amp;view=room_manager" view="room_manager" alt="THM-Organizer/Rooms">COM_THM_ORGANIZER_ROOM_MANAGER_TITLE</menu>
             <menu alias="Room Types" link="option=com_thm_organizer&amp;view=room_type_manager" view="room_type_manager" alt="THM-Organizer/Room Types">COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE</menu>
@@ -86,7 +87,6 @@
             <filename>LICENSE.txt</filename>
             <folder>views</folder>
             <folder>models</folder>
-            <folder>controllers</folder>
             <folder>assets</folder>
             <folder>tables</folder>
             <folder>sql</folder>
