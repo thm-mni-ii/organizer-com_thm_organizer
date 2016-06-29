@@ -117,7 +117,7 @@ button {
 }
 
 .input-append {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 
   input {
     max-width: 115px;
@@ -155,7 +155,7 @@ button {
     font-size: 17px;
     position: absolute;
     margin-left: -7px;
-    margin-left: 0px \0; //just for IE
+    margin-left: 0 \0; //just for IE
     color: $background-grey;
   }
 }

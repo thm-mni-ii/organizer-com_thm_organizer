@@ -2,7 +2,7 @@
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
         <field name="id"
-               type="hidden" />
+               type="hidden"/>
         <field name="gpuntisID"
                type="text"
                class="inputbox"
@@ -10,7 +10,7 @@
                maxlength="50"
                label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC"
-               required="true" />
+               required="true"/>
         <field name="surname"
                type="text"
                class="inputbox required"
@@ -18,26 +18,26 @@
                maxlength="255"
                label="COM_THM_ORGANIZER_SURNAME"
                description="COM_THM_ORGANIZER_SURNAME_DESC"
-               required="true" />
+               required="true"/>
         <field name="forename"
                type="text"
                class="inputbox"
                size="40"
                maxlength="255"
                label="COM_THM_ORGANIZER_FORENAME"
-               description="COM_THM_ORGANIZER_FORENAME_DESC" />
+               description="COM_THM_ORGANIZER_FORENAME_DESC"/>
         <field name="title"
                type="text"
                class="inputbox"
                size="40"
                maxlength="45"
                label="COM_THM_ORGANIZER_TITLE"
-               description="COM_THM_ORGANIZER_TITLE_DESC" />
+               description="COM_THM_ORGANIZER_TITLE_DESC"/>
         <field name="username"
                type="text"
                class="inputbox"
                label="COM_THM_ORGANIZER_USERNAME"
-               description="COM_THM_ORGANIZER_USERNAME_DESC" />
+               description="COM_THM_ORGANIZER_USERNAME_DESC"/>
         <field name="fieldID"
                type="genericlist"
                valueColumn="id"
@@ -46,7 +46,7 @@
                table="thm_organizer_fields"
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
-               description="COM_THM_ORGANIZER_FIELD_DESC" >
+               description="COM_THM_ORGANIZER_FIELD_DESC">
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>

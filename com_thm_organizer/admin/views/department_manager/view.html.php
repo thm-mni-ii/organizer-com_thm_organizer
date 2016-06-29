@@ -10,6 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
@@ -22,43 +23,43 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
  */
 class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
 {
-    public $items;
+	public $items;
 
-    public $pagination;
+	public $pagination;
 
-    public $state;
+	public $state;
 
-    /**
-     * Method to get display
-     *
-     * @param   Object  $tpl  template  (default: null)
-     *
-     * @return  void
-     */
-    public function display($tpl = null)
-    {
-        parent::display($tpl);
-    }
+	/**
+	 * Method to get display
+	 *
+	 * @param   Object $tpl template  (default: null)
+	 *
+	 * @return  void
+	 */
+	public function display($tpl = null)
+	{
+		parent::display($tpl);
+	}
 
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return  void
-     */
-    protected function addToolBar()
-    {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_VIEW_TITLE'), 'organizer_departments');
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return  void
+	 */
+	protected function addToolBar()
+	{
+		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_VIEW_TITLE'), 'organizer_departments');
 
-        $actions = $this->getModel()->actions;
+		$actions = $this->getModel()->actions;
 
-        $isAdmin = ($actions->{'core.admin'});
-        if ($isAdmin)
-        {
-            JToolbarHelper::addNew('department.add');
-            JToolbarHelper::editList('department.edit');
-            JToolbarHelper::deleteList('', 'department.delete');
-            JToolbarHelper::divider();
-            JToolbarHelper::preferences('com_thm_organizer');
-        }
-    }
+		$isAdmin = ($actions->{'core.admin'});
+		if ($isAdmin)
+		{
+			JToolbarHelper::addNew('department.add');
+			JToolbarHelper::editList('department.edit');
+			JToolbarHelper::deleteList('', 'department.delete');
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_thm_organizer');
+		}
+	}
 }

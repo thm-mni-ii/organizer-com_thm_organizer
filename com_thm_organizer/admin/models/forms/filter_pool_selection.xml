@@ -4,22 +4,22 @@
         <field name="search"
                type="text"
                label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-               hint="JSEARCH_FILTER" />
+               hint="JSEARCH_FILTER"/>
         <field name="checkbox"
-               type="checkAll" />
+               type="checkAll"/>
         <field name="name"
                type="localizedlist"
                valueColumn="name"
                textColumn="name"
                table="thm_organizer_pools"
                label="COM_THM_ORGANIZER_NAME"
-               onchange="this.form.submit();" >
+               onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
         <field name="programID"
                type="programID"
                label="COM_THM_ORGANIZER_PROGRAM"
-               onchange="this.form.submit();" >
+               onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -30,7 +30,7 @@
                localized="true"
                table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id"
                label="COM_THM_ORGANIZER_FIELD"
-               onchange="this.form.submit();" >
+               onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -42,10 +42,10 @@
                default="25"
                label="COM_CONTENT_LIST_LIMIT"
                description="COM_CONTENT_LIST_LIMIT_DESC"
-               onchange="this.form.submit();" />
+               onchange="this.form.submit();"/>
         <field name="id"
-               type="hidden" />
+               type="hidden"/>
         <field name="type"
-               type="hidden" />
+               type="hidden"/>
     </fields>
 </form>

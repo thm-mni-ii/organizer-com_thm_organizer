@@ -75,7 +75,7 @@
 
 .main-panel-items .item, .modal-panel-items .item {
   outline: 1px outset white;
-  @include box-shadow (inset 0px -1px 10px #bbbbbb);
+  @include box-shadow (inset 0 -1px 10px #bbbbbb);
   margin: 3px;
   background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
   background-image: -moz-linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);

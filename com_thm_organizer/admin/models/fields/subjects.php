@@ -10,6 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -21,91 +22,95 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class JFormFieldSubjects extends JFormField
 {
-    protected $type = 'subjects';
+	protected $type = 'subjects';
 
-    /**
-     * Returns a selectionbox where stored coursepool can be chosen as a parent node
-     *
-     * @return Select box
-     */
-    public function getInput()
-    {
-        $subjectID = JFactory::getApplication()->input->getInt('id', 0);
-        $direction = $this->getAttribute('direction', 'pre');
+	/**
+	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
+	 *
+	 * @return Select box
+	 */
+	public function getInput()
+	{
+		$subjectID = JFactory::getApplication()->input->getInt('id', 0);
+		$direction = $this->getAttribute('direction', 'pre');
 
-        if ($direction == 'post')
-        {
-            $select = 'subjectID';
-            $column = 'prerequisite';
-        }
-        else
-        {
-            $select = 'prerequisite';
-            $column = 'subjectID';
-        }
+		if ($direction == 'post')
+		{
+			$select = 'subjectID';
+			$column = 'prerequisite';
+		}
+		else
+		{
+			$select = 'prerequisite';
+			$column = 'subjectID';
+		}
 
-        $dbo = JFactory::getDBO();
-        $selectedQuery = $dbo->getQuery(true);
-        $selectedQuery->select($select);
-        $selectedQuery->from('#__thm_organizer_prerequisites');
-        $selectedQuery->where("$column = '$subjectID'");
-        $dbo->setQuery((string) $selectedQuery);
+		$dbo           = JFactory::getDbo();
+		$selectedQuery = $dbo->getQuery(true);
+		$selectedQuery->select($select);
+		$selectedQuery->from('#__thm_organizer_prerequisites');
+		$selectedQuery->where("$column = '$subjectID'");
+		$dbo->setQuery((string) $selectedQuery);
 
-        try
-        {
-            $selected = $dbo->loadColumn();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return $this->getDefault();
-        }
+		try
+		{
+			$selected = $dbo->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-        $langTag = THM_OrganizerHelperLanguage::getShortTag();
-        $subjectsQuery = $dbo->getQuery(true);
-        $subjectsQuery->select("DISTINCT id AS value, name_$langTag AS name, externalID");
-        $subjectsQuery->from('#__thm_organizer_subjects');
-        $subjectsQuery->order('name');
-        $dbo->setQuery((string) $subjectsQuery);
+			return $this->getDefault();
+		}
 
-        try
-        {
-            $subjects = $dbo->loadAssocList();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return $this->getDefault();
-        }
+		$langTag       = THM_OrganizerHelperLanguage::getShortTag();
+		$subjectsQuery = $dbo->getQuery(true);
+		$subjectsQuery->select("DISTINCT id AS value, name_$langTag AS name, externalID");
+		$subjectsQuery->from('#__thm_organizer_subjects');
+		$subjectsQuery->order('name');
+		$dbo->setQuery((string) $subjectsQuery);
 
-        foreach ($subjects as $key => $subject)
-        {
-            if (empty($subject['name']))
-            {
-                unset($subjects[$key]);
-                continue;
-            }
+		try
+		{
+			$subjects = $dbo->loadAssocList();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            $subjects[$key]['text'] = empty($subject['externalID'])? $subject['name'] : "{$subject['name']} ({$subject['externalID']})";
-        }
+			return $this->getDefault();
+		}
 
-        $fieldName = $this->getAttribute('name');
-        $attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10');
-        $selectedSubjects = empty($selected)? array() : $selected;
-        return JHTML::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text", $selectedSubjects);
-    }
+		foreach ($subjects as $key => $subject)
+		{
+			if (empty($subject['name']))
+			{
+				unset($subjects[$key]);
+				continue;
+			}
 
-    /**
-     * Creates a default input in the event of an exception
-     *
-     * @return  string  a default teacher selection field without any teachers
-     */
-    private function getDefault()
-    {
-        $subjects = array();
-        $subjects[] = array('value' => '-1', 'name' => JText::_('JNONE'));
-        $fieldName = $this->getAttribute('name');
-        $attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
-        return JHTML::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text");
-    }
+			$subjects[$key]['text'] = empty($subject['externalID']) ? $subject['name'] : "{$subject['name']} ({$subject['externalID']})";
+		}
+
+		$fieldName        = $this->getAttribute('name');
+		$attributes       = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10');
+		$selectedSubjects = empty($selected) ? array() : $selected;
+
+		return JHtml::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text", $selectedSubjects);
+	}
+
+	/**
+	 * Creates a default input in the event of an exception
+	 *
+	 * @return  string  a default teacher selection field without any teachers
+	 */
+	private function getDefault()
+	{
+		$subjects   = array();
+		$subjects[] = array('value' => '-1', 'name' => JText::_('JNONE'));
+		$fieldName  = $this->getAttribute('name');
+		$attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
+
+		return JHtml::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text");
+	}
 }

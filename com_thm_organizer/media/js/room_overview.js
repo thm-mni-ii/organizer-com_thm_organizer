@@ -1,15 +1,21 @@
 /* global $, hideFilterText, showFilterText*/
 
-function showPostLoader() {
-    $("body").append('<div class="loading-background"></div>');
-    $("body").append('<div class="postloader">Loading</div>');
+function showPostLoader()
+{
+    var body = $("body");
+    body.append('<div class="loading-background"></div>');
+    body.append('<div class="postloader">Loading</div>');
 }
 
-Array.prototype.diff = function(oldValues) {
-    return this.filter(function(newValues) { return newValues.indexOf(oldValues) < 0; });
+Array.prototype.diff = function (oldValues)
+{
+    return this.filter(function (newValues)
+    {
+        return newValues.indexOf(oldValues) < 0;
+    });
 };
 
-function cleanSelection (elementID, container)
+function cleanSelection(elementID, container)
 {
     var selectBox = jQuery('#' + elementID),
         selectedValues = selectBox.val(),

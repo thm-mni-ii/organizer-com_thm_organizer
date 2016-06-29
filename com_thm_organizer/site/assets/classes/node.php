@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        node elements for schedule resource navigation
+ * @name        THM_OrganizerNode
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -20,164 +20,164 @@
  */
 class THM_OrganizerNode
 {
-    /**
-     * Id
-     *
-     * @var String
-     */
-    public $id = "";
+	/**
+	 * Id
+	 *
+	 * @var String
+	 */
+	public $id = "";
 
-    /**
-     * Node key
-     *
-     * @var String
-     */
-    public $nodeKey = null;
+	/**
+	 * Node key
+	 *
+	 * @var String
+	 */
+	public $nodeKey = null;
 
-    /**
-     * Text
-     *
-     * @var String
-     */
-    public $text = "";
+	/**
+	 * Text
+	 *
+	 * @var String
+	 */
+	public $text = "";
 
-    /**
-     * Icon Class
-     *
-     * @var String
-     */
-    public $iconCls = "";
+	/**
+	 * Icon Class
+	 *
+	 * @var String
+	 */
+	public $iconCls = "";
 
-    /**
-     * Is leaf
-     *
-     * @var Boolean
-     */
-    public $leaf = false;
+	/**
+	 * Is leaf
+	 *
+	 * @var Boolean
+	 */
+	public $leaf = false;
 
-    /**
-     * Is dragable
-     *
-     * @var Boolean
-     */
-    public $draggable = false;
+	/**
+	 * Is dragable
+	 *
+	 * @var Boolean
+	 */
+	public $draggable = false;
 
-    /**
-     * Single click expand the node
-     *
-     * @var Boolean
-     */
-    public $singleClickExpand = true;
+	/**
+	 * Single click expand the node
+	 *
+	 * @var Boolean
+	 */
+	public $singleClickExpand = true;
 
-    /**
-     * Children
-     *
-     * @var Object
-     */
-    public $children = array();
+	/**
+	 * Children
+	 *
+	 * @var Object
+	 */
+	public $children = array();
 
-    /**
-     * GPunits id
-     *
-     * @var String
-     */
-    public $gpuntisID = '';
+	/**
+	 * GPunits id
+	 *
+	 * @var String
+	 */
+	public $gpuntisID = '';
 
-    /**
-     * Type
-     *
-     * @var String
-     */
-    public $type = '';
+	/**
+	 * Type
+	 *
+	 * @var String
+	 */
+	public $type = '';
 
-    /**
-     * Semester id
-     *
-     * @var Integer
-     */
-    public $semesterID = null;
+	/**
+	 * Semester id
+	 *
+	 * @var Integer
+	 */
+	public $semesterID = null;
 
-    /**
-     * Is checked
-     *
-     * @var String
-     */
-    public $checked = 'unchecked';
+	/**
+	 * Is checked
+	 *
+	 * @var String
+	 */
+	public $checked = 'unchecked';
 
-    /**
-     * Is expanded
-     *
-     * @var Boolean
-     */
-    public $expanded = false;
+	/**
+	 * Is expanded
+	 *
+	 * @var Boolean
+	 */
+	public $expanded = false;
 
-    /**
-     * Is public default
-     *
-     * @var String
-     */
-    public $publicDefault = '';
+	/**
+	 * Is public default
+	 *
+	 * @var String
+	 */
+	public $publicDefault = '';
 
-    /**
-     * Class
-     *
-     * @var String
-     */
-    public $cls = "";
+	/**
+	 * Class
+	 *
+	 * @var String
+	 */
+	public $cls = "";
 
-    /**
-     * Constructor
-     *
-     * @param   array  $parameters  the configuration parameters
-     */
-    public function  __construct($parameters)
-    {
-        $this->id = str_replace(".", "-", $parameters['id']);
-        $this->nodeKey = $parameters['nodeKey'];
-        $this->text = $parameters['text'];
-        $this->gpuntisID = $parameters['gpuntisID'];
-        $this->type = $parameters['type'];
-        $this->semesterID = $parameters['semesterID'];
-        $this->iconCls = $parameters['iconCls'];
-        $this->setCalculatedProperties($parameters);
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param   array $parameters the configuration parameters
+	 */
+	public function __construct($parameters)
+	{
+		$this->id         = str_replace(".", "-", $parameters['id']);
+		$this->nodeKey    = $parameters['nodeKey'];
+		$this->text       = $parameters['text'];
+		$this->gpuntisID  = $parameters['gpuntisID'];
+		$this->type       = $parameters['type'];
+		$this->semesterID = $parameters['semesterID'];
+		$this->iconCls    = $parameters['iconCls'];
+		$this->setCalculatedProperties($parameters);
+	}
 
-    /**
-     * Sets individual node properties
-     * 
-     * @param   array  &$parameters  the checked nodes
-     * 
-     * @return  void  sets class properties
-     */
-    private function setCalculatedProperties(&$parameters)
-    {
-        $input = JFactory::getApplication()->input;
-        $menuID = $input->getInt("menuID", -1);
-        $frontend = $menuID < 0? true : false;
-        if ($frontend)
-        {
-            $this->checked = null;
-        }
-        else
-        {
-            $this->checked = !empty($parameters['checked'][$this->id])? $parameters['checked'][$this->id] : "unchecked";
-        }
+	/**
+	 * Sets individual node properties
+	 *
+	 * @param   array &$parameters the checked nodes
+	 *
+	 * @return  void  sets class properties
+	 */
+	private function setCalculatedProperties(&$parameters)
+	{
+		$input    = JFactory::getApplication()->input;
+		$menuID   = $input->getInt("menuID", -1);
+		$frontend = $menuID < 0 ? true : false;
+		if ($frontend)
+		{
+			$this->checked = null;
+		}
+		else
+		{
+			$this->checked = !empty($parameters['checked'][$this->id]) ? $parameters['checked'][$this->id] : "unchecked";
+		}
 
-        if (!empty($parameters['publicDefault']))
-        {
-            $firstValue = each($parameters['publicDefault']);
+		if (!empty($parameters['publicDefault']))
+		{
+			$firstValue = each($parameters['publicDefault']);
 
-            if (strpos($firstValue["key"], $this->id) === 0)
-            {
-                $this->expanded = true;
-            }
-        }
+			if (strpos($firstValue["key"], $this->id) === 0)
+			{
+				$this->expanded = true;
+			}
+		}
 
-        $showSchedule = $input->getString('showSchedule', '');
-        $moduleID = $input->getString('moduleID', '');
-        if ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != '')
-        {
-            $this->cls = "MySchedSearchResult";
-        }
-    }
+		$showSchedule = $input->getString('showSchedule', '');
+		$moduleID     = $input->getString('moduleID', '');
+		if ($this->publicDefault === "default" AND $showSchedule != '' AND $moduleID != '')
+		{
+			$this->cls = "MySchedSearchResult";
+		}
+	}
 }

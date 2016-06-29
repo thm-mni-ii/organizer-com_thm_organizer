@@ -12,6 +12,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -23,35 +24,35 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerViewTHM_Organizer extends JViewLegacy
 {
-    /**
-     * Loads model data into view context
-     *
-     * @param   string  $tpl  the template type to be used
-     *
-     * @return  void or JError on unauthorized access
-     */
-    public function display($tpl = null)
-    {
-        JHtml::_('behavior.tooltip');
-        $document = Jfactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/backend.css');
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
+	/**
+	 * Loads model data into view context
+	 *
+	 * @param   string $tpl the template type to be used
+	 *
+	 * @return  void or JError on unauthorized access
+	 */
+	public function display($tpl = null)
+	{
+		JHtml::_('behavior.tooltip');
+		$document = JFactory::getDocument();
+		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/backend.css');
+		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
 
-        THM_OrganizerHelperComponent::addSubmenu($this);
+		THM_OrganizerHelperComponent::addSubmenu($this);
 
-        $this->addToolBar();
+		$this->addToolBar();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * creates a joomla administratoristrative tool bar
-     *
-     * @return void
-     */
-    private function addToolBar()
-    {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
-        JToolbarHelper::preferences('com_thm_organizer');
-    }
+	/**
+	 * creates a joomla administratoristrative tool bar
+	 *
+	 * @return void
+	 */
+	private function addToolBar()
+	{
+		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
+		JToolbarHelper::preferences('com_thm_organizer');
+	}
 }

@@ -13,28 +13,28 @@
     <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic" label="COM_THM_ORGANIZER_SUBJECT_CATALOG_SETTINGS">
             <field
-                name="programID"
-                type="programID"
-                class="inputbox"
-                label="COM_THM_ORGANIZER_PROGRAM"
-                description="COM_THM_ORGANIZER_PROGRAM_DESC"
-                required="true"/>
+                    name="programID"
+                    type="programID"
+                    class="inputbox"
+                    label="COM_THM_ORGANIZER_PROGRAM"
+                    description="COM_THM_ORGANIZER_PROGRAM_DESC"
+                    required="true"/>
             <field
-                name="groupBy"
-                type="list"
-                default="0"
-                label="COM_THM_ORGANIZER_GROUP_BY"
-                description="COM_THM_ORGANIZER_GROUP_BY_DESC">
+                    name="groupBy"
+                    type="list"
+                    default="0"
+                    label="COM_THM_ORGANIZER_GROUP_BY"
+                    description="COM_THM_ORGANIZER_GROUP_BY_DESC">
                 <option value="0">JNONE</option>
                 <option value="1">COM_THM_ORGANIZER_BY_GROUP</option>
                 <option value="2">COM_THM_ORGANIZER_BY_TEACHER</option>
                 <option value="3">COM_THM_ORGANIZER_BY_FIELD</option>
             </field>
             <field
-                name="suffix"
-                type="text"
-                label="COM_THM_ORGANIZER_SUFFIX"
-                description="COM_THM_ORGANIZER_SUFFIX_DESC" />
+                    name="suffix"
+                    type="text"
+                    label="COM_THM_ORGANIZER_SUFFIX"
+                    description="COM_THM_ORGANIZER_SUFFIX_DESC"/>
         </fieldset>
     </fields>
 </metadata>

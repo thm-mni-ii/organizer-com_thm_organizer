@@ -23,14 +23,14 @@ defined('_JEXEC') or die;
  */
 abstract class THMAbstractBuilder
 {
-    /**
-     * Saves the file to $dest with $filename in picturtype $type
-     *
-     * @param   Array   $arr       Array with the schedule data
-     * @param   String  $username  The username of the logged in user
-     * @param   String  $title     The title of the schedule
-     *
-     * @return void
-     */
-    abstract public function createSchedule($arr, $username, $title);
+	/**
+	 * Saves the file to $dest with $filename in picturtype $type
+	 *
+	 * @param   object  $scheduleData   Object with the schedule data
+	 * @param   string  $username The username of the logged in user
+	 * @param   string  $title    The title of the schedule
+	 *
+	 * @return void
+	 */
+	abstract public function createSchedule($scheduleData, $username, $title);
 }

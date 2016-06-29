@@ -4,16 +4,16 @@
         <field name="search"
                type="text"
                label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-               hint="JSEARCH_FILTER" />
+               hint="JSEARCH_FILTER"/>
         <field name="checkbox"
-               type="CheckAll" />
+               type="CheckAll"/>
         <field name="name"
                type="localizedlist"
                valueColumn="name"
                textColumn="name"
                table="thm_organizer_subjects"
                label="COM_THM_ORGANIZER_NAME"
-               onchange="this.form.submit();" >
+               onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -23,7 +23,7 @@
                textColumn="externalID"
                table="thm_organizer_subjects"
                label="COM_THM_ORGANIZER_SUBJECT"
-               onchange="this.form.submit();" >
+               onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -32,14 +32,14 @@
         <field name="programID"
                type="programID"
                label="COM_THM_ORGANIZER_PROGRAM"
-               onchange="this.form.submit();" >
+               onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
             <option value="-1">JNONE</option>
         </field>
         <field name="poolID"
-                type="poolID"
-                label="COM_THM_ORGANIZER_POOL"
-                onchange="this.form.submit();" >
+               type="poolID"
+               label="COM_THM_ORGANIZER_POOL"
+               onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -48,6 +48,6 @@
                class="input-mini"
                default="25"
                label="COM_CONTENT_LIST_LIMIT"
-               onchange="this.form.submit();" />
+               onchange="this.form.submit();"/>
     </fields>
 </form>

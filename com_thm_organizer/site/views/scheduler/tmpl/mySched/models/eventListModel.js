@@ -46,11 +46,7 @@ Ext.define('EventListModel',
             var idsplit = id.split("_");
             var datas = this.data.filterBy(function (o, k)
             {
-                if (k === idsplit[1])
-                {
-                    return true;
-                }
-                return false;
+                return k === idsplit[1];
             }, this);
 
             return datas.items[0];
@@ -114,7 +110,7 @@ Ext.define('EventListModel',
          * @param {string} day Weekday as String
          * @return {string} TODO Id don't know what it is exactly
          */
-        getEventsForLecture: function(lecture, block, day)
+        getEventsForLecture: function (lecture, block, day)
         {
             var ret = "";
 
@@ -133,7 +129,7 @@ Ext.define('EventListModel',
                 var lectureData = lecture.data;
                 var lectureCalendar = lectureData.calendar;
 
-                for(var lectureCalendarIndex in lectureCalendar)
+                for (var lectureCalendarIndex in lectureCalendar)
                 {
                     if (Ext.isObject(lectureCalendar[lectureCalendarIndex]))
                     {
@@ -141,13 +137,13 @@ Ext.define('EventListModel',
                         if (eventStartDate <= lectureDate && eventEndDate >= lectureDate && lectureDate >= currMOFR.monday && lectureDate <= currMOFR.friday && Ext.Date.format(lectureDate, "l").toLowerCase() === day)
                         {
                             var eventBlocks = getBlocksBetweenTimes(eventStartTime, eventEndTime, eventStartDate, eventEndDate);
-                            for(var eventBlocksIndex = 0; eventBlocksIndex < eventBlocks.length; eventBlocksIndex++)
+                            for (var eventBlocksIndex = 0; eventBlocksIndex < eventBlocks.length; eventBlocksIndex++)
                             {
                                 var eventBlock = eventBlocks[eventBlocksIndex];
                                 if (eventBlock === block)
                                 {
                                     var eventObjects = eventData.objects;
-                                    for(var eventObjectsIndex = 0; eventObjectsIndex < eventObjects.length; eventObjectsIndex++)
+                                    for (var eventObjectsIndex = 0; eventObjectsIndex < eventObjects.length; eventObjectsIndex++)
                                     {
                                         var eventObject = eventObjects[eventObjectsIndex];
                                         if (eventObject.type === "teacher")
@@ -160,9 +156,9 @@ Ext.define('EventListModel',
                                         }
                                         else if (eventObject.type === "room")
                                         {
-                                            var roomData = lectureCalendar[lectureCalendarIndex][block+1].lessonData;
+                                            var roomData = lectureCalendar[lectureCalendarIndex][block + 1].lessonData;
                                             var roomName = MySched.Mapping.getRoomKeyByID(eventObject.id);
-                                            for(var roomDataIndex in roomData)
+                                            for (var roomDataIndex in roomData)
                                             {
                                                 if (roomData.hasOwnProperty(roomDataIndex) && Ext.isString(roomData[roomDataIndex]) && roomData[roomDataIndex] !== "removed" && roomName === roomDataIndex)
                                                 {
@@ -180,7 +176,7 @@ Ext.define('EventListModel',
                 return false;
             });
 
-            for(var dataIndex = 0; dataIndex < data.items.length; dataIndex++)
+            for (var dataIndex = 0; dataIndex < data.items.length; dataIndex++)
             {
                 ret += data.items[dataIndex].getEventView();
             }

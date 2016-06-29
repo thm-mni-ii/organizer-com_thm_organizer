@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+
 /**
  * Class loading persistent data into the view context
  *
@@ -20,19 +21,19 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewTeacher_Ajax extends JViewLegacy
 {
-    /**
-     * loads model data into view context
-     *
-     * @param   string  $tpl  the name of the template to be used
-     *
-     * @return void
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function display($tpl = null)
-    {
-        $model = $this->getModel();
-        $task = JFactory::getApplication()->input->getString('task');
-        echo $model->$task();
-    }
+	/**
+	 * loads model data into view context
+	 *
+	 * @param   string $tpl the name of the template to be used
+	 *
+	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function display($tpl = null)
+	{
+		$model = $this->getModel();
+		$task  = JFactory::getApplication()->input->getString('task');
+		echo $model->$task();
+	}
 }

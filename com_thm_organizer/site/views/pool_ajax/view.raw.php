@@ -22,19 +22,19 @@ jimport('joomla.application.plugin.helper');
  */
 class THM_OrganizerViewPool_Ajax extends JViewLegacy
 {
-    /**
-     * loads model data into view context
-     *
-     * @param   string  $tpl  the name of the template to be used
-     *
-     * @return void
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function display($tpl = null)
-    {
-        $model = $this->getModel();
-        $function = JFactory::getApplication()->input->getString('task');
-        echo $model->$function();
-    }
+	/**
+	 * loads model data into view context
+	 *
+	 * @param   string $tpl the name of the template to be used
+	 *
+	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function display($tpl = null)
+	{
+		$model    = $this->getModel();
+		$function = JFactory::getApplication()->input->getString('task');
+		echo $model->$function();
+	}
 }

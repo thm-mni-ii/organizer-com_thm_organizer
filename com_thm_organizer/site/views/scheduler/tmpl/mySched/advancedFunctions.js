@@ -6,16 +6,14 @@
  */
 window.onbeforeunload = function ()
 {
+    var tabs, i;
+
     if (typeof MySched.layout.tabpanel === "undefined")
     {
         return;
     }
-    var tabs = MySched.layout.tabpanel.items.items;
-    var temptabs = tabs;
-    var check = false;
-    var tosave = false;
-    var i = 0;
-    var ti = 0;
+
+    tabs = MySched.layout.tabpanel.items.items;
 
     for (i = 0; i < tabs.length; i++)
     {

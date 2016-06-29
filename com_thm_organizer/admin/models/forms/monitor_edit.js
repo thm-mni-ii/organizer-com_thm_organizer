@@ -1,4 +1,4 @@
-window.addEvent('domready', function()
+window.addEvent('domready', function ()
 {
     "use strict";
     document.formvalidator.setHandler('ip',

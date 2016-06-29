@@ -27,7 +27,7 @@ Ext.define('ScheduleModel',
             this.visibleEvents = [];
             this.superclass.constructor.call(this, id, new MySched.Collection());
 
-            if(config && config.grid)
+            if (config && config.grid)
             {
                 this.scheduleGrid = config.grid;
             }
@@ -189,11 +189,7 @@ Ext.define('ScheduleModel',
             }
             return this.data.filterBy(function (o, k)
             {
-                if (o.has(type, value))
-                {
-                    return true;
-                }
-                return false;
+                return o.has(type, value);
             }, this);
         },
 
@@ -205,27 +201,15 @@ Ext.define('ScheduleModel',
          */
         getGridData: function ()
         {
-            var scheduleGridLength = getGridBlocks(this.scheduleGrid), ret = [];
+            var scheduleGridLength = getGridBlocks(this.scheduleGrid), ret = [], sp = [], wpMO,
+                cd = Ext.ComponentMgr.get('menuedatepicker'),wp = Ext.Date.clone(cd.value), wpMO = getMonday(wp),
+                begin = MySched.session.begin.split("-");
 
             for (var i = 0; i < scheduleGridLength; i++)
             {
                 ret.push({})
             }
 
-            // Need a fix format for the grid
-            // sporadic, not regular events
-            var sp = [];
-            var wpMO = null;
-            var cd = Ext.ComponentMgr.get('menuedatepicker');
-            var wp = null;
-            this.visibleLessons = [];
-            this.visibleEvents = [];
-
-            wp = Ext.Date.clone(cd.value);
-
-            wpMO = getMonday(wp);
-
-            var begin = MySched.session.begin.split("-");
             begin = new Date(begin[0], begin[1] - 1, begin[2]);
 
             // If the semester hast not began, show message box and ask if user want to jump to beginning of semester
@@ -333,7 +317,7 @@ Ext.define('ScheduleModel',
                     return true;
                 }
 
-                while(eventStartDateInCurrentWeek <= eventEndDateInCurrentWeek)
+                while (eventStartDateInCurrentWeek <= eventEndDateInCurrentWeek)
                 {
                     // get weekday
                     var dow = Ext.Date.format(eventStartDateInCurrentWeek, "l");
@@ -342,7 +326,7 @@ Ext.define('ScheduleModel',
                     // get block
                     var eventBlocks = getBlocksBetweenTimes(eventStartTime, eventEndTime, eventStartDateInCurrentWeek, eventEndDateInCurrentWeek);
 
-                    for(var blockIndex = 0; blockIndex < eventBlocks.length; blockIndex++)
+                    for (var blockIndex = 0; blockIndex < eventBlocks.length; blockIndex++)
                     {
                         var eventBlock = eventBlocks[blockIndex];
                         if (!ret[eventBlock][dow])
@@ -409,17 +393,17 @@ Ext.define('ScheduleModel',
                                         {
                                             block = parseInt(blockIndex) - 1;
 
-                                            if(this.scheduleGrid !== v.data.grid)
+                                            if (this.scheduleGrid !== v.data.grid)
                                             {
                                                 var lessonGridOverlaps = true;
                                                 var lessonTime = blocktotime(blockIndex, v.data.grid);
                                                 var scheduleGridLength = getGridBlocks(this.scheduleGrid);
 
-                                                for(var gridIndex = 1; gridIndex <= scheduleGridLength; gridIndex++)
+                                                for (var gridIndex = 1; gridIndex <= scheduleGridLength; gridIndex++)
                                                 {
                                                     block = gridIndex - 1;
                                                     var scheduleTime = blocktotime(gridIndex, this.scheduleGrid);
-                                                    if(scheduleTime === false)
+                                                    if (scheduleTime === false)
                                                     {
                                                         lessonGridOverlaps = false;
                                                         continue;
@@ -428,8 +412,10 @@ Ext.define('ScheduleModel',
                                                     var cond1 = (scheduleTime[0] < lessonTime[0] && scheduleTime[1] < lessonTime[0]);
                                                     var cond2 = (scheduleTime[0] > lessonTime[1]);
 
-                                                    if (!(cond1 || cond2)) {
-                                                        if (!ret[block][dow]) {
+                                                    if (!(cond1 || cond2))
+                                                    {
+                                                        if (!ret[block][dow])
+                                                        {
                                                             ret[block][dow] = [];
                                                         }
 
@@ -460,18 +446,18 @@ Ext.define('ScheduleModel',
                     }
                 }
             }, this);
-            for(var returnIndex = 0; returnIndex < ret.length; returnIndex++)
+            for (var returnIndex = 0; returnIndex < ret.length; returnIndex++)
             {
-                for(var dowIndex in ret[returnIndex])
+                for (var dowIndex in ret[returnIndex])
                 {
                     if (Ext.isArray(ret[returnIndex][dowIndex]))
                     {
-                        for(var blockIndex = 0; blockIndex < ret[returnIndex][dowIndex].length; blockIndex++)
+                        for (var blockIndex = 0; blockIndex < ret[returnIndex][dowIndex].length; blockIndex++)
                         {
                             var singleString = ret[returnIndex][dowIndex][blockIndex];
                             if (singleString.indexOf('<div id="MySchedEvent_') === 0)
                             {
-                                for(var blockIndexSearch = 0; blockIndexSearch < ret[returnIndex][dowIndex].length; blockIndexSearch++)
+                                for (var blockIndexSearch = 0; blockIndexSearch < ret[returnIndex][dowIndex].length; blockIndexSearch++)
                                 {
                                     if (blockIndex !== blockIndexSearch)
                                     {
@@ -521,7 +507,8 @@ Ext.define('ScheduleModel',
                     url: url,
                     method: 'GET',
                     params: defaultParams,
-                    success: function (response, request) {
+                    success: function (response, request)
+                    {
                         this.preParseLectures(Ext.decode(response.responseText, true));
                     },
                     scope: scope || this
@@ -621,7 +608,7 @@ Ext.define('ScheduleModel',
          *
          * @param {Object} o TODO: looks like an ajax request
          * @param {Object} arg TODO: was undefined
-         * @return {] * TODO; was undefined
+         * @return {Unknown} * TODO; was undefined
          */
         preParseLectures: function (o, arg)
         {
@@ -660,8 +647,6 @@ Ext.define('ScheduleModel',
                     this.data.add(e.data.key, e);
                 }
             }
-
-            return;
         },
         /**
          * Callback to parse the XML file from lecture
@@ -675,10 +660,10 @@ Ext.define('ScheduleModel',
 
             Ext.Object.each(records, function (key, value, myself)
             {
-                if(value.block && Ext.isObject(value.calendar))
+                if (value.block && Ext.isObject(value.calendar))
                 {
                     var lecture = MySched.Base.getLecture(key);
-                    if(Ext.isDefined(lecture))
+                    if (Ext.isDefined(lecture))
                     {
                         lectures[lectures.length] = lecture;
                     }
@@ -789,7 +774,7 @@ Ext.define('ScheduleModel',
          *
          * @method show
          * @param {boolean} ret TODO
-         * @param {} closeable TODO: is it in use anymore?
+         * @param {Unknown} closeable TODO: is it in use anymore?
          */
         show: function (ret, closeable)
         {
@@ -806,12 +791,14 @@ Ext.define('ScheduleModel',
             }
             var name = this.title.replace(/\s*\/\s*/g, ' ');
 
-            if (name.length > 40 && Ext.isDefined(idArr)){
+            if (name.length > 40 && Ext.isDefined(idArr))
+            {
                 var nameArr = name.split("-");
                 var idArr = this.getId().split("_");
                 name = nameArr[0] + ' - ' + idArr[5];
             }
-            else if (name.length > 40){
+            else if (name.length > 40)
+            {
                 name = name.substring(0, 36) + '...';
             }
 
@@ -824,10 +811,10 @@ Ext.define('ScheduleModel',
             else if (MySched.Authorize.role !== "user" || this.getId() !== "mySchedule")
             {
                 /*this.dragzone = new Ext.dd.DragZone(this.getId(),
-                    {
-                        containerScroll: true,
-                        ddGroup: 'lecture'
-                    });*/
+                 {
+                 containerScroll: true,
+                 ddGroup: 'lecture'
+                 });*/
             }
         },
         /**
@@ -1106,7 +1093,7 @@ Ext.define('ScheduleModel',
             var asArrRet = {};
             var d = this.data;
 
-            for(var index = 0; index < d.length; index++)
+            for (var index = 0; index < d.length; index++)
             {
                 var lesson = d.items[index];
                 if (MySched.Base.schedule.data.containsKey(lesson.id) === false)
@@ -1126,7 +1113,7 @@ Ext.define('ScheduleModel',
          * Creates a array with all blocks of my schedule.
          *
          * @method asArrayForPDF
-         * @return {Array} asArrRet Array with all lectures of MySchedule
+         * @return {Array} asArrRet array with all lectures of MySchedule
          */
         asArrayForPDF: function ()
         {

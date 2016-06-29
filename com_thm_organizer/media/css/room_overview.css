@@ -50,8 +50,7 @@
           padding-right: 30px;
           width: 100%; }
           .form-container #adminForm .filter-item .chzn-container .chzn-choices .search-choice {
-            background-color: #dfe5e6;
-            background-image: none;
+            background: #dfe5e6 none;
             border: 1px solid #77858c;
             border-radius: 0;
             color: #394a59;

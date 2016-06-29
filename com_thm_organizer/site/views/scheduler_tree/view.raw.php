@@ -19,22 +19,21 @@ jimport('joomla.application.component.view');
  * @category  Joomla.Component.Site
  * @package   thm_organizer
  */
-
 class THM_OrganizerViewScheduler_Tree extends JViewLegacy
 {
-    /**
-     * Method to get extra
-     *
-     * @param   String  $tpl  template
-     *
-     * @return void
-     *
-     * @see JView::display()
-     */
-    public function display($tpl = null)
-    {
-        echo $this->model->load();
+	/**
+	 * Method to get extra
+	 *
+	 * @param   string $tpl template
+	 *
+	 * @return void
+	 *
+	 * @see JView::display()
+	 */
+	public function display($tpl = null)
+	{
+		echo $this->model->load();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

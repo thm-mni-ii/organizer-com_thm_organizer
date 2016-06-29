@@ -2,7 +2,7 @@
 <form>
     <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_BASIC" addfieldpath="/media/com_thm_organizer/fields">
         <field name="id"
-               type="hidden" />
+               type="hidden"/>
         <field name="asset_id"
                type="hidden"
                filter="unset"/>
@@ -10,7 +10,7 @@
                type="departmentID"
                label="COM_THM_ORGANIZER_DEPARTMENT"
                description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-               required="true" >
+               required="true">
             <option value="">COM_THM_ORGANIZER_FILTER_DEPARTMENT</option>
         </field>
         <field name="degreeID"
@@ -21,7 +21,7 @@
                label="COM_THM_ORGANIZER_DEGREE"
                description="COM_THM_ORGANIZER_DEGREE_DESC"
                class="inputbox required"
-               required="true" >
+               required="true">
             <option value="">COM_THM_ORGANIZER_FILTER_DEGREE</option>
         </field>
         <field name="version"
@@ -30,14 +30,14 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_VERSION"
                description="COM_THM_ORGANIZER_VERSION_DESC"
-               required="true" />
+               required="true"/>
         <field name="code"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_LSF_FIELD_ID"
                description="COM_THM_ORGANIZER_LSF_FIELD_ID_DESC"
-               required="true" />
+               required="true"/>
         <field name="fieldID"
                type="genericlist"
                valueColumn="id"
@@ -47,14 +47,14 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
                description="COM_THM_ORGANIZER_FIELD_DESC"
-               required="true" >
+               required="true">
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
         </field>
         <field name="frequencyID"
                type="list"
                label="COM_THM_ORGANIZER_FREQUENCY"
                description="COM_THM_ORGANIZER_FREQUENCY_DESC"
-               default="3" >
+               default="3">
             <option value="3">COM_THM_ORGANIZER_AVAILABILITY_SEMESTER</option>
             <option value="5">COM_THM_ORGANIZER_AVAILABILITY_YEAR</option>
             <option value="1">COM_THM_ORGANIZER_AVAILABILITY_SUMMER</option>
@@ -68,12 +68,12 @@
                class="inputbox required"
                label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"
-               required="true" />
+               required="true"/>
         <field name="description_de"
                type="textarea"
                class="inputbox"
                label="COM_THM_ORGANIZER_DESC"
-               description="COM_THM_ORGANIZER_DESC_DESC_DE" />
+               description="COM_THM_ORGANIZER_DESC_DESC_DE"/>
     </fieldset>
     <fieldset name="en" label="COM_THM_ORGANIZER_ATTRIBUTES_EN">
         <field name="name_en"
@@ -82,18 +82,18 @@
                class="inputbox required"
                label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"
-               required="true" />
+               required="true"/>
         <field name="description_en"
                type="textarea"
                class="inputbox"
                label="COM_THM_ORGANIZER_DESC"
-               description="COM_THM_ORGANIZER_DESC_DESC_EN" />
+               description="COM_THM_ORGANIZER_DESC_DESC_EN"/>
     </fieldset>
     <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS" displayinitial="0"
               addfieldpath="/media/com_thm_organizer/fields">
         <field name="children"
                type="children"
                label="COM_THM_ORGANIZER_CHILDREN"
-               description="COM_THM_ORGANIZER_CHILDREN_DESC" />
+               description="COM_THM_ORGANIZER_CHILDREN_DESC"/>
     </fieldset>
 </form>

@@ -21,24 +21,25 @@ $componentName = "com_thm_organizer";
 $date = JFactory::getDate()->format('Y-m');
 
 JLog::addLogger(
-array(
-'text_file' => $componentName . '_admin' . DIRECTORY_SEPARATOR . $componentName . '_' . $date . '.php'
-        ),
-        JLog::ALL & ~JLog::DEBUG,
-        array($componentName)
+	array(
+		'text_file' => $componentName . '_admin' . DIRECTORY_SEPARATOR . $componentName . '_' . $date . '.php'
+	),
+	JLog::ALL & ~JLog::DEBUG,
+	array($componentName)
 );
 
 try
 {
-    if (!JFactory::getUser()->authorise('core.manage', 'com_thm_organizer'))
-    {
-        throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
-    }
-    require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
-    THM_OrganizerHelper::callController();
+	if (!JFactory::getUser()->authorise('core.manage', 'com_thm_organizer'))
+	{
+		throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
+	}
+	/** @noinspection PhpIncludeInspection */
+	require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
+	THM_OrganizerHelper::callController();
 }
 catch (Exception $e)
 {
-    JLog::add($e->__toString(), JLog::ERROR, $componentName);
-    throw $e;
+	JLog::add($e->__toString(), JLog::ERROR, $componentName);
+	throw $e;
 }

@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -22,82 +23,83 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
  */
 class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 {
-    /**
-     * Constructor to set up the class variables and call the parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+	/**
+	 * Constructor to set up the class variables and call the parent constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
 
-    /**
-     * Retrieves teacher entries from the database
-     * 
-     * @return  string  the teachers who hold courses for the selected program and pool
-     */
-    public function teachersByProgramOrPool()
-    {
-        $input = JFactory::getApplication()->input;
-        $programID = $input->getString('programID');
-        $poolID = $input->getString('poolID');
+	/**
+	 * Retrieves teacher entries from the database
+	 *
+	 * @return  string  the teachers who hold courses for the selected program and pool
+	 */
+	public function teachersByProgramOrPool()
+	{
+		$input     = JFactory::getApplication()->input;
+		$programID = $input->getString('programID');
+		$poolID    = $input->getString('poolID');
 
-        if (!empty($poolID) AND $poolID != '-1' AND $poolID != 'null')
-        {
-            $resourceType = 'pool';
-            $resourceID = $poolID;
-        }
-        else
-        {
-            $resourceType = 'program';
-            $resourceID = $programID;
-        }
+		if (!empty($poolID) AND $poolID != '-1' AND $poolID != 'null')
+		{
+			$resourceType = 'pool';
+			$resourceID   = $poolID;
+		}
+		else
+		{
+			$resourceType = 'program';
+			$resourceID   = $programID;
+		}
 
-        $boundarySet = THM_OrganizerHelperMapping::getBoundaries($resourceType, $resourceID);
+		$boundarySet = THM_OrganizerHelperMapping::getBoundaries($resourceType, $resourceID);
 
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT t.id, t.forename, t.surname")->from('#__thm_organizer_teachers AS t');
-        $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
-        if (!empty($boundarySet))
-        {
-            $where = '';
-            $initial = true;
-            foreach ($boundarySet as $boundaries)
-            {
-                $where .= $initial?
-                    "((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
-                    : " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
-                $initial = false;
-            }
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT t.id, t.forename, t.surname")->from('#__thm_organizer_teachers AS t');
+		$query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id');
+		$query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
+		if (!empty($boundarySet))
+		{
+			$where   = '';
+			$initial = true;
+			foreach ($boundarySet as $boundaries)
+			{
+				$where .= $initial ?
+					"((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
+					: " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
+				$initial = false;
+			}
 
-            $query->where($where . ')');
-        }
+			$query->where($where . ')');
+		}
 
-        $query->order('t.surname');
-        $dbo->setQuery((string) $query);
-        
-        try 
-        {
-            $teachers = $dbo->loadObjectList();
-        }
-        catch (runtimeException $e)
-        {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-            return '[]';
-        }
+		$query->order('t.surname');
+		$dbo->setQuery((string) $query);
 
-        if (empty($teachers))
-        {
-            return '';
-        }
+		try
+		{
+			$teachers = $dbo->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-        foreach ($teachers AS $key => $value)
-        {
-            $teachers[$key]->name = empty($value->forename)?
-                $value->surname : $value->surname . ', ' . $value->forename;
-        }
+			return '[]';
+		}
 
-        return json_encode($teachers);
-    }
+		if (empty($teachers))
+		{
+			return '';
+		}
+
+		foreach ($teachers AS $key => $value)
+		{
+			$teachers[$key]->name = empty($value->forename) ?
+				$value->surname : $value->surname . ', ' . $value->forename;
+		}
+
+		return json_encode($teachers);
+	}
 }

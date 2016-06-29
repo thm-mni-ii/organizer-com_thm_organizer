@@ -114,7 +114,7 @@ button {
         text-align: right; } }
 
 .input-append {
-  margin-bottom: 0px; }
+  margin-bottom: 0; }
   .input-append input {
     max-width: 115px;
     height: 24.5px; }
@@ -141,7 +141,7 @@ button {
     font-size: 17px;
     position: absolute;
     margin-left: -7px;
-    margin-left: 0px \0;
+    margin-left: 0 \0;
     color: #4a5c66; }
 
 .filter-resource {

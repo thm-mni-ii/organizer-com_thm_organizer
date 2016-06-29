@@ -3,13 +3,14 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        subject details view
+ * @name        THM_OrganizerViewSubject_Details
  * @author      Wolf Rost,  <Wolf.Rost@mni.thm.de>
  * @author      James Antrim,  <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -21,41 +22,41 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
-    public $languageSwitches = array();
+	public $languageSwitches = array();
 
-    public $lang;
+	public $lang;
 
-    /**
-     * Method to get display
-     *
-     * @param   Object $tpl template  (default: null)
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->modifyDocument();
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
-        $this->item = $this->get('Item');
-        if (!empty($this->item->id))
-        {
-            $params = array('view' => 'subject_details', 'id' => $this->item->id);
-            $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
-        }
-        parent::display($tpl);
-    }
+	/**
+	 * Method to get display
+	 *
+	 * @param   Object $tpl template  (default: null)
+	 *
+	 * @return void
+	 */
+	public function display($tpl = null)
+	{
+		$this->modifyDocument();
+		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
+		$this->item = $this->get('Item');
+		if (!empty($this->item->id))
+		{
+			$params                 = array('view' => 'subject_details', 'id' => $this->item->id);
+			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+		}
+		parent::display($tpl);
+	}
 
-    /**
-     * Modifies document variables and adds links to external files
-     *
-     * @return  void
-     */
-    private function modifyDocument()
-    {
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.framework', true);
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return  void
+	 */
+	private function modifyDocument()
+	{
+		JHtml::_('bootstrap.tooltip');
+		JHtml::_('behavior.framework', true);
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
-    }
+		$document = JFactory::getDocument();
+		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
+	}
 }

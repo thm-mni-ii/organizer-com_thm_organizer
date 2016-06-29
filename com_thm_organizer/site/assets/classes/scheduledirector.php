@@ -23,34 +23,34 @@ defined('_JEXEC') or die;
  */
 class THMScheduleDirector
 {
-    /**
-     * Builder
-     *
-     * @var    Object
-     */
-    private $_builder = null;
+	/**
+	 * Builder
+	 *
+	 * @var    Object
+	 */
+	private $_builder = null;
 
-    /**
-     * Constructor to set the builder
-     *
-     * @param   THMAbstractBuilder  $builder  The builder to use
-     */
-    public function __construct( THMAbstractBuilder $builder )
-    {
-        $this->_builder = $builder;
-    }
+	/**
+	 * Constructor to set the builder
+	 *
+	 * @param   THMAbstractBuilder $builder The builder to use
+	 */
+	public function __construct(THMAbstractBuilder $builder)
+	{
+		$this->_builder = $builder;
+	}
 
-    /**
-     * Method to create a schedule
-     *
-     * @param   Object  $arr       The event object
-     * @param   String  $username  The current logged in username
-     * @param   String  $title     The schedule title
-     *
-     * @return Array An array with information about the status of the creation
-     */
-    public function createSchedule($arr, $username, $title)
-    {
-        return $this->_builder->createSchedule($arr, $username, $title);
-    }
+	/**
+	 * Method to create a schedule
+	 *
+	 * @param   object $scheduleData The event object
+	 * @param   string $username     The current logged in username
+	 * @param   string $title        The schedule title
+	 *
+	 * @return array An array with information about the status of the creation
+	 */
+	public function createSchedule($scheduleData, $username, $title)
+	{
+		return $this->_builder->createSchedule($scheduleData, $username, $title);
+	}
 }

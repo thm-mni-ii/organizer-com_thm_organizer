@@ -2,38 +2,38 @@
 <form>
     <fieldset name="details">
         <field
-            name="departmentID"
-            type="departmentID"
-            label="COM_THM_ORGANIZER_DEPARTMENT"
-            description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-            required="true" />
+                name="departmentID"
+                type="departmentID"
+                label="COM_THM_ORGANIZER_DEPARTMENT"
+                description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
+                required="true"/>
         <field
-            name="asset_id"
-            type="hidden"
-            filter="unset"/>
+                name="asset_id"
+                type="hidden"
+                filter="unset"/>
         <field
-            name="file"
-            type="file"
-            label="COM_THM_ORGANIZER_SCHEDULE_FILE"
-            description="COM_THM_ORGANIZER_SCHEDULE_FILE_DESC"
-            class="inputbox"
-            accept=".xml"
-            required="true" />
+                name="file"
+                type="file"
+                label="COM_THM_ORGANIZER_SCHEDULE_FILE"
+                description="COM_THM_ORGANIZER_SCHEDULE_FILE_DESC"
+                class="inputbox"
+                accept=".xml"
+                required="true"/>
         <field
-            name="description"
-            type="text"
-            label="COM_THM_ORGANIZER_DESC"
-            description="COM_THM_ORGANIZER_DESC_DESC"
-            class="inputbox"
-            size="56"
-            default=""/>
+                name="description"
+                type="text"
+                label="COM_THM_ORGANIZER_DESC"
+                description="COM_THM_ORGANIZER_DESC_DESC"
+                class="inputbox"
+                size="56"
+                default=""/>
         <field
-            name="rooms_required"
-            type="checkbox"
-            label="COM_THM_ORGANIZER_ROOMS_REQUIRED"
-            description="COM_THM_ORGANIZER_ROOMS_REQUIRED_DESC"
-            class="inputbox"
-            value="1"
-            default="1"/>
+                name="rooms_required"
+                type="checkbox"
+                label="COM_THM_ORGANIZER_ROOMS_REQUIRED"
+                description="COM_THM_ORGANIZER_ROOMS_REQUIRED_DESC"
+                class="inputbox"
+                value="1"
+                default="1"/>
     </fieldset>
 </form>

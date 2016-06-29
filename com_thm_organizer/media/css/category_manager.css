@@ -1,172 +1,226 @@
 fieldset.filter-bar, div.filter-bar {
-  background-color: #f2f5f6;
-  border: 1px solid #77858c;
-  clear: both;
-  color: #394a59;
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  overflow: auto;
-  padding: 8px 4px 4px 4px;
-  z-index: 12;
-  margin-bottom: 4px;
-  -webkit-box-shadow: 2px 2px 4px #dddddd;
-  -moz-box-shadow: 2px 2px 4px #dddddd;
-  -ms-box-shadow: 2px 2px 4px #dddddd;
-  -o-box-shadow: 2px 2px 4px #dddddd;
-  box-shadow: 2px 2px 4px #dddddd; }
+    background-color: #f2f5f6;
+    border: 1px solid #77858c;
+    clear: both;
+    color: #394a59;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    overflow: auto;
+    padding: 8px 4px 4px 4px;
+    z-index: 12;
+    margin-bottom: 4px;
+    -webkit-box-shadow: 2px 2px 4px #dddddd;
+    -moz-box-shadow: 2px 2px 4px #dddddd;
+    -ms-box-shadow: 2px 2px 4px #dddddd;
+    -o-box-shadow: 2px 2px 4px #dddddd;
+    box-shadow: 2px 2px 4px #dddddd;
+}
 
 .icon-48-organizer_categories {
-  background: url("../images/categories48.png") 0 0 no-repeat; }
+    background: url("../images/categories48.png") 0 0 no-repeat;
+}
 
 /*icons anpassen*/
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-  font-weight: bold; }
+    font-weight: bold;
+}
 
 .icon-add-Space {
-  font-size: 14px; }
+    font-size: 14px;
+}
 
 /*icons zur jeweiligen View im Header hinzufuegen */
 .icon-organizer::before {
-  content: "\e60b"; }
+    content: "\e60b";
+}
 
 .icon-organizer_degrees::before {
-  content: "\e606"; }
+    content: "\e606";
+}
 
 .icon-organizer_users::before {
-  content: "\e01f"; }
+    content: "\e01f";
+}
 
 .icon-organizer_monitors::before {
-  content: "\e01c"; }
+    content: "\e01c";
+}
 
 .icon-organizer_teachers::before {
-  content: "\e604"; }
+    content: "\e604";
+}
 
 .icon-organizer_departments::before {
-  content: "\e244"; }
+    content: "\e244";
+}
 
 .icon-organizer_subjects::before {
-  content: "\e603"; }
+    content: "\e603";
+}
 
 .icon-organizer_fields::before {
-  content: "\74"; }
+    content: "\74";
+}
 
 .icon-organizer_colors::before {
-  content: "\e014"; }
+    content: "\e014";
+}
 
 .icon-organizer_subject_pools::before {
-  content: "\43"; }
+    content: "\43";
+}
 
 .icon-organizer_rooms::before {
-  content: "\e60a"; }
+    content: "\e60a";
+}
 
 .icon-organizer_degree_programs::before {
-  content: "\31"; }
+    content: "\31";
+}
 
 .icon-organizer_schedules::before {
-  content: "\e600"; }
+    content: "\e600";
+}
 
 .icon-organizer_categories::before {
-  content: "\e601"; }
+    content: "\e601";
+}
 
 .icon-mni::before {
-  content: "\e600"; }
+    content: "\e600";
+}
 
 /*icons zu sidebar hinzufuegen*/
 li a[href$="view=thm_organizer"]::before, li a[href$="option=com_thm_organizer"]::before {
-  font-family: icomoon;
-  content: "\e60b";
-  font-size: 16px;
-  padding-right: 8px;
-  color: #80ba24; }
+    font-family: icomoon;
+    content: "\e60b";
+    font-size: 16px;
+    padding-right: 8px;
+    color: #80ba24;
+}
+
 li a[href*="view=degree_manager"]::before {
-  font-family: icomoon;
-  content: "\e606";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e606";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=user_manager"]::before {
-  font-family: icomoon;
-  content: "\e01f";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e01f";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=monitor_manager"]::before {
-  font-family: icomoon;
-  content: "\e01c";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e01c";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=teacher_manager"]::before {
-  font-family: icomoon;
-  content: "\e604";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e604";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=department_manager"]::before {
-  font-family: icomoon;
-  content: "\e244";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e244";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=subject_manager"]::before {
-  font-family: icomoon;
-  content: "\e603";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e603";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=field_manager"]::before {
-  font-family: icomoon;
-  content: "\74";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\74";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=color_manager"]::before {
-  font-family: icomoon;
-  content: "\e014";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e014";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=pool_manager"]::before {
-  font-family: icomoon;
-  content: "\43";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\43";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=room_manager"]::before {
-  font-family: icomoon;
-  content: "\e60a";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e60a";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=program_manager"]::before {
-  font-family: icomoon;
-  content: "\31";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\31";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=schedule_manager"]::before {
-  font-family: icomoon;
-  content: "\e600";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e600";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=category_manager"]::before {
-  font-family: icomoon;
-  content: "\e601";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e601";
+    font-size: 12px;
+    padding-right: 8px;
+}
+
 li a[href*="view=virtual_schedule_manager"]::before {
-  font-family: icomoon;
-  content: "\e600";
-  font-size: 12px;
-  padding-right: 8px; }
+    font-family: icomoon;
+    content: "\e600";
+    font-size: 12px;
+    padding-right: 8px;
+}
 
 fieldset.filter-bar, div.filter-bar {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px; }
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
 
 fieldset.filter-bar button, div.filter-bar button {
-  margin: 0; }
+    margin: 0;
+}
 
 table {
-  width: 100%; }
+    width: 100%;
+}
 
 th, td {
-  text-align: center; }
+    text-align: center;
+}
 
 th.column0, td.column0 {
-  max-width: .5em; }
+    max-width: .5em;
+}
 
 th.column3, td.column3, th.column4, td.column4 {
-  max-width: 3em; }
+    max-width: 3em;
+}

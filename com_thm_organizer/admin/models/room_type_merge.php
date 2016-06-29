@@ -10,6 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 
 /**
@@ -21,13 +22,13 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
  */
 class THM_OrganizerModelRoom_Type_Merge extends THM_OrganizerModelForm
 {
-    /**
-     * Constructor.
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
-     */
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param   array $config An optional associative array of configuration settings.
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+	}
 }

@@ -20,63 +20,65 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLDegrees
 {
-    /**
-     * Validates the degrees (departments) node
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$xmlObject  the xml object being validated
-     *
-     * @return  void
-     */
-    public static function validate(&$scheduleModel, &$xmlObject)
-    {
-        if (empty($xmlObject->departments))
-        {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAMS_MISSING");
-            return;
-        }
+	/**
+	 * Validates the degrees (departments) node
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$xmlObject     the xml object being validated
+	 *
+	 * @return  void
+	 */
+	public static function validate(&$scheduleModel, &$xmlObject)
+	{
+		if (empty($xmlObject->departments))
+		{
+			$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAMS_MISSING");
 
-        $scheduleModel->schedule->degrees = new stdClass;
+			return;
+		}
 
-        foreach ($xmlObject->departments->children() as $degreeNode)
-        {
-            self::validateIndividual($scheduleModel, $degreeNode);
-        }
-    }
+		$scheduleModel->schedule->degrees = new stdClass;
 
-    /**
-     * Checks whether pool nodes have the expected structure and required
-     * information
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$degreeNode     the degree (department) node to be validated
-     *
-     * @return void
-     */
-    private static function validateIndividual(&$scheduleModel, &$degreeNode)
-    {
-        $gpuntisID = trim((string) $degreeNode[0]['id']);
-        if (empty($gpuntisID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING"), $scheduleModel->scheduleErrors))
-            {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING");
-            }
+		foreach ($xmlObject->departments->children() as $degreeNode)
+		{
+			self::validateIndividual($scheduleModel, $degreeNode);
+		}
+	}
 
-            return;
-        }
+	/**
+	 * Checks whether pool nodes have the expected structure and required
+	 * information
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$degreeNode    the degree (department) node to be validated
+	 *
+	 * @return void
+	 */
+	private static function validateIndividual(&$scheduleModel, &$degreeNode)
+	{
+		$gpuntisID = trim((string) $degreeNode[0]['id']);
+		if (empty($gpuntisID))
+		{
+			if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING"), $scheduleModel->scheduleErrors))
+			{
+				$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING");
+			}
 
-        $degreeID = str_replace('DP_', '', $gpuntisID);
-        $scheduleModel->schedule->degrees->$degreeID = new stdClass;
-        $scheduleModel->schedule->degrees->$degreeID->gpuntisID = $gpuntisID;
+			return;
+		}
 
-        $degreeName = (string) $degreeNode->longname;
-        if (!isset($degreeName))
-        {
-            $scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING", $degreeID);
-            return;
-        }
+		$degreeID                                               = str_replace('DP_', '', $gpuntisID);
+		$scheduleModel->schedule->degrees->$degreeID            = new stdClass;
+		$scheduleModel->schedule->degrees->$degreeID->gpuntisID = $gpuntisID;
 
-        $scheduleModel->schedule->degrees->$degreeID->name = $degreeName;
-    }
+		$degreeName = (string) $degreeNode->longname;
+		if (!isset($degreeName))
+		{
+			$scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING", $degreeID);
+
+			return;
+		}
+
+		$scheduleModel->schedule->degrees->$degreeID->name = $degreeName;
+	}
 }

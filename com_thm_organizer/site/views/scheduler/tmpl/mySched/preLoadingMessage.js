@@ -9,7 +9,6 @@ prespan.appendChild(pretext);
 prediv.appendChild(prespan);
 document.getElementById("MySchedMainW").appendChild(prediv);
 
-
 // Created by: Simon Willison | http://simon.incutio.com/
 
 /**
@@ -27,7 +26,8 @@ function addLoadEvent(func)
     {
         window.onload = function ()
         {
-            if (oldonload) {
+            if (oldonload)
+            {
                 oldonload();
             }
             func();

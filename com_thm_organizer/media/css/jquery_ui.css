@@ -1,48 +1,60 @@
 .ui-helper-reset {
-  line-height: 1; }
+    line-height: 1;
+}
 
 .ui-state-default {
-  background-image: none; }
+    background-image: none;
+}
 
 .ui-corner-all {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px; }
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
 
 .ui-corner-top, .ui-corner-bottom {
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px; }
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
 
 .ui-accordion .ui-accordion-header {
-  margin-top: 4px; }
+    margin-top: 4px;
+}
 
 .ui-accordion-header {
-  background-color: #f2f5f6;
-  border: 1px solid #77858c;
-  -webkit-box-shadow: 2px 2px 4px #a4adb2;
-  -moz-box-shadow: 2px 2px 4px #a4adb2;
-  -ms-box-shadow: 2px 2px 4px #a4adb2;
-  -o-box-shadow: 2px 2px 4px #a4adb2;
-  box-shadow: 2px 2px 4px #a4adb2; }
+    background-color: #f2f5f6;
+    border: 1px solid #77858c;
+    -webkit-box-shadow: 2px 2px 4px #a4adb2;
+    -moz-box-shadow: 2px 2px 4px #a4adb2;
+    -ms-box-shadow: 2px 2px 4px #a4adb2;
+    -o-box-shadow: 2px 2px 4px #a4adb2;
+    box-shadow: 2px 2px 4px #a4adb2;
+}
 
 .ui-accordion .ui-accordion-content {
-  padding: 4px; }
+    padding: 4px;
+}
 
 .ui-widget {
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
-  font-size: 13px; }
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
 
 .ui-state-default {
-  font-weight: normal; }
+    font-weight: normal;
+}
 
 .ui-icon.ui-icon-triangle-1-s {
-  background: url("../images/active_tab.png") 0 0 no-repeat; }
+    background: url("../images/active_tab.png") 0 0 no-repeat;
+}
 
 .ui-icon.ui-icon-triangle-1-e {
-  background: url("../images/default_tab.png") 0 0 no-repeat; }
+    background: url("../images/default_tab.png") 0 0 no-repeat;
+}
 
 h3.ui-state-hover {
-  background-color: #4a5c66 !important;
-  color: #ffffff; }
+    background-color: #4a5c66 !important;
+    color: #ffffff;
+}

@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="details">
-        <field name="id" type="hidden" />
+        <field name="id" type="hidden"/>
         <field name="gpuntisID"
                type="text"
                class="inputbox"
                size="60"
                label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC"
-               required="true" />
-        <field type="spacer" name="spacer1" label="COM_THM_ORGANIZER_ENGLISH_PROPERTIES" />
+               required="true"/>
+        <field type="spacer" name="spacer1" label="COM_THM_ORGANIZER_ENGLISH_PROPERTIES"/>
         <field name="name_en"
                type="text"
                class="inputbox"
                size="50"
                label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"
-               required="true" />
+               required="true"/>
         <field name="abbreviation_en"
                type="text"
                class="inputbox"
                label="COM_THM_ORGANIZER_ABBREVIATION_EN"
-               description="COM_THM_ORGANIZER_ABBREVIATION_EN_DESC" />
-        <field type="spacer" name="spacer2" label="COM_THM_ORGANIZER_GERMAN_PROPERTIES" />
+               description="COM_THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
+        <field type="spacer" name="spacer2" label="COM_THM_ORGANIZER_GERMAN_PROPERTIES"/>
         <field name="name_de"
                type="text"
                class="inputbox"
                size="50"
                label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"
-               required="true" />
+               required="true"/>
         <field name="abbreviation_de"
                type="text"
                class="inputbox"
                label="COM_THM_ORGANIZER_ABBREVIATION_DE"
-               description="COM_THM_ORGANIZER_ABBREVIATION_DE_DESC" />
+               description="COM_THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
     </fieldset>
 </form>

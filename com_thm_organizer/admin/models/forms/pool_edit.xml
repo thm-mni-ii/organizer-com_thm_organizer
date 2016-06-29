@@ -2,7 +2,7 @@
 <form>
     <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_BASIC" addfieldpath="/media/com_thm_organizer/fields">
         <field name="id"
-               type="hidden" />
+               type="hidden"/>
         <field name="asset_id"
                type="hidden"
                filter="unset"/>
@@ -10,7 +10,7 @@
                type="departmentID"
                label="COM_THM_ORGANIZER_DEPARTMENT"
                description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-               required="true" >
+               required="true">
             <option value="">COM_THM_ORGANIZER_FILTER_DEPARTMENT</option>
         </field>
         <field name="lsfID"
@@ -18,19 +18,19 @@
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_LSF_ID"
-               description="COM_THM_ORGANIZER_LSF_ID_DESC" />
+               description="COM_THM_ORGANIZER_LSF_ID_DESC"/>
         <field name="hisID"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_HIS_ID"
-               description="COM_THM_ORGANIZER_HIS_ID_DESC" />
+               description="COM_THM_ORGANIZER_HIS_ID_DESC"/>
         <field name="externalID"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_MODULE_ID"
-               description="COM_THM_ORGANIZER_MODULE_ID_DESC" />
+               description="COM_THM_ORGANIZER_MODULE_ID_DESC"/>
         <field name="fieldID"
                type="genericlist"
                valueColumn="id"
@@ -39,7 +39,7 @@
                table="thm_organizer_fields"
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
-               description="COM_THM_ORGANIZER_FIELD_DESC" >
+               description="COM_THM_ORGANIZER_FIELD_DESC">
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>
@@ -71,26 +71,26 @@
                size="40"
                label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"
-               required="true" />
+               required="true"/>
         <field name="short_name_de"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_SHORT_NAME_DE"
-               description="COM_THM_ORGANIZER_SHORT_NAME_DE_DESC" />
+               description="COM_THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
         <field name="abbreviation_de"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_ABBREVIATION_DE"
-               description="COM_THM_ORGANIZER_ABBREVIATION_DE_DESC" />
+               description="COM_THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
         <field name="description_de"
                type="textarea"
                class="inputbox"
                cols="30"
                row="3"
                label="COM_THM_ORGANIZER_DESC_DE"
-               description="COM_THM_ORGANIZER_DESC_DE_DESC" />
+               description="COM_THM_ORGANIZER_DESC_DE_DESC"/>
     </fieldset>
     <fieldset name="en" label="COM_THM_ORGANIZER_ATTRIBUTES_EN">
         <field name="name_en"
@@ -99,26 +99,26 @@
                size="40"
                label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"
-               required="true" />
+               required="true"/>
         <field name="short_name_en"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_SHORT_NAME_EN"
-               description="COM_THM_ORGANIZER_SHORT_NAME_EN_DESC" />
+               description="COM_THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
         <field name="abbreviation_en"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_ABBREVIATION_EN"
-               description="COM_THM_ORGANIZER_ABBREVIATION_EN_DESC" />
+               description="COM_THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
         <field name="description_en"
                type="textarea"
                class="inputbox"
                cols="30"
                row="3"
                label="COM_THM_ORGANIZER_DESC_EN"
-               description="COM_THM_ORGANIZER_DESC_EN_DESC" />
+               description="COM_THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
     <fieldset name="mapping"
               label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS"
@@ -135,11 +135,11 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_PARENT_POOLS"
                description="COM_THM_ORGANIZER_PARENT_POOLS_DESC"
-               required="false" />
+               required="false"/>
         <field name="children"
                type="children"
                label="COM_THM_ORGANIZER_CHILDREN"
-               description="COM_THM_ORGANIZER_CHILDREN_DESC" />
+               description="COM_THM_ORGANIZER_CHILDREN_DESC"/>
     </fieldset>
     <fieldset name="appearance" label="COM_THM_ORGANIZER_APPEARANCE">
         <field name="enable_desc"

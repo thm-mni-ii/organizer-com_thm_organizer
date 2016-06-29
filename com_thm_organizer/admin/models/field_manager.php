@@ -10,8 +10,11 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -24,116 +27,116 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
 {
-    protected $defaultOrdering = 'field';
+	protected $defaultOrdering = 'field';
 
-    protected $defaultDirection = 'asc';
+	protected $defaultDirection = 'asc';
 
-    /**
-     * Constructor to set the config array and call the parent constructor
-     *
-     * @param   Array  $config  Configuration  (default: Array)
-     */
-    public function __construct($config = array())
-    {
-        if (empty($config['filter_fields']))
-        {
-            $config['filter_fields'] = array('field','name');
-        }
+	/**
+	 * Constructor to set the config array and call the parent constructor
+	 *
+	 * @param   array $config Configuration  (default: array)
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array('field', 'name');
+		}
 
-        parent::__construct($config);
-    }
+		parent::__construct($config);
+	}
 
-    /**
-     * Method to get all colors from the database
-     *
-     * @return  JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+	/**
+	 * Method to get all colors from the database
+	 *
+	 * @return  JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        // Create the query
-        $query = $this->_db->getQuery(true);
-        $select = "f.id, f.gpuntisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
-        $parts = array("'index.php?option=com_thm_organizer&view=field_edit&id='","f.id");
-        $select .= $query->concatenate($parts, "") . "AS link ";
-        $query->select($select);
-        $query->from('#__thm_organizer_fields AS f');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+		// Create the query
+		$query  = $this->_db->getQuery(true);
+		$select = "f.id, f.gpuntisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
+		$parts  = array("'index.php?option=com_thm_organizer&view=field_edit&id='", "f.id");
+		$select .= $query->concatenate($parts, "") . "AS link ";
+		$query->select($select);
+		$query->from('#__thm_organizer_fields AS f');
+		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $this->setSearchFilter($query, array('field_de', 'field_en', 'gpuntisID', 'color'));
-        $this->setValueFilters($query, array('colorID'));
-        $this->setLocalizedFilters($query, array('field'));
+		$this->setSearchFilter($query, array('field_de', 'field_en', 'gpuntisID', 'color'));
+		$this->setValueFilters($query, array('colorID'));
+		$this->setLocalizedFilters($query, array('field'));
 
-        $this->setOrdering($query);
+		$this->setOrdering($query);
 
-        return $query;
-    }
+		return $query;
+	}
 
-    /**
-     * Function to feed the data in the table body correctly to the list view
-     *
-     * @return array consisting of items in the body
-     */
-    public function getItems()
-    {
-        $items = parent::getItems();
-        $return = array();
-        if (empty($items))
-        {
-            return $return;
-        }
+	/**
+	 * Function to feed the data in the table body correctly to the list view
+	 *
+	 * @return array consisting of items in the body
+	 */
+	public function getItems()
+	{
+		$items  = parent::getItems();
+		$return = array();
+		if (empty($items))
+		{
+			return $return;
+		}
 
-        $index = 0;
-        foreach ($items as $item)
-        {
-            $return[$index] = array();
-            if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-            {
-                $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            }
+		$index = 0;
+		foreach ($items as $item)
+		{
+			$return[$index] = array();
+			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+			{
+				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+			}
 
-            if ($this->actions->{'core.edit'})
-            {
-                $field = JHtml::_('link', $item->link, $item->field);
-                $gpuntisID = JHtml::_('link', $item->link, $item->gpuntisID);
-            }
-            else
-            {
-                $field = $item->field;
-                $gpuntisID = $item->gpuntisID;
-            }
+			if ($this->actions->{'core.edit'})
+			{
+				$field     = JHtml::_('link', $item->link, $item->field);
+				$gpuntisID = JHtml::_('link', $item->link, $item->gpuntisID);
+			}
+			else
+			{
+				$field     = $item->field;
+				$gpuntisID = $item->gpuntisID;
+			}
 
-            $return[$index]['field'] = $field;
-            $return[$index]['gpuntisID'] = $gpuntisID;
-            $colorOutput = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
-            $return[$index]['colorID'] = $colorOutput;
-            $index++;
-        }
+			$return[$index]['field']     = $field;
+			$return[$index]['gpuntisID'] = $gpuntisID;
+			$colorOutput                 = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
+			$return[$index]['colorID']   = $colorOutput;
+			$index++;
+		}
 
-        return $return;
-    }
+		return $return;
+	}
 
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    public function getHeaders()
-    {
-        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
+	/**
+	 * Function to get table headers
+	 *
+	 * @return array including headers
+	 */
+	public function getHeaders()
+	{
+		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction = $this->state->get('list.direction', $this->defaultDirection);
 
-        $headers = array();
-        if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-        {
-            $headers['checkbox'] = '';
-        }
+		$headers = array();
+		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+		{
+			$headers['checkbox'] = '';
+		}
 
-        $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
-        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'f.gpuntisID', $direction, $ordering);
-        $headers['colorID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
+		$headers['field']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
+		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'f.gpuntisID', $direction, $ordering);
+		$headers['colorID']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
 
-        return $headers;
-    }
+		return $headers;
+	}
 }

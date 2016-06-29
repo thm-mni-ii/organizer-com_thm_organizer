@@ -10,6 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 JHtml::_('jquery.framework');
 
@@ -22,27 +23,27 @@ JHtml::_('jquery.framework');
  */
 class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
 {
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return  void
-     */
-    protected function addToolBar()
-    {
-        JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
-    }
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return  void
+	 */
+	protected function addToolBar()
+	{
+		JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
+	}
 
-    /**
-     * Adds styles and scripts to the document
-     *
-     * @return  void  modifies the document
-     */
-    protected function modifyDocument()
-    {
-        parent::modifyDocument();
-        JHtml::_('searchtools.form', '#adminForm', array());
+	/**
+	 * Adds styles and scripts to the document
+	 *
+	 * @return  void  modifies the document
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+		JHtml::_('searchtools.form', '#adminForm', array());
 
-        $document = Jfactory::getDocument();
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/child_selection.css");
-    }
+		$document = JFactory::getDocument();
+		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/child_selection.css");
+	}
 }

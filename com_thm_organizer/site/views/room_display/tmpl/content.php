@@ -3,7 +3,6 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        template for display of content on registered monitors
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -14,13 +13,14 @@ defined('_JEXEC') or die;
 
 ?>
 <script type="text/javascript">
-var timer = null;
-function auto_reload()
-{
-  window.location = document.URL;
-}
-window.onload = function(){
-    timer = setTimeout('auto_reload()', <?php echo $this->model->params['content_refresh']; ?>000);
-}
+	var timer = null;
+	function auto_reload()
+	{
+		window.location = document.URL;
+	}
+	window.onload = function ()
+	{
+		timer = setTimeout('auto_reload()', <?php echo $this->model->params['content_refresh']; ?>000);
+	}
 </script>
-<img src="images/thm_organizer/<?php echo $this->model->params['content']; ?>" >
+<img src="images/thm_organizer/<?php echo $this->model->params['content']; ?>">

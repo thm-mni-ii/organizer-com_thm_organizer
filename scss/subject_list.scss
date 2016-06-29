@@ -129,7 +129,7 @@ button {
 .subject-list-container h5 {
   background-color: $background-navigation;
   cursor: default;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   margin-top: 10px;
   padding: 6px 12px;
 
@@ -149,7 +149,7 @@ a.pool-anchor {
 }
 
 .subject-list-container .subject-list {
-  margin-left: 0px;
+  margin-left: 0;
 
   li {
     list-style: none;

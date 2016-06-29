@@ -3,7 +3,7 @@
  *
  * @class selectBoxes
  */
-var selectBoxes = (function(win)
+var selectBoxes = (function (win)
 {
     var selectBoxesElements = [], stores = [], rawData, selectedValues;
 
@@ -16,9 +16,9 @@ var selectBoxes = (function(win)
     {
         this.selectBoxesElements = [];
         this.stores = [];
-        for(var i = 0; i < data.length; i++)
+        for (var i = 0; i < data.length; i++)
         {
-            if(data[i].gpuntisID !== 'subject')
+            if (data[i].gpuntisID !== 'subject')
             {
                 this.stores[i] = Ext.create(
                     'Ext.data.Store',
@@ -29,18 +29,18 @@ var selectBoxes = (function(win)
                 );
                 var parent;
                 var show = false;
-                if(data[i].gpuntisID === 'pool')
+                if (data[i].gpuntisID === 'pool')
                 {
                     var parent = Ext.get("jform_params_departmentSemesterSelection-lbl").getParent().getParent();
                 }
-                if(data[i].gpuntisID === 'room')
+                if (data[i].gpuntisID === 'room')
                 {
                     parent = document.getElementById('jform_params_displayRoomSchedule').getParent().getParent();
                     var select = document.getElementById('jform_params_displayRoomSchedule').getElementsByTagName('option');
                     show = select[0].selected;
                     ratioClick('jform_params_displayRoomSchedule', i);
                 }
-                if(data[i].gpuntisID === 'teacher')
+                if (data[i].gpuntisID === 'teacher')
                 {
                     parent = document.getElementById('jform_params_displayTeacherSchedule').getParent().getParent();
                     var select = document.getElementById('jform_params_displayTeacherSchedule').getElementsByTagName('option');
@@ -66,7 +66,8 @@ var selectBoxes = (function(win)
                         listeners: {
                             click: {
                                 element: 'el',
-                                fn: function () {
+                                fn: function ()
+                                {
                                     selectBoxes.checkSelection();
                                 }
                             }
@@ -96,7 +97,7 @@ var selectBoxes = (function(win)
     /**
      * Adding onclick event handler to ratio buttons
      *
-     * @param {array} ratioButtons Array of radio buttons
+     * @param {array} ratioButtons array of radio buttons
      * @param {integer} selectBoxId
      */
     function ratioClick(selectId, selectBoxId)
@@ -109,29 +110,30 @@ var selectBoxes = (function(win)
      * Fill the store with the correct data
      *
      * @param {array} storeData Data for the store
-     * @return {Array} data Array of objects for the store with schedule data
+     * @return {Array} data array of objects for the store with schedule data
      */
     function getDataForStore(storeData)
     {
         var data = [];
-        for(var i=0;i < storeData.children.length;i++)
+        for (var i = 0; i < storeData.children.length; i++)
         {
-            data.push({"name":storeData.children[i].text, "id":storeData.children[i].id});
+            data.push({"name": storeData.children[i].text, "id": storeData.children[i].id});
         }
         return data;
     }
+
     /**
      * Get the selected values of the checkboxes
      *
-     * @return {Array} ObjectString Array of ids of selected values
+     * @return {Array} ObjectString array of ids of selected values
      */
     function getSelection()
     {
         var ObjectString = [];
-        for(var i= 0; i < this.selectBoxesElements.length; i++)
+        for (var i = 0; i < this.selectBoxesElements.length; i++)
         {
             var value = this.selectBoxesElements[i].getValue();
-            for(var j = 0; j < value.length; j++)
+            for (var j = 0; j < value.length; j++)
             {
                 var record = this.selectBoxesElements[i].findRecordByValue(value[j]);
                 ObjectString.push(record.id);
@@ -150,37 +152,40 @@ var selectBoxes = (function(win)
     {
         var ObjectString = [];
         var value = this.selectBoxesElements[number].getValue();
-        for(var j = 0; j < value.length; j++)
+        for (var j = 0; j < value.length; j++)
         {
             var record = this.selectBoxesElements[number].findRecordByValue(value[j]);
             ObjectString.push(record.id);
         }
         return ObjectString;
     }
+
     /**
      * Save data to variables
      *
      * @param {Object} schedData Schedule data
      * @param {String} selected Saved selected ids
      */
-    function setVariables(schedData,selected)
+    function setVariables(schedData, selected)
     {
         this.selectedValues = '';
-        if(selected !== '')
+        if (selected !== '')
         {
             this.selectedValues = Ext.decode(selected);
         }
         this.rawData = schedData;
     }
+
     /**
      * Returns the select boxes
      *
-     * @return {Array} * Array of the select boxes
+     * @return {Array} * array of the select boxes
      */
     function getSBoxes()
     {
         return this.selectBoxesElements;
     }
+
     return {
         /**
          * Initialization
@@ -188,7 +193,7 @@ var selectBoxes = (function(win)
          * @param {object} data schedule data
          * @param {string} selected selected ids
          */
-        init: function(data, selected)
+        init: function (data, selected)
         {
             Ext.define(
                 'SelectBoxModel',
@@ -208,10 +213,9 @@ var selectBoxes = (function(win)
          *
          * @return {Array} values selected values
          */
-        getSelectedValues: function()
+        getSelectedValues: function ()
         {
-            var values = getSelection();
-            return values;
+            return getSelection();
 
         },
         /**
@@ -220,25 +224,27 @@ var selectBoxes = (function(win)
          * @param {Integer} elementId id of the choosen select box
          * @param {Integer} buttonNo Nomber of the button
          */
-        toggleSelectBox: function(buttonNo, elementId)
+        toggleSelectBox: function (buttonNo, elementId)
         {
             var element = document.getElementById(elementId).getElementsByTagName('a')[0], boxes = getSBoxes();
-            if(element.rel.replace('value_', '') == "0")
+            if (element.rel.replace('value_', '') == "0")
             {
                 boxes[buttonNo].hide();
-            } else {
+            }
+            else
+            {
                 boxes[buttonNo].show();
             }
         },
         /**
          * Add free text if nothing is selected
          */
-        checkSelection: function()
+        checkSelection: function ()
         {
             var sboxes = getSBoxes();
-            for(var i = 0; i < sboxes.length; i++)
+            for (var i = 0; i < sboxes.length; i++)
             {
-                if(getSelectionPerBox(i) <= 0)
+                if (getSelectionPerBox(i) <= 0)
                 {
                     sboxes[i].setValue(COM_THM_ORGANIZER_SHOW_ALL);
                 }

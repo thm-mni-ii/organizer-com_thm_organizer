@@ -10,6 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
@@ -22,55 +23,55 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
  */
 class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
 {
-    public $items;
+	public $items;
 
-    public $pagination;
+	public $pagination;
 
-    public $state;
+	public $state;
 
-    /**
-     * Method to get display
-     *
-     * @param   Object  $tpl  template  (default: null)
-     *
-     * @return  void
-     */
-    public function display($tpl = null)
-    {
-        parent::display($tpl);
-    }
+	/**
+	 * Method to get display
+	 *
+	 * @param   Object $tpl template  (default: null)
+	 *
+	 * @return  void
+	 */
+	public function display($tpl = null)
+	{
+		parent::display($tpl);
+	}
 
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return  void
-     */
-    protected function addToolBar()
-    {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_degree_programs');
-        if (count(THM_OrganizerHelperComponent::getAccessibleDepartments()))
-        {
-            JToolbarHelper::addNew('program.add');
-            JToolbarHelper::editList('program.edit');
-            JToolbarHelper::custom(
-                'program.importLSFData',
-                'import',
-                '',
-                'COM_THM_ORGANIZER_ACTION_IMPORT',
-                true
-            );
-            JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
-        }
-        // No departments are available and must first be created
-        elseif ($this->getModel()->actions->{'core.admin'})
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_DEPARTMENTS'), 'notice');
-        }
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return  void
+	 */
+	protected function addToolBar()
+	{
+		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_degree_programs');
+		if (count(THM_OrganizerHelperComponent::getAccessibleDepartments()))
+		{
+			JToolbarHelper::addNew('program.add');
+			JToolbarHelper::editList('program.edit');
+			JToolbarHelper::custom(
+				'program.importLSFData',
+				'import',
+				'',
+				'COM_THM_ORGANIZER_ACTION_IMPORT',
+				true
+			);
+			JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
+		}
+		// No departments are available and must first be created
+		elseif ($this->getModel()->actions->{'core.admin'})
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_DEPARTMENTS'), 'notice');
+		}
 
-        if ($this->getModel()->actions->{'core.admin'})
-        {
-            JToolbarHelper::divider();
-            JToolbarHelper::preferences('com_thm_organizer', '500');
-        }
-    }
+		if ($this->getModel()->actions->{'core.admin'})
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_thm_organizer', '500');
+		}
+	}
 }

@@ -100,106 +100,105 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             // Addes events for the  teacher names
             Ext.select('.teachername', true, tab.dom)
                 .on(
-                {
-                    'click': function (e)
                     {
-                        if (e.button === 0)
+                        'click': function (e)
                         {
-                            this.showSchedule(e, 'teacher');
-                        }
-                    },
-                    scope: this
-                });
+                            if (e.button === 0)
+                            {
+                                this.showSchedule(e, 'teacher');
+                            }
+                        },
+                        scope: this
+                    });
 
             // Adds events to the subject names
             Ext.select('.lecturename', true, tab.dom)
                 .on(
-                {
-                    'mouseover': function (e)
                     {
-                        //console.log(e);
-                        //console.log(e.parentEvent.getTarget('.lectureBox', document.body, true));
-                        e.stopEvent();
-                        this.showInformation(e);
-                    },
-                    'mouseout': function ()
-                    {
-                        var contentAnchorTip = Ext.getCmp('content-anchor-tip');
-                        if (contentAnchorTip)
+                        'mouseover': function (e)
                         {
-                            contentAnchorTip.destroy();
-                        }
-                    },
-                    'click': function (e)
-                    {
-                        e.stopEvent();
-                        this.showModuleInformation(e);
-                    },
-                    scope: this
-                });
+                            //console.log(e);
+                            //console.log(e.parentEvent.getTarget('.lectureBox', document.body, true));
+                            e.stopEvent();
+                            this.showInformation(e);
+                        },
+                        'mouseout': function ()
+                        {
+                            var contentAnchorTip = Ext.getCmp('content-anchor-tip');
+                            if (contentAnchorTip)
+                            {
+                                contentAnchorTip.destroy();
+                            }
+                        },
+                        'click': function (e)
+                        {
+                            e.stopEvent();
+                            this.showModuleInformation(e);
+                        },
+                        scope: this
+                    });
             // Adds events to the room names
             Ext.select('.roomname', true, tab.dom)
                 .on(
-                {
-                    'click': function (e)
                     {
-                        // links Klick
-                        if (e.button === 0)
+                        'click': function (e)
                         {
-                            this.showSchedule(e, 'room');
-                        }
-                    },
-                    scope: this
-                });
+                            // links Klick
+                            if (e.button === 0)
+                            {
+                                this.showSchedule(e, 'room');
+                            }
+                        },
+                        scope: this
+                    });
 
             // Adds events to the pool names
             Ext.select('.modulename', true, tab.dom)
                 .on(
-                {
-                    'click': function (e)
                     {
-                        this.showSchedule(e, 'pool');
-                    },
-                    scope: this
-                });
+                        'click': function (e)
+                        {
+                            this.showSchedule(e, 'pool');
+                        },
+                        scope: this
+                    });
 
             // Subscribe events for lecture box
             // What is a lecture box?
             Ext.select('.lectureBox', true, tab.dom)
                 .on(
-                {
-                    'mousedown': this.onMouseDown,
-                    'dblclick': this.ondblclick,
-                    'contextmenu': function (e)
                     {
-                        showLessonMenu(e);
-                    },
-                    scope: this
-                });
+                        'mousedown': this.onMouseDown,
+                        'dblclick': this.ondblclick,
+                        'contextmenu': function (e)
+                        {
+                            showLessonMenu(e);
+                        },
+                        scope: this
+                    });
 
             // Adds events to the plus icon
             Ext.select('.control_icon', true, tab.dom)
                 .on(
-                {
-                    'click': function (e)
                     {
-                        e.stopEvent();
-                        this.lecture2ScheduleHandler();
-                    },
-                    scope: this
-                });
-
+                        'click': function (e)
+                        {
+                            e.stopEvent();
+                            this.lecture2ScheduleHandler();
+                        },
+                        scope: this
+                    });
 
             // Assuming this is the context menu -> throws js errors right now
             Ext.select('.conMenu', true, tab.dom)
                 .on(
-                {
-                    'contextmenu': function (e)
                     {
-                        showBlockMenu(e);
-                    },
-                    scope: this
-                });
+                        'contextmenu': function (e)
+                        {
+                            showBlockMenu(e);
+                        },
+                        scope: this
+                    });
 
         },
         /**
@@ -214,8 +213,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             "use strict";
 
             var target = e.getTarget();
-            var id = target.getAttribute(type+"ID");
-
+            var id = target.getAttribute(type + "ID");
 
             var nodeID = null;
             var nodeKey = null;
@@ -227,15 +225,15 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             nodeKey = id;
             semesterID = MySched.class_semester_name;
 
-            if(type === "teacher")
+            if (type === "teacher")
             {
                 parent = MySched.Mapping.getTeacherParent(id);
             }
-            else if(type === "pool")
+            else if (type === "pool")
             {
                 parent = MySched.Mapping.getPoolParent(id);
             }
-            else if(type === "room")
+            else if (type === "room")
             {
                 parent = MySched.Mapping.getRoomParent(id);
             }
@@ -313,7 +311,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
             }
             else
             {
-                if(e.getTarget)
+                if (e.getTarget)
                 {
                     el = e.getTarget('.lectureBox', 5, true);
                 }
@@ -336,7 +334,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
          * @param {object} subjects Object with information about the subject
          * @param {object} e Mouse event
          */
-        showSubjectNoMenu: function(subjects, e)
+        showSubjectNoMenu: function (subjects, e)
         {
             "use strict";
 
@@ -350,9 +348,9 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
             for (var subject in subjects.map)
             {
-                if(Ext.isString(subject))
+                if (Ext.isString(subject))
                 {
-                    if(subjects.map[subject] !== "removed")
+                    if (subjects.map[subject] !== "removed")
                     {
                         menuItems[menuItems.length] = {
                             id: MySched.Mapping.getSubjectNo(subject),
@@ -373,7 +371,7 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
 
             if (menuItems.length > 0)
             {
-                if(menuItems.length === 1)
+                if (menuItems.length === 1)
                 {
                     var subjectNo = MySched.Mapping.getSubjectNo(subjects.keys[0]);
 
@@ -403,7 +401,6 @@ MySched.SelectionManager = Ext.apply(new Ext.util.Observable(),
                     Ext.Msg.alert(
                         MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_NOTICE,
                         MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_LESSON_MODULENR_UNKNOWN);
-                    return;
                 }
             }
         },
@@ -706,7 +703,7 @@ function showLessonMenu(e)
  * TODO Don't know when it is called
  * @param element
  */
-function subjectNoHandler (element)
+function subjectNoHandler(element)
 {
     var link = MySched.Mapping.getSubjectLink(element.id);
     if (link !== '')

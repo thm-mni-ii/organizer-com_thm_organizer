@@ -10,6 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -21,41 +22,42 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerTemplateItem
 {
-    /**
-     * Renders subject information
-     *
-     * @param   array   &$item  the item to be displayed
-     * @param   string  $type   the type of group
-     *
-     * @return  void
-     */
-    public static function render(&$item, $type = '')
-    {
-        $displayItem = '';
-        $moduleNr = empty($item->externalID)? '' : '<span class="module-id" >(' . $item->externalID . ')';
-        $link = empty($item->subjectLink)? 'XXXX' : '<a href="' . $item->subjectLink . '">XXXX</a>';
+	/**
+	 * Renders subject information
+	 *
+	 * @param   array  &$item the item to be displayed
+	 * @param   string $type  the type of group
+	 *
+	 * @return  string  the HTML for the item to be displayed
+	 */
+	public static function render(&$item, $type = '')
+	{
+		$displayItem = '';
+		$moduleNr    = empty($item->externalID) ? '' : '<span class="module-id" >(' . $item->externalID . ')';
+		$link        = empty($item->subjectLink) ? 'XXXX' : '<a href="' . $item->subjectLink . '">XXXX</a>';
 
-        $borderStyle = ' style="border-left: 8px solid ';
-        $borderStyle .= empty($item->subjectColor)? 'transparent' : $item->subjectColor;
-        $borderStyle .= ';."';
+		$borderStyle = ' style="border-left: 8px solid ';
+		$borderStyle .= empty($item->subjectColor) ? 'transparent' : $item->subjectColor;
+		$borderStyle .= ';."';
 
-        $field = empty($item->field)? '' : $item->field;
-        $fieldStyle = ' style="height: 19px; width: 12px !important; position: relative; left: -29px;';
-        $fieldStyle .= empty($item->field)? ' cursor: default;"' : ' cursor: help;"';
+		$field      = empty($item->field) ? '' : $item->field;
+		$fieldStyle = ' style="height: 19px; width: 12px !important; position: relative; left: -29px;';
+		$fieldStyle .= empty($item->field) ? ' cursor: default;"' : ' cursor: help;"';
 
-        $displayItem .= '<li ' . $borderStyle . '>';
-        $displayItem .= '<span class="subject-field hasTooltip" ';
-        $displayItem .= $fieldStyle . ' title="' . $field . '">&nbsp;&nbsp;&nbsp;</span>';
-        $displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
-        if ($type != 'teacher' && !empty($item->teacherName))
-        {
-            $displayItem .= '<span class="subject-teacher">' . $item->teacherName . '</span>';
-        }
-        if (!empty($item->creditpoints))
-        {
-            $displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . ' CrP</span>';
-        }
-        $displayItem .= '</li>';
-        return $displayItem;
-    }
+		$displayItem .= '<li ' . $borderStyle . '>';
+		$displayItem .= '<span class="subject-field hasTooltip" ';
+		$displayItem .= $fieldStyle . ' title="' . $field . '">&nbsp;&nbsp;&nbsp;</span>';
+		$displayItem .= '<span class="subject-name">' . str_replace('XXXX', $item->subject . $moduleNr, $link) . '</span>';
+		if ($type != 'teacher' && !empty($item->teacherName))
+		{
+			$displayItem .= '<span class="subject-teacher">' . $item->teacherName . '</span>';
+		}
+		if (!empty($item->creditpoints))
+		{
+			$displayItem .= '<span class="subject-crp">' . str_replace('XXXX', $item->creditpoints, $link) . ' CrP</span>';
+		}
+		$displayItem .= '</li>';
+
+		return $displayItem;
+	}
 }

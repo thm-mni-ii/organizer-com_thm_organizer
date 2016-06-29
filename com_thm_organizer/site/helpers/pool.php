@@ -21,37 +21,37 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperPool
 {
-    /**
-     * Creates a text for the required pool credit points
-     *
-     * @param   object  &$pool  the pool
-     *
-     * @return  string  the required amount of credit points
-     */
-    public static function getCrPText(&$pool)
-    {
-        $minCrPExists = !empty($pool->minCrP);
-        $maxCrPExists = !empty($pool->maxCrP);
-        if ($maxCrPExists)
-        {
-            if ($minCrPExists)
-            {
-                if ($pool->minCrP == $pool->maxCrP)
-                {
-                    return "$pool->maxCrP CrP";
-                }
+	/**
+	 * Creates a text for the required pool credit points
+	 *
+	 * @param   object &$pool the pool
+	 *
+	 * @return  string  the required amount of credit points
+	 */
+	public static function getCrPText(&$pool)
+	{
+		$minCrPExists = !empty($pool->minCrP);
+		$maxCrPExists = !empty($pool->maxCrP);
+		if ($maxCrPExists)
+		{
+			if ($minCrPExists)
+			{
+				if ($pool->minCrP == $pool->maxCrP)
+				{
+					return "$pool->maxCrP CrP";
+				}
 
-                return "$pool->minCrP - $pool->maxCrP CrP";
-            }
+				return "$pool->minCrP - $pool->maxCrP CrP";
+			}
 
-            return "max. $pool->maxCrP CrP";
-        }
+			return "max. $pool->maxCrP CrP";
+		}
 
-        if ($minCrPExists)
-        {
-            return "min. $pool->minCrP CrP";
-        }
+		if ($minCrPExists)
+		{
+			return "min. $pool->minCrP CrP";
+		}
 
-        return '';
-    }
+		return '';
+	}
 }

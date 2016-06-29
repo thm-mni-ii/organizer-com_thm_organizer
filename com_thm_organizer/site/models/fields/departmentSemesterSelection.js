@@ -5,10 +5,11 @@ var loadMask = null;
 /**
  *  On load function that gets the schedule data
  */
-Ext.onReady(function()
+Ext.onReady(function ()
 {
     Ext.get('jform_params_departmentSemesterSelection').on({
-        'change': function (e) {
+        'change': function (e)
+        {
             e.stopEvent();
             var selectBox = e.getTarget();
             var selectedItems = selectBox.getSelected();
@@ -19,7 +20,7 @@ Ext.onReady(function()
     });
     var initselectBox = Ext.get('jform_params_departmentSemesterSelection');
     var initselectedItems = initselectBox.getValue();
-    if(initselectedItems.length > 0)
+    if (initselectedItems.length > 0)
     {
         loadTreeData(initselectedItems);
     }
@@ -35,24 +36,23 @@ function loadTreeData(selectedItemValue)
     Ext.get('attrib-basic').mask("Loading");
 
     Ext.Ajax.request(
-    {
-        url: externLinks.ajaxHandler,
-        method: 'GET',
-        params:
         {
-            departmentSemesterSelection: selectedItemValue,
-            scheduletask: "TreeView.load",
-            menuID: menuID
-        },
-        success: function (response)
-        {
-            var json = Ext.decode(response.responseText);
-            var newtree = json.tree;
+            url: externLinks.ajaxHandler,
+            method: 'GET',
+            params: {
+                departmentSemesterSelection: selectedItemValue,
+                scheduletask: "TreeView.load",
+                menuID: menuID
+            },
+            success: function (response)
+            {
+                var json = Ext.decode(response.responseText);
+                var newtree = json.tree;
 
-            var val = document.getElementById('jform_params_id').value;
-            selectBoxes.init(newtree, val);
+                var val = document.getElementById('jform_params_id').value;
+                selectBoxes.init(newtree, val);
 
-            Ext.get('attrib-basic').unmask();
-        }
-    });
+                Ext.get('attrib-basic').unmask();
+            }
+        });
 }

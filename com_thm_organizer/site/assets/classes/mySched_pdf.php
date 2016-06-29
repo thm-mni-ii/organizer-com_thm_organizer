@@ -23,73 +23,73 @@ jimport('thm_core.fpdf.fpdf');
  */
 class MySchedPdf extends FPDF_TABLE
 {
-    /**
-     * Schedule Title
-     *
-     * @var    String
-     */
-    private $_title = null;
+	/**
+	 * Schedule Title
+	 *
+	 * @var    String
+	 */
+	private $_title = null;
 
-    /**
-     * Schedule Startdate
-     *
-     * @var    String
-     */
-    private $_startdate = null;
+	/**
+	 * Schedule Startdate
+	 *
+	 * @var    String
+	 */
+	private $_startdate = null;
 
-    /**
-     * Schedule Enddate
-     *
-     * @var    String
-     */
-    private $_enddate = null;
-    
-    /**
-     * Constructor which performs initial tasks
-     *
-     * @param   string  $title      the title for the pdf
-     * @param   string  $startdate  the start date
-     * @param   string  $enddate    the end date
-     */
-    public function __construct($title, $startdate, $enddate)
-    {
-        $this->_title = $title;
+	/**
+	 * Schedule Enddate
+	 *
+	 * @var    String
+	 */
+	private $_enddate = null;
 
-        $this->_enddate = DateTime::createFromFormat('Y-m-d', $enddate);
-        $this->_enddate = $this->_enddate->sub(new DateInterval('P2D'));
-        $this->_enddate = $this->_enddate->format('d.m.y');
+	/**
+	 * Constructor which performs initial tasks
+	 *
+	 * @param   string $title     the title for the pdf
+	 * @param   string $startdate the start date
+	 * @param   string $enddate   the end date
+	 */
+	public function __construct($title, $startdate, $enddate)
+	{
+		$this->_title = $title;
 
-        $this->_startdate = DateTime::createFromFormat('Y-m-d', $startdate);
-        $this->_startdate = $this->_startdate->format('d.m.y');
-        parent::FPDF('L');
-        $this->AliasNbPages();
-    }
+		$this->_enddate = DateTime::createFromFormat('Y-m-d', $enddate);
+		$this->_enddate = $this->_enddate->sub(new DateInterval('P2D'));
+		$this->_enddate = $this->_enddate->format('d.m.y');
 
-    /**
-     * Method to set the header of the pdf document
-     *
-     * @return Array An array with information about the status of the creation
-     */
-    public function Header()
-    {
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(124);
-        $this->Cell(30, 10, '' . $this->_title . ' - Woche ' . $this->_startdate . ' bis ' . $this->_enddate, 0, 0, 'C');
-        $this->Ln(15);
-    }
+		$this->_startdate = DateTime::createFromFormat('Y-m-d', $startdate);
+		$this->_startdate = $this->_startdate->format('d.m.y');
+		parent::FPDF('L');
+		$this->AliasNbPages();
+	}
 
-    /**
-     * Method to set the footer of the pdf document
-     *
-     * @return Array An array with information about the status of the creation
-     */
-    public function footer()
-    {
-        $date = date('d.m.Y');
+	/**
+	 * Method to set the header of the pdf document
+	 *
+	 * @return array An array with information about the status of the creation
+	 */
+	public function Header()
+	{
+		$this->SetFont('Arial', 'B', 15);
+		$this->Cell(124);
+		$this->Cell(30, 10, '' . $this->_title . ' - Woche ' . $this->_startdate . ' bis ' . $this->_enddate, 0, 0, 'C');
+		$this->Ln(15);
+	}
 
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'B', 8);
-        $this->Cell(124);
-        $this->Cell(30, 10, 'Erstellt: ' . $date . '   -   Seite ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
-    }
+	/**
+	 * Method to set the footer of the pdf document
+	 *
+	 * @return array An array with information about the status of the creation
+	 */
+	public function footer()
+	{
+		$date = date('d.m.Y');
+
+		$this->SetY(-15);
+		$this->SetFont('Arial', 'B', 8);
+		$this->Cell(124);
+		$this->Cell(30, 10, 'Erstellt: ' . $date . '   -   Seite ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+	}
 }

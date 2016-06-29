@@ -21,15 +21,15 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldCheckAll extends JFormField
 {
-    protected $type = 'checkAll';
+	protected $type = 'checkAll';
 
-    /**
-     * Makes a checkbox
-     *
-     * @return  string  a HTML checkbox
-     */
-    public function getInput()
-    {
-        return JHtml::_('grid.checkall');
-    }
+	/**
+	 * Makes a checkbox
+	 *
+	 * @return  string  a HTML checkbox
+	 */
+	public function getInput()
+	{
+		return JHtml::_('grid.checkall');
+	}
 }

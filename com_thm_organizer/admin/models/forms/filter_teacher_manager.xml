@@ -2,82 +2,82 @@
 <form>
     <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
         <field
-            name="search"
-            type="text"
-            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-            hint="JSEARCH_FILTER"
-            />
+                name="search"
+                type="text"
+                label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
+                hint="JSEARCH_FILTER"
+        />
         <field
-            name="checkbox"
-            type="CheckAll" />
+                name="checkbox"
+                type="CheckAll"/>
         <field
-            name="surname"
-            type="genericlist"
-            valueColumn="surname"
-            textColumn="surname"
-            table="thm_organizer_teachers"
-            label="COM_THM_ORGANIZER_SURNAME"
-            onchange="this.form.submit();"
-            >
+                name="surname"
+                type="genericlist"
+                valueColumn="surname"
+                textColumn="surname"
+                table="thm_organizer_teachers"
+                label="COM_THM_ORGANIZER_SURNAME"
+                onchange="this.form.submit();"
+        >
             <option value="">JALL</option>
         </field>
         <field
-            name="forename"
-            type="genericlist"
-            valueColumn="forename"
-            textColumn="forename"
-            table="thm_organizer_teachers"
-            label="COM_THM_ORGANIZER_SURNAME"
-            onchange="this.form.submit();"
-            >
+                name="forename"
+                type="genericlist"
+                valueColumn="forename"
+                textColumn="forename"
+                table="thm_organizer_teachers"
+                label="COM_THM_ORGANIZER_SURNAME"
+                onchange="this.form.submit();"
+        >
             <option value="">JALL</option>
         </field>
         <field
-            name="username"
-            type="genericlist"
-            valueColumn="username"
-            textColumn="username"
-            table="thm_organizer_teachers"
-            label="COM_THM_ORGANIZER_USERNAME"
-            onchange="this.form.submit();"
-            >
-            <option value="">JALL</option>
-            <option value="-1">JNONE</option>
-        </field>
-        <field
-            name="t.gpuntisID"
-            type="genericlist"
-            valueColumn="gpuntisID"
-            textColumn="gpuntisID"
-            table="thm_organizer_teachers"
-            label="COM_THM_ORGANIZER_USERNAME"
-            onchange="this.form.submit();"
-            >
+                name="username"
+                type="genericlist"
+                valueColumn="username"
+                textColumn="username"
+                table="thm_organizer_teachers"
+                label="COM_THM_ORGANIZER_USERNAME"
+                onchange="this.form.submit();"
+        >
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
         <field
-            name="field"
-            type="localizedlist"
-            valueColumn="field"
-            textColumn="field"
-            table="thm_organizer_teachers AS t,thm_organizer_fields AS f ON t.fieldID = f.id"
-            label="COM_THM_ORGANIZER_USERNAME"
-            onchange="this.form.submit();"
-            >
+                name="t.gpuntisID"
+                type="genericlist"
+                valueColumn="gpuntisID"
+                textColumn="gpuntisID"
+                table="thm_organizer_teachers"
+                label="COM_THM_ORGANIZER_USERNAME"
+                onchange="this.form.submit();"
+        >
+            <option value="">JALL</option>
+            <option value="-1">JNONE</option>
+        </field>
+        <field
+                name="field"
+                type="localizedlist"
+                valueColumn="field"
+                textColumn="field"
+                table="thm_organizer_teachers AS t,thm_organizer_fields AS f ON t.fieldID = f.id"
+                label="COM_THM_ORGANIZER_USERNAME"
+                onchange="this.form.submit();"
+        >
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
     </fields>
-	<fields name="list">
-		<field
-			name="limit"
-			type="limitbox"
-			class="input-mini"
-			default="25"
-			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_CONTENT_LIST_LIMIT_DESC"
-			onchange="this.form.submit();"
-		/>
-	</fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="25"
+                label="COM_CONTENT_LIST_LIMIT"
+                description="COM_CONTENT_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+        />
+    </fields>
 </form>

@@ -72,6 +72,7 @@ div.MySchedexternURLClass_DIS {
     border: 2px solid #8DB2E3;
     margin: 1px;
 }
+
 /* Lextures die in MySchedule sind */
 .lectureBox_cho {
     background: #b8c47e;
@@ -154,7 +155,7 @@ div.teacherInfo div ul {
 .dd-drag {
     opacity: 0.4;
     -moz-opacity: 0.4;
-    filter: alpha(opacity = 40);
+    filter: alpha(opacity=40);
 }
 
 .dd-over {
@@ -198,19 +199,19 @@ small.removed {
 .oldroom {
     color: #aaaaaa;
     text-decoration: line-through;
-    font-size: 10.5px;
+    font-size: 11px;
 }
 
 .oldteacher {
     color: #aaaaaa;
     text-decoration: line-through;
-    font-size: 10.5px;
+    font-size: 11px;
 }
 
 .oldmodule {
     color: #aaaaaa;
     text-decoration: line-through;
-    font-size: 10.5px;
+    font-size: 11px;
 }
 
 .teachername:hover {
@@ -269,46 +270,38 @@ small.removed {
 
 /* Deltastyle */
 
-.deltanew
-{
+.deltanew {
     color: green;
 }
 
-.deltaremoved
-{
+.deltaremoved {
     text-decoration: line-through;
     color: #aaaaaa;
 }
 
-.roomnew
-{
+.roomnew {
     color: green;
 }
 
-.roomremoved
-{
+.roomremoved {
     text-decoration: line-through;
     color: #aaaaaa;
 }
 
-.teachernew
-{
+.teachernew {
     color: green;
 }
 
-.teacherremoved
-{
+.teacherremoved {
     text-decoration: line-through;
     color: #aaaaaa;
 }
 
-.modulenew
-{
+.modulenew {
     color: green;
 }
 
-.moduleremoved
-{
+.moduleremoved {
     text-decoration: line-through;
     color: #aaaaaa;
 }

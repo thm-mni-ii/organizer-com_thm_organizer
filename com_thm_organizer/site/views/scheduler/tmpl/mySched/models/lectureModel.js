@@ -17,7 +17,7 @@ Ext.define('LectureModel',
          */
         constructor: function (id, data, semesterID, plantypeID)
         {
-            var teacher,room, pool, subject, cellTemplate, infoTemplate, owner = data.owner, showtime = data.showtime;
+            var teacher, room, pool, subject, cellTemplate, infoTemplate, owner = data.owner, showtime = data.showtime;
 
             this.superclass.constructor.call(this, id, Ext.clone(data));
             this.data.teachers = new MySched.Collection();
@@ -118,7 +118,7 @@ Ext.define('LectureModel',
             var moduleDegree = MySched.Mapping.getModuleParent(key);
             var degreeName = MySched.Mapping.getDegreeName(moduleDegree);
 
-            for(var index = 0; index < curriculumColors.length; index++)
+            for (var index = 0; index < curriculumColors.length; index++)
             {
                 var curriculumColor = curriculumColors[index];
                 if (curriculumColor.semesterName === moduleName && curriculumColor.organizerMajorName === degreeName)
@@ -141,7 +141,7 @@ Ext.define('LectureModel',
             var returnValue = "";
             if (d.showDelta === true)
             {
-                for(var dateIndex in this.data.calendar)
+                for (var dateIndex in this.data.calendar)
                 {
                     if (this.data.calendar.hasOwnProperty(dateIndex))
                     {
@@ -168,24 +168,24 @@ Ext.define('LectureModel',
             var subjectNames = [];
             var lessonTitle = "";
 
-            if(subjectKeys.length === 1)
+            if (subjectKeys.length === 1)
             {
                 lessonTitle = MySched.Mapping.getSubjectShortName(subjectKeys[0]);
-                if(lessonTitle === subjectKeys[0])
+                if (lessonTitle === subjectKeys[0])
                 {
                     lessonTitle = MySched.Mapping.getSubjectAbbreviation(subjectKeys[0]);
-                    if(lessonTitle === subjectKeys[0])
+                    if (lessonTitle === subjectKeys[0])
                     {
                         lessonTitle = MySched.Mapping.getSubjectName(subjectKeys[0]);
                     }
                 }
             }
-            else if(subjectKeys.length > 1)
+            else if (subjectKeys.length > 1)
             {
-                for(var index = 0; index < subjectKeys.length; index++)
+                for (var index = 0; index < subjectKeys.length; index++)
                 {
                     var abbreviation = MySched.Mapping.getSubjectAbbreviation(subjectKeys[index]);
-                    if(abbreviation === subjectKeys[index])
+                    if (abbreviation === subjectKeys[index])
                     {
                         abbreviation = MySched.Mapping.getSubjectName(subjectKeys[index]);
                     }
@@ -233,7 +233,7 @@ Ext.define('LectureModel',
             return ret;
         },
         /**
-         * Returns the dom Element as String with icon
+         * Returns the dom Element as string with icon
          *
          * @method getTopIcon
          * @param {object} d Object with data above the requested resource
@@ -382,7 +382,7 @@ Ext.define('LectureModel',
                     c += "<span>" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_POOL + ":<br/>";
                     for (var pool in pools)
                     {
-                        if (pools.hasOwnProperty(pool)  && pool !== "")
+                        if (pools.hasOwnProperty(pool) && pool !== "")
                         {
                             temp = MySched.Mapping.getObject("pool", pool);
                             if (!temp)
@@ -435,7 +435,10 @@ Ext.define('LectureModel',
             if (arr)
             {
                 var myroom = arr.split(" ");
-                Ext.each(myroom, function (e) { this.room.add(new RoomModel(e)); }, this);
+                Ext.each(myroom, function (e)
+                {
+                    this.room.add(new RoomModel(e));
+                }, this);
             }
         },
         /**
@@ -449,7 +452,10 @@ Ext.define('LectureModel',
             if (arr)
             {
                 var mySubject = arr.split(" ");
-                Ext.each(mySubject, function (e) { this.subject.add(new SubjectModel(e)); }, this);
+                Ext.each(mySubject, function (e)
+                {
+                    this.subject.add(new SubjectModel(e));
+                }, this);
             }
         },
         /**
@@ -463,7 +469,10 @@ Ext.define('LectureModel',
             if (arr)
             {
                 var myPool = arr.split(" ");
-                Ext.each(myPool, function (e) { this.pool.add(new PoolModel(e)); }, this);
+                Ext.each(myPool, function (e)
+                {
+                    this.pool.add(new PoolModel(e));
+                }, this);
             }
         },
         /**
@@ -507,14 +516,14 @@ Ext.define('LectureModel',
 
                     if (d.showDelta === true && rooms.map[roomIndex] !== "")
                     {
-                        changedStatus = "room"+rooms.map[roomIndex];
+                        changedStatus = "room" + rooms.map[roomIndex];
                     }
                     else if (rooms.map[roomIndex] !== "" && rooms.map[roomIndex] !== "new")
                     {
                         continue;
                     }
 
-                    var roomNameHTML = '<span roomID="' + roomIndex +  '" class="roomname ' + changedStatus + '">' + roomName + '</span>';
+                    var roomNameHTML = '<span roomID="' + roomIndex + '" class="roomname ' + changedStatus + '">' + roomName + '</span>';
                     ret.push(roomNameHTML);
                 }
             }
@@ -527,11 +536,11 @@ Ext.define('LectureModel',
          * @param {object} lesson Information above the lesson
          * @return {MySched.Collection} roomCollection Collection of the room
          */
-        getRooms: function(lesson)
+        getRooms: function (lesson)
         {
             var roomCollection = new MySched.Collection();
             var currentMoFrDate = getCurrentMoFrDate();
-            for(var dateIndex in lesson.data.calendar)
+            for (var dateIndex in lesson.data.calendar)
             {
                 if (lesson.data.calendar.hasOwnProperty(dateIndex))
                 {
@@ -575,7 +584,7 @@ Ext.define('LectureModel',
                         continue;
                     }
 
-                    var teacherNameHTML = '<span teacherID="' + teacherIndex +  '" class="teachername ' +  changedStatus + '">' + teacherName + '</span>';
+                    var teacherNameHTML = '<span teacherID="' + teacherIndex + '" class="teachername ' + changedStatus + '">' + teacherName + '</span>';
                     ret.push(teacherNameHTML);
                 }
             }
@@ -658,7 +667,7 @@ Ext.define('LectureModel',
                         changedStatus = "module" + pools[poolIndex];
                     }
 
-                    HTML = '<span poolID="' + poolIndex +  '" class="modulename ' + changedStatus + '">' + poolName + '</span>';
+                    HTML = '<span poolID="' + poolIndex + '" class="modulename ' + changedStatus + '">' + poolName + '</span>';
                     ret.push(HTML);
                 }
             }
@@ -843,7 +852,7 @@ Ext.define('LectureModel',
             {
                 d.css = ' lectureBox_cho';
             }
-            var cellView =  this.cellTemplate.apply(d);
+            var cellView = this.cellTemplate.apply(d);
 
             if (cellView.contains("MySchedEvent_reserve"))
             {
@@ -860,7 +869,7 @@ Ext.define('LectureModel',
          */
         getSporadicView: function (relObj)
         {
-            var d = this.getDetailData({ parentId: relObj.getId() });
+            var d = this.getDetailData({parentId: relObj.getId()});
             if (relObj.getId() !== 'mySchedule' && MySched.Schedule.lectureExists(this))
             {
                 d.css = ' lectureBox_cho';
@@ -887,7 +896,7 @@ Ext.define('LectureModel',
          */
         has: function (type, val)
         {
-            var o = { ret: false };
+            var o = {ret: false};
 
             if (type === "teacher")
             {

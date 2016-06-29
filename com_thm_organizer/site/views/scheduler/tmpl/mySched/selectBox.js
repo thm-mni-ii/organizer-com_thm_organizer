@@ -40,9 +40,9 @@ MySched.SelectBoxes = function ()
                 }
             );
 
-            if(Ext.isObject(MySched.startup["TreeView.load"]))
+            if (Ext.isObject(MySched.startup["TreeView.load"]))
             {
-                children = MySched.startup["TreeView.load"].data.tree;
+                MySched.startup["TreeView.load"].data.tree;
             }
             else
             {
@@ -91,9 +91,10 @@ MySched.SelectBoxes = function ()
          *
          * @param {object} data The data of schedule in the shape of a tree
          */
-        createSelectBoxes: function(data)
+        createSelectBoxes: function (data)
         {
-            var i = 0, tmpSBox, preSelectedValue = '', preSelectedId = 0;
+            var i, tmpSBox, preSelectedValue = '', preSelectedId = 0;
+
             this.stores = [];
             this.levelData = [];
             this.selectBoxes = [];
@@ -109,7 +110,7 @@ MySched.SelectBoxes = function ()
                         data: this.levelData[i],
                         sorters: [
                             {
-                                property : 'name',
+                                property: 'name',
                                 direction: 'ASC'
                             }
                         ]
@@ -118,7 +119,7 @@ MySched.SelectBoxes = function ()
                 tmpSBox = Ext.create(
                     'Ext.form.field.ComboBox',
                     {
-                        height:40,
+                        height: 40,
                         multiSelect: false,
                         width: 175,
                         class: 'level_' + i,
@@ -127,9 +128,8 @@ MySched.SelectBoxes = function ()
                         queryMode: 'local',
                         editable: false,
                         emptyText: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SELECT_OPTION,
-                        listeners:
-                        {
-                            select: function(combo, records, eOpts)
+                        listeners: {
+                            select: function (combo, records, eOpts)
                             {
                                 MySched.SelectBoxes.changedSelectBoxValue(records[0]);
                             }
@@ -144,10 +144,10 @@ MySched.SelectBoxes = function ()
                 this.selectPanel.unmask();
             }
 
-            for(i = 0; i < this.scheduleData.length;i++)
+            for (i = 0; i < this.scheduleData.length; i++)
             {
-                this.levelData[0].push({"name":this.scheduleData[i].text, "id":this.scheduleData[i].id, "level":0});
-                if(this.scheduleData.length === 1)
+                this.levelData[0].push({"name": this.scheduleData[i].text, "id": this.scheduleData[i].id, "level": 0});
+                if (this.scheduleData.length === 1)
                 {
                     this.selectBoxes[0].select(this.scheduleData[i].text);
                 }
@@ -160,15 +160,15 @@ MySched.SelectBoxes = function ()
              * preselected.
              */
             var allRecords = this.stores[0].snapshot || this.stores[0].data;
-            for(i = 0; i < allRecords.items.length; i++)
+            for (i = 0; i < allRecords.items.length; i++)
             {
-                if(allRecords.items[i].id.indexOf('pool') >= 0)
+                if (allRecords.items[i].id.indexOf('pool') >= 0)
                 {
                     preSelectedValue = allRecords.items[i].data.name;
                     preSelectedId = i;
                 }
             }
-            if(preSelectedValue !== '')
+            if (preSelectedValue !== '')
             {
                 this.selectBoxes[0].select(preSelectedValue);
             }
@@ -181,7 +181,7 @@ MySched.SelectBoxes = function ()
          *
          * @method recreate
          */
-        recreate: function()
+        recreate: function ()
         {
             // delete all children from panel
             this.selectPanel.removeAll();
@@ -199,16 +199,16 @@ MySched.SelectBoxes = function ()
          * @param {number} level The current level of the tree
          * @return {number} level The new calculated level
          */
-        getDepthOfTree: function(tree, level)
+        getDepthOfTree: function (tree, level)
         {
             level++;
             var oneHasChild = false;
-            for(var i = 0; i < tree.length;i++)
+            for (var i = 0; i < tree.length; i++)
             {
-                if(tree[i].hasOwnProperty('children') && tree[i].children)
+                if (tree[i].hasOwnProperty('children') && tree[i].children)
                 {
                     oneHasChild = true;
-                    this.getDepthOfTree(tree[i].children,level);
+                    this.getDepthOfTree(tree[i].children, level);
                 }
             }
             if (oneHasChild)
@@ -224,31 +224,36 @@ MySched.SelectBoxes = function ()
          * @method changedSelectBoxValue
          * @param {object} SelectedItem The selected record from the store
          */
-        changedSelectBoxValue: function(SelectedItem)
+        changedSelectBoxValue: function (SelectedItem)
         {
-            var level = SelectedItem.get('level')+ 1,
+            var level = SelectedItem.get('level') + 1,
                 originalLevel = level,
                 id = SelectedItem.get('id'),
                 item = this.findItemInTree(id, this.scheduleData),
                 plantypeID = "",
                 i = 0;
 
-            if(item.children)
+            if (item.children)
             {
-                for (i = level; i <= this.maxDepth; i ++){
+                for (i = level; i <= this.maxDepth; i++)
+                {
                     this.levelData[i] = [];
                 }
                 var element = item;
                 // if current element has just one child search for the next child that have more than just one child
-                while((element.children && element.children.length <= 1))
+                while ((element.children && element.children.length <= 1))
                 {
-                    this.levelData[level].push({"name": element.children[0].text, "id": element.children[0].id, "level": level});
+                    this.levelData[level].push({
+                        "name": element.children[0].text,
+                        "id": element.children[0].id,
+                        "level": level
+                    });
                     this.stores[level].setData(this.levelData[level]);
                     this.selectBoxes[level].select(element.children[0].text);
                     element = element.children[0];
                     level++;
                 }
-                if(element.children)
+                if (element.children)
                 {
                     for (i = 0; i < element.children.length; i++)
                     {
@@ -266,9 +271,9 @@ MySched.SelectBoxes = function ()
                     this.selectBoxes[originalLevel - 1].setValue(this.selectBoxes[originalLevel - 1].getSelection().data.name + ' ');
                 }
 
-                for(i = 0; i <= this.maxDepth;i++)
+                for (i = 0; i <= this.maxDepth; i++)
                 {
-                    if(i <= level && this.levelData[i].length > 1)
+                    if (i <= level && this.levelData[i].length > 1)
                     {
                         this.selectBoxes[i].setDisabled(false);
                     }
@@ -278,7 +283,7 @@ MySched.SelectBoxes = function ()
                         this.selectBoxes[i].setDisabled(true);
 
                     }
-                    if(i >= level)
+                    if (i >= level)
                     {
                         this.selectBoxes[i].clearValue();
                     }
@@ -299,19 +304,20 @@ MySched.SelectBoxes = function ()
          * @param {object} tree The tree in that should searched
          * @return {object} result False if the element was not found otherwise the element as object
          */
-        findItemInTree: function(id, tree)
+        findItemInTree: function (id, tree)
         {
             var result = false;
-            for(var i = 0; i < tree.length; i++)
+            for (var i = 0; i < tree.length; i++)
             {
-                if(tree[i].id == id)
+                if (tree[i].id == id)
                 {
                     return tree[i];
                 }
-                if(tree[i].hasOwnProperty('children') && tree[i].children)
+                if (tree[i].hasOwnProperty('children') && tree[i].children)
                 {
-                    result =  this.findItemInTree(id, tree[i].children);
-                    if(result !== false){
+                    result = this.findItemInTree(id, tree[i].children);
+                    if (result !== false)
+                    {
                         return result;
                     }
                 }

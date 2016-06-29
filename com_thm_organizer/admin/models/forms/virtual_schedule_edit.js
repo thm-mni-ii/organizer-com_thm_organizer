@@ -1,11 +1,11 @@
-window.addEvent('domready', function()
+window.addEvent('domready', function ()
 {
     "use strict";
     var typeElement = document.id("jform_type");
     var selectedElement = typeElement.getSelected();
     showTypeResource(selectedElement[0].index);
 
-    typeElement.addEvent('change',function()
+    typeElement.addEvent('change', function ()
     {
         var selectedElement = this.getSelected();
         showTypeResource(selectedElement[0].index);

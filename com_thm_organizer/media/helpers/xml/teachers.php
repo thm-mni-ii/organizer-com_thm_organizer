@@ -20,251 +20,255 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLTeachers
 {
-    /**
-     * Checks whether teacher nodes have the expected structure and required information
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$xmlObject      the xml object being validated
-     *
-     * @return void
-     */
-    public static function validate(&$scheduleModel, &$xmlObject)
-    {
-        if (empty($xmlObject->teachers))
-        {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHERS_MISSING");
-            return;
-        }
+	/**
+	 * Checks whether teacher nodes have the expected structure and required information
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$xmlObject     the xml object being validated
+	 *
+	 * @return void
+	 */
+	public static function validate(&$scheduleModel, &$xmlObject)
+	{
+		if (empty($xmlObject->teachers))
+		{
+			$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHERS_MISSING");
 
-        $scheduleModel->schedule->teachers = new stdClass;
+			return;
+		}
 
-        foreach ($xmlObject->teachers->children() as $teacherNode)
-        {
-            self::validateIndividual($scheduleModel, $teacherNode);
-        }
+		$scheduleModel->schedule->teachers = new stdClass;
 
-        if (!empty($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']))
-        {
-            $warningCount = $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'];
-            unset($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']);
-            $scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING', $warningCount);
-        }
+		foreach ($xmlObject->teachers->children() as $teacherNode)
+		{
+			self::validateIndividual($scheduleModel, $teacherNode);
+		}
 
-        if (!empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME']))
-        {
-            $warningCount = $scheduleModel->scheduleWarnings['TEACHER-FORENAME'];
-            unset($scheduleModel->scheduleWarnings['TEACHER-FORENAME']);
-            $scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING', $warningCount);
-        }
+		if (!empty($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']))
+		{
+			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'];
+			unset($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']);
+			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING', $warningCount);
+		}
 
-        if (!empty($scheduleModel->scheduleWarnings['TEACHER-TITLE']))
-        {
-            $warningCount = $scheduleModel->scheduleWarnings['TEACHER-TITLE'];
-            unset($scheduleModel->scheduleWarnings['TEACHER-TITLE']);
-            $scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TITLE_MISSING', $warningCount);
-        }
+		if (!empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME']))
+		{
+			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-FORENAME'];
+			unset($scheduleModel->scheduleWarnings['TEACHER-FORENAME']);
+			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING', $warningCount);
+		}
 
-        if (!empty($scheduleModel->scheduleWarnings['TEACHER-FIELD']))
-        {
-            $warningCount = $scheduleModel->scheduleWarnings['TEACHER-FIELD'];
-            unset($scheduleModel->scheduleWarnings['TEACHER-FIELD']);
-            $scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_FIELD_MISSING', $warningCount);
-        }
+		if (!empty($scheduleModel->scheduleWarnings['TEACHER-TITLE']))
+		{
+			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-TITLE'];
+			unset($scheduleModel->scheduleWarnings['TEACHER-TITLE']);
+			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TITLE_MISSING', $warningCount);
+		}
 
-        if (!empty($scheduleModel->scheduleWarnings['TEACHER-USERNAME']))
-        {
-            $warningCount = $scheduleModel->scheduleWarnings['TEACHER-USERNAME'];
-            unset($scheduleModel->scheduleWarnings['TEACHER-USERNAME']);
-            $scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_USERNAME_MISSING', $warningCount);
-        }
+		if (!empty($scheduleModel->scheduleWarnings['TEACHER-FIELD']))
+		{
+			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-FIELD'];
+			unset($scheduleModel->scheduleWarnings['TEACHER-FIELD']);
+			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_FIELD_MISSING', $warningCount);
+		}
 
-        return;
-    }
+		if (!empty($scheduleModel->scheduleWarnings['TEACHER-USERNAME']))
+		{
+			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-USERNAME'];
+			unset($scheduleModel->scheduleWarnings['TEACHER-USERNAME']);
+			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_USERNAME_MISSING', $warningCount);
+		}
 
-    /**
-     * Checks whether teacher nodes have the expected structure and required
-     * information
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$teacherNode    the teacher node to be validated
-     *
-     * @return void
-     */
-    private static function validateIndividual(&$scheduleModel, &$teacherNode)
-    {
+		return;
+	}
 
-        $gpuntisID = self::validateUntisID($scheduleModel, $teacherNode);
-        if (!$gpuntisID)
-        {
-            return;
-        }
+	/**
+	 * Checks whether teacher nodes have the expected structure and required
+	 * information
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$teacherNode   the teacher node to be validated
+	 *
+	 * @return void
+	 */
+	private static function validateIndividual(&$scheduleModel, &$teacherNode)
+	{
 
-        $teacherID = str_replace('TR_', '', $gpuntisID);
-        $scheduleModel->schedule->teachers->$teacherID = new stdClass;
-        $scheduleModel->schedule->teachers->$teacherID->gpuntisID = $teacherID;
-        $scheduleModel->schedule->teachers->$teacherID->localUntisID
-            = str_replace('TR_', '', trim((string) $teacherNode[0]['id']));
+		$gpuntisID = self::validateUntisID($scheduleModel, $teacherNode);
+		if (!$gpuntisID)
+		{
+			return;
+		}
 
-        $surname = self::validateSurname($scheduleModel, $teacherNode, $teacherID);
-        if (!$surname)
-        {
-            return;
-        }
+		$teacherID                                                = str_replace('TR_', '', $gpuntisID);
+		$scheduleModel->schedule->teachers->$teacherID            = new stdClass;
+		$scheduleModel->schedule->teachers->$teacherID->gpuntisID = $teacherID;
+		$scheduleModel->schedule->teachers->$teacherID->localUntisID
+		                                                          = str_replace('TR_', '', trim((string) $teacherNode[0]['id']));
 
-        self::validateField($scheduleModel, $teacherNode, $teacherID);
-        self::validateForename($scheduleModel, $teacherNode, $teacherID);
-        self::validateTitle($scheduleModel, $teacherNode, $teacherID);
-        self::validateUserName($scheduleModel, $teacherNode, $teacherID);
-    }
+		$surname = self::validateSurname($scheduleModel, $teacherNode, $teacherID);
+		if (!$surname)
+		{
+			return;
+		}
 
-    /**
-     * Validates the teacher's field attribute
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     *
-     * @return  void
-     */
-    private static function validateField(&$scheduleModel, &$teacherNode, $teacherID)
-    {
-        $fieldID = str_replace('DS_', '', trim($teacherNode->teacher_description[0]['id']));
-        $invalidFieldID = (empty($fieldID) OR empty($scheduleModel->schedule->fields->$fieldID));
-        if ($invalidFieldID)
-        {
-            $scheduleModel->scheduleWarnings['TEACHER-FIELD']
-                = empty($scheduleModel->scheduleWarnings['TEACHER-FIELD'])?
-                1 : $scheduleModel->scheduleWarnings['TEACHER-FIELD'] + 1;
-            $scheduleModel->schedule->teachers->$teacherID->description = '';
-            $scheduleModel->schedule->teachers->$teacherID->fieldID ='';
-            return;
-        }
+		self::validateField($scheduleModel, $teacherNode, $teacherID);
+		self::validateForename($scheduleModel, $teacherNode, $teacherID);
+		self::validateTitle($scheduleModel, $teacherNode, $teacherID);
+		self::validateUserName($scheduleModel, $teacherNode, $teacherID);
+	}
 
-        $scheduleModel->schedule->teachers->$teacherID->description = $fieldID;
-        $scheduleModel->schedule->teachers->$teacherID->fieldID = $scheduleModel->schedule->fields->$fieldID->id;
-    }
+	/**
+	 * Validates the teacher's field attribute
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$teacherNode   the teacher node object
+	 * @param   string $teacherID      the teacher's id
+	 *
+	 * @return  void
+	 */
+	private static function validateField(&$scheduleModel, &$teacherNode, $teacherID)
+	{
+		$fieldID        = str_replace('DS_', '', trim($teacherNode->teacher_description[0]['id']));
+		$invalidFieldID = (empty($fieldID) OR empty($scheduleModel->schedule->fields->$fieldID));
+		if ($invalidFieldID)
+		{
+			$scheduleModel->scheduleWarnings['TEACHER-FIELD']
+				                                                        = empty($scheduleModel->scheduleWarnings['TEACHER-FIELD']) ?
+				1 : $scheduleModel->scheduleWarnings['TEACHER-FIELD'] + 1;
+			$scheduleModel->schedule->teachers->$teacherID->description = '';
+			$scheduleModel->schedule->teachers->$teacherID->fieldID     = '';
 
-    /**
-     * Validates the teacher's forename attribute
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     * 
-     * @return  void
-     */
-    private static function validateForename(&$scheduleModel, &$teacherNode, $teacherID)
-    {
-        $forename = trim((string) $teacherNode->forename);
-        if (empty($forename))
-        {
-            $scheduleModel->scheduleWarnings['TEACHER-FORENAME']
-                = empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME'])?
-                1 : $scheduleModel->scheduleWarnings['TEACHER-FORENAME'] + 1;
-        }
+			return;
+		}
 
-        $scheduleModel->schedule->teachers->$teacherID->forename = empty($forename)? '' : $forename;
-    }
+		$scheduleModel->schedule->teachers->$teacherID->description = $fieldID;
+		$scheduleModel->schedule->teachers->$teacherID->fieldID     = $scheduleModel->schedule->fields->$fieldID->id;
+	}
 
-    /**
-     * Validates the teacher's surname
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     *
-     * @return  mixed  string surname if valid, otherwise false
-     */
-    private static function validateSurname(&$scheduleModel, &$teacherNode, $teacherID)
-    {
-        $surname = trim((string) $teacherNode->surname);
-        if (empty($surname))
-        {
-            $scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING', $teacherID);
-            return false;
-        }
+	/**
+	 * Validates the teacher's forename attribute
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$teacherNode   the teacher node object
+	 * @param   string $teacherID      the teacher's id
+	 *
+	 * @return  void
+	 */
+	private static function validateForename(&$scheduleModel, &$teacherNode, $teacherID)
+	{
+		$forename = trim((string) $teacherNode->forename);
+		if (empty($forename))
+		{
+			$scheduleModel->scheduleWarnings['TEACHER-FORENAME']
+				= empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME']) ?
+				1 : $scheduleModel->scheduleWarnings['TEACHER-FORENAME'] + 1;
+		}
 
-        $scheduleModel->schedule->teachers->$teacherID->surname = $surname;
-        return $surname;
-    }
+		$scheduleModel->schedule->teachers->$teacherID->forename = empty($forename) ? '' : $forename;
+	}
 
-    /**
-     * Validates the teacher's description attribute
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     * 
-     * @return  void
-     */
-    private static function validateTitle(&$scheduleModel, &$teacherNode, $teacherID)
-    {
-        $title = trim((string) $teacherNode->title);
-        if (empty($title))
-        {
-            $scheduleModel->scheduleWarnings['TEACHER-TITLE']
-                = empty($scheduleModel->scheduleWarnings['TEACHER-TITLE'])?
-                1 : $scheduleModel->scheduleWarnings['TEACHER-TITLE'] + 1;
-        }
+	/**
+	 * Validates the teacher's surname
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$teacherNode   the teacher node object
+	 * @param   string $teacherID      the teacher's id
+	 *
+	 * @return  mixed  string surname if valid, otherwise false
+	 */
+	private static function validateSurname(&$scheduleModel, &$teacherNode, $teacherID)
+	{
+		$surname = trim((string) $teacherNode->surname);
+		if (empty($surname))
+		{
+			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING', $teacherID);
 
-        $scheduleModel->schedule->teachers->$teacherID->title = empty($title)? '' :$title;
-    }
+			return false;
+		}
 
-    /**
-     * Validates the teacher's untis id
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$teacherNode    the teacher node object
-     *
-     * @return  mixed  string untis id if valid, otherwise false
-     */
-    private static function validateUntisID(&$scheduleModel, &$teacherNode)
-    {
-        $externalID = trim((string) $teacherNode->external_name);
-        $internalID = trim((string) $teacherNode[0]['id']);
-        if (empty($internalID))
-        {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING"), $scheduleModel->scheduleErrors))
-            {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING");
-            }
+		$scheduleModel->schedule->teachers->$teacherID->surname = $surname;
 
-            return false;
-        }
+		return $surname;
+	}
 
-        if (empty($externalID))
-        {
-            $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']
-                = empty($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'])?
-                1 : $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'] + 1;
-            $gpuntisID = $internalID;
-        }
-        else
-        {
-            $gpuntisID = $externalID;
-        }
+	/**
+	 * Validates the teacher's description attribute
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$teacherNode   the teacher node object
+	 * @param   string $teacherID      the teacher's id
+	 *
+	 * @return  void
+	 */
+	private static function validateTitle(&$scheduleModel, &$teacherNode, $teacherID)
+	{
+		$title = trim((string) $teacherNode->title);
+		if (empty($title))
+		{
+			$scheduleModel->scheduleWarnings['TEACHER-TITLE']
+				= empty($scheduleModel->scheduleWarnings['TEACHER-TITLE']) ?
+				1 : $scheduleModel->scheduleWarnings['TEACHER-TITLE'] + 1;
+		}
 
-        return $gpuntisID;
-    }
+		$scheduleModel->schedule->teachers->$teacherID->title = empty($title) ? '' : $title;
+	}
 
-    /**
-     * Validates the teacher's description attribute
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$teacherNode    the teacher node object
-     * @param   string  $teacherID       the teacher's id
-     *
-     * @return  void
-     */
-    private static function validateUserName(&$scheduleModel, &$teacherNode, $teacherID)
-    {
-        $userName = trim((string) $teacherNode->payrollnumber);
-        if (empty($userName))
-        {
-            $scheduleModel->scheduleWarnings['TEACHER-USERNAME'] = empty($scheduleModel->scheduleWarnings['TEACHER-USERNAME'])?
-                1 : $scheduleModel->scheduleWarnings['TEACHER-USERNAME'] + 1;
-        }
+	/**
+	 * Validates the teacher's untis id
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$teacherNode   the teacher node object
+	 *
+	 * @return  mixed  string untis id if valid, otherwise false
+	 */
+	private static function validateUntisID(&$scheduleModel, &$teacherNode)
+	{
+		$externalID = trim((string) $teacherNode->external_name);
+		$internalID = trim((string) $teacherNode[0]['id']);
+		if (empty($internalID))
+		{
+			if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING"), $scheduleModel->scheduleErrors))
+			{
+				$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING");
+			}
 
-        $scheduleModel->schedule->teachers->$teacherID->username = empty($userName)? '' :$userName;
-    }
+			return false;
+		}
+
+		if (empty($externalID))
+		{
+			$scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']
+				       = empty($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']) ?
+				1 : $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'] + 1;
+			$gpuntisID = $internalID;
+		}
+		else
+		{
+			$gpuntisID = $externalID;
+		}
+
+		return $gpuntisID;
+	}
+
+	/**
+	 * Validates the teacher's description attribute
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$teacherNode   the teacher node object
+	 * @param   string $teacherID      the teacher's id
+	 *
+	 * @return  void
+	 */
+	private static function validateUserName(&$scheduleModel, &$teacherNode, $teacherID)
+	{
+		$userName = trim((string) $teacherNode->payrollnumber);
+		if (empty($userName))
+		{
+			$scheduleModel->scheduleWarnings['TEACHER-USERNAME'] = empty($scheduleModel->scheduleWarnings['TEACHER-USERNAME']) ?
+				1 : $scheduleModel->scheduleWarnings['TEACHER-USERNAME'] + 1;
+		}
+
+		$scheduleModel->schedule->teachers->$teacherID->username = empty($userName) ? '' : $userName;
+	}
 }

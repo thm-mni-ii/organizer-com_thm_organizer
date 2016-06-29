@@ -21,18 +21,18 @@ defined('_JEXEC') OR die;
  */
 class THM_OrganizerControllerSubject extends JControllerLegacy
 {
-    /**
-     * edit
-     *
-     * performs access checks for the current user against the id of the event
-     * to be edited, or content (event) creation access if id is missing or 0
-     *
-     * @return void
-     */
-    public function updateAll()
-    {
-        JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models');
-        $model = JModel::getInstance('lsfSubject', 'THM_OrganizerModel');
-        $model->updateAll();
-    }
+	/**
+	 * edit
+	 *
+	 * performs access checks for the current user against the id of the event
+	 * to be edited, or content (event) creation access if id is missing or 0
+	 *
+	 * @return void
+	 */
+	public function updateAll()
+	{
+		JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models');
+		$model = JModel::getInstance('lsfSubject', 'THM_OrganizerModel');
+		$model->updateAll();
+	}
 }

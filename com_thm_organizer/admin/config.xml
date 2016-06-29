@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <fieldset
-        name="general"
-        label="COM_THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
-        description="COM_THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
+            name="general"
+            label="COM_THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
+            description="COM_THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
         <field
-            name="dateFormat"
-            label="COM_THM_ORGANIZER_DATE_FORMAT"
-            description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
-            type="text"
-            size="40"
-            required="true"
-            default="d.m.Y" />
+                name="dateFormat"
+                label="COM_THM_ORGANIZER_DATE_FORMAT"
+                description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
+                type="text"
+                size="40"
+                required="true"
+                default="d.m.Y"/>
         <field
-            name="timeFormat"
-            label="COM_THM_ORGANIZER_TIME_FORMAT"
-            description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"
-            type="text"
-            size="40"
-            required="true"
-            default="H:i" />
+                name="timeFormat"
+                label="COM_THM_ORGANIZER_TIME_FORMAT"
+                description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"
+                type="text"
+                size="40"
+                required="true"
+                default="H:i"/>
         <field
-            name="backgroundColor"
-            type="color"
-            label="COM_THM_ORGANIZER_BACKGROUND_COLOR"
-            description="COM_THM_ORGANIZER_BACKGROUND_COLOR_DESC"
-            class="inputbox color"
-            size="10"
-            required="true"
-            default="#eeeeee" />
+                name="backgroundColor"
+                type="color"
+                label="COM_THM_ORGANIZER_BACKGROUND_COLOR"
+                description="COM_THM_ORGANIZER_BACKGROUND_COLOR_DESC"
+                class="inputbox color"
+                size="10"
+                required="true"
+                default="#eeeeee"/>
         <field
-            name="lightTextColor"
-            type="color"
-            label="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR"
-            description="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC"
-            class="inputbox color"
-            size="10"
-            required="true"
-            default="#eeeeee" />
+                name="lightTextColor"
+                type="color"
+                label="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR"
+                description="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC"
+                class="inputbox color"
+                size="10"
+                required="true"
+                default="#eeeeee"/>
         <field
-            name="darkTextColor"
-            type="color"
-            label="COM_THM_ORGANIZER_TEXT_DARK_COLOR"
-            description="COM_THM_ORGANIZER_TEXT_DARK_COLOR_DESC"
-            class="inputbox color"
-            size="10"
-            required="true"
-            default="#4a5c66" />
+                name="darkTextColor"
+                type="color"
+                label="COM_THM_ORGANIZER_TEXT_DARK_COLOR"
+                description="COM_THM_ORGANIZER_TEXT_DARK_COLOR_DESC"
+                class="inputbox color"
+                size="10"
+                required="true"
+                default="#4a5c66"/>
     </fieldset>
     <fieldset name="eCollab"
               label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
@@ -96,45 +96,45 @@
               label="COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE"
               description="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
         <field
-            type="list"
-            id="display"
-            name="display"
-            label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
-            description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC"
-            class="inputbox">
+                type="list"
+                id="display"
+                name="display"
+                label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
+                description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC"
+                class="inputbox">
             <option value='1'>COM_THM_ORGANIZER_DAILY_PLAN</option>
             <option value='2'>COM_THM_ORGANIZER_MIXED_PLAN</option>
             <option value='3'>COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
             <option value='4'>COM_THM_ORGANIZER_LESSON_LIST</option>
         </field>
         <field
-            id="schedule_refresh"
-            name="schedule_refresh"
-            type="integer"
-            label="COM_THM_ORGANIZER_SCHEDULE_REFRESH"
-            description="COM_THM_ORGANIZER_SCHEDULE_REFRESH_DESC"
-            first="10"
-            last="990"
-            step="10"
-            default="60"/>
+                id="schedule_refresh"
+                name="schedule_refresh"
+                type="integer"
+                label="COM_THM_ORGANIZER_SCHEDULE_REFRESH"
+                description="COM_THM_ORGANIZER_SCHEDULE_REFRESH_DESC"
+                first="10"
+                last="990"
+                step="10"
+                default="60"/>
         <field
-            id="content_refresh"
-            name="content_refresh"
-            type="integer"
-            label="COM_THM_ORGANIZER_CONTENT_REFRESH"
-            description="COM_THM_ORGANIZER_CONTENT_REFRESH_DESC"
-            first="10"
-            last="990"
-            step="10"
-            default="60"/>
+                id="content_refresh"
+                name="content_refresh"
+                type="integer"
+                label="COM_THM_ORGANIZER_CONTENT_REFRESH"
+                description="COM_THM_ORGANIZER_CONTENT_REFRESH_DESC"
+                first="10"
+                last="990"
+                step="10"
+                default="60"/>
         <field
-            id="content"
-            name="content"
-            type="filelist"
-            label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
-            description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC"
-            directory="images/thm_organizer/"
-            exclude=""/>
+                id="content"
+                name="content"
+                type="filelist"
+                label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
+                description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC"
+                directory="images/thm_organizer/"
+                exclude=""/>
     </fieldset>
     <fieldset name="permissions"
               label="JCONFIG_PERMISSIONS_LABEL"
@@ -145,6 +145,6 @@
                validate="rules"
                filter="rules"
                component="com_thm_organizer"
-               section="component" />
+               section="component"/>
     </fieldset>
 </config>

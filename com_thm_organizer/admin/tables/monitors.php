@@ -22,13 +22,13 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTableMonitors extends JTable
 {
-    /**
-     * Constructor function for the class representing the monitors table
-     *
-     * @param   JDatabaseDriver  &$dbo  A database connector object
-     */
-    public function __construct(&$dbo)
-    {
-        parent::__construct('#__thm_organizer_monitors', 'id', $dbo);
-    }
+	/**
+	 * Constructor function for the class representing the monitors table
+	 *
+	 * @param   JDatabaseDriver &$dbo A database connector object
+	 */
+	public function __construct(&$dbo)
+	{
+		parent::__construct('#__thm_organizer_monitors', 'id', $dbo);
+	}
 }

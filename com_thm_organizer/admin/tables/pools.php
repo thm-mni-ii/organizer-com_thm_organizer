@@ -11,6 +11,7 @@
  **/
 defined('_JEXEC') or die;
 jimport('joomla.application.component.table');
+
 /**
  * Class representing the mapping table.
  *
@@ -20,57 +21,58 @@ jimport('joomla.application.component.table');
  */
 class THM_OrganizerTablePools extends JTable
 {
-    /**
-     * Constructor function for the class representing the mapping table
-     *
-     * @param   JDatabaseDriver  &$dbo  A database connector object
-     */
-    public function __construct(&$dbo)
-    {
-        parent::__construct('#__thm_organizer_pools', 'id', $dbo);
-    }
+	/**
+	 * Constructor function for the class representing the mapping table
+	 *
+	 * @param   JDatabaseDriver &$dbo A database connector object
+	 */
+	public function __construct(&$dbo)
+	{
+		parent::__construct('#__thm_organizer_pools', 'id', $dbo);
+	}
 
-    /**
-     * Overridden bind function
-     *
-     * @param   array  $array   named array
-     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-     *
-     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
-     */
-    public function bind($array, $ignore = '')
-    {
-        if (isset($array['rules']) && is_array($array['rules']))
-        {
-            THM_OrganizerHelperComponent::cleanRules($array['rules']);
-            $rules = new JAccessRules($array['rules']);
-            $this->setRules($rules);
-        }
+	/**
+	 * Overridden bind function
+	 *
+	 * @param   array $array  named array
+	 * @param   mixed $ignore An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['rules']) && is_array($array['rules']))
+		{
+			THM_OrganizerHelperComponent::cleanRules($array['rules']);
+			$rules = new JAccessRules($array['rules']);
+			$this->setRules($rules);
+		}
 
-        return parent::bind($array, $ignore);
-    }
+		return parent::bind($array, $ignore);
+	}
 
-    /**
-     * Sets the department asset name
-     *
-     * @return  string
-     */
-    protected function _getAssetName()
-    {
-        return "com_thm_organizer.pool.$this->id";
-    }
+	/**
+	 * Sets the department asset name
+	 *
+	 * @return  string
+	 */
+	protected function _getAssetName()
+	{
+		return "com_thm_organizer.pool.$this->id";
+	}
 
-    /**
-     * Sets the parent as the component root
-     *
-     * @return  int  the asset id of the component root
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _getAssetParentId(JTable $table = null, $id = null)
-    {
-        $asset = JTable::getInstance('Asset');
-        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
-        return $asset->id;
-    }
+	/**
+	 * Sets the parent as the component root
+	 *
+	 * @return  int  the asset id of the component root
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	protected function _getAssetParentId(JTable $table = null, $id = null)
+	{
+		$asset = JTable::getInstance('Asset');
+		$asset->loadByName("com_thm_organizer.department.$this->departmentID");
+
+		return $asset->id;
+	}
 }

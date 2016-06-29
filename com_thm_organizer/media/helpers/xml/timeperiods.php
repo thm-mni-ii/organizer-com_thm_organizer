@@ -20,70 +20,71 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLTimePeriods
 {
-    /**
-     * Validates the timeperiods node
-     *
-     * @param   object  &$scheduleModel  the validating schedule model
-     * @param   object  &$xmlObject  the xml object being validated
-     *
-     * @return  void
-     */
-    public static function validate(&$scheduleModel, &$xmlObject)
-    {
-        if (empty($xmlObject->timeperiods))
-        {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_MISSING");
-            return;
-        }
+	/**
+	 * Validates the timeperiods node
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   object &$xmlObject     the xml object being validated
+	 *
+	 * @return  void
+	 */
+	public static function validate(&$scheduleModel, &$xmlObject)
+	{
+		if (empty($xmlObject->timeperiods))
+		{
+			$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_MISSING");
 
-        $scheduleModel->schedule->periods = new stdClass;
+			return;
+		}
 
-        foreach ($xmlObject->timeperiods->children() as $timePeriodNode)
-        {
-            self::validateIndividual($scheduleModel, $timePeriodNode);
-        }
-    }
+		$scheduleModel->schedule->periods = new stdClass;
 
-    /**
-     * Checks whether pool nodes have the expected structure and required
-     * information
-     *
-     * @param   object  &$scheduleModel   the validating schedule model
-     * @param   object  &$timePeriodNode  the pool node to be validated
-     *
-     * @return void
-     */
-    private static function validateIndividual(&$scheduleModel, &$timePeriodNode)
-    {
-        // Not actually referenced but evinces data inconsistencies in Untis
-        $gpuntisID = trim((string) $timePeriodNode[0]['id']);
-        $day = (int) $timePeriodNode->day;
-        $period = (int) $timePeriodNode->period;
-        $startTime = trim((string) $timePeriodNode->starttime);
-        $endTime = trim((string) $timePeriodNode->endtime);
+		foreach ($xmlObject->timeperiods->children() as $timePeriodNode)
+		{
+			self::validateIndividual($scheduleModel, $timePeriodNode);
+		}
+	}
 
-        $invalidPeriod = (empty($gpuntisID) OR empty($day) OR empty($period) OR empty($startTime) OR empty($endTime));
-        if ($invalidPeriod AND !in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"), $scheduleModel->scheduleErrors))
-        {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
-        }
+	/**
+	 * Checks whether pool nodes have the expected structure and required
+	 * information
+	 *
+	 * @param   object &$scheduleModel  the validating schedule model
+	 * @param   object &$timePeriodNode the pool node to be validated
+	 *
+	 * @return void
+	 */
+	private static function validateIndividual(&$scheduleModel, &$timePeriodNode)
+	{
+		// Not actually referenced but evinces data inconsistencies in Untis
+		$gpuntisID = trim((string) $timePeriodNode[0]['id']);
+		$day       = (int) $timePeriodNode->day;
+		$period    = (int) $timePeriodNode->period;
+		$startTime = trim((string) $timePeriodNode->starttime);
+		$endTime   = trim((string) $timePeriodNode->endtime);
 
-        $grid = (string) $timePeriodNode->timegrid;
+		$invalidPeriod = (empty($gpuntisID) OR empty($day) OR empty($period) OR empty($startTime) OR empty($endTime));
+		if ($invalidPeriod AND !in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"), $scheduleModel->scheduleErrors))
+		{
+			$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
+		}
 
-        // For backward-compatibility a default grid name is set
-        if (empty($grid))
-        {
-            $grid = 'Haupt-Zeitraster';
-        }
+		$grid = (string) $timePeriodNode->timegrid;
 
-        // Set the grid if not already existent
-        if (empty($scheduleModel->schedule->periods->$grid))
-        {
-            $scheduleModel->schedule->periods->$grid = new stdClass;
-        }
+		// For backward-compatibility a default grid name is set
+		if (empty($grid))
+		{
+			$grid = 'Haupt-Zeitraster';
+		}
 
-        $scheduleModel->schedule->periods->$grid->$period = new stdClass;
-        $scheduleModel->schedule->periods->$grid->$period->starttime = $startTime;
-        $scheduleModel->schedule->periods->$grid->$period->endtime = $endTime;
-    }
+		// Set the grid if not already existent
+		if (empty($scheduleModel->schedule->periods->$grid))
+		{
+			$scheduleModel->schedule->periods->$grid = new stdClass;
+		}
+
+		$scheduleModel->schedule->periods->$grid->$period            = new stdClass;
+		$scheduleModel->schedule->periods->$grid->$period->starttime = $startTime;
+		$scheduleModel->schedule->periods->$grid->$period->endtime   = $endTime;
+	}
 }

@@ -15,11 +15,11 @@ Ext.override(
         fullUpdate: function (date, active)
         {
             var me = this,
-                // cell of the calendar
+            // cell of the calendar
                 cells = me.cells.elements,
-                // the span elements for every day
+            // the span elements for every day
                 textNodes = me.textNodes,
-                // CSS class of disabled cells
+            // CSS class of disabled cells
                 disabledCls = me.disabledCellCls,
                 eDate = Ext.Date,
                 i = 0,
@@ -30,7 +30,7 @@ Ext.override(
                 min = me.minDate ? eDate.clearTime(me.minDate, true) : Number.NEGATIVE_INFINITY,
                 max = me.maxDate ? eDate.clearTime(me.maxDate, true) : Number.POSITIVE_INFINITY,
                 ddMatch = me.disabledDatesRE,
-                // Text is shown on disabled dates
+            // Text is shown on disabled dates
                 ddText = me.disabledDatesText,
                 ddays = me.disabledDays ? me.disabledDays.join('') : false,
                 ddaysText = me.disabledDaysText,
@@ -38,7 +38,7 @@ Ext.override(
                 days = eDate.getDaysInMonth(date),
                 firstOfMonth = eDate.getFirstDateOfMonth(date),
                 startingPos = firstOfMonth.getDay() - me.startDay,
-                previousMonth = eDate.add(date, eDate.MONTH, - 1),
+                previousMonth = eDate.add(date, eDate.MONTH, -1),
                 longDayFormat = me.longDayFormat,
                 prevStart, current, disableToday, tempDate, setCellClass, html, cls, formatValue, value;
 
@@ -87,7 +87,7 @@ Ext.override(
                 {
                     cell.className += ' ' + me.selectedCls;
                     me.el.dom.setAttribute('aria-activedescendant',
-                    cell.id);
+                        cell.id);
                     if (visible && me.floating)
                     {
                         Ext.fly(cell.firstChild).focus(50);
@@ -120,7 +120,7 @@ Ext.override(
                     if (ddMatch.test(formatValue))
                     {
                         cell.title = ddText.replace('%0',
-                        formatValue);
+                            formatValue);
                         cell.className = disabledCls;
                     }
                 }
@@ -209,14 +209,16 @@ Ext.override(
             var calendarTooltip = Ext.select('.calendar_tooltip', false, document);
             calendarTooltip.clearListeners();
             calendarTooltip.on({
-                'mouseover' : function(e) {
+                'mouseover': function (e)
+                {
                     e.stopEvent();
                     calendar_tooltip(e);
                 },
-                'mouseout' : function(e) {
+                'mouseout': function (e)
+                {
                     e.stopEvent();
                 },
-                scope : this
+                scope: this
             });
             me.monthBtn.setText(me.monthNames[date.getMonth()] + ' ' + date.getFullYear());
         }
@@ -229,7 +231,7 @@ Ext.override(
  * @method calendar_tooltip
  * @param {object} e The mouse event with its information
  */
-function calendar_tooltip (e)
+function calendar_tooltip(e)
 {
     var el = e.getTarget('.calendar_tooltip', 5, true);
     var calendarTip = Ext.getCmp('mySched_calendar-tip');
@@ -264,7 +266,7 @@ function calendar_tooltip (e)
                 {
                     var teacherName = MySched.Mapping.getTeacherKeyByID(o.id);
 
-                    if(teacherName === o.id && Ext.isDefined(o.surname) && !Ext.isEmpty(o.surname))
+                    if (teacherName === o.id && Ext.isDefined(o.surname) && !Ext.isEmpty(o.surname))
                     {
                         teacherName = o.surname;
                     }
@@ -275,7 +277,7 @@ function calendar_tooltip (e)
                 {
                     var roomName = MySched.Mapping.getRoomKeyByID(o.id);
 
-                    if(roomName === o.id && Ext.isDefined(o.longname) && !Ext.isEmpty(o.longname))
+                    if (roomName === o.id && Ext.isDefined(o.longname) && !Ext.isEmpty(o.longname))
                     {
                         roomName = o.longname;
                     }
@@ -302,41 +304,41 @@ function calendar_tooltip (e)
         var parentID = el.dom.getParent()
             .id;
         var ttInfo = Ext.create('Ext.tip.ToolTip',
-        {
-            title: '<div class="mySched_tooltip_calendar_title">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENTS + '</div>',
-            id: 'mySched_calendar-tip',
-            target: parentID,
-            autoHide: false,
-            html: htmltext,
-            cls: "mySched_tooltip_calendar"
-        });
+            {
+                title: '<div class="mySched_tooltip_calendar_title">' + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_EVENTS + '</div>',
+                id: 'mySched_calendar-tip',
+                target: parentID,
+                autoHide: false,
+                html: htmltext,
+                cls: "mySched_tooltip_calendar"
+            });
 
         ttInfo.on('afterrender', function ()
         {
             Ext.select('.dozname', false, this.el.dom)
                 .on(
-            {
-                'click': function (e)
-                {
-                    if (e.button === 0)
                     {
-                        MySched.SelectionManager.showSchedule(e, 'doz');
-                    }
-                },
-                scope: this
-            });
+                        'click': function (e)
+                        {
+                            if (e.button === 0)
+                            {
+                                MySched.SelectionManager.showSchedule(e, 'doz');
+                            }
+                        },
+                        scope: this
+                    });
 
             Ext.select('.roomshortname', false, this.el.dom).on(
-            {
-                'click': function (e)
                 {
-                    if (e.button === 0)
+                    'click': function (e)
                     {
-                        MySched.SelectionManager.showSchedule(e, 'room');
-                    }
-                },
-                scope: this
-            });
+                        if (e.button === 0)
+                        {
+                            MySched.SelectionManager.showSchedule(e, 'room');
+                        }
+                    },
+                    scope: this
+                });
         });
 
         ttInfo.on('beforedestroy', function ()

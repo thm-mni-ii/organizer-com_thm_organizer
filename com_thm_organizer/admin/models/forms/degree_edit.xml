@@ -2,31 +2,31 @@
 <form>
     <fieldset name="details">
         <field
-            name="id"
-            type="hidden"/>
+                name="id"
+                type="hidden"/>
         <field
-            name="name"
-            type="text"
-            label="COM_THM_ORGANIZER_NAME"
-            class="inputbox required"
-            size="80"
-            description="COM_THM_ORGANIZER_NAME_DESC"
-            required="true" />
+                name="name"
+                type="text"
+                label="COM_THM_ORGANIZER_NAME"
+                class="inputbox required"
+                size="80"
+                description="COM_THM_ORGANIZER_NAME_DESC"
+                required="true"/>
         <field
-            name="abbreviation"
-            type="text"
-            class="inputbox required"
-            size="10"
-            label="COM_THM_ORGANIZER_ABBREVIATION"
-            description="COM_THM_ORGANIZER_ABBREVIATION_DESC"
-            required="true" />
+                name="abbreviation"
+                type="text"
+                class="inputbox required"
+                size="10"
+                label="COM_THM_ORGANIZER_ABBREVIATION"
+                description="COM_THM_ORGANIZER_ABBREVIATION_DESC"
+                required="true"/>
         <field
-            name="code"
-            type="text"
-            class="inputbox required"
-            size="10"
-            label="COM_THM_ORGANIZER_DEGREE_CODE"
-            description="COM_THM_ORGANIZER_DEGREE_CODE_DESC"
-            required="true" />
+                name="code"
+                type="text"
+                class="inputbox required"
+                size="10"
+                label="COM_THM_ORGANIZER_DEGREE_CODE"
+                description="COM_THM_ORGANIZER_DEGREE_CODE_DESC"
+                required="true"/>
     </fieldset>
 </form>

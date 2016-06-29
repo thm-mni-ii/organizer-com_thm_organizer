@@ -2,7 +2,7 @@
 <form>
     <fieldset name="details">
         <field name="id"
-               type="hidden" />
+               type="hidden"/>
         <field type="text"
                name="short_name_de"
                label="COM_THM_ORGANIZER_SHORT_NAME_DE"
@@ -42,6 +42,6 @@
                validate="rules"
                filter="rules"
                component="com_thm_organizer"
-               section="department" />
+               section="department"/>
     </fieldset>
 </form>

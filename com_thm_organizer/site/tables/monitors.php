@@ -21,13 +21,13 @@ jimport('joomla.application.component.table');
  */
 class THM_OrganizerTableMonitors extends JTable
 {
-    /**
-     * Constructor to call the parent constructor
-     *
-     * @param   JDatabase  &$dbo  A database connector object
-     */
-    public function __construct(&$dbo)
-    {
-        parent::__construct('#__thm_organizer_monitors', 'id', $dbo);
-    }
+	/**
+	 * Constructor to call the parent constructor
+	 *
+	 * @param   object  &$dbo  a database connector object
+	 */
+	public function __construct(&$dbo)
+	{
+		parent::__construct('#__thm_organizer_monitors', 'id', $dbo);
+	}
 }

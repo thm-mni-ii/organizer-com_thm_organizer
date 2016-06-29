@@ -21,32 +21,32 @@ require_once 'item.php';
  */
 class THM_OrganizerTemplateUngroupedList
 {
-    /**
-     * Renders subject information
-     *
-     * @param   array  &$view  the view context
-     *
-     * @return  void
-     */
-    public static function render(&$view)
-    {
-        echo '<div class="subject-list-container">';
-        if (count($view->items))
-        {
-            echo '<ul class="subject-list">';
-            $displayItems = array();
-            foreach ($view->items AS $item)
-            {
-                if (!empty($displayItems[$item->id]) AND $item->teacherResp == 2)
-                {
-                    continue;
-                }
-                $displayItems[$item->id] = THM_OrganizerTemplateItem::render($item);
-            }
-            echo implode($displayItems);
-            echo '</ul>';
-        }
-        echo '</div>';
-    }
+	/**
+	 * Renders subject information
+	 *
+	 * @param   array &$view the view context
+	 *
+	 * @return  void
+	 */
+	public static function render(&$view)
+	{
+		echo '<div class="subject-list-container">';
+		if (count($view->items))
+		{
+			echo '<ul class="subject-list">';
+			$displayItems = array();
+			foreach ($view->items AS $item)
+			{
+				if (!empty($displayItems[$item->id]) AND $item->teacherResp == 2)
+				{
+					continue;
+				}
+				$displayItems[$item->id] = THM_OrganizerTemplateItem::render($item);
+			}
+			echo implode($displayItems);
+			echo '</ul>';
+		}
+		echo '</div>';
+	}
 }
  

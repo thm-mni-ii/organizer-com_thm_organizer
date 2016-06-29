@@ -23,13 +23,13 @@ jimport('joomla.application.component.controller');
  */
 class THM_OrganizerControllerScheduler_Tree extends JControllerAdmin
 {
-    /**
-     * Redirects to the ajax information which represents the view
-     *
-     * @return  void
-     */
-    public function load()
-    {
-        $this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=scheduler_tree&format=raw", false));
-    }
+	/**
+	 * Redirects to the ajax information which represents the view
+	 *
+	 * @return  void
+	 */
+	public function load()
+	{
+		$this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=scheduler_tree&format=raw", false));
+	}
 }

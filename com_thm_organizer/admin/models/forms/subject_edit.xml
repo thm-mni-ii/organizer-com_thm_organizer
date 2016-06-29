@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_SUBJECT_DETAILS" addfieldpath="/media/com_thm_organizer/fields">
+    <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_SUBJECT_DETAILS"
+              addfieldpath="/media/com_thm_organizer/fields">
         <field name="id"
-               type="hidden" />
+               type="hidden"/>
         <field name="departmentID"
                type="departmentID"
                label="COM_THM_ORGANIZER_DEPARTMENT"
                description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-               required="true" />
+               required="true"/>
         <field name="lsfID"
                type="text"
                class="inputbox"
                size="70"
                label="COM_THM_ORGANIZER_LSF_ID"
-               description="COM_THM_ORGANIZER_LSF_ID_DESC" />
+               description="COM_THM_ORGANIZER_LSF_ID_DESC"/>
         <field name="externalID"
                type="text"
                class="inputbox"
                size="70"
                label="COM_THM_ORGANIZER_MODULE_ID"
-               description="COM_THM_ORGANIZER_MODULE_ID_DESC" />
+               description="COM_THM_ORGANIZER_MODULE_ID_DESC"/>
         <field name="instructionLanguage"
                type="list"
                label="COM_THM_ORGANIZER_INSTRUCTION_LANGUAGE"
@@ -48,7 +49,7 @@
                table="thm_organizer_fields"
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
-               description="COM_THM_ORGANIZER_FIELD_DESC" >
+               description="COM_THM_ORGANIZER_FIELD_DESC">
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>
@@ -124,13 +125,13 @@
         </field>
         <field name="spacer2"
                type="spacer"
-               hr="true" />
+               hr="true"/>
         <field name="literature"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_LITERATURE"
-               description="COM_THM_ORGANIZER_LITERATURE_DESC" />
+               description="COM_THM_ORGANIZER_LITERATURE_DESC"/>
     </fieldset>
     <fieldset name="de_texts" label="COM_THM_ORGANIZER_ATTRIBUTES_DE">
         <field name="name_de"
@@ -140,7 +141,7 @@
                label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"
                hint="Grundlagen der Informatik"
-               required="true" />
+               required="true"/>
         <field name="short_name_de"
                type="text"
                class="inputbox"
@@ -188,37 +189,37 @@
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_DESC_DE"
-               description="COM_THM_ORGANIZER_DESC_DE_DESC" />
+               description="COM_THM_ORGANIZER_DESC_DE_DESC"/>
         <field name="objective_de"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_OBJECTIVE_DE"
-               description="COM_THM_ORGANIZER_OBJECTIVE_DE_DESC" />
+               description="COM_THM_ORGANIZER_OBJECTIVE_DE_DESC"/>
         <field name="content_de"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_CONTENT_DE"
-               description="COM_THM_ORGANIZER_CONTENT_DE_DESC" />
+               description="COM_THM_ORGANIZER_CONTENT_DE_DESC"/>
         <field name="prerequisites_de"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_PREREQUISITES_DE"
-               description="COM_THM_ORGANIZER_PREREQUISITES_DE_DESC" />
+               description="COM_THM_ORGANIZER_PREREQUISITES_DE_DESC"/>
         <field name="recommended_prerequisites_de"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
-               description="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC" />
+               description="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC"/>
         <field name="aids_de"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_AIDS_DE"
-               description="COM_THM_ORGANIZER_AIDS_DE_DESC" />
+               description="COM_THM_ORGANIZER_AIDS_DE_DESC"/>
     </fieldset>
     <fieldset name="en_texts" label="COM_THM_ORGANIZER_ATTRIBUTES_EN">
         <field name="name_en"
@@ -248,7 +249,7 @@
                size="70"
                label="COM_THM_ORGANIZER_METHOD_EN"
                description="COM_THM_ORGANIZER_METHOD_EN_DESC"
-                hint="2 SWS Lecture, 2 SWS Practice"/>
+               hint="2 SWS Lecture, 2 SWS Practice"/>
         <field name="preliminary_work_en"
                type="text"
                class="inputbox"
@@ -269,43 +270,43 @@
                size="6"
                label="COM_THM_ORGANIZER_EVALUATION_EN"
                description="COM_THM_ORGANIZER_EVALUATION_EN_DESC"
-               hint="acc. § 9 of the gen. provisions (Part I of the PO)" />
+               hint="acc. § 9 of the gen. provisions (Part I of the PO)"/>
         <field name="description_en"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_DESC_EN"
-               description="COM_THM_ORGANIZER_DESC_EN_DESC" />
+               description="COM_THM_ORGANIZER_DESC_EN_DESC"/>
         <field name="objective_en"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_OBJECTIVE_EN"
-               description="COM_THM_ORGANIZER_OBJECTIVE_EN_DESC" />
+               description="COM_THM_ORGANIZER_OBJECTIVE_EN_DESC"/>
         <field name="content_en"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_CONTENT_EN"
-               description="COM_THM_ORGANIZER_CONTENT_EN_DESC" />
+               description="COM_THM_ORGANIZER_CONTENT_EN_DESC"/>
         <field name="prerequisites_en"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_PREREQUISITES_EN"
-               description="COM_THM_ORGANIZER_PREREQUISITES_EN_DESC" />
+               description="COM_THM_ORGANIZER_PREREQUISITES_EN_DESC"/>
         <field name="recommended_prerequisites_en"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
-               description="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC" />
+               description="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC"/>
         <field name="aids_en"
                type="editor"
                class="inputbox"
                size="6"
                label="COM_THM_ORGANIZER_AIDS_EN"
-               description="COM_THM_ORGANIZER_AIDS_EN_DESC" />
+               description="COM_THM_ORGANIZER_AIDS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="COM_THM_ORGANIZER_ATTRIBUTES_SUBJECT_ADVANCED">
         <field name="prerequisites"
@@ -313,35 +314,35 @@
                direction="pre"
                class="inputbox"
                label="COM_THM_ORGANIZER_PREREQUISITES"
-               description="COM_THM_ORGANIZER_SUBJECT_PREREQUISITES_DESC" />
+               description="COM_THM_ORGANIZER_SUBJECT_PREREQUISITES_DESC"/>
         <field name="postrequisites"
                type="subjects"
                direction="post"
                class="inputbox"
                label="COM_THM_ORGANIZER_POSTREQUISITES"
-               description="COM_THM_ORGANIZER_POSTREQUISITES_DESC" />
+               description="COM_THM_ORGANIZER_POSTREQUISITES_DESC"/>
         <field name="spacer3"
                type="spacer"
-               hr="true" />
+               hr="true"/>
         <field name="responsible"
                type="subjectTeacher"
                responsibility="1"
                label="COM_THM_ORGANIZER_MODULE_EXECUTORS"
-               description="COM_THM_ORGANIZER_MODULE_EXECUTORS_DESC" />
+               description="COM_THM_ORGANIZER_MODULE_EXECUTORS_DESC"/>
         <field name="teacherID"
                type="subjectTeacher"
                responsibility="2"
                label="COM_THM_ORGANIZER_TEACHERS"
-               description="COM_THM_ORGANIZER_TEACHERS_DESC" />
+               description="COM_THM_ORGANIZER_TEACHERS_DESC"/>
         <field name="spacer4"
                type="spacer"
-               hr="true" />
+               hr="true"/>
         <field name="expertise"
                type="list"
                class="inputbox"
                label="COM_THM_ORGANIZER_EXPERTISE"
                description="COM_THM_ORGANIZER_EXPERTISE_DESC"
-               default="" >
+               default="">
             <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
             <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
@@ -353,7 +354,7 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_METHOD_COMPETENCE"
                description="COM_THM_ORGANIZER_METHOD_COMPETENCE_DESC"
-               default="" >
+               default="">
             <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
             <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
@@ -365,7 +366,7 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_SELF_COMPETENCE"
                description="COM_THM_ORGANIZER_SELF_COMPETENCE_DESC"
-               default="" >
+               default="">
             <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
             <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
@@ -377,7 +378,7 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_SOCIAL_COMPETENCE"
                description="COM_THM_ORGANIZER_SOCIAL_COMPETENCE_DESC"
-               default="" >
+               default="">
             <option value=''>COM_THM_ORGANIZER_NO_STARS</option>
             <option value='0'>COM_THM_ORGANIZER_ZERO_STARS</option>
             <option value='1'>COM_THM_ORGANIZER_ONE_STAR</option>
@@ -393,11 +394,11 @@
                type="programs"
                class="inputbox"
                label="COM_THM_ORGANIZER_PROGRAMS"
-               description="COM_THM_ORGANIZER_PROGRAMS_DESC" />
+               description="COM_THM_ORGANIZER_PROGRAMS_DESC"/>
         <field name="parentID"
                type="parentpool"
                class="inputbox"
                label="COM_THM_ORGANIZER_PARENT_POOLS"
-               description="COM_THM_ORGANIZER_PARENT_POOLS_DESC" />
+               description="COM_THM_ORGANIZER_PARENT_POOLS_DESC"/>
     </fieldset>
 </form>

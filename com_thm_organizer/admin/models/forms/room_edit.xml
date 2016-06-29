@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
-        <field name="id" type="hidden" />
+        <field name="id" type="hidden"/>
         <field name="gpuntisID"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_GPUNTISID"
-               description="COM_THM_ORGANIZER_GPUNTISID_DESC" />
+               description="COM_THM_ORGANIZER_GPUNTISID_DESC"/>
         <field name="name"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_NAME"
                description="COM_THM_ORGANIZER_NAME_DESC"
-               required="true" />
+               required="true"/>
         <field name="longname"
                type="text"
                class="inputbox"
                size="40"
                label="COM_THM_ORGANIZER_DISPLAY_NAME"
                description="COM_THM_ORGANIZER_DISPLAY_NAME_DESC"
-               required="true" />
+               required="true"/>
         <field name="typeID"
                type="genericlist"
                valueColumn="id"
@@ -30,7 +30,7 @@
                table="thm_organizer_room_types"
                label="COM_THM_ORGANIZER_TYPE"
                description="COM_THM_ORGANIZER_TYPE_DESC"
-               required="true" >
+               required="true">
             <option value="">COM_THM_ORGANIZER_FILTER_TYPE</option>
         </field>
         <field name="capacity"
@@ -38,6 +38,6 @@
                label="COM_THM_ORGANIZER_CAPACITY"
                description="COM_THM_ORGANIZER_CAPACITY_DESC"
                last="500"
-               step="1" />
+               step="1"/>
     </fieldset>
 </form>

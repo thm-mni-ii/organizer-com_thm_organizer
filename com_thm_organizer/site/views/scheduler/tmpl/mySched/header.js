@@ -36,9 +36,9 @@ MySched.headerPanel = function ()
          * @param {String} title The title of the panel
          * @param {Boolean} append Switch if the text should append or replace
          */
-        setTitle: function(title, append)
+        setTitle: function (title, append)
         {
-            if(append)
+            if (append)
             {
                 this.headerPanel.setTitle(this.selectPanel.title + title);
             }

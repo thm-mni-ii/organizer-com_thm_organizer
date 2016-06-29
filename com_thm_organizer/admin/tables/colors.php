@@ -12,6 +12,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.database.table');
+
 /**
  * Class representing the colors table.
  *
@@ -21,13 +22,13 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTableColors extends JTable
 {
-    /**
-     * Constructor to call the parent constructor
-     *
-     * @param   JDatabaseDriver  &$dbo  A database connector object
-     */
-    public function __construct(&$dbo)
-    {
-        parent::__construct('#__thm_organizer_colors', 'id', $dbo);
-    }
+	/**
+	 * Constructor to call the parent constructor
+	 *
+	 * @param   JDatabaseDriver &$dbo A database connector object
+	 */
+	public function __construct(&$dbo)
+	{
+		parent::__construct('#__thm_organizer_colors', 'id', $dbo);
+	}
 }

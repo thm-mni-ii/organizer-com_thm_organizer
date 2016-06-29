@@ -26,22 +26,22 @@ define('B', dirname(__FILE__));
  */
 class MySchedConfig
 {
-    /**
-     * The default folder when downloading schedules
-     */
-    public $pdf_downloadFolder = '';
+	/**
+	 * The default folder when downloading schedules
+	 */
+	public $pdf_downloadFolder = '';
 
-    /**
-     * Whether or not HTTPS is required
-     */
-    public $requireHTTPS = false;
+	/**
+	 * Whether or not HTTPS is required
+	 */
+	public $requireHTTPS = false;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        // Hier werden die PDF Dateien gespeichert (Muss nicht im Webroot liegen!)
-        $this->pdf_downloadFolder = JFactory::getApplication()->get('tmp_path') . DIRECTORY_SEPARATOR;
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		// Hier werden die PDF Dateien gespeichert (Muss nicht im Webroot liegen!)
+		$this->pdf_downloadFolder = JFactory::getApplication()->get('tmp_path') . DIRECTORY_SEPARATOR;
+	}
 }

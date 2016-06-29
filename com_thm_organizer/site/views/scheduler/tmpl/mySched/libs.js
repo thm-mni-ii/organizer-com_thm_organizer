@@ -23,7 +23,8 @@ Ext.define(
          * @param el
          * @return {*}
          */
-        constructor: function (config) {
+        constructor: function (config)
+        {
             this.callParent(arguments); // calls Ext.panel.Panel's constructor
         },
         getKey: function (el)
@@ -48,7 +49,7 @@ Ext.define(
          *
          * @method get
          * @param {string} key TODO Don't know what it means
-         * @param {} def TODO Was alway undefined
+         * @param {Unknown} def TODO Was always undefined
          * @return {*}
          */
         get: function (key, def)
@@ -69,7 +70,10 @@ Ext.define(
         getField: function (field)
         {
             var ret = [];
-            this.each(function (e) { this.push(e[field]); }, ret);
+            this.each(function (e)
+            {
+                this.push(e[field]);
+            }, ret);
             return ret;
         },
         /**
@@ -93,7 +97,7 @@ Ext.define(
             var r = new MySched.Collection();
             r.getKey = this.getKey;
             var k = this.keys,
-            it = this.items;
+                it = this.items;
             for (var i = 0, len = it.length; i < len; i++)
             {
                 if (fn.call(scope || this, it[i], k[i]))
@@ -117,16 +121,16 @@ MySched.Calendar = Ext.create("MySched.Collection");
  * @param {string} a The attribute
  * @return {String} * The value of the requested attribute
  */
-function _C (a)
+function _C(a)
 {
     return MySched.Config.get(a);
 }
 
 /**
- * Expanded the String object with the equeal method
+ * Expanded the string object with the equeal method
  * TODO: Maybe obsolete, it seems to be never used
  *
- * @param {string} str String that will be compered to basis string
+ * @param {string} str string that will be compered to basis string
  * @return {bollean} * True if both string a equal otherwise false
  */
 String.prototype.equal = function (str)
@@ -183,26 +187,26 @@ Array.prototype.contains = function (obj)
  * @return {object} target The lecture which should be draged
  */
 Ext.override(Ext.dd.DragZone,
-{
-    getDragData: function (e)
     {
-        // TreeNode
-        if (Ext.dd.Registry.getHandleFromEvent(e))
+        getDragData: function (e)
         {
-            return Ext.dd.Registry.getHandleFromEvent(e);
+            // TreeNode
+            if (Ext.dd.Registry.getHandleFromEvent(e))
+            {
+                return Ext.dd.Registry.getHandleFromEvent(e);
+            }
+
+            // Lecture
+            var target = Ext.get(e.getTarget()).findParent('.lectureBox', 3, true);
+            if (target === null)
+            {
+                return null;
+            }
+            target.ddel = target.dom;
+            return target;
         }
 
-        // Lecture
-        var target = Ext.get(e.getTarget()).findParent('.lectureBox', 3, true);
-        if (target === null)
-        {
-            return null;
-        }
-        target.ddel = target.dom;
-        return target;
-    }
-
-});
+    });
 
 /**
  * Check wheter the event objects are corresponding with the lesson objects
@@ -211,9 +215,9 @@ Ext.override(Ext.dd.DragZone,
  *
  * @author Wolf
  * @param {Array}
- *            event An Array which represent an event
+ *            event An array which represent an event
  * @param {Array}
- *            arr An Array which contains all lesson on one day
+ *            arr An array which contains all lesson on one day
  * @param {String}
  *            selectedScheduleid The id of the current selected schedule
  * @return (Integer) Returns one of the following numbers 1: selectedScheduleid
@@ -287,8 +291,8 @@ function showevent(event, arr, selectedScheduleid)
  * TODO: Maybe obsolete, it seems to be never used
  *
  * @method lessoncontains
- * @param {String} obj String representation of an event object
- * @param {Array} arr Array of teachers, rooms or classes of a lesson
+ * @param {String} obj string representation of an event object
+ * @param {Array} arr array of teachers, rooms or classes of a lesson
  * @return {Boolean} * true if an element in arr matches to obj false if no element in arr matches to obj
  */
 function lessoncontains(obj, arr)
@@ -435,7 +439,7 @@ function convertGermanDateStringToDateObject(dateString)
  */
 function displayDelta()
 {
-    if(!Ext.isNumber(MySched.deltaDisplayDays))
+    if (!Ext.isNumber(MySched.deltaDisplayDays))
     {
         return false;
     }
@@ -444,7 +448,7 @@ function displayDelta()
     Ext.Date.clearTime(currentDate);
     var creationDate = convertEnglishDateStringToDateObject(MySched.session.creationdate);
 
-    if(creationDate)
+    if (creationDate)
     {
         creationDate.setDate(creationDate.getDate() + MySched.deltaDisplayDays);
         if (creationDate < currentDate)
@@ -467,13 +471,13 @@ function getTeacherSurnameWithCutFirstName(teacherKey)
     var teacherName = teacherKey;
     var teacherSurname = MySched.Mapping.getTeacherSurname(teacherKey);
     var teacherFirstname = MySched.Mapping.getTeacherFirstname(teacherKey);
- 
-    if(Ext.isString(teacherSurname) && teacherSurname !== teacherKey && teacherSurname.length > 0)
+
+    if (Ext.isString(teacherSurname) && teacherSurname !== teacherKey && teacherSurname.length > 0)
     {
         teacherName = teacherSurname;
     }
- 
-    if(Ext.isString(teacherFirstname) && teacherFirstname !== teacherKey && teacherFirstname.length > 0)
+
+    if (Ext.isString(teacherFirstname) && teacherFirstname !== teacherKey && teacherFirstname.length > 0)
     {
         teacherName += ", " + teacherFirstname.charAt(0) + ".";
     }
@@ -492,17 +496,17 @@ function getTeacherSurnameWithCutFirstName(teacherKey)
  */
 function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
 {
-    if(eventStartDate < eventEndDate)
+    if (eventStartDate < eventEndDate)
     {
         endTime = "19:00";
     }
 
-    var blockTimes =  [{"start": "08:00", "end": "09:30"},
-                       {"start": "09:50", "end": "11:20"},
-                       {"start": "11:30", "end": "13:00"},
-                       {"start": "14:00", "end": "15:30"},
-                       {"start": "15:45", "end": "17:15"},
-                       {"start": "17:30", "end": "19:00"}];
+    var blockTimes = [{"start": "08:00", "end": "09:30"},
+        {"start": "09:50", "end": "11:20"},
+        {"start": "11:30", "end": "13:00"},
+        {"start": "14:00", "end": "15:30"},
+        {"start": "15:45", "end": "17:15"},
+        {"start": "17:30", "end": "19:00"}];
 
     var returnBlocks = [];
 
@@ -511,19 +515,19 @@ function getBlocksBetweenTimes(startTime, endTime, eventStartDate, eventEndDate)
         var blockTime = blockTimes[blockIndex];
 
         // event starts before the block and lasts longer than the block
-        if(startTime <= blockTime.start && endTime >= blockTime.end)
+        if (startTime <= blockTime.start && endTime >= blockTime.end)
         {
             returnBlocks.push(blockIndex);
         } // Event is within the block
-        else if(startTime >= blockTime.start && endTime <= blockTime.end)
+        else if (startTime >= blockTime.start && endTime <= blockTime.end)
         {
             returnBlocks.push(blockIndex);
         } // event begins before the block but ends in it
-        else if(startTime <= blockTime.start && endTime <= blockTime.end && endTime >= blockTime.start)
+        else if (startTime <= blockTime.start && endTime <= blockTime.end && endTime >= blockTime.start)
         {
             returnBlocks.push(blockIndex);
         } // event starts within the block and lasts longer as this block
-        else if(startTime >= blockTime.start && startTime <= blockTime.end &&  endTime >= blockTime.end)
+        else if (startTime >= blockTime.start && startTime <= blockTime.end && endTime >= blockTime.end)
         {
             returnBlocks.push(blockIndex);
         }
@@ -549,7 +553,7 @@ Ext.define(
          * @method init
          * @param {object} tabpanel The tabpanel as DOM element
          */
-        init : function(tabpanel)
+        init: function (tabpanel)
         {
             this.tabPanel = tabpanel;
             this.tabBar = tabpanel.down("tabbar");
@@ -565,7 +569,7 @@ Ext.define(
          *
          * @method onAfterLayout
          */
-        onAfterLayout: function()
+        onAfterLayout: function ()
         {
             this.mon(this.tabBar.el, {
                 scope: this,
@@ -584,7 +588,7 @@ Ext.define(
          * @method onMouseDown
          * @param {object} e The mouse event
          */
-        onMouseDown: function(e)
+        onMouseDown: function (e)
         {
             e.preventDefault();
         },
@@ -595,11 +599,11 @@ Ext.define(
          * @param {object} e The mouse event
          * @param {object} target The clicked object as DOM element
          */
-        onMouseUp: function(e, target)
+        onMouseUp: function (e, target)
         {
             e.preventDefault();
 
-            if( target && e.button === 1 && !(this.tabBar.getComponent(target.id).title == MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE))
+            if (target && e.button === 1 && !(this.tabBar.getComponent(target.id).title == MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE))
             {
                 var item = this.tabBar.getComponent(target.id);
                 item.onCloseClick();

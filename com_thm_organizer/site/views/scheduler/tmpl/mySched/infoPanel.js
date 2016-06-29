@@ -59,7 +59,7 @@ MySched.InfoPanel = function ()
         {
             this.el.select('.detailInfoBtn')
                 .on('click', this.detailInfoClick,
-                this);
+                    this);
         },
         /**
          * Wird aufgerufen wenn ein blaues Informationsicon fuer Detailinfos
@@ -103,10 +103,11 @@ MySched.InfoPanel = function ()
                                 return;
                             }
                             // Zeigt ermittelte Info an
-                            this.showDetailInfo( Ext.Template(json.template).apply(json.data), MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFO);
+                            this.showDetailInfo(Ext.Template(json.template).apply(json.data), MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_INFO);
                         }
                         catch (e)
-                        {}
+                        {
+                        }
                     }
                 });
         },

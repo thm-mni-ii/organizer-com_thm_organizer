@@ -92,7 +92,7 @@ button {
 .subject-list-container h5 {
   background-color: #dfe5e6;
   cursor: default;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   margin-top: 10px;
   padding: 6px 12px; }
   .subject-list-container h5 a {
@@ -108,7 +108,7 @@ a.pool-anchor {
   visibility: hidden; }
 
 .subject-list-container .subject-list {
-  margin-left: 0px; }
+  margin-left: 0; }
   .subject-list-container .subject-list li {
     list-style: none;
     padding: 6px 20px 6px 19px;

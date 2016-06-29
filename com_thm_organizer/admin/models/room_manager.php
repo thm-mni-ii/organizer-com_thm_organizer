@@ -10,8 +10,11 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+
 /**
  * Class THM_OrganizerModelRooms for component com_thm_organizer
  * Class provides methods to deal with rooms
@@ -22,115 +25,116 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 {
-    protected $defaultOrdering = 'r.longname';
+	protected $defaultOrdering = 'r.longname';
 
-    protected $defaultDirection = 'asc';
+	protected $defaultDirection = 'asc';
 
-    /**
-     * Constructor to set the config array and call the parent constructor
-     *
-     * @param   Array  $config  Configuration  (default: Array)
-     */
-    public function __construct($config = array())
-    {
-        if (empty($config['filter_fields']))
-        {
-            $config['filter_fields'] = array('r.longname', 'roomtype', 'r.name');
-        }
+	/**
+	 * Constructor to set the config array and call the parent constructor
+	 *
+	 * @param   array $config Configuration  (default: array)
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array('r.longname', 'roomtype', 'r.name');
+		}
 
-        parent::__construct($config);
-    }
+		parent::__construct($config);
+	}
 
-    /**
-     * Method to get all rooms from the database
-     *
-     * @return  JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $query = $this->_db->getQuery(true);
+	/**
+	 * Method to get all rooms from the database
+	 *
+	 * @return  JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+		$query    = $this->_db->getQuery(true);
 
-        $select = "r.id, r.gpuntisID, r.name, r.longname, t.id AS typeID, t.name_$shortTag AS type , ";
-        $linkParts = array("'index.php?option=com_thm_organizer&view=room_edit&id='", "r.id");
-        $select .= $query->concatenate($linkParts, "") . " AS link";
-        $query->select($select);
+		$select    = "r.id, r.gpuntisID, r.name, r.longname, t.id AS typeID, t.name_$shortTag AS type , ";
+		$linkParts = array("'index.php?option=com_thm_organizer&view=room_edit&id='", "r.id");
+		$select .= $query->concatenate($linkParts, "") . " AS link";
+		$query->select($select);
 
-        $query->from('#__thm_organizer_rooms AS r');
-        $query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
+		$query->from('#__thm_organizer_rooms AS r');
+		$query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
 
-        $this->setSearchFilter($query, array('name', 'longname'));
-        $this->setValueFilters($query, array('name', 'longname', 'typeID'));
+		$this->setSearchFilter($query, array('name', 'longname'));
+		$this->setValueFilters($query, array('name', 'longname', 'typeID'));
 
-        $this->setOrdering($query);
-        return $query;
-    }
+		$this->setOrdering($query);
 
-    /**
-     * Method to overwrite the getItems method in order to set the program name
-     *
-     * @return  array  an array of objects fulfilling the request criteria
-     */
-    public function getItems()
-    {
-        $items = parent::getItems();
-        $return = array();
-        if (empty($items))
-        {
-            return $return;
-        }
+		return $query;
+	}
 
-        $index = 0;
-        foreach ($items as $item)
-        {
-            $return[$index] = array();
-            if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-            {
-                $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            }
+	/**
+	 * Method to overwrite the getItems method in order to set the program name
+	 *
+	 * @return  array  an array of objects fulfilling the request criteria
+	 */
+	public function getItems()
+	{
+		$items  = parent::getItems();
+		$return = array();
+		if (empty($items))
+		{
+			return $return;
+		}
 
-            if ($this->actions->{'core.edit'})
-            {
-                $name = JHtml::_('link', $item->link, $item->name);
-                $longname = JHtml::_('link', $item->link, $item->longname);
-                $typeID = JHtml::_('link', $item->link, $item->type);
-            }
-            else
-            {
-                $name = $item->name;
-                $longname = $item->longname;
-                $typeID = $item->type;
-            }
+		$index = 0;
+		foreach ($items as $item)
+		{
+			$return[$index] = array();
+			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+			{
+				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+			}
 
-            $return[$index]['name'] = $name;
-            $return[$index]['longname'] = $longname;
-            $return[$index]['typeID'] = $typeID;
-            $index++;
-        }
+			if ($this->actions->{'core.edit'})
+			{
+				$name     = JHtml::_('link', $item->link, $item->name);
+				$longname = JHtml::_('link', $item->link, $item->longname);
+				$typeID   = JHtml::_('link', $item->link, $item->type);
+			}
+			else
+			{
+				$name     = $item->name;
+				$longname = $item->longname;
+				$typeID   = $item->type;
+			}
 
-        return $return;
-    }
+			$return[$index]['name']     = $name;
+			$return[$index]['longname'] = $longname;
+			$return[$index]['typeID']   = $typeID;
+			$index++;
+		}
 
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    public function getHeaders()
-    {
-        $ordering = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
+		return $return;
+	}
 
-        $headers = array();
-        if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-        {
-            $headers['checkbox'] = '';
-        }
+	/**
+	 * Function to get table headers
+	 *
+	 * @return array including headers
+	 */
+	public function getHeaders()
+	{
+		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction = $this->state->get('list.direction', $this->defaultDirection);
 
-        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $ordering);
-        $headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname', $direction, $ordering);
-        $headers['typeID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);
+		$headers = array();
+		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
+		{
+			$headers['checkbox'] = '';
+		}
 
-        return $headers;
-    }
+		$headers['name']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $ordering);
+		$headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname', $direction, $ordering);
+		$headers['typeID']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);
+
+		return $headers;
+	}
 }

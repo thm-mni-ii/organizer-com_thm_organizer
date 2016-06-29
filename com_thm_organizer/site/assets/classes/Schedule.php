@@ -24,86 +24,87 @@ require_once dirname(__FILE__) . "/scheduledirector.php";
  */
 class THMSchedule
 {
-    /**
-     * Builder
-     *
-     * @var    Object
-     */
-    private $_builder = null;
+	/**
+	 * Builder
+	 *
+	 * @var    Object
+	 */
+	private $_builder = null;
 
-    /**
-     * Lesson array
-     *
-     * @var    Array
-     */
-    private $_arr = null;
+	/**
+	 * Lesson array
+	 *
+	 * @var    array
+	 */
+	private $_scheduleData  = null;
 
-    /**
-     * Username
-     *
-     * @var    String
-     */
-    private $_username = null;
+	/**
+	 * Username
+	 *
+	 * @var    String
+	 */
+	private $_username = null;
 
-    /**
-     * Schedule title
-     *
-     * @var    String
-     */
-    private $_title = null;
+	/**
+	 * Schedule title
+	 *
+	 * @var    String
+	 */
+	private $_title = null;
 
-    /**
-     * Output type
-     *
-     * @var    String
-     */
-    private $_what = null;
+	/**
+	 * Output type
+	 *
+	 * @var    String
+	 */
+	private $_what = null;
 
-    /**
-     * Config
-     *
-     * @var    Object
-     */
-    private $_cfg = null;
+	/**
+	 * Config
+	 *
+	 * @var    Object
+	 */
+	private $_cfg = null;
 
-    /**
-     * Constructor with the configuration object
-     *
-     * @param   MySchedConfig    $cfg  An object which has configurations including
-     */
-    public function __construct($cfg)
-    {
-        $input = JFactory::getApplication()->input;
-        $this->_arr      = json_decode(file_get_contents("php://input"));
-        $this->_username = $input->getString("username");
-        $this->_title    = $input->getString("title");
-        $this->_what     = $input->getString("what");
-        $this->startdate = $input->getString("startdate");
-        $this->enddate = $input->getString("enddate");
-        $this->semesterID = $input->getString("semesterID");
-        $this->_cfg = $cfg;
-    }
+	/**
+	 * Constructor with the configuration object
+	 *
+	 * @param   MySchedConfig $cfg An object which has configurations including
+	 */
+	public function __construct($cfg)
+	{
+		$input               = JFactory::getApplication()->input;
+		$this->_scheduleData = json_decode(file_get_contents("php://input"));
+		$this->_username     = $input->getString("username");
+		$this->_title        = $input->getString("title");
+		$this->_what         = $input->getString("what");
+		$this->startdate     = $input->getString("startdate");
+		$this->enddate       = $input->getString("enddate");
+		$this->semesterID    = $input->getString("semesterID");
+		$this->_cfg          = $cfg;
+	}
 
-    /**
-     * Method to create the schedules in different formats
-     *
-     * @return Array An array with information about the status of the creation
-     */
-    public function export()
-    {
-        $options = array("startdate" => $this->startdate, "enddate" => $this->enddate, "semesterID" => $this->semesterID);
-        if ($this->_what == "pdf")
-        {
-            require_once dirname(__FILE__) . "/pdf.php";
-            $this->_builder = new THMPDFBuilder($this->_cfg, $options);
-        }
-        elseif ($this->_what == "ics")
-        {
-            require_once dirname(__FILE__) . "/ics.php";
-            $this->_builder = new THMICSBuilder($this->_cfg, $options);
-        }
+	/**
+	 * Method to create the schedules in different formats
+	 *
+	 * @return array An array with information about the status of the creation
+	 */
+	public function export()
+	{
+		$options = array("startdate" => $this->startdate, "enddate" => $this->enddate, "semesterID" => $this->semesterID);
+		if ($this->_what == "pdf")
+		{
+			require_once dirname(__FILE__) . "/pdf.php";
+			$this->_builder = new THMPDFBuilder($this->_cfg, $options);
+		}
+		elseif ($this->_what == "ics")
+		{
+			require_once dirname(__FILE__) . "/ics.php";
+			$this->_builder = new THMICSBuilder($this->_cfg, $options);
+		}
 
-        $director = new THMScheduleDirector($this->_builder);
-        return $director->createSchedule($this->_arr, $this->_username, $this->_title);
-    }
+		$director = new THMScheduleDirector($this->_builder);
+
+		return $director->createSchedule($this->_scheduleData , $this->_username, $this->_title);
+	}
 }

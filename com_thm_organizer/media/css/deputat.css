@@ -35,11 +35,11 @@
     padding: 8px 4px 4px 4px;
     z-index: 12;
     margin-bottom: 4px;
-    -webkit-box-shadow: 2px 2px 4px #dddddd;
-    -moz-box-shadow: 2px 2px 4px #dddddd;
-    -ms-box-shadow: 2px 2px 4px #dddddd;
-    -o-box-shadow: 2px 2px 4px #dddddd;
-    box-shadow: 2px 2px 4px #dddddd; }
+    -webkit-box-shadow: 2px 2px 4px #a4adb2;
+    -moz-box-shadow: 2px 2px 4px #a4adb2;
+    -ms-box-shadow: 2px 2px 4px #a4adb2;
+    -o-box-shadow: 2px 2px 4px #a4adb2;
+    box-shadow: 2px 2px 4px #a4adb2; }
     .deputat div.filter-bar ::after {
       content: "";
       display: table;
@@ -81,7 +81,7 @@
               background: #eeeeee;
               border-radius: 0; } }
       .deputat div.filter-bar .filter-header .input-append {
-        margin-bottom: 0px; }
+        margin-bottom: 0; }
         .deputat div.filter-bar .filter-header .input-append input {
           max-width: 100px;
           height: 15px; }
@@ -96,11 +96,11 @@ table.deputat-table {
   margin-top: .4em;
   max-height: 45em;
   width: 100%;
-  -webkit-box-shadow: 2px 2px 4px #dddddd;
-  -moz-box-shadow: 2px 2px 4px #dddddd;
-  -ms-box-shadow: 2px 2px 4px #dddddd;
-  -o-box-shadow: 2px 2px 4px #dddddd;
-  box-shadow: 2px 2px 4px #dddddd; }
+  -webkit-box-shadow: 2px 2px 4px #a4adb2;
+  -moz-box-shadow: 2px 2px 4px #a4adb2;
+  -ms-box-shadow: 2px 2px 4px #a4adb2;
+  -o-box-shadow: 2px 2px 4px #a4adb2;
+  box-shadow: 2px 2px 4px #a4adb2; }
   table.deputat-table th {
     background-color: #ffffff;
     height: 1.4em;

@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
 defined('TEACHER') OR define('TEACHER', 2);
+
 /**
  * Provides persistence handling for subjects
  *
@@ -21,353 +22,361 @@ defined('TEACHER') OR define('TEACHER', 2);
  */
 class THM_OrganizerModelSubject extends JModelLegacy
 {
-    private $_scheduleModel = null;
+	/**
+	 * Attempts to delete the selected subject entries and related mappings
+	 *
+	 * @return  boolean true on success, otherwise false
+	 */
+	public function delete()
+	{
+		$subjectIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		if (!empty($subjectIDs))
+		{
+			$this->_db->transactionStart();
+			foreach ($subjectIDs as $subjectID)
+			{
+				$deleted = $this->deleteEntry($subjectID);
+				if (!$deleted)
+				{
+					$this->_db->transactionRollback();
 
-    /**
-     * Attempts to delete the selected subject entries and related mappings
-     *
-     * @return  boolean true on success, otherwise false
-     */
-    public function delete()
-    {
-        $subjectIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-        if (!empty($subjectIDs))
-        {
-            $this->_db->transactionStart();
-            foreach ($subjectIDs as $subjectID)
-            {
-                $deleted = $this->deleteEntry($subjectID);
-                if (!$deleted)
-                {
-                    $this->_db->transactionRollback();
-                    return false;
-                }
-            }
-            $this->_db->transactionCommit();
-        }
+					return false;
+				}
+			}
+			$this->_db->transactionCommit();
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Deletes an individual subject entry in the mappings and subjects tables
-     * 
-     * @param   int  $subjectID  the id of the subject to be deleted
-     * 
-     * @return  boolean  true if successful, otherwise false
-     */
-    public function deleteEntry($subjectID)
-    {
-        $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        $mappingModel = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
-        $mappingsDeleted = $mappingModel->deleteByResourceID($subjectID, 'subject');
-        if (!$mappingsDeleted)
-        {
-            return false;
-        }
+	/**
+	 * Deletes an individual subject entry in the mappings and subjects tables
+	 *
+	 * @param   int $subjectID the id of the subject to be deleted
+	 *
+	 * @return  boolean  true if successful, otherwise false
+	 */
+	public function deleteEntry($subjectID)
+	{
+		$table           = JTable::getInstance('subjects', 'thm_organizerTable');
+		$mappingModel    = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+		$mappingsDeleted = $mappingModel->deleteByResourceID($subjectID, 'subject');
+		if (!$mappingsDeleted)
+		{
+			return false;
+		}
 
-        $subjectDeleted = $table->delete($subjectID);
-        if (!$subjectDeleted)
-        {
-            return false;
-        }
+		$subjectDeleted = $table->delete($subjectID);
+		if (!$subjectDeleted)
+		{
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Attempts to save a subject entry, updating subject-teacher data as
-     * necessary.
-     *
-     * @return true on success, otherwise false
-     */
-    public function save()
-    {
-        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
+	/**
+	 * Attempts to save a subject entry, updating subject-teacher data as
+	 * necessary.
+	 *
+	 * @return true on success, otherwise false
+	 */
+	public function save()
+	{
+		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
 
-        $this->_db->transactionStart();
+		$this->_db->transactionStart();
 
-        $table = JTable::getInstance('subjects', 'thm_organizerTable');
-        if (empty($data['fieldID']))
-        {
-            $data['fieldID'] = NULL;
-        }
+		$table = JTable::getInstance('subjects', 'thm_organizerTable');
+		if (empty($data['fieldID']))
+		{
+			$data['fieldID'] = null;
+		}
 
-        $starProperties = array('expertise', 'self_competence', 'method_competence', 'social_competence');
-        foreach ($starProperties as $property)
-        {
-            $this->cleanStarProperty($data, $property);
-        }
+		$starProperties = array('expertise', 'self_competence', 'method_competence', 'social_competence');
+		foreach ($starProperties as $property)
+		{
+			$this->cleanStarProperty($data, $property);
+		}
 
-        $subjectSuccess = $table->save($data);
+		$subjectSuccess = $table->save($data);
 
-        if (!$subjectSuccess)
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
+		if (!$subjectSuccess)
+		{
+			$this->_db->transactionRollback();
 
-        $new = empty($data['id']);
-        $data['id'] = $table->id;
+			return false;
+		}
 
-        if (!$this->processFormTeachers($data))
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
+		$new        = empty($data['id']);
+		$data['id'] = $table->id;
 
-        if (!$this->processFormPrerequisites($data))
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
+		if (!$this->processFormTeachers($data))
+		{
+			$this->_db->transactionRollback();
 
-        if (!$new)
-        {
-            $mappingSuccess = $this->processFormMappings($table->id, $data);
-            if (!$mappingSuccess)
-            {
-                $this->_db->transactionRollback();
-                return false;
-            }
-        }
-        $this->_db->transactionCommit();
-        return $table->id;
-    }
+			return false;
+		}
 
-    /**
-     * Checks if the property should be displayed. Setting it to NULL if not.
-     *
-     * @param   array   &$data     the form data
-     * @param   string  $property  the property name
-     *
-     * @return  void  can change the &$data value at the property name index
-     */
-    private function cleanStarProperty(&$data, $property)
-    {
-        if ($data[$property] == '-1')
-        {
-            $data[$property] = 'NULL';
-        }
-    }
+		if (!$this->processFormPrerequisites($data))
+		{
+			$this->_db->transactionRollback();
 
-    /**
-     * Processes the teachers selected for the subject
-     * 
-     * @param   array  &$data  the post data
-     * 
-     * @return  bool  true on success, otherwise false
-     */
-    private function processFormTeachers(&$data)
-    {
-        $subjectID = $data['id'];
+			return false;
+		}
 
-        if (!$this->removeTeachers($subjectID))
-        {
-            return false;
-        }
+		if (!$new)
+		{
+			$mappingSuccess = $this->processFormMappings($table->id, $data);
+			if (!$mappingSuccess)
+			{
+				$this->_db->transactionRollback();
 
-        if (!empty($data['responsible']))
-        {
-            foreach ($data['responsible'] AS $responsibleID)
-            {
-                $respAdded = $this->addTeacher($subjectID, $responsibleID, RESPONSIBLE);
-                if (!$respAdded)
-                {
-                    return false;
-                }
-            }
-        }
+				return false;
+			}
+		}
+		$this->_db->transactionCommit();
 
-        if (!empty($data['teacherID']))
-        {
-            foreach ($data['teacherID'] AS $teacherID)
-            {
-                $teacherAdded = $this->addTeacher($subjectID, $teacherID, TEACHER);
-                if (!$teacherAdded)
-                {
-                    return false;
-                }
-            }
-        }
+		return $table->id;
+	}
 
-        return true;
-    }
+	/**
+	 * Checks if the property should be displayed. Setting it to NULL if not.
+	 *
+	 * @param   array  &$data    the form data
+	 * @param   string $property the property name
+	 *
+	 * @return  void  can change the &$data value at the property name index
+	 */
+	private function cleanStarProperty(&$data, $property)
+	{
+		if ($data[$property] == '-1')
+		{
+			$data[$property] = 'NULL';
+		}
+	}
 
-    /**
-     * Removes teacher associations for the given subject and level of
-     * responsibility.
-     * 
-     * @param   int  $subjectID       the subject id
-     * @param   int  $responsibility  the teacher responsibility level (1|2)
-     * 
-     * @return boolean
-     */
-    public function removeTeachers($subjectID, $responsibility = null)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->delete('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID'");
-        if (!empty($responsibility))
-        {
-            $query->where("teacherResp = '$responsibility'");
-        }
+	/**
+	 * Processes the teachers selected for the subject
+	 *
+	 * @param   array &$data the post data
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	private function processFormTeachers(&$data)
+	{
+		$subjectID = $data['id'];
 
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return false;
-        }
+		if (!$this->removeTeachers($subjectID))
+		{
+			return false;
+		}
 
-        return true;
-    }
+		if (!empty($data['responsible']))
+		{
+			foreach ($data['responsible'] AS $responsibleID)
+			{
+				$respAdded = $this->addTeacher($subjectID, $responsibleID, RESPONSIBLE);
+				if (!$respAdded)
+				{
+					return false;
+				}
+			}
+		}
 
-    /**
-     * Adds a teacher association
-     *
-     * @param   int    $subjectID       the id of the subject
-     * @param   array  $teacherID       the id of the teacher
-     * @param   int    $responsibility  the teacher's responsibility for the
-     *                                  subject
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    public function addTeacher($subjectID, $teacherID, $responsibility)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
-        $query->values("'$subjectID', '$teacherID', '$responsibility'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return false;
-        }
+		if (!empty($data['teacherID']))
+		{
+			foreach ($data['teacherID'] AS $teacherID)
+			{
+				$teacherAdded = $this->addTeacher($subjectID, $teacherID, TEACHER);
+				if (!$teacherAdded)
+				{
+					return false;
+				}
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Processes the subject pre- & postrequisites selected for the subject
-     *
-     * @param   array  &$data  the post data
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    private function processFormPrerequisites(&$data)
-    {
-        $subjectID = $data['id'];
+	/**
+	 * Removes teacher associations for the given subject and level of
+	 * responsibility.
+	 *
+	 * @param   int $subjectID      the subject id
+	 * @param   int $responsibility the teacher responsibility level (1|2)
+	 *
+	 * @return boolean
+	 */
+	public function removeTeachers($subjectID, $responsibility = null)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->delete('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID'");
+		if (!empty($responsibility))
+		{
+			$query->where("teacherResp = '$responsibility'");
+		}
 
-        if (!$this->removePrerequisites($subjectID))
-        {
-            return false;
-        }
+		$this->_db->setQuery((string) $query);
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-        if (!empty($data['prerequisites']))
-        {
-            foreach ($data['prerequisites'] AS $prerequisiteID)
-            {
-                $preAdded = $this->addPrerequisite($subjectID, $prerequisiteID);
-                if (!$preAdded)
-                {
-                    return false;
-                }
-            }
-        }
+			return false;
+		}
 
-        if (!empty($data['postrequisites']))
-        {
-            foreach ($data['postrequisites'] AS $postrequisiteID)
-            {
-                $postAdded = $this->addPrerequisite($postrequisiteID, $subjectID);
-                if (!$postAdded)
-                {
-                    return false;
-                }
-            }
-        }
+		return true;
+	}
 
-        return true;
-    }
+	/**
+	 * Adds a teacher association
+	 *
+	 * @param   int   $subjectID        the id of the subject
+	 * @param   array $teacherID        the id of the teacher
+	 * @param   int   $responsibility   the teacher's responsibility for the
+	 *                                  subject
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	public function addTeacher($subjectID, $teacherID, $responsibility)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
+		$query->values("'$subjectID', '$teacherID', '$responsibility'");
+		$this->_db->setQuery((string) $query);
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-    /**
-     * Removes pre- & postrequisite associations for the given subject
-     *
-     * @param   int  $subjectID       the subject id
-     *
-     * @return  boolean
-     */
-    public function removePrerequisites($subjectID)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return false;
-        }
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Adds a prerequisite association
-     *
-     * @param   int    $subjectID     the id of the subject
-     * @param   array  $prerequisite  the id of the prerequisite
-     *
-     * @return  bool  true on success, otherwise false
-     */
-    public function addPrerequisite($subjectID, $prerequisite)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite');
-        $query->values("'$subjectID', '$prerequisite'");
-        $this->_db->setQuery((string) $query);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return false;
-        }
+	/**
+	 * Processes the subject pre- & postrequisites selected for the subject
+	 *
+	 * @param   array &$data the post data
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	private function processFormPrerequisites(&$data)
+	{
+		$subjectID = $data['id'];
 
-        return true;
-    }
+		if (!$this->removePrerequisites($subjectID))
+		{
+			return false;
+		}
 
-    /**
-     * Processes the mappings of the subject selected
-     * 
-     * @param   int    $subjectID  the id of the subject
-     * @param   array  &$data      the post data
-     * 
-     * @return  boolean  true on success, otherwise false
-     */
-    private function processFormMappings($subjectID, &$data)
-    {
-        $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+		if (!empty($data['prerequisites']))
+		{
+			foreach ($data['prerequisites'] AS $prerequisiteID)
+			{
+				$preAdded = $this->addPrerequisite($subjectID, $prerequisiteID);
+				if (!$preAdded)
+				{
+					return false;
+				}
+			}
+		}
 
-        // No mappings desired
-        if (empty($data['parentID']))
-        {
-            return $model->deleteByResourceID($subjectID, 'subject');
-        }
+		if (!empty($data['postrequisites']))
+		{
+			foreach ($data['postrequisites'] AS $postrequisiteID)
+			{
+				$postAdded = $this->addPrerequisite($postrequisiteID, $subjectID);
+				if (!$postAdded)
+				{
+					return false;
+				}
+			}
+		}
 
-        return $model->saveSubject($data);
-    }
+		return true;
+	}
+
+	/**
+	 * Removes pre- & postrequisite associations for the given subject
+	 *
+	 * @param   int $subjectID the subject id
+	 *
+	 * @return  boolean
+	 */
+	public function removePrerequisites($subjectID)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
+		$this->_db->setQuery((string) $query);
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Adds a prerequisite association
+	 *
+	 * @param   int   $subjectID    the id of the subject
+	 * @param   array $prerequisite the id of the prerequisite
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	public function addPrerequisite($subjectID, $prerequisite)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite');
+		$query->values("'$subjectID', '$prerequisite'");
+		$this->_db->setQuery((string) $query);
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Processes the mappings of the subject selected
+	 *
+	 * @param   int   $subjectID the id of the subject
+	 * @param   array &$data     the post data
+	 *
+	 * @return  boolean  true on success, otherwise false
+	 */
+	private function processFormMappings($subjectID, &$data)
+	{
+		$model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+
+		// No mappings desired
+		if (empty($data['parentID']))
+		{
+			return $model->deleteByResourceID($subjectID, 'subject');
+		}
+
+		return $model->saveSubject($data);
+	}
 }

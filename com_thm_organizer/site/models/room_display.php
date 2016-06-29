@@ -24,464 +24,471 @@ define('CONTENT', 3);
  */
 class THM_OrganizerModelRoom_Display extends JModelLegacy
 {
-    public $params = array();
+	public $params = array();
 
-    private $_schedules;
+	private $_schedules;
 
-    public $blocks;
+	public $blocks;
 
-    private $_dbDate = "";
+	private $_dbDate = "";
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $input = JFactory::getApplication()->input;
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$input = JFactory::getApplication()->input;
 
-        $ipData = array('ip' => $input->server->getString('REMOTE_ADDR', ''));
-        $monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
-        $registered = $monitorEntry->load($ipData);
+		$ipData       = array('ip' => $input->server->getString('REMOTE_ADDR', ''));
+		$monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
+		$registered   = $monitorEntry->load($ipData);
 
-        if (!$registered)
-        {
-            $this->params['layout'] = 'default';
-            return;
-        }
+		if (!$registered)
+		{
+			$this->params['layout'] = 'default';
 
-        $templateSet = $input->getString('tmpl', '') == 'component';
-        if (!$templateSet)
-        {
-            $this->redirectToComponentTemplate();
-        }
+			return;
+		}
 
-        $this->setParams($monitorEntry);
+		$templateSet = $input->getString('tmpl', '') == 'component';
+		if (!$templateSet)
+		{
+			$this->redirectToComponentTemplate();
+		}
 
-        $this->setRoomInformation();
+		$this->setParams($monitorEntry);
 
-        $this->setScheduleInformation();
-    }
+		$this->setRoomInformation();
 
-    /**
-     * Redirects to the component template
-     *
-     * @return  void
-     */
-    private function redirectToComponentTemplate()
-    {
-        $app = JFactory::getApplication();
-        $base = JURI::root() . 'index.php?';
-        $query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
-        $app->redirect($base . $query);
-    }
+		$this->setScheduleInformation();
+	}
 
-    /**
-     * Sets display parameters
-     *
-     * @param   object  &$monitorEntry  the JTable object for the monitors table
-     *
-     * @return  void
-     */
-    private function setParams(&$monitorEntry)
-    {
-        if ($monitorEntry->useDefaults)
-        {
-            $this->params['display'] = JComponentHelper::getParams('com_thm_organizer')->get('display', 1);
-            $this->params['schedule_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
-            $this->params['content_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
-            $this->params['content'] = JComponentHelper::getParams('com_thm_organizer')->get('content');
-            $defaultLayout = JComponentHelper::getParams('com_thm_organizer')->get('display');
-        }
-        else
-        {
-            $this->params['display'] = $monitorEntry->display;
-            $this->params['schedule_refresh'] = $monitorEntry->schedule_refresh;
-            $this->params['content_refresh'] = $monitorEntry->content_refresh;
-            $this->params['content'] = $monitorEntry->content;
-        }
+	/**
+	 * Redirects to the component template
+	 *
+	 * @return  void
+	 */
+	private function redirectToComponentTemplate()
+	{
+		$app   = JFactory::getApplication();
+		$base  = JUri::root() . 'index.php?';
+		$query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
+		$app->redirect($base . $query);
+	}
 
-        $useComponentDisplay = ($monitorEntry->useDefaults AND !empty($defaultLayout));
-        $monitorDisplayValue = (empty($this->params['display']))? SCHEDULE : $this->params['display'];
-        $displayValue = $useComponentDisplay? $defaultLayout : $monitorDisplayValue;
+	/**
+	 * Sets display parameters
+	 *
+	 * @param   object &$monitorEntry the JTable object for the monitors table
+	 *
+	 * @return  void
+	 */
+	private function setParams(&$monitorEntry)
+	{
+		if ($monitorEntry->useDefaults)
+		{
+			$this->params['display'] = JComponentHelper::getParams('com_thm_organizer')->get('display', 1);
+			$this->params['schedule_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
+			$this->params['content_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
+			$this->params['content'] = JComponentHelper::getParams('com_thm_organizer')->get('content');
+			$defaultLayout = JComponentHelper::getParams('com_thm_organizer')->get('display');
+		}
+		else
+		{
+			$this->params['display'] = $monitorEntry->display;
+			$this->params['schedule_refresh'] = $monitorEntry->schedule_refresh;
+			$this->params['content_refresh'] = $monitorEntry->content_refresh;
+			$this->params['content'] = $monitorEntry->content;
+			$defaultLayout = '';
+		}
 
-        switch ($displayValue)
-        {
-            case ALTERNATING:
-                $this->setAlternatingLayout();
-                break;
-            case CONTENT:
-                $this->params['layout'] = 'content';
-                break;
-            case SCHEDULE:
-            default:
-            $this->params['layout'] = 'schedule';
-        }
+		$useComponentDisplay = ($monitorEntry->useDefaults AND !empty($defaultLayout));
+		$monitorDisplayValue = (empty($this->params['display'])) ? SCHEDULE : $this->params['display'];
+		$displayValue        = $useComponentDisplay ? $defaultLayout : $monitorDisplayValue;
 
-        $this->params['roomID'] = $monitorEntry->roomID;
-    }
+		switch ($displayValue)
+		{
+			case ALTERNATING:
+				$this->setAlternatingLayout();
+				break;
+			case CONTENT:
+				$this->params['layout'] = 'content';
+				break;
+			case SCHEDULE:
+			default:
+				$this->params['layout'] = 'schedule';
+		}
 
-    /**
-     * Determines which display behaviour is desired based on which layout was previously used
-     *
-     * @return  void
-     */
-    private function setAlternatingLayout()
-    {
-        $session = JFactory::getSession();
-        $displayed = $session->get('displayed', 'schedule');
+		$this->params['roomID'] = $monitorEntry->roomID;
+	}
 
-        if ($displayed == 'schedule')
-        {
-            $this->params['layout'] = 'content';
-            return;
-        }
+	/**
+	 * Determines which display behaviour is desired based on which layout was previously used
+	 *
+	 * @return  void
+	 */
+	private function setAlternatingLayout()
+	{
+		$session   = JFactory::getSession();
+		$displayed = $session->get('displayed', 'schedule');
 
-        if ($displayed == 'schedule')
-        {
-            $this->params['layout'] = 'content';
-            return;
-        }
+		if ($displayed == 'schedule')
+		{
+			$this->params['layout'] = 'content';
 
-        $session->set('displayed', $this->params['layout']);
-    }
+			return;
+		}
 
-    /**
-     * Retrieves the name and id of the room
-     *
-     * @return  void
-     */
-    private function setRoomInformation()
-    {
-        $roomEntry = JTable::getInstance('rooms', 'thm_organizerTable');
-        try
-        {
-            $roomEntry->load($this->params['roomID']);
-            $this->params['roomName'] = $roomEntry->longname;
-            $this->params['gpuntisID'] = strpos($roomEntry->gpuntisID, 'RM_') === 0?
-                substr($roomEntry->gpuntisID, 3) : $roomEntry->gpuntisID;
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            $this->params['roomName'] = '';
-            $this->params['gpuntisID'] = '';
-        }
-    }
+		if ($displayed == 'schedule')
+		{
+			$this->params['layout'] = 'content';
 
-    /**
-     * Sets information about the daily schedule
-     *
-     * @return  void
-     */
-    private function setScheduleInformation()
-    {
-        $this->params['date'] = getdate(time());
-        $this->_dbDate = date('Y-m-d', $this->params['date'][0]);
-        $this->setSchedules();
-        if (count($this->_schedules))
-        {
-            $this->getBlocks();
-        }
-    }
+			return;
+		}
 
-    /**
-     * Retireves schedules valid for the requested date
-     *
-     * @return  void
-     */
-     private function setSchedules()
-     {
-         $dbo = $this->getDbo();
-         $query = $dbo->getQuery(true);
-         $query->select("schedule");
-         $query->from("#__thm_organizer_schedules");
-         $query->where("startdate <= '$this->_dbDate'");
-         $query->where("enddate >= '$this->_dbDate'");
-         $query->where("active = 1");
-         $dbo->setQuery((string) $query);
-         
-        try 
-        {
-            $schedules = $dbo->loadColumn();
-        }
-        catch (Exception $exc)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            return;
-        }
+		$session->set('displayed', $this->params['layout']);
+	}
 
-         if (empty($schedules))
-         {
-             JFactory::getApplication()->redirect('index.php', JText::_('COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULES_FOR_DATE'), 'error');
-             return;
-         }
+	/**
+	 * Retrieves the name and id of the room
+	 *
+	 * @return  void
+	 */
+	private function setRoomInformation()
+	{
+		$roomEntry = JTable::getInstance('rooms', 'thm_organizerTable');
+		try
+		{
+			$roomEntry->load($this->params['roomID']);
+			$this->params['roomName']  = $roomEntry->longname;
+			$this->params['gpuntisID'] = strpos($roomEntry->gpuntisID, 'RM_') === 0 ?
+				substr($roomEntry->gpuntisID, 3) : $roomEntry->gpuntisID;
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			$this->params['roomName']  = '';
+			$this->params['gpuntisID'] = '';
+		}
+	}
 
-         foreach ($schedules as $key => $schedule)
-         {
-             $schedules[$key] = json_decode($schedule);
-         }
+	/**
+	 * Sets information about the daily schedule
+	 *
+	 * @return  void
+	 */
+	private function setScheduleInformation()
+	{
+		$this->params['date'] = getdate(time());
+		$this->_dbDate        = date('Y-m-d', $this->params['date'][0]);
+		$this->setSchedules();
+		if (count($this->_schedules))
+		{
+			$this->getBlocks();
+		}
+	}
 
-         $this->_schedules = $schedules;
-     }
+	/**
+	 * Retireves schedules valid for the requested date
+	 *
+	 * @return  void
+	 */
+	private function setSchedules()
+	{
+		$dbo   = $this->getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("schedule");
+		$query->from("#__thm_organizer_schedules");
+		$query->where("startdate <= '$this->_dbDate'");
+		$query->where("enddate >= '$this->_dbDate'");
+		$query->where("active = 1");
+		$dbo->setQuery((string) $query);
 
-    /**
-     * Creates an array of blocks and fills them with data
-     *
-     * @return void
-     */
-    private function getBlocks()
-    {
-        $grids = $this->_schedules[0]->periods;
-        $this->blocks = array();
-        foreach ($grids as $name => $grid)
-        {
-            if ($name == 'Haupt-Zeitraster')
-            {
-                foreach ($grid AS $number => $data)
-                {
-                    $starttime = substr($data->starttime, 0, 2) . ":" . substr($data->starttime, 2);
-                    $endtime = substr($data->endtime, 0, 2) . ":" . substr($data->endtime, 2);
-                    $this->blocks[$number] = new stdClass;
-                    $this->blocks[$number]->period = $number;
-                    $this->blocks[$number]->starttime = $starttime;
-                    $this->blocks[$number]->endtime = $endtime;
-                    $this->blocks[$number]->displayTime = "$starttime - $endtime";
-                }
-            }
-        }
+		try
+		{
+			$schedules = $dbo->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-        $this->setLessonData();
-        $this->setDummyText();
-    }
+			return;
+		}
 
-    /**
-     * Adds basic lesson information to a block (if available)
-     *
-     * @return void
-     */
-    private function setLessonData()
-    {
-        foreach ($this->_schedules as $schedule)
-        {
-            $this->setBlocksDataBySchedule($schedule);
-        }
-    }
+		if (empty($schedules))
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULES_FOR_DATE'), 'error');
 
-    /**
-     * Sets schedule specific information for a given block
-     *
-     * @param   object  &$schedule  the schedule being iterated
-     *
-     * @return  void  sets information in the given block
-     */
-    private function setBlocksDataBySchedule(&$schedule)
-    {
-        foreach ($schedule->periods as $gridName => $grid)
-        {
-            $this->setGridLessons($schedule, $gridName, $grid);
-        }
-    }
+			return;
+		}
 
-    /**
-     * Iterates through the blocks of a specific grid adding the lesson data to the display blocks
-     *
-     * @param   object  &$schedule  the schedule being iterated
-     * @param   string  $gridName   the name of the grid being iterated
-     * @param   object  &$grid      the grid information
-     *
-     * @return  void  sets attributes of $this->blocks
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    private function setGridLessons(&$schedule, $gridName, &$grid)
-    {
-        foreach ($grid as $gridPeriod => $gridBlock)
-        {
-            foreach ($this->blocks as $planBlock)
-            {
-                $relevant = $this->hasRelevance($gridBlock, $planBlock);
-                if ($relevant)
-                {
-                    $this->setLessons($schedule, $planBlock->period, $gridName, $gridBlock);
-                }
-            }
-        }
-    }
+		foreach ($schedules as $key => $schedule)
+		{
+			$schedules[$key] = json_decode($schedule);
+		}
 
-    /**
-     * Compares the start and end times of the two blocks, determining the relevancy of one block for the other
-     *
-     * @param   object  $gridBlock  the data for the grid block being iterated
-     * @param   object  $planBlock  the data for the plan block being iterated
-     *
-     * @return  bool  true if the grid block is relevant for the plan block, otherwise false
-     */
-    private function hasRelevance($gridBlock, $planBlock)
-    {
-        $gbStarttime = substr($gridBlock->starttime, 0, 2) . ":" . substr($gridBlock->starttime, 2);
-        $gbEndtime = substr($gridBlock->endtime, 0, 2) . ":" . substr($gridBlock->endtime, 2);
-        $pbStarttime = substr($planBlock->starttime, 0, 2) . ":" . substr($planBlock->starttime, 2);
-        $pbEndtime = substr($planBlock->endtime, 0, 2) . ":" . substr($planBlock->endtime, 2);
-        $startIsRelevant = ($gbStarttime >= $pbStarttime AND $gbStarttime < $pbEndtime);
-        $endIsRelevant = ($gbEndtime > $pbStarttime AND $gbEndtime <= $pbEndtime);
-        return ($startIsRelevant OR $endIsRelevant);
-    }
+		$this->_schedules = $schedules;
+	}
 
-    /**
-     * Checks which grid blocks are relevant for the displayed block times
-     *
-     * @param   object  &$schedule  the schedule being iterated
-     * @param   int     $period     the period id of the block being iterated
-     * @param   array   $gridName   the block being iterated
-     * @param   object  $gridBlock  the data for the grid block being iterated
-     *
-     * @return  array   an array containing relevant block information
-     */
-    private function setLessons(&$schedule, $period, $gridName, $gridBlock)
-    {
-        $lessons = $schedule->calendar->{$this->_dbDate}->$period;
+	/**
+	 * Creates an array of blocks and fills them with data
+	 *
+	 * @return void
+	 */
+	private function getBlocks()
+	{
+		$grids        = $this->_schedules[0]->periods;
+		$this->blocks = array();
+		foreach ($grids as $name => $grid)
+		{
+			if ($name == 'Haupt-Zeitraster')
+			{
+				foreach ($grid AS $number => $data)
+				{
+					$starttime                          = substr($data->starttime, 0, 2) . ":" . substr($data->starttime, 2);
+					$endtime                            = substr($data->endtime, 0, 2) . ":" . substr($data->endtime, 2);
+					$this->blocks[$number]              = new stdClass;
+					$this->blocks[$number]->period      = $number;
+					$this->blocks[$number]->starttime   = $starttime;
+					$this->blocks[$number]->endtime     = $endtime;
+					$this->blocks[$number]->displayTime = "$starttime - $endtime";
+				}
+			}
+		}
 
-        foreach ($lessons AS $lessonID => $rooms)
-        {
-            $lesson = $schedule->lessons->$lessonID;
+		$this->setLessonData();
+		$this->setDummyText();
+	}
 
-            // This lesson will either be handled in another iteration or is not relevant
-            if ($lesson->grid != $gridName)
-            {
-                continue;
-            }
+	/**
+	 * Adds basic lesson information to a block (if available)
+	 *
+	 * @return void
+	 */
+	private function setLessonData()
+	{
+		foreach ($this->_schedules as $schedule)
+		{
+			$this->setBlocksDataBySchedule($schedule);
+		}
+	}
 
-            // The lesson no longer exists for this block
-            if (!empty($lessons->$lessonID->delta) AND $lessons->$lessonID->delta == 'removed')
-            {
-                break;
-            }
+	/**
+	 * Sets schedule specific information for a given block
+	 *
+	 * @param   object &$schedule the schedule being iterated
+	 *
+	 * @return  void  sets information in the given block
+	 */
+	private function setBlocksDataBySchedule(&$schedule)
+	{
+		foreach ($schedule->periods as $gridName => $grid)
+		{
+			$this->setGridLessons($schedule, $gridName, $grid);
+		}
+	}
 
-            foreach ($rooms as $roomID => $roomDelta)
-            {
-                $notARoom = $roomID == 'delta';
-                $irrelevant = $roomID != $this->params['gpuntisID'];
-                $removed = (!$notARoom AND $roomDelta == 'removed');
-                $skip = ($notARoom OR $irrelevant OR $removed);
-                if ($skip)
-                {
-                    continue;
-                }
+	/**
+	 * Iterates through the blocks of a specific grid adding the lesson data to the display blocks
+	 *
+	 * @param   object &$schedule the schedule being iterated
+	 * @param   string $gridName  the name of the grid being iterated
+	 * @param   object &$grid     the grid information
+	 *
+	 * @return  void  sets attributes of $this->blocks
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+	 */
+	private function setGridLessons(&$schedule, $gridName, &$grid)
+	{
+		foreach ($grid as $gridPeriod => $gridBlock)
+		{
+			foreach ($this->blocks as $planBlock)
+			{
+				$relevant = $this->hasRelevance($gridBlock, $planBlock);
+				if ($relevant)
+				{
+					$this->setLessons($schedule, $planBlock->period, $gridName, $gridBlock);
+				}
+			}
+		}
+	}
 
-                $subjects = (array) $schedule->lessons->$lessonID->subjects;
-                $this->filterSubjects($subjects);
+	/**
+	 * Compares the start and end times of the two blocks, determining the relevancy of one block for the other
+	 *
+	 * @param   object $gridBlock the data for the grid block being iterated
+	 * @param   object $planBlock the data for the plan block being iterated
+	 *
+	 * @return  bool  true if the grid block is relevant for the plan block, otherwise false
+	 */
+	private function hasRelevance($gridBlock, $planBlock)
+	{
+		$gbStarttime     = substr($gridBlock->starttime, 0, 2) . ":" . substr($gridBlock->starttime, 2);
+		$gbEndtime       = substr($gridBlock->endtime, 0, 2) . ":" . substr($gridBlock->endtime, 2);
+		$pbStarttime     = substr($planBlock->starttime, 0, 2) . ":" . substr($planBlock->starttime, 2);
+		$pbEndtime       = substr($planBlock->endtime, 0, 2) . ":" . substr($planBlock->endtime, 2);
+		$startIsRelevant = ($gbStarttime >= $pbStarttime AND $gbStarttime < $pbEndtime);
+		$endIsRelevant   = ($gbEndtime > $pbStarttime AND $gbEndtime <= $pbEndtime);
 
-                if (!isset($this->blocks[$period]->lessons))
-                {
-                    $this->blocks[$period]->lessons = array();
-                }
+		return ($startIsRelevant OR $endIsRelevant);
+	}
 
-                if (!isset($this->blocks[$period]->lessons[$lessonID]))
-                {
-                    $this->blocks[$period]->lessons[$lessonID] = array();
-                }
+	/**
+	 * Checks which grid blocks are relevant for the displayed block times
+	 *
+	 * @param   object &$schedule the schedule being iterated
+	 * @param   int    $period    the period id of the block being iterated
+	 * @param   array  $gridName  the block being iterated
+	 * @param   object $gridBlock the data for the grid block being iterated
+	 *
+	 * @return  array   an array containing relevant block information
+	 */
+	private function setLessons(&$schedule, $period, $gridName, $gridBlock)
+	{
+		$lessons = $schedule->calendar->{$this->_dbDate}->$period;
 
-                $subjectIDs = array_keys($subjects);
-                $lessonTitle = $this->getLessonTitle($subjectIDs, $schedule);
+		foreach ($lessons AS $lessonID => $rooms)
+		{
+			$lesson = $schedule->lessons->$lessonID;
 
-                $lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
-                $this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
+			// This lesson will either be handled in another iteration or is not relevant
+			if ($lesson->grid != $gridName)
+			{
+				continue;
+			}
 
-                $teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
-                $teachers = array();
-                foreach ($teachersIDs as $teacherID => $teacherDelta)
-                {
-                    if ($teacherDelta == 'removed')
-                    {
-                        unset($teachers[$teacherID]);
-                    }
+			// The lesson no longer exists for this block
+			if (!empty($lessons->$lessonID->delta) AND $lessons->$lessonID->delta == 'removed')
+			{
+				break;
+			}
 
-                    $teachers[$teacherID] = $schedule->teachers->$teacherID->surname;
-                }
+			foreach ($rooms as $roomID => $roomDelta)
+			{
+				$notARoom   = $roomID == 'delta';
+				$irrelevant = $roomID != $this->params['gpuntisID'];
+				$removed    = (!$notARoom AND $roomDelta == 'removed');
+				$skip       = ($notARoom OR $irrelevant OR $removed);
+				if ($skip)
+				{
+					continue;
+				}
 
-                $this->blocks[$period]->lessons[$lessonID]['teacher'] = implode(', ', $teachers);
+				$subjects = (array) $schedule->lessons->$lessonID->subjects;
+				$this->filterSubjects($subjects);
 
-                if ($gridName != 'Haupt-Zeitraster')
-                {
-                    $this->blocks[$period]->lessons[$lessonID]['time'] = "($gridBlock->starttime - $gridBlock->endtime)";
-                }
-                else
-                {
-                    $this->blocks[$period]->lessons[$lessonID]['time'] = '';
-                }
-            }
-        }
-    }
+				if (!isset($this->blocks[$period]->lessons))
+				{
+					$this->blocks[$period]->lessons = array();
+				}
 
-    /**
-     * Removes removed subjects from the list of subjects associated with a given lesson
-     *
-     * @param   array  &$subjects  the lesson's subjects
-     *
-     * @return  void  removes indexes from &$subjects
-     */
-    private function filterSubjects(&$subjects)
-    {
-        foreach ($subjects as $subjectID => $subjectDelta)
-        {
-            if ($subjectDelta == 'removed')
-            {
-                unset($subjects[$subjectID]);
-            }
-        }
-    }
+				if (!isset($this->blocks[$period]->lessons[$lessonID]))
+				{
+					$this->blocks[$period]->lessons[$lessonID] = array();
+				}
 
-    /**
-     * Generates the base lesson title from the ids of the associated subjects
-     *
-     * @param   array   $subjectIDs  the ids of the relevant subjects
-     * @param   object  &$schedule   the schedule being iterated
-     *
-     * @return  string  the lesson title
-     */
-    private function getLessonTitle($subjectIDs, &$schedule)
-    {
-        if (count($subjectIDs) > 1)
-        {
-            $subjectNames = array();
-            foreach ($subjectIDs as $subjectID)
-            {
-                $subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
-            }
+				$subjectIDs  = array_keys($subjects);
+				$lessonTitle = $this->getLessonTitle($subjectIDs, $schedule);
 
-            $lessonTitle = implode(', ', $subjectNames);
-        }
-        else
-        {
-            $subjectID = array_shift($subjectIDs);
-            $longname = $schedule->subjects->$subjectID->longname;
-            $shortname = $schedule->subjects->$subjectID->name;
+				$lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
+				$this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
 
-            // A little arbitrary but implementing settings is a little too much effort
-            $lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
-        }
+				$teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
+				$teachers    = array();
+				foreach ($teachersIDs as $teacherID => $teacherDelta)
+				{
+					if ($teacherDelta == 'removed')
+					{
+						unset($teachers[$teacherID]);
+					}
 
-        return $lessonTitle;
-    }
+					$teachers[$teacherID] = $schedule->teachers->$teacherID->surname;
+				}
 
-    /**
-     * Sets a dummy text for blocks without lesson information
-     *
-     * @return  void  sets attributes of $this->blocks
-     */
-    private function setDummyText()
-    {
-        foreach ($this->blocks as $period => $block)
-        {
-            if (empty($block->lessons))
-            {
-                $this->blocks[$period]->lessons = array();
-                $this->blocks[$period]->lessons['DUMMY'] = array();
-                $this->blocks[$period]->lessons['DUMMY']['title'] = JText::_('COM_THM_ORGANIZER_NO_INFORMATION_AVAILABLE');
-                $this->blocks[$period]->lessons['DUMMY']['teacher'] = '';
-                $this->blocks[$period]->lessons['DUMMY']['time'] = '';
-            }
-        }
-    }
+				$this->blocks[$period]->lessons[$lessonID]['teacher'] = implode(', ', $teachers);
+
+				if ($gridName != 'Haupt-Zeitraster')
+				{
+					$this->blocks[$period]->lessons[$lessonID]['time'] = "($gridBlock->starttime - $gridBlock->endtime)";
+				}
+				else
+				{
+					$this->blocks[$period]->lessons[$lessonID]['time'] = '';
+				}
+			}
+		}
+	}
+
+	/**
+	 * Removes removed subjects from the list of subjects associated with a given lesson
+	 *
+	 * @param   array &$subjects the lesson's subjects
+	 *
+	 * @return  void  removes indexes from &$subjects
+	 */
+	private function filterSubjects(&$subjects)
+	{
+		foreach ($subjects as $subjectID => $subjectDelta)
+		{
+			if ($subjectDelta == 'removed')
+			{
+				unset($subjects[$subjectID]);
+			}
+		}
+	}
+
+	/**
+	 * Generates the base lesson title from the ids of the associated subjects
+	 *
+	 * @param   array  $subjectIDs the ids of the relevant subjects
+	 * @param   object &$schedule  the schedule being iterated
+	 *
+	 * @return  string  the lesson title
+	 */
+	private function getLessonTitle($subjectIDs, &$schedule)
+	{
+		if (count($subjectIDs) > 1)
+		{
+			$subjectNames = array();
+			foreach ($subjectIDs as $subjectID)
+			{
+				$subjectNames[$subjectID] = $schedule->subjects->$subjectID->name;
+			}
+
+			$lessonTitle = implode(', ', $subjectNames);
+		}
+		else
+		{
+			$subjectID = array_shift($subjectIDs);
+			$longname  = $schedule->subjects->$subjectID->longname;
+			$shortname = $schedule->subjects->$subjectID->name;
+
+			// A little arbitrary but implementing settings is a little too much effort
+			$lessonTitle = (strlen($longname) <= 30) ? $longname : $shortname;
+		}
+
+		return $lessonTitle;
+	}
+
+	/**
+	 * Sets a dummy text for blocks without lesson information
+	 *
+	 * @return  void  sets attributes of $this->blocks
+	 */
+	private function setDummyText()
+	{
+		foreach ($this->blocks as $period => $block)
+		{
+			if (empty($block->lessons))
+			{
+				$this->blocks[$period]->lessons                     = array();
+				$this->blocks[$period]->lessons['DUMMY']            = array();
+				$this->blocks[$period]->lessons['DUMMY']['title']   = JText::_('COM_THM_ORGANIZER_NO_INFORMATION_AVAILABLE');
+				$this->blocks[$period]->lessons['DUMMY']['teacher'] = '';
+				$this->blocks[$period]->lessons['DUMMY']['time']    = '';
+			}
+		}
+	}
 }

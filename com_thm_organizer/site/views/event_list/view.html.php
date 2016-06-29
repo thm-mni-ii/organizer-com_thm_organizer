@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+
 /**
  * Loads lesson and event data for a single room and day into view context
  *
@@ -19,31 +20,31 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewEvent_List extends JViewLegacy
 {
-    /**
-     * Loads persistent data into the view context
-     *
-     * @param   string  $tpl  the name of the template to load
-     *
-     * @return  void
-     */
-    public function display($tpl = null)
-    {
-        $this->modifyDocument();
-        $model = $this->getModel();
-        $this->model = $model;
-        $layout = $model->params['layout'];
-        $this->setLayout($layout);
-        parent::display($tpl);
-    }
+	/**
+	 * Loads persistent data into the view context
+	 *
+	 * @param   string $tpl the name of the template to load
+	 *
+	 * @return  void
+	 */
+	public function display($tpl = null)
+	{
+		$this->modifyDocument();
+		$model       = $this->getModel();
+		$this->model = $model;
+		$layout      = $model->params['layout'];
+		$this->setLayout($layout);
+		parent::display($tpl);
+	}
 
-    /**
-     * Adds css and javascript files to the document
-     *
-     * @return  void  modifies the document
-     */
-    private function modifyDocument()
-    {
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/event_list.css");
-    }
+	/**
+	 * Adds css and javascript files to the document
+	 *
+	 * @return  void  modifies the document
+	 */
+	private function modifyDocument()
+	{
+		$document = JFactory::getDocument();
+		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/event_list.css");
+	}
 }

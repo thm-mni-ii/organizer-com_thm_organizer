@@ -62,7 +62,7 @@ MySched.Mapping = function ()
         {
             return this.def(this.teacher.get(id, id), 'surname', id);
         },
-        getTeacherParent: function(id)
+        getTeacherParent: function (id)
         {
             return this.def(this.teacher.get(id, id), 'description', id);
         },
@@ -76,14 +76,14 @@ MySched.Mapping = function ()
         },
         getTeacherKeyByID: function (dbID)
         {
-            for(var teacher in this.teacher.map)
+            for (var teacher in this.teacher.map)
             {
-                if(this.teacher.map.hasOwnProperty(teacher))
+                if (this.teacher.map.hasOwnProperty(teacher))
                 {
                     var teacherObject = this.teacher.map[teacher];
-                    if(Ext.isObject(teacherObject))
+                    if (Ext.isObject(teacherObject))
                     {
-                        if(teacherObject.dbID === dbID)
+                        if (teacherObject.dbID === dbID)
                         {
                             return teacher;
                         }
@@ -100,15 +100,15 @@ MySched.Mapping = function ()
         {
             return this.def(this.pool.get(id, id), 'restriction', id);
         },
-        getPoolParent: function(id)
+        getPoolParent: function (id)
         {
             return this.def(this.pool.get(id, id), 'degree', id);
         },
-        getGrid: function(id)
+        getGrid: function (id)
         {
             return this.def(this.pool.get(id, id), 'grid', id);
         },
-        getRoomParent: function(id)
+        getRoomParent: function (id)
         {
             return this.def(this.room.get(id, id), 'description', id);
         },
@@ -122,14 +122,14 @@ MySched.Mapping = function ()
         },
         getRoomKeyByID: function (dbID)
         {
-            for(var room in this.room.map)
+            for (var room in this.room.map)
             {
                 if (this.room.map.hasOwnProperty(room))
                 {
                     var roomObject = this.room.map[room];
-                    if(Ext.isObject(roomObject))
+                    if (Ext.isObject(roomObject))
                     {
-                        if(roomObject.dbID === dbID)
+                        if (roomObject.dbID === dbID)
                         {
                             return room;
                         }
@@ -138,7 +138,7 @@ MySched.Mapping = function ()
             }
             return dbID;
         },
-        getSubjectParent: function(id)
+        getSubjectParent: function (id)
         {
             return this.def(this.subject.get(id, id), 'description', id);
         },

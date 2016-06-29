@@ -1,4 +1,4 @@
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET foreign_key_checks = 0;
 /* Tables which no longer exist are still mentioned here to ensure a clean
    database. */

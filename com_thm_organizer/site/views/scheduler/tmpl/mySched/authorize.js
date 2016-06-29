@@ -74,15 +74,15 @@ MySched.Authorize = function ()
                 return true;
             }
             Ext.Ajax.request(
-            {
-                url: _C('ajaxHandler'),
-                method: 'POST',
-                params: {
-                    token: t,
-                    scheduletask: "User.auth"
-                },
-                success: function (response, request)
                 {
+                    url: _C('ajaxHandler'),
+                    method: 'POST',
+                    params: {
+                        token: t,
+                        scheduletask: "User.auth"
+                    },
+                    success: function (response, request)
+                    {
 
                         var json = Ext.decode(response.responseText);
                         if (json.success)
@@ -98,17 +98,17 @@ MySched.Authorize = function ()
                             {
                                 MySched.CookieProvider.clear('authToken');
                                 Ext.Msg.alert(
-                                MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED,
-                                MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG1 + json.errors.reason + MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG2,
-                                this.showAuthForm(),
-                                this);
+                                    MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED,
+                                    MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG1 + json.errors.reason + MySchedLanguage.COM_THM_ORGANIZER_MESSAGE_SCHEDULER_AUTHORIZE_FAILED_MSG2,
+                                    this.showAuthForm(),
+                                    this);
                             }
 
                         }
 
-                },
-                scope: scope || this
-            });
+                    },
+                    scope: scope || this
+                });
 
         },
         /**
@@ -138,7 +138,8 @@ MySched.Authorize = function ()
             // Creating the schedule for the user
             MySched.Base.createUserSchedule();
 
-            MySched.Schedule.on("dataLoaded", function(){
+            MySched.Schedule.on("dataLoaded", function ()
+            {
                 MySched.Authorize.loadUserSchedule();
             });
 
@@ -301,10 +302,10 @@ MySched.Authorize = function ()
             {
                 task = "saveScheduleChanges";
             }
- 
+
             // Saving always refers to "My schedule"
             task = "UserSchedule.save";
- 
+
             MySched.selectedSchedule.save.call(MySched.selectedSchedule, _C('ajaxHandler'), showWindow, task);
         }
     };

@@ -60,7 +60,7 @@ MySched.Subscribe = function ()
             // Daten zum Einschreiben holen
             this.store = Ext.create('Ext.data.JsonStore',
                 {
-                    fields: [{ name: 'name' }, 'subscribe', 'subscribe_info', 'subscribe_type']
+                    fields: [{name: 'name'}, 'subscribe', 'subscribe_info', 'subscribe_type']
                 });
             this.store.loadData(this.data);
 

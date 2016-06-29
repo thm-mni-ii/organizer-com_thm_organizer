@@ -21,76 +21,77 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldDateList extends JFormFieldList
 {
-    /**
-     * Type
-     *
-     * @var    String
-     */
-    public $type = 'datelist';
+	/**
+	 * Type
+	 *
+	 * @var    String
+	 */
+	public $type = 'datelist';
 
-    /**
-     * Method to get the field options for category
-     * Use the extension attribute in a form to specify the.specific extension for
-     * which categories should be displayed.
-     * Use the show_root attribute to specify whether to show the global category root in the list.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $dbo = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
+	/**
+	 * Method to get the field options for category
+	 * Use the extension attribute in a form to specify the.specific extension for
+	 * which categories should be displayed.
+	 * Use the show_root attribute to specify whether to show the global category root in the list.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
 
-        $valueColumn = $this->getAttribute('valueColumn');
-        $textColumn = $this->getAttribute('textColumn');
+		$valueColumn = $this->getAttribute('valueColumn');
+		$textColumn  = $this->getAttribute('textColumn');
 
-        $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
-        $this->setFrom($query);
-        $query->order("text ASC");
-        $dbo->setQuery((string) $query);
+		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
+		$this->setFrom($query);
+		$query->order("text ASC");
+		$dbo->setQuery((string) $query);
 
-        try
-        {
-            $resources = $dbo->loadAssocList();
-            $options = array();
-            $params = JComponentHelper::getParams('com_thm_organizer');
-            $type = $this->getAttribute('format');
-            $format = $type == 'time'? $params->get('timeFormat', 'H:i') : $params->get('dateFormat', 'd.m.Y');
-            foreach ($resources as $resource)
-            {
-                $text = date($format, strtotime($resource['text']));
-                $options[] = JHtml::_('select.option', $resource['value'], $text);
-            }
-            return array_merge(parent::getOptions(), $options);
-        }
-        catch (Exception $exc)
-        {
-            return parent::getOptions();
-        }
-    }
+		try
+		{
+			$resources = $dbo->loadAssocList();
+			$options   = array();
+			$params    = JComponentHelper::getParams('com_thm_organizer');
+			$type      = $this->getAttribute('format');
+			$format    = $type == 'time' ? $params->get('timeFormat', 'H:i') : $params->get('dateFormat', 'd.m.Y');
+			foreach ($resources as $resource)
+			{
+				$text      = date($format, strtotime($resource['text']));
+				$options[] = JHtml::_('select.option', $resource['value'], $text);
+			}
 
-    /**
-     * Resolves the textColumns for concatenated values
-     *
-     * @param   object  &$query  the query object
-     *
-     * @return  string  the string to use for text selection
-     */
-    private function setFrom(&$query)
-    {
-        $tableParameters = $this->getAttribute('table');
-        $tables = explode(',', $tableParameters);
+			return array_merge(parent::getOptions(), $options);
+		}
+		catch (Exception $exc)
+		{
+			return parent::getOptions();
+		}
+	}
 
-        $query->from("#__{$tables[0]}");
-        $count = count($tables);
-        if ($count === 1)
-        {
-            return;
-        }
+	/**
+	 * Resolves the textColumns for concatenated values
+	 *
+	 * @param   object &$query the query object
+	 *
+	 * @return  string  the string to use for text selection
+	 */
+	private function setFrom(&$query)
+	{
+		$tableParameters = $this->getAttribute('table');
+		$tables          = explode(',', $tableParameters);
 
-        for ($index = 1; $index < $count; $index++)
-        {
-            $query->innerjoin("#__{$tables[$index]}");
-        }
-    }
+		$query->from("#__{$tables[0]}");
+		$count = count($tables);
+		if ($count === 1)
+		{
+			return;
+		}
+
+		for ($index = 1; $index < $count; $index++)
+		{
+			$query->innerjoin("#__{$tables[$index]}");
+		}
+	}
 }

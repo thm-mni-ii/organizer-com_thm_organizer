@@ -29,7 +29,7 @@
                    description="COM_THM_ORGANIZER_DEPUTAT_WEEKS_DESC"
                    first="1"
                    last="52"
-                   step="1" />
+                   step="1"/>
             <field name="deputat_weeks"
                    type="integer"
                    default="13"
@@ -37,7 +37,7 @@
                    description="COM_THM_ORGANIZER_DEPUTAT_WEEKS_DESC"
                    first="1"
                    last="52"
-                   step="1" />
+                   step="1"/>
             <field name="bachelor_value"
                    type="integer"
                    default="25"
@@ -45,7 +45,7 @@
                    description="COM_THM_ORGANIZER_BACHELOR_VALUE_DESC"
                    first="5"
                    last="100"
-                   step="5" />
+                   step="5"/>
             <field name="diploma_value"
                    type="integer"
                    default="50"
@@ -53,7 +53,7 @@
                    description="COM_THM_ORGANIZER_DIPLOMA_VALUE_DESC"
                    first="5"
                    last="100"
-                   step="5" />
+                   step="5"/>
             <field name="master_value"
                    type="integer"
                    default="50"
@@ -61,7 +61,7 @@
                    description="COM_THM_ORGANIZER_MASTER_VALUE_DESC"
                    first="5"
                    last="100"
-                   step="5" />
+                   step="5"/>
         </fieldset>
     </fields>
 </metadata>

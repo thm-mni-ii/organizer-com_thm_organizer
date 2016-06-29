@@ -20,34 +20,34 @@ defined('_JEXEC') or die;
  */
 class JFormFieldMergeID extends JFormField
 {
-    protected $type = 'mergeID';
+	protected $type = 'mergeID';
 
-    /**
-     * Returns a hidden in put field
-     *
-     * @return  string
-     */
-    public function getInput()
-    {
-        $selectedIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-        asort($selectedIDs);
-        $first = array_shift($selectedIDs);
-        $others = implode(',', $selectedIDs);
-        if ($this->getAttribute('other') == 'true')
-        {
-            return '<input name="jform[otherIDs]" type="hidden" value="' . $others . '">';
-        }
+	/**
+	 * Returns a hidden in put field
+	 *
+	 * @return  string
+	 */
+	public function getInput()
+	{
+		$selectedIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		asort($selectedIDs);
+		$first  = array_shift($selectedIDs);
+		$others = implode(',', $selectedIDs);
+		if ($this->getAttribute('other') == 'true')
+		{
+			return '<input name="jform[otherIDs]" type="hidden" value="' . $others . '">';
+		}
 
-        return '<input name="jform[id]" type="hidden" value="' . $first . '">';
-    }
+		return '<input name="jform[id]" type="hidden" value="' . $first . '">';
+	}
 
-    /**
-     * Returns an empty string to override the joomla handling
-     *
-     * @return  string
-     */
-    public function getLabel()
-    {
-        return '';
-    }
+	/**
+	 * Returns an empty string to override the joomla handling
+	 *
+	 * @return  string
+	 */
+	public function getLabel()
+	{
+		return '';
+	}
 }

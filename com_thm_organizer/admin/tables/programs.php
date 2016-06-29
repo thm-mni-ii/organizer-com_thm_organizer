@@ -11,7 +11,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/tables/assets.php';
+
 /**
  * Class representing the majors table.
  *
@@ -21,59 +23,60 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/tables/assets.php';
  */
 class THM_OrganizerTablePrograms extends THM_OrganizerTableAssets
 {
-    /**
-     * Constructor function for the class representing the majors table
-     *
-     * @param   JDatabaseDriver  &$dbo  A database connector object
-     */
-    public function __construct(&$dbo)
-    {
-        parent::__construct('#__thm_organizer_programs', 'id', $dbo);
-    }
+	/**
+	 * Constructor function for the class representing the majors table
+	 *
+	 * @param   JDatabaseDriver &$dbo A database connector object
+	 */
+	public function __construct(&$dbo)
+	{
+		parent::__construct('#__thm_organizer_programs', 'id', $dbo);
+	}
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return  boolean  true
-     */
-    public function check()
-    {
-        $nullColumns = array('fieldID');
-        foreach ($nullColumns as $nullColumn)
-        {
-            if (!strlen($this->$nullColumn))
-            {
-                $this->$nullColumn = null;
-            }
-        }
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return  boolean  true
+	 */
+	public function check()
+	{
+		$nullColumns = array('fieldID');
+		foreach ($nullColumns as $nullColumn)
+		{
+			if (!strlen($this->$nullColumn))
+			{
+				$this->$nullColumn = null;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Sets the department asset name
-     *
-     * @return  string
-     */
-    protected function _getAssetName()
-    {
-        return "com_thm_organizer.program.$this->id";
-    }
+	/**
+	 * Sets the department asset name
+	 *
+	 * @return  string
+	 */
+	protected function _getAssetName()
+	{
+		return "com_thm_organizer.program.$this->id";
+	}
 
-    /**
-     * Sets the parent as the component root
-     *
-     * @param   JTable   $table  A JTable object for the asset parent.
-     * @param   integer  $id     Id to look up
-     *
-     * @return  int  the asset id of the component root
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _getAssetParentId(JTable $table = null, $id = null)
-    {
-        $asset = JTable::getInstance('Asset');
-        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
-        return $asset->id;
-    }
+	/**
+	 * Sets the parent as the component root
+	 *
+	 * @param   JTable  $table A JTable object for the asset parent.
+	 * @param   integer $id    Id to look up
+	 *
+	 * @return  int  the asset id of the component root
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	protected function _getAssetParentId(JTable $table = null, $id = null)
+	{
+		$asset = JTable::getInstance('Asset');
+		$asset->loadByName("com_thm_organizer.department.$this->departmentID");
+
+		return $asset->id;
+	}
 }

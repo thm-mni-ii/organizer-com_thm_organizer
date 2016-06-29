@@ -1,26 +1,42 @@
-ALTER TABLE  `#__thm_organizer_fields`
-CHANGE  `gpuntisID`  `gpuntisID` VARCHAR( 60 ) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL;
+ALTER TABLE `#__thm_organizer_fields`
+  CHANGE `gpuntisID`  `gpuntisID` VARCHAR(60)
+CHARACTER SET utf8
+COLLATE utf8_bin NULL DEFAULT NULL;
 
 ALTER TABLE `#__thm_organizer_methods`
-CHANGE `untisID` `gpuntisID` VARCHAR ( 60 ) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL;
+  CHANGE `untisID` `gpuntisID` VARCHAR(60)
+CHARACTER SET utf8
+COLLATE utf8_bin NULL DEFAULT NULL;
 
-ALTER TABLE  `#__thm_organizer_rooms`
-CHANGE  `gpuntisID`  `gpuntisID` VARCHAR( 60 ) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL;
+ALTER TABLE `#__thm_organizer_rooms`
+  CHANGE `gpuntisID`  `gpuntisID` VARCHAR(60)
+CHARACTER SET utf8
+COLLATE utf8_bin NULL DEFAULT NULL;
 
-ALTER TABLE  `#__thm_organizer_rooms` ADD UNIQUE  `gpuntisID` (  `gpuntisID` );
+ALTER TABLE `#__thm_organizer_rooms`
+  ADD UNIQUE `gpuntisID` (`gpuntisID`);
 
-ALTER TABLE  `#__thm_organizer_room_types`
-CHANGE  `gpuntisID`  `gpuntisID` VARCHAR( 60 ) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL;
+ALTER TABLE `#__thm_organizer_room_types`
+  CHANGE `gpuntisID`  `gpuntisID` VARCHAR(60)
+CHARACTER SET utf8
+COLLATE utf8_bin NULL DEFAULT NULL;
 
-ALTER TABLE  `#__thm_organizer_room_types` DROP INDEX  `gpuntisID`, ADD UNIQUE  `gpuntisID` (  `gpuntisID` );
+ALTER TABLE `#__thm_organizer_room_types`
+  DROP INDEX `gpuntisID`,
+  ADD UNIQUE `gpuntisID` (`gpuntisID`);
 
-ALTER TABLE  `#__thm_organizer_teachers`
-CHANGE  `gpuntisID`  `gpuntisID` VARCHAR( 60 ) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-CHANGE  `username`  `username` VARCHAR( 150 ) DEFAULT NULL;
+ALTER TABLE `#__thm_organizer_teachers`
+  CHANGE `gpuntisID`  `gpuntisID` VARCHAR(60)
+CHARACTER SET utf8
+COLLATE utf8_bin NULL DEFAULT NULL,
+  CHANGE `username`  `username` VARCHAR(150) DEFAULT NULL;
 
-UPDATE  `#__thm_organizer_teachers` SET `gpuntisID` = NULL WHERE `gpuntisID` = '';
+UPDATE `#__thm_organizer_teachers`
+SET `gpuntisID` = NULL
+WHERE `gpuntisID` = '';
 
-ALTER TABLE  `#__thm_organizer_teachers` ADD UNIQUE  `gpuntisID` (  `gpuntisID` );
+ALTER TABLE `#__thm_organizer_teachers`
+  ADD UNIQUE `gpuntisID` (`gpuntisID`);
 
 INSERT INTO `#__thm_organizer_methods` (`gpuntisID`, `abbreviation_de`, `abbreviation_en`, `name_de`, `name_en`)
 VALUES

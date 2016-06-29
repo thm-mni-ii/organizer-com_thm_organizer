@@ -2,31 +2,31 @@
 <form>
     <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
         <field
-            name="search"
-            type="text"
-            label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-            hint="JSEARCH_FILTER" />
+                name="search"
+                type="text"
+                label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
+                hint="JSEARCH_FILTER"/>
         <field
-            name="checkbox"
-            type="CheckAll" />
+                name="checkbox"
+                type="CheckAll"/>
         <field
-            name="name"
-            type="localizedlist"
-            valueColumn="name"
-            textColumn="name"
-            table="thm_organizer_subjects"
-            label="COM_THM_ORGANIZER_NAME"
-            onchange="this.form.submit();" >
+                name="name"
+                type="localizedlist"
+                valueColumn="name"
+                textColumn="name"
+                table="thm_organizer_subjects"
+                label="COM_THM_ORGANIZER_NAME"
+                onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
         <field
-            name="externalID"
-            type="genericlist"
-            valueColumn="externalID"
-            textColumn="externalID"
-            table="thm_organizer_subjects"
-            label="COM_THM_ORGANIZER_SUBJECT"
-            onchange="this.form.submit();" >
+                name="externalID"
+                type="genericlist"
+                valueColumn="externalID"
+                textColumn="externalID"
+                table="thm_organizer_subjects"
+                label="COM_THM_ORGANIZER_SUBJECT"
+                onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
@@ -38,35 +38,35 @@
                class="inputbox"
                label="COM_THM_ORGANIZER_FIELD"
                description="COM_THM_ORGANIZER_FIELD_DESC"
-               onchange="this.form.submit();" >
+               onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
     </fields>
-	<fields name="list" addfieldpath="/media/com_thm_organizer/fields">
+    <fields name="list" addfieldpath="/media/com_thm_organizer/fields">
         <field
-            name="programID"
-            type="programID"
-            label="COM_THM_ORGANIZER_PROGRAM"
-            onchange="this.form.submit();" >
+                name="programID"
+                type="programID"
+                label="COM_THM_ORGANIZER_PROGRAM"
+                onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
             <option value="-1">JNONE</option>
         </field>
         <field
-            name="poolID"
-            type="poolID"
-            label="COM_THM_ORGANIZER_POOL"
-            onchange="this.form.submit();" >
+                name="poolID"
+                type="poolID"
+                label="COM_THM_ORGANIZER_POOL"
+                onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
             <option value="-1">JNONE</option>
         </field>
-		<field
-			name="limit"
-			type="limitbox"
-			class="input-mini"
-			default="25"
-			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_CONTENT_LIST_LIMIT_DESC"
-			onchange="this.form.submit();" />
-	</fields>
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="25"
+                label="COM_CONTENT_LIST_LIMIT"
+                description="COM_CONTENT_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"/>
+    </fields>
 </form>

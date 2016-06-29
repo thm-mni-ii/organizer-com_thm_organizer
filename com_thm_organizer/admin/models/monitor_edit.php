@@ -10,6 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
@@ -21,13 +22,13 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelMonitor_Edit extends THM_OrganizerModelEdit
 {
-    /**
-     * Constructor
-     *
-     * @param   array  $config  an optional array of configuration information
-     */
-    public function  __construct($config = array())
-    {
-        parent::__construct($config);
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param   array $config an optional array of configuration information
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+	}
 }

@@ -141,8 +141,7 @@ Ext.define('MySched.Model',
                     exit();
                     break;
                 default:
-                    var returnValue = Ext.encode(exportData);
-                    return returnValue;
+                    return Ext.encode(exportData);
             }
         },
         /**

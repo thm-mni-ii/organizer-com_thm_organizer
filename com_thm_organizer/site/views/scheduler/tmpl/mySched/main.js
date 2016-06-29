@@ -20,7 +20,7 @@ MySched.Config.addAll(
         infoMode: 'popup',
         ajaxHandler: externLinks.ajaxHandler,
         infoUrl: MySched.mainPath + 'php/info.php',
-        enableSubscribing: false,
+        enableSubscribing: false
     }
 );
 
@@ -92,16 +92,16 @@ MySched.Base = function ()
          */
         init: function ()
         {
-            if(screen.width < TABLET_WIDTH_MAX && window.location.href.search('tmpl=component') == -1 )
+            if (screen.width < TABLET_WIDTH_MAX && window.location.href.search('tmpl=component') == -1)
             {
                 var redirectURL = '';
-                if(window.location.href.search('index.php') == -1)
+                if (window.location.href.search('index.php') == -1)
                 {
                     redirectURL = '?tmpl=component';
                 }
                 else
                 {
-                    if(window.location.href.search(/\?/) == -1)
+                    if (window.location.href.search(/\?/) == -1)
                     {
                         redirectURL = '?tmpl=component';
                     }
@@ -217,7 +217,8 @@ MySched.Base = function ()
                         var tab = MySched.layout.tabpanel.getComponent('mySchedule');
                     },
                     clear: function (s)
-                    {}
+                    {
+                    }
                 }
             );
         },
@@ -382,7 +383,7 @@ MySched.Base = function ()
             {
                 Ext.ComponentMgr.get('selectTree')
                     .setTitle(
-                    MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_INVALID);
+                        MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_SCHEDULE_INVALID);
                 Ext.ComponentMgr.get('topMenu')
                     .disable();
             }
@@ -442,11 +443,11 @@ MySched.Base = function ()
                     if (!Ext.isEmpty(data.records) || !Ext.isEmpty(data.patientData))
                     {
                         var n = {};
-                        if(!Ext.isEmpty(data.patientData))
+                        if (!Ext.isEmpty(data.patientData))
                         {
                             n = data.patientData;
                         }
-                        else if(data.records[0].isLeaf())
+                        else if (data.records[0].isLeaf())
                         {
                             n = data.records[0].raw;
                         }
@@ -617,7 +618,7 @@ MySched.Base = function ()
         showScheduleTab: function (nodeID, nodeKey, gpuntisID, semesterID, plantypeID, type)
         {
             var title, config = {};
-            if(nodeID === null)
+            if (nodeID === null)
             {
                 nodeID = nodeKey;
             }
@@ -730,7 +731,7 @@ MySched.Base = function ()
                 }
                 else
                 {
-                    new ScheduleModel(nodeID, title, config) .init(type, nodeKey, semesterID) .show();
+                    new ScheduleModel(nodeID, title, config).init(type, nodeKey, semesterID).show();
                 }
             }
         }
@@ -808,7 +809,10 @@ function blocktotime(block, scheduleGrid)
 {
     if (typeof block !== "undefined" && typeof MySched.gridData[scheduleGrid][block] !== "undefined")
     {
-        return { 0: addColonToTime(MySched.gridData[scheduleGrid][block].starttime), 1: addColonToTime(MySched.gridData[scheduleGrid][block].endtime) };
+        return {
+            0: addColonToTime(MySched.gridData[scheduleGrid][block].starttime),
+            1: addColonToTime(MySched.gridData[scheduleGrid][block].endtime)
+        };
     }
     return false;
 }
@@ -822,7 +826,7 @@ function blocktotime(block, scheduleGrid)
  */
 function addColonToTime(time)
 {
-    var colon = ":"
+    var colon = ":";
     var position = 2;
     return [time.slice(0, position), colon, time.slice(position)].join('');
 }
@@ -836,7 +840,7 @@ function addColonToTime(time)
  */
 function getGridBlocks(scheduleGrid)
 {
-    if(typeof MySched.gridData[scheduleGrid] !== "undefined")
+    if (typeof MySched.gridData[scheduleGrid] !== "undefined")
     {
         return Object.keys(MySched.gridData[scheduleGrid]).length;
     }
@@ -871,8 +875,7 @@ Ext.ux.collapsedPanelTitlePlugin = function ()
                                             html: p.title,
                                             style: "margin-left:5px; color:#15428B; font-family:tahoma; font-size:11px; font-weight:bold; line-height:18px;"
                                         });
-                                    p.setTitle = Ext.Panel.prototype.setTitle.createSequence(function (
-                                        t)
+                                    p.setTitle = Ext.Panel.prototype.setTitle.createSequence(function (t)
                                     {
                                         p.collapsedTitleEl.dom.innerHTML = t;
                                     });
@@ -894,8 +897,7 @@ Ext.ux.collapsedPanelTitlePlugin = function ()
                                             html: p.title,
                                             style: "margin-left:5px; color:#15428B; font-family:tahoma; font-size:11px; font-weight:bold; line-height:18px;"
                                         });
-                                    p.setTitle = Ext.Panel.prototype.setTitle.createSequence(function (
-                                        t)
+                                    p.setTitle = Ext.Panel.prototype.setTitle.createSequence(function (t)
                                     {
                                         p.collapsedTitleEl.dom.innerHTML = t;
                                     });

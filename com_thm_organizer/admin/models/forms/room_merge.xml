@@ -3,25 +3,25 @@
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
         <field name="id"
                type="mergeID"
-               other="false" />
+               other="false"/>
         <field name="gpuntisID"
                type="mergeByValue"
                class="inputbox"
                label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC"
-               required="true" />
+               required="true"/>
         <field name="name"
                type="mergeByValue"
                class="inputbox"
                label="COM_THM_ORGANIZER_NAME"
                description="COM_THM_ORGANIZER_NAME_DESC"
-               required="true" />
+               required="true"/>
         <field name="longname"
                type="mergeByValue"
                class="inputbox"
                label="COM_THM_ORGANIZER_DISPLAY_NAME"
                description="COM_THM_ORGANIZER_DISPLAY_NAME_DESC"
-               required="true" />
+               required="true"/>
         <field name="typeID"
                type="mergeByID"
                textColumn="name"
@@ -29,16 +29,16 @@
                tables="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON t.id = r.typeID"
                class="inputbox"
                label="COM_THM_ORGANIZER_TYPE"
-               description="COM_THM_ORGANIZER_TYPE_DESC" >
+               description="COM_THM_ORGANIZER_TYPE_DESC">
             <option value="">JNONE</option>
         </field>
         <field name="capacity"
                type="mergeByValue"
                class="inputbox"
                label="COM_THM_ORGANIZER_CAPACITY"
-               description="COM_THM_ORGANIZER_CAPACITY_DESC" />
+               description="COM_THM_ORGANIZER_CAPACITY_DESC"/>
         <field name="otherIDs"
                type="mergeID"
-               other="true" />
+               other="true"/>
     </fieldset>
 </form>

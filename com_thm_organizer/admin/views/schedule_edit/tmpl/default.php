@@ -11,5 +11,6 @@
  */
 
 defined("_JEXEC") or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 THM_OrganizerTemplateEdit_Basic::render($this);

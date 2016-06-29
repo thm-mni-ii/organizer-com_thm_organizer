@@ -20,123 +20,127 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperLanguage
 {
-    /**
-     * Sets the Joomla Language based on input from the language switch
-     *
-     * @return  void
-     */
-    public static function getLanguage()
-    {
-        $app = JFactory::getApplication();
-        $default = self::getShortTag();
-        $requested = $app->input->get('languageTag', $default);
-        $supportedLanguages = array('en', 'de');
-        if (in_array($requested, $supportedLanguages))
-        {
-            switch ($requested)
-            {
-                case 'de':
-                    $lang = new JLanguage('de-DE');
-                    break;
-                case 'en':
-                default:
-                    $lang = new JLanguage('en-GB');
-                    break;
-            }
-        }
-        else
-        {
-            $lang = new JLanguage('en-GB');
-        }
+	/**
+	 * Sets the Joomla Language based on input from the language switch
+	 *
+	 * @return  JLanguage
+	 */
+	public static function getLanguage()
+	{
+		$app                = JFactory::getApplication();
+		$default            = self::getShortTag();
+		$requested          = $app->input->get('languageTag', $default);
+		$supportedLanguages = array('en', 'de');
+		if (in_array($requested, $supportedLanguages))
+		{
+			switch ($requested)
+			{
+				case 'de':
+					$lang = new JLanguage('de-DE');
+					break;
+				case 'en':
+				default:
+					$lang = new JLanguage('en-GB');
+					break;
+			}
+		}
+		else
+		{
+			$lang = new JLanguage('en-GB');
+		}
 
-        $lang->load('com_thm_organizer');
-        return $lang;
-    }
+		$lang->load('com_thm_organizer');
 
-    /**
-     * Retrieves the two letter language identifier
-     *
-     * @return  string
-     */
-    public static function getShortTag()
-    {
-        $fullTag = JFactory::getLanguage()->getTag();
-        $tagParts = explode('-', $fullTag);
-        return $tagParts[0];
-    }
+		return $lang;
+	}
+
+	/**
+	 * Retrieves the two letter language identifier
+	 *
+	 * @return  string
+	 */
+	public static function getShortTag()
+	{
+		$fullTag  = JFactory::getLanguage()->getTag();
+		$tagParts = explode('-', $fullTag);
+
+		return $tagParts[0];
+	}
 
 
-    /**
-     * Sets the language to the one requested. This can only be called after getLanguage().
-     *
-     * @param   array  $params  the configuration parameters
-     *
-     * @return  array  html links for language redirection
-     */
-    public static function getLanguageSwitches($params)
-    {
-        $params['option'] = 'com_thm_organizer';
+	/**
+	 * Sets the language to the one requested. This can only be called after getLanguage().
+	 *
+	 * @param   array $params the configuration parameters
+	 *
+	 * @return  array  html links for language redirection
+	 */
+	public static function getLanguageSwitches($params)
+	{
+		$params['option'] = 'com_thm_organizer';
 
-        $input = JFactory::getApplication()->input;
-        $menuID = $input->getInt('Itemid', 0);
-        if (!empty($menuID))
-        {
-            $params['Itemid'] = $menuID;
-        }
+		$input  = JFactory::getApplication()->input;
+		$menuID = $input->getInt('Itemid', 0);
+		if (!empty($menuID))
+		{
+			$params['Itemid'] = $menuID;
+		}
 
-        $requested = $input->getString('languageTag', '');
+		$requested = $input->getString('languageTag', '');
 
-        $languageSwitches = array();
-        $current = empty($requested)? self::getShortTag() : $requested;
-        $supportedLanguages = array('en', 'de');
-        $submit = !empty($params['form']);
-        foreach ($supportedLanguages AS $supported)
-        {
-            if ($current != $supported)
-            {
-                $params['languageTag'] = $supported;
-                $url = 'index.php?' . JUri::buildQuery($params);
-                $languageSwitches[] = $submit? self::languageSwitch($supported) : self::languageLink($url, $supported);
-            }
-        }
+		$languageSwitches   = array();
+		$current            = empty($requested) ? self::getShortTag() : $requested;
+		$supportedLanguages = array('en', 'de');
+		$submit             = !empty($params['form']);
+		foreach ($supportedLanguages AS $supported)
+		{
+			if ($current != $supported)
+			{
+				$params['languageTag'] = $supported;
+				$url                   = 'index.php?' . JUri::buildQuery($params);
+				$languageSwitches[]    = $submit ? self::languageSwitch($supported) : self::languageLink($url, $supported);
+			}
+		}
 
-        return $languageSwitches;
-    }
+		return $languageSwitches;
+	}
 
-    /**
-     * Method to link another language
-     *
-     * @param   string  $newLanguage  the target language for the switch
-     *
-     * @return  string  a HTML anchor tag with the appropriate information
-     */
-    private static function languageSwitch($newLanguage)
-    {//$( "#languageTag" ).val("' . $newLanguage . '");submit();
-        $constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
-        $imgPath = JURI::root() . "/templates/thm/images/assets/icon_earth.jpg";
-        $switch = '<a onclick="$(\'#languageTag\').val(\'' . $newLanguage . '\');$(\'#adminForm\').submit();">';
-        $switch .= '<img class="flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
-        $switch .= JText::_($constants[$newLanguage]);
-        $switch .= '</a>';
-        return $switch;
-    }
+	/**
+	 * Method to link another language
+	 *
+	 * @param   string $newLanguage the target language for the switch
+	 *
+	 * @return  string  a HTML anchor tag with the appropriate information
+	 */
+	private static function languageSwitch($newLanguage)
+	{//$( "#languageTag" ).val("' . $newLanguage . '");submit();
+		$constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
+		$imgPath   = JUri::root() . "/templates/thm/images/assets/icon_earth.jpg";
+		$switch    = '<a onclick="$(\'#languageTag\').val(\'' . $newLanguage . '\');$(\'#adminForm\').submit();">';
+		$switch .= '<img class="flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
+		$switch .= JText::_($constants[$newLanguage]);
+		$switch .= '</a>';
 
-    /**
-     * Method to link another language
-     *
-     * @param   string  $url          the base url
-     * @param   string  $newLanguage  the target language for the switch
-     *
-     * @return  string  a HTML anchor tag with the appropriate information
-     */
-    private static function languageLink($url, $newLanguage)
-    {
-        $constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
-        $imgPath = JURI::root() . "/templates/thm/images/assets/icon_earth.jpg";
-        $switch = '<a href="' . JRoute::_($url) . '">';
-        $switch .= '<img class="flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
-        $switch .= JText::_($constants[$newLanguage]);
-        $switch .= '</a>';
-        return $switch;
-    }
+		return $switch;
+	}
+
+	/**
+	 * Method to link another language
+	 *
+	 * @param   string $url         the base url
+	 * @param   string $newLanguage the target language for the switch
+	 *
+	 * @return  string  a HTML anchor tag with the appropriate information
+	 */
+	private static function languageLink($url, $newLanguage)
+	{
+		$constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
+		$imgPath   = JUri::root() . "/templates/thm/images/assets/icon_earth.jpg";
+		$switch    = '<a href="' . JRoute::_($url) . '">';
+		$switch .= '<img class="flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
+		$switch .= JText::_($constants[$newLanguage]);
+		$switch .= '</a>';
+
+		return $switch;
+	}
 }

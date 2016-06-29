@@ -12,26 +12,26 @@
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/models/fields">
         <fieldset name="basic">
-            <field  name="departmentSemesterSelection"
-                    type="sql"
-                    label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_TITLE"
-                    description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_DESCRIPTION"
-                    key_field="id"
-                    value_field="name"
-                    default=""
-                    query="SELECT DISTINCT CONCAT(departmentname, '_', semestername, '_', term_startdate, '_',
+            <field name="departmentSemesterSelection"
+                   type="sql"
+                   label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_TITLE"
+                   description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_DESCRIPTION"
+                   key_field="id"
+                   value_field="name"
+                   default=""
+                   query="SELECT DISTINCT CONCAT(departmentname, '_', semestername, '_', term_startdate, '_',
                     term_enddate) AS id,
                     CONCAT(departmentname, ' ', semestername, SUBSTRING(term_enddate, 3, 2)) as name
                     FROM #__thm_organizer_schedules
                     ORDER BY name ASC">
             </field>
             <field type="spacer"
-                default="&lt;b&gt;COM_THM_ORGANIZER_RIA_SEMESTER_TREE&lt;/b&gt;&lt;hr/&gt;" />
+                   default="&lt;b&gt;COM_THM_ORGANIZER_RIA_SEMESTER_TREE&lt;/b&gt;&lt;hr/&gt;"/>
             <field name="tree" type="scheduler"
-                label=""
-                description="" />
-            <field name="id" type="hidden" description="Tooltip ;)" />
-            <field name="publicDefaultID" type="hidden" description="Tooltip ;)" />
+                   label=""
+                   description=""/>
+            <field name="id" type="hidden" description="Tooltip ;)"/>
+            <field name="publicDefaultID" type="hidden" description="Tooltip ;)"/>
             <field name="displayRoomSchedule" type="list"
                    label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DISPLAY_ROOMSCHEDULE"
                    default="1"
@@ -81,7 +81,7 @@
                    type="text"
                    label="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DELTA_DISPLAY_TITLE"
                    size="5"
-                   description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DELTA_DISPLAY_DESC" />
+                   description="COM_THM_ORGANIZER_SCHEDULER_OPTIONS_DELTA_DISPLAY_DESC"/>
         </fieldset>
     </fields>
 </metadata>

@@ -1,132 +1,86 @@
-/*icons anpassen*/
+.icon-organizer::before,
+a[href$="view=thm_organizer"]::before,
+a[href$="option=com_thm_organizer"]::before {
+  font-family: icomoon;
+  content: "\e60b"; }
+
+.icon-organizer_degrees::before,
+a[href*="view=degree_manager"]::before {
+  font-family: icomoon;
+  content: "\e606"; }
+
+.icon-organizer_users::before,
+a[href*="view=user_manager"]::before {
+  font-family: icomoon;
+  content: "\e01f"; }
+
+.icon-organizer_monitors::before,
+a[href*="view=monitor_manager"]::before {
+  font-family: icomoon;
+  content: "\e01c"; }
+
+.icon-organizer_teachers::before,
+a[href*="view=teacher_manager"]::before {
+  font-family: icomoon;
+  content: "\e604"; }
+
+.icon-organizer_departments::before,
+a[href*="view=department_manager"]::before {
+  font-family: icomoon;
+  content: "\e244"; }
+
+.icon-organizer_subjects::before,
+a[href*="view=subject_manager"]::before {
+  font-family: icomoon;
+  content: "\e603"; }
+
+.icon-organizer_fields::before,
+a[href*="view=field_manager"]::before {
+  font-family: icomoon;
+  content: "\74"; }
+
+.icon-organizer_colors::before,
+a[href*="view=color_manager"]::before {
+  font-family: icomoon;
+  content: "\e014"; }
+
+.icon-organizer_subject_pools::before,
+a[href*="view=pool_manager"]::before {
+  font-family: icomoon;
+  content: "\44"; }
+
+.icon-organizer_rooms::before,
+a[href*="view=room_manager"]::before {
+  font-family: icomoon;
+  content: "\e60a"; }
+
+.icon-organizer_degree_programs::before,
+a[href*="view=program_manager"]::before {
+  font-family: icomoon;
+  content: "\31"; }
+
+.icon-organizer_schedules::before,
+.icon-mni::before,
+a[href*="view=schedule_manager"]::before,
+a[href*="view=virtual_schedule_manager"]::before {
+  font-family: icomoon;
+  content: "\e600"; }
+
+.icon-organizer_categories::before,
+a[href*="view=category_manager"]::before {
+  font-family: icomoon;
+  content: "\e601"; }
+
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
   font-weight: bold; }
 
 .icon-add-Space {
   font-size: 14px; }
 
-/*icons zur jeweiligen View im Header hinzufuegen */
-.icon-organizer::before {
-  content: "\e60b"; }
-
-.icon-organizer_degrees::before {
-  content: "\e606"; }
-
-.icon-organizer_users::before {
-  content: "\e01f"; }
-
-.icon-organizer_monitors::before {
-  content: "\e01c"; }
-
-.icon-organizer_teachers::before {
-  content: "\e604"; }
-
-.icon-organizer_departments::before {
-  content: "\e244"; }
-
-.icon-organizer_subjects::before {
-  content: "\e603"; }
-
-.icon-organizer_fields::before {
-  content: "\74"; }
-
-.icon-organizer_colors::before {
-  content: "\e014"; }
-
-.icon-organizer_subject_pools::before {
-  content: "\43"; }
-
-.icon-organizer_rooms::before {
-  content: "\e60a"; }
-
-.icon-organizer_degree_programs::before {
-  content: "\31"; }
-
-.icon-organizer_schedules::before {
-  content: "\e600"; }
-
-.icon-organizer_categories::before {
-  content: "\e601"; }
-
-.icon-mni::before {
-  content: "\e600"; }
-
-/*icons zu sidebar hinzufuegen*/
-li a[href$="view=thm_organizer"]::before, li a[href$="option=com_thm_organizer"]::before {
-  font-family: icomoon;
-  content: "\e60b";
-  font-size: 16px;
-  padding-right: 8px;
+a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
   color: #80ba24; }
-li a[href*="view=degree_manager"]::before {
-  font-family: icomoon;
-  content: "\e606";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=user_manager"]::before {
-  font-family: icomoon;
-  content: "\e01f";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=monitor_manager"]::before {
-  font-family: icomoon;
-  content: "\e01c";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=teacher_manager"]::before {
-  font-family: icomoon;
-  content: "\e604";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=department_manager"]::before {
-  font-family: icomoon;
-  content: "\e244";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=subject_manager"]::before {
-  font-family: icomoon;
-  content: "\e603";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=field_manager"]::before {
-  font-family: icomoon;
-  content: "\74";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=color_manager"]::before {
-  font-family: icomoon;
-  content: "\e014";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=pool_manager"]::before {
-  font-family: icomoon;
-  content: "\43";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=room_manager"]::before {
-  font-family: icomoon;
-  content: "\e60a";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=program_manager"]::before {
-  font-family: icomoon;
-  content: "\31";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=schedule_manager"]::before {
-  font-family: icomoon;
-  content: "\e600";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=category_manager"]::before {
-  font-family: icomoon;
-  content: "\e601";
-  font-size: 12px;
-  padding-right: 8px; }
-li a[href*="view=virtual_schedule_manager"]::before {
-  font-family: icomoon;
-  content: "\e600";
-  font-size: 12px;
+
+a[href*="option=com_thm_organizer&view="]::before {
   padding-right: 8px; }
 
 .thm_organizer_children {

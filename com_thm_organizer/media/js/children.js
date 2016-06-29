@@ -4,12 +4,13 @@
 function moveButton()
 {
     var poolButton = jQuery('#toolbar-popup-list').detach(),
-        subjectButton = jQuery('#toolbar-popup-book').detach();
+        subjectButton = jQuery('#toolbar-popup-book').detach(),
+        childToolbar = jQuery('#children-toolbar');
 
-    poolButton.appendTo(jQuery('#children-toolbar'));
+    poolButton.appendTo(childToolbar);
     if (subjectButton.length)
     {
-        subjectButton.appendTo(jQuery('#children-toolbar'));
+        subjectButton.appendTo(childToolbar);
     }
 
 }
@@ -23,12 +24,13 @@ function moveButton()
 function getCheckedItems(divID, type)
 {
     var iframe = jQuery('iframe');
-    jQuery(divID + ' input:checked', iframe.contents()).each(function() {
+    jQuery(divID + ' input:checked', iframe.contents()).each(function ()
+    {
         var id = jQuery(this).val() + type;
         var name = jQuery(jQuery(this).parent().parent().children()[1]).html();
         var currentOrder = window.parent.getCurrentOrder();
         var length = parseInt(currentOrder.length, 10);
-        createNewRow(length,'childList', id, name, type);
+        createNewRow(length, 'childList', id, name, type);
     });
 }
 
@@ -41,7 +43,7 @@ function getCheckedItems(divID, type)
 function closeIframeWindow(divID, type)
 {
     getCheckedItems(divID, type);
-    jQuery( "button.close" ).trigger( "click" );
+    jQuery("button.close").trigger("click");
 }
 
 /**
@@ -58,7 +60,7 @@ function moveUp(oldOrder)
     var currentOrder, reorderObjects;
 
     currentOrder = getCurrentOrder();
-    if (oldOrder <= 1 || (currentOrder.length === Number(oldOrder) && currentOrder[oldOrder-2].name === ""))
+    if (oldOrder <= 1 || (currentOrder.length === Number(oldOrder) && currentOrder[oldOrder - 2].name === ""))
     {
         return;
     }
@@ -71,7 +73,7 @@ function moveUp(oldOrder)
 
     // Set previous lower row to calling positon
     overrideElement(oldOrder, reorderObjects[0]);
-    
+
 }
 
 /**
@@ -85,7 +87,7 @@ function moveDown(oldOrder)
 {
     "use strict";
     var currentOrder = getCurrentOrder();
-    if (oldOrder >= currentOrder.length || (currentOrder.length === Number(oldOrder)+1 && currentOrder[oldOrder-1].name === ""))
+    if (oldOrder >= currentOrder.length || (currentOrder.length === Number(oldOrder) + 1 && currentOrder[oldOrder - 1].name === ""))
     {
         return;
     }
@@ -97,12 +99,12 @@ function moveDown(oldOrder)
     // Set current with lower
     var newOrder = parseInt(oldOrder, 10) + 1;
     overrideElement(newOrder, reorderObjects[0]);
-    
+
 }
 
 /**
  * Add new empty row
- * 
+ *
  * @param {int} position
  *
  * @returns {void}
@@ -131,9 +133,9 @@ function setEmptyElement(position)
 }
 
 /**
- * Pushes all rows a step up. 
+ * Pushes all rows a step up.
  * The first row 'position' is moved to the last postion.
- * 
+ *
  * @param {int} position
  * @returns {void}
  */
@@ -145,7 +147,7 @@ function setElementOnLastPosition(position)
     var length = parseInt(currentOrder.length, 10);
     var tmpElement = currentOrder[position - 1];
 
-    if(tmpElement.name !== "")
+    if (tmpElement.name !== "")
     {
         pushAllUp(position, length, currentOrder);
 
@@ -165,31 +167,28 @@ function orderWithNumber(firstPos)
 {
     "use strict";
 
-    var currentOrder = getCurrentOrder();
-    var length = currentOrder.length;
-    
-    var tmpElement = currentOrder[firstPos - 1];
-    var secondPos = jQuery('#child' + firstPos + 'order').val();
+    var currentOrder = getCurrentOrder(), length = currentOrder.length, tmpElement = currentOrder[firstPos - 1],
+        secondPosOrder = jQuery('#child' + firstPos + 'order'), secondPos = secondPosOrder.val();
+
     secondPos = parseInt(secondPos);
 
     if (isNaN(secondPos) === true || secondPos > length || (Number(secondPos) === length && tmpElement.name === ""))
     {
-        jQuery('#child' + firstPos + 'order').val(firstPos);
+        secondPosOrder.val(firstPos);
         return;
     }
 
-    if (firstPos < secondPos) 
+    if (firstPos < secondPos)
     {
-        pushAllUp(firstPos, secondPos, currentOrder);   
-    } 
-    else 
+        pushAllUp(firstPos, secondPos, currentOrder);
+    }
+    else
     {
         pushAllDown(firstPos, secondPos, currentOrder);
     }
 
     overrideElement(secondPos, tmpElement);
 }
-
 
 /**
  * Removes a child row from the display
@@ -201,18 +200,18 @@ function orderWithNumber(firstPos)
 function removeRow(rowNumber)
 {
     "use strict";
-    
+
     var currentOrder = getCurrentOrder();
     var length = currentOrder.length;
-    
+
     pushAllUp(rowNumber, length, currentOrder);
-    
+
     jQuery('#childRow' + length).remove();
 }
 
 /**
  * Push all Ements up.
- * 
+ *
  * @param {int} position
  * @param {int} length
  * @param {array} elementArray
@@ -221,17 +220,17 @@ function removeRow(rowNumber)
 function pushAllUp(position, length, elementArray)
 {
     "use strict";
-    
+
     while (position < length)
     {
         overrideElement(position, elementArray[position]);
         position++;
-    } 
+    }
 }
 
 /**
  * Push all Elements down.
- * 
+ *
  * @param {int} position
  * @param {int} length
  * @param {array} elementArray
@@ -240,7 +239,7 @@ function pushAllUp(position, length, elementArray)
 function pushAllDown(position, length, elementArray)
 {
     "use strict";
-    
+
     while (position > length)
     {
         var newOrder = position;
@@ -262,7 +261,7 @@ function getCurrentOrder()
     var currentOrder = [];
 
     // The header row needs to be removed from the count
-    var rowCount = jQuery('#childList tr').length - 1;
+    var rowCount = jQuery('#childList').find('tr').length - 1;
     for (var i = 0; i < rowCount; i++)
     {
         var order = i + 1;
@@ -278,7 +277,7 @@ function getCurrentOrder()
 
 /**
  * Override a DOM-Element with the ID '#child'+newOrder.
- * 
+ *
  * @param {int} newOrder
  * @param {Object} oldElement
  * @returns {void}
@@ -287,7 +286,7 @@ function overrideElement(newOrder, oldElement)
 {
     "use strict";
 
-    jQuery('#child' + newOrder + 'icon').attr('class',(oldElement.class));
+    jQuery('#child' + newOrder + 'icon').attr('class', (oldElement.class));
     jQuery('#child' + newOrder + 'name').text(oldElement.name);
     jQuery('#child' + newOrder).val(oldElement.id);
     jQuery('#child' + newOrder + 'link').attr('href', oldElement.link);
@@ -296,7 +295,7 @@ function overrideElement(newOrder, oldElement)
 
 /**
  * Overrides a DOM-Element with a Dummy-Element.
- * 
+ *
  * @param {int} position
  * @returns {void}
  */
@@ -313,9 +312,9 @@ function overrideElementWithDummy(position)
 
 /**
  * Add a new row on the end of the table.
- * 
+ *
  * @param {int} lastPosition
- * @param {int} tableID
+ * @param {string} tableID
  * @param {int} resourceID
  * @param {string} resourceName
  * @param {string} resourceType
@@ -325,19 +324,19 @@ function overrideElementWithDummy(position)
 function createNewRow(lastPosition, tableID, resourceID, resourceName, resourceType)
 {
     "use strict";
-    var mID = 0, name='', icon='', rawID, link, nextRowClass, nextRowNumber, html, resourceHTML, orderingHTML;
+    var mID = 0, name = '', icon = '', rawID, link, nextRowClass, nextRowNumber, html, resourceHTML, orderingHTML;
 
-    if(typeof resourceID !== 'undefined')
+    if (typeof resourceID !== 'undefined')
     {
         mID = resourceID;
     }
-    if(typeof resourceName !== 'undefined')
+    if (typeof resourceName !== 'undefined')
     {
         name = resourceName;
     }
 
     rawID = resourceID.substring(0, resourceID.length - 1);
-    if(typeof resourceType !== 'undefined')
+    if (typeof resourceType !== 'undefined')
     {
         switch (resourceType)
         {
@@ -355,18 +354,18 @@ function createNewRow(lastPosition, tableID, resourceID, resourceName, resourceT
     nextRowClass = getNextRowClass(lastPosition);
     nextRowNumber = parseInt(lastPosition, 10) + 1;
 
-    html = '<tr id="childRow' + nextRowNumber + '" class="'+nextRowClass+'">';
+    html = '<tr id="childRow' + nextRowNumber + '" class="' + nextRowClass + '">';
 
     resourceHTML = '<td class="child-name">';
     resourceHTML += '<a id="child' + nextRowNumber + 'link" href="' + link + '">';
     resourceHTML += '<span id="child' + nextRowNumber + 'icon" class="' + icon + '"></span>';
     resourceHTML += '<span id="child' + nextRowNumber + 'name">' + name + '</span>';
     resourceHTML += '</a>';
-    resourceHTML += '<input id="child' + nextRowNumber + '" type="hidden" value="' + mID + '" name="child'+nextRowNumber+'">';
+    resourceHTML += '<input id="child' + nextRowNumber + '" type="hidden" value="' + mID + '" name="child' + nextRowNumber + '">';
     resourceHTML += '</td>';
 
     orderingHTML = '<td class="child-order">';
-    orderingHTML += '<button class="btn btn-small" onclick="moveUp(\''+ nextRowNumber +'\');" title="Move Up">';
+    orderingHTML += '<button class="btn btn-small" onclick="moveUp(\'' + nextRowNumber + '\');" title="Move Up">';
     orderingHTML += '<span class="icon-previous"></span>';
     orderingHTML += '</button>';
     orderingHTML += '<input type="text" title="Ordering" name="child' + nextRowNumber + 'order" ';
@@ -381,7 +380,7 @@ function createNewRow(lastPosition, tableID, resourceID, resourceName, resourceT
     orderingHTML += '<button class="btn btn-small" onclick="moveDown(\'' + nextRowNumber + '\');" title="Move Down">';
     orderingHTML += '<span class="icon-next"></span>';
     orderingHTML += '</button>';
-    orderingHTML += '<button class="btn btn-small" onclick="setElementOnLastPosition(\''+nextRowNumber+'\');" title="Make Last">';
+    orderingHTML += '<button class="btn btn-small" onclick="setElementOnLastPosition(\'' + nextRowNumber + '\');" title="Make Last">';
     orderingHTML += '<span class="icon-last"></span>';
     orderingHTML += '</button>';
     orderingHTML += '</td>';
@@ -394,7 +393,7 @@ function getNextRowClass(lastPosition)
 {
     var nextRowClass, lastRowClass;
     var row = document.getElementById('childRow' + lastPosition);
-    if(row)
+    if (row)
     {
         lastRowClass = row.className;
         if (lastRowClass === null)
@@ -419,12 +418,16 @@ function getNextRowClass(lastPosition)
 /**
  *  deactivated forms for choosen
  */
-window.onload = function()
+window.onload = function ()
 {
-    var forms  = document.getElementsByTagName("form"),
+    var forms = document.getElementsByTagName("form"),
         controlGroups, childrenCG;
-    for(var i =  0; i < forms.length; i++){
-        forms[i].onsubmit = function() {return false};
+    for (var i = 0; i < forms.length; i++)
+    {
+        forms[i].onsubmit = function ()
+        {
+            return false
+        };
     }
     moveButton();
 };

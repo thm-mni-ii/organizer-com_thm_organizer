@@ -1,5 +1,5 @@
 /*global Ext: false, MySched: false, MySchedLanguage: false, blocktotime: false, weekdayEtoD: false, numbertoday: false, getMonday: false,
-_C: false, externalLinks: false, daytonumber: false, externLinks */
+ _C: false, externalLinks: false, daytonumber: false, externLinks */
 /*jshint strict: false */
 
 /**
@@ -16,38 +16,38 @@ var hideHeaders = false;
  * @class SchedGrid
  */
 Ext.define('SchedGrid',
-{
-    extend: 'Ext.grid.Panel',
-
-    /**
-     * Gets the data with lessons and blocks for every day
-     *
-     * @method loadData
-     * @param {object} data List of object with time for every block of the week and the lessons for every day
-     * @return {*} TODO Don't now what it is
-     */
-    loadData: function (data)
     {
-        var scheduleGrid = MySched.gridData[this.ScheduleModel.scheduleGrid],
-            scheduleGridLength = Object.keys(scheduleGrid).length;
+        extend: 'Ext.grid.Panel',
 
-        for (var i = 1; i <= scheduleGridLength; i++)
+        /**
+         * Gets the data with lessons and blocks for every day
+         *
+         * @method loadData
+         * @param {object} data List of object with time for every block of the week and the lessons for every day
+         * @return {*} TODO Don't now what it is
+         */
+        loadData: function (data)
         {
-            var index = i - 1;
-            data[index].time = addColonToTime(scheduleGrid[i].starttime) + '<br/>-<br/>' + addColonToTime(scheduleGrid[i].endtime);
+            var scheduleGrid = MySched.gridData[this.ScheduleModel.scheduleGrid],
+                scheduleGridLength = Object.keys(scheduleGrid).length;
+
+            for (var i = 1; i <= scheduleGridLength; i++)
+            {
+                var index = i - 1;
+                data[index].time = addColonToTime(scheduleGrid[i].starttime) + '<br/>-<br/>' + addColonToTime(scheduleGrid[i].endtime);
+            }
+
+            // If the grid is also shown, show also the sporadic events
+            if (MySched.selectedSchedule.grid === this)
+            {
+                MySched.layout.viewport.doLayout();
+            }
+
+            // TODO Seems to be always empty. Is it really useful
+            return this.store.loadData(data);
+
         }
-
-        // If the grid is also shown, show also the sporadic events
-        if (MySched.selectedSchedule.grid === this)
-        {
-            MySched.layout.viewport.doLayout();
-        }
-
-        // TODO Seems to be always empty. Is it really useful
-        return this.store.loadData(data);
-
-    }
-});
+    });
 
 /**
  *
@@ -117,27 +117,27 @@ function getSchedGrid()
         }];
 
     // No Saturdays
-    if(MySched.displayDaysInWeek === "1")
+    if (MySched.displayDaysInWeek === "1")
     {
         fields.pop();
         columns.pop();
     }
 
     Ext.create('Ext.data.Store',
-    {
-        storeId: 'gridStore',
-        fields: fields,
-        data: {
-            'items': []
-        },
-        proxy: {
-            type: 'memory',
-            reader: {
-                type: 'json',
-                rootProperty: 'items'
+        {
+            storeId: 'gridStore',
+            fields: fields,
+            data: {
+                'items': []
+            },
+            proxy: {
+                type: 'memory',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items'
+                }
             }
-        }
-    });
+        });
 
     /**
      * TODO Bad style to create a function this way
@@ -145,52 +145,56 @@ function getSchedGrid()
      *
      */
     rowBodyFeature = Ext.create('Ext.grid.feature.RowBody',
-    {
-        /**
-         * This method returns an object with attributes for the rows
-         *
-         * @param {object} data Object with information for every block of the week
-         * @param {number} rowIndex Row CIndex of the grid
-         * @param {object} record TODO Don't know what it is
-         * @param {object} orig Object with attributes for the columns of the grid
-         * @return {object} * Attributes for the rows
-         */
-        getAdditionalData: function (data, rowIndex, record, orig)
         {
-            var headerCt = this.view.headerCt,
-                colspan = headerCt.getColumnCount(),
-                lunchTime = {rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME, rowBodyCls: 'MySched_pause', rowBodyColspan: colspan},
-                normalBreak = {rowBody: '', rowBodyCls: '', rowBodyColspan: colspan};
-
-            if (rowIndex === 2)
+            /**
+             * This method returns an object with attributes for the rows
+             *
+             * @param {object} data Object with information for every block of the week
+             * @param {number} rowIndex Row CIndex of the grid
+             * @param {object} record TODO Don't know what it is
+             * @param {object} orig Object with attributes for the columns of the grid
+             * @return {object} * Attributes for the rows
+             */
+            getAdditionalData: function (data, rowIndex, record, orig)
             {
-                return lunchTime;
-            } else {
-                return normalBreak;
+                var headerCt = this.view.headerCt,
+                    colspan = headerCt.getColumnCount(),
+                    lunchTime = {
+                        rowBody: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LUNCHTIME,
+                        rowBodyCls: 'MySched_pause',
+                        rowBodyColspan: colspan
+                    },
+                    normalBreak = {rowBody: '', rowBodyCls: '', rowBodyColspan: colspan};
+
+                if (rowIndex === 2)
+                {
+                    return lunchTime;
+                }
+                else
+                {
+                    return normalBreak;
+                }
             }
-        }
-    });
+        });
 
     /**
      * Object with attributes that creates the headers of the schedule
      *
      */
-    var grid = Ext.create('SchedGrid',
-    {
-        title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TITLE_UNKNOWN,
-        store: Ext.data.StoreManager.lookup('gridStore'),
-        columns: columns,
-        viewConfig:
+    return Ext.create('SchedGrid',
         {
-            features: [rowBodyFeature],
-            overItemCls: '', // "disable" row over style
-            disableSelection: true,
-            style: { overflow: 'auto', overflowX: 'hidden' }
-        },
-        cls: 'MySched_ScheduleGrid',
-        scroll: false
-    });
-    return grid;
+            title: MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_TITLE_UNKNOWN,
+            store: Ext.data.StoreManager.lookup('gridStore'),
+            columns: columns,
+            viewConfig: {
+                features: [rowBodyFeature],
+                overItemCls: '', // "disable" row over style
+                disableSelection: true,
+                style: {overflow: 'auto', overflowX: 'hidden'}
+            },
+            cls: 'MySched_ScheduleGrid',
+            scroll: false
+        });
 }
 
 /**
@@ -198,54 +202,54 @@ function getSchedGrid()
  *
  */
 Ext.apply(Ext.form.VTypes,
-{
-    /**
-     *
-     * @param val
-     * @param field
-     * @return {boolean}
-     */
-    daterange: function (val, field)
     {
-        var date = field.parseDate(val);
-
-        if (!date)
-        {
-            return;
-        }
-        if (field.startDateField && (!this.dateRangeMax || (date.getTime() !== this.dateRangeMax.getTime())))
-        {
-            var start = Ext.getCmp(field.startDateField);
-            start.setMaxValue(date);
-            start.validate();
-            this.dateRangeMax = date;
-        }
-        else if (field.endDateField && (!this.dateRangeMin || (date.getTime() !== this.dateRangeMin.getTime())))
-        {
-            var end = Ext.getCmp(field.endDateField);
-            end.setMinValue(date);
-            end.validate();
-            this.dateRangeMin = date;
-        }
-        /*
-         * Always return true since we're only using this vtype to set the
-         * min/max allowed values (these are tested for after the vtype test)
+        /**
+         *
+         * @param val
+         * @param field
+         * @return {boolean}
          */
-        return true;
-    },
-
-    password: function (val, field)
-    {
-        if (field.initialPassField)
+        daterange: function (val, field)
         {
-            var pwd = Ext.getCmp(field.initialPassField);
-            return (val === pwd.getValue());
-        }
-        return true;
-    },
+            var date = field.parseDate(val);
 
-    passwordText: 'Passwords do not match'
-});
+            if (!date)
+            {
+                return;
+            }
+            if (field.startDateField && (!this.dateRangeMax || (date.getTime() !== this.dateRangeMax.getTime())))
+            {
+                var start = Ext.getCmp(field.startDateField);
+                start.setMaxValue(date);
+                start.validate();
+                this.dateRangeMax = date;
+            }
+            else if (field.endDateField && (!this.dateRangeMin || (date.getTime() !== this.dateRangeMin.getTime())))
+            {
+                var end = Ext.getCmp(field.endDateField);
+                end.setMinValue(date);
+                end.validate();
+                this.dateRangeMin = date;
+            }
+            /*
+             * Always return true since we're only using this vtype to set the
+             * min/max allowed values (these are tested for after the vtype test)
+             */
+            return true;
+        },
+
+        password: function (val, field)
+        {
+            if (field.initialPassField)
+            {
+                var pwd = Ext.getCmp(field.initialPassField);
+                return (val === pwd.getValue());
+            }
+            return true;
+        },
+
+        passwordText: 'Passwords do not match'
+    });
 
 /**
  * Special renderer for events
@@ -283,7 +287,7 @@ MySched.lectureCellRenderer = function (times, output, redundant, rowIndex, colI
             dayCountClass = 'days-6';
             break;
         case 6:
-            dayCountClass= 'days-5';
+            dayCountClass = 'days-5';
     }
 
     // show date behind the day
@@ -332,7 +336,6 @@ MySched.lectureCellRenderer = function (times, output, redundant, rowIndex, colI
     }
 
     output.tdCls = dayCountClass;
-
 
     if (Ext.isEmpty(times))
     {

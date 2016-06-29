@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 JTable::addIncludePath(JPATH_BASE . '/administrator/components/com_thm_organizer/tables');
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/xml/schedule.php';
 
 /**
@@ -23,731 +24,756 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/xml/schedule.php';
  */
 class THM_OrganizerModelSchedule extends JModelLegacy
 {
-    /**
-     * Object containing information from the actual schedule
-     *
-     * @var object
-     */
-    public $schedule = null;
-
-    /**
-     * Object containing information from a reference schedule
-     *
-     * @var object
-     */
-    public $refSchedule = null;
-
-    /**
-     * Activates the selected schedule
-     *
-     * @param   int  $scheduleID  the explicit id of the schedule to activate
-     *
-     * @return  true on success, otherwise false
-     */
-    public function activate($scheduleID = 0)
-    {
-        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-        if (empty($scheduleID))
-        {
-            $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-            if (empty($scheduleIDs))
-            {
-                return true;
-            }
-
-            $scheduleID = $scheduleIDs[0];
-        }
-
-        $scheduleExists = $scheduleRow->load($scheduleID);
-        if (!$scheduleExists)
-        {
-            return true;
-        }
-
-        $schedule = json_decode($scheduleRow->schedule);
-        $this->sanitizeSchedule($schedule);
-        $scheduleRow->schedule = json_encode($schedule);
-        $scheduleRow->active = 1;
-
-        $this->_db->transactionStart();
-
-        $zeroQuery = $this->_db->getQuery(true);
-        $zeroQuery->update('#__thm_organizer_schedules');
-        $zeroQuery->set("active = '0'");
-        $zeroQuery->where("plan_name = '$scheduleRow->plan_name'");
-        $this->_db->setQuery((string) $zeroQuery);
-        try
-        {
-            $this->_db->execute();
-        }
-        catch (Exception $exception)
-        {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            $this->_db->transactionRollback();
-            return false;
-        }
-
-        $success = $scheduleRow->store();
-        if ($success)
-        {
-            $this->_db->transactionCommit();
-            return true;
-        }
-        else
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
-    }
-
-    /**
-     * Checks if the first selected schedule is active
-     *
-     * @return boolean true if the schedule is active otherwise false
-     */
-    public function checkIfActive()
-    {
-        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-        if (!empty($scheduleIDs))
-        {
-            $scheduleID = $scheduleIDs[0];
-            $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
-            $schedule->load($scheduleID);
-            return $schedule->active;
-        }
-
-        return false;
-    }
-
-    /**
-     * Activates the selected schedule
-     *
-     * @param   int  $scheduleID  the explicit id of the schedule to activate
-     *
-     * @return  true on success, otherwise false
-     */
-    public function deactivate($scheduleID)
-    {
-        if (empty($scheduleID))
-        {
-            return false;
-        }
-
-        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-        $scheduleExists = $scheduleRow->load($scheduleID);
-        if (!$scheduleExists)
-        {
-            return false;
-        }
-
-        $this->_db->transactionStart();
-        $scheduleRow->active = 0;
-        $success = $scheduleRow->store();
-        if ($success)
-        {
-            $this->_db->transactionCommit();
-            return true;
-        }
-        else
-        {
-            $this->_db->transactionRollback();
-            return false;
-        }
-    }
-
-    /**
-     * Deletes the selected schedules
-     *
-     * @return boolean true on successful deletion of all selected schedules
-     *                 otherwise false
-     */
-    public function delete()
-    {
-        $this->_db->transactionStart();
-        $scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-        foreach ($scheduleIDs as $scheduleID)
-        {
-            try
-            {
-                $success = $this->deleteSingle($scheduleID);
-            }
-            catch (Exception $exception)
-            {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-                $this->_db->transactionRollback();
-                return false;
-            }
-
-            if (!$success)
-            {
-                $this->_db->transactionRollback();
-                return false;
-            }
-        }
-        $this->_db->transactionCommit();
-        return true;
-    }
-
-    /**
-     * Deletes a single schedule
-     *
-     * @param   int  $scheduleID  the id of the schedule to be deleted
-     *
-     * @return boolean true on success otherwise false
-     */
-    public function deleteSingle($scheduleID)
-    {
-        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
-        $schedule->load($scheduleID);
-        return $schedule->delete();
-    }
-
-    /**
-     * Sets the schedule to be referenced against
-     *
-     * @return  mixed  object if successful, otherwise null
-     */
-    private function getReferenceSchedule()
-    {
-        $reference = JTable::getInstance('schedules', 'thm_organizerTable');
-        $referenceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-
-        // Entry by upload of new schedule
-        if (empty($referenceIDs))
-        {
-            if (empty($this->schedule))
-            {
-                return null;
-            }
-
-            $pullData = array();
-            $pullData['departmentname'] = $this->schedule->departmentname;
-            $pullData['semestername'] = $this->schedule->semestername;
-            $pullData['startdate'] = $this->schedule->startdate;
-            $pullData['enddate'] = $this->schedule->enddate;
-            $pullData['active'] = 1;
-        }
-
-        // Entry through schedule manager
-        else
-        {
-            $pullData = $referenceIDs[0];
-        }
-
-        $referenceLoaded = $reference->load($pullData);
-
-        if ($referenceLoaded)
-        {
-            return $reference;
-        }
-
-        return null;
-    }
-
-    /**
-     * sanitizes a given lesson property
-     *
-     * @param   array  &$property  the array holding information about the property
-     *
-     * @return void
-     */
-    private function sanitizeLessonProperty(&$property)
-    {
-        foreach ($property as $key => $value)
-        {
-            switch ($value)
-            {
-                case 'new':
-                    $property->$key = '';
-                    continue;
-                case '':
-                    continue;
-                case 'removed':
-                    unset($property->$key);
-                    continue;
-            }
-        }
-    }
-
-    /**
-     * removes delta information from a schedule
-     *
-     * @param   array  &$lessons  the currently active schedule lessons
-     *
-     * @return void
-     */
-    private function sanitizeLessons(&$lessons)
-    {
-        foreach ($lessons as $lessonKey => $lesson)
-        {
-            if (isset($lesson->delta))
-            {
-                switch ($lesson->delta)
-                {
-                    case 'new':
-                        unset($lessons->$lessonKey->delta);
-                        continue;
-                    case 'removed':
-                        unset($lessons->$lessonKey);
-                        continue;
-                    case 'changed':
-                        $this->sanitizeLessonProperty($lessons->$lessonKey->subjects);
-                        $this->sanitizeLessonProperty($lessons->$lessonKey->teachers);
-                        $this->sanitizeLessonProperty($lessons->$lessonKey->pools);
-                        unset($lessons->$lessonKey->delta);
-                        continue;
-                }
-            }
-        }
-    }
-
-    /**
-     * sanitizes the calendar array of delta information
-     *
-     * @param   array  &$calendar  the calendar data to be sanitized
-     *
-     * @return void
-     */
-    private function sanitizeCalendar(&$calendar)
-    {
-        foreach ($calendar as $date => $periods)
-        {
-            if (!is_object($calendar->$date) OR empty($periods))
-            {
-                continue;
-            }
-
-            foreach ($periods as $period => $lessons)
-            {
-                if (empty($lessons))
-                {
-                    continue;
-                }
-
-                foreach ($lessons as $lesson => $rooms)
-                {
-                    if (empty($calendar->$date->$period->$lesson->delta))
-                    {
-                        continue;
-                    }
-
-                    switch ($calendar->$date->$period->$lesson->delta)
-                    {
-                        case 'new':
-                            unset($calendar->$date->$period->$lesson->delta);
-                            break;
-                        case 'removed':
-                            unset($calendar->$date->$period->$lesson);
-                            break;
-                        case 'changed':
-                            foreach ($rooms as $roomID => $delta)
-                            {
-                                if ($roomID == 'delta')
-                                {
-                                    continue;
-                                }
-
-                                switch ($delta)
-                                {
-                                    case 'new':
-                                        $calendar->$date->$period->$lesson->$roomID = '';
-                                        continue;
-                                    case '':
-                                        continue;
-                                    case 'removed':
-                                        unset($calendar->$date->$period->$lesson->$roomID);
-                                        continue;
-                                }
-                            }
-                            unset($calendar->$date->$period->$lesson->delta);
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * removes delta information from a schedule
-     *
-     * @param   array  &$schedule  the currently active schedule
-     *
-     * @return void
-     */
-    public function sanitizeSchedule(&$schedule)
-    {
-        $this->sanitizeLessons($schedule->lessons);
-        $this->sanitizeCalendar($schedule->calendar);
-        if (isset($schedule->referencedate))
-        {
-            unset($schedule->referencedate);
-        }
-    }
-
-    /**
-     * Saves the comment for an uploaded schedule
-     *
-     * @return boolean true on success otherwise false
-     */
-    public function saveComment()
-    {
-        $data = JFactory::getApplication()->input->get('jform', array(), 'array');
-        $data['description'] = $this->_db->escape($data['description']);
-        unset($data->startdate, $data->enddate, $data->creationdate);
-        $table = JTable::getInstance('schedules', 'thm_organizerTable');
-        return $table->save($data);
-    }
-
-    /**
-     * Persists the schedule to be uploaded
-     *
-     * @return  mixed  integer scheduleID on success, otherwise false
-     */
-    private function saveSchedule()
-    {
-        $formData = JFactory::getApplication()->input->get('jform', array(), 'array');
-
-        $data = array();
-        $data['departmentID'] = $formData['departmentID'];
-        $departmentName = $this->schedule->departmentname;
-        $semesterName = $this->schedule->semestername;
-        $shortYear = substr($this->schedule->termEndDate, 2, 2);
-        $planName = "$departmentName-$semesterName-$shortYear";
-        $data['plan_name'] = $planName;
-        $data['departmentname'] = $departmentName;
-        $data['semestername'] = $semesterName;
-        $data['creationdate'] = $this->schedule->creationdate;
-        $data['creationtime'] = $this->schedule->creationtime;
-        $data['description'] = $this->_db->escape($formData['description']);
-        $data['schedule'] = json_encode($this->schedule);
-        $data['startdate'] = $this->schedule->startdate;
-        $data['enddate'] = $this->schedule->enddate;
-        $data['term_startdate'] = $this->schedule->termStartDate;
-        $data['term_enddate'] = $this->schedule->termEndDate;
-        $data['active'] = 1;
-        $data['term_startdate'] = $this->schedule->termStartDate;
-        $data['term_enddate'] = $this->schedule->termEndDate;
-
-        $row = JTable::getInstance('schedules', 'thm_organizerTable');
-        $row->save($data);
-        return $row->id;
-    }
-
-    /**
-     * Examines the calendars of the actual and the reference schedules to
-     * determine changes
-     *
-     * @param   object  &$calendar     the calendar of the actual schedule
-     * @param   object  &$refCalendar  the calendar of the reference schedule
-     *
-     * @return void
-     */
-    private function setCalendarReference(&$calendar, &$refCalendar)
-    {
-        foreach ($calendar as $date => $periods)
-        {
-            if (!is_object($calendar->$date) OR empty($periods))
-            {
-                continue;
-            }
-
-            foreach ($periods as $period => $lessons)
-            {
-                if (empty($lessons))
-                {
-                    continue;
-                }
-
-                foreach ($lessons as $lessonID => $rooms)
-                {
-                    if (!isset($refCalendar->$date->$period->$lessonID))
-                    {
-                        $calendar->$date->$period->$lessonID->delta = 'new';
-                        continue;
-                    }
-                    else
-                    {
-                        foreach ($rooms as $roomID => $delta)
-                        {
-                            if ($roomID == 'delta' or empty($roomID))
-                            {
-                                continue;
-                            }
-
-                            if (!isset($refCalendar->$date->$period->$lessonID->$roomID))
-                            {
-                                $calendar->$date->$period->$lessonID->$roomID = 'new';
-                                $calendar->$date->$period->$lessonID->delta = 'changed';
-                                continue;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        foreach ($refCalendar as $date => $periods)
-        {
-            if (!is_object($calendar->$date) OR empty($periods))
-            {
-                continue;
-            }
-
-            foreach ($periods as $period => $lessons)
-            {
-                if (empty($lessons))
-                {
-                    continue;
-                }
-
-                foreach ($lessons as $lessonID => $rooms)
-                {
-                    if (!isset($calendar->$date->$period->$lessonID))
-                    {
-                        $calendar->$date->$period->$lessonID = new stdClass;
-                        foreach ($rooms as $roomID => $delta)
-                        {
-                            $calendar->$date->$period->$lessonID->$roomID = '';
-                        }
-
-                        $calendar->$date->$period->$lessonID->delta = 'removed';
-                        continue;
-                    }
-
-                    foreach ($rooms as $roomID => $delta)
-                    {
-                        if ($roomID == 'delta')
-                        {
-                            continue;
-                        }
-
-                        if (!isset($calendar->$date->$period->$lessonID->$roomID))
-                        {
-                            $calendar->$date->$period->$lessonID->$roomID = 'removed';
-                            $calendar->$date->$period->$lessonID->delta = 'changed';
-                            continue;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Examines the lessons of the new and old schedules to determine the delta
-     *
-     * @param   array  $lessons     the lessons of the new schedule
-     * @param   array  $refLessons  the lessons of the old schedule
-     *
-     * @return void
-     */
-    private function setLessonReference($lessons, $refLessons)
-    {
-        // Check for new lesson data
-        foreach ($lessons as $lessonID => $lesson)
-        {
-            // Lesson only exists in the new schedule
-            if (!isset($refLessons->$lessonID))
-            {
-                $lessons->$lessonID->delta = 'new';
-                continue;
-            }
-
-            // Lesson exists in both schedules -> compare properties
-            $subjectChanges = $this->setPropertyReference($lessons->$lessonID->subjects, $refLessons->$lessonID->subjects);
-            $teacherChanges = $this->setPropertyReference($lessons->$lessonID->teachers, $refLessons->$lessonID->teachers);
-            $moduleChanges = $this->setPropertyReference($lessons->$lessonID->pools, $refLessons->$lessonID->pools);
-
-            // Property indexes are not identical
-            if ($subjectChanges or $teacherChanges or $moduleChanges)
-            {
-                $lessons->$lessonID->delta = 'changed';
-            }
-        }
-
-        // Check for old lesson data
-        foreach ($refLessons as $lessonID => $lesson)
-        {
-            // Lesson only exists in old schedule
-            if (!isset($lessons->$lessonID))
-            {
-                $lessons->$lessonID = $refLessons->$lessonID;
-                $lessons->$lessonID->delta = 'removed';
-                continue;
-            }
-        }
-    }
-
-    /**
-     * examines a property of both schedules and creates a delta according to
-     * property indexes
-     *
-     * @param   array  &$property     the property of the new lesson to be examined
-     * @param   array  &$refProperty  the property of the old lesson to be examined
-     *
-     * @return boolean $changesExist true if a property index is not in both sets
-     */
-    private function setPropertyReference(&$property, &$refProperty)
-    {
-        $changesExist = false;
-        foreach ($property as $propertyID => $delta)
-        {
-            if (!isset($refProperty->$propertyID))
-            {
-                $property->$propertyID = 'new';
-                $changesExist = true;
-                continue;
-            }
-        }
-        foreach ($refProperty as $propertyID => $delta)
-        {
-            if (!isset($property->$propertyID))
-            {
-                $property->$propertyID = 'removed';
-                $changesExist = true;
-                continue;
-            }
-        }
-
-        return $changesExist;
-    }
-
-    /**
-     * Creates the delta to the chosen reference schedule
-     *
-     * @return boolean true on successful delta creation, otherwise false
-     */
-    public function setReference()
-    {
-        $reference = $this->getReferenceSchedule();
-        if (empty($reference->id))
-        {
-            return true;
-        }
-
-        $this->refSchedule = json_decode($reference->schedule);
-
-        $actual = JTable::getInstance('schedules', 'thm_organizerTable');
-        if (empty($this->schedule))
-        {
-            $pullData = array(
-                'departmentname' => $this->refSchedule->departmentname,
-                'semestername' => $this->refSchedule->semestername,
-                'startdate' => $this->refSchedule->startdate,
-                'enddate' => $this->refSchedule->enddate,
-                'active' => 1
-            );
-            $actualExists = $actual->load($pullData);
-            if (!$actualExists)
-            {
-                return false;
-            }
-
-            $this->schedule = json_decode($actual->schedule);
-        }
-
-        $this->sanitizeSchedule($this->refSchedule);
-        $this->sanitizeSchedule($this->schedule);
-
-        // Function called from controller
-        if (!empty($actual->id))
-        {
-            $this->_db->transactionStart();
-        }
-
-        $referenceDate = $reference->creationdate;
-        $reference->set('schedule', json_encode($this->refSchedule));
-        $reference->set('active', 0);
-        $refSuccess = $reference->store();
-        if (!$refSuccess)
-        {
-            // Function called from controller
-            if (!empty($actual->id))
-            {
-                $this->_db->transactionRollback();
-            }
-
-            return false;
-        }
-
-        unset($reference);
-
-        $this->schedule->referencedate = $referenceDate;
-        $this->setLessonReference($this->schedule->lessons, $this->refSchedule->lessons);
-        $this->setCalendarReference($this->schedule->calendar, $this->refSchedule->calendar);
-
-        // Function called from controller
-        if (!empty($actual->id))
-        {
-            $actual->set('schedule', json_encode($this->schedule));
-            $actualSuccess = $actual->store();
-            if (!$actualSuccess)
-            {
-                $this->_db->transactionRollback();
-                return false;
-            }
-
-            $this->_db->transactionCommit();
-        }
-
-        return true;
-    }
-
-    /**
-     * Toggles the schedule's active status
-     *
-     * @return  boolean  true on success, otherwise false
-     */
-    public function toggle()
-    {
-        $input = JFactory::getApplication()->input;
-        $scheduleID = $input->getInt('id', 0);
-        if (empty($scheduleID))
-        {
-            return false;
-        }
-
-        $value = $input->getInt('value', 1);
-        if ($value)
-        {
-            return $this->deactivate($scheduleID);
-        }
-
-        return $this->activate($scheduleID);
-    }
-
-    /**
-     * saves a schedule in the database for later use
-     *
-     * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
-     *                                 ['errors']      critical data inconsistencies
-     *                                 ['warnings']    minor data inconsistencies
-     */
-    public function upload()
-    {
-        $xmlModel = new THM_OrganizerModelXMLSchedule();
-        $valid = $xmlModel->validate();
-
-        if (!$valid)
-        {
-            return false;
-        }
-
-        $this->schedule = $xmlModel->schedule;
-        $this->setReference();
-        $this->_db->transactionStart();
-
-        try
-        {
-            $statusReport['scheduleID'] = $this->saveSchedule();
-            $this->_db->transactionCommit();
-        }
-        catch (Exception $exception)
-        {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-            $this->_db->transactionRollback();
-        }
-
-        return $statusReport;
-    }
+	/**
+	 * Object containing information from the actual schedule
+	 *
+	 * @var object
+	 */
+	public $schedule = null;
+
+	/**
+	 * Object containing information from a reference schedule
+	 *
+	 * @var object
+	 */
+	public $refSchedule = null;
+
+	/**
+	 * Activates the selected schedule
+	 *
+	 * @param   int $scheduleID the explicit id of the schedule to activate
+	 *
+	 * @return  true on success, otherwise false
+	 */
+	public function activate($scheduleID = 0)
+	{
+		$scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+		if (empty($scheduleID))
+		{
+			$scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+			if (empty($scheduleIDs))
+			{
+				return true;
+			}
+
+			$scheduleID = $scheduleIDs[0];
+		}
+
+		$scheduleExists = $scheduleRow->load($scheduleID);
+		if (!$scheduleExists)
+		{
+			return true;
+		}
+
+		$schedule = json_decode($scheduleRow->schedule);
+		$this->sanitizeSchedule($schedule);
+		$scheduleRow->schedule = json_encode($schedule);
+		$scheduleRow->active   = 1;
+
+		$this->_db->transactionStart();
+
+		$zeroQuery = $this->_db->getQuery(true);
+		$zeroQuery->update('#__thm_organizer_schedules');
+		$zeroQuery->set("active = '0'");
+		$zeroQuery->where("plan_name = '$scheduleRow->plan_name'");
+		$this->_db->setQuery((string) $zeroQuery);
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exception)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+
+		$success = $scheduleRow->store();
+		if ($success)
+		{
+			$this->_db->transactionCommit();
+
+			return true;
+		}
+		else
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+	}
+
+	/**
+	 * Checks if the first selected schedule is active
+	 *
+	 * @return boolean true if the schedule is active otherwise false
+	 */
+	public function checkIfActive()
+	{
+		$scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		if (!empty($scheduleIDs))
+		{
+			$scheduleID = $scheduleIDs[0];
+			$schedule   = JTable::getInstance('schedules', 'thm_organizerTable');
+			$schedule->load($scheduleID);
+
+			return $schedule->active;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Activates the selected schedule
+	 *
+	 * @param   int $scheduleID the explicit id of the schedule to activate
+	 *
+	 * @return  true on success, otherwise false
+	 */
+	public function deactivate($scheduleID)
+	{
+		if (empty($scheduleID))
+		{
+			return false;
+		}
+
+		$scheduleRow    = JTable::getInstance('schedules', 'thm_organizerTable');
+		$scheduleExists = $scheduleRow->load($scheduleID);
+		if (!$scheduleExists)
+		{
+			return false;
+		}
+
+		$this->_db->transactionStart();
+		$scheduleRow->active = 0;
+		$success             = $scheduleRow->store();
+		if ($success)
+		{
+			$this->_db->transactionCommit();
+
+			return true;
+		}
+		else
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+	}
+
+	/**
+	 * Deletes the selected schedules
+	 *
+	 * @return boolean true on successful deletion of all selected schedules
+	 *                 otherwise false
+	 */
+	public function delete()
+	{
+		$this->_db->transactionStart();
+		$scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		foreach ($scheduleIDs as $scheduleID)
+		{
+			try
+			{
+				$success = $this->deleteSingle($scheduleID);
+			}
+			catch (Exception $exception)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+				$this->_db->transactionRollback();
+
+				return false;
+			}
+
+			if (!$success)
+			{
+				$this->_db->transactionRollback();
+
+				return false;
+			}
+		}
+		$this->_db->transactionCommit();
+
+		return true;
+	}
+
+	/**
+	 * Deletes a single schedule
+	 *
+	 * @param   int $scheduleID the id of the schedule to be deleted
+	 *
+	 * @return boolean true on success otherwise false
+	 */
+	public function deleteSingle($scheduleID)
+	{
+		$schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+		$schedule->load($scheduleID);
+
+		return $schedule->delete();
+	}
+
+	/**
+	 * Sets the schedule to be referenced against
+	 *
+	 * @return  mixed  object if successful, otherwise null
+	 */
+	private function getReferenceSchedule()
+	{
+		$reference    = JTable::getInstance('schedules', 'thm_organizerTable');
+		$referenceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+
+		// Entry by upload of new schedule
+		if (empty($referenceIDs))
+		{
+			if (empty($this->schedule))
+			{
+				return null;
+			}
+
+			$pullData                   = array();
+			$pullData['departmentname'] = $this->schedule->departmentname;
+			$pullData['semestername']   = $this->schedule->semestername;
+			$pullData['startdate']      = $this->schedule->startdate;
+			$pullData['enddate']        = $this->schedule->enddate;
+			$pullData['active']         = 1;
+		}
+
+		// Entry through schedule manager
+		else
+		{
+			$pullData = $referenceIDs[0];
+		}
+
+		$referenceLoaded = $reference->load($pullData);
+
+		if ($referenceLoaded)
+		{
+			return $reference;
+		}
+
+		return null;
+	}
+
+	/**
+	 * sanitizes a given lesson property
+	 *
+	 * @param   array &$property the array holding information about the property
+	 *
+	 * @return void
+	 */
+	private function sanitizeLessonProperty(&$property)
+	{
+		foreach ($property as $key => $value)
+		{
+			switch ($value)
+			{
+				case 'new':
+					$property->$key = '';
+					continue;
+				case '':
+					continue;
+				case 'removed':
+					unset($property->$key);
+					continue;
+			}
+		}
+	}
+
+	/**
+	 * removes delta information from a schedule
+	 *
+	 * @param   array &$lessons the currently active schedule lessons
+	 *
+	 * @return void
+	 */
+	private function sanitizeLessons(&$lessons)
+	{
+		foreach ($lessons as $lessonKey => $lesson)
+		{
+			if (isset($lesson->delta))
+			{
+				switch ($lesson->delta)
+				{
+					case 'new':
+						unset($lessons->$lessonKey->delta);
+						continue;
+					case 'removed':
+						unset($lessons->$lessonKey);
+						continue;
+					case 'changed':
+						$this->sanitizeLessonProperty($lessons->$lessonKey->subjects);
+						$this->sanitizeLessonProperty($lessons->$lessonKey->teachers);
+						$this->sanitizeLessonProperty($lessons->$lessonKey->pools);
+						unset($lessons->$lessonKey->delta);
+						continue;
+				}
+			}
+		}
+	}
+
+	/**
+	 * sanitizes the calendar array of delta information
+	 *
+	 * @param   array &$calendar the calendar data to be sanitized
+	 *
+	 * @return void
+	 */
+	private function sanitizeCalendar(&$calendar)
+	{
+		foreach ($calendar as $date => $periods)
+		{
+			if (!is_object($calendar->$date) OR empty($periods))
+			{
+				continue;
+			}
+
+			foreach ($periods as $period => $lessons)
+			{
+				if (empty($lessons))
+				{
+					continue;
+				}
+
+				foreach ($lessons as $lesson => $rooms)
+				{
+					if (empty($calendar->$date->$period->$lesson->delta))
+					{
+						continue;
+					}
+
+					switch ($calendar->$date->$period->$lesson->delta)
+					{
+						case 'new':
+							unset($calendar->$date->$period->$lesson->delta);
+							break;
+						case 'removed':
+							unset($calendar->$date->$period->$lesson);
+							break;
+						case 'changed':
+							foreach ($rooms as $roomID => $delta)
+							{
+								if ($roomID == 'delta')
+								{
+									continue;
+								}
+
+								switch ($delta)
+								{
+									case 'new':
+										$calendar->$date->$period->$lesson->$roomID = '';
+										continue;
+									case '':
+										continue;
+									case 'removed':
+										unset($calendar->$date->$period->$lesson->$roomID);
+										continue;
+								}
+							}
+							unset($calendar->$date->$period->$lesson->delta);
+							break;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * removes delta information from a schedule
+	 *
+	 * @param   array &$schedule the currently active schedule
+	 *
+	 * @return void
+	 */
+	public function sanitizeSchedule(&$schedule)
+	{
+		$this->sanitizeLessons($schedule->lessons);
+		$this->sanitizeCalendar($schedule->calendar);
+		if (isset($schedule->referencedate))
+		{
+			unset($schedule->referencedate);
+		}
+	}
+
+	/**
+	 * Saves the comment for an uploaded schedule
+	 *
+	 * @return boolean true on success otherwise false
+	 */
+	public function saveComment()
+	{
+		$data                = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data['description'] = $this->_db->escape($data['description']);
+		unset($data->startdate, $data->enddate, $data->creationdate);
+		$table = JTable::getInstance('schedules', 'thm_organizerTable');
+
+		return $table->save($data);
+	}
+
+	/**
+	 * Persists the schedule to be uploaded
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	private function saveSchedule()
+	{
+		$formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+
+		$data                   = array();
+		$data['departmentID']   = $formData['departmentID'];
+		$departmentName         = $this->schedule->departmentname;
+		$semesterName           = $this->schedule->semestername;
+		$shortYear              = substr($this->schedule->termEndDate, 2, 2);
+		$planName               = "$departmentName-$semesterName-$shortYear";
+		$data['plan_name']      = $planName;
+		$data['departmentname'] = $departmentName;
+		$data['semestername']   = $semesterName;
+		$data['creationdate']   = $this->schedule->creationdate;
+		$data['creationtime']   = $this->schedule->creationtime;
+		$data['description']    = $this->_db->escape($formData['description']);
+		$data['schedule']       = json_encode($this->schedule);
+		$data['startdate']      = $this->schedule->startdate;
+		$data['enddate']        = $this->schedule->enddate;
+		$data['term_startdate'] = $this->schedule->termStartDate;
+		$data['term_enddate']   = $this->schedule->termEndDate;
+		$data['active']         = 1;
+		$data['term_startdate'] = $this->schedule->termStartDate;
+		$data['term_enddate']   = $this->schedule->termEndDate;
+
+		$row = JTable::getInstance('schedules', 'thm_organizerTable');
+
+		try
+		{
+			return $row->save($data);
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			return false;
+		}
+	}
+
+	/**
+	 * Examines the calendars of the actual and the reference schedules to
+	 * determine changes
+	 *
+	 * @param   object &$calendar    the calendar of the actual schedule
+	 * @param   object &$refCalendar the calendar of the reference schedule
+	 *
+	 * @return void
+	 */
+	private function setCalendarReference(&$calendar, &$refCalendar)
+	{
+		foreach ($calendar as $date => $periods)
+		{
+			if (!is_object($calendar->$date) OR empty($periods))
+			{
+				continue;
+			}
+
+			foreach ($periods as $period => $lessons)
+			{
+				if (empty($lessons))
+				{
+					continue;
+				}
+
+				foreach ($lessons as $lessonID => $rooms)
+				{
+					if (!isset($refCalendar->$date->$period->$lessonID))
+					{
+						$calendar->$date->$period->$lessonID->delta = 'new';
+						continue;
+					}
+					else
+					{
+						foreach ($rooms as $roomID => $delta)
+						{
+							if ($roomID == 'delta' or empty($roomID))
+							{
+								continue;
+							}
+
+							if (!isset($refCalendar->$date->$period->$lessonID->$roomID))
+							{
+								$calendar->$date->$period->$lessonID->$roomID = 'new';
+								$calendar->$date->$period->$lessonID->delta   = 'changed';
+								continue;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		foreach ($refCalendar as $date => $periods)
+		{
+			if (!is_object($calendar->$date) OR empty($periods))
+			{
+				continue;
+			}
+
+			foreach ($periods as $period => $lessons)
+			{
+				if (empty($lessons))
+				{
+					continue;
+				}
+
+				foreach ($lessons as $lessonID => $rooms)
+				{
+					if (!isset($calendar->$date->$period->$lessonID))
+					{
+						$calendar->$date->$period->$lessonID = new stdClass;
+						foreach ($rooms as $roomID => $delta)
+						{
+							$calendar->$date->$period->$lessonID->$roomID = '';
+						}
+
+						$calendar->$date->$period->$lessonID->delta = 'removed';
+						continue;
+					}
+
+					foreach ($rooms as $roomID => $delta)
+					{
+						if ($roomID == 'delta')
+						{
+							continue;
+						}
+
+						if (!isset($calendar->$date->$period->$lessonID->$roomID))
+						{
+							$calendar->$date->$period->$lessonID->$roomID = 'removed';
+							$calendar->$date->$period->$lessonID->delta   = 'changed';
+							continue;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Examines the lessons of the new and old schedules to determine the delta
+	 *
+	 * @param   array $lessons    the lessons of the new schedule
+	 * @param   array $refLessons the lessons of the old schedule
+	 *
+	 * @return void
+	 */
+	private function setLessonReference($lessons, $refLessons)
+	{
+		// Check for new lesson data
+		foreach ($lessons as $lessonID => $lesson)
+		{
+			// Lesson only exists in the new schedule
+			if (!isset($refLessons->$lessonID))
+			{
+				$lessons->$lessonID->delta = 'new';
+				continue;
+			}
+
+			// Lesson exists in both schedules -> compare properties
+			$subjectChanges = $this->setPropertyReference($lessons->$lessonID->subjects, $refLessons->$lessonID->subjects);
+			$teacherChanges = $this->setPropertyReference($lessons->$lessonID->teachers, $refLessons->$lessonID->teachers);
+			$moduleChanges  = $this->setPropertyReference($lessons->$lessonID->pools, $refLessons->$lessonID->pools);
+
+			// Property indexes are not identical
+			if ($subjectChanges or $teacherChanges or $moduleChanges)
+			{
+				$lessons->$lessonID->delta = 'changed';
+			}
+		}
+
+		// Check for old lesson data
+		foreach ($refLessons as $lessonID => $lesson)
+		{
+			// Lesson only exists in old schedule
+			if (!isset($lessons->$lessonID))
+			{
+				$lessons->$lessonID        = $refLessons->$lessonID;
+				$lessons->$lessonID->delta = 'removed';
+				continue;
+			}
+		}
+	}
+
+	/**
+	 * examines a property of both schedules and creates a delta according to
+	 * property indexes
+	 *
+	 * @param   array &$property    the property of the new lesson to be examined
+	 * @param   array &$refProperty the property of the old lesson to be examined
+	 *
+	 * @return boolean $changesExist true if a property index is not in both sets
+	 */
+	private function setPropertyReference(&$property, &$refProperty)
+	{
+		$changesExist = false;
+		foreach ($property as $propertyID => $delta)
+		{
+			if (!isset($refProperty->$propertyID))
+			{
+				$property->$propertyID = 'new';
+				$changesExist          = true;
+				continue;
+			}
+		}
+		foreach ($refProperty as $propertyID => $delta)
+		{
+			if (!isset($property->$propertyID))
+			{
+				$property->$propertyID = 'removed';
+				$changesExist          = true;
+				continue;
+			}
+		}
+
+		return $changesExist;
+	}
+
+	/**
+	 * Creates the delta to the chosen reference schedule
+	 *
+	 * @return boolean true on successful delta creation, otherwise false
+	 */
+	public function setReference()
+	{
+		$reference = $this->getReferenceSchedule();
+		if (empty($reference->id))
+		{
+			return true;
+		}
+
+		$this->refSchedule = json_decode($reference->schedule);
+
+		$actual = JTable::getInstance('schedules', 'thm_organizerTable');
+		if (empty($this->schedule))
+		{
+			$pullData     = array(
+				'departmentname' => $this->refSchedule->departmentname,
+				'semestername'   => $this->refSchedule->semestername,
+				'startdate'      => $this->refSchedule->startdate,
+				'enddate'        => $this->refSchedule->enddate,
+				'active'         => 1
+			);
+			$actualExists = $actual->load($pullData);
+			if (!$actualExists)
+			{
+				return false;
+			}
+
+			$this->schedule = json_decode($actual->schedule);
+		}
+
+		$this->sanitizeSchedule($this->refSchedule);
+		$this->sanitizeSchedule($this->schedule);
+
+		// Function called from controller
+		if (!empty($actual->id))
+		{
+			$this->_db->transactionStart();
+		}
+
+		$referenceDate = $reference->creationdate;
+		$reference->set('schedule', json_encode($this->refSchedule));
+		$reference->set('active', 0);
+		$refSuccess = $reference->store();
+		if (!$refSuccess)
+		{
+			// Function called from controller
+			if (!empty($actual->id))
+			{
+				$this->_db->transactionRollback();
+			}
+
+			return false;
+		}
+
+		unset($reference);
+
+		$this->schedule->referencedate = $referenceDate;
+		$this->setLessonReference($this->schedule->lessons, $this->refSchedule->lessons);
+		$this->setCalendarReference($this->schedule->calendar, $this->refSchedule->calendar);
+
+		// Function called from controller
+		if (!empty($actual->id))
+		{
+			$actual->set('schedule', json_encode($this->schedule));
+			$actualSuccess = $actual->store();
+			if (!$actualSuccess)
+			{
+				$this->_db->transactionRollback();
+
+				return false;
+			}
+
+			$this->_db->transactionCommit();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Toggles the schedule's active status
+	 *
+	 * @return  boolean  true on success, otherwise false
+	 */
+	public function toggle()
+	{
+		$input      = JFactory::getApplication()->input;
+		$scheduleID = $input->getInt('id', 0);
+		if (empty($scheduleID))
+		{
+			return false;
+		}
+
+		$value = $input->getInt('value', 1);
+		if ($value)
+		{
+			return $this->deactivate($scheduleID);
+		}
+
+		return $this->activate($scheduleID);
+	}
+
+	/**
+	 * saves a schedule in the database for later use
+	 *
+	 * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
+	 *                                 ['errors']      critical data inconsistencies
+	 *                                 ['warnings']    minor data inconsistencies
+	 */
+	public function upload()
+	{
+		$xmlModel = new THM_OrganizerModelXMLSchedule();
+		$valid    = $xmlModel->validate();
+
+		if (!$valid)
+		{
+			return false;
+		}
+
+		$this->schedule = $xmlModel->schedule;
+		$this->setReference();
+		$this->_db->transactionStart();
+
+		try
+		{
+			$success = $this->saveSchedule();
+		}
+		catch (Exception $exception)
+		{
+			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+			$this->_db->transactionRollback();
+		}
+
+		if ($success)
+		{
+			$this->_db->transactionCommit();
+			return true;
+		}
+
+		return false;
+	}
 }
