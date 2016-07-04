@@ -52,7 +52,7 @@ $resetVisibility .= ';"';
 		<?php echo JHtml::_('form.token'); ?>
 		<h1 class="componentheading"><?php echo $this->programName; ?></h1>
 		<?php
-		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'list'));
+		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $this->groupBy));
 		echo JHtml::_('bootstrap.addTab', 'myTab', 'list', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
 		THM_OrganizerTemplateUngroupedList::render($this);
 		echo JHtml::_('bootstrap.endTab');

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<document version="1.4" date="20160630" time="162159">
+<document version="1.4" date="20160630" time="181006">
   <general>
     <schoolname>Untis 2017</schoolname>
     <schoolyearbegindate>20151005</schoolyearbegindate>
@@ -528,12 +528,12 @@
       <longname>Ingenieur-Informatik</longname>
       <flags>F</flags>
     </description>
-    <description id="DS_JUR">
-      <longname>Jura</longname>
+    <description id="DS_REC">
+      <longname>Recht</longname>
       <flags>F</flags>
     </description>
-    <description id="DS_LIN">
-      <longname>Linguistik</longname>
+    <description id="DS_SPR">
+      <longname>Sprachen</longname>
       <flags>F</flags>
     </description>
     <description id="DS_MAT">
@@ -700,16 +700,8 @@
       <longname>Vorlesung</longname>
       <flags>U</flags>
     </description>
-    <description id="DS_WIR-SOZ">
-      <longname>Wirtschaft / Sozialwissenschaften</longname>
-      <flags>F</flags>
-    </description>
     <description id="DS_SOZ-INF">
       <longname>Sozialwissenschaften / Informatik</longname>
-      <flags>F</flags>
-    </description>
-    <description id="DS_WIR-NAT">
-      <longname>Wirtschaft / Naturwissenschaften</longname>
       <flags>F</flags>
     </description>
   </descriptions>
@@ -1849,13 +1841,13 @@
       <longname>Presse- und Urheberrecht, Datenschutzrecht</longname>
       <text>trmd763</text>
       <subjectgroup>SOZ</subjectgroup>
-      <subject_description id="DS_JUR"/>
+      <subject_description id="DS_REC"/>
     </subject>
     <subject id="SU_773">
       <longname>Normen und Richtlinien, Produkthaftung</longname>
       <text>trmd773</text>
       <subjectgroup>SOZ</subjectgroup>
-      <subject_description id="DS_JUR"/>
+      <subject_description id="DS_REC"/>
     </subject>
     <subject id="SU_800">
       <longname>Mastearbeit mit Kolloquium</longname>
@@ -2030,7 +2022,7 @@
     <subject id="SU_ArbFühr">
       <longname>Arbeitsrecht f. Führung</longname>
       <text>SK5014</text>
-      <subject_description id="DS_JUR"/>
+      <subject_description id="DS_REC"/>
     </subject>
     <subject id="SU_ASD-B">
       <longname>Arzneistoffdesign - Drug Design Biology</longname>
@@ -2459,7 +2451,7 @@
       <longname>Engl.Fortgeschritt.</longname>
       <text>SK5004</text>
       <subjectgroup>LIN</subjectgroup>
-      <subject_description id="DS_LIN"/>
+      <subject_description id="DS_SPR"/>
     </subject>
     <subject id="SU_ENW">
       <longname>Ethik in der Naturwissenschaften</longname>
@@ -2939,7 +2931,7 @@
       <longname>Medizinrecht 1 (OMG)</longname>
       <text>OMG</text>
       <subjectgroup>JUR</subjectgroup>
-      <subject_description id="DS_JUR"/>
+      <subject_description id="DS_REC"/>
     </subject>
     <subject id="SU_Mentor">
       <longname>Mentorengruppe</longname>
@@ -3422,7 +3414,7 @@
       <longname>Recht f.Inform.</longname>
       <text>SK1005</text>
       <subjectgroup>JUR</subjectgroup>
-      <subject_description id="DS_JUR"/>
+      <subject_description id="DS_REC"/>
       <forecolor>#000000</forecolor>
       <backcolor>#FF8000</backcolor>
     </subject>
@@ -3678,7 +3670,7 @@
     </subject>
     <subject id="SU_SozArRe">
       <longname>Sozial- und Arbeitsrecht</longname>
-      <subject_description id="DS_JUR"/>
+      <subject_description id="DS_REC"/>
     </subject>
     <subject id="SU_SOZOMG">
       <longname>Sozialkompetenz I</longname>
@@ -3798,12 +3790,12 @@
       <longname>Technisches Englisch</longname>
       <text>SK2001</text>
       <subjectgroup>LIN</subjectgroup>
-      <subject_description id="DS_LIN"/>
+      <subject_description id="DS_SPR"/>
     </subject>
     <subject id="SU_TE2">
       <longname>Technisches Englisch für Fortgeschrittene</longname>
       <text>SK5004</text>
-      <subject_description id="DS_LIN"/>
+      <subject_description id="DS_SPR"/>
     </subject>
     <subject id="SU_Test">
       <longname>Testat</longname>
@@ -3871,7 +3863,7 @@
     </subject>
     <subject id="SU_ViG">
       <longname>Versicherungssysteme im Gesundheitswesen</longname>
-      <subject_description id="DS_JUR"/>
+      <subject_description id="DS_REC"/>
     </subject>
     <subject id="SU_VirtAnat">
       <longname>Virtuelle Anatomie</longname>
@@ -4027,7 +4019,7 @@
       <forename>Christine</forename>
       <surname>Beckmann</surname>
       <payrollnumber>cbkm79</payrollnumber>
-      <teacher_description id="DS_LIN"/>
+      <teacher_description id="DS_SPR"/>
       <external_name>BeckC</external_name>
     </teacher>
     <teacher id="TR_Bergner">
@@ -4498,7 +4490,7 @@
     </teacher>
     <teacher id="TR_Iranbomy">
       <surname>Iranbomy</surname>
-      <teacher_description id="DS_JUR"/>
+      <teacher_description id="DS_REC"/>
     </teacher>
     <teacher id="TR_Jäger">
       <forename>Michael</forename>
@@ -4592,7 +4584,7 @@
     <teacher id="TR_Kleiner">
       <forename>Philipp</forename>
       <surname>Kleiner</surname>
-      <teacher_description id="DS_JUR"/>
+      <teacher_description id="DS_REC"/>
       <external_name>KleiP</external_name>
     </teacher>
     <teacher id="TR_Klement">
@@ -4645,7 +4637,7 @@
       <forename>Christian</forename>
       <surname>Koch</surname>
       <payrollnumber>ckch21</payrollnumber>
-      <teacher_description id="DS_JUR"/>
+      <teacher_description id="DS_REC"/>
       <external_name>KochC</external_name>
     </teacher>
     <teacher id="TR_KochJ">
@@ -4666,7 +4658,7 @@
       <forename>Hans-Joachim</forename>
       <surname>Köppen</surname>
       <payrollnumber>hg6688</payrollnumber>
-      <teacher_description id="DS_JUR"/>
+      <teacher_description id="DS_REC"/>
       <external_name>KöppHJ</external_name>
     </teacher>
     <teacher id="TR_Krag">
@@ -4690,7 +4682,7 @@
       <forename>Roland</forename>
       <surname>Kresta</surname>
       <payrollnumber>rkrs64</payrollnumber>
-      <teacher_description id="DS_LIN"/>
+      <teacher_description id="DS_SPR"/>
       <external_name>KresR</external_name>
     </teacher>
     <teacher id="TR_Kreutzer">
@@ -4878,7 +4870,7 @@
       <forename>Wolfgang</forename>
       <surname>Martin</surname>
       <payrollnumber>hg14360</payrollnumber>
-      <teacher_description id="DS_JUR"/>
+      <teacher_description id="DS_REC"/>
       <external_name>MartW</external_name>
       <teacher_qualifications>
         <teacher_qualification subject="SU_JUR"/>

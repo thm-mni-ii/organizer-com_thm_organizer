@@ -26,6 +26,8 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 	public $lang;
 
+	public $groupBy = 'list';
+
 	/**
 	 * Method to get display
 	 *
@@ -47,6 +49,11 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 		$model             = $this->getModel();
 		$this->programName = $model->programName;
+
+		$groupByArray = array(0 => 'list', 1 => 'pool', 2 => 'teacher', 3 => 'field');
+		$groupByIndex = JFactory::getApplication()->getParams()->get('groupBy', 0);
+		$this->groupBy = $groupByArray[$groupByIndex];
+
 		parent::display($tpl);
 	}
 

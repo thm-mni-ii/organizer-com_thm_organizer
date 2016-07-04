@@ -142,7 +142,7 @@ class THM_OrganizerTemplateGroupedList
 	 *
 	 * @return  array  the modified $groups
 	 */
-	private function processPoolGroups($groups)
+	private static function processPoolGroups($groups)
 	{
 		// Stores the child groups
 		$childGroups = array();

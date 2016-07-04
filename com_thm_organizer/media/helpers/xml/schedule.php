@@ -99,7 +99,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		$app = JFactory::getApplication();
 		if (count($this->scheduleErrors))
 		{
-			$errorMessage = JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br /';
+			$errorMessage = JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br />';
 			$errorMessage .= implode('<br />', $this->scheduleErrors);
 			$app->enqueueMessage($errorMessage, 'error');
 		}
