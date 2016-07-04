@@ -452,16 +452,20 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		{
 			$table->load($data['id']);
 
-			$gpuntisIDs                     = array();
-			$gpuntisIDs[$data['gpuntisID']] = $data['gpuntisID'];
-			$gpuntisIDs[$table->gpuntisID]  = $table->gpuntisID;
-
-			$schedulesUpdated = $this->updateSchedules($data['id'], $data['gpuntisID'], $gpuntisIDs, array($data['id']), $data);
-			if (!$schedulesUpdated)
+			$gpuntisIDChanged = $table->gpuntisID != $data['gpuntisID'];
+			if ($gpuntisIDChanged)
 			{
-				$this->_db->transactionRollback();
+				$gpuntisIDs                     = array();
+				$gpuntisIDs[$data['gpuntisID']] = $data['gpuntisID'];
+				$gpuntisIDs[$table->gpuntisID]  = $table->gpuntisID;
 
-				return false;
+				$schedulesUpdated = $this->updateSchedules($data['id'], $data['gpuntisID'], $gpuntisIDs, array($data['id']), $data);
+				if (!$schedulesUpdated)
+				{
+					$this->_db->transactionRollback();
+
+					return false;
+				}
 			}
 		}
 

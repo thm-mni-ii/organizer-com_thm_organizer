@@ -55,7 +55,7 @@
                type="text"
                size="60"
                default="http://moodle.thm.de/course/view.php?idnumber="
-               label="COM_THM_ORGANIZER_ECOLLAB"
+               label="COM_THM_ORGANIZER_URL"
                description="COM_THM_ORGANIZER_ECOLLAB_DESC">
         </field>
         <field name="displayeCollabLink"
@@ -90,6 +90,17 @@
                size="30"
                label="COM_THM_ORGANIZER_PASSWORD"
                description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
+        </field>
+    </fieldset>
+    <fieldset name="program-documentation"
+              label="COM_THM_ORGANIZER_PROGRAM_DOCUMENTATION_REPOSITORY_SETTINGS_TITLE"
+              description="COM_THM_ORGANIZER_PROGRAM_DOCUMENTATION_REPOSITORY_SETTINGS_DESCRIPTION">
+        <field name="program-repo-link"
+               type="text"
+               default=""
+               size="255"
+               label="COM_THM_ORGANIZER_URL"
+               description="COM_THM_ORGANIZER_PROGRAM_DOCUMENTATION_URL_DESC">
         </field>
     </fieldset>
     <fieldset name="Monitors"
