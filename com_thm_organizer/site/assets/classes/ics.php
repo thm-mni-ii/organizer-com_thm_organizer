@@ -135,8 +135,8 @@ class THMICSBuilder extends THMAbstractBuilder
 	/**
 	 * Method to set an event
 	 *
-	 * @param   object &$vCalendar  The event array
-	 * @param   object $lesson      The semester end date
+	 * @param   object &$vCalendar The event array
+	 * @param   object $lesson     The semester end date
 	 *
 	 * @return  array  an array with event information
 	 */

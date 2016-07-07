@@ -104,7 +104,7 @@ class THM_OrganizerHelperXMLLessons
 	 * Checks whether lesson nodes have the expected structure and required
 	 * information
 	 *
-	 * @param   object  &$lessonNode  a SimpleXML object modeling the lesson node to be validated
+	 * @param   object &$lessonNode a SimpleXML object modeling the lesson node to be validated
 	 *
 	 * @return void
 	 */

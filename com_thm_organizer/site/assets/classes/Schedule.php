@@ -36,7 +36,7 @@ class THMSchedule
 	 *
 	 * @var    array
 	 */
-	private $_scheduleData  = null;
+	private $_scheduleData = null;
 
 	/**
 	 * Username
@@ -105,6 +105,6 @@ class THMSchedule
 
 		$director = new THMScheduleDirector($this->_builder);
 
-		return $director->createSchedule($this->_scheduleData , $this->_username, $this->_title);
+		return $director->createSchedule($this->_scheduleData, $this->_username, $this->_title);
 	}
 }

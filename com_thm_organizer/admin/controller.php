@@ -27,7 +27,7 @@ class THM_OrganizerController extends JControllerLegacy
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 */
 	public function __construct($config = array())
 	{
@@ -57,7 +57,7 @@ class THM_OrganizerController extends JControllerLegacy
 				$active = $model->checkIfActive();
 				if ($active)
 				{
-					$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES');
+					$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES');
 					$type = 'warning';
 				}
 				else
@@ -65,19 +65,19 @@ class THM_OrganizerController extends JControllerLegacy
 					$success = $model->activate();
 					if ($success)
 					{
-						$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
+						$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
 						$type = 'message';
 					}
 					else
 					{
-						$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL');
+						$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL');
 						$type = 'error';
 					}
 				}
 			}
 			else
 			{
-				$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED');
+				$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED');
 				$type = 'error';
 			}
 		}
@@ -341,11 +341,11 @@ class THM_OrganizerController extends JControllerLegacy
 			return;
 		}
 
-		$url = "index.php?option=com_thm_organizer&view=schedule_manager";
+		$url   = "index.php?option=com_thm_organizer&view=schedule_manager";
 		$count = JFactory::getApplication()->input->getInt('boxchecked', 0);
 		if ($count === 1)
 		{
-			$model = $this->getModel('schedule');
+			$model  = $this->getModel('schedule');
 			$active = $model->checkIfActive();
 			if ($active)
 			{
@@ -385,18 +385,18 @@ class THM_OrganizerController extends JControllerLegacy
 			$success = $model->toggle();
 			if ($success)
 			{
-				$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+				$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 				$type = 'message';
 			}
 			else
 			{
-				$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+				$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
 				$type = 'error';
 			}
 		}
 		else
 		{
-			$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE');
+			$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE');
 			$type = 'error';
 		}
 
@@ -424,7 +424,7 @@ class THM_OrganizerController extends JControllerLegacy
 	 */
 	public function upload()
 	{
-		$url       = "index.php?option=com_thm_organizer&view={$this->_resource}_";
+		$url   = "index.php?option=com_thm_organizer&view={$this->_resource}_";
 		$model = $this->getModel($this->_resource);
 
 		$functionAvailable = method_exists($model, 'upload');
@@ -436,7 +436,7 @@ class THM_OrganizerController extends JControllerLegacy
 			if ($validType)
 			{
 				$success = $model->upload();
-				$url  .= $success? 'manager' : 'edit';
+				$url .= $success ? 'manager' : 'edit';
 				$this->setRedirect(JRoute::_($url, false));
 			}
 			else
@@ -447,11 +447,12 @@ class THM_OrganizerController extends JControllerLegacy
 		}
 		else
 		{
-			$url  .= 'manager';
+			$url .= 'manager';
 			$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE');
 			$type = 'error';
 			$this->setRedirect(JRoute::_($url . 'manager', false), $msg, $type);
 		}
+
 		return;
 	}
 }

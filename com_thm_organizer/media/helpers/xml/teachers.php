@@ -21,6 +21,59 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperXMLTeachers
 {
 	/**
+	 * Checks for the teacher entry in the database, creating it as necessary. Adds the id to the teacher entry in the
+	 * schedule.
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   string $teacherID      the teacher's gpuntis ID
+	 *
+	 * @return  void  sets the id if the teacher could be resolved/added
+	 */
+	private static function setID(&$scheduleModel, $teacherID)
+	{
+		$teacherTable   = JTable::getInstance('teachers', 'thm_organizerTable');
+		$teacherData    = $scheduleModel->schedule->teachers->$teacherID;
+		$loadCriteria   = array();
+		$loadCriteria[] = array('gpuntisID' => $teacherData->gpuntisID);
+		if (!empty($teacherData->username))
+		{
+			$loadCriteria[] = array('username' => $teacherData->username);
+		}
+		if (!empty($teacherData->forename))
+		{
+			$loadCriteria[] = array('surname' => $teacherData->surname, 'forename' => $teacherData->forename);
+		}
+
+		foreach ($loadCriteria as $criteria)
+		{
+			try
+			{
+				$success = $teacherTable->load($criteria);
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+				return;
+			}
+
+			if ($success)
+			{
+				$scheduleModel->schedule->teachers->$teacherID->id = $teacherTable->id;
+
+				return;
+			}
+		}
+
+		// Entry not found
+		$success = $teacherTable->save($teacherData);
+		if ($success)
+		{
+			$scheduleModel->schedule->teachers->$teacherID->id = $teacherTable->id;
+		}
+	}
+
+	/**
 	 * Checks whether teacher nodes have the expected structure and required information
 	 *
 	 * @param   object &$scheduleModel the validating schedule model
@@ -116,6 +169,8 @@ class THM_OrganizerHelperXMLTeachers
 		self::validateForename($scheduleModel, $teacherNode, $teacherID);
 		self::validateTitle($scheduleModel, $teacherNode, $teacherID);
 		self::validateUserName($scheduleModel, $teacherNode, $teacherID);
+
+		self::setID($scheduleModel, $teacherID);
 	}
 
 	/**

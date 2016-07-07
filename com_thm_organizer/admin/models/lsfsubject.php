@@ -471,33 +471,57 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
 		$surnameAttribute  = $responsibility == RESPONSIBLE ? 'nachname' : 'personal.nachname';
 		$forenameAttribute = $responsibility == RESPONSIBLE ? 'vorname' : 'personal.vorname';
+
 		foreach ($teachers as $teacher)
 		{
-			$teacherData            = array();
-			$teacherData['surname'] = (string) $teacher->personinfo->$surnameAttribute;
-			if (empty($teacherData['surname']))
+			$teacherData             = array();
+			$teacherData['surname']  = trim((string) $teacher->personinfo->$surnameAttribute);
+			$teacherData['username'] = trim((string) $teacher->hgnr);
+
+			if (empty($teacherData['surname']) OR empty($teacherData['username']))
 			{
 				continue;
 			}
 
+			$loadCriteria            = array();
+			$loadCriteria[]          = array('username' => $teacherData['username']);
 			$teacherData['forename'] = (string) $teacher->personinfo->$forenameAttribute;
 
-			$teacherTable = JTable::getInstance('teachers', 'thm_organizerTable');
-			if (!empty($teacher->hgnr))
+			if (!empty($teacherData['forename']))
 			{
-				$username = (string) $teacher->hgnr;
-				$teacherTable->load(array('username' => $username));
-				$teacherData['username'] = $username;
-			}
-			else
-			{
-				$teacherTable->load($teacherData);
+				$loadCriteria[] = array('surname' => $teacherData['surname'], 'forename' => $teacherData['forename']);
 			}
 
-			$teacherSaved = $teacherTable->save($teacherData);
-			if (!$teacherSaved)
+			$teacherTable = JTable::getInstance('teachers', 'thm_organizerTable');
+			$loaded       = false;
+
+			foreach ($loadCriteria as $criteria)
 			{
-				return false;
+				try
+				{
+					$success = $teacherTable->load($criteria);
+				}
+				catch (Exception $exc)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+					return;
+				}
+
+				if ($success)
+				{
+					$loaded = true;
+					break;
+				}
+			}
+
+			if (!$loaded)
+			{
+				$teacherSaved = $teacherTable->save($teacherData);
+				if (!$teacherSaved)
+				{
+					return false;
+				}
 			}
 
 			$added = $subjectModel->addTeacher($subjectID, $teacherTable->id, $responsibility);

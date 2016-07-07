@@ -463,7 +463,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Method to check if the node is checked
 	 *
-	 * @param   int$nodeID The node id
+	 * @param   int $nodeID The node id
 	 *
 	 * @return Boolean true if the node is checked unless false
 	 */
@@ -892,7 +892,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Checks if a lesson associated with a resource is has planned instances
 	 *
-	 * @param   array  &$lessonKeys  the lesson keys with which a resource is associated
+	 * @param   array &$lessonKeys the lesson keys with which a resource is associated
 	 *
 	 * @return  boolean  true if the associated lesson is planned, otherwise
 	 *                   false
@@ -920,8 +920,8 @@ class THM_OrganizerModelSchedule_Navigation
 	 * Checks if a lesson associated with a resource is has planned instances on
 	 * a particular day
 	 *
-	 * @param   object  $day           the planned lessons for a single day
-	 * @param   array   &$lessonKeys   the lesson keys with which a resource is associated
+	 * @param   object $day         the planned lessons for a single day
+	 * @param   array  &$lessonKeys the lesson keys with which a resource is associated
 	 *
 	 * @return  boolean  true if the associated lesson is planned, otherwise
 	 *                   false

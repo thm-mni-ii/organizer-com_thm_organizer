@@ -338,4 +338,5 @@ function getTeacherOutput($teacher)
 	}
 	?>
 	</dl>
+	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
 </div>

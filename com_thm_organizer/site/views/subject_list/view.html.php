@@ -28,6 +28,10 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 	public $groupBy = 'list';
 
+	public $disclaimer;
+
+	public $disclaimerData;
+
 	/**
 	 * Method to get display
 	 *
@@ -50,9 +54,12 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 		$model             = $this->getModel();
 		$this->programName = $model->programName;
 
-		$groupByArray = array(0 => 'list', 1 => 'pool', 2 => 'teacher', 3 => 'field');
-		$groupByIndex = JFactory::getApplication()->getParams()->get('groupBy', 0);
+		$groupByArray  = array(0 => 'list', 1 => 'pool', 2 => 'teacher', 3 => 'field');
+		$groupByIndex  = JFactory::getApplication()->getParams()->get('groupBy', 0);
 		$this->groupBy = $groupByArray[$groupByIndex];
+
+		$this->disclaimer = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT .'/media/com_thm_organizer/layouts');
+		$this->disclaimerData = array('language' => $this->lang);
 
 		parent::display($tpl);
 	}

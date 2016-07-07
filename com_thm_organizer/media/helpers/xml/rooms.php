@@ -21,6 +21,47 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperXMLRooms
 {
 	/**
+	 * Checks for the room entry in the database, creating it as necessary. Adds the id to the room entry in the
+	 * schedule.
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   string $roomID         the room's gpuntis ID
+	 *
+	 * @return  void  sets the id if the room could be resolved/added
+	 */
+	private static function setID(&$scheduleModel, $roomID)
+	{
+		$roomTable   = JTable::getInstance('rooms', 'thm_organizerTable');
+		$roomData    = $scheduleModel->schedule->rooms->$roomID;
+		$loadCriteria   = array('gpuntisID' => $roomData->gpuntisID);
+
+		try
+		{
+			$success = $roomTable->load($loadCriteria);
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return;
+		}
+
+		if ($success)
+		{
+			$scheduleModel->schedule->rooms->$roomID->id = $roomTable->id;
+
+			return;
+		}
+
+		// Entry not found
+		$success = $roomTable->save($roomData);
+		if ($success)
+		{
+			$scheduleModel->schedule->rooms->$roomID->id = $roomTable->id;
+		}
+	}
+
+	/**
 	 * Validates the rooms node
 	 *
 	 * @param   object &$scheduleModel the validating schedule model
@@ -121,6 +162,7 @@ class THM_OrganizerHelperXMLRooms
 		$scheduleModel->schedule->rooms->$roomID->capacity = (empty($capacity)) ? '' : $capacity;
 
 		self::validateType($scheduleModel, $roomNode, $roomID);
+		self::setID($scheduleModel, $roomID);
 	}
 
 	/**

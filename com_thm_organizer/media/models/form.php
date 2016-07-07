@@ -23,8 +23,8 @@ class THM_OrganizerModelForm extends JModelForm
 	/**
 	 * Method to get the form
 	 *
-	 * @param   array  $data     Data         (default: array)
-	 * @param   bool   $loadData Load data  (default: true)
+	 * @param   array $data     Data         (default: array)
+	 * @param   bool  $loadData Load data  (default: true)
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *

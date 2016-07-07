@@ -120,8 +120,8 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 			return array();
 		}
 
-		$poolID = $input->getString('poolID');
-		$poolBoundaries = ($poolID != '-1' AND $poolID != 'null')?
+		$poolID         = $input->getString('poolID');
+		$poolBoundaries = ($poolID != '-1' AND $poolID != 'null') ?
 			THM_OrganizerHelperMapping::getBoundaries('pool', $poolID) : array();
 
 		$validPool = (!empty($poolBoundaries) AND $this->poolInProgram($poolBoundaries, $programBoundaries));

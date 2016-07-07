@@ -6,6 +6,12 @@ div.language-switches a {
     margin-bottom: -2px;
     margin-right: 5px; }
 
+div.legal-disclaimer {
+  margin-top: 2rem; }
+  div.legal-disclaimer li {
+    font-size: .8rem;
+    font-style: italic; }
+
 div.subject-name, div.subject-responsible, div.subject-crp {
   display: inline-block; }
 

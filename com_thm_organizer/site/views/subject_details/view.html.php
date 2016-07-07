@@ -26,6 +26,10 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 	public $lang;
 
+	public $disclaimer;
+
+	public $disclaimerData;
+
 	/**
 	 * Method to get display
 	 *
@@ -38,11 +42,16 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 		$this->modifyDocument();
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
 		$this->item = $this->get('Item');
+
 		if (!empty($this->item->id))
 		{
 			$params                 = array('view' => 'subject_details', 'id' => $this->item->id);
 			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 		}
+
+		$this->disclaimer = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT .'/media/com_thm_organizer/layouts');
+		$this->disclaimerData = array('language' => $this->lang);
+
 		parent::display($tpl);
 	}
 

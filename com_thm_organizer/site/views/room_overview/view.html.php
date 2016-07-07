@@ -81,13 +81,13 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 		$rawCalendar           = JHtml::calendar($this->state->get('date'), 'jform[date]', 'date', $jsFormat);
 		$this->filters['date'] = strip_tags($rawCalendar, '<input><button><span>');
 
-		$attribs         = array(
+		$attribs        = array(
 			'class'    => 'room-select',
 			'multiple' => 'multiple',
 			'onChange' => 'cleanSelection(this.id, \'selectedRooms\');',
 			'size'     => '10'
 		);
-		$defaultOptions  = array('-1' => JText::_('JALL'));
+		$defaultOptions = array('-1' => JText::_('JALL'));
 
 		$this->filters['rooms'] = $helper::selectBox(
 			$this->model->rooms, 'rooms', $attribs, $this->state->rooms, $defaultOptions

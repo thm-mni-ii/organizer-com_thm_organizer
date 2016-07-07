@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
   `colorID`   INT(11) UNSIGNED          DEFAULT NULL,
   `field_en`  VARCHAR(60)      NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `gpuntisID` (`gpuntisID`),
+  UNIQUE KEY `gpuntisID` (`gpuntisID`),
   KEY `colorID` (`colorID`)
 )
   ENGINE = InnoDB
@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 15152;
+  AUTO_INCREMENT = 15335;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_methods` (
   `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -278,23 +278,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_programs` (
   DEFAULT CHARSET = utf8
   AUTO_INCREMENT = 1;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_rooms` (
-  `id`       INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `untisID`  VARCHAR(60)      NOT NULL,
-  `roomID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `typeID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `name`     VARCHAR(100)     NOT NULL,
-  `capacity` INT(6) UNSIGNED           DEFAULT NULL,
-  `comment`  VARCHAR(100)     NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `untisID` (`untisID`),
-  KEY `plan_rooms_roomid_fk` (`roomID`),
-  KEY `plan_rooms_typeid_fk` (`typeID`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 1;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_subjects` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `untisID`   VARCHAR(60)      NOT NULL,
@@ -306,23 +289,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_subjects` (
   KEY `untisID` (`untisID`),
   KEY `subjectID` (`subjectID`),
   KEY `plan_subjects_fieldid_fk` (`fieldID`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 1;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_teachers` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `untisID`   VARCHAR(60)      NOT NULL,
-  `teacherID` INT(11) UNSIGNED          DEFAULT NULL,
-  `fieldID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `surname`   VARCHAR(100)     NOT NULL,
-  `forename`  VARCHAR(150)     NOT NULL DEFAULT '',
-  `title`     VARCHAR(20)      NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `untisID` (`untisID`),
-  KEY `plan_teachers_teacherid_fk` (`teacherID`),
-  KEY `plan_teachers_fieldid_fk` (`fieldID`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -357,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 385;
+  AUTO_INCREMENT = 391;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
   `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -369,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 10594;
+  AUTO_INCREMENT = 11204;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -410,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 453;
+  AUTO_INCREMENT = 456;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_features` (
   `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -477,7 +443,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 679;
+  AUTO_INCREMENT = 689;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `id`                           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -532,7 +498,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 1811;
+  AUTO_INCREMENT = 1817;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
   `id`          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -546,7 +512,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 42826;
+  AUTO_INCREMENT = 45283;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -565,7 +531,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 1233;
+  AUTO_INCREMENT = 1238;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
   `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -605,7 +571,7 @@ ALTER TABLE `#__thm_organizer_calendar`
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_department_resources`
-  ADD CONSTRAINT `department_resources_roomid_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_plan_rooms` (`id`)
+  ADD CONSTRAINT `department_resources_roomid_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE,
   ADD CONSTRAINT `department_resources_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
@@ -620,7 +586,7 @@ ALTER TABLE `#__thm_organizer_department_resources`
   ADD CONSTRAINT `department_resources_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_plan_subjects` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE,
-  ADD CONSTRAINT `department_resources_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_plan_teachers` (`id`)
+  ADD CONSTRAINT `department_resources_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
@@ -656,7 +622,7 @@ ALTER TABLE `#__thm_organizer_lesson_subjects`
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_lesson_teachers`
-  ADD CONSTRAINT `lesson_teachers_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_plan_teachers` (`id`)
+  ADD CONSTRAINT `lesson_teachers_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE,
   ADD CONSTRAINT `lesson_teachers_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
@@ -698,27 +664,11 @@ ALTER TABLE `#__thm_organizer_plan_programs`
   ON DELETE SET NULL
   ON UPDATE CASCADE;
 
-ALTER TABLE `#__thm_organizer_plan_rooms`
-  ADD CONSTRAINT `plan_rooms_typeid_fk` FOREIGN KEY (`typeID`) REFERENCES `#__thm_organizer_room_types` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `plan_rooms_roomid_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
-
 ALTER TABLE `#__thm_organizer_plan_subjects`
   ADD CONSTRAINT `plan_subjects_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
   ON DELETE SET NULL
   ON UPDATE CASCADE,
   ADD CONSTRAINT `plan_subjects_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_plan_teachers`
-  ADD CONSTRAINT `plan_teachers_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `plan_teachers_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
   ON DELETE SET NULL
   ON UPDATE CASCADE;
 

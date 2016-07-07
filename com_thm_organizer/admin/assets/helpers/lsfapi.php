@@ -111,7 +111,7 @@ class THM_OrganizerLSFClient
 	/**
 	 * Method to get the module by mni number
 	 *
-	 * @param   int$moduleID The module mni number
+	 * @param   int $moduleID The module mni number
 	 *
 	 * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
 	 */

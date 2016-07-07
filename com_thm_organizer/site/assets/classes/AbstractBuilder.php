@@ -26,9 +26,9 @@ abstract class THMAbstractBuilder
 	/**
 	 * Saves the file to $dest with $filename in picturtype $type
 	 *
-	 * @param   object  $scheduleData   Object with the schedule data
-	 * @param   string  $username The username of the logged in user
-	 * @param   string  $title    The title of the schedule
+	 * @param   object $scheduleData Object with the schedule data
+	 * @param   string $username     The username of the logged in user
+	 * @param   string $title        The title of the schedule
 	 *
 	 * @return void
 	 */

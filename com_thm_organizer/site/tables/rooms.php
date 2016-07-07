@@ -24,7 +24,7 @@ class THM_OrganizerTableRooms extends JTable
 	/**
 	 * Constructor to call the parent constructor
 	 *
-	 * @param   object  &$dbo  a database connector object
+	 * @param   object &$dbo a database connector object
 	 */
 	public function __construct(&$dbo)
 	{

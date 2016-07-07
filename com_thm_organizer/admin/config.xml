@@ -92,17 +92,6 @@
                description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
         </field>
     </fieldset>
-    <fieldset name="program-documentation"
-              label="COM_THM_ORGANIZER_PROGRAM_DOCUMENTATION_REPOSITORY_SETTINGS_TITLE"
-              description="COM_THM_ORGANIZER_PROGRAM_DOCUMENTATION_REPOSITORY_SETTINGS_DESCRIPTION">
-        <field name="program-repo-link"
-               type="text"
-               default=""
-               size="255"
-               label="COM_THM_ORGANIZER_URL"
-               description="COM_THM_ORGANIZER_PROGRAM_DOCUMENTATION_URL_DESC">
-        </field>
-    </fieldset>
     <fieldset name="Monitors"
               label="COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE"
               description="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">

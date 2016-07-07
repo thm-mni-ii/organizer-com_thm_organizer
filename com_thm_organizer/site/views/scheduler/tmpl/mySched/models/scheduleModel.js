@@ -202,7 +202,7 @@ Ext.define('ScheduleModel',
         getGridData: function ()
         {
             var scheduleGridLength = getGridBlocks(this.scheduleGrid), ret = [], sp = [], wpMO,
-                cd = Ext.ComponentMgr.get('menuedatepicker'),wp = Ext.Date.clone(cd.value), wpMO = getMonday(wp),
+                cd = Ext.ComponentMgr.get('menuedatepicker'), wp = Ext.Date.clone(cd.value), wpMO = getMonday(wp),
                 begin = MySched.session.begin.split("-");
 
             for (var i = 0; i < scheduleGridLength; i++)

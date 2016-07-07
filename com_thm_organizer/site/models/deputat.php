@@ -962,9 +962,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks for the cross department deputat of teachers belonging to the department
 	 *
-	 * @param   array   $teachers   the teachers listed in the original schedule
-	 * @param   string  $startdate  the startdate of the original schedule
-	 * @param   string  $enddate    the enddate of the original schedule
+	 * @param   array  $teachers  the teachers listed in the original schedule
+	 * @param   string $startdate the startdate of the original schedule
+	 * @param   string $enddate   the enddate of the original schedule
 	 *
 	 * @return  void  adds deputat to the lesson values array
 	 */

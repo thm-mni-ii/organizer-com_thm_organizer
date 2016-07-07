@@ -23,9 +23,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds mappings as they exist in LSF for an imported degree program
 	 *
-	 * @param   int              $programID   the id of the program in the local
+	 * @param   int             $programID   the id of the program in the local
 	 *                                       database
-	 * @param   SimpleXMLObject  &$lsfData    the data recieved from the LSF system
+	 * @param   SimpleXMLObject &$lsfData    the data recieved from the LSF system
 	 *
 	 * @return  boolean  true if the data was mapped, otherwise false
 	 */

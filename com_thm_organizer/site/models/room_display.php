@@ -88,19 +88,19 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	{
 		if ($monitorEntry->useDefaults)
 		{
-			$this->params['display'] = JComponentHelper::getParams('com_thm_organizer')->get('display', 1);
+			$this->params['display']          = JComponentHelper::getParams('com_thm_organizer')->get('display', 1);
 			$this->params['schedule_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh');
-			$this->params['content_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
-			$this->params['content'] = JComponentHelper::getParams('com_thm_organizer')->get('content');
-			$defaultLayout = JComponentHelper::getParams('com_thm_organizer')->get('display');
+			$this->params['content_refresh']  = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh');
+			$this->params['content']          = JComponentHelper::getParams('com_thm_organizer')->get('content');
+			$defaultLayout                    = JComponentHelper::getParams('com_thm_organizer')->get('display');
 		}
 		else
 		{
-			$this->params['display'] = $monitorEntry->display;
+			$this->params['display']          = $monitorEntry->display;
 			$this->params['schedule_refresh'] = $monitorEntry->schedule_refresh;
-			$this->params['content_refresh'] = $monitorEntry->content_refresh;
-			$this->params['content'] = $monitorEntry->content;
-			$defaultLayout = '';
+			$this->params['content_refresh']  = $monitorEntry->content_refresh;
+			$this->params['content']          = $monitorEntry->content;
+			$defaultLayout                    = '';
 		}
 
 		$useComponentDisplay = ($monitorEntry->useDefaults AND !empty($defaultLayout));

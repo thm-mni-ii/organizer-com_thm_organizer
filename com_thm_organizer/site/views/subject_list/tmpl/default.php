@@ -71,4 +71,5 @@ $resetVisibility .= ';"';
 		echo JHtml::_('bootstrap.endTabSet');
 		?>
 	</form>
+	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
 </div>
