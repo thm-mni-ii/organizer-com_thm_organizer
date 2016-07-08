@@ -21,13 +21,11 @@
     margin-bottom: 9px;
   }
 
-  div.button-group
-  {
+  div.button-group {
     padding-left: 36%;
   }
 
-  div.button-panel, div.button-group
-  {
+  div.button-panel, div.button-group {
     button {
       background: #ffffff;
       color: #4a5d66;
@@ -46,9 +44,7 @@
     }
   }
 
-
-  div.filter-bar
-  {
+  div.filter-bar {
     background-color: $background;
     border: $border;
     color: $font-color;
@@ -60,65 +56,53 @@
     @include box-shadow(2px, 2px, 4px, $shadow-color);
 
     // Ensures that children are displayed inside the element without the use of overflow which cuts off select boxes
-    ::after
-    {
+    ::after {
       content: "";
       display: table;
       clear: both;
     }
 
-    .filter-header
-    {
+    .filter-header {
       margin-bottom: .4em;
 
-      @media (min-width: 768px)
-      {
+      @media (min-width: 768px) {
         margin: 4px 25px;
 
-        .deputat-settings
-        {
-          float:left;
+        .deputat-settings {
+          float: left;
           width: 45%;
 
-          .deputat-settings-description
-          {
+          .deputat-settings-description {
             font-size: large;
             margin-bottom: 14px;
           }
         }
 
-        .selection-settings
-        {
-          float:right;
+        .selection-settings {
+          float: right;
           width: 45%;
         }
 
-        .control-group
-        {
+        .control-group {
           display: block;
           width: 100%;
 
-          .control-label, .controls
-          {
+          .control-label, .controls {
             display: inline-block;
           }
 
-          .control-label
-          {
+          .control-label {
             font-size: 14px;
             width: 35%;
           }
 
-          .controls
-          {
-            div#scheduleID_chzn
-            {
+          .controls {
+            div#scheduleID_chzn {
               -webkit-appearance: none;
               -moz-appearance: none;
             }
 
-            div#teachers_chzn
-            {
+            div#teachers_chzn {
               height: auto;
               border: 2px solid #4a5d66;
               width: 276px !important;
@@ -128,8 +112,7 @@
               -moz-appearance: none;
             }
 
-            li.search-choice
-            {
+            li.search-choice {
               background: #eeeeee;
               border-radius: 0;
             }
@@ -137,12 +120,10 @@
         }
       }
 
-      .input-append
-      {
+      .input-append {
         margin-bottom: 0;
 
-        input
-        {
+        input {
           max-width: 100px;
           height: 15px;
         }
@@ -170,61 +151,50 @@ table.deputat-table {
     text-align: center;
   }
 
-  thead
-  {
-    tr.teacher-header th
-    {
+  thead {
+    tr.teacher-header th {
       font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
       font-size: large;
       border-bottom: none;
     }
   }
 
-  tbody
-  {
-    tr td
-    {
+  tbody {
+    tr td {
       background-color: #ffffff;
       font-size: $font-size;
       height: 1.4em;
       text-align: center;
     }
 
-    tr.sum-header th
-    {
+    tr.sum-header th {
       border-top: none;
       border-right: none;
       border-bottom: $border-table;
       border-left: none;
     }
 
-    tr[class^="data-row"] td
-    {
+    tr[class^="data-row"] td {
       vertical-align: middle;
       border: 1px solid #bbb;
 
-      a
-      {
+      a {
         display: block;
         float: right;
         margin-right: 10px;
-        i
-        {
+        i {
           color: $grey-100;
           font-size: smaller;
         }
       }
     }
 
-    tr[class^="sum-row"]
-    {
-      td
-      {
+    tr[class^="sum-row"] {
+      td {
         border: 1px solid #bbb;
       }
 
-      td.empty-cell
-      {
+      td.empty-cell {
         background: transparent;
         border: none;
       }
@@ -243,10 +213,10 @@ table.deputat-table {
   }
 }
 
-.whiteSpace{
-  height:92px;
-  width:105px;
-  background-color:white;
+.whiteSpace {
+  height: 92px;
+  width: 105px;
+  background-color: white;
   border-top: 1px solid #bbbbbb;
-  border-left:1px solid #bbbbbb;
+  border-left: 1px solid #bbbbbb;
 }

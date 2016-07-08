@@ -49,7 +49,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 		}
 
-		$this->disclaimer = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT .'/media/com_thm_organizer/layouts');
+		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
 		$this->disclaimerData = array('language' => $this->lang);
 
 		parent::display($tpl);

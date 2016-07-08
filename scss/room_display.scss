@@ -1,7 +1,6 @@
 //********************************************************************************************************************//
 // Styles for Monitor
 //********************************************************************************************************************//
-
 @import '../../lib_thm_core/scss/variables';
 
 .display-schedule {
@@ -34,7 +33,7 @@
 
 .room-name {
   text-align: center;
-  font-size: 95px;   //manuelle Anpassung der Schriftgröße an THM-Schriftgröße des Bildes
+  font-size: 95px; //manuelle Anpassung der Schriftgröße an THM-Schriftgröße des Bildes
   font-weight: bold;
   line-height: 72px;
   margin: 0 205px 0 210px
@@ -54,7 +53,6 @@
   }
 }
 
-
 // content
 //********************************************************************************************************************//
 .schedule-area {
@@ -71,7 +69,6 @@
 .block-time {
   float: left;
 }
-
 
 .block-title {
   float: left;
@@ -97,6 +94,6 @@
   }
 }
 
-.nothingActive{
-  padding:49px 0.5em;
+.nothingActive {
+  padding: 49px 0.5em;
 }

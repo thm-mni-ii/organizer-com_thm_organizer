@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <name>THM_ORGANIZER</name>
+    <author>Franciska Perisa</author>
+    <creationDate>13.04.2016</creationDate>
+    <copyright>TH Mittelhessen 2016</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>franciska.perisa@mni.thm.de</authorEMail>
+    <authorUrl>www.thm.de</authorUrl>
+    <layout title="COM_THM_ORGANIZER_SCHEDULE">
+        <message>COM_THM_ORGANIZER_SCHEDULE_DESCRIPTION</message>
+    </layout>
+</metadata>

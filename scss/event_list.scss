@@ -29,13 +29,12 @@
     }
   }
 
-  .event-date-head{
+  .event-date-head {
     font-size: 1rem;
   }
 }
 
-.component-container
-{
+.component-container {
 
   .componentheading {
     padding-left: 2.5%;
@@ -44,13 +43,13 @@
     margin-bottom: 10px;
   }
 
-  table{
-    thead{
+  table {
+    thead {
       background-color: $blue-75;
       font-family: 'THM-Medium';
       text-transform: uppercase;
-      tr{
-        th{
+      tr {
+        th {
           border: none;
           color: white;
           font-weight: normal;
@@ -61,13 +60,13 @@
   }
 }
 
-.event-date{
+.event-date {
   background-color: white;
   box-shadow: 0 5px 3px #888888;
   margin-bottom: 10px;
 }
 
-.event-date-head{
+.event-date-head {
   background-color: $blue-75;
   color: white;
   font-size: 1.6rem;
@@ -76,12 +75,12 @@
   width: 100%;
 }
 
-.time-column, .org-column{
+.time-column, .org-column {
   text-align: center;
   width: 6%;
 }
 
-.rooms-column, .speakers-column, .name-column, .comment-column{
+.rooms-column, .speakers-column, .name-column, .comment-column {
   min-width: 10%;
 }
 
@@ -95,7 +94,6 @@
   margin: auto 0;
   line-height: normal;
   color: $background-grey;
-
 
   /************** header *********************************************/
   .head {
@@ -155,11 +153,11 @@
       left: -1px;
     }
 
-    .row1{
+    .row1 {
       background-color: $background;
     }
 
-    .event-times, .event-main, .event-comment{
+    .event-times, .event-main, .event-comment {
       display: inline-block;
       float: left;
       height: 100%;
@@ -167,7 +165,7 @@
       vertical-align: middle;
     }
 
-    .event-times, .event-names, .event-speakers, .event-comment{
+    .event-times, .event-names, .event-speakers, .event-comment {
       font-size: 110%;
       padding: 10px 0;
     }
@@ -198,7 +196,6 @@
     }
   }
 }
-
 
 .block-title {
   float: left;
@@ -233,6 +230,6 @@
   }
 }
 
-.nothingActive{
-  padding:49px 0.5em;
+.nothingActive {
+  padding: 49px 0.5em;
 }

@@ -1,0 +1,374 @@
+/*  ------------------------------------
+**  Author:     Franciska Perisa
+**  File:       schedule.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+@import '../../lib_thm_core/scss/mixins';
+@import '../../lib_thm_core/scss/variables';
+
+/** ------------------------------------ */
+
+body {
+  min-width: 300px !important;
+}
+
+select:disabled {
+  background: $grey-25 !important;
+}
+
+.icon-save::before {
+  font-family: icomoon-special !important;
+  content: "\e962" !important;
+}
+
+button {
+  font-size: 20px;
+  color: $font-color;
+  background-color: $foreground;
+  border: none;
+}
+
+button:hover,
+.menu-bar a:hover,
+.menu-bar label:hover {
+  cursor: pointer;
+}
+
+.organizer input[type=radio] {
+  display: none;
+}
+
+//********************************************************************************************************************//
+// Menu buttons                                                                                                       //
+//********************************************************************************************************************//
+
+.menu-bar {
+  padding-bottom: 3%;
+
+  a, button, label {
+    width: 15%;
+    display: inline-block;
+  }
+
+  span, img {
+    font-size: 25px;
+  }
+
+  a:first-of-type {
+    margin-right: 4%;
+  }
+
+  button {
+    text-align: left;
+  }
+}
+
+a,
+a:visited {
+  color: $font-color;
+}
+
+.selection {
+  position: absolute;
+  left: -2000px;
+
+  ul {
+    list-style-type: none;
+  }
+
+  li {
+    padding: 5px;
+    margin-left: 0;
+  }
+
+  button, a, label {
+    font-size: 20px;
+  }
+
+  button span {
+    margin-right: 5px;
+  }
+
+  label {
+    display: inline;
+    margin-bottom: 0;
+  }
+}
+
+#schedule-form-menu-item:checked ~ #schedule-form,
+#time-menu-item:checked ~ #time-selection,
+#schedule-selection-menu-item:checked ~ #schedule-selection,
+#export-menu-item:checked ~ #export-selection {
+  position: static;
+}
+
+#schedule-form-menu-item:checked ~ .menu-bar label:nth-of-type(1),
+#time-menu-item:checked ~ .menu-bar label:nth-of-type(2),
+#schedule-selection-menu-item:checked ~ .menu-bar label:nth-of-type(3),
+#export-menu-item:checked ~ .menu-bar label:nth-of-type(4),
+.menu-bar button:focus {
+  color: $red-100;
+}
+
+.scheduler-input:checked + .scheduler {
+  z-index: 2;
+}
+
+//********************************************************************************************************************//
+// Form to specify schedule                                                                                           //
+//********************************************************************************************************************//
+
+#schedule-form label,
+.date-input label {
+  display: none;
+}
+
+#choose-date {
+  visibility: hidden;
+  position: absolute;
+  background-color: $background;
+  z-index: 3;
+  border: 1px solid black;
+  top: 40px;
+
+  td {
+    text-align: center;
+  }
+
+  thead span {
+    float: none;
+  }
+
+  button {
+    background-color: $background;
+  }
+
+  .today {
+    width: 100%;
+  }
+}
+
+.date-input {
+  position: relative;
+
+  button, span, input {
+    float: left;
+    padding: 2px;
+  }
+
+  button {
+    font-size: 25px;
+  }
+
+  span {
+    font-size: 22px;
+  }
+
+  #weekday {
+    width: 30px;
+    margin-left: 5px;
+  }
+
+  input {
+    width: 170px !important;
+  }
+}
+
+//********************************************************************************************************************//
+// Schedule design                                                                                           //
+//********************************************************************************************************************//
+
+#scheduleWrapper {
+  position: relative;
+  min-height: 500px;
+  clear: both;
+}
+
+.scheduler {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  @include linearGradient($background, $foreground);
+
+  caption {
+    background-color: $foreground;
+    font-size: 20px;
+    margin-left: 0;
+  }
+
+  table {
+    border: $border;
+    border-width: 1px 0 0 0;
+  }
+
+  a, a:hover {
+    color: $font-color;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  th, td, .lesson, .pause {
+    text-align: center;
+  }
+
+  .lesson {
+    width: 80%;
+    border: 1px solid $grey-100;
+    background-color: $background;
+    margin: 0 auto 5px;
+    padding: 1% 1% 25px 1%;
+    position: relative;
+
+    .name {
+      font-weight: bold;
+    }
+
+    .module:before {
+      content: "(";
+    }
+
+    .module:after {
+      content: ")";
+    }
+
+    .misc:before, .locations:before {
+      content: "/ ";
+    }
+
+    .add-lesson {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background: $background;
+      color: $green-100;
+      border: 0;
+      padding: 0;
+    }
+
+    .old {
+      text-decoration: line-through;
+    }
+
+    .new {
+      color: $gr-color-bottom-item;
+    }
+  }
+
+  .pause {
+    background-color: $green-50;
+    padding: 0;
+  }
+}
+
+//********************************************************************************************************************//
+// Time                                                                                                               //
+//********************************************************************************************************************//
+
+.time-exams,
+.no-break tr:nth-child(4) td,
+.own-time {
+  display: none;
+}
+
+.invisible-time tr td {
+  border-width: 0;
+}
+
+.invisible-time th:first-child,
+.invisible-time tr td:first-child {
+  display: none;
+}
+
+//********************************************************************************************************************//
+// Device specials                                                                                                    //
+//********************************************************************************************************************//
+
+.tmpl-component {
+  #calendar-icon {
+    display: none;
+  }
+
+  #scheduleWrapper {
+    td:first-child, th:first-child {
+      width: 10%;
+    }
+
+    td:nth-child(n+3), th:nth-child(n+3) {
+      //visibility: collapse; behave like hidden, should not
+      display: none;
+    }
+  }
+}
+
+.no-mobile {
+  .menu-bar {
+    padding-bottom: 10px;
+
+    a {
+      display: inline-block;
+      width: 40px;
+    }
+
+    label, button {
+      width: 5%;
+    }
+
+    a:first-of-type {
+      display: none;
+    }
+
+    label:first-of-type {
+      display: none;
+    }
+  }
+
+  .selection li,
+  .selection button,
+  .selection label {
+    display: inline-block;
+    padding: 3px;
+  }
+
+  #schedule-form {
+    position: inherit;
+    display: block;
+    div {
+      display: inline;
+    }
+    select {
+      width: 24%;
+    }
+    > div {
+      float: left;
+    }
+  }
+
+  #time-selection button {
+    border: $border;
+  }
+
+  #schedule-selection {
+    display: block;
+    label {
+      background-color: $background-green;
+      border: $border;
+      overflow-x: hidden;
+      padding: 5px;
+    }
+  }
+
+  .date-input input[type=date] {
+    width: 200px !important;
+    margin-left: 5px;
+  }
+
+  .lesson {
+    width: 150px;
+  }
+}

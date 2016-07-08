@@ -4,7 +4,7 @@
   clear: both;
 }
 
-.header-container{
+.header-container {
   font-family: "THM-Medium", Arial, Helvetica, sans-serif;
   font-size: 32px;
   font-weight: 400;
@@ -13,21 +13,20 @@
   padding: 18px 15px;
 }
 
-.form-container{
+.form-container {
 
   margin-bottom: 20px;
   min-height: 100px;
   overflow: visible;
   width: 100%;
 
-  #adminForm{
+  #adminForm {
 
     width: 100%;
 
     .filter-item {
 
-      float:left;
-
+      float: left;
 
       width: 21%;
 
@@ -41,7 +40,7 @@
         width: 100%;
       }
 
-      select, input{
+      select, input {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -100,9 +99,9 @@
             }
           }
 
-          .search-field input[type="text"]{
+          .search-field input[type="text"] {
 
-            display:none;
+            display: none;
 
             &:focus {
               display: inline-block;
@@ -119,13 +118,12 @@
         background: url('../images/select.png') no-repeat 180px 10px white;
       }
 
-
-      #date{
+      #date {
         border: $border;
         height: 33px;
       }
 
-      #date{
+      #date {
         margin-bottom: 0;
         padding: 0 12px 0 8px;
         width: calc(100% - 40px);
@@ -169,7 +167,7 @@
       }
     }
 
-    .short-item-container{
+    .short-item-container {
 
       float: left;
       width: 30%;
@@ -189,44 +187,45 @@
     }
 
     .submit-button {
-        background-color: $background-grey;
-        border-radius: 0;
-        border: $border;
-        color: $foreground;
-        cursor: pointer;
-        display: inline-block;
-        font-family: 'THM-Medium';
-        font-size: 1.0em;
-        line-height: 23px;
-        height: 35px;
-        margin-top: 29px;
-        padding-bottom: 4px;
-        padding-left: 8px;
-        padding-top: 4px;
-        text-align: left;
-        text-shadow: none;
-        vertical-align: middle;
-        width: 130px;
+      background-color: $background-grey;
+      border-radius: 0;
+      border: $border;
+      color: $foreground;
+      cursor: pointer;
+      display: inline-block;
+      font-family: 'THM-Medium';
+      font-size: 1.0em;
+      line-height: 23px;
+      height: 35px;
+      margin-top: 29px;
+      padding-bottom: 4px;
+      padding-left: 8px;
+      padding-top: 4px;
+      text-align: left;
+      text-shadow: none;
+      vertical-align: middle;
+      width: 130px;
 
-        &:hover {
-          background-color: $foreground;
-          color: $background-grey;
-        }
-
-        .icon-loop {
-          font-size: 14px;
-          margin-left: 6px;
-          margin-top: -2px;
-        }
+      &:hover {
+        background-color: $foreground;
+        color: $background-grey;
       }
+
+      .icon-loop {
+        font-size: 14px;
+        margin-left: 6px;
+        margin-top: -2px;
+      }
+    }
 
   }
 }
-.overview-container-container{
+
+.overview-container-container {
 
   width: 100%;
 
-  .overview-container{
+  .overview-container {
 
     width: 100%;
 
@@ -249,7 +248,7 @@
         width: 100%;
       }
 
-      th{
+      th {
         background-color: $background-grey;
         border: none;
         color: $foreground;
@@ -262,7 +261,7 @@
           width: 16.6px;
         }
 
-        &.day-row{
+        &.day-row {
           border-right: $border;
           text-align: center;
         }
@@ -271,16 +270,16 @@
           padding: 10px 4px;
         }
 
-        &.block-row{
+        &.block-row {
           text-align: center;
           border-right: $border;
         }
 
-        &.room-row{
+        &.room-row {
           text-align: right;
         }
 
-        &.room-column{
+        &.room-column {
           border-bottom: $border;
           min-width: 90px;
           max-width: 90px;
@@ -288,20 +287,20 @@
           overflow: hidden;
         }
 
-        &.day-row.room-column{
+        &.day-row.room-column {
           background-color: $foreground;
           border-bottom: none;
           border-right: none;
         }
 
-        &.block-row.room-column{
+        &.block-row.room-column {
           background-color: $foreground;
           border-bottom: none;
           border-right: none;
         }
       }
 
-      td{
+      td {
         text-align: center;
         border-right: $border;
         border-bottom: $border;

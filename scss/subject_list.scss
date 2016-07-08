@@ -138,7 +138,8 @@ button {
     color: $font-color;
   }
 }
-.active :first-child h5{
+
+.active :first-child h5 {
   margin-top: 6px;
 }
 
@@ -202,6 +203,7 @@ a.pool-anchor {
   border: 1px solid #eeeeee;
   border-top: none;
 }
+
 /* gibts nicht mehr
 .breadcrumb {
   float: inherit;

@@ -1,0 +1,354 @@
+/*  ------------------------------------
+**  Author:     Franciska Perisa
+**  File:       schedule.css
+**  Styles for: Frontend
+**  Site:       www.mni.thm.de
+**  ------------------------------------ */
+/** ------------------------------------ */
+body {
+    min-width: 300px !important;
+}
+
+select:disabled {
+    background: #d2d6d9 !important;
+}
+
+.icon-save::before {
+    font-family: icomoon-special !important;
+    content: "\e962" !important;
+}
+
+button {
+    font-size: 20px;
+    color: #394a59;
+    background-color: white;
+    border: none;
+}
+
+button:hover,
+.menu-bar a:hover,
+.menu-bar label:hover {
+    cursor: pointer;
+}
+
+.organizer input[type=radio] {
+    display: none;
+}
+
+.menu-bar {
+    padding-bottom: 3%;
+}
+
+.menu-bar a, .menu-bar button, .menu-bar label {
+    width: 15%;
+    display: inline-block;
+}
+
+.menu-bar span, .menu-bar img {
+    font-size: 25px;
+}
+
+.menu-bar a:first-of-type {
+    margin-right: 4%;
+}
+
+.menu-bar button {
+    text-align: left;
+}
+
+a,
+a:visited {
+    color: #394a59;
+}
+
+.selection {
+    position: absolute;
+    left: -2000px;
+}
+
+.selection ul {
+    list-style-type: none;
+}
+
+.selection li {
+    padding: 5px;
+    margin-left: 0;
+}
+
+.selection button, .selection a, .selection label {
+    font-size: 20px;
+}
+
+.selection button span {
+    margin-right: 5px;
+}
+
+.selection label {
+    display: inline;
+    margin-bottom: 0;
+}
+
+#schedule-form-menu-item:checked ~ #schedule-form,
+#time-menu-item:checked ~ #time-selection,
+#schedule-selection-menu-item:checked ~ #schedule-selection,
+#export-menu-item:checked ~ #export-selection {
+    position: static;
+}
+
+#schedule-form-menu-item:checked ~ .menu-bar label:nth-of-type(1),
+#time-menu-item:checked ~ .menu-bar label:nth-of-type(2),
+#schedule-selection-menu-item:checked ~ .menu-bar label:nth-of-type(3),
+#export-menu-item:checked ~ .menu-bar label:nth-of-type(4),
+.menu-bar button:focus {
+    color: #9c132e;
+}
+
+.scheduler-input:checked + .scheduler {
+    z-index: 2;
+}
+
+#schedule-form label,
+.date-input label {
+    display: none;
+}
+
+#choose-date {
+    visibility: hidden;
+    position: absolute;
+    background-color: #f2f5f6;
+    z-index: 3;
+    border: 1px solid black;
+    top: 40px;
+}
+
+#choose-date td {
+    text-align: center;
+}
+
+#choose-date thead span {
+    float: none;
+}
+
+#choose-date button {
+    background-color: #f2f5f6;
+}
+
+#choose-date .today {
+    width: 100%;
+}
+
+.date-input {
+    position: relative;
+}
+
+.date-input button, .date-input span, .date-input input {
+    float: left;
+    padding: 2px;
+}
+
+.date-input button {
+    font-size: 25px;
+}
+
+.date-input span {
+    font-size: 22px;
+}
+
+.date-input #weekday {
+    width: 30px;
+    margin-left: 5px;
+}
+
+.date-input input {
+    width: 170px !important;
+}
+
+#scheduleWrapper {
+    position: relative;
+    min-height: 500px;
+    clear: both;
+}
+
+.scheduler {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f2f5f6;
+    background: -moz-linear-gradient(top, #f2f5f6 0%, white 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f5f6), color-stop(100%, white));
+    background: -webkit-linear-gradient(top, #f2f5f6 0%, white 100%);
+    background: -o-linear-gradient(top, #f2f5f6 0%, white 100%);
+    background: -ms-linear-gradient(top, #f2f5f6 0%, white 100%);
+    background: linear-gradient(to bottom, #f2f5f6 0%, white 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
+}
+
+.scheduler caption {
+    background-color: white;
+    font-size: 20px;
+    margin-left: 0;
+}
+
+.scheduler table {
+    border: 1px solid #77858c;
+    border-width: 1px 0 0 0;
+}
+
+.scheduler a, .scheduler a:hover {
+    color: #394a59;
+}
+
+.scheduler a:hover {
+    text-decoration: underline;
+}
+
+.scheduler th, .scheduler td, .scheduler .lesson, .scheduler .pause {
+    text-align: center;
+}
+
+.scheduler .lesson {
+    width: 80%;
+    border: 1px solid #4a5c66;
+    background-color: #f2f5f6;
+    margin: 0 auto 5px;
+    padding: 1% 1% 25px 1%;
+    position: relative;
+}
+
+.scheduler .lesson .name {
+    font-weight: bold;
+}
+
+.scheduler .lesson .module:before {
+    content: "(";
+}
+
+.scheduler .lesson .module:after {
+    content: ")";
+}
+
+.scheduler .lesson .misc:before, .scheduler .lesson .locations:before {
+    content: "/ ";
+}
+
+.scheduler .lesson .add-lesson {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #f2f5f6;
+    color: #80ba24;
+    border: 0;
+    padding: 0;
+}
+
+.scheduler .lesson .old {
+    text-decoration: line-through;
+}
+
+.scheduler .lesson .new {
+    color: #51a351;
+}
+
+.scheduler .pause {
+    background-color: #bfdc91;
+    padding: 0;
+}
+
+.time-exams,
+.no-break tr:nth-child(4) td,
+.own-time {
+    display: none;
+}
+
+.invisible-time tr td {
+    border-width: 0;
+}
+
+.invisible-time th:first-child,
+.invisible-time tr td:first-child {
+    display: none;
+}
+
+.tmpl-component #calendar-icon {
+    display: none;
+}
+
+.tmpl-component #scheduleWrapper td:first-child, .tmpl-component #scheduleWrapper th:first-child {
+    width: 10%;
+}
+
+.tmpl-component #scheduleWrapper td:nth-child(n+3), .tmpl-component #scheduleWrapper th:nth-child(n+3) {
+    display: none;
+}
+
+.no-mobile .menu-bar {
+    padding-bottom: 10px;
+}
+
+.no-mobile .menu-bar a {
+    display: inline-block;
+    width: 40px;
+}
+
+.no-mobile .menu-bar label, .no-mobile .menu-bar button {
+    width: 5%;
+}
+
+.no-mobile .menu-bar a:first-of-type {
+    display: none;
+}
+
+.no-mobile .menu-bar label:first-of-type {
+    display: none;
+}
+
+.no-mobile .selection li,
+.no-mobile .selection button,
+.no-mobile .selection label {
+    display: inline-block;
+    padding: 3px;
+}
+
+.no-mobile #schedule-form {
+    position: inherit;
+    display: block;
+}
+
+.no-mobile #schedule-form div {
+    display: inline;
+}
+
+.no-mobile #schedule-form select {
+    width: 24%;
+}
+
+.no-mobile #schedule-form > div {
+    float: left;
+}
+
+.no-mobile #time-selection button {
+    border: 1px solid #77858c;
+}
+
+.no-mobile #schedule-selection {
+    display: block;
+}
+
+.no-mobile #schedule-selection label {
+    background-color: #dfeec8;
+    border: 1px solid #77858c;
+    overflow-x: hidden;
+    padding: 5px;
+}
+
+.no-mobile .date-input input[type=date] {
+    width: 200px !important;
+    margin-left: 5px;
+}
+
+.no-mobile .lesson {
+    width: 150px;
+}

@@ -31,9 +31,9 @@ class THM_OrganizerHelperXMLRooms
 	 */
 	private static function setID(&$scheduleModel, $roomID)
 	{
-		$roomTable   = JTable::getInstance('rooms', 'thm_organizerTable');
-		$roomData    = $scheduleModel->schedule->rooms->$roomID;
-		$loadCriteria   = array('gpuntisID' => $roomData->gpuntisID);
+		$roomTable    = JTable::getInstance('rooms', 'thm_organizerTable');
+		$roomData     = $scheduleModel->schedule->rooms->$roomID;
+		$loadCriteria = array('gpuntisID' => $roomData->gpuntisID);
 
 		try
 		{

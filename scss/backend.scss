@@ -18,11 +18,11 @@
   }
   // specific . Display the second and the third column.
   #teacher_manager-list {
-    @include displayAndHideColumns(2,3);
+    @include displayAndHideColumns(2, 3);
   }
   // specific . Display the second and the fourth column.
   #pool_manager-list {
-    @include displayAndHideColumns(2,4);
+    @include displayAndHideColumns(2, 4);
   }
 }
 

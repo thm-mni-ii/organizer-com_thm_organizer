@@ -253,7 +253,8 @@ div#main {
                 color: $background-grey;
                 position: absolute;
                 top: 16px;
-                top: 18px \0; //just for IE
+                top: 18px \0
+              ; //just for IE
                 left: 12px;
               }
             }
@@ -328,7 +329,6 @@ div#main {
               display: none;
             }
 
-
             //remove button after Download-Text
             .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
               background-image: none;
@@ -399,7 +399,7 @@ div#main {
         }
       }
 
-      .x-tab-bar-strip, .x-grid-header-ct, .x-grid-rowbody-tr{
+      .x-tab-bar-strip, .x-grid-header-ct, .x-grid-rowbody-tr {
         background-color: $green-25;
       }
 
@@ -448,7 +448,7 @@ div#main {
           color: $foreground;
         }
         .x-tab-close-btn:before {
-            color: $foreground;
+          color: $foreground;
         }
       }
 
@@ -472,7 +472,7 @@ div#main {
           border-bottom: $border-thick;
           width: 100% !important;
 
-          .x-box-inner{
+          .x-box-inner {
 
             background: $background-grey;
             height: 28px !important;
@@ -565,7 +565,7 @@ div#main {
                     white-space: normal;
                   }
 
-                  .status_icons .control_icon{
+                  .status_icons .control_icon {
 
                     font-size: 10px;
 
@@ -616,13 +616,13 @@ div#main {
           max-width: calc(16.6% - 8.3px) !important;
         }
 
-        .x-grid-rowbody-tr{
+        .x-grid-rowbody-tr {
 
-          .x-grid-cell-rowbody{
+          .x-grid-cell-rowbody {
             padding: 0;
           }
 
-          &.MySched_pause .x-grid-rowbody{
+          &.MySched_pause .x-grid-rowbody {
             font-size: .9rem;
             font-weight: bold;
             padding: 8px;
@@ -635,7 +635,7 @@ div#main {
 }
 
 // select Boxes nicht sichtbare Auswahl
-body{
+body {
 
   .x-boundlist {
 

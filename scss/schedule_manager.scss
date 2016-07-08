@@ -20,7 +20,7 @@
 // ------------------------------------
 // Filter definitions
 // ------------------------------------
-fieldset.filter-bar ,div.filter-bar {
+fieldset.filter-bar, div.filter-bar {
   @extend %fieldset;
   @include border-radius(3px);
 }
@@ -46,6 +46,6 @@ th.column0, td.column0 {
 }
 
 // Third and fourth column widths
-th.column3, td.column3,th.column4, td.column4 {
+th.column3, td.column3, th.column4, td.column4 {
   max-width: 3em;
 }
