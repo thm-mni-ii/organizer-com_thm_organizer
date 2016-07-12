@@ -55,7 +55,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 
 		// Create the query
 		$query  = $this->_db->getQuery(true);
-		$select = "d.id, d.short_name_$shortTag AS short_name, d.name_$shortTag AS name, a.rules, ";
+		$select = "d.id, d.short_name_$shortTag AS short_name, d.name_$shortTag AS name, plan_key, a.rules, ";
 		$parts  = array("'index.php?option=com_thm_organizer&view=department_edit&id='", "d.id");
 		$select .= $query->concatenate($parts, "") . "AS link ";
 		$query->select($select);
@@ -93,11 +93,13 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 				$return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
 				$return[$index]['short_name'] = JHtml::_('link', $item->link, $item->short_name);
 				$return[$index]['name']       = JHtml::_('link', $item->link, $item->name);
+				$return[$index]['plan_key']   = JHtml::_('link', $item->link, $item->plan_key);
 			}
 			else
 			{
 				$return[$index]['short_name'] = $item->short_name;
 				$return[$index]['name']       = $item->name;
+				$return[$index]['plan_key']   = $item->plan_key;
 			}
 
 			$index++;
@@ -123,7 +125,8 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 		}
 
 		$headers['short_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'f.field', $direction, $ordering);
-		$headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'c.name', $direction, $ordering);
+		$headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+		$headers['plan_key']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLAN_KEY', 'plan_key', $direction, $ordering);
 
 		return $headers;
 	}

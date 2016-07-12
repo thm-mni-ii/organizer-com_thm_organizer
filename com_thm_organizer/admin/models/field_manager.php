@@ -57,7 +57,7 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
 
 		// Create the query
 		$query  = $this->_db->getQuery(true);
-		$select = "f.id, f.gpuntisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
+		$select = "f.id, gpuntisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
 		$parts  = array("'index.php?option=com_thm_organizer&view=field_edit&id='", "f.id");
 		$select .= $query->concatenate($parts, "") . "AS link ";
 		$query->select($select);
@@ -133,8 +133,8 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
 			$headers['checkbox'] = '';
 		}
 
-		$headers['field']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'f.field', $direction, $ordering);
-		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'f.gpuntisID', $direction, $ordering);
+		$headers['field']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'field', $direction, $ordering);
+		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'gpuntisID', $direction, $ordering);
 		$headers['colorID']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
 
 		return $headers;

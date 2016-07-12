@@ -33,6 +33,14 @@
                label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"
                required="true"/>
+        <field type="text"
+               name="plan_key"
+               label="COM_THM_ORGANIZER_PLAN_KEY"
+               description="COM_THM_ORGANIZER_PLAN_KEY_DESC"
+               size="10"
+               maxlength="10"
+               class="inputbox"
+               required="true"/>
         <field name="asset_id"
                type="hidden"
                filter="unset"/>

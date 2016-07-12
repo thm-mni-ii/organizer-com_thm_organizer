@@ -16,14 +16,6 @@ fieldset.filter-bar, div.filter-bar {
     box-shadow: 2px 2px 4px #a4adb2;
 }
 
-.icon-48-organizer_schedules {
-    background: url("../images/schedules48.png") 0 0 no-repeat;
-}
-
-.icon-32-merge {
-    background: url("../images/icon-32-merge.png");
-}
-
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
@@ -82,7 +74,7 @@ a[href*="view=color_manager"]::before {
 .icon-organizer_subject_pools::before,
 a[href*="view=pool_manager"]::before {
     font-family: icomoon;
-    content: "\43";
+    content: "\44";
 }
 
 .icon-organizer_rooms::before,

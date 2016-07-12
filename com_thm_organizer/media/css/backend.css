@@ -56,7 +56,7 @@ a[href*="view=color_manager"]::before {
 .icon-organizer_subject_pools::before,
 a[href*="view=pool_manager"]::before {
     font-family: icomoon;
-    content: "\43";
+    content: "\44";
 }
 
 .icon-organizer_rooms::before,

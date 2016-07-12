@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'degrees.php';
+require_once 'programs.php';
 require_once 'descriptions.php';
 require_once 'lessons.php';
 require_once 'pools.php';
@@ -170,7 +170,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 
 		THM_OrganizerHelperXMLTimePeriods::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLDescriptions::validate($this, $xmlSchedule);
-		THM_OrganizerHelperXMLDegrees::validate($this, $xmlSchedule);
+		THM_OrganizerHelperXMLPrograms::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLRooms::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);

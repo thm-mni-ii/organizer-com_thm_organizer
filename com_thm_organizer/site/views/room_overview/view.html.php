@@ -55,7 +55,6 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 	private function modifyDocument()
 	{
 		JHtml::_('jquery.ui');
-		JHtml::_('behavior.calendar');
 		JHtml::_('behavior.tooltip');
 		JHtml::_('formbehavior.chosen', 'select');
 		$document = JFactory::getDocument();
