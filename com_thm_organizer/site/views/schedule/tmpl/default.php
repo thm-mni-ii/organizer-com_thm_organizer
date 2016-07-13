@@ -86,14 +86,15 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			<label for="plan">Plan</label>
 			<select id="plan" name="plan" required
 			        onchange="document.getElementById('category').disabled = false;">
-				<option value="" hidden><?php echo JText::_('COM_THM_ORGANIZER_SELECT_OPTION') ?></option>
-				<option value="room"><?php echo JText::_('COM_THM_ORGANIZER_ROOMPLAN') ?></option>
+				<option value="" hidden><?php echo JText::_("JOPTION_SELECT_CATEGORY"); ?></option>
+				<option value="room"><?php echo JText::_('COM_THM_ORGANIZER_ROOM_PLANS') ?></option>
 				<option value="teacher"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERPLAN') ?></option>
 				<option value="group"><?php echo JText::_('COM_THM_ORGANIZER_POOLPLAN') ?></option>
 			</select>
 			<label for="category"><?php echo JText::_('COM_THM_ORGANIZER_RIA_TREE_TITLE') ?></label>
 			<select id="category" name="category" disabled required
 			        onchange="document.getElementById('resource-type').disabled = false;">
+				<option value="" hidden></option>
 				<option value="semester">
 					<?php echo JText::_('COM_THM_ORGANIZER_POOL') ?>
 					/ <?php echo JText::_('COM_THM_ORGANIZER_SEMESTER') ?>
@@ -104,12 +105,14 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			<label for="resource-type"><?php echo JText::_('COM_THM_ORGANIZER_RESOURCE_PLAN') ?></label>
 			<select id="resource-type" name="resource-type" disabled required
 			        onchange="document.getElementById('resource').disabled = false;">
+				<option value="" hidden></option>
 				<option value="courses"><?php echo JText::_('COM_THM_ORGANIZER_PROGRAMS') ?></option>
 				<option value="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOMS') ?></option>
 				<option value="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERS') ?></option>
 			</select>
 			<label for="resource"><?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE') ?></label>
 			<select id="resource" name="resource" disabled required>
+				<option value=""></option>
 				<option value="resource1">resource 1</option>
 				<option value="resource2">resource 2</option>
 				<option value="resource3">resource 3</option>
