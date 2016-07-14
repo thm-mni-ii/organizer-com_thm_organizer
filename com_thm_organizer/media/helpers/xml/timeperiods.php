@@ -21,6 +21,64 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperXMLTimePeriods
 {
 	/**
+	 * Saves the grid to the corresponding table if not already existent.
+	 *
+	 * @param   string $gpuntisID the gpuntis name for the grid
+	 * @param   object $grid      the object modelling the grid information
+	 *
+	 * @return  void creates database entries
+	 */
+	private static function saveGridEntry($gpuntisID, $grid)
+	{
+		$gridTable = JTable::getInstance('grids', 'thm_organizerTable');
+		$data      = array('gpuntisID' => $gpuntisID);
+		$exists    = $gridTable->load($data);
+		if ($exists)
+		{
+			return;
+		}
+
+		if ($gpuntisID == 'Haupt-Zeitraster')
+		{
+			$grid->default = 1;
+		}
+
+		$grid->grid = json_encode($grid->grid);
+		$gridTable->save($grid);
+	}
+
+	/**
+	 * Sets grid entries for later storage in the database
+	 *
+	 * @param   object $grids     the grids container object
+	 * @param   string $gpuntisID the name used for the grid in untis
+	 * @param   int    $period    the period number
+	 * @param   int    $startTime the period start time as a 4 digit number
+	 * @param   int    $endTime   the period end time as a 4 digit number
+	 *
+	 * @return void modifies the grids object
+	 */
+	private static function setGridEntry(&$grids, $gpuntisID, $period, $startTime, $endTime)
+	{
+		// Builds the object for the DB
+		if (!isset($grids->$gpuntisID))
+		{
+			$grids->$gpuntisID            = new stdClass;
+			$grids->$gpuntisID->gpuntisID = $gpuntisID;
+			$grids->$gpuntisID->name_de   = $gpuntisID;
+			$grids->$gpuntisID->name_en   = $gpuntisID;
+			$grids->$gpuntisID->grid      = new stdClass;
+		}
+
+		if (!isset($grids->$gpuntisID->blocks->$period))
+		{
+			$grids->$gpuntisID->grid->$period             = new stdClass;
+			$grids->$gpuntisID->grid->$period->start_time = $startTime;
+			$grids->$gpuntisID->grid->$period->end_time   = $endTime;
+		}
+	}
+
+	/**
 	 * Validates the timeperiods node
 	 *
 	 * @param   object &$scheduleModel the validating schedule model
@@ -38,10 +96,16 @@ class THM_OrganizerHelperXMLTimePeriods
 		}
 
 		$scheduleModel->schedule->periods = new stdClass;
+		$grids                            = new stdClass;
 
 		foreach ($xmlObject->timeperiods->children() as $timePeriodNode)
 		{
-			self::validateIndividual($scheduleModel, $timePeriodNode);
+			self::validateIndividual($scheduleModel, $timePeriodNode, $grids);
+		}
+
+		foreach ($grids as $gpuntisID => $grid)
+		{
+			self::saveGridEntry($gpuntisID, $grid);
 		}
 	}
 
@@ -50,11 +114,12 @@ class THM_OrganizerHelperXMLTimePeriods
 	 * information
 	 *
 	 * @param   object &$scheduleModel  the validating schedule model
-	 * @param   object &$timePeriodNode the pool node to be validated
+	 * @param   object &$timePeriodNode the time period node to be validated
+	 * @param   object &$grids          the container for grids
 	 *
 	 * @return void
 	 */
-	private static function validateIndividual(&$scheduleModel, &$timePeriodNode)
+	private static function validateIndividual(&$scheduleModel, &$timePeriodNode, &$grids)
 	{
 		// Not actually referenced but evinces data inconsistencies in Untis
 		$gpuntisID = trim((string) $timePeriodNode[0]['id']);
@@ -69,22 +134,24 @@ class THM_OrganizerHelperXMLTimePeriods
 			$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
 		}
 
-		$grid = (string) $timePeriodNode->timegrid;
+		$gpuntisID = (string) $timePeriodNode->timegrid;
 
 		// For backward-compatibility a default grid name is set
-		if (empty($grid))
+		if (empty($gpuntisID))
 		{
-			$grid = 'Haupt-Zeitraster';
+			$gpuntisID = 'Haupt-Zeitraster';
 		}
 
 		// Set the grid if not already existent
-		if (empty($scheduleModel->schedule->periods->$grid))
+		if (empty($scheduleModel->schedule->periods->$gpuntisID))
 		{
-			$scheduleModel->schedule->periods->$grid = new stdClass;
+			$scheduleModel->schedule->periods->$gpuntisID = new stdClass;
 		}
 
-		$scheduleModel->schedule->periods->$grid->$period            = new stdClass;
-		$scheduleModel->schedule->periods->$grid->$period->starttime = $startTime;
-		$scheduleModel->schedule->periods->$grid->$period->endtime   = $endTime;
+		$scheduleModel->schedule->periods->$gpuntisID->$period            = new stdClass;
+		$scheduleModel->schedule->periods->$gpuntisID->$period->starttime = $startTime;
+		$scheduleModel->schedule->periods->$gpuntisID->$period->endtime   = $endTime;
+
+		self::setGridEntry($grids, $gpuntisID, $day, $period, $startTime, $endTime);
 	}
 }

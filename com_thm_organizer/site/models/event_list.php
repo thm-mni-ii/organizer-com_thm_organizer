@@ -479,15 +479,13 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	{
 		$event = $this->_currentSchedule->lessons->{$this->_currentEvent};
 
-		$types       = $this->_currentSchedule->methods;
-		$invalidType = (empty($event->description) OR empty($types->{$event->description}) OR empty($types->{$event->description}->name));
-		if ($invalidType)
+		if (empty($event->description))
 		{
 			$type = '';
 		}
 		else
 		{
-			$type = $types->{$event->description}->name;
+			$type = $event->description;
 		}
 
 		$this->events[$this->_currentDate][$this->_currentEvent]['type'] = $type;

@@ -30,6 +30,8 @@ class THM_OrganizerControllerScheduler_Tree extends JControllerAdmin
 	 */
 	public function load()
 	{
-		$this->setRedirect(JRoute::_("index.php?option=com_thm_organizer&view=scheduler_tree&format=raw", false));
+		$this->input->set('view', 'scheduler_tree');
+		$this->input->set('format', 'raw');
+		parent::display();
 	}
 }

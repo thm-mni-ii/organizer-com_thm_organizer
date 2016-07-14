@@ -241,7 +241,7 @@ echo "<br> - <br>";
 echo THM_OrganizerHelperComponent::formatTime($blocks[$block]->end_time);
 ?>
                             </span>
-                            <span class="time-exams">
+								<span class="time-exams">
 <?php
 if (isset($examBlocks[$block]))
 {

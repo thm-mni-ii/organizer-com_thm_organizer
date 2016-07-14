@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 
+require_once 'schedule_resource.php';
+
 /**
  * Provides validation methods for xml room objects
  *
@@ -82,7 +84,7 @@ class THM_OrganizerHelperXMLRooms
 
 		foreach ($xmlObject->rooms->children() as $resourceNode)
 		{
-			self::validateSingle($scheduleModel, $resourceNode);
+			self::validateIndividual($scheduleModel, $resourceNode);
 		}
 
 		if (!empty($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']))
@@ -137,7 +139,7 @@ class THM_OrganizerHelperXMLRooms
 	 *
 	 * @return void
 	 */
-	public static function validateSingle(&$scheduleModel, &$roomNode)
+	public static function validateIndividual(&$scheduleModel, &$roomNode)
 	{
 		$gpuntisID = self::validateUntisID($scheduleModel, $roomNode);
 		if (!$gpuntisID)
@@ -163,6 +165,11 @@ class THM_OrganizerHelperXMLRooms
 
 		self::validateType($scheduleModel, $roomNode, $roomID);
 		self::setID($scheduleModel, $roomID);
+
+		if (!empty($scheduleModel->schedule->rooms->$roomID->id))
+		{
+			THM_OrganizerHelperXMLSchedule_Resource::setDepartmentResource($scheduleModel->schedule->rooms->$roomID->id, 'roomID');
+		}
 	}
 
 	/**

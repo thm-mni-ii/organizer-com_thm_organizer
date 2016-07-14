@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 
+require_once 'schedule_resource.php';
+
 /**
  * Provides validation methods for xml degree (department) objects
  *
@@ -110,7 +112,7 @@ class THM_OrganizerHelperXMLPrograms
 	}
 
 	/**
-	 * Validates the degrees (programs/departments) node
+	 * Validates the resource collection node
 	 *
 	 * @param   object &$scheduleModel the validating schedule model
 	 * @param   object &$xmlObject     the xml object being validated
@@ -168,6 +170,11 @@ class THM_OrganizerHelperXMLPrograms
 		}
 
 		$scheduleModel->schedule->degrees->$degreeID->name = $degreeName;
-		$scheduleModel->schedule->degrees->$degreeID->id   = self::getPlanResourceID($scheduleModel->schedule->degrees->$degreeID);
+		$planResourceID                                    = self::getPlanResourceID($scheduleModel->schedule->degrees->$degreeID);
+		if (!empty($planResourceID))
+		{
+			$scheduleModel->schedule->degrees->$degreeID->id = $planResourceID;
+			THM_OrganizerHelperXMLSchedule_Resource::setDepartmentResource($planResourceID, 'programID');
+		}
 	}
 }

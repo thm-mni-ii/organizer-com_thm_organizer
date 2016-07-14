@@ -15,11 +15,11 @@ Ext.override(
         fullUpdate: function (date, active)
         {
             var me = this,
-            // cell of the calendar
+                // cell of the calendar
                 cells = me.cells.elements,
-            // the span elements for every day
+                // the span elements for every day
                 textNodes = me.textNodes,
-            // CSS class of disabled cells
+                // CSS class of disabled cells
                 disabledCls = me.disabledCellCls,
                 eDate = Ext.Date,
                 i = 0,
@@ -30,7 +30,7 @@ Ext.override(
                 min = me.minDate ? eDate.clearTime(me.minDate, true) : Number.NEGATIVE_INFINITY,
                 max = me.maxDate ? eDate.clearTime(me.maxDate, true) : Number.POSITIVE_INFINITY,
                 ddMatch = me.disabledDatesRE,
-            // Text is shown on disabled dates
+                // Text is shown on disabled dates
                 ddText = me.disabledDatesText,
                 ddays = me.disabledDays ? me.disabledDays.join('') : false,
                 ddaysText = me.disabledDaysText,

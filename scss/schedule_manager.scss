@@ -4,20 +4,6 @@
 @import '../../lib_thm_core/scss/icons';
 
 // ------------------------------------
-// Page icon
-// ------------------------------------
-.icon-48-organizer_schedules {
-  @extend %icon-schedules;
-}
-
-// ------------------------------------
-// Page icon
-// ------------------------------------
-.icon-32-merge {
-  @extend %icon-merge;
-}
-
-// ------------------------------------
 // Filter definitions
 // ------------------------------------
 fieldset.filter-bar, div.filter-bar {

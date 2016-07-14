@@ -171,6 +171,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		THM_OrganizerHelperXMLTimePeriods::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLDescriptions::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLPrograms::validate($this, $xmlSchedule);
+		THM_OrganizerHelperXMLPools::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLRooms::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
@@ -178,7 +179,6 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		// Object longer needed (next version)
 		unset($this->schedule->fields);
 
-		THM_OrganizerHelperXMLPools::validate($this, $xmlSchedule);
 
 		$this->initializeCalendar($termStartTime, $termEndTime);
 		$lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);

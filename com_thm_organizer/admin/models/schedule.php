@@ -509,7 +509,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 		foreach ($refCalendar as $date => $periods)
 		{
-			if (!is_object($calendar->$date) OR empty($periods))
+			$invalidDate = (empty($calendar->$date) OR !is_object($calendar->$date) OR empty($periods));
+			if ($invalidDate)
 			{
 				continue;
 			}
