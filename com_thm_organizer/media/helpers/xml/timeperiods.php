@@ -52,13 +52,14 @@ class THM_OrganizerHelperXMLTimePeriods
 	 *
 	 * @param   object $grids     the grids container object
 	 * @param   string $gpuntisID the name used for the grid in untis
+	 * @param   int    $day       the day number
 	 * @param   int    $period    the period number
 	 * @param   int    $startTime the period start time as a 4 digit number
 	 * @param   int    $endTime   the period end time as a 4 digit number
 	 *
 	 * @return void modifies the grids object
 	 */
-	private static function setGridEntry(&$grids, $gpuntisID, $period, $startTime, $endTime)
+	private static function setGridEntry(&$grids, $gpuntisID, $day, $period, $startTime, $endTime)
 	{
 		// Builds the object for the DB
 		if (!isset($grids->$gpuntisID))
@@ -68,13 +69,26 @@ class THM_OrganizerHelperXMLTimePeriods
 			$grids->$gpuntisID->name_de   = $gpuntisID;
 			$grids->$gpuntisID->name_en   = $gpuntisID;
 			$grids->$gpuntisID->grid      = new stdClass;
+			$grids->$gpuntisID->grid->periods      = new stdClass;
+		}
+
+		$setStartDay = (empty($grids->$gpuntisID->grid->start_day) OR $grids->$gpuntisID->grid->start_day > $day);
+		if ($setStartDay)
+		{
+			$grids->$gpuntisID->grid->start_day = $day;
+		}
+
+		$setEndDay = (empty($grids->$gpuntisID->grid->end_day) OR $grids->$gpuntisID->grid->end_day < $day);
+		if ($setEndDay)
+		{
+			$grids->$gpuntisID->grid->end_day = $day;
 		}
 
 		if (!isset($grids->$gpuntisID->blocks->$period))
 		{
-			$grids->$gpuntisID->grid->$period             = new stdClass;
-			$grids->$gpuntisID->grid->$period->start_time = $startTime;
-			$grids->$gpuntisID->grid->$period->end_time   = $endTime;
+			$grids->$gpuntisID->grid->periods->$period             = new stdClass;
+			$grids->$gpuntisID->grid->periods->$period->start_time = $startTime;
+			$grids->$gpuntisID->grid->periods->$period->end_time   = $endTime;
 		}
 	}
 

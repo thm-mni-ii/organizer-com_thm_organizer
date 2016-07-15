@@ -140,8 +140,7 @@
                size="70"
                label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"
-               hint="Grundlagen der Informatik"
-               required="true"/>
+               hint="Grundlagen der Informatik"/>
         <field name="short_name_de"
                type="text"
                class="inputbox"
@@ -228,7 +227,6 @@
                size="70"
                label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"
-               required="true"
                hint="Fundamentals of Computer Science"/>
         <field name="short_name_en"
                type="text"
