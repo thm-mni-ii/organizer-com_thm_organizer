@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'schedule_resource.php';
+require_once 'department_resources.php';
 
 /**
  * Provides validation methods for xml teacher objects
@@ -176,7 +176,7 @@ class THM_OrganizerHelperXMLTeachers
 
 		if (!empty($scheduleModel->schedule->teachers->$teacherID->id))
 		{
-			THM_OrganizerHelperXMLSchedule_Resource::setDepartmentResource($scheduleModel->schedule->teachers->$teacherID->id, 'teacherID');
+			THM_OrganizerHelperXMLDepartment_Resources::setDepartmentResource($scheduleModel->schedule->teachers->$teacherID->id, 'teacherID');
 		}
 	}
 

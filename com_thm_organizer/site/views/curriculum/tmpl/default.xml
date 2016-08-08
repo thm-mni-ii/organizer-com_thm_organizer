@@ -20,6 +20,16 @@
                     description="COM_THM_ORGANIZER_PROGRAM_DESC"
                     required="true"/>
             <field
+                    name="initialLanguage"
+                    type="list"
+                    default="de"
+                    required="true"
+                    label="COM_THM_ORGANIZER_LANGUAGE"
+                    description="COM_THM_ORGANIZER_LANGUAGE_DESC">
+                <option value="de">COM_THM_ORGANIZER_GERMAN</option>
+                <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
+            </field>
+            <field
                     name="suffix"
                     type="text"
                     class="inputbox"

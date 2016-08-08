@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'schedule_resource.php';
+require_once 'department_resources.php';
 
 /**
  * Provides validation methods for xml room objects
@@ -168,7 +168,7 @@ class THM_OrganizerHelperXMLRooms
 
 		if (!empty($scheduleModel->schedule->rooms->$roomID->id))
 		{
-			THM_OrganizerHelperXMLSchedule_Resource::setDepartmentResource($scheduleModel->schedule->rooms->$roomID->id, 'roomID');
+			THM_OrganizerHelperXMLDepartment_Resources::setDepartmentResource($scheduleModel->schedule->rooms->$roomID->id, 'roomID');
 		}
 	}
 

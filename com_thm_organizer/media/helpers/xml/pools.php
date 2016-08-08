@@ -11,6 +11,10 @@
  */
 defined('_JEXEC') or die;
 
+require_once 'grids.php';
+require_once 'department_resources.php';
+require_once 'programs.php';
+
 /**
  * Provides validation methods for xml pool (class) objects
  *
@@ -20,6 +24,88 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLPools
 {
+	/**
+	 * Retrieves the table id if existent.
+	 *
+	 * @param   string $gpuntisID the grid name in untis
+	 *
+	 * @return mixed int id on success, otherwise null
+	 */
+	public static function getID($gpuntisID)
+	{
+		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+		$data   = array('gpuntisID' => $gpuntisID);
+		$exists = $table->load($data);
+		if ($exists)
+		{
+			return $exists ? $table->id : null;
+		}
+		return null;
+	}
+
+	/**
+	 * Attempts to get the plan pool's id, creating it if non-existent.
+	 *
+	 * @param   object $pool the pool object
+	 *
+	 * @return mixed int on success, otherwise null
+	 */
+	private static function getPlanResourceID($pool)
+	{
+		$poolID = self::getID($pool->gpuntisID);
+		if (!empty($poolID))
+		{
+			return $poolID;
+		}
+
+		$programID = THM_OrganizerHelperXMLPrograms::getID($pool->degree);
+		if (empty($programID))
+		{
+			return null;
+		}
+
+		$data              = array();
+		$data['gpuntisID'] = $pool->gpuntisID;
+		$data['programID'] = $programID;
+		$data['name']      = $pool->restriction;
+		$data['full_name'] = $pool->longname;
+
+		$table   = JTable::getInstance('plan_pools', 'thm_organizerTable');
+		$success = $table->save($data);
+
+		return $success ? $table->id : null;
+
+	}
+
+	/**
+	 * Sets grid information for the pool node
+	 *
+	 * @param   object &$scheduleModel the validating schedule model
+	 * @param   int    $poolID
+	 * @param   object &$poolNode      the pool node to be modified
+	 *
+	 * @return  void modifies the $scheduleModel object
+	 */
+	private static function setGrid(&$scheduleModel, $poolID, &$poolNode)
+	{
+		$grid = (string) $poolNode->timegrid;
+		if (!empty($grid))
+		{
+			$scheduleModel->schedule->pools->$poolID->grid   = $grid;
+			$scheduleModel->schedule->pools->$poolID->gridID = THM_OrganizerHelperXMLGrids::getID($grid);
+		}
+		else
+		{
+			$grid                                          = 'Haupt-Zeitraster';
+			$scheduleModel->schedule->pools->$poolID->grid = $grid;
+			$gridID                                        = THM_OrganizerHelperXMLGrids::getID($grid);
+			if (!empty($gridID))
+			{
+				$scheduleModel->schedule->pools->$poolID->gridID = $gridID;
+			}
+		}
+	}
+
 	/**
 	 * Validates the pools (classes) node
 	 *
@@ -48,8 +134,7 @@ class THM_OrganizerHelperXMLPools
 	}
 
 	/**
-	 * Checks whether pool nodes have the expected structure and required
-	 * information
+	 * Checks whether pool nodes have the expected structure and required information
 	 *
 	 * @param   object &$scheduleModel the validating schedule model
 	 * @param   object &$poolNode      the pool node to be validated
@@ -67,7 +152,7 @@ class THM_OrganizerHelperXMLPools
 
 		$poolID                                                = str_replace('CL_', '', $gpuntisID);
 		$scheduleModel->schedule->pools->$poolID               = new stdClass;
-		$scheduleModel->schedule->pools->$poolID->gpuntisID    = $gpuntisID;
+		$scheduleModel->schedule->pools->$poolID->gpuntisID    = $poolID;
 		$scheduleModel->schedule->pools->$poolID->name         = $poolID;
 		$scheduleModel->schedule->pools->$poolID->localUntisID = str_replace('CL_', '', trim((string) $poolNode[0]['id']));
 
@@ -101,12 +186,18 @@ class THM_OrganizerHelperXMLPools
 			return;
 		}
 
-		$scheduleModel->schedule->pools->$poolID->longname    = $poolID;
+		$scheduleModel->schedule->pools->$poolID->longname    = $longName;
 		$scheduleModel->schedule->pools->$poolID->restriction = $restriction;
 		$scheduleModel->schedule->pools->$poolID->degree      = $degreeID;
 
-		$grid                                          = (string) $poolNode->timegrid;
-		$scheduleModel->schedule->pools->$poolID->grid = empty($grid) ? 'Haupt-Zeitraster' : $grid;
+		self::setGrid($scheduleModel, $poolID, $poolNode);
+
+		$planResourceID = self::getPlanResourceID($scheduleModel->schedule->pools->$poolID);
+		if (!empty($planResourceID))
+		{
+			$scheduleModel->schedule->pools->$poolID->id = $planResourceID;
+			THM_OrganizerHelperXMLDepartment_Resources::setDepartmentResource($planResourceID, 'poolID');
+		}
 	}
 
 	/**

@@ -70,7 +70,7 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
 		$this->maxItems    = $menu->params->get('maxItems', 5);
 		$this->ecollabLink = $menu->params->get('eCollabLink', '');
 
-		$this->lang             = THM_OrganizerHelperLanguage::getLanguage();
+		$this->lang             = THM_OrganizerHelperLanguage::getLanguage($menu->params->get('initialLanguage', ''));
 		$this->item             = $this->get('Item');
 		$lsParams               = array('view' => 'curriculum', 'id' => $this->item->id);
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($lsParams);

@@ -169,7 +169,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '0');
 		$this->state->set('list.limit', $limit);
 
-		$menuLanguage = ($params->get('language') == '0') ? 'en' : 'de';
+		$menuLanguage = $params->get('initialLanguage', 'de');
 		$languageTag  = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag', $menuLanguage);
 		$this->state->set('languageTag', $languageTag);
 

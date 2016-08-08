@@ -11,14 +11,14 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'programs.php';
 require_once 'descriptions.php';
+require_once 'grids.php';
 require_once 'lessons.php';
 require_once 'pools.php';
+require_once 'programs.php';
 require_once 'rooms.php';
 require_once 'subjects.php';
 require_once 'teachers.php';
-require_once 'timeperiods.php';
 
 /**
  * Class enapsulating data abstraction and business logic for xml schedules
@@ -168,7 +168,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 			);
 		}
 
-		THM_OrganizerHelperXMLTimePeriods::validate($this, $xmlSchedule);
+		THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLDescriptions::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLPrograms::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLPools::validate($this, $xmlSchedule);

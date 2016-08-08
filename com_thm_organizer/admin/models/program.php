@@ -62,11 +62,16 @@ class THM_OrganizerModelProgram extends JModelLegacy
 	/**
 	 * Method to save degree programs
 	 *
+	 * @param   array $data program data if not called from a program edit form
+	 *
 	 * @return  Boolean
 	 */
-	public function save()
+	public function save($data = null)
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		if (empty($data))
+		{
+			$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		}
 		$this->_db->transactionStart();
 		$table     = JTable::getInstance('programs', 'thm_organizerTable');
 		$dpSuccess = $table->save($data);

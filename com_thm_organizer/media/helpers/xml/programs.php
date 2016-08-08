@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'schedule_resource.php';
+require_once 'department_resources.php';
 
 /**
  * Provides validation methods for xml degree (department) objects
@@ -23,6 +23,25 @@ require_once 'schedule_resource.php';
 class THM_OrganizerHelperXMLPrograms
 {
 	/**
+	 * Retrieves the table id if existent.
+	 *
+	 * @param   string $gpuntisID the grid name in untis
+	 *
+	 * @return mixed int id on success, otherwise null
+	 */
+	public static function getID($gpuntisID)
+	{
+		$table  = JTable::getInstance('plan_programs', 'thm_organizerTable');
+		$data   = array('gpuntisID' => $gpuntisID);
+		$exists = $table->load($data);
+		if ($exists)
+		{
+			return $exists ? $table->id : null;
+		}
+		return null;
+	}
+
+	/**
 	 * Attempts to get the plan program's id, creating it if non-existent.
 	 *
 	 * @param   object $program the program object
@@ -31,19 +50,20 @@ class THM_OrganizerHelperXMLPrograms
 	 */
 	private static function getPlanResourceID($program)
 	{
-		$planResourceTable = JTable::getInstance('plan_programs', 'thm_organizerTable');
-		$data              = array('gpuntisID' => $program->gpuntisID);
-		$exists            = $planResourceTable->load($data);
-		if ($exists)
+		$programID = self::getID($program->gpuntisID);
+		if (!empty($programID))
 		{
-			return $planResourceTable->id;
+			return $programID;
 		}
 
+		$data              = array();
+		$data['gpuntisID'] = $program->gpuntisID;
 		$data['name']      = $program->name;
 		$plausibleData     = self::getPlausibleData($program->gpuntisID);
 		$tempArray         = explode('(', $program->name);
 		$tempName          = trim($tempArray[0]);
-		$data['programID'] = $plausibleData ? self::getRealID($plausibleData, $tempName) : null;
+		$data['programID'] = $plausibleData ? self::getProgramID($plausibleData, $tempName) : null;
+		$planResourceTable = JTable::getInstance('plan_programs', 'thm_organizerTable');
 		$success           = $planResourceTable->save($data);
 
 		return $success ? $planResourceTable->id : null;
@@ -93,7 +113,7 @@ class THM_OrganizerHelperXMLPrograms
 	 *
 	 * @return mixed int on success, otherwise false
 	 */
-	private static function getRealID($programData, $tempName)
+	private static function getProgramID($programData, $tempName)
 	{
 		$programTable = JTable::getInstance('programs', 'thm_organizerTable');
 		$exists       = $programTable->load($programData);
@@ -106,9 +126,13 @@ class THM_OrganizerHelperXMLPrograms
 		$programData['departmentID'] = $formData['departmentID'];
 		$programData['name_de']      = $tempName;
 		$programData['name_en']      = $tempName;
-		$success                     = $programTable->save($programData);
 
-		return $success ? $programTable->id : null;
+		require_once JPATH_COMPONENT_ADMINISTRATOR . '/models/program.php';
+
+		$model     = JModelLegacy::getInstance('program', 'THM_OrganizerModel');
+		$programID = $model->save($programData);
+
+		return empty($programID) ? null : $programID;
 	}
 
 	/**
@@ -174,7 +198,7 @@ class THM_OrganizerHelperXMLPrograms
 		if (!empty($planResourceID))
 		{
 			$scheduleModel->schedule->degrees->$degreeID->id = $planResourceID;
-			THM_OrganizerHelperXMLSchedule_Resource::setDepartmentResource($planResourceID, 'programID');
+			THM_OrganizerHelperXMLDepartment_Resources::setDepartmentResource($planResourceID, 'programID');
 		}
 	}
 }

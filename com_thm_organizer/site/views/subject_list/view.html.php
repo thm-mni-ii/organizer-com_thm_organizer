@@ -42,7 +42,9 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->modifyDocument();
-		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
+
+		$menu       = JFactory::getApplication()->getMenu()->getActive();
+		$this->lang = THM_OrganizerHelperLanguage::getLanguage($menu->params->get('initialLanguage', 'de'));
 
 		$this->state      = $this->get('State');
 		$this->items      = $this->get('items');
@@ -54,8 +56,8 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 		$model             = $this->getModel();
 		$this->programName = $model->programName;
 
-		$groupByArray  = array(0 => 'list', 1 => 'pool', 2 => 'teacher', 3 => 'field');
-		$groupByIndex  = JFactory::getApplication()->getParams()->get('groupBy', 0);
+		$groupByArray  = array(0 => 'list', 1 => 'pool', 2 => 'teacher', 3 => 'field', 4 => 'subjectNo');
+		$groupByIndex  = $menu->params->get('groupBy', 0);
 		$this->groupBy = $groupByArray[$groupByIndex];
 
 		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');

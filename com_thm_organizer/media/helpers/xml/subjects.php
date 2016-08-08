@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 
+require_once 'department_resources.php';
+
 /**
  * Provides validation methods for xml subject objects
  *
@@ -20,6 +22,59 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLSubjects
 {
+	/**
+	 * Retrieves the table id if existent.
+	 *
+	 * @param   string $subjectIndex the subject index (dept. abbreviation + gpuntis id)
+	 *
+	 * @return mixed int id on success, otherwise null
+	 */
+	public static function getID($subjectIndex)
+	{
+		$table  = JTable::getInstance('plan_subjects', 'thm_organizerTable');
+		$data   = array('subjectIndex' => $subjectIndex);
+		$exists = $table->load($data);
+		if ($exists)
+		{
+			return $exists ? $table->id : null;
+		}
+		return null;
+	}
+
+	/**
+	 * Attempts to get the plan subject's id, creating it if non-existent.
+	 *
+	 * @param   object $subject the subject object
+	 *
+	 * @return mixed int on success, otherwise null
+	 */
+	private static function getPlanResourceID($subjectIndex, $subject)
+	{
+		$subjectID = self::getID($subjectIndex);
+		if (!empty($subjectID))
+		{
+			return $subjectID;
+		}
+
+		$data              = array();
+		$data['subjectIndex'] = $subjectIndex;
+		$data['gpuntisID'] = $subject->gpuntisID;
+
+		if (!empty($subject->fieldID))
+		{
+			$data['fieldID']   = $subject->fieldID;
+		}
+
+		$data['subjectNo'] = $subject->subjectNo;
+		$data['name']      = $subject->longname;
+
+		$table   = JTable::getInstance('plan_subjects', 'thm_organizerTable');
+		$success = $table->save($data);
+
+		return $success ? $table->id : null;
+
+	}
+
 	/**
 	 * Checks whether subject nodes have the expected structure and required information
 	 *
@@ -87,11 +142,11 @@ class THM_OrganizerHelperXMLSubjects
 		$subjectID                                                   = str_replace('SU_', '', $gpuntisID);
 		$subjectIndex                                                = $department . "_" . $subjectID;
 		$scheduleModel->schedule->subjects->$subjectIndex            = new stdClass;
-		$scheduleModel->schedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
+		$scheduleModel->schedule->subjects->$subjectIndex->gpuntisID = $subjectID;
 		$scheduleModel->schedule->subjects->$subjectIndex->name      = $subjectID;
 
-		$longname = self::validateLongName($scheduleModel, $subjectNode, $subjectIndex, $subjectID);
-		if (!$longname)
+		$longName = self::validateLongName($scheduleModel, $subjectNode, $subjectIndex, $subjectID);
+		if (!$longName)
 		{
 			return;
 		}
@@ -100,8 +155,15 @@ class THM_OrganizerHelperXMLSubjects
 		self::validateField($scheduleModel, $subjectNode, $subjectIndex);
 		if (!empty($warningString))
 		{
-			$warning                           = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longname, $subjectID, $warningString);
+			$warning                           = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longName, $subjectID, $warningString);
 			$scheduleModel->scheduleWarnings[] = $warning;
+		}
+
+		$planResourceID = self::getPlanResourceID($subjectIndex, $scheduleModel->schedule->subjects->$subjectIndex);
+		if (!empty($planResourceID))
+		{
+			$scheduleModel->schedule->subjects->$subjectIndex->id = $planResourceID;
+			THM_OrganizerHelperXMLDepartment_Resources::setDepartmentResource($planResourceID, 'subjectID');
 		}
 	}
 

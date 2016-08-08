@@ -20,12 +20,23 @@
                     description="COM_THM_ORGANIZER_PROGRAM_DESC"
                     required="true"/>
             <field
+                    name="initialLanguage"
+                    type="list"
+                    default="de"
+                    required="true"
+                    label="COM_THM_ORGANIZER_LANGUAGE"
+                    description="COM_THM_ORGANIZER_LANGUAGE_DESC">
+                <option value="de">COM_THM_ORGANIZER_GERMAN</option>
+                <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
+            </field>
+            <field
                     name="groupBy"
                     type="list"
                     default="0"
-                    label="COM_THM_ORGANIZER_GROUP_BY"
-                    description="COM_THM_ORGANIZER_GROUP_BY_DESC">
-                <option value="0">JNONE</option>
+                    label="COM_THM_ORGANIZER_ORGANIZE_BY"
+                    description="COM_THM_ORGANIZER_ORGANIZE_BY_DESC">
+                <option value="0">COM_THM_ORGANIZER_ALPHABETICAL</option>
+                <option value="4">COM_THM_ORGANIZER_BY_SUBJECTNO</option>
                 <option value="1">COM_THM_ORGANIZER_BY_GROUP</option>
                 <option value="2">COM_THM_ORGANIZER_BY_TEACHER</option>
                 <option value="3">COM_THM_ORGANIZER_BY_FIELD</option>

@@ -54,7 +54,10 @@ $resetVisibility .= ';"';
 		<?php
 		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $this->groupBy));
 		echo JHtml::_('bootstrap.addTab', 'myTab', 'list', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
-		THM_OrganizerTemplateUngroupedList::render($this);
+		THM_OrganizerTemplateUngroupedList::render($this, 'name');
+		echo JHtml::_('bootstrap.endTab');
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'subjectNo', $this->lang->_('COM_THM_ORGANIZER_BY_SUBJECTNO'));
+		THM_OrganizerTemplateUngroupedList::render($this, 'number');
 		echo JHtml::_('bootstrap.endTab');
 		echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('COM_THM_ORGANIZER_BY_GROUP'));
 		$poolParams = array('order' => 'lft', 'name' => 'pool', 'id' => 'poolID', 'bgColor' => 'poolColor');

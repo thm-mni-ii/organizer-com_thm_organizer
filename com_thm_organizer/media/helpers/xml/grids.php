@@ -18,8 +18,26 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.media
  */
-class THM_OrganizerHelperXMLTimePeriods
+class THM_OrganizerHelperXMLGrids
 {
+	/**
+	 * Retrieves the table id if existent.
+	 *
+	 * @param   string $gpuntisID the grid name in untis
+	 *
+	 * @return mixed int id on success, otherwise null
+	 */
+	public static function getID($gpuntisID)
+	{
+		$table  = JTable::getInstance('grids', 'thm_organizerTable');
+		$data   = array('gpuntisID' => $gpuntisID);
+		$exists = $table->load($data);
+		if ($exists)
+		{
+			return $exists ? $table->id : null;
+		}
+	}
+
 	/**
 	 * Saves the grid to the corresponding table if not already existent.
 	 *
@@ -30,10 +48,8 @@ class THM_OrganizerHelperXMLTimePeriods
 	 */
 	private static function saveGridEntry($gpuntisID, $grid)
 	{
-		$gridTable = JTable::getInstance('grids', 'thm_organizerTable');
-		$data      = array('gpuntisID' => $gpuntisID);
-		$exists    = $gridTable->load($data);
-		if ($exists)
+		$gridID = self::getID($gpuntisID);
+		if (!empty($gridID))
 		{
 			return;
 		}
@@ -44,6 +60,8 @@ class THM_OrganizerHelperXMLTimePeriods
 		}
 
 		$grid->grid = json_encode($grid->grid);
+
+		$gridTable = JTable::getInstance('grids', 'thm_organizerTable');
 		$gridTable->save($grid);
 	}
 
@@ -64,12 +82,12 @@ class THM_OrganizerHelperXMLTimePeriods
 		// Builds the object for the DB
 		if (!isset($grids->$gpuntisID))
 		{
-			$grids->$gpuntisID            = new stdClass;
-			$grids->$gpuntisID->gpuntisID = $gpuntisID;
-			$grids->$gpuntisID->name_de   = $gpuntisID;
-			$grids->$gpuntisID->name_en   = $gpuntisID;
-			$grids->$gpuntisID->grid      = new stdClass;
-			$grids->$gpuntisID->grid->periods      = new stdClass;
+			$grids->$gpuntisID                = new stdClass;
+			$grids->$gpuntisID->gpuntisID     = $gpuntisID;
+			$grids->$gpuntisID->name_de       = $gpuntisID;
+			$grids->$gpuntisID->name_en       = $gpuntisID;
+			$grids->$gpuntisID->grid          = new stdClass;
+			$grids->$gpuntisID->grid->periods = new stdClass;
 		}
 
 		$setStartDay = (empty($grids->$gpuntisID->grid->start_day) OR $grids->$gpuntisID->grid->start_day > $day);

@@ -28,9 +28,9 @@ class THM_OrganizerHelperLanguage
 	public static function getLanguage()
 	{
 		$app                = JFactory::getApplication();
-		$default            = self::getShortTag();
-		$requested          = $app->input->get('languageTag', $default);
+		$requested          = $app->input->get('languageTag', self::getShortTag());
 		$supportedLanguages = array('en', 'de');
+
 		if (in_array($requested, $supportedLanguages))
 		{
 			switch ($requested)
@@ -59,8 +59,47 @@ class THM_OrganizerHelperLanguage
 	 *
 	 * @return  string
 	 */
+	public static function getLongTag()
+	{
+		$menu = JFactory::getApplication()->getMenu()->getActive();
+
+		if (!empty($menu))
+		{
+			$initialLanguage = $menu->params->get('initialLanguage', 'de');
+			switch ($initialLanguage)
+			{
+				case 'en':
+					$tag = 'en-GB';
+					break;
+				case 'de':
+				default:
+					$tag = 'de-DE';
+			}
+
+			return $tag;
+		}
+
+		return JFactory::getLanguage()->getTag();
+	}
+
+	/**
+	 * Retrieves the two letter language identifier
+	 *
+	 * @return  string
+	 */
 	public static function getShortTag()
 	{
+		$menu = JFactory::getApplication()->getMenu()->getActive();
+
+		if (!empty($menu))
+		{
+			$initialLanguage = $menu->params->get('initialLanguage', 'de');
+			if (!empty($initialLanguage))
+			{
+				return $initialLanguage;
+			}
+		}
+
 		$fullTag  = JFactory::getLanguage()->getTag();
 		$tagParts = explode('-', $fullTag);
 

@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.media
  */
-class THM_OrganizerHelperXMLSchedule_Resource
+class THM_OrganizerHelperXMLDepartment_Resources
 {
 	/**
 	 * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.

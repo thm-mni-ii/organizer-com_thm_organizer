@@ -28,7 +28,7 @@ class THM_OrganizerTemplateUngroupedList
 	 *
 	 * @return  void
 	 */
-	public static function render(&$view)
+	public static function render(&$view, $sort)
 	{
 		echo '<div class="subject-list-container">';
 		if (count($view->items))
@@ -41,7 +41,12 @@ class THM_OrganizerTemplateUngroupedList
 				{
 					continue;
 				}
-				$displayItems[$item->id] = THM_OrganizerTemplateItem::render($item);
+				$index = $sort == 'number'? 'externalID' : 'id';
+				$displayItems[$item->$index] = THM_OrganizerTemplateItem::render($item);
+			}
+			if ($sort == 'number')
+			{
+				ksort($displayItems);
 			}
 			echo implode($displayItems);
 			echo '</ul>';
