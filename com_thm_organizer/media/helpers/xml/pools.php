@@ -40,6 +40,7 @@ class THM_OrganizerHelperXMLPools
 		{
 			return $exists ? $table->id : null;
 		}
+
 		return null;
 	}
 

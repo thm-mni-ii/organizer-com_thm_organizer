@@ -187,6 +187,11 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		// No longer needed after lesson validation
 		unset($this->schedule->methods);
 
+		if (empty($this->scheduleErrors))
+		{
+			$lessonsHelper->saveLessons();
+		}
+
 		$this->printStatusReport();
 
 		return (count($this->scheduleErrors)) ? false : true;

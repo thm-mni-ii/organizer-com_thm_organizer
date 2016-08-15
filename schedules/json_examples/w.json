@@ -65,518 +65,620 @@
     "DIV.W": {
       "gpuntisID": "DIV.W",
       "name": "Diverse FB W Veranstaltungen",
-      "id": 1
+      "id": "1"
     },
     "INM.MA.2010": {
       "gpuntisID": "INM.MA.2010",
       "name": "International Marketing (M.A., 2010)",
-      "id": 2
+      "id": "2"
     },
     "KW.W": {
       "gpuntisID": "KW.W",
       "name": "Klausurwochen FB Wirtschaft",
-      "id": 3
+      "id": "3"
     },
     "MUK.DL": {
       "gpuntisID": "MUK.DL",
       "name": "Management & Kommunikation Dienstleistungen",
-      "id": 4
+      "id": "4"
     },
     "SZ.DL": {
       "gpuntisID": "SZ.DL",
       "name": "Sprachenzentrum Dienstleistungen",
-      "id": 5
+      "id": "5"
     },
     "UF.MA.2010": {
       "gpuntisID": "UF.MA.2010",
       "name": "Unternehmensf\u00fchrung (M.A.)",
-      "id": 6
+      "id": "6"
     },
     "US.MA.2015": {
       "gpuntisID": "US.MA.2015",
       "name": "Unternehmenssteuerung (M.A.)",
-      "id": 7
+      "id": "7"
     },
     "W.BA.2009": {
       "gpuntisID": "W.BA.2009",
       "name": "Betriebswirtschaft (B.A., 2009)",
-      "id": 8
+      "id": "8"
     },
     "W.BA.2015": {
       "gpuntisID": "W.BA.2015",
       "name": "Betriebswirtschaft (B.A., 2015)",
-      "id": 9
+      "id": "9"
     },
     "W.MB.2013": {
       "gpuntisID": "W.MB.2013",
       "name": "Master of Business Administration",
-      "id": 10
+      "id": "10"
     },
     "INM.MA.2016": {
       "gpuntisID": "INM.MA.2016",
       "name": "International Marketing (M.A., 2016)",
-      "id": 11
+      "id": "11"
     }
   },
   "pools": {
     "W.4": {
-      "gpuntisID": "CL_W.4",
+      "gpuntisID": "W.4",
       "name": "W.4",
       "localUntisID": "W.4",
-      "longname": "W.4",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. Semester",
       "restriction": "4. Semester",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "1"
     },
     "INM.KW": {
-      "gpuntisID": "CL_INM.KW",
+      "gpuntisID": "INM.KW",
       "name": "INM.KW",
       "localUntisID": "INM.KW",
-      "longname": "INM.KW",
+      "longname": "International Marketing (M.A.), Klausurwochen",
       "restriction": "IMKT (M.A.)",
       "degree": "KW.W",
-      "grid": "Klausurwochen"
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "2"
     },
     "INM10": {
-      "gpuntisID": "CL_INM10",
+      "gpuntisID": "INM10",
       "name": "INM10",
       "localUntisID": "INM10",
-      "longname": "INM10",
+      "longname": "International Marketing (M.A., 2010)",
       "restriction": "Alle Semester",
       "degree": "INM.MA.2010",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "3"
     },
     "INM10.BL": {
-      "gpuntisID": "CL_INM10.BL",
+      "gpuntisID": "INM10.BL",
       "name": "INM10.BL",
       "localUntisID": "INM10.BL",
-      "longname": "INM10.BL",
+      "longname": "International Marketing (M.A., 2010) Blockveranstaltungen",
       "restriction": "Blockveranst.",
       "degree": "INM.MA.2010",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "4"
     },
     "INM16": {
-      "gpuntisID": "CL_INM16",
+      "gpuntisID": "INM16",
       "name": "INM16",
       "localUntisID": "INM16",
-      "longname": "INM16",
+      "longname": "International Marketing (M.A., 2016)",
       "restriction": "Alle Semester",
       "degree": "INM.MA.2016",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "5"
     },
     "INM16.BL": {
-      "gpuntisID": "CL_INM16.BL",
+      "gpuntisID": "INM16.BL",
       "name": "INM16.BL",
       "localUntisID": "INM16.BL",
-      "longname": "INM16.BL",
+      "longname": "International Marketing (M.A., 2016) Blockveranstaltungen",
       "restriction": "Blockveranst.",
       "degree": "INM.MA.2010",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "6"
     },
     "MUK.W": {
-      "gpuntisID": "CL_MUK.W",
+      "gpuntisID": "MUK.W",
       "name": "MUK.W",
       "localUntisID": "MUK.W",
-      "longname": "MUK.W",
+      "longname": "MuK - W Dienstleistungen",
       "restriction": "FB 07 W",
       "degree": "MUK.DL",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "7"
     },
     "SZ.W": {
-      "gpuntisID": "CL_SZ.W",
+      "gpuntisID": "SZ.W",
       "name": "SZ.W",
       "localUntisID": "SZ.W",
-      "longname": "SZ.W",
+      "longname": "SZ - W Dienstleistungen",
       "restriction": "FB 07 W",
       "degree": "SZ.DL",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "8"
     },
     "TERMINE.W": {
-      "gpuntisID": "CL_TERMINE.W",
+      "gpuntisID": "TERMINE.W",
       "name": "TERMINE.W",
       "localUntisID": "TERMINE.W",
-      "longname": "TERMINE.W",
+      "longname": "Termine",
       "restriction": "Termine",
       "degree": "DIV.W",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "9"
     },
     "TUTOR.W": {
-      "gpuntisID": "CL_TUTOR.W",
+      "gpuntisID": "TUTOR.W",
       "name": "TUTOR.W",
       "localUntisID": "TUTOR.W",
-      "longname": "TUTOR.W",
+      "longname": "Tutorien",
       "restriction": "Tutorien",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "10"
     },
     "UF": {
-      "gpuntisID": "CL_UF",
+      "gpuntisID": "UF",
       "name": "UF",
       "localUntisID": "UF",
-      "longname": "UF",
+      "longname": "Unternehmensf\u00fchrung (M.A.)",
       "restriction": "Alle Semester",
       "degree": "UF.MA.2010",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "11"
     },
     "UF.KW": {
-      "gpuntisID": "CL_UF.KW",
+      "gpuntisID": "UF.KW",
       "name": "UF.KW",
       "localUntisID": "UF.KW",
-      "longname": "UF.KW",
+      "longname": "Unternehmensf\u00fchrung (M.A.), Klausurwochen",
       "restriction": "UF (M.A.)",
       "degree": "KW.W",
-      "grid": "Klausurwochen"
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "12"
     },
     "US": {
-      "gpuntisID": "CL_US",
+      "gpuntisID": "US",
       "name": "US",
       "localUntisID": "US",
-      "longname": "US",
+      "longname": "Unternehmenssteuerung (M.A.)",
       "restriction": "Alle Semester",
       "degree": "US.MA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "13"
     },
     "US.KW": {
-      "gpuntisID": "CL_US.KW",
+      "gpuntisID": "US.KW",
       "name": "US.KW",
       "localUntisID": "US.KW",
-      "longname": "US.KW",
+      "longname": "Unternehmenssteuerung (M.A.), Klausurwochen",
       "restriction": "US (M.A.)",
       "degree": "KW.W",
-      "grid": "Klausurwochen"
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "14"
     },
     "W.1": {
-      "gpuntisID": "CL_W.1",
+      "gpuntisID": "W.1",
       "name": "W.1",
       "localUntisID": "W.1",
-      "longname": "W.1",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 1. Semester",
       "restriction": "1. Semester",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "15"
     },
     "W.1.A": {
-      "gpuntisID": "CL_W.1.A",
+      "gpuntisID": "W.1.A",
       "name": "W.1.A",
       "localUntisID": "W.1.A",
-      "longname": "W.1.A",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 1. Semester, Gr. A",
       "restriction": "1. Sem. Gr. A.",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "16"
     },
     "W.1.B": {
-      "gpuntisID": "CL_W.1.B",
+      "gpuntisID": "W.1.B",
       "name": "W.1.B",
       "localUntisID": "W.1.B",
-      "longname": "W.1.B",
+      "longname": "Betriebswirtschaftslehre (B.Sc., 2015), 1. Semester, Gr. B",
       "restriction": "1. Sem. Gr. B.",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "17"
     },
     "W.2": {
-      "gpuntisID": "CL_W.2",
+      "gpuntisID": "W.2",
       "name": "W.2",
       "localUntisID": "W.2",
-      "longname": "W.2",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 2. Semester",
       "restriction": "2. Semester",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "18"
     },
     "W.3": {
-      "gpuntisID": "CL_W.3",
+      "gpuntisID": "W.3",
       "name": "W.3",
       "localUntisID": "W.3",
-      "longname": "W.3",
+      "longname": "Betriebswirtschaftslehre (B.Sc. 2015), 3. Semester",
       "restriction": "3. Semester",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "19"
     },
     "W.5": {
-      "gpuntisID": "CL_W.5",
+      "gpuntisID": "W.5",
       "name": "W.5",
       "localUntisID": "W.5",
-      "longname": "W.5",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 5. Semester",
       "restriction": "5. Semester",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "20"
     },
     "W.6": {
-      "gpuntisID": "CL_W.6",
+      "gpuntisID": "W.6",
       "name": "W.6",
       "localUntisID": "W.6",
-      "longname": "W.6",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 6. Semester",
       "restriction": "6. Semester",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "21"
     },
     "W.BL": {
-      "gpuntisID": "CL_W.BL",
+      "gpuntisID": "W.BL",
       "name": "W.BL",
       "localUntisID": "W.BL",
-      "longname": "W.BL",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015) Blockveranstaltungen",
       "restriction": "Blockveranst.",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "22"
     },
     "W.H.Alle": {
-      "gpuntisID": "CL_W.H.Alle",
+      "gpuntisID": "W.H.Alle",
       "name": "W.H.Alle",
       "localUntisID": "W.H.Alle",
-      "longname": "W.H.Alle",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, Alle Wahlpflichtf\u00e4cher",
       "restriction": "Alle WP-Mod.",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "23"
     },
     "W.H.CONT": {
-      "gpuntisID": "CL_W.H.CONT",
+      "gpuntisID": "W.H.CONT",
       "name": "W.H.CONT",
       "localUntisID": "W.H.CONT",
-      "longname": "W.H.CONT",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Controlling",
       "restriction": "SP CONT",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "24"
     },
     "W.H.FD": {
-      "gpuntisID": "CL_W.H.FD",
+      "gpuntisID": "W.H.FD",
       "name": "W.H.FD",
       "localUntisID": "W.H.FD",
-      "longname": "W.H.FD",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Finanzdienstleistungen",
       "restriction": "SP FDL",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "25"
     },
     "W.H.GW": {
-      "gpuntisID": "CL_W.H.GW",
+      "gpuntisID": "W.H.GW",
       "name": "W.H.GW",
       "localUntisID": "W.H.GW",
-      "longname": "W.H.GW",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Wirtschaftliches Gesundheitswesen",
       "restriction": "SP GW",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "26"
     },
     "W.H.IM": {
-      "gpuntisID": "CL_W.H.IM",
+      "gpuntisID": "W.H.IM",
       "name": "W.H.IM",
       "localUntisID": "W.H.IM",
-      "longname": "W.H.IM",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Internationales Management",
       "restriction": "SP IM",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "27"
     },
     "W.H.MARK": {
-      "gpuntisID": "CL_W.H.MARK",
+      "gpuntisID": "W.H.MARK",
       "name": "W.H.MARK",
       "localUntisID": "W.H.MARK",
-      "longname": "W.H.MARK",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Marketing",
       "restriction": "SP MKT",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "28"
     },
     "W.H.MS": {
-      "gpuntisID": "CL_W.H.MS",
+      "gpuntisID": "W.H.MS",
       "name": "W.H.MS",
       "localUntisID": "W.H.MS",
-      "longname": "W.H.MS",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Mittelstand",
       "restriction": "SP MST",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "29"
     },
     "W.H.PW": {
-      "gpuntisID": "CL_W.H.PW",
+      "gpuntisID": "W.H.PW",
       "name": "W.H.PW",
       "localUntisID": "W.H.PW",
-      "longname": "W.H.PW",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Personalwesen",
       "restriction": "SP PSW",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "30"
     },
     "W.H.SBWP": {
-      "gpuntisID": "CL_W.H.SBWP",
+      "gpuntisID": "W.H.SBWP",
       "name": "W.H.SBWP",
       "localUntisID": "W.H.SBWP",
-      "longname": "W.H.SBWP",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Steuerberatung und Wirtschaftspr\u00fcfung",
       "restriction": "SP SBWP",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "31"
     },
     "W.H.WI": {
-      "gpuntisID": "CL_W.H.WI",
+      "gpuntisID": "W.H.WI",
       "name": "W.H.WI",
       "localUntisID": "W.H.WI",
-      "longname": "W.H.WI",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Wirtschaftsinformatik",
       "restriction": "SP WI",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "32"
     },
     "W.H.WP": {
-      "gpuntisID": "CL_W.H.WP",
+      "gpuntisID": "W.H.WP",
       "name": "W.H.WP",
       "localUntisID": "W.H.WP",
-      "longname": "W.H.WP",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, Wahlpflichtf\u00e4cher",
       "restriction": "Freie WP-Mod.",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "33"
     },
     "W.H.WR": {
-      "gpuntisID": "CL_W.H.WR",
+      "gpuntisID": "W.H.WR",
       "name": "W.H.WR",
       "localUntisID": "W.H.WR",
-      "longname": "W.H.WR",
+      "longname": "Betriebswirtschaftslehre (B.A., 2015), 4. - 6. Semester, SP Wirtschaftsrecht",
       "restriction": "SP WR",
       "degree": "W.BA.2015",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "34"
     },
     "W.KW": {
-      "gpuntisID": "CL_W.KW",
+      "gpuntisID": "W.KW",
       "name": "W.KW",
       "localUntisID": "W.KW",
-      "longname": "W.KW",
+      "longname": "Betriebswirtschaftslehre (B.A.), Klausurwochen",
       "restriction": "BWL (B.A.)",
       "degree": "KW.W",
-      "grid": "Klausurwochen"
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "35"
     },
     "W09.4": {
-      "gpuntisID": "CL_W09.4",
+      "gpuntisID": "W09.4",
       "name": "W09.4",
       "localUntisID": "W09.4",
-      "longname": "W09.4",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. Semester",
       "restriction": "4. Semester",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "36"
     },
     "W09.45.Alle": {
-      "gpuntisID": "CL_W09.45.Alle",
+      "gpuntisID": "W09.45.Alle",
       "name": "W09.45.Alle",
       "localUntisID": "W09.45.Alle",
-      "longname": "W09.45.Alle",
+      "longname": "Betriebswirtschaftslehre (B.Sc., 2009), 4. & 5 Semester, Alle Wahlpflichtf\u00e4cher",
       "restriction": "Alle WP-Mod.",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "37"
     },
     "W09.45.CONT": {
-      "gpuntisID": "CL_W09.45.CONT",
+      "gpuntisID": "W09.45.CONT",
       "name": "W09.45.CONT",
       "localUntisID": "W09.45.CONT",
-      "longname": "W09.45.CONT",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Controlling",
       "restriction": "SP CONT",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "38"
     },
     "W09.45.FD": {
-      "gpuntisID": "CL_W09.45.FD",
+      "gpuntisID": "W09.45.FD",
       "name": "W09.45.FD",
       "localUntisID": "W09.45.FD",
-      "longname": "W09.45.FD",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Finanzdienstleistungen",
       "restriction": "SP FDL",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "39"
     },
     "W09.45.GW": {
-      "gpuntisID": "CL_W09.45.GW",
+      "gpuntisID": "W09.45.GW",
       "name": "W09.45.GW",
       "localUntisID": "W09.45.GW",
-      "longname": "W09.45.GW",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Wirtschaftliches Gesundheitswesen",
       "restriction": "SP GW",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "40"
     },
     "W09.45.IM": {
-      "gpuntisID": "CL_W09.45.IM",
+      "gpuntisID": "W09.45.IM",
       "name": "W09.45.IM",
       "localUntisID": "W09.45.IM",
-      "longname": "W09.45.IM",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Internationales Management",
       "restriction": "SP IM",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "41"
     },
     "W09.45.MARK": {
-      "gpuntisID": "CL_W09.45.MARK",
+      "gpuntisID": "W09.45.MARK",
       "name": "W09.45.MARK",
       "localUntisID": "W09.45.MARK",
-      "longname": "W09.45.MARK",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Marketing",
       "restriction": "SP MKT",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "42"
     },
     "W09.45.MS": {
-      "gpuntisID": "CL_W09.45.MS",
+      "gpuntisID": "W09.45.MS",
       "name": "W09.45.MS",
       "localUntisID": "W09.45.MS",
-      "longname": "W09.45.MS",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Mittelstand",
       "restriction": "SP MST",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "43"
     },
     "W09.45.PW": {
-      "gpuntisID": "CL_W09.45.PW",
+      "gpuntisID": "W09.45.PW",
       "name": "W09.45.PW",
       "localUntisID": "W09.45.PW",
-      "longname": "W09.45.PW",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Personalwesen",
       "restriction": "SP PSW",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "44"
     },
     "W09.45.SBWP": {
-      "gpuntisID": "CL_W09.45.SBWP",
+      "gpuntisID": "W09.45.SBWP",
       "name": "W09.45.SBWP",
       "localUntisID": "W09.45.SBWP",
-      "longname": "W09.45.SBWP",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Steuerberatung und Wirtschaftspr\u00fcfung",
       "restriction": "SP SBWP",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "45"
     },
     "W09.45.WI": {
-      "gpuntisID": "CL_W09.45.WI",
+      "gpuntisID": "W09.45.WI",
       "name": "W09.45.WI",
       "localUntisID": "W09.45.WI",
-      "longname": "W09.45.WI",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Wirtschaftsinformatik",
       "restriction": "SP WI",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "46"
     },
     "W09.45.WP": {
-      "gpuntisID": "CL_W09.45.WP",
+      "gpuntisID": "W09.45.WP",
       "name": "W09.45.WP",
       "localUntisID": "W09.45.WP",
-      "longname": "W09.45.WP",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, Wahlpflichtf\u00e4cher",
       "restriction": "Freie WP-Mod.",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "47"
     },
     "W09.45.WR": {
-      "gpuntisID": "CL_W09.45.WR",
+      "gpuntisID": "W09.45.WR",
       "name": "W09.45.WR",
       "localUntisID": "W09.45.WR",
-      "longname": "W09.45.WR",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 4. & 5. Semester, SP Wirtschaftsrecht",
       "restriction": "SP WR",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "48"
     },
     "W09.5": {
-      "gpuntisID": "CL_W09.5",
+      "gpuntisID": "W09.5",
       "name": "W09.5",
       "localUntisID": "W09.5",
-      "longname": "W09.5",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009), 5. Semester",
       "restriction": "5. Semester",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "49"
     },
     "W09.BL": {
-      "gpuntisID": "CL_W09.BL",
+      "gpuntisID": "W09.BL",
       "name": "W09.BL",
       "localUntisID": "W09.BL",
-      "longname": "W09.BL",
+      "longname": "Betriebswirtschaftslehre (B.A., 2009) Blockveranstaltungen",
       "restriction": "Blockveranst.",
       "degree": "W.BA.2009",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "50"
     },
     "ZV.W": {
-      "gpuntisID": "CL_ZV.W",
+      "gpuntisID": "ZV.W",
       "name": "ZV.W",
       "localUntisID": "ZV.W",
-      "longname": "ZV.W",
+      "longname": "Zusatzveranstaltungen",
       "restriction": "Zusatzveranst.",
       "degree": "DIV.W",
-      "grid": "Haupt-Zeitraster"
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "51"
     }
   },
   "rooms": {
@@ -1648,958 +1750,1077 @@
       "capacity": "",
       "description": "BR",
       "typeID": "37",
-      "id": 456
+      "id": "463"
     }
   },
   "subjects": {
     "W_Absatzpol.Instr.MM": {
-      "gpuntisID": "SU_Absatzpol.Instr.MM",
+      "gpuntisID": "Absatzpol.Instr.MM",
       "name": "Absatzpol.Instr.MM",
       "longname": "Absatzpolitische Instrumente: Marketing-Mix",
       "subjectNo": "533",
       "description": "WIR-MKT",
-      "fieldID": "33"
+      "fieldID": "33",
+      "id": "1"
     },
     "W_Akt.Them.SBu.WP": {
-      "gpuntisID": "SU_Akt.Them.SBu.WP",
+      "gpuntisID": "Akt.Them.SBu.WP",
       "name": "Akt.Them.SBu.WP",
       "longname": "Aktuelle Themen der Steuerberatung und Wirtschaftspr\u00fcfung",
       "subjectNo": "564",
       "description": "WIR-SBWP",
-      "fieldID": "36"
+      "fieldID": "36",
+      "id": "2"
     },
     "W_Akt.Them.d.UF": {
-      "gpuntisID": "SU_Akt.Them.d.UF",
+      "gpuntisID": "Akt.Them.d.UF",
       "name": "Akt.Them.d.UF",
       "longname": "Aktuelle Themen der Unternehmensf\u00fchrung",
       "subjectNo": "1017",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "3"
     },
     "W_Akt.Themen": {
-      "gpuntisID": "SU_Akt.Themen",
+      "gpuntisID": "Akt.Themen",
       "name": "Akt.Themen",
       "longname": "Aktuelle Themen",
       "subjectNo": "564",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "4"
     },
     "W_Akt.rechtl.Themen": {
-      "gpuntisID": "SU_Akt.rechtl.Themen",
+      "gpuntisID": "Akt.rechtl.Themen",
       "name": "Akt.rechtl.Themen",
       "longname": "Aktuelle wirtschaftsrechtliche Themen",
       "subjectNo": "594",
       "description": "WIR-JUR",
-      "fieldID": "24"
+      "fieldID": "24",
+      "id": "5"
     },
     "W_Allg.Steuerrecht": {
-      "gpuntisID": "SU_Allg.Steuerrecht",
+      "gpuntisID": "Allg.Steuerrecht",
       "name": "Allg.Steuerrecht",
       "longname": "Allgemeines Steuerrecht",
       "subjectNo": "712",
       "description": "WIR-SBWP",
-      "fieldID": "36"
+      "fieldID": "36",
+      "id": "6"
     },
     "W_Arb.rechtl.Grdl.f.F\u00fchr.kr.": {
-      "gpuntisID": "SU_Arb.rechtl.Grdl.f.F\u00fchr.kr.",
+      "gpuntisID": "Arb.rechtl.Grdl.f.F\u00fchr.kr.",
       "name": "Arb.rechtl.Grdl.f.F\u00fchr.kr.",
       "longname": "Arbeitsrechtliche Grundlagen f\u00fcr F\u00fchrungskr\u00e4fte",
       "subjectNo": "1011",
       "description": "REC",
-      "fieldID": "8"
+      "fieldID": "8",
+      "id": "7"
     },
     "W_Arbeit.i.Team": {
-      "gpuntisID": "SU_Arbeit.i.Team",
+      "gpuntisID": "Arbeit.i.Team",
       "name": "Arbeit.i.Team",
       "longname": "Arbeiten im Team",
       "subjectNo": "107",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "8"
     },
     "W_Arbeitsrecht": {
-      "gpuntisID": "SU_Arbeitsrecht",
+      "gpuntisID": "Arbeitsrecht",
       "name": "Arbeitsrecht",
       "longname": "Arbeitsrecht",
       "subjectNo": "593",
       "description": "WIR-JUR",
-      "fieldID": "24"
+      "fieldID": "24",
+      "id": "9"
     },
     "W_Ausb.betr.PraxisGrundl.": {
-      "gpuntisID": "SU_Ausb.betr.PraxisGrundl.",
+      "gpuntisID": "Ausb.betr.PraxisGrundl.",
       "name": "Ausb.betr.PraxisGrundl.",
       "longname": "Ausb. betr. Praxis Grundlagen",
       "subjectNo": "713",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "10"
     },
     "W_Ausb.betr.PraxisVid.analy.Fallst.": {
-      "gpuntisID": "SU_Ausb.betr.PraxisVid.analy.Fallst.",
+      "gpuntisID": "Ausb.betr.PraxisVid.analy.Fallst.",
       "name": "Ausb.betr.PraxisVid.analy.Fallst.",
       "longname": "Ausb. betr. Praxis Videoanalysen \/ Fallenst.",
       "subjectNo": "714",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "11"
     },
     "W_Au\u00dfenwirt.": {
-      "gpuntisID": "SU_Au\u00dfenwirt.",
+      "gpuntisID": "Au\u00dfenwirt.",
       "name": "Au\u00dfenwirt.",
       "longname": "Au\u00dfenwirtschaft",
       "subjectNo": "505",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "12"
     },
     "W_BI": {
-      "gpuntisID": "SU_BI",
+      "gpuntisID": "BI",
       "name": "BI",
       "longname": "Business Intelligence",
       "subjectNo": "913",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "13"
     },
     "W_BK-BF": {
-      "gpuntisID": "SU_BK-BF",
+      "gpuntisID": "BK-BF",
       "name": "BK-BF",
       "longname": "Br\u00fcckenkurs Buchf\u00fchrung",
       "subjectNo": "",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "14"
     },
     "W_BWL1": {
-      "gpuntisID": "SU_BWL1",
+      "gpuntisID": "BWL1",
       "name": "BWL1",
       "longname": "BWL1",
       "subjectNo": "",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "15"
     },
     "W_Basiskomp.KMU": {
-      "gpuntisID": "SU_Basiskomp.KMU",
+      "gpuntisID": "Basiskomp.KMU",
       "name": "Basiskomp.KMU",
       "longname": "Basiskompetenzen f\u00fcr Klein und Mittelunternehmen",
       "subjectNo": "543",
       "description": "WIR-MST",
-      "fieldID": "34"
+      "fieldID": "34",
+      "id": "16"
     },
     "W_Betr.soz.u.psych.": {
-      "gpuntisID": "SU_Betr.soz.u.psych.",
+      "gpuntisID": "Betr.soz.u.psych.",
       "name": "Betr.soz.u.psych.",
       "longname": "Betriebssoziologie und -psychologie",
       "subjectNo": "751",
       "description": "WIR-SOZ",
-      "fieldID": "26"
+      "fieldID": "26",
+      "id": "17"
     },
     "W_Betriebsgr.": {
-      "gpuntisID": "SU_Betriebsgr.",
+      "gpuntisID": "Betriebsgr.",
       "name": "Betriebsgr.",
       "longname": "Betriebsgr\u00fcndung",
       "subjectNo": "441",
       "description": "WIR-MST",
-      "fieldID": "34"
+      "fieldID": "34",
+      "id": "18"
     },
     "W_Bilanzsteuerrecht": {
-      "gpuntisID": "SU_Bilanzsteuerrecht",
+      "gpuntisID": "Bilanzsteuerrecht",
       "name": "Bilanzsteuerrecht",
       "longname": "Bilanzsteuerrecht",
       "subjectNo": "461",
       "description": "WIR-SBWP",
-      "fieldID": "36"
+      "fieldID": "36",
+      "id": "19"
     },
     "W_Bus.Engl.1": {
-      "gpuntisID": "SU_Bus.Engl.1",
+      "gpuntisID": "Bus.Engl.1",
       "name": "Bus.Engl.1",
       "longname": "Business Englisch Basics 1",
       "subjectNo": "106",
       "description": "SPR",
-      "fieldID": "9"
+      "fieldID": "9",
+      "id": "20"
     },
     "W_Bus.Engl.2": {
-      "gpuntisID": "SU_Bus.Engl.2",
+      "gpuntisID": "Bus.Engl.2",
       "name": "Bus.Engl.2",
       "longname": "Business Englisch Basics 2",
       "subjectNo": "207",
       "description": "SPR",
-      "fieldID": "9"
+      "fieldID": "9",
+      "id": "21"
     },
     "W_Cambridge Certif.": {
-      "gpuntisID": "SU_Cambridge Certif.",
+      "gpuntisID": "Cambridge Certif.",
       "name": "Cambridge Certif.",
       "longname": "Cambridge Certificate",
       "subjectNo": "763",
       "description": "SPR",
-      "fieldID": "9"
+      "fieldID": "9",
+      "id": "22"
     },
     "W_Comp.Sim.Game": {
-      "gpuntisID": "SU_Comp.Sim.Game",
+      "gpuntisID": "Comp.Sim.Game",
       "name": "Comp.Sim.Game",
       "longname": "Company Simulation Game",
       "subjectNo": "1101",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "23"
     },
     "W_Contr.f.F\u00fchr.kr\u00e4fte": {
-      "gpuntisID": "SU_Contr.f.F\u00fchr.kr\u00e4fte",
+      "gpuntisID": "Contr.f.F\u00fchr.kr\u00e4fte",
       "name": "Contr.f.F\u00fchr.kr\u00e4fte",
       "longname": "Controlling f\u00fcr F\u00fchrungskr\u00e4fte",
       "subjectNo": "1010",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "24"
     },
     "W_Corp.Banking": {
-      "gpuntisID": "SU_Corp.Banking",
+      "gpuntisID": "Corp.Banking",
       "name": "Corp.Banking",
       "longname": "Corporate Banking",
       "subjectNo": "513",
       "description": "WIR-FDL",
-      "fieldID": "31"
+      "fieldID": "31",
+      "id": "25"
     },
     "W_CountryRiskAn.": {
-      "gpuntisID": "SU_CountryRiskAn.",
+      "gpuntisID": "CountryRiskAn.",
       "name": "CountryRiskAn.",
       "longname": "Country Risk Analyis",
       "subjectNo": "2103",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "26"
     },
     "W_Cr. Cult. Cons. Behavior": {
-      "gpuntisID": "SU_Cr. Cult. Cons. Behavior",
+      "gpuntisID": "Cr. Cult. Cons. Behavior",
       "name": "Cr. Cult. Cons. Behavior",
       "longname": "Cross Cultural Consumer Behavior",
       "subjectNo": "1106",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "27"
     },
     "W_Datenmod.man.": {
-      "gpuntisID": "SU_Datenmod.man.",
+      "gpuntisID": "Datenmod.man.",
       "name": "Datenmod.man.",
       "longname": "Datenmodellierung und Datenmanagement",
       "subjectNo": "482",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "28"
     },
     "W_EBusiness": {
-      "gpuntisID": "SU_EBusiness",
+      "gpuntisID": "EBusiness",
       "name": "EBusiness",
       "longname": "Electronic Business",
       "subjectNo": "584",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "29"
     },
     "W_EFW": {
-      "gpuntisID": "SU_EFW",
+      "gpuntisID": "EFW",
       "name": "EFW",
       "longname": "Einf\u00fchrungswoche",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "30"
     },
     "W_Einf.Rewe": {
-      "gpuntisID": "SU_Einf.Rewe",
+      "gpuntisID": "Einf.Rewe",
       "name": "Einf.Rewe",
       "longname": "Einf\u00fchrung in das Rechnungswesen",
       "subjectNo": "103",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "31"
     },
     "W_Entrepreneurship": {
-      "gpuntisID": "SU_Entrepreneurship",
+      "gpuntisID": "Entrepreneurship",
       "name": "Entrepreneurship",
       "longname": "Entrepreneurship",
       "subjectNo": "441",
       "description": "WIR-MST",
-      "fieldID": "34"
+      "fieldID": "34",
+      "id": "32"
     },
     "W_Ertragsteuern": {
-      "gpuntisID": "SU_Ertragsteuern",
+      "gpuntisID": "Ertragsteuern",
       "name": "Ertragsteuern",
       "longname": "Ertragsteuern",
       "subjectNo": "462",
       "description": "WIR-SBWP",
-      "fieldID": "36"
+      "fieldID": "36",
+      "id": "33"
     },
     "W_Ext.Rewe": {
-      "gpuntisID": "SU_Ext.Rewe",
+      "gpuntisID": "Ext.Rewe",
       "name": "Ext.Rewe",
       "longname": "Externes Rechnungswesen",
       "subjectNo": "202",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "34"
     },
     "W_Fallstud.Contr.": {
-      "gpuntisID": "SU_Fallstud.Contr.",
+      "gpuntisID": "Fallstud.Contr.",
       "name": "Fallstud.Contr.",
       "longname": "Fallstudien Controlling",
       "subjectNo": "1211",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "35"
     },
     "W_Fallstud.Plansp.Proj.": {
-      "gpuntisID": "SU_Fallstud.Plansp.Proj.",
+      "gpuntisID": "Fallstud.Plansp.Proj.",
       "name": "Fallstud.Plansp.Proj.",
       "longname": "Fallstudien \/ Planspiel \/ Projekte",
       "subjectNo": "506",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "36"
     },
     "W_FinanzBWL": {
-      "gpuntisID": "SU_FinanzBWL",
+      "gpuntisID": "FinanzBWL",
       "name": "FinanzBWL",
       "longname": "BWL der Finanzinstitute",
       "subjectNo": "411",
       "description": "WIR-FDL",
-      "fieldID": "31"
+      "fieldID": "31",
+      "id": "37"
     },
     "W_Finanzman.contr.i.KH": {
-      "gpuntisID": "SU_Finanzman.contr.i.KH",
+      "gpuntisID": "Finanzman.contr.i.KH",
       "name": "Finanzman.contr.i.KH",
       "longname": "Finanzmanagement \/ -controlling im Krankenhaus",
       "subjectNo": "574",
       "description": "WIR-MED",
-      "fieldID": "27"
+      "fieldID": "27",
+      "id": "38"
     },
     "W_Finanzm\u00e4rkte": {
-      "gpuntisID": "SU_Finanzm\u00e4rkte",
+      "gpuntisID": "Finanzm\u00e4rkte",
       "name": "Finanzm\u00e4rkte",
       "longname": "Finanzm\u00e4rkte",
       "subjectNo": "412",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "39"
     },
     "W_Finanzwirtschaft": {
-      "gpuntisID": "SU_Finanzwirtschaft",
+      "gpuntisID": "Finanzwirtschaft",
       "name": "Finanzwirtschaft",
       "longname": "Finanzwirtschaft",
       "subjectNo": "301",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "40"
     },
     "W_GWDe.": {
-      "gpuntisID": "SU_GWDe.",
+      "gpuntisID": "GWDe.",
       "name": "GWDe.",
       "longname": "Gesundheitswesen in Deutschland",
       "subjectNo": "471",
       "description": "WIR-MED",
-      "fieldID": "27"
+      "fieldID": "27",
+      "id": "41"
     },
     "W_Gesellschaftsrecht": {
-      "gpuntisID": "SU_Gesellschaftsrecht",
+      "gpuntisID": "Gesellschaftsrecht",
       "name": "Gesellschaftsrecht",
       "longname": "Gesellschaftsrecht",
       "subjectNo": "492",
       "description": "WIR-JUR",
-      "fieldID": "24"
+      "fieldID": "24",
+      "id": "42"
     },
     "W_Grdl.BWL": {
-      "gpuntisID": "SU_Grdl.BWL",
+      "gpuntisID": "Grdl.BWL",
       "name": "Grdl.BWL",
       "longname": "Grundlagen der BWL",
       "subjectNo": "101",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "43"
     },
     "W_Grdl.GW": {
-      "gpuntisID": "SU_Grdl.GW",
+      "gpuntisID": "Grdl.GW",
       "name": "Grdl.GW",
       "longname": "Grundlagen des Gesundheitswesens",
       "subjectNo": "472",
       "description": "WIR-MED",
-      "fieldID": "27"
+      "fieldID": "27",
+      "id": "44"
     },
     "W_Grdl.int.Man.": {
-      "gpuntisID": "SU_Grdl.int.Man.",
+      "gpuntisID": "Grdl.int.Man.",
       "name": "Grdl.int.Man.",
       "longname": "Grundlagen des internationalen Managements",
       "subjectNo": "421",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "45"
     },
     "W_HIT-BWL": {
-      "gpuntisID": "SU_HIT-BWL",
+      "gpuntisID": "HIT-BWL",
       "name": "HIT-BWL",
       "longname": "HIT - Betriebswirtschaft",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "46"
     },
     "W_IEntrepreExP": {
-      "gpuntisID": "SU_IEntrepreExP",
+      "gpuntisID": "IEntrepreExP",
       "name": "IEntrepreExP",
       "longname": "Int. Entrepreneuship Exchange",
       "subjectNo": "",
-      "description": ""
+      "description": "",
+      "id": "47"
     },
     "W_ITAnw.": {
-      "gpuntisID": "SU_ITAnw.",
+      "gpuntisID": "ITAnw.",
       "name": "ITAnw.",
       "longname": "IT - Anwendungen",
       "subjectNo": "304",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "48"
     },
     "W_Innov.u.Changeman.": {
-      "gpuntisID": "SU_Innov.u.Changeman.",
+      "gpuntisID": "Innov.u.Changeman.",
       "name": "Innov.u.Changeman.",
       "longname": "Innovations- und Changemanagement",
       "subjectNo": "1212",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "49"
     },
     "W_Int. Entrepreneurship Exchange": {
-      "gpuntisID": "SU_Int. Entrepreneurship Exchange",
+      "gpuntisID": "Int. Entrepreneurship Exchange",
       "name": "Int. Entrepreneurship Exchange",
       "longname": "International Entrepreneurship Exchange",
       "subjectNo": "",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "50"
     },
     "W_Int.Finanzman.": {
-      "gpuntisID": "SU_Int.Finanzman.",
+      "gpuntisID": "Int.Finanzman.",
       "name": "Int.Finanzman.",
       "longname": "Int. Finanzmanagement",
       "subjectNo": "719",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "51"
     },
     "W_Int.Mark.Mark.plan.": {
-      "gpuntisID": "SU_Int.Mark.Mark.plan.",
+      "gpuntisID": "Int.Mark.Mark.plan.",
       "name": "Int.Mark.Mark.plan.",
       "longname": "Int. Marketing\/Mark.plan.",
       "subjectNo": "724",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "52"
     },
     "W_Int.Mark.Research": {
-      "gpuntisID": "SU_Int.Mark.Research",
+      "gpuntisID": "Int.Mark.Research",
       "name": "Int.Mark.Research",
       "longname": "Internationale Markting Research",
       "subjectNo": "1104",
       "description": "WIR-MKT",
-      "fieldID": "33"
+      "fieldID": "33",
+      "id": "53"
     },
     "W_Int.Marketing": {
-      "gpuntisID": "SU_Int.Marketing",
+      "gpuntisID": "Int.Marketing",
       "name": "Int.Marketing",
       "longname": "International Marketing",
       "subjectNo": "1102",
       "description": "WIR-MKT",
-      "fieldID": "33"
+      "fieldID": "33",
+      "id": "54"
     },
     "W_Int.Rechn.leg.1": {
-      "gpuntisID": "SU_Int.Rechn.leg.1",
+      "gpuntisID": "Int.Rechn.leg.1",
       "name": "Int.Rechn.leg.1",
       "longname": "Internationale Rechnungslegung",
       "subjectNo": "718",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "55"
     },
     "W_Int.Rechn.leg.2": {
-      "gpuntisID": "SU_Int.Rechn.leg.2",
+      "gpuntisID": "Int.Rechn.leg.2",
       "name": "Int.Rechn.leg.2",
       "longname": "Internationale Rechnungslegung",
       "subjectNo": "1015",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "56"
     },
     "W_Int.Rewe": {
-      "gpuntisID": "SU_Int.Rewe",
+      "gpuntisID": "Int.Rewe",
       "name": "Int.Rewe",
       "longname": "Internes Rechnungswesen",
       "subjectNo": "302",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "57"
     },
     "W_Int.SalesMan.": {
-      "gpuntisID": "SU_Int.SalesMan.",
+      "gpuntisID": "Int.SalesMan.",
       "name": "Int.SalesMan.",
       "longname": "International Sales Management",
       "subjectNo": "2105",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "58"
     },
     "W_Int.Steuerrecht": {
-      "gpuntisID": "SU_Int.Steuerrecht",
+      "gpuntisID": "Int.Steuerrecht",
       "name": "Int.Steuerrecht",
       "longname": "Internationales Steuerrecht",
       "subjectNo": "720",
       "description": "WIR-SBWP",
-      "fieldID": "36"
+      "fieldID": "36",
+      "id": "59"
     },
     "W_Jahr.abschl.analyse": {
-      "gpuntisID": "SU_Jahr.abschl.analyse",
+      "gpuntisID": "Jahr.abschl.analyse",
       "name": "Jahr.abschl.analyse",
       "longname": "Jahresabschlussanalyse",
       "subjectNo": "914",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "60"
     },
     "W_Kernaufg.d.Personalarb.": {
-      "gpuntisID": "SU_Kernaufg.d.Personalarb.",
+      "gpuntisID": "Kernaufg.d.Personalarb.",
       "name": "Kernaufg.d.Personalarb.",
       "longname": "Kernaufgaben der Personalarbeit",
       "subjectNo": "451",
       "description": "WIR-PSW",
-      "fieldID": "35"
+      "fieldID": "35",
+      "id": "61"
     },
     "W_Kernkomp.IM": {
-      "gpuntisID": "SU_Kernkomp.IM",
+      "gpuntisID": "Kernkomp.IM",
       "name": "Kernkomp.IM",
       "longname": "Kernkompetenzen des internationalen Managements",
       "subjectNo": "422",
       "description": "WIR-IMN",
-      "fieldID": "32"
+      "fieldID": "32",
+      "id": "62"
     },
     "W_Kost.man.": {
-      "gpuntisID": "SU_Kost.man.",
+      "gpuntisID": "Kost.man.",
       "name": "Kost.man.",
       "longname": "Kostenmanagement",
       "subjectNo": "402",
       "description": "WIR-CNT",
-      "fieldID": "30"
+      "fieldID": "30",
+      "id": "63"
     },
     "W_Krisenmanag.": {
-      "gpuntisID": "SU_Krisenmanag.",
+      "gpuntisID": "Krisenmanag.",
       "name": "Krisenmanag.",
       "longname": "Krisenmanagement",
       "subjectNo": "",
-      "description": ""
+      "description": "",
+      "id": "64"
     },
     "W_K\u00e4uferverhalten": {
-      "gpuntisID": "SU_K\u00e4uferverhalten",
+      "gpuntisID": "K\u00e4uferverhalten",
       "name": "K\u00e4uferverhalten",
       "longname": "K\u00e4uferverhalten",
       "subjectNo": "431",
       "description": "WIR-MKT",
-      "fieldID": "33"
+      "fieldID": "33",
+      "id": "65"
     },
     "W_Lead.&Int.cult.Comm.": {
-      "gpuntisID": "SU_Lead.&Int.cult.Comm.",
+      "gpuntisID": "Lead.&Int.cult.Comm.",
       "name": "Lead.&Int.cult.Comm.",
       "longname": "Leadership & Intercultural Communication",
       "subjectNo": "1105",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "66"
     },
     "W_Makro\u00f6ko.": {
-      "gpuntisID": "SU_Makro\u00f6ko.",
+      "gpuntisID": "Makro\u00f6ko.",
       "name": "Makro\u00f6ko.",
       "longname": "Angewandte Makro\u00f6konomie",
       "subjectNo": "203",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "67"
     },
     "W_Marketing": {
-      "gpuntisID": "SU_Marketing",
+      "gpuntisID": "Marketing",
       "name": "Marketing",
       "longname": "Marketing",
       "subjectNo": "102",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "68"
     },
     "W_MarketingContr.": {
-      "gpuntisID": "SU_MarketingContr.",
+      "gpuntisID": "MarketingContr.",
       "name": "MarketingContr.",
       "longname": "Marketing Controlling",
       "subjectNo": "2102",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "69"
     },
     "W_MarketingMan.": {
-      "gpuntisID": "SU_MarketingMan.",
+      "gpuntisID": "MarketingMan.",
       "name": "MarketingMan.",
       "longname": "Marketing Management",
       "subjectNo": "432",
       "description": "WIR-MKT",
-      "fieldID": "33"
+      "fieldID": "33",
+      "id": "70"
     },
     "W_Marktforschung": {
-      "gpuntisID": "SU_Marktforschung",
+      "gpuntisID": "Marktforschung",
       "name": "Marktforschung",
       "longname": "Marktforschung",
       "subjectNo": "534",
       "description": "WIR-MKT",
-      "fieldID": "33"
+      "fieldID": "33",
+      "id": "71"
     },
     "W_Math\/OR1": {
-      "gpuntisID": "SU_Math\/OR1",
+      "gpuntisID": "Math\/OR1",
       "name": "Math\/OR1",
       "longname": "Mathematik \/ OR1",
       "subjectNo": "105",
       "description": "NAT",
-      "fieldID": "17"
+      "fieldID": "17",
+      "id": "72"
     },
     "W_Mikro\u00f6ko.": {
-      "gpuntisID": "SU_Mikro\u00f6ko.",
+      "gpuntisID": "Mikro\u00f6ko.",
       "name": "Mikro\u00f6ko.",
       "longname": "Angewandte Mikro\u00f6konomie",
       "subjectNo": "104",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "73"
     },
     "W_Moderation": {
-      "gpuntisID": "SU_Moderation",
+      "gpuntisID": "Moderation",
       "name": "Moderation",
       "longname": "Moderation",
       "subjectNo": "407",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "74"
     },
     "W_NN.W": {
-      "gpuntisID": "SU_NN.W",
+      "gpuntisID": "NN.W",
       "name": "NN.W",
       "longname": "W-Fach",
       "subjectNo": "",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "75"
     },
     "W_OPContr.": {
-      "gpuntisID": "SU_OPContr.",
+      "gpuntisID": "OPContr.",
       "name": "OPContr.",
       "longname": "Operatives Controlling",
       "subjectNo": "503",
       "description": "WIR-CNT",
-      "fieldID": "30"
+      "fieldID": "30",
+      "id": "76"
     },
     "W_Org.u.Pers.i.GW": {
-      "gpuntisID": "SU_Org.u.Pers.i.GW",
+      "gpuntisID": "Org.u.Pers.i.GW",
       "name": "Org.u.Pers.i.GW",
       "longname": "Organisation und Personal im Gesundheitswesen",
       "subjectNo": "573",
       "description": "WIR-MED",
-      "fieldID": "27"
+      "fieldID": "27",
+      "id": "77"
     },
     "W_PS-Einf": {
-      "gpuntisID": "SU_PS-Einf",
+      "gpuntisID": "PS-Einf",
       "name": "PS-Einf",
       "longname": "Praxissemester-Einf\u00fchrungsveranstaltung",
       "subjectNo": "",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "78"
     },
     "W_Pers.F\u00fchrung": {
-      "gpuntisID": "SU_Pers.F\u00fchrung",
+      "gpuntisID": "Pers.F\u00fchrung",
       "name": "Pers.F\u00fchrung",
       "longname": "Personalf\u00fchrung, -entwicklung, -motivation",
       "subjectNo": "1013",
       "description": "WIR-PSW",
-      "fieldID": "35"
+      "fieldID": "35",
+      "id": "79"
     },
     "W_Pers.u.Org.": {
-      "gpuntisID": "SU_Pers.u.Org.",
+      "gpuntisID": "Pers.u.Org.",
       "name": "Pers.u.Org.",
       "longname": "Personal und Organisation",
       "subjectNo": "201",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "80"
     },
     "W_Personalentwicklung und -f\u00fchrung": {
-      "gpuntisID": "SU_Personalentwicklung und -f\u00fchrung",
+      "gpuntisID": "Personalentwicklung und -f\u00fchrung",
       "name": "Personalentwicklung und -f\u00fchrung",
       "longname": "Personalentwicklung und -f\u00fchrung",
       "subjectNo": "452",
       "description": "WIR-PSW",
-      "fieldID": "35"
+      "fieldID": "35",
+      "id": "81"
     },
     "W_Priv.Verm.an.u.plan.": {
-      "gpuntisID": "SU_Priv.Verm.an.u.plan.",
+      "gpuntisID": "Priv.Verm.an.u.plan.",
       "name": "Priv.Verm.an.u.plan.",
       "longname": "Private Verm\u00f6gensanalyse und -planung",
       "subjectNo": "514",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "82"
     },
     "W_Proj.man.": {
-      "gpuntisID": "SU_Proj.man.",
+      "gpuntisID": "Proj.man.",
       "name": "Proj.man.",
       "longname": "Projektmanagement",
       "subjectNo": "406",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "83"
     },
     "W_Proj.u.Gesch.proz.man.": {
-      "gpuntisID": "SU_Proj.u.Gesch.proz.man.",
+      "gpuntisID": "Proj.u.Gesch.proz.man.",
       "name": "Proj.u.Gesch.proz.man.",
       "longname": "Projekt- und Gesch\u00e4ftsprozessmanagement",
       "subjectNo": "1012",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "84"
     },
     "W_Pr\u00e4sent.\/Rhetorik": {
-      "gpuntisID": "SU_Pr\u00e4sent.\/Rhetorik",
+      "gpuntisID": "Pr\u00e4sent.\/Rhetorik",
       "name": "Pr\u00e4sent.\/Rhetorik",
       "longname": "Pr\u00e4sentation \/ Rhetorik",
       "subjectNo": "307",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "85"
     },
     "W_QM1": {
-      "gpuntisID": "SU_QM1",
+      "gpuntisID": "QM1",
       "name": "QM1",
       "longname": "Qualit\u00e4tsmanagement 1",
       "subjectNo": "915",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "86"
     },
     "W_Qual.u.Komp.entw.": {
-      "gpuntisID": "SU_Qual.u.Komp.entw.",
+      "gpuntisID": "Qual.u.Komp.entw.",
       "name": "Qual.u.Komp.entw.",
       "longname": "Personalentwicklung und -f\u00fchrung",
       "subjectNo": "452",
       "description": "WIR-PSW",
-      "fieldID": "35"
+      "fieldID": "35",
+      "id": "87"
     },
     "W_Quant.An.": {
-      "gpuntisID": "SU_Quant.An.",
+      "gpuntisID": "Quant.An.",
       "name": "Quant.An.",
       "longname": "Quantitative Analysis",
       "subjectNo": "1103",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "88"
     },
     "W_Recht1": {
-      "gpuntisID": "SU_Recht1",
+      "gpuntisID": "Recht1",
       "name": "Recht1",
       "longname": "Privatrechtliche Grundlagen",
       "subjectNo": "205",
       "description": "REC",
-      "fieldID": "8"
+      "fieldID": "8",
+      "id": "89"
     },
     "W_Recht2": {
-      "gpuntisID": "SU_Recht2",
+      "gpuntisID": "Recht2",
       "name": "Recht2",
       "longname": "Privatrechtliche Vertiefung",
       "subjectNo": "305",
       "description": "REC",
-      "fieldID": "8"
+      "fieldID": "8",
+      "id": "90"
     },
     "W_Rechtl.Grundl.d.Pers.arb.": {
-      "gpuntisID": "SU_Rechtl.Grundl.d.Pers.arb.",
+      "gpuntisID": "Rechtl.Grundl.d.Pers.arb.",
       "name": "Rechtl.Grundl.d.Pers.arb.",
       "longname": "Rechtliche Grundlagen der Personalarbeit",
       "subjectNo": "553",
       "description": "WIR-PSW",
-      "fieldID": "35"
+      "fieldID": "35",
+      "id": "91"
     },
     "W_SP-Vorst": {
-      "gpuntisID": "SU_SP-Vorst",
+      "gpuntisID": "SP-Vorst",
       "name": "SP-Vorst",
       "longname": "Schwerpunkt-Vorstellung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "92"
     },
     "W_SPSSTutorial": {
-      "gpuntisID": "SU_SPSSTutorial",
+      "gpuntisID": "SPSSTutorial",
       "name": "SPSSTutorial",
       "longname": "SPSS Tutorial",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "93"
     },
     "W_STEP": {
-      "gpuntisID": "SU_STEP",
+      "gpuntisID": "STEP",
       "name": "STEP",
       "longname": "Studieneinf\u00fchrungsprogramm",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "94"
     },
     "W_STFIN": {
-      "gpuntisID": "SU_STFIN",
+      "gpuntisID": "STFIN",
       "name": "STFIN",
       "longname": "Studienfinanzierung",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "95"
     },
     "W_SWLogistik": {
-      "gpuntisID": "SU_SWLogistik",
+      "gpuntisID": "SWLogistik",
       "name": "SWLogistik",
       "longname": "Standardsoftware f\u00fcr die Logistik",
       "subjectNo": "583",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "96"
     },
     "W_SWPersonalwesen": {
-      "gpuntisID": "SU_SWPersonalwesen",
+      "gpuntisID": "SWPersonalwesen",
       "name": "SWPersonalwesen",
       "longname": "Standardsoftware f\u00fcr das Personalwesen",
       "subjectNo": "554",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "97"
     },
     "W_SWReweContr.": {
-      "gpuntisID": "SU_SWReweContr.",
+      "gpuntisID": "SWReweContr.",
       "name": "SWReweContr.",
       "longname": "Standardsoftware f\u00fcr Rechnungswesen und Controlling",
       "subjectNo": "400",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "98"
     },
     "W_Sem.i.internat.Market.": {
-      "gpuntisID": "SU_Sem.i.internat.Market.",
+      "gpuntisID": "Sem.i.internat.Market.",
       "name": "Sem.i.internat.Market.",
       "longname": "Seminar in intern. Marketing",
       "subjectNo": "2104",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "99"
     },
     "W_Sozialkompetenz": {
-      "gpuntisID": "SU_Sozialkompetenz",
+      "gpuntisID": "Sozialkompetenz",
       "name": "Sozialkompetenz",
       "longname": "Sozialkompetenz",
       "subjectNo": "911",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "100"
     },
     "W_Statistik": {
-      "gpuntisID": "SU_Statistik",
+      "gpuntisID": "Statistik",
       "name": "Statistik",
       "longname": "Statistik",
       "subjectNo": "204",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "101"
     },
     "W_Steuerlehre": {
-      "gpuntisID": "SU_Steuerlehre",
+      "gpuntisID": "Steuerlehre",
       "name": "Steuerlehre",
       "longname": "Steuerlehre",
       "subjectNo": "303",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "102"
     },
     "W_Strat.Contr.": {
-      "gpuntisID": "SU_Strat.Contr.",
+      "gpuntisID": "Strat.Contr.",
       "name": "Strat.Contr.",
       "longname": "Strategisches Controlling",
       "subjectNo": "401",
       "description": "WIR-CNT",
-      "fieldID": "30"
+      "fieldID": "30",
+      "id": "103"
     },
     "W_Strat.Man.": {
-      "gpuntisID": "SU_Strat.Man.",
+      "gpuntisID": "Strat.Man.",
       "name": "Strat.Man.",
       "longname": "Strategic Management",
       "subjectNo": "2101",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "104"
     },
     "W_Thesis Seminar": {
-      "gpuntisID": "SU_Thesis Seminar",
+      "gpuntisID": "Thesis Seminar",
       "name": "Thesis Seminar",
       "longname": "Thesis Seminar - Int. Marketing",
       "subjectNo": "4101",
-      "description": ""
+      "description": "",
+      "id": "105"
     },
     "W_Tutorium": {
-      "gpuntisID": "SU_Tutorium",
+      "gpuntisID": "Tutorium",
       "name": "Tutorium",
       "longname": "Tutorium",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "106"
     },
     "W_Untern.f\u00fchr.steuer.": {
-      "gpuntisID": "SU_Untern.f\u00fchr.steuer.",
+      "gpuntisID": "Untern.f\u00fchr.steuer.",
       "name": "Untern.f\u00fchr.steuer.",
       "longname": "Unternehmensf\u00fchrung und -steuerung",
       "subjectNo": "405",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "107"
     },
     "W_Untern.plansp.1": {
-      "gpuntisID": "SU_Untern.plansp.1",
+      "gpuntisID": "Untern.plansp.1",
       "name": "Untern.plansp.1",
       "longname": "Unternehmensplanspiel 1",
       "subjectNo": "910",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "108"
     },
     "W_Untern.plansp.2": {
-      "gpuntisID": "SU_Untern.plansp.2",
+      "gpuntisID": "Untern.plansp.2",
       "name": "Untern.plansp.2",
       "longname": "Unternehmensplanspiel 2",
       "subjectNo": "1210",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "109"
     },
     "W_Untern.pol.Mittelst.": {
-      "gpuntisID": "SU_Untern.pol.Mittelst.",
+      "gpuntisID": "Untern.pol.Mittelst.",
       "name": "Untern.pol.Mittelst.",
       "longname": "Unternehmenspolitik Mittelstand",
       "subjectNo": "544",
       "description": "WIR-MST",
-      "fieldID": "34"
+      "fieldID": "34",
+      "id": "110"
     },
     "W_Versich.lehre": {
-      "gpuntisID": "SU_Versich.lehre",
+      "gpuntisID": "Versich.lehre",
       "name": "Versich.lehre",
       "longname": "Versicherungslehre",
       "subjectNo": "727",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "111"
     },
     "W_WP-Int.Marketing": {
-      "gpuntisID": "SU_WP-Int.Marketing",
+      "gpuntisID": "WP-Int.Marketing",
       "name": "WP-Int.Marketing",
       "longname": "Wahlpflichtmodul Internationale Marketing",
       "subjectNo": "1016",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "112"
     },
     "W_WP1Int.Man.": {
-      "gpuntisID": "SU_WP1Int.Man.",
+      "gpuntisID": "WP1Int.Man.",
       "name": "WP1Int.Man.",
       "longname": "Wahlpflichtmodul 1 an ausl\u00e4ndischer Hochschule",
       "subjectNo": "523",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "113"
     },
     "W_WP2Int.Man.": {
-      "gpuntisID": "SU_WP2Int.Man.",
+      "gpuntisID": "WP2Int.Man.",
       "name": "WP2Int.Man.",
       "longname": "Wahlpflichtmodul 2 an ausl\u00e4ndischer Hochschule",
       "subjectNo": "524",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "114"
     },
     "W_Wettb.u.Insolvenzrecht": {
-      "gpuntisID": "SU_Wettb.u.Insolvenzrecht",
+      "gpuntisID": "Wettb.u.Insolvenzrecht",
       "name": "Wettb.u.Insolvenzrecht",
       "longname": "Wettbewerbs- und Insolvenzrecht",
       "subjectNo": "491",
       "description": "WIR-JUR",
-      "fieldID": "24"
+      "fieldID": "24",
+      "id": "115"
     },
     "W_Wi-Informatik": {
-      "gpuntisID": "SU_Wi-Informatik",
+      "gpuntisID": "Wi-Informatik",
       "name": "Wi-Informatik",
       "longname": "Wirtschaftsinformatik",
       "subjectNo": "206",
       "description": "WIR-INF",
-      "fieldID": "22"
+      "fieldID": "22",
+      "id": "116"
     },
     "W_Wirts.Ethik": {
-      "gpuntisID": "SU_Wirts.Ethik",
+      "gpuntisID": "Wirts.Ethik",
       "name": "Wirts.Ethik",
       "longname": "Wirtschaftsethik",
       "subjectNo": "1110",
       "description": "WIR-SOZ",
-      "fieldID": "26"
+      "fieldID": "26",
+      "id": "117"
     },
     "W_Wirtschaftspr\u00fcfung": {
-      "gpuntisID": "SU_Wirtschaftspr\u00fcfung",
+      "gpuntisID": "Wirtschaftspr\u00fcfung",
       "name": "Wirtschaftspr\u00fcfung",
       "longname": "Wirtschaftspr\u00fcfung",
       "subjectNo": "563",
       "description": "WIR-SBWP",
-      "fieldID": "36"
+      "fieldID": "36",
+      "id": "118"
     },
     "W_Wiss.Arbeiten": {
-      "gpuntisID": "SU_Wiss.Arbeiten",
+      "gpuntisID": "Wiss.Arbeiten",
       "name": "Wiss.Arbeiten",
       "longname": "Wissenschaftliches Arbeiten",
       "subjectNo": "306",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "119"
     }
   },
   "teachers": {
@@ -20369,6 +20590,17 @@
       "subjects": {
         "W_Grdl.BWL": ""
       },
+      "plan_subjects": {
+        "43": {
+          "subjectNo": "101",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "88": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Grdl.BWL - VRL",
@@ -20385,6 +20617,17 @@
       "gpuntisID": "2",
       "subjects": {
         "W_Arbeit.i.Team": ""
+      },
+      "plan_subjects": {
+        "8": {
+          "subjectNo": "107",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "101": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -20403,6 +20646,17 @@
       "subjects": {
         "W_Arbeit.i.Team": ""
       },
+      "plan_subjects": {
+        "8": {
+          "subjectNo": "107",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "102": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Arbeit.i.Team - SMU",
@@ -20419,6 +20673,17 @@
       "gpuntisID": "7",
       "subjects": {
         "W_Marketing": ""
+      },
+      "plan_subjects": {
+        "68": {
+          "subjectNo": "102",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "91": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20437,6 +20702,17 @@
       "subjects": {
         "W_Marketing": ""
       },
+      "plan_subjects": {
+        "68": {
+          "subjectNo": "102",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "949": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Marketing - \u00dcBG",
@@ -20453,6 +20729,17 @@
       "gpuntisID": "10",
       "subjects": {
         "W_Math\/OR1": ""
+      },
+      "plan_subjects": {
+        "72": {
+          "subjectNo": "105",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "26": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20471,6 +20758,17 @@
       "subjects": {
         "W_Einf.Rewe": ""
       },
+      "plan_subjects": {
+        "31": {
+          "subjectNo": "103",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "109": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Einf.Rewe - VRL",
@@ -20487,6 +20785,17 @@
       "gpuntisID": "59",
       "subjects": {
         "W_Grdl.BWL": ""
+      },
+      "plan_subjects": {
+        "43": {
+          "subjectNo": "101",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "117": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20505,6 +20814,18 @@
       "subjects": {
         "W_QM1": ""
       },
+      "plan_subjects": {
+        "86": {
+          "subjectNo": "915",
+          "pools": {
+            "11": "",
+            "13": ""
+          },
+          "teachers": {
+            "971": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "QM1 - VRL",
@@ -20522,6 +20843,20 @@
       "gpuntisID": "131",
       "subjects": {
         "W_Int.Marketing": ""
+      },
+      "plan_subjects": {
+        "54": {
+          "subjectNo": "1102",
+          "pools": {
+            "11": "",
+            "13": "",
+            "3": "",
+            "5": ""
+          },
+          "teachers": {
+            "90": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20543,6 +20878,18 @@
       "subjects": {
         "W_Pers.F\u00fchrung": ""
       },
+      "plan_subjects": {
+        "79": {
+          "subjectNo": "1013",
+          "pools": {
+            "11": "",
+            "13": ""
+          },
+          "teachers": {
+            "100": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Pers.F\u00fchrung - VRL",
@@ -20560,6 +20907,18 @@
       "gpuntisID": "133",
       "subjects": {
         "W_Proj.u.Gesch.proz.man.": ""
+      },
+      "plan_subjects": {
+        "84": {
+          "subjectNo": "1012",
+          "pools": {
+            "11": "",
+            "13": ""
+          },
+          "teachers": {
+            "113": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20579,6 +20938,18 @@
       "subjects": {
         "W_Int.Rechn.leg.2": ""
       },
+      "plan_subjects": {
+        "56": {
+          "subjectNo": "1015",
+          "pools": {
+            "11": "",
+            "13": ""
+          },
+          "teachers": {
+            "92": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Int.Rechn.leg.2 - VRL",
@@ -20596,6 +20967,18 @@
       "gpuntisID": "135",
       "subjects": {
         "W_Arb.rechtl.Grdl.f.F\u00fchr.kr.": ""
+      },
+      "plan_subjects": {
+        "7": {
+          "subjectNo": "1011",
+          "pools": {
+            "11": "",
+            "13": ""
+          },
+          "teachers": {
+            "115": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20615,6 +20998,18 @@
       "subjects": {
         "W_Akt.Them.d.UF": ""
       },
+      "plan_subjects": {
+        "3": {
+          "subjectNo": "1017",
+          "pools": {
+            "11": "",
+            "13": ""
+          },
+          "teachers": {
+            "111": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Akt.Them.d.UF - VRL",
@@ -20632,6 +21027,18 @@
       "gpuntisID": "140",
       "subjects": {
         "W_Int.Mark.Research": ""
+      },
+      "plan_subjects": {
+        "53": {
+          "subjectNo": "1104",
+          "pools": {
+            "3": "",
+            "5": ""
+          },
+          "teachers": {
+            "89": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20651,6 +21058,18 @@
       "subjects": {
         "W_Quant.An.": ""
       },
+      "plan_subjects": {
+        "88": {
+          "subjectNo": "1103",
+          "pools": {
+            "3": "",
+            "5": ""
+          },
+          "teachers": {
+            "91": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Quant.An. - VRL",
@@ -20668,6 +21087,18 @@
       "gpuntisID": "144",
       "subjects": {
         "W_CountryRiskAn.": ""
+      },
+      "plan_subjects": {
+        "26": {
+          "subjectNo": "2103",
+          "pools": {
+            "3": "",
+            "5": ""
+          },
+          "teachers": {
+            "93": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20687,6 +21118,17 @@
       "subjects": {
         "W_Math\/OR1": ""
       },
+      "plan_subjects": {
+        "72": {
+          "subjectNo": "105",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "26": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Math\/OR1 - VRL",
@@ -20704,6 +21146,17 @@
       "subjects": {
         "W_Einf.Rewe": ""
       },
+      "plan_subjects": {
+        "31": {
+          "subjectNo": "103",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "109": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Einf.Rewe - VRL",
@@ -20720,6 +21173,18 @@
       "gpuntisID": "148",
       "subjects": {
         "W_Bus.Engl.1": ""
+      },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "65": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -20739,6 +21204,17 @@
       "subjects": {
         "W_Grdl.BWL": ""
       },
+      "plan_subjects": {
+        "43": {
+          "subjectNo": "101",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "117": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Grdl.BWL - VRL",
@@ -20756,6 +21232,17 @@
       "subjects": {
         "W_Grdl.BWL": ""
       },
+      "plan_subjects": {
+        "43": {
+          "subjectNo": "101",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "88": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Grdl.BWL - VRL",
@@ -20772,6 +21259,18 @@
       "gpuntisID": "152",
       "subjects": {
         "W_Bus.Engl.1": ""
+      },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "97": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -20791,6 +21290,18 @@
       "subjects": {
         "W_Bus.Engl.1": ""
       },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "65": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Bus.Engl.1 - SMU",
@@ -20808,6 +21319,18 @@
       "gpuntisID": "156",
       "subjects": {
         "W_Bus.Engl.1": ""
+      },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "65": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -20827,6 +21350,18 @@
       "subjects": {
         "W_Bus.Engl.2": ""
       },
+      "plan_subjects": {
+        "21": {
+          "subjectNo": "207",
+          "pools": {
+            "18": "",
+            "8": ""
+          },
+          "teachers": {
+            "98": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Bus.Engl.2 - SMU",
@@ -20845,6 +21380,17 @@
       "subjects": {
         "W_Recht1": ""
       },
+      "plan_subjects": {
+        "89": {
+          "subjectNo": "205",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "107": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Recht1 - VRL",
@@ -20862,6 +21408,17 @@
       "subjects": {
         "W_Makro\u00f6ko.": ""
       },
+      "plan_subjects": {
+        "67": {
+          "subjectNo": "203",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "96": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Makro\u00f6ko. - VRL",
@@ -20878,6 +21435,18 @@
       "gpuntisID": "160",
       "subjects": {
         "W_Bus.Engl.2": ""
+      },
+      "plan_subjects": {
+        "21": {
+          "subjectNo": "207",
+          "pools": {
+            "18": "",
+            "8": ""
+          },
+          "teachers": {
+            "98": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -20897,6 +21466,17 @@
       "subjects": {
         "W_Makro\u00f6ko.": ""
       },
+      "plan_subjects": {
+        "67": {
+          "subjectNo": "203",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "1105": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Makro\u00f6ko. - VRL",
@@ -20913,6 +21493,17 @@
       "gpuntisID": "163",
       "subjects": {
         "W_Ext.Rewe": ""
+      },
+      "plan_subjects": {
+        "34": {
+          "subjectNo": "202",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "979": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -20931,6 +21522,17 @@
       "subjects": {
         "W_Mikro\u00f6ko.": ""
       },
+      "plan_subjects": {
+        "73": {
+          "subjectNo": "104",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "96": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Mikro\u00f6ko. - VRL",
@@ -20947,6 +21549,18 @@
       "gpuntisID": "165",
       "subjects": {
         "W_Bus.Engl.2": ""
+      },
+      "plan_subjects": {
+        "21": {
+          "subjectNo": "207",
+          "pools": {
+            "18": "",
+            "8": ""
+          },
+          "teachers": {
+            "97": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -20966,6 +21580,18 @@
       "subjects": {
         "W_Bus.Engl.2": ""
       },
+      "plan_subjects": {
+        "21": {
+          "subjectNo": "207",
+          "pools": {
+            "18": "",
+            "8": ""
+          },
+          "teachers": {
+            "98": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Bus.Engl.2 - SMU",
@@ -20984,6 +21610,17 @@
       "subjects": {
         "W_Makro\u00f6ko.": ""
       },
+      "plan_subjects": {
+        "67": {
+          "subjectNo": "203",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "95": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Makro\u00f6ko. - \u00dcBG",
@@ -21000,6 +21637,17 @@
       "gpuntisID": "169",
       "subjects": {
         "W_Pers.u.Org.": ""
+      },
+      "plan_subjects": {
+        "80": {
+          "subjectNo": "201",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "1104": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21018,6 +21666,17 @@
       "subjects": {
         "W_Pers.u.Org.": ""
       },
+      "plan_subjects": {
+        "80": {
+          "subjectNo": "201",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "104": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Pers.u.Org. - VRL",
@@ -21034,6 +21693,17 @@
       "gpuntisID": "171",
       "subjects": {
         "W_Statistik": ""
+      },
+      "plan_subjects": {
+        "101": {
+          "subjectNo": "204",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "1105": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21052,6 +21722,17 @@
       "subjects": {
         "W_Recht2": ""
       },
+      "plan_subjects": {
+        "90": {
+          "subjectNo": "305",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "115": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Recht2 - VRL",
@@ -21068,6 +21749,17 @@
       "gpuntisID": "175",
       "subjects": {
         "W_Steuerlehre": ""
+      },
+      "plan_subjects": {
+        "102": {
+          "subjectNo": "303",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "112": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21086,6 +21778,17 @@
       "subjects": {
         "W_Steuerlehre": ""
       },
+      "plan_subjects": {
+        "102": {
+          "subjectNo": "303",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "112": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Steuerlehre - VRL",
@@ -21102,6 +21805,17 @@
       "gpuntisID": "179",
       "subjects": {
         "W_Int.Rewe": ""
+      },
+      "plan_subjects": {
+        "57": {
+          "subjectNo": "302",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "110": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21120,6 +21834,18 @@
       "subjects": {
         "W_Untern.f\u00fchr.steuer.": ""
       },
+      "plan_subjects": {
+        "107": {
+          "subjectNo": "405",
+          "pools": {
+            "36": "",
+            "1": ""
+          },
+          "teachers": {
+            "111": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Untern.f\u00fchr.steuer. - VRL",
@@ -21137,6 +21863,24 @@
       "gpuntisID": "184",
       "subjects": {
         "W_SWReweContr.": ""
+      },
+      "plan_subjects": {
+        "98": {
+          "subjectNo": "400",
+          "pools": {
+            "38": "",
+            "43": "",
+            "46": "",
+            "37": "",
+            "23": "",
+            "24": "",
+            "29": "",
+            "32": ""
+          },
+          "teachers": {
+            "117": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21162,6 +21906,20 @@
       "subjects": {
         "W_Bilanzsteuerrecht": ""
       },
+      "plan_subjects": {
+        "19": {
+          "subjectNo": "461",
+          "pools": {
+            "45": "",
+            "37": "",
+            "23": "",
+            "31": ""
+          },
+          "teachers": {
+            "105": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Bilanzsteuerrecht - VRL",
@@ -21181,6 +21939,20 @@
       "gpuntisID": "186",
       "subjects": {
         "W_Ertragsteuern": ""
+      },
+      "plan_subjects": {
+        "33": {
+          "subjectNo": "462",
+          "pools": {
+            "45": "",
+            "37": "",
+            "23": "",
+            "31": ""
+          },
+          "teachers": {
+            "979": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21202,6 +21974,20 @@
       "subjects": {
         "W_Kernaufg.d.Personalarb.": ""
       },
+      "plan_subjects": {
+        "61": {
+          "subjectNo": "451",
+          "pools": {
+            "44": "",
+            "37": "",
+            "23": "",
+            "30": ""
+          },
+          "teachers": {
+            "104": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Kernaufg.d.Personalarb. - VRL",
@@ -21221,6 +22007,20 @@
       "gpuntisID": "188",
       "subjects": {
         "W_K\u00e4uferverhalten": ""
+      },
+      "plan_subjects": {
+        "65": {
+          "subjectNo": "431",
+          "pools": {
+            "42": "",
+            "37": "",
+            "23": "",
+            "28": ""
+          },
+          "teachers": {
+            "90": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21242,6 +22042,20 @@
       "subjects": {
         "W_GWDe.": ""
       },
+      "plan_subjects": {
+        "41": {
+          "subjectNo": "471",
+          "pools": {
+            "40": "",
+            "37": "",
+            "23": "",
+            "26": ""
+          },
+          "teachers": {
+            "124": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "GWDe. - VRL",
@@ -21261,6 +22075,20 @@
       "gpuntisID": "191",
       "subjects": {
         "W_Ausb.betr.PraxisGrundl.": ""
+      },
+      "plan_subjects": {
+        "10": {
+          "subjectNo": "713",
+          "pools": {
+            "37": "",
+            "47": "",
+            "23": "",
+            "33": ""
+          },
+          "teachers": {
+            "128": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21282,6 +22110,18 @@
       "subjects": {
         "W_Untern.f\u00fchr.steuer.": ""
       },
+      "plan_subjects": {
+        "107": {
+          "subjectNo": "405",
+          "pools": {
+            "36": "",
+            "1": ""
+          },
+          "teachers": {
+            "128": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Untern.f\u00fchr.steuer. - VRL",
@@ -21299,6 +22139,20 @@
       "gpuntisID": "196",
       "subjects": {
         "W_Kernkomp.IM": ""
+      },
+      "plan_subjects": {
+        "62": {
+          "subjectNo": "422",
+          "pools": {
+            "41": "",
+            "37": "",
+            "23": "",
+            "27": ""
+          },
+          "teachers": {
+            "122": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21320,6 +22174,20 @@
       "subjects": {
         "W_Gesellschaftsrecht": ""
       },
+      "plan_subjects": {
+        "42": {
+          "subjectNo": "492",
+          "pools": {
+            "48": "",
+            "37": "",
+            "23": "",
+            "34": ""
+          },
+          "teachers": {
+            "107": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Gesellschaftsrecht - VRL",
@@ -21339,6 +22207,20 @@
       "gpuntisID": "198",
       "subjects": {
         "W_Qual.u.Komp.entw.": ""
+      },
+      "plan_subjects": {
+        "87": {
+          "subjectNo": "452",
+          "pools": {
+            "44": "",
+            "37": "",
+            "23": "",
+            "30": ""
+          },
+          "teachers": {
+            "104": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21360,6 +22242,20 @@
       "subjects": {
         "W_Wettb.u.Insolvenzrecht": ""
       },
+      "plan_subjects": {
+        "115": {
+          "subjectNo": "491",
+          "pools": {
+            "48": "",
+            "37": "",
+            "23": "",
+            "34": ""
+          },
+          "teachers": {
+            "107": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Wettb.u.Insolvenzrecht - VRL",
@@ -21380,6 +22276,18 @@
       "subjects": {
         "W_Proj.man.": ""
       },
+      "plan_subjects": {
+        "83": {
+          "subjectNo": "406",
+          "pools": {
+            "36": "",
+            "1": ""
+          },
+          "teachers": {
+            "114": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Proj.man. - VRL",
@@ -21397,6 +22305,20 @@
       "gpuntisID": "201",
       "subjects": {
         "W_Strat.Contr.": ""
+      },
+      "plan_subjects": {
+        "103": {
+          "subjectNo": "401",
+          "pools": {
+            "38": "",
+            "37": "",
+            "23": "",
+            "24": ""
+          },
+          "teachers": {
+            "110": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21418,6 +22340,20 @@
       "subjects": {
         "W_K\u00e4uferverhalten": ""
       },
+      "plan_subjects": {
+        "65": {
+          "subjectNo": "431",
+          "pools": {
+            "42": "",
+            "37": "",
+            "23": "",
+            "28": ""
+          },
+          "teachers": {
+            "120": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "K\u00e4uferverhalten - VRL",
@@ -21437,6 +22373,20 @@
       "gpuntisID": "208",
       "subjects": {
         "W_MarketingMan.": ""
+      },
+      "plan_subjects": {
+        "70": {
+          "subjectNo": "432",
+          "pools": {
+            "42": "",
+            "37": "",
+            "23": "",
+            "28": ""
+          },
+          "teachers": {
+            "122": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21458,6 +22408,20 @@
       "subjects": {
         "W_Wirtschaftspr\u00fcfung": ""
       },
+      "plan_subjects": {
+        "118": {
+          "subjectNo": "563",
+          "pools": {
+            "45": "",
+            "37": "",
+            "23": "",
+            "31": ""
+          },
+          "teachers": {
+            "105": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Wirtschaftspr\u00fcfung - VRL",
@@ -21477,6 +22441,20 @@
       "gpuntisID": "211",
       "subjects": {
         "W_EBusiness": ""
+      },
+      "plan_subjects": {
+        "29": {
+          "subjectNo": "584",
+          "pools": {
+            "46": "",
+            "37": "",
+            "23": "",
+            "32": ""
+          },
+          "teachers": {
+            "88": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21498,6 +22476,20 @@
       "subjects": {
         "W_Finanzman.contr.i.KH": ""
       },
+      "plan_subjects": {
+        "38": {
+          "subjectNo": "574",
+          "pools": {
+            "40": "",
+            "37": "",
+            "23": "",
+            "26": ""
+          },
+          "teachers": {
+            "124": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Finanzman.contr.i.KH - VRL",
@@ -21517,6 +22509,20 @@
       "gpuntisID": "213",
       "subjects": {
         "W_Akt.rechtl.Themen": ""
+      },
+      "plan_subjects": {
+        "5": {
+          "subjectNo": "594",
+          "pools": {
+            "48": "",
+            "37": "",
+            "23": "",
+            "34": ""
+          },
+          "teachers": {
+            "115": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21538,6 +22544,18 @@
       "subjects": {
         "W_Au\u00dfenwirt.": ""
       },
+      "plan_subjects": {
+        "12": {
+          "subjectNo": "505",
+          "pools": {
+            "49": "",
+            "20": ""
+          },
+          "teachers": {
+            "96": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Au\u00dfenwirt. - VRL",
@@ -21556,6 +22574,18 @@
       "subjects": {
         "W_Au\u00dfenwirt.": ""
       },
+      "plan_subjects": {
+        "12": {
+          "subjectNo": "505",
+          "pools": {
+            "49": "",
+            "20": ""
+          },
+          "teachers": {
+            "96": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Au\u00dfenwirt. - VRL",
@@ -21573,6 +22603,20 @@
       "gpuntisID": "218",
       "subjects": {
         "W_Ausb.betr.PraxisVid.analy.Fallst.": ""
+      },
+      "plan_subjects": {
+        "11": {
+          "subjectNo": "714",
+          "pools": {
+            "37": "",
+            "47": "",
+            "23": "",
+            "33": ""
+          },
+          "teachers": {
+            "128": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21594,6 +22638,20 @@
       "subjects": {
         "W_Int.Rechn.leg.1": ""
       },
+      "plan_subjects": {
+        "55": {
+          "subjectNo": "718",
+          "pools": {
+            "37": "",
+            "47": "",
+            "23": "",
+            "33": ""
+          },
+          "teachers": {
+            "92": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Int.Rechn.leg.1 - VRL",
@@ -21613,6 +22671,20 @@
       "gpuntisID": "221",
       "subjects": {
         "W_OPContr.": ""
+      },
+      "plan_subjects": {
+        "76": {
+          "subjectNo": "503",
+          "pools": {
+            "38": "",
+            "37": "",
+            "23": "",
+            "24": ""
+          },
+          "teachers": {
+            "110": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21634,6 +22706,20 @@
       "subjects": {
         "W_Absatzpol.Instr.MM": ""
       },
+      "plan_subjects": {
+        "1": {
+          "subjectNo": "533",
+          "pools": {
+            "42": "",
+            "37": "",
+            "23": "",
+            "28": ""
+          },
+          "teachers": {
+            "122": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Absatzpol.Instr.MM - VRL",
@@ -21653,6 +22739,20 @@
       "gpuntisID": "225",
       "subjects": {
         "W_Int.Mark.Mark.plan.": ""
+      },
+      "plan_subjects": {
+        "52": {
+          "subjectNo": "724",
+          "pools": {
+            "37": "",
+            "47": "",
+            "23": "",
+            "33": ""
+          },
+          "teachers": {
+            "122": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21674,6 +22774,20 @@
       "subjects": {
         "W_Priv.Verm.an.u.plan.": ""
       },
+      "plan_subjects": {
+        "82": {
+          "subjectNo": "514",
+          "pools": {
+            "39": "",
+            "37": "",
+            "23": "",
+            "25": ""
+          },
+          "teachers": {
+            "119": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Priv.Verm.an.u.plan. - VRL",
@@ -21693,6 +22807,20 @@
       "gpuntisID": "227",
       "subjects": {
         "W_Marktforschung": ""
+      },
+      "plan_subjects": {
+        "71": {
+          "subjectNo": "534",
+          "pools": {
+            "42": "",
+            "37": "",
+            "23": "",
+            "28": ""
+          },
+          "teachers": {
+            "91": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21714,6 +22842,17 @@
       "subjects": {
         "W_Finanzwirtschaft": ""
       },
+      "plan_subjects": {
+        "40": {
+          "subjectNo": "301",
+          "pools": {
+            "1": ""
+          },
+          "teachers": {
+            "106": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Finanzwirtschaft - VRL",
@@ -21731,6 +22870,17 @@
       "subjects": {
         "W_Finanzwirtschaft": ""
       },
+      "plan_subjects": {
+        "40": {
+          "subjectNo": "301",
+          "pools": {
+            "1": ""
+          },
+          "teachers": {
+            "106": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Finanzwirtschaft - VRL",
@@ -21747,6 +22897,20 @@
       "gpuntisID": "232",
       "subjects": {
         "W_Int.Rechn.leg.1": ""
+      },
+      "plan_subjects": {
+        "55": {
+          "subjectNo": "718",
+          "pools": {
+            "37": "",
+            "47": "",
+            "23": "",
+            "33": ""
+          },
+          "teachers": {
+            "105": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21768,6 +22932,18 @@
       "subjects": {
         "W_Bus.Engl.2": ""
       },
+      "plan_subjects": {
+        "21": {
+          "subjectNo": "207",
+          "pools": {
+            "18": "",
+            "8": ""
+          },
+          "teachers": {
+            "98": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Bus.Engl.2 - SMU",
@@ -21786,6 +22962,17 @@
       "subjects": {
         "W_Recht1": ""
       },
+      "plan_subjects": {
+        "89": {
+          "subjectNo": "205",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "107": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Recht1 - VRL",
@@ -21802,6 +22989,17 @@
       "gpuntisID": "348",
       "subjects": {
         "W_Statistik": ""
+      },
+      "plan_subjects": {
+        "101": {
+          "subjectNo": "204",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "1105": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21820,6 +23018,17 @@
       "subjects": {
         "W_Recht2": ""
       },
+      "plan_subjects": {
+        "90": {
+          "subjectNo": "305",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "115": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Recht2 - VRL",
@@ -21836,6 +23045,18 @@
       "gpuntisID": "355",
       "subjects": {
         "W_Akt.Them.SBu.WP": ""
+      },
+      "plan_subjects": {
+        "2": {
+          "subjectNo": "564",
+          "pools": {
+            "45": "",
+            "31": ""
+          },
+          "teachers": {
+            "979": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21854,6 +23075,20 @@
       "gpuntisID": "359",
       "subjects": {
         "W_Ausb.betr.PraxisGrundl.": ""
+      },
+      "plan_subjects": {
+        "10": {
+          "subjectNo": "713",
+          "pools": {
+            "37": "",
+            "47": "",
+            "23": "",
+            "33": ""
+          },
+          "teachers": {
+            "128": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21875,6 +23110,20 @@
       "subjects": {
         "W_Ausb.betr.PraxisVid.analy.Fallst.": ""
       },
+      "plan_subjects": {
+        "11": {
+          "subjectNo": "714",
+          "pools": {
+            "37": "",
+            "47": "",
+            "23": "",
+            "33": ""
+          },
+          "teachers": {
+            "128": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Ausb.betr.PraxisVid.analy.Fallst. - VRL",
@@ -21895,6 +23144,18 @@
       "subjects": {
         "W_STEP": ""
       },
+      "plan_subjects": {
+        "94": {
+          "subjectNo": "",
+          "pools": {
+            "15": "",
+            "9": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "STEP - VRL",
@@ -21912,6 +23173,20 @@
       "gpuntisID": "362",
       "subjects": {
         "W_Untern.pol.Mittelst.": ""
+      },
+      "plan_subjects": {
+        "110": {
+          "subjectNo": "544",
+          "pools": {
+            "43": "",
+            "37": "",
+            "23": "",
+            "29": ""
+          },
+          "teachers": {
+            "123": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21933,6 +23208,20 @@
       "subjects": {
         "W_SWPersonalwesen": ""
       },
+      "plan_subjects": {
+        "97": {
+          "subjectNo": "554",
+          "pools": {
+            "44": "",
+            "37": "",
+            "23": "",
+            "30": ""
+          },
+          "teachers": {
+            "117": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "SWPersonalwesen - VRL",
@@ -21952,6 +23241,20 @@
       "gpuntisID": "364",
       "subjects": {
         "W_SWLogistik": ""
+      },
+      "plan_subjects": {
+        "96": {
+          "subjectNo": "583",
+          "pools": {
+            "46": "",
+            "37": "",
+            "23": "",
+            "32": ""
+          },
+          "teachers": {
+            "117": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -21973,6 +23276,18 @@
       "subjects": {
         "W_Moderation": ""
       },
+      "plan_subjects": {
+        "74": {
+          "subjectNo": "407",
+          "pools": {
+            "36": "",
+            "1": ""
+          },
+          "teachers": {
+            "120": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Moderation - VRL",
@@ -21990,6 +23305,18 @@
       "gpuntisID": "370",
       "subjects": {
         "W_Bus.Engl.1": ""
+      },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "99": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -22009,6 +23336,18 @@
       "subjects": {
         "W_Bus.Engl.1": ""
       },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "99": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Bus.Engl.1 - SMU",
@@ -22026,6 +23365,18 @@
       "gpuntisID": "372",
       "subjects": {
         "W_Bus.Engl.1": ""
+      },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "65": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -22045,6 +23396,18 @@
       "subjects": {
         "W_Bus.Engl.1": ""
       },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "65": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Bus.Engl.1 - SMU",
@@ -22062,6 +23425,18 @@
       "gpuntisID": "374",
       "subjects": {
         "W_Bus.Engl.1": ""
+      },
+      "plan_subjects": {
+        "20": {
+          "subjectNo": "106",
+          "pools": {
+            "15": "",
+            "8": ""
+          },
+          "teachers": {
+            "99": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -22081,6 +23456,17 @@
       "subjects": {
         "W_BK-BF": ""
       },
+      "plan_subjects": {
+        "14": {
+          "subjectNo": "",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "102": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "BK-BF - SMU",
@@ -22098,6 +23484,17 @@
       "subjects": {
         "W_Arbeit.i.Team": ""
       },
+      "plan_subjects": {
+        "8": {
+          "subjectNo": "107",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "101": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Arbeit.i.Team - SMU",
@@ -22114,6 +23511,18 @@
       "gpuntisID": "402",
       "subjects": {
         "W_Au\u00dfenwirt.": ""
+      },
+      "plan_subjects": {
+        "12": {
+          "subjectNo": "505",
+          "pools": {
+            "49": "",
+            "20": ""
+          },
+          "teachers": {
+            "95": ""
+          }
+        }
       },
       "description": "\u00dcBG",
       "methodID": "19",
@@ -22133,6 +23542,17 @@
       "subjects": {
         "W_Wiss.Arbeiten": ""
       },
+      "plan_subjects": {
+        "119": {
+          "subjectNo": "306",
+          "pools": {
+            "1": ""
+          },
+          "teachers": {
+            "979": ""
+          }
+        }
+      },
       "description": "SEM",
       "methodID": "15",
       "name": "Wiss.Arbeiten - SEM",
@@ -22149,6 +23569,17 @@
       "gpuntisID": "430",
       "subjects": {
         "W_Tutorium": ""
+      },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "109": ""
+          }
+        }
       },
       "description": "\u00dcBG",
       "methodID": "19",
@@ -22167,6 +23598,17 @@
       "subjects": {
         "W_Ext.Rewe": ""
       },
+      "plan_subjects": {
+        "34": {
+          "subjectNo": "202",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Ext.Rewe - \u00dcBG",
@@ -22183,6 +23625,17 @@
       "gpuntisID": "432",
       "subjects": {
         "W_Einf.Rewe": ""
+      },
+      "plan_subjects": {
+        "31": {
+          "subjectNo": "103",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
       },
       "description": "\u00dcBG",
       "methodID": "19",
@@ -22201,6 +23654,17 @@
       "subjects": {
         "W_Finanzwirtschaft": ""
       },
+      "plan_subjects": {
+        "40": {
+          "subjectNo": "301",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Finanzwirtschaft - \u00dcBG",
@@ -22218,6 +23682,17 @@
       "subjects": {
         "W_FinanzBWL": ""
       },
+      "plan_subjects": {
+        "37": {
+          "subjectNo": "411",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "FinanzBWL - \u00dcBG",
@@ -22234,6 +23709,20 @@
       "gpuntisID": "464",
       "subjects": {
         "W_ITAnw.": ""
+      },
+      "plan_subjects": {
+        "48": {
+          "subjectNo": "304",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "118": "",
+            "114": "",
+            "113": "",
+            "108": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -22255,6 +23744,19 @@
       "subjects": {
         "W_Wi-Informatik": ""
       },
+      "plan_subjects": {
+        "116": {
+          "subjectNo": "206",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "108": "",
+            "88": "",
+            "117": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Wi-Informatik - VRL",
@@ -22274,6 +23776,17 @@
       "subjects": {
         "W_Arbeit.i.Team": ""
       },
+      "plan_subjects": {
+        "8": {
+          "subjectNo": "107",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "101": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Arbeit.i.Team - SMU",
@@ -22290,6 +23803,19 @@
       "gpuntisID": "603",
       "subjects": {
         "W_Wi-Informatik": ""
+      },
+      "plan_subjects": {
+        "116": {
+          "subjectNo": "206",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "108": "",
+            "88": "",
+            "117": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -22310,6 +23836,18 @@
       "subjects": {
         "W_Wi-Informatik": ""
       },
+      "plan_subjects": {
+        "116": {
+          "subjectNo": "206",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "108": "",
+            "88": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Wi-Informatik - SMU",
@@ -22327,6 +23865,18 @@
       "gpuntisID": "607",
       "subjects": {
         "W_Contr.f.F\u00fchr.kr\u00e4fte": ""
+      },
+      "plan_subjects": {
+        "24": {
+          "subjectNo": "1010",
+          "pools": {
+            "11": "",
+            "13": ""
+          },
+          "teachers": {
+            "111": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22346,6 +23896,18 @@
       "subjects": {
         "W_Quant.An.": ""
       },
+      "plan_subjects": {
+        "88": {
+          "subjectNo": "1103",
+          "pools": {
+            "3": "",
+            "5": ""
+          },
+          "teachers": {
+            "924": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Quant.An. - \u00dcBG",
@@ -22363,6 +23925,18 @@
       "gpuntisID": "609",
       "subjects": {
         "W_Lead.&Int.cult.Comm.": ""
+      },
+      "plan_subjects": {
+        "66": {
+          "subjectNo": "1105",
+          "pools": {
+            "3": "",
+            "5": ""
+          },
+          "teachers": {
+            "100": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22382,6 +23956,17 @@
       "subjects": {
         "W_Ext.Rewe": ""
       },
+      "plan_subjects": {
+        "34": {
+          "subjectNo": "202",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "979": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Ext.Rewe - VRL",
@@ -22398,6 +23983,17 @@
       "gpuntisID": "611",
       "subjects": {
         "W_Ext.Rewe": ""
+      },
+      "plan_subjects": {
+        "34": {
+          "subjectNo": "202",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "979": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22416,6 +24012,17 @@
       "subjects": {
         "W_Mikro\u00f6ko.": ""
       },
+      "plan_subjects": {
+        "73": {
+          "subjectNo": "104",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "95": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Mikro\u00f6ko. - \u00dcBG",
@@ -22432,6 +24039,17 @@
       "gpuntisID": "613",
       "subjects": {
         "W_Pers.u.Org.": ""
+      },
+      "plan_subjects": {
+        "80": {
+          "subjectNo": "201",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "1104": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22450,6 +24068,17 @@
       "subjects": {
         "W_Pr\u00e4sent.\/Rhetorik": ""
       },
+      "plan_subjects": {
+        "85": {
+          "subjectNo": "307",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "101": ""
+          }
+        }
+      },
       "description": "SEM",
       "methodID": "15",
       "name": "Pr\u00e4sent.\/Rhetorik - SEM",
@@ -22467,6 +24096,17 @@
       "subjects": {
         "W_Wiss.Arbeiten": ""
       },
+      "plan_subjects": {
+        "119": {
+          "subjectNo": "306",
+          "pools": {
+            "1": ""
+          },
+          "teachers": {
+            "104": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Wiss.Arbeiten - VRL",
@@ -22483,6 +24123,20 @@
       "gpuntisID": "618",
       "subjects": {
         "W_FinanzBWL": ""
+      },
+      "plan_subjects": {
+        "37": {
+          "subjectNo": "411",
+          "pools": {
+            "39": "",
+            "37": "",
+            "23": "",
+            "25": ""
+          },
+          "teachers": {
+            "106": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22504,6 +24158,20 @@
       "subjects": {
         "W_Finanzm\u00e4rkte": ""
       },
+      "plan_subjects": {
+        "39": {
+          "subjectNo": "412",
+          "pools": {
+            "39": "",
+            "37": "",
+            "23": "",
+            "25": ""
+          },
+          "teachers": {
+            "94": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "Finanzm\u00e4rkte - SMU",
@@ -22523,6 +24191,20 @@
       "gpuntisID": "623",
       "subjects": {
         "W_Corp.Banking": ""
+      },
+      "plan_subjects": {
+        "25": {
+          "subjectNo": "513",
+          "pools": {
+            "39": "",
+            "37": "",
+            "23": "",
+            "25": ""
+          },
+          "teachers": {
+            "106": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22544,6 +24226,20 @@
       "subjects": {
         "W_MarketingMan.": ""
       },
+      "plan_subjects": {
+        "70": {
+          "subjectNo": "432",
+          "pools": {
+            "42": "",
+            "37": "",
+            "23": "",
+            "28": ""
+          },
+          "teachers": {
+            "90": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "MarketingMan. - VRL",
@@ -22564,6 +24260,17 @@
       "subjects": {
         "W_Tutorium": ""
       },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "SEM",
       "methodID": "15",
       "name": "Tutorium - SEM",
@@ -22580,6 +24287,17 @@
       "gpuntisID": "628",
       "subjects": {
         "W_Tutorium": ""
+      },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22598,6 +24316,17 @@
       "subjects": {
         "W_Tutorium": ""
       },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Tutorium - VRL",
@@ -22614,6 +24343,17 @@
       "gpuntisID": "630",
       "subjects": {
         "W_Tutorium": ""
+      },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22632,6 +24372,17 @@
       "subjects": {
         "W_Tutorium": ""
       },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Tutorium - VRL",
@@ -22648,6 +24399,17 @@
       "gpuntisID": "632",
       "subjects": {
         "W_Tutorium": ""
+      },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22666,6 +24428,17 @@
       "subjects": {
         "W_Tutorium": ""
       },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Tutorium - VRL",
@@ -22683,6 +24456,17 @@
       "subjects": {
         "W_Tutorium": ""
       },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Tutorium - VRL",
@@ -22699,6 +24483,18 @@
       "gpuntisID": "638",
       "subjects": {
         "W_STEP": ""
+      },
+      "plan_subjects": {
+        "94": {
+          "subjectNo": "",
+          "pools": {
+            "15": "",
+            "9": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22718,6 +24514,18 @@
       "subjects": {
         "W_STEP": ""
       },
+      "plan_subjects": {
+        "94": {
+          "subjectNo": "",
+          "pools": {
+            "15": "",
+            "9": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "STEP - VRL",
@@ -22735,6 +24543,18 @@
       "gpuntisID": "640",
       "subjects": {
         "W_STEP": ""
+      },
+      "plan_subjects": {
+        "94": {
+          "subjectNo": "",
+          "pools": {
+            "15": "",
+            "9": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22754,6 +24574,17 @@
       "subjects": {
         "W_NN.W": ""
       },
+      "plan_subjects": {
+        "75": {
+          "subjectNo": "",
+          "pools": {
+            "17": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "NN.W - VRL",
@@ -22770,6 +24601,17 @@
       "gpuntisID": "642",
       "subjects": {
         "W_NN.W": ""
+      },
+      "plan_subjects": {
+        "75": {
+          "subjectNo": "",
+          "pools": {
+            "51": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22788,6 +24630,17 @@
       "subjects": {
         "W_Tutorium": ""
       },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Tutorium - VRL",
@@ -22804,6 +24657,18 @@
       "gpuntisID": "645",
       "subjects": {
         "W_STFIN": ""
+      },
+      "plan_subjects": {
+        "95": {
+          "subjectNo": "",
+          "pools": {
+            "9": "",
+            "15": ""
+          },
+          "teachers": {
+            "416": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22823,6 +24688,18 @@
       "subjects": {
         "W_STEP": ""
       },
+      "plan_subjects": {
+        "94": {
+          "subjectNo": "",
+          "pools": {
+            "15": "",
+            "9": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "STEP - VRL",
@@ -22841,6 +24718,17 @@
       "subjects": {
         "W_Pers.u.Org.": ""
       },
+      "plan_subjects": {
+        "80": {
+          "subjectNo": "201",
+          "pools": {
+            "18": ""
+          },
+          "teachers": {
+            "104": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Pers.u.Org. - VRL",
@@ -22857,6 +24745,17 @@
       "gpuntisID": "659",
       "subjects": {
         "W_Untern.plansp.2": ""
+      },
+      "plan_subjects": {
+        "109": {
+          "subjectNo": "1210",
+          "pools": {
+            "9": ""
+          },
+          "teachers": {
+            "93": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22875,6 +24774,17 @@
       "subjects": {
         "W_Comp.Sim.Game": ""
       },
+      "plan_subjects": {
+        "23": {
+          "subjectNo": "1101",
+          "pools": {
+            "9": ""
+          },
+          "teachers": {
+            "89": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Comp.Sim.Game - VRL",
@@ -22892,6 +24802,17 @@
       "subjects": {
         "W_STEP": ""
       },
+      "plan_subjects": {
+        "94": {
+          "subjectNo": "",
+          "pools": {
+            "9": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "STEP - VRL",
@@ -22908,6 +24829,18 @@
       "gpuntisID": "662",
       "subjects": {
         "W_Au\u00dfenwirt.": ""
+      },
+      "plan_subjects": {
+        "12": {
+          "subjectNo": "505",
+          "pools": {
+            "49": "",
+            "20": ""
+          },
+          "teachers": {
+            "95": ""
+          }
+        }
       },
       "description": "\u00dcBG",
       "methodID": "19",
@@ -22927,6 +24860,17 @@
       "subjects": {
         "W_Makro\u00f6ko.": ""
       },
+      "plan_subjects": {
+        "67": {
+          "subjectNo": "203",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "95": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Makro\u00f6ko. - \u00dcBG",
@@ -22943,6 +24887,17 @@
       "gpuntisID": "666",
       "subjects": {
         "W_Makro\u00f6ko.": ""
+      },
+      "plan_subjects": {
+        "67": {
+          "subjectNo": "203",
+          "pools": {
+            "19": ""
+          },
+          "teachers": {
+            "95": ""
+          }
+        }
       },
       "description": "\u00dcBG",
       "methodID": "19",
@@ -22961,6 +24916,28 @@
       "subjects": {
         "W_Entrepreneurship": "",
         "W_Betriebsgr.": ""
+      },
+      "plan_subjects": {
+        "32": {
+          "subjectNo": "441",
+          "pools": {
+            "29": "",
+            "23": ""
+          },
+          "teachers": {
+            "103": ""
+          }
+        },
+        "18": {
+          "subjectNo": "441",
+          "pools": {
+            "43": "",
+            "37": ""
+          },
+          "teachers": {
+            "103": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -22982,6 +24959,17 @@
       "subjects": {
         "W_BK-BF": ""
       },
+      "plan_subjects": {
+        "14": {
+          "subjectNo": "",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "102": ""
+          }
+        }
+      },
       "description": "SMU",
       "methodID": "17",
       "name": "BK-BF - SMU",
@@ -22998,6 +24986,24 @@
       "gpuntisID": "670",
       "subjects": {
         "W_SWReweContr.": ""
+      },
+      "plan_subjects": {
+        "98": {
+          "subjectNo": "400",
+          "pools": {
+            "38": "",
+            "43": "",
+            "46": "",
+            "37": "",
+            "23": "",
+            "24": "",
+            "29": "",
+            "32": ""
+          },
+          "teachers": {
+            "118": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -23023,6 +25029,17 @@
       "subjects": {
         "W_NN.W": ""
       },
+      "plan_subjects": {
+        "75": {
+          "subjectNo": "",
+          "pools": {
+            "51": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "NN.W - VRL",
@@ -23039,6 +25056,17 @@
       "gpuntisID": "678",
       "subjects": {
         "W_NN.W": ""
+      },
+      "plan_subjects": {
+        "75": {
+          "subjectNo": "",
+          "pools": {
+            "51": ""
+          },
+          "teachers": {
+            "925": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -23057,6 +25085,17 @@
       "subjects": {
         "W_Tutorium": ""
       },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Tutorium - \u00dcBG",
@@ -23073,6 +25112,17 @@
       "gpuntisID": "681",
       "subjects": {
         "W_Tutorium": ""
+      },
+      "plan_subjects": {
+        "106": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
       },
       "description": "\u00dcBG",
       "methodID": "19",
@@ -23091,6 +25141,17 @@
       "subjects": {
         "W_Ext.Rewe": ""
       },
+      "plan_subjects": {
+        "34": {
+          "subjectNo": "202",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Ext.Rewe - \u00dcBG",
@@ -23107,6 +25168,17 @@
       "gpuntisID": "687",
       "subjects": {
         "W_BK-BF": ""
+      },
+      "plan_subjects": {
+        "14": {
+          "subjectNo": "",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "102": ""
+          }
+        }
       },
       "description": "SMU",
       "methodID": "17",
@@ -23125,6 +25197,17 @@
       "subjects": {
         "W_NN.W": ""
       },
+      "plan_subjects": {
+        "75": {
+          "subjectNo": "",
+          "pools": {
+            "51": ""
+          },
+          "teachers": {
+            "109": ""
+          }
+        }
+      },
       "description": "KLA",
       "methodID": "5",
       "name": "NN.W - KLA",
@@ -23141,6 +25224,17 @@
       "gpuntisID": "771",
       "subjects": {
         "W_NN.W": ""
+      },
+      "plan_subjects": {
+        "75": {
+          "subjectNo": "",
+          "pools": {
+            "51": ""
+          },
+          "teachers": {
+            "89": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -23159,6 +25253,17 @@
       "subjects": {
         "W_Wiss.Arbeiten": ""
       },
+      "plan_subjects": {
+        "119": {
+          "subjectNo": "306",
+          "pools": {
+            "1": ""
+          },
+          "teachers": {
+            "101": ""
+          }
+        }
+      },
       "description": "SEM",
       "methodID": "15",
       "name": "Wiss.Arbeiten - SEM",
@@ -23175,6 +25280,17 @@
       "gpuntisID": "845",
       "subjects": {
         "W_NN.W": ""
+      },
+      "plan_subjects": {
+        "75": {
+          "subjectNo": "",
+          "pools": {
+            "51": ""
+          },
+          "teachers": {
+            "106": ""
+          }
+        }
       },
       "description": "VRL",
       "methodID": "21",
@@ -23193,6 +25309,17 @@
       "subjects": {
         "W_Kost.man.": ""
       },
+      "plan_subjects": {
+        "63": {
+          "subjectNo": "402",
+          "pools": {
+            "51": ""
+          },
+          "teachers": {
+            "111": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Kost.man. - VRL",
@@ -23209,6 +25336,17 @@
       "gpuntisID": "847",
       "subjects": {
         "W_BWL1": ""
+      },
+      "plan_subjects": {
+        "15": {
+          "subjectNo": "",
+          "pools": {
+            "10": ""
+          },
+          "teachers": {
+            "965": ""
+          }
+        }
       },
       "description": "\u00dcBG",
       "methodID": "19",
@@ -23227,6 +25365,17 @@
       "subjects": {
         "W_Marketing": ""
       },
+      "plan_subjects": {
+        "68": {
+          "subjectNo": "102",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "949": ""
+          }
+        }
+      },
       "description": "\u00dcBG",
       "methodID": "19",
       "name": "Marketing - \u00dcBG",
@@ -23244,6 +25393,17 @@
       "subjects": {
         "W_Grdl.BWL": ""
       },
+      "plan_subjects": {
+        "43": {
+          "subjectNo": "101",
+          "pools": {
+            "15": ""
+          },
+          "teachers": {
+            "88": ""
+          }
+        }
+      },
       "description": "VRL",
       "methodID": "21",
       "name": "Grdl.BWL - VRL",
@@ -23256,5 +25416,6 @@
       },
       "comment": ""
     }
-  }
+  },
+  "referencedate": "2016-07-12"
 }

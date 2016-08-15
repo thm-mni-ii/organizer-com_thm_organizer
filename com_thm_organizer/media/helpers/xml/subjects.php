@@ -38,6 +38,7 @@ class THM_OrganizerHelperXMLSubjects
 		{
 			return $exists ? $table->id : null;
 		}
+
 		return null;
 	}
 
@@ -56,13 +57,13 @@ class THM_OrganizerHelperXMLSubjects
 			return $subjectID;
 		}
 
-		$data              = array();
+		$data                 = array();
 		$data['subjectIndex'] = $subjectIndex;
-		$data['gpuntisID'] = $subject->gpuntisID;
+		$data['gpuntisID']    = $subject->gpuntisID;
 
 		if (!empty($subject->fieldID))
 		{
-			$data['fieldID']   = $subject->fieldID;
+			$data['fieldID'] = $subject->fieldID;
 		}
 
 		$data['subjectNo'] = $subject->subjectNo;

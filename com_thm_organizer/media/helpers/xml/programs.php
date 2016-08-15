@@ -38,6 +38,7 @@ class THM_OrganizerHelperXMLPrograms
 		{
 			return $exists ? $table->id : null;
 		}
+
 		return null;
 	}
 

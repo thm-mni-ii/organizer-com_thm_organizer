@@ -10,7 +10,8 @@ ALTER TABLE `#__thm_organizer_plan_subjects`
 ALTER TABLE `#__thm_organizer_plan_subjects`
   DROP INDEX `gpuntisID`;
 
-CREATE INDEX `gpuntisID` ON `#__thm_organizer_plan_subjects` (`gpuntisID`);
+CREATE INDEX `gpuntisID`
+  ON `#__thm_organizer_plan_subjects` (`gpuntisID`);
 
 ALTER TABLE `#__thm_organizer_plan_subjects`
   ADD `subjectIndex` VARCHAR(70) NOT NULL;

@@ -41,7 +41,7 @@ class THM_OrganizerTemplateUngroupedList
 				{
 					continue;
 				}
-				$index = $sort == 'number'? 'externalID' : 'id';
+				$index                       = $sort == 'number' ? 'externalID' : 'id';
 				$displayItems[$item->$index] = THM_OrganizerTemplateItem::render($item);
 			}
 			if ($sort == 'number')
