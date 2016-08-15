@@ -23,141 +23,78 @@ jimport('joomla.application.component.model');
 class THM_OrganizerModelSchedule extends JModelLegacy
 {
 	/**
-	 * TODO: noch nicht aktuell
-	 * getter for time grids out of database
+	 * getter for the default time grid out of database
 	 *
-	 * @param bool $standard = false  gets the standard time grid
+	 * @return  object|false
 	 *
-	 * @return array|bool|mixed
-	 * @throws RuntimeException
+	 * @throws  RuntimeException
 	 */
-	public function getTimeGrids($standard = false)
+	public function getDefaultGrid()
 	{
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query
-			->select('name_en, grid')
-			->from('#__thm_organizer_grids');
-
-		if ($standard)
-		{
-			$query->where('default = 1');
-		}
-
+			->select('grid')
+			->from('#__thm_organizer_grids')
+			->where("'default'='true'"); // Apostrophes needed, otherwise 'default' gets handled as keyword
 		$dbo->setQuery((string) $query);
 
 		try
 		{
-			$result = $dbo->loadObjectList();
+			$result = $dbo->loadObject();
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return false;
 		}
 
-		$grids = array();
-		foreach ($result as $time)
-		{
-			$grids[$time["name_en"]] = json_decode($time["grid"]);
-		}
-
-		//fallback
-		if (empty($grids))
+		if (!$result)
 		{
 			return $this->getTimeFallback();
 		}
 
-		return $grids;
+		return json_decode($result->grid);
 	}
 
 	/**
-	 * example and standard fallback of a time grid loaded from database
+	 * example and default fallback of a time grid loaded from database
 	 *
 	 * @return array
 	 */
 	private function getTimeFallback()
 	{
-		$fallback =
-			'{
-                "start_day": "1",
-                "end_day": "6",
-                "blocks": {
-                    "1": {
-                        "start_time": "0800",
-                        "end_time": "0930"
-                    },
-                    "2": {
-                        "start_time": "0950",
-                        "end_time": "1120"
-                    },
-                    "3": {
-                        "start_time": "1130",
-                        "end_time": "1300"
-                    },
-                    "4": {
-                        "start_time": "1400",
-                        "end_time": "1530"
-                    },
-                    "5": {
-                        "start_time": "1545",
-                        "end_time": "1715"
-                    },
-                    "6": {
-                        "start_time": "1730",
-                        "end_time": "1900"
-                    }
-                }
-            }';
+		$fallback = '{
+				"periods": {
+				    "1":{
+				        "start_time":"0800",
+			            "end_time":"0930"
+			        },
+			        "2": {
+				        "start_time":"0950",
+			            "end_time":"1120"},
+			        "3": {
+				        "start_time":"1130",
+			            "end_time":"1300"
+			        },
+			        "4": {
+				        "start_time":"1400",
+			            "end_time":"1530"},
+			        "5": {
+				        "start_time":"1545",
+			            "end_time":"1715"},
+			        "6": {
+				        "start_time":"1730",
+			            "end_time":"1900"
+			        }
+			    },
+			    "start_day":1,
+			    "end_day":6
+			}';
 
-		$time             = array();
-		$time['fallback'] = json_decode($fallback);
-
-		return $time;
+		return json_decode($fallback);
 	}
-
-	/**
-	 * example and standard fallback of a time grid loaded from database
-	 *
-	 * @return array
-	 */
-	public function getExamsTimeFallback()
-	{
-		$fallback =
-			'{
-                "start_day": "1",
-                "end_day": "5",
-                "blocks": {
-                    "1": {
-                        "start_time": "0800",
-                        "end_time": "1000"
-                    },
-                    "2": {
-                        "start_time": "1000",
-                        "end_time": "1200"
-                    },
-                    "3": {
-                        "start_time": "1200",
-                        "end_time": "1400"
-                    },
-                    "4": {
-                        "start_time": "1400",
-                        "end_time": "1600"
-                    },
-                    "5": {
-                        "start_time": "1600",
-                        "end_time": "1800"
-                    }
-                }
-            }';
-
-		$time                  = array();
-		$time['examsFallback'] = json_decode($fallback);
-
-		return $time;
-	}
-
 
 	/**
 	 * an example of schedules and their json data

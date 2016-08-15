@@ -15,10 +15,10 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 ?>
 
 <div class="organizer <?php echo $noMobile; ?>">
-	<input id="schedule-form-menu-item" type="radio" name="schedule-menu" role="menubar">
 	<input id="time-menu-item" type="radio" name="schedule-menu" role="menubar">
 	<input id="schedule-selection-menu-item" type="radio" name="schedule-menu" role="menubar">
 	<input id="export-menu-item" type="radio" name="schedule-menu" role="menubar">
+	<input id="schedule-form-menu-item" type="radio" name="schedule-menu" role="menubar">
 
 	<div class="menu-bar">
 		<a href="<?php echo JPATH_ROOT ?>" tabindex="1">
@@ -30,24 +30,10 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 		<button type="button"><span class="icon-save"></span></button>
 		<label for="export-menu-item"><span class="icon-download"></span></label>
 	</div>
+	
 	<!-- Menu -->
 	<div id="time-selection" tabindex="0" class="selection">
 		<ul>
-			<li>
-				<button id="exam-time" type="button">
-					<?php echo JText::_('COM_THM_ORGANIZER_EXAM_TIMES') ?>
-				</button>
-			</li>
-			<li>
-				<button id="own-time" type="button">
-					<?php echo JText::_('COM_THM_ORGANIZER_INDIVIDUAL_TIMES') ?>
-				</button>
-			</li>
-			<li>
-				<button id="standard-time" onclick="standardTimes();" type="button">
-					<?php echo JText::_('COM_THM_ORGANIZER_DEFAULT_SETTINGS') ?>
-				</button>
-			</li>
 		</ul>
 	</div>
 	<div id="schedule-selection" tabindex="0" class="selection">
@@ -75,42 +61,36 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 				</button>
 			</li>
 			<li>
-				<button type="button" value="iCal"><span class="icon-calendar-2"></span>
+				<button type="button" value="iCal"><span class="icon-calendar"></span>
 					<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_ICS') ?>
 				</button>
 			</li>
 		</ul>
 	</div>
+	<!-- on last position, because on big devices it is not expandable and the other menus should be near their icon -->
 	<div id="schedule-form" tabindex="0" class="selection">
 		<form action="">
-			<label for="plan">Plan</label>
-			<select id="plan" name="plan" required
-			        onchange="document.getElementById('category').disabled = false;">
+			<select id="plan" name="plan" required onchange=""> <!-- //TODO: per Ajax Formularinhalte holen -->
 				<option value="" hidden><?php echo JText::_("JOPTION_SELECT_CATEGORY"); ?></option>
-				<option value="room"><?php echo JText::_('COM_THM_ORGANIZER_ROOM_PLANS') ?></option>
-				<option value="teacher"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERPLAN') ?></option>
-				<option value="group"><?php echo JText::_('COM_THM_ORGANIZER_POOLPLAN') ?></option>
+				<option value="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOM_PLANS') ?></option>
+				<option value="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERPLAN') ?></option>
+				<option value="programs"><?php echo JText::_('COM_THM_ORGANIZER_POOLPLAN') ?></option>
 			</select>
-			<label for="category"><?php echo JText::_('COM_THM_ORGANIZER_RIA_TREE_TITLE') ?></label>
-			<select id="category" name="category" disabled required
-			        onchange="document.getElementById('resource-type').disabled = false;">
+			<select id="category" name="category" disabled required onchange="">
 				<option value="" hidden></option>
-				<option value="semester">
+				<!--option value="semester">
 					<?php echo JText::_('COM_THM_ORGANIZER_POOL') ?>
 					/ <?php echo JText::_('COM_THM_ORGANIZER_SEMESTER') ?>
 				</option>
 				<option value="types"><?php echo JText::_('COM_THM_ORGANIZER_TYPE') ?></option>
-				<option value="skills"><?php echo JText::_('COM_THM_ORGANIZER_COMPETENCES') ?></option>
+				<option value="skills"><?php echo JText::_('COM_THM_ORGANIZER_COMPETENCES') ?></option-->
 			</select>
-			<label for="resource-type"><?php echo JText::_('COM_THM_ORGANIZER_RESOURCE_PLAN') ?></label>
-			<select id="resource-type" name="resource-type" disabled required
-			        onchange="document.getElementById('resource').disabled = false;">
+			<select id="resource-type" name="resource-type" disabled required onchange="">
 				<option value="" hidden></option>
-				<option value="courses"><?php echo JText::_('COM_THM_ORGANIZER_PROGRAMS') ?></option>
+				<!--option value="courses"><?php echo JText::_('COM_THM_ORGANIZER_PROGRAMS') ?></option>
 				<option value="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOMS') ?></option>
-				<option value="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERS') ?></option>
+				<option value="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERS') ?></option-->
 			</select>
-			<label for="resource"><?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE') ?></label>
 			<select id="resource" name="resource" disabled required>
 				<option value=""></option>
 				<option value="resource1">resource 1</option>
@@ -128,7 +108,6 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			<span class="icon-arrow-left"></span>
 		</button>
 		<form>
-			<label for="date">Datum</label>
 			<span id="weekday">Mo</span>
 			<!--?php echo  JHtml::calendar(date_format(new DateTime(), 'd.m.Y'), 'date', 'date', '%d.%m.%Y'); ?-->
 			<input id="date" type="date" name="date" required onchange="setUpCalendar();"/>
@@ -184,7 +163,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			<span class="icon-arrow-right"></span>
 		</button>
 		<button id="next-month" class="controls" type="button">
-			<span class="icon-forward-2"></span>
+			<span class="icon-forward"></span>
 		</button>
 	</div>
 
@@ -208,9 +187,10 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						<th><?php echo JText::_('COM_THM_ORGANIZER_TIME') ?></th>
 						<?php
 						$daysOfTheWeek = array(JText::_('Monday'), JText::_('Tuesday'), JText::_('Wednesday'),
-						                       JText::_('Thursday'), JText::_('Friday'), JText::_('Saturday'), JText::_('Sunday'));
+												JText::_('Thursday'), JText::_('Friday'), JText::_('Saturday'),
+												JText::_('Sunday'));
 
-						for ($weekday = $this->startDay - 1; $weekday < $this->endDay; ++$weekday)
+						for ($weekday = $this->defaultGrid->start_day - 1; $weekday < $this->defaultGrid->end_day; ++$weekday)
 						{
 							echo '<th>' . $daysOfTheWeek[$weekday] . '</th>';
 						}
@@ -219,15 +199,14 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 					</thead>
 					<tbody>
 					<?php
-					$blocks     = get_object_vars($this->timeGrids['fallback']->blocks);
-					$examBlocks = get_object_vars($this->examsTimeGrid['examsFallback']->blocks);
-					for ($block = 1; $block <= count($blocks); ++$block)
+					$periods = get_object_vars($this->defaultGrid->periods);
+					for ($period = 1; $period <= count($periods); ++$period)
 					{
-						if ($block == 4)
+						if ($period == 4)
 						{
 							?>
 							<tr>
-								<td class="pause" colspan="7"><?php echo JText::_('COM_THM_ORGANIZER_LUNCHTIME') ?></td>
+								<td class="break" colspan="7"><?php echo JText::_('COM_THM_ORGANIZER_LUNCHTIME') ?></td>
 							</tr>
 							<?php
 						}
@@ -236,19 +215,9 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 							<td>
                             <span class="time-semester">
 <?php
-echo THM_OrganizerHelperComponent::formatTime($blocks[$block]->start_time);
-echo "<br> - <br>";
-echo THM_OrganizerHelperComponent::formatTime($blocks[$block]->end_time);
-?>
-                            </span>
-								<span class="time-exams">
-<?php
-if (isset($examBlocks[$block]))
-{
-	echo THM_OrganizerHelperComponent::formatTime($examBlocks[$block]->start_time);
-	echo "<br> - <br>";
-	echo THM_OrganizerHelperComponent::formatTime($examBlocks[$block]->end_time);
-}
+							echo THM_OrganizerHelperComponent::formatTime($periods[$period]->start_time);
+							echo "<br> - <br>";
+							echo THM_OrganizerHelperComponent::formatTime($periods[$period]->end_time);
 ?>
                             </span>
 							</td>
@@ -258,7 +227,7 @@ if (isset($examBlocks[$block]))
 								?>
 								<td>
 									<?php
-									foreach ($day->$block as $lesson)
+									foreach ($day->$period as $lesson)
 									{
 										?>
 										<div class="lesson">
@@ -298,11 +267,11 @@ if (isset($examBlocks[$block]))
 											{
 												?>
 												<span class="locations">
-                                        <span class="old"></span>
-                                        <span class="new">
-                                            <a href="#"><?php echo $lesson->room ?></a>
-                                        </span>
-                                    </span>
+			                                        <span class="old"></span>
+			                                        <span class="new">
+			                                            <a href="#"><?php echo $lesson->room ?></a>
+			                                        </span>
+			                                    </span>
 												<?php
 											}
 											?>

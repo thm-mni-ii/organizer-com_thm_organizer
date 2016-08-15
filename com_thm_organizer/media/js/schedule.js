@@ -85,21 +85,6 @@ jQuery(document).ready(function ()
     {
         changeDate(true, true);
     });
-
-    document.getElementById('exam-time').addEventListener('click', function ()
-    {
-        changeTimes(true);
-    });
-
-    document.getElementById('own-time').addEventListener('click', function ()
-    {
-        ownTimes();
-    });
-
-    document.getElementById('standard-time').addEventListener('click', function ()
-    {
-        standardTimes();
-    });
 });
 
 /**
@@ -438,67 +423,4 @@ function showDay(visibleDay)
             }
         }
     }
-}
-
-/**
- * switches between the visibility of exam times and normal semester times
- *
- * @param examTimes = false boolean  change to regular exam time
- */
-function changeTimes(examTimes)
-{
-    var eTimes = (typeof examTimes === 'undefined') ? false : examTimes;
-    var exams = document.getElementsByClassName('time-exams');
-
-    for (var exam = 0; exam < exams.length; ++exam)
-    {
-        exams[exam].style.display = eTimes ? 'table-cell' : 'none';
-    }
-
-    var semester = document.getElementsByClassName('time-semester');
-    for (var sem = 0; sem < semester.length; ++sem)
-    {
-        semester[sem].style.display = eTimes ? 'none' : 'table-cell';
-    }
-
-    var owns = document.getElementsByClassName('own-time');
-    if (owns[0].style.display != 'none')
-    {
-        for (var own = 0; own < owns.length; ++own)
-        {
-            owns[own].style.display = 'none';
-        }
-    }
-
-    for (var schedule = 0; schedule < window.schedules.length; ++schedule)
-    {
-        window.schedules[schedule].getElementsByTagName('table')[0].className = examTimes ? 'no-break' : '';
-    }
-}
-
-/**
- * own times are shown and regular times are hidden
- */
-function ownTimes()
-{
-    var owns = document.getElementsByClassName('own-time');
-    for (var own = 0; own < owns.length; ++own)
-    {
-        owns[own].style.display = 'block'
-    }
-
-    for (var schedule = 0; schedule < window.schedules.length; ++schedule)
-    {
-        window.schedules[schedule].getElementsByTagName('table')[0].className = 'invisible-time';
-    }
-}
-
-/**
- * jumps back to the standard time visibility settings of window.page
- * now semester-times
- */
-function standardTimes()
-{
-    // TODO: standard time grid aus Datenbank nehmen
-    changeTimes(false);
 }

@@ -4,19 +4,19 @@
 **  Styles for: Frontend
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-@import '../../lib_thm_core/scss/mixins';
+
 @import '../../lib_thm_core/scss/variables';
+
+// TODO: important kommentieren
+// TODO: IDs weitgehend durch Klassen ersetzen
 
 /** ------------------------------------ */
 
-body {
-  min-width: 300px !important;
+#schedule-form select:disabled {
+  background: $grey-25;
 }
 
-select:disabled {
-  background: $grey-25 !important;
-}
-
+/** specified attributes needed for the floppy icon */
 .icon-save::before {
   font-family: icomoon-special !important;
   content: "\e962" !important;
@@ -96,6 +96,7 @@ a:visited {
   }
 }
 
+/** checked menu (input field) expand related (sibling) menus */
 #schedule-form-menu-item:checked ~ #schedule-form,
 #time-menu-item:checked ~ #time-selection,
 #schedule-selection-menu-item:checked ~ #schedule-selection,
@@ -103,11 +104,10 @@ a:visited {
   position: static;
 }
 
-#schedule-form-menu-item:checked ~ .menu-bar label:nth-of-type(1),
-#time-menu-item:checked ~ .menu-bar label:nth-of-type(2),
-#schedule-selection-menu-item:checked ~ .menu-bar label:nth-of-type(3),
-#export-menu-item:checked ~ .menu-bar label:nth-of-type(4),
-.menu-bar button:focus {
+#schedule-form-menu-item:checked ~ .menu-bar label:nth-of-type(1) > span:before,
+#time-menu-item:checked ~ .menu-bar > label:nth-of-type(2) > span:before,
+#schedule-selection-menu-item:checked ~ .menu-bar > label:nth-of-type(3) > span:before,
+#export-menu-item:checked ~ .menu-bar > label:nth-of-type(4) > span:before {
   color: $red-100;
 }
 
@@ -118,11 +118,6 @@ a:visited {
 //********************************************************************************************************************//
 // Form to specify schedule                                                                                           //
 //********************************************************************************************************************//
-
-#schedule-form label,
-.date-input label {
-  display: none;
-}
 
 #choose-date {
   visibility: hidden;
@@ -176,7 +171,7 @@ a:visited {
 }
 
 //********************************************************************************************************************//
-// Schedule design                                                                                           //
+// Schedule design                                                                                                    //
 //********************************************************************************************************************//
 
 #scheduleWrapper {
@@ -187,12 +182,12 @@ a:visited {
 
 .scheduler {
   position: absolute;
+  background-color: $background;
   z-index: 1;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  @include linearGradient($background, $foreground);
 
   caption {
     background-color: $foreground;
@@ -213,7 +208,7 @@ a:visited {
     text-decoration: underline;
   }
 
-  th, td, .lesson, .pause {
+  th, td, .lesson, .break {
     text-align: center;
   }
 
@@ -260,7 +255,7 @@ a:visited {
     }
   }
 
-  .pause {
+  .break {
     background-color: $green-50;
     padding: 0;
   }
@@ -290,6 +285,9 @@ a:visited {
 //********************************************************************************************************************//
 
 .tmpl-component {
+  /** otherwise the table is as wide as on big devices */
+  min-width: 300px;
+
   #calendar-icon {
     display: none;
   }

@@ -35,14 +35,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	 *
 	 * @var array
 	 */
-	protected $timeGrids;
-
-	/**
-	 * time grid for displaying the exam times
-	 *
-	 * @var array
-	 */
-	protected $examsTimeGrid;
+	protected $defaultGrid;
 
 	/**
 	 * URL of this site
@@ -67,15 +60,13 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->languageTag = JFactory::getLanguage()->getTag();
-
-		$this->uri           = JUri::getInstance()->toString();
-		$this->timeGrids     = $this->get('TimeGrids');
-		$this->examsTimeGrid = $this->get('ExamsTimeFallback');
-		$this->startDay      = $this->timeGrids['fallback']->start_day;
-		$this->endDay        = $this->timeGrids['fallback']->end_day;
-		$this->schedules     = $this->getModel()->getSchedules();
 		$this->checkMobile();
+
+		$this->languageTag = JFactory::getLanguage()->getTag();
+		$this->uri         = JUri::getInstance()->toString();
+		$this->defaultGrid = $this->getModel()->getDefaultGrid();
+		$this->schedules   = $this->getModel()->getSchedules();
+
 		$this->modifyDocument();
 
 		parent::display($tpl);
@@ -90,31 +81,14 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	{
 		$doc = JFactory::getDocument();
 
-		$scripts[] = JUri::root() . "media/com_thm_organizer/js/calendar.js";
-		$scripts[] = JUri::root() . "media/com_thm_organizer/js/schedule.js";
-		$scripts[] = JHtml::_('jQuery.framework');
-
-		$docScripts = array_keys($doc->_scripts);
-		foreach ($scripts as $script)
-		{
-			if (!in_array($script, $docScripts))
-			{
-				$doc->addScript($script);
-			}
-		}
-
-		$styleSheets[] = JUri::root() . "libraries/thm_core/fonts/iconfont-frontend.css";
-		$styleSheets[] = JUri::root() . "media/com_thm_organizer/css/schedule.css";
-		$styleSheets[] = JUri::root() . "media/jui/css/icomoon.css";
-
-		$docSheets = array_keys($doc->_styleSheets);
-		foreach ($styleSheets as $sheet)
-		{
-			if (!in_array($sheet, $docSheets))
-			{
-				$doc->addStyleSheet($sheet);
-			}
-		}
+		$doc->addScript(JHtml::_('jQuery.framework'));
+		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/calendar.js");
+		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
+		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule_ajax.js");
+		
+		$doc->addStyleSheet(JUri::root() . "libraries/thm_core/fonts/iconfont-frontend.css");
+		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
+		$doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");
 	}
 
 	/**
