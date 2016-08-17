@@ -43,6 +43,7 @@ class THM_OrganizerModelField extends THM_OrganizerModelMerge
 				{
 					unset($schedule->subjects->$subjectGPUntisID->description);
 				}
+
 				if (isset($subject->fieldID))
 				{
 					unset($schedule->subjects->$subjectGPUntisID->fieldID);
@@ -60,6 +61,7 @@ class THM_OrganizerModelField extends THM_OrganizerModelMerge
 				{
 					unset($schedule->teachers->$teacherGPUntisID->description);
 				}
+
 				if (isset($teacher->fieldID))
 				{
 					unset($schedule->teachers->$teacherGPUntisID->fieldID);
