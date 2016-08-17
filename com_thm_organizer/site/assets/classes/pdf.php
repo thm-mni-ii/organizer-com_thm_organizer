@@ -46,8 +46,8 @@ class THMPDFBuilder extends THMAbstractBuilder
 	public function __construct($cfg, $options)
 	{
 		$this->_cfg       = $cfg;
-		$this->startdate  = $options["startdate"];
-		$this->enddate    = $options["enddate"];
+		$this->startDate  = $options["startDate"];
+		$this->endDate    = $options["endDate"];
 		$this->semesterID = $options["semesterID"];
 	}
 
@@ -62,7 +62,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 	 */
 	public function createSchedule($scheduleData, $username, $title)
 	{
-		$this->_pdf = new MySchedPdf($this->getTitle($username, $title), $this->startdate, $this->enddate);
+		$this->_pdf = new MySchedPdf($this->getTitle($username, $title), $this->startDate, $this->endDate);
 		$this->setPDFSettings();
 
 		$rows    = count((array) $scheduleData->grid);

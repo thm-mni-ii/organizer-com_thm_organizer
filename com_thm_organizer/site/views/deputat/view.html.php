@@ -193,7 +193,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 			$remove .= '<i class="icon-remove"></i>';
 			$remove .= '</a>';
 			$periodsText = (count($summary['periods']) > 10) ?
-				"{$summary['startdate']} bis {$summary['enddate']}" : implode(', ', array_keys($summary['periods']));
+				"{$summary['startDate']} bis {$summary['endDate']}" : implode(', ', array_keys($summary['periods']));
 			$row         = '<tr class="data-row" id="data-row-' . $teacherID . '-' . $rowNumber . '">';
 			$row .= '<td>' . $summary['name'] . '</td>';
 			$row .= '<td>' . $summary['type'] . '</td>';

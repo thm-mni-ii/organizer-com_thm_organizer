@@ -136,7 +136,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	public function getActiveSchedules()
 	{
 		$query             = $this->_db->getQuery(true);
-		$planPeriodColumns = array('semestername', 'SUBSTR(term_enddate, 3, 2)');
+		$planPeriodColumns = array('semestername', 'SUBSTR(endDate, 3, 2)');
 		$columns           = array('departmentname', $query->concatenate($planPeriodColumns, ''));
 		$select            = 'id, ' . $query->concatenate($columns, ' - ') . ' AS name';
 		$query->select($select);
@@ -662,8 +662,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	private function setDates()
 	{
 		$input      = JFactory::getApplication()->input;
-		$selectedSD = $input->getString('startdate', '');
-		$selectedED = $input->getString('enddate', '');
+		$selectedSD = $input->getString('startDate', '');
+		$selectedED = $input->getString('endDate', '');
 		if (empty($this->schedule))
 		{
 			$this->startDate = $selectedSD;
@@ -677,26 +677,26 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 		{
 			$this->startDate = $selectedSD;
 		}
-		elseif (!empty($this->schedule->termStartDate))
+		elseif (!empty($this->schedule->startDate))
 		{
-			$this->startDate = THM_OrganizerHelperComponent::formatDate($this->schedule->termStartDate);
+			$this->startDate = THM_OrganizerHelperComponent::formatDate($this->schedule->startDate);
 		}
 		else
 		{
-			$this->startDate = THM_OrganizerHelperComponent::formatDate($this->schedule->startdate);
+			$this->startDate = THM_OrganizerHelperComponent::formatDate($this->schedule->syStartDate);
 		}
 
 		if (!$this->reset AND !empty($selectedSD))
 		{
 			$this->endDate = $selectedED;
 		}
-		elseif (!empty($this->schedule->termEndDate))
+		elseif (!empty($this->schedule->endDate))
 		{
-			$this->endDate = THM_OrganizerHelperComponent::formatDate($this->schedule->termEndDate);
+			$this->endDate = THM_OrganizerHelperComponent::formatDate($this->schedule->endDate);
 		}
 		else
 		{
-			$this->endDate = THM_OrganizerHelperComponent::formatDate($this->schedule->enddate);
+			$this->endDate = THM_OrganizerHelperComponent::formatDate($this->schedule->syEndDate);
 		}
 	}
 

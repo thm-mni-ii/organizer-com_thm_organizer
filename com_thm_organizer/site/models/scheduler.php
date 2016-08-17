@@ -116,7 +116,7 @@ class THM_OrganizerModelScheduler extends JModelLegacy
 			return false;
 		}
 
-		list($department, $semester, $startdate, $enddate) = explode("_", $deptAndSem);
+		list($department, $semester, $startDate, $endDate) = explode("_", $deptAndSem);
 		if (empty($semester))
 		{
 			return false;
@@ -128,8 +128,8 @@ class THM_OrganizerModelScheduler extends JModelLegacy
 		$query->from('#__thm_organizer_schedules');
 		$query->where('departmentname = ' . $dbo->quote($department));
 		$query->where('semestername = ' . $dbo->quote($semester));
-		$query->where('term_startdate = ' . $dbo->quote($startdate));
-		$query->where('term_enddate = ' . $dbo->quote($enddate));
+		$query->where('startDate = ' . $dbo->quote($startDate));
+		$query->where('endDate = ' . $dbo->quote($endDate));
 		$query->where('active = 1');
 		$dbo->setQuery((string) $query);
 

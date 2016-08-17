@@ -54,12 +54,12 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	/**
 	 * Creates an array with dates as indexes for the days of the given planning period
 	 *
-	 * @param   int $termStartDate the datetime upon which the school year begins
-	 * @param   int $termEndDate   the datetime upon which the school year ends
+	 * @param   int $startDate the datetime upon which the school year begins
+	 * @param   int $endDate   the datetime upon which the school year ends
 	 *
 	 * @return void
 	 */
-	private function initializeCalendar($termStartDate, $termEndDate)
+	private function initializeCalendar($startDate, $endDate)
 	{
 		$calendar = new stdClass;
 		$grids    = $this->schedule->periods;
@@ -75,7 +75,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 			}
 		}
 
-		for ($currentDT = $termStartDate; $currentDT <= $termEndDate; $currentDT = strtotime('+1 day', $currentDT))
+		for ($currentDT = $startDate; $currentDT <= $endDate; $currentDT = strtotime('+1 day', $currentDT))
 		{
 			// Create an index for the date
 			$currentDate            = date('Y-m-d', $currentDT);
@@ -87,6 +87,35 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 			}
 		}
 		$this->schedule->calendar = $calendar;
+	}
+
+	/**
+	 * Saves the planning period to the corresponding table if not already existent.
+	 *
+	 * @param   string $ppName    the abbreviation for the planning period
+	 * @param   int    $startDate the integer value of the start date
+	 * @param   int    $endDate   the integer value of the end date
+	 *
+	 * @return  void creates database entries
+	 */
+	private static function savePlanningPeriod($ppName, $startDate, $endDate)
+	{
+		$data              = array();
+		$data['startDate'] = date('Y-m-d', $startDate);
+		$data['endDate']   = date('Y-m-d', $endDate);
+
+		$table  = JTable::getInstance('planning_periods', 'thm_organizerTable');
+		$exists = $table->load($data);
+		if ($exists)
+		{
+			return $table->id;
+		}
+
+		$shortYear    = date('y', $endDate);
+		$data['name'] = $ppName . $shortYear;
+		$table->save($data);
+
+		return $table->id;
 	}
 
 	/**
@@ -136,36 +165,37 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 
 		// School year dates
 		$syStartDate = trim((string) $xmlSchedule->general->schoolyearbegindate);
-		$this->validateDateAttribute('startdate', $syStartDate, 'SCHOOL_YEAR_START_DATE', 'error');
+		$this->validateDateAttribute('syStartDate', $syStartDate, 'SCHOOL_YEAR_START_DATE', 'error');
 		$syEndDate = trim((string) $xmlSchedule->general->schoolyearenddate);
-		$this->validateDateAttribute('enddate', $syEndDate, 'SCHOOL_YEAR_END_DATE', 'error');
+		$this->validateDateAttribute('syEndDate', $syEndDate, 'SCHOOL_YEAR_END_DATE', 'error');
 
 		// Organizational Data
-		$departmentname = trim((string) $xmlSchedule->general->header1);
-		$this->validateTextAttribute('departmentname', $departmentname, 'ORGANIZATION', 'error', '/[\#\;]/');
-		$semestername = trim((string) $xmlSchedule->general->footer);
-		$this->validateTextAttribute('semestername', $semestername, 'TERM_NAME', 'error', '/[\#\;]/');
+		$departmentName = trim((string) $xmlSchedule->general->header1);
+		$this->validateTextAttribute('departmentname', $departmentName, 'ORGANIZATION', 'error', '/[\#\;]/');
+		$semesterName      = trim((string) $xmlSchedule->general->footer);
+		$validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
-		// Term start & end dates
+		// Planning period start & end dates
 		$startDate = trim((string) $xmlSchedule->general->termbegindate);
-		$this->validateDateAttribute('termStartDate', $startDate, 'TERM_START_DATE');
+		$this->validateDateAttribute('startDate', $startDate, 'TERM_START_DATE');
 		$endDate = trim((string) $xmlSchedule->general->termenddate);
-		$this->validateDateAttribute('termEndDate', $endDate, 'TERM_END_DATE');
+		$this->validateDateAttribute('endDate', $endDate, 'TERM_END_DATE');
 
-		// Checks if term and school year dates are consistent
-		$syStartTime   = strtotime($syStartDate);
-		$syEndTime     = strtotime($syEndDate);
-		$termStartTime = strtotime($startDate);
-		$termEndTime   = strtotime($endDate);
-		if ($termStartTime < $syStartTime OR $termEndTime > $syEndTime OR $termStartTime >= $termEndTime)
+		// Checks if planning period and school year dates are consistent
+		$startTimeStamp        = strtotime($startDate);
+		$endTimeStamp          = strtotime($endDate);
+		$invalidStart          = $startTimeStamp < strtotime($syStartDate);
+		$invalidEnd            = $endTimeStamp > strtotime($syEndDate);
+		$invalidPlanningPeriod = $startTimeStamp >= $endTimeStamp;
+		$invalid               = ($invalidStart OR $invalidEnd OR $invalidPlanningPeriod);
+
+		if ($invalid)
 		{
-			$this->scheduleErrors[] = JText::sprintf(
-				'COM_THM_ORGANIZER_ERROR_DATES_INCONSISTENT',
-				date('d.m.Y', $syStartDate),
-				date('d.m.Y', $syEndDate),
-				date('d.m.Y', $termStartTime),
-				date('d.m.Y', $termEndTime)
-			);
+			$this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
+		}
+		elseif ($validSemesterName)
+		{
+			$this->savePlanningPeriod($semesterName, $startTimeStamp, $endTimeStamp);
 		}
 
 		THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);
@@ -179,8 +209,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		// Object longer needed (next version)
 		unset($this->schedule->fields);
 
-
-		$this->initializeCalendar($termStartTime, $termEndTime);
+		$this->initializeCalendar($startTimeStamp, $endTimeStamp);
 		$lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
 		$lessonsHelper->validate();
 
@@ -189,7 +218,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 
 		if (empty($this->scheduleErrors))
 		{
-			$lessonsHelper->saveLessons();
+			//$lessonsHelper->saveLessons();
 		}
 
 		$this->printStatusReport();
@@ -247,7 +276,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 			{
 				$this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
-				return;
+				return false;
 			}
 
 			if ($severity == 'warning')
@@ -262,7 +291,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 			{
 				$this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
 
-				return;
+				return false;
 			}
 
 			if ($severity == 'warning')
@@ -272,6 +301,6 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		}
 		$this->schedule->$name = $value;
 
-		return;
+		return true;
 	}
 }

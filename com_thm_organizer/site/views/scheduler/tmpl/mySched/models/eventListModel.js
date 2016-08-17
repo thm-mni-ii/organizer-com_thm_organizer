@@ -117,8 +117,8 @@ Ext.define('EventListModel',
             var data = this.data.filterBy(function (o, k)
             {
                 var eventData = o.data;
-                var eventStartDate = eventData.startdate;
-                var eventEndDate = eventData.enddate;
+                var eventStartDate = eventData.startDate;
+                var eventEndDate = eventData.endDate;
                 var eventStartTime = eventData.starttime;
                 var eventEndTime = eventData.endtime;
                 var currMOFR = getCurrentMoFrDate();

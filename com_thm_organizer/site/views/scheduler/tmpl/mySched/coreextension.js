@@ -163,14 +163,14 @@ Ext.override(
                 for (var ELindex = 0; ELindex < EL.length; ELindex++)
                 {
 
-                    var startdate = EL.items[ELindex].data.startdate.split(".");
-                    startdate = new Date(startdate[2], startdate[1] - 1, startdate[0]);
-                    var enddate = EL.items[ELindex].data.enddate.split(".");
-                    enddate = new Date(enddate[2], enddate[1] - 1, enddate[0]);
+                    var startDate = EL.items[ELindex].data.startDate.split(".");
+                    startDate = new Date(startDate[2], startDate[1] - 1, startDate[0]);
+                    var endDate = EL.items[ELindex].data.endDate.split(".");
+                    endDate = new Date(endDate[2], endDate[1] - 1, endDate[0]);
 
                     current.clearTime();
 
-                    if (startdate <= current && enddate >= current)
+                    if (startDate <= current && endDate >= current)
                     {
                         cell.className += " MySched_CalendarEvent";
                         len = cell.children[0].events.length;

@@ -172,8 +172,8 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		$query = $this->_db->getQuery(true);
 		$query->select('DISTINCT id')->from('#__thm_organizer_schedules');
 		$query->where("active = '1'");
-		$query->where("term_startdate <= '$this->startDate'");
-		$query->where("term_enddate >= '$this->endDate'");
+		$query->where("startDate <= '$this->startDate'");
+		$query->where("endDate >= '$this->endDate'");
 		$this->_db->setQuery((string) $query);
 
 		try

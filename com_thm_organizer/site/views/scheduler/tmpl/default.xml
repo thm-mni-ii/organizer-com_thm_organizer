@@ -19,9 +19,9 @@
                    key_field="id"
                    value_field="name"
                    default=""
-                   query="SELECT DISTINCT CONCAT(departmentname, '_', semestername, '_', term_startdate, '_',
-                    term_enddate) AS id,
-                    CONCAT(departmentname, ' ', semestername, SUBSTRING(term_enddate, 3, 2)) as name
+                   query="SELECT DISTINCT CONCAT(departmentname, '_', semestername, '_', startDate, '_',
+                    endDate) AS id,
+                    CONCAT(departmentname, ' ', semestername, SUBSTRING(endDate, 3, 2)) as name
                     FROM #__thm_organizer_schedules
                     ORDER BY name ASC">
             </field>

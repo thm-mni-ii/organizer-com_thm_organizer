@@ -38,43 +38,25 @@ class Com_THM_OrganizerInstallerScript
 	 */
 	public function install($parent)
 	{
-		$tablesFilled = $this->fillTables();
-		if ($tablesFilled)
-		{
-			$fillColor  = 'green';
-			$fillStatus = 'Default values have been added to the database tables.';
-		}
-		else
-		{
-			$fillColor  = 'red';
-			$fillStatus = 'Default values could not be added to the database tables.';
-		}
-
 		$dirCreated = $this->createImageDirectory();
 		if ($dirCreated)
 		{
-			$dirColor  = 'green';
-			$dirStatus = 'The directory /images/thm_organizer has been created.';
-		}
-		else
-		{
-			$dirColor  = 'red';
-			$dirStatus = 'The directory /images/thm_organizer could not be created.';
-		}
-
-		if ($dirCreated AND $tablesFilled)
-		{
+			$dirColor   = 'green';
+			$dirStatus  = 'The directory /images/thm_organizer has been created.';
 			$instColor  = 'green';
 			$instStatus = 'THM Organizer was successfully installed.';
+			$status     = 'com_thm_organizer_success';
 		}
 		else
 		{
+			$dirColor   = 'red';
+			$dirStatus  = 'The directory /images/thm_organizer could not be created.';
 			$instColor  = 'yellow';
 			$instStatus = 'Problems have occured while installing THM Organizer.';
+			$status     = 'com_thm_organizer_failure';
 		}
 		?>
 		<style>
-
 			.com_thm_organizer_success {
 				box-shadow: -5px -5px 25px green inset;
 				transition-property: box-shadow;
@@ -86,31 +68,13 @@ class Com_THM_OrganizerInstallerScript
 				transition-property: box-shadow;
 				transition-duration: 3s;
 			}
-
 		</style>
 		<script>
-
-			<?php
-			if ($dirCreated AND $tablesFilled)
-			{
-			?>
-			var status = "com_thm_organizer_success";
-			<?php
-			}
-			else
-			{
-			?>
-			var status = "com_thm_organizer_failure";
-
-			<?php
-			}
-			?>
-
+			var status = "<?php echo $status; ?>";
 			window.addEvent('domready', function ()
 			{
 				$('com_thm_organizer_fieldset').addClass(status);
 			});
-
 		</script>
 		<fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
 			<legend>
@@ -127,76 +91,44 @@ class Com_THM_OrganizerInstallerScript
 					<a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>.
 				</div>
 				<table style="border-radius: 5px; border-style: dashed; margin-top: 17px;">
-
-					<!-- Table header -->
-
-					<thead>
-					</thead>
-
-					<!-- Table footer -->
-
-					<tfoot>
-					</tfoot>
-
-					<!-- Table body -->
-
 					<tbody>
-					<tr>
-						<td>Database Table Fill Status</td>
-						<td><span style='color:
-							<?php echo $fillColor; ?>
-								'>
-                    <?php echo $fillStatus; ?>
-                    </span></td>
-					</tr>
 					<tr>
 						<td>Directory Status</td>
 						<td><span style='color:
 							<?php echo $dirColor; ?>
 								'>
-                    <?php echo $dirStatus; ?>
-                    </span></td>
+            <?php echo $dirStatus; ?>
+            </span></td>
 					</tr>
 					<tr>
 						<td>Installation Status</td>
 						<td><span style='color:
 							<?php echo $instColor; ?>
 								'>
-                    <?php echo $instStatus; ?>
-                    </span></td>
+            <?php echo $instStatus; ?>
+            </span></td>
 					</tr>
 					</tbody>
-
 				</table>
 				<?php
-				if ($tablesFilled AND $dirCreated)
+				if ($dirCreated)
 				{
 					?>
 					<h4>Please ensure that THM Organizer has write access to the directory mentioned above.</h4>
 					<?php
 				}
-				if (!$tablesFilled)
-				{
-					?>
-					<h4>An error occurred while adding default values to the database tables. Some values may need to be
-						manually entered.</h4>
-					<?php
-				}
-				if (!$dirCreated)
+				else
 				{
 					?>
 					<h4>Please check the /images/thm_organizer Directory.</h4>
 					If it does not exist, please create this directory, and ensure THM - Organizer has write access to it.
 					<br/>
 					Failure to do so will prevent THM - Organizer from being able use images.
-
 					<?php
 				}
 				?>
 			</div>
-			</div>
 		</fieldset>
-
 		<?php
 	}
 
@@ -224,46 +156,6 @@ class Com_THM_OrganizerInstallerScript
 		}
 
 		return JFolder::create(JPATH_SITE . '/images/thm_organizer');
-	}
-
-	/**
-	 * Fills tables with default values
-	 *
-	 * @return  boolean true on successful fill otherwise false
-	 */
-	private function fillTables()
-	{
-		$dbo     = JFactory::getDbo();
-		$fill    = file_get_contents($this->SQLPath() . '/fill.mysql.utf8.sql');
-		$queries = $dbo->splitSql($fill);
-
-		$dbo->transactionStart();
-		foreach ($queries as $rawQuery)
-		{
-			$query = trim($rawQuery);
-			if (empty($query))
-			{
-				continue;
-			}
-			$dbo->setQuery((string) $query);
-
-			try
-			{
-				$dbo->execute();
-			}
-			catch (Exception $exc)
-			{
-				$dbo->transactionRollback();
-				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-				return false;
-			}
-
-		}
-
-		$dbo->transactionCommit();
-
-		return true;
 	}
 
 	/**

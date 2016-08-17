@@ -234,8 +234,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$pullData                   = array();
 			$pullData['departmentname'] = $this->schedule->departmentname;
 			$pullData['semestername']   = $this->schedule->semestername;
-			$pullData['startdate']      = $this->schedule->startdate;
-			$pullData['enddate']        = $this->schedule->enddate;
+			$pullData['startDate']      = $this->schedule->startDate;
+			$pullData['endDate']        = $this->schedule->endDate;
 			$pullData['active']         = 1;
 		}
 
@@ -396,21 +396,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	}
 
 	/**
-	 * Saves the comment for an uploaded schedule
-	 *
-	 * @return boolean true on success otherwise false
-	 */
-	public function saveComment()
-	{
-		$data                = JFactory::getApplication()->input->get('jform', array(), 'array');
-		$data['description'] = $this->_db->escape($data['description']);
-		unset($data->startdate, $data->enddate, $data->creationdate);
-		$table = JTable::getInstance('schedules', 'thm_organizerTable');
-
-		return $table->save($data);
-	}
-
-	/**
 	 * Persists the schedule to be uploaded
 	 *
 	 * @return  bool  true on success, otherwise false
@@ -423,22 +408,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$data['departmentID']   = $formData['departmentID'];
 		$departmentName         = $this->schedule->departmentname;
 		$semesterName           = $this->schedule->semestername;
-		$shortYear              = substr($this->schedule->termEndDate, 2, 2);
-		$planName               = "$departmentName-$semesterName-$shortYear";
-		$data['plan_name']      = $planName;
 		$data['departmentname'] = $departmentName;
 		$data['semestername']   = $semesterName;
 		$data['creationdate']   = $this->schedule->creationdate;
 		$data['creationtime']   = $this->schedule->creationtime;
-		$data['description']    = $this->_db->escape($formData['description']);
 		$data['schedule']       = json_encode($this->schedule);
-		$data['startdate']      = $this->schedule->startdate;
-		$data['enddate']        = $this->schedule->enddate;
-		$data['term_startdate'] = $this->schedule->termStartDate;
-		$data['term_enddate']   = $this->schedule->termEndDate;
+		$data['startDate']      = $this->schedule->startDate;
+		$data['endDate']        = $this->schedule->endDate;
 		$data['active']         = 1;
-		$data['term_startdate'] = $this->schedule->termStartDate;
-		$data['term_enddate']   = $this->schedule->termEndDate;
 
 		$row = JTable::getInstance('schedules', 'thm_organizerTable');
 
@@ -655,8 +632,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$pullData     = array(
 				'departmentname' => $this->refSchedule->departmentname,
 				'semestername'   => $this->refSchedule->semestername,
-				'startdate'      => $this->refSchedule->startdate,
-				'enddate'        => $this->refSchedule->enddate,
+				'startDate'      => $this->refSchedule->startDate,
+				'endDate'        => $this->refSchedule->endDate,
 				'active'         => 1
 			);
 			$actualExists = $actual->load($pullData);

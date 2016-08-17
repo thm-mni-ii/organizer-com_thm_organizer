@@ -200,8 +200,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 		$query = $dbo->getQuery(true);
 		$query->select("schedule");
 		$query->from("#__thm_organizer_schedules");
-		$query->where("startdate <= '$this->_dbDate'");
-		$query->where("enddate >= '$this->_dbDate'");
+		$query->where("startDate <= '$this->_dbDate'");
+		$query->where("endDate >= '$this->_dbDate'");
 		$query->where("active = 1");
 		$dbo->setQuery((string) $query);
 

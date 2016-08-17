@@ -101,7 +101,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 		$this->config['deltaDisplayDays']  = (int) $this->params->get("deltaDisplayDays", 14);
 		$this->config['displayDaysInWeek'] = (int) $this->params->get("displayDaysInWeek", 0);
 		$this->config['name']              = $scheduleRow->departmentname . "_" . $scheduleRow->semestername . "_";
-		$this->config['name'] .= $scheduleRow->term_startdate . "_" . $scheduleRow->term_enddate;
+		$this->config['name'] .= $scheduleRow->startDate . "_" . $scheduleRow->endDate;
 
 		$scheduleRow->creationdate = THM_OrganizerHelperComponent::formatDate($scheduleRow->creationdate);
 

@@ -57,10 +57,10 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$query    = $dbo->getQuery(true);
 
 		$select = "s.id, d.short_name_$shortTag AS departmentname, semestername, active, ";
-		$select .= "term_enddate, creationdate, creationtime, ";
+		$select .= "endDate, creationdate, creationtime, ";
 		$createdParts = array("creationdate", "creationtime");
 		$select .= $query->concatenate($createdParts, " ") . " AS created, ";
-		$sNameParts = array("semestername", "SUBSTRING(term_enddate, 3, 2)");
+		$sNameParts = array("semestername", "SUBSTRING(endDate, 3, 2)");
 		$select .= $query->concatenate($sNameParts, " ") . " AS semestername ";
 		$query->select($select);
 		$query->from("#__thm_organizer_schedules AS s");

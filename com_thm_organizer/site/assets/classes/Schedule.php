@@ -78,8 +78,8 @@ class THMSchedule
 		$this->_username     = $input->getString("username");
 		$this->_title        = $input->getString("title");
 		$this->_what         = $input->getString("what");
-		$this->startdate     = $input->getString("startdate");
-		$this->enddate       = $input->getString("enddate");
+		$this->startDate     = $input->getString("startDate");
+		$this->endDate       = $input->getString("endDate");
 		$this->semesterID    = $input->getString("semesterID");
 		$this->_cfg          = $cfg;
 	}
@@ -91,7 +91,7 @@ class THMSchedule
 	 */
 	public function export()
 	{
-		$options = array("startdate" => $this->startdate, "enddate" => $this->enddate, "semesterID" => $this->semesterID);
+		$options = array("startDate" => $this->startDate, "endDate" => $this->endDate, "semesterID" => $this->semesterID);
 		if ($this->_what == "pdf")
 		{
 			require_once dirname(__FILE__) . "/pdf.php";

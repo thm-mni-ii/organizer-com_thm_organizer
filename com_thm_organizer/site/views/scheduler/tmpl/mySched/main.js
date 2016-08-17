@@ -334,8 +334,8 @@ MySched.Base = function ()
 
             if (Ext.isObject(jsonData))
             {
-                MySched.session.begin = jsonData.startdate;
-                MySched.session.end = jsonData.enddate;
+                MySched.session.begin = jsonData.startDate;
+                MySched.session.end = jsonData.endDate;
                 MySched.session.creationdate = jsonData.creationdate;
                 uploadDateText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate;
 
@@ -697,8 +697,8 @@ MySched.Base = function ()
                                 semesterID: semesterID,
                                 scheduletask: "Ressource.load",
                                 type: type,
-                                startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
-                                enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
+                                startDate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+                                endDate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
                             },
                             failure: function (response)
                             {

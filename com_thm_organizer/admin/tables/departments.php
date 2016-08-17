@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/tables/assets.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class representing the majors table.
@@ -40,7 +41,8 @@ class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
 	 */
 	protected function _getAssetTitle()
 	{
-		return $this->short_name;
+		$shortNameColumn = 'short_name_' . THM_OrganizerHelperLanguage::getShortTag();
+		return $this->$shortNameColumn;
 	}
 
 	/**

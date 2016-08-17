@@ -237,9 +237,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	private function setDates()
 	{
 		$date             = getdate(time());
-		$startDate        = $this->params->get('startdate', '');
+		$startDate        = $this->params->get('startDate', '');
 		$this->_startDate = empty($startDate) ? date('Y-m-d', $date[0]) : $startDate;
-		$endDate          = $this->params->get('enddate', '');
+		$endDate          = $this->params->get('endDate', '');
 		$this->_endDate   = empty($endDate) ? '' : $endDate;
 	}
 
@@ -254,9 +254,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 		$query = $dbo->getQuery(true);
 		$query->select("id");
 		$query->from("#__thm_organizer_schedules");
-		$query->where("startdate <= '$this->_startDate'");
+		$query->where("startDate <= '$this->_startDate'");
 		$qEndDate = empty($this->_endDate) ? $this->_startDate : $this->_endDate;
-		$query->where("enddate >= '$qEndDate'");
+		$query->where("endDate >= '$qEndDate'");
 		$query->where("active = 1");
 		$dbo->setQuery((string) $query);
 

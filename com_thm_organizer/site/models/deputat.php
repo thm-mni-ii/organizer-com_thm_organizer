@@ -128,7 +128,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	{
 		$query   = $this->_db->getQuery(true);
 		$columns = array('departmentname', 'semestername');
-		$name    = array($query->concatenate($columns, ' - '), ' SUBSTRING(term_enddate, 3, 2)');
+		$name    = array($query->concatenate($columns, ' - '), ' SUBSTRING(endDate, 3, 2)');
 		$select  = 'id, ' . $query->concatenate($name) . ' AS name';
 		$query->select($select);
 		$query->from("#__thm_organizer_schedules");
@@ -205,12 +205,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	{
 		$this->lessonValues = array();
 
-		$startdate = (!empty($this->schedule->termStartDate)) ? $this->schedule->termStartDate : $this->schedule->startdate;
-		$enddate   = (!empty($this->schedule->termEndDate)) ? $this->schedule->termEndDate : $this->schedule->enddate;
+		$startDate = (!empty($this->schedule->startDate)) ? $this->schedule->startDate : $this->schedule->syStartDate;
+		$endDate   = (!empty($this->schedule->endDate)) ? $this->schedule->endDate : $this->schedule->syEndDate;
 
 		foreach ($this->schedule->calendar as $day => $blocks)
 		{
-			if ($day < $startdate OR $day > $enddate)
+			if ($day < $startDate OR $day > $endDate)
 			{
 				continue;
 			}
@@ -219,7 +219,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		}
 
 		$teacherIDs = array_keys((array) $this->schedule->teachers);
-		$this->checkOtherSchedules($teacherIDs, $startdate, $enddate);
+		$this->checkOtherSchedules($teacherIDs, $startDate, $endDate);
 		$this->convertLessonValues();
 	}
 
@@ -362,9 +362,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 			$this->lessonValues[$lessonID][$teacherID]['periods'] = array();
 		}
 
-		if (!isset($this->lessonValues[$lessonID][$teacherID]['startdate']))
+		if (!isset($this->lessonValues[$lessonID][$teacherID]['startDate']))
 		{
-			$this->lessonValues[$lessonID][$teacherID]['startdate'] = THM_OrganizerHelperComponent::formatDate($day);
+			$this->lessonValues[$lessonID][$teacherID]['startDate'] = THM_OrganizerHelperComponent::formatDate($day);
 		}
 
 		$DOWConstant  = strtoupper(date('l', strtotime($day)));
@@ -380,7 +380,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 			$this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock][$day] = $hours;
 		}
 
-		$this->lessonValues[$lessonID][$teacherID]['enddate'] = THM_OrganizerHelperComponent::formatDate($day);
+		$this->lessonValues[$lessonID][$teacherID]['endDate'] = THM_OrganizerHelperComponent::formatDate($day);
 
 		return;
 	}
@@ -425,7 +425,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	 */
 	private function getType(&$schedule, $lessonID)
 	{
-		$lessonType = $schedule->lessons->$lessonID->description;
+		$lessonType = empty($schedule->lessons->$lessonID->description) ?
+			'' : $schedule->lessons->$lessonID->description;
 
 		if (empty($lessonType))
 		{
@@ -739,8 +740,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$this->deputat[$teacherID]['summary'][$index]['pools']     = $lessonValues['pools'];
 		$this->deputat[$teacherID]['summary'][$index]['periods']   = $lessonValues['periods'];
 		$this->deputat[$teacherID]['summary'][$index]['hours']     = $this->getSummaryHours($lessonValues['periods']);
-		$this->deputat[$teacherID]['summary'][$index]['startdate'] = $lessonValues['startdate'];
-		$this->deputat[$teacherID]['summary'][$index]['enddate']   = $lessonValues['enddate'];
+		$this->deputat[$teacherID]['summary'][$index]['startDate'] = $lessonValues['startDate'];
+		$this->deputat[$teacherID]['summary'][$index]['endDate']   = $lessonValues['endDate'];
 		uksort($this->deputat[$teacherID]['summary'][$index]['periods'], 'self::periodSort');
 		ksort($this->deputat[$teacherID]['summary']);
 
@@ -963,14 +964,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	 * Checks for the cross department deputat of teachers belonging to the department
 	 *
 	 * @param   array  $teachers  the teachers listed in the original schedule
-	 * @param   string $startdate the startdate of the original schedule
-	 * @param   string $enddate   the enddate of the original schedule
+	 * @param   string $startDate the start date of the original schedule
+	 * @param   string $endDate   the end date of the original schedule
 	 *
 	 * @return  void  adds deputat to the lesson values array
 	 */
-	private function checkOtherSchedules($teachers, $startdate, $enddate)
+	private function checkOtherSchedules($teachers, $startDate, $endDate)
 	{
-		$schedulesIDs = $this->getPlausibleScheduleIDs($startdate, $enddate);
+		$schedulesIDs = $this->getPlausibleScheduleIDs($startDate, $endDate);
 		if (empty($schedulesIDs))
 		{
 			return;
@@ -981,7 +982,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 			$schedule = $this->getSchedule($scheduleID);
 			foreach ($schedule->calendar as $day => $blocks)
 			{
-				if ($day < $startdate OR $day > $enddate)
+				if ($day < $startDate OR $day > $endDate)
 				{
 					continue;
 				}
@@ -996,18 +997,18 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks the database for plausible schedules
 	 *
-	 * @param   string $startdate the startdate of the original schedule
-	 * @param   string $enddate   the enddate of the original schedule
+	 * @param   string $startDate the start date of the original schedule
+	 * @param   string $endDate   the end date of the original schedule
 	 *
 	 * @return  mixed  array on success, otherwise null
 	 */
-	private function getPlausibleScheduleIDs($startdate, $enddate)
+	private function getPlausibleScheduleIDs($startDate, $endDate)
 	{
 		$query = $this->_db->getQuery(true);
 		$query->select('id');
 		$query->from("#__thm_organizer_schedules");
-		$query->where("term_startdate = '$startdate'");
-		$query->where("term_enddate = '$enddate'");
+		$query->where("startDate = '$startDate'");
+		$query->where("endDate = '$endDate'");
 		$query->where("active = '1'");
 		$this->_db->setQuery((string) $query);
 		try

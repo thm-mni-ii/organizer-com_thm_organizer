@@ -68,7 +68,7 @@ $title       = $this->params->get('page_title', '');
 							<label for="startDate"><?php echo JText::_('COM_THM_ORGANIZER_START_DATE') ?>:</label>
 						</div>
 						<div class="controls">
-							<?php echo JHtml::calendar($this->model->startDate, 'startdate', 'startdate', '%d.%m.%Y') ?>
+							<?php echo JHtml::calendar($this->model->startDate, 'startDate', 'startDate', '%d.%m.%Y') ?>
 						</div>
 					</div>
 					<div class="control-group">
@@ -76,7 +76,7 @@ $title       = $this->params->get('page_title', '');
 							<label for="endDate"><?php echo JText::_('COM_THM_ORGANIZER_END_DATE') ?>:</label>
 						</div>
 						<div class="controls">
-							<?php echo JHtml::calendar($this->model->endDate, 'enddate', 'enddate', '%d.%m.%Y') ?>
+							<?php echo JHtml::calendar($this->model->endDate, 'endDate', 'endDate', '%d.%m.%Y') ?>
 						</div>
 					</div>
 					<?php

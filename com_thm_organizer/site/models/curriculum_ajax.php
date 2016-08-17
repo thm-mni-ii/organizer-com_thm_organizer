@@ -356,7 +356,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('id, schedule')->from('#__thm_organizer_schedules');
-		$query->where("startdate <= '$date'")->where("enddate >= '$date'")->where("active = '1'");
+		$query->where("startDate <= '$date'")->where("endDate >= '$date'")->where("active = '1'");
 		$dbo->setQuery((string) $query);
 
 		try

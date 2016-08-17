@@ -260,8 +260,8 @@ Ext.define('ScheduleModel',
             this.eventList.eachKey(function (k, v)
             {
                 var eventData = v.data;
-                var eventStartDate = eventData.startdate;
-                var eventEndDate = eventData.enddate;
+                var eventStartDate = eventData.startDate;
+                var eventEndDate = eventData.endDate;
                 var eventStartTime = eventData.starttime;
                 var eventEndTime = eventData.endtime;
                 var currMOFR = getCurrentMoFrDate();

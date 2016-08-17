@@ -349,7 +349,7 @@ class THM_OrganizerHelperXMLLessons
 	{
 		$planName = $this->scheduleModel->schedule->departmentname;
 		$planName .= "-" . $this->scheduleModel->schedule->semestername;
-		$planName .= "-" . substr($this->scheduleModel->schedule->termEndDate, 2, 2);
+		$planName .= "-" . substr($this->scheduleModel->schedule->endDate, 2, 2);
 		$this->planName = $planName;
 	}
 
@@ -727,8 +727,8 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Checks for the validity and consistency of date values
 	 *
-	 * @param   int $startDT the startdate as integer
-	 * @param   int $endDT   the enddate as integer
+	 * @param   int $startDT the start date as integer
+	 * @param   int $endDT   the end date as integer
 	 *
 	 * @return  boolean  true if dates are valid, otherwise false
 	 */
@@ -743,8 +743,8 @@ class THM_OrganizerHelperXMLLessons
 			return false;
 		}
 
-		$syStartTime     = strtotime($this->scheduleModel->schedule->startdate);
-		$syEndTime       = strtotime($this->scheduleModel->schedule->enddate);
+		$syStartTime     = strtotime($this->scheduleModel->schedule->syStartDate);
+		$syEndTime       = strtotime($this->scheduleModel->schedule->syEndDate);
 		$lessonStartDate = date('Y-m-d', $startDT);
 
 		$validStartDate = ($startDT >= $syStartTime AND $startDT <= $syEndTime);
@@ -775,7 +775,7 @@ class THM_OrganizerHelperXMLLessons
 			return false;
 		}
 
-		// Checks if startdate is before enddate
+		// Checks if start date is before end date
 		if ($endDT < $startDT)
 		{
 			$this->scheduleModel->scheduleErrors[] =
@@ -815,7 +815,7 @@ class THM_OrganizerHelperXMLLessons
 		$end = strtotime('+1 day', $end);
 
 		// 86400 is the number of seconds in a day 24 * 60 * 60
-		$offset = floor(($start - strtotime($this->scheduleModel->schedule->startdate)) / 86400);
+		$offset = floor(($start - strtotime($this->scheduleModel->schedule->syStartDate)) / 86400);
 		$length = floor(($end - $start) / 86400);
 
 		// Change occurrences from a string to an array of the appropriate length for iteration

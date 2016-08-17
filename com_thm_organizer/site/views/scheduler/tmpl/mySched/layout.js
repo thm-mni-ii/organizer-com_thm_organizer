@@ -85,8 +85,8 @@ MySched.layout = function ()
                                         scheduletask: "Ressource.load",
                                         plantypeID: plantypeID,
                                         type: type,
-                                        startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
-                                        enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
+                                        startDate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+                                        endDate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
                                     },
                                     failure: function (response)
                                     {
@@ -568,8 +568,8 @@ MySched.layout = function ()
                                         username: MySched.Authorize.user,
                                         title: MySched.selectedSchedule.title.replace(/\s*\/\s*/g, ' '),
                                         what: "pdf",
-                                        startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
-                                        enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d"),
+                                        startDate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+                                        endDate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d"),
                                         scheduletask: "Schedule.export",
                                         semesterID: MySched.selectedSchedule.semesterID
                                     },
@@ -1062,8 +1062,8 @@ MySched.layout = function ()
                                                     scheduletask: "Ressource.load",
                                                     plantypeID: plantypeID,
                                                     type: type,
-                                                    startdate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
-                                                    enddate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
+                                                    startDate: Ext.Date.format(currentMoFrDate.monday, "Y-m-d"),
+                                                    endDate: Ext.Date.format(currentMoFrDate.friday, "Y-m-d")
                                                 },
                                                 failure: function (response)
                                                 {

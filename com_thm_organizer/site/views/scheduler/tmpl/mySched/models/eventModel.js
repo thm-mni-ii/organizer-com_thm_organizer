@@ -20,9 +20,9 @@ Ext.define('EventModel',
             this.id = id;
             this.data = data;
 
-            if (this.data.enddate === "00.00.0000")
+            if (this.data.endDate === "00.00.0000")
             {
-                this.data.enddate = this.data.startdate;
+                this.data.endDate = this.data.startDate;
             }
 
             this.data.starttime = this.data.starttime.substring(0, 5);
