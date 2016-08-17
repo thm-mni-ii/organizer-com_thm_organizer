@@ -167,7 +167,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 		</button>
 	</div>
 
-	<div id="scheduleWrapper">
+	<div id="scheduleWrapper" class="scheduleWrapper">
 		<?php
 		for ($schedule = 0; $schedule < count($this->schedules); ++$schedule)
 		{
