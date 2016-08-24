@@ -68,6 +68,7 @@ class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
 		if ($this->getModel()->actions->{'core.admin'})
 		{
 			JToolbarHelper::divider();
+			JToolbarHelper::custom('schedule.migrate', 'arrow-right-4', 'arrow-right-4', 'COM_THM_ORGANIZER_ACTION_MIGRATE', true);
 			JToolbarHelper::preferences('com_thm_organizer');
 		}
 	}

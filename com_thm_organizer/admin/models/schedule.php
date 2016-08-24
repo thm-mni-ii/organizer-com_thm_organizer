@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JTable::addIncludePath(JPATH_BASE . '/administrator/components/com_thm_organizer/tables');
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/xml/schedule.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json/schedule.php';
 
 /**
  * Class enapsulating data abstraction and business logic for xml schedules
@@ -253,6 +254,44 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		}
 
 		return null;
+	}
+
+	/**
+	 * Migrates an existing deprecated format schedule to a schedule with the new format
+	 *
+	 * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
+	 *                                 ['errors']      critical data inconsistencies
+	 *                                 ['warnings']    minor data inconsistencies
+	 */
+	public function migrate()
+	{
+		$input = JFactory::getApplication()->input;
+		$scheduleIDs = $input->get('cid', array(), 'array');
+
+		if (empty($scheduleIDs))
+		{
+			$scheduleID = $input->getInt('id');
+			if (empty($scheduleID))
+			{
+				return false;
+			}
+			$scheduleIDs = array($scheduleID);
+		}
+
+		$failCount = 0;
+		foreach ($scheduleIDs as $scheduleID)
+		{
+			$jsonModel = new THM_OrganizerModelJSONSchedule;
+			$success = $jsonModel->migrate($scheduleID);
+			if (!$success)
+			{
+				$failCount++;
+			}
+		}
+
+		// Add output here as necessary
+
+		return true;
 	}
 
 	/**

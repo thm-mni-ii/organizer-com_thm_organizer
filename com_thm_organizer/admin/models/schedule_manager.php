@@ -57,7 +57,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$query    = $dbo->getQuery(true);
 
 		$select = "s.id, d.short_name_$shortTag AS departmentname, semestername, active, ";
-		$select .= "endDate, creationdate, creationtime, ";
+		$select .= "endDate, creationdate, creationtime, !ISNULL(NULLIF(newSchedule, '')) as migrated, ";
 		$createdParts = array("creationdate", "creationtime");
 		$select .= $query->concatenate($createdParts, " ") . " AS created, ";
 		$sNameParts = array("semestername", "SUBSTRING(endDate, 3, 2)");
@@ -148,6 +148,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 			$created = THM_OrganizerHelperComponent::formatDate($item->creationdate);
 			$created .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationtime);
 			$return[$index]['created'] = $created;
+			$return[$index]['migrated'] = $this->getMigrate($item->id, $item->migrated);
 
 
 			$index++;
@@ -172,7 +173,37 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$headers['semestername'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNING_PERIOD', 'semestername', $direction, $ordering);
 		$headers['active']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_STATE', 'active', $direction, $ordering);
 		$headers['created']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_DATE', 'created', $direction, $ordering);
+		if ($this->actions->{'core.admin'})
+		{
+			$headers['migrated'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_MIGRATED', 'migrated', $direction, $ordering);
+		}
 
 		return $headers;
+	}
+
+	/**
+	 * Generates a toggle for the attribute in question
+	 *
+	 * @param   int    $id         the id of the database entry
+	 *
+	 * @return  string  a HTML string
+	 */
+	protected function getMigrate($id, $value)
+	{
+		if (!empty($value))
+		{
+			return '<div class="button-grp"><i class="icon-publish"></i></div>';
+		}
+
+		$icon      = '<i class="icon-unpublish"></i>';
+
+		$attributes          = array();
+		$attributes['title'] = JTEXT::_('COM_THM_ORGANIZER_ACTION_MIGRATE');
+		$attributes['class'] = 'btn btn-micro hasTooltip inactive';
+
+		$url = "index.php?option=com_thm_organizer&task=schedule.migrate&id=" . $id;
+		$link = JHtml::_('link', $url, $icon, $attributes);
+
+		return '<div class="button-grp">' . $link . '</div>';
 	}
 }

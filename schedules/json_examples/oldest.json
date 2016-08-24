@@ -1,12 +1,12 @@
 {
   "creationdate": "2015-05-12",
   "creationtime": "161930",
-  "startdate": "2014-10-06",
-  "enddate": "2015-10-04",
+  "syStartDate": "2014-10-06",
+  "syEndDate": "2015-10-04",
   "departmentname": "EI",
   "semestername": "SS",
-  "termStartDate": "2015-04-06",
-  "termEndDate": "2015-10-04",
+  "startDate": "2015-04-06",
+  "endDate": "2015-10-04",
   "periods": {
     "Haupt-Zeitraster": {
       "1": {
@@ -14,7 +14,6 @@
         "endtime": "0930"
       },
       "2": {
-        "starttime": "0950",
         "starttime": "0950",
         "endtime": "1120"
       },
@@ -485,33 +484,59 @@
     }
   },
   "rooms": {
+    "A10.2.01": {
+      "name": "A10.2.01",
+      "gpuntisID": "A10.2.01",
+      "localUntisID": "A10.2.01",
+      "longname": "A.2.01",
+      "capacity": "72",
+      "description": "HS.M",
+      "typeID": "5"
+    },
     "A10.2.02": {
       "name": "A10.2.02",
       "gpuntisID": "A10.2.02",
       "localUntisID": "A10.2.02",
       "longname": "A.2.02",
-      "capacity": "76"
+      "capacity": "76",
+      "description": "HS.M",
+      "typeID": "5"
+    },
+    "A10.2.03": {
+      "name": "A10.2.03",
+      "gpuntisID": "A10.2.03",
+      "localUntisID": "A10.2.03",
+      "longname": "A.2.03",
+      "capacity": "52",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.2.05": {
       "name": "A10.2.05",
       "gpuntisID": "A10.2.05",
       "localUntisID": "A10.2.05",
       "longname": "A.2.05",
-      "capacity": "56"
+      "capacity": "56",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.3.01": {
       "name": "A10.3.01",
       "gpuntisID": "A10.3.01",
       "localUntisID": "A10.3.01",
       "longname": "A.3.01",
-      "capacity": "64"
+      "capacity": "64",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.3.02": {
       "name": "A10.3.02",
       "gpuntisID": "A10.3.02",
       "localUntisID": "A10.3.02",
       "longname": "A.3.02",
-      "capacity": "72"
+      "capacity": "72",
+      "description": "HS.M",
+      "typeID": "5"
     },
     "A10.3.03": {
       "name": "A10.3.03",
@@ -527,7 +552,9 @@
       "gpuntisID": "A10.3.05",
       "localUntisID": "A10.3.05",
       "longname": "A.3.05",
-      "capacity": "52"
+      "capacity": "52",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.3.23": {
       "name": "A10.3.23",
@@ -588,14 +615,18 @@
       "gpuntisID": "A10.4.04",
       "localUntisID": "A10.4.04",
       "longname": "A.4.04",
-      "capacity": "56"
+      "capacity": "56",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.4.06": {
       "name": "A10.4.06",
       "gpuntisID": "A10.4.06",
       "localUntisID": "A10.4.06",
       "longname": "A.4.06",
-      "capacity": "64"
+      "capacity": "64",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.4.20": {
       "name": "A10.4.20",
@@ -629,7 +660,9 @@
       "gpuntisID": "A10.4.25",
       "localUntisID": "A10.4.25",
       "longname": "A.4.25",
-      "capacity": "80"
+      "capacity": "80",
+      "description": "HS.M",
+      "typeID": "5"
     },
     "A10.5.01": {
       "name": "A10.5.01",
@@ -645,14 +678,18 @@
       "gpuntisID": "A10.5.03",
       "localUntisID": "A10.5.03",
       "longname": "A.5.03",
-      "capacity": "52"
+      "capacity": "52",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.5.04": {
       "name": "A10.5.04",
       "gpuntisID": "A10.5.04",
       "localUntisID": "A10.5.04",
       "longname": "A.5.04",
-      "capacity": "52"
+      "capacity": "52",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.5.05": {
       "name": "A10.5.05",
@@ -668,14 +705,18 @@
       "gpuntisID": "A10.5.06",
       "localUntisID": "A10.5.06",
       "longname": "A.5.06",
-      "capacity": "48"
+      "capacity": "48",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.5.20": {
       "name": "A10.5.20",
       "gpuntisID": "A10.5.20",
       "localUntisID": "A10.5.20",
       "longname": "A.5.20",
-      "capacity": "54"
+      "capacity": "54",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.5.23": {
       "name": "A10.5.23",
@@ -718,7 +759,9 @@
       "gpuntisID": "A10.6.04",
       "localUntisID": "A10.6.04",
       "longname": "A.6.04",
-      "capacity": "64"
+      "capacity": "64",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.6.05": {
       "name": "A10.6.05",
@@ -905,7 +948,9 @@
       "gpuntisID": "A10.8.20",
       "localUntisID": "A10.8.20",
       "longname": "A.8.20",
-      "capacity": "63"
+      "capacity": "63",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "A10.8.21": {
       "name": "A10.8.21",
@@ -1578,7 +1623,9 @@
       "gpuntisID": "B14.2.16",
       "localUntisID": "B14.2.16",
       "longname": "B14.2.16",
-      "capacity": "60"
+      "capacity": "60",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "B14.3.05": {
       "name": "B14.3.05",
@@ -1603,7 +1650,9 @@
       "gpuntisID": "B14.3.14",
       "localUntisID": "B14.3.14",
       "longname": "B14.3.14",
-      "capacity": "72"
+      "capacity": "72",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "B14.3.15": {
       "name": "B14.3.15",
@@ -1628,7 +1677,9 @@
       "gpuntisID": "B14.4.15",
       "localUntisID": "B14.4.15",
       "longname": "B14.4.15",
-      "capacity": "64"
+      "capacity": "64",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "B14.4.16": {
       "name": "B14.4.16",
@@ -1770,7 +1821,9 @@
       "gpuntisID": "C10.2.33",
       "localUntisID": "C10.2.33",
       "longname": "C.2.33",
-      "capacity": "56"
+      "capacity": "56",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "C10.3.02": {
       "name": "C10.3.02",
@@ -1822,7 +1875,9 @@
       "gpuntisID": "C10.4.01",
       "localUntisID": "C10.4.01",
       "longname": "C.4.01",
-      "capacity": "50"
+      "capacity": "50",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "C10.4.02": {
       "name": "C10.4.02",
@@ -2423,7 +2478,9 @@
       "gpuntisID": "C14.0.03",
       "localUntisID": "C14.0.03",
       "longname": "C14.0.03",
-      "capacity": "56"
+      "capacity": "56",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "C14.0.05": {
       "name": "C14.0.05",
@@ -2493,7 +2550,9 @@
       "gpuntisID": "C14.1.13",
       "localUntisID": "C14.1.13",
       "longname": "C14.1.13",
-      "capacity": "48"
+      "capacity": "48",
+      "description": "HS.K",
+      "typeID": "4"
     },
     "C14.1.17": {
       "name": "C14.1.17",
@@ -2840,62 +2899,81 @@
       "gpuntisID": "SU_AAE",
       "name": "AAE",
       "longname": "Anwendungsbezogene Auswahl von E-Motoren",
-      "subjectNo": "E629"
+      "subjectNo": "E629",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_AAT": {
       "gpuntisID": "SU_AAT",
       "name": "AAT",
       "longname": "Antriebe der Automatisierungstechnik",
-      "subjectNo": "E2G604"
+      "subjectNo": "E2G604",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_AEZ": {
       "gpuntisID": "SU_AEZ",
       "name": "AEZ",
       "longname": "Alternative Energieerzeugung",
-      "subjectNo": "E605"
+      "subjectNo": "E605",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_AMS": {
       "gpuntisID": "SU_AMS",
       "name": "AMS",
       "longname": "Anwendungsbezogene Methoden der numerischen Signalverarbeitung",
-      "subjectNo": "E624"
+      "subjectNo": "E624",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ANT": {
       "gpuntisID": "SU_ANT",
       "name": "ANT",
       "longname": "Antennentechnik",
-      "subjectNo": "E2G615"
+      "subjectNo": "E2G615",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_APA": {
       "gpuntisID": "SU_APA",
       "name": "APA",
       "longname": "Automatisierungstechnische Projektarbeit",
-      "subjectNo": "E2G242"
+      "subjectNo": "E2G242",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ASP": {
       "gpuntisID": "SU_ASP",
       "name": "ASP",
       "longname": "Advanced Digital Signal Processing",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ASQ": {
       "gpuntisID": "SU_ASQ",
       "name": "ASQ",
       "longname": "Aktuelle Schl\u00fcsselqualkationen",
       "subjectNo": "E2G250",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_ATD": {
       "gpuntisID": "SU_ATD",
       "name": "ATD",
       "longname": "Antriebsdimensionierung",
-      "subjectNo": "E616"
+      "subjectNo": "E616",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ATE1": {
       "gpuntisID": "SU_ATE1",
       "name": "ATE1",
       "longname": "Aktuelle Themen der Elektrotechnik 1",
-      "subjectNo": "E2G698"
+      "subjectNo": "E2G698",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ATE2": {
       "gpuntisID": "SU_ATE2",
@@ -2909,55 +2987,73 @@
       "gpuntisID": "SU_ATT",
       "name": "ATT",
       "longname": "Einf\u00fchrung in der Antriebstechnik",
-      "subjectNo": "E705"
+      "subjectNo": "E705",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_AUT": {
       "gpuntisID": "SU_AUT",
       "name": "AUT",
       "longname": "Einf\u00fchrung in der Automatisierungstechnik",
-      "subjectNo": "E706"
+      "subjectNo": "E706",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_BAC": {
       "gpuntisID": "SU_BAC",
       "name": "BAC",
       "longname": "Bachelor Seminar mit Colloquium",
-      "subjectNo": "E2B904"
+      "subjectNo": "E2B904",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_BGK": {
       "gpuntisID": "SU_BGK",
       "name": "BGK",
       "longname": "Baugruppen und Ger\u00e4tekonstruktion",
-      "subjectNo": "E2G416"
+      "subjectNo": "E2G416",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_BIV": {
       "gpuntisID": "SU_BIV",
       "name": "BIV",
       "longname": "Bildverarbeitung (Master)",
-      "subjectNo": "W103"
+      "subjectNo": "W103",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_BPP-S": {
       "gpuntisID": "SU_BPP-S",
       "name": "BPP-S",
       "longname": "Berufspraktische Phase mit Seminar",
-      "subjectNo": "E2B902"
+      "subjectNo": "E2B902",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_BSY": {
       "gpuntisID": "SU_BSY",
       "name": "BSY",
       "longname": "Bussysteme der Automatisierungstechnik",
-      "subjectNo": "E2G606"
+      "subjectNo": "E2G606",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_BVG": {
       "gpuntisID": "SU_BVG",
       "name": "BVG",
       "longname": "Bildverarbeitung (Bachelor)",
-      "subjectNo": "E607"
+      "subjectNo": "E607",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_CAE": {
       "gpuntisID": "SU_CAE",
       "name": "CAE",
       "longname": "Computer Aided Engineering",
-      "subjectNo": "E2G608"
+      "subjectNo": "E2G608",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_CN1": {
       "gpuntisID": "SU_CN1",
@@ -2980,31 +3076,40 @@
       "name": "DBA",
       "longname": "Datenbankanwendungen",
       "subjectNo": "E618",
-      "description": "INF"
+      "description": "INF",
+      "fieldID": "5"
     },
     "EI_DIG": {
       "gpuntisID": "SU_DIG",
       "name": "DIG",
       "longname": "Digitaltechnik",
-      "subjectNo": "E2B111"
+      "subjectNo": "E2B111",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_DKT": {
       "gpuntisID": "SU_DKT",
       "name": "DKT",
       "longname": "Digitale Kommunikationstechnik",
-      "subjectNo": "E2G310"
+      "subjectNo": "E2G310",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_DMRT": {
       "gpuntisID": "SU_DMRT",
       "name": "DMRT",
       "longname": "Digitale Mess- und Regeltechnik",
-      "subjectNo": "E407"
+      "subjectNo": "E407",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_DSL": {
       "gpuntisID": "SU_DSL",
       "name": "DSL",
       "longname": "DIgital Subscriber Line",
-      "subjectNo": "E2G620"
+      "subjectNo": "E2G620",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_DT": {
       "gpuntisID": "SU_DT",
@@ -3018,62 +3123,81 @@
       "gpuntisID": "SU_EAT",
       "name": "EAT",
       "longname": "Elektronische Antriebstechnik",
-      "subjectNo": "E2G412"
+      "subjectNo": "E2G412",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_EEN": {
       "gpuntisID": "SU_EEN",
       "name": "EEN",
       "longname": "Elektrische Energienetze",
-      "subjectNo": "W104"
+      "subjectNo": "W104",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_EEV": {
       "gpuntisID": "SU_EEV",
       "name": "EEV",
       "longname": "Elektrische Energieversorgung",
-      "subjectNo": "E2G609"
+      "subjectNo": "E2G609",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_EIA": {
       "gpuntisID": "SU_EIA",
       "name": "EIA",
       "longname": "Elektroniksysteme in der Automobilindustrie",
-      "subjectNo": "E625"
+      "subjectNo": "E625",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_EKO": {
       "gpuntisID": "SU_EKO",
       "name": "EKO",
       "longname": "Elektrokonstruktion",
-      "subjectNo": "E707"
+      "subjectNo": "E707",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ELK": {
       "gpuntisID": "SU_ELK",
       "name": "ELK",
       "longname": "Elektronik",
-      "subjectNo": "E2G114"
+      "subjectNo": "E2G114",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_EMS": {
       "gpuntisID": "SU_EMS",
       "name": "EMS",
       "longname": "Elektrische Maschinen",
-      "subjectNo": "E2G404"
+      "subjectNo": "E2G404",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_EMV": {
       "gpuntisID": "SU_EMV",
       "name": "EMV",
       "longname": "Elektromagnetische Vertr\u00e4glichkeit",
-      "subjectNo": "E2G420"
+      "subjectNo": "E2G420",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ENG": {
       "gpuntisID": "SU_ENG",
       "name": "ENG",
       "longname": "Englisch",
       "subjectNo": "E506",
-      "description": "LIN"
+      "description": "SPR",
+      "fieldID": "9"
     },
     "EI_EPA": {
       "gpuntisID": "SU_EPA",
       "name": "EPA",
       "longname": "Entwicklungstechnische Projektarbeit",
-      "subjectNo": "E2G243"
+      "subjectNo": "E2G243",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ES": {
       "gpuntisID": "SU_ES",
@@ -3088,162 +3212,208 @@
       "name": "EWER",
       "longname": "Energiewirtschaft \/ Energierecht",
       "subjectNo": "E520",
-      "description": "WIR-JUR"
+      "description": "WIR-JUR",
+      "fieldID": "24"
     },
     "EI_EWI": {
       "gpuntisID": "SU_EWI",
       "name": "EWI",
       "longname": "Elektrizit\u00e4tswirtschaft",
       "subjectNo": "E708",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_FDA": {
       "gpuntisID": "SU_FDA",
       "name": "FDA",
       "longname": "FPGA Design f\u00fcr die Antriebstechnik",
-      "subjectNo": "E701"
+      "subjectNo": "E701",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_FEL": {
       "gpuntisID": "SU_FEL",
       "name": "FEL",
       "longname": "Felder und Wellen",
-      "subjectNo": "P101"
+      "subjectNo": "P101",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_KOL.B": {
       "gpuntisID": "SU_KOL.B",
       "name": "KOL.B",
       "longname": "Kolloquium Bachelorarbeit",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_FKE": {
       "gpuntisID": "SU_FKE",
       "name": "FKE",
       "longname": "Festk\u00f6rperelektronik",
-      "subjectNo": "P102"
+      "subjectNo": "P102",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_FPE": {
       "gpuntisID": "SU_FPE",
       "name": "FPE",
       "longname": "Grundlagen des FPGA-Entwurfs mit VHDL",
-      "subjectNo": "E2G613"
+      "subjectNo": "E2G613",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_FSO": {
       "gpuntisID": "SU_FSO",
       "name": "FSO",
       "longname": "Funksysteme f\u00fcr Ortung und Navigation",
-      "subjectNo": "E612"
+      "subjectNo": "E612",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_FSY": {
       "gpuntisID": "SU_FSY",
       "name": "FSY",
       "longname": "Funksysteme und Mobilkommunikation",
-      "subjectNo": "E2G314"
+      "subjectNo": "E2G314",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_FTV": {
       "gpuntisID": "SU_FTV",
       "name": "FTV",
       "longname": "Fotovoltaik",
-      "subjectNo": "E702"
+      "subjectNo": "E702",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_FUT": {
       "gpuntisID": "SU_FUT",
       "name": "FUT",
       "longname": "Frequenzumrichtertechnik",
-      "subjectNo": "E2G601"
+      "subjectNo": "E2G601",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_FVA": {
       "gpuntisID": "SU_FVA",
       "name": "FVA",
       "longname": "Fortgeschrittene Verfahren der Analogtechnik",
-      "subjectNo": "W106"
+      "subjectNo": "W106",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_GDY": {
       "gpuntisID": "SU_GDY",
       "name": "GDY",
       "longname": "Grundlagen der Elektrodynamik",
-      "subjectNo": "E623"
+      "subjectNo": "E623",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_GET-LAB": {
       "gpuntisID": "SU_GET-LAB",
       "name": "GET-LAB",
       "longname": "Elektrotechnik Laborarbeit",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_GET1": {
       "gpuntisID": "SU_GET1",
       "name": "GET1",
       "longname": "Elektrotechnik 1",
-      "subjectNo": "E2B101"
+      "subjectNo": "E2B101",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_GET2": {
       "gpuntisID": "SU_GET2",
       "name": "GET2",
       "longname": "Elektrotechnik 2",
-      "subjectNo": "E2B102"
+      "subjectNo": "E2B102",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_GET3": {
       "gpuntisID": "SU_GET3",
       "name": "GET3",
       "longname": "Elektrotechnik 3",
-      "subjectNo": "E2G103"
+      "subjectNo": "E2G103",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_GHM": {
       "gpuntisID": "SU_GHM",
       "name": "GHM",
       "longname": "Grundlagen h\u00f6herer Mathematik",
       "subjectNo": "E2G628",
-      "description": "MAT"
+      "description": "MAT",
+      "fieldID": "10"
     },
     "EI_GLP": {
       "gpuntisID": "SU_GLP",
       "name": "GLP",
       "longname": "Grundlagen Praktikum",
-      "subjectNo": "E2G115"
+      "subjectNo": "E2G115",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_GVD": {
       "gpuntisID": "SU_GVD",
       "name": "GVD",
       "longname": "Grundlagen des VLS-Designs",
-      "subjectNo": "E2G418"
+      "subjectNo": "E2G418",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_HFT": {
       "gpuntisID": "SU_HFT",
       "name": "HFT",
       "longname": "Hochfrequenztechnik",
-      "subjectNo": "E2G302"
+      "subjectNo": "E2G302",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_HIN": {
       "gpuntisID": "SU_HIN",
       "name": "HIN",
       "longname": "H\u00f6here Informatik",
       "subjectNo": "P104",
-      "description": "INF"
+      "description": "INF",
+      "fieldID": "5"
     },
     "EI_HIT.EET": {
       "gpuntisID": "SU_HIT.EET",
       "name": "HIT.EET",
       "longname": "HIT - Elektrische Energietechnik f\u00fcr regenerative Energiesysteme",
       "subjectNo": "",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_HIT.EI": {
       "gpuntisID": "SU_HIT.EI",
       "name": "HIT.EI",
       "longname": "HIT - Elektrotechnik und Informationstechnik",
       "subjectNo": "",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_HRT": {
       "gpuntisID": "SU_HRT",
       "name": "HRT",
       "longname": "H\u00f6here Regelungstechnik \/ Drehfeldantriebe",
-      "subjectNo": "P103"
+      "subjectNo": "P103",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_HTB": {
       "gpuntisID": "SU_HTB",
       "name": "HTB",
       "longname": "Technologie und Design von High-Tech Baugruppen",
-      "subjectNo": "E2G602"
+      "subjectNo": "E2G602",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_IFI1": {
       "gpuntisID": "SU_IFI1",
@@ -3265,7 +3435,9 @@
       "gpuntisID": "SU_INK",
       "name": "INK",
       "longname": "Industrielle Kommunikation",
-      "subjectNo": "W102"
+      "subjectNo": "W102",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_IPA": {
       "gpuntisID": "SU_IPA",
@@ -3279,95 +3451,121 @@
       "gpuntisID": "SU_ITR",
       "name": "ITR",
       "longname": "Informations\u00fcbertragung",
-      "subjectNo": "E2G304"
+      "subjectNo": "E2G304",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_KOD": {
       "gpuntisID": "SU_KOD",
       "name": "KOD",
       "longname": "Komplexe digitale Systeme",
-      "subjectNo": "W101"
+      "subjectNo": "W101",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_KMO": {
       "gpuntisID": "SU_KMO",
       "name": "KMO",
       "longname": "Kleinmotoren",
-      "subjectNo": "E409"
+      "subjectNo": "E409",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_KPA": {
       "gpuntisID": "SU_KPA",
       "name": "KPA",
       "longname": "Kommunikationstechnische Projektarbeit",
-      "subjectNo": "E2G241"
+      "subjectNo": "E2G241",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_KSY1": {
       "gpuntisID": "SU_KSY1",
       "name": "KSY1",
       "longname": "Kommunikationssysteme 1",
-      "subjectNo": "E2G306"
+      "subjectNo": "E2G306",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_KSY2": {
       "gpuntisID": "SU_KSY2",
       "name": "KSY2",
       "longname": "Kommunikationssysteme 2",
-      "subjectNo": "E2G308"
+      "subjectNo": "E2G308",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_LEI": {
       "gpuntisID": "SU_LEI",
       "name": "LEI",
       "longname": "Leistungselektronik",
-      "subjectNo": "E2G402"
+      "subjectNo": "E2G402",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_LET": {
       "gpuntisID": "SU_LET",
       "name": "LET",
       "longname": "Leittechnik",
-      "subjectNo": "E2G408"
+      "subjectNo": "E2G408",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_LFV": {
       "gpuntisID": "SU_LFV",
       "name": "LFV",
       "longname": "Leistungselektronik f\u00fcr die Fotovoltaik",
-      "subjectNo": "E703"
+      "subjectNo": "E703",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_LRE": {
       "gpuntisID": "SU_LRE",
       "name": "LRE",
       "longname": "Leistungselektronik f\u00fcr die regenerative Energieversorgung",
-      "subjectNo": "E627"
+      "subjectNo": "E627",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_MAT": {
       "gpuntisID": "SU_MAT",
       "name": "MAT",
       "longname": "H\u00f6here Mathematik",
       "subjectNo": "P100",
-      "description": "MAT"
+      "description": "MAT",
+      "fieldID": "10"
     },
     "EI_MAT1": {
       "gpuntisID": "SU_MAT1",
       "name": "MAT1",
       "longname": "Mathematik 1",
       "subjectNo": "E2B104",
-      "description": "MAT"
+      "description": "MAT",
+      "fieldID": "10"
     },
     "EI_MAT2": {
       "gpuntisID": "SU_MAT2",
       "name": "MAT2",
       "longname": "Mathematik 2",
       "subjectNo": "E2B105",
-      "description": "MAT"
+      "description": "MAT",
+      "fieldID": "10"
     },
     "EI_MAT3": {
       "gpuntisID": "SU_MAT3",
       "name": "MAT3",
       "longname": "Mathematik 3",
       "subjectNo": "E106b",
-      "description": "MAT"
+      "description": "MAT",
+      "fieldID": "10"
     },
     "EI_MAX": {
       "gpuntisID": "SU_MAX",
       "name": "MAX",
       "longname": "Maxwell-Theorie",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_MCS": {
       "gpuntisID": "SU_MCS",
@@ -3381,20 +3579,25 @@
       "gpuntisID": "SU_MES",
       "name": "MES",
       "longname": "Messtechnik",
-      "subjectNo": "E2B113"
+      "subjectNo": "E2B113",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_MFA": {
       "gpuntisID": "SU_MFA",
       "name": "MFA",
       "longname": "MFA",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_MMA": {
       "gpuntisID": "SU_MMA",
       "name": "MMA",
       "longname": "Marketingmanagement",
       "subjectNo": "E504",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_MRT": {
       "gpuntisID": "SU_MRT",
@@ -3408,25 +3611,33 @@
       "gpuntisID": "SU_MSD",
       "name": "MSD",
       "longname": "Mixed Signal IC-Design",
-      "subjectNo": "E2G614"
+      "subjectNo": "E2G614",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_NAE": {
       "gpuntisID": "SU_NAE",
       "name": "NAE",
       "longname": "Nanoelektronik",
-      "subjectNo": "E2G422"
+      "subjectNo": "E2G422",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_NAT": {
       "gpuntisID": "SU_NAT",
       "name": "NAT",
       "longname": "Nachrichtentechnik",
-      "subjectNo": "E2G201"
+      "subjectNo": "E2G201",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_NN.EI": {
       "gpuntisID": "SU_NN.EI",
       "name": "NN.EI",
       "longname": "EI Veranstaltung",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_OFC": {
       "gpuntisID": "SU_OFC",
@@ -3440,438 +3651,528 @@
       "gpuntisID": "SU_ONT",
       "name": "ONT",
       "longname": "Optische Nachrichtentechnik",
-      "subjectNo": "E2G312"
+      "subjectNo": "E2G312",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_PAR": {
       "gpuntisID": "SU_PAR",
       "name": "PAR",
       "longname": "Projektarbeit",
-      "subjectNo": "W107"
+      "subjectNo": "W107",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_PHY": {
       "gpuntisID": "SU_PHY",
       "name": "PHY",
       "longname": "Physik",
       "subjectNo": "E107a",
-      "description": "NAT"
+      "description": "NAT",
+      "fieldID": "17"
     },
     "EI_PMA": {
       "gpuntisID": "SU_PMA",
       "name": "PMA",
       "longname": "Projektmanagement",
       "subjectNo": "E501",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_PMI": {
       "gpuntisID": "SU_PMI",
       "name": "PMI",
       "longname": "Projektmanagement f\u00fcr Ingenieure",
       "subjectNo": "E710",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_POR": {
       "gpuntisID": "SU_POR",
       "name": "POR",
       "longname": "Personal und Organisation",
       "subjectNo": "E505",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_QMA": {
       "gpuntisID": "SU_QMA",
       "name": "QMA",
       "longname": "Qualit\u00e4tsmanagment",
       "subjectNo": "E502",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_REG1": {
       "gpuntisID": "SU_REG1",
       "name": "REG1",
       "longname": "Regelungstechnik 1",
-      "subjectNo": "E2G202"
+      "subjectNo": "E2G202",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_REG2": {
       "gpuntisID": "SU_REG2",
       "name": "REG2",
       "longname": "Regelungstechnik 2",
-      "subjectNo": "E2G410"
+      "subjectNo": "E2G410",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_S-ABW": {
       "gpuntisID": "SU_S-ABW",
       "name": "S-ABW",
       "longname": "Arbeitswissenschaften",
       "subjectNo": "E2G118",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_S-ALM": {
       "gpuntisID": "SU_S-ALM",
       "name": "S-ALM",
       "longname": "Arbeits- und Lernmethoden",
       "subjectNo": "E2G116",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_S-BEW": {
       "gpuntisID": "SU_S-BEW",
       "name": "S-BEW",
       "longname": "Bewerbung in eigener Sache",
       "subjectNo": "E252",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_S-BMA": {
       "gpuntisID": "SU_S-BMA",
       "name": "S-BMA",
       "longname": "Schl\u00fcsselqualifikation 1: Betriebsmanagment",
       "subjectNo": "S100",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_S-BWI": {
       "gpuntisID": "SU_S-BWI",
       "name": "S-BWI",
       "longname": "Einf\u00fchrung in die Betriebswirtschaftslehre",
       "subjectNo": "E2G251",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_S-EMA": {
       "gpuntisID": "SU_S-EMA",
       "name": "S-EMA",
       "longname": "Schl\u00fcsselqualifikation 2: Entwicklungsmanagement",
       "subjectNo": "S101",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_S-ENG": {
       "gpuntisID": "SU_S-ENG",
       "name": "S-ENG",
       "longname": "Englisch f\u00fcr Ingenieurstudierende",
       "subjectNo": "E2G257",
-      "description": "LIN"
+      "description": "SPR",
+      "fieldID": "9"
     },
     "EI_S-ENG+": {
       "gpuntisID": "SU_S-ENG+",
       "name": "S-ENG+",
       "longname": "Preparation Course for Cambridge First Certificate in English (FCE) Level B2",
       "subjectNo": "E2G254",
-      "description": "LIN"
+      "description": "SPR",
+      "fieldID": "9"
     },
     "EI_S-EPM": {
       "gpuntisID": "SU_S-EPM",
       "name": "S-EPM",
       "longname": "Einf\u00fchrung in das Projektmanagement",
       "subjectNo": "E2G258",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_S-MKT": {
       "gpuntisID": "SU_S-MKT",
       "name": "S-MKT",
       "longname": "Internationales Marketing \/ Vertrieb",
       "subjectNo": "E2G253",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_S-QMA": {
       "gpuntisID": "SU_S-QMA",
       "name": "S-QMA",
       "longname": "Einf\u00fchrung in das Qualit\u00e4tsmanagement",
       "subjectNo": "E2G255",
-      "description": "WIR"
+      "description": "WIR",
+      "fieldID": "21"
     },
     "EI_S-REC": {
       "gpuntisID": "SU_S-REC",
       "name": "S-REC",
       "longname": "Gewerblicher Rechtsschutz",
       "subjectNo": "E2G259",
-      "description": "JUR"
+      "description": "REC",
+      "fieldID": "8"
     },
     "EI_S-SML": {
       "gpuntisID": "SU_S-SML",
       "name": "S-SML",
       "longname": "Studienmethodik und Lebensgestaltung",
       "subjectNo": "E2G119",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_S-TDO": {
       "gpuntisID": "SU_S-TDO",
       "name": "S-TDO",
       "longname": "Technische Dokumentation",
       "subjectNo": "E2G117",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_S-UMW": {
       "gpuntisID": "SU_S-UMW",
       "name": "S-UMW",
       "longname": "Umweltschutz und Recycling",
-      "subjectNo": "E2G256"
+      "subjectNo": "E2G256",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SEA": {
       "gpuntisID": "SU_SEA",
       "name": "SEA",
       "longname": "Simulation Elektrischer Antriebe",
-      "subjectNo": "E704"
+      "subjectNo": "E704",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SEN": {
       "gpuntisID": "SU_SEN",
       "name": "SEN",
       "longname": "Sensorik",
-      "subjectNo": "E2G610"
+      "subjectNo": "E2G610",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SEW": {
       "gpuntisID": "SU_SEW",
       "name": "SEW",
       "longname": "SEW",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SFB": {
       "gpuntisID": "SU_SFB",
       "name": "SFB",
       "longname": "Sensoren, Feldbusse",
-      "subjectNo": "E709"
+      "subjectNo": "E709",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SIG": {
       "gpuntisID": "SU_SIG",
       "name": "SIG",
       "longname": "Signalverarbeitung",
-      "subjectNo": "E2G203"
+      "subjectNo": "E2G203",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SIM1": {
       "gpuntisID": "SU_SIM1",
       "name": "SIM1",
       "longname": "Bauelementsimulation FEM",
-      "subjectNo": "V100"
+      "subjectNo": "V100",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SIM2": {
       "gpuntisID": "SU_SIM2",
       "name": "SIM2",
       "longname": "Simulation im Entwicklungsprozess technischer Systeme",
-      "subjectNo": "V101"
+      "subjectNo": "V101",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SIM3": {
       "gpuntisID": "SU_SIM3",
       "name": "SIM3",
       "longname": "Schaltungssimulation am Beispiel der Leistungselektronik",
-      "subjectNo": "V102"
+      "subjectNo": "V102",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SIM4": {
       "gpuntisID": "SU_SIM4",
       "name": "SIM4",
       "longname": "3D Feldsimulation elektronischer Baugruppen",
-      "subjectNo": "V103"
+      "subjectNo": "V103",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SMS": {
       "gpuntisID": "SU_SMS",
       "name": "SMS",
       "longname": "Simulation mit Matlab und Simulink",
-      "subjectNo": "E2G611"
+      "subjectNo": "E2G611",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SMT": {
       "gpuntisID": "SU_SMT",
       "name": "SMT",
       "longname": "Spezielle Messtechnik",
-      "subjectNo": "E711"
+      "subjectNo": "E711",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SQL": {
       "gpuntisID": "SU_SQL",
       "name": "SQL",
       "longname": "Relationale Datenbanken",
       "subjectNo": "",
-      "description": "INF"
+      "description": "INF",
+      "fieldID": "5"
     },
     "EI_SRS": {
       "gpuntisID": "SU_SRS",
       "name": "SRS",
       "longname": "Sensorlose Regelung von Servomotoren",
-      "subjectNo": "E619"
+      "subjectNo": "E619",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_STA": {
       "gpuntisID": "SU_STA",
       "name": "STA",
       "longname": "Softwaretools und Anforderungsmanagement",
       "subjectNo": "E617",
-      "description": "WIR-INF"
+      "description": "WIR-INF",
+      "fieldID": "22"
     },
     "EI_STEP": {
       "gpuntisID": "SU_STEP",
       "name": "STEP",
       "longname": "Studieneinf\u00fchrungsprogramm",
       "subjectNo": "",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_STL": {
       "gpuntisID": "SU_STL",
       "name": "STL",
       "longname": "Systemtechnisches Labor",
-      "subjectNo": "E430"
+      "subjectNo": "E430",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_STPA": {
       "gpuntisID": "SU_STPA",
       "name": "STPA",
       "longname": "Systemtechnische Projektarbeit",
-      "subjectNo": "E440"
+      "subjectNo": "E440",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_STT": {
       "gpuntisID": "SU_STT",
       "name": "STT",
       "longname": "Steuerungstechnik",
-      "subjectNo": "E2G406"
+      "subjectNo": "E2G406",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_SWE": {
       "gpuntisID": "SU_SWE",
       "name": "SWE",
       "longname": "Softwareentwicklung",
       "subjectNo": "E2G205",
-      "description": "INF"
+      "description": "INF",
+      "fieldID": "5"
     },
     "EI_TA": {
       "gpuntisID": "SU_TA",
       "name": "TA",
       "longname": "Technische Akustik f\u00fcr Veranstaltungen",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_TBM": {
       "gpuntisID": "SU_TBM",
       "name": "TBM",
       "longname": "Technologie & Bauelemente der Mikroelektronik",
-      "subjectNo": "E2G603"
+      "subjectNo": "E2G603",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_TEC": {
       "gpuntisID": "SU_TEC",
       "name": "TEC",
       "longname": "Technische Mechanik",
-      "subjectNo": "E2G206"
+      "subjectNo": "E2G206",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_TMF": {
       "gpuntisID": "SU_TMF",
       "name": "TMF",
       "longname": "Themen der modernen Fertigungsautomation",
-      "subjectNo": "E2G630"
+      "subjectNo": "E2G630",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_TRA": {
       "gpuntisID": "SU_TRA",
       "name": "TRA",
       "longname": "Transformationen",
       "subjectNo": "E2G106",
-      "description": "MAT"
+      "description": "MAT",
+      "fieldID": "10"
     },
     "EI_USG": {
       "gpuntisID": "SU_USG",
       "name": "USG",
       "longname": "Unabh\u00e4ngige Stromversorgung in der Geb\u00e4udetechnik",
-      "subjectNo": "E626"
+      "subjectNo": "E626",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ZES": {
       "gpuntisID": "SU_ZES",
       "name": "ZES",
       "longname": "Zuverl\u00e4ssigkeit elektrischer Systeme",
-      "subjectNo": "W105"
+      "subjectNo": "W105",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ELT1": {
       "gpuntisID": "SU_ELT1",
       "name": "ELT1",
       "longname": "Elektrotechnik 1",
-      "subjectNo": "E2B101"
+      "subjectNo": "E2B101",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ASF": {
       "gpuntisID": "SU_ASF",
       "name": "ASF",
       "longname": "Abschlussfeier",
       "subjectNo": "",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_KOL.M": {
       "gpuntisID": "SU_KOL.M",
       "name": "KOL.M",
       "longname": "Kolloquium Masterarbeit",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_BESPRECH": {
       "gpuntisID": "SU_BESPRECH",
       "name": "BESPRECH",
       "longname": "Besprechung",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_EX": {
       "gpuntisID": "SU_EX",
       "name": "EX",
       "longname": "Exkursion",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_GD": {
       "gpuntisID": "SU_GD",
       "name": "GD",
       "longname": "Girl's Day",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_SIT": {
       "gpuntisID": "SU_SIT",
       "name": "SIT",
       "longname": "Sitzung",
-      "subjectNo": ""
+      "subjectNo": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "EI_SOK": {
       "gpuntisID": "SU_SOK",
       "name": "SOK",
       "longname": "Soziale Kompetenz f\u00fcr Ingenieure",
       "subjectNo": "S104",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "EI_ELT2": {
       "gpuntisID": "SU_ELT2",
       "name": "ELT2",
       "longname": "Elektrotechnik 2",
-      "subjectNo": "E2B102"
+      "subjectNo": "E2B102",
+      "description": "ING",
+      "fieldID": "6"
     },
     "EI_ELT3": {
       "gpuntisID": "SU_ELT3",
       "name": "ELT3",
       "longname": "Elektrotechnik 3",
-      "subjectNo": "E2B103"
+      "subjectNo": "E2B103",
+      "description": "ING",
+      "fieldID": "6"
     }
   },
   "teachers": {
+    "AschK": {
+      "gpuntisID": "AschK",
+      "localUntisID": "Aschenbrenner",
+      "surname": "Aschenbrenner",
+      "forename": "Konstantin",
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
+    },
     "BorsW": {
       "gpuntisID": "BorsW",
       "localUntisID": "Borschel",
       "surname": "Borschel",
       "forename": "Wolfgang",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "CarlW": {
       "gpuntisID": "CarlW",
       "localUntisID": "Carle",
       "surname": "Carle",
       "forename": "Wilfried",
-      "username": ""
-    },
-    "CramS": {
-      "gpuntisID": "CramS",
-      "localUntisID": "Cramer",
-      "surname": "Cramer",
-      "forename": "Stefan",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "DersT": {
       "gpuntisID": "DersT",
       "localUntisID": "Dersch",
       "surname": "Dersch",
       "forename": "Thomas",
-      "username": ""
-    },
-    "DibR": {
-      "gpuntisID": "DibR",
-      "localUntisID": "DibR",
-      "surname": "Dib",
-      "forename": "Ramzi",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "DiehR": {
       "gpuntisID": "DiehR",
       "localUntisID": "Diehl",
       "surname": "Diehl",
       "forename": "Rudolf",
-      "username": ""
-    },
-    "DIV.EI": {
-      "gpuntisID": "DIV.EI",
-      "localUntisID": "DIV.EI",
-      "surname": "Diverse EI Dozenten",
-      "forename": "",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "D\u00f6ngT": {
       "gpuntisID": "D\u00f6ngT",
@@ -3879,7 +4180,8 @@
       "surname": "D\u00f6nges",
       "forename": "Thorsten",
       "username": "",
-      "description": "MED-ING"
+      "description": "MED-ING",
+      "fieldID": "15"
     },
     "EisfG": {
       "gpuntisID": "EisfG",
@@ -3887,21 +4189,26 @@
       "surname": "Eisfeller",
       "forename": "Guido",
       "username": "",
-      "description": "SOZ"
-    },
-    "EndlBU": {
-      "gpuntisID": "EndlBU",
-      "localUntisID": "Endl",
-      "surname": "Endl",
-      "forename": "Bernhard Ulrich",
-      "username": "hg8341"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "Engel": {
       "gpuntisID": "Engel",
       "localUntisID": "Engel",
       "surname": "Engel",
       "forename": "",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
+    },
+    "FjodS": {
+      "gpuntisID": "FjodS",
+      "localUntisID": "Fjodorow",
+      "surname": "Fjodorow",
+      "forename": "Swetlana",
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "FonsH": {
       "gpuntisID": "FonsH",
@@ -3909,49 +4216,53 @@
       "surname": "Fonseca",
       "forename": "Helena",
       "username": "",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "FrieJ": {
       "gpuntisID": "FrieJ",
       "localUntisID": "Friedrich",
       "surname": "Friedrich",
       "forename": "Johannes",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "GarbFW": {
       "gpuntisID": "GarbFW",
       "localUntisID": "Garbrecht",
       "surname": "Garbrecht",
       "forename": "Firedrich WIlhelm",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "G\u00f6geT": {
       "gpuntisID": "G\u00f6geT",
       "localUntisID": "G\u00f6ge",
       "surname": "G\u00f6ge",
       "forename": "Thomas",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "GrubM": {
       "gpuntisID": "GrubM",
       "localUntisID": "Gruber",
       "surname": "Gruber",
       "forename": "Marcus",
-      "username": ""
-    },
-    "HabeJ": {
-      "gpuntisID": "HabeJ",
-      "localUntisID": "Haberman",
-      "surname": "Haberman",
-      "forename": "Joachim",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "HainF": {
       "gpuntisID": "HainF",
       "localUntisID": "HainF",
       "surname": "Hain",
       "forename": "Franziska",
-      "username": ""
+      "username": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "HenrD": {
       "gpuntisID": "HenrD",
@@ -3959,15 +4270,8 @@
       "surname": "Henrich",
       "forename": "Dirk",
       "username": "",
-      "description": "SOZ"
-    },
-    "HenrL": {
-      "gpuntisID": "HenrL",
-      "localUntisID": "Henry",
-      "surname": "Henry",
-      "forename": "Lawrence",
-      "username": "",
-      "description": "SOZ"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "IsraK": {
       "gpuntisID": "IsraK",
@@ -3975,39 +4279,8 @@
       "surname": "Israel",
       "forename": "Kerstin",
       "username": "",
-      "description": "SOZ"
-    },
-    "JehlB": {
-      "gpuntisID": "JehlB",
-      "localUntisID": "Jehle",
-      "surname": "Jehle",
-      "forename": "Bernhard",
-      "username": "",
-      "description": "SOZ"
-    },
-    "JustB": {
-      "gpuntisID": "JustB",
-      "localUntisID": "Just",
-      "surname": "Just",
-      "forename": "Bettina",
-      "username": "bjst71",
-      "description": "MAT"
-    },
-    "KarrM": {
-      "gpuntisID": "KarrM",
-      "localUntisID": "Karry",
-      "surname": "Karry",
-      "forename": "Martin",
-      "username": "mkrr38",
-      "description": "INF"
-    },
-    "KausE": {
-      "gpuntisID": "KausE",
-      "localUntisID": "Kausen",
-      "surname": "Kausen",
-      "forename": "Ernst",
-      "username": "",
-      "description": "MAT"
+      "description": "SOZ",
+      "fieldID": "20"
     },
     "KempT": {
       "gpuntisID": "KempT",
@@ -4018,26 +4291,14 @@
       "description": "ING-INF",
       "fieldID": "7"
     },
-    "KernA": {
-      "gpuntisID": "KernA",
-      "localUntisID": "KernA",
-      "surname": "Kern",
-      "forename": "Ansgar",
-      "username": ""
-    },
     "Kl\u00f6sA": {
       "gpuntisID": "Kl\u00f6sA",
       "localUntisID": "Kl\u00f6s",
       "surname": "Kl\u00f6s",
       "forename": "Alexander",
-      "username": "hg12499"
-    },
-    "KlytM": {
-      "gpuntisID": "KlytM",
-      "localUntisID": "Klytta",
-      "surname": "Klytta",
-      "forename": "Marius",
-      "username": "hg9386"
+      "username": "hg12499",
+      "description": "ING",
+      "fieldID": "6"
     },
     "Kr\u00f6nM": {
       "gpuntisID": "Kr\u00f6nM",
@@ -4053,66 +4314,36 @@
       "localUntisID": "Kupka",
       "surname": "Kupka",
       "forename": "Thomas",
-      "username": ""
-    },
-    "LeitK": {
-      "gpuntisID": "LeitK",
-      "localUntisID": "Leitis",
-      "surname": "Leitis",
-      "forename": "Karsten",
       "username": "",
-      "description": ""
+      "description": "DIV",
+      "fieldID": "4"
     },
     "LothMa": {
       "gpuntisID": "LothMa",
       "localUntisID": "Loth",
       "surname": "Loth",
       "forename": "Matthias",
-      "username": ""
-    },
-    "M\u00fcnkM": {
-      "gpuntisID": "M\u00fcnkM",
-      "localUntisID": "M\u00fcnke",
-      "surname": "M\u00fcnke",
-      "forename": "Michael",
-      "username": "hg8652",
-      "description": "ING-INF",
-      "fieldID": "7"
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "NN.EI": {
       "gpuntisID": "NN.EI",
       "localUntisID": "NN.EI",
       "surname": "EI Dozent",
       "forename": "",
-      "username": ""
-    },
-    "NN.THM": {
-      "gpuntisID": "NN.THM",
-      "localUntisID": "NN.THM",
-      "surname": "THM Dozent",
-      "forename": "",
-      "username": ""
-    },
-    "OberK": {
-      "gpuntisID": "OberK",
-      "localUntisID": "Obermann",
-      "surname": "Obermann",
-      "forename": "Kristof",
-      "username": "kobr60"
-    },
-    "OchsHKP": {
-      "gpuntisID": "OchsHKP",
-      "localUntisID": "Ochs-Held",
-      "surname": "Ochs-Held",
-      "forename": "Klaus-Peter",
-      "username": ""
+      "username": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "ParkSM": {
       "gpuntisID": "ParkSM",
       "localUntisID": "ParkSM",
       "surname": "Park",
       "forename": "Sang-Min",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "PeppA": {
       "gpuntisID": "PeppA",
@@ -4120,52 +4351,26 @@
       "surname": "Peppler",
       "forename": "Achim",
       "username": "",
-      "description": "INF"
+      "description": "INF",
+      "fieldID": "5"
     },
     "PoinD": {
       "gpuntisID": "PoinD",
       "localUntisID": "Pointeau",
       "surname": "Pointeau",
       "forename": "Dieter",
-      "username": ""
-    },
-    "ProbU": {
-      "gpuntisID": "ProbU",
-      "localUntisID": "Probst",
-      "surname": "Probst",
-      "forename": "Uwe",
-      "username": "hg13555",
-      "description": "INF"
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "ProcF": {
       "gpuntisID": "ProcF",
       "localUntisID": "Prochaska",
       "surname": "Prochaska",
       "forename": "Friedhelm",
-      "username": ""
-    },
-    "RickU": {
-      "gpuntisID": "RickU",
-      "localUntisID": "Ricklefs",
-      "surname": "Ricklefs",
-      "forename": "Ubbo",
-      "username": "hg7424"
-    },
-    "RinnK": {
-      "gpuntisID": "RinnK",
-      "localUntisID": "Rinn",
-      "surname": "Rinn",
-      "forename": "Klaus",
-      "username": "hg11854",
-      "description": "NAT"
-    },
-    "R\u00f6hmA": {
-      "gpuntisID": "R\u00f6hmA",
-      "localUntisID": "R\u00f6hm",
-      "surname": "R\u00f6hm",
-      "forename": "Anita",
-      "username": "hg10857",
-      "description": "WIR"
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "SchlED": {
       "gpuntisID": "SchlED",
@@ -4173,51 +4378,17 @@
       "surname": "Schlapp",
       "forename": "Ernst-Dieter",
       "username": "",
-      "description": "WIR-ING"
-    },
-    "SchmP": {
-      "gpuntisID": "SchmP",
-      "localUntisID": "Schmitz",
-      "surname": "Schmitz",
-      "forename": "Peter",
-      "username": "hg7394"
+      "description": "WIR-ING",
+      "fieldID": "23"
     },
     "SchrC": {
       "gpuntisID": "SchrC",
       "localUntisID": "Schr\u00f6der",
       "surname": "Schr\u00f6der",
       "forename": "Cathrin",
-      "username": ""
-    },
-    "SchuBE": {
-      "gpuntisID": "SchuBE",
-      "localUntisID": "Schusser",
-      "surname": "Schusser-Backhaus",
-      "forename": "Ellen",
       "username": "",
-      "description": "JUR"
-    },
-    "SlemA": {
-      "gpuntisID": "SlemA",
-      "localUntisID": "Slemeyer",
-      "surname": "Slemeyer",
-      "forename": "Andreas",
-      "username": "hg7434"
-    },
-    "Thies": {
-      "gpuntisID": "Thies",
-      "localUntisID": "Thies",
-      "surname": "Thies",
-      "forename": "Karl-Heinz",
-      "username": "tkrl05",
-      "description": "SOZ"
-    },
-    "Th\u00fcrR": {
-      "gpuntisID": "Th\u00fcrR",
-      "localUntisID": "Th\u00fcringer",
-      "surname": "Th\u00fcringer",
-      "forename": "Rainer",
-      "username": "hg7313"
+      "description": "ING",
+      "fieldID": "6"
     },
     "TitzT": {
       "gpuntisID": "TitzT",
@@ -4225,35 +4396,35 @@
       "surname": "Titzmann",
       "forename": "Thorsten",
       "username": "ttzm02",
-      "description": "MAT"
+      "description": "MAT",
+      "fieldID": "10"
     },
     "TUTOR.EI": {
       "gpuntisID": "TUTOR.EI",
       "localUntisID": "TUTOR.EI",
       "surname": "EI Tutoren",
       "forename": "",
-      "username": ""
-    },
-    "WebeH": {
-      "gpuntisID": "WebeH",
-      "localUntisID": "WeberH",
-      "surname": "Weber",
-      "forename": "Hartmut",
-      "username": ""
+      "username": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "WebeM": {
       "gpuntisID": "WebeM",
       "localUntisID": "WeberM",
       "surname": "Weber",
       "forename": "Mark",
-      "username": "hg13663"
+      "username": "hg13663",
+      "description": "ING",
+      "fieldID": "6"
     },
     "WeigE": {
       "gpuntisID": "WeigE",
       "localUntisID": "Weigand",
       "surname": "Weigand",
       "forename": "Erik",
-      "username": ""
+      "username": "",
+      "description": "ING",
+      "fieldID": "6"
     },
     "WelzT": {
       "gpuntisID": "WelzT",
@@ -4261,7 +4432,8 @@
       "surname": "Welzel",
       "forename": "Thomas",
       "username": "twlz10",
-      "description": "NAT"
+      "description": "NAT",
+      "fieldID": "17"
     },
     "Werner": {
       "gpuntisID": "Werner",
@@ -4269,36 +4441,26 @@
       "surname": "Werner",
       "forename": "",
       "username": "",
-      "description": "MAT"
-    },
-    "NN.SUK": {
-      "gpuntisID": "NN.SUK",
-      "localUntisID": "NN.SUK",
-      "surname": "SuK Dozent",
-      "forename": "",
-      "username": ""
+      "description": "MAT",
+      "fieldID": "10"
     },
     "FS.EI": {
       "gpuntisID": "FS.EI",
       "localUntisID": "FS.EI",
       "surname": "Fachschaft EI",
       "forename": "",
-      "username": ""
+      "username": "",
+      "description": "DIV",
+      "fieldID": "4"
     },
     "SW": {
       "gpuntisID": "SW",
       "localUntisID": "SW",
       "surname": "Studentenwerk",
       "forename": "",
-      "username": ""
-    },
-    "KessGi": {
-      "gpuntisID": "KessGi",
-      "localUntisID": "Kessler",
-      "surname": "Kessler",
-      "forename": "Gisela",
       "username": "",
-      "description": "SOZ"
+      "description": "DIV",
+      "fieldID": "4"
     },
     "AlteE": {
       "gpuntisID": "AlteE",
@@ -4340,22 +4502,6 @@
       "fieldID": "1",
       "description": "BAU"
     },
-    "BergJ": {
-      "gpuntisID": "BergJ",
-      "surname": "Berger",
-      "forename": "Jens",
-      "username": "jbrg75",
-      "fieldID": "20",
-      "description": "SOZ"
-    },
-    "BergA": {
-      "gpuntisID": "BergA",
-      "surname": "Bergner",
-      "forename": "Andreas",
-      "username": "abrg74",
-      "fieldID": "17",
-      "description": "NAT"
-    },
     "BerrB": {
       "gpuntisID": "BerrB",
       "surname": "Berresheim",
@@ -4364,33 +4510,13 @@
       "fieldID": "1",
       "description": "BAU"
     },
-    "BienD": {
-      "gpuntisID": "BienD",
-      "surname": "Bienhaus",
-      "forename": "Diethelm",
-      "username": "dbnh91",
-      "fieldID": "7",
-      "description": "ING-INF"
-    },
-    "BirkU": {
-      "gpuntisID": "BirkU",
-      "surname": "Birkel",
-      "forename": "Ulrich",
-      "username": "hg12475"
-    },
-    "B\u00f6ckH": {
-      "gpuntisID": "B\u00f6ckH",
-      "surname": "B\u00f6ckel",
-      "forename": "Holger",
-      "username": "hbkl38",
-      "fieldID": "20",
-      "description": "SOZ"
-    },
     "BodeH": {
       "gpuntisID": "BodeH",
       "surname": "Bode",
       "forename": "Hartmut",
-      "username": "hg6604"
+      "username": "hg6604",
+      "fieldID": "6",
+      "description": "ING"
     },
     "BolsA": {
       "gpuntisID": "BolsA",
@@ -4399,22 +4525,6 @@
       "username": "hg14363",
       "fieldID": "10",
       "description": "MAT"
-    },
-    "BonaW": {
-      "gpuntisID": "BonaW",
-      "surname": "Bonath",
-      "forename": "Werner",
-      "username": "hg71",
-      "fieldID": "19",
-      "description": "NAT-ING"
-    },
-    "BramM": {
-      "gpuntisID": "BramM",
-      "surname": "Bramwell",
-      "forename": "Mark",
-      "username": "mbrm25",
-      "fieldID": "9",
-      "description": "LIN"
     },
     "BrecJ": {
       "gpuntisID": "BrecJ",
@@ -4436,15 +4546,9 @@
       "gpuntisID": "BuswU",
       "surname": "Busweiler",
       "forename": "J\u00f6rg-Ulrich",
-      "username": "hg10370"
-    },
-    "CarlA": {
-      "gpuntisID": "CarlA",
-      "surname": "Carlson",
-      "forename": "Angelika",
-      "username": "acrl41",
-      "fieldID": "9",
-      "description": "LIN"
+      "username": "hg10370",
+      "fieldID": "6",
+      "description": "ING"
     },
     "AlthF": {
       "gpuntisID": "AlthF",
@@ -4458,17 +4562,359 @@
       "surname": "Baumann",
       "forename": "Anja",
       "username": "abmn79",
-      "fieldID": "88",
+      "fieldID": "21",
       "description": "WIR"
     },
-    "AschK": {
+    "BeckC": {
       "id": "98",
-      "gpuntisID": "AschK",
-      "surname": "Aschenbrenner",
+      "gpuntisID": "BeckC",
+      "surname": "Beckmann",
       "forename": "Christine",
       "username": "cbkm79",
-      "fieldID": "86",
+      "fieldID": "9",
       "description": "SPR"
+    },
+    "SlemA": {
+      "id": "150",
+      "gpuntisID": "SlemA",
+      "surname": "Slemeyer",
+      "forename": "Andreas",
+      "username": "hg7434",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "BergJ": {
+      "id": "233",
+      "gpuntisID": "BergJ",
+      "surname": "Berger",
+      "forename": "Jens",
+      "username": "jbrg63",
+      "fieldID": "20",
+      "description": "SOZ"
+    },
+    "BergA": {
+      "id": "293",
+      "gpuntisID": "BergA",
+      "surname": "Bergner",
+      "forename": "Andreas",
+      "username": "abrg74",
+      "fieldID": "17",
+      "description": "NAT"
+    },
+    "BienD": {
+      "id": "8",
+      "gpuntisID": "BienD",
+      "surname": "Bienhaus",
+      "forename": "Diethelm",
+      "username": "dbnh91",
+      "fieldID": "7",
+      "description": "ING-INF"
+    },
+    "BirkU": {
+      "id": "215",
+      "gpuntisID": "BirkU",
+      "surname": "Birkel",
+      "forename": "Ulrich",
+      "username": "hg12475",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "B\u00f6ckH": {
+      "id": "208",
+      "gpuntisID": "B\u00f6ckH",
+      "surname": "B\u00f6ckel",
+      "forename": "Holger",
+      "username": "hbkl38",
+      "fieldID": "20",
+      "description": "SOZ"
+    },
+    "BonaW": {
+      "id": "243",
+      "gpuntisID": "BonaW",
+      "surname": "Bonath",
+      "forename": "Werner",
+      "username": "hg71",
+      "fieldID": "19",
+      "description": "NAT-ING"
+    },
+    "BramM": {
+      "id": "281",
+      "gpuntisID": "BramM",
+      "surname": "Bramwell",
+      "forename": "Mark",
+      "username": "mbrm25",
+      "fieldID": "9",
+      "description": "SPR"
+    },
+    "CarlA": {
+      "id": "131",
+      "gpuntisID": "CarlA",
+      "surname": "Carlson",
+      "forename": "Angelika",
+      "username": "acrl41",
+      "fieldID": "9",
+      "description": "SPR"
+    },
+    "CramS": {
+      "id": "227",
+      "gpuntisID": "CramS",
+      "surname": "Cramer",
+      "forename": "Stefan",
+      "username": "hg13509",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "DibR": {
+      "id": "241",
+      "gpuntisID": "DibR",
+      "surname": "Dib",
+      "forename": "Ramzi",
+      "username": "rdib",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "DIV.EI": {
+      "id": "995",
+      "gpuntisID": "DIV.EI",
+      "surname": "EI Dozenten",
+      "forename": "",
+      "username": "",
+      "fieldID": "4",
+      "description": "DIV"
+    },
+    "NN.MUK": {
+      "id": "415",
+      "gpuntisID": "NN.MUK",
+      "surname": "MuK Dozent",
+      "forename": "",
+      "username": "",
+      "fieldID": "4",
+      "description": "DIV"
+    },
+    "NN.THM": {
+      "id": "416",
+      "gpuntisID": "NN.THM",
+      "surname": "THM Dozent",
+      "forename": "",
+      "username": "",
+      "fieldID": "4",
+      "description": "DIV"
+    },
+    "EndlBU": {
+      "id": "216",
+      "gpuntisID": "EndlBU",
+      "surname": "Endl",
+      "forename": "Bernhard Ulrich",
+      "username": "hg8341",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "FreyJ": {
+      "id": "217",
+      "gpuntisID": "FreyJ",
+      "surname": "Frey",
+      "forename": "Jochen",
+      "username": "jfry60",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "HabeJ": {
+      "id": "244",
+      "gpuntisID": "HabeJ",
+      "surname": "Haberman",
+      "forename": "Joachim",
+      "username": "haber",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "HenrL": {
+      "id": "628",
+      "gpuntisID": "HenrL",
+      "surname": "Henry",
+      "forename": "Lawrence",
+      "username": "lhnr22",
+      "fieldID": "9",
+      "description": "SPR"
+    },
+    "JehlB": {
+      "id": "251",
+      "gpuntisID": "JehlB",
+      "surname": "Jehle",
+      "forename": "Bernhard",
+      "username": "bjhl99",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "JustB": {
+      "id": "30",
+      "gpuntisID": "JustB",
+      "surname": "Just",
+      "forename": "Bettina",
+      "username": "bjst71",
+      "fieldID": "10",
+      "description": "MAT"
+    },
+    "KarrM": {
+      "id": "57",
+      "gpuntisID": "KarrM",
+      "surname": "Karry",
+      "forename": "Martin",
+      "username": "mkrr38",
+      "fieldID": "5",
+      "description": "INF"
+    },
+    "KausE": {
+      "id": "51",
+      "gpuntisID": "KausE",
+      "surname": "Kausen",
+      "forename": "Ernst",
+      "username": "hg8429",
+      "fieldID": "10",
+      "description": "MAT"
+    },
+    "KernA": {
+      "id": "213",
+      "gpuntisID": "KernA",
+      "surname": "Kern",
+      "forename": "Ansgar",
+      "username": "ansgar",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "KessGi": {
+      "id": "1032",
+      "gpuntisID": "KessGi",
+      "surname": "Kessler",
+      "forename": "Gisela",
+      "username": "gksl18",
+      "fieldID": "20",
+      "description": "SOZ"
+    },
+    "KlytM": {
+      "id": "222",
+      "gpuntisID": "KlytM",
+      "surname": "Klytta",
+      "forename": "Marius",
+      "username": "hg9386",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "LeitK": {
+      "id": "231",
+      "gpuntisID": "LeitK",
+      "surname": "Leitis",
+      "forename": "Karsten",
+      "username": "leitis",
+      "fieldID": "",
+      "description": ""
+    },
+    "M\u00fcnkM": {
+      "id": "228",
+      "gpuntisID": "M\u00fcnkM",
+      "surname": "M\u00fcnke",
+      "forename": "Michael",
+      "username": "hg8652",
+      "fieldID": "7",
+      "description": "ING-INF"
+    },
+    "OberK": {
+      "id": "234",
+      "gpuntisID": "OberK",
+      "surname": "Obermann",
+      "forename": "Kristof",
+      "username": "kobr60",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "OchsHKP": {
+      "id": "248",
+      "gpuntisID": "OchsHKP",
+      "surname": "Ochs-Held",
+      "forename": "Klaus-Peter",
+      "username": "kpoh58",
+      "fieldID": "21",
+      "description": "WIR"
+    },
+    "ProbU": {
+      "id": "225",
+      "gpuntisID": "ProbU",
+      "surname": "Probst",
+      "forename": "Uwe",
+      "username": "hg13555",
+      "fieldID": "5",
+      "description": "INF"
+    },
+    "RickU": {
+      "id": "236",
+      "gpuntisID": "RickU",
+      "surname": "Ricklefs",
+      "forename": "Ubbo",
+      "username": "hg7424",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "RinnK": {
+      "id": "31",
+      "gpuntisID": "RinnK",
+      "surname": "Rinn",
+      "forename": "Klaus",
+      "username": "hg11854",
+      "fieldID": "7",
+      "description": "ING-INF"
+    },
+    "R\u00f6hmA": {
+      "id": "153",
+      "gpuntisID": "R\u00f6hmA",
+      "surname": "R\u00f6hm",
+      "forename": "Anita",
+      "username": "hg10857",
+      "fieldID": "21",
+      "description": "WIR"
+    },
+    "SchmP": {
+      "id": "218",
+      "gpuntisID": "SchmP",
+      "surname": "Schmitz",
+      "forename": "Peter",
+      "username": "hg7394",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "SchuBE": {
+      "id": "253",
+      "gpuntisID": "SchuBE",
+      "surname": "Schusser-Backhaus",
+      "forename": "Ellen",
+      "username": "schuback",
+      "fieldID": "8",
+      "description": "REC"
+    },
+    "ThieK": {
+      "id": "252",
+      "gpuntisID": "ThieK",
+      "surname": "Thies",
+      "forename": "Karlheinz",
+      "username": "tkrl05",
+      "fieldID": "21",
+      "description": "WIR"
+    },
+    "Th\u00fcrR": {
+      "id": "214",
+      "gpuntisID": "Th\u00fcrR",
+      "surname": "Th\u00fcringer",
+      "forename": "Rainer",
+      "username": "hg7313",
+      "fieldID": "6",
+      "description": "ING"
+    },
+    "WebeH": {
+      "id": "229",
+      "gpuntisID": "WebeH",
+      "surname": "Weber",
+      "forename": "Hartmut",
+      "username": "hweber",
+      "fieldID": "6",
+      "description": "ING"
     }
   },
   "pools": {
@@ -6266,7 +6712,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -6287,7 +6735,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -6305,7 +6755,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -6323,7 +6775,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -6333,7 +6787,9 @@
     },
     "2015-04-14": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -6363,7 +6819,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -6387,7 +6845,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -6399,7 +6859,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -6428,7 +6890,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -6452,7 +6916,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -6464,7 +6930,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -6500,7 +6968,9 @@
         "EISS_269": {
           "A10.2.05": ""
         },
-        "EISS_270": {}
+        "EISS_270": {
+          "A10.2.03": ""
+        }
       },
       "5": {
         "EISS_174": {
@@ -6529,7 +6999,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -6559,10 +7031,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -6598,7 +7074,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -6624,7 +7102,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -6657,7 +7137,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -6675,7 +7157,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -6719,7 +7203,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -6740,7 +7226,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -6758,7 +7246,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -6776,7 +7266,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -6786,7 +7278,9 @@
     },
     "2015-04-21": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -6816,7 +7310,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -6840,7 +7336,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -6852,7 +7350,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -6881,7 +7381,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -6905,7 +7407,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -6917,7 +7421,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -6981,7 +7487,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -7011,10 +7519,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -7050,7 +7562,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -7076,7 +7590,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -7109,7 +7625,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -7127,7 +7645,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -7171,7 +7691,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -7192,7 +7714,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -7210,7 +7734,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -7228,7 +7754,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -7238,7 +7766,9 @@
     },
     "2015-04-28": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -7268,7 +7798,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -7292,7 +7824,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -7304,7 +7838,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -7333,7 +7869,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -7357,7 +7895,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -7369,7 +7909,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -7433,7 +7975,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -7463,10 +8007,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -7502,7 +8050,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -7555,7 +8105,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -7576,7 +8128,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -7594,7 +8148,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -7612,7 +8168,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -7622,7 +8180,9 @@
     },
     "2015-05-05": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -7652,7 +8212,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -7676,7 +8238,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -7688,7 +8252,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -7717,7 +8283,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -7741,7 +8309,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -7753,7 +8323,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -7817,7 +8389,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -7847,10 +8421,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -7886,7 +8464,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -7912,7 +8492,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -7945,7 +8527,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -7963,7 +8547,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -8007,7 +8593,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -8028,7 +8616,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -8046,7 +8636,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -8064,7 +8656,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -8074,7 +8668,9 @@
     },
     "2015-05-12": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -8104,7 +8700,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -8128,7 +8726,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -8140,7 +8740,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -8169,7 +8771,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -8193,7 +8797,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -8205,7 +8811,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -8265,7 +8873,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -8298,7 +8908,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -8316,7 +8928,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -8360,7 +8974,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -8381,7 +8997,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -8399,7 +9017,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -8417,7 +9037,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -8427,7 +9049,9 @@
     },
     "2015-05-19": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -8457,7 +9081,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -8481,7 +9107,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -8493,7 +9121,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -8522,7 +9152,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -8546,7 +9178,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -8558,7 +9192,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -8622,7 +9258,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -8652,10 +9290,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -8691,7 +9333,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -8717,7 +9361,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -8750,7 +9396,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -8768,7 +9416,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -8814,7 +9464,9 @@
     },
     "2015-05-26": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -8844,7 +9496,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -8868,7 +9522,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -8880,7 +9536,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -8909,7 +9567,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -8933,7 +9593,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -8945,7 +9607,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -9009,7 +9673,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -9039,10 +9705,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -9078,7 +9748,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -9104,7 +9776,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -9137,7 +9811,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -9155,7 +9831,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -9199,7 +9877,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -9220,7 +9900,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -9238,7 +9920,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -9256,7 +9940,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -9266,7 +9952,9 @@
     },
     "2015-06-02": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -9296,7 +9984,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -9320,7 +10010,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -9332,7 +10024,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -9361,7 +10055,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -9385,7 +10081,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -9397,7 +10095,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -9457,7 +10157,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -9490,7 +10192,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -9508,7 +10212,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -9552,7 +10258,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -9573,7 +10281,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -9591,7 +10301,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -9609,7 +10321,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -9619,7 +10333,9 @@
     },
     "2015-06-09": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -9649,7 +10365,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -9673,7 +10391,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -9685,7 +10405,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -9714,7 +10436,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -9738,7 +10462,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -9750,7 +10476,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -9814,7 +10542,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -9844,10 +10574,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -9883,7 +10617,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -9909,7 +10645,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -9942,7 +10680,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -9960,7 +10700,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -10004,7 +10746,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -10025,7 +10769,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -10043,7 +10789,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -10061,7 +10809,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -10071,7 +10821,9 @@
     },
     "2015-06-16": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -10101,7 +10853,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -10125,7 +10879,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -10137,7 +10893,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -10166,7 +10924,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -10190,7 +10950,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -10202,7 +10964,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -10266,7 +11030,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -10296,10 +11062,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -10335,7 +11105,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -10361,7 +11133,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -10394,7 +11168,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -10412,7 +11188,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -10456,7 +11234,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -10477,7 +11257,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -10495,7 +11277,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -10513,7 +11297,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -10523,7 +11309,9 @@
     },
     "2015-06-23": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -10553,7 +11341,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -10577,7 +11367,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -10589,7 +11381,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -10618,7 +11412,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -10642,7 +11438,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -10654,7 +11452,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -10718,7 +11518,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -10748,10 +11550,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -10787,7 +11593,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -10813,7 +11621,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -10846,7 +11656,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -10864,7 +11676,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -10908,7 +11722,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -10929,7 +11745,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -10947,7 +11765,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -10965,7 +11785,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -10975,7 +11797,9 @@
     },
     "2015-06-30": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -11005,7 +11829,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -11029,7 +11855,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -11041,7 +11869,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -11070,7 +11900,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -11094,7 +11926,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -11106,7 +11940,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -11170,7 +12006,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -11200,10 +12038,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -11239,7 +12081,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -11265,7 +12109,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -11298,7 +12144,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -11316,7 +12164,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -11360,7 +12210,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -11381,7 +12233,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -11399,7 +12253,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -11417,7 +12273,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -11427,7 +12285,9 @@
     },
     "2015-07-07": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -11457,7 +12317,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -11481,7 +12343,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -11493,7 +12357,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -11522,7 +12388,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -11546,7 +12414,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -11558,7 +12428,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -11622,7 +12494,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -11652,10 +12526,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -11691,7 +12569,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -11717,7 +12597,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -11750,7 +12632,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -11768,7 +12652,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -11812,7 +12698,9 @@
         "EISS_15": {
           "A10.4.06": ""
         },
-        "EISS_38": {},
+        "EISS_38": {
+          "A10.2.03": ""
+        },
         "EISS_49": {
           "A10.5.04": ""
         },
@@ -11833,7 +12721,9 @@
         "EISS_36": {
           "A10.5.03": ""
         },
-        "EISS_49": {},
+        "EISS_49": {
+          "A10.2.03": ""
+        },
         "EISS_169": {
           "A10.6.20": ""
         },
@@ -11851,7 +12741,9 @@
         "EISS_18": {
           "A10.5.20": ""
         },
-        "EISS_19": {},
+        "EISS_19": {
+          "A10.2.03": ""
+        },
         "EISS_26": {
           "A10.2.05": ""
         },
@@ -11869,7 +12761,9 @@
         }
       },
       "4": {
-        "EISS_40": {},
+        "EISS_40": {
+          "A10.2.03": ""
+        },
         "EISS_42": {
           "A10.2.05": ""
         }
@@ -11879,7 +12773,9 @@
     },
     "2015-07-14": {
       "1": {
-        "EISS_12": {},
+        "EISS_12": {
+          "A10.2.03": ""
+        },
         "EISS_15": {
           "A10.4.06": ""
         },
@@ -11909,7 +12805,9 @@
         "EISS_45": {
           "A10.5.03": ""
         },
-        "EISS_260": {},
+        "EISS_260": {
+          "A10.2.03": ""
+        },
         "EISS_266": {
           "A10.2.05": ""
         },
@@ -11933,7 +12831,9 @@
         "EISS_35": {
           "A10.4.06": ""
         },
-        "EISS_178": {},
+        "EISS_178": {
+          "A10.2.03": ""
+        },
         "EISS_264": {
           "A10.6.20": ""
         },
@@ -11945,7 +12845,9 @@
         "EISS_19": {
           "A10.5.26": ""
         },
-        "EISS_31": {},
+        "EISS_31": {
+          "A10.2.03": ""
+        },
         "EISS_39": {
           "A10.2.05": ""
         },
@@ -11974,7 +12876,9 @@
         "EISS_46": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         }
@@ -11998,7 +12902,9 @@
         "EISS_52": {
           "A10.6.20": ""
         },
-        "EISS_177": {},
+        "EISS_177": {
+          "A10.2.03": ""
+        },
         "EISS_179": {
           "C012": ""
         },
@@ -12010,7 +12916,9 @@
         "EISS_5": {
           "A10.5.26": ""
         },
-        "EISS_11": {},
+        "EISS_11": {
+          "A10.2.03": ""
+        },
         "EISS_29": {
           "A10.4.06": ""
         },
@@ -12074,7 +12982,9 @@
         "EISS_87": {
           "A10.5.26": ""
         },
-        "EISS_260": {}
+        "EISS_260": {
+          "A10.2.03": ""
+        }
       },
       "2": {
         "EISS_7": {
@@ -12104,10 +13014,14 @@
         "EISS_181": {
           "D034": ""
         },
-        "EISS_265": {}
+        "EISS_265": {
+          "A10.2.03": ""
+        }
       },
       "3": {
-        "EISS_5": {},
+        "EISS_5": {
+          "A10.2.03": ""
+        },
         "EISS_21": {
           "A10.5.04": ""
         },
@@ -12143,7 +13057,9 @@
         "EISS_259": {
           "A10.5.20": ""
         },
-        "EISS_265": {},
+        "EISS_265": {
+          "A10.2.03": ""
+        },
         "EISS_269": {
           "A10.2.05": ""
         }
@@ -12169,7 +13085,9 @@
         "EISS_12": {
           "A10.4.06": ""
         },
-        "EISS_24": {},
+        "EISS_24": {
+          "A10.2.03": ""
+        },
         "EISS_34": {
           "A10.8.15": ""
         },
@@ -12202,7 +13120,9 @@
         "EISS_170": {
           "A10.2.05": ""
         },
-        "EISS_176": {},
+        "EISS_176": {
+          "A10.2.03": ""
+        },
         "EISS_178": {
           "A10.5.04": ""
         }
@@ -12220,7 +13140,9 @@
         "EISS_172": {
           "A10.2.05": ""
         },
-        "EISS_175": {}
+        "EISS_175": {
+          "A10.2.03": ""
+        }
       },
       "4": {
         "EISS_33": {
@@ -12882,8 +13804,8 @@
       "description": "VRL\/\u00dcBG",
       "name": "NAE - V\/\u00dc",
       "teachers": {
-        "RickU": "",
-        "Kl\u00f6sA": ""
+        "Kl\u00f6sA": "",
+        "RickU": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
@@ -12968,6 +13890,7 @@
       "subjects": {
         "EI_MAT": ""
       },
+      "description": "VRL",
       "name": "MAT - V",
       "teachers": {
         "BolsA": ""
@@ -12976,7 +13899,8 @@
       "pools": {
         "EIT1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_17": {
       "gpuntisID": "17",
@@ -13000,6 +13924,7 @@
       "subjects": {
         "EI_MAX": ""
       },
+      "description": "VRL",
       "name": "MAX - V",
       "teachers": {
         "OberK": ""
@@ -13008,7 +13933,8 @@
       "pools": {
         "EIT1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_19": {
       "gpuntisID": "19",
@@ -13049,6 +13975,7 @@
       "subjects": {
         "EI_REG1": ""
       },
+      "description": "VRL",
       "name": "REG1 - V",
       "teachers": {
         "SchmP": ""
@@ -13058,25 +13985,27 @@
         "AUT4": "",
         "ELE4": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_22": {
       "gpuntisID": "22",
       "subjects": {
         "EI_REG1": ""
       },
-      "description": "V\/P",
+      "description": "VRL\/PRK",
       "name": "REG1 - V\/P",
       "teachers": {
-        "SchmP": "",
-        "LothMa": ""
+        "LothMa": "",
+        "SchmP": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "AUT4": "",
         "ELE4": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "22"
     },
     "EISS_24": {
       "gpuntisID": "24",
@@ -13135,6 +14064,7 @@
       "subjects": {
         "EI_MAT1": ""
       },
+      "description": "VRL",
       "name": "MAT1 - V",
       "teachers": {
         "BolsA": ""
@@ -13143,14 +14073,15 @@
       "pools": {
         "G1A1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_29": {
       "gpuntisID": "29",
       "subjects": {
         "EI_MAT1": ""
       },
-      "description": "\u00dc",
+      "description": "\u00dcBG",
       "name": "MAT1 - \u00dc",
       "teachers": {
         "BolsA": ""
@@ -13159,14 +14090,15 @@
       "pools": {
         "G1A1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "19"
     },
     "EISS_30": {
       "gpuntisID": "30",
       "subjects": {
         "EI_PHY": ""
       },
-      "description": "\u00dc",
+      "description": "\u00dcBG",
       "name": "PHY - \u00dc",
       "teachers": {
         "WelzT": ""
@@ -13175,7 +14107,8 @@
       "pools": {
         "G1A1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "19"
     },
     "EISS_31": {
       "gpuntisID": "31",
@@ -13199,7 +14132,7 @@
       "subjects": {
         "EI_S-ALM": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "S-ALM - S",
       "teachers": {
         "BergJ": ""
@@ -13209,13 +14142,15 @@
         "G1A1": "",
         "SUK.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_34": {
       "gpuntisID": "34",
       "subjects": {
         "EI_PHY": ""
       },
+      "description": "VRL",
       "name": "PHY - V",
       "teachers": {
         "WelzT": ""
@@ -13224,7 +14159,8 @@
       "pools": {
         "G1A1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_35": {
       "gpuntisID": "35",
@@ -13299,7 +14235,7 @@
       "subjects": {
         "EI_MAT2": ""
       },
-      "description": "\u00dc",
+      "description": "\u00dcBG",
       "name": "MAT2 - \u00dc",
       "teachers": {
         "JustB": ""
@@ -13308,17 +14244,18 @@
       "pools": {
         "G2A1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "19"
     },
     "EISS_40": {
       "gpuntisID": "40",
       "subjects": {
         "EI_S-SML": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "S-SML - S",
       "teachers": {
-        "Thies": ""
+        "ThieK": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
@@ -13326,14 +14263,15 @@
         "G2A1": "",
         "SUK.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_42": {
       "gpuntisID": "42",
       "subjects": {
         "EI_MAT2": ""
       },
-      "description": "\u00dc",
+      "description": "\u00dcBG",
       "name": "MAT2 - \u00dc",
       "teachers": {
         "JustB": ""
@@ -13343,7 +14281,8 @@
         "G2A1": "",
         "G2B1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "19"
     },
     "EISS_45": {
       "gpuntisID": "45",
@@ -13387,7 +14326,9 @@
       },
       "description": "VRL\/\u00dcBG",
       "name": "MES - V\/\u00dc",
-      "teachers": {},
+      "teachers": {
+        "FreyJ": ""
+      },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "G2B1": "",
@@ -13401,6 +14342,7 @@
       "subjects": {
         "EI_FUT": ""
       },
+      "description": "VRL",
       "name": "FUT - V",
       "teachers": {
         "KlytM": ""
@@ -13411,14 +14353,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_51": {
       "gpuntisID": "51",
       "subjects": {
         "EI_BSY": ""
       },
-      "description": "V\/P",
+      "description": "VRL\/PRK",
       "name": "BSY - V\/P",
       "teachers": {
         "CramS": ""
@@ -13429,30 +14372,34 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "22"
     },
     "EISS_52": {
       "gpuntisID": "52",
       "subjects": {
         "EI_SEN": ""
       },
-      "description": "V\/P",
+      "description": "VRL\/PRK",
       "name": "SEN - V\/P",
-      "teachers": {},
+      "teachers": {
+        "FreyJ": ""
+      },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "AUT6": "",
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "22"
     },
     "EISS_53": {
       "gpuntisID": "53",
       "subjects": {
         "EI_AMS": ""
       },
-      "description": "V\/P",
+      "description": "VRL\/PRK",
       "name": "AMS - V\/P",
       "teachers": {
         "GarbFW": ""
@@ -13463,14 +14410,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "22"
     },
     "EISS_54": {
       "gpuntisID": "54",
       "subjects": {
         "EI_USG": ""
       },
-      "description": "V\/P",
+      "description": "VRL\/PRK",
       "name": "USG - V\/P",
       "teachers": {
         "D\u00f6ngT": ""
@@ -13481,14 +14429,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "22"
     },
     "EISS_56": {
       "gpuntisID": "56",
       "subjects": {
         "EI_IFI1": ""
       },
-      "description": "V\/P",
+      "description": "VRL\/PRK",
       "name": "IFI1 - V\/P",
       "teachers": {
         "KempT": ""
@@ -13497,14 +14446,15 @@
       "pools": {
         "G1A1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "22"
     },
     "EISS_87": {
       "gpuntisID": "87",
       "subjects": {
         "EI_AAE": ""
       },
-      "description": "V\/P",
+      "description": "VRL\/PRK",
       "name": "AAE - V\/P",
       "teachers": {
         "GarbFW": ""
@@ -13515,13 +14465,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "22"
     },
     "EISS_168": {
       "gpuntisID": "168",
       "subjects": {
         "EI_TRA": ""
       },
+      "description": "VRL",
       "name": "TRA - V",
       "teachers": {
         "TUTOR.EI": ""
@@ -13530,13 +14482,15 @@
       "pools": {
         "G3A2": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_169": {
       "gpuntisID": "169",
       "subjects": {
         "EI_ELK": ""
       },
+      "description": "VRL",
       "name": "ELK - V",
       "teachers": {
         "TUTOR.EI": ""
@@ -13545,13 +14499,15 @@
       "pools": {
         "G3A2": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_170": {
       "gpuntisID": "170",
       "subjects": {
         "EI_MES": ""
       },
+      "description": "VRL",
       "name": "MES - V",
       "teachers": {
         "TUTOR.EI": ""
@@ -13560,13 +14516,15 @@
       "pools": {
         "G3A2": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_172": {
       "gpuntisID": "172",
       "subjects": {
         "EI_TA": ""
       },
+      "description": "VRL",
       "name": "TA - V",
       "teachers": {
         "Engel": ""
@@ -13577,14 +14535,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_173": {
       "gpuntisID": "173",
       "subjects": {
         "EI_S-REC": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "S-REC - S",
       "teachers": {
         "SchuBE": ""
@@ -13595,14 +14554,15 @@
         "ELE4": "",
         "SUK.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_174": {
       "gpuntisID": "174",
       "subjects": {
         "EI_S-MKT": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "S-MKT - S",
       "teachers": {
         "R\u00f6hmA": ""
@@ -13614,17 +14574,18 @@
         "IKT4": "",
         "SUK.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_175": {
       "gpuntisID": "175",
       "subjects": {
         "EI_S-ENG": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "S-ENG - S",
       "teachers": {
-        "AschK": ""
+        "BeckC": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
@@ -13632,14 +14593,15 @@
         "ELE4": "",
         "IKT4": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_176": {
       "gpuntisID": "176",
       "subjects": {
         "EI_S-BWI": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "S-BWI - S",
       "teachers": {
         "ParkSM": ""
@@ -13651,7 +14613,8 @@
         "IKT4": "",
         "SUK.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_177": {
       "gpuntisID": "177",
@@ -13693,6 +14656,7 @@
       "subjects": {
         "EI_EEN": ""
       },
+      "description": "VRL",
       "name": "EEN - V",
       "teachers": {
         "DibR": ""
@@ -13701,13 +14665,15 @@
       "pools": {
         "EIT1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_181": {
       "gpuntisID": "181",
       "subjects": {
         "EI_FVA": ""
       },
+      "description": "VRL",
       "name": "FVA - V",
       "teachers": {
         "LeitK": ""
@@ -13716,13 +14682,15 @@
       "pools": {
         "EIT1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_249": {
       "gpuntisID": "249",
       "subjects": {
         "EI_NN.EI": ""
       },
+      "description": "VRL",
       "name": "NN.EI - V",
       "teachers": {
         "OberK": ""
@@ -13731,13 +14699,15 @@
       "pools": {
         "ZV.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_254": {
       "gpuntisID": "254",
       "subjects": {
         "EI_STEP": ""
       },
+      "description": "VRL",
       "name": "STEP - V",
       "teachers": {
         "NN.EI": ""
@@ -13746,27 +14716,32 @@
       "pools": {
         "ZV.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_255": {
       "gpuntisID": "255",
       "subjects": {
         "EI_BPP-S": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "BPP-S - S",
-      "teachers": {},
+      "teachers": {
+        "FjodS": ""
+      },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "ZV.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_256": {
       "gpuntisID": "256",
       "subjects": {
         "EI_KOD": ""
       },
+      "description": "VRL",
       "name": "KOD - V",
       "teachers": {
         "WebeH": ""
@@ -13775,7 +14750,8 @@
       "pools": {
         "EIT1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_257": {
       "gpuntisID": "257",
@@ -13799,6 +14775,7 @@
       "subjects": {
         "EI_AAT": ""
       },
+      "description": "VRL",
       "name": "AAT - V",
       "teachers": {
         "ProbU": ""
@@ -13809,14 +14786,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_259": {
       "gpuntisID": "259",
       "subjects": {
         "EI_FUT": ""
       },
-      "description": "P",
+      "description": "PRK",
       "name": "FUT - P",
       "teachers": {
         "KlytM": ""
@@ -13827,13 +14805,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "12"
     },
     "EISS_260": {
       "gpuntisID": "260",
       "subjects": {
         "EI_MSD": ""
       },
+      "description": "VRL",
       "name": "MSD - V",
       "teachers": {
         "BonaW": ""
@@ -13844,13 +14824,15 @@
         "ELE6": "",
         "IKT6": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_263": {
       "gpuntisID": "263",
       "subjects": {
         "EI_GET1": ""
       },
+      "description": "VRL",
       "name": "GET1 - V",
       "teachers": {
         "TUTOR.EI": ""
@@ -13859,13 +14841,15 @@
       "pools": {
         "G1B2": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_264": {
       "gpuntisID": "264",
       "subjects": {
         "EI_MAT2": ""
       },
+      "description": "VRL",
       "name": "MAT2 - V",
       "teachers": {
         "JustB": ""
@@ -13875,27 +14859,32 @@
         "G2A1": "",
         "G2B1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_265": {
       "gpuntisID": "265",
       "subjects": {
         "EI_ELT2": ""
       },
+      "description": "VRL",
       "name": "ELT2 - V",
-      "teachers": {},
+      "teachers": {
+        "FreyJ": ""
+      },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "G2B1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_266": {
       "gpuntisID": "266",
       "subjects": {
         "EI_MAT2": ""
       },
-      "description": "\u00dc",
+      "description": "\u00dcBG",
       "name": "MAT2 - \u00dc",
       "teachers": {
         "JustB": ""
@@ -13904,13 +14893,15 @@
       "pools": {
         "G2B1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "19"
     },
     "EISS_267": {
       "gpuntisID": "267",
       "subjects": {
         "EI_MRT": ""
       },
+      "description": "VRL",
       "name": "MRT - V",
       "teachers": {
         "TUTOR.EI": ""
@@ -13919,27 +14910,32 @@
       "pools": {
         "G3A2": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_268": {
       "gpuntisID": "268",
       "subjects": {
         "EI_BAC": ""
       },
-      "description": "S",
+      "description": "SEM",
       "name": "BAC - S",
-      "teachers": {},
+      "teachers": {
+        "FjodS": ""
+      },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "IKT5": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "15"
     },
     "EISS_269": {
       "gpuntisID": "269",
       "subjects": {
         "EI_SOK": ""
       },
+      "description": "VRL",
       "name": "SOK - V",
       "teachers": {
         "KessGi": ""
@@ -13948,13 +14944,15 @@
       "pools": {
         "EIT1": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_270": {
       "gpuntisID": "270",
       "subjects": {
         "EI_NN.EI": ""
       },
+      "description": "VRL",
       "name": "NN.EI - V",
       "teachers": {
         "KempT": ""
@@ -13963,14 +14961,15 @@
       "pools": {
         "ZV.EI": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "21"
     },
     "EISS_271": {
       "gpuntisID": "271",
       "subjects": {
         "EI_KSY1": ""
       },
-      "description": "P",
+      "description": "PRK",
       "name": "KSY1 - P",
       "teachers": {
         "BirkU": ""
@@ -13979,7 +14978,8 @@
       "pools": {
         "IKT4": ""
       },
-      "comment": ""
+      "comment": "",
+      "methodID": "12"
     }
   }
 }

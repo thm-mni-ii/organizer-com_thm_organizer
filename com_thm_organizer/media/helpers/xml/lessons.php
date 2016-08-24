@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerModelLessons
+ * @name        THM_OrganizerHelperXMLLessons
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2

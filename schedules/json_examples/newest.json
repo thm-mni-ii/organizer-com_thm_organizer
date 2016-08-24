@@ -1,12 +1,12 @@
 {
-  "creationdate": "2016-07-04",
-  "creationtime": "110501",
-  "startdate": "2015-10-05",
-  "enddate": "2016-10-02",
+  "creationdate": "2016-08-22",
+  "creationtime": "103403",
+  "syStartDate": "2015-10-05",
+  "syEndDate": "2016-10-02",
   "departmentname": "BAU",
   "semestername": "SS",
-  "termStartDate": "2016-04-04",
-  "termEndDate": "2016-10-02",
+  "startDate": "2016-04-04",
+  "endDate": "2016-10-02",
   "periods": {
     "Haupt-Zeitraster": {
       "1": {
@@ -62,45 +62,525 @@
     }
   },
   "degrees": {
-    "A.B": {
-      "gpuntisID": "DP_A.B",
-      "name": "Architektur (B.Eng.)"
+    "A.BE.2012": {
+      "gpuntisID": "A.BE.2012",
+      "name": "Architektur (B.Eng.)",
+      "id": "28"
     },
-    "A.M": {
-      "gpuntisID": "DP_A.M",
-      "name": "Architektur (M.Eng.)"
+    "A.ME.2012": {
+      "gpuntisID": "A.ME.2012",
+      "name": "Architektur (M.Eng.)",
+      "id": "29"
     },
-    "B.B": {
-      "gpuntisID": "DP_B.B",
-      "name": "Bauingenieurwesen (B.Eng.)"
+    "B.BE.2012": {
+      "gpuntisID": "B.BE.2012",
+      "name": "Bauingenieurwesen (B.Eng.)",
+      "id": "30"
     },
-    "B.M": {
-      "gpuntisID": "DP_B.M",
-      "name": "Bauingenieurwesen (M.Eng.)"
+    "B.ME.2012": {
+      "gpuntisID": "B.ME.2012",
+      "name": "Bauingenieurwesen (M.Eng.)",
+      "id": "31"
     },
-    "INFMA": {
-      "gpuntisID": "DP_INFMA",
-      "name": "Infrastrukturmanagement (M.Eng.)"
+    "BAI.BE.2014": {
+      "gpuntisID": "BAI.BE.2014",
+      "name": "Bahningenieurwesen (B.Eng.)",
+      "id": "32"
     },
     "DIV.BAU": {
-      "gpuntisID": "DP_DIV.BAU",
-      "name": "Diverse Veranstaltungen"
+      "gpuntisID": "DIV.BAU",
+      "name": "Diverse FB BAU Veranstaltungen",
+      "id": "33"
     },
-    "MUK": {
-      "gpuntisID": "DP_MUK",
-      "name": "Management & Kommunikation"
-    },
-    "DIV": {
-      "gpuntisID": "DP_DIV",
-      "name": "Diverse Veranstaltungen"
-    },
-    "BIW": {
-      "gpuntisID": "DP_BIW",
-      "name": "Bahningenieurwesen (B.Eng.)"
+    "IFM.ME": {
+      "gpuntisID": "IFM.ME",
+      "name": "Infrastrukturmanagement (M.Eng.)",
+      "id": "34"
     },
     "KW.BAU": {
-      "gpuntisID": "DP_KW.BAU",
-      "name": "Klausurwochen"
+      "gpuntisID": "KW.BAU",
+      "name": "Klausurwochen FB BAU",
+      "id": "35"
+    },
+    "MUK.DL": {
+      "gpuntisID": "MUK.DL",
+      "name": "Management & Kommunikation Dienstleistungen",
+      "id": "21"
+    }
+  },
+  "pools": {
+    "A.1": {
+      "gpuntisID": "A.1",
+      "name": "A.1",
+      "localUntisID": "A.1",
+      "longname": "Architektur (B.Eng.), 1. Semester",
+      "restriction": "1. Semester",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "80"
+    },
+    "A.2": {
+      "gpuntisID": "A.2",
+      "name": "A.2",
+      "localUntisID": "A.2",
+      "longname": "Architektur (B.Eng.), 2. Semester",
+      "restriction": "2. Semester",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "81"
+    },
+    "A.3": {
+      "gpuntisID": "A.3",
+      "name": "A.3",
+      "localUntisID": "A.3",
+      "longname": "Architektur (B.Eng.), 3. Semester",
+      "restriction": "3. Semester",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "82"
+    },
+    "A.4": {
+      "gpuntisID": "A.4",
+      "name": "A.4",
+      "localUntisID": "A.4",
+      "longname": "Architektur (B.Eng.), 4. Semester",
+      "restriction": "4. Semester",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "83"
+    },
+    "A.5": {
+      "gpuntisID": "A.5",
+      "name": "A.5",
+      "localUntisID": "A.5",
+      "longname": "Architektur(B.Eng.), 5.Semester",
+      "restriction": "5. Semester",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "84"
+    },
+    "A.6": {
+      "gpuntisID": "A.6",
+      "name": "A.6",
+      "localUntisID": "A.6",
+      "longname": "Architektur (B.Eng.), 6. Semester",
+      "restriction": "6. Semester",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "85"
+    },
+    "A.KW": {
+      "gpuntisID": "A.KW",
+      "name": "A.KW",
+      "localUntisID": "A.KW",
+      "longname": "Architektur (B.Eng.), Klausurwochen",
+      "restriction": "Architektur (B.Eng.)",
+      "degree": "KW.BAU",
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "86"
+    },
+    "A.M.1": {
+      "gpuntisID": "A.M.1",
+      "name": "A.M.1",
+      "localUntisID": "A.M.1",
+      "longname": "Architektur (M.Eng.), 1. Semester",
+      "restriction": "1. Semester",
+      "degree": "A.ME.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "87"
+    },
+    "A.M.2": {
+      "gpuntisID": "A.M.2",
+      "name": "A.M.2",
+      "localUntisID": "A.M.2",
+      "longname": "Architektur (M.Eng.), 2. Semester",
+      "restriction": "2. Semester",
+      "degree": "A.ME.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "88"
+    },
+    "A.M.3": {
+      "gpuntisID": "A.M.3",
+      "name": "A.M.3",
+      "localUntisID": "A.M.3",
+      "longname": "Architektur (M.Eng.), 3. Semester",
+      "restriction": "3. Semester",
+      "degree": "A.ME.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "89"
+    },
+    "B.1": {
+      "gpuntisID": "B.1",
+      "name": "B.1",
+      "localUntisID": "B.1",
+      "longname": "Bauingenieurwesen (B.Eng.), 1. Semester",
+      "restriction": "1. Semester",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "90"
+    },
+    "B.2": {
+      "gpuntisID": "B.2",
+      "name": "B.2",
+      "localUntisID": "B.2",
+      "longname": "Bauingenieurwesen (B.Eng.), 2. Semester",
+      "restriction": "2. Semester",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "91"
+    },
+    "B.3": {
+      "gpuntisID": "B.3",
+      "name": "B.3",
+      "localUntisID": "B.3",
+      "longname": "Bauingenieurwesen (B.Eng.), 3. Semester",
+      "restriction": "3. Semester",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "92"
+    },
+    "B.4.BP": {
+      "gpuntisID": "B.4.BP",
+      "name": "B.4.BP",
+      "localUntisID": "B.4.BP",
+      "longname": "Bauingenieurwesen (B.Eng.), 4. Semester, Baumanagement Projektsteuerung",
+      "restriction": "4. Sem., BMPS",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "93"
+    },
+    "B.4.IP": {
+      "gpuntisID": "B.4.IP",
+      "name": "B.4.IP",
+      "localUntisID": "B.4.IP",
+      "longname": "Bauingenieurwesen (B.Eng.), 4. Semester, Infrastrukturplanung",
+      "restriction": "4. Sem., ISP",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "94"
+    },
+    "B.4.KT": {
+      "gpuntisID": "B.4.KT",
+      "name": "B.4.KT",
+      "localUntisID": "B.4.KT",
+      "longname": "Bauingenieurwesen (B.Eng.), 4. Semester, Konstruktiver Ing.bau",
+      "restriction": "4. Sem., KIB",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "95"
+    },
+    "B.5.BP": {
+      "gpuntisID": "B.5.BP",
+      "name": "B.5.BP",
+      "localUntisID": "B.5.BP",
+      "longname": "Bauingenieurwesen (B.Eng.), 5. Semester, Baumanagement Projektsteuerung",
+      "restriction": "5. Sem., BMPS",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "96"
+    },
+    "B.5.IP": {
+      "gpuntisID": "B.5.IP",
+      "name": "B.5.IP",
+      "localUntisID": "B.5.IP",
+      "longname": "Bauingenieurwesen (B.Eng.), 5. Semester, Infrastrukturplanung",
+      "restriction": "5. Sem., ISP",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "97"
+    },
+    "B.5.KT": {
+      "gpuntisID": "B.5.KT",
+      "name": "B.5.KT",
+      "localUntisID": "B.5.KT",
+      "longname": "Bauingenieurwesen (B.Eng.), 5. Semester, Konstruktiver Ing.bau",
+      "restriction": "5. Sem., KIB",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "98"
+    },
+    "B.6.BP": {
+      "gpuntisID": "B.6.BP",
+      "name": "B.6.BP",
+      "localUntisID": "B.6.BP",
+      "longname": "Bauingenieurwesen (B.Eng.), 6. Semester, Baumanagement Projektsteuerung",
+      "restriction": "6. Sem., BMPS",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "99"
+    },
+    "B.6.IP": {
+      "gpuntisID": "B.6.IP",
+      "name": "B.6.IP",
+      "localUntisID": "B.6.IP",
+      "longname": "Bauingenieurwesen (B.Eng.), 6. Semester, Infrastrukturplanung",
+      "restriction": "6. Sem., ISP",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "100"
+    },
+    "B.6.KT": {
+      "gpuntisID": "B.6.KT",
+      "name": "B.6.KT",
+      "localUntisID": "B.6.KT",
+      "longname": "Bauingenieurwesen (B.Eng.), 6. Semester, Konstruktiver Ing.bau",
+      "restriction": "6. Sem., KIB",
+      "degree": "B.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "101"
+    },
+    "B.I.1": {
+      "gpuntisID": "B.I.1",
+      "name": "B.I.1",
+      "localUntisID": "B.I.1",
+      "longname": "Bahningenieurwesen(B.Eng.),1.Sem.",
+      "restriction": "1. Semester",
+      "degree": "BAI.BE.2014",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "102"
+    },
+    "B.I.2": {
+      "gpuntisID": "B.I.2",
+      "name": "B.I.2",
+      "localUntisID": "B.I.2",
+      "longname": "Bahningenieurwesen (B.Eng.), 2.Sem.",
+      "restriction": "2. Semester",
+      "degree": "BAI.BE.2014",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "103"
+    },
+    "B.I.3": {
+      "gpuntisID": "B.I.3",
+      "name": "B.I.3",
+      "localUntisID": "B.I.3",
+      "longname": "Bahningenieurwesen (B.Eng.), 3.Sem.",
+      "restriction": "3. Semester",
+      "degree": "BAI.BE.2014",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "104"
+    },
+    "B.I.4": {
+      "gpuntisID": "B.I.4",
+      "name": "B.I.4",
+      "localUntisID": "B.I.4",
+      "longname": "Bahningenieurwesen (B.Eng.), 4.Sem.",
+      "restriction": "4. Semester",
+      "degree": "BAI.BE.2014",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "105"
+    },
+    "B.KW": {
+      "gpuntisID": "B.KW",
+      "name": "B.KW",
+      "localUntisID": "B.KW",
+      "longname": "Bauingenieurwesen (B.Eng.), Klausurwochen",
+      "restriction": "Bauing. (B.Eng.)",
+      "degree": "KW.BAU",
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "106"
+    },
+    "B.M.1": {
+      "gpuntisID": "B.M.1",
+      "name": "B.M.1",
+      "localUntisID": "B.M.1",
+      "longname": "Bauingenieurwesen (M.Eng.), 1. Semester",
+      "restriction": "1. Semester",
+      "degree": "B.ME.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "107"
+    },
+    "B.M.2": {
+      "gpuntisID": "B.M.2",
+      "name": "B.M.2",
+      "localUntisID": "B.M.2",
+      "longname": "Bauingenieurwesen (M.Eng.), 2. Semester",
+      "restriction": "2. Semester",
+      "degree": "B.ME.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "108"
+    },
+    "B.M.3": {
+      "gpuntisID": "B.M.3",
+      "name": "B.M.3",
+      "localUntisID": "B.M.3",
+      "longname": "Bauingenieurwesen (M.Eng.), 3. Semester",
+      "restriction": "3. Semester",
+      "degree": "B.ME.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "109"
+    },
+    "BIW.KW": {
+      "gpuntisID": "BIW.KW",
+      "name": "BIW.KW",
+      "localUntisID": "BIW.KW",
+      "longname": "Bahningenieurwesen (B.Eng.), Klausurwochen",
+      "restriction": "Bahning. (B.Eng.)",
+      "degree": "KW.BAU",
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "110"
+    },
+    "IM.1": {
+      "gpuntisID": "IM.1",
+      "name": "IM.1",
+      "localUntisID": "IM.1",
+      "longname": "Infrastrukturmanagement (M.Eng.), 1. Semester",
+      "restriction": "1. Semester",
+      "degree": "IFM.ME",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "111"
+    },
+    "IM.2": {
+      "gpuntisID": "IM.2",
+      "name": "IM.2",
+      "localUntisID": "IM.2",
+      "longname": "Infrastrukturmanagement (M.Eng.), 2. Semester",
+      "restriction": "2. Semester",
+      "degree": "IFM.ME",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "112"
+    },
+    "IM.3": {
+      "gpuntisID": "IM.3",
+      "name": "IM.3",
+      "localUntisID": "IM.3",
+      "longname": "Infrastrukturmanagement (M.Eng.), 3. Semester",
+      "restriction": "3. Semester",
+      "degree": "IFM.ME",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "113"
+    },
+    "MUK.BAU": {
+      "gpuntisID": "MUK.BAU",
+      "name": "MUK.BAU",
+      "localUntisID": "MUK.BAU",
+      "longname": "MUK - BAU Dienstleistungen",
+      "restriction": "FB 01 BAU",
+      "degree": "MUK.DL",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "114"
+    },
+    "MUK.M": {
+      "gpuntisID": "MUK.M",
+      "name": "MUK.M",
+      "localUntisID": "MUK.M",
+      "longname": "MuK Allg.Master",
+      "restriction": "Master Veranst.",
+      "degree": "MUK.DL",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "115"
+    },
+    "TERMINE.BAU": {
+      "gpuntisID": "TERMINE.BAU",
+      "name": "TERMINE.BAU",
+      "localUntisID": "TERMINE.BAU",
+      "longname": "Termine",
+      "restriction": "Termine",
+      "degree": "DIV.BAU",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "116"
+    },
+    "ZV.BAU": {
+      "gpuntisID": "ZV.BAU",
+      "name": "ZV.BAU",
+      "localUntisID": "ZV.BAU",
+      "longname": "Zus\u00e4tzliche Veranstaltungen",
+      "restriction": "Zustatzveranst.",
+      "degree": "DIV.BAU",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "117"
+    },
+    "A.6.BB": {
+      "gpuntisID": "A.6.BB",
+      "name": "A.6.BB",
+      "localUntisID": "A.6.BB",
+      "longname": "Architektur (B.Eng.), 6. Semester, Bauen im Bestand",
+      "restriction": "6. Sem., BB",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "118"
+    },
+    "A.6.BP": {
+      "gpuntisID": "A.6.BP",
+      "name": "A.6.BP",
+      "localUntisID": "A.6.BP",
+      "longname": "Architektur (B.Eng.), 6. Semester, Baumanagement Projektsteuerung",
+      "restriction": "6. Sem, BMPS",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "119"
+    },
+    "A.4.BB": {
+      "gpuntisID": "A.4.BB",
+      "name": "A.4.BB",
+      "localUntisID": "A.4.BB",
+      "longname": "Architektur (B.Eng.), 4. Semester, Bauen im Bestand",
+      "restriction": "4. Sem., BB",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "120"
+    },
+    "A.4.BP": {
+      "gpuntisID": "A.4.BP",
+      "name": "A.4.BP",
+      "localUntisID": "A.4.BP",
+      "longname": "Architektur (B.Eng.), 4. Semester, Baumanagement Projektsteuerung",
+      "restriction": "4. Sem., BMPS",
+      "degree": "A.BE.2012",
+      "grid": "Haupt-Zeitraster",
+      "gridID": "1",
+      "id": "121"
+    },
+    "KW.BAU": {
+      "gpuntisID": "KW.BAU",
+      "name": "KW.BAU",
+      "localUntisID": "KW.BAU",
+      "longname": "Klausurwochen, Alle",
+      "restriction": "FB BAU, alle",
+      "degree": "KW.BAU",
+      "grid": "Klausurwochen",
+      "gridID": "2",
+      "id": "122"
     }
   },
   "rooms": {
@@ -1457,2154 +1937,2423 @@
   },
   "subjects": {
     "BAU_BP3_P1": {
-      "gpuntisID": "SU_BP3_P1",
+      "gpuntisID": "BP3_P1",
       "name": "BP3_P1",
       "longname": "Bahnplanung PC-gest\u00fctzt",
       "subjectNo": "BP3_P",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "396"
     },
     "BAU_AB1": {
-      "gpuntisID": "SU_AB1",
+      "gpuntisID": "AB1",
       "name": "AB1",
       "longname": "Ausbau I",
       "subjectNo": "TA1A",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "397"
     },
     "BAU_AB2": {
-      "gpuntisID": "SU_AB2",
+      "gpuntisID": "AB2",
       "name": "AB2",
       "longname": "Ausbau II",
       "subjectNo": "TA2A",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "398"
     },
     "BAU_AFWBS": {
-      "gpuntisID": "SU_AFWBS",
+      "gpuntisID": "AFWBS",
       "name": "AFWBS",
       "longname": "Abfallwirtschaft und Altlasten \/ Bodenschutz",
       "subjectNo": "IM 2.4",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "399"
     },
     "BAU_AK": {
-      "gpuntisID": "SU_AK",
+      "gpuntisID": "AK",
       "name": "AK",
       "longname": "Architekturkommunikation",
       "subjectNo": "AK",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "400"
     },
     "BAU_AKfK": {
-      "gpuntisID": "SU_AKfK",
+      "gpuntisID": "AKfK",
       "name": "AKfK",
       "longname": "Arbeitsschutzfachliche Kenntnisse f\u00fcr Koor",
       "subjectNo": "AKfK",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "401"
     },
     "BAU_AMT": {
-      "gpuntisID": "SU_AMT",
+      "gpuntisID": "AMT",
       "name": "AMT",
       "longname": "Ausgabe Masterthesis",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "402"
     },
     "BAU_ARTSVA": {
-      "gpuntisID": "SU_ARTSVA",
+      "gpuntisID": "ARTSVA",
       "name": "ARTSVA",
       "longname": "Ausr\u00fcstungstechnik von Schienenverkehrsanlagen",
       "subjectNo": "IM 3.7",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "403"
     },
     "BAU_AT": {
-      "gpuntisID": "SU_AT",
+      "gpuntisID": "AT",
       "name": "AT",
       "longname": "Architekturtheorie",
       "subjectNo": "AT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "404"
     },
     "BAU_Ausbaugewerke": {
-      "gpuntisID": "SU_Ausbaugewerke",
+      "gpuntisID": "Ausbaugewerke",
       "name": "Ausbaugewerke",
       "longname": "Ausbaugewerke",
       "subjectNo": "AB",
       "description": "ARC.BAU",
-      "fieldID": "52"
+      "fieldID": "52",
+      "id": "405"
     },
     "BAU_AVA": {
-      "gpuntisID": "SU_AVA",
+      "gpuntisID": "AVA",
       "name": "AVA",
       "longname": "Ausschreibung, Vergabe, Abrechnung",
       "subjectNo": "AVAB",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "406"
     },
     "BAU_AVAM": {
-      "gpuntisID": "SU_AVAM",
+      "gpuntisID": "AVAM",
       "name": "AVAM",
       "longname": "Ausschreibung, Vergabe, Abrechnung M",
       "subjectNo": "AVAM",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "407"
     },
     "BAU_BA": {
-      "gpuntisID": "SU_BA",
+      "gpuntisID": "BA",
       "name": "BA",
       "longname": "Bauaufnahme",
       "subjectNo": "BAUF",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "408"
     },
     "BAU_BAWTA": {
-      "gpuntisID": "SU_BAWTA",
+      "gpuntisID": "BAWTA",
       "name": "BAWTA",
       "longname": "Betrieb von abwassertechnischen Anlagen",
       "subjectNo": "IM 2.3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "409"
     },
     "BAU_BB": {
-      "gpuntisID": "SU_BB",
+      "gpuntisID": "BB",
       "name": "BB",
       "longname": "Br\u00fcckenbau",
       "subjectNo": "BB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "410"
     },
     "BAU_BD": {
-      "gpuntisID": "SU_BD",
+      "gpuntisID": "BD",
       "name": "BD",
       "longname": "Baudynamik",
       "subjectNo": "BD",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "411"
     },
     "BAU_Besprech": {
-      "gpuntisID": "SU_Besprech",
+      "gpuntisID": "Besprech",
       "name": "Besprech",
       "longname": "Besprechung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "412"
     },
     "BAU_BESPRECH": {
-      "gpuntisID": "SU_BESPRECH",
+      "gpuntisID": "BESPRECH",
       "name": "BESPRECH",
       "longname": "Besprechung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "412"
     },
     "BAU_BESPRECH.KV": {
-      "gpuntisID": "SU_BESPRECH.KV",
+      "gpuntisID": "BESPRECH.KV",
       "name": "BESPRECH.KV",
       "longname": "Klausurvorbesprechung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "413"
     },
     "BAU_BESUCH": {
-      "gpuntisID": "SU_BESUCH",
+      "gpuntisID": "BESUCH",
       "name": "BESUCH",
       "longname": "Besuch einer Schule",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "414"
     },
     "BAU_BF": {
-      "gpuntisID": "SU_BF",
+      "gpuntisID": "BF",
       "name": "BF",
       "longname": "Bauforum",
       "subjectNo": "BF",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "415"
     },
     "BAU_BG": {
-      "gpuntisID": "SU_BG",
+      "gpuntisID": "BG",
       "name": "BG",
       "longname": "Baugeschichte",
       "subjectNo": "BAGE",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "416"
     },
     "BAU_BGDP": {
-      "gpuntisID": "SU_BGDP",
+      "gpuntisID": "BGDP",
       "name": "BGDP",
       "longname": "Baugeschichte und Denkmalpflege",
       "subjectNo": "BGDP",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "417"
     },
     "BAU_BGG": {
-      "gpuntisID": "SU_BGG",
+      "gpuntisID": "BGG",
       "name": "BGG",
       "longname": "Baugrund und Gr\u00fcndungen",
       "subjectNo": "BGGR",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "418"
     },
     "BAU_BI1": {
-      "gpuntisID": "SU_BI1",
+      "gpuntisID": "BI1",
       "name": "BI1",
       "longname": "Bauinformatik I",
       "subjectNo": "BIN1",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "419"
     },
     "BAU_BI2": {
-      "gpuntisID": "SU_BI2",
+      "gpuntisID": "BI2",
       "name": "BI2",
       "longname": "Bauinformatik II",
       "subjectNo": "BIN2",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "420"
     },
     "BAU_BIM-Projekt": {
-      "gpuntisID": "SU_BIM-Projekt",
+      "gpuntisID": "BIM-Projekt",
       "name": "BIM-Projekt",
       "longname": "BIM-Projekt",
       "subjectNo": "BIMP",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "421"
     },
     "BAU_BINM": {
-      "gpuntisID": "SU_BINM",
+      "gpuntisID": "BINM",
       "name": "BINM",
       "longname": "Bauinformatik M",
       "subjectNo": "BINM",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "422"
     },
     "BAU_BK\/BS": {
-      "gpuntisID": "SU_BK\/BS",
+      "gpuntisID": "BK\/BS",
       "name": "BK\/BS",
       "longname": "Baukonstruktion \/ Brandschutz",
       "subjectNo": "BK\/BS",
       "description": "BK.BAU",
-      "fieldID": "54"
+      "fieldID": "54",
+      "id": "423"
     },
     "BAU_BK1": {
-      "gpuntisID": "SU_BK1",
+      "gpuntisID": "BK1",
       "name": "BK1",
       "longname": "Baukonstruktion I",
       "subjectNo": "BKO1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "424"
     },
     "BAU_BK2": {
-      "gpuntisID": "SU_BK2",
+      "gpuntisID": "BK2",
       "name": "BK2",
       "longname": "Baukonstruktion II",
       "subjectNo": "BK2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "425"
     },
     "BAU_BK3": {
-      "gpuntisID": "SU_BK3",
+      "gpuntisID": "BK3",
       "name": "BK3",
       "longname": "Baukonstruktion III",
       "subjectNo": "BK3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "426"
     },
     "BAU_BKC": {
-      "gpuntisID": "SU_BKC",
+      "gpuntisID": "BKC",
       "name": "BKC",
       "longname": "Baukostencontrolling",
       "subjectNo": "BKC",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "427"
     },
     "BAU_BKP": {
-      "gpuntisID": "SU_BKP",
+      "gpuntisID": "BKP",
       "name": "BKP",
       "longname": "Baukonstruktionsprojekt",
       "subjectNo": "",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "428"
     },
     "BAU_BM": {
-      "gpuntisID": "SU_BM",
+      "gpuntisID": "BM",
       "name": "BM",
       "longname": "Betriebsmanagement",
       "subjectNo": "BM",
       "description": "BMPS.BAU",
-      "fieldID": "55"
+      "fieldID": "55",
+      "id": "429"
     },
     "BAU_BMA": {
-      "gpuntisID": "SU_BMA",
+      "gpuntisID": "BMA",
       "name": "BMA",
       "longname": "Baumanagement",
       "subjectNo": "BMAN",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "430"
     },
     "BAU_BME1": {
-      "gpuntisID": "SU_BME1",
+      "gpuntisID": "BME1",
       "name": "BME1",
       "longname": "Bodenmechanik I",
       "subjectNo": "BOD1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "431"
     },
     "BAU_BME1P": {
-      "gpuntisID": "SU_BME1P",
+      "gpuntisID": "BME1P",
       "name": "BME1P",
       "longname": "Bodenmechanik I + Praktikum",
       "subjectNo": "BOD1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "432"
     },
     "BAU_BME2": {
-      "gpuntisID": "SU_BME2",
+      "gpuntisID": "BME2",
       "name": "BME2",
       "longname": "Bodenmechanik II",
       "subjectNo": "BME2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "433"
     },
     "BAU_BPhys": {
-      "gpuntisID": "SU_BPhys",
+      "gpuntisID": "BPhys",
       "name": "BPhys",
       "longname": "Bauphysik",
       "subjectNo": "BPHY",
       "description": "BPBSK.BAU",
-      "fieldID": "3"
+      "fieldID": "3",
+      "id": "434"
     },
     "BAU_BPK": {
-      "gpuntisID": "SU_BPK",
+      "gpuntisID": "BPK",
       "name": "BPK",
       "longname": "Bauphysikalische Konzepte",
       "subjectNo": "BPK",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "435"
     },
     "BAU_BPM": {
-      "gpuntisID": "SU_BPM",
+      "gpuntisID": "BPM",
       "name": "BPM",
       "longname": "Berufspraktisches Modul",
       "subjectNo": "BPM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "436"
     },
     "BAU_BPMOV": {
-      "gpuntisID": "SU_BPMOV",
+      "gpuntisID": "BPMOV",
       "name": "BPMOV",
       "longname": "BPMO Vortr\u00e4ge",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "437"
     },
     "BAU_BPr\u00fcf": {
-      "gpuntisID": "SU_BPr\u00fcf",
+      "gpuntisID": "BPr\u00fcf",
       "name": "BPr\u00fcf",
       "longname": "Bachelorpr\u00fcfung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "438"
     },
     "BAU_BPS": {
-      "gpuntisID": "SU_BPS",
+      "gpuntisID": "BPS",
       "name": "BPS",
       "longname": "BPS Seminare",
       "subjectNo": "BPS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "439"
     },
     "BAU_BS": {
-      "gpuntisID": "SU_BS",
+      "gpuntisID": "BS",
       "name": "BS",
       "longname": "Brandschutz",
       "subjectNo": "",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "440"
     },
     "BAU_BSBS": {
-      "gpuntisID": "SU_BSBS",
+      "gpuntisID": "BSBS",
       "name": "BSBS",
       "longname": "Bausch\u00e4den und Bauwerkssanierung",
       "subjectNo": "BSBS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "441"
     },
     "BAU_BSBT": {
-      "gpuntisID": "SU_BSBT",
+      "gpuntisID": "BSBT",
       "name": "BSBT",
       "longname": "Bahnsysteme und Bahntechnik",
       "subjectNo": "BSBT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "442"
     },
     "BAU_BSK": {
-      "gpuntisID": "SU_BSK",
+      "gpuntisID": "BSK",
       "name": "BSK",
       "longname": "Baustoffkunde",
       "subjectNo": "BSKU",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "443"
     },
     "BAU_BST1": {
-      "gpuntisID": "SU_BST1",
+      "gpuntisID": "BST1",
       "name": "BST1",
       "longname": "Baustatik I",
       "subjectNo": "BST1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "444"
     },
     "BAU_BST2": {
-      "gpuntisID": "SU_BST2",
+      "gpuntisID": "BST2",
       "name": "BST2",
       "longname": "Baustatik II",
       "subjectNo": "BST2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "445"
     },
     "BAU_BSVA": {
-      "gpuntisID": "SU_BSVA",
+      "gpuntisID": "BSVA",
       "name": "BSVA",
       "longname": "Betrieb von Schienenverkehrsanlagen",
       "subjectNo": "IM 2.2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "446"
     },
     "BAU_BT": {
-      "gpuntisID": "SU_BT",
+      "gpuntisID": "BT",
       "name": "BT",
       "longname": "Bahntunnel",
       "subjectNo": "TB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "447"
     },
     "BAU_BVBSM": {
-      "gpuntisID": "SU_BVBSM",
+      "gpuntisID": "BVBSM",
       "name": "BVBSM",
       "longname": "Bauverfahren und Baustellen Management M",
       "subjectNo": "BVBSM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "448"
     },
     "BAU_BVI": {
-      "gpuntisID": "SU_BVI",
+      "gpuntisID": "BVI",
       "name": "BVI",
       "longname": "Berufungsvortr\u00e4ge Innenraum",
       "subjectNo": "BVI",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "449"
     },
     "BAU_BVort": {
-      "gpuntisID": "SU_BVort",
+      "gpuntisID": "BVort",
       "name": "BVort",
       "longname": "Berufungsvortr\u00e4ge",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "450"
     },
     "BAU_BWLM": {
-      "gpuntisID": "SU_BWLM",
+      "gpuntisID": "BWLM",
       "name": "BWLM",
       "longname": "Betriebswirtschaftslehre f\u00fcr Master Studenten",
       "subjectNo": "",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "451"
     },
     "BAU_BWTA": {
-      "gpuntisID": "SU_BWTA",
+      "gpuntisID": "BWTA",
       "name": "BWTA",
       "longname": "Betrieb von wassertechnischen Anlagen",
       "subjectNo": "IM 1.3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "452"
     },
     "BAU_ChinDel": {
-      "gpuntisID": "SU_ChinDel",
+      "gpuntisID": "ChinDel",
       "name": "ChinDel",
       "longname": "Chinesische Delegation",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "453"
     },
     "BAU_DIV": {
-      "gpuntisID": "SU_DIV",
+      "gpuntisID": "DIV",
       "name": "DIV",
       "longname": "Diverses",
       "subjectNo": "Diverses",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "454"
     },
     "BAU_DK": {
-      "gpuntisID": "SU_DK",
+      "gpuntisID": "DK",
       "name": "DK",
       "longname": "Detailkonstruktion",
       "subjectNo": "DK",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "455"
     },
     "BAU_E1": {
-      "gpuntisID": "SU_E1",
+      "gpuntisID": "E1",
       "name": "E1",
       "longname": "Entwerfen I",
       "subjectNo": "E1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "456"
     },
     "BAU_E2": {
-      "gpuntisID": "SU_E2",
+      "gpuntisID": "E2",
       "name": "E2",
       "longname": "Entwerfen II",
       "subjectNo": "E2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "457"
     },
     "BAU_E3": {
-      "gpuntisID": "SU_E3",
+      "gpuntisID": "E3",
       "name": "E3",
       "longname": "Entwerfen III",
       "subjectNo": "E3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "458"
     },
     "BAU_E4": {
-      "gpuntisID": "SU_E4",
+      "gpuntisID": "E4",
       "name": "E4",
       "longname": "Entwerfen IV",
       "subjectNo": "E4",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "459"
     },
     "BAU_E5": {
-      "gpuntisID": "SU_E5",
+      "gpuntisID": "E5",
       "name": "E5",
       "longname": "Entwerfen V (Projekt zur Vorbereitung BA-Thesis)",
       "subjectNo": "E5",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "460"
     },
     "BAU_EBB": {
-      "gpuntisID": "SU_EBB",
+      "gpuntisID": "EBB",
       "name": "EBB",
       "longname": "Einf\u00fchrung in den Br\u00fcckenbau",
       "subjectNo": "EBRB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "461"
     },
     "BAU_EBK": {
-      "gpuntisID": "SU_EBK",
+      "gpuntisID": "EBK",
       "name": "EBK",
       "longname": "Ert\u00fcchtigung bestehender Konstruktionen",
       "subjectNo": "EBK",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "462"
     },
     "BAU_EBST": {
-      "gpuntisID": "SU_EBST",
+      "gpuntisID": "EBST",
       "name": "EBST",
       "longname": "Erweiterte Baustofftechnologie",
       "subjectNo": "EBST",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "463"
     },
     "BAU_EDV-Analytik": {
-      "gpuntisID": "SU_EDV-Analytik",
+      "gpuntisID": "EDV-Analytik",
       "name": "EDV-Analytik",
       "longname": "EDV-Anwendung in der Wasserwirtschaft und Siedlungswasserwirtschaft",
       "subjectNo": "EDVV-A",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "464"
     },
     "BAU_EDVV": {
-      "gpuntisID": "SU_EDVV",
+      "gpuntisID": "EDVV",
       "name": "EDVV",
       "longname": "EDV-Anwendungen im Verkehr",
       "subjectNo": "EDVV",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "465"
     },
     "BAU_EDVWVA": {
-      "gpuntisID": "SU_EDVWVA",
+      "gpuntisID": "EDVWVA",
       "name": "EDVWVA",
       "longname": "EDV-Anlatytik",
       "subjectNo": "EDVWVA",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "466"
     },
     "BAU_EDVWW": {
-      "gpuntisID": "SU_EDVWW",
+      "gpuntisID": "EDVWW",
       "name": "EDVWW",
       "longname": "EDV-Anwendungen in der Wasserwirtschaft und Siedlungswasserwirtschaft",
       "subjectNo": "WAS",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "467"
     },
     "BAU_EE": {
-      "gpuntisID": "SU_EE",
+      "gpuntisID": "EE",
       "name": "EE",
       "longname": "Einf\u00fchrung ins Entwerfen",
       "subjectNo": "EENT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "468"
     },
     "BAU_EE-EE": {
-      "gpuntisID": "SU_EE-EE",
+      "gpuntisID": "EE-EE",
       "name": "EE-EE",
       "longname": "Erneuerbare Energien-Energieeffizienz",
       "subjectNo": "",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "469"
     },
     "BAU_EEB": {
-      "gpuntisID": "SU_EEB",
+      "gpuntisID": "EEB",
       "name": "EEB",
       "longname": "Energieeffizientes Bauen",
       "subjectNo": "EEBA",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "470"
     },
     "BAU_EEB2": {
-      "gpuntisID": "SU_EEB2",
+      "gpuntisID": "EEB2",
       "name": "EEB2",
       "longname": "Energieeffizientes Bauen II",
       "subjectNo": "EEB2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "471"
     },
     "BAU_EEEE": {
-      "gpuntisID": "SU_EEEE",
+      "gpuntisID": "EEEE",
       "name": "EEEE",
       "longname": "Erneuerbare Energien - Energieeffizienz",
       "subjectNo": "EEEE",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "472"
     },
     "BAU_EEG": {
-      "gpuntisID": "SU_EEG",
+      "gpuntisID": "EEG",
       "name": "EEG",
       "longname": "Energieeffizienz von Geb\u00e4uden",
       "subjectNo": "EEB2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "473"
     },
     "BAU_EG": {
-      "gpuntisID": "SU_EG",
+      "gpuntisID": "EG",
       "name": "EG",
       "longname": "Experimentelles Gestalten",
       "subjectNo": "EXGE",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "474"
     },
     "BAU_EIRG": {
-      "gpuntisID": "SU_EIRG",
+      "gpuntisID": "EIRG",
       "name": "EIRG",
       "longname": "Entwerfen und Innenraumgestaltung",
       "subjectNo": "EIRG",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "475"
     },
     "BAU_EM1": {
-      "gpuntisID": "SU_EM1",
+      "gpuntisID": "EM1",
       "name": "EM1",
       "longname": "Entwerfen M I - St\u00e4dtebau",
       "subjectNo": "EM1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "476"
     },
     "BAU_EM2": {
-      "gpuntisID": "SU_EM2",
+      "gpuntisID": "EM2",
       "name": "EM2",
       "longname": "Entwerfen M II - Hochbau",
       "subjectNo": "EM2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "477"
     },
     "BAU_EM3": {
-      "gpuntisID": "SU_EM3",
+      "gpuntisID": "EM3",
       "name": "EM3",
       "longname": "Entwerfen M III - Bauen im Bestand mit Detailkonstruktion",
       "subjectNo": "EM3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "478"
     },
     "BAU_ENE": {
-      "gpuntisID": "SU_ENE",
+      "gpuntisID": "ENE",
       "name": "ENE",
       "longname": "Energetisches Entwerfen",
       "subjectNo": "EEB2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "479"
     },
     "BAU_Eng.o.C.E.": {
-      "gpuntisID": "SU_Eng.o.C.E.",
+      "gpuntisID": "Eng.o.C.E.",
       "name": "Eng.o.C.E.",
       "longname": "Englisch of Civil Engineering",
       "subjectNo": "ENG1",
       "description": "SPR",
-      "fieldID": "9"
+      "fieldID": "9",
+      "id": "480"
     },
     "BAU_EPS": {
-      "gpuntisID": "SU_EPS",
+      "gpuntisID": "EPS",
       "name": "EPS",
       "longname": "Entwerfen und Projektsteuerung",
       "subjectNo": "EPS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "481"
     },
     "BAU_EX": {
-      "gpuntisID": "SU_EX",
+      "gpuntisID": "EX",
       "name": "EX",
       "longname": "Exkursion",
       "subjectNo": "EX",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "482"
     },
     "BAU_FBR": {
-      "gpuntisID": "SU_FBR",
+      "gpuntisID": "FBR",
       "name": "FBR",
       "longname": "Fachbereichsrat",
       "subjectNo": "FBR",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "483"
     },
     "BAU_FM": {
-      "gpuntisID": "SU_FM",
+      "gpuntisID": "FM",
       "name": "FM",
       "longname": "Facility Management",
       "subjectNo": "FM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "484"
     },
     "BAU_Fr": {
-      "gpuntisID": "SU_Fr",
+      "gpuntisID": "Fr",
       "name": "Fr",
       "longname": "Franz\u00f6sisch",
       "subjectNo": "Fr",
       "description": "SPR",
-      "fieldID": "9"
+      "fieldID": "9",
+      "id": "485"
     },
     "BAU_FZ": {
-      "gpuntisID": "SU_FZ",
+      "gpuntisID": "FZ",
       "name": "FZ",
       "longname": "Freies Zeichnen",
       "subjectNo": "FZPT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "486"
     },
     "BAU_GASI": {
-      "gpuntisID": "SU_GASI",
+      "gpuntisID": "GASI",
       "name": "GASI",
       "longname": "GIS-Anwendungen in der st\u00e4dtischen Infrastruktur",
       "subjectNo": "IM 3.9",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "487"
     },
     "BAU_GB1": {
-      "gpuntisID": "SU_GB1",
+      "gpuntisID": "GB1",
       "name": "GB1",
       "longname": "Grundbau I",
       "subjectNo": "GRB1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "488"
     },
     "BAU_GB2": {
-      "gpuntisID": "SU_GB2",
+      "gpuntisID": "GB2",
       "name": "GB2",
       "longname": "Grundbau II",
       "subjectNo": "GRB2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "489"
     },
     "BAU_GD": {
-      "gpuntisID": "SU_GD",
+      "gpuntisID": "GD",
       "name": "GD",
       "longname": "Girl's Day",
       "subjectNo": "GD",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "490"
     },
     "BAU_GDDG": {
-      "gpuntisID": "SU_GDDG",
+      "gpuntisID": "GDDG",
       "name": "GDDG",
       "longname": "Graphische Darstellung \/ Darstellende Geometrie",
       "subjectNo": "M1G",
       "description": "MAT",
-      "fieldID": "10"
+      "fieldID": "10",
+      "id": "491"
     },
     "BAU_GISIM": {
-      "gpuntisID": "SU_GISIM",
+      "gpuntisID": "GISIM",
       "name": "GISIM",
       "longname": "GIS-Anwendungen i. d. Infrastruktur",
       "subjectNo": "IM3.1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "492"
     },
     "BAU_GISVM": {
-      "gpuntisID": "SU_GISVM",
+      "gpuntisID": "GISVM",
       "name": "GISVM",
       "longname": "Geographische Informationssysteme + Vermessung",
       "subjectNo": "GISVM",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "493"
     },
     "BAU_GK": {
-      "gpuntisID": "SU_GK",
+      "gpuntisID": "GK",
       "name": "GK",
       "longname": "Geb\u00e4udekunde",
       "subjectNo": "GK",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "494"
     },
     "BAU_GM": {
-      "gpuntisID": "SU_GM",
+      "gpuntisID": "GM",
       "name": "GM",
       "longname": "Geometrie",
       "subjectNo": "GEOM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "495"
     },
     "BAU_G\u00d6kologie": {
-      "gpuntisID": "SU_G\u00d6kologie",
+      "gpuntisID": "G\u00d6kologie",
       "name": "G\u00d6kologie",
       "longname": "Grundlagen der \u00d6kologie",
       "subjectNo": "G\u00d6KL",
       "description": "NAT",
-      "fieldID": "17"
+      "fieldID": "17",
+      "id": "496"
     },
     "BAU_G\u00d6konomie": {
-      "gpuntisID": "SU_G\u00d6konomie",
+      "gpuntisID": "G\u00d6konomie",
       "name": "G\u00d6konomie",
       "longname": "Grundlagen der \u00d6konomie",
       "subjectNo": "G\u00d6KM",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "497"
     },
     "BAU_GS": {
-      "gpuntisID": "SU_GS",
+      "gpuntisID": "GS",
       "name": "GS",
       "longname": "Geb\u00e4udesimulation",
       "subjectNo": "GS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "498"
     },
     "BAU_GT": {
-      "gpuntisID": "SU_GT",
+      "gpuntisID": "GT",
       "name": "GT",
       "longname": "Geotechnik",
       "subjectNo": "GT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "499"
     },
     "BAU_GUPVWB": {
-      "gpuntisID": "SU_GUPVWB",
+      "gpuntisID": "GUPVWB",
       "name": "GUPVWB",
       "longname": "Genhemigungs- u. Umweltplanung im Vehrswegebau",
       "subjectNo": "GUPVWB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "500"
     },
     "BAU_GV": {
-      "gpuntisID": "SU_GV",
+      "gpuntisID": "GV",
       "name": "GV",
       "longname": "Grundlagen Verkehr",
       "subjectNo": "GLVE",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "501"
     },
     "BAU_GV\/GWW": {
-      "gpuntisID": "SU_GV\/GWW",
+      "gpuntisID": "GV\/GWW",
       "name": "GV\/GWW",
       "longname": "Grundl. Verkehr \/ Grundl. Wasser",
       "subjectNo": "GLVE\/GLWA",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "502"
     },
     "BAU_GWW": {
-      "gpuntisID": "SU_GWW",
+      "gpuntisID": "GWW",
       "name": "GWW",
       "longname": "Grundlagen Wasser",
       "subjectNo": "GLWA",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "503"
     },
     "BAU_HBG": {
-      "gpuntisID": "SU_HBG",
+      "gpuntisID": "HBG",
       "name": "HBG",
       "longname": "Holzbau - Grundlagen",
       "subjectNo": "HBG",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "504"
     },
     "BAU_HIT-A": {
-      "gpuntisID": "SU_HIT-A",
+      "gpuntisID": "HIT-A",
       "name": "HIT-A",
       "longname": "Hochschuleinformationstage - Architektur",
       "subjectNo": "HIT",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "505"
     },
     "BAU_HIT.A": {
-      "gpuntisID": "SU_HIT.A",
+      "gpuntisID": "HIT.A",
       "name": "HIT.A",
       "longname": "Hochschuleinformationstage - Architektur",
       "subjectNo": "HIT",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "506"
     },
     "BAU_HIT.B": {
-      "gpuntisID": "SU_HIT.B",
+      "gpuntisID": "HIT.B",
       "name": "HIT.B",
       "longname": "Hochschuleinformationstage - Bauwesen",
       "subjectNo": "HIT",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "507"
     },
     "BAU_HWB": {
-      "gpuntisID": "SU_HWB",
+      "gpuntisID": "HWB",
       "name": "HWB",
       "longname": "Hydrologie und Wasserbau",
       "subjectNo": "",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "508"
     },
     "BAU_IAWR": {
-      "gpuntisID": "SU_IAWR",
+      "gpuntisID": "IAWR",
       "name": "IAWR",
       "longname": "Industrieabwasserreinigung, Technologien und Betrieb",
       "subjectNo": "IM 3.X",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "509"
     },
     "BAU_IC": {
-      "gpuntisID": "SU_IC",
+      "gpuntisID": "IC",
       "name": "IC",
       "longname": "International Consulting",
       "subjectNo": "IC",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "510"
     },
     "BAU_ICCS": {
-      "gpuntisID": "SU_ICCS",
+      "gpuntisID": "ICCS",
       "name": "ICCS",
       "longname": "Intercultural Communication Skills",
       "subjectNo": "ICCS",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "511"
     },
     "BAU_IH": {
-      "gpuntisID": "SU_IH",
+      "gpuntisID": "IH",
       "name": "IH",
       "longname": "Ingenieurhydrologie",
       "subjectNo": "",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "512"
     },
     "BAU_IHB": {
-      "gpuntisID": "SU_IHB",
+      "gpuntisID": "IHB",
       "name": "IHB",
       "longname": "Ingenieurholzbau",
       "subjectNo": "IHB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "513"
     },
     "BAU_IMBS": {
-      "gpuntisID": "SU_IMBS",
+      "gpuntisID": "IMBS",
       "name": "IMBS",
       "longname": "Ingenieurmethoden im Brandschutz",
       "subjectNo": "IMBS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "514"
     },
     "BAU_IMM1": {
-      "gpuntisID": "SU_IMM1",
+      "gpuntisID": "IMM1",
       "name": "IMM1",
       "longname": "Ingenieurmathematik M I",
       "subjectNo": "IMM1",
       "description": "MAT",
-      "fieldID": "10"
+      "fieldID": "10",
+      "id": "515"
     },
     "BAU_Internationaler Schienenverkehr": {
-      "gpuntisID": "SU_Internationaler Schienenverkehr",
+      "gpuntisID": "Internationaler Schienenverkehr",
       "name": "Internationaler Schienenverkehr",
       "longname": "Internationaler Schienenverkehr",
       "subjectNo": "ISV",
       "description": "VKT.BAU",
-      "fieldID": "62"
+      "fieldID": "62",
+      "id": "516"
     },
     "BAU_ISHSVA": {
-      "gpuntisID": "SU_ISHSVA",
+      "gpuntisID": "ISHSVA",
       "name": "ISHSVA",
       "longname": "Instandhaltung von Schienenverkehrsanlagen",
       "subjectNo": "IM 3.6",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "517"
     },
     "BAU_ITWO": {
-      "gpuntisID": "SU_ITWO",
+      "gpuntisID": "ITWO",
       "name": "ITWO",
       "longname": "ITWO",
       "subjectNo": "",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "518"
     },
     "BAU_IWW": {
-      "gpuntisID": "SU_IWW",
+      "gpuntisID": "IWW",
       "name": "IWW",
       "longname": "Integrale Wasserwirtschaft",
       "subjectNo": "IM 3.3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "519"
     },
     "BAU_KCM": {
-      "gpuntisID": "SU_KCM",
+      "gpuntisID": "KCM",
       "name": "KCM",
       "longname": "Kalkulation und Claim Management",
       "subjectNo": "KCM",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "520"
     },
     "BAU_KOL.B": {
-      "gpuntisID": "SU_KOL.B",
+      "gpuntisID": "KOL.B",
       "name": "KOL.B",
       "longname": "Kolloquium Bachelorarbeit",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "521"
     },
     "BAU_KOL.M": {
-      "gpuntisID": "SU_KOL.M",
+      "gpuntisID": "KOL.M",
       "name": "KOL.M",
       "longname": "Kolloquium Masterarbeit",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "522"
     },
     "BAU_KV": {
-      "gpuntisID": "SU_KV",
+      "gpuntisID": "KV",
       "name": "KV",
       "longname": "Klausurvorbesprechung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "523"
     },
     "BAU_LKG": {
-      "gpuntisID": "SU_LKG",
+      "gpuntisID": "LKG",
       "name": "LKG",
       "longname": "L\u00fcftung und Klimatisierung von Geb\u00e4uden",
       "subjectNo": "TA3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "524"
     },
     "BAU_MAN": {
-      "gpuntisID": "SU_MAN",
+      "gpuntisID": "MAN",
       "name": "MAN",
       "longname": "Management VOB",
       "subjectNo": "MANV",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "525"
     },
     "BAU_MAT1": {
-      "gpuntisID": "SU_MAT1",
+      "gpuntisID": "MAT1",
       "name": "MAT1",
       "longname": "Mathematik I",
       "subjectNo": "MAT1",
       "description": "MAT",
-      "fieldID": "10"
+      "fieldID": "10",
+      "id": "526"
     },
     "BAU_MAT2": {
-      "gpuntisID": "SU_MAT2",
+      "gpuntisID": "MAT2",
       "name": "MAT2",
       "longname": "Mathematik II",
       "subjectNo": "MAT2",
       "description": "MAT",
-      "fieldID": "10"
+      "fieldID": "10",
+      "id": "527"
     },
     "BAU_MB": {
-      "gpuntisID": "SU_MB",
+      "gpuntisID": "MB",
       "name": "MB",
       "longname": "Massivbau",
       "subjectNo": "MABA",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "528"
     },
     "BAU_MB2": {
-      "gpuntisID": "SU_MB2",
+      "gpuntisID": "MB2",
       "name": "MB2",
       "longname": "Massivbau II",
       "subjectNo": "MB2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "529"
     },
     "BAU_MBP": {
-      "gpuntisID": "SU_MBP",
+      "gpuntisID": "MBP",
       "name": "MBP",
       "longname": "Massivbau Projekt",
       "subjectNo": "MBPR",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "530"
     },
     "BAU_MIK": {
-      "gpuntisID": "SU_MIK",
+      "gpuntisID": "MIK",
       "name": "MIK",
       "longname": "MIK",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "531"
     },
     "BAU_M\u00dcTWP": {
-      "gpuntisID": "SU_M\u00dcTWP",
+      "gpuntisID": "M\u00dcTWP",
       "name": "M\u00dcTWP",
       "longname": "Material\u00fcbergreifende Tragwerksplanung",
       "subjectNo": "MTWP",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "532"
     },
     "BAU_MWB": {
-      "gpuntisID": "SU_MWB",
+      "gpuntisID": "MWB",
       "name": "MWB",
       "longname": "Mauerwerksbau",
       "subjectNo": "MWB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "533"
     },
     "BAU_NB": {
-      "gpuntisID": "SU_NB",
+      "gpuntisID": "NB",
       "name": "NB",
       "longname": "Nachhaltiges Bauen",
       "subjectNo": "NB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "534"
     },
     "BAU_NMBW": {
-      "gpuntisID": "SU_NMBW",
+      "gpuntisID": "NMBW",
       "name": "NMBW",
       "longname": "Numerische Methoden im Bauwesen",
       "subjectNo": "NMBW",
       "description": "MAT",
-      "fieldID": "10"
+      "fieldID": "10",
+      "id": "535"
     },
     "BAU_NN.BAU": {
-      "gpuntisID": "SU_NN.BAU",
+      "gpuntisID": "NN.BAU",
       "name": "NN.BAU",
       "longname": "Bau Veranstaltung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "536"
     },
     "BAU_\u00d6BR": {
-      "gpuntisID": "SU_\u00d6BR",
+      "gpuntisID": "\u00d6BR",
       "name": "\u00d6BR",
       "longname": "\u00d6ffent. Baurecht",
       "subjectNo": "IM 1.6",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "537"
     },
     "BAU_OMNF": {
-      "gpuntisID": "SU_OMNF",
+      "gpuntisID": "OMNF",
       "name": "OMNF",
       "longname": "Organisationsmodelle und nachhaltige Finanzierung",
       "subjectNo": "IM 1.4",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "538"
     },
     "BAU_PF": {
-      "gpuntisID": "SU_PF",
+      "gpuntisID": "PF",
       "name": "PF",
       "longname": "Personalf\u00fchrung",
       "subjectNo": "PF",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "539"
     },
     "BAU_PG": {
-      "gpuntisID": "SU_PG",
+      "gpuntisID": "PG",
       "name": "PG",
       "longname": "Plastisches Gestalten",
       "subjectNo": "E1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "540"
     },
     "BAU_PGP": {
-      "gpuntisID": "SU_PGP",
+      "gpuntisID": "PGP",
       "name": "PGP",
       "longname": "Projekt Genehmigungsplanung",
       "subjectNo": "PGP",
       "description": "REC",
-      "fieldID": "8"
+      "fieldID": "8",
+      "id": "541"
     },
     "BAU_PIBIM": {
-      "gpuntisID": "SU_PIBIM",
+      "gpuntisID": "PIBIM",
       "name": "PIBIM",
       "longname": "Planungsintegration \/ Building Information Modeling",
       "subjectNo": "PIBIM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "542"
     },
     "BAU_PISA": {
-      "gpuntisID": "SU_PISA",
+      "gpuntisID": "PISA",
       "name": "PISA",
       "longname": "Projekt Infrastrukturmanagement: Allgemein",
       "subjectNo": "IM 3.2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "543"
     },
     "BAU_PISP": {
-      "gpuntisID": "SU_PISP",
+      "gpuntisID": "PISP",
       "name": "PISP",
       "longname": "Projekt Infrastrukturplanung",
       "subjectNo": "PISP",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "544"
     },
     "BAU_PISV": {
-      "gpuntisID": "SU_PISV",
+      "gpuntisID": "PISV",
       "name": "PISV",
       "longname": "Projekt Infrastukturmanagement: Verkehr",
       "subjectNo": "IM 3.2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "545"
     },
     "BAU_PISW": {
-      "gpuntisID": "SU_PISW",
+      "gpuntisID": "PISW",
       "name": "PISW",
       "longname": "Projekt Infrastukturmanagement: Wasser",
       "subjectNo": "IM 3.2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "546"
     },
     "BAU_PMVR": {
-      "gpuntisID": "SU_PMVR",
+      "gpuntisID": "PMVR",
       "name": "PMVR",
       "longname": "Projektmangement und Vergaberecht",
       "subjectNo": "IM 2.6",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "547"
     },
     "BAU_PS1": {
-      "gpuntisID": "SU_PS1",
+      "gpuntisID": "PS1",
       "name": "PS1",
       "longname": "Projektsteuerung I",
       "subjectNo": "PST1",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "548"
     },
     "BAU_PS2": {
-      "gpuntisID": "SU_PS2",
+      "gpuntisID": "PS2",
       "name": "PS2",
       "longname": "Projektsteuerung II",
       "subjectNo": "PST2",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "549"
     },
     "BAU_PSPM": {
-      "gpuntisID": "SU_PSPM",
+      "gpuntisID": "PSPM",
       "name": "PSPM",
       "longname": "Projektsteuerung mit Projekt",
       "subjectNo": "PSPM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "550"
     },
     "BAU_PT": {
-      "gpuntisID": "SU_PT",
+      "gpuntisID": "PT",
       "name": "PT",
       "longname": "Pr\u00e4sentationstechnik",
       "subjectNo": "TE2",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "551"
     },
     "BAU_PTWP": {
-      "gpuntisID": "SU_PTWP",
+      "gpuntisID": "PTWP",
       "name": "PTWP",
       "longname": "Projekt Tragwerksplanung",
       "subjectNo": "PTWP",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "552"
     },
     "BAU_PW": {
-      "gpuntisID": "SU_PW",
+      "gpuntisID": "PW",
       "name": "PW",
       "longname": "Projektwoche",
       "subjectNo": "PW",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "553"
     },
     "BAU_REC": {
-      "gpuntisID": "SU_REC",
+      "gpuntisID": "REC",
       "name": "REC",
       "longname": "Recht",
       "subjectNo": "RECH",
       "description": "REC",
-      "fieldID": "8"
+      "fieldID": "8",
+      "id": "554"
     },
     "BAU_REG": {
-      "gpuntisID": "SU_REG",
+      "gpuntisID": "REG",
       "name": "REG",
       "longname": "Regenerative Energien - Grundlagen",
       "subjectNo": "IM 1.4",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "555"
     },
     "BAU_REKK": {
-      "gpuntisID": "SU_REKK",
+      "gpuntisID": "REKK",
       "name": "REKK",
       "longname": "Regenerative Energien - kommunale Konzepte",
       "subjectNo": "IM 3.4",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "556"
     },
     "BAU_RGTD": {
-      "gpuntisID": "SU_RGTD",
+      "gpuntisID": "RGTD",
       "name": "RGTD",
       "longname": "Raum - Gestalt Technik Detail",
       "subjectNo": "RGTD",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "557"
     },
     "BAU_SA": {
-      "gpuntisID": "SU_SA",
+      "gpuntisID": "SA",
       "name": "SA",
       "longname": "Selfassement",
       "subjectNo": "SA",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "558"
     },
     "BAU_SB-ALT": {
-      "gpuntisID": "SU_SB-ALT",
+      "gpuntisID": "SB-ALT",
       "name": "SB-ALT",
       "longname": "St\u00e4dtebau (2006)",
       "subjectNo": "SB1-ALT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "559"
     },
     "BAU_SB2": {
-      "gpuntisID": "SU_SB2",
+      "gpuntisID": "SB2",
       "name": "SB2",
       "longname": "St\u00e4dtebau II",
       "subjectNo": "SB2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "560"
     },
     "BAU_SBEC3": {
-      "gpuntisID": "SU_SBEC3",
+      "gpuntisID": "SBEC3",
       "name": "SBEC3",
       "longname": "Stahlbau-Eurocode3",
       "subjectNo": "SBEC3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "561"
     },
     "BAU_SBGE": {
-      "gpuntisID": "SU_SBGE",
+      "gpuntisID": "SBGE",
       "name": "SBGE",
       "longname": "Stadtbaugeschichte",
       "subjectNo": "SBGE",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "562"
     },
     "BAU_SBGR": {
-      "gpuntisID": "SU_SBGR",
+      "gpuntisID": "SBGR",
       "name": "SBGR",
       "longname": "Stahlbau Grundlagen",
       "subjectNo": "SBGR",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "563"
     },
     "BAU_SBM": {
-      "gpuntisID": "SU_SBM",
+      "gpuntisID": "SBM",
       "name": "SBM",
       "longname": "Strategisches Bewerbungsmanagement",
       "subjectNo": "SBM",
       "description": "WIR-SOZ",
-      "fieldID": "26"
+      "fieldID": "26",
+      "id": "564"
     },
     "BAU_SBMfB": {
-      "gpuntisID": "SU_SBMfB",
+      "gpuntisID": "SBMfB",
       "name": "SBMfB",
       "longname": "Strategisches Bewerbungsmanagement f\u00fcr Bau",
       "subjectNo": "SBMfB",
       "description": "BMPS.BAU",
-      "fieldID": "55"
+      "fieldID": "55",
+      "id": "565"
     },
     "BAU_SBPW1": {
-      "gpuntisID": "SU_SBPW1",
+      "gpuntisID": "SBPW1",
       "name": "SBPW1",
       "longname": "Stadtbereichsplanung und Wohnbau I",
       "subjectNo": "SBPW1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "566"
     },
     "BAU_SBPW2": {
-      "gpuntisID": "SU_SBPW2",
+      "gpuntisID": "SBPW2",
       "name": "SBPW2",
       "longname": "Stadtbereichsplanung und Wohnbau II",
       "subjectNo": "SBPW2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "567"
     },
     "BAU_SBSE": {
-      "gpuntisID": "SU_SBSE",
+      "gpuntisID": "SBSE",
       "name": "SBSE",
       "longname": "Stra\u00dfenbetrieb und Stra\u00dfenerhaltung",
       "subjectNo": "IM 3.8",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "568"
     },
     "BAU_SBST": {
-      "gpuntisID": "SU_SBST",
+      "gpuntisID": "SBST",
       "name": "SBST",
       "longname": "Stahlbau und Stabilit\u00e4tstheorie",
       "subjectNo": "SBST",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "569"
     },
     "BAU_SBVK": {
-      "gpuntisID": "SU_SBVK",
+      "gpuntisID": "SBVK",
       "name": "SBVK",
       "longname": "Stahlbau- Verbindungen und Konstruktionen",
       "subjectNo": "SBVK",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "570"
     },
     "BAU_Schulung": {
-      "gpuntisID": "SU_Schulung",
+      "gpuntisID": "Schulung",
       "name": "Schulung",
       "longname": "Schulung",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "571"
     },
     "BAU_SE": {
-      "gpuntisID": "SU_SE",
+      "gpuntisID": "SE",
       "name": "SE",
       "longname": "St\u00e4dtebauliches Entwerfen",
       "subjectNo": "SE",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "572"
     },
     "BAU_Seminar": {
-      "gpuntisID": "SU_Seminar",
+      "gpuntisID": "Seminar",
       "name": "Seminar",
       "longname": "Seminar",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "573"
     },
     "BAU_Senatsitzung": {
-      "gpuntisID": "SU_Senatsitzung",
+      "gpuntisID": "Senatsitzung",
       "name": "Senatsitzung",
       "longname": "Senatsitzung",
       "subjectNo": "SS",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "574"
     },
     "BAU_SEPW": {
-      "gpuntisID": "SU_SEPW",
+      "gpuntisID": "SEPW",
       "name": "SEPW",
       "longname": "Studieneinf\u00fchrungsprojektwoche",
       "subjectNo": "SEPW",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "575"
     },
     "BAU_SGE": {
-      "gpuntisID": "SU_SGE",
+      "gpuntisID": "SGE",
       "name": "SGE",
       "longname": "Stegreifentwerfen",
       "subjectNo": "SGE",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "576"
     },
     "BAU_SGE1-ALT": {
-      "gpuntisID": "SU_SGE1-ALT",
+      "gpuntisID": "SGE1-ALT",
       "name": "SGE1-ALT",
       "longname": "Stegreifentwerfen I",
       "subjectNo": "SGE1-ALT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "577"
     },
     "BAU_SGE2-ALT": {
-      "gpuntisID": "SU_SGE2-ALT",
+      "gpuntisID": "SGE2-ALT",
       "name": "SGE2-ALT",
       "longname": "Stegreifentwerfen II",
       "subjectNo": "SGE2-ALT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "578"
     },
     "BAU_SGE3-ALT": {
-      "gpuntisID": "SU_SGE3-ALT",
+      "gpuntisID": "SGE3-ALT",
       "name": "SGE3-ALT",
       "longname": "Stegreifentwerfen III",
       "subjectNo": "SGE3-ALT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "579"
     },
     "BAU_SGMB": {
-      "gpuntisID": "SU_SGMB",
+      "gpuntisID": "SGMB",
       "name": "SGMB",
       "longname": "Sondergebiete des Massivbaus",
       "subjectNo": "SGMB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "580"
     },
     "BAU_SGSB1": {
-      "gpuntisID": "SU_SGSB1",
+      "gpuntisID": "SGSB1",
       "name": "SGSB1",
       "longname": "Sondergebiete des St\u00e4dtebaus I",
       "subjectNo": "SGSB1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "581"
     },
     "BAU_SGSB2": {
-      "gpuntisID": "SU_SGSB2",
+      "gpuntisID": "SGSB2",
       "name": "SGSB2",
       "longname": "Sondergebiete des St\u00e4dtebaus II",
       "subjectNo": "SGSB2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "582"
     },
     "BAU_SIT.FB": {
-      "gpuntisID": "SU_SIT.FB",
+      "gpuntisID": "SIT.FB",
       "name": "SIT.FB",
       "longname": "Fachbereichsratsitzung",
       "subjectNo": "FBR",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "583"
     },
     "BAU_SIT.SEN": {
-      "gpuntisID": "SU_SIT.SEN",
+      "gpuntisID": "SIT.SEN",
       "name": "SIT.SEN",
       "longname": "Senatsitzung",
       "subjectNo": "SS",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "584"
     },
     "BAU_SKfI": {
-      "gpuntisID": "SU_SKfI",
+      "gpuntisID": "SKfI",
       "name": "SKfI",
       "longname": "Soziale Kompetenz f\u00fcr Ingenieure",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "585"
     },
     "BAU_SM": {
-      "gpuntisID": "SU_SM",
+      "gpuntisID": "SM",
       "name": "SM",
       "longname": "Strategisches Management",
       "subjectNo": "",
       "description": "WIR",
-      "fieldID": "21"
+      "fieldID": "21",
+      "id": "586"
     },
     "BAU_SMAN": {
-      "gpuntisID": "SU_SMAN",
+      "gpuntisID": "SMAN",
       "name": "SMAN",
       "longname": "Strat. Manag.",
       "subjectNo": "IM 1.5",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "587"
     },
     "BAU_SP": {
-      "gpuntisID": "SU_SP",
+      "gpuntisID": "SP",
       "name": "SP",
       "longname": "Spanisch",
       "subjectNo": "SP",
       "description": "SPR",
-      "fieldID": "9"
+      "fieldID": "9",
+      "id": "588"
     },
     "BAU_SPBB": {
-      "gpuntisID": "SU_SPBB",
+      "gpuntisID": "SPBB",
       "name": "SPBB",
       "longname": "Spannbetonbau",
       "subjectNo": "SPBB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "589"
     },
     "BAU_ST": {
-      "gpuntisID": "SU_ST",
+      "gpuntisID": "ST",
       "name": "ST",
       "longname": "Stra\u00dfentunnel",
       "subjectNo": "TB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "590"
     },
     "BAU_STBB": {
-      "gpuntisID": "SU_STBB",
+      "gpuntisID": "STBB",
       "name": "STBB",
       "longname": "Stahbetonbau",
       "subjectNo": "STBB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "591"
     },
     "BAU_STEP": {
-      "gpuntisID": "SU_STEP",
+      "gpuntisID": "STEP",
       "name": "STEP",
       "longname": "Studieneinf\u00fchrungsprogram",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "592"
     },
     "BAU_STFIN": {
-      "gpuntisID": "SU_STFIN",
+      "gpuntisID": "STFIN",
       "name": "STFIN",
       "longname": "Studienfinanzierung",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "593"
     },
     "BAU_Stud.plus": {
-      "gpuntisID": "SU_Stud.plus",
+      "gpuntisID": "Stud.plus",
       "name": "Stud.plus",
       "longname": "Raumbelegung Studiumplus",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "594"
     },
     "BAU_SUWM": {
-      "gpuntisID": "SU_SUWM",
+      "gpuntisID": "SUWM",
       "name": "SUWM",
       "longname": "Symposium Umweltministerium",
       "subjectNo": "",
       "description": "BPBSK.BAU",
-      "fieldID": "3"
+      "fieldID": "3",
+      "id": "595"
     },
     "BAU_SW": {
-      "gpuntisID": "SU_SW",
+      "gpuntisID": "SW",
       "name": "SW",
       "longname": "Stra\u00dfenwesen",
       "subjectNo": "SW",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "596"
     },
     "BAU_SW1": {
-      "gpuntisID": "SU_SW1",
+      "gpuntisID": "SW1",
       "name": "SW1",
       "longname": "Stra\u00dfenwesen I",
       "subjectNo": "STW1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "597"
     },
     "BAU_SW2": {
-      "gpuntisID": "SU_SW2",
+      "gpuntisID": "SW2",
       "name": "SW2",
       "longname": "Stra\u00dfenwesen II",
       "subjectNo": "STW2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "598"
     },
     "BAU_SWW1": {
-      "gpuntisID": "SU_SWW1",
+      "gpuntisID": "SWW1",
       "name": "SWW1",
       "longname": "Siedlungswasserwirtschaft I",
       "subjectNo": "SWW1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "599"
     },
     "BAU_SWW2": {
-      "gpuntisID": "SU_SWW2",
+      "gpuntisID": "SWW2",
       "name": "SWW2",
       "longname": "Siedlungswasserwirtschaft II",
       "subjectNo": "SWW2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "600"
     },
     "BAU_SWW2-WV": {
-      "gpuntisID": "SU_SWW2-WV",
+      "gpuntisID": "SWW2-WV",
       "name": "SWW2-WV",
       "longname": "Siedlungswasserwirtschaft II - Wasserversorgung",
       "subjectNo": "SWW2-WV",
       "description": "SiWaWi.BAU",
-      "fieldID": "63"
+      "fieldID": "63",
+      "id": "601"
     },
     "BAU_SWW2 - AW": {
-      "gpuntisID": "SU_SWW2 - AW",
+      "gpuntisID": "SWW2 - AW",
       "name": "SWW2 - AW",
       "longname": "Siedlungswasserwirtschaft II - Abwasserbeh.",
       "subjectNo": "SWW2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "602"
     },
     "BAU_BP3_P": {
-      "gpuntisID": "SU_BP3_P",
+      "gpuntisID": "BP3_P",
       "name": "BP3_P",
       "longname": "Bahnplanung PC-gest\u00fctzt",
       "subjectNo": "BP3_P",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "603"
     },
     "BAU_TA2": {
-      "gpuntisID": "SU_TA2",
+      "gpuntisID": "TA2",
       "name": "TA2",
       "longname": "Technischer Ausbau II",
       "subjectNo": "",
       "description": "ARC.BAU",
-      "fieldID": "52"
+      "fieldID": "52",
+      "id": "604"
     },
     "BAU_TAIII": {
-      "gpuntisID": "SU_TAIII",
+      "gpuntisID": "TAIII",
       "name": "TAIII",
       "longname": "Technischer Ausbau III",
       "subjectNo": "TA3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "605"
     },
     "BAU_Tagesexkursion zur Spannbetonhalle": {
-      "gpuntisID": "SU_Tagesexkursion zur Spannbetonhalle",
+      "gpuntisID": "Tagesexkursion zur Spannbetonhalle",
       "name": "Tagesexkursion zur Spannbetonhalle",
       "longname": "Tagesexkursion zur Spannbetonhalle",
       "subjectNo": "",
       "description": "BK.BAU",
-      "fieldID": "54"
+      "fieldID": "54",
+      "id": "606"
     },
     "BAU_TAI": {
-      "gpuntisID": "SU_TAI",
+      "gpuntisID": "TAI",
       "name": "TAI",
       "longname": "Technischer Ausbau I",
       "subjectNo": "TAI",
       "description": "ARC.BAU",
-      "fieldID": "52"
+      "fieldID": "52",
+      "id": "607"
     },
     "BAU_TAII": {
-      "gpuntisID": "SU_TAII",
+      "gpuntisID": "TAII",
       "name": "TAII",
       "longname": "Technischer Ausbau II",
       "subjectNo": "TAII",
       "description": "ARC.BAU",
-      "fieldID": "52"
+      "fieldID": "52",
+      "id": "608"
     },
     "BAU_TB": {
-      "gpuntisID": "SU_TB",
+      "gpuntisID": "TB",
       "name": "TB",
       "longname": "Tunnelbau",
       "subjectNo": "TB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "609"
     },
     "BAU_TBP": {
-      "gpuntisID": "SU_TBP",
+      "gpuntisID": "TBP",
       "name": "TBP",
       "longname": "Tageslicht- und Beleuchtungsplanung",
       "subjectNo": "TAIII",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "610"
     },
     "BAU_TH": {
-      "gpuntisID": "SU_TH",
+      "gpuntisID": "TH",
       "name": "TH",
       "longname": "Technische Hydraulik",
       "subjectNo": "TEHY",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "611"
     },
     "BAU_TPE": {
-      "gpuntisID": "SU_TPE",
+      "gpuntisID": "TPE",
       "name": "TPE",
       "longname": "Techn. proj. in Engl.",
       "subjectNo": "IM 3.1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "612"
     },
     "BAU_TRA": {
-      "gpuntisID": "SU_TRA",
+      "gpuntisID": "TRA",
       "name": "TRA",
       "longname": "Trassierung von Verkehrsanlagen",
       "subjectNo": "TRA",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "613"
     },
     "BAU_TWLI": {
-      "gpuntisID": "SU_TWLI",
+      "gpuntisID": "TWLI",
       "name": "TWLI",
       "longname": "Tragwerkslehre I",
       "subjectNo": "TWL1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "614"
     },
     "BAU_TWLII": {
-      "gpuntisID": "SU_TWLII",
+      "gpuntisID": "TWLII",
       "name": "TWLII",
       "longname": "Tragwerkslehre II",
       "subjectNo": "TWL2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "615"
     },
     "BAU_TWLIII": {
-      "gpuntisID": "SU_TWLIII",
+      "gpuntisID": "TWLIII",
       "name": "TWLIII",
       "longname": "Tragwerkslehre III",
       "subjectNo": "TWL3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "616"
     },
     "BAU_VBB": {
-      "gpuntisID": "SU_VBB",
+      "gpuntisID": "VBB",
       "name": "VBB",
       "longname": "Verbundbau",
       "subjectNo": "VBB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "617"
     },
     "BAU_VBBS": {
-      "gpuntisID": "SU_VBBS",
+      "gpuntisID": "VBBS",
       "name": "VBBS",
       "longname": "Vorbeugender baulicher Brandschutz",
       "subjectNo": "VBBS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "618"
     },
     "BAU_VK": {
-      "gpuntisID": "SU_VK",
+      "gpuntisID": "VK",
       "name": "VK",
       "longname": "Verkehr",
       "subjectNo": "SB1V",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "619"
     },
     "BAU_VKEDV": {
-      "gpuntisID": "SU_VKEDV",
+      "gpuntisID": "VKEDV",
       "name": "VKEDV",
       "longname": "Verkehr (EDV-Anwendungen im Verkehr)",
       "subjectNo": "VKEDV",
       "description": "BI.BAU",
-      "fieldID": "2"
+      "fieldID": "2",
+      "id": "620"
     },
     "BAU_VKMBR": {
-      "gpuntisID": "SU_VKMBR",
+      "gpuntisID": "VKMBR",
       "name": "VKMBR",
       "longname": "Verkehrsmanagement in Ballungsr\u00e4umen",
       "subjectNo": "IM 1.1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "621"
     },
     "BAU_VKT": {
-      "gpuntisID": "SU_VKT",
+      "gpuntisID": "VKT",
       "name": "VKT",
       "longname": "Verkehrstechnik",
       "subjectNo": "VKT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "622"
     },
     "BAU_VM": {
-      "gpuntisID": "SU_VM",
+      "gpuntisID": "VM",
       "name": "VM",
       "longname": "Vermessung",
       "subjectNo": "VERM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "623"
     },
     "BAU_VM - Sprechstunde": {
-      "gpuntisID": "SU_VM - Sprechstunde",
+      "gpuntisID": "VM - Sprechstunde",
       "name": "VM - Sprechstunde",
       "longname": "Vermessungskunde-Sprechstunde",
       "subjectNo": "VMS",
       "description": "GTVM.BAU",
-      "fieldID": "59"
+      "fieldID": "59",
+      "id": "624"
     },
     "BAU_VPOPNV": {
-      "gpuntisID": "SU_VPOPNV",
+      "gpuntisID": "VPOPNV",
       "name": "VPOPNV",
       "longname": "Verkehrsplanung und \u00d6ffentlicher Personennahverkehr",
       "subjectNo": "VPOPNV",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "625"
     },
     "BAU_VPROF": {
-      "gpuntisID": "SU_VPROF",
+      "gpuntisID": "VPROF",
       "name": "VPROF",
       "longname": "Vorstellung Professor",
       "subjectNo": "VPROF",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "626"
     },
     "BAU_VSSA": {
-      "gpuntisID": "SU_VSSA",
+      "gpuntisID": "VSSA",
       "name": "VSSA",
       "longname": "Verkehrssicherheit und Sicherheitsaudit",
       "subjectNo": "IM 2.1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "627"
     },
     "BAU_VT": {
-      "gpuntisID": "SU_VT",
+      "gpuntisID": "VT",
       "name": "VT",
       "longname": "Verkehrstechnik",
       "subjectNo": "VT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "628"
     },
     "BAU_VWB": {
-      "gpuntisID": "SU_VWB",
+      "gpuntisID": "VWB",
       "name": "VWB",
       "longname": "Verkehrswegebau Modul 1\/2",
       "subjectNo": "IM 1.2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "629"
     },
     "BAU_Wartung": {
-      "gpuntisID": "SU_Wartung",
+      "gpuntisID": "Wartung",
       "name": "Wartung",
       "longname": "Wartung",
       "subjectNo": "W",
       "description": "ARC.BAU",
-      "fieldID": "52"
+      "fieldID": "52",
+      "id": "630"
     },
     "BAU_WAWA": {
-      "gpuntisID": "SU_WAWA",
+      "gpuntisID": "WAWA",
       "name": "WAWA",
       "longname": "Wasser- und Abwasseranalytik",
       "subjectNo": "WAS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "631"
     },
     "BAU_WE": {
-      "gpuntisID": "SU_WE",
+      "gpuntisID": "WE",
       "name": "WE",
       "longname": "Wirtschaftsethik",
       "subjectNo": "WE",
       "description": "WIR-SOZ",
-      "fieldID": "26"
+      "fieldID": "26",
+      "id": "632"
     },
     "BAU_WLRSEL": {
-      "gpuntisID": "SU_WLRSEL",
+      "gpuntisID": "WLRSEL",
       "name": "WLRSEL",
       "longname": "Wasserver- und -entsorgung im l\u00e4ndlichen Raum und in Schwellen- und Entwicklungsl\u00e4ndern",
       "subjectNo": "IM 3.5",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "633"
     },
     "BAU_WV": {
-      "gpuntisID": "SU_WV",
+      "gpuntisID": "WV",
       "name": "WV",
       "longname": "Wasserversorgung",
       "subjectNo": "WW2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "634"
     },
     "BAU_WW1": {
-      "gpuntisID": "SU_WW1",
+      "gpuntisID": "WW1",
       "name": "WW1",
       "longname": "Wasserwirtschaft I",
       "subjectNo": "WWI1",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "635"
     },
     "BAU_WW2": {
-      "gpuntisID": "SU_WW2",
+      "gpuntisID": "WW2",
       "name": "WW2",
       "longname": "Wasserwirtschaft II",
       "subjectNo": "WWI2",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "636"
     },
     "BAU_ZM": {
-      "gpuntisID": "SU_ZM",
+      "gpuntisID": "ZM",
       "name": "ZM",
       "longname": "Zeitmanagement",
       "subjectNo": "ZM",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "637"
     },
     "BAU_IO": {
-      "gpuntisID": "SU_IO",
+      "gpuntisID": "IO",
       "name": "IO",
       "longname": "International Office",
       "subjectNo": "IO",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "638"
     },
     "BAU_ITS": {
-      "gpuntisID": "SU_ITS",
+      "gpuntisID": "ITS",
       "name": "ITS",
       "longname": "Online-Dienste \/ Campus-Netz",
       "subjectNo": "ITS",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "639"
     },
     "BAU_EinfBib": {
-      "gpuntisID": "SU_EinfBib",
+      "gpuntisID": "EinfBib",
       "name": "EinfBib",
       "longname": "Einf\u00fchrung in die Bibliothek",
       "subjectNo": "EFB",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "640"
     },
     "BAU_StM": {
-      "gpuntisID": "SU_StM",
+      "gpuntisID": "StM",
       "name": "StM",
       "longname": "Studienmethodik",
       "subjectNo": "StM",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "641"
     },
     "BAU_BP3_G-U": {
-      "gpuntisID": "SU_BP3_G-U",
+      "gpuntisID": "BP3_G-U",
       "name": "BP3_G-U",
       "longname": "Genehmingungs- u. Umweltplanung",
       "subjectNo": "BP3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "642"
     },
     "BAU_BP3_PV": {
-      "gpuntisID": "SU_BP3_PV",
+      "gpuntisID": "BP3_PV",
       "name": "BP3_PV",
       "longname": "Personenverkehrsanlagen",
       "subjectNo": "BP3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "643"
     },
     "BAU_BP3_T": {
-      "gpuntisID": "SU_BP3_T",
+      "gpuntisID": "BP3_T",
       "name": "BP3_T",
       "longname": "Trassierung mit CAD",
       "subjectNo": "BP3",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "644"
     },
     "BAU_KI": {
-      "gpuntisID": "SU_KI",
+      "gpuntisID": "KI",
       "name": "KI",
       "longname": "Konstruktiver Ingenieurbau",
       "subjectNo": "KI",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "645"
     },
     "BAU_PB": {
-      "gpuntisID": "SU_PB",
+      "gpuntisID": "PB",
       "name": "PB",
       "longname": "Projektsteuerung Bahn",
       "subjectNo": "PB",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "646"
     },
     "BAU_STEPW": {
-      "gpuntisID": "SU_STEPW",
+      "gpuntisID": "STEPW",
       "name": "STEPW",
       "longname": "Studieneinf\u00fchrungsprojektwoche 2.Sem",
       "subjectNo": "STEPW",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "647"
     },
     "BAU_SKfI.EINF": {
-      "gpuntisID": "SU_SKfI.EINF",
+      "gpuntisID": "SKfI.EINF",
       "name": "SKfI.EINF",
       "longname": "Soziale Kompetenz f\u00fcr Ingenieure - Einf\u00fchrung",
       "subjectNo": "",
       "description": "SOZ",
-      "fieldID": "20"
+      "fieldID": "20",
+      "id": "648"
     },
     "BAU_CRS": {
-      "gpuntisID": "SU_CRS",
+      "gpuntisID": "CRS",
       "name": "CRS",
       "longname": "Curso Rapido: Spanisch\/Anf\u00e4ngerkurs MA",
       "subjectNo": "",
       "description": "SPR",
-      "fieldID": "9"
+      "fieldID": "9",
+      "id": "649"
     },
     "BAU_Baupraxis kompakt": {
-      "gpuntisID": "SU_Baupraxis kompakt",
+      "gpuntisID": "Baupraxis kompakt",
       "name": "Baupraxis kompakt",
       "longname": "Baupraxis kompakt",
       "subjectNo": "",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "650"
     },
     "BAU_AF": {
-      "gpuntisID": "SU_AF",
+      "gpuntisID": "AF",
       "name": "AF",
       "longname": "Absolventenfeier",
       "subjectNo": "AF",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "651"
     },
     "BAU_Mentoring": {
-      "gpuntisID": "SU_Mentoring",
+      "gpuntisID": "Mentoring",
       "name": "Mentoring",
       "longname": "Mentoring",
       "subjectNo": "Men",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "652"
     },
     "BAU_MoBW": {
-      "gpuntisID": "SU_MoBW",
+      "gpuntisID": "MoBW",
       "name": "MoBW",
       "longname": "Modellbauwerkstatt",
       "subjectNo": "MoBW",
       "description": "EWK.BAU",
-      "fieldID": "58"
+      "fieldID": "58",
+      "id": "653"
     },
     "BAU_InfoVertiefungsrichtung": {
-      "gpuntisID": "SU_InfoVertiefungsrichtung",
+      "gpuntisID": "InfoVertiefungsrichtung",
       "name": "InfoVertiefungsrichtung",
       "longname": "Informationsveranstaltung Vertiefungsrichtung",
       "subjectNo": "InfoVer",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "654"
     },
     "BAU_Ing.Kammer": {
-      "gpuntisID": "SU_Ing.Kammer",
+      "gpuntisID": "Ing.Kammer",
       "name": "Ing.Kammer",
       "longname": "Ing.Kammer",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "655"
     },
     "BAU_Projekt Reaktivierung einer Strecke": {
-      "gpuntisID": "SU_Projekt Reaktivierung einer Strecke",
+      "gpuntisID": "Projekt Reaktivierung einer Strecke",
       "name": "Projekt Reaktivierung einer Strecke",
       "longname": "Projekt Reaktivierung einer Strecke",
       "subjectNo": "",
-      "description": ""
+      "description": "",
+      "id": "656"
     },
     "BAU_ArchiCAD": {
-      "gpuntisID": "SU_ArchiCAD",
+      "gpuntisID": "ArchiCAD",
       "name": "ArchiCAD",
       "longname": "ArchiCAD",
       "subjectNo": "ACAD",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "657"
     },
     "BAU_GUT": {
-      "gpuntisID": "SU_GUT",
+      "gpuntisID": "GUT",
       "name": "GUT",
       "longname": "Giessener Unternehmenstage",
       "subjectNo": "GUT",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "658"
     },
     "BAU_Workshop": {
-      "gpuntisID": "SU_Workshop",
+      "gpuntisID": "Workshop",
       "name": "Workshop",
       "longname": "Workshop",
       "subjectNo": "wsh",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "659"
     },
     "BAU_HIT-B": {
-      "gpuntisID": "SU_HIT-B",
+      "gpuntisID": "HIT-B",
       "name": "HIT-B",
       "longname": "Hochschuleinformationstage - Bauwesen",
       "subjectNo": "HIT",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "660"
     },
     "BAU_NN": {
-      "gpuntisID": "SU_NN",
+      "gpuntisID": "NN",
       "name": "NN",
       "longname": "Nomen nescio",
       "subjectNo": "",
       "description": "DIV",
-      "fieldID": "4"
+      "fieldID": "4",
+      "id": "661"
     },
     "BAU_PSI": {
-      "gpuntisID": "SU_PSI",
+      "gpuntisID": "PSI",
       "name": "PSI",
       "longname": "Projektsteuerung I",
       "subjectNo": "PSI",
-      "description": ""
+      "description": "",
+      "id": "662"
     },
     "BAU_Bt": {
-      "gpuntisID": "SU_Bt",
+      "gpuntisID": "Bt",
       "name": "Bt",
       "longname": "Einf\u00fchrung in die Bibliothek",
       "subjectNo": "Bt",
       "description": "BAU",
-      "fieldID": "1"
+      "fieldID": "1",
+      "id": "447"
     }
   },
   "teachers": {
@@ -4323,14 +5072,14 @@
       "username": "rspt10",
       "id": "576"
     },
-    "Schmalen": {
-      "gpuntisID": "Schmalen",
+    "SchmI": {
+      "gpuntisID": "SchmI",
       "localUntisID": "Schmalen",
       "surname": "Schmalen",
       "description": "MAT",
       "fieldID": "10",
       "forename": "Irene",
-      "title": "",
+      "title": "Prof. Dr.",
       "username": "isml62",
       "id": "577"
     },
@@ -4400,8 +5149,8 @@
       "username": "hg11873",
       "id": "203"
     },
-    "Thies": {
-      "gpuntisID": "Thies",
+    "ThieK": {
+      "gpuntisID": "ThieK",
       "localUntisID": "Thies",
       "surname": "Thies",
       "description": "WIR",
@@ -4551,7 +5300,7 @@
       "fieldID": "58",
       "forename": "Corrina",
       "title": "Dipl.-Ing.",
-      "username": "cwhl01",
+      "username": "cwlh01",
       "id": "192"
     },
     "ZielC": {
@@ -4642,16 +5391,16 @@
       "username": "",
       "id": "1159"
     },
-    "Kraft": {
-      "gpuntisID": "Kraft",
+    "KrafKJ": {
+      "gpuntisID": "KrafKJ",
       "localUntisID": "Kraft",
       "surname": "Kraft",
       "description": "",
       "fieldID": "",
-      "forename": "",
+      "forename": "Kilian Jacob",
       "title": "",
-      "username": "",
-      "id": 1238
+      "username": "kjkr51",
+      "id": "1171"
     },
     "M\u00fcller": {
       "gpuntisID": "M\u00fcller",
@@ -4707,395 +5456,6 @@
       "title": "",
       "username": "",
       "id": "1169"
-    }
-  },
-  "pools": {
-    "A.1": {
-      "gpuntisID": "CL_A.1",
-      "name": "A.1",
-      "localUntisID": "A.1",
-      "longname": "A.1",
-      "restriction": "1. Semester",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.2": {
-      "gpuntisID": "CL_A.2",
-      "name": "A.2",
-      "localUntisID": "A.2",
-      "longname": "A.2",
-      "restriction": "2. Semester",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.3": {
-      "gpuntisID": "CL_A.3",
-      "name": "A.3",
-      "localUntisID": "A.3",
-      "longname": "A.3",
-      "restriction": "3. Semester",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.4": {
-      "gpuntisID": "CL_A.4",
-      "name": "A.4",
-      "localUntisID": "A.4",
-      "longname": "A.4",
-      "restriction": "4. Semester",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.5": {
-      "gpuntisID": "CL_A.5",
-      "name": "A.5",
-      "localUntisID": "A.5",
-      "longname": "A.5",
-      "restriction": "5. Semester",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.6": {
-      "gpuntisID": "CL_A.6",
-      "name": "A.6",
-      "localUntisID": "A.6",
-      "longname": "A.6",
-      "restriction": "6. Semester",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.KW": {
-      "gpuntisID": "CL_A.KW",
-      "name": "A.KW",
-      "localUntisID": "A.KW",
-      "longname": "A.KW",
-      "restriction": "Architektur (B.Eng.)",
-      "degree": "KW.BAU",
-      "grid": "Klausurwochen"
-    },
-    "A.M.1": {
-      "gpuntisID": "CL_A.M.1",
-      "name": "A.M.1",
-      "localUntisID": "A.M.1",
-      "longname": "A.M.1",
-      "restriction": "1. Semester",
-      "degree": "A.M",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.M.2": {
-      "gpuntisID": "CL_A.M.2",
-      "name": "A.M.2",
-      "localUntisID": "A.M.2",
-      "longname": "A.M.2",
-      "restriction": "2. Semester",
-      "degree": "A.M",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.M.3": {
-      "gpuntisID": "CL_A.M.3",
-      "name": "A.M.3",
-      "localUntisID": "A.M.3",
-      "longname": "A.M.3",
-      "restriction": "3. Semester",
-      "degree": "A.M",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.1": {
-      "gpuntisID": "CL_B.1",
-      "name": "B.1",
-      "localUntisID": "B.1",
-      "longname": "B.1",
-      "restriction": "1. Semester",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.2": {
-      "gpuntisID": "CL_B.2",
-      "name": "B.2",
-      "localUntisID": "B.2",
-      "longname": "B.2",
-      "restriction": "2. Semester",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.3": {
-      "gpuntisID": "CL_B.3",
-      "name": "B.3",
-      "localUntisID": "B.3",
-      "longname": "B.3",
-      "restriction": "3. Semester",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.4.BP": {
-      "gpuntisID": "CL_B.4.BP",
-      "name": "B.4.BP",
-      "localUntisID": "B.4.BP",
-      "longname": "B.4.BP",
-      "restriction": "4. Sem., BMPS",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.4.IP": {
-      "gpuntisID": "CL_B.4.IP",
-      "name": "B.4.IP",
-      "localUntisID": "B.4.IP",
-      "longname": "B.4.IP",
-      "restriction": "4. Sem., ISP",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.4.KT": {
-      "gpuntisID": "CL_B.4.KT",
-      "name": "B.4.KT",
-      "localUntisID": "B.4.KT",
-      "longname": "B.4.KT",
-      "restriction": "4. Sem., KIB",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.5.BP": {
-      "gpuntisID": "CL_B.5.BP",
-      "name": "B.5.BP",
-      "localUntisID": "B.5.BP",
-      "longname": "B.5.BP",
-      "restriction": "5. Sem., BMPS",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.5.IP": {
-      "gpuntisID": "CL_B.5.IP",
-      "name": "B.5.IP",
-      "localUntisID": "B.5.IP",
-      "longname": "B.5.IP",
-      "restriction": "5. Sem., ISP",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.5.KT": {
-      "gpuntisID": "CL_B.5.KT",
-      "name": "B.5.KT",
-      "localUntisID": "B.5.KT",
-      "longname": "B.5.KT",
-      "restriction": "5. Sem., KIB",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.6.BP": {
-      "gpuntisID": "CL_B.6.BP",
-      "name": "B.6.BP",
-      "localUntisID": "B.6.BP",
-      "longname": "B.6.BP",
-      "restriction": "6. Sem., BMPS",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.6.IP": {
-      "gpuntisID": "CL_B.6.IP",
-      "name": "B.6.IP",
-      "localUntisID": "B.6.IP",
-      "longname": "B.6.IP",
-      "restriction": "6. Sem., ISP",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.6.KT": {
-      "gpuntisID": "CL_B.6.KT",
-      "name": "B.6.KT",
-      "localUntisID": "B.6.KT",
-      "longname": "B.6.KT",
-      "restriction": "6. Sem., KIB",
-      "degree": "B.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.I.1": {
-      "gpuntisID": "CL_B.I.1",
-      "name": "B.I.1",
-      "localUntisID": "B.I.1",
-      "longname": "B.I.1",
-      "restriction": "1. Semester",
-      "degree": "BIW",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.I.2": {
-      "gpuntisID": "CL_B.I.2",
-      "name": "B.I.2",
-      "localUntisID": "B.I.2",
-      "longname": "B.I.2",
-      "restriction": "2. Semester",
-      "degree": "BIW",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.I.3": {
-      "gpuntisID": "CL_B.I.3",
-      "name": "B.I.3",
-      "localUntisID": "B.I.3",
-      "longname": "B.I.3",
-      "restriction": "3. Semester",
-      "degree": "BIW",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.I.4": {
-      "gpuntisID": "CL_B.I.4",
-      "name": "B.I.4",
-      "localUntisID": "B.I.4",
-      "longname": "B.I.4",
-      "restriction": "4. Semester",
-      "degree": "BIW",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.KW": {
-      "gpuntisID": "CL_B.KW",
-      "name": "B.KW",
-      "localUntisID": "B.KW",
-      "longname": "B.KW",
-      "restriction": "Bauing. (B.Eng.)",
-      "degree": "KW.BAU",
-      "grid": "Klausurwochen"
-    },
-    "B.M.1": {
-      "gpuntisID": "CL_B.M.1",
-      "name": "B.M.1",
-      "localUntisID": "B.M.1",
-      "longname": "B.M.1",
-      "restriction": "1. Semester",
-      "degree": "B.M",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.M.2": {
-      "gpuntisID": "CL_B.M.2",
-      "name": "B.M.2",
-      "localUntisID": "B.M.2",
-      "longname": "B.M.2",
-      "restriction": "2. Semester",
-      "degree": "B.M",
-      "grid": "Haupt-Zeitraster"
-    },
-    "B.M.3": {
-      "gpuntisID": "CL_B.M.3",
-      "name": "B.M.3",
-      "localUntisID": "B.M.3",
-      "longname": "B.M.3",
-      "restriction": "3. Semester",
-      "degree": "B.M",
-      "grid": "Haupt-Zeitraster"
-    },
-    "BIW.KW": {
-      "gpuntisID": "CL_BIW.KW",
-      "name": "BIW.KW",
-      "localUntisID": "BIW.KW",
-      "longname": "BIW.KW",
-      "restriction": "Bahning. (B.Eng.)",
-      "degree": "KW.BAU",
-      "grid": "Klausurwochen"
-    },
-    "IM.1": {
-      "gpuntisID": "CL_IM.1",
-      "name": "IM.1",
-      "localUntisID": "IM.1",
-      "longname": "IM.1",
-      "restriction": "1. Semester",
-      "degree": "INFMA",
-      "grid": "Haupt-Zeitraster"
-    },
-    "IM.2": {
-      "gpuntisID": "CL_IM.2",
-      "name": "IM.2",
-      "localUntisID": "IM.2",
-      "longname": "IM.2",
-      "restriction": "2. Semester",
-      "degree": "INFMA",
-      "grid": "Haupt-Zeitraster"
-    },
-    "IM.3": {
-      "gpuntisID": "CL_IM.3",
-      "name": "IM.3",
-      "localUntisID": "IM.3",
-      "longname": "IM.3",
-      "restriction": "3. Semester",
-      "degree": "INFMA",
-      "grid": "Haupt-Zeitraster"
-    },
-    "MUK.BAU": {
-      "gpuntisID": "CL_MUK.BAU",
-      "name": "MUK.BAU",
-      "localUntisID": "MUK.BAU",
-      "longname": "MUK.BAU",
-      "restriction": "BAU\/MuK F\u00e4cher",
-      "degree": "MUK",
-      "grid": "Haupt-Zeitraster"
-    },
-    "MUK.M": {
-      "gpuntisID": "CL_MUK.M",
-      "name": "MUK.M",
-      "localUntisID": "MUK.M",
-      "longname": "MUK.M",
-      "restriction": "Master Veranst.",
-      "degree": "MUK",
-      "grid": "Haupt-Zeitraster"
-    },
-    "TERMINE.BAU": {
-      "gpuntisID": "CL_TERMINE.BAU",
-      "name": "TERMINE.BAU",
-      "localUntisID": "TERMINE.BAU",
-      "longname": "TERMINE.BAU",
-      "restriction": "Termine",
-      "degree": "DIV.BAU",
-      "grid": "Haupt-Zeitraster"
-    },
-    "ZV.BAU": {
-      "gpuntisID": "CL_ZV.BAU",
-      "name": "ZV.BAU",
-      "localUntisID": "ZV.BAU",
-      "longname": "ZV.BAU",
-      "restriction": "Zustatz. Veranst.",
-      "degree": "DIV.BAU",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.6.BB": {
-      "gpuntisID": "CL_A.6.BB",
-      "name": "A.6.BB",
-      "localUntisID": "A.6.BB",
-      "longname": "A.6.BB",
-      "restriction": "6. Sem., BB",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.6.BP": {
-      "gpuntisID": "CL_A.6.BP",
-      "name": "A.6.BP",
-      "localUntisID": "A.6.BP",
-      "longname": "A.6.BP",
-      "restriction": "6. Sem, BMPS",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.4.BB": {
-      "gpuntisID": "CL_A.4.BB",
-      "name": "A.4.BB",
-      "localUntisID": "A.4.BB",
-      "longname": "A.4.BB",
-      "restriction": "4. Sem., BB",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "A.4.BP": {
-      "gpuntisID": "CL_A.4.BP",
-      "name": "A.4.BP",
-      "localUntisID": "A.4.BP",
-      "longname": "A.4.BP",
-      "restriction": "4. Sem., BMPS",
-      "degree": "A.B",
-      "grid": "Haupt-Zeitraster"
-    },
-    "BAU.KW": {
-      "gpuntisID": "CL_BAU.KW",
-      "name": "BAU.KW",
-      "localUntisID": "BAU.KW",
-      "longname": "BAU.KW",
-      "restriction": "Alle Klausuren",
-      "degree": "KW.BAU",
-      "grid": "Klausurwochen"
     }
   },
   "calendar": {
@@ -5425,13 +5785,6 @@
         }
       },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1638": {
           "B13.0.01": "",
           "B13.0.02": ""
@@ -5441,9 +5794,6 @@
         }
       },
       "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        },
         "BAUSS_1641": {
           "E10.0.02": "",
           "E10.1.04": "",
@@ -5518,10 +5868,6 @@
         }
       },
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1620": {
           "B21.0.01": ""
         },
@@ -5580,7 +5926,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_1573": {
           "C13.1.12": ""
@@ -5600,7 +5946,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_1573": {
           "C13.1.12": ""
@@ -6188,10 +6534,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -6319,6 +6661,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "NN.BAU": ""
         },
@@ -6356,9 +6701,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -6368,9 +6712,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -6388,9 +6729,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -6452,7 +6790,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -6487,7 +6825,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -7121,10 +7459,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -7273,6 +7607,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "E10.2.05": ""
         },
@@ -7313,9 +7650,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -7325,9 +7661,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -7345,9 +7678,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -7412,7 +7742,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -7444,7 +7774,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -7729,7 +8059,8 @@
           "E15.0.05": ""
         },
         "BAUSS_1631": {
-          "B21.0.01": ""
+          "B21.0.01": "",
+          "delta": "removed"
         }
       },
       "5": {
@@ -8024,10 +8355,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -8161,6 +8488,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "NN.BAU": ""
         },
@@ -8204,9 +8534,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -8216,9 +8545,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -8239,9 +8565,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -8313,7 +8636,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -8345,7 +8668,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -8878,6 +9201,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "NN.BAU": ""
         },
@@ -8921,9 +9247,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -8933,9 +9258,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -8956,9 +9278,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -9030,7 +9349,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -9065,7 +9384,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -9672,10 +9991,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -9806,6 +10121,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "NN.BAU": ""
         },
@@ -9849,9 +10167,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -9861,9 +10178,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -9888,9 +10202,6 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_338": {
-          "E10.2.04": ""
-        },
         "BAUSS_562": {
           "B14.4.15": ""
         },
@@ -9908,10 +10219,6 @@
         },
         "BAUSS_1701": {
           "A10.5.06": ""
-        },
-        "BAUSS_1723": {
-          "A10.2.03": "",
-          "delta": "new"
         }
       },
       "5": {
@@ -10445,10 +10752,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -10579,6 +10882,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "E10.2.05": ""
         },
@@ -10622,9 +10928,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -10634,9 +10939,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -10661,9 +10963,6 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_338": {
-          "E10.2.04": ""
-        },
         "BAUSS_562": {
           "B14.4.15": ""
         },
@@ -10681,10 +10980,6 @@
         },
         "BAUSS_1701": {
           "A10.5.06": ""
-        },
-        "BAUSS_1723": {
-          "A10.2.03": "",
-          "delta": "new"
         }
       },
       "5": {
@@ -10744,7 +11039,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -10779,7 +11074,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -11312,6 +11607,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "NN.BAU": ""
         },
@@ -11355,9 +11653,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -11367,9 +11664,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -11393,9 +11687,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -11473,7 +11764,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -11505,7 +11796,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -12082,10 +12373,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -12234,6 +12521,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "NN.BAU": ""
         },
@@ -12280,9 +12570,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -12292,9 +12581,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -12321,9 +12607,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -12407,7 +12690,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -12439,7 +12722,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -12967,10 +13250,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -13108,6 +13387,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1361": {
           "NN.BAU": ""
         },
@@ -13151,9 +13433,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -13163,9 +13444,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -13189,9 +13467,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -13269,7 +13544,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -13304,7 +13579,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -13908,10 +14183,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -14042,6 +14313,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1571": {
           "E15.0.04": ""
         }
@@ -14079,9 +14353,8 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
@@ -14091,9 +14364,6 @@
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1632": {
           "A15.1.16": ""
@@ -14117,9 +14387,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_562": {
           "B14.4.15": ""
@@ -14197,7 +14464,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -14229,7 +14496,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -14794,10 +15061,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -14922,6 +15185,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1571": {
           "E15.0.04": ""
         },
@@ -14962,18 +15228,14 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1602": {
           "FFM": ""
@@ -15000,9 +15262,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
@@ -15077,7 +15336,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -15112,7 +15371,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -15683,10 +15942,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -15811,6 +16066,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1571": {
           "E15.0.04": ""
         },
@@ -15848,18 +16106,14 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1602": {
           "FFM": ""
@@ -15883,9 +16137,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
@@ -15950,7 +16201,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -15985,7 +16236,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -16216,15 +16467,14 @@
         "BAUSS_1225": {
           "A10.4.04": ""
         },
+        "BAUSS_1527": {
+          "E10.2.04": ""
+        },
         "BAUSS_1577": {
           "E10.2.03": ""
         },
         "BAUSS_1725": {
           "E15.0.04": ""
-        },
-        "BAUSS_1527": {
-          "E10.2.04": "",
-          "delta": "removed"
         }
       },
       "4": {
@@ -16232,9 +16482,7 @@
           "A20.0.07": ""
         },
         "BAUSS_322": {
-          "E15.0.04": "new",
-          "delta": "changed",
-          "E10.2.04": "removed"
+          "E10.2.04": ""
         },
         "BAUSS_333": {
           "A10.2.02": ""
@@ -16397,8 +16645,7 @@
           "NN.BAU": ""
         },
         "BAUSS_1737": {
-          "E10.2.05": "",
-          "delta": "removed"
+          "E10.2.05": ""
         }
       },
       "3": {
@@ -16591,10 +16838,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -16722,6 +16965,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1571": {
           "E15.0.04": ""
         },
@@ -16759,18 +17005,14 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1602": {
           "FFM": ""
@@ -16791,9 +17033,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
@@ -16852,7 +17091,7 @@
           "E15.0.04": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -16884,7 +17123,7 @@
           "A15.1.14": ""
         },
         "BAUSS_1209": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_305": {
           "A10.5.06": ""
@@ -17216,7 +17455,7 @@
           "E15.0.05": ""
         },
         "BAUSS_1544": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_1545": {
           "E10.0.02": ""
@@ -17251,7 +17490,7 @@
           "E15.0.05": ""
         },
         "BAUSS_1544": {
-          "E10.2.04": ""
+          "A21.0.02": ""
         },
         "BAUSS_1545": {
           "E10.0.02": ""
@@ -17288,9 +17527,6 @@
         "BAUSS_1281": {
           "B13.0.02": ""
         },
-        "BAUSS_1519": {
-          "E15.0.04": ""
-        },
         "BAUSS_1590": {
           "B13.0.03": ""
         },
@@ -17299,6 +17535,10 @@
         },
         "BAUSS_1732": {
           "A20.1.07": ""
+        },
+        "BAUSS_1738": {
+          "E15.0.04": "",
+          "E15.0.05": ""
         }
       },
       "4": {
@@ -17440,10 +17680,6 @@
         "BAUSS_329": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_77": {
           "E15.0.04": ""
         },
@@ -17568,6 +17804,9 @@
         "BAUSS_848": {
           "A15.1.20": ""
         },
+        "BAUSS_879": {
+          "E10.2.04": ""
+        },
         "BAUSS_1571": {
           "E15.0.04": ""
         },
@@ -17605,18 +17844,14 @@
         "BAUSS_327": {
           "B21.0.01": ""
         },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_338": {
+          "E10.2.04": ""
         },
         "BAUSS_438": {
           "E10.1.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
-        },
-        "BAUSS_879": {
-          "E10.2.04": ""
         },
         "BAUSS_1602": {
           "FFM": ""
@@ -17637,9 +17872,6 @@
       "4": {
         "BAUSS_327": {
           "B21.0.01": ""
-        },
-        "BAUSS_338": {
-          "E10.2.04": ""
         },
         "BAUSS_760": {
           "E15.0.04": ""
@@ -17776,22 +18008,11 @@
         }
       },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1098": {
           "KONG": ""
         }
       },
-      "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        }
-      },
+      "4": {},
       "5": {},
       "6": {}
     },
@@ -17807,10 +18028,6 @@
         }
       },
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1096": {
           "HH1": ""
         }
@@ -17909,22 +18126,11 @@
         }
       },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1515": {
           "E10.2.04": ""
         }
       },
-      "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        }
-      },
+      "4": {},
       "5": {},
       "6": {}
     },
@@ -17940,10 +18146,6 @@
         }
       },
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1130": {
           "E10.2.04": ""
         }
@@ -17995,32 +18197,15 @@
     "2016-08-04": {
       "1": {},
       "2": {},
-      "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        }
-      },
-      "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        }
-      },
+      "3": {},
+      "4": {},
       "5": {},
       "6": {}
     },
     "2016-08-05": {
       "1": {},
       "2": {},
-      "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        }
-      },
+      "3": {},
       "4": {},
       "5": {},
       "6": {}
@@ -18050,53 +18235,156 @@
       "6": {}
     },
     "2016-08-09": {
-      "1": {},
-      "2": {},
-      "3": {},
-      "4": {},
-      "5": {},
-      "6": {}
-    },
-    "2016-08-10": {
-      "1": {},
-      "2": {},
-      "3": {},
-      "4": {},
-      "5": {},
-      "6": {}
-    },
-    "2016-08-11": {
-      "1": {},
-      "2": {},
+      "1": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "2": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
+        "BAUSS_1740": {
+          "E10.2.05": "",
           "delta": "new"
         }
       },
       "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        }
-      },
-      "5": {},
-      "6": {}
-    },
-    "2016-08-12": {
-      "1": {},
-      "2": {},
-      "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
+        "BAUSS_1740": {
+          "E10.2.05": "",
           "delta": "new"
         }
       },
-      "4": {},
-      "5": {},
-      "6": {}
+      "5": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "6": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      }
+    },
+    "2016-08-10": {
+      "1": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "2": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "3": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "4": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "5": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "6": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      }
+    },
+    "2016-08-11": {
+      "1": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "2": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "3": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "4": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "5": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "6": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      }
+    },
+    "2016-08-12": {
+      "1": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "2": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "3": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "4": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "5": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      },
+      "6": {
+        "BAUSS_1740": {
+          "E10.2.05": "",
+          "delta": "new"
+        }
+      }
     },
     "2016-08-13": {
       "1": {},
@@ -18141,32 +18429,20 @@
     "2016-08-18": {
       "1": {},
       "2": {},
-      "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        }
-      },
-      "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        }
-      },
+      "3": {},
+      "4": {},
       "5": {},
       "6": {}
     },
     "2016-08-19": {
       "1": {},
-      "2": {},
-      "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
+      "2": {
+        "BAUSS_1744": {
+          "E15.0.04": "",
           "delta": "new"
         }
       },
+      "3": {},
       "4": {},
       "5": {},
       "6": {}
@@ -18207,39 +18483,27 @@
       "1": {},
       "2": {},
       "3": {},
-      "4": {},
+      "4": {
+        "BAUSS_1743": {
+          "E10.2.04": "",
+          "delta": "new"
+        }
+      },
       "5": {},
       "6": {}
     },
     "2016-08-25": {
       "1": {},
       "2": {},
-      "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        }
-      },
-      "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        }
-      },
+      "3": {},
+      "4": {},
       "5": {},
       "6": {}
     },
     "2016-08-26": {
       "1": {},
       "2": {},
-      "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        }
-      },
+      "3": {},
       "4": {},
       "5": {},
       "6": {}
@@ -18368,21 +18632,11 @@
         }
       },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1592": {
           "E10.2.05": ""
         }
       },
       "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        },
         "BAUSS_1592": {
           "E10.2.05": ""
         }
@@ -18410,10 +18664,6 @@
         }
       },
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1592": {
           "E10.2.05": ""
         }
@@ -18452,7 +18702,12 @@
     },
     "2016-09-05": {
       "1": {},
-      "2": {},
+      "2": {
+        "BAUSS_1742": {
+          "B21.0.01": "",
+          "delta": "new"
+        }
+      },
       "3": {},
       "4": {},
       "5": {},
@@ -18486,21 +18741,11 @@
         }
       },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1609": {
           "B21.0.01": ""
         }
       },
       "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        },
         "BAUSS_1609": {
           "B21.0.01": ""
         }
@@ -18536,10 +18781,6 @@
         }
       },
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1609": {
           "B21.0.01": ""
         },
@@ -18635,12 +18876,20 @@
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1739": {
+          "B21.0.01": "",
+          "delta": "new"
         }
       },
       "2": {
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1739": {
+          "B21.0.01": "",
+          "delta": "new"
         }
       },
       "3": {
@@ -18679,12 +18928,20 @@
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1741": {
+          "B21.0.01": "",
+          "delta": "new"
         }
       },
       "3": {
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1741": {
+          "B21.0.01": "",
+          "delta": "new"
         }
       },
       "4": {
@@ -18720,13 +18977,6 @@
         }
       },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
@@ -18736,93 +18986,95 @@
         }
       },
       "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        },
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       },
       "5": {
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       },
       "6": {
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       }
     },
     "2016-09-16": {
       "1": {
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       },
       "2": {
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       },
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       },
       "4": {
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       },
       "5": {
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       },
       "6": {
-        "BAUSS_1159": {
-          "A20.1.36": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
+        },
+        "BAUSS_1159": {
+          "A20.1.36": "",
+          "delta": "removed"
         }
       }
     },
@@ -18970,22 +19222,12 @@
         }
       },
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
         }
       },
       "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        },
         "BAUSS_1716": {
           "E10.2.04": "",
           "E10.2.03": ""
@@ -19024,10 +19266,6 @@
         }
       },
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1608": {
           "A20.1.36": ""
         },
@@ -19081,11 +19319,7 @@
       "6": {}
     },
     "2016-09-26": {
-      "1": {
-        "BAUSS_1113": {
-          "HH3": ""
-        }
-      },
+      "1": {},
       "2": {
         "BAUSS_1114": {
           "HH1": ""
@@ -19128,26 +19362,18 @@
       "6": {}
     },
     "2016-09-29": {
-      "1": {},
-      "2": {
+      "1": {
         "BAUSS_1110": {
           "HH1": ""
         }
       },
+      "2": {},
       "3": {
-        "BAUSS_329": {
-          "B21.0.01": ""
-        },
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
+        "BAUSS_1113": {
+          "HH3": ""
         }
       },
-      "4": {
-        "BAUSS_408": {
-          "B21.0.01": ""
-        }
-      },
+      "4": {},
       "5": {},
       "6": {}
     },
@@ -19159,10 +19385,6 @@
       },
       "2": {},
       "3": {
-        "BAUSS_332": {
-          "A20.0.07": "",
-          "delta": "new"
-        },
         "BAUSS_1135": {
           "KONG": ""
         }
@@ -19368,24 +19590,6 @@
       },
       "comment": ""
     },
-    "BAUSS_332": {
-      "gpuntisID": "332",
-      "subjects": {
-        "BAU_TWLIII": ""
-      },
-      "description": "VRL",
-      "methodID": "21",
-      "name": "TWLIII - VRL",
-      "teachers": {
-        "KernR": ""
-      },
-      "grid": "Haupt-Zeitraster",
-      "pools": {
-        "B.3": ""
-      },
-      "comment": "",
-      "delta": "new"
-    },
     "BAUSS_333": {
       "gpuntisID": "333",
       "subjects": {
@@ -19412,7 +19616,7 @@
       "methodID": "21",
       "name": "SE - VRL",
       "teachers": {
-        "WeltH": ""
+        "JahnP": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
@@ -20672,7 +20876,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "1.Sem."
     },
@@ -20692,7 +20896,7 @@
         "B.KW": "",
         "A.KW": "",
         "BIW.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "2.Sem."
     },
@@ -20705,17 +20909,15 @@
       "methodID": "5",
       "name": "MAT1 - KLA",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
-      "comment": "1.Sem.",
-      "delta": "changed"
+      "comment": "1.Sem."
     },
     "BAUSS_1096": {
       "gpuntisID": "1096",
@@ -20732,7 +20934,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "2.Sem."
     },
@@ -20751,7 +20953,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -20770,7 +20972,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -20789,7 +20991,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem.(St\u00e4dtebau I)"
     },
@@ -20807,7 +21009,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -20820,17 +21022,15 @@
       "methodID": "5",
       "name": "GM - KLA",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
-      "comment": "1.Sem.",
-      "delta": "changed"
+      "comment": "1.Sem."
     },
     "BAUSS_1102": {
       "gpuntisID": "1102",
@@ -20847,7 +21047,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "1.Sem."
     },
@@ -20867,7 +21067,7 @@
         "B.KW": "",
         "A.KW": "",
         "BIW.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "1.Sem."
     },
@@ -20887,7 +21087,7 @@
         "B.KW": "",
         "A.KW": "",
         "BIW.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "2.Sem."
     },
@@ -20906,7 +21106,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -20925,7 +21125,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -20944,7 +21144,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -20962,7 +21162,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -20981,7 +21181,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "1.Sem."
     },
@@ -21000,7 +21200,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "1.Sem."
     },
@@ -21019,7 +21219,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "2.Sem."
     },
@@ -21038,7 +21238,7 @@
       "pools": {
         "B.KW": "",
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -21056,7 +21256,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -21074,7 +21274,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem. f. alle"
     },
@@ -21092,7 +21292,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem.(nur BP,KT)"
     },
@@ -21110,7 +21310,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -21128,7 +21328,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -21146,7 +21346,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -21164,7 +21364,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -21182,7 +21382,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "WP-Fach"
     },
@@ -21200,7 +21400,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "2.Sem."
     },
@@ -21218,7 +21418,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -21236,7 +21436,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -21254,7 +21454,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -21272,7 +21472,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "WP-Fach(6.Sem.altePO)"
     },
@@ -21290,7 +21490,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -21308,7 +21508,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "3.Sem."
     },
@@ -21326,7 +21526,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -21344,7 +21544,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem.(nur BP,KT)"
     },
@@ -21363,7 +21563,7 @@
       "pools": {
         "B.KW": "",
         "BIW.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -21384,23 +21584,6 @@
         "A.M.3": "",
         "B.M.1": "",
         "B.M.3": ""
-      },
-      "comment": ""
-    },
-    "BAUSS_1159": {
-      "gpuntisID": "1159",
-      "subjects": {
-        "BAU_BF": ""
-      },
-      "description": "VRL",
-      "methodID": "21",
-      "name": "BF - VRL",
-      "teachers": {
-        "DIV.BAU": ""
-      },
-      "grid": "Haupt-Zeitraster",
-      "pools": {
-        "ZV.BAU": ""
       },
       "comment": ""
     },
@@ -21722,16 +21905,14 @@
       "methodID": "21",
       "name": "MAT1 - VRL",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "B.1": "",
         "A.1": ""
       },
-      "comment": "",
-      "delta": "changed"
+      "comment": ""
     },
     "BAUSS_1221": {
       "gpuntisID": "1221",
@@ -21945,8 +22126,7 @@
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
-        "MUK.BAU": "",
-        "MUK.M": ""
+        "MUK.BAU": ""
       },
       "comment": ""
     },
@@ -22012,7 +22192,7 @@
       "methodID": "19",
       "name": "E1 - \u00dcBG",
       "teachers": {
-        "Vogelsberg": ""
+        "JahnP": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
@@ -22259,16 +22439,14 @@
       "methodID": "19",
       "name": "MAT1 - \u00dcBG",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "A.1": "",
         "B.1": ""
       },
-      "comment": "Gr. C1 -C 6",
-      "delta": "changed"
+      "comment": "Gr. C1 -C 6"
     },
     "BAUSS_1315": {
       "gpuntisID": "1315",
@@ -22279,16 +22457,14 @@
       "methodID": "19",
       "name": "MAT1 - \u00dcBG",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "A.1": "",
         "B.1": ""
       },
-      "comment": "Gr.  A1 - A6",
-      "delta": "changed"
+      "comment": "Gr.  A1 - A6"
     },
     "BAUSS_1361": {
       "gpuntisID": "1361",
@@ -22383,15 +22559,13 @@
       },
       "name": "StM",
       "teachers": {
-        "Thies": "new",
-        "ThieK": "removed"
+        "ThieK": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "TERMINE.BAU": ""
       },
-      "comment": "",
-      "delta": "changed"
+      "comment": ""
     },
     "BAUSS_1384": {
       "gpuntisID": "1384",
@@ -23012,7 +23186,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -23030,7 +23204,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -23048,7 +23222,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -23137,16 +23311,14 @@
       "methodID": "21",
       "name": "GM - VRL",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "A.1": "",
         "B.1": ""
       },
-      "comment": "",
-      "delta": "changed"
+      "comment": ""
     },
     "BAUSS_1526": {
       "gpuntisID": "1526",
@@ -23591,7 +23763,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "A.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "4.Sem."
     },
@@ -24076,16 +24248,14 @@
       "methodID": "19",
       "name": "MAT1 - \u00dcBG",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "B.1": "",
         "A.1": ""
       },
-      "comment": "",
-      "delta": "changed"
+      "comment": ""
     },
     "BAUSS_1623": {
       "gpuntisID": "1623",
@@ -24171,23 +24341,6 @@
         "ZV.BAU": ""
       },
       "comment": "PS I"
-    },
-    "BAUSS_1631": {
-      "gpuntisID": "1631",
-      "subjects": {
-        "BAU_BESUCH": ""
-      },
-      "description": "SEM",
-      "methodID": "15",
-      "name": "BESUCH - SEM",
-      "teachers": {
-        "MinnJ": ""
-      },
-      "grid": "Haupt-Zeitraster",
-      "pools": {
-        "ZV.BAU": ""
-      },
-      "comment": "Probevorlesung Ing.Kammer (13.00 -13.30)"
     },
     "BAUSS_1632": {
       "gpuntisID": "1632",
@@ -24371,15 +24524,13 @@
       "methodID": "21",
       "name": "BSBT - VRL",
       "teachers": {
-        "Kraft": "new",
-        "KrafKJ": "removed"
+        "KrafKJ": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "B.4.IP": ""
       },
-      "comment": "",
-      "delta": "changed"
+      "comment": ""
     },
     "BAUSS_1645": {
       "gpuntisID": "1645",
@@ -24716,16 +24867,14 @@
       "methodID": "19",
       "name": "MAT1 - \u00dcBG",
       "teachers": {
-        "Schmalen": "new",
-        "SchmI": "removed"
+        "SchmI": ""
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
         "A.1": "",
         "B.3": ""
       },
-      "comment": "Gr. A7 - A8, B7 - B8, C7",
-      "delta": "changed"
+      "comment": "Gr. A7 - A8, B7 - B8, C7"
     },
     "BAUSS_1671": {
       "gpuntisID": "1671",
@@ -25094,8 +25243,7 @@
       },
       "grid": "Haupt-Zeitraster",
       "pools": {
-        "MUK.BAU": "",
-        "MUK.M": ""
+        "MUK.BAU": ""
       },
       "comment": ""
     },
@@ -25255,24 +25403,6 @@
         "B.2": ""
       },
       "comment": ""
-    },
-    "BAUSS_1723": {
-      "gpuntisID": "1723",
-      "subjects": {
-        "BAU_TWLIII": ""
-      },
-      "description": "VRL",
-      "methodID": "21",
-      "name": "TWLIII - VRL",
-      "teachers": {
-        "KernR": ""
-      },
-      "grid": "Haupt-Zeitraster",
-      "pools": {
-        "B.3": ""
-      },
-      "comment": "Nachholvorlesung",
-      "delta": "new"
     },
     "BAUSS_1724": {
       "gpuntisID": "1724",
@@ -25461,7 +25591,7 @@
       "grid": "Klausurwochen",
       "pools": {
         "B.KW": "",
-        "BAU.KW": ""
+        "KW.BAU": ""
       },
       "comment": "5.Sem."
     },
@@ -25516,9 +25646,171 @@
         "B.6.BP": "",
         "B.6.KT": ""
       },
-      "comment": "WP",
+      "comment": "WP"
+    },
+    "BAUSS_1738": {
+      "gpuntisID": "1738",
+      "subjects": {
+        "BAU_AKfK": ""
+      },
+      "description": "KLA",
+      "methodID": "5",
+      "name": "AKfK - KLA",
+      "teachers": {
+        "SilbK": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "A.6": "",
+        "B.6.IP": "",
+        "B.6.BP": "",
+        "B.6.KT": ""
+      },
+      "comment": "Klausur"
+    },
+    "BAUSS_1739": {
+      "gpuntisID": "1739",
+      "subjects": {
+        "BAU_BPhys": ""
+      },
+      "description": "\u00dcBG",
+      "methodID": "19",
+      "name": "BPhys - \u00dcBG",
+      "teachers": {
+        "K\u00fcmmJ": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "A.2": "",
+        "B.2": ""
+      },
+      "comment": "Klausurvorbespr.",
+      "delta": "new"
+    },
+    "BAUSS_1740": {
+      "gpuntisID": "1740",
+      "subjects": {
+        "BAU_BINM": ""
+      },
+      "name": "BINM",
+      "teachers": {
+        "DiazJ": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "ZV.BAU": ""
+      },
+      "comment": "",
+      "delta": "new"
+    },
+    "BAUSS_1741": {
+      "gpuntisID": "1741",
+      "subjects": {
+        "BAU_BESPRECH.KV": ""
+      },
+      "description": "\u00dcBG",
+      "methodID": "19",
+      "name": "BESPRECH.KV - \u00dcBG",
+      "teachers": {
+        "UnolOF": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "B.3": "",
+        "A.3": ""
+      },
+      "comment": "BMEI + BGG",
+      "delta": "new"
+    },
+    "BAUSS_1742": {
+      "gpuntisID": "1742",
+      "subjects": {
+        "BAU_STBB": ""
+      },
+      "description": "\u00dcBG",
+      "methodID": "19",
+      "name": "STBB - \u00dcBG",
+      "teachers": {
+        "Wichmann": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "B.4.BP": "",
+        "B.4.KT": ""
+      },
+      "comment": "Klausurvorbesprechung",
+      "delta": "new"
+    },
+    "BAUSS_1743": {
+      "gpuntisID": "1743",
+      "subjects": {
+        "BAU_M\u00dcTWP": ""
+      },
+      "name": "M\u00dcTWP",
+      "teachers": {
+        "MinnJ": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "ZV.BAU": ""
+      },
+      "comment": "Klausurvorbesprechung",
+      "delta": "new"
+    },
+    "BAUSS_1744": {
+      "gpuntisID": "1744",
+      "subjects": {
+        "BAU_BKP": ""
+      },
+      "description": "\u00dcBG",
+      "methodID": "19",
+      "name": "BKP - \u00dcBG",
+      "teachers": {
+        "KissJM": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "A.3": ""
+      },
+      "comment": "Sprechstunde",
+      "delta": "new"
+    },
+    "BAUSS_1159": {
+      "gpuntisID": "1159",
+      "subjects": {
+        "BAU_BF": ""
+      },
+      "description": "VRL",
+      "methodID": "21",
+      "name": "BF - VRL",
+      "teachers": {
+        "DIV.BAU": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "ZV.BAU": ""
+      },
+      "comment": "",
+      "delta": "removed"
+    },
+    "BAUSS_1631": {
+      "gpuntisID": "1631",
+      "subjects": {
+        "BAU_BESUCH": ""
+      },
+      "description": "SEM",
+      "methodID": "15",
+      "name": "BESUCH - SEM",
+      "teachers": {
+        "MinnJ": ""
+      },
+      "grid": "Haupt-Zeitraster",
+      "pools": {
+        "ZV.BAU": ""
+      },
+      "comment": "Probevorlesung Ing.Kammer (13.00 -13.30)",
       "delta": "removed"
     }
   },
-  "referencedate": "2016-07-05"
+  "referencedate": "2016-07-11"
 }

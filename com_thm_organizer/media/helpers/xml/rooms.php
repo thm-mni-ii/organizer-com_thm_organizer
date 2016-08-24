@@ -11,7 +11,8 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
 
 /**
  * Provides validation methods for xml room objects
@@ -29,9 +30,9 @@ class THM_OrganizerHelperXMLRooms
 	 * @param   object &$scheduleModel the validating schedule model
 	 * @param   string $roomID         the room's gpuntis ID
 	 *
-	 * @return  void  sets the id if the room could be resolved/added
+	 * @return  int  the id if the room could be resolved/added
 	 */
-	private static function setID(&$scheduleModel, $roomID)
+	private static function getID(&$scheduleModel, $roomID)
 	{
 		$roomTable    = JTable::getInstance('rooms', 'thm_organizerTable');
 		$roomData     = $scheduleModel->schedule->rooms->$roomID;
@@ -50,17 +51,12 @@ class THM_OrganizerHelperXMLRooms
 
 		if ($success)
 		{
-			$scheduleModel->schedule->rooms->$roomID->id = $roomTable->id;
-
-			return;
+			return $roomTable->id;
 		}
 
 		// Entry not found
 		$success = $roomTable->save($roomData);
-		if ($success)
-		{
-			$scheduleModel->schedule->rooms->$roomID->id = $roomTable->id;
-		}
+		return $success? $roomTable->id: 0;
 	}
 
 	/**
@@ -147,28 +143,29 @@ class THM_OrganizerHelperXMLRooms
 			return;
 		}
 
-		$roomID                                             = str_replace('RM_', '', $gpuntisID);
-		$scheduleModel->schedule->rooms->$roomID            = new stdClass;
-		$scheduleModel->schedule->rooms->$roomID->name      = $roomID;
-		$scheduleModel->schedule->rooms->$roomID->gpuntisID = $roomID;
-		$scheduleModel->schedule->rooms->$roomID->localUntisID
+		$gpuntisID                                             = str_replace('RM_', '', $gpuntisID);
+		$scheduleModel->schedule->rooms->$gpuntisID            = new stdClass;
+		$scheduleModel->schedule->rooms->$gpuntisID->name      = $gpuntisID;
+		$scheduleModel->schedule->rooms->$gpuntisID->gpuntisID = $gpuntisID;
+		$scheduleModel->schedule->rooms->$gpuntisID->localUntisID
 		                                                    = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
 
-		$displayName = self::validateDisplayName($scheduleModel, $roomNode, $roomID);
+		$displayName = self::validateDisplayName($scheduleModel, $roomNode, $gpuntisID);
 		if (!$displayName)
 		{
 			return;
 		}
 
 		$capacity                                          = trim((int) $roomNode->capacity);
-		$scheduleModel->schedule->rooms->$roomID->capacity = (empty($capacity)) ? '' : $capacity;
+		$scheduleModel->schedule->rooms->$gpuntisID->capacity = (empty($capacity)) ? '' : $capacity;
 
-		self::validateType($scheduleModel, $roomNode, $roomID);
-		self::setID($scheduleModel, $roomID);
+		self::validateType($scheduleModel, $roomNode, $gpuntisID);
+		$roomID = THM_OrganizerHelperRooms::getID($gpuntisID, $scheduleModel->schedule->rooms->$gpuntisID);
 
-		if (!empty($scheduleModel->schedule->rooms->$roomID->id))
+		if (!empty($roomID))
 		{
-			THM_OrganizerHelperXMLDepartment_Resources::setDepartmentResource($scheduleModel->schedule->rooms->$roomID->id, 'roomID');
+			$scheduleModel->schedule->rooms->$gpuntisID->id = $roomID;
+			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($roomID, 'roomID');
 		}
 	}
 

@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/department_resources.php';
 
 /**
  * Provides validation methods for xml teacher objects
@@ -22,59 +22,6 @@ require_once 'department_resources.php';
  */
 class THM_OrganizerHelperXMLTeachers
 {
-	/**
-	 * Checks for the teacher entry in the database, creating it as necessary. Adds the id to the teacher entry in the
-	 * schedule.
-	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   string $teacherID      the teacher's gpuntis ID
-	 *
-	 * @return  void  sets the id if the teacher could be resolved/added
-	 */
-	private static function setID(&$scheduleModel, $teacherID)
-	{
-		$teacherTable   = JTable::getInstance('teachers', 'thm_organizerTable');
-		$teacherData    = $scheduleModel->schedule->teachers->$teacherID;
-		$loadCriteria   = array();
-		$loadCriteria[] = array('gpuntisID' => $teacherData->gpuntisID);
-		if (!empty($teacherData->username))
-		{
-			$loadCriteria[] = array('username' => $teacherData->username);
-		}
-		if (!empty($teacherData->forename))
-		{
-			$loadCriteria[] = array('surname' => $teacherData->surname, 'forename' => $teacherData->forename);
-		}
-
-		foreach ($loadCriteria as $criteria)
-		{
-			try
-			{
-				$success = $teacherTable->load($criteria);
-			}
-			catch (Exception $exc)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-				return;
-			}
-
-			if ($success)
-			{
-				$scheduleModel->schedule->teachers->$teacherID->id = $teacherTable->id;
-
-				return;
-			}
-		}
-
-		// Entry not found
-		$success = $teacherTable->save($teacherData);
-		if ($success)
-		{
-			$scheduleModel->schedule->teachers->$teacherID->id = $teacherTable->id;
-		}
-	}
-
 	/**
 	 * Checks whether teacher nodes have the expected structure and required information
 	 *
@@ -155,28 +102,30 @@ class THM_OrganizerHelperXMLTeachers
 			return;
 		}
 
-		$teacherID                                                = str_replace('TR_', '', $gpuntisID);
-		$scheduleModel->schedule->teachers->$teacherID            = new stdClass;
-		$scheduleModel->schedule->teachers->$teacherID->gpuntisID = $teacherID;
-		$scheduleModel->schedule->teachers->$teacherID->localUntisID
+		$gpuntisID                                                = str_replace('TR_', '', $gpuntisID);
+		$scheduleModel->schedule->teachers->$gpuntisID            = new stdClass;
+		$scheduleModel->schedule->teachers->$gpuntisID->gpuntisID = $gpuntisID;
+		$scheduleModel->schedule->teachers->$gpuntisID->localUntisID
 		                                                          = str_replace('TR_', '', trim((string) $teacherNode[0]['id']));
 
-		$surname = self::validateSurname($scheduleModel, $teacherNode, $teacherID);
+		$surname = self::validateSurname($scheduleModel, $teacherNode, $gpuntisID);
 		if (!$surname)
 		{
 			return;
 		}
 
-		self::validateField($scheduleModel, $teacherNode, $teacherID);
-		self::validateForename($scheduleModel, $teacherNode, $teacherID);
-		self::validateTitle($scheduleModel, $teacherNode, $teacherID);
-		self::validateUserName($scheduleModel, $teacherNode, $teacherID);
+		self::validateField($scheduleModel, $teacherNode, $gpuntisID);
+		self::validateForename($scheduleModel, $teacherNode, $gpuntisID);
+		self::validateTitle($scheduleModel, $teacherNode, $gpuntisID);
+		self::validateUserName($scheduleModel, $teacherNode, $gpuntisID);
 
-		self::setID($scheduleModel, $teacherID);
 
-		if (!empty($scheduleModel->schedule->teachers->$teacherID->id))
+		$teacherID = THM_OrganizerHelperTeachers::getID($gpuntisID, $scheduleModel->schedule->teachers->$gpuntisID);
+
+		if (!empty($teacherID))
 		{
-			THM_OrganizerHelperXMLDepartment_Resources::setDepartmentResource($scheduleModel->schedule->teachers->$teacherID->id, 'teacherID');
+			$scheduleModel->schedule->teachers->$teacherID->id = $teacherID;
+			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($teacherID, 'teacherID');
 		}
 	}
 
