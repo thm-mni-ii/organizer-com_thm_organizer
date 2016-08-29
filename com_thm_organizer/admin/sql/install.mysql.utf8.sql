@@ -609,7 +609,7 @@ ALTER TABLE `#__thm_organizer_lessons`
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_lesson_configurations`
-  ADD CONSTRAINT `lesson_configurations_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons` (`id`)
+  ADD CONSTRAINT `lesson_configurations_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 

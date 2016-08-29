@@ -19,6 +19,7 @@ require_once 'programs.php';
 require_once 'rooms.php';
 require_once 'subjects.php';
 require_once 'teachers.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 
 /**
  * Class enapsulating data abstraction and business logic for xml schedules
@@ -195,7 +196,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		}
 		elseif ($validSemesterName)
 		{
-			$this->savePlanningPeriod($semesterName, $startTimeStamp, $endTimeStamp);
+			$this->schedule->planningPeriodID = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
 		}
 
 		THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);

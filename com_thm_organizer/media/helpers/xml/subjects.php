@@ -87,13 +87,13 @@ class THM_OrganizerHelperXMLSubjects
 		}
 
 		$department                                                  = $scheduleModel->schedule->departmentname;
-		$subjectID                                                   = str_replace('SU_', '', $gpuntisID);
-		$subjectIndex                                                = $department . "_" . $subjectID;
+		$gpuntisID                                                   = str_replace('SU_', '', $gpuntisID);
+		$subjectIndex                                                = $department . "_" . $gpuntisID;
 		$scheduleModel->schedule->subjects->$subjectIndex            = new stdClass;
-		$scheduleModel->schedule->subjects->$subjectIndex->gpuntisID = $subjectID;
-		$scheduleModel->schedule->subjects->$subjectIndex->name      = $subjectID;
+		$scheduleModel->schedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
+		$scheduleModel->schedule->subjects->$subjectIndex->name      = $gpuntisID;
 
-		$longName = self::validateLongName($scheduleModel, $subjectNode, $subjectIndex, $subjectID);
+		$longName = self::validateLongName($scheduleModel, $subjectNode, $subjectIndex, $gpuntisID);
 		if (!$longName)
 		{
 			return;
@@ -103,7 +103,7 @@ class THM_OrganizerHelperXMLSubjects
 		self::validateField($scheduleModel, $subjectNode, $subjectIndex);
 		if (!empty($warningString))
 		{
-			$warning                           = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longName, $subjectID, $warningString);
+			$warning                           = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longName, $gpuntisID, $warningString);
 			$scheduleModel->scheduleWarnings[] = $warning;
 		}
 

@@ -265,7 +265,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 */
 	public function migrate()
 	{
-		$input = JFactory::getApplication()->input;
+		$input       = JFactory::getApplication()->input;
 		$scheduleIDs = $input->get('cid', array(), 'array');
 
 		if (empty($scheduleIDs))
@@ -282,7 +282,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		foreach ($scheduleIDs as $scheduleID)
 		{
 			$jsonModel = new THM_OrganizerModelJSONSchedule;
-			$success = $jsonModel->migrate($scheduleID);
+			$success   = $jsonModel->migrate($scheduleID);
 			if (!$success)
 			{
 				$failCount++;
@@ -443,18 +443,19 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	{
 		$formData = JFactory::getApplication()->input->get('jform', array(), 'array');
 
-		$data                   = array();
-		$data['departmentID']   = $formData['departmentID'];
-		$departmentName         = $this->schedule->departmentname;
-		$semesterName           = $this->schedule->semestername;
-		$data['departmentname'] = $departmentName;
-		$data['semestername']   = $semesterName;
-		$data['creationdate']   = $this->schedule->creationdate;
-		$data['creationtime']   = $this->schedule->creationtime;
-		$data['schedule']       = json_encode($this->schedule);
-		$data['startDate']      = $this->schedule->startDate;
-		$data['endDate']        = $this->schedule->endDate;
-		$data['active']         = 1;
+		$data                     = array();
+		$data['departmentID']     = $formData['departmentID'];
+		$departmentName           = $this->schedule->departmentname;
+		$semesterName             = $this->schedule->semestername;
+		$data['departmentname']   = $departmentName;
+		$data['semestername']     = $semesterName;
+		$data['planningPeriodID'] = $this->schedule->planningPeriodID;
+		$data['creationdate']     = $this->schedule->creationdate;
+		$data['creationtime']     = $this->schedule->creationtime;
+		$data['schedule']         = json_encode($this->schedule);
+		$data['startDate']        = $this->schedule->startDate;
+		$data['endDate']          = $this->schedule->endDate;
+		$data['active']           = 1;
 
 		$row = JTable::getInstance('schedules', 'thm_organizerTable');
 

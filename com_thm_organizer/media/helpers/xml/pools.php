@@ -140,7 +140,7 @@ class THM_OrganizerHelperXMLPools
 
 		self::setGrid($scheduleModel, $poolID, $poolNode);
 
-		$planResourceID = THM_OrganizerHelperPools::getPlanResourceID($scheduleModel->schedule->pools->$poolID);
+		$planResourceID = THM_OrganizerHelperPools::getPlanResourceID($poolID, $scheduleModel->schedule->pools->$poolID);
 		if (!empty($planResourceID))
 		{
 			$scheduleModel->schedule->pools->$poolID->id = $planResourceID;

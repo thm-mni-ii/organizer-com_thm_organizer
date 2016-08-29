@@ -80,5 +80,5 @@ ALTER TABLE `#__thm_organizer_lessons`
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_frequencies`
-  MODIFY `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` INT(11) UNSIGNED NOT NULL;
 

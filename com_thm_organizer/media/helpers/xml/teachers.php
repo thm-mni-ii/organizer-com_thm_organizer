@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Provides validation methods for xml teacher objects
@@ -124,7 +125,7 @@ class THM_OrganizerHelperXMLTeachers
 
 		if (!empty($teacherID))
 		{
-			$scheduleModel->schedule->teachers->$teacherID->id = $teacherID;
+			$scheduleModel->schedule->teachers->$gpuntisID->id = $gpuntisID;
 			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($teacherID, 'teacherID');
 		}
 	}
