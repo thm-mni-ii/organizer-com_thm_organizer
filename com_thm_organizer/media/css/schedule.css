@@ -192,8 +192,10 @@ button:hover,
     display: none; }
 .no-mobile #schedule-form {
   position: inherit; }
+  .no-mobile #schedule-form > form > div {
+    float: left; }
   .no-mobile #schedule-form select {
-    width: 16rem; }
+    width: 11rem; }
 .no-mobile .date-input input[type=date] {
   margin-left: 0.5rem; }
 .no-mobile .lesson {

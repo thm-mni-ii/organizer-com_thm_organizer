@@ -29,6 +29,37 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 *
 	 * @throws  RuntimeException
 	 */
+	public function getDepartments()
+	{
+		$languageTag = explode('-', JFactory::getLanguage()->getTag())[0];
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query
+			->select("id, name_$languageTag as name")
+			->from('#__thm_organizer_departments');
+		$dbo->setQuery((string) $query);
+
+		try
+		{
+			$result = $dbo->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
+			return false;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * getter for the default time grid out of database
+	 *
+	 * @return  object|false
+	 *
+	 * @throws  RuntimeException
+	 */
 	public function getDefaultGrid()
 	{
 		$dbo   = JFactory::getDbo();

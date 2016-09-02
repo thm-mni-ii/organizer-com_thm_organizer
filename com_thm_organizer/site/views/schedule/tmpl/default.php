@@ -70,32 +70,26 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 	<!-- on last position, because on big devices it is not expandable and the other menus should be near their icon -->
 	<div id="schedule-form" tabindex="0" class="selection">
 		<form action="">
-			<select id="plan" name="plan" required onchange=""> <!-- //TODO: per Ajax Formularinhalte holen -->
-				<option value="" hidden><?php echo JText::_("JOPTION_SELECT_CATEGORY"); ?></option>
-				<option value="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOM_PLANS') ?></option>
-				<option value="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERPLAN') ?></option>
-				<option value="programs"><?php echo JText::_('COM_THM_ORGANIZER_POOLPLAN') ?></option>
+			<select id="department" name="department" required>
+				<option value="0" selected><?php echo JText::_("JALL"); ?></option>
+				<?php
+				foreach ($this->departments as $department)
+				{
+					echo "<option value=" . $department->id . ">" . $department->name . "</option>";
+				}
+				?>
 			</select>
-			<select id="category" name="category" disabled required onchange="">
-				<option value="" hidden></option>
-				<!--option value="semester">
-					<?php echo JText::_('COM_THM_ORGANIZER_POOL') ?>
-					/ <?php echo JText::_('COM_THM_ORGANIZER_SEMESTER') ?>
-				</option>
-				<option value="types"><?php echo JText::_('COM_THM_ORGANIZER_TYPE') ?></option>
-				<option value="skills"><?php echo JText::_('COM_THM_ORGANIZER_COMPETENCES') ?></option-->
+			<select id="program" name="program" multiple required>
+				<!-- filled by ajax -->
 			</select>
-			<select id="resource-type" name="resource-type" disabled required onchange="">
-				<option value="" hidden></option>
-				<!--option value="courses"><?php echo JText::_('COM_THM_ORGANIZER_PROGRAMS') ?></option>
-				<option value="rooms"><?php echo JText::_('COM_THM_ORGANIZER_ROOMS') ?></option>
-				<option value="teachers"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERS') ?></option-->
+			<select id="pool" name="pool" disabled multiple required>
+				<!-- filled by ajax -->
 			</select>
-			<select id="resource" name="resource" disabled required>
-				<option value=""></option>
-				<option value="resource1">resource 1</option>
-				<option value="resource2">resource 2</option>
-				<option value="resource3">resource 3</option>
+			<select id="room" name="room">
+				<!-- filled by ajax -->
+			</select>
+			<select id="teacher" name="teacher">
+				<!-- filled by ajax -->
 			</select>
 		</form>
 	</div>

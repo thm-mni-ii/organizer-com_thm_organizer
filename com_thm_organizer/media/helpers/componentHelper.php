@@ -12,7 +12,7 @@
  */
 
 /**
- * Class providing functions usefull to multiple component files
+ * Class providing functions useful to multiple component files
  *
  * @category  Joomla.Component.Media
  * @package   thm_organizer
@@ -105,6 +105,11 @@ class THM_OrganizerHelperComponent
 			JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE'),
 			'index.php?option=com_thm_organizer&amp;view=schedule_manager',
 			$viewName == 'schedule_manager'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE'),
+			'index.php?option=com_thm_organizer&amp;view=grid_manager',
+			$viewName == 'grid_manager'
 		);
 
 		$view->sidebar = JHtmlSidebar::render();
@@ -476,5 +481,35 @@ class THM_OrganizerHelperComponent
 		$name = "jform[$name]$multiple";
 
 		return JHtml::_('select.genericlist', $options, $name, $attributes, 'value', 'text', $selected);
+	}
+
+	/**
+	 * TODO: Including this (someday) to the Joomla Core!
+	 * Checks if the device is a smartphone, based on the 'Mobile Detect' library
+	 *
+	 * @return boolean
+	 */
+	public static function isSmartphone()
+	{
+		$mobileCheckPath = JPATH_ROOT . '/components/com_jce/editor/libraries/classes/mobile.php';
+
+		if (file_exists($mobileCheckPath))
+		{
+			if (!class_exists('Wf_Mobile_Detect'))
+			{
+				// Load mobile detect class
+				require_once $mobileCheckPath;
+			}
+
+			$checker = new Wf_Mobile_Detect;
+			$isPhone = ($checker->isMobile() AND !$checker->isTablet());
+
+			if ($isPhone)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

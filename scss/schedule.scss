@@ -320,8 +320,12 @@ button:hover,
   #schedule-form {
     position: inherit;
 
+    > form > div {
+      float: left;
+    }
+
     select {
-      width: 16rem;
+      width: 11rem;
     }
   }
 
