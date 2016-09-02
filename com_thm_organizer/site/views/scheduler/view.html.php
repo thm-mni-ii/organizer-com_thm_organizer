@@ -40,7 +40,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 
 	public $libraries = array();
 
-	public $fpdf, $ics, $phpexcel = false;
+	public $fpdf, $ics = false;
 
 	public $requestResources = array();
 
@@ -186,12 +186,6 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 		if (!$this->fpdf)
 		{
 			$app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_FPDF_LIBRARY_NOT_INSTALLED'), 'notice');
-		}
-
-		$this->phpexcel = jimport('thm_core.phpexcel.PHPExcel');
-		if (!$this->phpexcel)
-		{
-			$app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_PHPEXCEL_LIBRARY_NOT_INSTALLED'), 'notice');
 		}
 
 		$this->ics = jimport('thm_core.icalcreator.iCalcreator');
