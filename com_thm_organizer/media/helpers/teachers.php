@@ -67,6 +67,7 @@ class THM_OrganizerHelperTeachers
 
 		// Entry not found
 		$success = $teacherTable->save($data);
-		return $success? $teacherTable->id : null;
+
+		return $success ? $teacherTable->id : null;
 	}
 }

@@ -30,7 +30,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 		<button type="button"><span class="icon-save"></span></button>
 		<label for="export-menu-item"><span class="icon-download"></span></label>
 	</div>
-	
+
 	<!-- Menu -->
 	<div id="time-selection" tabindex="0" class="selection">
 		<ul>
@@ -181,8 +181,8 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						<th><?php echo JText::_('COM_THM_ORGANIZER_TIME') ?></th>
 						<?php
 						$daysOfTheWeek = array(JText::_('Monday'), JText::_('Tuesday'), JText::_('Wednesday'),
-												JText::_('Thursday'), JText::_('Friday'), JText::_('Saturday'),
-												JText::_('Sunday'));
+						                       JText::_('Thursday'), JText::_('Friday'), JText::_('Saturday'),
+						                       JText::_('Sunday'));
 
 						for ($weekday = $this->defaultGrid->start_day - 1; $weekday < $this->defaultGrid->end_day; ++$weekday)
 						{
@@ -209,9 +209,9 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 							<td>
                             <span class="time-semester">
 <?php
-							echo THM_OrganizerHelperComponent::formatTime($periods[$period]->start_time);
-							echo "<br> - <br>";
-							echo THM_OrganizerHelperComponent::formatTime($periods[$period]->end_time);
+echo THM_OrganizerHelperComponent::formatTime($periods[$period]->start_time);
+echo "<br> - <br>";
+echo THM_OrganizerHelperComponent::formatTime($periods[$period]->end_time);
 ?>
                             </span>
 							</td>

@@ -10,7 +10,6 @@ ALTER TABLE `#__thm_organizer_plan_pools`
   ADD UNIQUE `gpuntisID` (`gpuntisID`),
   ADD UNIQUE `dbID`(`gpuntisID`, `programID`);
 
-
 ALTER TABLE `#__thm_organizer_plan_programs`
   DROP INDEX `untisID`;
 
@@ -22,7 +21,6 @@ COLLATE utf8_bin NULL DEFAULT NULL;
 ALTER TABLE `#__thm_organizer_plan_programs`
   ADD UNIQUE `gpuntisID` (`gpuntisID`);
 
-
 ALTER TABLE `#__thm_organizer_plan_subjects`
   DROP INDEX `untisID`;
 
@@ -33,7 +31,6 @@ COLLATE utf8_bin NULL DEFAULT NULL;
 
 ALTER TABLE `#__thm_organizer_plan_subjects`
   ADD UNIQUE `gpuntisID` (`gpuntisID`);
-
 
 ALTER TABLE `#__thm_organizer_lessons`
   DROP INDEX `planID`;

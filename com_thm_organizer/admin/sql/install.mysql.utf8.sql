@@ -3,13 +3,24 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar` (
+  `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `schedule_date` DATE                      DEFAULT NULL,
+  `start_time`    TIME                      DEFAULT NULL,
+  `end_time`      TIME                      DEFAULT NULL,
+  `lessonID`      INT(11) UNSIGNED NOT NULL,
+  `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `lessonID` (`lessonID`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar_configuration_map` (
   `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `schedule_date`   DATE DEFAULT NULL,
-  `start_time`      TIME DEFAULT NULL,
-  `end_time`        TIME DEFAULT NULL,
+  `calendarID`      INT(11) UNSIGNED NOT NULL,
   `configurationID` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `configurationID` (`configurationID`)
+  UNIQUE KEY `entry` (`calendarID`, `configurationID`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -54,11 +65,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
   `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `departmentID` INT(11) UNSIGNED NOT NULL,
-  `programID`    INT(11) UNSIGNED DEFAULT NULL,
-  `poolID`       INT(11) UNSIGNED DEFAULT NULL,
-  `subjectID`    INT(11) UNSIGNED DEFAULT NULL,
-  `teacherID`    INT(11) UNSIGNED DEFAULT NULL,
-  `roomID`       INT(11) UNSIGNED DEFAULT NULL,
+  `programID`    INT(11) UNSIGNED          DEFAULT NULL,
+  `poolID`       INT(11) UNSIGNED          DEFAULT NULL,
+  `subjectID`    INT(11) UNSIGNED          DEFAULT NULL,
+  `teacherID`    INT(11) UNSIGNED          DEFAULT NULL,
+  `roomID`       INT(11) UNSIGNED          DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `departmentID` (`departmentID`),
   KEY `programID` (`programID`),
@@ -124,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `departmentID`      INT(11) UNSIGNED          DEFAULT NULL,
   `planningPeriodID`  INT(11) UNSIGNED          DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `planID` (`gpuntisID`),
+  UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),
   KEY `methodID` (`methodID`),
   KEY `lessons_departmentid_fk` (`departmentID`),
   KEY `lessons_planningperiodid_fk` (`planningPeriodID`)
@@ -184,14 +195,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `programID` INT(11) UNSIGNED DEFAULT NULL,
-  `parentID`  INT(11) UNSIGNED DEFAULT NULL,
-  `poolID`    INT(11) UNSIGNED DEFAULT NULL,
-  `subjectID` INT(11) UNSIGNED DEFAULT NULL,
-  `lft`       INT(11) UNSIGNED DEFAULT NULL,
-  `rgt`       INT(11) UNSIGNED DEFAULT NULL,
-  `level`     INT(11) UNSIGNED DEFAULT NULL,
-  `ordering`  INT(11) UNSIGNED DEFAULT NULL,
+  `programID` INT(11) UNSIGNED          DEFAULT NULL,
+  `parentID`  INT(11) UNSIGNED          DEFAULT NULL,
+  `poolID`    INT(11) UNSIGNED          DEFAULT NULL,
+  `subjectID` INT(11) UNSIGNED          DEFAULT NULL,
+  `lft`       INT(11) UNSIGNED          DEFAULT NULL,
+  `rgt`       INT(11) UNSIGNED          DEFAULT NULL,
+  `level`     INT(11) UNSIGNED          DEFAULT NULL,
+  `ordering`  INT(11) UNSIGNED          DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parentID` (`parentID`),
   KEY `programID` (`programID`),
@@ -205,11 +216,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_methods` (
   `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `gpuntisID`       VARCHAR(60)
                     CHARACTER SET utf8
-                    COLLATE utf8_bin DEFAULT NULL,
-  `abbreviation_de` VARCHAR(45)      DEFAULT '',
-  `abbreviation_en` VARCHAR(45)      DEFAULT '',
-  `name_de`         VARCHAR(255)     DEFAULT NULL,
-  `name_en`         VARCHAR(255)     DEFAULT NULL,
+                    COLLATE utf8_bin          DEFAULT NULL,
+  `abbreviation_de` VARCHAR(45)               DEFAULT '',
+  `abbreviation_en` VARCHAR(45)               DEFAULT '',
+  `name_de`         VARCHAR(255)              DEFAULT NULL,
+  `name_en`         VARCHAR(255)              DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -240,8 +251,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_planning_periods` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name`      VARCHAR(10)      NOT NULL,
-  `startDate` DATE DEFAULT NULL,
-  `endDate`   DATE DEFAULT NULL,
+  `startDate` DATE                      DEFAULT NULL,
+  `endDate`   DATE                      DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `pp_long` (`name`, `startDate`, `endDate`)
 )
@@ -253,9 +264,9 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_pools` (
   `gpuntisID` VARCHAR(60)
               CHARACTER SET utf8
               COLLATE utf8_bin NOT NULL,
-  `poolID`    INT(11) UNSIGNED DEFAULT NULL,
-  `programID` INT(11) UNSIGNED DEFAULT NULL,
-  `fieldID`   INT(11) UNSIGNED DEFAULT NULL,
+  `poolID`    INT(11) UNSIGNED          DEFAULT NULL,
+  `programID` INT(11) UNSIGNED          DEFAULT NULL,
+  `fieldID`   INT(11) UNSIGNED          DEFAULT NULL,
   `name`      VARCHAR(100)     NOT NULL,
   `full_name` VARCHAR(100)     NOT NULL
   COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
@@ -274,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_programs` (
   `gpuntisID` VARCHAR(60)
               CHARACTER SET utf8
               COLLATE utf8_bin NOT NULL,
-  `programID` INT(11) UNSIGNED DEFAULT NULL,
+  `programID` INT(11) UNSIGNED          DEFAULT NULL,
   `name`      VARCHAR(100)     NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `gpuntisID` (`gpuntisID`),
@@ -384,8 +395,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_features` (
   `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `untisID` VARCHAR(1)       NOT NULL
   COMMENT 'The Untis internal ID',
-  `name_de` VARCHAR(255) DEFAULT NULL,
-  `name_en` VARCHAR(255) DEFAULT NULL,
+  `name_de` VARCHAR(255)              DEFAULT NULL,
+  `name_en` VARCHAR(255)              DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -406,13 +417,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `gpuntisID`      VARCHAR(60)
                    CHARACTER SET utf8
-                   COLLATE utf8_bin DEFAULT NULL,
+                   COLLATE utf8_bin          DEFAULT NULL,
   `name_de`        VARCHAR(50)      NOT NULL,
   `name_en`        VARCHAR(50)      NOT NULL,
   `description_de` TEXT             NOT NULL,
   `description_en` TEXT             NOT NULL,
-  `min_capacity`   INT(4) UNSIGNED  DEFAULT NULL,
-  `max_capacity`   INT(4) UNSIGNED  DEFAULT NULL,
+  `min_capacity`   INT(4) UNSIGNED           DEFAULT NULL,
+  `max_capacity`   INT(4) UNSIGNED           DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `gpuntisID` (`gpuntisID`)
 )
@@ -541,13 +552,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
   `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `lessonID`      INT(11) UNSIGNED NOT NULL,
   `userID`        INT(11)          NOT NULL,
-  `status`        INT(1) UNSIGNED DEFAULT '0'
+  `status`        INT(1) UNSIGNED           DEFAULT '0'
   COMMENT 'The user''s registration status. Possible values: 0 - pending, 1 - registered, 2 - denied.',
-  `user_date`     DATETIME        DEFAULT NULL
+  `user_date`     DATETIME                  DEFAULT NULL
   COMMENT 'The last date of user action.',
-  `status_date`   DATETIME        DEFAULT NULL
+  `status_date`   DATETIME                  DEFAULT NULL
   COMMENT 'The last date of status action.',
-  `order`         INT(4) UNSIGNED DEFAULT '0'
+  `order`         INT(4) UNSIGNED           DEFAULT '0'
   COMMENT 'The order for automatic user registration actions.',
   `configuration` TEXT             NOT NULL
   COMMENT 'A configuration of the lessons visited should the added lessons be a subset of those offered.',
@@ -568,7 +579,18 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
   DEFAULT CHARSET = utf8;
 
 ALTER TABLE `#__thm_organizer_calendar`
-  ADD CONSTRAINT `calendar_configurationid_fk` FOREIGN KEY (`configurationID`) REFERENCES `#__thm_organizer_lesson_configurations` (`id`)
+  ADD CONSTRAINT `calendar_lessonid_fk` FOREIGN KEY (`lessonID`)
+REFERENCES `#__thm_organizer_lessons` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_calendar_configuration_map`
+  ADD CONSTRAINT `calendar_configuration_map_calendarID_fk` FOREIGN KEY (`calendarID`)
+REFERENCES `#__thm_organizer_calendar` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `calendar_configuration_map_configurationID_fk` FOREIGN KEY (`configurationID`)
+REFERENCES `#__thm_organizer_lesson_configurations` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 

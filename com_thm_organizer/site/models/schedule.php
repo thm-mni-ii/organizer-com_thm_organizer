@@ -32,8 +32,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	public function getDepartments()
 	{
 		$languageTag = explode('-', JFactory::getLanguage()->getTag())[0];
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
+		$dbo         = JFactory::getDbo();
+		$query       = $dbo->getQuery(true);
 		$query
 			->select("id, name_$languageTag as name")
 			->from('#__thm_organizer_departments');

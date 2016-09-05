@@ -50,13 +50,14 @@ class THM_OrganizerHelperRooms
 		{
 			return $roomTable->id;
 		}
-		elseif(empty($data))
+		elseif (empty($data))
 		{
 			return null;
 		}
 
 		// Entry not found
 		$success = $roomTable->save($data);
-		return $success? $roomTable->id : null;
+
+		return $success ? $roomTable->id : null;
 	}
 }

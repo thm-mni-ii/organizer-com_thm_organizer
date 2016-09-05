@@ -81,24 +81,24 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 			$grid = json_decode($item->grid);
 			if (isset($grid) AND isset($grid->periods))
 			{
-				$periods = get_object_vars($grid->periods);
+				$periods     = get_object_vars($grid->periods);
 				$firstPeriod = $periods[1];
-				$lastPeriod = end($periods);
+				$lastPeriod  = end($periods);
 				/** 'l' (lowercase L) in date function for full textual day of the week */
-				$return[$index]['startDay']   = JText::_(strtoupper(date('l', strtotime("Sunday + {$grid->start_day} days"))));
-				$return[$index]['endDay']     = JText::_(strtoupper(date('l', strtotime("Sunday + {$grid->end_day} days"))));
+				$return[$index]['startDay']  = JText::_(strtoupper(date('l', strtotime("Sunday + {$grid->start_day} days"))));
+				$return[$index]['endDay']    = JText::_(strtoupper(date('l', strtotime("Sunday + {$grid->end_day} days"))));
 				$return[$index]['startTime'] = THM_OrganizerHelperComponent::formatTime($firstPeriod->start_time);
 				$return[$index]['endTime']   = THM_OrganizerHelperComponent::formatTime($lastPeriod->end_time);
 			}
 			else
 			{
-				$return[$index]['startDay']   = '';
-				$return[$index]['endDay']     = '';
+				$return[$index]['startDay']  = '';
+				$return[$index]['endDay']    = '';
 				$return[$index]['startTime'] = '';
 				$return[$index]['endTime']   = '';
 			}
 
-			$tip = JText::_('COM_THM_ORGANIZER_GRID_DEFAULT_DESC');
+			$tip                       = JText::_('COM_THM_ORGANIZER_GRID_DEFAULT_DESC');
 			$return[$index]['default'] = $this->getToggle($item->id, $item->default, 'grid', $tip);
 			$index++;
 		}

@@ -20,7 +20,7 @@ ALTER TABLE `#__thm_organizer_calendar`
   DROP FOREIGN KEY `calendar_configurationid_fk`;
 
 ALTER TABLE `#__thm_organizer_calendar`
-    CHANGE `configurationID` `lessonID` INT (11) UNSIGNED NOT NULL;
+  CHANGE `configurationID` `lessonID` INT(11) UNSIGNED NOT NULL;
 
 ALTER TABLE `#__thm_organizer_calendar`
   ADD KEY `lessonID` (`lessonID`);
@@ -32,7 +32,7 @@ REFERENCES `#__thm_organizer_lessons` (`id`)
   ON UPDATE CASCADE;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar_configuration_map` (
-  `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `calendarID`      INT(11) UNSIGNED NOT NULL,
   `configurationID` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),

@@ -64,7 +64,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function getPrograms()
 	{
 		$this->_db    = JFactory::getDbo();
-		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
+		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
 		$departmentID = JFactory::getApplication()->input->getInt('departmentID', 0);
 
 		$query     = $this->_db->getQuery(true);
@@ -228,7 +228,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 	/**
 	 * TODO
-	 * 
+	 *
 	 * Getter method for lessons in database
 	 * e.g. for selecting a schedule
 	 *
@@ -238,11 +238,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 */
 	public function getLessons()
 	{
-		$this->_db = JFactory::getDbo();
-		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
+		$this->_db    = JFactory::getDbo();
+		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
 		$departmentID = JFactory::getApplication()->input->getInt('departmentID');
-		$poolID = JFactory::getApplication()->input->getInt('poolID');
-		$chosenDate = JFactory::getApplication()->input->getString('date');
+		$poolID       = JFactory::getApplication()->input->getInt('poolID');
+		$chosenDate   = JFactory::getApplication()->input->getString('date');
 
 		$query = $this->_db->getQuery(true);
 		$query->select("less.id, sub.short_name_$languageTag AS name, meth.abbreviation_$languageTag")
@@ -273,6 +273,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
 			return $e->getMessage();
 		}
 

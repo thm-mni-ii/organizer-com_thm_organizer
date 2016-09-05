@@ -42,6 +42,7 @@ class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
 	protected function _getAssetTitle()
 	{
 		$shortNameColumn = 'short_name_' . THM_OrganizerHelperLanguage::getShortTag();
+
 		return $this->$shortNameColumn;
 	}
 

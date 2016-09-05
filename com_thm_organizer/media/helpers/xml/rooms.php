@@ -56,7 +56,8 @@ class THM_OrganizerHelperXMLRooms
 
 		// Entry not found
 		$success = $roomTable->save($roomData);
-		return $success? $roomTable->id: 0;
+
+		return $success ? $roomTable->id : 0;
 	}
 
 	/**
@@ -148,7 +149,7 @@ class THM_OrganizerHelperXMLRooms
 		$scheduleModel->schedule->rooms->$gpuntisID->name      = $gpuntisID;
 		$scheduleModel->schedule->rooms->$gpuntisID->gpuntisID = $gpuntisID;
 		$scheduleModel->schedule->rooms->$gpuntisID->localUntisID
-		                                                    = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
+		                                                       = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
 
 		$displayName = self::validateDisplayName($scheduleModel, $roomNode, $gpuntisID);
 		if (!$displayName)
@@ -156,7 +157,7 @@ class THM_OrganizerHelperXMLRooms
 			return;
 		}
 
-		$capacity                                          = trim((int) $roomNode->capacity);
+		$capacity                                             = trim((int) $roomNode->capacity);
 		$scheduleModel->schedule->rooms->$gpuntisID->capacity = (empty($capacity)) ? '' : $capacity;
 
 		self::validateType($scheduleModel, $roomNode, $gpuntisID);

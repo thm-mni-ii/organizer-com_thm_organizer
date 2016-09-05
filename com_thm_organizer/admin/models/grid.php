@@ -31,7 +31,7 @@ class THM_OrganizerModelGrid extends JModelLegacy
 	 */
 	public function save()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data  = JFactory::getApplication()->input->get('jform', array(), 'array');
 		$table = JTable::getInstance('grids', 'thm_organizerTable');
 
 		return $table->save($data);

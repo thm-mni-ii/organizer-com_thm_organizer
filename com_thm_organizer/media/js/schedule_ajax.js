@@ -37,12 +37,12 @@ jQuery(document).ready(function ()
     /**
      * Event listener for filling data into form fields by Ajax
      */
-    document.getElementById('time-menu-item').addEventListener('click', function()
+    document.getElementById('time-menu-item').addEventListener('click', function ()
     {
         getGrids();
     });
 
-    jQuery('#department').chosen().change(function()
+    jQuery('#department').chosen().change(function ()
     {
         getPrograms();
         resetPools();
@@ -50,23 +50,23 @@ jQuery(document).ready(function ()
         getTeachers();
     });
 
-    jQuery('#program').chosen().change(function()
+    jQuery('#program').chosen().change(function ()
     {
         getPools();
         getTeachers();
     });
 
-    jQuery('#pool').chosen().change(function()
+    jQuery('#pool').chosen().change(function ()
     {
         getLessons();
     });
 
-    jQuery('#teacher').chosen().change(function()
+    jQuery('#teacher').chosen().change(function ()
     {
         getLessons();
     });
 
-    jQuery('#room').chosen().change(function()
+    jQuery('#room').chosen().change(function ()
     {
         getLessons();
     });
@@ -113,9 +113,10 @@ function updateGridList()
              * anonymous functions necessary to bind a variable in the EventListener function while for-loops
              * @see http://stackoverflow.com/a/28633276/6355472
              */
-            button.addEventListener('click', (function(grid)
+            button.addEventListener('click', (function (grid)
                 {
-                    return function() {
+                    return function ()
+                    {
                         setGridByClick(grid);
                     }
                 })(grid)
@@ -162,7 +163,7 @@ function setGridDays(head, grid)
     {
         if (thElement == currentDay && currentDay <= endDay)
         {
-            headItems[thElement].innerHTML = weekdays[currentDay-1];
+            headItems[thElement].innerHTML = weekdays[currentDay - 1];
             ++currentDay;
         }
         else
@@ -295,7 +296,9 @@ function getPools()
         programs += chosenPrograms[selectIndex].value;
 
         if (chosenPrograms[selectIndex + 1] !== undefined)
+        {
             programs += ",";
+        }
     }
 
     task = '&task=getPools&departmentID=' + chosenDepartment + '&programIDs=' + programs;
@@ -346,7 +349,9 @@ function getRooms()
         programs += chosenPrograms[selectIndex].value;
 
         if (chosenPrograms[selectIndex + 1] !== undefined)
+        {
             programs += ",";
+        }
     }
 
     task = '&task=getRooms&departmentID=' + chosenDepartment + '&programIDs=' + programs;

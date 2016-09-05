@@ -2,19 +2,19 @@
 <form>
     <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
         <field
-            name="checkbox"
-            type="CheckAll"
+                name="checkbox"
+                type="CheckAll"
         />
     </fields>
     <fields name="list">
         <field
-            name="limit"
-            type="limitbox"
-            class="input-mini"
-            default="25"
-            label="COM_CONTENT_LIST_LIMIT"
-            description="COM_CONTENT_LIST_LIMIT_DESC"
-            onchange="this.form.submit();"
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="25"
+                label="COM_CONTENT_LIST_LIMIT"
+                description="COM_CONTENT_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
         />
     </fields>
 </form>

@@ -32,7 +32,50 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 *
 	 * @var object
 	 */
-	private $compSchedule = null;
+	private $refSchedule = null;
+
+	/**
+	 * Adds a configuration to the configurations array, and adds it's index from that array to the array of
+	 * configurations for the active instance.
+	 *
+	 * @param string $configuration   the configuration object as a string
+	 * @param array  &$configurations the array holding configurations
+	 * @param object &$activeInstance the instance object currently being processed
+	 *
+	 * @return void  modifies $configurations and the configurations property of $activeInstance
+	 */
+	private function addConfiguration($configuration, &$configurations, &$activeInstance)
+	{
+		if (!in_array($configuration, $configurations))
+		{
+			$configurations[] = $configuration;
+		}
+
+		$configurationID = array_search($configuration, $configurations);
+
+		if (!in_array($configurationID, $activeInstance->configurations))
+		{
+			$activeInstance->configurations[] = $configurationID;
+		}
+	}
+
+	/**
+	 * Ensures that depracated configurations are no longer referenced from the calendar.
+	 *
+	 * @param array &$instanceConfigs the configuration indexes referenced by the lesson instance
+	 *
+	 * @return void removes deprecated references from the instance configurations
+	 */
+	private function checkConfigurationIntegrity(&$instanceConfigs)
+	{
+		foreach ($instanceConfigs as $instanceConfigIndex => $configIndex)
+		{
+			if (!isset($this->schedule->configurations[$configIndex]))
+			{
+				unset($instanceConfigs[$instanceConfigIndex]);
+			}
+		}
+	}
 
 	/**
 	 * Removes all existing lessons for the given department/planning period. This implicitly removes associated lesson
@@ -53,20 +96,20 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Retrieves the configurations associated with the lesson instance
 	 *
-	 * @param int $lessonID the id of the lesson in the database
-	 * @param int $lessonGPUntisID the id of the lesson in the json schedule
-	 * @param array $calendarEntry the the calendar entry being currently iterated
-	 * @param array $lessonSubjects an array containing the plan subject id (subjectID) and lesson subject id (id), indexed by the plan subject id
+	 * @param int   $lessonID        the id of the lesson in the database
+	 * @param int   $lessonGPUntisID the id of the lesson in the json schedule
+	 * @param array $calendarEntry   the the calendar entry being currently iterated
+	 * @param array $lessonSubjects  an array containing the plan subject id (subjectID) and lesson subject id (id), indexed by the plan subject id
 	 *
 	 * @return array
 	 */
 	private function getInstanceConfigurations($lessonID, $calendarEntry, $lessonSubjects)
 	{
-		$date = $calendarEntry['schedule_date'];
-		$startTime = date('Hi', strtotime($calendarEntry['start_time']));
-		$endTime = date('Hi', strtotime($calendarEntry['end_time']));
-		$timeKey = $startTime . '-' . $endTime;
-		$configIndexes = $this->schedule->calendar->$date->$timeKey->$lessonID->configurations;
+		$date           = $calendarEntry['schedule_date'];
+		$startTime      = date('Hi', strtotime($calendarEntry['start_time']));
+		$endTime        = date('Hi', strtotime($calendarEntry['end_time']));
+		$timeKey        = $startTime . '-' . $endTime;
+		$configIndexes  = $this->schedule->calendar->$date->$timeKey->$lessonID->configurations;
 		$configurations = array();
 
 		foreach ($configIndexes as $configIndex)
@@ -76,12 +119,12 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			 * subjectID => the db / plan subject id
 			 * teachers & rooms => the teachers and rooms for this configuration
 			 */
-			$rawConfig = $this->schedule->configurations[$configIndex];
+			$rawConfig     = $this->schedule->configurations[$configIndex];
 			$configuration = json_decode($rawConfig);
 
-			$configData    = array('lessonID' => $lessonSubjects[$configuration->subjectID]['id'], 'configuration' => $rawConfig);
+			$configData   = array('lessonID' => $lessonSubjects[$configuration->subjectID]['id'], 'configuration' => $rawConfig);
 			$configsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
-			$exists = $configsTable->load($configData);
+			$exists       = $configsTable->load($configData);
 
 			if ($exists)
 			{
@@ -142,14 +185,15 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				continue;
 			}
 
-			foreach($calendarEntries as $calendarID => $calendarEntry)
+			foreach ($calendarEntries as $calendarID => $calendarEntry)
 			{
 				$instanceConfigs = $this->getInstanceConfigurations($lessonGPUntisID, $calendarEntry, $lessonSubjects);
 				foreach ($instanceConfigs as $configID)
 				{
-					$mapData = array('calendarID' => $calendarID, 'configurationID' => $configID);
+					$mapData  = array('calendarID' => $calendarID, 'configurationID' => $configID);
 					$mapTable = JTable::getInstance('calendar_configurations_map', 'thm_organizerTable');
-					try{
+					try
+					{
 						$mapTable->load($mapData);
 						$mapTable->save($mapData);
 					}
@@ -179,14 +223,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		foreach ($subjects as $gpuntisID => $value)
 		{
-			$subjectID = $this->compSchedule->subjects->$gpuntisID->id;
+			$subjectID = $this->refSchedule->subjects->$gpuntisID->id;
 			if (empty($subjectID))
 			{
 				continue;
 			}
 
-			$return[$subjectID] = empty($this->compSchedule->subjects->$gpuntisID->subjectNo) ?
-				'' : $this->compSchedule->subjects->$gpuntisID->subjectNo;
+			$return[$subjectID] = empty($this->refSchedule->subjects->$gpuntisID->subjectNo) ?
+				'' : $this->refSchedule->subjects->$gpuntisID->subjectNo;
 		}
 
 		return $return;
@@ -209,14 +253,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			return false;
 		}
 
-		$this->compSchedule = json_decode($scheduleRow->schedule);
-		$this->schedule     = new stdClass;
+		$this->refSchedule = json_decode($scheduleRow->schedule);
+		$this->schedule    = new stdClass;
 
 		// Common information
 		$this->schedule->departmentID     = $scheduleRow->departmentID;
 		$this->schedule->planningPeriodID = $scheduleRow->planningPeriodID;
-		$this->schedule->creationDate     = $this->compSchedule->creationdate;
-		$this->schedule->creationTime     = $this->compSchedule->creationtime;
+		$this->schedule->creationDate     = $this->refSchedule->creationdate;
+		$this->schedule->creationTime     = $this->refSchedule->creationtime;
 
 		$this->schedule->programs = array();
 		$this->migratePrograms();
@@ -269,6 +313,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		}
 
 		$scheduleRow->store();
+
+		return true;
 	}
 
 	/**
@@ -278,7 +324,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function migrateCalendar()
 	{
-		foreach ($this->compSchedule->calendar as $date => $blocks)
+		foreach ($this->refSchedule->calendar as $date => $blocks)
 		{
 			if (empty($this->schedule->calendar->$date))
 			{
@@ -289,8 +335,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				foreach ($blockLessons as $lessonCode => $instanceRooms)
 				{
-					$gridName = $this->compSchedule->lessons->$lessonCode->grid;
-					$times    = $this->compSchedule->periods->$gridName->$blockNo;
+					$gridName = $this->refSchedule->lessons->$lessonCode->grid;
+					$times    = $this->refSchedule->periods->$gridName->$blockNo;
 					$time     = $times->starttime . '-' . $times->endtime;
 
 					if (empty($this->schedule->calendar->$date->$time))
@@ -298,7 +344,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 						$this->schedule->calendar->$date->$time = new stdClass;
 					}
 
-					$lessonID                                          = $this->compSchedule->lessons->$lessonCode->gpuntisID;
+					$lessonID                                          = $this->refSchedule->lessons->$lessonCode->gpuntisID;
 					$this->schedule->calendar->$date->$time->$lessonID = new stdClass;
 
 
@@ -328,11 +374,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				continue;
 			}
-			$rooms[$this->compSchedule->rooms->$gpuntisID->id] = $this->resolveDelta($delta);
+			$rooms[$this->refSchedule->rooms->$gpuntisID->id] = $this->resolveDelta($delta);
 		}
 
 		$configurations = array();
-		$rawBaseConfigs = $this->compSchedule->lessons->$lessonCode->configurations;
+		$rawBaseConfigs = $this->refSchedule->lessons->$lessonCode->configurations;
 		foreach ($rawBaseConfigs as $rawBaseConfig)
 		{
 			// lesson, subject & teachers
@@ -365,7 +411,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function migrateLessons()
 	{
-		foreach ($this->compSchedule->lessons as $lessonCode => $lesson)
+		foreach ($this->refSchedule->lessons as $lessonCode => $lesson)
 		{
 			$lessonID                                  = $lesson->gpuntisID;
 			$this->schedule->lessons[$lessonID]        = new stdClass;
@@ -393,9 +439,9 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				$this->schedule->lessons[$lessonID]->subjects[$subjectID]->teachers = $teachers;
 
 				// Save this to the comp schedule for easier cross referencing in migrateCalendar
-				if (empty($this->compSchedule->lessons->$lessonCode->configurations))
+				if (empty($this->refSchedule->lessons->$lessonCode->configurations))
 				{
-					$this->compSchedule->lessons->$lessonCode->configurations = array();
+					$this->refSchedule->lessons->$lessonCode->configurations = array();
 				}
 
 				$baseConfig            = new stdClass;
@@ -404,9 +450,9 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				$baseConfig->teachers  = $teachers;
 				$jsonConfig            = json_encode($baseConfig);
 
-				if (!in_array($jsonConfig, $this->compSchedule->lessons->$lessonCode->configurations))
+				if (!in_array($jsonConfig, $this->refSchedule->lessons->$lessonCode->configurations))
 				{
-					$this->compSchedule->lessons->$lessonCode->configurations[] = $jsonConfig;
+					$this->refSchedule->lessons->$lessonCode->configurations[] = $jsonConfig;
 				}
 			}
 		}
@@ -421,7 +467,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	{
 		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 
-		foreach ($this->compSchedule->pools as $gpuntisID => $pool)
+		foreach ($this->refSchedule->pools as $gpuntisID => $pool)
 		{
 			// Newer format schedule has associated plan programs
 			if (!empty($pool->id) AND !in_array($pool->id, $this->schedule->pools))
@@ -433,8 +479,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$poolID = THM_OrganizerHelperPools::getPlanResourceID($gpuntisID, $pool);
 			if (!empty($poolID))
 			{
-				$this->compSchedule->pools->$gpuntisID->id = $poolID;
-				$this->schedule->pools[]                   = $poolID;
+				$this->refSchedule->pools->$gpuntisID->id = $poolID;
+				$this->schedule->pools[]                  = $poolID;
 				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($poolID, 'poolID', $this->schedule->departmentID);
 			}
 		}
@@ -449,7 +495,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	{
 		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
 
-		foreach ($this->compSchedule->degrees as $gpuntisID => $program)
+		foreach ($this->refSchedule->degrees as $gpuntisID => $program)
 		{
 			// Newer format schedule has associated plan programs
 			if (!empty($program->id) AND !in_array($program->id, $this->schedule->programs))
@@ -461,8 +507,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$programID = THM_OrganizerHelperPrograms::getPlanResourceID($program);
 			if (!empty($programID))
 			{
-				$this->compSchedule->degrees->$gpuntisID->id = $programID;
-				$this->schedule->programs[]                  = $programID;
+				$this->refSchedule->degrees->$gpuntisID->id = $programID;
+				$this->schedule->programs[]                 = $programID;
 				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($programID, 'programID', $this->schedule->departmentID);
 			}
 		}
@@ -477,7 +523,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	{
 		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
 
-		foreach ($this->compSchedule->rooms as $gpuntisID => $room)
+		foreach ($this->refSchedule->rooms as $gpuntisID => $room)
 		{
 			// Newer format schedule has the room id available in the object
 			if (!empty($room->id) AND !in_array($room->id, $this->schedule->rooms))
@@ -489,8 +535,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$roomID = THM_OrganizerHelperRooms::getID($gpuntisID, $room);
 			if (!empty($roomID))
 			{
-				$this->compSchedule->rooms->$gpuntisID->id = $roomID;
-				$this->schedule->rooms[]                   = $roomID;
+				$this->refSchedule->rooms->$gpuntisID->id = $roomID;
+				$this->schedule->rooms[]                  = $roomID;
 				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($roomID, 'roomID', $this->schedule->departmentID);
 			}
 		}
@@ -505,7 +551,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	{
 		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 
-		foreach ($this->compSchedule->subjects as $gpuntisID => $subject)
+		foreach ($this->refSchedule->subjects as $gpuntisID => $subject)
 		{
 			// Newer format schedule has associated plan programs
 			if (!empty($subject->id) AND !in_array($subject->id, $this->schedule->subjects))
@@ -514,11 +560,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				continue;
 			};
 
-			$subjectID    = THM_OrganizerHelperSubjects::getPlanResourceID($gpuntisID, $subject);
+			$subjectID = THM_OrganizerHelperSubjects::getPlanResourceID($gpuntisID, $subject);
 			if (!empty($subjectID))
 			{
-				$this->compSchedule->subjects->$gpuntisID->id = $subjectID;
-				$this->schedule->subjects[]                   = $subjectID;
+				$this->refSchedule->subjects->$gpuntisID->id = $subjectID;
+				$this->schedule->subjects[]                  = $subjectID;
 				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($subjectID, 'subjectID', $this->schedule->departmentID);
 			}
 		}
@@ -533,7 +579,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	{
 		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
-		foreach ($this->compSchedule->teachers as $gpuntisID => $teacher)
+		foreach ($this->refSchedule->teachers as $gpuntisID => $teacher)
 		{
 			// Newer format schedule has the room id available in the object
 			if (!empty($teacher->id) AND !in_array($teacher->id, $this->schedule->teachers))
@@ -545,8 +591,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$teacherID = THM_OrganizerHelperTeachers::getID($gpuntisID, $teacher);
 			if (!empty($teacherID))
 			{
-				$this->compSchedule->teachers->$gpuntisID->id = $teacherID;
-				$this->schedule->teachers[]                   = $teacherID;
+				$this->refSchedule->teachers->$gpuntisID->id = $teacherID;
+				$this->schedule->teachers[]                  = $teacherID;
 				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($teacherID, 'teacherID', $this->schedule->departmentID);
 			}
 		}
@@ -591,7 +637,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		foreach ($collection as $gpuntisID => $value)
 		{
-			$resourceID = $this->compSchedule->$collectionName->$gpuntisID->id;
+			$resourceID = $this->refSchedule->$collectionName->$gpuntisID->id;
 			if (empty($resourceID))
 			{
 				continue;
@@ -601,6 +647,171 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Removes delta information from a schedule
+	 *
+	 * @param   object &$schedule the schedule being processed
+	 *
+	 * @return void
+	 */
+	public function sanitize()
+	{
+		$this->sanitizeObjectNodes($this->schedule->lessons);
+		$this->sanitizeConfigurations($this->schedule->configurations);
+		$this->sanitizeCalendar($this->schedule->calendar);
+		if (isset($this->schedule->referenceID))
+		{
+			unset($this->schedule->referenceID);
+		}
+	}
+
+	/**
+	 * Removes delta information from the calendar
+	 *
+	 * @param   object &$calendar the schedule configurations
+	 *
+	 * @return void removes delta information and unsets removed schedule entries
+	 */
+	private function sanitizeCalendar(&$calendar)
+	{
+		foreach ($calendar as $date => $blocks)
+		{
+			foreach ($blocks as $blockTimes => $lessons)
+			{
+				$this->sanitizeObjectNodes($lessons);
+				$empty = empty((array) $lessons);
+				if ($empty)
+				{
+					unset($calendar->$date->$blockTimes);
+					continue;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Removes delta information from array collections
+	 *
+	 * @param   object &$numericCollection the array collection being currently iterated
+	 *
+	 * @return void removes delta information and unsets removed schedule entries
+	 */
+	private function sanitizeNumericCollection(&$numericCollection)
+	{
+		foreach ($numericCollection as $resourceID => $delta)
+		{
+			if (!empty($delta) AND $delta == 'removed')
+			{
+				unset($numericCollection->$resourceID);
+			}
+			else
+			{
+				$numericCollection->$resourceID = '';
+			}
+		}
+	}
+
+	/**
+	 * Removes delta information from the configurations
+	 *
+	 * @param   object &$configurations the schedule configurations
+	 *
+	 * @return void removes delta information and unsets removed schedule entries
+	 */
+	private function sanitizeConfigurations(&$configurations)
+	{
+		foreach ($configurations as $index => $rawConfiguration)
+		{
+			// Decodes and converts to assoc arrays
+			$configuration = json_decode($rawConfiguration);
+
+			$this->sanitizeNumericCollection($configuration->teachers);
+			$noInstanceTeachers = empty($configuration->teachers);
+			if ($noInstanceTeachers)
+			{
+				unset($configurations[$index]);
+				continue;
+			}
+
+			$this->sanitizeNumericCollection($configuration->rooms);
+			$noInstanceRooms = empty($configuration->rooms);
+			if ($noInstanceRooms)
+			{
+				unset($configurations[$index]);
+				continue;
+			}
+
+			$configurations[$index] = json_encode($configuration);
+		}
+	}
+
+	/**
+	 * Removes delta information from object collections
+	 *
+	 * @param   object &$objectNodes the object collection being currently iterated
+	 *
+	 * @return void removes delta information and unsets removed schedule entries
+	 */
+	private function sanitizeObjectNodes(&$objectNodes)
+	{
+		foreach ($objectNodes as $objectID => $object)
+		{
+			if (!empty($object->delta) AND $object->delta == 'removed')
+			{
+				unset($objectNodes->$objectID);
+			}
+			else
+			{
+				$objectNodes->$objectID->delta = '';
+			}
+
+			// If any of the subordinate nodes/collections are empty after sanitization, the node being processed must be removed
+			if (isset($object->subjects))
+			{
+				$this->sanitizeObjectNodes($object->subjects);
+				$empty = empty((array) $object->subjects);
+				if ($empty)
+				{
+					unset($objectNodes->$objectID);
+					continue;
+				}
+			}
+
+			if (isset($object->pools))
+			{
+				$this->sanitizeNumericCollection($object->pools);
+				$empty = empty($object->pools);
+				if ($empty)
+				{
+					unset($objectNodes->$objectID);
+					continue;
+				}
+			}
+
+			if (isset($object->teachers))
+			{
+				$this->sanitizeNumericCollection($object->teachers);
+				$empty = empty($object->teachers);
+				if ($empty)
+				{
+					unset($objectNodes->$objectID);
+					continue;
+				}
+			}
+
+			if (isset($object->configurations))
+			{
+				$this->checkConfigurationIntegrity($object->configurations);
+				$empty = empty($object->configurations);
+				if ($empty)
+				{
+					unset($objectNodes->$objectID);
+					continue;
+				}
+			}
+		}
 	}
 
 	/**
@@ -945,5 +1156,320 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		$table = JTable::getInstance('subject_mappings', 'thm_organizerTable');
 		$table->load($data);
 		$table->save($data);
+	}
+
+	/**
+	 * Creates the delta to the chosen reference schedule
+	 *
+	 * @param object $reference the reference schedule
+	 * @param object $active    the active schedule
+	 *
+	 * @return boolean true on successful delta creation, otherwise false
+	 */
+	public function setReference($reference, $active)
+	{
+		$this->refSchedule = json_decode($reference->newSchedule);
+		$this->schedule    = json_decode($active->newSchedule);
+
+		// Protect the active delta in case of fail
+		$this->_db->transactionStart();
+
+		$this->sanitize();
+
+		$this->schedule->referenceID = $reference->id;
+		$this->setLessonReference();
+		$this->setCalendarReference();
+
+		$active->set('newSchedule', json_encode($this->schedule));
+		$activeSuccess = $active->store();
+
+		if (!$activeSuccess)
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+
+		$this->_db->transactionCommit();
+
+		return true;
+	}
+
+	/**
+	 * Compares the lessons of the reference schedule with the active one and sets delta information
+	 *
+	 * @return void modifies information in the schedule lessons collection
+	 */
+	private function setCalendarReference()
+	{
+		// This will later overwrite the current active schedule configurations
+		$configurations = array();
+
+		$refCalendarDates    = array_keys((array) $this->refSchedule->calendar);
+		$activeCalendarDates = array_keys((array) $this->schedule->calendar);
+
+		$dates = array_intersect($refCalendarDates, $activeCalendarDates);
+
+		foreach ($dates as $date)
+		{
+			$referenceTimes = array_keys((array) $this->refSchedule->calendar->$date);
+			$activeTimes    = array_keys((array) $this->schedule->calendar->$date);
+
+			$times = array_intersect($referenceTimes, $activeTimes);
+
+			foreach ($times as $time)
+			{
+				$referenceLessonIDs = array_keys((array) $this->refSchedule->calendar->$date->$time);
+				$activeLessonIDs    = array_keys((array) $this->schedule->calendar->$date->$time);
+
+				$lessonIDs = array_intersect($referenceLessonIDs, $activeLessonIDs);
+
+				foreach ($lessonIDs as $lessonID)
+				{
+					$referenceInstance = $this->refSchedule->calendar->$date->$time->$lessonID;
+					$instance          = $this->schedule->calendar->$date->$time->$lessonID;
+					$this->setConfigurationReferences($referenceInstance, $instance, $configurations);
+					$this->schedule->calendar->$date->$time->$lessonID = $instance;
+				}
+
+				$removedLessonIDs = array_diff($referenceLessonIDs, $activeLessonIDs);
+				$this->transferInstances($removedLessonIDs, 'removed', $date, $time, $configurations);
+
+				$newLessonIDs = array_diff($activeLessonIDs, $referenceLessonIDs);
+				$this->transferInstances($newLessonIDs, 'new', $date, $time, $configurations);
+			}
+
+			$removedTimes = array_diff($referenceTimes, $activeTimes);
+			$this->transferTimes('removed', $date, $removedTimes, $configurations);
+
+			$newTimes = array_diff($activeTimes, $referenceTimes);
+			$this->transferTimes('new', $date, $newTimes, $configurations);
+		}
+
+		$removedDates = array_diff($refCalendarDates, $activeCalendarDates);
+
+		foreach ($removedDates as $date)
+		{
+			$times = array_keys((array) $this->refSchedule->calendar->$date);
+			$this->transferTimes('removed', $date, $times, $configurations);
+		}
+
+		$newDates = array_diff($activeCalendarDates, $refCalendarDates);
+
+		foreach ($newDates as $date)
+		{
+			$times = array_keys((array) $this->schedule->calendar->$date);
+			$this->transferTimes('new', $date, $times, $configurations);
+		}
+
+		$this->schedule->configurations = $configurations;
+	}
+
+	/**
+	 * Sets the configurationsfor the instance being iterated
+	 *
+	 * @param object &$instance      the instance being iterated
+	 * @param array  $configurations the array holding the configurations
+	 * @param string $source         [schedule|refSchedule]
+	 */
+	private function setConfigurations(&$instance, &$configurations, $source)
+	{
+		$localConfigurations = array();
+		foreach ($instance->configurations as $configIndex)
+		{
+			$localConfigurations[] = $this->$source->configurations[$configIndex];
+		}
+
+		foreach ($localConfigurations as $index => $configuration)
+		{
+			$this->addConfiguration($configuration, $configurations, $instance);
+		}
+	}
+
+	/**
+	 * Sets the configuration references for the instance being iterated
+	 *
+	 * @param object $referenceInstance the old instance data
+	 * @param object &$activeInstance   the active instance data
+	 * @param array  $configurations    the array holding the configurations
+	 *
+	 * @return void modifies $activeInstance and $configurations
+	 */
+	private function setConfigurationReferences($referenceInstance, &$activeInstance, &$configurations)
+	{
+		$referenceConfigurations = array();
+		foreach ($referenceInstance->configurations as $refConfigurationIndex)
+		{
+			$referenceConfigurations[] = $this->refSchedule->configurations[$refConfigurationIndex];
+		}
+
+		$activeConfigurations = array();
+		foreach ($activeInstance->configurations as $activeConfigurationIndex)
+		{
+			$activeConfigurations[] = $this->schedule->configurations[$activeConfigurationIndex];
+		}
+
+		// These will be renumbered in the following
+		$activeInstance->configurations = array();
+
+		$unchangedConfigurations = array_intersect($referenceConfigurations, $activeConfigurations);
+
+		foreach ($unchangedConfigurations as $unchangedConfiguration)
+		{
+			$this->addConfiguration($unchangedConfiguration, $configurations, $activeInstance);
+		}
+
+		$oldConfigurations = array_diff($referenceConfigurations, $activeConfigurations);
+		$newConfigurations = array_diff($activeConfigurations, $referenceConfigurations);
+
+		foreach ($newConfigurations as $ncIndex => $newConfiguration)
+		{
+			$newConfigObject = json_decode($newConfiguration);
+			$teachers        = array_keys((array) $newConfigObject->teachers);
+			$rooms           = array_keys((array) $newConfigObject->rooms);
+			$comparisonFound = false;
+
+			foreach ($oldConfigurations as $dcIndex => $oldConfiguration)
+			{
+				$oldConfigObject = json_decode($oldConfiguration);
+
+				// Changes of subject are handled at the lesson subjects level and deprecated subjects don't need config deltas.
+				if ($oldConfigObject->subjectID != $newConfigObject->subjectID)
+				{
+					continue;
+				}
+
+				$comparisonFound = true;
+
+				$oldTeachers = array_keys((array) $oldConfigObject->teachers);
+
+				// Teachers which are not in either diff should have blank values
+
+				$removedTeachers = array_diff($oldTeachers, $teachers);
+				foreach ($removedTeachers as $removedTeacherID)
+				{
+					$newConfigObject->teachers->$removedTeacherID = 'removed';
+				}
+
+				$newTeachers = array_diff($teachers, $oldTeachers);
+				foreach ($newTeachers as $newTeacherID)
+				{
+					$newConfigObject->teachers->$newTeacherID = 'new';
+				}
+
+				$oldRooms = array_keys((array) $oldConfigObject->rooms);
+
+				// Rooms which are not in either diff should have blank values
+
+				$removedRooms = array_diff($oldRooms, $rooms);
+				foreach ($removedRooms as $removedRoomID)
+				{
+					$newConfigObject->rooms->$removedRoomID = 'removed';
+				}
+
+				$newRooms = array_diff($rooms, $oldRooms);
+				foreach ($newRooms as $newRoomID)
+				{
+					$newConfigObject->rooms->$newRoomID = 'new';
+				}
+			}
+
+			// Subject was newly added to the lesson
+			if (!$comparisonFound)
+			{
+				foreach ($teachers as $teacherID)
+				{
+					$newConfigObject->teachers->$teacherID = 'new';
+				}
+
+				foreach ($rooms as $roomID)
+				{
+					$newConfigObject->rooms->$roomID = 'new';
+				}
+			}
+
+			$diffConfig = json_encode($newConfigObject);
+			$this->addConfiguration($diffConfig, $configurations, $activeInstance);
+		}
+	}
+
+	/**
+	 * Compares the lessons of the reference schedule with the active one and sets delta information
+	 *
+	 * @return void modifies information in the schedule lessons collection
+	 */
+	private function setLessonReference()
+	{
+		$referenceLessonIDs = array_keys((array) $this->refSchedule->lessons);
+		$activeLessonIDs    = array_keys((array) $this->schedule->lessons);
+
+		$removedLessonIDs = array_diff($referenceLessonIDs, $activeLessonIDs);
+
+		foreach ($removedLessonIDs as $removedLessonID)
+		{
+			$this->schedule->lessons->$removedLessonID        = $this->refSchedule->lessons->$removedLessonID;
+			$this->schedule->lessons->$removedLessonID->delta = 'removed';
+		}
+
+		$newLessonIDs = array_diff($activeLessonIDs, $referenceLessonIDs);
+
+		foreach ($newLessonIDs as $newLessonID)
+		{
+			$this->schedule->lessons->$newLessonID->delta = 'new';
+		}
+	}
+
+	/**
+	 * Transfers instances which need no configuration reference processing. (The instance itself is new or removed.)
+	 *
+	 * @param array  $lessonIDs      the lessonIDs for the instances to be transfered
+	 * @param string $status         the batch instance status [new|removed]
+	 * @param string $date           the date when the instance occurs
+	 * @param string $time           the time interval object when the instance occurs
+	 * @param array  $configurations the array holding the configurations
+	 *
+	 * @return void modifies the schedule time interval object
+	 */
+	private function transferInstances($lessonIDs, $status, $date, $time, &$configurations)
+	{
+		$source = $status == 'new' ? 'schedule' : 'refSchedule';
+		foreach ($lessonIDs as $lessonID)
+		{
+			$instance        = $this->$source->calendar->$date->$time->$lessonID;
+			$instance->delta = $status;
+			$source          = $status == 'new' ? 'schedule' : 'refSchedule';
+			$this->setConfigurations($instance, $configurations, $source);
+			$this->schedule->calendar->$date->$time->$lessonID = $instance;
+		}
+	}
+
+	/**
+	 * Transfers time intervals which need no configuration reference processing. (The time interval itself is new or removed.)
+	 *
+	 * @param string $status         the batch instance status [new|removed]
+	 * @param string $date           the date when the times occur
+	 * @param array  $times          the time intervals to be transfered
+	 * @param array  $configurations the array holding the configurations
+	 *
+	 * @return void modifies the schedule date object
+	 */
+	private function transferTimes($status, $date, $times, &$configurations)
+	{
+		$source = $status == 'new' ? 'schedule' : 'refSchedule';
+
+		if (empty($this->schedule->calendar->$date))
+		{
+			$this->schedule->calendar->$date = new stdClass;
+		}
+
+		foreach ($times as $time)
+		{
+			if (empty($this->schedule->calendar->$date->$time))
+			{
+				$this->schedule->calendar->$date->$time = new stdClass;
+			}
+			$lessonIDs = array_keys((array) $this->$source->calendar->$date->$time);
+			$this->transferInstances($lessonIDs, $status, $date, $time, $configurations);
+		}
 	}
 }

@@ -40,7 +40,7 @@ class THM_OrganizerHelperDepartment_Resources
 			$data['departmentID'] = $departmentID;
 		}
 
-		$data[$column]        = $planResourceID;
+		$data[$column] = $planResourceID;
 
 		$deptResourceTable = JTable::getInstance('department_resources', 'thm_organizerTable');
 		$exists            = $deptResourceTable->load($data);

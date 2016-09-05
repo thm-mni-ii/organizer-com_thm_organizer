@@ -494,7 +494,6 @@ class THM_OrganizerController extends JControllerLegacy
 	 */
 	public function upload()
 	{
-		$url   = "index.php?option=com_thm_organizer&view={$this->_resource}_";
 		$model = $this->getModel($this->_resource);
 
 		$type              = 'error';

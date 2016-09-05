@@ -147,7 +147,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 
 			$created = THM_OrganizerHelperComponent::formatDate($item->creationdate);
 			$created .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationtime);
-			$return[$index]['created'] = $created;
+			$return[$index]['created']  = $created;
 			$return[$index]['migrated'] = $this->getMigrate($item->id, $item->migrated);
 
 
@@ -184,7 +184,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	/**
 	 * Generates a toggle for the attribute in question
 	 *
-	 * @param   int    $id         the id of the database entry
+	 * @param   int $id the id of the database entry
 	 *
 	 * @return  string  a HTML string
 	 */
@@ -195,13 +195,13 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 			return '<div class="button-grp"><i class="icon-publish"></i></div>';
 		}
 
-		$icon      = '<i class="icon-unpublish"></i>';
+		$icon = '<i class="icon-unpublish"></i>';
 
 		$attributes          = array();
 		$attributes['title'] = JTEXT::_('COM_THM_ORGANIZER_ACTION_MIGRATE');
 		$attributes['class'] = 'btn btn-micro hasTooltip inactive';
 
-		$url = "index.php?option=com_thm_organizer&task=schedule.migrate&id=" . $id;
+		$url  = "index.php?option=com_thm_organizer&task=schedule.migrate&id=" . $id;
 		$link = JHtml::_('link', $url, $icon, $attributes);
 
 		return '<div class="button-grp">' . $link . '</div>';
