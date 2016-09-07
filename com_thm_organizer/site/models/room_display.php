@@ -392,7 +392,11 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 				$subjectIDs  = array_keys($subjects);
 				$lessonTitle = $this->getLessonTitle($subjectIDs, $schedule);
 
-				$lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
+				if (!empty($schedule->lessons->$lessonID->description))
+				{
+					$lessonTitle .= " - " . $schedule->lessons->$lessonID->description;
+				}
+
 				$this->blocks[$period]->lessons[$lessonID]['title'] = $lessonTitle;
 
 				$teachersIDs = (array) $schedule->lessons->$lessonID->teachers;
