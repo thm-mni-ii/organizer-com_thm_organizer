@@ -23,6 +23,9 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 {
+	protected $defaultOrdering = 'name';
+
+	protected $defaultDirection = 'asc';
 	/**
 	 * Method to get all grids from the database and set filters for name and default state
 	 *
