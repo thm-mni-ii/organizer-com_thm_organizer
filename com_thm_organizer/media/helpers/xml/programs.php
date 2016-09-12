@@ -46,6 +46,8 @@ class THM_OrganizerHelperXMLPrograms
 		{
 			self::validateIndividual($scheduleModel, $degreeNode);
 		}
+
+		$scheduleModel->newSchedule->degrees = $scheduleModel->schedule->degrees;
 	}
 
 	/**

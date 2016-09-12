@@ -36,8 +36,8 @@
         <field name="created"
                type="datelist"
                format="date"
-               valueColumn="creationdate"
-               textColumn="creationdate"
+               valueColumn="creationDate"
+               textColumn="creationDate"
                table="thm_organizer_schedules"
                label="COM_THM_ORGANIZER_CREATION_DATE"
                onchange="this.form.submit();">

@@ -389,17 +389,17 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		$grid       = $this->_currentSchedule->periods->{$eventArray['grid']};
 		$eventNo    = $eventArray['eventNo'];
 		$roomName   = $eventArray['roomName'];
-		$gStartTime = $grid->$blockNo->starttime;
+		$gStartTime = $grid->$blockNo->startTime;
 		$stText     = THM_OrganizerHelperComponent::formatTime($gStartTime);
-		$gEndTime   = $grid->$blockNo->endtime;
+		$gEndTime   = $grid->$blockNo->endTime;
 		$etText     = THM_OrganizerHelperComponent::formatTime($gEndTime);
 		$timeText   = "$stText - $etText";
 
 		$blocksCount = count($blocks);
 		for ($blockIndex = 1; $blockIndex <= $blocksCount; $blockIndex++)
 		{
-			$bStartTime = $blocks[$blockIndex]['starttime'];
-			$bEndTime   = $blocks[$blockIndex]['endtime'];
+			$bStartTime = $blocks[$blockIndex]['startTime'];
+			$bEndTime   = $blocks[$blockIndex]['endTime'];
 			$beginsIn   = ($gStartTime == $bStartTime OR ($gStartTime > $bStartTime AND $gStartTime < $bEndTime));
 			$endsIn     = ($gEndTime == $bEndTime OR ($gEndTime > $bStartTime AND $gEndTime < $bEndTime));
 			$overlaps   = ($gStartTime < $bStartTime AND $gEndTime > $bEndTime);
@@ -483,8 +483,8 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		foreach ($blocks as $blockNo => $rooms)
 		{
 			unset($rooms['delta']);
-			unset($rooms['endtime']);
-			unset($rooms['starttime']);
+			unset($rooms['endTime']);
+			unset($rooms['startTime']);
 			if (!count($rooms))
 			{
 				continue;

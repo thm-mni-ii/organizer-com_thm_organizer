@@ -446,7 +446,7 @@ function displayDelta()
 
     var currentDate = new Date();
     Ext.Date.clearTime(currentDate);
-    var creationDate = convertEnglishDateStringToDateObject(MySched.session.creationdate);
+    var creationDate = convertEnglishDateStringToDateObject(MySched.session.creationDate);
 
     if (creationDate)
     {

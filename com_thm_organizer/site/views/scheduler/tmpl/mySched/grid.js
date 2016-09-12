@@ -34,7 +34,7 @@ Ext.define('SchedGrid',
             for (var i = 1; i <= scheduleGridLength; i++)
             {
                 var index = i - 1;
-                data[index].time = addColonToTime(scheduleGrid[i].starttime) + '<br/>-<br/>' + addColonToTime(scheduleGrid[i].endtime);
+                data[index].time = addColonToTime(scheduleGrid[i].startTime) + '<br/>-<br/>' + addColonToTime(scheduleGrid[i].endTime);
             }
 
             // If the grid is also shown, show also the sporadic events

@@ -74,11 +74,11 @@ $metric  = 0;
 			foreach ($blocks as $blockKey => $block)
 			{
 				$blockClass  = ($blockNo % 2) ? 'block-odd' : 'block-even';
-				$activeClass = ($time >= $block->starttime and $time <= $block->endtime) ? 'active' : 'inactive';
+				$activeClass = ($time >= $block->startTime and $time <= $block->endTime) ? 'active' : 'inactive';
 				?>
 				<div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
 					<div class="block-time">
-						<?php echo $block->starttime . ' - ' . $block->endtime; ?>
+						<?php echo $block->startTime . ' - ' . $block->endTime; ?>
 					</div>
 					<div class="block-data">
 						<?php

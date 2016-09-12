@@ -333,7 +333,7 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	 *
 	 * @return boolean true on successful delta creation, otherwise false
 	 */
-	public function seReference($reference, $active)
+	public function setReference($reference, $active)
 	{
 		$this->compSchedule = json_decode($reference->schedule);
 		$this->schedule     = json_decode($active->schedule);
@@ -345,8 +345,9 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 		$this->_db->transactionStart();
 		$this->sanitize($this->schedule);
 
-		$referenceID = $reference->creationdate;
+		$referenceID = $reference->id;
 		$reference->set('schedule', json_encode($this->compSchedule));
+		$reference->set('active', 0);
 		$refSuccess = $reference->store();
 
 		if (!$refSuccess)
@@ -367,6 +368,7 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 		$this->setCalendarReference($this->schedule->calendar, $this->compSchedule->calendar);
 
 		$active->set('schedule', json_encode($this->schedule));
+		$active->set('active', 1);
 		$activeSuccess = $active->store();
 		if (!$activeSuccess)
 		{

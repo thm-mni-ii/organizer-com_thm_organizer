@@ -27,18 +27,18 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json/old_schedule.ph
 class THM_OrganizerModelSchedule extends JModelLegacy
 {
 	/**
-	 * Object containing information from the actual schedule
+	 * JSON Object modeling the schedule (old format)
 	 *
 	 * @var object
 	 */
 	public $schedule = null;
 
 	/**
-	 * Object containing information from a reference schedule
+	 * JSON Object modeling the schedule (old format)
 	 *
 	 * @var object
 	 */
-	public $refSchedule = null;
+	public $newSchedule = null;
 
 	/**
 	 * Activates the selected schedule
@@ -49,61 +49,36 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 */
 	public function activate($scheduleID = 0)
 	{
-		$scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-		if (empty($scheduleID))
-		{
-			$scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-			if (empty($scheduleIDs))
-			{
-				return true;
-			}
-
-			$scheduleID = $scheduleIDs[0];
-		}
-
-		$scheduleExists = $scheduleRow->load($scheduleID);
-		if (!$scheduleExists)
+		$save   = false;
+		$active = $this->getScheduleRow($save);
+		if (empty($active) OR empty($active->id) OR !empty($active->active))
 		{
 			return true;
 		}
 
-		$schedule = json_decode($scheduleRow->schedule);
-		$this->sanitizeSchedule($schedule);
-		$scheduleRow->schedule = json_encode($schedule);
-		$scheduleRow->active   = 1;
-
-		$this->_db->transactionStart();
-
-		$zeroQuery = $this->_db->getQuery(true);
-		$zeroQuery->update('#__thm_organizer_schedules');
-		$zeroQuery->set("active = '0'");
-		$zeroQuery->where("plan_name = '$scheduleRow->plan_name'");
-		$this->_db->setQuery((string) $zeroQuery);
-		try
+		$reference = $this->getScheduleRow($save, $active->departmentID, $active->planningPeriodID);
+		if (empty($reference) OR empty($reference->id))
 		{
-			$this->_db->execute();
-		}
-		catch (Exception $exception)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$this->_db->transactionRollback();
-
-			return false;
-		}
-
-		$success = $scheduleRow->store();
-		if ($success)
-		{
-			$this->_db->transactionCommit();
-
+			$jsonModel  = new THM_OrganizerModelJSONSchedule($this->newSchedule);
+			$jsonModel->save();
+			$active->set('active', 1);
+			$active->store();
 			return true;
 		}
-		else
-		{
-			$this->_db->transactionRollback();
 
+		$oldJsonModel  = new THM_OrganizerModelOldJSONSchedule;
+		$oldRefSuccess = $oldJsonModel->setReference($reference, $active);
+
+		if (!$oldRefSuccess)
+		{
 			return false;
 		}
+
+		// Free up memory
+		unset($oldJsonModel);
+
+		$jsonModel  = new THM_OrganizerModelJSONSchedule;
+		return $jsonModel->setReference($reference, $active);
 	}
 
 	/**
@@ -218,40 +193,21 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * Gets a schedule row for referencing. Implicitly migrating as necessary
 	 *
-	 * @param int $departmentID     the department id of the reference row
-	 * @param int $planningPeriodID the planning period id of the reference row
+	 * @param bool $save             whether or not the migrated schedule should be saved to the corresponding db tables
+	 * @param int  $departmentID     the department id of the reference row
+	 * @param int  $planningPeriodID the planning period id of the reference row
+	 * @param bool $rewind           whether a previous schedule should be loaded for comparison purposes
 	 *
 	 * @return  mixed  object if successful, otherwise null
 	 */
-	private function getScheduleRow($departmentID = null, $planningPeriodID = null)
+	private function getScheduleRow($save = false, $departmentID = null, $planningPeriodID = null, $rewind = null)
 	{
 		$scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
 
-		// Reference schedule row
 		if (empty($departmentID) OR empty($planningPeriodID))
 		{
 			$referenceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-
-			// Called implicitly from within the class
-			if (empty($referenceIDs))
-			{
-				if (empty($this->schedule))
-				{
-					return null;
-				}
-
-				$pullData = array(
-					'departmentID'     => $this->schedule->departmentID,
-					'planningPeriodID' => $this->schedule->planningPeriodID,
-					'active'           => 1
-				);
-			}
-
-			// Called explicitly from the schedule manager view
-			else
-			{
-				$pullData = $referenceIDs[0];
-			}
+			$pullData = $referenceIDs[0];
 		}
 
 		// Active schedule row
@@ -273,7 +229,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 		if (empty($scheduleRow->newSchedule))
 		{
-			$migrated = $this->migrate($scheduleRow->id);
+			$migrated = $this->migrate($scheduleRow->id, $save);
 
 			if (!$migrated)
 			{
@@ -290,13 +246,16 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * Migrates an existing deprecated format schedule to a schedule with the new format
 	 *
+	 * @param int  $scheduleID the id of the schedule if called implicitly
+	 * @param bool $save       whether or not the migrated schedule (if active) should be saved to the db
+	 *
 	 * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
 	 *                                 ['errors']      critical data inconsistencies
 	 *                                 ['warnings']    minor data inconsistencies
 	 */
-	public function migrate($scheduleID = null)
+	public function migrate($scheduleID = null, $save = false)
 	{
-		// Called directly by user
+		// Called directly by schedule manager view
 		if (empty($scheduleID))
 		{
 			$input       = JFactory::getApplication()->input;
@@ -313,7 +272,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			}
 		}
 
-		// Called implicitly in the class
+		// Called implicitly in this class
 		else
 		{
 			$scheduleIDs = array($scheduleID);
@@ -322,7 +281,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		foreach ($scheduleIDs as $scheduleID)
 		{
 			$jsonModel = new THM_OrganizerModelJSONSchedule;
-			$success   = $jsonModel->migrate($scheduleID);
+			$success   = $jsonModel->migrate($scheduleID, $save);
 
 			// End on first fail
 			if (!$success)
@@ -337,63 +296,27 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	}
 
 	/**
-	 * Persists the schedule to be uploaded
-	 *
-	 * @return  bool  true on success, otherwise false
-	 */
-	private function saveSchedule()
-	{
-		$formData = JFactory::getApplication()->input->get('jform', array(), 'array');
-
-		$data                     = array();
-		$data['departmentID']     = $formData['departmentID'];
-		$departmentName           = $this->schedule->departmentname;
-		$semesterName             = $this->schedule->semestername;
-		$data['departmentname']   = $departmentName;
-		$data['semestername']     = $semesterName;
-		$data['planningPeriodID'] = $this->schedule->planningPeriodID;
-		$data['creationdate']     = $this->schedule->creationdate;
-		$data['creationtime']     = $this->schedule->creationtime;
-		$data['schedule']         = json_encode($this->schedule);
-		$data['startDate']        = $this->schedule->startDate;
-		$data['endDate']          = $this->schedule->endDate;
-		$data['active']           = 1;
-
-		$row = JTable::getInstance('schedules', 'thm_organizerTable');
-
-		try
-		{
-			return $row->save($data);
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return false;
-		}
-	}
-
-	/**
 	 * Creates the delta to the chosen reference schedule
 	 *
 	 * @return boolean true on successful delta creation, otherwise false
 	 */
 	public function setReference()
 	{
-		$reference = $this->getScheduleRow();
+		$save      = false;
+		$reference = $this->getScheduleRow($save);
 		if (empty($reference) OR empty($reference->id))
 		{
 			return true;
 		}
 
-		$active = $this->getScheduleRow($reference->departmentID, $reference->planningPeriodID);
+		$active = $this->getScheduleRow($save, $reference->departmentID, $reference->planningPeriodID);
 		if (empty($active) OR empty($active->id))
 		{
 			return true;
 		}
 
 		$oldJsonModel  = new THM_OrganizerModelOldJSONSchedule;
-		$oldRefSuccess = $oldJsonModel->seReference($reference, $active);
+		$oldRefSuccess = $oldJsonModel->setReference($reference, $active);
 
 		if (!$oldRefSuccess)
 		{
@@ -406,8 +329,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$jsonModel  = new THM_OrganizerModelJSONSchedule;
 		$refSuccess = $jsonModel->setReference($reference, $active);
 
-
-		return true;
+		return $refSuccess;
 	}
 
 	/**
@@ -451,26 +373,42 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		}
 
 		$this->schedule = $xmlModel->schedule;
-		$this->setReference();
-		$this->_db->transactionStart();
+		$this->newSchedule = $xmlModel->newSchedule;
 
-		try
-		{
-			$success = $this->saveSchedule();
-		}
-		catch (Exception $exception)
-		{
-			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-			$this->_db->transactionRollback();
-		}
+		$new = JTable::getInstance('schedules', 'thm_organizerTable');
+		$new->set('departmentID', $this->schedule->departmentID);
+		$new->set('departmentname', $this->schedule->departmentname);
+		$new->set('planningPeriodID', $this->schedule->planningPeriodID);
+		$new->set('semestername', $this->schedule->semestername);
+		$new->set('creationDate', $this->schedule->creationDate);
+		$new->set('creationTime', $this->schedule->creationTime);
+		$new->set('startDate', $this->schedule->startDate);
+		$new->set('endDate', $this->schedule->endDate);
+		$new->set('schedule', json_encode($this->schedule));
+		$new->set('newSchedule', json_encode($this->newSchedule));
+		$new->store();
 
-		if ($success)
-		{
-			$this->_db->transactionCommit();
+		$reference = $this->getScheduleRow(false, $new->departmentID, $new->planningPeriodID);
 
+		if (empty($reference) OR empty($reference->id))
+		{
+			$new->set('active', 1);
+			$new->store();
 			return true;
 		}
 
-		return false;
+		$oldJsonModel  = new THM_OrganizerModelOldJSONSchedule;
+		$oldRefSuccess = $oldJsonModel->setReference($reference, $new);
+
+		if (!$oldRefSuccess)
+		{
+			return false;
+		}
+
+		// Free up memory
+		unset($oldJsonModel);
+
+		$jsonModel  = new THM_OrganizerModelJSONSchedule;
+		return $jsonModel->setReference($reference, $new);
 	}
 }

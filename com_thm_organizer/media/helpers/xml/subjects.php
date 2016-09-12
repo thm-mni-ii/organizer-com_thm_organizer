@@ -61,7 +61,7 @@ class THM_OrganizerHelperXMLSubjects
 			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING', $warningCount);
 		}
 
-		return;
+		$scheduleModel->newSchedule->subjects = $scheduleModel->schedule->subjects;
 	}
 
 	/**

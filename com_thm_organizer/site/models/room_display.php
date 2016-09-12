@@ -246,13 +246,13 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 			{
 				foreach ($grid AS $number => $data)
 				{
-					$starttime                          = substr($data->starttime, 0, 2) . ":" . substr($data->starttime, 2);
-					$endtime                            = substr($data->endtime, 0, 2) . ":" . substr($data->endtime, 2);
+					$startTime                          = substr($data->startTime, 0, 2) . ":" . substr($data->startTime, 2);
+					$endTime                            = substr($data->endTime, 0, 2) . ":" . substr($data->endTime, 2);
 					$this->blocks[$number]              = new stdClass;
 					$this->blocks[$number]->period      = $number;
-					$this->blocks[$number]->starttime   = $starttime;
-					$this->blocks[$number]->endtime     = $endtime;
-					$this->blocks[$number]->displayTime = "$starttime - $endtime";
+					$this->blocks[$number]->startTime   = $startTime;
+					$this->blocks[$number]->endTime     = $endTime;
+					$this->blocks[$number]->displayTime = "$startTime - $endTime";
 				}
 			}
 		}
@@ -325,10 +325,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	 */
 	private function hasRelevance($gridBlock, $planBlock)
 	{
-		$gbStarttime     = substr($gridBlock->starttime, 0, 2) . ":" . substr($gridBlock->starttime, 2);
-		$gbEndtime       = substr($gridBlock->endtime, 0, 2) . ":" . substr($gridBlock->endtime, 2);
-		$pbStarttime     = substr($planBlock->starttime, 0, 2) . ":" . substr($planBlock->starttime, 2);
-		$pbEndtime       = substr($planBlock->endtime, 0, 2) . ":" . substr($planBlock->endtime, 2);
+		$gbStarttime     = substr($gridBlock->startTime, 0, 2) . ":" . substr($gridBlock->startTime, 2);
+		$gbEndtime       = substr($gridBlock->endTime, 0, 2) . ":" . substr($gridBlock->endTime, 2);
+		$pbStarttime     = substr($planBlock->startTime, 0, 2) . ":" . substr($planBlock->startTime, 2);
+		$pbEndtime       = substr($planBlock->endTime, 0, 2) . ":" . substr($planBlock->endTime, 2);
 		$startIsRelevant = ($gbStarttime >= $pbStarttime AND $gbStarttime < $pbEndtime);
 		$endIsRelevant   = ($gbEndtime > $pbStarttime AND $gbEndtime <= $pbEndtime);
 
@@ -415,7 +415,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 
 				if ($gridName != 'Haupt-Zeitraster')
 				{
-					$this->blocks[$period]->lessons[$lessonID]['time'] = "($gridBlock->starttime - $gridBlock->endtime)";
+					$this->blocks[$period]->lessons[$lessonID]['time'] = "($gridBlock->startTime - $gridBlock->endTime)";
 				}
 				else
 				{

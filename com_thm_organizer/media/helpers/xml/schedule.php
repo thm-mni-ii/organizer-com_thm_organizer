@@ -87,36 +87,8 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 				$calendar->$currentDate->$index = new stdClass;
 			}
 		}
+
 		$this->schedule->calendar = $calendar;
-	}
-
-	/**
-	 * Saves the planning period to the corresponding table if not already existent.
-	 *
-	 * @param   string $ppName    the abbreviation for the planning period
-	 * @param   int    $startDate the integer value of the start date
-	 * @param   int    $endDate   the integer value of the end date
-	 *
-	 * @return  void creates database entries
-	 */
-	private static function savePlanningPeriod($ppName, $startDate, $endDate)
-	{
-		$data              = array();
-		$data['startDate'] = date('Y-m-d', $startDate);
-		$data['endDate']   = date('Y-m-d', $endDate);
-
-		$table  = JTable::getInstance('planning_periods', 'thm_organizerTable');
-		$exists = $table->load($data);
-		if ($exists)
-		{
-			return $table->id;
-		}
-
-		$shortYear    = date('y', $endDate);
-		$data['name'] = $ppName . $shortYear;
-		$table->save($data);
-
-		return $table->id;
 	}
 
 	/**
@@ -155,14 +127,15 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		$xmlSchedule = simplexml_load_file($file['tmp_name']);
 
 		$this->schedule         = new stdClass;
+		$this->newSchedule      = new stdClass;
 		$this->scheduleErrors   = array();
 		$this->scheduleWarnings = array();
 
 		// Creation Date & Time
 		$creationDate = trim((string) $xmlSchedule[0]['date']);
-		$this->validateDateAttribute('creationdate', $creationDate, 'CREATION_DATE', 'error');
+		$this->validateDateAttribute('creationDate', $creationDate, 'CREATION_DATE', 'error');
 		$creationTime = trim((string) $xmlSchedule[0]['time']);
-		$this->validateTextAttribute('creationtime', $creationTime, 'CREATION_TIME', 'error');
+		$this->validateTextAttribute('creationTime', $creationTime, 'CREATION_TIME', 'error');
 
 		// School year dates
 		$syStartDate = trim((string) $xmlSchedule->general->schoolyearbegindate);
@@ -175,6 +148,10 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		$this->validateTextAttribute('departmentname', $departmentName, 'ORGANIZATION', 'error', '/[\#\;]/');
 		$semesterName      = trim((string) $xmlSchedule->general->footer);
 		$validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
+
+		$form = $input->get('jform', array(), 'array');
+		$this->schedule->departmentID = $form['departmentID'];
+		$this->newSchedule->departmentID = $form['departmentID'];
 
 		// Planning period start & end dates
 		$startDate = trim((string) $xmlSchedule->general->termbegindate);
@@ -196,7 +173,9 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		}
 		elseif ($validSemesterName)
 		{
-			$this->schedule->planningPeriodID = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
+			$planningPeriodID = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
+			$this->schedule->planningPeriodID = $planningPeriodID;
+			$this->newSchedule->planningPeriodID = $planningPeriodID;
 		}
 
 		THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);
@@ -207,24 +186,41 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
 		THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
 
-		// Object longer needed (next version)
 		unset($this->schedule->fields);
 
 		$this->initializeCalendar($startTimeStamp, $endTimeStamp);
+		$this->newSchedule->calendar = new stdClass;
+
 		$lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
 		$lessonsHelper->validate();
 
-		// No longer needed after lesson validation
-		unset($this->schedule->methods);
-
-		if (empty($this->scheduleErrors))
-		{
-			//$lessonsHelper->saveLessons();
-		}
-
 		$this->printStatusReport();
 
-		return (count($this->scheduleErrors)) ? false : true;
+		if (count($this->scheduleErrors))
+		{
+			// Don't need the bloat if these won't be used.
+			unset($this->schedule, $this->newSchedule);
+			return false;
+		}
+
+		unset($this->schedule->methods, $this->schedule->room_types);
+
+		unset(
+			$this->newSchedule->degrees,
+			$this->newSchedule->fields,
+			$this->newSchedule->methods,
+			$this->newSchedule->periods,
+			$this->newSchedule->pools,
+			$this->newSchedule->programs,
+			$this->newSchedule->room_types,
+			$this->newSchedule->rooms,
+			$this->newSchedule->subjects,
+			$this->newSchedule->syEndDate,
+			$this->newSchedule->syStartDate,
+			$this->newSchedule->teachers
+		);
+
+		return true;
 	}
 
 	/**
@@ -254,6 +250,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 			}
 		}
 		$this->schedule->$name = date('Y-m-d', strtotime($value));
+		$this->newSchedule->$name = date('Y-m-d', strtotime($value));
 
 		return;
 	}
@@ -301,6 +298,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 			}
 		}
 		$this->schedule->$name = $value;
+		$this->newSchedule->$name = $value;
 
 		return true;
 	}

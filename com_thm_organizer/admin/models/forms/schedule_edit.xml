@@ -19,13 +19,5 @@
                 class="inputbox"
                 accept=".xml"
                 required="true"/>
-        <field
-                name="rooms_required"
-                type="checkbox"
-                label="COM_THM_ORGANIZER_ROOMS_REQUIRED"
-                description="COM_THM_ORGANIZER_ROOMS_REQUIRED_DESC"
-                class="inputbox"
-                value="1"
-                default="1"/>
     </fieldset>
 </form>

@@ -82,7 +82,7 @@ class THM_OrganizerHelperXMLTeachers
 			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_USERNAME_MISSING', $warningCount);
 		}
 
-		return;
+		$scheduleModel->newSchedule->teachers = $scheduleModel->schedule->teachers;
 	}
 
 	/**
@@ -125,7 +125,7 @@ class THM_OrganizerHelperXMLTeachers
 
 		if (!empty($teacherID))
 		{
-			$scheduleModel->schedule->teachers->$gpuntisID->id = $gpuntisID;
+			$scheduleModel->schedule->teachers->$gpuntisID->id = $teacherID;
 			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($teacherID, 'teacherID');
 		}
 	}

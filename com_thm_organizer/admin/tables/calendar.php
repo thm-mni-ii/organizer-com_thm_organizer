@@ -31,4 +31,28 @@ class THM_OrganizerTableCalendar extends JTable
 	{
 		parent::__construct('#__thm_organizer_calendar', 'id', $dbo);
 	}
+
+	/**
+	 * Method to store a row in the database from the JTable instance properties.
+	 *
+	 * @param   boolean $updateNulls True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store(true);
+	}
+
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return  boolean  true
+	 */
+	public function check()
+	{
+		$this->modified = null;
+
+		return true;
+	}
 }

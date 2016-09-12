@@ -248,9 +248,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
 				// Calculate the scholastic hours (45 minutes)
 				$gridBlock = $schedule->periods->{$schedule->lessons->$lessonID->grid}->$blockNumber;
-				$startTime = $gridBlock->starttime;
+				$startTime = $gridBlock->startTime;
 				$startDT   = strtotime(substr($startTime, 0, 2) . ':' . substr($startTime, 2, 2) . ':00');
-				$endTime   = $gridBlock->endtime;
+				$endTime   = $gridBlock->endTime;
 				$endDT     = strtotime(substr($endTime, 0, 2) . ':' . substr($endTime, 2, 2) . ':00');
 				$hours     = ($endDT - $startDT) / $seconds;
 

@@ -24,13 +24,13 @@ Ext.define('EventListModel',
         addEvent: function (e)
         {
             // Adds an event
-            if (e.data.starttime === "00:00")
+            if (e.data.startTime === "00:00")
             {
-                e.data.starttime = "08:00";
+                e.data.startTime = "08:00";
             }
-            if (e.data.endtime === "00:00")
+            if (e.data.endTime === "00:00")
             {
-                e.data.endtime = "19:00";
+                e.data.endTime = "19:00";
             }
             this.data.add(e.data.id, e);
         },
@@ -119,8 +119,8 @@ Ext.define('EventListModel',
                 var eventData = o.data;
                 var eventStartDate = eventData.startDate;
                 var eventEndDate = eventData.endDate;
-                var eventStartTime = eventData.starttime;
-                var eventEndTime = eventData.endtime;
+                var eventStartTime = eventData.startTime;
+                var eventEndTime = eventData.endTime;
                 var currMOFR = getCurrentMoFrDate();
 
                 eventStartDate = convertGermanDateStringToDateObject(eventStartDate);

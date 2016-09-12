@@ -135,6 +135,8 @@ class THM_OrganizerHelperXMLGrids
 			self::validateIndividual($scheduleModel, $timePeriodNode, $grids);
 		}
 
+		$scheduleModel->newSchedule->periods = $scheduleModel->schedule->periods;
+
 		foreach ($grids as $gpuntisID => $grid)
 		{
 			self::saveGridEntry($gpuntisID, $grid);
@@ -181,8 +183,8 @@ class THM_OrganizerHelperXMLGrids
 		}
 
 		$scheduleModel->schedule->periods->$gpuntisID->$period            = new stdClass;
-		$scheduleModel->schedule->periods->$gpuntisID->$period->starttime = $startTime;
-		$scheduleModel->schedule->periods->$gpuntisID->$period->endtime   = $endTime;
+		$scheduleModel->schedule->periods->$gpuntisID->$period->startTime = $startTime;
+		$scheduleModel->schedule->periods->$gpuntisID->$period->endTime   = $endTime;
 
 		self::setGridEntry($grids, $gpuntisID, $day, $period, $startTime, $endTime);
 	}

@@ -98,9 +98,7 @@ class THM_OrganizerHelperXMLRooms
 			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TYPE_MISSING', $warningCount);
 		}
 
-		unset($scheduleModel->schedule->room_types);
-
-		return;
+		$scheduleModel->newSchedule->rooms = $scheduleModel->schedule->rooms;
 	}
 
 	/**

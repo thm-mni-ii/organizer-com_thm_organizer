@@ -35,6 +35,24 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	private $refSchedule = null;
 
 	/**
+	 * THM_OrganizerModelJSONSchedule constructor.
+	 *
+	 * @param object &$schedule the schedule object for direct processing
+	 *
+	 * @param null   $schedule
+	 */
+	public function __construct(&$schedule = null)
+	{
+		$config = array();
+		parent::__construct($config);
+
+		if (!empty($schedule))
+		{
+			$this->schedule = $schedule;
+		}
+	}
+
+	/**
 	 * Adds a configuration to the configurations array, and adds it's index from that array to the array of
 	 * configurations for the active instance.
 	 *
@@ -78,22 +96,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	}
 
 	/**
-	 * Removes all existing lessons for the given department/planning period. This implicitly removes associated lesson
-	 * subjects, lesson teachers, lesson pools, configurations and calendar entries.
-	 *
-	 * @return void removes entries from the database
-	 */
-	private function deleteLessons()
-	{
-		$query = $this->_db->getQuery(true);
-		$query->delete('#__thm_organizer_lessons')
-			->where("departmentID = '{$this->schedule->departmentID}'")
-			->where("planningPeriodID = '{$this->schedule->planningPeriodID}'");
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-	}
-
-	/**
 	 * Retrieves the configurations associated with the lesson instance
 	 *
 	 * @param int   $lessonID        the id of the lesson in the database
@@ -105,12 +107,18 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function getInstanceConfigurations($lessonID, $calendarEntry, $lessonSubjects)
 	{
-		$date           = $calendarEntry['schedule_date'];
-		$startTime      = date('Hi', strtotime($calendarEntry['start_time']));
-		$endTime        = date('Hi', strtotime($calendarEntry['end_time']));
-		$timeKey        = $startTime . '-' . $endTime;
-		$configIndexes  = $this->schedule->calendar->$date->$timeKey->$lessonID->configurations;
+		$date      = $calendarEntry['schedule_date'];
+		$startTime = date('Hi', strtotime($calendarEntry['start_time']));
+		$endTime   = date('Hi', strtotime($calendarEntry['end_time']));
+		$timeKey   = $startTime . '-' . $endTime;
+
 		$configurations = array();
+		if (empty($this->schedule->calendar->$date->$timeKey->$lessonID))
+		{
+			return $configurations;
+		}
+
+		$configIndexes = $this->schedule->calendar->$date->$timeKey->$lessonID->configurations;
 
 		foreach ($configIndexes as $configIndex)
 		{
@@ -121,10 +129,9 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			 */
 			$rawConfig     = $this->schedule->configurations[$configIndex];
 			$configuration = json_decode($rawConfig);
-
-			$configData   = array('lessonID' => $lessonSubjects[$configuration->subjectID]['id'], 'configuration' => $rawConfig);
-			$configsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
-			$exists       = $configsTable->load($configData);
+			$configData    = array('lessonID' => $lessonSubjects[$configuration->subjectID]['id'], 'configuration' => $rawConfig);
+			$configsTable  = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
+			$exists        = $configsTable->load($configData);
 
 			if ($exists)
 			{
@@ -138,7 +145,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Maps configurations to calendar entries
 	 *
-	 * @void creates database entries
+	 * @return bool true on success, otherwise false
 	 */
 	private function mapConfigurations()
 	{
@@ -155,7 +162,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			// Should not occur
 			if (!$lessonExists)
 			{
-				continue;
+				return false;
 			}
 
 			$lessonID = $lessonsTable->id;
@@ -168,7 +175,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$this->_db->setQuery($calendarQuery);
 			$calendarEntries = $this->_db->loadAssocList('id');
 
-			// Should not occur
+			// Occurs when the planner left the room blank
 			if (empty($calendarEntries))
 			{
 				continue;
@@ -182,7 +189,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			// Should not occur
 			if (empty($lessonSubjects))
 			{
-				continue;
+				return false;
 			}
 
 			foreach ($calendarEntries as $calendarID => $calendarEntry)
@@ -192,18 +199,17 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				{
 					$mapData  = array('calendarID' => $calendarID, 'configurationID' => $configID);
 					$mapTable = JTable::getInstance('calendar_configurations_map', 'thm_organizerTable');
-					try
+					$mapTable->load($mapData);
+					$success = $mapTable->save($mapData);
+					if (!$success)
 					{
-						$mapTable->load($mapData);
-						$mapTable->save($mapData);
-					}
-					catch (Exception $exc)
-					{
-						JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+						return false;
 					}
 				}
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -223,6 +229,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		foreach ($subjects as $gpuntisID => $value)
 		{
+			if (empty($this->refSchedule->subjects->$gpuntisID))
+			{
+				continue;
+			}
+
 			$subjectID = $this->refSchedule->subjects->$gpuntisID->id;
 			if (empty($subjectID))
 			{
@@ -243,7 +254,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 *
 	 * @return bool
 	 */
-	public function migrate($scheduleID)
+	public function migrate($scheduleID, $save = false)
 	{
 		$scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
 		$loaded      = $scheduleRow->load($scheduleID);
@@ -253,14 +264,23 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			return false;
 		}
 
+		if (!empty($scheduleRow->newSchedule))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_MIGRATE_EXISTS'), 'warning');
+
+			return true;
+		}
+
 		$this->refSchedule = json_decode($scheduleRow->schedule);
 		$this->schedule    = new stdClass;
 
 		// Common information
 		$this->schedule->departmentID     = $scheduleRow->departmentID;
 		$this->schedule->planningPeriodID = $scheduleRow->planningPeriodID;
-		$this->schedule->creationDate     = $this->refSchedule->creationdate;
-		$this->schedule->creationTime     = $this->refSchedule->creationtime;
+		$this->schedule->creationDate
+		                                  = $this->refSchedule->creationDate;
+		$this->schedule->creationTime
+		                                  = $this->refSchedule->creationTime;
 
 		$this->schedule->programs = array();
 		$this->migratePrograms();
@@ -304,15 +324,26 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			}
 		}
 
+		unset(
+			$this->schedule->programs,
+			$this->schedule->pools,
+			$this->schedule->rooms,
+			$this->schedule->subjects,
+			$this->schedule->teachers
+		);
+
 		$scheduleRow->newSchedule = json_encode($this->schedule);
+		$scheduleRow->store();
 
-
-		if ($scheduleRow->active)
+		if ($scheduleRow->active AND $save)
 		{
-			$this->save();
+			$dbSuccess = $this->save();
+			if (!$dbSuccess)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL'), 'notice');
+			}
 		}
 
-		$scheduleRow->store();
 
 		return true;
 	}
@@ -337,7 +368,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				{
 					$gridName = $this->refSchedule->lessons->$lessonCode->grid;
 					$times    = $this->refSchedule->periods->$gridName->$blockNo;
-					$time     = $times->starttime . '-' . $times->endtime;
+					$time     = $times->startTime . '-' . $times->endTime;
 
 					if (empty($this->schedule->calendar->$date->$time))
 					{
@@ -347,10 +378,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 					$lessonID                                          = $this->refSchedule->lessons->$lessonCode->gpuntisID;
 					$this->schedule->calendar->$date->$time->$lessonID = new stdClass;
 
-
 					$this->schedule->calendar->$date->$time->$lessonID->delta
-						                                                               = empty($instanceRooms->delta) ? '' : $this->resolveDelta($instanceRooms->delta);
-					$configurations                                                    = $this->migrateConfigurations($lessonCode, $instanceRooms);
+						            = empty($instanceRooms->delta) ? '' : $this->resolveDelta($instanceRooms->delta);
+					$configurations = $this->migrateConfigurations($lessonCode, $instanceRooms);
+
 					$this->schedule->calendar->$date->$time->$lessonID->configurations = $configurations;
 				}
 			}
@@ -370,7 +401,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		$rooms = array();
 		foreach ($instanceRooms as $gpuntisID => $delta)
 		{
-			if ($gpuntisID == 'delta')
+			$invalidRoom = ($gpuntisID == 'delta' OR empty($this->refSchedule->rooms->$gpuntisID));
+			if ($invalidRoom)
 			{
 				continue;
 			}
@@ -378,26 +410,29 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		}
 
 		$configurations = array();
-		$rawBaseConfigs = $this->refSchedule->lessons->$lessonCode->configurations;
-		foreach ($rawBaseConfigs as $rawBaseConfig)
+
+		if (!empty($this->refSchedule->lessons->$lessonCode->configurations))
 		{
-			// lesson, subject & teachers
-			$config        = json_decode($rawBaseConfig);
-			$config->rooms = $rooms;
-			$jsonConfig    = json_encode($config);
-
-			$configExists = in_array($jsonConfig, $this->schedule->configurations);
-			if (!$configExists)
+			foreach ($this->refSchedule->lessons->$lessonCode->configurations as $rawBaseConfig)
 			{
-				$this->schedule->configurations[] = $jsonConfig;
-			}
+				// lesson, subject & teachers
+				$config        = json_decode($rawBaseConfig);
+				$config->rooms = $rooms;
+				$jsonConfig    = json_encode($config);
 
-			$configIndex = array_search($jsonConfig, $this->schedule->configurations);
+				$configExists = in_array($jsonConfig, $this->schedule->configurations);
+				if (!$configExists)
+				{
+					$this->schedule->configurations[] = $jsonConfig;
+				}
 
-			$referenceExists = in_array($configIndex, $configurations);
-			if (!$referenceExists)
-			{
-				$configurations[] = $configIndex;
+				$configIndex = array_search($jsonConfig, $this->schedule->configurations);
+
+				$referenceExists = in_array($configIndex, $configurations);
+				if (!$referenceExists)
+				{
+					$configurations[] = $configIndex;
+				}
 			}
 		}
 
@@ -444,9 +479,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 					$this->refSchedule->lessons->$lessonCode->configurations = array();
 				}
 
-				$baseConfig            = new stdClass;
-				$baseConfig->lessonID  = $lessonID;
-				$baseConfig->subjectID = $subjectID;
+				$baseConfig           = new stdClass;
+				$baseConfig->lessonID = $lessonID;
+
+				// Cast to string because of compatibility issues in json encoding
+				$baseConfig->subjectID = (string) $subjectID;
 				$baseConfig->teachers  = $teachers;
 				$jsonConfig            = json_encode($baseConfig);
 
@@ -637,6 +674,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		foreach ($collection as $gpuntisID => $value)
 		{
+			if (empty($this->refSchedule->$collectionName->$gpuntisID))
+			{
+				continue;
+			}
+
 			$resourceID = $this->refSchedule->$collectionName->$gpuntisID->id;
 			if (empty($resourceID))
 			{
@@ -656,14 +698,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 *
 	 * @return void
 	 */
-	public function sanitize()
+	public function sanitize($source)
 	{
-		$this->sanitizeObjectNodes($this->schedule->lessons);
-		$this->sanitizeConfigurations($this->schedule->configurations);
-		$this->sanitizeCalendar($this->schedule->calendar);
-		if (isset($this->schedule->referenceID))
+		$this->sanitizeObjectNodes($this->$source->lessons);
+		$this->sanitizeConfigurations($this->$source->configurations);
+		$this->sanitizeCalendar($this->$source->calendar);
+		if (isset($this->$source->referenceID))
 		{
-			unset($this->schedule->referenceID);
+			unset($this->$source->referenceID);
 		}
 	}
 
@@ -674,7 +716,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 *
 	 * @return void removes delta information and unsets removed schedule entries
 	 */
-	private function sanitizeCalendar(&$calendar)
+	public function sanitizeCalendar(&$calendar)
 	{
 		foreach ($calendar as $date => $blocks)
 		{
@@ -835,29 +877,38 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		$this->_db->transactionStart();
 
-		// This deletes all existing lessons for the department/planning period explicitly and all associated entries implicitly.
 		try
 		{
-			$this->deleteLessons();
-			$this->saveLessons();
-			$this->saveConfigurations();
-			$this->saveCalendar();
-			$this->mapConfigurations();
+			$lessonsSaved         = $this->saveLessons();
+			$configurationsSaved  = $this->saveConfigurations();
+			$calendarSaved        = $this->saveCalendar();
+			$configurationsMapped = $this->mapConfigurations();
 		}
 		catch (Exception $exc)
 		{
-			//JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
 			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 			$this->_db->transactionRollback();
+
+			return false;
 		}
 
-		$this->_db->transactionCommit();
+		$success = ($lessonsSaved AND $configurationsSaved AND $calendarSaved AND $configurationsMapped);
+		if ($success)
+		{
+			$this->_db->transactionCommit();
+
+			return true;
+		}
+
+		$this->_db->transactionRollback();
+
+		return false;
 	}
 
 	/**
 	 * Creates calendar entries in the database
 	 *
-	 * @void creates database entries
+	 * @return bool true on success, otherwise false
 	 */
 	private function saveCalendar()
 	{
@@ -884,7 +935,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 					if (empty($lessonsTable->id))
 					{
-						continue;
+						return false;
 					}
 
 					$calData['lessonID'] = $lessonsTable->id;
@@ -893,16 +944,22 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 					$calendarTable->load($calData);
 
 					$calData['delta'] = $instanceData->delta;
-					$calendarTable->save($calData);
+					$success          = $calendarTable->save($calData);
+					if (!$success)
+					{
+						return false;
+					}
 				}
 			}
 		}
+
+		return true;
 	}
 
 	/**
 	 * Creates lesson configuration entries in the database
 	 *
-	 * @void creates database entries
+	 * @return bool true on success, otherwise false
 	 */
 	private function saveConfigurations()
 	{
@@ -920,7 +977,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 			if (empty($lessonsTable->id))
 			{
-				continue;
+				return false;
 			}
 
 			$lSubjectsData              = array();
@@ -932,7 +989,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 			if (empty($lSubjectsTable->id))
 			{
-				continue;
+				return false;
 			}
 
 			// Information would be redundant in the db
@@ -941,8 +998,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$configData    = array('lessonID' => $lSubjectsTable->id, 'configuration' => json_encode($config));
 			$lConfigsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
 			$lConfigsTable->load($configData);
-			$lConfigsTable->save($configData);
+			$success = $lConfigsTable->save($configData);
+			if (!$success)
+			{
+				return false;
+			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -952,6 +1015,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function saveLessons()
 	{
+		$departmentID     = $this->schedule->departmentID;
+		$planningPeriodID = $this->schedule->planningPeriodID;
 		foreach ($this->schedule->lessons as $gpuntisID => $lesson)
 		{
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
@@ -959,8 +1024,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 			$data                     = array();
 			$data['gpuntisID']        = $gpuntisID;
-			$data['departmentID']     = $this->schedule->departmentID;
-			$data['planningPeriodID'] = $this->schedule->planningPeriodID;
+			$data['departmentID']     = $departmentID;
+			$data['planningPeriodID'] = $planningPeriodID;
 
 			$table->load($data);
 
@@ -969,17 +1034,28 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				$data['methodID'] = $lesson->methodID;
 			}
 
-			$data['delta'] = $lesson->delta;
+			$data['delta'] = empty($lesson->delta) ? '' : $lesson->delta;
 
 			$success = $table->save($data);
 			if (!$success)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-				continue;
+				return false;
 			}
 
 			$this->saveLessonSubjects($table->id, $lesson->subjects);
 		}
+
+		$lessonIDs = array_keys((array) $this->schedule->lessons);
+
+		$deprecatedQuery = $this->_db->getQuery(true);
+		$deprecatedQuery->update('#__thm_organizer_lessons')->set("delta = 'removed'")
+			->where("departmentID = '$departmentID'")->where("planningPeriodID = '$planningPeriodID'")
+			->where("gpuntisID NOT IN ('" . implode("', '", $lessonIDs) . "')")
+			->where("delta != 'removed'");
+		$this->_db->setQuery($deprecatedQuery);
+		$deprecatedSuccess = $this->_db->execute();
+
+		return empty($deprecatedSuccess) ? false : true;
 	}
 
 	/**
@@ -1171,16 +1247,29 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		$this->refSchedule = json_decode($reference->newSchedule);
 		$this->schedule    = json_decode($active->newSchedule);
 
+		$this->sanitize('refSchedule');
+		$this->sanitize('schedule');
+
 		// Protect the active delta in case of fail
 		$this->_db->transactionStart();
 
-		$this->sanitize();
-
 		$this->schedule->referenceID = $reference->id;
+		$reference->set('newSchedule', json_encode($this->refSchedule));
+		$reference->set('active', 0);
+		$refSuccess = $reference->store();
+
+		if (!$refSuccess)
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+
 		$this->setLessonReference();
 		$this->setCalendarReference();
 
 		$active->set('newSchedule', json_encode($this->schedule));
+		$active->set('active', 1);
 		$activeSuccess = $active->store();
 
 		if (!$activeSuccess)
@@ -1191,6 +1280,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		}
 
 		$this->_db->transactionCommit();
+
+		$dbSuccess = $this->save();
+		if (!$dbSuccess)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL'), 'notice');
+
+			return false;
+		}
 
 		return true;
 	}
@@ -1266,7 +1363,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	}
 
 	/**
-	 * Sets the configurationsfor the instance being iterated
+	 * Sets the configurations for the instance being iterated
 	 *
 	 * @param object &$instance      the instance being iterated
 	 * @param array  $configurations the array holding the configurations
@@ -1274,13 +1371,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function setConfigurations(&$instance, &$configurations, $source)
 	{
-		$localConfigurations = array();
-		foreach ($instance->configurations as $configIndex)
+		$instanceConfigurations = array();
+		foreach ($instance->configurations as $instanceIndex => $globalIndex)
 		{
-			$localConfigurations[] = $this->$source->configurations[$configIndex];
+			$instanceConfigurations[] = $this->$source->configurations[$globalIndex];
+			unset($instance->configurations[$instanceIndex]);
 		}
 
-		foreach ($localConfigurations as $index => $configuration)
+		foreach ($instanceConfigurations as $configuration)
 		{
 			$this->addConfiguration($configuration, $configurations, $instance);
 		}
@@ -1437,7 +1535,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		{
 			$instance        = $this->$source->calendar->$date->$time->$lessonID;
 			$instance->delta = $status;
-			$source          = $status == 'new' ? 'schedule' : 'refSchedule';
 			$this->setConfigurations($instance, $configurations, $source);
 			$this->schedule->calendar->$date->$time->$lessonID = $instance;
 		}

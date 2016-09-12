@@ -229,10 +229,10 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 			foreach ($blockLessons as $lessonID => $lessonValues)
 			{
 				$gridBlock = $this->schedule->periods->{$this->schedule->lessons->$lessonID->grid}->$blockNumber;
-				$starttime = $gridBlock->starttime;
-				$startDT   = strtotime(substr($starttime, 0, 2) . ':' . substr($starttime, 2, 2) . ':00');
-				$endtime   = $gridBlock->endtime;
-				$endDT     = strtotime(substr($endtime, 0, 2) . ':' . substr($endtime, 2, 2) . ':00');
+				$startTime = $gridBlock->startTime;
+				$startDT   = strtotime(substr($startTime, 0, 2) . ':' . substr($startTime, 2, 2) . ':00');
+				$endTime   = $gridBlock->endTime;
+				$endDT     = strtotime(substr($endTime, 0, 2) . ':' . substr($endTime, 2, 2) . ':00');
 				$hours     = ($endDT - $startDT) / $seconds;
 				if (isset($lessonValues->delta) AND $lessonValues->delta == 'removed')
 				{

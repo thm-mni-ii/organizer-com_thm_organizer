@@ -86,10 +86,10 @@ $title       = $this->model->params->get('page_title', '');
 						$speakers = implode(' / ', $speakersArray); ?>
 						<tr class="<?php echo $rowClass; ?>">
 							<td class="time-column">
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['starttime']); ?>
+								<?php echo THM_OrganizerHelperComponent::formatTime($block['startTime']); ?>
 							</td>
 							<td class="time-column">
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['endtime']); ?>
+								<?php echo THM_OrganizerHelperComponent::formatTime($block['endTime']); ?>
 							</td>
 							<?php
 							if ($showRooms)

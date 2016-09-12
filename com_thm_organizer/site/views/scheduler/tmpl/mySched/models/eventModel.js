@@ -25,8 +25,8 @@ Ext.define('EventModel',
                 this.data.endDate = this.data.startDate;
             }
 
-            this.data.starttime = this.data.starttime.substring(0, 5);
-            this.data.endtime = this.data.endtime.substring(0, 5);
+            this.data.startTime = this.data.startTime.substring(0, 5);
+            this.data.endTime = this.data.endTime.substring(0, 5);
 
             var MySchedEventClass = 'MySchedEvent_' + this.data.source;
             if (this.data.reserve === true)
@@ -161,11 +161,11 @@ Ext.define('EventModel',
                     bl++;
                 }
                 var blocktimes = blocktotime(bl);
-                if (blocktimes[0] < d.starttime && blocktimes[1] > d.starttime)
+                if (blocktimes[0] < d.startTime && blocktimes[1] > d.startTime)
                 {
                     collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_COLLISION + "' src='" + MySched.mainPath + "images/warning.png'><br/>";
                 }
-                if (blocktimes[0] < d.endtime && blocktimes[1] > d.endtime)
+                if (blocktimes[0] < d.endTime && blocktimes[1] > d.endTime)
                 {
                     collisionIcon = "<img class='MySched_EventCollision' width='24px' height='16px' data-qtip='" + MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_LESSON_COLLISION + "' src='" + MySched.mainPath + "images/warning.png'><br/>";
                 }

@@ -76,8 +76,8 @@ class THM_OrganizerHelperXMLDescriptions
 		}
 
 		$scheduleModel->schedule->fields     = new stdClass;
-		$scheduleModel->schedule->room_types = new stdClass;
 		$scheduleModel->schedule->methods    = new stdClass;
+		$scheduleModel->schedule->room_types = new stdClass;
 
 		foreach ($xmlObject->descriptions->children() as $descriptionNode)
 		{
@@ -139,5 +139,9 @@ class THM_OrganizerHelperXMLDescriptions
 				$scheduleModel->schedule->$type->$descriptionID->id        = $typeID;
 			}
 		}
+
+		$scheduleModel->newSchedule->fields     = $scheduleModel->schedule->fields;
+		$scheduleModel->newSchedule->methods    = $scheduleModel->schedule->methods;
+		$scheduleModel->newSchedule->room_types = $scheduleModel->schedule->room_types;
 	}
 }

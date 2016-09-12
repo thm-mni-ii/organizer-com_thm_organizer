@@ -336,8 +336,8 @@ MySched.Base = function ()
             {
                 MySched.session.begin = jsonData.startDate;
                 MySched.session.end = jsonData.endDate;
-                MySched.session.creationdate = jsonData.creationdate;
-                uploadDateText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationdate;
+                MySched.session.creationDate = jsonData.creationDate;
+                uploadDateText = MySchedLanguage.COM_THM_ORGANIZER_SCHEDULER_AS_OF + " " + MySched.session.creationDate;
 
                 headerTitle = '<span class="schedule-title">' + MySched.pageTitle + '</span>';
                 headerTitle += '<span class="upload-date">(' + uploadDateText + ')</span>';
@@ -810,8 +810,8 @@ function blocktotime(block, scheduleGrid)
     if (typeof block !== "undefined" && typeof MySched.gridData[scheduleGrid][block] !== "undefined")
     {
         return {
-            0: addColonToTime(MySched.gridData[scheduleGrid][block].starttime),
-            1: addColonToTime(MySched.gridData[scheduleGrid][block].endtime)
+            0: addColonToTime(MySched.gridData[scheduleGrid][block].startTime),
+            1: addColonToTime(MySched.gridData[scheduleGrid][block].endTime)
         };
     }
     return false;

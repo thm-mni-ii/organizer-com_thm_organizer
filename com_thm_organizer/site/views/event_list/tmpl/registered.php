@@ -78,9 +78,9 @@ $metric = 0;
 						?>
 						<div class="<?php echo $rowClass; ?> ym-clearfix">
 							<div class="event-times">
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['starttime']); ?><br/>
+								<?php echo THM_OrganizerHelperComponent::formatTime($block['startTime']); ?><br/>
 								-<br/>
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['endtime']); ?>
+								<?php echo THM_OrganizerHelperComponent::formatTime($block['endTime']); ?>
 							</div>
 							<div class="event-main <?php echo $mainExtraClass; ?>">
 								<div class="event-names"><?php echo $event['name']; ?></div>

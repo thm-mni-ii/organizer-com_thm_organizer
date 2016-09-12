@@ -262,8 +262,8 @@ Ext.define('ScheduleModel',
                 var eventData = v.data;
                 var eventStartDate = eventData.startDate;
                 var eventEndDate = eventData.endDate;
-                var eventStartTime = eventData.starttime;
-                var eventEndTime = eventData.endtime;
+                var eventStartTime = eventData.startTime;
+                var eventEndTime = eventData.endTime;
                 var currMOFR = getCurrentMoFrDate();
                 var eventStartDateInCurrentWeek = null;
                 var eventEndDateInCurrentWeek = null;

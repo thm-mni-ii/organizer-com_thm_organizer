@@ -1,0 +1,30 @@
+{
+  "periods": {
+    "1": {
+      "start_time": "0800",
+      "end_time": "0930"
+    },
+    "2": {
+      "start_time": "0950",
+      "end_time": "1120"
+    },
+    "3": {
+      "start_time": "1130",
+      "end_time": "1300"
+    },
+    "4": {
+      "start_time": "1400",
+      "end_time": "1530"
+    },
+    "5": {
+      "start_time": "1545",
+      "end_time": "1715"
+    },
+    "6": {
+      "start_time": "1730",
+      "end_time": "1900"
+    }
+  },
+  "start_day": 1,
+  "end_day": 6
+}

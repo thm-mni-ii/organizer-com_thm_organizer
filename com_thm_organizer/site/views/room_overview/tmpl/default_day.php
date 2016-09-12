@@ -21,8 +21,8 @@ $blocks      = $this->model->data[$startDate];
 		<?php
 		foreach ($this->model->grid as $times)
 		{
-			$startTime = THM_OrganizerHelperComponent::formatTime($times['starttime']);
-			$endTime   = THM_OrganizerHelperComponent::formatTime($times['endtime']);
+			$startTime = THM_OrganizerHelperComponent::formatTime($times['startTime']);
+			$endTime   = THM_OrganizerHelperComponent::formatTime($times['endTime']);
 			echo '<th class="block-column block-row day-width ' . $columnClass . '">' . $startTime . ' - ' . $endTime . '</th>';
 		}
 		?>

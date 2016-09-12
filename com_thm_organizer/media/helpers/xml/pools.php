@@ -78,7 +78,7 @@ class THM_OrganizerHelperXMLPools
 			self::validateIndividual($scheduleModel, $poolNode);
 		}
 
-		return;
+		$scheduleModel->newSchedule->pools = $scheduleModel->schedule->pools;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class THM_OrganizerHelperXMLPools
 		$restriction = trim((string) $poolNode->classlevel);
 		if (empty($restriction))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_NODE_NAME', $poolID);
+			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_NODE_NAME', $longName, $poolID);
 
 			return;
 		}

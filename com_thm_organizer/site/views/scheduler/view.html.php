@@ -103,7 +103,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 		$this->config['name']              = $scheduleRow->departmentname . "_" . $scheduleRow->semestername . "_";
 		$this->config['name'] .= $scheduleRow->startDate . "_" . $scheduleRow->endDate;
 
-		$scheduleRow->creationdate = THM_OrganizerHelperComponent::formatDate($scheduleRow->creationdate);
+		$scheduleRow->creationDate = THM_OrganizerHelperComponent::formatDate($scheduleRow->creationDate);
 
 		// Leaving this parameter alone for now because it may have side effects
 		$this->semesterID = $scheduleRow->id;
@@ -309,16 +309,16 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 			return;
 		}
 
-		$validStartTime = (isset($period->starttime) AND is_string($period->starttime));
+		$validStartTime = (isset($period->startTime) AND is_string($period->startTime));
 		if ($validStartTime)
 		{
-			$period->starttime = wordwrap($period->starttime, 2, ':', true);
+			$period->startTime = wordwrap($period->startTime, 2, ':', true);
 		}
 
-		$validEndTime = (isset($period->endtime) AND is_string($period->endtime));
+		$validEndTime = (isset($period->endTime) AND is_string($period->endTime));
 		if ($validEndTime)
 		{
-			$period->endtime = wordwrap($period->endtime, 2, ':', true);
+			$period->endTime = wordwrap($period->endTime, 2, ':', true);
 		}
 	}
 

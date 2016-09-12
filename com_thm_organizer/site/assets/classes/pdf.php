@@ -81,8 +81,8 @@ class THMPDFBuilder extends THMAbstractBuilder
 		$this->fillTimeColumn($scheduleData, $schedule, $rows);
 		$this->setScheduleData($scheduleData, $schedule);
 
-		$endThird      = substr_replace($scheduleData->grid->{4}->endtime, ":", 2, 0);
-		$startFourth   = substr_replace($scheduleData->grid->{5}->starttime, ":", 2, 0);
+		$endThird      = substr_replace($scheduleData->grid->{4}->endTime, ":", 2, 0);
+		$startFourth   = substr_replace($scheduleData->grid->{5}->startTime, ":", 2, 0);
 		$addLunchBreak = $endThird != $startFourth;
 		if ($addLunchBreak)
 		{
@@ -311,9 +311,9 @@ class THMPDFBuilder extends THMAbstractBuilder
 	{
 		for ($index = 0; $index < $rows; $index++)
 		{
-			$schedule[$index][0]["TEXT"] = substr_replace($scheduleData->grid->{$index + 1}->starttime, ":", 2, 0);
+			$schedule[$index][0]["TEXT"] = substr_replace($scheduleData->grid->{$index + 1}->startTime, ":", 2, 0);
 			$schedule[$index][0]["TEXT"] .= "\n-\n";
-			$schedule[$index][0]["TEXT"] .= substr_replace($scheduleData->grid->{$index + 1}->endtime, ":", 2, 0);
+			$schedule[$index][0]["TEXT"] .= substr_replace($scheduleData->grid->{$index + 1}->endTime, ":", 2, 0);
 		}
 	}
 

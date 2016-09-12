@@ -39,7 +39,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('departmentname', 'semestername', 'creationdate', 'active');
+			$config['filter_fields'] = array('departmentname', 'semestername', 'creationDate', 'active');
 		}
 
 		parent::__construct($config);
@@ -57,8 +57,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$query    = $dbo->getQuery(true);
 
 		$select = "s.id, d.short_name_$shortTag AS departmentname, semestername, active, ";
-		$select .= "endDate, creationdate, creationtime, !ISNULL(NULLIF(newSchedule, '')) as migrated, ";
-		$createdParts = array("creationdate", "creationtime");
+		$select .= "endDate, creationDate, creationTime, !ISNULL(NULLIF(newSchedule, '')) as migrated, ";
+		$createdParts = array("creationDate", "creationTime");
 		$select .= $query->concatenate($createdParts, " ") . " AS created, ";
 		$sNameParts = array("semestername", "SUBSTRING(endDate, 3, 2)");
 		$select .= $query->concatenate($sNameParts, " ") . " AS semestername ";
@@ -97,7 +97,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 			return;
 		}
 
-		$query->where("creationdate = '$value'");
+		$query->where("creationDate = '$value'");
 
 		return;
 	}
@@ -145,8 +145,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 					= $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'), null);
 			}
 
-			$created = THM_OrganizerHelperComponent::formatDate($item->creationdate);
-			$created .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationtime);
+			$created = THM_OrganizerHelperComponent::formatDate($item->creationDate);
+			$created .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationTime);
 			$return[$index]['created']  = $created;
 			$return[$index]['migrated'] = $this->getMigrate($item->id, $item->migrated);
 

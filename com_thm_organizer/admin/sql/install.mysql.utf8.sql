@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar` (
   `end_time`      TIME                      DEFAULT NULL,
   `lessonID`      INT(11) UNSIGNED NOT NULL,
   `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
+  `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `lessonID` (`lessonID`)
 )
@@ -134,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `comment`           VARCHAR(200)              DEFAULT NULL,
   `departmentID`      INT(11) UNSIGNED          DEFAULT NULL,
   `planningPeriodID`  INT(11) UNSIGNED          DEFAULT NULL,
+  `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),
   KEY `methodID` (`methodID`),
@@ -160,6 +162,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_pools` (
   `poolID`    INT(11) UNSIGNED NOT NULL,
   `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
   COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
+  `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `subjectID` (`subjectID`),
   KEY `poolID` (`poolID`)
@@ -173,6 +176,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_subjects` (
   `subjectID` INT(11) UNSIGNED NOT NULL,
   `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
   COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
+  `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `lessonID` (`lessonID`),
   KEY `subjectID` (`subjectID`)
@@ -186,6 +190,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
   `teacherID` INT(11) UNSIGNED NOT NULL,
   `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
   COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
+  `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `subjectID` (`subjectID`),
   KEY `teacherID` (`teacherID`)
@@ -436,8 +441,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `departmentID`     INT(11) UNSIGNED          DEFAULT NULL,
   `departmentname`   VARCHAR(50)      NOT NULL,
   `semestername`     VARCHAR(50)      NOT NULL,
-  `creationdate`     DATE                      DEFAULT NULL,
-  `creationtime`     TIME                      DEFAULT NULL,
+  `creationDate`     DATE                      DEFAULT NULL,
+  `creationTime`     TIME                      DEFAULT NULL,
   `schedule`         MEDIUMTEXT       NOT NULL,
   `active`           TINYINT(1)       NOT NULL DEFAULT '0',
   `startDate`        DATE                      DEFAULT NULL,
