@@ -67,7 +67,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$query
 			->select('grid')
 			->from('#__thm_organizer_grids')
-			->where("'default'='true'"); // Apostrophes needed, otherwise 'default' gets handled as keyword
+			->where("defaultGrid = 'true'");
 		$dbo->setQuery((string) $query);
 
 		try
@@ -99,29 +99,29 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$fallback = '{
 				"periods": {
 				    "1":{
-				        "start_time":"0800",
-			            "end_time":"0930"
+				        "startTime":"0800",
+			            "endTime":"0930"
 			        },
 			        "2": {
-				        "start_time":"0950",
-			            "end_time":"1120"},
+				        "startTime":"0950",
+			            "endTime":"1120"},
 			        "3": {
-				        "start_time":"1130",
-			            "end_time":"1300"
+				        "startTime":"1130",
+			            "endTime":"1300"
 			        },
 			        "4": {
-				        "start_time":"1400",
-			            "end_time":"1530"},
+				        "startTime":"1400",
+			            "endTime":"1530"},
 			        "5": {
-				        "start_time":"1545",
-			            "end_time":"1715"},
+				        "startTime":"1545",
+			            "endTime":"1715"},
 			        "6": {
-				        "start_time":"1730",
-			            "end_time":"1900"
+				        "startTime":"1730",
+			            "endTime":"1900"
 			        }
 			    },
-			    "start_day":1,
-			    "end_day":6
+			    "startDay":1,
+			    "endDay":6
 			}';
 
 		return json_decode($fallback);

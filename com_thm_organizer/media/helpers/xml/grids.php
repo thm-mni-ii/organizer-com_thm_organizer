@@ -90,23 +90,23 @@ class THM_OrganizerHelperXMLGrids
 			$grids->$gpuntisID->grid->periods = new stdClass;
 		}
 
-		$setStartDay = (empty($grids->$gpuntisID->grid->start_day) OR $grids->$gpuntisID->grid->start_day > $day);
+		$setStartDay = (empty($grids->$gpuntisID->grid->startDay) OR $grids->$gpuntisID->grid->startDay > $day);
 		if ($setStartDay)
 		{
-			$grids->$gpuntisID->grid->start_day = $day;
+			$grids->$gpuntisID->grid->startDay = $day;
 		}
 
-		$setEndDay = (empty($grids->$gpuntisID->grid->end_day) OR $grids->$gpuntisID->grid->end_day < $day);
+		$setEndDay = (empty($grids->$gpuntisID->grid->endDay) OR $grids->$gpuntisID->grid->endDay < $day);
 		if ($setEndDay)
 		{
-			$grids->$gpuntisID->grid->end_day = $day;
+			$grids->$gpuntisID->grid->endDay = $day;
 		}
 
 		if (!isset($grids->$gpuntisID->blocks->$period))
 		{
 			$grids->$gpuntisID->grid->periods->$period             = new stdClass;
-			$grids->$gpuntisID->grid->periods->$period->start_time = $startTime;
-			$grids->$gpuntisID->grid->periods->$period->end_time   = $endTime;
+			$grids->$gpuntisID->grid->periods->$period->startTime = $startTime;
+			$grids->$gpuntisID->grid->periods->$period->endTime   = $endTime;
 		}
 	}
 

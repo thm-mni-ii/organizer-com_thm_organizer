@@ -5,8 +5,8 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar` (
   `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `schedule_date` DATE                      DEFAULT NULL,
-  `start_time`    TIME                      DEFAULT NULL,
-  `end_time`      TIME                      DEFAULT NULL,
+  `startTime`    TIME                      DEFAULT NULL,
+  `endTime`      TIME                      DEFAULT NULL,
   `lessonID`      INT(11) UNSIGNED NOT NULL,
   `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
   `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_grids` (
   `name_en`   VARCHAR(255)              DEFAULT NULL,
   `grid`      TEXT             NOT NULL
   COMMENT 'A grid object modeled by a JSON string, containing the respective start and end times of the grid blocks.',
-  `default`   INT(1)           NOT NULL DEFAULT '0'
+  `defaultGrid`   INT(1)           NOT NULL DEFAULT '0'
   COMMENT 'True if the grid is displayed by default.',
   `gpuntisID` VARCHAR(60)      NOT NULL,
   PRIMARY KEY (`id`),
@@ -907,14 +907,14 @@ INSERT INTO `#__thm_organizer_frequencies` (`id`, `frequency_de`, `frequency_en`
   (4, 'Nach Bedarf', 'As Needed'),
   (5, 'Einmal im Jahr', 'Yearly');
 
-INSERT INTO `#__thm_organizer_grids` (`name_de`, `name_en`, `grid`, `default`, `gpuntisID`) VALUES
+INSERT INTO `#__thm_organizer_grids` (`name_de`, `name_en`, `grid`, `defaultGrid`, `gpuntisID`) VALUES
   ('Haupt-Zeitraster', 'Haupt-Zeitraster',
-   '{"periods":{"1":{"start_time":"0800","end_time":"0930"},"2":{"start_time":"0950","end_time":"1120"},"3":{"start_time":"1130","end_time":"1300"},"4":{"start_time":"1400","end_time":"1530"},"5":{"start_time":"1545","end_time":"1715"},"6":{"start_time":"1730","end_time":"1900"}},"start_day":1,"end_day":6}',
+   '{"periods":{"1":{"startTime":"0800","endTime":"0930"},"2":{"startTime":"0950","endTime":"1120"},"3":{"startTime":"1130","endTime":"1300"},"4":{"startTime":"1400","endTime":"1530"},"5":{"startTime":"1545","endTime":"1715"},"6":{"startTime":"1730","endTime":"1900"}},"startDay":1,"endDay":6}',
    1, 'Haupt-Zeitraster'),
   ('Klausurwochen', 'Klausurwochen',
-   '{"periods":{"1":{"start_time":"0800","end_time":"1000"},"2":{"start_time":"1000","end_time":"1200"},"3":{"start_time":"1200","end_time":"1400"},"4":{"start_time":"1400","end_time":"1600"},"5":{"start_time":"1600","end_time":"1800"},"6":{"start_time":"1800","end_time":"2000"}},"start_day":1,"end_day":6}',
+   '{"periods":{"1":{"startTime":"0800","endTime":"1000"},"2":{"startTime":"1000","endTime":"1200"},"3":{"startTime":"1200","endTime":"1400"},"4":{"startTime":"1400","endTime":"1600"},"5":{"startTime":"1600","endTime":"1800"},"6":{"startTime":"1800","endTime":"2000"}},"startDay":1,"endDay":6}',
    0, 'Klausurwochen'),
-  ('keine', 'none', '{"start_day":1,"end_day":6}', 0, 'keine');
+  ('keine', 'none', '{"startDay":1,"endDay":6}', 0, 'keine');
 
 INSERT INTO `#__thm_organizer_methods` (`gpuntisID`, `abbreviation_de`, `abbreviation_en`, `name_de`, `name_en`) VALUES
   ('AÜB', 'AÜB', 'PEX', 'Anwesenheitsübung', 'Presence Exercise'),

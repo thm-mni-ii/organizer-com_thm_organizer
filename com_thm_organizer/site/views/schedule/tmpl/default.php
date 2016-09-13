@@ -184,7 +184,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						                       JText::_('Thursday'), JText::_('Friday'), JText::_('Saturday'),
 						                       JText::_('Sunday'));
 
-						for ($weekday = $this->defaultGrid->start_day - 1; $weekday < $this->defaultGrid->end_day; ++$weekday)
+						for ($weekday = $this->defaultGrid->startDay - 1; $weekday < $this->defaultGrid->endDay; ++$weekday)
 						{
 							echo '<th>' . $daysOfTheWeek[$weekday] . '</th>';
 						}
@@ -209,9 +209,9 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 							<td>
                             <span class="time-semester">
 <?php
-echo THM_OrganizerHelperComponent::formatTime($periods[$period]->start_time);
+echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
 echo "<br> - <br>";
-echo THM_OrganizerHelperComponent::formatTime($periods[$period]->end_time);
+echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
 ?>
                             </span>
 							</td>

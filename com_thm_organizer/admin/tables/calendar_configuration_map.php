@@ -19,7 +19,7 @@ jimport('joomla.database.table');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerTableCalendar_Configurations_Map extends JTable
+class THM_OrganizerTableCalendar_Configuration_Map extends JTable
 {
 	/**
 	 * Constructor function for the class representing the calendar_configurations_map table
@@ -28,6 +28,6 @@ class THM_OrganizerTableCalendar_Configurations_Map extends JTable
 	 */
 	public function __construct(&$dbo)
 	{
-		parent::__construct('#__thm_organizer_calendar_configurations_map', 'id', $dbo);
+		parent::__construct('#__thm_organizer_calendar_configuration_map', 'id', $dbo);
 	}
 }

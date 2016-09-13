@@ -270,6 +270,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				}
 				$scheduleIDs = array($scheduleID);
 			}
+			$save = true;
 		}
 
 		// Called implicitly in this class

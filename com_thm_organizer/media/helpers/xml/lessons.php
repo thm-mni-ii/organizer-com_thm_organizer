@@ -187,7 +187,8 @@ class THM_OrganizerHelperXMLLessons
 		if (empty($configIndex))
 		{
 			$this->scheduleModel->newSchedule->configurations[] = $jsonConfig;
-			$configIndex                                        = array_search($jsonConfig, $this->scheduleModel->newSchedule->configurations);
+
+			$configIndex = array_search($jsonConfig, $this->scheduleModel->newSchedule->configurations);
 		}
 		$this->scheduleModel->newSchedule->calendar->$date->$times->{$this->lessonID}->configurations[] = $configIndex;
 	}
@@ -583,7 +584,7 @@ class THM_OrganizerHelperXMLLessons
 						return false;
 					}
 
-					$poolID    = $pool->id;
+					$poolID = $pool->id;
 
 					break;
 				}
@@ -714,7 +715,7 @@ class THM_OrganizerHelperXMLLessons
 		foreach ($potentialInstances as $potentialInstance)
 		{
 			// Untis uses F for vacation days and 0 for any other date restriction
-			$notAllowed  = ($potentialInstance == '0' OR $potentialInstance == 'F');
+			$notAllowed = ($potentialInstance == '0' OR $potentialInstance == 'F');
 			if ($notAllowed)
 			{
 				$currentDT = strtotime('+1 day', $currentDT);

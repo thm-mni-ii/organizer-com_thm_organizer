@@ -155,7 +155,7 @@ function setGridByClick(grid)
  */
 function setGridDays(head, grid)
 {
-    var headItems = head.getElementsByTagName('th'), currentDay = grid.start_day, endDay = grid.end_day;
+    var headItems = head.getElementsByTagName('th'), currentDay = grid.startDay, endDay = grid.endDay;
 
     headItems[0].style.display = grid.hasOwnProperty('periods') ? '' : 'none';
 
@@ -191,9 +191,9 @@ function setGridTime(rows, grid)
         {
             if (hasPeriods)
             {
-                startTime = grid.periods[period].start_time;
+                startTime = grid.periods[period].startTime;
                 startTime = startTime.replace(/(\d{2})(\d{2})/, "$1:$2");
-                endTime = grid.periods[period].end_time;
+                endTime = grid.periods[period].endTime;
                 endTime = endTime.replace(/(\d{2})(\d{2})/, "$1:$2");
                 timeCell.style.display = '';
                 timeCell.innerHTML = startTime + "<br> - <br>" + endTime;

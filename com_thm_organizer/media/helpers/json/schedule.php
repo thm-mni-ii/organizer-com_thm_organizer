@@ -108,8 +108,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	private function getInstanceConfigurations($lessonID, $calendarEntry, $lessonSubjects)
 	{
 		$date      = $calendarEntry['schedule_date'];
-		$startTime = date('Hi', strtotime($calendarEntry['start_time']));
-		$endTime   = date('Hi', strtotime($calendarEntry['end_time']));
+		$startTime = date('Hi', strtotime($calendarEntry['startTime']));
+		$endTime   = date('Hi', strtotime($calendarEntry['endTime']));
 		$timeKey   = $startTime . '-' . $endTime;
 
 		$configurations = array();
@@ -129,7 +129,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			 */
 			$rawConfig     = $this->schedule->configurations[$configIndex];
 			$configuration = json_decode($rawConfig);
-			$configData    = array('lessonID' => $lessonSubjects[$configuration->subjectID]['id'], 'configuration' => $rawConfig);
+			$lessonID = $lessonSubjects[$configuration->subjectID]['id'];
+			$pullConfig = $configuration;
+			unset($pullConfig->lessonID, $pullConfig->subjectID);
+			$pullConfig = json_encode($pullConfig);
+			$configData    = array('lessonID' => $lessonID, 'configuration' => $pullConfig);
 			$configsTable  = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
 			$exists        = $configsTable->load($configData);
 
@@ -169,7 +173,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 			// Get the calendar entries which reference the lesson
 			$calendarQuery = $this->_db->getQuery(true);
-			$calendarQuery->select('id, schedule_date, start_time, end_time')
+			$calendarQuery->select('id, schedule_date, startTime, endTime')
 				->from('#__thm_organizer_calendar')
 				->where("lessonID = '$lessonID'");
 			$this->_db->setQuery($calendarQuery);
@@ -195,10 +199,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			foreach ($calendarEntries as $calendarID => $calendarEntry)
 			{
 				$instanceConfigs = $this->getInstanceConfigurations($lessonGPUntisID, $calendarEntry, $lessonSubjects);
+
 				foreach ($instanceConfigs as $configID)
 				{
 					$mapData  = array('calendarID' => $calendarID, 'configurationID' => $configID);
-					$mapTable = JTable::getInstance('calendar_configurations_map', 'thm_organizerTable');
+					$mapTable = JTable::getInstance('calendar_configuration_map', 'thm_organizerTable');
 					$mapTable->load($mapData);
 					$success = $mapTable->save($mapData);
 					if (!$success)
@@ -920,8 +925,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			foreach ($times as $startEnd => $lessons)
 			{
 				list($startTime, $endTime) = explode('-', $startEnd);
-				$calData['start_time'] = $startTime . '00';
-				$calData['end_time']   = $endTime . '00';
+				$calData['startTime'] = $startTime . '00';
+				$calData['endTime']   = $endTime . '00';
 
 				foreach ($lessons as $lessonID => $instanceData)
 				{
@@ -1375,7 +1380,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		foreach ($instance->configurations as $instanceIndex => $globalIndex)
 		{
 			$instanceConfigurations[] = $this->$source->configurations[$globalIndex];
-			unset($instance->configurations[$instanceIndex]);
+			unset($instance->configurations->$instanceIndex);
 		}
 
 		foreach ($instanceConfigurations as $configuration)
@@ -1535,6 +1540,13 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		{
 			$instance        = $this->$source->calendar->$date->$time->$lessonID;
 			$instance->delta = $status;
+
+			// TODO: find out what is making these into objects
+			if (!is_array($instance->configurations))
+			{
+				$instance->configurations = (array) $instance->configurations;
+			}
+
 			$this->setConfigurations($instance, $configurations, $source);
 			$this->schedule->calendar->$date->$time->$lessonID = $instance;
 		}
