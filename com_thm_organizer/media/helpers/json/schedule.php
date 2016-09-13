@@ -120,7 +120,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		$configIndexes = $this->schedule->calendar->$date->$timeKey->$lessonID->configurations;
 
-		foreach ($configIndexes as $configIndex)
+		foreach ($configIndexes as $instanceIndex => $configIndex)
 		{
 			/**
 			 * lessonID => the untis lesson id
@@ -129,11 +129,19 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			 */
 			$rawConfig     = $this->schedule->configurations[$configIndex];
 			$configuration = json_decode($rawConfig);
-			$lessonID = $lessonSubjects[$configuration->subjectID]['id'];
+
+			// TODO: find out where these values are coming from
+			if ($configuration->lessonID != $lessonID)
+			{
+				unset($this->schedule->calendar->$date->$timeKey->$lessonID->configurations[$instanceIndex]);
+				continue;
+			}
+
+			$lessonSubjectID = $lessonSubjects[$configuration->subjectID]['id'];
 			$pullConfig = $configuration;
 			unset($pullConfig->lessonID, $pullConfig->subjectID);
 			$pullConfig = json_encode($pullConfig);
-			$configData    = array('lessonID' => $lessonID, 'configuration' => $pullConfig);
+			$configData    = array('lessonID' => $lessonSubjectID, 'configuration' => $pullConfig);
 			$configsTable  = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
 			$exists        = $configsTable->load($configData);
 
