@@ -1048,6 +1048,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			}
 
 			$data['delta'] = empty($lesson->delta) ? '' : $lesson->delta;
+			$data['comment'] = empty($lesson->comment) ? '' : $lesson->comment;
 
 			$success = $table->save($data);
 			if (!$success)
