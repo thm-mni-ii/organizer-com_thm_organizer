@@ -15,6 +15,8 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Retrieves lesson and event data for a single room and day
@@ -55,8 +57,9 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	{
 		parent::__construct();
 		$this->populateState();
-		$this->getRoomData();
-		$this->getData();
+		$this->setRoomData();
+		$this->setGrid();
+		$this->setData();
 	}
 
 	/**
@@ -130,7 +133,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 *
 	 * @return  void  modifies the object data variable
 	 */
-	private function getData()
+	private function setData()
 	{
 		$template = $this->state->get('template');
 		$date     = THM_OrganizerHelperComponent::standardizeDate($this->state->get('date'));
@@ -145,9 +148,6 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 				$this->endDate   = date('Y-m-d', strtotime('sunday this week', strtotime($date)));
 				break;
 		}
-
-		$this->setScheduleIDs();
-		$this->setGrid();
 
 		switch ($template)
 		{
@@ -194,22 +194,22 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 */
 	private function setGrid()
 	{
-		$schedule = $this->getSchedule($this->_scheduleIDs[0]);
+		$query = $this->_db->getQuery(true);
+		$query->select('grid')->from('#__thm_organizer_grids')->where("defaultGrid = '1'");
+		$this->_db->setQuery($query);
 
-		if (empty($schedule))
+		try
 		{
-			// $_grid is already an empty array per default
+			$rawGrid = $this->_db->loadResult();;
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
 			return;
 		}
 
-		$rawGrid = (array) $schedule->periods->{'Haupt-Zeitraster'};
-		$grid    = array();
-		foreach ($rawGrid as $block => $times)
-		{
-			$grid[$block] = (array) $times;
-		}
-
-		$this->grid = $grid;
+		$this->grid = json_decode($rawGrid, true);
 	}
 
 	/**
@@ -265,39 +265,29 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 */
 	private function getDay($date)
 	{
-		$blocks = $this->grid;
-		foreach ($this->_scheduleIDs as $scheduleID)
+		$isSunday  = date('l', strtotime($date)) == 'Sunday';
+		if ($isSunday)
 		{
-			$this->_currentSchedule = $this->getSchedule($scheduleID);
-			if (empty($this->_currentSchedule->calendar->$date))
+			$template  = $this->state->get('template');
+			$getNext = ($template == DAY AND $isSunday);
+			if ($getNext)
 			{
-				continue;
+				$date = date('Y-m-d', strtotime("$date + 1 days"));
 			}
-
-			$dateBlocks = (array) $this->_currentSchedule->calendar->$date;
-			foreach ($dateBlocks as $blockNo => $events)
+			else
 			{
-				$this->getEvents($blocks, $blockNo, $events);
+				return;
 			}
-
-			unset($this->_currentSchedule);
 		}
 
-		$eventsExist = $this->postProcessBlocks($blocks);
-		if ($eventsExist)
+		$events = $this->getEvents($date);
+		$blocks = $this->processBlocks($events);
+
+		if (count($blocks))
 		{
 			$this->data[$date] = $blocks;
 
 			return;
-		}
-
-		// Adds empty business days and sundays when explicitly called
-		$template  = $this->state->get('template');
-		$isSunday  = date('l', strtotime($date)) == 'Sunday';
-		$makeBlank = (!$isSunday OR ($template == DAY AND $isSunday));
-		if ($makeBlank)
-		{
-			$this->data[$date] = $blocks;
 		}
 	}
 
@@ -310,195 +300,165 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 *
 	 * @return  void  modifies &$blocks
 	 */
-	private function getEvents(&$blocks, $blockNo, $events)
+	private function getEvents($date)
 	{
-		foreach ($events as $eventNo => $rooms)
+		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+
+		$query = $this->_db->getQuery(true);
+
+		$select = "DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ";
+		$select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
+		$select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
+		$select .= "ps.name AS psName, s.name_$shortTag AS sName";
+		$query->select($select)
+			->from('#__thm_organizer_calendar AS cal')
+			->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')
+			->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
+			->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
+			->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
+			->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id AND conf.lessonID = ls.id')
+			->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
+			->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
+			->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
+			->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
+			->where("cal.schedule_date = '$date'")
+			->where("cal.delta != 'removed'")
+			->where("l.delta != 'removed'")
+			->where("ls.delta != 'removed'");
+		$this->_db->setQuery($query);
+
+		try
 		{
-			$eventRemoved = (!empty($rooms->delta) AND $rooms->delta == 'removed');
-			if ($eventRemoved)
+			$results = $this->_db->loadAssocList();
+		}
+		catch (Exception $exception)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_(), 'error');
+			return array();
+		}
+
+		$events = array();
+		foreach ($results as $result)
+		{
+			$startTime = substr(str_replace(':', '', $result['startTime']), 0, 4);
+			$endTime = substr(str_replace(':', '', $result['endTime']), 0, 4);
+			$times = "$startTime-$endTime";
+
+			if (empty($events[$times]))
 			{
-				continue;
+				$events[$times] = array();
 			}
 
-			foreach ($rooms as $roomNo => $delta)
-			{
-				// Name != Display Name :(
-				$requested = array_key_exists($roomNo, $this->selectedRooms);
+			$lessonID = $result['lessonID'];
 
-				$roomRemoved = (!empty($delta) AND $delta == 'removed');
-				$irrelevant  = (!$requested OR $roomRemoved OR $roomNo == 'delta');
-				if ($irrelevant)
+			if (empty($events[$startTime][$lessonID]))
+			{
+				$events[$times][$lessonID] = array();
+				$events[$times][$lessonID]['departments'] = array();
+				$events[$times][$lessonID]['titles'] = array();
+				$events[$times][$lessonID]['speakers'] = array();
+				$events[$times][$lessonID]['rooms'] = array();
+				$events[$times][$lessonID]['method'] = empty($result['method'])? '' : " - {$result['method']}";
+				$events[$times][$lessonID]['startTime'] = $startTime;
+				$events[$times][$lessonID]['endTime'] = substr($result['endTime'], 0, 5);
+			}
+
+			$events[$times][$lessonID]['departments'][$result['departmentID']] = $result['department'];
+			$events[$times][$lessonID]['comment'] = $result['comment'];
+
+			$title = empty($result['sName'])? $result['psName'] : $result['sName'];
+
+			if (!in_array($title, $events[$times][$lessonID]['titles']))
+			{
+				$events[$times][$lessonID]['titles'][] = $title;
+			}
+
+			$configuration = json_decode($result['configuration'], true);
+
+			foreach ($configuration['teachers'] AS $teacherID => $delta)
+			{
+				$addSpeaker = ($delta != 'removed' AND empty($events[$times][$lessonID]['speakers'][$teacherID]));
+
+				if ($addSpeaker)
+				{
+					$events[$times][$lessonID]['speakers'][$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID);
+				}
+			}
+
+			foreach ($configuration['rooms'] AS $roomID => $delta)
+			{
+				$nonExistent = empty($events[$times][$lessonID]['rooms'][$roomID]);
+				$requested = !empty($this->rooms[$roomID]);
+				$addRoom = ($delta != 'removed' AND $nonExistent AND $requested);
+
+				if ($addRoom)
+				{
+					$events[$times][$lessonID]['rooms'][$roomID] = $this->rooms[$roomID];
+				}
+			}
+		}
+
+		return $events;
+	}
+
+	/**
+	 * Resolves the daily events to their respective grid blocks
+	 *
+	 * @param array $events the events for the given day
+	 *
+	 * @return array the blocks
+	 */
+	private function processBlocks($events)
+	{
+		$blocks = array();
+		foreach ($this->grid['periods'] AS $blockNo => $block)
+		{
+			$blocks[$blockNo] = array();
+			$blockStartTime = $block['startTime'];
+			$blockEndTime = $block['endTime'];
+			$blocks[$blockNo]['startTime'] = $blockStartTime;
+			$blocks[$blockNo]['endTime'] = $blockEndTime;
+
+			foreach ($events as $times => $eventInstances)
+			{
+				list($eventStartTime, $eventEndTime) = explode('-', $times);
+				$before = $eventEndTime < $blockStartTime;
+				$after = $eventStartTime > $blockEndTime;
+
+				if ($before OR $after)
 				{
 					continue;
 				}
 
-				$this->getEvent($blocks, $blockNo, $eventNo, $roomNo);
+				$divTime = '';
+				$startSynch = $blockStartTime == $eventStartTime;
+				$endSynch = $blockEndTime == $eventEndTime;
+
+				if (!$startSynch or !$endSynch)
+				{
+					$divTime .= THM_OrganizerHelperComponent::formatTime($eventStartTime);
+					$divTime .= ' - ';
+					$divTime .= THM_OrganizerHelperComponent::formatTime($eventEndTime);
+				}
+
+				foreach ($eventInstances as $eventID => $eventInstance)
+				{
+					$instance = array();
+					$instance['department'] = implode(' / ', $eventInstance['departments']);
+					$instance['speakers'] = implode(' / ', $eventInstance['speakers']);
+					$instance['title'] = implode(' / ', $eventInstance['titles']);
+					$instance['title'] .= $eventInstance['method'];
+					$instance['comment'] = $eventInstance['comment'];
+					$instance['divTime'] = $divTime;
+
+					foreach ($eventInstance['rooms'] as $roomID => $roomName)
+					{
+						$blocks[$blockNo][$roomID][$eventID] = $instance;
+					}
+				}
 			}
 		}
-	}
-
-	/**
-	 * Sets event information for the individual room
-	 *
-	 * @param   array  &$blocks the array where the information is stored
-	 * @param   int    $blockNo the index of the block being iterated
-	 * @param   string $eventNo the event identifier
-	 * @param   string $roomNo  the room no. in which the event takes place
-	 *
-	 * @return  void  modifies &$blocks
-	 */
-	private function getEvent(&$blocks, $blockNo, $eventNo, $roomNo)
-	{
-		$eventObject              = $this->_currentSchedule->lessons->$eventNo;
-		$eventArray               = array();
-		$eventArray['department'] = $this->_currentSchedule->departmentname;
-		$eventArray['title']      = $eventObject->name;
-		$eventArray['speakers']   = $this->getSpeakers($eventObject->teachers);
-		$eventArray['comment']    = $eventObject->comment;
-
-		if ($eventObject->grid == 'Haupt-Zeitraster')
-		{
-			if (!isset($blocks[$blockNo][$roomNo]))
-			{
-				$blocks[$blockNo][$roomNo] = array();
-			}
-
-			$blocks[$blockNo][$roomNo][$eventNo] = $eventArray;
-
-			return;
-		}
-
-		$eventArray['eventNo']  = $eventNo;
-		$eventArray['roomName'] = $roomNo;
-		$eventArray['grid']     = $eventObject->grid;
-		$this->setDivEvent($blocks, $blockNo, $eventArray);
-	}
-
-	/**
-	 * Sets information for events whose times are divergent from the display grid.
-	 *
-	 * @param   array &$blocks the array where the information is stored
-	 * @param   int   $blockNo the index of the block being iterated
-	 * @param   array $eventArray
-	 *
-	 * @return  void  modifies &$blocks
-	 */
-	private function setDivEvent(&$blocks, $blockNo, &$eventArray)
-	{
-		// Event has the same block number, but does not belong to the same grid
-		$grid       = $this->_currentSchedule->periods->{$eventArray['grid']};
-		$eventNo    = $eventArray['eventNo'];
-		$roomName   = $eventArray['roomName'];
-		$gStartTime = $grid->$blockNo->startTime;
-		$stText     = THM_OrganizerHelperComponent::formatTime($gStartTime);
-		$gEndTime   = $grid->$blockNo->endTime;
-		$etText     = THM_OrganizerHelperComponent::formatTime($gEndTime);
-		$timeText   = "$stText - $etText";
-
-		$blocksCount = count($blocks);
-		for ($blockIndex = 1; $blockIndex <= $blocksCount; $blockIndex++)
-		{
-			$bStartTime = $blocks[$blockIndex]['startTime'];
-			$bEndTime   = $blocks[$blockIndex]['endTime'];
-			$beginsIn   = ($gStartTime == $bStartTime OR ($gStartTime > $bStartTime AND $gStartTime < $bEndTime));
-			$endsIn     = ($gEndTime == $bEndTime OR ($gEndTime > $bStartTime AND $gEndTime < $bEndTime));
-			$overlaps   = ($gStartTime < $bStartTime AND $gEndTime > $bEndTime);
-			$relevant   = ($beginsIn OR $endsIn OR $overlaps);
-
-			if (!$relevant)
-			{
-				continue;
-			}
-
-			if (!isset($blocks[$blockIndex][$roomName]))
-			{
-				$blocks[$blockIndex][$roomName] = array();
-			}
-
-			// Doesn't already exist
-			if (!isset($blocks[$blockIndex][$roomName][$eventNo]))
-			{
-				$blocks[$blockIndex][$roomName][$eventNo]            = $eventArray;
-				$blocks[$blockIndex][$roomName][$eventNo]['divTime'] = $timeText;
-				continue;
-			}
-
-			// The case that a divergent lesson exists but has no time text should not actually occur
-			if (empty($blocks[$blockIndex][$roomName][$eventNo]['divTime']))
-			{
-				$blocks[$blockIndex][$roomName][$eventNo]['divTime'] = $timeText;
-				continue;
-			}
-
-			// Append existing entry if two divergent blocks have relevance for the
-			$append = strpos($blocks[$blockIndex][$roomName][$eventNo]['divTime'], $timeText) === false;
-			if ($append)
-			{
-				$blocks[$blockIndex][$roomName][$eventNo]['divTime'] .= ", $timeText";
-			}
-		}
-	}
-
-	/**
-	 * Gets speaker information for the event being iterated
-	 *
-	 * @param   object $speakers the object containing the speaker references
-	 *
-	 * @return  string  contains teacher information for output
-	 */
-	private function getSpeakers($speakers)
-	{
-		$speakersArray = array();
-		foreach ($speakers as $key => $delta)
-		{
-			$speakerRemoved = (!empty($delta) AND $delta == 'removed');
-			$speakerExists  = !empty($speakersArray[$key]);
-			$irrelevant     = ($speakerRemoved OR $speakerExists);
-			if ($irrelevant)
-			{
-				continue;
-			}
-
-			$speaker     = $this->_currentSchedule->teachers->$key;
-			$speakerText = $speaker->surname;
-			$speakerText .= empty($speaker->forename) ? '' : ', ' . $speaker->forename;
-			$speakerText .= empty($speaker->title) ? '' : ', ' . $speaker->title;
-
-			$speakersArray[$key] = $speakerText;
-		}
-
-		return implode(' / ', $speakersArray);
-	}
-
-	/**
-	 * Sorts the rooms in the blocks and compiles a list of rooms that are used.
-	 *
-	 * @param   array &$blocks the container for daily events
-	 *
-	 * @return  bool  true if events exist for any block, otherwise false
-	 */
-	private function postProcessBlocks(&$blocks)
-	{
-		$eventsExist = false;
-		foreach ($blocks as $blockNo => $rooms)
-		{
-			unset($rooms['delta']);
-			unset($rooms['endTime']);
-			unset($rooms['startTime']);
-			if (!count($rooms))
-			{
-				continue;
-			}
-
-			$eventsExist = true;
-			ksort($rooms);
-			$blocks[$blockNo] = $rooms;
-			$roomKeys         = array_keys($rooms);
-			$this->rooms      = array_unique(array_merge($this->rooms, $roomKeys));
-			asort($this->rooms);
-		}
-
-		return $eventsExist;
+		return $blocks;
 	}
 
 	/**
@@ -506,7 +466,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 *
 	 * @return  void  sets the rooms and types object variables
 	 */
-	private function getRoomData()
+	private function setRoomData()
 	{
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$query    = $this->_db->getQuery(true);
@@ -534,6 +494,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		$allRooms    = in_array('-1', $this->state->rooms);
 		$filterRooms = (!$allRooms AND count($this->state->rooms) > 0) ? $this->state->rooms : false;
 		$rooms       = $types = array();
+
 		foreach ($results as $room)
 		{
 			/**
@@ -541,8 +502,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 			 *
 			 * Types are not further filtered.
 			 */
-			$typeText = $room['type'];
-			$typeText .= empty($room['subtype']) ? '' : ', ' . $room['subtype'];
+			$typeText               = $room['type'];
 			$types[$room['typeID']] = $typeText;
 
 			$this->filterRoom($room, $filterTypes, $filterRooms, $rooms);
@@ -576,7 +536,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 			$typeOK = false;
 		}
 
-		if ($filterRooms AND !in_array($room['name'], $filterRooms))
+		if ($filterRooms AND !in_array($room['roomID'], $filterRooms))
 		{
 			$roomOK = false;
 		}
@@ -585,12 +545,12 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 			$roomOK = false;
 		}
 
-		$rooms[$room['name']] = $room['longname'];
+		$rooms[$room['roomID']] = $room['longname'];
 
 		$add = ($typeOK OR $roomOK);
 		if ($add)
 		{
-			$this->selectedRooms[$room['name']] = $room['longname'];
+			$this->selectedRooms[$room['roomID']] = $room['longname'];
 		}
 	}
 }

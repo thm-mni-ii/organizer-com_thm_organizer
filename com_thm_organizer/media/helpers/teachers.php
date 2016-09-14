@@ -23,6 +23,53 @@ require_once 'department_resources.php';
 class THM_OrganizerHelperTeachers
 {
 	/**
+	 * Generates a default teacher text based upon organizer's internal data
+	 *
+	 * @param   int $teacherID   the teacher's id
+	 *
+	 * @return  string  the default name of the teacher
+	 */
+	public static function getDefaultName($teacherID)
+	{
+		$teacher   = JTable::getInstance('teachers', 'thm_organizerTable');
+		$teacher->load($teacherID);
+
+		$return = '';
+		if (!empty($teacher->id))
+		{
+			$title       = empty($teacher->title) ? '' : "{$teacher->title} ";
+			$forename    = empty($teacher->forename) ? '' : "{$teacher->forename} ";
+			$surname     = $teacher->surname;
+			$return .= $title . $forename . $surname;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Generates a preformatted teacher text based upon organizer's internal data
+	 *
+	 * @param   int $teacherID   the teacher's id
+	 *
+	 * @return  string  the default name of the teacher
+	 */
+	public static function getLNFName($teacherID)
+	{
+		$teacher   = JTable::getInstance('teachers', 'thm_organizerTable');
+		$teacher->load($teacherID);
+
+		$return = '';
+		if (!empty($teacher->id))
+		{
+			$forename    = empty($teacher->forename) ? '' : ", {$teacher->forename}";
+			$surname     = $teacher->surname;
+			$return .= $surname . $forename;
+		}
+
+		return $return;
+	}
+
+	/**
 	 * Checks for the teacher entry in the database, creating it as necessary. Adds the id to the teacher entry in the
 	 * schedule.
 	 *

@@ -12,14 +12,13 @@ defined('_JEXEC') or die;
 $columnClass = 'days-' . count($this->model->grid);
 $startDate   = $this->model->startDate;
 $blocks      = $this->model->data[$startDate];
-
 ?>
 <table>
 	<thead>
 	<tr>
 		<th class="room-column block-row"></th>
 		<?php
-		foreach ($this->model->grid as $times)
+		foreach ($this->model->grid['periods'] as $times)
 		{
 			$startTime = THM_OrganizerHelperComponent::formatTime($times['startTime']);
 			$endTime   = THM_OrganizerHelperComponent::formatTime($times['endTime']);
@@ -30,22 +29,22 @@ $blocks      = $this->model->data[$startDate];
 	</thead>
 	<tbody>
 	<?php
-	foreach ($this->model->selectedRooms as $room)
+	foreach ($this->model->selectedRooms as $roomID => $room)
 	{
 		echo '<tr>';
 		echo '<th class="room-column room-row">' . $room . '</th>';
-		foreach ($blocks as $blockNo => $block)
+		foreach ($blocks as $blockNo => $rooms)
 		{
 			$blockTip = '';
 			$blockTip .= $this->getBlockTip($startDate, $blockNo, $room);
-			if (empty($block[$room]))
+			if (empty($rooms[$roomID]))
 			{
 				echo '<td class="block-column room-row day-width hasTip" title="' . $blockTip . '"></td>';
 			}
 			else
 			{
-				$iconClass = count($block[$room]) > 1 ? 'grid' : 'square';
-				$blockTip .= $this->getEventTips($block[$room]);
+				$iconClass = count($rooms[$roomID]) > 1 ? 'grid' : 'square';
+				$blockTip .= $this->getEventTips($rooms[$roomID]);
 				echo '<td class="block-column room-row day-width hasTip" title="' . $blockTip . '">';
 				echo '<span class="icon-' . $iconClass . '"></span>';
 				echo '</td>';

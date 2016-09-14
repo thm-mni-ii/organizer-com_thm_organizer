@@ -36,7 +36,7 @@ $dayCount   = count($dates);
 		<?php
 		foreach ($dates as $date => $blocks)
 		{
-			foreach ($this->model->grid as $blockNo => $times)
+			foreach ($this->model->grid['periods'] as $blockNo => $times)
 			{
 				echo '<th class="block-column block-row block-width">' . $blockNo . '</th>';
 			}
@@ -46,24 +46,24 @@ $dayCount   = count($dates);
 	</thead>
 	<tbody>
 	<?php
-	foreach ($this->model->selectedRooms as $room)
+	foreach ($this->model->selectedRooms as $roomID => $room)
 	{
 		echo '<tr>';
 		echo '<th class="room-column room-row">' . $room . '</th>';
 		foreach ($dates as $date => $blocks)
 		{
-			foreach ($blocks as $blockNo => $block)
+			foreach ($blocks as $blockNo => $rooms)
 			{
 				$blockTip = '';
 				$blockTip .= $this->getBlockTip($date, $blockNo, $room);
-				if (empty($block[$room]))
+				if (empty($rooms[$roomID]))
 				{
 					echo '<td class="block-column room-row block-width hasTip" title="' . $blockTip . '"></td>';
 				}
 				else
 				{
-					$iconClass = count($block[$room]) > 1 ? 'grid' : 'square';
-					$blockTip .= $this->getEventTips($block[$room]);
+					$iconClass = count($rooms[$roomID]) > 1 ? 'grid' : 'square';
+					$blockTip .= $this->getEventTips($rooms[$roomID]);
 					echo '<td class="block-column room-row block-width hasTip" title="' . $blockTip . '">';
 					echo '<span class="icon-' . $iconClass . '"></span>';
 					echo '</td>';
