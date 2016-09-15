@@ -213,34 +213,6 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	}
 
 	/**
-	 * Retrieves a schedule object
-	 *
-	 * @param   int $scheduleID the id of the schedule to be retrieved
-	 *
-	 * @return  mixed  object on success, otherwise null
-	 */
-	private function getSchedule($scheduleID)
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select('schedule')->from('#__thm_organizer_schedules');
-		$query->where("id = '$scheduleID'");
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$rawSchedule = $this->_db->loadResult();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return null;
-		}
-
-		return json_decode($rawSchedule);
-	}
-
-	/**
 	 * Gets the room information for a week
 	 *
 	 * @return  array  room information for the given day
