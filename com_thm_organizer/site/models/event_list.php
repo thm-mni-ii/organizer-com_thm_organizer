@@ -15,6 +15,11 @@ define('SCHEDULE', 1);
 define('ALTERNATING', 2);
 define('CONTENT', 3);
 
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+
 /**
  * Retrieves lesson and event data for a single room and day
  *
@@ -32,19 +37,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
 	private $days = array();
 
-	private $schedules;
-
-	private $currentSchedule;
-
-	private $currentDate;
-
-	private $currentBlock;
-
-	private $currentEvent;
-
-	private $startDate;
-
-	private $endDate;
+	private $dates = array();
 
 	/**
 	 * Constructor
@@ -55,163 +48,169 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 		$app          = JFactory::getApplication();
 		$this->params = $app->getParams();
 
-		$registeredRoom = $this->hasRegisteredRoom();
-		if (!empty($registeredRoom))
-		{
-			// Registered views should always be displayed in the component 'template'
-			$templateSet = $app->input->getString('tmpl', '') == 'component';
-			if (!$templateSet)
-			{
-				$this->redirectToComponentTemplate();
-			}
+		$registered             = $this->isRegistered();
+		$this->params['layout'] = empty($registered) ? 'default' : 'registered';
 
-			$this->params['layout'] = 'registered';
-			$this->rooms            = array($registeredRoom);
-			$this->days             = array(1, 2, 3, 4, 5, 6, 0);
-		}
-		else
-		{
-			$this->params['layout'] = 'default';
-
-			// All rooms
-			if (count($this->params['rooms']) === 1 AND empty($this->params['rooms'][0]))
-			{
-				$this->rooms = false;
-			}
-			else
-			{
-				$this->rooms = $this->params['rooms'];
-			}
-
-			// All days
-			if (count($this->params['days']) === 1 AND empty($this->params['days'][0]))
-			{
-				$this->days = array(1, 2, 3, 4, 5, 6, 0);
-			}
-			else
-			{
-				$this->days = $this->params['days'];
-			}
-		}
-
+		$this->setRooms();
+		$this->setDates();
 		$this->setEvents();
 	}
 
 	/**
-	 * Checks whether the accessing agent is a registered monitor
+	 * Aggregates events as appropriate
 	 *
-	 * @return  mixed  int roomID on success, otherwise boolean false
+	 * @return void modifies the class's events property
 	 */
-	private function hasRegisteredRoom()
+	private function aggregateEvents()
 	{
-		$ipData       = array('ip' => JFactory::getApplication()->input->server->getString('REMOTE_ADDR', ''));
-		$monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
-		$registered   = $monitorEntry->load($ipData);
-		if (!$registered)
+		foreach ($this->events AS $date => $dailyEvents)
 		{
-			return false;
+			$hAggregatedEvents   = $this->aggregateConcurrent($dailyEvents);
+			$vAggregatedEvents   = $this->aggregateSequential($hAggregatedEvents);
+			$this->events[$date] = $vAggregatedEvents;
 		}
-
-		$roomID = $monitorEntry->roomID;
-		if (empty($roomID))
-		{
-			return false;
-		}
-
-		return $roomID;
 	}
 
 	/**
-	 * Redirects to the component template
+	 * Aggregates events belonging to the same lesson occuring at the same time
 	 *
-	 * @return  void
+	 * @return array the horizonally aggregated events
 	 */
-	private function redirectToComponentTemplate()
+	private function aggregateConcurrent($events)
 	{
-		$app   = JFactory::getApplication();
-		$base  = JUri::root() . 'index.php?';
-		$query = $app->input->server->get('QUERY_STRING', '', 'raw');
-		$query .= (strpos($query, 'com_thm_organizer') !== false) ? '' : '&option=com_thm_organizer';
-		$query .= (strpos($query, 'event_list') !== false) ? '' : '&view=event_list';
-		$query .= '&tmpl=component';
-		$app->redirect($base . $query);
+		$aggregatedEvents = array();
+
+		foreach ($events as $event)
+		{
+			$lessonID  = $event['lessonID'];
+			$title     = empty($event['sName']) ? $event['psName'] : $event['sName'];
+			$startTime = substr(str_replace(':', '', $event['startTime']), 0, 4);
+			$endTime   = substr(str_replace(':', '', $event['endTime']), 0, 4);
+			$times     = "$startTime-$endTime";
+
+			if (empty($aggregatedEvents[$times]))
+			{
+				$aggregatedEvents[$times] = array();
+			}
+
+			if (empty($aggregatedEvents[$times][$lessonID]))
+			{
+				$aggregatedEvents[$times][$lessonID]              = array();
+				$aggregatedEvents[$times][$lessonID]['titles']    = array($title);
+				$aggregatedEvents[$times][$lessonID]['method']    = empty($event['method']) ? '' : $event['method'];
+				$aggregatedEvents[$times][$lessonID]['comment']   = empty($event['comment']) ? '' : $event['comment'];
+				$aggregatedEvents[$times][$lessonID]['rooms']     = $event['rooms'];
+				$aggregatedEvents[$times][$lessonID]['teachers']  = $event['teachers'];
+				$aggregatedEvents[$times][$lessonID]['startTime'] = $event['startTime'];
+				$aggregatedEvents[$times][$lessonID]['endTime']   = $event['endTime'];
+
+			}
+			else
+			{
+				if (!in_array($title, $aggregatedEvents[$times][$lessonID]['titles']))
+				{
+					$aggregatedEvents[$times][$lessonID]['titles'][] = $title;
+				}
+				$aggregatedEvents[$times][$lessonID]['rooms']
+					= array_merge($aggregatedEvents[$times][$lessonID]['rooms'], $event['rooms']);
+				$aggregatedEvents[$times][$lessonID]['teachers']
+					= array_merge($aggregatedEvents[$times][$lessonID]['teachers'], $event['teachers']);
+
+			}
+			$aggregatedEvents[$times][$lessonID]['departments'][$event['departmentID']] = $event['department'];
+		}
+
+		ksort($aggregatedEvents);
+
+		return $aggregatedEvents;
 	}
 
 	/**
-	 * Sets the events for display
+	 * Aggregates events belonging to the same lesson occuring at the same time
 	 *
-	 * @return  void  sets object variables
+	 * @return array the vertically aggregated events
 	 */
-	private function setEvents()
+	private function aggregateSequential(&$blockEvents)
 	{
-		$this->setRoomInformation();
-		$this->setDates();
-		$this->setScheduleIDs();
-		$this->events = array();
-		if (empty($this->rooms) OR empty($this->schedules))
+		foreach ($blockEvents as $outerTimes => $outerEvents)
 		{
-			return;
+			foreach ($outerEvents as $lessonID => $outerLesson)
+			{
+				$outerStart = $outerLesson['startTime'];
+				$outerEnd   = $outerLesson['endTime'];
+
+				foreach ($blockEvents as $innerTimes => $innerEvents)
+				{
+					// Identity or no need for comparison
+					if ($innerTimes == $outerTimes OR empty($innerEvents[$lessonID]))
+					{
+						continue;
+					}
+
+					$innerLesson   = $innerEvents[$lessonID];
+					$sameRooms = $innerLesson['rooms'] == $outerLesson['rooms'];
+					$sameTeachers = $innerLesson['teachers'] == $outerLesson['teachers'];
+					$divergent = (!$sameRooms or !$sameTeachers);
+
+					if ($divergent)
+					{
+						continue;
+					}
+
+					$innerStart    = $innerLesson['startTime'];
+					$innerEnd      = $innerLesson['endTime'];
+					$relevantTimes = $this->getSequentialRelevance($outerStart, $outerEnd, $innerStart, $innerEnd);
+
+					if (empty($relevantTimes))
+					{
+						continue;
+					}
+
+					// Outer or inner makes no difference here (as long as it is used consistently).
+					$innerLesson['startTime'] = $relevantTimes['startTime'];
+					$innerLesson['startTime'] = $relevantTimes['startTime'];
+					$startTime = substr(str_replace(':', '', $relevantTimes['startTime']), 0, 4);
+					$endTime   = substr(str_replace(':', '', $relevantTimes['endTime']), 0, 4);
+					$newTimes     = "$startTime-$endTime";
+
+					unset($blockEvents[$outerTimes][$lessonID], $blockEvents[$innerTimes][$lessonID]);
+
+					if (empty($blockEvents[$newTimes]))
+					{
+						$blockEvents[$newTimes] = array();
+					}
+					$blockEvents[$newTimes][$lessonID] = $innerLesson;
+				}
+			}
 		}
 
-		foreach ($this->schedules AS $id)
-		{
-			$scheduleEntry = JTable::getInstance('schedules', 'thm_organizerTable');
-			$scheduleEntry->load($id);
-			$this->currentSchedule = json_decode($scheduleEntry->schedule);
-			$this->setScheduleData();
-		}
+		ksort($blockEvents);
 
-		ksort($this->events);
-		$this->cleanEventBlockData();
-		$this->sortEventBlockData();
+		return $blockEvents;
 	}
 
 	/**
-	 * Retrieves the name and id of the room
+	 * Removes indexes which are no longer used after sequential aggregation
 	 *
-	 * @return  void  sets object variables
+	 * @return void modifies object variable
 	 */
-	private function setRoomInformation()
+	private function cleanEvents()
 	{
-		if (empty($this->rooms))
+		foreach ($this->events as $date => $times)
 		{
-			$roomIDs = $this->getAllRoomIDs();
-			if (empty($roomIDs))
+			foreach ($times as $index => $lessons)
 			{
-				return;
+				if (empty($lessons))
+				{
+					unset($this->events[$date][$index]);
+				}
+			}
+			if (empty($times))
+			{
+				unset($this->events[$date]);
 			}
 
-			$this->rooms = $roomIDs;
 		}
-
-		// Flips the array so that more room information can be associated with the roomIDS
-		$this->rooms = array_flip($this->rooms);
-
-		$roomEntry = JTable::getInstance('rooms', 'thm_organizerTable');
-		$rooms     = array();
-		foreach (array_keys($this->rooms) AS $roomID)
-		{
-			try
-			{
-				$roomEntry->load($roomID);
-				$untisID         = strpos($roomEntry->gpuntisID, 'RM_') === 0 ? substr($roomEntry->gpuntisID, 3) : $roomEntry->gpuntisID;
-				$roomName        = $roomEntry->longname;
-				$rooms[$untisID] = $roomName;
-			}
-			catch (Exception $exc)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-				unset($this->rooms[$roomID]);
-			}
-		}
-
-		if ($this->params['layout'] == 'registered')
-		{
-			$roomValues               = array_values($rooms);
-			$this->params['roomName'] = array_shift($roomValues);
-		}
-
-		$this->rooms = $rooms;
 	}
 
 	/**
@@ -230,448 +229,318 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	}
 
 	/**
+	 * Adds the room names to the room instances index, if the room was requested.
+	 *
+	 * @param array $instanceRooms the rooms associated with the instance
+	 *
+	 * @return bool true if the instance is associated with a requested room
+	 */
+	private function getEventRooms(&$instanceRooms)
+	{
+		$rooms = array();
+		foreach ($instanceRooms as $roomID => $delta)
+		{
+			if ($delta == 'removed' OR empty($this->rooms[$roomID]))
+			{
+				unset($instanceRooms[$roomID]);
+				continue;
+			}
+
+			$rooms[$roomID] = $this->rooms[$roomID];
+		}
+		asort($rooms);
+
+		return $rooms;
+	}
+
+	/**
+	 * Gets the raw events from the database
+	 *
+	 * @return void sets the object variable events
+	 */
+	private function getEvents()
+	{
+		foreach ($this->dates as $date)
+		{
+			$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+
+			$query = $this->_db->getQuery(true);
+
+			$select = "DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ";
+			$select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
+			$select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
+			$select .= "ps.name AS psName, s.name_$shortTag AS sName";
+			$query->select($select)
+				->from('#__thm_organizer_calendar AS cal')
+				->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')
+				->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
+				->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
+				->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
+				->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id AND conf.lessonID = ls.id')
+				->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
+				->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
+				->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
+				->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
+				->where("cal.schedule_date = '$date'")
+				->where("cal.delta != 'removed'")
+				->where("l.delta != 'removed'")
+				->where("ls.delta != 'removed'");
+			$this->_db->setQuery($query);
+
+			try
+			{
+				$events = $this->_db->loadAssocList();
+			}
+			catch (Exception $exception)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+				return;
+			}
+
+			if (!empty($events))
+			{
+				foreach ($events as $index => $event)
+				{
+					$instanceConfiguration = json_decode($event['configuration'], true);
+					$rooms                 = $this->getEventRooms($instanceConfiguration['rooms']);
+
+					if (count($rooms))
+					{
+						$events[$index]['rooms']    = $rooms;
+						$events[$index]['teachers'] = $this->getEventTeachers($instanceConfiguration['teachers']);
+						unset($events[$index]['configuration']);
+					}
+					else
+					{
+						unset($events[$index]);
+					}
+				}
+				$this->events[$date] = $events;
+			}
+		}
+	}
+
+	/**
+	 * Adds the teacher names to the teacher instances index.
+	 *
+	 * @param array $instanceTeachers the teachers associated with the instance
+	 *
+	 * @return void
+	 */
+	private function getEventTeachers(&$instanceTeachers)
+	{#
+		$teachers = array();
+		foreach ($instanceTeachers as $teacherID => $delta)
+		{
+			if ($delta == 'removed')
+			{
+				unset($instanceTeachers[$teacherID]);
+				continue;
+			}
+
+			$teachers[$teacherID] = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
+		}
+
+		asort($teachers);
+
+		return $teachers;
+	}
+
+	/**
+	 * Checks whether the accessing agent is a registered monitor
+	 *
+	 * @return  mixed  int roomID on success, otherwise boolean false
+	 */
+	private function isRegistered()
+	{
+		$ipData       = array('ip' => JFactory::getApplication()->input->server->getString('REMOTE_ADDR', ''));
+		$monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
+		$registered   = $monitorEntry->load($ipData);
+		if (!$registered)
+		{
+			return false;
+		}
+
+		$roomID = $monitorEntry->roomID;
+		if (empty($roomID))
+		{
+			return false;
+		}
+
+		$app         = JFactory::getApplication();
+		$templateSet = $app->input->getString('tmpl', '') == 'component';
+		if (!$templateSet)
+		{
+			$app   = JFactory::getApplication();
+			$base  = JUri::root() . 'index.php?';
+			$query = $app->input->server->get('QUERY_STRING', '', 'raw');
+			$query .= (strpos($query, 'com_thm_organizer') !== false) ? '' : '&option=com_thm_organizer';
+			$query .= (strpos($query, 'event_list') !== false) ? '' : '&view=event_list';
+			$query .= '&tmpl=component';
+			$app->redirect($base . $query);
+		}
+
+		$this->rooms = array($roomID);
+		$this->days  = array(1, 2, 3, 4, 5, 6);
+
+		return true;
+	}
+
+	/**
+	 * Determines the sequential relevance of two lesson blocks.
+	 *
+	 * @param string $startOuter the start time for the lesson in the outer loop
+	 * @param string $endOuter the end time for the lesson in the outer loop
+	 * @param string $startInner the start time for the lesson in the inner loop
+	 * @param string $endInner the end time for the lesson in the inner loop
+	 *
+	 * @return array|bool the new start and end times if relevant, otherwise false
+	 */
+	private function getSequentialRelevance($startOuter, $endOuter, $startInner, $endInner)
+	{
+		// The maximum tolerance (break time) allowed for sequential aggregation
+		$tolerance = 61;
+
+		// Inner lesson ended before outer began
+		$before = $endInner < $startOuter;
+
+		if ($before)
+		{
+			$firstTime = strtotime($endInner);
+			$secondTime = strtotime($startOuter);
+			$difference = ($secondTime - $firstTime) / 60;
+			$relevant = $difference <= $tolerance;
+			return $relevant? array('startTime' => $startInner, 'endTime' => $endOuter) : false;
+		}
+
+		// Outer lesson ended before inner began
+		$after = $endOuter < $startInner ;
+
+		if ($after)
+		{
+
+			$firstTime = strtotime($endOuter);
+			$secondTime = strtotime($startInner);
+			$difference = ($secondTime - $firstTime) / 60;
+			$relevant = $difference <= $tolerance;
+			return $relevant? array('startTime' => $startOuter, 'endTime' => $endInner) : false;
+		}
+
+		// Overlapping lessons
+		$startTime = $startOuter < $startInner? $startOuter : $startInner;
+		$endTime = $endOuter > $endInner? $endOuter : $endInner;
+		return array('startTime' => $startTime, 'endTime' => $endTime);
+	}
+
+	/**
 	 * Sets the dates used
 	 *
 	 * @return  void  sets object variables $_startDate and $_endDate
 	 */
 	private function setDates()
 	{
-		$date            = getdate(time());
-		$startDate       = $this->params->get('startDate', '');
-		$this->startDate = empty($startDate) ? date('Y-m-d', $date[0]) : $startDate;
-		$endDate         = $this->params->get('endDate', '');
-		$this->endDate   = empty($endDate) ? '' : $endDate;
-	}
-
-	/**
-	 * Retrieves schedules valid for the requested date
-	 *
-	 * @return  void
-	 */
-	private function setScheduleIDs()
-	{
-		$dbo   = $this->getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select("id");
-		$query->from("#__thm_organizer_schedules");
-
-		$both = (!empty($this->startDate) AND !empty($this->endDate));
-		if ($both)
+		$isRegistered       = ($this->params['layout'] == 'registered');
+		$nothingSelected    = empty($this->params['days']);
+		$everythingSelected = (count($this->params['days']) === 1 AND empty($this->params['days'][0]));
+		if ($isRegistered OR $nothingSelected OR $everythingSelected)
 		{
-			$startDateClause = "(startDate <= '$this->startDate' AND endDate >= '$this->startDate')";
-			$endDateClause = "(startDate <= '$this->endDate' AND endDate >= '$this->endDate')";
-			$query->where("$startDateClause OR $endDateClause");
+			$days = array(1, 2, 3, 4, 5, 6);
 		}
 		else
 		{
-			$query->where("endDate >= '$this->startDate'");
+			$days = $this->params['days'];
 		}
 
-		$query->where("active = 1");
-		$dbo->setQuery((string) $query);
-
-		try
+		$date      = getdate(time());
+		$today     = date('Y-m-d', $date[0]);
+		$startDate = $this->params->get('startDate', '');
+		$startDate = (empty($startDate) OR $startDate < $today) ? $today : $startDate;
+		$endDate   = $this->params->get('endDate', '');
+		if (empty($endDate))
 		{
-			$schedules = $dbo->loadColumn();
+			$query = $this->_db->getQuery(true);
+			$query->select('MAX(schedule_date)')->from('#__thm_organizer_calendar')->where("delta != 'removed'");
+			$this->_db->setQuery($query);
+			$endDate = $this->_db->loadResult();
 		}
-		catch (Exception $exc)
+
+		$startDT = strtotime($startDate);
+		$endDT   = strtotime($endDate);
+
+		for ($currentDT = $startDT; $currentDT <= $endDT; $currentDT = strtotime('+1 day', $currentDT))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return;
+			$currentDOW = date('w', $currentDT);
+			if (in_array($currentDOW, $days))
+			{
+				$this->dates[] = date('Y-m-d', $currentDT);
+			}
 		}
-
-		if (empty($schedules))
-		{
-			JFactory::getApplication()->redirect('index.php', JText::_('COM_THM_ORGANIZER_MESSAGE_NO_SCHEDULES_FOR_DATE'), 'error');
-
-			return;
-		}
-
-		$this->schedules = $schedules;
 	}
 
 	/**
-	 * Starts the process of setting events from a schedule
+	 * Sets the events for display
 	 *
 	 * @return  void  sets object variables
 	 */
-	private function setScheduleData()
+	private function setEvents()
 	{
-		$calendar   = $this->currentSchedule->calendar;
-		$startStamp = strtotime($this->startDate);
-		$endStamp   = empty($this->endDate) ? '' : strtotime($this->endDate);
-		foreach (array_keys((array) $calendar) AS $date)
-		{
-			// We aren't interested in past dates
-			$dateStamp = strtotime($date);
-			if ($dateStamp < $startStamp)
-			{
-				continue;
-			}
-
-			if (!empty($endStamp) AND $dateStamp > $endStamp)
-			{
-				break;
-			}
-
-			// We are only interested in selected weekdays
-			$dowNumber = date('w', $dateStamp);
-			if (!in_array($dowNumber, $this->days))
-			{
-				continue;
-			}
-
-			$this->currentDate = $date;
-
-			$this->setDateData();
-		}
+		$this->getEvents();
+		$this->aggregateEvents();
+		$this->cleanEvents();
 	}
 
 	/**
-	 * Processes schedule information for the date being iterated
+	 * Retrieves the name and id of the room
 	 *
 	 * @return  void  sets object variables
 	 */
-	private function setDateData()
+	private function setRooms()
 	{
-		$dateEvents = $this->currentSchedule->calendar->{$this->currentDate};
-		foreach ($dateEvents as $block => $events)
+		// Registered room(s) would have already been set
+		if (empty($this->rooms))
 		{
-			if (empty($events))
+			$nothingSelected    = empty($this->params['rooms']);
+			$everythingSelected = (count($this->params['rooms']) === 1 AND empty($this->params['rooms'][0]));
+
+			// All rooms
+			if ($nothingSelected OR $everythingSelected)
 			{
-				continue;
+				$this->rooms = $this->getAllRoomIDs();
 			}
-
-			$this->currentBlock = $block;
-			$this->setBlockData();
-		}
-	}
-
-	/**
-	 * Sets the event data for the block being iterated
-	 *
-	 * @return  void  sets object variables
-	 */
-	private function setBlockData()
-	{
-		$blockEvents = $this->currentSchedule->calendar->{$this->currentDate}->{$this->currentBlock};
-		foreach ($blockEvents as $event => $rooms)
-		{
-			if (empty($rooms))
+			else
 			{
-				continue;
-			}
-
-			$this->currentEvent = $event;
-			$this->setEventData();
-		}
-	}
-
-	/**
-	 * Sets the event data for the current date
-	 *
-	 * @return  void  sets object variables
-	 */
-	private function setEventData()
-	{
-		$schedule = $this->currentSchedule;
-		$event    = $schedule->calendar->{$this->currentDate}->{$this->currentBlock}->{$this->currentEvent};
-
-		// The event block has been removed
-		$irrelevant = (!empty($event->delta) AND $event->delta == 'removed');
-		if ($irrelevant)
-		{
-			return;
-		}
-
-		$blockRooms = $this->getRelevantBlockRooms();
-
-		// No block rooms were relevant
-		if (empty($blockRooms))
-		{
-			return;
-		}
-
-		$event = $this->currentSchedule->lessons->{$this->currentEvent};
-
-		// Events which have been removed are not relevant.
-		if (!empty($event->delta) AND $event->delta == 'removed')
-		{
-			return;
-		}
-
-		if (empty($this->events[$this->currentDate]))
-		{
-			$this->events[$this->currentDate] = array();
-		}
-
-		if (empty($this->events[$this->currentDate][$this->currentEvent]))
-		{
-			$this->events[$this->currentDate][$this->currentEvent] = array();
-
-			// These need only be called once per lesson
-			$this->events[$this->currentDate][$this->currentEvent]['organization'] = $schedule->departmentname;
-			$this->setEventName();
-			$this->setEventType();
-			$this->setEventComment();
-			$this->setEventGrid();
-			$this->events[$this->currentDate][$this->currentEvent]['blocks'] = array();
-		}
-
-		$this->setEventBlockData($blockRooms);
-	}
-
-	/**
-	 * Gets the event rooms which are relevant for the view
-	 *
-	 * @return  array  empty if no rooms are relevant in the iterated block
-	 */
-	private function getRelevantBlockRooms()
-	{
-		$event = $this->currentSchedule->calendar->{$this->currentDate}->{$this->currentBlock}->{$this->currentEvent};
-
-		$relevantRooms = array();
-		foreach ($event as $roomKey => $delta)
-		{
-			//  The delta index is not a valid room. Rooms which have been removed fom events are not relevant in this view.
-			if ($roomKey == 'delta' OR $delta == 'removed')
-			{
-				continue;
-			}
-
-			if (!empty($this->rooms[$roomKey]))
-			{
-				$relevantRooms[$roomKey] = $this->rooms[$roomKey];
+				$this->rooms = $this->params['rooms'];
 			}
 		}
 
-		return $relevantRooms;
-	}
+		$rooms      = array();
+		$roomsTable = JTable::getInstance('rooms', 'thm_organizerTable');
 
-	/**
-	 * Sets the event name
-	 *
-	 * @return  void  sets an object variable
-	 */
-	private function setEventName()
-	{
-		$event = $this->currentSchedule->lessons->{$this->currentEvent};
-		$names = $this->currentSchedule->subjects;
-
-		$name = '';
-		foreach ($event->subjects AS $nameKey => $delta)
+		// The current values are meaningless and will be overwritten here
+		foreach ($this->rooms AS $roomID)
 		{
-			if (!empty($delta) AND $delta == 'removed')
+			try
 			{
-				continue;
+				$roomsTable->load($roomID);
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+				unset($this->rooms[$roomID]);
 			}
 
-			if (!empty($names->$nameKey) AND !empty($names->$nameKey->longname))
-			{
-				if (!empty($name))
-				{
-					$name .= ' / ';
-				}
-
-				$name .= $names->$nameKey->longname;
-			}
+			$roomName       = $roomsTable->name;
+			$rooms[$roomID] = $roomName;
 		}
-		$this->events[$this->currentDate][$this->currentEvent]['name'] = $name;
-	}
 
-	/**
-	 * Sets the event type
-	 *
-	 * @return  void  sets an object variable
-	 */
-	private function setEventType()
-	{
-		$event = $this->currentSchedule->lessons->{$this->currentEvent};
-
-		if (empty($event->description))
+		if ($this->params['layout'] == 'registered')
 		{
-			$type = '';
-		}
-		else
-		{
-			$type = $event->description;
+			$roomValues               = array_values($rooms);
+			$this->params['roomName'] = array_shift($roomValues);
 		}
 
-		$this->events[$this->currentDate][$this->currentEvent]['type'] = $type;
-	}
-
-	/**
-	 * Sets the event description
-	 *
-	 * @return  void  sets an object variable
-	 */
-	private function setEventComment()
-	{
-		$event   = $this->currentSchedule->lessons->{$this->currentEvent};
-		$comment = empty($event->comment) ? '' : $event->comment;
-
-		$this->events[$this->currentDate][$this->currentEvent]['comment'] = $comment;
-	}
-
-	/**
-	 * Sets the event grid. Used later for determining block times.
-	 *
-	 * @return  void  sets an object variable
-	 */
-	private function setEventGrid()
-	{
-		$event = $this->currentSchedule->lessons->{$this->currentEvent};
-		$grid  = empty($event->grid) ? 'Haupt-Zeitraster' : $event->grid;
-
-		$this->events[$this->currentDate][$this->currentEvent]['grid'] = $grid;
-	}
-
-	/**
-	 * Sets block specific data such as times and rooms.
-	 *
-	 * @param   array $blockRooms the rooms found by the previous relevance check
-	 *
-	 * @return  void  sets object variables
-	 */
-	private function setEventBlockData($blockRooms)
-	{
-		$blockData = array();
-		$gridName  = $this->events[$this->currentDate][$this->currentEvent]['grid'];
-		$gridBlock = $this->currentSchedule->periods->{$gridName}->{$this->currentBlock};
-
-		$blockData['startTime'] = $gridBlock->startTime;
-		$blockData['endTime']   = $gridBlock->endTime;
-		$blockData['rooms']     = $blockRooms;
-		$blockData['speakers']  = $this->getEventBlockTeachers();
-
-		$this->events[$this->currentDate][$this->currentEvent]['blocks'][$this->currentBlock] = $blockData;
-	}
-
-	/**
-	 * Gets the speakers for the iterated block. This is done by the block in the assumption that Untis will eventually
-	 * have this feature for sporadic events.
-	 *
-	 * @return  array  the teachers for the given block
-	 */
-	private function getEventBlockTeachers()
-	{
-		$event       = $this->currentSchedule->lessons->{$this->currentEvent};
-		$allSpeakers = $this->currentSchedule->teachers;
-
-		$speakers = array();
-		foreach ($event->teachers AS $speakerKey => $delta)
-		{
-			if (!empty($delta) AND $delta == 'removed')
-			{
-				continue;
-			}
-
-			if (!empty($allSpeakers->$speakerKey))
-			{
-				$speakers[$speakerKey]['surname']  = $allSpeakers->$speakerKey->surname;
-				$speakers[$speakerKey]['forename'] = $allSpeakers->$speakerKey->forename;
-			}
-		}
-
-		return $speakers;
-	}
-
-	/**
-	 * Consolidates events that take place in multiple sequential blocks
-	 *
-	 * @return  void  sets object variables
-	 */
-	private function cleanEventBlockData()
-	{
-		foreach ($this->events AS $date => $events)
-		{
-			foreach ($events AS $key => $value)
-			{
-				if (count($value['blocks']) === 1)
-				{
-					continue;
-				}
-
-				$comparisonKey   = 0;
-				$comparisonValue = array();
-				foreach ($value['blocks'] AS $number => $data)
-				{
-					// Initialize
-					if (empty($comparisonValue))
-					{
-						$comparisonKey   = $number;
-						$comparisonValue = $data;
-						continue;
-					}
-
-					$sameRooms    = $comparisonValue['rooms'] === $data['rooms'];
-					$sameSpeakers = $comparisonValue['speakers'] === $data['speakers'];
-
-					// The block data for the events is divergent
-					if (!$sameRooms OR !$sameSpeakers)
-					{
-						$comparisonKey   = $number;
-						$comparisonValue = $data;
-						continue;
-					}
-
-					// Events are sequential
-					if (($number - 1) == $comparisonKey)
-					{
-						$comparisonValue['endTime'] = $data['endTime'];
-
-						// Update the item
-						$this->events[$date][$key]['blocks'][$number] = $comparisonValue;
-
-						// Remove the item being compared to
-						unset($this->events[$date][$key]['blocks'][$comparisonKey]);
-
-						$comparisonKey = $number;
-						continue;
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Sorts the events according to their starting time and rooms
-	 *
-	 * @return  void  sets object variables
-	 */
-	private function sortEventBlockData()
-	{
-		/**
-		 * Compares the values of two arrays
-		 *
-		 * @param   array $one the first array
-		 * @param   array $two the second array
-		 *
-		 * @return  int  see strcmp
-		 */
-		function compareEvents($one, $two)
-		{
-			$oneBlocks           = $one["blocks"];
-			$oneBlock            = array_shift($oneBlocks);
-			$twoBlocks           = $two["blocks"];
-			$twoBlock            = array_shift($twoBlocks);
-			$startTimeComparison = strcmp($oneBlock['startTime'], $twoBlock["startTime"]);
-			if ($startTimeComparison !== 0)
-			{
-				return $startTimeComparison;
-			}
-
-			$oneRooms = implode(', ', $oneBlock['rooms']);
-			$twoRooms = implode(', ', $twoBlock['rooms']);
-
-			return strcmp($oneRooms, $twoRooms);
-		}
-
-		foreach ($this->events AS $date => $events)
-		{
-			uasort($events, 'compareEvents');
-			$this->events[$date] = $events;
-		}
+		asort($rooms);
+		$this->rooms = $rooms;
 	}
 }

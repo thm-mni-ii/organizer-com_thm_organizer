@@ -12,9 +12,8 @@
         font-size: .9rem;
         padding: 2px;
       }
-      th.speakers-column, td.speakers-column,
-      th.name-column, td.name-column,
-      th.comment-column, td.comment-column {
+      th.teachers-column, td.teachers-column,
+      th.name-column, td.name-column {
         display: none;
       }
       th.time-column, td.time-column,
@@ -53,7 +52,6 @@
           border: none;
           color: white;
           font-weight: normal;
-          text-align: center;
         }
       }
     }
@@ -75,13 +73,16 @@
   width: 100%;
 }
 
-.time-column, .org-column {
-  text-align: center;
-  width: 6%;
+.time-column {
+  width: 8rem;
 }
 
-.rooms-column, .speakers-column, .name-column, .comment-column {
-  min-width: 10%;
+.org-column {
+  width: 5rem;
+}
+
+.rooms-column, .teachers-column, .name-column {
+  min-width: 15rem;
 }
 
 /******************************************************************************/
@@ -136,28 +137,32 @@
 
   /******************** content **********************************/
   .display-area {
-    font-size: 200%;
     margin: 0 48px;
     text-align: center;
 
     .exp-text {
-      font-size: 115%;
+      font-size: 2rem;
       font-weight: bold;
       padding: 10px 0;
     }
 
     .event-date-head {
       border: 1px solid $blue-75;
-      font-size: 110%;
+      font-size: 2rem;
       position: relative;
       left: -1px;
+
+      span {
+        margin-left: 7rem;
+        width: calc(100% - 7rem);
+      }
     }
 
     .row1 {
       background-color: $background;
     }
 
-    .event-times, .event-main, .event-comment {
+    .event-times, .event-main {
       display: inline-block;
       float: left;
       height: 100%;
@@ -165,71 +170,36 @@
       vertical-align: middle;
     }
 
-    .event-times, .event-names, .event-speakers, .event-comment {
-      font-size: 110%;
-      padding: 10px 0;
-    }
-
     .event-times {
-      width: 8%;
+      font-size: 2.1rem;
+      padding: 1rem 0;
+      width: 7rem;
     }
 
     .event-main {
-      width: 70%;
+      width: calc(100% - 7rem);
     }
 
-    .main-wide {
-      width: 90%;
+    .event-names, .event-teachers, .event-comment {
+      padding-top: .5rem;
     }
 
     .event-names {
-      font-size: 115%;
+      font-size: 2.6rem;
       font-weight: bold;
+
+      &.fluffy {
+        padding-top: 1.2rem;
+      }
+    }
+
+    .event-teachers {
+      font-size: 2.1rem;
     }
 
     .event-comment {
-      width: 20%;
-    }
-
-    .comment-head {
-      font-size: 80%;
+      font-size: 1.5rem;
+      padding-bottom: .5rem;
     }
   }
-}
-
-.block-title {
-  float: left;
-  font-weight: bold;
-  word-wrap: break-word;
-  padding-left: 8%;
-}
-
-.block-extra {
-  text-align: right;
-  word-wrap: break-word;
-  min-width: 155px;
-}
-
-.inactive {
-}
-
-.active {
-  background-color: #9C132D;
-  color: white;
-  font-weight: bold;
-  padding: 60px 0.5em;
-
-  .block-time {
-  }
-
-  .block-data {
-    font-size: larger;
-  }
-
-  .block-extra {
-  }
-}
-
-.nothingActive {
-  padding: 49px 0.5em;
 }

@@ -137,8 +137,8 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 			$eventTip   = array();
 			$eventTip[] = '<div>';
 			$eventTip[] = JText::_('COM_THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
-			$eventTip[] = JText::_('COM_THM_ORGANIZER_EVENT_NAME') . ": {$event['title']}<br/>";
-			$eventTip[] = JText::_('COM_THM_ORGANIZER_TEACHERS') . ": {$event['speakers']}";
+			$eventTip[] = JText::_('COM_THM_ORGANIZER_EVENT') . ": {$event['title']}<br/>";
+			$eventTip[] = JText::_('COM_THM_ORGANIZER_TEACHERS') . ": {$event['teachers']}";
 			if (!empty($event['comment']))
 			{
 				$eventTip[] = '<br />';

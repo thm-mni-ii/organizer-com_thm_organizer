@@ -162,32 +162,6 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	}
 
 	/**
-	 * Finds and sets the relevant schedule IDs in the corresponding object variable
-	 *
-	 * @return  void  sets the object variable $_scheduleIDs
-	 */
-	private function setScheduleIDs()
-	{
-		// All active schedules which overlap the given date interval
-		$query = $this->_db->getQuery(true);
-		$query->select('DISTINCT id')->from('#__thm_organizer_schedules');
-		$query->where("active = '1'");
-		$query->where("startDate <= '$this->startDate'");
-		$query->where("endDate >= '$this->endDate'");
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$this->_scheduleIDs = $this->_db->loadColumn();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$this->_scheduleIDs = array();
-		}
-	}
-
-	/**
 	 * Gets the main grid from the first schedule
 	 *
 	 * @return  void  sets the object grid variable
@@ -215,7 +189,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	/**
 	 * Gets the room information for a week
 	 *
-	 * @return  array  room information for the given day
+	 * @return  void sets the daily event information over the given interval
 	 */
 	private function getInterval()
 	{
@@ -270,7 +244,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 * @param   int    $blockNo the index of the block being iterated
 	 * @param   object $events  the events in the block being iterated
 	 *
-	 * @return  void  modifies &$blocks
+	 * @return  array the events for the given date
 	 */
 	private function getEvents($date)
 	{
@@ -328,7 +302,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 				$events[$times][$lessonID] = array();
 				$events[$times][$lessonID]['departments'] = array();
 				$events[$times][$lessonID]['titles'] = array();
-				$events[$times][$lessonID]['speakers'] = array();
+				$events[$times][$lessonID]['teachers'] = array();
 				$events[$times][$lessonID]['rooms'] = array();
 				$events[$times][$lessonID]['method'] = empty($result['method'])? '' : " - {$result['method']}";
 				$events[$times][$lessonID]['startTime'] = $startTime;
@@ -349,11 +323,11 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
 			foreach ($configuration['teachers'] AS $teacherID => $delta)
 			{
-				$addSpeaker = ($delta != 'removed' AND empty($events[$times][$lessonID]['speakers'][$teacherID]));
+				$addSpeaker = ($delta != 'removed' AND empty($events[$times][$lessonID]['teachers'][$teacherID]));
 
 				if ($addSpeaker)
 				{
-					$events[$times][$lessonID]['speakers'][$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID);
+					$events[$times][$lessonID]['teachers'][$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID);
 				}
 			}
 
@@ -417,7 +391,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 				{
 					$instance = array();
 					$instance['department'] = implode(' / ', $eventInstance['departments']);
-					$instance['speakers'] = implode(' / ', $eventInstance['speakers']);
+					$instance['teachers'] = implode(' / ', $eventInstance['teachers']);
 					$instance['title'] = implode(' / ', $eventInstance['titles']);
 					$instance['title'] .= $eventInstance['method'];
 					$instance['comment'] = $eventInstance['comment'];

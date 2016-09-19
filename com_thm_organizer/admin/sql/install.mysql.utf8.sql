@@ -53,7 +53,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `name_de`       VARCHAR(255)     NOT NULL,
   `short_name_en` VARCHAR(50)      NOT NULL,
   `name_en`       VARCHAR(255)     NOT NULL,
-  `plan_key`      VARCHAR(10)      NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `short_name` (`short_name_de`),
   UNIQUE KEY `name` (`name_de`),

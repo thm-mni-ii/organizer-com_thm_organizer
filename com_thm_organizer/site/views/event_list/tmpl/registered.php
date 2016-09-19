@@ -41,7 +41,7 @@ $metric = 0;
 	<div class="display-area">
 		<div class="exp-text"><?php echo JText::_('COM_THM_ORGANIZER_NEXT_4'); ?></div>
 		<?php
-		foreach ($this->model->events as $date => $events)
+		foreach ($this->model->events as $date => $times)
 		{
 			if ($metric >= 4)
 			{
@@ -49,16 +49,16 @@ $metric = 0;
 			}
 			$displayedEvents = 0; ?>
 			<div class="event-date">
-				<div class="event-date-head"><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></div>
+				<div class="event-date-head"><span><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></span></div>
 				<?php
 				$rowNumber = 0;
-				foreach ($events as $event)
+				foreach ($times as $time => $lessons)
 				{
 					if ($metric >= 4)
 					{
 						break;
 					}
-					foreach ($event['blocks'] as $block)
+					foreach ($lessons as $lesson)
 					{
 						$metric++;
 						if ($metric > 4)
@@ -67,36 +67,30 @@ $metric = 0;
 						}
 						$rowClass = 'row' . ($rowNumber % 2);
 						$rowNumber++;
-						$rooms         = implode(', ', $block['rooms']);
-						$speakersArray = array();
-						foreach ($block['speakers'] as $speaker)
-						{
-							$speakersArray[] = implode(', ', array_filter($speaker));
-						}
-						$speakers       = implode(' / ', $speakersArray);
-						$mainExtraClass = empty($event['comment']) ? 'main-wide' : '';
+						$paddingClass = empty($lesson['comment'])? 'fluffy' : '';
 						?>
 						<div class="<?php echo $rowClass; ?> ym-clearfix">
 							<div class="event-times">
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['startTime']); ?><br/>
+								<?php echo THM_OrganizerHelperComponent::formatTime($lesson['startTime']); ?><br/>
 								-<br/>
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['endTime']); ?>
+								<?php echo THM_OrganizerHelperComponent::formatTime($lesson['endTime']); ?>
 							</div>
-							<div class="event-main <?php echo $mainExtraClass; ?>">
-								<div class="event-names"><?php echo $event['name']; ?></div>
-								<div class="event-speakers"><?php echo $speakers; ?></div>
-							</div>
-							<?php
-							if (!empty($event['comment']))
-							{
-								?>
-								<div class="event-comment">
-									<span class="comment-head">Kommentar:</span><br/>
-									<?php echo $event['comment']; ?>
+							<div class="event-main">
+								<div class="event-names <?php echo $paddingClass; ?>">
+									<?php echo implode(' / ', $lesson['titles']); ?>
 								</div>
+								<div class="event-teachers"><?php echo implode(' / ', $lesson['teachers']); ?></div>
 								<?php
-							}
-							?>
+								if (!empty($lesson['comment']))
+								{
+									?>
+									<div class="event-comment">
+										(<?php echo $lesson['comment']; ?>)
+									</div>
+									<?php
+								}
+								?>
+							</div>
 						</div>
 						<?php
 					}

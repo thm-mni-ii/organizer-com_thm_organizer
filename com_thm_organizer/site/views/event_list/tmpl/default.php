@@ -14,120 +14,50 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 $showHeading = $this->model->params->get('show_page_heading', '');
-$showOrg     = $this->model->params->get('show_org', true);
-$showRooms   = $this->model->params->get('show_rooms', true);
-$showNames   = $this->model->params->get('show_names', true);
-$showComment = $this->model->params->get('show_comment', true);
 $title       = $this->model->params->get('page_title', '');
-?>
-<div id="event-list" class="component-container">
-	<?php
-	if (!empty($showHeading))
+
+echo '<div id="event-list" class="component-container">';
+if (!empty($showHeading))
+{
+	echo '<h2 class="blacomponentheading">' . $title . '</h2>';
+}
+foreach ($this->model->events as $date => $times)
+{
+	echo '<div class="event-date">';
+	echo '<div class="event-date-head">' . THM_OrganizerHelperComponent::formatDate($date) . '</div>';
+	echo '<table><thead><tr class="list-head">';
+	echo '<th class="time-column">' . JText::_('COM_THM_ORGANIZER_TIMES') .  '</th>';
+	echo '<th class="name-column">' . JText::_('COM_THM_ORGANIZER_EVENT') . '</th>';
+	echo '<th class="teachers-column">' . JText::_('COM_THM_ORGANIZER_TEACHERS') . '</th>';
+	echo '<th class="rooms-column">' . JText::_('COM_THM_ORGANIZER_ROOMS') . '</th>';
+	echo '<th class="org-column">' . JText::_('COM_THM_ORGANIZER_ORGANIZATION') . '</th>';
+	echo '</tr></thead>';
+
+	$rowNumber = 0;
+	foreach ($times as $time => $lessons)
 	{
-		?>
-		<h2 class="blacomponentheading"><?php echo $title; ?></h2>
-		<?php
+		foreach ($lessons as $lesson)
+		{
+			$rowClass = 'row' . ($rowNumber % 2);
+			$rowNumber++;
+			echo '<tr class="' . $rowClass . '">';
+			echo '<td class="time-column">';
+			echo THM_OrganizerHelperComponent::formatTime($lesson['startTime']) . ' - ';
+			echo THM_OrganizerHelperComponent::formatTime($lesson['endTime']);
+			echo '</td>';
+			echo '<td class="name-column">';
+			echo implode(' / ', $lesson['titles']);
+			if (!empty($lesson['comment']))
+			{
+				echo '<br />(' . $lesson['comment'] . ')';
+			}
+			echo '</td>';
+			echo '<td class="teachers-column">' . implode(' / ', $lesson['teachers']) . '</td>';
+			echo '<td class="rooms-column">' . implode(', ', $lesson['rooms']) . '</td>';
+			echo '<td class="org-column">' . implode(', ', $lesson['departments']) . '</td>';
+			echo '</tr>';
+		}
 	}
-	foreach ($this->model->events as $date => $events)
-	{
-		?>
-		<div class="event-date">
-			<div class="event-date-head"><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></div>
-			<table>
-				<thead>
-				<tr class="list-head">
-					<th class="time-column"><?php echo JText::_('COM_THM_ORGANIZER_START_TIME'); ?></th>
-					<th class="time-column"><?php echo JText::_('COM_THM_ORGANIZER_END_TIME'); ?></th>
-					<?php
-					if ($showRooms)
-					{
-						?>
-						<th class="rooms-column"><?php echo JText::_('COM_THM_ORGANIZER_ROOMS'); ?></th>
-						<?php
-					}
-					if ($showOrg)
-					{
-						?>
-						<th class="org-column"><?php echo JText::_('COM_THM_ORGANIZER_ORGANIZATION'); ?></th>
-						<?php
-					}
-					?>
-					<th class="speakers-column"><?php echo JText::_('COM_THM_ORGANIZER_TEACHERS'); ?></th>
-					<?php
-					if ($showNames)
-					{
-						?>
-						<th class="name-column"><?php echo JText::_('COM_THM_ORGANIZER_SUBJECTS'); ?></th>
-						<?php
-					}
-					if ($showComment)
-					{
-						?>
-						<th class="comment-column"><?php echo JText::_('COM_THM_ORGANIZER_COMMENT'); ?></th>
-						<?php
-					}
-					?>
-				</tr>
-				</thead>
-				<?php
-				$rowNumber = 0;
-				foreach ($events as $event)
-				{
-					foreach ($event['blocks'] as $block)
-					{
-						$rowClass = 'row' . ($rowNumber % 2);
-						$rowNumber++;
-						$rooms         = implode(', ', $block['rooms']);
-						$speakersArray = array();
-						foreach ($block['speakers'] as $speaker)
-						{
-							$speakersArray[] = implode(', ', array_filter($speaker));
-						}
-						$speakers = implode(' / ', $speakersArray); ?>
-						<tr class="<?php echo $rowClass; ?>">
-							<td class="time-column">
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['startTime']); ?>
-							</td>
-							<td class="time-column">
-								<?php echo THM_OrganizerHelperComponent::formatTime($block['endTime']); ?>
-							</td>
-							<?php
-							if ($showRooms)
-							{
-								?>
-								<td class="rooms-column"><?php echo $rooms; ?></td>
-								<?php
-							}
-							if ($showOrg)
-							{
-								?>
-								<td class="org-column"><?php echo $event['organization']; ?></td>
-								<?php
-							}
-							?>
-							<td class="speakers-column"><?php echo $speakers; ?></td>
-							<?php
-							if ($showNames)
-							{
-								?>
-								<td class="name-column"><?php echo $event['name']; ?></td>
-								<?php
-							}
-							if ($showComment)
-							{
-								?>
-								<td class="comment-column"><?php echo $event['comment']; ?></td>
-								<?php
-							}
-							?>
-						</tr>
-						<?php
-					}
-				}
-				?>
-			</table>
-		</div>
-		<?php
-	}
-	?>
-</div>
+	echo '</table></div>';
+}
+echo '</div>';
