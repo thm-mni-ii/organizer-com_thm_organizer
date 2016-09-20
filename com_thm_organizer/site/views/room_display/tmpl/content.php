@@ -10,7 +10,7 @@
  */
 
 defined('_JEXEC') or die;
-
+echo $this->model->params['content'];
 ?>
 <script type="text/javascript">
 	var timer = null;
@@ -23,4 +23,4 @@ defined('_JEXEC') or die;
 		timer = setTimeout('auto_reload()', <?php echo $this->model->params['content_refresh']; ?>000);
 	}
 </script>
-<img src="images/thm_organizer/<?php echo $this->model->params['content']; ?>">
+<img class="room-display-content" src="images/thm_organizer/<?php echo $this->model->params['content']; ?>">

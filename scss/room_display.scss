@@ -3,6 +3,10 @@
 //********************************************************************************************************************//
 @import '../../lib_thm_core/scss/variables';
 
+body {
+  overflow: hidden !important;
+}
+
 .display-schedule {
   font-family: Verdana, Arial;
   margin: auto 0;
@@ -21,19 +25,18 @@
 }
 
 .thm-logo {
-  padding-top: 5px;
-  width: 210px;
+  width: 224px;
   float: left;
 
   img {
-    width: 210px;
-    height: 69px;
+    width: 224px;
+    height: 84px;
   }
 }
 
 .room-name {
   text-align: center;
-  font-size: 95px; //manuelle Anpassung der Schriftgröße an THM-Schriftgröße des Bildes
+  font-size: 95px;
   font-weight: bold;
   line-height: 72px;
   margin: 0 205px 0 210px
@@ -64,6 +67,7 @@
   padding: 46px 0.5em;
   background-color: rgb(238, 238, 238);
   border-bottom: 3px solid white;
+  min-height: 3.5vmin;
 }
 
 .block-time {
@@ -80,20 +84,26 @@
 .block-extra {
   text-align: right;
   word-wrap: break-word;
-  min-width: 155px;
 }
 
 .active {
   background-color: #9C132D;
   color: white;
-  font-weight: bold;
   padding: 60px 0.5em;
-
-  .block-data {
-    font-size: larger;
-  }
 }
 
 .nothingActive {
   padding: 49px 0.5em;
+}
+
+img.room-display-content {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 100%;
+  margin: auto;
+  overflow: auto;
 }

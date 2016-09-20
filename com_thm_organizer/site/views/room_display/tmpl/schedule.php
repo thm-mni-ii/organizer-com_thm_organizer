@@ -4,19 +4,14 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @author      Daniel Kirsten, <daniel.kirsten@mni.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
-$params  = $this->model->params;
-$blocks  = $this->model->blocks;
-$dayName = strtoupper(date('l'));
 $time    = date('H:i');
 $blockNo = 0;
-$metric  = 0;
 ?>
 <script type="text/javascript">
 	var timer = null;
@@ -26,15 +21,16 @@ $metric  = 0;
 	}
 	window.onload = function ()
 	{
-		timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
+		var scheduleBlockElement = document.getElementsByClassName("schedule-block"),
+			activeExists = checkIfActiveExists(scheduleBlockElement);
+
+		timer = setTimeout('auto_reload()', <?php echo $this->model->params['schedule_refresh']; ?>000);
 
 		/**
 		 * Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
 		 * dazu wird ein neuer Klassennamen benötigt.
 		 */
-		var scheduleBlockElement = document.getElementsByClassName("schedule-block");
-		var bool = testforactiveelements(scheduleBlockElement);
-		if (bool == false)
+		if (activeExists == false)
 		{
 			for (var i = 0; i < scheduleBlockElement.length; i++)
 			{
@@ -43,7 +39,7 @@ $metric  = 0;
 		}
 	};
 
-	testforactiveelements = function (scheduleBlockElement)
+	checkIfActiveExists = function (scheduleBlockElement)
 	{
 		var active = false;
 		for (var i = 0; i < scheduleBlockElement.length; i++)
@@ -59,8 +55,8 @@ $metric  = 0;
 <div class='display-schedule'>
 	<div class='head'>
 		<div class='banner'>
-			<div class='thm-logo'><img src="media/com_thm_organizer/images/thm_logo.png" alt="THM-Logo"/></div>
-			<div class="room-name"><?php echo $params['roomName']; ?></div>
+			<div class='thm-logo'><img src="media/com_thm_organizer/images/thm.svg" alt="THM-Logo"/></div>
+			<div class="room-name"><?php echo $this->model->roomName; ?></div>
 		</div>
 		<div class='date-info'>
 			<div class='time'><?php echo $time; ?></div>
@@ -69,34 +65,42 @@ $metric  = 0;
 	</div>
 	<div class="schedule-area schedule-wide">
 		<?php
-		if (!empty($blocks))
+		if (!empty($this->model->blocks))
 		{
-			foreach ($blocks as $blockKey => $block)
+			foreach ($this->model->blocks as $blockKey => $block)
 			{
 				$blockClass  = ($blockNo % 2) ? 'block-odd' : 'block-even';
-				$activeClass = ($time >= $block->startTime and $time <= $block->endTime) ? 'active' : 'inactive';
+				$activeClass = ($time >= $block['startTime'] and $time <= $block['endTime']) ? 'active' : 'inactive';
 				?>
 				<div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
 					<div class="block-time">
-						<?php echo $block->startTime . ' - ' . $block->endTime; ?>
+						<?php echo $block['startTime'] . ' - ' . $block['endTime']; ?>
 					</div>
 					<div class="block-data">
 						<?php
-						if (!empty($block->lessons))
+						if (!empty($block['lessons']))
 						{
 							echo '<div class="block-title">';
-							foreach ($block->lessons as $lesson)
+							foreach ($block['lessons'] as $lesson)
 							{
-								echo '<span class="lesson-title">' . $lesson['title'] . '</span>';
-								echo '<span class="lesson-time">' . $lesson['time'] . '</span>';
-								echo '<br />';
+								$title = implode($lesson['titles']);
+								if (!empty($lesson['method']))
+								{
+									$title .= $lesson['method'];
+								}
+								echo '<span class="lesson-title">' . $title . '</span>';
+								if (!empty($lesson['divTime']))
+								{
+									echo '<span class="lesson-time">' . $lesson['divTime'] . '</span>';
+								}
+								echo '<br/>';
 							}
 							echo '</div>';
 							echo '<div class="block-extra">';
-							foreach ($block->lessons as $lesson)
+							foreach ($block['lessons'] as $lesson)
 							{
-								echo '<span class="lesson-teacher">' . $lesson['teacher'] . '</span>';
-								echo '<br />';
+								echo '<span class="lesson-teacher">' . implode('/', $lesson['teachers']) . '</span>';
+								echo '<br/>';
 							}
 							echo '</div>';
 						}

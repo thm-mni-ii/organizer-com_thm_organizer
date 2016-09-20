@@ -49,7 +49,8 @@ $metric = 0;
 			}
 			$displayedEvents = 0; ?>
 			<div class="event-date">
-				<div class="event-date-head"><span><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></span></div>
+				<div class="event-date-head"><span><?php echo THM_OrganizerHelperComponent::formatDate($date); ?></span>
+				</div>
 				<?php
 				$rowNumber = 0;
 				foreach ($times as $time => $lessons)
@@ -67,7 +68,7 @@ $metric = 0;
 						}
 						$rowClass = 'row' . ($rowNumber % 2);
 						$rowNumber++;
-						$paddingClass = empty($lesson['comment'])? 'fluffy' : '';
+						$paddingClass = empty($lesson['comment']) ? 'fluffy' : '';
 						?>
 						<div class="<?php echo $rowClass; ?> ym-clearfix">
 							<div class="event-times">
@@ -77,7 +78,13 @@ $metric = 0;
 							</div>
 							<div class="event-main">
 								<div class="event-names <?php echo $paddingClass; ?>">
-									<?php echo implode(' / ', $lesson['titles']); ?>
+									<?php
+									echo implode(' / ', $lesson['titles']);
+									if (!empty($lesson['method']))
+									{
+										echo ' - ' . $lesson['method'];
+									}
+									?>
 								</div>
 								<div class="event-teachers"><?php echo implode(' / ', $lesson['teachers']); ?></div>
 								<?php

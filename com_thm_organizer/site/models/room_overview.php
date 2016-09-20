@@ -31,10 +31,6 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
 	public $endDate = array();
 
-	private $_scheduleIDs = array();
-
-	private $_currentSchedule = array();
-
 	public $grid = array();
 
 	public $data = array();

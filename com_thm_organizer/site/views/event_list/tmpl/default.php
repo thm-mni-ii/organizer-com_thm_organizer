@@ -47,6 +47,10 @@ foreach ($this->model->events as $date => $times)
 			echo '</td>';
 			echo '<td class="name-column">';
 			echo implode(' / ', $lesson['titles']);
+			if (!empty($lesson['method']))
+			{
+				echo ' - ' . $lesson['method'];
+			}
 			if (!empty($lesson['comment']))
 			{
 				echo '<br />(' . $lesson['comment'] . ')';
