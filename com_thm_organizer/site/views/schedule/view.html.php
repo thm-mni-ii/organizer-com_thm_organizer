@@ -60,10 +60,10 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$this->uri         = JUri::getInstance()->toString();
 		$this->checkMobile();
 
 		$this->languageTag = JFactory::getLanguage()->getTag();
-		$this->uri         = JUri::getInstance()->toString();
 		$this->defaultGrid = $this->getModel()->getDefaultGrid();
 		$this->schedules   = $this->getModel()->getSchedules();
 		$this->departments = $this->getModel()->getDepartments();
@@ -102,13 +102,12 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	{
 		$app            = JFactory::getApplication();
 		$this->isMobile = THM_OrganizerHelperComponent::isSmartphone();
-		$isCompTempl    = $app->input->getString('tmpl', '') == "component";
+		$isMobileTempl  = $app->input->getString('tmpl', '') == "component";
 
-		if ($this->isMobile AND !$isCompTempl)
+		if ($this->isMobile AND !$isMobileTempl)
 		{
-			$base  = JUri::root() . 'index.php?';
-			$query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
-			$app->redirect($base . $query);
+			$query = $this->uri . '&tmpl=component';
+			$app->redirect($query);
 		}
 	}
 }

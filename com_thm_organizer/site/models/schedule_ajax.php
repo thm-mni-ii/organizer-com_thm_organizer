@@ -10,8 +10,11 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -79,6 +82,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			$query->where("program.departmentID = '$departmentID'");
 		}
 
+		/** this MySQL regexp means: [0-9A-Za-z]+[.][0-9A-Za-z]+ */
 		$query->where("plan.gpuntisID REGEXP '^[[:alnum:]]+[[.period.]][[:alnum:]]+'");
 
 		$query->order('name');
@@ -115,18 +119,14 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 		$query = $this->_db->getQuery(true);
 		$query->select('id, name, gpuntisID')
-			->from('#__thm_organizer_plan_pools')
-			->where("gpuntisID REGEXP '^[[:alnum:]]+[[.period.]][[:alnum:]]+'");
+			->from('#__thm_organizer_plan_pools');
 
 		foreach ($programIDs as $programID)
 		{
 			$conditions[] = "programID = '$programID'";
 		}
 
-		// Implode, because where-clause is already set and does not accept a new 'glue' (default = 'AND')
-		$programCondition = implode(' OR ', $conditions);
-
-		$query->where($programCondition);
+		$query->where($conditions, 'OR');
 
 		$query->order('name');
 		$this->_db->setQuery((string) $query);
@@ -139,7 +139,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return $e->getMessage();
+			return '{}';
 		}
 
 		return json_encode($result);
@@ -227,8 +227,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	}
 
 	/**
-	 * TODO
-	 *
 	 * Getter method for lessons in database
 	 * e.g. for selecting a schedule
 	 *
@@ -236,34 +234,53 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 *
 	 * @throws RuntimeException
 	 */
-	public function getLessons()
+	public function getLessonsByPools()
 	{
-		$this->_db    = JFactory::getDbo();
-		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
-		$departmentID = JFactory::getApplication()->input->getInt('departmentID');
-		$poolID       = JFactory::getApplication()->input->getInt('poolID');
-		$chosenDate   = JFactory::getApplication()->input->getString('date');
+		$this->_db  = JFactory::getDbo();
+		$chosenDate = JFactory::getApplication()->input->getString('date');
+		$poolInput  = JFactory::getApplication()->input->getString('poolIDs');
+		$poolIDs    = explode(',', $poolInput);
+		$conditions = array();
 
-		$query = $this->_db->getQuery(true);
-		$query->select("less.id, sub.short_name_$languageTag AS name, meth.abbreviation_$languageTag")
-			->from('#__thm_organizer_lessons AS less')
-			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON lesu.lessonID = less.id');
+		$query       = $this->_db->getQuery(true);
+		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
+		$query->select(
+			"subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, 
+			tea.id AS teacherID, $teacherName AS teacherName,
+			cal.startTime, cal.endTime, cal.schedule_date, cal.delta AS calendarDelta"
+		)
+			->from('#__thm_organizer_plan_pools AS poo')
+			->innerJoin('#__thm_organizer_lesson_pools AS lepo ON poo.id = lepo.poolID')
+			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON lepo.subjectID = lesu.id')
+			->innerJoin('#__thm_organizer_lessons AS less ON lesu.lessonID = less.id')
+			->innerJoin('#__thm_organizer_calendar AS cal ON less.id = cal.lessonID')
+			->leftJoin('#__thm_organizer_plan_subjects AS subs ON lesu.subjectID = subs.id')
+			->leftJoin('#__thm_organizer_planning_periods AS pp ON pp.id = less.planningPeriodID')
+			->leftJoin('#__thm_organizer_lesson_teachers AS letea ON lesu.id = letea.subjectID')
+			->leftJoin('#__thm_organizer_teachers AS tea ON letea.teacherID = tea.id');
 
-		if ($poolID != 0)
+		foreach ($poolIDs as $poolID)
 		{
-			$query->where("lepo.poolID = $poolID");
+			$conditions[] = "poo.id = $poolID";
 		}
+
+		$poolConditions = '(' . implode($conditions, ' OR ') . ')';
+		$query->where($poolConditions);
 
 		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $chosenDate) === 1)
 		{
-			$query->where("pp.startDate <= $chosenDate AND pp.endDate >= $chosenDate");
+			$query->where("pp.startDate <= '$chosenDate' AND pp.endDate >= '$chosenDate'");
 		}
 		else
 		{
 			$query->where("pp.startDate <= CURDATE() AND pp.endDate >= CURDATE()");
 		}
 
-		$query->order('name');
+		$query->where("cal.schedule_date <= DATE_ADD('$chosenDate', INTERVAL 3 DAY)")
+			->where("cal.schedule_date >= DATE_SUB('$chosenDate', INTERVAL 3 DAY)")
+			->where("cal.delta != 'removed'");
+
+		$query->order('subjectName');
 		$this->_db->setQuery((string) $query);
 
 		try
@@ -274,7 +291,143 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return $e->getMessage();
+			return '{}';
+		}
+
+		return json_encode($result);
+	}
+
+	/**
+	 * Getter for lessons in database,
+	 * filtered by a teacher, departmentID and date.
+	 * e.g. for selecting a schedule
+	 *
+	 * @return string  all lessons in JSON format
+	 *
+	 * @throws RuntimeException
+	 */
+	public function getLessonsByTeacher()
+	{
+		$this->_db    = JFactory::getDbo();
+		$departmentID = JFactory::getApplication()->input->getInt('departmentID');
+		$teacherID    = JFactory::getApplication()->input->getInt('teacherID');
+		$chosenDate   = JFactory::getApplication()->input->getString('date');
+
+		$query       = $this->_db->getQuery(true);
+		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
+		$query->select(
+			"subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, 
+			tea.id AS teacherID, $teacherName AS teacherName,
+			cal.startTime, cal.endTime, cal.schedule_date"
+		)
+			->from('#__thm_organizer_teachers AS tea')
+			->innerJoin('#__thm_organizer_lesson_teachers AS letea ON tea.id = letea.teacherID')
+			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON letea.subjectID = lesu.id')
+			->innerJoin('#__thm_organizer_lessons AS less ON lesu.lessonID = less.id')
+			->innerJoin('#__thm_organizer_calendar AS cal ON less.id = cal.lessonID')
+			->leftJoin('#__thm_organizer_plan_subjects AS subs ON lesu.subjectID = subs.id')
+			->leftJoin('#__thm_organizer_planning_periods AS pp ON pp.id = less.planningPeriodID');
+
+		if ($departmentID != 0)
+		{
+			$query->leftJoin('#__thm_organizer_department_resources AS dr ON tea.id = dr.teacherID');
+			$query->where("dr.departmentID = $departmentID");
+		}
+
+		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $chosenDate) === 1)
+		{
+			$query->where("pp.startDate <= '$chosenDate' AND pp.endDate >= '$chosenDate'");
+		}
+		else
+		{
+			$query->where("pp.startDate <= CURDATE() AND pp.endDate >= CURDATE()");
+		}
+
+		$query->where("cal.schedule_date <= DATE_ADD('$chosenDate', INTERVAL 3 DAY)")
+			->where("cal.schedule_date >= DATE_SUB('$chosenDate', INTERVAL 3 DAY)")
+			->where("cal.delta != 'removed'")
+			->where("tea.id = $teacherID");
+
+		$query->order('subjectName');
+		$this->_db->setQuery((string) $query);
+
+		try
+		{
+			$result = $this->_db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return '{}';
+		}
+
+		return json_encode($result);
+	}
+
+	/**
+	 * Getter for lessons in database,
+	 * filtered by a room, departmentID and date.
+	 * e.g. for selecting a schedule
+	 *
+	 * @return string  all lessons in JSON format
+	 *
+	 * @throws RuntimeException
+	 */
+	public function getLessonsByRoom()
+	{
+		$this->_db  = JFactory::getDbo();
+		$roomID     = JFactory::getApplication()->input->getInt('roomID');
+		$chosenDate = JFactory::getApplication()->input->getString('date');
+
+		$query       = $this->_db->getQuery(true);
+		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
+		$query->select(
+			"subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta,
+			tea.id AS teacherID, $teacherName AS teacherName,
+			cal.startTime, cal.endTime, cal.schedule_date"
+		)
+			->from('#__thm_organizer_lessons AS less')
+			->innerJoin('#__thm_organizer_lesson_configurations AS leco ON less.id = leco.lessonID')
+			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON less.id = lesu.lessonID')
+			->innerJoin('#__thm_organizer_calendar AS cal ON less.id = cal.lessonID')
+			->leftJoin('#__thm_organizer_plan_subjects AS subs ON lesu.subjectID = subs.id')
+			->leftJoin('#__thm_organizer_planning_periods AS pp ON pp.id = less.planningPeriodID')
+			->leftJoin('#__thm_organizer_lesson_teachers AS letea ON lesu.id = letea.subjectID')
+			->leftJoin('#__thm_organizer_teachers AS tea ON letea.teacherID = tea.id');
+
+		// Regex for e.g. "rooms":{"xyz123":"","roomID":""
+		$regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.:.]][[.{.]]' .
+			'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
+			'[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]' .
+			'[[.quotation-mark.]][^removed]';
+		$query->where("leco.configuration REGEXP '$regexp'");
+
+		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $chosenDate) === 1)
+		{
+			$query->where("pp.startDate <= '$chosenDate' AND pp.endDate >= '$chosenDate'");
+		}
+		else
+		{
+			$query->where("pp.startDate <= CURDATE() AND pp.endDate >= CURDATE()");
+		}
+
+		$query->where("cal.schedule_date <= DATE_ADD('$chosenDate', INTERVAL 3 DAY)")
+			->where("cal.schedule_date >= DATE_SUB('$chosenDate', INTERVAL 3 DAY)")
+			->where("cal.delta != 'removed'");
+
+		$query->order('subjectName');
+		$this->_db->setQuery((string) $query);
+
+		try
+		{
+			$result = $this->_db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return '{}';
 		}
 
 		return json_encode($result);

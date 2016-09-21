@@ -208,11 +208,11 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						<tr>
 							<td>
                             <span class="time-semester">
-<?php
-echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
-echo "<br> - <br>";
-echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
-?>
+							<?php
+							echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
+							echo "<br> - <br>";
+							echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
+							?>
                             </span>
 							</td>
 							<?php

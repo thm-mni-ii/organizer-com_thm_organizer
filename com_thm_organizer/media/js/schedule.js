@@ -11,8 +11,12 @@
 
 "use strict";
 
+var activeDay, schedules, scheduleWrapper, isMobile, dateField;
+
 jQuery(document).ready(function ()
 {
+    var startX, startY, touch, distX, distY, minDist;
+
     initSchedule();
     computeTableHeight();
 
@@ -31,21 +35,19 @@ jQuery(document).ready(function ()
      * @see http://www.javascriptkit.com/javatutors/touchevents.shtml
      * @see http://www.html5rocks.com/de/mobile/touch/
      */
-    var startX, startY;
-
     window.scheduleWrapper.addEventListener('touchstart', function (event)
     {
-        var touch = event.changedTouches[0];
+        touch = event.changedTouches[0];
         startX = parseInt(touch.pageX);
         startY = parseInt(touch.pageY);
     });
 
     window.scheduleWrapper.addEventListener('touchend', function (event)
     {
-        var touch = event.changedTouches[0];
-        var distX = parseInt(touch.pageX) - startX;
-        var distY = parseInt(touch.pageY) - startY;
-        var minDist = 50;
+        touch = event.changedTouches[0];
+        distX = parseInt(touch.pageX) - startX;
+        distY = parseInt(touch.pageY) - startY;
+        minDist = 50;
 
         if (Math.abs(distX) > Math.abs(distY))
         {
@@ -93,10 +95,11 @@ jQuery(document).ready(function ()
 function initSchedule()
 {
     var today = new Date();
+
     window.activeDay = today.getDay();
     window.schedules = document.getElementsByClassName('scheduler');
     window.scheduleWrapper = document.getElementById('scheduleWrapper');
-    window.isMobile = (document.getElementsByClassName('tmpl-component').length > 0);
+    window.isMobile = (document.getElementsByClassName('tmpl-mobile').length > 0);
     window.dateField = document.getElementById('date');
 
     window.dateField.valueAsDate = today;
@@ -120,11 +123,10 @@ function initSchedule()
  */
 function changeDate(nextDate, nextMonth)
 {
-    var next = (typeof nextDate === 'undefined') ? true : nextDate;
-    var month = (typeof nextMonth === 'undefined') ? false : nextMonth;
-
-    var oldDate = window.dateField.valueAsDate;
-    var newDate = month ? changeMonth(oldDate, next) : changeDay(oldDate, next);
+    var next = (typeof nextDate === 'undefined') ? true : nextDate,
+        month = (typeof nextMonth === 'undefined') ? false : nextMonth,
+        oldDate = window.dateField.valueAsDate,
+        newDate = month ? changeMonth(oldDate, next) : changeDay(oldDate, next);
 
     window.dateField.valueAsDate = newDate;
     window.activeDay = newDate.getDay();
@@ -152,9 +154,7 @@ function changeDate(nextDate, nextMonth)
 function getDaysInMonth(date)
 {
     /** getMonth() is zero based: + 1 */
-    var month = date.getMonth() + 1;
-    var months30days = [4, 6, 9, 11];
-    var daysInMonth = 31;
+    var month = date.getMonth() + 1, months30days = [4, 6, 9, 11], daysInMonth = 31;
 
     if (months30days.indexOf(month) > -1)
     {
@@ -174,11 +174,11 @@ function getDaysInMonth(date)
  */
 function parseDateToString(dateObject)
 {
-    var day = dateObject.getDate();
-    var dayString = (day < 10) ? "0" + day.toString() : day.toString();
-    var month = dateObject.getMonth() + 1;
-    var monthString = (month < 10) ? "0" + month.toString() : month.toString();
-    var year = dateObject.getFullYear();
+    var day = dateObject.getDate(),
+        dayString = (day < 10) ? "0" + day.toString() : day.toString(),
+        month = dateObject.getMonth() + 1,
+        monthString = (month < 10) ? "0" + month.toString() : month.toString(),
+        year = dateObject.getFullYear();
 
     if (isBrowserSupportingDateInput())
     {
@@ -198,11 +198,8 @@ function parseDateToString(dateObject)
  */
 function changeDay(date, nextDate)
 {
-    var next = (typeof nextDate === 'undefined') ? true : nextDate;
-
-    var day = date.getDate();
-    var month = date.getMonth();
-    var year = date.getFullYear();
+    var next = (typeof nextDate === 'undefined') ? true : nextDate, day = date.getDate(), month = date.getMonth(),
+        year = date.getFullYear();
 
     do
     {
@@ -269,8 +266,7 @@ function changeDay(date, nextDate)
  */
 function changeMonth(date, nextDate)
 {
-    var next = (typeof nextDate === 'undefined') ? true : nextDate;
-    var newMonth = date.getMonth();
+    var next = (typeof nextDate === 'undefined') ? true : nextDate, newMonth = date.getMonth();
 
     if (next)
     {
@@ -299,8 +295,7 @@ function changeMonth(date, nextDate)
  */
 function isBrowserSupportingDateInput()
 {
-    var input = document.createElement('input');
-    var notValidDate = 'not-valid-date';
+    var input = document.createElement('input'), notValidDate = 'not-valid-date';
 
     input.setAttribute('type', 'date');
     input.setAttribute('value', notValidDate);
@@ -313,53 +308,59 @@ function isBrowserSupportingDateInput()
  */
 function computeTableHeight()
 {
-    var scheduleLessons = new Array(window.schedules.length);
+    var schedules = document.getElementsByClassName('scheduler'),
+        rows, cell, lessonsInCell, lessonCount, emptyCellCount, maxLessons = 0, emptyBlocksInMaxLessons = 0,
+        headerHeight, remPerEmptyRow, minHeight, remPerLesson, calcHeight, totalRemHeight;
 
     // counting the lessons in horizontal order
-    for (var schedule = 0; schedule < window.schedules.length; ++schedule)
+    for (var schedule = 0; schedule < schedules.length; ++schedule)
     {
-        var rows = window.schedules[schedule].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-        var rowLessons = new Array(rows.length);
-        for (var row = 0; row < rows.length; ++row)
+        rows = schedules[schedule].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        var rowLength = rows.length;
+        var cellLength = rows[0].getElementsByTagName('td').length;
+
+        // Monday to Fr/Sa/Su
+        for (var day = 1; day < cellLength; ++day)
         {
-            var cells = rows[row].getElementsByTagName('td');
-            var lessonCount = 0;
-            for (var cell = 1; cell < cells.length; ++cell)
+            lessonCount = 0;
+            emptyCellCount = 0;
+
+            // Block 1 to ~6
+            for (var block = 0; block < rowLength; ++block)
             {
-                lessonCount = Math.max(cells[cell].getElementsByClassName('lesson').length, lessonCount);
+                // To jump over break (cell length == 1)
+                if (rows[block].getElementsByTagName('td').length > 1)
+                {
+                    cell = rows[block].getElementsByTagName('td')[day];
+                    lessonsInCell = cell.getElementsByClassName('lesson').length;
+                    if (lessonsInCell > 0)
+                    {
+                        lessonCount += lessonsInCell;
+                    }
+                    else
+                    {
+                        ++emptyCellCount;
+                    }
+                }
             }
-            rowLessons[row] = lessonCount;
+
+            maxLessons = Math.max(lessonCount, maxLessons);
+            /* TODO: mehr testen
+             if (maxLessons < lessonCount)
+             {
+             maxLessons = lessonCount;
+             emptyBlocksInMaxLessons = emptyCellCount;
+             }*/
         }
-        scheduleLessons[schedule] = rowLessons;
     }
 
-    // total sum of all lessons in vertical order
-    var maxLessons = 0, noLessonInRows = 0;
-    for (var line = 0; line < scheduleLessons.length; ++line)
-    {
-        var sLessons = 0, emptyRows = 0;
-        for (var column = 0; column < scheduleLessons[line].length; ++column)
-        {
-            sLessons += scheduleLessons[line][column];
-            if (scheduleLessons[line][column] == 0)
-            {
-                ++emptyRows;
-            }
-        }
-        if (sLessons > maxLessons)
-        {
-            noLessonInRows = emptyRows;
-        }
-        maxLessons = Math.max(sLessons, maxLessons);
-    }
-
-    var headerHeight = 60; //include break
-    var pixelPerEmptyRow = 55;
-    var minHeight = window.isMobile ? 650 : 500;
-    var pixelPerLesson = window.isMobile ? 120 : 140;
-    var calcHeight = (maxLessons * pixelPerLesson) + (noLessonInRows * pixelPerEmptyRow) + headerHeight;
-    var totalPixelHeight = Math.max(calcHeight, minHeight);
-    window.scheduleWrapper.style.minHeight = totalPixelHeight + 'px';
+    headerHeight = 6; // Include caption & break
+    remPerEmptyRow = 7;
+    minHeight = window.isMobile ? 50 : 40;
+    remPerLesson = window.isMobile ? 5 : 9;
+    calcHeight = (maxLessons * remPerLesson) + (emptyBlocksInMaxLessons * remPerEmptyRow) + headerHeight;
+    totalRemHeight = Math.max(calcHeight, minHeight);
+    window.scheduleWrapper.style.minHeight = totalRemHeight + 'rem';
 }
 
 /**
@@ -370,9 +371,8 @@ function computeTableHeight()
  */
 function setWeekday(date, english)
 {
-    var eng = (typeof english === 'undefined') ? false : english;
-
-    var days = ["Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+    var eng = (typeof english === 'undefined') ? false : english,
+        days = ["Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 
     if (eng)
     {
@@ -389,15 +389,15 @@ function setWeekday(date, english)
  */
 function showDay(visibleDay)
 {
-    var vDay = (typeof visibleDay === 'undefined') ? 1 : visibleDay;
+    var vDay = (typeof visibleDay === 'undefined') ? 1 : visibleDay, rows, heads, cells;
 
     for (var schedule = 0; schedule < window.schedules.length; ++schedule)
     {
         /** for chrome, which can not collapse cols or colgroups */
-        var rows = window.schedules[schedule].getElementsByTagName('tr');
+        rows = window.schedules[schedule].getElementsByTagName('tr');
         for (var row = 0; row < rows.length; ++row)
         {
-            var heads = rows[row].getElementsByTagName('th');
+            heads = rows[row].getElementsByTagName('th');
             for (var head = 0; head < heads.length; ++head)
             {
                 if (head == vDay)
@@ -409,7 +409,7 @@ function showDay(visibleDay)
                     heads[head].style.display = "none";
                 }
             }
-            var cells = rows[row].getElementsByTagName('td');
+            cells = rows[row].getElementsByTagName('td');
             for (var cell = 0; cell < cells.length; ++cell)
             {
                 if (cell == vDay)

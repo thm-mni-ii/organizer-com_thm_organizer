@@ -15,7 +15,9 @@
  * Ajax properties
  */
 var ajaxGrid = null, ajaxProgram = null, ajaxPool = null, ajaxRooms = null, ajaxTeachers = null, ajaxLessons = null,
-    url = 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw', weekdays = [];
+    url = 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw', weekdays = [], startTimes = [],
+    headTitles = ['Zeit', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'], selection = 'pools',
+    times = ['08:00 - 09:30', '09:50 - 11:20', '11:30 - 13:00', '14:00 - 15:30', '15:45 - 17:15', '17:30 - 19:00'];
 
 /**
  * instantiates the scheduler element and the weekdays
@@ -24,6 +26,7 @@ jQuery(document).ready(function ()
 {
     var firstScheduler = document.getElementsByClassName('scheduler')[0],
         headDays = firstScheduler.getElementsByTagName('thead')[0].getElementsByTagName('th');
+
     for (var index = 1; index < headDays.length; ++index)
     {
         weekdays.push(headDays[index].innerHTML);
@@ -58,17 +61,26 @@ jQuery(document).ready(function ()
 
     jQuery('#pool').chosen().change(function ()
     {
+        /** global variable for updateLesson-functions to find the right schedule title */
+        window.selection = 'pool';
         getLessons();
     });
 
     jQuery('#teacher').chosen().change(function ()
     {
-        getLessons();
+        window.selection = 'teacher';
+        getLessonsByTeacher();
     });
 
     jQuery('#room').chosen().change(function ()
     {
-        getLessons();
+        window.selection = 'room';
+        getLessonsByRoom();
+    });
+
+    document.getElementById('date').addEventListener('change', function ()
+    {
+        console.log('hallu?');
     });
 });
 
@@ -376,6 +388,9 @@ function updateRooms()
 
         removeChildren(roomSelection);
 
+        // add empty option to show the placeholder
+        roomSelection.appendChild(document.createElement('option'));
+
         for (var index = 0; index < rooms.length; ++index)
         {
             option = document.createElement('option');
@@ -387,6 +402,24 @@ function updateRooms()
         roomSelection.disabled = false;
         jQuery('#room').chosen('destroy').chosen();
     }
+}
+
+/**
+ * Gets lessons by Ajax with the chosen room, department and date
+ */
+function getLessonsByRoom()
+{
+    var chosenDate = document.getElementById('date').valueAsDate,
+        chosenRoom = document.getElementById('room').value,
+        task = '&task=getLessonsByRoom' +
+            '&roomID=' + chosenRoom +
+            '&date=' + new Date(chosenDate + " UTC").toISOString().slice(0, 10);
+
+    /** global variable for catching responds in other functions */
+    ajaxLessons = new XMLHttpRequest();
+    ajaxLessons.open('GET', url + task, true);
+    ajaxLessons.onreadystatechange = updateLessons;
+    ajaxLessons.send(null);
 }
 
 /**
@@ -429,6 +462,9 @@ function updateTeachers()
 
         removeChildren(teacherSelection);
 
+        // add empty option to show the placeholder
+        teacherSelection.appendChild(document.createElement('option'));
+
         for (var index = 0; index < teachers.length; ++index)
         {
             option = document.createElement('option');
@@ -443,7 +479,28 @@ function updateTeachers()
 }
 
 /**
+ * Gets lessons by Ajax with the chosen teacher, department and date
+ */
+function getLessonsByTeacher()
+{
+    var chosenDepartment = document.getElementById('department').value,
+        chosenDate = document.getElementById('date').valueAsDate,
+        chosenTeacher = document.getElementById('teacher').value,
+        task = '&task=getLessonsByTeacher' +
+            '&departmentID=' + chosenDepartment +
+            '&teacherID=' + chosenTeacher +
+            '&date=' + new Date(chosenDate + " UTC").toISOString().slice(0, 10);
+
+    /** global variable for catching responds in other functions */
+    ajaxLessons = new XMLHttpRequest();
+    ajaxLessons.open('GET', url + task, true);
+    ajaxLessons.onreadystatechange = updateLessons;
+    ajaxLessons.send(null);
+}
+
+/**
  * removes all children elements of one given parent element
+ *
  * @param element object  parent element
  */
 function removeChildren(element)
@@ -465,27 +522,252 @@ function getLessons()
      * @see http://stackoverflow.com/a/11172083/6355472
      */
     var chosenDepartment = document.getElementById('department').value,
-        chosenPool = document.getElementById('pool').value,
+        chosenPools = document.getElementById('pool').selectedOptions,
         chosenDate = document.getElementById('date').valueAsDate,
-        task = '&task=getLessons&departmentID=' + chosenDepartment + '&poolID=' + chosenPool +
+        task, poolIDs = '';
+
+    for (var selectIndex = 0; selectIndex < chosenPools.length; ++selectIndex)
+    {
+        poolIDs += chosenPools[selectIndex].value;
+
+        if (chosenPools[selectIndex + 1] !== undefined)
+        {
+            poolIDs += ",";
+        }
+    }
+
+    if (poolIDs.search(/^\d+$/) != -1)
+    {
+        task = '&task=getLessonsByPools' +
+            '&departmentID=' + chosenDepartment +
+            '&poolIDs=' + poolIDs +
             '&date=' + new Date(chosenDate + " UTC").toISOString().slice(0, 10);
 
-    /** global variable for catching responds in other functions */
-    ajaxLessons = new XMLHttpRequest();
-    ajaxLessons.open('GET', url + task, true);
-    ajaxLessons.onreadystatechange = updateLessons;
-    ajaxLessons.send(null);
+        /** global variable for catching responds in other functions */
+        ajaxLessons = new XMLHttpRequest();
+        ajaxLessons.open('GET', url + task, true);
+        ajaxLessons.onreadystatechange = updateLessons;
+        ajaxLessons.send(null);
+    }
 }
 
 /**
- * TODO
- * function to update the schedule selection menu by Ajax data
+ * Creates a new schedule with lessons out of the Ajax request by selecting pools
  */
 function updateLessons()
 {
-    var scheduleSelection = document.getElementById('schedule-selection'), lessons;
+    var scheduleTitle = '', lessons, schedule,
+        selection = document.getElementById(window.selection).selectedOptions;
+
     if (ajaxLessons.readyState == 4 && ajaxLessons.status == 200)
     {
+        console.log(ajaxLessons.responseText);
         lessons = JSON.parse(ajaxLessons.responseText);
+
+        for (var option = 0; option < selection.length; ++option)
+        {
+            scheduleTitle += selection[option].innerHTML;
+            if (option != selection.length - 1)
+            {
+                scheduleTitle += ' - ';
+            }
+        }
+
+        schedule = createScheduleTable(scheduleTitle);
+        fillTimes(schedule);
+        insertLessons(schedule, lessons);
     }
+}
+
+/**
+ * Creates a table DOM-element with an input and label for selecting it and a caption with the given title.
+ * Also it gets appended to the scheduleWrapper already.
+ *
+ * @param title  string
+ * @returns HTMLTableElement
+ */
+function createScheduleTable(title)
+{
+    var scheduleSelection = document.getElementById('schedule-selection'),
+        list = scheduleSelection.getElementsByTagName('ul')[0],
+        scheduleWrapper = document.getElementById('scheduleWrapper'),
+        li, input, label, div, schedule, caption, tbody, row;
+
+    /** create input field for selecting this schedule */
+    input = document.createElement('input');
+    input.className = 'scheduler-input';
+    input.type = 'radio';
+    input.setAttribute('id', title);
+    input.setAttribute('name', 'schedules');
+    input.setAttribute('checked', 'checked');
+    scheduleWrapper.appendChild(input);
+
+    label = document.createElement('label');
+    label.setAttribute('for', title);
+    label.setAttribute('tabindex', '0');
+    label.innerHTML = title;
+    li = document.createElement('li');
+    li.appendChild(label);
+    list.appendChild(li);
+
+    /** making a new schedule table */
+    div = document.createElement('div');
+    div.setAttribute('id', title + '-schedule');
+    div.setAttribute('class', 'scheduler');
+    schedule = document.createElement('table');
+    div.appendChild(schedule);
+    scheduleWrapper.appendChild(div);
+
+    /** schedule title */
+    caption = schedule.createCaption();
+    caption.innerHTML = title;
+    schedule.appendChild(caption);
+
+    tbody = document.createElement('tbody');
+    schedule.appendChild(tbody);
+
+    /** filled with rows and cells (by -1 for last position) */
+    times.forEach(function ()
+    {
+        row = tbody.insertRow(-1);
+
+        weekdays.forEach(function ()
+        {
+            row.insertCell(-1);
+        });
+    });
+
+    return schedule;
+}
+
+/**
+ * Creates a lesson which means a div element filled by a JSON data
+ *
+ * @param lessonData  JSON
+ * @returns HTMLDivElement
+ */
+function createLesson(lessonData)
+{
+    var lesson, ownTimeSpan, nameSpan, moduleSpan, personSpan, plusButton, plusIcon;
+
+    lesson = document.createElement('div');
+    lesson.className = 'lesson';
+
+    if (lessonData.lessonDelta)
+    {
+        lesson.className += ' old';
+    }
+
+    if (lessonData.startTime && lessonData.endTime)
+    {
+        ownTimeSpan = document.createElement('span');
+        ownTimeSpan.className = 'own-time';
+        ownTimeSpan.innerHTML = lessonData.startTime + ' - ' + lessonData.endTime;
+        lesson.appendChild(ownTimeSpan);
+    }
+
+    if (lessonData.subjectName)
+    {
+        nameSpan = document.createElement('span');
+        nameSpan.className = 'name';
+        nameSpan.innerHTML = lessonData.subjectName;
+        lesson.appendChild(nameSpan);
+    }
+
+    if (lessonData.subjectNo)
+    {
+        moduleSpan = document.createElement('span');
+        moduleSpan.className = 'module';
+        moduleSpan.innerHTML = lessonData.subjectNo;
+        lesson.appendChild(moduleSpan);
+    }
+
+    if (lessonData.teacherName)
+    {
+        personSpan = document.createElement('span');
+        personSpan.className = 'person';
+        personSpan.innerHTML = lessonData.teacherName;
+        lesson.appendChild(personSpan);
+    }
+
+    plusButton = document.createElement('button');
+    plusButton.className = 'add-lesson';
+    plusIcon = document.createElement('span');
+    plusIcon.className = 'icon-plus-2';
+    plusButton.appendChild(plusIcon);
+    lesson.appendChild(plusButton);
+
+    return lesson;
+}
+
+/**
+ * Insert table head and side cells with time data
+ *
+ * @param schedule HTMLTableElement
+ */
+function fillTimes(schedule)
+{
+    var thead, tr, th;
+
+    /** head with days of the week */
+    thead = schedule.createTHead();
+    tr = thead.insertRow(0);
+    for (var h = 0; h < 6; ++h)
+    {
+        th = document.createElement('th');
+        th.innerHTML = headTitles[h];
+        tr.appendChild(th);
+    }
+
+    /** schedule body with times */
+    times.forEach(function (element, index)
+    {
+        var trTimes = schedule.tBodies[0].rows[index], tdTimes = trTimes.insertCell(0), timeSpan;
+        timeSpan = document.createElement('span');
+        timeSpan.className = 'time-semester';
+
+        tdTimes.innerHTML = element.substring(0, 5) + "<br> - <br>" + element.substring(7);
+
+        /** for placing the lessons */
+        startTimes.push(element.substring(0, 5));
+    });
+}
+
+/**
+ * inserts lessons into a schedule table
+ *
+ * @param schedule  HTMLTableElement
+ * @param lessons   JSON data
+ */
+function insertLessons(schedule, lessons)
+{
+    var lessonElement, time, nextTime, lessonsTime, timeSplits, day;
+
+    for (var l = 0; l < lessons.length; ++l)
+    {
+        lessonElement = createLesson(lessons[l]);
+        for (var s = 0; s < startTimes.length; ++s)
+        {
+            /** @see http://stackoverflow.com/a/6212346/6355472 */
+            time = Date.parse(lessons[l].schedule_date + ' ' + startTimes[s]);
+            nextTime = Date.parse(lessons[l].schedule_date + ' ' + startTimes[s + 1]);
+            lessonsTime = Date.parse(lessons[l].schedule_date + ' ' + lessons[l].startTime);
+
+            if (lessonsTime >= time)
+            {
+                if (isNaN(nextTime) || lessonsTime < nextTime)
+                {
+                    timeSplits = lessons[l].schedule_date.split(/[-]/);
+                    day = new Date(timeSplits[0], timeSplits[1] - 1, timeSplits[2]).getDay();
+
+                    if (schedule.rows[s + 1] !== undefined)
+                    {
+                        schedule.rows[s + 1].cells[day].appendChild(lessonElement);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    computeTableHeight();
 }

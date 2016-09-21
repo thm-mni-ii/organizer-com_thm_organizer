@@ -4,7 +4,6 @@
 **  Styles for: Frontend
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-
 @import '../../lib_thm_core/scss/variables';
 
 /** ------------------------------------ */
@@ -216,15 +215,15 @@ button:hover,
     }
 
     .module:before {
-      content: "(";
+      content: " (";
     }
 
     .module:after {
-      content: ")";
+      content: ") ";
     }
 
     .misc:before, .locations:before {
-      content: "/ ";
+      content: " / ";
     }
 
     .add-lesson {
@@ -239,6 +238,10 @@ button:hover,
 
     .old {
       text-decoration: line-through;
+
+      .add-lesson {
+        display: none;
+      }
     }
 
     .new {
@@ -276,7 +279,7 @@ button:hover,
 // Device specials                                                                                                    //
 //********************************************************************************************************************//
 
-.tmpl-component {
+.tmpl-mobile {
   /** otherwise the table is as wide as on big devices */
   min-width: 20rem;
 
