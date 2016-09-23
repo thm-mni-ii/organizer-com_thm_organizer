@@ -10,7 +10,6 @@
  */
 
 defined('_JEXEC') or die;
-echo $this->model->params['content'];
 ?>
 <script type="text/javascript">
 	var timer = null;
