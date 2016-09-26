@@ -26,6 +26,8 @@ defined('TEACHER') OR define('TEACHER', 2);
  */
 class THM_OrganizerModelLSFSubject extends JModelLegacy
 {
+	private $crp = 0;
+
 	/**
 	 * Method to import data associated with subjects from LSF
 	 *
@@ -134,14 +136,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			return $subjectModel->deleteEntry($subject->id);
 		}
 
-		foreach ($subject AS $property => $value)
-		{
-			if ($value == '<FormattedText/>')
-			{
-				$subject->$property = '';
-			}
-		}
-
 		return $this->parseAttributes($subject, $lsfData->modul);
 	}
 
@@ -174,15 +168,20 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$this->setAttribute($subject, 'name_en', (string) $dataObject->titelen, $subject->name_de);
 		$this->setAttribute($subject, 'instructionLanguage', (string) $dataObject->sprache, 'D');
 		$this->setAttribute($subject, 'frequencyID', (string) $dataObject->turnus);
-		foreach ($dataObject->beschreibungen AS $textNode)
-		{
-			$this->setObjectProperty($subject, $textNode);
-		}
 
-		$this->checkProofAndMethod($subject);
+		// Ensure that the flag is not set before processing
+		$this->crp = 0;
 
 		// Attributes that can be set by text or individual fields
 		$this->processSpecialFields($dataObject, $subject);
+
+		$blobs = $dataObject->xpath('//blobs/blob');
+		foreach ($blobs AS $objectNode)
+		{
+			$this->setObjectProperty($subject, $objectNode);
+		}
+
+		$this->checkProofAndMethod($subject);
 
 		return $subject->store();
 	}
@@ -205,58 +204,100 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets subject properties according to those of the dynamic lsf properties
 	 *
-	 * @param   object &$subject  the subject object
-	 * @param   object &$textNode the object containing lsf texts
+	 * @param   object &$subject    the subject object
+	 * @param   object &$objectNode the object containing lsf texts
 	 *
 	 * @return  void
 	 */
-	private function setObjectProperty(&$subject, &$textNode)
+	private function setObjectProperty(&$subject, &$objectNode)
 	{
 		$shortTag      = THM_OrganizerHelperLanguage::getShortTag();
 		$nameAttribute = "name_$shortTag";
 		$name          = $subject->$nameAttribute;
-		$category      = (string) $textNode->kategorie;
-		$language      = (string) $textNode->sprache;
+		$category      = (string) $objectNode->kategorie;
 
 		/**
-		 * SimpleXML is terrible with mixed content. Since there is no guarantee what a node's format is, this needs to
-		 * be processed manually.
+		 * SimpleXML is terrible with mixed content. Since there is no guarantee what a node's format is,
+		 * this needs to be processed manually.
 		 */
-		$originalNode = $textNode->txt->FormattedText->asXML();
-		$stringNode   = (string) $originalNode;
-		$tmpText      = $this->stripFTTag($stringNode);
-		$text         = $tmpText == '<FormattedText/>' ? '' : $tmpText;
+
+		// German entries are the standard right now.
+		if (empty($objectNode->de->txt))
+		{
+			$germanText  = null;
+			$englishText = null;
+		}
+		else
+		{
+			$germanXML     = $objectNode->de->txt->FormattedText->asXML();
+			$rawGermanText = (string) $germanXML;
+			$germanText    = $this->stripTags($rawGermanText);
+
+			if (empty($objectNode->en->txt))
+			{
+				$englishText = null;
+			}
+			else
+			{
+				$englishXML     = $objectNode->en->txt->FormattedText->asXML();
+				$rawEnglishText = (string) $englishXML;
+				$englishText    = $this->stripTags($rawEnglishText);
+			}
+		}
 
 		switch ($category)
 		{
-			case 'Creditpoints/Arbeitsaufwand':
-				if ($language == 'de' AND !empty($text))
-				{
-					$this->setExpendituresFromText($subject, $text);
-				}
+			case 'Aufteilung des Arbeitsaufwands':
 
+				// There are int fields handled elsewhere for this hopefully.
+				if (empty($this->crp))
+				{
+					$this->setExpendituresFromText($subject, $germanText);
+				}
 				break;
+
 			case 'Lehrformen':
-				$this->setAttribute($subject, "method_$language", $text);
+
+				$this->setAttribute($subject, "method_de", $germanText);
+				$this->setAttribute($subject, "method_en", $englishText);
 				break;
+
 			case 'Voraussetzungen für die Vergabe von Creditpoints':
-				$this->setAttribute($subject, "proof_$language", $text);
+
+				$this->setAttribute($subject, "proof_de", $germanText);
+				$this->setAttribute($subject, "proof_en", $englishText);
 				break;
+
 			case 'Kurzbeschreibung':
-				$this->setAttribute($subject, "description_$language", $text);
+
+				$this->setAttribute($subject, "description_de", $germanText);
+				$this->setAttribute($subject, "description_en", $englishText);
 				break;
+
 			case 'Literatur':
-				$this->setAttribute($subject, 'literature', $text);
+
+				// This should never have been implemented with multiple languages
+				$this->setAttribute($subject, 'literature', $germanText);
 				break;
+
 			case 'Qualifikations und Lernziele':
-				$this->setAttribute($subject, "objective_$language", $text);
+
+				$this->setAttribute($subject, "objective_de", $germanText);
+				$this->setAttribute($subject, "objective_en", $englishText);
 				break;
+
 			case 'Inhalt':
-				$this->setAttribute($subject, "content_$language", $text);
+
+				$this->setAttribute($subject, "content_de", $germanText);
+				$this->setAttribute($subject, "content_en", $englishText);
 				break;
+
 			case 'Voraussetzungen':
-				$prerequisites      = $this->setPrerequisites($subject, $text, $language);
+
+				$prerequisites      = $this->setPrerequisites($subject, $germanText, 'de');
+				$this->setPrerequisites($subject, $englishText, 'en');
 				$prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
+
 				if (!$prerequisitesSaved)
 				{
 					$msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
@@ -264,8 +305,11 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				}
 
 				break;
+
 			case 'Verwendbarkeit des Moduls':
-				$prerequisites       = $this->getPostrequisites($text);
+
+				$prerequisites       = $this->getPostrequisites($germanText);
+				$this->getPostrequisites($englishText);
 				$postrequisitesSaved = $this->savePostrequisites($subject->id, $prerequisites);
 				if (!$postrequisitesSaved)
 				{
@@ -275,17 +319,29 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				}
 
 				break;
+
 			case 'Prüfungsvorleistungen':
-				$this->setAttribute($subject, "preliminary_work_$language", $text);
+
+				$this->setAttribute($subject, "preliminary_work_de", $germanText);
+				$this->setAttribute($subject, "preliminary_work_en", $englishText);
 				break;
+
 			case 'Studienhilfsmittel':
-				$this->setAttribute($subject, "aids_$language", $text);
+
+				$this->setAttribute($subject, "aids_de", $germanText);
+				$this->setAttribute($subject, "aids_en", $englishText);
 				break;
+
 			case 'Bewertung, Note':
-				$this->setAttribute($subject, "evaluation_$language", $text);
+
+				$this->setAttribute($subject, "evaluation_de", $germanText);
+				$this->setAttribute($subject, "evaluation_en", $englishText);
 				break;
+
 			case 'Empfohlene Voraussetzungen':
-				$prerequisites      = $this->setPrerequisites($subject, $text, $language, 'recommended_');
+
+				$prerequisites      = $this->setPrerequisites($subject, $germanText, 'de', 'recommended_');
+				$this->setPrerequisites($subject, $englishText, 'en', 'recommended_');
 				$prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
 				if (!$prerequisitesSaved)
 				{
@@ -295,11 +351,12 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				}
 
 				break;
+
 			case 'Fachkompetenz':
 			case 'Methodenkompetenz':
 			case 'Sozialkompetenz':
 			case 'Selbstkompetenz':
-				$this->setStarAttribute($subject, $category, $text);
+				$this->setStarAttribute($subject, $category, $germanText);
 				break;
 		}
 	}
@@ -307,17 +364,31 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Removes the formatted text tag on a text node
 	 *
-	 * @param   string $node the xml node as a string
+	 * @param   string $text the xml node as a string
 	 *
 	 * @return  string  the node without its formatted text shell
 	 */
-	private function stripFTTag($node)
+	private function stripTags($text)
 	{
-		$temp1 = str_replace('<FormattedText>', '', $node);
-		$temp2 = str_replace('<formattedtext>', '', $temp1);
-		$temp3 = str_replace('</FormattedText>', '', $temp2);
+		// Remove the formatted text tag
+		$text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
 
-		return str_replace('</formattedtext>', '', $temp3);
+		// Remove non self closing tags with no content and unwanted self closing tags
+		$text = preg_replace("/<((?!br|col|link).)[a-z]*[\s]*\/>/", "", $text);
+
+		// Remove non-self closing tags containing only white space
+		$text = preg_replace("/<[^\/>][^>]*>\s*<\/[^>]+>/", "", $text);
+
+		// Remove leading white space
+		$text = preg_replace("/^\s+/", "", $text);
+
+		// Remove trailing white space
+		$text = preg_replace("/\s+$/", "", $text);
+
+		// Remove white space between closing and opening tags
+		$text = preg_replace("/(<\/[^>]+>)\s*(<[^>]*>)/", "$1$2", $text);
+
+		return $text;
 	}
 
 	/**
@@ -387,30 +458,67 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	private function processSpecialFields(&$dataObject, &$subject)
 	{
-		if (!empty($dataObject->lp))
-		{
-			$this->setAttribute($subject, 'creditpoints', (int) $dataObject->lp);
-		}
-
-		if (!empty($dataObject->aufwand))
-		{
-			$this->setAttribute($subject, 'expenditure', (int) $dataObject->aufwand);
-		}
-
-		if (!empty($dataObject->praesenzzeit))
-		{
-			$this->setAttribute($subject, 'present', (int) $dataObject->praesenzzeit);
-		}
-
-		if (!empty($dataObject->selbstzeit))
-		{
-			$this->setAttribute($subject, 'independent', (int) $dataObject->selbstzeit);
-		}
-
 		if (!empty($dataObject->sws))
 		{
 			$this->setAttribute($subject, 'sws', (int) $dataObject->sws);
 		}
+
+		if (empty($dataObject->lp))
+		{
+			$this->crp = 0;
+			$this->setAttribute($subject, 'creditpoints', 0);
+			$this->setAttribute($subject, 'expenditure', 0);
+			$this->setAttribute($subject, 'present', 0);
+			$this->setAttribute($subject, 'independent', 0);
+
+			return;
+		}
+
+		$crp = (int) $dataObject->lp;
+
+		$this->setAttribute($subject, 'creditpoints', $crp);
+		$this->crp = $crp;
+
+		$expenditure = empty($dataObject->aufwand) ? $crp * 30 : (int) $dataObject->aufwand;
+		$this->setAttribute($subject, 'expenditure', $expenditure);
+
+		$presenceExists    = !empty($dataObject->praesenzzeit);
+		$independentExists = !empty($dataObject->selbstzeit);
+		$validSum          = ($presenceExists AND $independentExists
+			AND ((int) $dataObject->praesenzzeit + (int) $dataObject->selbstzeit) == $expenditure);
+
+		if ($validSum)
+		{
+			$this->setAttribute($subject, 'present', (int) $dataObject->praesenzzeit);
+			$this->setAttribute($subject, 'independent', (int) $dataObject->selbstzeit);
+
+			return;
+		}
+
+		// I let required presence time take priority
+		if ($presenceExists)
+		{
+			$presence    = (int) $dataObject->praesenzzeit;
+			$independent = $expenditure - $presence;
+			$this->setAttribute($subject, 'present', $presence);
+			$this->setAttribute($subject, 'independent', $independent);
+
+			return;
+		}
+
+		// I let required presence time take priority
+		if ($independentExists)
+		{
+			$independent = (int) $dataObject->selbstzeit;
+			$presence    = $expenditure - $independent;
+			$this->setAttribute($subject, 'present', $presence);
+			$this->setAttribute($subject, 'independent', $independent);
+
+			return;
+		}
+
+		$this->setAttribute($subject, 'present', 0);
+		$this->setAttribute($subject, 'independent', 0);
 	}
 
 	/**

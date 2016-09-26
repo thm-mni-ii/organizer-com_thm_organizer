@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <statistics>
+        <rows>1</rows>
+        <countDS>1</countDS>
+    </statistics>
+    <modul>
+        <modulid>18241</modulid>
+        <nrhis>102</nrhis>
+        <modulecode>102</modulecode>
+        <kuerzel>Marketing</kuerzel>
+        <kurzname>Marketing</kurzname>
+        <titelde>Marketing</titelde>
+        <studiengang>W</studiengang>
+        <abschluss>BA</abschluss>
+        <pversion>2015</pversion>
+        <ktxtppflicht>PF</ktxtppflicht>
+        <ktxtpform>S</ktxtpform>
+        <ktxtpart>P</ktxtpart>
+        <modultyp>M</modultyp>
+        <sprache>D</sprache>
+        <lp>5.0</lp>
+        <sws>4.0</sws>
+        <pfsem>1</pfsem>
+        <aufwand />
+        <praesenzzeit />
+        <selbstzeit />
+        <verart>VG</verart>
+        <gruppengr>0</gruppengr>
+        <turnus>3</turnus>
+        <dauer />
+        <standbearb>100</standbearb>
+        <fb>W</fb>
+        <versemester>20142</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sperrmh />
+        <titelen>Marketing</titelen>
+        <kurznameen>Marketing</kurznameen>
+        <kuerzelen>Marketing</kuerzelen>
+        <stgtext>Betriebswirtschaft</stgtext>
+        <abschltext>Bachelor of Arts</abschltext>
+        <pplichttext>Pflichtfach</pplichttext>
+        <pformtext>schriftlich</pformtext>
+        <fbktext>W</fbktext>
+        <parents>
+            <parentitem>
+                <ppordnr>20310</ppordnr>
+                <pstg>W</pstg>
+                <pstgtext>Betriebswirtschaft</pstgtext>
+                <pabschl>BA</pabschl>
+                <pabschltext>Bachelor of Arts</pabschltext>
+                <ppversion>2015</ppversion>
+                <ptitel>Pflichtmodule</ptitel>
+                <pmodultyp>K</pmodultyp>
+                <pfb>W</pfb>
+                <pfbktext>W</pfbktext>
+                <stgsem />
+                <ppflichtzuord />
+                <lpzuord />
+            </parentitem>
+        </parents>
+        <verantwortliche>
+            <personinfo>
+                <vorname>Jan</vorname>
+                <nachname>Freidank</nachname>
+            </personinfo>
+            <hgnr>hg12480</hgnr>
+        </verantwortliche>
+        <dozent>
+            <personinfo>
+                <personal.vorname>Jan</personal.vorname>
+                <personal.nachname>Freidank</personal.nachname>
+            </personinfo>
+            <hgnr>hg12480</hgnr>
+        </dozent>
+        <dozent>
+            <personinfo>
+                <personal.vorname>Juliane</personal.vorname>
+                <personal.nachname>Staubach</personal.nachname>
+            </personinfo>
+            <hgnr>jstb12</hgnr>
+        </dozent>
+        <dozent>
+            <personinfo>
+                <personal.vorname>Stefanie</personal.vorname>
+                <personal.nachname>Wannow</personal.nachname>
+            </personinfo>
+            <hgnr>swnn29</hgnr>
+        </dozent>
+        <blobs>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R3</artblob>
+                <kategorie>Aufteilung des Arbeitsaufwands</kategorie>
+                <k_artblob.blobsort>A</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R2</artblob>
+                <kategorie>Lehrformen</kategorie>
+                <k_artblob.blobsort>B</k_artblob.blobsort>
+                <de>
+                    <blobid>4529</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Vorlesung, Gruppenarbeit</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123417</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>lectures, group work</p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R17</artblob>
+                <kategorie>Voraussetzungen</kategorie>
+                <k_artblob.blobsort>C</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R5</artblob>
+                <kategorie>Empfohlene Voraussetzungen</kategorie>
+                <k_artblob.blobsort>D</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R6</artblob>
+                <kategorie>Verwendbarkeit des Moduls</kategorie>
+                <k_artblob.blobsort>E</k_artblob.blobsort>
+                <de>
+                    <blobid>4530</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Alle Schwerpunkte</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123418</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>For all focus areas</p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R9</artblob>
+                <kategorie>Qualifikations und Lernziele</kategorie>
+                <k_artblob.blobsort>F</k_artblob.blobsort>
+                <de>
+                    <blobid>4533</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Die Studierenden erwerben grundlegende Kenntnisse in dem Bereich Marketing. Sie sollen die Bedeutung dieses Bereichs für die Unternehmensführung und den Unternehmenserfolg erkennen und die wichtigsten Methoden und Techniken kennen lernen. Fallstudien und Gruppenarbeiten sollen das problemlösungsorientierte Lernen verstärken und Sozialkompetenz vermitteln.</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123412</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>
+                                In this course students acquire basic knowledge in marketing.The significance of these functions for the success of the company is explained, as are the
+                                <br />
+                                relevant means and techniques.
+                            </p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R104</artblob>
+                <kategorie>Fachkompetenz</kategorie>
+                <k_artblob.blobsort>FA</k_artblob.blobsort>
+                <de>
+                    <blobid>46813</blobid>
+                    <txt>
+                        <FormattedText>3</FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123413</blobid>
+                    <txt>
+                        <FormattedText>3</FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R105</artblob>
+                <kategorie>Methodenkompetenz</kategorie>
+                <k_artblob.blobsort>FB</k_artblob.blobsort>
+                <de>
+                    <blobid>46814</blobid>
+                    <txt>
+                        <FormattedText>3</FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123414</blobid>
+                    <txt>
+                        <FormattedText>3</FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R106</artblob>
+                <kategorie>Sozialkompetenz</kategorie>
+                <k_artblob.blobsort>FC</k_artblob.blobsort>
+                <de>
+                    <blobid>46815</blobid>
+                    <txt>
+                        <FormattedText>2</FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123415</blobid>
+                    <txt>
+                        <FormattedText>2</FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R107</artblob>
+                <kategorie>Selbstkompetenz</kategorie>
+                <k_artblob.blobsort>FD</k_artblob.blobsort>
+                <de>
+                    <blobid>46816</blobid>
+                    <txt>
+                        <FormattedText>1</FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123416</blobid>
+                    <txt>
+                        <FormattedText>1</FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R1</artblob>
+                <kategorie>Inhalt</kategorie>
+                <k_artblob.blobsort>G</k_artblob.blobsort>
+                <de>
+                    <blobid>4534</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Strategisches Marketing: Ziele des Marketing, Strategische Planung, Marktanalyse, Marktsegmentierung, Aspekte der Marktforschung, Grundlagen des Kaufverhaltens von Konsumenten und Organisationen, Marketing Management; Operatives Marketing: Produkt- und Preispolitik, Distributions- und Kommunikationspolitik.</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123411</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>
+                                strategic marketing, strategic planning: market research and market segmentation, buying behaviour of consumers and
+                                <br />
+                                organisations operative marketing: product and price policy, communication and distribution policy
+                            </p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R14</artblob>
+                <kategorie>Prüfungsvorleistungen</kategorie>
+                <k_artblob.blobsort>H</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R101</artblob>
+                <kategorie>Prüfungsform</kategorie>
+                <k_artblob.blobsort>I</k_artblob.blobsort>
+                <de>
+                    <blobid>118993</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>
+                                TL1 Klausur (60%);
+                                <br />
+                                TL2 Gruppenpräsentation (40%)
+                            </p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123419</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>TL1 Exam</p>
+                            <p>TL2 group presentation</p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R7</artblob>
+                <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
+                <k_artblob.blobsort>J</k_artblob.blobsort>
+                <de>
+                    <blobid>4531</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>
+                                TL1 Klausur (60%);
+                                <br />
+                                TL2 Gruppenpräsentation (40%)
+                            </p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R8</artblob>
+                <kategorie>Bewertung, Note</kategorie>
+                <k_artblob.blobsort>K</k_artblob.blobsort>
+                <de>
+                    <blobid>4532</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Bewertung entsprechend § 9 der Allgemeinen Bestimmungen (Teil I der Prüfungsordnung).</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123420</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Grading pursuant § 9 according to provision (Part I of the exam regulations).</p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R10</artblob>
+                <kategorie>Literatur</kategorie>
+                <k_artblob.blobsort>L</k_artblob.blobsort>
+                <de>
+                    <blobid>4535</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>
+                                Becker, J., Marketing-Konzeption –
+                                <br />
+                                Grundlagen des ziel-strategischen und operativen Marketing-Managements, 10. Auflage, München 2012, ISBN 978-3-8006-4527-5
+                                <br />
+                                Kotler, Philip; Keller, Kevin Lane; Bliemel, Friedhelm, Marketing-Management: Strategien für wertschaffendes Handeln, 12. Auflage, München, 2007, ISBN 978-3-8273-7229-1
+                                <br />
+                                Kotler, Philip, Keller, Kevin Lane, Marketing-Management, 14th ed., New Jersey, 2011, ISBN 978-0273755029
+                                <br />
+                                Meffert, H.; Burmann, C.; Kirchgeorg, M., Marketing - Grundlagen, 12. Auflage, Wiesbaden, 2015, ISBN 978-3658023430
+                            </p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123385</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>
+                                Becker, J., Marketing-Konzeption –
+                                <br />
+                                Grundlagen des ziel-strategischen und operativen Marketing-Managements, 10. Auflage, München 2012, ISBN 978-3-8006-4527-5
+                                <br />
+                                Kotler, Philip; Keller, Kevin Lane; Bliemel, Friedhelm, Marketing-Management: Strategien für wertschaffendes Handeln, 12. Auflage, München, 2007, ISBN 978-3-8273-7229-1
+                                <br />
+                                Kotler, Philip, Keller, Kevin Lane, Marketing-Management, 14th ed., New Jersey, 2011, ISBN 978-0273755029
+                                <br />
+                                Meffert, H.; Burmann, C.; Kirchgeorg, M., Marketing - Grundlagen, 12. Auflage, Wiesbaden, 2015, ISBN 978-3658023430
+                            </p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R25</artblob>
+                <kategorie>Studienhilfsmittel</kategorie>
+                <k_artblob.blobsort>M</k_artblob.blobsort>
+                <de>
+                    <blobid>4536</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Vorlesungsskript Beispielfragen Übungsaufgaben Fallstudien</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>123421</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>lecture scripts, examples, exercises, case studies</p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R15</artblob>
+                <kategorie>Studiengangsschwerpunkte</kategorie>
+                <k_artblob.blobsort>N</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R103</artblob>
+                <kategorie>Begründung</kategorie>
+                <k_artblob.blobsort>O</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R102</artblob>
+                <kategorie>Fachgruppe MNI/MND</kategorie>
+                <k_artblob.blobsort>P</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R43</artblob>
+                <kategorie>Sonstiges</kategorie>
+                <k_artblob.blobsort>Y</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R100</artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+                <de>
+                    <blobid>1187</blobid>
+                    <txt>
+                        <FormattedText>Produkt- und Preispolitik, Distributions- und Kommunikationspolitik</FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>35978</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Product and price policy, distribution and communication policy</p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>18241</modulid>
+                <versemester>20142</versemester>
+                <artblob>R201</artblob>
+                <kategorie>Kurzbeschr-original</kategorie>
+                <k_artblob.blobsort>b</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+        </blobs>
+    </modul>
+</module>
+

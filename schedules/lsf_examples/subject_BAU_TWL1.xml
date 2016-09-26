@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <statistics>
+        <rows>1</rows>
+        <countDS>1</countDS>
+    </statistics>
+    <modul>
+        <modulid>14325</modulid>
+        <nrhis>1106</nrhis>
+        <modulecode>TWL1</modulecode>
+        <kuerzel>M_TWL1</kuerzel>
+        <kurzname>Tragwerkslehre I</kurzname>
+        <titelde>Tragwerkslehre I</titelde>
+        <studiengang>ZB</studiengang>
+        <abschluss />
+        <pversion>-1</pversion>
+        <ktxtppflicht>PF</ktxtppflicht>
+        <ktxtpform>S</ktxtpform>
+        <ktxtpart>K</ktxtpart>
+        <modultyp>M</modultyp>
+        <sprache>D</sprache>
+        <lp>5.0</lp>
+        <sws>4.0</sws>
+        <pfsem>1</pfsem>
+        <aufwand />
+        <praesenzzeit />
+        <selbstzeit />
+        <verart />
+        <gruppengr>0</gruppengr>
+        <turnus>3</turnus>
+        <dauer />
+        <standbearb />
+        <fb>B</fb>
+        <versemester>20121</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sperrmh />
+        <titelen>Structural Concepts I</titelen>
+        <kurznameen />
+        <kuerzelen />
+        <stgtext>Prüfungspool B</stgtext>
+        <abschltext>ohne Festlegung</abschltext>
+        <pplichttext>Pflichtfach</pplichttext>
+        <pformtext>schriftlich</pformtext>
+        <fbktext>B</fbktext>
+        <parents>
+            <parentitem>
+                <ppordnr>14471</ppordnr>
+                <pstg>B</pstg>
+                <pstgtext>Bauingenieurwesen</pstgtext>
+                <pabschl>BE</pabschl>
+                <pabschltext>Bachelor of Engineering</pabschltext>
+                <ppversion>2012</ppversion>
+                <ptitel>Grundlagenmodule 1-2 Semester</ptitel>
+                <pmodultyp>K</pmodultyp>
+                <pfb>B</pfb>
+                <pfbktext>B</pfbktext>
+                <stgsem />
+                <ppflichtzuord />
+                <lpzuord />
+            </parentitem>
+            <parentitem>
+                <ppordnr>14331</ppordnr>
+                <pstg>A</pstg>
+                <pstgtext>Architektur</pstgtext>
+                <pabschl>BE</pabschl>
+                <pabschltext>Bachelor of Engineering</pabschltext>
+                <ppversion>2012</ppversion>
+                <ptitel>Grundlagenmodule</ptitel>
+                <pmodultyp>K</pmodultyp>
+                <pfb>B</pfb>
+                <pfbktext>B</pfbktext>
+                <stgsem />
+                <ppflichtzuord />
+                <lpzuord />
+            </parentitem>
+        </parents>
+        <verantwortliche>
+            <personinfo>
+                <vorname>Gerd</vorname>
+                <nachname>Günther</nachname>
+            </personinfo>
+            <hgnr>hg10612</hgnr>
+        </verantwortliche>
+        <verantwortliche>
+            <personinfo>
+                <vorname>Christine</vorname>
+                <nachname>Döbert</nachname>
+            </personinfo>
+            <hgnr>cdbr62</hgnr>
+        </verantwortliche>
+        <dozent>
+            <personinfo>
+                <personal.vorname>Christine</personal.vorname>
+                <personal.nachname>Döbert</personal.nachname>
+            </personinfo>
+            <hgnr>cdbr62</hgnr>
+        </dozent>
+        <blobs>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R3</artblob>
+                <kategorie>Aufteilung des Arbeitsaufwands</kategorie>
+                <k_artblob.blobsort>A</k_artblob.blobsort>
+                <de>
+                    <blobid>74662</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>4 SWS Vorlesungen und Übungen (60 h), Vor- und Nachbereitung (60 h), Prüfungsvorbereitung (30 h) = 150 h</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R2</artblob>
+                <kategorie>Lehrformen</kategorie>
+                <k_artblob.blobsort>B</k_artblob.blobsort>
+                <de>
+                    <blobid>74661</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>4 SWS (seminaristische) Vorlesung mit Übungen, Nutzung von Tafel, Video und Beamer- Präsentation</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R17</artblob>
+                <kategorie>Voraussetzungen</kategorie>
+                <k_artblob.blobsort>C</k_artblob.blobsort>
+                <de>
+                    <blobid>74664</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>keine</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R5</artblob>
+                <kategorie>Empfohlene Voraussetzungen</kategorie>
+                <k_artblob.blobsort>D</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R6</artblob>
+                <kategorie>Verwendbarkeit des Moduls</kategorie>
+                <k_artblob.blobsort>E</k_artblob.blobsort>
+                <de>
+                    <blobid>74663</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Architektur, Bauingenieurwesen (BP; KT; IP)</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R9</artblob>
+                <kategorie>Qualifikations und Lernziele</kategorie>
+                <k_artblob.blobsort>F</k_artblob.blobsort>
+                <de>
+                    <blobid>74660</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Die Studierenden sind in der Lage, Berechnungen von statisch bestimmten Tragwerken durchzuführen</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R104</artblob>
+                <kategorie>Fachkompetenz</kategorie>
+                <k_artblob.blobsort>FA</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R105</artblob>
+                <kategorie>Methodenkompetenz</kategorie>
+                <k_artblob.blobsort>FB</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R106</artblob>
+                <kategorie>Sozialkompetenz</kategorie>
+                <k_artblob.blobsort>FC</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R107</artblob>
+                <kategorie>Selbstkompetenz</kategorie>
+                <k_artblob.blobsort>FD</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R1</artblob>
+                <kategorie>Inhalt</kategorie>
+                <k_artblob.blobsort>G</k_artblob.blobsort>
+                <de>
+                    <blobid>74659</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Einführung:</p>
+                            <ul>
+                                <li>Statik als Teilgebiet der Physik</li>
+                                <li>Modellbildung, Schnittgrößen, Verformungen</li>
+                                <li>Gleichgewichtszustände in der Statik</li>
+                                <li>Newtonsche Gesetze / Axiome</li>
+                                <li>Moment und Kräftepaare</li>
+                                <li>Kraftsysteme</li>
+                                <li>Äußere und innere Kraftgrößen</li>
+                            </ul>
+                            <p />
+                            <p>Zusammensetzung, Zerlegung und Gleichgewicht von Kräften:</p>
+                            <ul>
+                                <li>Zentrales Kräftesystem (ebene Kräfteanordnung)</li>
+                                <li>Allgemeines Kräftesystem (ebene Kräfteanordnung)</li>
+                            </ul>
+                            <p />
+                            <p>Reibung / Schiefe Ebene:</p>
+                            <ul>
+                                <li>Haft- und Gleitreibung</li>
+                                <li>Statisch bestimmte Tragwerke: Träger auf zwei Stützen</li>
+                                <li>Einseitig eingespannte Träger</li>
+                                <li>Träger mit Kragarm</li>
+                                <li>Gelenkträger</li>
+                                <li>Rahmen</li>
+                            </ul>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R14</artblob>
+                <kategorie>Prüfungsvorleistungen</kategorie>
+                <k_artblob.blobsort>H</k_artblob.blobsort>
+                <de>
+                    <blobid>74667</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>keine</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R101</artblob>
+                <kategorie>Prüfungsform</kategorie>
+                <k_artblob.blobsort>I</k_artblob.blobsort>
+                <de>
+                    <blobid>93082</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Klausur (90 Min.)</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R7</artblob>
+                <kategorie>Voraussetzungen für die Vergabe von Creditpoints</kategorie>
+                <k_artblob.blobsort>J</k_artblob.blobsort>
+                <de>
+                    <blobid>74665</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Erfolgreiches Bestehen der Prüfungsleistung.</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R8</artblob>
+                <kategorie>Bewertung, Note</kategorie>
+                <k_artblob.blobsort>K</k_artblob.blobsort>
+                <de>
+                    <blobid>74668</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Bewertung der Klausur nach § 9 der Allgemeinen Bestimmungen (Teil I der Prüfungsordnung)</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R10</artblob>
+                <kategorie>Literatur</kategorie>
+                <k_artblob.blobsort>L</k_artblob.blobsort>
+                <de>
+                    <blobid>74666</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Vorlesungsunterlagen: Tragwerkslehre I</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R25</artblob>
+                <kategorie>Studienhilfsmittel</kategorie>
+                <k_artblob.blobsort>M</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R15</artblob>
+                <kategorie>Studiengangsschwerpunkte</kategorie>
+                <k_artblob.blobsort>N</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R103</artblob>
+                <kategorie>Begründung</kategorie>
+                <k_artblob.blobsort>O</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R102</artblob>
+                <kategorie>Fachgruppe MNI/MND</kategorie>
+                <k_artblob.blobsort>P</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R43</artblob>
+                <kategorie>Sonstiges</kategorie>
+                <k_artblob.blobsort>Y</k_artblob.blobsort>
+                <de>
+                    <blobid>74669</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Konstruieren Pflichtveranstaltung im 1. Semester</p>
+                            <p>5 ECTS</p>
+                            <p>
+                                <i />
+                            </p>
+                            <p>
+                                <i />
+                            </p>
+                            <p>
+                                <i />
+                            </p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R100</artblob>
+                <kategorie>Kurzbeschreibung</kategorie>
+                <k_artblob.blobsort>Z</k_artblob.blobsort>
+                <de>
+                    <blobid>93738</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Einführung; Zusammensetzung, Zerlegung und Gleichgewicht von Kräften; Reibung / Schiefe Ebene; statisch bestimmte Tragwerke</p>
+                        </FormattedText>
+                    </txt>
+                </de>
+                <en>
+                    <blobid>93572</blobid>
+                    <txt>
+                        <FormattedText>
+                            <p>Introduction, Equilibrium of forces, statically determinate structural systems</p>
+                        </FormattedText>
+                    </txt>
+                </en>
+            </blob>
+            <blob>
+                <modulid>14325</modulid>
+                <versemester>20121</versemester>
+                <artblob>R201</artblob>
+                <kategorie>Kurzbeschr-original</kategorie>
+                <k_artblob.blobsort>b</k_artblob.blobsort>
+                <de>
+                    <blobid />
+                </de>
+                <en>
+                    <blobid />
+                </en>
+            </blob>
+        </blobs>
+    </modul>
+</module>
+
