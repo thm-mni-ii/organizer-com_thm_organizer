@@ -44,7 +44,7 @@ body {
   font-size: 200%; }
 
 .schedule-block {
-  padding: 46px 0.5em;
+  padding: 2rem 1rem;
   background-color: #eeeeee;
   border-bottom: 3px solid white;
   min-height: 3.5vmin; }
@@ -65,10 +65,7 @@ body {
 .active {
   background-color: #9C132D;
   color: white;
-  padding: 60px 0.5em; }
-
-.nothingActive {
-  padding: 49px 0.5em; }
+  padding: 2.5rem 1rem; }
 
 img.room-display-content {
   position: fixed;

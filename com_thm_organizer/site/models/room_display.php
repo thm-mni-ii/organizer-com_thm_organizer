@@ -182,7 +182,16 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 				$events[$times][$lessonID]['titles'][] = $title;
 			}
 
-			$events[$times][$lessonID]['teachers'] = $this->getEventTeachers($configuration['teachers']);
+			if (empty($events[$times][$lessonID]['teachers']))
+			{
+				$events[$times][$lessonID]['teachers'] = $this->getEventTeachers($configuration['teachers']);
+			}
+			else
+			{
+				$existingTeachers = $events[$times][$lessonID]['teachers'];
+				$newTeachers = $this->getEventTeachers($configuration['teachers']);
+				$events[$times][$lessonID]['teachers'] = array_merge($existingTeachers, $newTeachers);
+			}
 		}
 
 		return $events;
@@ -206,7 +215,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 				continue;
 			}
 
-			$teachers[$teacherID] = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
+			$teachers[$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID);
 		}
 
 		asort($teachers);
@@ -415,27 +424,29 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 
 				if (!$startSynch or !$endSynch)
 				{
-					$divTime .= THM_OrganizerHelperComponent::formatTime($eventStartTime);
-					$divTime .= ' - ';
-					$divTime .= THM_OrganizerHelperComponent::formatTime($eventEndTime);
+					$startTime = THM_OrganizerHelperComponent::formatTime($eventStartTime);
+					$endTime = THM_OrganizerHelperComponent::formatTime($eventEndTime);
+					$divTime .= " ($startTime -  $endTime)";
 				}
 
 				foreach ($eventInstances as $lessonID => $eventInstance)
 				{
+					$instanceTeachers = $eventInstance['teachers'];
 					if (empty($blocks[$blockNo]['lessons'][$lessonID]))
 					{
 						$blocks[$blockNo]['lessons'][$lessonID] = array();
-						$blocks[$blockNo]['lessons'][$lessonID]['teachers'] = $eventInstance['teachers'];
+						$blocks[$blockNo]['lessons'][$lessonID]['teachers'] = $instanceTeachers;
 						$blocks[$blockNo]['lessons'][$lessonID]['titles'] = $eventInstance['titles'];
 						$blocks[$blockNo]['lessons'][$lessonID]['method'] = $eventInstance['method'];
 						$blocks[$blockNo]['lessons'][$lessonID]['divTime'] = $divTime;
 						continue;
 					}
 
+					$existingTeachers = $blocks[$blockNo]['lessons'][$lessonID]['teachers'];
 					$blocks[$blockNo]['lessons'][$lessonID]['teachers']
-						= array_merge($blocks[$blockNo]['lessons'][$lessonID]['teachers'], $eventInstance['teachers']);
+						= array_unique(array_merge($instanceTeachers, $existingTeachers));
 					$blocks[$blockNo]['lessons'][$lessonID]['titles']
-						= array_merge($blocks[$blockNo]['lessons'][$lessonID]['titles'], $eventInstance['titles']);
+						= array_unique(array_merge($blocks[$blockNo]['lessons'][$lessonID]['titles'], $eventInstance['titles']));
 				}
 			}
 		}
