@@ -87,6 +87,15 @@ jQuery(document).ready(function ()
     {
         changeDate(true, true);
     });
+
+    /**
+     * Change Checkbox behaviour for the checkboxes in the menubar
+     * just one of the checkboxes is checked at the same time
+     */
+    jQuery('input[type="checkbox"]').on('change', function ()
+    {
+        jQuery('input[type="checkbox"]').not(this).prop('checked', false);
+    });
 });
 
 /**

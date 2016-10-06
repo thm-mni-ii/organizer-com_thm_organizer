@@ -4,109 +4,233 @@
 **  Styles for: Frontend
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
-/** ------------------------------------ */
-#schedule-form select:disabled {
-  background-color: #d2d6d9; }
-
-/** specified attributes needed for the floppy icon */
-.icon-save::before {
-  font-family: icomoon-special !important;
-  content: "\e962" !important; }
-
 a,
 a:visited {
-  color: #394a59; }
+  color: #394a59;
+}
 
 button {
   font-size: 1.3rem;
   color: #394a59;
   background-color: white;
-  border: none; }
+  border: none;
+}
 
 button:hover,
 .menu-bar a:hover,
 .menu-bar label:hover {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
-.organizer input[type=radio] {
-  display: none; }
+.organizer input[type=checkbox] {
+  display: none;
+}
+
+.time-grid-icon::before {
+  font-family: icomoon-special !important;
+  content: "\e900";
+}
+
+.save-schedule-icon::before {
+  font-family: icomoon-special !important;
+  content: "\e962";
+}
 
 .menu-bar {
-  padding-bottom: 0.2rem; }
-  .menu-bar a, .menu-bar button, .menu-bar label {
-    width: 3rem;
-    display: inline-block; }
-  .menu-bar span, .menu-bar img {
-    font-size: 1.5rem; }
-  .menu-bar a:first-of-type {
-    margin-right: 1rem; }
-  .menu-bar button {
-    text-align: left; }
+  padding-bottom: 0.2rem;
+  margin-left: 0.5rem;
+}
+
+.menu-bar a, .menu-bar button, .menu-bar label {
+  width: 2rem;
+  display: inline-block;
+}
+
+.menu-bar span {
+  font-size: 1.2rem;
+}
+
+.menu-bar a:first-of-type {
+  margin-right: 1rem;
+}
+
+.menu-bar button {
+  text-align: left;
+}
 
 .selection {
   position: absolute;
   /** only for pushing it out of the users view */
-  left: -200rem; }
-  .selection ul {
-    list-style-type: none; }
-  .selection li {
-    margin: 0.5rem 0 0.5rem 0;
-    padding: 0.3rem 0 0 0.3rem; }
-  .selection a,
-  .selection button,
-  .selection label {
-    font-size: 1.2rem; }
-  .selection button > span {
-    margin-right: 0.5rem; }
+  left: -200rem;
+}
+
+.selection ul {
+  list-style-type: none;
+}
+
+.selection li {
+  margin: 0.1rem 0 0.1rem 0 !important;
+}
+
+.selection a,
+.selection button,
+.selection label {
+  font-size: 1.2rem;
+}
+
+.selection button > span {
+  margin-right: 0.5rem;
+}
+
+.selection:focus {
+  outline: none;
+}
 
 /** checked menu (input field) expand related (sibling) menus */
 #schedule-form-menu-item:checked ~ #schedule-form,
 #time-menu-item:checked ~ #time-selection,
 #schedule-selection-menu-item:checked ~ #schedule-selection,
 #export-menu-item:checked ~ #export-selection {
-  position: static; }
+  position: static;
+}
 
 #schedule-form-menu-item:checked ~ .menu-bar label:nth-of-type(1) > span:before,
 #time-menu-item:checked ~ .menu-bar > label:nth-of-type(2) > span:before,
 #schedule-selection-menu-item:checked ~ .menu-bar > label:nth-of-type(3) > span:before,
 #export-menu-item:checked ~ .menu-bar > label:nth-of-type(4) > span:before {
-  color: #9c132e; }
+  color: #9c132e;
+}
 
-.scheduler-input:checked + .scheduler {
-  z-index: 2; }
+#schedule-form select:disabled {
+  background-color: #d2d6d9;
+}
+
+#schedule-form > div:not(#category-input) {
+  display: none;
+}
+
+#schedule-form .chzn-container {
+  width: 176px !important;
+}
+
+#schedule-form .chzn-container .chzn-search input {
+  width: 100% !important;
+}
+
+#schedule-form .chzn-container .chzn-single > span, #schedule-selection .chzn-container .chzn-single > span {
+  line-height: 1.4;
+}
+
+.chzn-container-single .chzn-single div b {
+  background-image: none;
+}
+
+.chzn-container-multi {
+  background-image: none !important;
+  height: auto !important;
+  min-height: 2.5em;
+}
+
+.chzn-container-multi .chzn-choices .search-choice {
+  float: none !important;
+  margin: 0.3rem !important;
+  padding: 0.3rem !important;
+}
+
+.icon-arrow-left-22::before,
+.icon-arrow-right-22::before,
+.icon-arrow-left::before,
+.icon-arrow-right::before,
+.date-input .icon-calendar::before {
+  font-size: 1rem;
+}
 
 .date-input {
-  position: relative; }
+  position: relative;
+  top: 0.25rem;
+  clear: both;
+}
+
+.date-input button, .date-input span, .date-input input {
+  float: left;
+  padding: 0 0.08rem;
+}
+
+@media (max-width: 360px) {
   .date-input button, .date-input span, .date-input input {
-    float: left;
-    padding: 0.2rem; }
-  .date-input button {
-    font-size: 1.5rem; }
-  .date-input span {
-    font-size: 1.4rem; }
-  .date-input form > span:first-child {
-    width: 2rem;
-    margin-left: 0.5rem; }
-  .date-input div {
-    visibility: hidden;
-    position: absolute;
-    background-color: #f2f5f6;
-    z-index: 3;
-    border: 1px solid black;
-    top: 2.5rem; }
-    .date-input div td {
-      text-align: center; }
-    .date-input div thead span {
-      float: none; }
-    .date-input div button {
-      background-color: #f2f5f6; }
-    .date-input div .today {
-      width: 100%; }
+    padding: 0 0.05rem;
+  }
+}
+
+@-moz-document url-prefix() {
+  .date-input button, .date-input span, .date-input input {
+    padding: 0;
+  }
+}
+
+.date-input button {
+  height: 2.1rem;
+}
+
+.date-input button:first-child {
+  margin-left: 0.4rem;
+}
+
+.date-input span {
+  position: relative;
+}
+
+.date-input form > span:first-child {
+  width: 1.8rem;
+  font-size: 1rem;
+  text-align: center;
+  top: 0.34rem;
+}
+
+.date-input #calendar-icon {
+  position: relative;
+}
+
+.date-input div {
+  visibility: hidden;
+  position: absolute;
+  background-color: #f2f5f6;
+  z-index: 3;
+  border: 1px solid black;
+  top: 2.5rem;
+}
+
+.date-input div td {
+  text-align: center;
+}
+
+.date-input div thead span {
+  float: none;
+}
+
+.date-input div button {
+  background-color: #f2f5f6;
+}
+
+.date-input div .today {
+  width: 100%;
+}
+
+.scheduler-input:checked + .scheduler {
+  z-index: 2;
+}
 
 .scheduleWrapper {
   position: relative;
   min-height: 50rem;
-  clear: both; }
+  clear: both;
+}
+
+.scheduleWrapper a,
+.scheduleWrapper a:visited,
+.scheduleWrapper a:hover {
+  color: #394a59;
+}
 
 .scheduler {
   position: absolute;
@@ -115,90 +239,188 @@ button:hover,
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0; }
-  .scheduler caption {
-    background-color: white;
-    font-size: 1.3rem;
-    margin-left: 0; }
-  .scheduler table {
-    border: 1px solid #77858c;
-    border-width: 0.2rem 0 0 0; }
-  .scheduler a, .scheduler a:hover {
-    color: #394a59; }
-  .scheduler a:hover {
-    text-decoration: underline; }
-  .scheduler th, .scheduler td, .scheduler .lesson, .scheduler .break {
-    text-align: center; }
-  .scheduler .lesson {
-    width: 80%;
-    border: 0.1rem solid #4a5c66;
-    background-color: #f2f5f6;
-    margin: 0 auto 0.5rem;
-    padding: 0.1rem 0.1rem 1.5rem 0.1rem;
-    position: relative; }
-    .scheduler .lesson .name {
-      font-weight: bold; }
-    .scheduler .lesson .module:before {
-      content: " ("; }
-    .scheduler .lesson .module:after {
-      content: ") "; }
-    .scheduler .lesson .misc:before, .scheduler .lesson .locations:before {
-      content: " / "; }
-    .scheduler .lesson .add-lesson {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      background: #f2f5f6;
-      color: #80ba24;
-      border: 0;
-      padding: 0; }
-    .scheduler .lesson .old {
-      text-decoration: line-through; }
-      .scheduler .lesson .old .add-lesson {
-        display: none; }
-    .scheduler .lesson .new {
-      color: #51a351; }
-  .scheduler .break {
-    background-color: #bfdc91;
-    padding: 0; }
+  bottom: 0;
+}
+
+.scheduler caption {
+  background-color: white;
+  font-size: 1.3rem;
+  margin-left: 0;
+}
+
+.scheduler table {
+  border: 1px solid #77858c;
+  border-width: 0.2rem 0 0 0;
+}
+
+.no-mobile .scheduler table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+@media (min-width: 678px) {
+  .no-mobile .scheduler td, .no-mobile .scheduler th {
+    width: 16%;
+  }
+  .no-mobile .scheduler td:first-child, .no-mobile .scheduler th:first-child {
+    width: 2.5rem;
+  }
+}
+
+.scheduler th, .scheduler td, .scheduler .lesson, .scheduler .break {
+  text-align: center;
+}
+
+.scheduler a:hover {
+  text-decoration: underline;
+}
+
+.scheduler .lesson {
+  border: 0.1rem solid #4a5c66;
+  background-color: #f2f5f6;
+  margin: 0 auto 0.5rem;
+  padding: 0.1rem 0.1rem 1.5rem 0.1rem;
+  position: relative;
+}
+
+.scheduler .lesson .name {
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.scheduler .lesson .module:before {
+  content: " (";
+}
+
+.scheduler .lesson .module:after {
+  content: ") ";
+}
+
+.scheduler .lesson .misc:before, .scheduler .lesson .locations:before {
+  content: " / ";
+}
+
+.scheduler .lesson .add-lesson {
+  position: absolute;
+  right: 0.3rem;
+  bottom: 0.1rem;
+  background: #f2f5f6;
+  color: #80ba24;
+  border: 0;
+  padding: 0;
+}
+
+.scheduler .lesson .old {
+  text-decoration: line-through;
+}
+
+.scheduler .lesson .old .add-lesson {
+  display: none;
+}
+
+.scheduler .lesson .new {
+  color: #51a351;
+}
+
+.scheduler .break {
+  background-color: #bfdc91;
+  padding: 0.3rem;
+}
 
 .no-break tr:nth-child(4) td,
 .own-time {
-  display: none; }
+  display: none;
+}
 
 .invisible-time tr td {
-  border-width: 0; }
+  border-width: 0;
+}
+
 .invisible-time th:first-child,
 .invisible-time tr td:first-child {
-  display: none; }
+  display: none;
+}
+
+.no-mobile > .menu-bar {
+  padding-bottom: 0.3rem;
+}
+
+.no-mobile > .menu-bar a:first-of-type,
+.no-mobile > .menu-bar label:first-of-type {
+  display: none;
+}
+
+.no-mobile #schedule-form {
+  margin-top: 1rem;
+  position: inherit;
+}
+
+.no-mobile #schedule-form > form > div {
+  float: left;
+  margin: 0.25rem 0.5rem;
+}
+
+.no-mobile #schedule-form .selecting-input > div {
+  margin: 0.25rem 0.5rem 0.25rem 0;
+}
+
+.no-mobile #schedule-form select {
+  width: 11rem;
+}
+
+.no-mobile .date-input input[type=date] {
+  width: 10rem !important;
+  padding: 0.36rem !important;
+}
+
+@-moz-document url-prefix() {
+  .no-mobile .date-input input[type=date] {
+    width: 8.6rem !important;
+  }
+}
 
 .tmpl-mobile {
   /** otherwise the table is as wide as on big devices */
   min-width: 20rem;
-  /** calendar-icon */ }
-  .tmpl-mobile .date-input > form > button {
-    display: none; }
-  .tmpl-mobile .date-input > form > input[type=date] {
-    width: 10rem !important; }
-  .tmpl-mobile .scheduler td:first-child, .tmpl-mobile .scheduler th:first-child {
-    width: 0.7rem; }
-  .tmpl-mobile .scheduler td:nth-child(n+3), .tmpl-mobile .scheduler th:nth-child(n+3) {
-    display: none; }
+}
 
-.no-mobile > .menu-bar {
-  padding-bottom: 0.3rem; }
-  .no-mobile > .menu-bar > label, .no-mobile > .menu-bar > button {
-    width: 3.2rem; }
-  .no-mobile > .menu-bar a:first-of-type,
-  .no-mobile > .menu-bar label:first-of-type {
-    display: none; }
-.no-mobile #schedule-form {
-  position: inherit; }
-  .no-mobile #schedule-form > form > div {
-    float: left; }
-  .no-mobile #schedule-form select {
-    width: 11rem; }
-.no-mobile .date-input input[type=date] {
-  margin-left: 0.5rem; }
-.no-mobile .lesson {
-  width: 9.5rem; }
+.tmpl-mobile .ym-cbox {
+  width: initial !important;
+}
+
+.tmpl-mobile .date-input {
+  margin-top: 1rem;
+  display: block;
+}
+
+.tmpl-mobile .date-input > form > button {
+  display: none;
+}
+
+.tmpl-mobile .date-input > form > input[type=date] {
+  width: auto !important;
+}
+
+.tmpl-mobile .scheduler td:first-child, .tmpl-mobile .scheduler th:first-child {
+  width: 0.7rem;
+}
+
+.tmpl-mobile .scheduler td:nth-child(n+3), .tmpl-mobile .scheduler th:nth-child(n+3) {
+  display: none;
+}
+
+@media screen and (max-width: 664px) {
+  .schedule .ym-cbox {
+    width: initial !important;
+  }
+  .no-mobile .date-input {
+    margin-top: 1rem;
+    display: block;
+  }
+  .no-mobile .date-input > form > button {
+    display: none;
+  }
+  .no-mobile .date-input > form > input[type=date] {
+    width: auto !important;
+  }
+}

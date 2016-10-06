@@ -15,19 +15,16 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 ?>
 
 <div class="organizer <?php echo $noMobile; ?>">
-	<input id="time-menu-item" type="radio" name="schedule-menu" role="menubar">
-	<input id="schedule-selection-menu-item" type="radio" name="schedule-menu" role="menubar">
-	<input id="export-menu-item" type="radio" name="schedule-menu" role="menubar">
-	<input id="schedule-form-menu-item" type="radio" name="schedule-menu" role="menubar">
+	<input id="time-menu-item" type="checkbox" name="schedule-menu" role="menubar">
+	<input id="schedule-selection-menu-item" type="checkbox" name="schedule-menu" role="menubar">
+	<input id="export-menu-item" type="checkbox" name="schedule-menu" role="menubar">
+	<input id="schedule-form-menu-item" type="checkbox" name="schedule-menu" role="menubar">
 
 	<div class="menu-bar">
-		<a href="<?php echo JPATH_ROOT ?>" tabindex="1">
-			<img class="home" src="media/COM_THM_ORGANIZER/images/thm.svg"/>
-		</a>
 		<label for="schedule-form-menu-item"><span class="icon-menu-3"></span></label>
-		<label for="time-menu-item"><span class="icon-clock"></span></label>
-		<label for="schedule-selection-menu-item"><span class="icon-calendars"></span></label>
-		<button type="button"><span class="icon-save"></span></button>
+		<label for="time-menu-item"><span class="time-grid-icon"></span></label>
+		<label for="schedule-selection-menu-item"><span class="icon-calendar"></span></label>
+		<button type="button"><span class="save-schedule-icon"></span></button>
 		<label for="export-menu-item"><span class="icon-download"></span></label>
 	</div>
 
@@ -79,16 +76,16 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 				}
 				?>
 			</select>
-			<select id="program" name="program" multiple required>
-				<!-- filled by ajax -->
-			</select>
-			<select id="pool" name="pool" disabled multiple required>
-				<!-- filled by ajax -->
-			</select>
 			<select id="room" name="room">
 				<!-- filled by ajax -->
 			</select>
 			<select id="teacher" name="teacher">
+				<!-- filled by ajax -->
+			</select>
+			<select id="program" name="program" multiple="multiple" required>
+				<!-- filled by ajax -->
+			</select>
+			<select id="pool" name="pool" disabled multiple="multiple" required>
 				<!-- filled by ajax -->
 			</select>
 		</form>
@@ -96,7 +93,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 
 	<div class="date-input">
 		<button id="previous-month" class="controls" type="button">
-			<span class="icon-backward"></span>
+			<span class="icon-arrow-left-22"></span>
 		</button>
 		<button id="previous-day" class="controls" type="button">
 			<span class="icon-arrow-left"></span>
@@ -157,7 +154,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			<span class="icon-arrow-right"></span>
 		</button>
 		<button id="next-month" class="controls" type="button">
-			<span class="icon-forward"></span>
+			<span class="icon-arrow-right-22"></span>
 		</button>
 	</div>
 

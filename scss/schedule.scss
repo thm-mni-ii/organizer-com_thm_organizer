@@ -6,17 +6,8 @@
 **  ------------------------------------ */
 @import '../../lib_thm_core/scss/variables';
 
-/** ------------------------------------ */
-
-#schedule-form select:disabled {
-  background-color: $grey-25;
-}
-
-/** specified attributes needed for the floppy icon */
-.icon-save::before {
-  font-family: icomoon-special !important;
-  content: "\e962" !important;
-}
+// Schedule Header
+//********************************************************************************************************************//
 
 a,
 a:visited {
@@ -36,24 +27,32 @@ button:hover,
   cursor: pointer;
 }
 
-.organizer input[type=radio] {
+.organizer input[type=checkbox] {
   display: none;
 }
 
-//********************************************************************************************************************//
-// Menu buttons                                                                                                       //
-//********************************************************************************************************************//
+//menu-bar
+.time-grid-icon::before {
+  font-family: icomoon-special !important;
+  content: "\e900";
+}
+
+.save-schedule-icon::before {
+  font-family: icomoon-special !important;
+  content: "\e962";
+}
 
 .menu-bar {
   padding-bottom: 0.2rem;
+  margin-left: 0.5rem;
 
   a, button, label {
-    width: 3rem;
+    width: 2rem;
     display: inline-block;
   }
 
-  span, img {
-    font-size: 1.5rem;
+  span {
+    font-size: 1.2rem;
   }
 
   a:first-of-type {
@@ -75,8 +74,10 @@ button:hover,
   }
 
   li {
-    margin: 0.5rem 0 0.5rem 0;
-    padding: 0.3rem 0 0 0.3rem;
+    margin: 0.1rem 0 0.1rem 0 !important;
+    //  padding: 0.3rem 0 0 0.3rem !important;
+    // margin: 0.5rem 0 0.5rem 0;
+    //  padding: 0.3rem 0 0 0.3rem;
   }
 
   a,
@@ -87,6 +88,10 @@ button:hover,
 
   button > span {
     margin-right: 0.5rem;
+  }
+
+  &:focus{
+    outline: none;
   }
 }
 
@@ -105,33 +110,104 @@ button:hover,
   color: $red-100;
 }
 
-.scheduler-input:checked + .scheduler {
-  z-index: 2;
+//menu select
+#schedule-form select:disabled {
+  background-color: $grey-25;
 }
 
-//********************************************************************************************************************//
-// Form to specify schedule                                                                                           //
-//********************************************************************************************************************//
+#schedule-form > div:not(#category-input) {
+  display: none;
+}
+
+#schedule-form .chzn-container {
+  width: 176px !important;
+
+  .chzn-search input {
+    width: 100% !important;
+  }
+}
+
+//with id to overwrite template without using !important
+#schedule-form, #schedule-selection {
+  .chzn-container .chzn-single > span {
+    line-height: 1.4;
+  }
+}
+
+//overwrite chosen icon in selectBox
+.chzn-container-single .chzn-single div b {
+  background-image: none;
+}
+
+.chzn-container-multi {
+  background-image: none !important;
+  height: auto !important;
+  min-height: 2.5em;
+
+  .chzn-choices .search-choice {
+    float: none !important;
+    margin: 0.3rem !important;
+    padding: 0.3rem !important;
+  }
+}
+
+.icon-arrow-left-22::before,
+.icon-arrow-right-22::before,
+.icon-arrow-left::before,
+.icon-arrow-right::before,
+.date-input .icon-calendar::before {
+  font-size: 1rem;
+  //  position: absolute;
+  //  top: 0.65rem;
+  //  left: 0;
+}
 
 .date-input {
   position: relative;
+  top: 0.25rem;
+  // @media (max-width: 664px) {
+  clear: both;
+  //  }
 
   button, span, input {
     float: left;
-    padding: 0.2rem;
+    padding: 0 0.08rem;
+
+    @media (max-width: 360px) {
+      padding: 0 0.05rem;
+    }
+
+    // mozilla-hack, doesn't understand 0.08
+    @-moz-document url-prefix() {
+      & {
+        padding: 0;
+      }
+    }
   }
 
   button {
-    font-size: 1.5rem;
+    height: 2.1rem;
+  }
+
+  & button:first-child {
+    margin-left: 0.4rem;
   }
 
   span {
-    font-size: 1.4rem;
+    //   font-size: 1.4rem;
+    position: relative;
   }
 
   form > span:first-child {
-    width: 2rem;
-    margin-left: 0.5rem;
+    width: 1.8rem;
+    font-size: 1rem;
+    text-align: center;
+    //   top: 0.38rem;
+    top: 0.34rem;
+  }
+
+  #calendar-icon {
+    position: relative;
   }
 
   div {
@@ -160,14 +236,22 @@ button:hover,
   }
 }
 
-//********************************************************************************************************************//
-// Schedule design                                                                                                    //
-//********************************************************************************************************************//
+// Content - Stundenplan-Tabelle
+///*******************************************************************************************************************//
+.scheduler-input:checked + .scheduler {
+  z-index: 2;
+}
 
 .scheduleWrapper {
   position: relative;
   min-height: 50rem;
   clear: both;
+
+  a,
+  a:visited,
+  a:hover {
+    color: $font-color;
+  }
 }
 
 .scheduler {
@@ -188,22 +272,37 @@ button:hover,
   table {
     border: $border;
     border-width: 0.2rem 0 0 0;
+
+    .no-mobile & {
+      table-layout: fixed;
+      width: 100%;
+    }
   }
 
-  a, a:hover {
-    color: $font-color;
-  }
+  @media (min-width: 678px) {
+    td, th {
+      .no-mobile & {
+        width: 16%;
+      }
+    }
 
-  a:hover {
-    text-decoration: underline;
+    td:first-child, th:first-child {
+      .no-mobile & {
+        width: 2.5rem;
+      }
+    }
   }
 
   th, td, .lesson, .break {
     text-align: center;
   }
 
+  a:hover {
+    text-decoration: underline;
+  }
+
   .lesson {
-    width: 80%;
+    //   width: 80%;
     border: 0.1rem solid $grey-100;
     background-color: $background;
     margin: 0 auto 0.5rem;
@@ -212,6 +311,7 @@ button:hover,
 
     .name {
       font-weight: bold;
+      word-wrap: break-word;
     }
 
     .module:before {
@@ -228,8 +328,8 @@ button:hover,
 
     .add-lesson {
       position: absolute;
-      right: 0;
-      bottom: 0;
+      right: 0.3rem;
+      bottom: 0.1rem;
       background: $background;
       color: $green-100;
       border: 0;
@@ -251,13 +351,9 @@ button:hover,
 
   .break {
     background-color: $green-50;
-    padding: 0;
+    padding: 0.3rem;
   }
 }
-
-//********************************************************************************************************************//
-// Time                                                                                                               //
-//********************************************************************************************************************//
 
 .no-break tr:nth-child(4) td,
 .own-time {
@@ -278,19 +374,75 @@ button:hover,
 //********************************************************************************************************************//
 // Device specials                                                                                                    //
 //********************************************************************************************************************//
+.no-mobile {
+  > .menu-bar {
+    padding-bottom: 0.3rem;
+
+    a:first-of-type,
+    label:first-of-type {
+      display: none;
+    }
+  }
+
+  #schedule-form {
+    margin-top: 1rem;
+    position: inherit;
+
+    // später zu entfernen!
+    > form > div {
+      float: left;
+      margin: 0.25rem 0.5rem;
+    }
+
+    .selecting-input > div {
+      margin: 0.25rem 0.5rem 0.25rem 0;
+    }
+
+    select {
+      width: 11rem;
+    }
+  }
+
+  .date-input input[type=date] {
+    //   margin-left: 0.5rem;
+    width: 10rem !important;
+    padding: 0.36rem !important;
+
+    @-moz-document url-prefix() {
+      & {
+        width: 8.6rem !important;
+      }
+    }
+
+  }
+
+  // .lesson {
+  //   width: 9.5rem;
+  // }
+}
+
+//********************************************************************************************************************//
+// spezifisch - mobile Ansicht
+//********************************************************************************************************************//
 
 .tmpl-mobile {
   /** otherwise the table is as wide as on big devices */
   min-width: 20rem;
 
-  /** calendar-icon */
+  .ym-cbox {
+    width: initial !important;
+  }
+
   .date-input {
+    margin-top: 1rem;
+    display: block;
+
     > form > button {
       display: none;
     }
 
     > form > input[type=date] {
-      width: 10rem !important; // div#main is always overwriting
+      width: auto !important; // div#main is always overwriting
     }
   }
 
@@ -306,37 +458,25 @@ button:hover,
   }
 }
 
-.no-mobile {
-  > .menu-bar {
-    padding-bottom: 0.3rem;
-
-    > label, > button {
-      width: 3.2rem;
-    }
-
-    a:first-of-type,
-    label:first-of-type {
-      display: none;
-    }
+@media screen and (max-width: 664px) {
+  .schedule .ym-cbox {
+    width: initial !important;
   }
 
-  #schedule-form {
-    position: inherit;
+  .no-mobile {
 
-    > form > div {
-      float: left;
+    .date-input {
+      margin-top: 1rem;
+      display: block;
+
+      > form > button {
+        display: none;
+      }
+
+      > form > input[type=date] {
+        width: auto !important; // div#main is always overwriting
+      }
     }
 
-    select {
-      width: 11rem;
-    }
-  }
-
-  .date-input input[type=date] {
-    margin-left: 0.5rem;
-  }
-
-  .lesson {
-    width: 9.5rem;
   }
 }
