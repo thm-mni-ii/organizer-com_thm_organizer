@@ -1389,7 +1389,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		foreach ($instance->configurations as $instanceIndex => $globalIndex)
 		{
 			$instanceConfigurations[] = $this->$source->configurations[$globalIndex];
-			unset($instance->configurations->$instanceIndex);
+			unset($instance->configurations[$instanceIndex]);
 		}
 
 		foreach ($instanceConfigurations as $configuration)
@@ -1501,6 +1501,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			}
 
 			$diffConfig = json_encode($newConfigObject);
+
 			$this->addConfiguration($diffConfig, $configurations, $activeInstance);
 		}
 	}
