@@ -1412,7 +1412,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		$referenceConfigurations = array();
 		foreach ($referenceInstance->configurations as $refConfigurationIndex)
 		{
-			$referenceConfigurations[] = $this->refSchedule->configurations[$refConfigurationIndex];
+			if (!empty($this->refSchedule->configurations[$refConfigurationIndex]))
+			{
+				$referenceConfigurations[] = $this->refSchedule->configurations[$refConfigurationIndex];
+			}
 		}
 
 		$activeConfigurations = array();
