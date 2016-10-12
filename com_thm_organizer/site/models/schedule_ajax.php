@@ -27,40 +27,10 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 {
 	/**
-	 * Getter method for all grids in database
-	 *
-	 * @return string all grids in JSON format
-	 *
-	 * @throws RuntimeException
-	 */
-	public function getGrids()
-	{
-		$this->_db   = JFactory::getDbo();
-		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
-		$query       = $this->_db->getQuery(true);
-		$query->select("name_$languageTag, grid")
-			->from('#__thm_organizer_grids');
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$grids = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-			return '{}';
-		}
-
-		return json_encode($grids);
-	}
-
-	/**
 	 * Getter method for programs in database
 	 * e.g. for selecting a schedule
 	 *
-	 * @return string  all programs in JSON format
+	 * @return string  a json coded array of available program objects
 	 *
 	 * @throws RuntimeException
 	 */
@@ -74,16 +44,13 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$nameParts = array("program.name_$languageTag", "' ('", " d.abbreviation", "')'");
 		$query->select('plan.id, program.version, ' . $query->concatenate($nameParts, "") . ' AS name')
 			->from('#__thm_organizer_plan_programs AS plan')
-			->innerJoin('#__thm_organizer_programs AS program ON plan.programID = program.id')
-			->leftJoin('#__thm_organizer_degrees AS d ON d.id = program.degreeID');
+			->leftJoin('#__thm_organizer_programs AS program ON plan.programID = program.id')
+			->innerJoin('#__thm_organizer_degrees AS d ON d.id = program.degreeID');
 
 		if ($departmentID != 0)
 		{
 			$query->where("program.departmentID = '$departmentID'");
 		}
-
-		/** this MySQL regexp means: [0-9A-Za-z]+[.][0-9A-Za-z]+ */
-		$query->where("plan.gpuntisID REGEXP '^[[:alnum:]]+[[.period.]][[:alnum:]]+'");
 
 		$query->order('name');
 		$this->_db->setQuery((string) $query);
@@ -96,7 +63,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '{}';
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
 		}
 
 		return json_encode($result);
@@ -118,7 +90,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$conditions   = array();
 
 		$query = $this->_db->getQuery(true);
-		$query->select('id, name, gpuntisID')
+		$query->select('id, name')
 			->from('#__thm_organizer_plan_pools');
 
 		foreach ($programIDs as $programID)
@@ -139,7 +111,51 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '{}';
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
+		}
+
+		return json_encode($result);
+	}
+
+	/**
+	 * Getter method for room types in database
+	 * e.g. for selecting a schedule
+	 *
+	 * @return string  all room types in JSON format
+	 *
+	 * @throws RuntimeException
+	 */
+	public function getRoomTypes()
+	{
+		$this->_db    = JFactory::getDbo();
+		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
+
+		$query = $this->_db->getQuery(true);
+		$query->select("id, name_$languageTag AS name")
+			->from('#__thm_organizer_room_types AS type');
+
+		$query->order('name');
+		$this->_db->setQuery((string) $query);
+
+		try
+		{
+			$result = $this->_db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
 		}
 
 		return json_encode($result);
@@ -157,6 +173,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	{
 		$this->_db    = JFactory::getDbo();
 		$departmentID = JFactory::getApplication()->input->getInt('departmentID');
+		$typeID       = JFactory::getApplication()->input->getInt('typeID');
 
 		$query = $this->_db->getQuery(true);
 		$query->select("roo.id, roo.longname AS name")
@@ -166,6 +183,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$query->leftJoin('#__thm_organizer_department_resources AS dr ON roo.id = dr.roomID');
 			$query->where("dr.departmentID = $departmentID");
+		}
+
+		if ($departmentID != 0)
+		{
+			$query->where("roo.typeID = $typeID");
 		}
 
 		$query->order('name');
@@ -179,7 +201,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '{}';
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
 		}
 
 		return json_encode($result);
@@ -220,7 +247,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '{}';
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
 		}
 
 		return json_encode($result);
@@ -237,18 +269,19 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function getLessonsByPools()
 	{
 		$this->_db  = JFactory::getDbo();
-		$chosenDate = JFactory::getApplication()->input->getString('date');
+		$dateString = JFactory::getApplication()->input->getString('date');
 		$poolInput  = JFactory::getApplication()->input->getString('poolIDs');
+		$oneDay     = JFactory::getApplication()->input->getString('oneDay', false);
 		$poolIDs    = explode(',', $poolInput);
 		$conditions = array();
 
 		$query       = $this->_db->getQuery(true);
 		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$query->select(
-			"subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, 
-			tea.id AS teacherID, $teacherName AS teacherName,
-			cal.startTime, cal.endTime, cal.schedule_date, cal.delta AS calendarDelta"
-		)
+		$selection = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
+		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
+		$selection .= "cal.startTime, cal.endTime, cal.schedule_date, cal.delta AS calendarDelta";
+
+		$query->select($selection)
 			->from('#__thm_organizer_plan_pools AS poo')
 			->innerJoin('#__thm_organizer_lesson_pools AS lepo ON poo.id = lepo.poolID')
 			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON lepo.subjectID = lesu.id')
@@ -267,18 +300,31 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$poolConditions = '(' . implode($conditions, ' OR ') . ')';
 		$query->where($poolConditions);
 
-		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $chosenDate) === 1)
+		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $dateString) === 1)
 		{
-			$query->where("pp.startDate <= '$chosenDate' AND pp.endDate >= '$chosenDate'");
+			$query->where("pp.startDate <= '$dateString' AND pp.endDate >= '$dateString'");
 		}
 		else
 		{
 			$query->where("pp.startDate <= CURDATE() AND pp.endDate >= CURDATE()");
 		}
 
-		$query->where("cal.schedule_date <= DATE_ADD('$chosenDate', INTERVAL 3 DAY)")
-			->where("cal.schedule_date >= DATE_SUB('$chosenDate', INTERVAL 3 DAY)")
-			->where("cal.delta != 'removed'");
+		if ($oneDay)
+		{
+			$query->where("cal.schedule_date = '$dateString'");
+		}
+		else
+		{
+			$selectedDate = new DateTime($dateString);
+			$dayNumber = $selectedDate->format('N');
+			$intervalBefore = $dayNumber;
+			$intervalAfter = 7 - $dayNumber;
+
+			$query->where("cal.schedule_date <= DATE_ADD('$dateString', INTERVAL $intervalAfter DAY)")
+				->where("cal.schedule_date >= DATE_SUB('$dateString', INTERVAL $intervalBefore DAY)");
+		}
+
+		$query->where("cal.delta != 'removed'");
 
 		$query->order('subjectName');
 		$this->_db->setQuery((string) $query);
@@ -291,7 +337,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '{}';
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
 		}
 
 		return json_encode($result);
@@ -311,15 +362,16 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$this->_db    = JFactory::getDbo();
 		$departmentID = JFactory::getApplication()->input->getInt('departmentID');
 		$teacherID    = JFactory::getApplication()->input->getInt('teacherID');
-		$chosenDate   = JFactory::getApplication()->input->getString('date');
+		$dateString   = JFactory::getApplication()->input->getString('date');
+		$oneDay       = JFactory::getApplication()->input->getString('oneDay', false);
 
 		$query       = $this->_db->getQuery(true);
 		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$query->select(
-			"subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, 
-			tea.id AS teacherID, $teacherName AS teacherName,
-			cal.startTime, cal.endTime, cal.schedule_date"
-		)
+		$selection = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
+		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
+		$selection .= "cal.startTime, cal.endTime, cal.schedule_date";
+
+		$query->select($selection)
 			->from('#__thm_organizer_teachers AS tea')
 			->innerJoin('#__thm_organizer_lesson_teachers AS letea ON tea.id = letea.teacherID')
 			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON letea.subjectID = lesu.id')
@@ -334,18 +386,31 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			$query->where("dr.departmentID = $departmentID");
 		}
 
-		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $chosenDate) === 1)
+		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $dateString) === 1)
 		{
-			$query->where("pp.startDate <= '$chosenDate' AND pp.endDate >= '$chosenDate'");
+			$query->where("pp.startDate <= '$dateString' AND pp.endDate >= '$dateString'");
 		}
 		else
 		{
 			$query->where("pp.startDate <= CURDATE() AND pp.endDate >= CURDATE()");
 		}
 
-		$query->where("cal.schedule_date <= DATE_ADD('$chosenDate', INTERVAL 3 DAY)")
-			->where("cal.schedule_date >= DATE_SUB('$chosenDate', INTERVAL 3 DAY)")
-			->where("cal.delta != 'removed'")
+		if ($oneDay)
+		{
+			$query->where("cal.schedule_date = '$dateString'");
+		}
+		else
+		{
+			$selectedDate = new DateTime($dateString);
+			$dayNumber = $selectedDate->format('N');
+			$intervalBefore = $dayNumber;
+			$intervalAfter = 7 - $dayNumber;
+
+			$query->where("cal.schedule_date <= DATE_ADD('$dateString', INTERVAL $intervalAfter DAY)")
+				->where("cal.schedule_date >= DATE_SUB('$dateString', INTERVAL $intervalBefore DAY)");
+		}
+
+		$query->where("cal.delta != 'removed'")
 			->where("tea.id = $teacherID");
 
 		$query->order('subjectName');
@@ -359,7 +424,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '{}';
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
 		}
 
 		return json_encode($result);
@@ -374,19 +444,22 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 *
 	 * @throws RuntimeException
 	 */
-	public function getLessonsByRoom()
+	public function getLessonsByRooms()
 	{
 		$this->_db  = JFactory::getDbo();
-		$roomID     = JFactory::getApplication()->input->getInt('roomID');
-		$chosenDate = JFactory::getApplication()->input->getString('date');
+		$roomInput  = JFactory::getApplication()->input->getString('roomIDs');
+		$dateString = JFactory::getApplication()->input->getString('date');
+		$oneDay     = JFactory::getApplication()->input->getString('oneDay', false);
+		$roomIDs    = explode(',', $roomInput);
+		$conditions = array();
 
 		$query       = $this->_db->getQuery(true);
 		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$query->select(
-			"subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta,
-			tea.id AS teacherID, $teacherName AS teacherName,
-			cal.startTime, cal.endTime, cal.schedule_date"
-		)
+		$selection = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
+		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
+		$selection .= "cal.startTime, cal.endTime, cal.schedule_date";
+
+		$query->select($selection)
 			->from('#__thm_organizer_lessons AS less')
 			->innerJoin('#__thm_organizer_lesson_configurations AS leco ON less.id = leco.lessonID')
 			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON less.id = lesu.lessonID')
@@ -396,25 +469,44 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			->leftJoin('#__thm_organizer_lesson_teachers AS letea ON lesu.id = letea.subjectID')
 			->leftJoin('#__thm_organizer_teachers AS tea ON letea.teacherID = tea.id');
 
-		// Regex for e.g. "rooms":{"xyz123":"","roomID":""
-		$regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.:.]][[.{.]]' .
-			'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-			'[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]' .
-			'[[.quotation-mark.]][^removed]';
-		$query->where("leco.configuration REGEXP '$regexp'");
-
-		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $chosenDate) === 1)
+		foreach ($roomIDs as $roomID)
 		{
-			$query->where("pp.startDate <= '$chosenDate' AND pp.endDate >= '$chosenDate'");
+			// Regex for e.g. "rooms":{"xyz123":"","roomID":""
+			$regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.:.]][[.{.]]' .
+				'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
+				'[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]' .
+				'[[.quotation-mark.]][^removed]';
+			$conditions[] = "leco.configuration REGEXP '$regexp'";
+		}
+
+		$roomConditions = '(' . implode($conditions, ' OR ') . ')';
+		$query->where($roomConditions);
+
+		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $dateString) === 1)
+		{
+			$query->where("pp.startDate <= '$dateString' AND pp.endDate >= '$dateString'");
 		}
 		else
 		{
 			$query->where("pp.startDate <= CURDATE() AND pp.endDate >= CURDATE()");
 		}
 
-		$query->where("cal.schedule_date <= DATE_ADD('$chosenDate', INTERVAL 3 DAY)")
-			->where("cal.schedule_date >= DATE_SUB('$chosenDate', INTERVAL 3 DAY)")
-			->where("cal.delta != 'removed'");
+		if ($oneDay)
+		{
+			$query->where("cal.schedule_date = '$dateString'");
+		}
+		else
+		{
+			$selectedDate = new DateTime($dateString);
+			$dayNumber = $selectedDate->format('N');
+			$intervalBefore = $dayNumber;
+			$intervalAfter = 7 - $dayNumber;
+
+			$query->where("cal.schedule_date <= DATE_ADD('$dateString', INTERVAL $intervalAfter DAY)")
+				->where("cal.schedule_date >= DATE_SUB('$dateString', INTERVAL $intervalBefore DAY)");
+		}
+
+		$query->where("cal.delta != 'removed'");
 
 		$query->order('subjectName');
 		$this->_db->setQuery((string) $query);
@@ -427,7 +519,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '{}';
+			return '[]';
+		}
+
+		if (empty($result))
+		{
+			return '[]';
 		}
 
 		return json_encode($result);

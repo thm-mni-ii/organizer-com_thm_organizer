@@ -55,10 +55,6 @@ button:hover,
     font-size: 1.2rem;
   }
 
-  a:first-of-type {
-    margin-right: 1rem;
-  }
-
   button {
     text-align: left;
   }
@@ -394,7 +390,7 @@ button:hover,
       margin: 0.25rem 0.5rem;
     }
 
-    .selecting-input > div {
+    .input-wrapper > div {
       margin: 0.25rem 0.5rem 0.25rem 0;
     }
 

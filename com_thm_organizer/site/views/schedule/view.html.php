@@ -24,25 +24,32 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 class THM_OrganizerViewSchedule extends JViewLegacy
 {
 	/**
-	 * mobile device or not
-	 *
-	 * @var boolean
-	 */
-	protected $isMobile = false;
-
-	/**
-	 * time grids for displaying the schedules
+	 * default time grid, loaded first
 	 *
 	 * @var array
 	 */
 	protected $defaultGrid;
 
 	/**
-	 * URL of this site
+	 * the department for this schedule, chosen in menu options
 	 *
 	 * @var string
 	 */
-	protected $uri;
+	protected $departmentID;
+
+	/**
+	 * time grids for displaying the schedules
+	 *
+	 * @var array
+	 */
+	protected $grids;
+
+	/**
+	 * mobile device or not
+	 *
+	 * @var boolean
+	 */
+	protected $isMobile = false;
 
 	/**
 	 * Contains the current languageTag
@@ -60,13 +67,21 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->uri         = JUri::getInstance()->toString();
-		$this->checkMobile();
+		$this->isMobile     = THM_OrganizerHelperComponent::isSmartphone();
+		$this->languageTag  = JFactory::getLanguage()->getTag();
+		$this->mySchedule   = $this->getModel()->getMySchedule();
+		$params             = JFactory::getApplication()->getMenu()->getActive()->params;
+		$this->departmentID = $params->get('departmentID');
+		$this->grids        = $this->getModel()->getGrids();
 
-		$this->languageTag = JFactory::getLanguage()->getTag();
-		$this->defaultGrid = $this->getModel()->getDefaultGrid();
-		$this->schedules   = $this->getModel()->getSchedules();
-		$this->departments = $this->getModel()->getDepartments();
+		$defaultGrids = array_filter(
+			$this->grids,
+			function($var)
+			{
+				return $var->defaultGrid;
+			}
+		);
+		$this->defaultGrid = json_decode($defaultGrids[0]->grid);
 
 		$this->modifyDocument();
 
@@ -86,28 +101,9 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$doc->addScript(JHtml::_('formbehavior.chosen', 'select'));
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/calendar.js");
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
-		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule_ajax.js");
 
 		$doc->addStyleSheet(JUri::root() . "libraries/thm_core/fonts/iconfont-frontend.css");
 		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
 		$doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");
-	}
-
-	/**
-	 * Searches for the Mobile Detector and sets the 'tmpl' parameter with GET.
-	 *
-	 * @return  void
-	 */
-	private function checkMobile()
-	{
-		$app            = JFactory::getApplication();
-		$this->isMobile = THM_OrganizerHelperComponent::isSmartphone();
-		$isMobileTempl  = $app->input->getString('tmpl', '') == "component";
-
-		if ($this->isMobile AND !$isMobileTempl)
-		{
-			$query = $this->uri . '&tmpl=component';
-			$app->redirect($query);
-		}
 	}
 }

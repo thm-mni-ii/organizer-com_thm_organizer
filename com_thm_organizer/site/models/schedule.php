@@ -10,8 +10,10 @@
  * @link        www.mni.thm.de
  */
 defined('_JEXEC') or die();
-
 jimport('joomla.application.component.model');
+
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class THM_OrganizerModelSchedule for loading the chosen schedule from the database
@@ -54,39 +56,38 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	}
 
 	/**
-	 * getter for the default time grid out of database
+	 * Getter method for all grids in database
 	 *
-	 * @return  object|false
+	 * @return mixed  array | empty js-object in case of errors
 	 *
-	 * @throws  RuntimeException
+	 * @throws RuntimeException
 	 */
-	public function getDefaultGrid()
+	public function getGrids()
 	{
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query
-			->select('grid')
-			->from('#__thm_organizer_grids')
-			->where("defaultGrid = 'true'");
-		$dbo->setQuery((string) $query);
+		$this->_db   = JFactory::getDbo();
+		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
+		$query       = $this->_db->getQuery(true);
+		$query->select("name_$languageTag AS name, grid, defaultGrid")
+			->from('#__thm_organizer_grids');
+		$this->_db->setQuery((string) $query);
 
 		try
 		{
-			$result = $dbo->loadObject();
+			$grids = $this->_db->loadObjectList();
 		}
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return false;
+			return '[]';
 		}
 
-		if (!$result)
+		if (empty($grids))
 		{
-			return $this->getTimeFallback();
+			return '[]';
 		}
 
-		return json_decode($result->grid);
+		return $grids;
 	}
 
 	/**
@@ -132,11 +133,9 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 *
 	 * @return array
 	 */
-	public function getSchedules()
+	public function getMySchedule()
 	{
-		$schedules = array();
-
-		$schedules[] = json_decode(
+		return json_decode(
 			'{
                 "name": "BWL",
                 "pool": "Finanzen",
@@ -145,8 +144,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                     "1": {
                         "1": [
                             {
-                                "name_de": "BWL-er Kram",
-                                "name_en": "BWL-er stuff",
+                                "name": "BWL-er Kram",
                                 "room": "A.4.4.4",
                                 "teacher": "BWLer",
                                 "time": "1200",
@@ -159,12 +157,11 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "4": [
                         ],
-                        "5": [ 
+                        "5": [
                         ],
                         "6": [
                             {
-                                "name_de": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
-                                "name_en": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
+                                "name": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
                                 "room": "B1.2.3",
                                 "teacher": "Zuckerberg",
                                 "time": "1800",
@@ -175,7 +172,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                     "2": {
                         "1": [
                             {
-                                "name_de": "Irgendwas mit Geld",
+                                "name": "Irgendwas mit Geld",
                                 "name_en": "Something with money",
                                 "room": "A.6.6.6",
                                 "teacher": "Schmidt",
@@ -185,7 +182,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "2": [
                             {
-                                "name_de": "Zaster",
+                                "name": "Zaster",
                                 "name_en": "Zaster",
                                 "room": "A.7.7.7",
                                 "teacher": "Müller",
@@ -194,7 +191,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "3": [
                             {
-                                "name_de": "Die kleinste Geige der Welt",
+                                "name": "Die kleinste Geige der Welt",
                                 "name_en": "Die kleinste Geige der Welt",
                                 "room": "A.1.1.1",
                                 "teacher": "Schneider",
@@ -203,7 +200,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "4": [
                             {
-                                "name_de": "Moneten",
+                                "name": "Moneten",
                                 "name_en": "Moneten",
                                 "room": "A.1.1.1",
                                 "teacher": "Schneider",
@@ -233,7 +230,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                     "4": {
                         "1": [
                             {
-                                "name_de": "BWL-er Kram",
+                                "name": "BWL-er Kram",
                                 "name_en": "BWL-er Kram",
                                 "room": "A.4.4.4",
                                 "teacher": "BWLer",
@@ -242,7 +239,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "2": [
                             {
-                                "name_de": "Irgendwas mit Geld",
+                                "name": "Irgendwas mit Geld",
                                 "name_en": "Irgendwas mit Geld",
                                 "room": "A.6.6.6",
                                 "teacher": "Schmidt",
@@ -251,7 +248,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "3": [
                             {
-                                "name_de": "Projektmanagement und -qualität",
+                                "name": "Projektmanagement und -qualität",
                                 "name_en": "Projektmanagement und -qualität",
                                 "room": "A.7.7.7",
                                 "teacher": "Müller",
@@ -260,7 +257,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "4": [
                             {
-                                "name_de": "Wie bleibe ich reich?",
+                                "name": "Wie bleibe ich reich?",
                                 "name_en": "Wie bleibe ich reich?",
                                 "room": "A.1.1.1",
                                 "teacher": "Schneider",
@@ -269,7 +266,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "5": [
                             {
-                                "name_de": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
+                                "name": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
                                 "name_en": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
                                 "room": "B1.2.3",
                                 "teacher": "Zuckerberg",
@@ -279,7 +276,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ],
                         "6": [
                             {
-                                "name_de": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
+                                "name": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
                                 "name_en": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
                                 "room": "B1.2.3",
                                 "teacher": "Zuckerberg",
@@ -317,426 +314,5 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                     }
                 }
             }');
-
-		$schedules[] = json_decode(
-			'{
-                "name": "Social",
-                "pool": "Social Skills",
-                "id": "informatik-social",
-                "days": {
-                    "1": {
-                        "1": [
-                            {
-                                "name_de": "Soziales und der Bezug zur Wissenschaft",
-                                "name_en": "Soziales und der Bezug zur Wissenschaft",
-                                "room": "A12.06.17",
-                                "teacher": "Henrich",
-                                "module": "CS123"
-                            }
-                        ],
-                        "2": [
-                            {
-                                "name_de": "Hauptsache Credit-Points",
-                                "name_en": "Hauptsache Credit-Points",
-                                "room": "A20.02.300",
-                                "teacher": "Fischer",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name_de": "Armut bekämpfen - gut bewerben",
-                                "name_en": "Armut bekämpfen - gut bewerben",
-                                "room": "A.3.3.3",
-                                "teacher": "Weber",
-                                "module": "CS123"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Problem Frames",
-                                "name_en": "Problem Frames",
-                                "room": "A2.2.12",
-                                "teacher": "Koch",
-                                "module": "CS123"
-                            }
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "2" :{
-                        "1": [
-                            {
-                                "name_de": "Soziales und der Bezug zur Wissenschaft",
-                                "name_en": "Soziales und der Bezug zur Wissenschaft",
-                                "room": "A12.06.17",
-                                "teacher": "Henrich",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "2": [
-                            {
-                                "name_de": "Hauptsache Credit-Points",
-                                "name_en": "Hauptsache Credit-Points",
-                                "room": "A20.02.300",
-                                "teacher": "Fischer",
-                                "module": "CS123"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name_de": "Armut bekämpfen - gut bewerben",
-                                "name_en": "Armut bekämpfen - gut bewerben",
-                                "room": "A.3.3.3",
-                                "teacher": "Weber",
-                                "module": "CS123"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Problem Frames",
-                                "name_en": "Problem Frames",
-                                "room": "A2.2.12",
-                                "teacher": "Koch",
-                                "module": "CS123"
-                            }
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "3": {
-                        "1": [
-                            {
-                                "name_de": "Soziales und der Bezug zur Wissenschaft",
-                                "name_en": "Soziales und der Bezug zur Wissenschaft",
-                                "room": "A12.06.17",
-                                "teacher": "Henrich",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "2": [
-                            {
-                                "name_de": "Hauptsache Credit-Points",
-                                "name_en": "Hauptsache Credit-Points",
-                                "room": "A20.02.300",
-                                "teacher": "Fischer",
-                                "module": "CS123"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name_de": "Armut bekämpfen - gut bewerben",
-                                "name_en": "Armut bekämpfen - gut bewerben",
-                                "room": "A.3.3.3",
-                                "teacher": "Weber",
-                                "module": "CS123"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Problem Frames",
-                                "name_en": "Problem Frames",
-                                "room": "A2.2.12",
-                                "teacher": "Koch",
-                                "module": "CS123"
-                            }
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "4": {
-                        "1": [
-                            {
-                                "name_de": "Soziales und der Bezug zur Wissenschaft",
-                                "name_en": "Soziales und der Bezug zur Wissenschaft",
-                                "room": "A12.06.17",
-                                "teacher": "Henrich",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "2": [
-                            {
-                                "name_de": "Hauptsache Credit-Points",
-                                "name_en": "Hauptsache Credit-Points",
-                                "room": "A20.02.300",
-                                "teacher": "Fischer",
-                                "module": "CS123"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name_de": "Armut bekämpfen - gut bewerben",
-                                "name_en": "Armut bekämpfen - gut bewerben",
-                                "room": "A.3.3.3",
-                                "teacher": "Weber",
-                                "module": "CS123"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Problem Frames",
-                                "name_en": "Problem Frames",
-                                "room": "A2.2.12",
-                                "teacher": "Koch",
-                                "module": "CS123"
-                            }
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "5": {
-                        "1": [
-                        ],
-                        "2": [
-                        ],
-                        "3": [
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "6": {
-                        "1": [
-                        ],
-                        "2": [
-                        ],
-                        "3": [
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                        ]
-                    }
-                }
-            }');
-
-		$schedules[] = json_decode(
-			'{
-                "name": "Informatik",
-                "pool": "1. Semester",
-                "id": "informatik-1",
-                "days": {
-                    "1": {
-                        "1": [
-                        ],
-                        "2": [
-                            {
-                                "name_de": "Grundlagen der Informatik",
-                                "name_en": "Grundlagen der Informatik",
-                                "module": "CS1014",
-                                "room": "A20.1.36",
-                                "teacher": "Priefer"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "module": "MN1007",
-                                "room": "A20.1.36",
-                                "teacher": "Metz"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Grundlagen der Informatik",
-                                "name_en": "Grundlagen der Informatik",
-                                "module": "MN1014",
-                                "room": "A12.3.04",
-                                "teacher": "Gerlach"
-                            },
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "module": "MN1007",
-                                "room": "A20.1.36",
-                                "teacher": "Metz"
-                            }
-                        ],
-                        "6": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "module": "CS123",
-                                "room": "A20.1.07",
-                                "time": "1200",
-                                "teacher": "Metz"
-                            }
-                        ]
-                    },
-                    "2": {
-                        "1": [
-                        ],
-                        "2": [
-                            {
-                                "name_de": "Grundlagen der Informatik",
-                                "name_en": "Grundlagen der Informatik",
-                                "module": "CS1014",
-                                "room": "A20.1.36",
-                                "teacher": "Priefer"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "module": "MN1007",
-                                "room": "A20.1.36",
-                                "time": "1200",
-                                "teacher": "Metz"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Grundlagen der Informatik",
-                                "name_en": "Grundlagen der Informatik",
-                                "module": "MN1014"
-                            },
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "module": "MN1007",
-                                "room": "A20.1.36",
-                                "teacher": "Metz"
-                            }
-                        ],
-                        "6": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "room": "A20.1.07",
-                                "teacher": "Metz"
-                            }
-                        ]
-                    },
-                    "3": {
-                        "1": [
-                        ],
-                        "2": [
-                            {
-                                "module": "CS1014",
-                                "room": "A20.1.36",
-                                "teacher": "Priefer"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "module": "MN1007",
-                                "room": "A20.1.36",
-                                "teacher": "Metz"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Grundlagen der Informatik",
-                                "name_en": "Grundlagen der Informatik",
-                                "module": "MN1014",
-                                "room": "A12.3.04",
-                                "teacher": "Priefer"
-                            }
-                        ],
-                        "6": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "room": "A20.1.07",
-                                "teacher": "Metz"
-                            }
-                        ]
-                    },
-                    "4": {
-                        "1": [
-                        ],
-                        "2": [
-                            {
-                                "name_de": "Grundlagen der Informatik",
-                                "name_en": "Grundlagen der Informatik",
-                                "module": "CS1014",
-                                "room": "A20.1.36",
-                                "teacher": "Priefer"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "room": "A20.1.36",
-                                "time": "1200",
-                                "teacher": "Metz"
-                            }
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                            {
-                                "name_de": "Grundlagen der Informatik",
-                                "name_en": "Grundlagen der Informatik",
-                                "module": "MN1014",
-                                "room": "A12.3.04",
-                                "teacher": "Priefer"
-                            },
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "module": "MN1007",
-                                "room": "A20.1.36"
-                            }
-                        ],
-                        "6": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "room": "A20.1.07",
-                                "teacher": "Metz"
-                            }
-                        ]
-                    },
-                    "5": {
-                        "1": [
-                        ],
-                        "2": [
-                        ],
-                        "3": [
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                            {
-                                "name_de": "Diskrete Mathematik",
-                                "name_en": "Diskrete Mathematik",
-                                "teacher": "Metz",
-                                "module": "CS123"
-                            }
-                        ]
-                    }
-                }
-            }');
-
-		return $schedules;
 	}
 }
