@@ -823,7 +823,7 @@ class THM_OrganizerHelperXMLLessons
 
 			if (!$roomFound)
 			{
-				$pools        = implode(', ', array_keys($this->scheduleModel->schedule->lessons->{$this->lessonIndex}->pools));
+				$pools        = implode(', ', array_keys((array) $this->scheduleModel->schedule->lessons->{$this->lessonIndex}->pools));
 				$dow          = strtoupper(date('l', $currentDT));
 				$localizedDoW = JText::_($dow);
 				$error        = JText::sprintf(

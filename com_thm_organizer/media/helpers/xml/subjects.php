@@ -96,6 +96,7 @@ class THM_OrganizerHelperXMLSubjects
 		$longName = self::validateLongName($scheduleModel, $subjectNode, $subjectIndex, $gpuntisID);
 		if (!$longName)
 		{
+			unset($scheduleModel->schedule->subjects->$subjectIndex);
 			return;
 		}
 

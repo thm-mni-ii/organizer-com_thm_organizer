@@ -112,6 +112,7 @@ class THM_OrganizerHelperXMLTeachers
 		$surname = self::validateSurname($scheduleModel, $teacherNode, $gpuntisID);
 		if (!$surname)
 		{
+			unset($scheduleModel->schedule->teachers->$gpuntisID);
 			return;
 		}
 

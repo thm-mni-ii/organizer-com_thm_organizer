@@ -108,7 +108,7 @@ class THM_OrganizerHelperXMLPools
 		if (empty($longName))
 		{
 			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING', $poolID);
-
+			unset($scheduleModel->schedule->pools->$poolID);
 			return;
 		}
 
