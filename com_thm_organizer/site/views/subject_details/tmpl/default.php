@@ -14,24 +14,8 @@ $oneStar    = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1star
 $twoStars   = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
 $threeStars = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 
-/**
- * Creates teacher output
- *
- * @param   array $teacher the teacher item
- *
- * @return  void  creates HTML output
- */
-function getTeacherOutput($teacher)
-{
-	if (!empty($teacher['link']))
-	{
-		echo '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
-	}
-	else
-	{
-		echo $teacher['name'];
-	}
-}
+$prerequisites = $this->getDependencies('pre');
+$postrequisites = $this->getDependencies('post');
 
 ?>
 <div class="toolbar">
@@ -73,7 +57,7 @@ function getTeacherOutput($teacher)
 			foreach ($this->item->executors as $executor)
 			{
 				echo '<li>';
-				getTeacherOutput($executor);
+				$this->getTeacherOutput($executor);
 				echo '</li>';
 			}
 			echo '</ul>';
@@ -81,7 +65,7 @@ function getTeacherOutput($teacher)
 		else
 		{
 			$executor = array_values($this->item->executors)[0];
-			getTeacherOutput($executor);
+			$this->getTeacherOutput($executor);
 		}
 		echo '</div>';
 		echo '</div>';
@@ -97,7 +81,7 @@ function getTeacherOutput($teacher)
 			foreach ($this->item->teachers as $teacher)
 			{
 				echo '<li>';
-				getTeacherOutput($teacher);
+				$this->getTeacherOutput($teacher);
 				echo '</li>';
 			}
 			echo '</ul>';
@@ -105,7 +89,7 @@ function getTeacherOutput($teacher)
 		else
 		{
 			$teacher = array_values($this->item->teachers)[0];
-			getTeacherOutput($teacher);
+			$this->getTeacherOutput($teacher);
 		}
 		echo '</div>';
 		echo '</div>';
@@ -182,19 +166,19 @@ function getTeacherOutput($teacher)
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SOCIAL_COMPETENCE') . '</div>';
 		echo '<div class="subject-content">';
-		if ($this->item->social_competence == '3')
+		if ($this->item->social_competence === 3)
 		{
 			echo $threeStars;
 		}
-		elseif ($this->item->social_competence == '2')
+		elseif ($this->item->social_competence === 2)
 		{
 			echo $twoStars;
 		}
-		elseif ($this->item->social_competence == '1')
+		elseif ($this->item->social_competence === 1)
 		{
 			echo $oneStar;
 		}
-		elseif ($this->item->social_competence == '0')
+		elseif ($this->item->social_competence === 0)
 		{
 			echo $noStar;
 		}
@@ -304,6 +288,14 @@ function getTeacherOutput($teacher)
 		echo $this->item->prerequisites;
 		echo '</div></div>';
 	}
+	if (!empty($prerequisites))
+	{
+		echo '<div class="subject-item">';
+		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_PREREQUISITE_MODULES') . '</div>';
+		echo '<div class="subject-content">';
+		echo $prerequisites;
+		echo '</div></div>';
+	}
 	if (!empty($this->item->recommended_prerequisites))
 	{
 		echo '<div class="subject-item">';
@@ -316,13 +308,17 @@ function getTeacherOutput($teacher)
 	{
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_PREREQUISITE_FOR') . '</div>';
-		echo '<div class="subject-content"><ul>';
-		foreach ($this->item->prerequisiteOf as $of)
-		{
-			echo '<li><a target="_blank" href="' . $of['link'] . '">' . $of['name'] . '</a></li>';
-		}
-		echo '</ul></div>';
-		echo '</div>';
+		echo '<div class="subject-content">';
+		echo $this->item->prerequisiteOf;
+		echo '</div></div>';
+	}
+	if (!empty($postrequisites))
+	{
+		echo '<div class="subject-item">';
+		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_POSTREQUISITE_MODULES') . '</div>';
+		echo '<div class="subject-content">';
+		echo $postrequisites;
+		echo '</div></div>';
 	}
 	$displayeCollab = JComponentHelper::getParams('com_thm_organizer')->get('displayeCollabLink');
 	if (!empty($this->item->externalID) AND !empty($displayeCollab))

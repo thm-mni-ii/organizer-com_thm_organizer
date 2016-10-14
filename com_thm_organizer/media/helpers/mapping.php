@@ -23,218 +23,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 class THM_OrganizerHelperMapping
 {
 	/**
-	 * Retrieves a string value representing the degree programs to which the
-	 * pool is ordered. Used in pool and subject manager views.
-	 *
-	 * @param   string $resourceType the type of the mapped resource
-	 * @param   int    $resourceID   the id of the resource
-	 *
-	 * @return  string  string representing the associated program(s)
-	 */
-	public static function getProgramName($resourceType, $resourceID)
-	{
-		$resourceRanges = self::getResourceRanges($resourceType, $resourceID);
-		if (empty($resourceRanges))
-		{
-			return JText::_('JNONE');
-		}
-
-		$programs = self::getResourcePrograms($resourceRanges);
-		if (empty($programs))
-		{
-			return JText::_('JNONE');
-		}
-
-		if (count($programs) === 1)
-		{
-			return $programs[0];
-		}
-		else
-		{
-			return JText::_('COM_THM_ORGANIZER_MULTIPLE_PROGRAMS');
-		}
-	}
-
-	/**
-	 * Retrieves a string value representing the degree programs to which the
-	 * pool is ordered. Used in subject manager view.
-	 *
-	 * @param   int $resourceID the id of the resource
-	 *
-	 * @return  string  string representing the associated program(s)
-	 */
-	public static function getPoolName($resourceID)
-	{
-		$resourceRanges = self::getResourceRanges('subject', $resourceID);
-		if (empty($resourceRanges))
-		{
-			return JText::_('JNONE');
-		}
-
-		$pools = self::getSubjectPools($resourceRanges);
-		if (empty($pools))
-		{
-			return JText::_('JNONE');
-		}
-
-		if (count($pools) === 1)
-		{
-			return $pools[0];
-		}
-		else
-		{
-			return JText::_('COM_THM_ORGANIZER_MULTIPLE_POOLS');
-		}
-	}
-
-	/**
-	 * Retrieves the mapped left and right values for the resource's existing mappings.
-	 * Used in programs field, and self.
-	 *
-	 * @param   string $resourceType the type of the mapped resource
-	 * @param   int    $resourceID   the id of the mapped resource
-	 *
-	 * @return  array contains the sought left and right values
-	 */
-	public static function getResourceRanges($resourceType, $resourceID)
-	{
-		$query = JFactory::getDbo()->getQuery(true);
-		$query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
-
-		$allPrograms = ($resourceType == 'program' AND $resourceID == '-1');
-		$allPools    = ($resourceType == 'pool' AND $resourceID == '-1');
-		if ($allPrograms)
-		{
-			$query->where("programID IS NOT NULL");
-		}
-		elseif ($allPools)
-		{
-			$query->where("poolID IS NOT NULL");
-		}
-		else
-		{
-			$query->where("{$resourceType}ID = '$resourceID'");
-		}
-
-		JFactory::getDbo()->setQuery((string) $query);
-
-		try
-		{
-			$ranges = JFactory::getDbo()->loadAssocList();
-
-			return $ranges;
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return array();
-		}
-	}
-
-	/**
-	 * Retrieves the names of the programs to which a resource is ordered. Used in self.
-	 *
-	 * @param   array $resourceRanges the left and right values of the resource's mappings
-	 *
-	 * @return  array  the names of the programs to which the pool is ordered
-	 */
-	public static function getResourcePrograms($resourceRanges)
-	{
-		$rangeClauses = array();
-		foreach ($resourceRanges AS $borders)
-		{
-			$rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
-		}
-
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$query    = JFactory::getDbo()->getQuery(true);
-		$parts    = array("dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'");
-		$select   = "DISTINCT " . $query->concatenate($parts, "") . " As name";
-		$query->select($select);
-		$query->from('#__thm_organizer_programs AS dp');
-		$query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-		$query->where($rangeClauses, 'OR');
-		$query->order('name');
-		JFactory::getDbo()->setQuery((string) $query);
-
-		try
-		{
-			$programs = JFactory::getDbo()->loadColumn();
-
-			return $programs;
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return array();
-		}
-	}
-
-	/**
-	 * Retrieves the names of the programs to which a resource is ordered
-	 *
-	 * @param   array $ranges the left and right values of the resource's mappings
-	 *
-	 * @return  array  the names of the programs to which the pool is ordered
-	 */
-	public static function getSubjectPools($ranges)
-	{
-		$dbo      = JFactory::getDbo();
-		$lftQuery = $dbo->getQuery(true);
-		$lftQuery->select("lft");
-		$lftQuery->from('#__thm_organizer_pools AS p');
-		$lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-		$lftQuery->order('lft DESC');
-
-		$shortTag  = THM_OrganizerHelperLanguage::getShortTag();
-		$nameQuery = $dbo->getQuery(true);
-		$nameQuery->select("DISTINCT p.name_$shortTag As name");
-		$nameQuery->from('#__thm_organizer_pools AS p');
-		$nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-
-		$pools = array();
-
-		// Each range is a unique pool association
-		foreach ($ranges AS $borders)
-		{
-			$lftQuery->clear('where');
-			$lftQuery->where("poolID IS NOT NULL");
-			$lftQuery->where("( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')");
-			$dbo->setQuery((string) $lftQuery);
-
-			try
-			{
-				$poolLFT = $dbo->loadResult();
-				$nameQuery->clear('where');
-				$nameQuery->where("lft = '$poolLFT'");
-				$dbo->setQuery((string) $nameQuery);
-
-				try
-				{
-					$pools[] = $dbo->loadResult();
-				}
-				catch (Exception $exc)
-				{
-					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-					return array();
-				}
-			}
-			catch (Exception $exc)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-				return array();
-			}
-		}
-
-		return $pools;
-	}
-
-	/**
 	 * Retrieves a list of all available programs
 	 *
 	 * @return  array  the ids and names of all available programs
@@ -268,36 +56,33 @@ class THM_OrganizerHelperMapping
 	}
 
 	/**
-	 * Retrieves the ids of associated degree programs
+	 * Retrieves the mapping boundaries of the selected resource
 	 *
-	 * @param   array $ranges the ranges for the individual subject entries
+	 * @param   string  $resourceType      the type of the selected resource
+	 * @param   int     $resourceID        the id of the selected resource
+	 * @param   boolean $excludeChildPools whether the return values should have child pools filtered out
 	 *
-	 * @return  array  the ids of the associated programs
+	 * @return  mixed  array with boundary values on success, otherwise false
 	 *
 	 * @throws  exception
 	 */
-	public static function getSelectedPrograms($ranges)
+	public static function getBoundaries($resourceType, $resourceID, $excludeChildPools = true)
 	{
-		$dbo             = JFactory::getDbo();
-		$rangeConditions = array();
-		foreach ($ranges as $range)
+		$invalidID = (empty($resourceID) OR $resourceID == 'null' OR $resourceID == '-1');
+		if ($invalidID)
 		{
-			$rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
+			return false;
 		}
 
-		$rangesClause = implode(' OR ', $rangeConditions);
-
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
-		$query->select("DISTINCT dp.id");
-		$query->from('#__thm_organizer_mappings AS m');
-		$query->innerJoin('#__thm_organizer_programs AS dp ON m.programID = dp.id');
-		$query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-		$query->where($rangesClause);
+		$query->select("{$resourceType}ID, lft, rgt")->from('#__thm_organizer_mappings');
+		$query->where("{$resourceType}ID = '$resourceID'");
 		$dbo->setQuery((string) $query);
 
 		try
 		{
-			return $dbo->loadColumn();
+			$ufBoundarySet = $dbo->loadAssocList();
 		}
 		catch (Exception $exc)
 		{
@@ -305,65 +90,21 @@ class THM_OrganizerHelperMapping
 
 			return array();
 		}
-	}
 
-	/**
-	 * Retrieves the parent ids of the resource in question. Used in parentpool field.
-	 *
-	 * @param   int    $resourceID   the resource id
-	 * @param   string $resourceType the type of resource
-	 * @param   array  &$mappings    an array to store the mappings in
-	 * @param   array  &$mappingIDs  an array to store the mapping ids in
-	 * @param   array  &$parentIDs   an array to store the parent ids in
-	 *
-	 * @return  void
-	 *
-	 * @throws  exception
-	 */
-	public static function setMappingData($resourceID, $resourceType, &$mappings, &$mappingIDs, &$parentIDs)
-	{
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('parentID, id, lft, rgt');
-		$query->from('#__thm_organizer_mappings');
-		$query->where("{$resourceType}ID = '$resourceID'");
-		$dbo->setQuery((string) $query);
-
-		try
+		if ($resourceType == 'program' OR $resourceType == 'subject' OR !$excludeChildPools)
 		{
-			$mappings = array_merge($mappings, $dbo->loadAssocList());
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$mappings = $mappingIDs = $parentIDs = array();
-
-			return;
+			return $ufBoundarySet;
 		}
 
-		try
-		{
-			$parentIDs = array_merge($parentIDs, $dbo->loadColumn());
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$mappingIDs = $parentIDs = array();
+		$filteredBoundarySet = array();
 
-			return;
+		foreach ($ufBoundarySet as $ufBoundaries)
+		{
+			$filteredBoundaries  = self::removeExclusions($ufBoundaries);
+			$filteredBoundarySet = array_merge($filteredBoundarySet);
 		}
 
-		try
-		{
-			$mappingIDs = array_merge($mappingIDs, $dbo->loadColumn(1));
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$mappingIDs = array();
-
-			return;
-		}
+		return $filteredBoundaries;
 	}
 
 	/**
@@ -403,6 +144,97 @@ class THM_OrganizerHelperMapping
 
 			return array();
 		}
+	}
+
+	/**
+	 * Provides an indentation according to the structural depth of a pool
+	 *
+	 * @param   string $name         the name of the pool
+	 * @param   int    $level        the pool's structural depth
+	 * @param   bool   $withPrograms if programs will be listed with the pools
+	 *
+	 * @return  string
+	 */
+	public static function getIndentedPoolName($name, $level, $withPrograms = true)
+	{
+		if ($level == 1 and $withPrograms == false)
+		{
+			return $name;
+		}
+
+		$iteration = $withPrograms ? 0 : 1;
+		$indent    = '';
+		while ($iteration < $level)
+		{
+			$indent .= "&nbsp;&nbsp;&nbsp;";
+			$iteration++;
+		}
+
+		return $indent . "|_" . $name;
+	}
+
+	/**
+	 * Retrieves a string value representing the degree programs to which the
+	 * pool is ordered. Used in subject manager view.
+	 *
+	 * @param   int $resourceID the id of the resource
+	 *
+	 * @return  string  string representing the associated program(s)
+	 */
+	public static function getPoolName($resourceID)
+	{
+		$resourceRanges = self::getResourceRanges('subject', $resourceID);
+		if (empty($resourceRanges))
+		{
+			return JText::_('JNONE');
+		}
+
+		$pools = self::getSubjectPools($resourceRanges);
+		if (empty($pools))
+		{
+			return JText::_('JNONE');
+		}
+
+		if (count($pools) === 1)
+		{
+			return $pools[0];
+		}
+		else
+		{
+			return JText::_('COM_THM_ORGANIZER_MULTIPLE_POOLS');
+		}
+	}
+
+	/**
+	 * Gets a HTML option based upon a pool mapping
+	 *
+	 * @param   array &$mapping         the pool mapping entry
+	 * @param   array &$selectedParents the selected parents
+	 *
+	 * @return  string  HTML option
+	 */
+	public static function getPoolOption(&$mapping, &$selectedParents)
+	{
+		$shortTag   = THM_OrganizerHelperLanguage::getShortTag();
+		$poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
+
+		try
+		{
+			$poolsTable->load($mapping['poolID']);
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return '';
+		}
+
+		$nameColumn   = "name_$shortTag";
+		$indentedName = self::getIndentedPoolName($poolsTable->$nameColumn, $mapping['level']);
+
+		$selected = in_array($mapping['id'], $selectedParents) ? 'selected' : '';
+
+		return "<option value='{$mapping['id']}' $selected>$indentedName</option>";
 	}
 
 	/**
@@ -493,62 +325,36 @@ class THM_OrganizerHelperMapping
 	}
 
 	/**
-	 * Gets a HTML option based upon a pool mapping
+	 * Retrieves a string value representing the degree programs to which the
+	 * pool is ordered. Used in pool and subject manager views.
 	 *
-	 * @param   array &$mapping         the pool mapping entry
-	 * @param   array &$selectedParents the selected parents
+	 * @param   string $resourceType the type of the mapped resource
+	 * @param   int    $resourceID   the id of the resource
 	 *
-	 * @return  string  HTML option
+	 * @return  string  string representing the associated program(s)
 	 */
-	public static function getPoolOption(&$mapping, &$selectedParents)
+	public static function getProgramName($resourceType, $resourceID)
 	{
-		$shortTag   = THM_OrganizerHelperLanguage::getShortTag();
-		$poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-
-		try
+		$resourceRanges = self::getResourceRanges($resourceType, $resourceID);
+		if (empty($resourceRanges))
 		{
-			$poolsTable->load($mapping['poolID']);
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return '';
+			return JText::_('JNONE');
 		}
 
-		$nameColumn   = "name_$shortTag";
-		$indentedName = self::getIndentedPoolName($poolsTable->$nameColumn, $mapping['level']);
-
-		$selected = in_array($mapping['id'], $selectedParents) ? 'selected' : '';
-
-		return "<option value='{$mapping['id']}' $selected>$indentedName</option>";
-	}
-
-	/**
-	 * Provides an indentation according to the structural depth of a pool
-	 *
-	 * @param   string $name         the name of the pool
-	 * @param   int    $level        the pool's structural depth
-	 * @param   bool   $withPrograms if programs will be listed with the pools
-	 *
-	 * @return  string
-	 */
-	public static function getIndentedPoolName($name, $level, $withPrograms = true)
-	{
-		if ($level == 1 and $withPrograms == false)
+		$programs = self::getResourcePrograms($resourceRanges);
+		if (empty($programs))
 		{
-			return $name;
+			return JText::_('JNONE');
 		}
 
-		$iteration = $withPrograms ? 0 : 1;
-		$indent    = '';
-		while ($iteration < $level)
+		if (count($programs) === 1)
 		{
-			$indent .= "&nbsp;&nbsp;&nbsp;";
-			$iteration++;
+			return $programs[0];
 		}
-
-		return $indent . "|_" . $name;
+		else
+		{
+			return JText::_('COM_THM_ORGANIZER_MULTIPLE_PROGRAMS');
+		}
 	}
 
 	/**
@@ -599,33 +405,87 @@ class THM_OrganizerHelperMapping
 	}
 
 	/**
-	 * Retrieves the mapping boundaries of the selected resource
+	 * Retrieves the names of the programs to which a resource is ordered. Used in self.
 	 *
-	 * @param   string  $resourceType      the type of the selected resource
-	 * @param   int     $resourceID        the id of the selected resource
-	 * @param   boolean $excludeChildPools whether the return values should have child pools filtered out
+	 * @param   array $resourceRanges the left and right values of the resource's mappings
+	 * @param   bool  $getIDs         whether or not the program ids should be included in the return value
 	 *
-	 * @return  mixed  array with boundary values on success, otherwise false
-	 *
-	 * @throws  exception
+	 * @return  mixed array the names of the programs to which the pool is ordered on success, otherwise false
 	 */
-	public static function getBoundaries($resourceType, $resourceID, $excludeChildPools = true)
+	public static function getResourcePrograms($resourceRanges, $getIDs = false)
 	{
-		$invalidID = (empty($resourceID) OR $resourceID == 'null' OR $resourceID == '-1');
-		if ($invalidID)
+		$rangeClauses = array();
+		foreach ($resourceRanges AS $borders)
 		{
-			return false;
+			$rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
 		}
 
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('lft, rgt')->from('#__thm_organizer_mappings');
-		$query->where("{$resourceType}ID = '$resourceID'");
+		$dbo      = JFactory::getDbo();
+		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+		$query    = $dbo->getQuery(true);
+		$parts    = array("dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'");
+		$select   = "DISTINCT " . $query->concatenate($parts, "") . " As name, dp.id AS id";
+		$query->select($select);
+		$query->from('#__thm_organizer_programs AS dp');
+		$query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
+		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+		$query->where($rangeClauses, 'OR');
+		$query->order('name');
 		$dbo->setQuery((string) $query);
 
 		try
 		{
-			$ufBoundarySet = $dbo->loadAssocList();
+			if ($getIDs)
+			{
+				return $dbo->loadAssocList('id');
+			}
+
+			return $dbo->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+	}
+
+	/**
+	 * Retrieves the mapped left and right values for the resource's existing mappings.
+	 * Used in programs field, and self.
+	 *
+	 * @param   string $resourceType the type of the mapped resource
+	 * @param   int    $resourceID   the id of the mapped resource
+	 *
+	 * @return  array contains the sought left and right values
+	 */
+	public static function getResourceRanges($resourceType, $resourceID)
+	{
+		$query = JFactory::getDbo()->getQuery(true);
+		$query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
+
+		$allPrograms = ($resourceType == 'program' AND $resourceID == '-1');
+		$allPools    = ($resourceType == 'pool' AND $resourceID == '-1');
+		if ($allPrograms)
+		{
+			$query->where("programID IS NOT NULL");
+		}
+		elseif ($allPools)
+		{
+			$query->where("poolID IS NOT NULL");
+		}
+		else
+		{
+			$query->where("{$resourceType}ID = '$resourceID'");
+		}
+
+		JFactory::getDbo()->setQuery((string) $query);
+
+		try
+		{
+			$ranges = JFactory::getDbo()->loadAssocList();
+
+			return $ranges;
 		}
 		catch (Exception $exc)
 		{
@@ -633,20 +493,183 @@ class THM_OrganizerHelperMapping
 
 			return array();
 		}
+	}
 
-		if ($resourceType == 'program' OR !$excludeChildPools)
+	/**
+	 * Retrieves the set of program boundaries for the programs to which this subject is associated.
+	 *
+	 * @param   int $subjectID the id of the subject
+	 *
+	 * @return  array the program boundaries
+	 */
+	public static function getSubjectPrograms($subjectID)
+	{
+		$subjectBoundaries = THM_OrganizerHelperMapping::getBoundaries('subject', $subjectID);
+
+		// Subject does not yet have any mappings. Improbable, but possible
+		if (empty($subjectBoundaries))
 		{
-			return $ufBoundarySet;
+			return array();
 		}
 
-		$filteredBoundarySet = array();
-		foreach ($ufBoundarySet as $ufBoundaries)
+		$programs = self::getResourcePrograms($subjectBoundaries, true);
+
+		if (empty($programs))
 		{
-			$filteredBoundaries  = self::removeExclusions($ufBoundaries);
-			$filteredBoundarySet = array_merge($filteredBoundarySet);
+			return array();
 		}
 
-		return $filteredBoundaries;
+		foreach ($programs as $programID => $program)
+		{
+			$programBoundaries = self::getBoundaries('program', $programID);
+
+			if (!empty($programBoundaries))
+			{
+				$programs[$programID]['lft'] = $programBoundaries[0]['lft'];
+				$programs[$programID]['rgt'] = $programBoundaries[0]['rgt'];
+			}
+		}
+
+		return $programs;
+	}
+
+	/**
+	 * Retrieves the names of the programs to which a resource is ordered
+	 *
+	 * @param   array $ranges the left and right values of the resource's mappings
+	 *
+	 * @return  array  the names of the programs to which the pool is ordered
+	 */
+	public static function getSubjectPools($ranges)
+	{
+		$dbo      = JFactory::getDbo();
+		$lftQuery = $dbo->getQuery(true);
+		$lftQuery->select("lft");
+		$lftQuery->from('#__thm_organizer_pools AS p');
+		$lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+		$lftQuery->order('lft DESC');
+
+		$shortTag  = THM_OrganizerHelperLanguage::getShortTag();
+		$nameQuery = $dbo->getQuery(true);
+		$nameQuery->select("DISTINCT p.name_$shortTag As name");
+		$nameQuery->from('#__thm_organizer_pools AS p');
+		$nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+
+		$pools = array();
+
+		// Each range is a unique pool association
+		foreach ($ranges AS $borders)
+		{
+			$lftQuery->clear('where');
+			$lftQuery->where("poolID IS NOT NULL");
+			$lftQuery->where("( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')");
+			$dbo->setQuery((string) $lftQuery);
+
+			try
+			{
+				$poolLFT = $dbo->loadResult();
+				$nameQuery->clear('where');
+				$nameQuery->where("lft = '$poolLFT'");
+				$dbo->setQuery((string) $nameQuery);
+
+				try
+				{
+					$pools[] = $dbo->loadResult();
+				}
+				catch (Exception $exc)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+					return array();
+				}
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+				return array();
+			}
+		}
+
+		return $pools;
+	}
+
+	/**
+	 * Retrieves the ids of associated degree programs
+	 *
+	 * @param   array $ranges the ranges for the individual subject entries
+	 *
+	 * @return  array  the ids of the associated programs
+	 *
+	 * @throws  exception
+	 */
+	public static function getSelectedPrograms($ranges)
+	{
+		$dbo             = JFactory::getDbo();
+		$rangeConditions = array();
+		foreach ($ranges as $range)
+		{
+			$rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
+		}
+
+		$rangesClause = implode(' OR ', $rangeConditions);
+
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT dp.id");
+		$query->from('#__thm_organizer_mappings AS m');
+		$query->innerJoin('#__thm_organizer_programs AS dp ON m.programID = dp.id');
+		$query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
+		$query->where($rangesClause);
+		$dbo->setQuery((string) $query);
+
+		try
+		{
+			return $dbo->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return array();
+		}
+	}
+
+	/**
+	 * Retrieves the nested slice values for subjects associated with the
+	 * selected teacher
+	 *
+	 * @return  mixed  array on success, otherwise boolean false
+	 *
+	 * @throws  exception
+	 */
+	public static function getTeacherMappingClauses()
+	{
+		$teacherID = JFactory::getApplication()->input->getInt('teacherID', 0);
+		if (empty($teacherID) OR $teacherID == '-1' OR $teacherID == 'null')
+		{
+			return false;
+		}
+
+		$dbo                  = JFactory::getDbo();
+		$query                = $dbo->getQuery(true);
+		$concateMappingClause = array("'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt');
+		$mappingClause        = $query->concatenate($concateMappingClause);
+		$query->select("DISTINCT $mappingClause");
+		$query->from('#__thm_organizer_subject_teachers AS st');
+		$query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
+		$query->where("st.teacherID = '$teacherID'");
+		$dbo->setQuery((string) $query);
+
+		try
+		{
+			return $dbo->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return array();
+		}
 	}
 
 	/**
@@ -726,40 +749,61 @@ class THM_OrganizerHelperMapping
 	}
 
 	/**
-	 * Retrieves the nested slice values for subjects associated with the
-	 * selected teacher
+	 * Retrieves the parent ids of the resource in question. Used in parentpool field.
 	 *
-	 * @return  mixed  array on success, otherwise boolean false
+	 * @param   int    $resourceID   the resource id
+	 * @param   string $resourceType the type of resource
+	 * @param   array  &$mappings    an array to store the mappings in
+	 * @param   array  &$mappingIDs  an array to store the mapping ids in
+	 * @param   array  &$parentIDs   an array to store the parent ids in
+	 *
+	 * @return  void
 	 *
 	 * @throws  exception
 	 */
-	public static function getTeacherMappingClauses()
+	public static function setMappingData($resourceID, $resourceType, &$mappings, &$mappingIDs, &$parentIDs)
 	{
-		$teacherID = JFactory::getApplication()->input->getInt('teacherID', 0);
-		if (empty($teacherID) OR $teacherID == '-1' OR $teacherID == 'null')
-		{
-			return false;
-		}
-
-		$dbo                  = JFactory::getDbo();
-		$query                = $dbo->getQuery(true);
-		$concateMappingClause = array("'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt');
-		$mappingClause        = $query->concatenate($concateMappingClause);
-		$query->select("DISTINCT $mappingClause");
-		$query->from('#__thm_organizer_subject_teachers AS st');
-		$query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
-		$query->where("st.teacherID = '$teacherID'");
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('parentID, id, lft, rgt');
+		$query->from('#__thm_organizer_mappings');
+		$query->where("{$resourceType}ID = '$resourceID'");
 		$dbo->setQuery((string) $query);
 
 		try
 		{
-			return $dbo->loadColumn();
+			$mappings = array_merge($mappings, $dbo->loadAssocList());
 		}
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			$mappings = $mappingIDs = $parentIDs = array();
 
-			return array();
+			return;
+		}
+
+		try
+		{
+			$parentIDs = array_merge($parentIDs, $dbo->loadColumn());
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			$mappingIDs = $parentIDs = array();
+
+			return;
+		}
+
+		try
+		{
+			$mappingIDs = array_merge($mappingIDs, $dbo->loadColumn(1));
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			$mappingIDs = array();
+
+			return;
 		}
 	}
 

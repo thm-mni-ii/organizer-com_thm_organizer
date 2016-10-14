@@ -104,7 +104,7 @@ class THM_OrganizerController extends JControllerLegacy
 	 */
 	public function apply()
 	{
-		$resourceID = $this->getModel($this->_resource)->save($this->_resource);
+		$resourceID = $this->getModel($this->_resource)->save();
 
 		if (!empty($resourceID))
 		{

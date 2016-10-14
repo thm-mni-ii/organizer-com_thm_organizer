@@ -53,6 +53,36 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 	}
 
 	/**
+	 * Retrieves the disctict subject ids associated with the program
+	 *
+	 * @param int $programID the program's id
+	 *
+	 * @return array|mixed the subject ids
+	 */
+	private function getSubjectIDs($programID)
+	{
+		$borders = THM_OrganizerHelperMapping::getBoundaries('program', $programID);
+
+		$query = $this->_db->getQuery(true);
+		$query->select('DISTINCT subjectID')
+			->from('#__thm_organizer_mappings')
+			->where("subjectID IS NOT NULL")
+			->where("lft > '{$borders[0]['lft']}'")
+			->where("rgt < '{$borders[0]['rgt']}'");
+		$this->_db->setQuery($query);
+
+		try
+		{
+			return $this->_db->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+			return array();
+		}
+	}
+
+	/**
 	 * Method to import data associated with degree programs from LSF
 	 *
 	 * @return  bool  true on success, otherwise false
@@ -119,6 +149,18 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 			if (!$mappingsAdded)
 			{
 				return false;
+			}
+
+			$subordinateSubjectIDs = $this->getSubjectIDs($programID);
+
+			foreach ($subordinateSubjectIDs AS $subjectID)
+			{
+				$subjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+				$dependenciesResolved = $subjectModel->resolveDependencies($subjectID);
+				if (!$dependenciesResolved)
+				{
+					return false;
+				}
 			}
 		}
 

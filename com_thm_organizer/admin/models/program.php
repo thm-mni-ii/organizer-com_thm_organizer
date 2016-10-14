@@ -66,12 +66,9 @@ class THM_OrganizerModelProgram extends JModelLegacy
 	 *
 	 * @return  Boolean
 	 */
-	public function save($data = null)
+	public function save()
 	{
-		if (empty($data))
-		{
-			$data = JFactory::getApplication()->input->get('jform', array(), 'array');
-		}
+		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
 		$this->_db->transactionStart();
 		$table     = JTable::getInstance('programs', 'thm_organizerTable');
 		$dpSuccess = $table->save($data);

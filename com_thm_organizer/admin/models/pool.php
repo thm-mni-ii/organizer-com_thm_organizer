@@ -34,6 +34,7 @@ class THM_OrganizerModelPool extends JModelLegacy
 			foreach ($poolIDs as $poolID)
 			{
 				$deleted = $this->deleteEntry($poolID);
+
 				if (!$deleted)
 				{
 					$this->_db->transactionRollback();
@@ -56,15 +57,17 @@ class THM_OrganizerModelPool extends JModelLegacy
 	 */
 	public function deleteEntry($poolID)
 	{
-		$table           = JTable::getInstance('pools', 'thm_organizerTable');
 		$model           = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
 		$mappingsDeleted = $model->deleteByResourceID($poolID, 'pool');
+
 		if (!$mappingsDeleted)
 		{
 			return false;
 		}
 
+		$table       = JTable::getInstance('pools', 'thm_organizerTable');
 		$poolDeleted = $table->delete($poolID);
+
 		if (!$poolDeleted)
 		{
 			return false;

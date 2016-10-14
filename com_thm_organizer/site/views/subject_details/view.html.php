@@ -68,4 +68,84 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 		$document = JFactory::getDocument();
 		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
 	}
+
+	/**
+	 * Creates a list of depencencies dependent on the type (pre|post)
+	 *
+	 * @param string $type the type of dependency
+	 *
+	 * @return string the HTML for the depencency output
+	 */
+	public function getDependencies($type)
+	{
+		$dependencies = array();
+		switch ($type)
+		{
+			case 'pre':
+
+				if (empty($this->item->preSubjects))
+				{
+					return '';
+				}
+
+				$dependencies = $this->item->preSubjects;
+
+				break;
+
+			case 'post':
+
+				if (empty($this->item->postSubjects))
+				{
+					return '';
+				}
+
+				$dependencies = $this->item->postSubjects;
+
+				break;
+
+		}
+
+		if (empty($dependencies))
+		{
+			return '';
+		}
+
+		$menuID  = JFactory::getApplication()->input->getInt('Itemid', 0);
+		$langTag = THM_OrganizerHelperLanguage::getShortTag();
+		$link  = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}&Itemid={$menuID}&id=";
+
+		$html = '<ul>';
+		foreach ($dependencies as $programID => $programData)
+		{
+			$html .= "<li>{$programData['name']}<ul>";
+			foreach ($programData['subjects'] AS $subjectID => $subjectName)
+			{
+				$subjectLink = JHtml::_('link', $link . $subjectID, $subjectName);
+				$html .= "<li>$subjectLink</li>";
+			}
+			$html .= "</ul></li>";
+		}
+		$html .= "</ul>";
+
+		return $html;
+	}
+
+	/**
+	 * Creates teacher output
+	 *
+	 * @param   array $teacher the teacher item
+	 *
+	 * @return  void  creates HTML output
+	 */
+	public function getTeacherOutput($teacher)
+	{
+		if (!empty($teacher['link']))
+		{
+			echo '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
+		}
+		else
+		{
+			echo $teacher['name'];
+		}
+	}
 }

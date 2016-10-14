@@ -213,6 +213,12 @@
                size="6"
                label="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
                description="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC"/>
+        <field name="used_for_de"
+               type="editor"
+               class="inputbox"
+               size="6"
+               label="COM_THM_ORGANIZER_USED_FOR"
+               description="COM_THM_ORGANIZER_USED_FOR_DE_DESC"/>
         <field name="aids_de"
                type="editor"
                class="inputbox"
@@ -299,6 +305,12 @@
                size="6"
                label="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
                description="COM_THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC"/>
+        <field name="used_for_en"
+               type="editor"
+               class="inputbox"
+               size="6"
+               label="COM_THM_ORGANIZER_USED_FOR"
+               description="COM_THM_ORGANIZER_USED_FOR_EN_DESC"/>
         <field name="aids_en"
                type="editor"
                class="inputbox"

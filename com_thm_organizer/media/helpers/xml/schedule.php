@@ -46,11 +46,18 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	public $scheduleWarnings = null;
 
 	/**
-	 * Object containing information from the actual schedule
+	 * Object containing information from the actual schedule (old format)
 	 *
 	 * @var object
 	 */
 	public $schedule = null;
+
+	/**
+	 * Object containing information from the actual schedule
+	 *
+	 * @var object
+	 */
+	public $newSchedule = null;
 
 	/**
 	 * Creates an array with dates as indexes for the days of the given planning period

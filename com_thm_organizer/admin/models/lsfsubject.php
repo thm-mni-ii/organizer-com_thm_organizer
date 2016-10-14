@@ -10,10 +10,14 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/lsfapi.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+
 defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
 defined('TEACHER') OR define('TEACHER', 2);
 
@@ -27,6 +31,202 @@ defined('TEACHER') OR define('TEACHER', 2);
 class THM_OrganizerModelLSFSubject extends JModelLegacy
 {
 	private $crp = 0;
+
+	/**
+	 * Checks whether the text is without content other than subject module numbers and subject name attributes
+	 *
+	 * @param string $text              the text to be checked
+	 * @param array  $checkedAttributes the attributes whose values are to be removed during the search
+	 * @param array  $modules           the mapped subject information
+	 *
+	 * @return bool
+	 */
+	private function checkContents($text, $checkedAttributes, $modules)
+	{
+		foreach ($checkedAttributes as $checkedAttribute)
+		{
+			foreach ($modules as $moduleNr => $mappedSubjects)
+			{
+				foreach ($mappedSubjects as $mappedSubject)
+				{
+					if ($checkedAttribute == 'externalID')
+					{
+						$text = str_replace(strtolower($mappedSubject[$checkedAttribute]), '', $text);
+						$text = str_replace(strtoupper($mappedSubject[$checkedAttribute]), '', $text);
+					}
+					else
+					{
+						$text = str_replace($mappedSubject[$checkedAttribute], '', $text);
+					}
+				}
+			}
+		}
+
+		$text = $this->sanitizeText($text);
+		$text = trim($text);
+
+		return empty($text);
+	}
+
+	/**
+	 * Checks for subjects with the given possible module number mapped to the same programs
+	 *
+	 * @param array $possibleModuleNumbers the possible module numbers used in the attribute text
+	 * @param array $programs the programs to which the subject is mapped array(id, name, lft, rgt)
+	 *
+	 * @return array the subject details for subjects with dependencies
+	 */
+	private function checkForMappedSubjects($possibleModuleNumbers, $programs)
+	{
+		$select = "s.id AS subjectID, externalID, ";
+		$select .= "abbreviation_de, short_name_de, name_de, abbreviation_en, short_name_en, name_en, ";
+		$select .= "m.id AS mappingID, m.lft, m.rgt, ";
+
+		$query = $this->_db->getQuery(true);
+		$query->from('#__thm_organizer_subjects AS s')->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
+
+		$subjects = array();
+		foreach ($possibleModuleNumbers as $possibleModuleNumber)
+		{
+			$possibleModuleNumber = strtoupper($possibleModuleNumber);
+			if (empty(preg_match('/[A-Z0-9]{4,10}/', $possibleModuleNumber)))
+			{
+				continue;
+			}
+
+			foreach ($programs AS $program)
+			{
+				$query->clear('select');
+				$query->select($select . "'{$program['id']}' AS programID");
+
+				$query->clear('where');
+				$query->where("lft > '{$program['lft']}' AND rgt < '{$program['rgt']}'");
+				$query->where("s.externalID = '$possibleModuleNumber'");
+				$this->_db->setQuery((string) $query);
+
+				try
+				{
+					$mappedSubjects = $this->_db->loadAssocList('mappingID');
+				}
+				catch (Exception $exc)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+					continue;
+				}
+
+				if (empty($mappedSubjects))
+				{
+					continue;
+				}
+
+				if (empty($subjects[$possibleModuleNumber] ))
+				{
+					$subjects[$possibleModuleNumber] = $mappedSubjects;
+				}
+				else
+				{
+					$subjects[$possibleModuleNumber] = $subjects[$possibleModuleNumber] + $mappedSubjects;
+				}
+			}
+		}
+
+		return $subjects;
+	}
+
+	/**
+	 * Checks whether proof and method values are valid and set, and filling them with values
+	 * from other languages if possible
+	 *
+	 * @param   object &$subject the subject object
+	 *
+	 * @return  void
+	 */
+	private function checkProofAndMethod(&$subject)
+	{
+		$unusableProofValue = (empty($subject->proof_en) OR strlen($subject->proof_en) < 4);
+		if ($unusableProofValue AND !empty($subject->proof_de))
+		{
+			$subject->proof_en = $subject->proof_de;
+		}
+
+		$unusableMethodValue = (empty($subject->method_en) OR strlen($subject->method_en) < 4);
+		if ($unusableMethodValue AND !empty($subject->method_de))
+		{
+			$subject->proof_en = $subject->proof_de;
+		}
+	}
+
+	/**
+	 * Removes the formatted text tag on a text node
+	 *
+	 * @param   string $text the xml node as a string
+	 *
+	 * @return  string  the node without its formatted text shell
+	 */
+	private function cleanText($text)
+	{
+		// Remove the formatted text tag
+		$text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
+
+		// Remove non self closing tags with no content and unwanted self closing tags
+		$text = preg_replace("/<((?!br|col|link).)[a-z]*[\s]*\/>/", "", $text);
+
+		// Remove non-self closing tags containing only white space
+		$text = preg_replace("/<[^\/>][^>]*>\s*<\/[^>]+>/", "", $text);
+
+		// Replace non-blank spaces
+		$text = preg_replace("/\&nbsp\;/", " ", $text);
+
+		// Replace multiple whitespace characters with a single single space
+		$text = preg_replace("/\s+/", " ", $text);
+
+		// Replace non-blank spaces
+		$text = preg_replace("/^\s+/", "", $text);
+
+		// Remove leading white space
+		$text = preg_replace("/^\s+/", "", $text);
+
+		// Remove trailing white space
+		$text = preg_replace("/\s+$/", "", $text);
+
+		// Replace remaining white space with an actual space to prevent errors from weird coding
+		$text = preg_replace("/\s$/", " ", $text);
+
+		// Remove white space between closing and opening tags
+		$text = preg_replace("/(<\/[^>]+>)\s*(<[^>]*>)/", "$1$2", $text);
+
+		return $text;
+	}
+
+	/**
+	 * Gets the subjects existing mapping ids for the given program
+	 *
+	 * @param array $program the program being iterated
+	 * @param int $subjectID the id of the subject being iterated
+	 *
+	 * @return array|mixed the mapping ids for the subject or null if the query failed
+	 */
+	private function getProgramMappings($program, $subjectID)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('id')
+			->from('#__thm_organizer_mappings')
+			->where("subjectID = '$subjectID'")
+			->where("lft > '{$program['lft']}'")
+			->where("rgt < '{$program['rgt']}'");
+		$this->_db->setQuery($query);
+
+		try
+		{
+			return $this->_db->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+			return array();
+		}
+	}
 
 	/**
 	 * Method to import data associated with subjects from LSF
@@ -46,56 +246,20 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
 				return false;
 			}
+
+			$dependenciesResolved = $this->resolveDependencies($subjectID);
+			if (!$dependenciesResolved)
+			{
+				$this->_db->transactionRollback();
+
+				return false;
+			}
+
 		}
+
 		$this->_db->transactionCommit();
 
 		return true;
-	}
-
-	/**
-	 * Creates a subject entry if none exists and imports data to fill it
-	 *
-	 * @param   object &$stub        a simplexml object containing rudimentary subject data
-	 * @param   int    $departmentID the id of the department to which this data belongs
-	 *
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function processStub(&$stub, $departmentID)
-	{
-		$lsfID = (string) (empty($stub->modulid) ? $stub->pordid : $stub->modulid);
-		if (empty($lsfID))
-		{
-			return false;
-		}
-
-		$unwanted = !empty($stub->sperrmh) AND strtolower((string) $stub->sperrmh) == 'x';
-		if ($unwanted)
-		{
-			return true;
-		}
-
-		$table = JTable::getInstance('subjects', 'thm_organizerTable');
-
-		// Attempt to load using the departmentID
-		$table->load(array('lsfID' => $lsfID, 'departmentID' => $departmentID));
-		if (empty($table->id))
-		{
-			// Check for a non-migrated row
-			$table->load(array('lsfID' => $lsfID));
-		}
-
-		// No row was found => create one
-		if (empty($table->id))
-		{
-			$data      = array('lsfID' => $lsfID, 'departmentID' => $departmentID);
-			$stubSaved = $table->save($data);
-			if (!$stubSaved)
-			{
-				return false;
-			}
-		}
-
-		return $this->importSingle($table->id);
 	}
 
 	/**
@@ -105,7 +269,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
-	public function importSingle($subjectID)
+	private function importSingle($subjectID)
 	{
 		$subject = JTable::getInstance('subjects', 'thm_organizerTable');
 
@@ -169,7 +333,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$this->setAttribute($subject, 'instructionLanguage', (string) $dataObject->sprache, 'D');
 		$this->setAttribute($subject, 'frequencyID', (string) $dataObject->turnus);
 
-		// Ensure that the flag is not set before processing
+		// Ensure reset before iterative processing
 		$this->crp = 0;
 
 		// Attributes that can be set by text or individual fields
@@ -183,269 +347,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
 		$this->checkProofAndMethod($subject);
 
-		return $subject->store();
-	}
-
-	/**
-	 * Sets the value of a generic attribute if available
-	 *
-	 * @param   object &$subject the array where subject data is being stored
-	 * @param   string $key      the key where the value should be put
-	 * @param   string $value    the value string
-	 * @param   string $default  the default value
-	 *
-	 * @return  void
-	 */
-	private function setAttribute(&$subject, $key, $value, $default = '')
-	{
-		$subject->$key = empty($value) ? $default : $value;
-	}
-
-	/**
-	 * Sets subject properties according to those of the dynamic lsf properties
-	 *
-	 * @param   object &$subject    the subject object
-	 * @param   object &$objectNode the object containing lsf texts
-	 *
-	 * @return  void
-	 */
-	private function setObjectProperty(&$subject, &$objectNode)
-	{
-		$shortTag      = THM_OrganizerHelperLanguage::getShortTag();
-		$nameAttribute = "name_$shortTag";
-		$name          = $subject->$nameAttribute;
-		$category      = (string) $objectNode->kategorie;
-
-		/**
-		 * SimpleXML is terrible with mixed content. Since there is no guarantee what a node's format is,
-		 * this needs to be processed manually.
-		 */
-
-		// German entries are the standard right now.
-		if (empty($objectNode->de->txt))
+		$success = $subject->store();
+		if (!$success)
 		{
-			$germanText  = null;
-			$englishText = null;
-		}
-		else
-		{
-			$germanXML     = $objectNode->de->txt->FormattedText->asXML();
-			$rawGermanText = (string) $germanXML;
-			$germanText    = $this->stripTags($rawGermanText);
-
-			if (empty($objectNode->en->txt))
-			{
-				$englishText = null;
-			}
-			else
-			{
-				$englishXML     = $objectNode->en->txt->FormattedText->asXML();
-				$rawEnglishText = (string) $englishXML;
-				$englishText    = $this->stripTags($rawEnglishText);
-			}
+			return false;
 		}
 
-		switch ($category)
-		{
-			case 'Aufteilung des Arbeitsaufwands':
-
-				// There are int fields handled elsewhere for this hopefully.
-				if (empty($this->crp))
-				{
-					$this->setExpendituresFromText($subject, $germanText);
-				}
-				break;
-
-			case 'Lehrformen':
-
-				$this->setAttribute($subject, "method_de", $germanText);
-				$this->setAttribute($subject, "method_en", $englishText);
-				break;
-
-			case 'Voraussetzungen für die Vergabe von Creditpoints':
-
-				$this->setAttribute($subject, "proof_de", $germanText);
-				$this->setAttribute($subject, "proof_en", $englishText);
-				break;
-
-			case 'Kurzbeschreibung':
-
-				$this->setAttribute($subject, "description_de", $germanText);
-				$this->setAttribute($subject, "description_en", $englishText);
-				break;
-
-			case 'Literatur':
-
-				// This should never have been implemented with multiple languages
-				$this->setAttribute($subject, 'literature', $germanText);
-				break;
-
-			case 'Qualifikations und Lernziele':
-
-				$this->setAttribute($subject, "objective_de", $germanText);
-				$this->setAttribute($subject, "objective_en", $englishText);
-				break;
-
-			case 'Inhalt':
-
-				$this->setAttribute($subject, "content_de", $germanText);
-				$this->setAttribute($subject, "content_en", $englishText);
-				break;
-
-			case 'Voraussetzungen':
-
-				$prerequisites      = $this->setPrerequisites($subject, $germanText, 'de');
-				$this->setPrerequisites($subject, $englishText, 'en');
-				$prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
-
-				if (!$prerequisitesSaved)
-				{
-					$msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
-					JFactory::getApplication()->enqueueMessage($msg, 'warning');
-				}
-
-				break;
-
-			case 'Verwendbarkeit des Moduls':
-
-				$prerequisites       = $this->getPostrequisites($germanText);
-				$this->getPostrequisites($englishText);
-				$postrequisitesSaved = $this->savePostrequisites($subject->id, $prerequisites);
-				if (!$postrequisitesSaved)
-				{
-					$msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
-					JFactory::getApplication()->enqueueMessage($msg, 'warning');
-					break;
-				}
-
-				break;
-
-			case 'Prüfungsvorleistungen':
-
-				$this->setAttribute($subject, "preliminary_work_de", $germanText);
-				$this->setAttribute($subject, "preliminary_work_en", $englishText);
-				break;
-
-			case 'Studienhilfsmittel':
-
-				$this->setAttribute($subject, "aids_de", $germanText);
-				$this->setAttribute($subject, "aids_en", $englishText);
-				break;
-
-			case 'Bewertung, Note':
-
-				$this->setAttribute($subject, "evaluation_de", $germanText);
-				$this->setAttribute($subject, "evaluation_en", $englishText);
-				break;
-
-			case 'Empfohlene Voraussetzungen':
-
-				$prerequisites      = $this->setPrerequisites($subject, $germanText, 'de', 'recommended_');
-				$this->setPrerequisites($subject, $englishText, 'en', 'recommended_');
-				$prerequisitesSaved = $this->savePrerequisites($subject->id, $prerequisites);
-				if (!$prerequisitesSaved)
-				{
-					$msg = JText::sprintf('COM_THM_ORGANIZER_MESSAGE_ATTRIBUTE_SAVE_FAIL', $category, $name);
-					JFactory::getApplication()->enqueueMessage($msg, 'warning');
-					break;
-				}
-
-				break;
-
-			case 'Fachkompetenz':
-			case 'Methodenkompetenz':
-			case 'Sozialkompetenz':
-			case 'Selbstkompetenz':
-				$this->setStarAttribute($subject, $category, $germanText);
-				break;
-		}
-	}
-
-	/**
-	 * Removes the formatted text tag on a text node
-	 *
-	 * @param   string $text the xml node as a string
-	 *
-	 * @return  string  the node without its formatted text shell
-	 */
-	private function stripTags($text)
-	{
-		// Remove the formatted text tag
-		$text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
-
-		// Remove non self closing tags with no content and unwanted self closing tags
-		$text = preg_replace("/<((?!br|col|link).)[a-z]*[\s]*\/>/", "", $text);
-
-		// Remove non-self closing tags containing only white space
-		$text = preg_replace("/<[^\/>][^>]*>\s*<\/[^>]+>/", "", $text);
-
-		// Remove leading white space
-		$text = preg_replace("/^\s+/", "", $text);
-
-		// Remove trailing white space
-		$text = preg_replace("/\s+$/", "", $text);
-
-		// Remove white space between closing and opening tags
-		$text = preg_replace("/(<\/[^>]+>)\s*(<[^>]*>)/", "$1$2", $text);
-
-		return $text;
-	}
-
-	/**
-	 * Sets attributes dealing with required student expenditure
-	 *
-	 * @param   object &$subject the subject data
-	 * @param   array  $text     the expenditure text
-	 *
-	 * @return  void
-	 */
-	private function setExpendituresFromText(&$subject, $text)
-	{
-		$CrPMatch = array();
-		preg_match('/(\d) CrP/', (string) $text, $CrPMatch);
-		if (!empty($CrPMatch[1]))
-		{
-			$this->setAttribute($subject, 'creditpoints', $CrPMatch[1]);
-		}
-
-		$hoursMatches = array();
-		preg_match_all('/(\d+)+ Stunden/', (string) $text, $hoursMatches);
-		if (!empty($hoursMatches[1]))
-		{
-			$this->setAttribute($subject, 'expenditure', $hoursMatches[1][0]);
-			if (!empty($hoursMatches[1][1]))
-			{
-				$this->setAttribute($subject, 'present', $hoursMatches[1][1]);
-			}
-
-			if (!empty($hoursMatches[1][2]))
-			{
-				$this->setAttribute($subject, 'independent', $hoursMatches[1][2]);
-			}
-		}
-	}
-
-	/**
-	 * Checks whether proof and method values are valid and set, and filling them with values
-	 * from other languages if possible
-	 *
-	 * @param   object &$subject the subject object
-	 *
-	 * @return  void
-	 */
-	private function checkProofAndMethod(&$subject)
-	{
-		$unusableProofValue = (empty($subject->proof_en) OR strlen($subject->proof_en) < 4);
-		if ($unusableProofValue AND !empty($subject->proof_de))
-		{
-			$subject->proof_en = $subject->proof_de;
-		}
-
-		$unusableMethodValue = (empty($subject->method_en) OR strlen($subject->method_en) < 4);
-		if ($unusableMethodValue AND !empty($subject->method_de))
-		{
-			$subject->proof_en = $subject->proof_de;
-		}
+		return true;
 	}
 
 	/**
@@ -519,6 +427,408 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
 		$this->setAttribute($subject, 'present', 0);
 		$this->setAttribute($subject, 'independent', 0);
+	}
+
+	/**
+	 * Creates a subject entry if none exists and imports data to fill it
+	 *
+	 * @param   object &$stub        a simplexml object containing rudimentary subject data
+	 * @param   int    $departmentID the id of the department to which this data belongs
+	 *
+	 * @return  boolean true on success, otherwise false
+	 */
+	public function processStub(&$stub, $departmentID)
+	{
+		$lsfID = (string) (empty($stub->modulid) ? $stub->pordid : $stub->modulid);
+		if (empty($lsfID))
+		{
+			return false;
+		}
+
+		$unwanted = !empty($stub->sperrmh) AND strtolower((string) $stub->sperrmh) == 'x';
+
+		$table = JTable::getInstance('subjects', 'thm_organizerTable');
+
+		// Attempt to load using the departmentID
+		$table->load(array('lsfID' => $lsfID, 'departmentID' => $departmentID));
+		if (empty($table->id))
+		{
+			// Check for a non-migrated row
+			$table->load(array('lsfID' => $lsfID));
+		}
+
+		// No row was found => create one
+		if (empty($table->id))
+		{
+			if ($unwanted)
+			{
+				return true;
+			}
+
+			$data      = array('lsfID' => $lsfID, 'departmentID' => $departmentID);
+			$stubSaved = $table->save($data);
+			if (!$stubSaved)
+			{
+				return false;
+			}
+		}
+
+		// Already exists and should no longer be maintained.
+		elseif ($unwanted)
+		{
+			$subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
+
+			return $subjectModel->deleteEntry($table->id);
+		}
+
+		return $this->importSingle($table->id);
+	}
+
+	/**
+	 * Parses the prerequisites text and replaces subject references with links to the subjects
+	 *
+	 * @param   string $subjectID the id of the subject being processed
+	 *
+	 * @return  bool true on success, otherwise false
+	 */
+	public function resolveDependencies($subjectID)
+	{
+		$subjectTable = JTable::getInstance('subjects', 'thm_organizerTable');
+		$exists       = $subjectTable->load($subjectID);
+
+		// Entry doesn't exist. Should not occur.
+		if (!$exists)
+		{
+			return true;
+		}
+
+		$programs = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
+
+		// Subject has not yet been mapped to a program. Improbable, but not impossible.
+		if (empty($programs))
+		{
+			return true;
+		}
+
+		$checkedAttributes = array(
+			'externalID',
+			'abbreviation_de', 'short_name_de', 'name_de',
+			'abbreviation_en', 'short_name_en', 'name_en'
+		);
+
+		// Flag to be set should one of the attribute texts consist only of module information. => Text should be empty.
+		$attributeChanged = false;
+
+		$prerequisiteAttributes = array('prerequisites_de', 'prerequisites_en');
+		$prerequisites = array();
+
+		foreach ($prerequisiteAttributes as $attribute)
+		{
+			$originalText          = $subjectTable->$attribute;
+			$sanitizedText         = $this->sanitizeText($originalText);
+			$possibleModuleNumbers = preg_split('[\ ]', $sanitizedText);
+
+			$mappedDependencies = $this->checkForMappedSubjects($possibleModuleNumbers, $programs);
+
+			if (!empty($mappedDependencies))
+			{
+				$prerequisites  = $prerequisites + $mappedDependencies;
+				$emptyAttribute = $this->checkContents($originalText, $checkedAttributes, $mappedDependencies);
+				if ($emptyAttribute)
+				{
+					$subjectTable->$attribute = '';
+					$attributeChanged = true;
+				}
+			}
+		}
+
+		$prerequisitesSaved = $this->saveDependencies($programs, $subjectID, $prerequisites, 'pre');
+
+		if (!$prerequisitesSaved)
+		{
+			return false;
+		}
+
+		$postRequisiteAttributes = array('used_for_de', 'used_for_en');
+		$postrequisites = array();
+
+		foreach ($postRequisiteAttributes as $attribute)
+		{
+			$originalText          = $subjectTable->$attribute;
+			$sanitizedText         = $this->sanitizeText($originalText);
+			$possibleModuleNumbers = preg_split('[\ ]', $sanitizedText);
+
+			$mappedDependencies = $this->checkForMappedSubjects($possibleModuleNumbers, $programs);
+
+			if (!empty($mappedDependencies))
+			{
+				$postrequisites = $postrequisites + $mappedDependencies;
+				$emptyAttribute = $this->checkContents($originalText, $checkedAttributes, $mappedDependencies);
+				if ($emptyAttribute)
+				{
+					$subjectTable->$attribute = '';
+					$attributeChanged         = true;
+				}
+			}
+		}
+
+		$postrequisitesSaved = $this->saveDependencies($programs, $subjectID, $postrequisites, 'post');
+
+		if (!$postrequisitesSaved)
+		{
+			return false;
+		}
+
+		if ($attributeChanged)
+		{
+			return $subjectTable->store();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Saves the dependencies to the prerequisites table
+	 *
+	 * @param int    $subjectID the id of the subject being processed
+	 * @param array  $dependencies
+	 * @param $type
+	 *
+	 * @return bool
+	 */
+	private function saveDependencies($programs, $subjectID, $dependencies, $type)
+	{
+		if (empty($dependencies))
+		{
+			return true;
+		}
+
+		foreach ($programs as $program)
+		{
+			$subjectMappings = $this->getProgramMappings($program, $subjectID);
+
+			$dependencyMappings = array();
+			foreach ($dependencies as $moduleNumber => $mappings)
+			{
+				foreach ($mappings as $mappingID => $subjectData)
+				{
+					if($subjectData['programID'] == $program['id'])
+					{
+						$dependencyMappings[$mappingID] = $mappingID;
+					}
+				}
+			}
+
+			if (empty($dependencyMappings))
+			{
+				continue;
+			}
+
+			if ($type == 'pre')
+			{
+				$success = $this->savePrerequisites($dependencyMappings, $subjectMappings);
+			}
+			else
+			{
+				$success = $this->savePrerequisites($subjectMappings, $dependencyMappings);
+			}
+
+			if ($success == false)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Sets the value of a generic attribute if available
+	 *
+	 * @param   object &$subject the array where subject data is being stored
+	 * @param   string $key      the key where the value should be put
+	 * @param   string $value    the value string
+	 * @param   string $default  the default value
+	 *
+	 * @return  void
+	 */
+	private function setAttribute(&$subject, $key, $value, $default = '')
+	{
+		$subject->$key = empty($value) ? $default : $value;
+	}
+
+	/**
+	 * Sets subject properties according to those of the dynamic lsf properties
+	 *
+	 * @param   object &$subject    the subject object
+	 * @param   object &$objectNode the object containing lsf texts
+	 *
+	 * @return  void
+	 */
+	private function setObjectProperty(&$subject, &$objectNode)
+	{
+		$shortTag      = THM_OrganizerHelperLanguage::getShortTag();
+		$nameAttribute = "name_$shortTag";
+		$name          = $subject->$nameAttribute;
+		$category      = (string) $objectNode->kategorie;
+
+		/**
+		 * SimpleXML is terrible with mixed content. Since there is no guarantee what a node's format is,
+		 * this needs to be processed manually.
+		 */
+
+		// German entries are the standard right now.
+		if (empty($objectNode->de->txt))
+		{
+			$germanText  = null;
+			$englishText = null;
+		}
+		else
+		{
+			$germanXML     = $objectNode->de->txt->FormattedText->asXML();
+			$rawGermanText = (string) $germanXML;
+			$germanText    = $this->cleanText($rawGermanText);
+
+			if (empty($objectNode->en->txt))
+			{
+				$englishText = null;
+			}
+			else
+			{
+				$englishXML     = $objectNode->en->txt->FormattedText->asXML();
+				$rawEnglishText = (string) $englishXML;
+				$englishText    = $this->cleanText($rawEnglishText);
+			}
+		}
+
+		switch ($category)
+		{
+			case 'Aufteilung des Arbeitsaufwands':
+
+				// There are int fields handled elsewhere for this hopefully.
+				if (empty($this->crp))
+				{
+					$this->setExpenditures($subject, $germanText);
+				}
+				break;
+
+			case 'Lehrformen':
+
+				$this->setAttribute($subject, "method_de", $germanText);
+				$this->setAttribute($subject, "method_en", $englishText);
+				break;
+
+			case 'Voraussetzungen für die Vergabe von Creditpoints':
+
+				$this->setAttribute($subject, "proof_de", $germanText);
+				$this->setAttribute($subject, "proof_en", $englishText);
+				break;
+
+			case 'Kurzbeschreibung':
+
+				$this->setAttribute($subject, "description_de", $germanText);
+				$this->setAttribute($subject, "description_en", $englishText);
+				break;
+
+			case 'Literatur':
+
+				// This should never have been implemented with multiple languages
+				$litText = empty($germanText) ? $englishText : $germanText;
+				$this->setAttribute($subject, 'literature', $germanText);
+				break;
+
+			case 'Qualifikations und Lernziele':
+
+				$this->setAttribute($subject, "objective_de", $germanText);
+				$this->setAttribute($subject, "objective_en", $englishText);
+				break;
+
+			case 'Inhalt':
+
+				$this->setAttribute($subject, "content_de", $germanText);
+				$this->setAttribute($subject, "content_en", $englishText);
+				break;
+
+			case 'Voraussetzungen':
+
+				$this->setAttribute($subject, "prerequisites_de", $germanText);
+				$this->setAttribute($subject, "prerequisites_en", $englishText);
+
+				break;
+
+			case 'Empfohlene Voraussetzungen':
+
+				$this->setAttribute($subject, "recommended_prerequisites_de", $germanText);
+				$this->setAttribute($subject, "recommended_prerequisites_en", $englishText);
+
+				break;
+
+			case 'Verwendbarkeit des Moduls':
+
+				$this->setAttribute($subject, "used_for_de", $germanText);
+				$this->setAttribute($subject, "used_for_en", $englishText);
+
+				break;
+
+			case 'Prüfungsvorleistungen':
+
+				$this->setAttribute($subject, "preliminary_work_de", $germanText);
+				$this->setAttribute($subject, "preliminary_work_en", $englishText);
+				break;
+
+			case 'Studienhilfsmittel':
+
+				$this->setAttribute($subject, "aids_de", $germanText);
+				$this->setAttribute($subject, "aids_en", $englishText);
+				break;
+
+			case 'Bewertung, Note':
+
+				$this->setAttribute($subject, "evaluation_de", $germanText);
+				$this->setAttribute($subject, "evaluation_en", $englishText);
+				break;
+
+			case 'Fachkompetenz':
+			case 'Methodenkompetenz':
+			case 'Sozialkompetenz':
+			case 'Selbstkompetenz':
+				$this->setStarAttribute($subject, $category, $germanText);
+				break;
+		}
+	}
+
+	/**
+	 * Sets attributes dealing with required student expenditure
+	 *
+	 * @param   object &$subject the subject data
+	 * @param   array  $text     the expenditure text
+	 *
+	 * @return  void
+	 */
+	private function setExpenditures(&$subject, $text)
+	{
+		$CrPMatch = array();
+		preg_match('/(\d) CrP/', (string) $text, $CrPMatch);
+		if (!empty($CrPMatch[1]))
+		{
+			$this->setAttribute($subject, 'creditpoints', $CrPMatch[1]);
+		}
+
+		$hoursMatches = array();
+		preg_match_all('/(\d+)+ Stunden/', (string) $text, $hoursMatches);
+		if (!empty($hoursMatches[1]))
+		{
+			$this->setAttribute($subject, 'expenditure', $hoursMatches[1][0]);
+			if (!empty($hoursMatches[1][1]))
+			{
+				$this->setAttribute($subject, 'present', $hoursMatches[1][1]);
+			}
+
+			if (!empty($hoursMatches[1][2]))
+			{
+				$this->setAttribute($subject, 'independent', $hoursMatches[1][2]);
+			}
+		}
 	}
 
 	/**
@@ -643,153 +953,54 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	}
 
 	/**
-	 * Sets the prerequisite attributes
+	 * Saves the prerequisite relation.
 	 *
-	 * @param   object &$subject the subject data
-	 * @param   array  $text     the subjects language specific requirements
-	 * @param   string $language the language tag
-	 * @param   string $type     the prerequisite type (added after the fact)
+	 * @param array $prerequisiteMappings the mappings for the prerequiste subject for the program
+	 * @param array $subjectMappings the mappings for the subject for the program
 	 *
-	 * @return  array  an array with prerequisites if any were found
+	 * @return bool true on success otherwise false
 	 */
-	private function setPrerequisites(&$subject, $text, $language, $type = '')
+	private function savePrerequisites($prerequisiteMappings, $subjectMappings)
 	{
-		$prerequisites = array();
-		$text          = $this->resolvePrerequisites($text, $language, $prerequisites);
-		$this->setAttribute($subject, "{$type}prerequisites_$language", $text);
-
-		return $prerequisites;
-	}
-
-	/**
-	 * Parses the prerequisites text and replaces subject references with links to the subjects
-	 *
-	 * @param   string $originalText   the original text of the object
-	 * @param   string $languageTag    the desired output language
-	 * @param   array  &$prerequisites an array containing prerequisite ids
-	 *
-	 * @return  string  the text for the subject's prerequisites
-	 */
-	private function resolvePrerequisites($originalText, $languageTag, &$prerequisites)
-	{
-		$modules          = array();
-		$noApostropheText = str_replace("'", "", $originalText);
-		$parts            = preg_split('[\,|\ ]', $noApostropheText);
-		foreach ($parts as $part)
+		foreach ($prerequisiteMappings AS $prerequisiteID)
 		{
-			if (preg_match('/[0-9]+/', $part))
+			foreach ($subjectMappings AS $subjectID)
 			{
-				$moduleInformation = $this->getModuleInformation($part, $languageTag, $prerequisites);
-				if (!empty($moduleInformation))
-				{
-					$modules[$part] = $moduleInformation;
-				}
-			}
-		}
+				$checkQuery = $this->_db->getQuery(true);
+				$checkQuery->select("COUNT(*)");
+				$checkQuery->from('#__thm_organizer_prerequisites')
+					->where("prerequisite = '$prerequisiteID'")
+					->where("subjectID = '$subjectID'");
+				$this->_db->setQuery((string) $checkQuery);
 
-		if (!empty($modules))
-		{
-			foreach ($modules AS $number => $module)
-			{
-				$originalText = str_replace($module['name'], '', $originalText);
-				$originalText = str_replace($number, $module['link'], $originalText);
-			}
-		}
-
-		return $originalText;
-	}
-
-	/**
-	 * Builds a link to a subject description if available
-	 *
-	 * @param   string $moduleNumber   the external id of the subject
-	 * @param   string $languageTag    the language tag
-	 * @param   array  &$prerequisites an array containing prerequisite ids
-	 *
-	 * @return  array  contains the module name and a link to it, otherwise empty
-	 */
-	private function getModuleInformation($moduleNumber, $languageTag, &$prerequisites)
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select("id, name_$languageTag AS name");
-		$query->from('#__thm_organizer_subjects')->where("externalID = '$moduleNumber'");
-		$this->_db->setQuery((string) $query);
-
-		$moduleInformation = array();
-		try
-		{
-			$subjectInfo = $this->_db->loadAssoc();
-
-			if (empty($subjectInfo))
-			{
-				return $moduleInformation;
-			}
-
-			if (!in_array($subjectInfo['id'], $prerequisites))
-			{
-				$prerequisites[] = $subjectInfo['id'];
-			}
-
-			$moduleInformation['name'] = $subjectInfo['name'];
-
-			$subjectURL = JUri::root() . 'index.php?option=com_thm_organizer&view=subject_details';
-			$subjectURL .= "&languageTag=$languageTag&id={$subjectInfo['id']}";
-			$href                      = JRoute::_($subjectURL);
-			$moduleInformation['link'] = JHtml::link($href, $subjectInfo['name']);
-
-			return $moduleInformation;
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return $moduleInformation;
-		}
-	}
-
-	/**
-	 * Saves prerequisites imported from LSF
-	 *
-	 * @param   string $subjectID     the id of the subject
-	 * @param   array  $prerequisites an array of prerequisites
-	 *
-	 * @return  bool  true if no database errors occured, otherwise false
-	 */
-	private function savePrerequisites($subjectID, $prerequisites)
-	{
-		$deleteQuery = $this->_db->getQuery(true);
-		$deleteQuery->delete('#__thm_organizer_prerequisites');
-		$deleteQuery->where("subjectID = '$subjectID'");
-		$this->_db->setQuery((string) $deleteQuery);
-		try
-		{
-			$this->_db->execute();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return false;
-		}
-
-		if (!empty($prerequisites))
-		{
-			foreach ($prerequisites as $prerequisite)
-			{
-				$insertQuery = $this->_db->getQuery(true);
-				$insertQuery->insert('#__thm_organizer_prerequisites');
-				$insertQuery->columns('subjectID, prerequisite');
-				$insertQuery->values("'$subjectID', '$prerequisite'");
-				$this->_db->setQuery((string) $insertQuery);
 				try
 				{
-					$this->_db->execute();
+					$entryExists = $this->_db->loadResult();
 				}
 				catch (Exception $exc)
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
 					return false;
+				}
+
+				if (!$entryExists)
+				{
+					$insertQuery = $this->_db->getQuery(true);
+					$insertQuery->insert('#__thm_organizer_prerequisites');
+					$insertQuery->columns('prerequisite, subjectID');
+					$insertQuery->values("'$prerequisiteID', '$subjectID'");
+					$this->_db->setQuery((string) $insertQuery);
+					try
+					{
+						$this->_db->execute();
+					}
+					catch (Exception $exc)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+						return false;
+					}
 				}
 			}
 		}
@@ -798,113 +1009,26 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	}
 
 	/**
-	 * Sets the prerequisite attributes
+	 * Sanitizes text for more consistent processing
 	 *
-	 * @param   array $text the subjects language specific requirements
+	 * @param string $text the text to be processed
 	 *
-	 * @return  array  an array of module id
+	 * @return mixed|string
 	 */
-	private function getPostrequisites($text)
+	private function sanitizeText($text)
 	{
-		$postrequisites = array();
-		$parts          = preg_split('[\,|\ ]', $text);
-		foreach ($parts as $part)
-		{
-			if (preg_match('/[0-9]+/', $part))
-			{
-				$moduleID = $this->getModuleID(trim(strip_tags($part)));
-				if (!empty($moduleID))
-				{
-					$postrequisites[$moduleID] = $moduleID;
-				}
-			}
-		}
+		// Get rid of HTML
+		$text = preg_replace("/<.*?>/", " ", $text);
 
-		return $postrequisites;
-	}
+		// Remove punctuation
+		$text = preg_replace("/[\!\"§\$\%\&\/\(\)\=\?\`\,]/", " ", $text);
+		$text = preg_replace("/[\{\}\[\]\\\´\+\*\~\#\'\<\>\|\;\.\:\-\_]/", " ", $text);
 
-	/**
-	 * Builds a link to a subject description if available
-	 *
-	 * @param   string $possibleModuleNumber a possible external id of the subject
-	 *
-	 * @return  mixed  int  subject id on success, otherwise false
-	 */
-	private function getModuleID($possibleModuleNumber)
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select("id");
-		$query->from('#__thm_organizer_subjects')->where("externalID = '$possibleModuleNumber'");
-		$this->_db->setQuery((string) $query);
+		// Remove excess white space
+		$text = trim($text);
+		$text = preg_replace("/\s+/", " ", $text);
 
-		try
-		{
-			$moduleID = $this->_db->loadResult();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return false;
-		}
-
-		return $moduleID;
-	}
-
-	/**
-	 * Saves the postrequisite relation
-	 *
-	 * @param   int   $subjectID      the id of the subject being imported
-	 * @param   array $postrequisites the id for which this subject is required
-	 *
-	 * @return  boolean  true on success, otherwise false
-	 */
-	private function savePostrequisites($subjectID, $postrequisites)
-	{
-		if (empty($postrequisites))
-		{
-			return true;
-		}
-
-		foreach ($postrequisites AS $postrequisiteID)
-		{
-			$checkQuery = $this->_db->getQuery(true);
-			$checkQuery->select("COUNT(*)");
-			$checkQuery->from('#__thm_organizer_prerequisites')->where("subjectID = '$postrequisiteID'")->where("prerequisite = '$subjectID'");
-			$this->_db->setQuery((string) $checkQuery);
-
-			try
-			{
-				$entryExists = $this->_db->loadResult();
-			}
-			catch (Exception $exc)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-				return false;
-			}
-
-			if (!$entryExists)
-			{
-				$insertQuery = $this->_db->getQuery(true);
-				$insertQuery->insert('#__thm_organizer_prerequisites');
-				$insertQuery->columns('subjectID, prerequisite');
-				$insertQuery->values("'$postrequisiteID', '$subjectID'");
-				$this->_db->setQuery((string) $insertQuery);
-				try
-				{
-					$this->_db->execute();
-				}
-				catch (Exception $exc)
-				{
-					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return $text;
 	}
 
 	/**
@@ -918,11 +1042,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	private function setStarAttribute(&$subject, $attribute, $value)
 	{
-		if (!is_numeric($value))
-		{
-			$value = strlen($value);
-		}
-
 		switch ($attribute)
 		{
 			case 'Fachkompetenz':
@@ -937,6 +1056,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			case 'Selbstkompetenz':
 				$attributeName = 'self_competence';
 				break;
+		}
+
+		if ($value === '' OR $value === null)
+		{
+			$subject->$attributeName = null;
+		}
+		elseif (!is_numeric($value))
+		{
+			$value = strlen($value);
 		}
 
 		$subject->$attributeName = $value;
@@ -967,6 +1095,12 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		{
 			$success = $this->importSingle($subjectID);
 			if (!$success)
+			{
+				$failed[] = $subjectID;
+			}
+
+			$dependenciesResolved = $this->resolveDependencies($subjectID);
+			if (!$dependenciesResolved)
 			{
 				$failed[] = $subjectID;
 			}

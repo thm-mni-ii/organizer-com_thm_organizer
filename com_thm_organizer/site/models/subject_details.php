@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_COMPONENT . '/helpers/teacher.php';
 
 /**
@@ -48,7 +50,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 		$select .= "preliminary_work_$langTag AS preliminary_work, literature, creditpoints, expenditure, ";
 		$select .= "present, independent, proof_$langTag AS proof, frequency_$langTag AS frequency, ";
 		$select .= "method_$langTag AS method, recommended_prerequisites_$langTag as recommended_prerequisites, ";
-		$select .= "prerequisites_$langTag AS prerequisites, aids_$langTag AS aids, ";
+		$select .= "prerequisites_$langTag AS prerequisites, aids_$langTag AS aids, used_for_$langTag AS prerequisiteOf, ";
 		$select .= "evaluation_$langTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
 
 		$query->select($select);
@@ -69,7 +71,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 		}
 
 		$this->setExpenditureText($subject);
-		$this->setPrerequisiteOf($subject);
+		$this->setDependencies($subject);
 		$this->setTeachers($subject);
 
 		return $subject;
@@ -192,32 +194,90 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	 *
 	 * @return  void
 	 */
-	private function setPrerequisiteOf(&$subject)
+	private function setDependencies(&$subject)
 	{
-		$menuID  = JFactory::getApplication()->input->getInt('Itemid', 0);
+		$subjectID = $subject->id;
 		$langTag = THM_OrganizerHelperLanguage::getShortTag();
+		$programs = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
 
-		$link  = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}&Itemid={$menuID}&id=";
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$parts = array("'$link'", "subjectID");
-		$query->select("name_$langTag AS name, " . $query->concatenate($parts, "") . " AS link");
-		$query->from('#__thm_organizer_prerequisites AS p');
-		$query->innerJoin('#__thm_organizer_subjects AS s ON p.subjectID = s.id');
-		$query->where("p.prerequisite = '$subject->id'");
-		$query->order('name');
-		$dbo->setQuery((string) $query);
+		$query = $this->_db->getQuery(true);
+		$select = "DISTINCT pr.id AS id, ";
+		$select .= "s1.id AS preID, s1.name_$langTag AS preName, s1.externalID AS preModuleNumber, ";
+		$select .= "s2.id AS postID, s2.name_$langTag AS postName, s2.externalID AS postModuleNumber";
+		$query->select($select);
+		$query->from('#__thm_organizer_prerequisites AS pr');
+		$query->innerJoin('#__thm_organizer_mappings AS m1 ON pr.prerequisite = m1.id');
+		$query->innerJoin('#__thm_organizer_subjects AS s1 ON m1.subjectID = s1.id');
+		$query->innerJoin('#__thm_organizer_mappings AS m2 ON pr.subjectID = m2.id');
+		$query->innerJoin('#__thm_organizer_subjects AS s2 ON m2.subjectID = s2.id');
 
-		try
+		foreach ($programs as $programID => $program)
 		{
-			// Can be set to null by this
-			$subject->prerequisiteOf = $dbo->loadAssocList();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			$query->clear('where');
+			$query->where("m1.lft > {$program['lft']} AND m1.rgt < {$program['rgt']}");
+			$query->where("m2.lft > {$program['lft']} AND m2.rgt < {$program['rgt']}");
+			$query->where("(s1.id = $subjectID OR s2.id = $subjectID)");
+			$this->_db->setQuery($query);
 
-			return;
+			try
+			{
+				$dependencies = $this->_db->loadAssocList('id');
+			}
+			catch (Exception $exc)
+			{
+				continue;
+			}
+
+			if (empty($dependencies))
+			{
+				continue;
+			}
+
+			foreach ($dependencies as $dependency)
+			{
+				if ($dependency['preID'] == $subjectID)
+				{
+					if (empty($subject->postSubjects))
+					{
+						$subject->postSubjects = array();
+					}
+					if (empty($subject->postSubjects[$programID]))
+					{
+						$subject->postSubjects[$programID] = array();
+						$subject->postSubjects[$programID]['name'] = $program['name'];
+						$subject->postSubjects[$programID]['subjects'] = array();
+					}
+					$name = $dependency['postName'];
+					$name .= empty($dependency['postModuleNumber'])? '' : " ({$dependency['postModuleNumber']})";
+					$subject->postSubjects[$programID]['subjects'][$dependency['postID']] = $name;
+				}
+				else
+				{
+					if (empty($subject->preSubjects))
+					{
+						$subject->preSubjects = array();
+					}
+					if (empty($subject->preSubjects[$programID]))
+					{
+						$subject->preSubjects[$programID] = array();
+						$subject->preSubjects[$programID]['name'] = $program['name'];
+						$subject->preSubjects[$programID]['subjects'] = array();
+					}
+					$name = $dependency['preName'];
+					$name .= empty($dependency['preModuleNumber'])? '' : " ({$dependency['preModuleNumber']})";
+					$subject->preSubjects[$programID]['subjects'][$dependency['preID']] = $name;
+				}
+			}
+
+			if (isset($subject->preSubjects[$programID]['subjects']))
+			{
+				asort($subject->preSubjects[$programID]['subjects']);
+			}
+
+			if (isset($subject->postSubjects[$programID]['subjects']))
+			{
+				asort($subject->postSubjects[$programID]['subjects']);
+			}
 		}
 	}
 }
