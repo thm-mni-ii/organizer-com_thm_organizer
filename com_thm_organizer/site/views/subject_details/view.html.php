@@ -56,6 +56,52 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 	}
 
 	/**
+	 * Determines whether or not the attribute should be displayed based on its value
+	 *
+	 * @param mixed $value the attribute's value
+	 *
+	 * @return bool true if the attribute should be displayed, otherwise false
+	 */
+	public function displayStarAttribute($value)
+	{
+		if ($value === null)
+		{
+			return false;
+		}
+
+		if (is_numeric($value))
+		{
+			$value = (int) $value;
+			$allowedValues = array(0, 1, 2, 3);
+			if (in_array($value, $allowedValues))
+			{
+				return true;
+			}
+			return false;
+		}
+
+
+		if (is_string($value))
+		{
+			if ($value === '')
+			{
+				return false;
+			}
+
+			$allowedValues = array('0', '1', '2', '3');
+
+			if (in_array($value, $allowedValues))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Modifies document variables and adds links to external files
 	 *
 	 * @return  void

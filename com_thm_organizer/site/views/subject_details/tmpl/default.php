@@ -14,6 +14,11 @@ $oneStar    = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1star
 $twoStars   = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
 $threeStars = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 
+$displayExpertise = $this->displayStarAttribute($this->item->expertise);
+$displayMethodComp = $this->displayStarAttribute($this->item->method_competence);
+$displaySocialComp = $this->displayStarAttribute($this->item->social_competence);
+$displaySelfComp = $this->displayStarAttribute($this->item->self_competence);
+
 $prerequisites = $this->getDependencies('pre');
 $postrequisites = $this->getDependencies('post');
 
@@ -115,7 +120,7 @@ $postrequisites = $this->getDependencies('post');
 		echo '<div class="subject-content">' . $this->item->content . '</div>';
 		echo '</div>';
 	}
-	if ($this->item->expertise !== null)
+	if ($displayExpertise)
 	{
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_EXPERTISE') . '</div>';
@@ -138,7 +143,7 @@ $postrequisites = $this->getDependencies('post');
 		}
 		echo '</div></div>';
 	}
-	if ($this->item->method_competence !== null)
+	if ($displayMethodComp)
 	{
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_METHOD_COMPETENCE') . '</div>';
@@ -161,30 +166,31 @@ $postrequisites = $this->getDependencies('post');
 		}
 		echo '</div></div>';
 	}
-	if ($this->item->social_competence !== null)
+	if ($displaySocialComp)
 	{
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SOCIAL_COMPETENCE') . '</div>';
 		echo '<div class="subject-content">';
-		if ($this->item->social_competence === 3)
+		if ($this->item->social_competence == 3)
 		{
 			echo $threeStars;
 		}
-		elseif ($this->item->social_competence === 2)
+		elseif ($this->item->social_competence == 2)
 		{
 			echo $twoStars;
 		}
-		elseif ($this->item->social_competence === 1)
+		elseif ($this->item->social_competence == 1)
 		{
 			echo $oneStar;
 		}
-		elseif ($this->item->social_competence === 0)
+		elseif ($this->item->social_competence == 0)
 		{
 			echo $noStar;
 		}
 		echo '</div></div>';
 	}
-	if ($this->item->self_competence !== null)
+
+	if ($displaySelfComp)
 	{
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SELF_COMPETENCE') . '</div>';

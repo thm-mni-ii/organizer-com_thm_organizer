@@ -89,7 +89,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		foreach ($possibleModuleNumbers as $possibleModuleNumber)
 		{
 			$possibleModuleNumber = strtoupper($possibleModuleNumber);
-			if (empty(preg_match('/[A-Z0-9]{4,10}/', $possibleModuleNumber)))
+			if (empty(preg_match('/[A-Z0-9]{3,10}/', $possibleModuleNumber)))
 			{
 				continue;
 			}
