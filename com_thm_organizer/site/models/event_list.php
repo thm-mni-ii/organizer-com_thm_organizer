@@ -166,21 +166,26 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 						continue;
 					}
 
-					// Outer or inner makes no difference here (as long as it is used consistently).
-					$innerLesson['startTime'] = $relevantTimes['startTime'];
-					$innerLesson['startTime'] = $relevantTimes['startTime'];
-					$startTime = substr(str_replace(':', '', $relevantTimes['startTime']), 0, 4);
-					$endTime   = substr(str_replace(':', '', $relevantTimes['endTime']), 0, 4);
-					$newTimes     = "$startTime-$endTime";
+					$outerLesson['startTime'] = $relevantTimes['startTime'];
+					$outerLesson['endTime'] = $relevantTimes['endTime'];
+					$outerStart = $relevantTimes['startTime'];
+					$outerEnd = $relevantTimes['endTime'];
 
-					unset($blockEvents[$outerTimes][$lessonID], $blockEvents[$innerTimes][$lessonID]);
-
-					if (empty($blockEvents[$newTimes]))
-					{
-						$blockEvents[$newTimes] = array();
-					}
-					$blockEvents[$newTimes][$lessonID] = $innerLesson;
+					unset($blockEvents[$innerTimes][$lessonID]);
 				}
+
+				$startTime = substr(str_replace(':', '', $outerStart), 0, 4);
+				$endTime   = substr(str_replace(':', '', $outerEnd), 0, 4);
+				$newTimes     = "$startTime-$endTime";
+
+				unset($blockEvents[$outerTimes][$lessonID]);
+
+				if (empty($blockEvents[$newTimes]))
+				{
+					$blockEvents[$newTimes] = array();
+				}
+
+				$blockEvents[$newTimes][$lessonID] = $outerLesson;
 			}
 		}
 

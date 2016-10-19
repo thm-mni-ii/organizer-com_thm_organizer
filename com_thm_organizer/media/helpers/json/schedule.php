@@ -90,7 +90,15 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		{
 			if (!isset($this->schedule->configurations[$configIndex]))
 			{
-				unset($instanceConfigs[$instanceConfigIndex]);
+				if (is_object($instanceConfigs))
+				{
+					unset($instanceConfigs->$instanceConfigIndex);
+				}
+				if (is_array($instanceConfigs))
+				{
+					unset($instanceConfigs[$instanceConfigIndex]);
+				}
+
 			}
 		}
 	}
