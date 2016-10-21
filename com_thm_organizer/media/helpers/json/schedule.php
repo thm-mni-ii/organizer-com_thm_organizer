@@ -763,6 +763,13 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function sanitizeNumericCollection(&$numericCollection)
 	{
+		// TODO: this is sometimes not an object. where does this come from?
+		if (!is_object($numericCollection) OR empty($numericCollection))
+		{
+			$numericCollection = null;
+			return;
+		}
+
 		foreach ($numericCollection as $resourceID => $delta)
 		{
 			if (!empty($delta) AND $delta == 'removed')
@@ -1526,6 +1533,69 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	{
 		$referenceLessonIDs = array_keys((array) $this->refSchedule->lessons);
 		$activeLessonIDs    = array_keys((array) $this->schedule->lessons);
+
+		$carriedLessons = array_intersect($referenceLessonIDs, $activeLessonIDs);
+
+		foreach ($carriedLessons as $carriedLessonID)
+		{
+			$referenceSubjectIDs = array_keys((array) $this->refSchedule->lessons->$carriedLessonID->subjects);
+			$activeSubjectIDs    = array_keys((array) $this->schedule->lessons->$carriedLessonID->subjects);
+
+			$carriedSubjectIDs = array_intersect($referenceSubjectIDs, $activeSubjectIDs);
+
+			foreach ($carriedSubjectIDs as $carriedSubjectID)
+			{
+				$referencePoolIDs = array_keys((array) $this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools);
+				$activePoolIDs    = array_keys((array) $this->schedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools);
+
+				$removedPoolIDs = array_diff($referencePoolIDs, $activePoolIDs);
+
+				foreach ($removedPoolIDs as $removedPoolID)
+				{
+					$this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools->$removedPoolID = 'removed';
+				}
+
+				$newPoolIDs = array_diff($activePoolIDs, $referencePoolIDs);
+
+				foreach ($newPoolIDs as $newPoolID)
+				{
+					$this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools->$newPoolID = 'new';
+				}
+
+				$referenceTeacherIDs = array_keys((array) $this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers);
+				$activeTeacherIDs    = array_keys((array) $this->schedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers);
+
+				$removedTeacherIDs = array_diff($referenceTeacherIDs, $activeTeacherIDs);
+
+				foreach ($removedTeacherIDs as $removedTeacherID)
+				{
+					$this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers->$removedTeacherID = 'removed';
+				}
+
+				$newTeacherIDs = array_diff($activeTeacherIDs, $referenceTeacherIDs);
+
+				foreach ($newTeacherIDs as $newTeacherID)
+				{
+					$this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers->$newTeacherID = 'new';
+				}
+			}
+
+			$removedSubjectIDs = array_diff($referenceSubjectIDs, $activeSubjectIDs);
+
+			foreach ($removedSubjectIDs as $removedSubjectID)
+			{
+				$removedSubject = $this->refSchedule->lessons->$carriedLessonID->subjects->$removedSubjectID;
+				$removedSubject->delta = 'removed';
+				$this->schedule->lessons->$carriedLessonID->subjects->$removedSubjectID = $removedSubject;
+			}
+
+			$newSubjectIDs = array_diff($activeSubjectIDs, $referenceSubjectIDs);
+
+			foreach ($newSubjectIDs as $newSubjectID)
+			{
+				$this->schedule->lessons->$carriedLessonID->subjects->$newSubjectID->delta = 'new';
+			}
+		}
 
 		$removedLessonIDs = array_diff($referenceLessonIDs, $activeLessonIDs);
 

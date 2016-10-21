@@ -112,9 +112,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 					$aggregatedEvents[$times][$lessonID]['titles'][] = $title;
 				}
 				$aggregatedEvents[$times][$lessonID]['rooms']
-					= array_merge($aggregatedEvents[$times][$lessonID]['rooms'], $event['rooms']);
+					= array_unique(array_merge($aggregatedEvents[$times][$lessonID]['rooms'], $event['rooms']));
 				$aggregatedEvents[$times][$lessonID]['teachers']
-					= array_merge($aggregatedEvents[$times][$lessonID]['teachers'], $event['teachers']);
+					= array_unique(array_merge($aggregatedEvents[$times][$lessonID]['teachers'], $event['teachers']));
 
 			}
 			$aggregatedEvents[$times][$lessonID]['departments'][$event['departmentID']] = $event['department'];
