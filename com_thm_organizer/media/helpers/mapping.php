@@ -832,20 +832,22 @@ class THM_OrganizerHelperMapping
 		}
 
 		$alias = $resourceType == 'pool' ? 'm1' : 'm2';
-		$query->innerJoin("#__thm_organizer_mappings AS $alias ON $alias.{$formResourceType}ID = {$formResourceType[0]}.id");
+		$query->leftJoin("#__thm_organizer_mappings AS $alias ON $alias.{$formResourceType}ID = {$formResourceType[0]}.id");
 
 		// No associations
 		if ($resourceID == '-1')
 		{
-			$conditions = array();
+			// Mapping exists but erroneous
+			$erray = array();
+
 			foreach ($ranges as $range)
 			{
-				$conditions[] = "( $alias.lft NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
-				$conditions[] = "( $alias.rgt NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
+				$erray[] = "( $alias.lft NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
+				$erray[] = "( $alias.rgt NOT BETWEEN '{$range['lft']}' AND '{$range['rgt']}' )";
 			}
 
-			$where = implode(' AND ', $conditions);
-			$query->where("( $where )");
+			$errorClauses = implode(' AND ', $erray);
+			$query->where("( ($errorClauses) OR $alias.id IS NULL ) ");
 
 			return;
 		}
