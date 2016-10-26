@@ -156,9 +156,11 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
 	/**
 	 * Method to get the total number of items for the data set.
 	 *
+	 * @param  string $idColumn not used
+	 *
 	 * @return  integer  The total number of items available in the data set.
 	 */
-	public function getTotal()
+	public function getTotal($idColumn = null)
 	{
 		$query = $this->getListQuery();
 		$query->clear('select');

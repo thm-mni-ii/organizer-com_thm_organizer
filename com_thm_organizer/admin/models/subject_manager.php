@@ -152,6 +152,36 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	}
 
 	/**
+	 * Method to get the total number of items for the data set.
+	 *
+	 * @param  string $idColumn not used
+	 *
+	 * @return  integer  The total number of items available in the data set.
+	 */
+	public function getTotal($idColumn = null)
+	{
+		$query = $this->getListQuery();
+		$query->clear('select');
+		$query->clear('order');
+		$query->select('COUNT(DISTINCT s.id)');
+		$dbo = JFactory::getDbo();
+		$dbo->setQuery((string) $query);
+
+		try
+		{
+			$result = $dbo->loadResult();
+
+			return $result;
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage($exc->getMessage());
+
+			return null;
+		}
+	}
+
+	/**
 	 * Overwrites the JModelList populateState function
 	 *
 	 * @param   string $ordering  the column by which the table is should be ordered
