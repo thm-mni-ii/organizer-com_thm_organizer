@@ -1,0 +1,2645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<studiengang>
+    <statistics>
+        <rows>5</rows>
+        <countDS>5</countDS>
+    </statistics>
+    <gruppe>
+        <pordid>22973</pordid>
+        <nrhis>10</nrhis>
+        <alphaid />
+        <kuerzel>Gesamtkont</kuerzel>
+        <kurzname>Gesamtkonto</kurzname>
+        <titelde>Gesamtkonto</titelde>
+        <pordtyp>K</pordtyp>
+        <studiengang>MIF</studiengang>
+        <abschluss>BS</abschluss>
+        <pversion>2016</pversion>
+        <versemester>20161</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sprache />
+        <sperrmh />
+        <ktxtppflicht>PF</ktxtppflicht>
+        <pfsem>0</pfsem>
+        <modulliste>
+            <modul>
+                <modulid>22975</modulid>
+                <modulnrhis>131000</modulnrhis>
+                <modulalphaid>MI1000</modulalphaid>
+                <stgktxt>MIF</stgktxt>
+                <abschl>BS</abschl>
+                <pversion>2016</pversion>
+                <titelde>Pflichtmodule</titelde>
+                <pordtyp>K</pordtyp>
+                <ppflichtzuord />
+                <versemester>20161</versemester>
+                <sprache />
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <titelen>Compulsory Modules</titelen>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste>
+                    <modul>
+                        <modulid>23004</modulid>
+                        <modulnrhis>71014</modulnrhis>
+                        <modulalphaid>CS1014</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Grundlagen der Informatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23013</modulid>
+                        <modulnrhis>21031</modulnrhis>
+                        <modulalphaid>CS1017</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Datenschutz und Datensicherheit</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23010</modulid>
+                        <modulnrhis>71017</modulnrhis>
+                        <modulalphaid>CS1017</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Algorithmen &amp; Datenstrukturen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23019</modulid>
+                        <modulnrhis>71020</modulnrhis>
+                        <modulalphaid>CS1020</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Datenbanksysteme</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23018</modulid>
+                        <modulnrhis>51003</modulnrhis>
+                        <modulalphaid>GING1003</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Infomationssysteme im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23003</modulid>
+                        <modulnrhis>51031</modulnrhis>
+                        <modulalphaid>GING1031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Objektorientierte Programmierung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23009</modulid>
+                        <modulnrhis>51032</modulnrhis>
+                        <modulalphaid>GING1032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Programmieren interaktiver Systeme MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23020</modulid>
+                        <modulnrhis>51033</modulnrhis>
+                        <modulalphaid>GING1033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Sofwaretechnik MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23023</modulid>
+                        <modulnrhis>51034</modulnrhis>
+                        <modulalphaid>GING1034</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Betriebsysteme und Rechnernetze</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23025</modulid>
+                        <modulnrhis>51035</modulnrhis>
+                        <modulalphaid>GING1035</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Softwaretechnikprojekt im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23029</modulid>
+                        <modulnrhis>51036</modulnrhis>
+                        <modulalphaid>GING1036</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Projektmanagement MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23028</modulid>
+                        <modulnrhis>51037</modulnrhis>
+                        <modulalphaid>GING1037</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Geräte und Verfahren I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23005</modulid>
+                        <modulnrhis>21001</modulnrhis>
+                        <modulalphaid>GMED1001</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Grundlagen I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23017</modulid>
+                        <modulnrhis>21003</modulnrhis>
+                        <modulalphaid>GMED1003</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinisches Controlling und Medizinische Dokumentation</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23030</modulid>
+                        <modulnrhis>21032</modulnrhis>
+                        <modulalphaid>GMED1032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Praktikum im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23027</modulid>
+                        <modulnrhis>21033</modulnrhis>
+                        <modulalphaid>GMED1033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Hauptseminar MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23021</modulid>
+                        <modulnrhis>41001</modulnrhis>
+                        <modulalphaid>GMNG1001</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Mathematisch-statistische Methoden im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23015</modulid>
+                        <modulnrhis>41031</modulnrhis>
+                        <modulalphaid>GMNG1031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Einführung in das wissenchaftliche Arbeiten</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23001</modulid>
+                        <modulnrhis>11001</modulnrhis>
+                        <modulalphaid>GWI11001</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Gesundheitsökonomie</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23006</modulid>
+                        <modulnrhis>81007</modulnrhis>
+                        <modulalphaid>MN01007</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Diskrete Mathematik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23014</modulid>
+                        <modulnrhis>81009</modulnrhis>
+                        <modulalphaid>MN1009</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Lineare Algebra</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                </modulliste>
+            </modul>
+            <modul>
+                <modulid>22977</modulid>
+                <modulnrhis>132000</modulnrhis>
+                <modulalphaid>MI2000</modulalphaid>
+                <stgktxt>MIF</stgktxt>
+                <abschl>BS</abschl>
+                <pversion>2016</pversion>
+                <titelde>Wahlpflichtmodule</titelde>
+                <pordtyp>K</pordtyp>
+                <ppflichtzuord />
+                <versemester>20161</versemester>
+                <sprache />
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <titelen>Elective Modules</titelen>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste>
+                    <modul>
+                        <modulid>23049</modulid>
+                        <modulnrhis>51038</modulnrhis>
+                        <modulalphaid>GING1038</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Geräte und Verfahren II</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23046</modulid>
+                        <modulnrhis>51039</modulnrhis>
+                        <modulalphaid>GING1039</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Messtechnik I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23067</modulid>
+                        <modulnrhis>51040</modulnrhis>
+                        <modulalphaid>GING1040</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Messtechnik II</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23050</modulid>
+                        <modulnrhis>51041</modulnrhis>
+                        <modulalphaid>GING1041</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Biosignalanalyse</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23073</modulid>
+                        <modulnrhis>52031</modulnrhis>
+                        <modulalphaid>GING2031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Telemedizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23074</modulid>
+                        <modulnrhis>52032</modulnrhis>
+                        <modulalphaid>GING2032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Bildarchivierungsprozess in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23075</modulid>
+                        <modulnrhis>52033</modulnrhis>
+                        <modulalphaid>GING2033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Einführung in MATLAB</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23076</modulid>
+                        <modulnrhis>52034</modulnrhis>
+                        <modulalphaid>GING2034</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Einführung in LabVIEW / C1-C2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23077</modulid>
+                        <modulnrhis>52035</modulnrhis>
+                        <modulalphaid>GING2035</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Regulatory Affairs</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23078</modulid>
+                        <modulnrhis>52036</modulnrhis>
+                        <modulalphaid>GING2036</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Eingebettete Systeme in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23079</modulid>
+                        <modulnrhis>52037</modulnrhis>
+                        <modulalphaid>GING2037</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Praktikum Rechnernetze MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23080</modulid>
+                        <modulnrhis>52038</modulnrhis>
+                        <modulalphaid>GING2038</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Angewandte Medizintechnische Informatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23081</modulid>
+                        <modulnrhis>52039</modulnrhis>
+                        <modulalphaid>GING2039</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Erfassung / Echtzeitverarbeitung von Biosignalen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23082</modulid>
+                        <modulnrhis>52040</modulnrhis>
+                        <modulalphaid>GING2040</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>iOS APP-Programmierung mit SWIFT</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23083</modulid>
+                        <modulnrhis>52041</modulnrhis>
+                        <modulalphaid>GING2041</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Ambient Assisted Living I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23085</modulid>
+                        <modulnrhis>52042</modulnrhis>
+                        <modulalphaid>GING2042</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Ambient Assisted Living II</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23086</modulid>
+                        <modulnrhis>52043</modulnrhis>
+                        <modulalphaid>GING2043</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Pflegeinformatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23087</modulid>
+                        <modulnrhis>52044</modulnrhis>
+                        <modulalphaid>GING2044</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Bildverarbeitung MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23088</modulid>
+                        <modulnrhis>52045</modulnrhis>
+                        <modulalphaid>GING2045</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Bildgebende Verfahren in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23090</modulid>
+                        <modulnrhis>52046</modulnrhis>
+                        <modulalphaid>GING2046</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Brain-Imaging</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23091</modulid>
+                        <modulnrhis>52047</modulnrhis>
+                        <modulalphaid>GING2047</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Anwendungsentwicklung für Dokumentationssysteme in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23092</modulid>
+                        <modulnrhis>52049</modulnrhis>
+                        <modulalphaid>GING2049</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Entwicklung Robuster Softwarearchitekturen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23093</modulid>
+                        <modulnrhis>52050</modulnrhis>
+                        <modulalphaid>GING2050</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Anwendung von MATLAB</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23048</modulid>
+                        <modulnrhis>21034</modulnrhis>
+                        <modulalphaid>GMED1034</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Pathophysiologie</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23096</modulid>
+                        <modulnrhis>22110</modulnrhis>
+                        <modulalphaid>GMED2110</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Grundlagen des Betrieblichen Gesundheitsmanagements 1</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23097</modulid>
+                        <modulnrhis>22111</modulnrhis>
+                        <modulalphaid>GMED2111</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Grundlagen des Betrieblichen Gesundheitsmanagements 2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23099</modulid>
+                        <modulnrhis>22112</modulnrhis>
+                        <modulalphaid>GMED2112</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Patientenversorgung im ambulaten Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23094</modulid>
+                        <modulnrhis>32031</modulnrhis>
+                        <modulalphaid>GMM2031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Qualitätsmanagement in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23095</modulid>
+                        <modulnrhis>32032</modulnrhis>
+                        <modulalphaid>GMM2032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Entwicklung von Maßnahmen des Betrieblichen Gesundheitsmanagements</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23100</modulid>
+                        <modulnrhis>32033</modulnrhis>
+                        <modulalphaid>GMM2033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Ressourcenmanagement im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23045</modulid>
+                        <modulnrhis>41004</modulnrhis>
+                        <modulalphaid>GMNG1004</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Naturwissenschaftliche Grundlagen der Medizintechnischen Informatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23015</modulid>
+                        <modulnrhis>41031</modulnrhis>
+                        <modulalphaid>GMNG1031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Einführung in das wissenchaftliche Arbeiten</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23102</modulid>
+                        <modulnrhis>42110</modulnrhis>
+                        <modulalphaid>GMNG2110</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Empirische Forschung im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23103</modulid>
+                        <modulnrhis>42111</modulnrhis>
+                        <modulalphaid>GMNG2111</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Praktikum wissenschaftliches Arbeiten</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23098</modulid>
+                        <modulnrhis>62110</modulnrhis>
+                        <modulalphaid>GRE2110</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Sozial- und Arbeitsrecht im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23101</modulid>
+                        <modulnrhis>62111</modulnrhis>
+                        <modulalphaid>GRE2111</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Versicherungsysteme im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                </modulliste>
+            </modul>
+        </modulliste>
+    </gruppe>
+    <gruppe>
+        <pordid>22972</pordid>
+        <nrhis>10</nrhis>
+        <alphaid />
+        <kuerzel>Gesamtkont</kuerzel>
+        <kurzname>Gesamtkonto MTI</kurzname>
+        <titelde>Gesamtkonto MTI</titelde>
+        <pordtyp>K</pordtyp>
+        <studiengang>MIF</studiengang>
+        <abschluss>BS</abschluss>
+        <pversion>2016</pversion>
+        <versemester>20161</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sprache />
+        <sperrmh />
+        <ktxtppflicht>PF</ktxtppflicht>
+        <pfsem>0</pfsem>
+        <modulliste>
+            <modul>
+                <modulid>22976</modulid>
+                <modulnrhis>131000</modulnrhis>
+                <modulalphaid>MI1000</modulalphaid>
+                <stgktxt>MIF</stgktxt>
+                <abschl>BS</abschl>
+                <pversion>2016</pversion>
+                <titelde>Pflichtmodule MTI</titelde>
+                <pordtyp>K</pordtyp>
+                <ppflichtzuord />
+                <versemester>20161</versemester>
+                <sprache />
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste>
+                    <modul>
+                        <modulid>23004</modulid>
+                        <modulnrhis>71014</modulnrhis>
+                        <modulalphaid>CS1014</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Grundlagen der Informatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23013</modulid>
+                        <modulnrhis>21031</modulnrhis>
+                        <modulalphaid>CS1017</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Datenschutz und Datensicherheit</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23010</modulid>
+                        <modulnrhis>71017</modulnrhis>
+                        <modulalphaid>CS1017</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Algorithmen &amp; Datenstrukturen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23019</modulid>
+                        <modulnrhis>71020</modulnrhis>
+                        <modulalphaid>CS1020</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Datenbanksysteme</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23003</modulid>
+                        <modulnrhis>51031</modulnrhis>
+                        <modulalphaid>GING1031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Objektorientierte Programmierung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23009</modulid>
+                        <modulnrhis>51032</modulnrhis>
+                        <modulalphaid>GING1032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Programmieren interaktiver Systeme MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23020</modulid>
+                        <modulnrhis>51033</modulnrhis>
+                        <modulalphaid>GING1033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Sofwaretechnik MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23023</modulid>
+                        <modulnrhis>51034</modulnrhis>
+                        <modulalphaid>GING1034</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Betriebsysteme und Rechnernetze</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23025</modulid>
+                        <modulnrhis>51035</modulnrhis>
+                        <modulalphaid>GING1035</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Softwaretechnikprojekt im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23029</modulid>
+                        <modulnrhis>51036</modulnrhis>
+                        <modulalphaid>GING1036</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Projektmanagement MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23028</modulid>
+                        <modulnrhis>51037</modulnrhis>
+                        <modulalphaid>GING1037</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Geräte und Verfahren I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23049</modulid>
+                        <modulnrhis>51038</modulnrhis>
+                        <modulalphaid>GING1038</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Geräte und Verfahren II</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23046</modulid>
+                        <modulnrhis>51039</modulnrhis>
+                        <modulalphaid>GING1039</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Messtechnik I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23050</modulid>
+                        <modulnrhis>51041</modulnrhis>
+                        <modulalphaid>GING1041</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Biosignalanalyse</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23005</modulid>
+                        <modulnrhis>21001</modulnrhis>
+                        <modulalphaid>GMED1001</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Grundlagen I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23047</modulid>
+                        <modulnrhis>21002</modulnrhis>
+                        <modulalphaid>GMED1002</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinische Grundlagen II</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23030</modulid>
+                        <modulnrhis>21032</modulnrhis>
+                        <modulalphaid>GMED1032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Praktikum im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23027</modulid>
+                        <modulnrhis>21033</modulnrhis>
+                        <modulalphaid>GMED1033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Hauptseminar MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23048</modulid>
+                        <modulnrhis>21034</modulnrhis>
+                        <modulalphaid>GMED1034</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Pathophysiologie</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23021</modulid>
+                        <modulnrhis>41001</modulnrhis>
+                        <modulalphaid>GMNG1001</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Mathematisch-statistische Methoden im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23045</modulid>
+                        <modulnrhis>41004</modulnrhis>
+                        <modulalphaid>GMNG1004</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Naturwissenschaftliche Grundlagen der Medizintechnischen Informatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23006</modulid>
+                        <modulnrhis>81007</modulnrhis>
+                        <modulalphaid>MN01007</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Diskrete Mathematik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23014</modulid>
+                        <modulnrhis>81009</modulnrhis>
+                        <modulalphaid>MN1009</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Lineare Algebra</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                </modulliste>
+            </modul>
+            <modul>
+                <modulid>22978</modulid>
+                <modulnrhis>132000</modulnrhis>
+                <modulalphaid>MI2000</modulalphaid>
+                <stgktxt>MIF</stgktxt>
+                <abschl>BS</abschl>
+                <pversion>2016</pversion>
+                <titelde>Wahlpflichtmodule MTI</titelde>
+                <pordtyp>K</pordtyp>
+                <ppflichtzuord />
+                <versemester>20161</versemester>
+                <sprache />
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste>
+                    <modul>
+                        <modulid>23018</modulid>
+                        <modulnrhis>51003</modulnrhis>
+                        <modulalphaid>GING1003</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Infomationssysteme im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23073</modulid>
+                        <modulnrhis>52031</modulnrhis>
+                        <modulalphaid>GING2031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Telemedizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23074</modulid>
+                        <modulnrhis>52032</modulnrhis>
+                        <modulalphaid>GING2032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Bildarchivierungsprozess in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23075</modulid>
+                        <modulnrhis>52033</modulnrhis>
+                        <modulalphaid>GING2033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Einführung in MATLAB</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23076</modulid>
+                        <modulnrhis>52034</modulnrhis>
+                        <modulalphaid>GING2034</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Einführung in LabVIEW / C1-C2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23077</modulid>
+                        <modulnrhis>52035</modulnrhis>
+                        <modulalphaid>GING2035</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Regulatory Affairs</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23078</modulid>
+                        <modulnrhis>52036</modulnrhis>
+                        <modulalphaid>GING2036</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Eingebettete Systeme in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23079</modulid>
+                        <modulnrhis>52037</modulnrhis>
+                        <modulalphaid>GING2037</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Praktikum Rechnernetze MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23080</modulid>
+                        <modulnrhis>52038</modulnrhis>
+                        <modulalphaid>GING2038</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Angewandte Medizintechnische Informatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23081</modulid>
+                        <modulnrhis>52039</modulnrhis>
+                        <modulalphaid>GING2039</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Erfassung / Echtzeitverarbeitung von Biosignalen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23082</modulid>
+                        <modulnrhis>52040</modulnrhis>
+                        <modulalphaid>GING2040</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>iOS APP-Programmierung mit SWIFT</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23083</modulid>
+                        <modulnrhis>52041</modulnrhis>
+                        <modulalphaid>GING2041</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Ambient Assisted Living I</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23085</modulid>
+                        <modulnrhis>52042</modulnrhis>
+                        <modulalphaid>GING2042</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Ambient Assisted Living II</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23086</modulid>
+                        <modulnrhis>52043</modulnrhis>
+                        <modulalphaid>GING2043</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Pflegeinformatik</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23087</modulid>
+                        <modulnrhis>52044</modulnrhis>
+                        <modulalphaid>GING2044</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Bildverarbeitung MI</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23088</modulid>
+                        <modulnrhis>52045</modulnrhis>
+                        <modulalphaid>GING2045</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Bildgebende Verfahren in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23090</modulid>
+                        <modulnrhis>52046</modulnrhis>
+                        <modulalphaid>GING2046</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Brain-Imaging</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23091</modulid>
+                        <modulnrhis>52047</modulnrhis>
+                        <modulalphaid>GING2047</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Anwendungsentwicklung für Dokumentationssysteme in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23092</modulid>
+                        <modulnrhis>52049</modulnrhis>
+                        <modulalphaid>GING2049</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Entwicklung Robuster Softwarearchitekturen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23093</modulid>
+                        <modulnrhis>52050</modulnrhis>
+                        <modulalphaid>GING2050</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Anwendung von MATLAB</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23017</modulid>
+                        <modulnrhis>21003</modulnrhis>
+                        <modulalphaid>GMED1003</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Medizinisches Controlling und Medizinische Dokumentation</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23096</modulid>
+                        <modulnrhis>22110</modulnrhis>
+                        <modulalphaid>GMED2110</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Grundlagen des Betrieblichen Gesundheitsmanagements 1</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23097</modulid>
+                        <modulnrhis>22111</modulnrhis>
+                        <modulalphaid>GMED2111</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Grundlagen des Betrieblichen Gesundheitsmanagements 2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23099</modulid>
+                        <modulnrhis>22112</modulnrhis>
+                        <modulalphaid>GMED2112</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Patientenversorgung im ambulaten Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23094</modulid>
+                        <modulnrhis>32031</modulnrhis>
+                        <modulalphaid>GMM2031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Qualitätsmanagement in der Medizin</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23095</modulid>
+                        <modulnrhis>32032</modulnrhis>
+                        <modulalphaid>GMM2032</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Entwicklung von Maßnahmen des Betrieblichen Gesundheitsmanagements</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23100</modulid>
+                        <modulnrhis>32033</modulnrhis>
+                        <modulalphaid>GMM2033</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Ressourcenmanagement im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23015</modulid>
+                        <modulnrhis>41031</modulnrhis>
+                        <modulalphaid>GMNG1031</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Einführung in das wissenchaftliche Arbeiten</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23102</modulid>
+                        <modulnrhis>42110</modulnrhis>
+                        <modulalphaid>GMNG2110</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Empirische Forschung im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23103</modulid>
+                        <modulnrhis>42111</modulnrhis>
+                        <modulalphaid>GMNG2111</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Praktikum wissenschaftliches Arbeiten</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23098</modulid>
+                        <modulnrhis>62110</modulnrhis>
+                        <modulalphaid>GRE2110</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Sozial- und Arbeitsrecht im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23101</modulid>
+                        <modulnrhis>62111</modulnrhis>
+                        <modulalphaid>GRE2111</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Versicherungsysteme im Gesundheitswesen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>23001</modulid>
+                        <modulnrhis>11001</modulnrhis>
+                        <modulalphaid>GWI11001</modulalphaid>
+                        <stgktxt>MIF</stgktxt>
+                        <abschl>BS</abschl>
+                        <pversion>2016</pversion>
+                        <titelde>Gesundheitsökonomie</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20161</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                </modulliste>
+            </modul>
+        </modulliste>
+    </gruppe>
+    <gruppe>
+        <pordid>22954</pordid>
+        <nrhis>999</nrhis>
+        <alphaid />
+        <kuerzel>Überlauf</kuerzel>
+        <kurzname>Überlauf Konto WP</kurzname>
+        <titelde>Überlaufkonto für Wahlpflichtfächer</titelde>
+        <pordtyp>K</pordtyp>
+        <studiengang>MIF</studiengang>
+        <abschluss>BS</abschluss>
+        <pversion>2016</pversion>
+        <versemester>20161</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sprache />
+        <sperrmh>x</sperrmh>
+        <ktxtppflicht>WP</ktxtppflicht>
+        <pfsem>1</pfsem>
+        <modulliste />
+    </gruppe>
+    <gruppe>
+        <pordid>22946</pordid>
+        <nrhis>103000</nrhis>
+        <alphaid>CS3000</alphaid>
+        <kuerzel>Absch-Sem</kuerzel>
+        <kurzname>Abschluss-Semester</kurzname>
+        <titelde>Abschluss-Semester</titelde>
+        <pordtyp>K</pordtyp>
+        <studiengang>MIF</studiengang>
+        <abschluss>BS</abschluss>
+        <pversion>2016</pversion>
+        <versemester>20161</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sprache />
+        <sperrmh />
+        <ktxtppflicht>PF</ktxtppflicht>
+        <pfsem>0</pfsem>
+        <titelen>Project and Thesis</titelen>
+        <kurznameen />
+        <kuerzelen>CS</kuerzelen>
+        <modulliste>
+            <modul>
+                <modulid>23033</modulid>
+                <modulnrhis>23032</modulnrhis>
+                <modulalphaid>GMED3032</modulalphaid>
+                <stgktxt>MIF</stgktxt>
+                <abschl>BS</abschl>
+                <pversion>2016</pversion>
+                <titelde>Projektphase</titelde>
+                <pordtyp>M</pordtyp>
+                <ppflichtzuord />
+                <versemester>20161</versemester>
+                <sprache>D</sprache>
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste />
+            </modul>
+            <modul>
+                <modulid>23034</modulid>
+                <modulnrhis>23033</modulnrhis>
+                <modulalphaid>GMED3033</modulalphaid>
+                <stgktxt>MIF</stgktxt>
+                <abschl>BS</abschl>
+                <pversion>2016</pversion>
+                <titelde>Projektseminar</titelde>
+                <pordtyp>M</pordtyp>
+                <ppflichtzuord />
+                <versemester>20161</versemester>
+                <sprache>D</sprache>
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste />
+            </modul>
+            <modul>
+                <modulid>23035</modulid>
+                <modulnrhis>23034</modulnrhis>
+                <modulalphaid>GMED3034</modulalphaid>
+                <stgktxt>MIF</stgktxt>
+                <abschl>BS</abschl>
+                <pversion>2016</pversion>
+                <titelde>Bachelorarbeit mit Kolloquium</titelde>
+                <pordtyp>M</pordtyp>
+                <ppflichtzuord />
+                <versemester>20161</versemester>
+                <sprache>D</sprache>
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste />
+            </modul>
+        </modulliste>
+    </gruppe>
+    <gruppe>
+        <pordid>22952</pordid>
+        <nrhis>134000</nrhis>
+        <alphaid>MI4000</alphaid>
+        <kuerzel>Z-MIF</kuerzel>
+        <kurzname>Z-Module Stg MIF</kurzname>
+        <titelde>Zusatzmodule</titelde>
+        <pordtyp>K</pordtyp>
+        <studiengang>MIF</studiengang>
+        <abschluss>BS</abschluss>
+        <pversion>2016</pversion>
+        <versemester>20161</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sprache />
+        <sperrmh>x</sperrmh>
+        <ktxtppflicht>PF</ktxtppflicht>
+        <pfsem>0</pfsem>
+        <titelen>Elective Modules</titelen>
+        <kurznameen>WP-Module Stg MI</kurznameen>
+        <kuerzelen>MI</kuerzelen>
+        <modulliste />
+    </gruppe>
+</studiengang>
+
