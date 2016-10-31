@@ -90,11 +90,11 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Retrieves the teacher responsible for the subject's development
 	 *
-	 * @param int  $subjectID        the subject's id
-	 * @param int  $responsibility   represents the teacher's level of
-	 *                                 responsibility for the subject
-	 * @param bool $multiple         whether or not multiple results are desired
-	 * @param bool $unique           whether or not unique results are desired
+	 * @param int  $subjectID      the subject's id
+	 * @param int  $responsibility represents the teacher's level of
+	 *                             responsibility for the subject
+	 * @param bool $multiple       whether or not multiple results are desired
+	 * @param bool $unique         whether or not unique results are desired
 	 *
 	 * @return  array  an array of teacher data
 	 */
@@ -176,7 +176,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Generates a default teacher text based upon organizer's internal data
 	 *
-	 * @param mixed $teacherData   array or object with teacher data
+	 * @param mixed $teacherData     array or object with teacher data
 	 *                               (objects are converted internally to arrays)
 	 *
 	 * @return  string  the default name of the teacher
@@ -194,8 +194,8 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Generates a default teacher text based upon organizer's internal data
 	 *
-	 * @param mixed $teacherData   array or object with teacher data
-	 *                               (objects are converted internally to arrays)
+	 * @param mixed $teacherData array or object with teacher data
+	 *                           (objects are converted internally to arrays)
 	 *
 	 * @return  string  the default name of the teacher
 	 */
@@ -225,10 +225,10 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Method to build the link to a user profile of THM Groups
 	 *
-	 * @param int    $userID    the teacher's user ID
-	 * @param string $surname   the teacher's surname
-	 * @param int    $itemID    the menu item id from which the link will be
-	 *                            called
+	 * @param int    $userID  the teacher's user ID
+	 * @param string $surname the teacher's surname
+	 * @param int    $itemID  the menu item id from which the link will be
+	 *                        called
 	 *
 	 * @return  string  the url of the teacher's thm groups details
 	 */

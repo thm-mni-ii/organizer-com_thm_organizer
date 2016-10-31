@@ -254,12 +254,12 @@ Ext.apply(Ext.form.VTypes,
 /**
  * Special renderer for events
  *
- * @param {string} times     Start and end date of a block as string
- * @param {Object} output    Object with class and style attributes
+ * @param {string} times Start and end date of a block as string
+ * @param {Object} output Object with class and style attributes
  * @param {Object} redundant Object containing most of the other parameters here. Unused. Seems to be mandated by extjs.
- * @param {number} rowIndex  Index of the row
- * @param {number} colIndex  Index of the column
- * @param {Object} store     Object containing the tab information
+ * @param {number} rowIndex Index of the row
+ * @param {number} colIndex Index of the column
+ * @param {Object} store Object containing the tab information
  */
 MySched.lectureCellRenderer = function (times, output, redundant, rowIndex, colIndex, store)
 {

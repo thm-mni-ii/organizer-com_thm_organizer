@@ -368,16 +368,16 @@ class THM_OrganizerHelperComponent
 	 *
 	 * @return  string|bool  a formatted date string otherwise false
 	 */
-	public static function formatDateShort($date,$withText = false)
+	public static function formatDateShort($date, $withText = false)
 	{
-		$params     = JComponentHelper::getParams('com_thm_organizer');
-		$dateFormat = $params->get('dateFormatShort', 'd.m');
+		$params        = JComponentHelper::getParams('com_thm_organizer');
+		$dateFormat    = $params->get('dateFormatShort', 'd.m');
 		$formattedDate = date($dateFormat, strtotime($date));
 
 		if ($withText)
 		{
-			$shortDOW = date('D', strtotime($date));
-			$text = JText::_(strtoupper($shortDOW));
+			$shortDOW      = date('D', strtotime($date));
+			$text          = JText::_(strtoupper($shortDOW));
 			$formattedDate = "$text $formattedDate";
 		}
 

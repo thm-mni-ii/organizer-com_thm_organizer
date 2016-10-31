@@ -291,11 +291,11 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Sets teacher consumption values, creating the storage objects if not set
 	 *
-	 * @param string $degree      the degree name
-	 * @param string $teacherID   the teacher id
-	 * @param string $delta       the teacher's delta information for the
-	 *                              lesson being iterated
-	 * @param int    $hours       the duration of the current block in hours
+	 * @param string $degree    the degree name
+	 * @param string $teacherID the teacher id
+	 * @param string $delta     the teacher's delta information for the
+	 *                          lesson being iterated
+	 * @param int    $hours     the duration of the current block in hours
 	 *
 	 * @return  void
 	 */

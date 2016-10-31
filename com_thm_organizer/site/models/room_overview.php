@@ -207,11 +207,11 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 */
 	private function getDay($date)
 	{
-		$isSunday  = date('l', strtotime($date)) == 'Sunday';
+		$isSunday = date('l', strtotime($date)) == 'Sunday';
 		if ($isSunday)
 		{
-			$template  = $this->state->get('template');
-			$getNext = ($template == DAY AND $isSunday);
+			$template = $this->state->get('template');
+			$getNext  = ($template == DAY AND $isSunday);
 			if ($getNext)
 			{
 				$date = date('Y-m-d', strtotime("$date + 1 days"));
@@ -276,6 +276,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		catch (Exception $exception)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_(), 'error');
+
 			return array();
 		}
 
@@ -283,8 +284,8 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		foreach ($results as $result)
 		{
 			$startTime = substr(str_replace(':', '', $result['startTime']), 0, 4);
-			$endTime = substr(str_replace(':', '', $result['endTime']), 0, 4);
-			$times = "$startTime-$endTime";
+			$endTime   = substr(str_replace(':', '', $result['endTime']), 0, 4);
+			$times     = "$startTime-$endTime";
 
 			if (empty($events[$times]))
 			{
@@ -295,20 +296,20 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
 			if (empty($events[$startTime][$lessonID]))
 			{
-				$events[$times][$lessonID] = array();
+				$events[$times][$lessonID]                = array();
 				$events[$times][$lessonID]['departments'] = array();
-				$events[$times][$lessonID]['titles'] = array();
-				$events[$times][$lessonID]['teachers'] = array();
-				$events[$times][$lessonID]['rooms'] = array();
-				$events[$times][$lessonID]['method'] = empty($result['method'])? '' : " - {$result['method']}";
-				$events[$times][$lessonID]['startTime'] = $startTime;
-				$events[$times][$lessonID]['endTime'] = substr($result['endTime'], 0, 5);
+				$events[$times][$lessonID]['titles']      = array();
+				$events[$times][$lessonID]['teachers']    = array();
+				$events[$times][$lessonID]['rooms']       = array();
+				$events[$times][$lessonID]['method']      = empty($result['method']) ? '' : " - {$result['method']}";
+				$events[$times][$lessonID]['startTime']   = $startTime;
+				$events[$times][$lessonID]['endTime']     = substr($result['endTime'], 0, 5);
 			}
 
 			$events[$times][$lessonID]['departments'][$result['departmentID']] = $result['department'];
-			$events[$times][$lessonID]['comment'] = $result['comment'];
+			$events[$times][$lessonID]['comment']                              = $result['comment'];
 
-			$title = empty($result['sName'])? $result['psName'] : $result['sName'];
+			$title = empty($result['sName']) ? $result['psName'] : $result['sName'];
 
 			if (!in_array($title, $events[$times][$lessonID]['titles']))
 			{
@@ -330,8 +331,8 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 			foreach ($configuration['rooms'] AS $roomID => $delta)
 			{
 				$nonExistent = empty($events[$times][$lessonID]['rooms'][$roomID]);
-				$requested = !empty($this->rooms[$roomID]);
-				$addRoom = ($delta != 'removed' AND $nonExistent AND $requested);
+				$requested   = !empty($this->rooms[$roomID]);
+				$addRoom     = ($delta != 'removed' AND $nonExistent AND $requested);
 
 				if ($addRoom)
 				{
@@ -355,26 +356,26 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		$blocks = array();
 		foreach ($this->grid['periods'] AS $blockNo => $block)
 		{
-			$blocks[$blockNo] = array();
-			$blockStartTime = $block['startTime'];
-			$blockEndTime = $block['endTime'];
+			$blocks[$blockNo]              = array();
+			$blockStartTime                = $block['startTime'];
+			$blockEndTime                  = $block['endTime'];
 			$blocks[$blockNo]['startTime'] = $blockStartTime;
-			$blocks[$blockNo]['endTime'] = $blockEndTime;
+			$blocks[$blockNo]['endTime']   = $blockEndTime;
 
 			foreach ($events as $times => $eventInstances)
 			{
 				list($eventStartTime, $eventEndTime) = explode('-', $times);
 				$before = $eventEndTime < $blockStartTime;
-				$after = $eventStartTime > $blockEndTime;
+				$after  = $eventStartTime > $blockEndTime;
 
 				if ($before OR $after)
 				{
 					continue;
 				}
 
-				$divTime = '';
+				$divTime    = '';
 				$startSynch = $blockStartTime == $eventStartTime;
-				$endSynch = $blockEndTime == $eventEndTime;
+				$endSynch   = $blockEndTime == $eventEndTime;
 
 				if (!$startSynch or !$endSynch)
 				{
@@ -385,10 +386,10 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
 				foreach ($eventInstances as $eventID => $eventInstance)
 				{
-					$instance = array();
+					$instance               = array();
 					$instance['department'] = implode(' / ', $eventInstance['departments']);
-					$instance['teachers'] = implode(' / ', $eventInstance['teachers']);
-					$instance['title'] = implode(' / ', $eventInstance['titles']);
+					$instance['teachers']   = implode(' / ', $eventInstance['teachers']);
+					$instance['title']      = implode(' / ', $eventInstance['titles']);
 					$instance['title'] .= $eventInstance['method'];
 					$instance['comment'] = $eventInstance['comment'];
 					$instance['divTime'] = $divTime;
@@ -400,6 +401,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 				}
 			}
 		}
+
 		return $blocks;
 	}
 

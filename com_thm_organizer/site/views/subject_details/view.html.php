@@ -71,12 +71,13 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 		if (is_numeric($value))
 		{
-			$value = (int) $value;
+			$value         = (int) $value;
 			$allowedValues = array(0, 1, 2, 3);
 			if (in_array($value, $allowedValues))
 			{
 				return true;
 			}
+
 			return false;
 		}
 
@@ -158,7 +159,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 		$menuID  = JFactory::getApplication()->input->getInt('Itemid', 0);
 		$langTag = THM_OrganizerHelperLanguage::getShortTag();
-		$link  = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}&Itemid={$menuID}&id=";
+		$link    = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}&Itemid={$menuID}&id=";
 
 		$html = '<ul>';
 		foreach ($dependencies as $programID => $programData)

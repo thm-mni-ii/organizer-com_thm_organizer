@@ -74,9 +74,9 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$this->departmentID = $params->get('departmentID');
 		$this->grids        = $this->getModel()->getGrids();
 
-		$defaultGrids = array_filter(
+		$defaultGrids      = array_filter(
 			$this->grids,
-			function($var)
+			function ($var)
 			{
 				return $var->defaultGrid;
 			}

@@ -104,7 +104,7 @@ class THM_OrganizerHelperXMLGrids
 
 		if (!isset($grids->$gpuntisID->blocks->$period))
 		{
-			$grids->$gpuntisID->grid->periods->$period             = new stdClass;
+			$grids->$gpuntisID->grid->periods->$period            = new stdClass;
 			$grids->$gpuntisID->grid->periods->$period->startTime = $startTime;
 			$grids->$gpuntisID->grid->periods->$period->endTime   = $endTime;
 		}

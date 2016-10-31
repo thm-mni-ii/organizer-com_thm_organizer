@@ -116,6 +116,7 @@ class THM_OrganizerHelperXMLRooms
 		if (!$displayName)
 		{
 			unset($scheduleModel->schedule->rooms->$gpuntisID);
+
 			return;
 		}
 

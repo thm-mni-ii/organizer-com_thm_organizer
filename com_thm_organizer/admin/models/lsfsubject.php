@@ -307,9 +307,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Parses the object and sets subject attributes
 	 *
-	 * @param object &$subject      the subject table object
-	 * @param object &$dataObject   an object representing the data from the
-	 *                                LSF response
+	 * @param object &$subject    the subject table object
+	 * @param object &$dataObject an object representing the data from the
+	 *                            LSF response
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -591,9 +591,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Saves the dependencies to the prerequisites table
 	 *
-	 * @param int   $subjectID the id of the subject being processed
-	 * @param array $dependencies
-	 * @param     $type
+	 * @param int    $subjectID    the id of the subject being processed
+	 * @param array  $dependencies the subject dependencies
+	 * @param string $type         the type (direction) of dependency: pre|post
 	 *
 	 * @return bool
 	 */
@@ -867,10 +867,10 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets subject teachers by their responsibility to the subject
 	 *
-	 * @param int   $subjectID        the subject's id
-	 * @param array &$teachers        an array containing information about the
-	 *                                  subject's teachers
-	 * @param int   $responsibility   the teacher's responsibility level
+	 * @param int   $subjectID      the subject's id
+	 * @param array &$teachers      an array containing information about the
+	 *                              subject's teachers
+	 * @param int   $responsibility the teacher's responsibility level
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */

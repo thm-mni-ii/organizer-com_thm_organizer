@@ -113,6 +113,7 @@ class THM_OrganizerHelperXMLTeachers
 		if (!$surname)
 		{
 			unset($scheduleModel->schedule->teachers->$gpuntisID);
+
 			return;
 		}
 

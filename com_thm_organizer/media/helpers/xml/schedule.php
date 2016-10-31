@@ -156,8 +156,8 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		$semesterName      = trim((string) $xmlSchedule->general->footer);
 		$validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
-		$form = $input->get('jform', array(), 'array');
-		$this->schedule->departmentID = $form['departmentID'];
+		$form                            = $input->get('jform', array(), 'array');
+		$this->schedule->departmentID    = $form['departmentID'];
 		$this->newSchedule->departmentID = $form['departmentID'];
 
 		// Planning period start & end dates
@@ -180,8 +180,8 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		}
 		elseif ($validSemesterName)
 		{
-			$planningPeriodID = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
-			$this->schedule->planningPeriodID = $planningPeriodID;
+			$planningPeriodID                    = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
+			$this->schedule->planningPeriodID    = $planningPeriodID;
 			$this->newSchedule->planningPeriodID = $planningPeriodID;
 		}
 
@@ -207,6 +207,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		{
 			// Don't need the bloat if these won't be used.
 			unset($this->schedule, $this->newSchedule);
+
 			return false;
 		}
 
@@ -256,7 +257,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 				$this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
 			}
 		}
-		$this->schedule->$name = date('Y-m-d', strtotime($value));
+		$this->schedule->$name    = date('Y-m-d', strtotime($value));
 		$this->newSchedule->$name = date('Y-m-d', strtotime($value));
 
 		return;
@@ -304,7 +305,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 				$this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
 			}
 		}
-		$this->schedule->$name = $value;
+		$this->schedule->$name    = $value;
 		$this->newSchedule->$name = $value;
 
 		return true;

@@ -72,11 +72,11 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 	/**
 	 * Sets the value of a generic attribute if available
 	 *
-	 * @param object &$pool     the array where subject data is being stored
-	 * @param string $key       the key where the value should be put
-	 * @param array  $value     the xpath value where the attribute value
-	 *                            should be
-	 * @param string $default   the default value
+	 * @param object &$pool   the array where subject data is being stored
+	 * @param string $key     the key where the value should be put
+	 * @param array  $value   the xpath value where the attribute value
+	 *                        should be
+	 * @param string $default the default value
 	 *
 	 * @return  void
 	 */

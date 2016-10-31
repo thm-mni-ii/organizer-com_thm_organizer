@@ -97,6 +97,7 @@ class THM_OrganizerHelperXMLSubjects
 		if (!$longName)
 		{
 			unset($scheduleModel->schedule->subjects->$subjectIndex);
+
 			return;
 		}
 

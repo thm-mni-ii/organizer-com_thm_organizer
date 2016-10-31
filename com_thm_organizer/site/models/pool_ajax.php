@@ -110,9 +110,9 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 	/**
 	 * Determines whether association options should be offered
 	 *
-	 * @param array   &$programMappings   the program mappings retrieved
-	 * @param array   &$programIDArray    the requested program ids
-	 * @param boolean $isSubject          whether or not the request was sent
+	 * @param array   &$programMappings the program mappings retrieved
+	 * @param array   &$programIDArray  the requested program ids
+	 * @param boolean $isSubject        whether or not the request was sent
 	 *                                      from the subject edit view
 	 *
 	 * @return  boolean  true if association options should be offered, otherwise
@@ -138,13 +138,13 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 	/**
 	 * Fills the options array with HTML pool options
 	 *
-	 * @param array   &$options                an array to store the options in
-	 * @param array   &$programMappings        mappings belonging to one of the
-	 *                                           requested programs
-	 * @param array   &$unelectableMappings    mappings which would lead to data
-	 *                                           inconsistency
-	 * @param array   &$parentIDs              previously mapped parents
-	 * @param boolean $resourceType            the resource's type
+	 * @param array   &$options             an array to store the options in
+	 * @param array   &$programMappings     mappings belonging to one of the
+	 *                                      requested programs
+	 * @param array   &$unelectableMappings mappings which would lead to data
+	 *                                      inconsistency
+	 * @param array   &$parentIDs           previously mapped parents
+	 * @param boolean $resourceType         the resource's type
 	 *
 	 * @return  void
 	 */

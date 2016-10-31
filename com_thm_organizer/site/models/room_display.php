@@ -188,8 +188,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 			}
 			else
 			{
-				$existingTeachers = $events[$times][$lessonID]['teachers'];
-				$newTeachers = $this->getEventTeachers($configuration['teachers']);
+				$existingTeachers                      = $events[$times][$lessonID]['teachers'];
+				$newTeachers                           = $this->getEventTeachers($configuration['teachers']);
 				$events[$times][$lessonID]['teachers'] = array_merge($existingTeachers, $newTeachers);
 			}
 		}
@@ -398,20 +398,20 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 		$blocks = array();
 		foreach ($this->grid['periods'] AS $blockNo => $block)
 		{
-			$blocks[$blockNo]                = array();
-			$blockStartTime                  = THM_OrganizerHelperComponent::formatTime($block['startTime']);
-			$blockEndTime                    = THM_OrganizerHelperComponent::formatTime($block['endTime']);
-			$blocks[$blockNo]['startTime']   = $blockStartTime;
-			$blocks[$blockNo]['endTime']     = $blockEndTime;
-			$blocks[$blockNo]['lessons'] = array();
+			$blocks[$blockNo]              = array();
+			$blockStartTime                = THM_OrganizerHelperComponent::formatTime($block['startTime']);
+			$blockEndTime                  = THM_OrganizerHelperComponent::formatTime($block['endTime']);
+			$blocks[$blockNo]['startTime'] = $blockStartTime;
+			$blocks[$blockNo]['endTime']   = $blockEndTime;
+			$blocks[$blockNo]['lessons']   = array();
 
 			foreach ($events as $times => $eventInstances)
 			{
 				list($eventStartTime, $eventEndTime) = explode('-', $times);
 				$eventStartTime = THM_OrganizerHelperComponent::formatTime($eventStartTime);
-				$eventEndTime = THM_OrganizerHelperComponent::formatTime($eventEndTime);
-				$before = $eventEndTime < $blockStartTime;
-				$after  = $eventStartTime > $blockEndTime;
+				$eventEndTime   = THM_OrganizerHelperComponent::formatTime($eventEndTime);
+				$before         = $eventEndTime < $blockStartTime;
+				$after          = $eventStartTime > $blockEndTime;
 
 				if ($before OR $after)
 				{
@@ -425,7 +425,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 				if (!$startSynch or !$endSynch)
 				{
 					$startTime = THM_OrganizerHelperComponent::formatTime($eventStartTime);
-					$endTime = THM_OrganizerHelperComponent::formatTime($eventEndTime);
+					$endTime   = THM_OrganizerHelperComponent::formatTime($eventEndTime);
 					$divTime .= " ($startTime -  $endTime)";
 				}
 
@@ -434,19 +434,19 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 					$instanceTeachers = $eventInstance['teachers'];
 					if (empty($blocks[$blockNo]['lessons'][$lessonID]))
 					{
-						$blocks[$blockNo]['lessons'][$lessonID] = array();
+						$blocks[$blockNo]['lessons'][$lessonID]             = array();
 						$blocks[$blockNo]['lessons'][$lessonID]['teachers'] = $instanceTeachers;
-						$blocks[$blockNo]['lessons'][$lessonID]['titles'] = $eventInstance['titles'];
-						$blocks[$blockNo]['lessons'][$lessonID]['method'] = $eventInstance['method'];
-						$blocks[$blockNo]['lessons'][$lessonID]['divTime'] = $divTime;
+						$blocks[$blockNo]['lessons'][$lessonID]['titles']   = $eventInstance['titles'];
+						$blocks[$blockNo]['lessons'][$lessonID]['method']   = $eventInstance['method'];
+						$blocks[$blockNo]['lessons'][$lessonID]['divTime']  = $divTime;
 						continue;
 					}
 
 					$existingTeachers = $blocks[$blockNo]['lessons'][$lessonID]['teachers'];
 					$blocks[$blockNo]['lessons'][$lessonID]['teachers']
-						= array_unique(array_merge($instanceTeachers, $existingTeachers));
+					                  = array_unique(array_merge($instanceTeachers, $existingTeachers));
 					$blocks[$blockNo]['lessons'][$lessonID]['titles']
-						= array_unique(array_merge($blocks[$blockNo]['lessons'][$lessonID]['titles'], $eventInstance['titles']));
+					                  = array_unique(array_merge($blocks[$blockNo]['lessons'][$lessonID]['titles'], $eventInstance['titles']));
 				}
 			}
 		}

@@ -147,10 +147,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 						continue;
 					}
 
-					$innerLesson   = $innerEvents[$lessonID];
-					$sameRooms = $innerLesson['rooms'] == $outerLesson['rooms'];
+					$innerLesson  = $innerEvents[$lessonID];
+					$sameRooms    = $innerLesson['rooms'] == $outerLesson['rooms'];
 					$sameTeachers = $innerLesson['teachers'] == $outerLesson['teachers'];
-					$divergent = (!$sameRooms or !$sameTeachers);
+					$divergent    = (!$sameRooms or !$sameTeachers);
 
 					if ($divergent)
 					{
@@ -167,16 +167,16 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 					}
 
 					$outerLesson['startTime'] = $relevantTimes['startTime'];
-					$outerLesson['endTime'] = $relevantTimes['endTime'];
-					$outerStart = $relevantTimes['startTime'];
-					$outerEnd = $relevantTimes['endTime'];
+					$outerLesson['endTime']   = $relevantTimes['endTime'];
+					$outerStart               = $relevantTimes['startTime'];
+					$outerEnd                 = $relevantTimes['endTime'];
 
 					unset($blockEvents[$innerTimes][$lessonID]);
 				}
 
 				$startTime = substr(str_replace(':', '', $outerStart), 0, 4);
 				$endTime   = substr(str_replace(':', '', $outerEnd), 0, 4);
-				$newTimes     = "$startTime-$endTime";
+				$newTimes  = "$startTime-$endTime";
 
 				unset($blockEvents[$outerTimes][$lessonID]);
 
@@ -396,9 +396,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	 * Determines the sequential relevance of two lesson blocks.
 	 *
 	 * @param string $startOuter the start time for the lesson in the outer loop
-	 * @param string $endOuter the end time for the lesson in the outer loop
+	 * @param string $endOuter   the end time for the lesson in the outer loop
 	 * @param string $startInner the start time for the lesson in the inner loop
-	 * @param string $endInner the end time for the lesson in the inner loop
+	 * @param string $endInner   the end time for the lesson in the inner loop
 	 *
 	 * @return array|bool the new start and end times if relevant, otherwise false
 	 */
@@ -412,29 +412,32 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
 		if ($before)
 		{
-			$firstTime = strtotime($endInner);
+			$firstTime  = strtotime($endInner);
 			$secondTime = strtotime($startOuter);
 			$difference = ($secondTime - $firstTime) / 60;
-			$relevant = $difference <= $tolerance;
-			return $relevant? array('startTime' => $startInner, 'endTime' => $endOuter) : false;
+			$relevant   = $difference <= $tolerance;
+
+			return $relevant ? array('startTime' => $startInner, 'endTime' => $endOuter) : false;
 		}
 
 		// Outer lesson ended before inner began
-		$after = $endOuter < $startInner ;
+		$after = $endOuter < $startInner;
 
 		if ($after)
 		{
 
-			$firstTime = strtotime($endOuter);
+			$firstTime  = strtotime($endOuter);
 			$secondTime = strtotime($startInner);
 			$difference = ($secondTime - $firstTime) / 60;
-			$relevant = $difference <= $tolerance;
-			return $relevant? array('startTime' => $startOuter, 'endTime' => $endInner) : false;
+			$relevant   = $difference <= $tolerance;
+
+			return $relevant ? array('startTime' => $startOuter, 'endTime' => $endInner) : false;
 		}
 
 		// Overlapping lessons
-		$startTime = $startOuter < $startInner? $startOuter : $startInner;
-		$endTime = $endOuter > $endInner? $endOuter : $endInner;
+		$startTime = $startOuter < $startInner ? $startOuter : $startInner;
+		$endTime   = $endOuter > $endInner ? $endOuter : $endInner;
+
 		return array('startTime' => $startTime, 'endTime' => $endTime);
 	}
 

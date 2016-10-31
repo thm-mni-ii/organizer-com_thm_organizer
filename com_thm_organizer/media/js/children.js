@@ -193,7 +193,7 @@ function orderWithNumber(firstPos)
 /**
  * Removes a child row from the display
  *
- * @param {int}  rowNumber  the number of the row to be deleted
+ * @param {int} rowNumber the number of the row to be deleted
  *
  * @returns  {void}
  */

@@ -23,9 +23,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds mappings as they exist in LSF for an imported degree program
 	 *
-	 * @param int             $programID   the id of the program in the local
-	 *                                       database
-	 * @param SimpleXMLObject &$lsfData    the data recieved from the LSF system
+	 * @param int             $programID the id of the program in the local
+	 *                                   database
+	 * @param SimpleXMLObject &$lsfData  the data recieved from the LSF system
 	 *
 	 * @return  boolean  true if the data was mapped, otherwise false
 	 */
@@ -129,9 +129,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds a subject from LSF to the mappings table
 	 *
-	 * @param object &$subject          the subject object
-	 * @param int    $parentMappingID   the id of the parent element in the
-	 *                                    mappings table
+	 * @param object &$subject        the subject object
+	 * @param int    $parentMappingID the id of the parent element in the
+	 *                                mappings table
 	 *
 	 * @return  boolean  true if the mapping exists, otherwise false
 	 */
@@ -185,8 +185,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds a pool mapping to a parent mapping
 	 *
-	 * @param array &$pool   an array containing data about a pool and its
-	 *                         children
+	 * @param array &$pool an array containing data about a pool and its
+	 *                     children
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */
@@ -582,10 +582,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Retrieves child mappings for a given pool
 	 *
-	 * @param int    $resourceID   the resource id
-	 * @param string $type         the resource id (defaults: pool)
-	 * @param bool   $deep         if the function should be used to find
-	 *                               children iteratively or not (default: false)
+	 * @param int    $resourceID the resource id
+	 * @param string $type       the resource id (defaults: pool)
+	 * @param bool   $deep       if the function should be used to find
+	 *                           children iteratively or not (default: false)
 	 *
 	 * @return  array  empty if no child data exists
 	 */
@@ -1068,8 +1068,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Shifts left and right values to allow for the values to be inserted
 	 *
-	 * @param int $value   the integer value above which left and right values
-	 *                       need to be shifted
+	 * @param int $value the integer value above which left and right values
+	 *                   need to be shifted
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */

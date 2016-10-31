@@ -235,10 +235,10 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Adds a teacher association
 	 *
-	 * @param int   $subjectID        the id of the subject
-	 * @param array $teacherID        the id of the teacher
-	 * @param int   $responsibility   the teacher's responsibility for the
-	 *                                  subject
+	 * @param int   $subjectID      the id of the subject
+	 * @param array $teacherID      the id of the teacher
+	 * @param int   $responsibility the teacher's responsibility for the
+	 *                              subject
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */

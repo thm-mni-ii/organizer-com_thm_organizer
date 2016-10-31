@@ -71,7 +71,8 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 	<div id="schedule-form" tabindex="0" class="selection">
 		<div id="category-input">
 			<select id="category" name="category" required>
-				<option value="placeholder" disabled selected><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_SELECT_OPTION"); ?></option>
+				<option value="placeholder" disabled
+				        selected><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_SELECT_OPTION"); ?></option>
 				<option value="program"><?php echo JText::_("COM_THM_ORGANIZER_PROGRAMS"); ?></option>
 				<option value="roomtype"><?php echo JText::_("COM_THM_ORGANIZER_ROOM_PLANS"); ?></option>
 				<option value="teacher"><?php echo JText::_("COM_THM_ORGANIZER_TEACHERPLAN"); ?></option>
@@ -180,97 +181,97 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 		JText::_('Monday'), JText::_('Tuesday'), JText::_('Wednesday'), JText::_('Thursday'),
 		JText::_('Friday'), JText::_('Saturday'), JText::_('Sunday')
 	);
-	$periods = get_object_vars($this->defaultGrid->periods);
+	$periods       = get_object_vars($this->defaultGrid->periods);
 	?>
 
 	<div id="scheduleWrapper" class="scheduleWrapper">
-	<input class="scheduler-input" checked type="radio" id="my-schedule" name="schedules">
-	<div id="my-schedule" class="scheduler">
-	<table>
-	<thead>
-	<tr>
-		<th><?php echo JText::_('COM_THM_ORGANIZER_TIME'); ?></th>
+		<input class="scheduler-input" checked type="radio" id="my-schedule" name="schedules">
+		<div id="my-schedule" class="scheduler">
+			<table>
+				<thead>
+				<tr>
+					<th><?php echo JText::_('COM_THM_ORGANIZER_TIME'); ?></th>
 
-	<?php
-	for ($weekday = $this->defaultGrid->startDay - 1; $weekday < $this->defaultGrid->endDay; ++$weekday)
-	{
-		echo '<th>' . $daysOfTheWeek[$weekday] . '</th>';
-	}
-	?>
+					<?php
+					for ($weekday = $this->defaultGrid->startDay - 1; $weekday < $this->defaultGrid->endDay; ++$weekday)
+					{
+						echo '<th>' . $daysOfTheWeek[$weekday] . '</th>';
+					}
+					?>
 
-	</tr>
-	</thead>
-	<tbody>
+				</tr>
+				</thead>
+				<tbody>
 
-	<?php
-	for ($period = 1; $period <= count($periods); ++$period)
-	{
-		if ($period == 4)
-		{
-			echo "<tr>";
-			echo '<td class="break" colspan="7">' . JText::_('COM_THM_ORGANIZER_LUNCHTIME') . '</td>';
-			echo "</tr>";
-		}
-
-		echo "<tr>";
-		echo "<td>";
-		echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
-		echo "<br> - <br>";
-		echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
-		echo "</td>";
-		foreach ($this->mySchedule->days as $day)
-		{
-			echo "<td>";
-			foreach ($day->$period as $lesson)
-			{
-				echo '<div class="lesson">';
-				if (isset($lesson->time))
+				<?php
+				for ($period = 1; $period <= count($periods); ++$period)
 				{
-					echo '<span class="own-time">' .
-						THM_OrganizerHelperComponent::formatTime($lesson->time) .
-						'</span> ';
-				}
+					if ($period == 4)
+					{
+						echo "<tr>";
+						echo '<td class="break" colspan="7">' . JText::_('COM_THM_ORGANIZER_LUNCHTIME') . '</td>';
+						echo "</tr>";
+					}
 
-				if (isset($lesson->name))
-				{
-					echo '<span class="name">' . $lesson->name . '</span> ';
-				}
+					echo "<tr>";
+					echo "<td>";
+					echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
+					echo "<br> - <br>";
+					echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
+					echo "</td>";
+					foreach ($this->mySchedule->days as $day)
+					{
+						echo "<td>";
+						foreach ($day->$period as $lesson)
+						{
+							echo '<div class="lesson">';
+							if (isset($lesson->time))
+							{
+								echo '<span class="own-time">' .
+									THM_OrganizerHelperComponent::formatTime($lesson->time) .
+									'</span> ';
+							}
 
-				if (isset($lesson->module))
-				{
-					echo '<span class="module">' . $lesson->module . '</span> ';
-				}
+							if (isset($lesson->name))
+							{
+								echo '<span class="name">' . $lesson->name . '</span> ';
+							}
 
-				if (isset($lesson->teacher))
-				{
-					echo '<span class="person">' . $lesson->teacher . '</span> ';
-				}
+							if (isset($lesson->module))
+							{
+								echo '<span class="module">' . $lesson->module . '</span> ';
+							}
 
-				if (isset($lesson->misc))
-				{
-					echo '<span class="misc">' . $lesson->misc . '</span> ';
-				}
+							if (isset($lesson->teacher))
+							{
+								echo '<span class="person">' . $lesson->teacher . '</span> ';
+							}
 
-				if (isset($lesson->room))
-				{
-					echo '<span class="locations">';
-					/* TODO: <span class="old"></span> */
-					echo '<span class="new">';
-					echo '<a href="#">' . $lesson->room . '</a>';
-					echo "</span>";
-					echo "</span>";
-				}
+							if (isset($lesson->misc))
+							{
+								echo '<span class="misc">' . $lesson->misc . '</span> ';
+							}
 
-				echo '<button class="add-lesson"><span class="icon-plus-2"></span></button>';
-				echo "</div>";
-			} // Lessons
-			echo "</td>";
-		} // Days
-		echo "</tr>";
-	} // Periods
-	?>
-	</tbody>
-	</table>
-	</div>
+							if (isset($lesson->room))
+							{
+								echo '<span class="locations">';
+								/* TODO: <span class="old"></span> */
+								echo '<span class="new">';
+								echo '<a href="#">' . $lesson->room . '</a>';
+								echo "</span>";
+								echo "</span>";
+							}
+
+							echo '<button class="add-lesson"><span class="icon-plus-2"></span></button>';
+							echo "</div>";
+						} // Lessons
+						echo "</td>";
+					} // Days
+					echo "</tr>";
+				} // Periods
+				?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

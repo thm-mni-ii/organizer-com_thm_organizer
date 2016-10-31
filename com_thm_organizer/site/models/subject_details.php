@@ -197,10 +197,10 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	private function setDependencies(&$subject)
 	{
 		$subjectID = $subject->id;
-		$langTag = THM_OrganizerHelperLanguage::getShortTag();
-		$programs = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
+		$langTag   = THM_OrganizerHelperLanguage::getShortTag();
+		$programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
 
-		$query = $this->_db->getQuery(true);
+		$query  = $this->_db->getQuery(true);
 		$select = "DISTINCT pr.id AS id, ";
 		$select .= "s1.id AS preID, s1.name_$langTag AS preName, s1.externalID AS preModuleNumber, ";
 		$select .= "s2.id AS postID, s2.name_$langTag AS postName, s2.externalID AS postModuleNumber";
@@ -243,12 +243,12 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 					}
 					if (empty($subject->postSubjects[$programID]))
 					{
-						$subject->postSubjects[$programID] = array();
-						$subject->postSubjects[$programID]['name'] = $program['name'];
+						$subject->postSubjects[$programID]             = array();
+						$subject->postSubjects[$programID]['name']     = $program['name'];
 						$subject->postSubjects[$programID]['subjects'] = array();
 					}
 					$name = $dependency['postName'];
-					$name .= empty($dependency['postModuleNumber'])? '' : " ({$dependency['postModuleNumber']})";
+					$name .= empty($dependency['postModuleNumber']) ? '' : " ({$dependency['postModuleNumber']})";
 					$subject->postSubjects[$programID]['subjects'][$dependency['postID']] = $name;
 				}
 				else
@@ -259,12 +259,12 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 					}
 					if (empty($subject->preSubjects[$programID]))
 					{
-						$subject->preSubjects[$programID] = array();
-						$subject->preSubjects[$programID]['name'] = $program['name'];
+						$subject->preSubjects[$programID]             = array();
+						$subject->preSubjects[$programID]['name']     = $program['name'];
 						$subject->preSubjects[$programID]['subjects'] = array();
 					}
 					$name = $dependency['preName'];
-					$name .= empty($dependency['preModuleNumber'])? '' : " ({$dependency['preModuleNumber']})";
+					$name .= empty($dependency['preModuleNumber']) ? '' : " ({$dependency['preModuleNumber']})";
 					$subject->preSubjects[$programID]['subjects'][$dependency['preID']] = $name;
 				}
 			}

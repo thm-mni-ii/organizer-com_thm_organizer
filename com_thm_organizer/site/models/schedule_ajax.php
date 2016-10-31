@@ -132,8 +132,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 */
 	public function getRoomTypes()
 	{
-		$this->_db    = JFactory::getDbo();
-		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
+		$this->_db   = JFactory::getDbo();
+		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
 		$query = $this->_db->getQuery(true);
 		$query->select("id, name_$languageTag AS name")
@@ -277,7 +277,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 		$query       = $this->_db->getQuery(true);
 		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$selection = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
+		$selection   = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
 		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
 		$selection .= "cal.startTime, cal.endTime, cal.schedule_date, cal.delta AS calendarDelta";
 
@@ -315,10 +315,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		else
 		{
-			$selectedDate = new DateTime($dateString);
-			$dayNumber = $selectedDate->format('N');
+			$selectedDate   = new DateTime($dateString);
+			$dayNumber      = $selectedDate->format('N');
 			$intervalBefore = $dayNumber;
-			$intervalAfter = 7 - $dayNumber;
+			$intervalAfter  = 7 - $dayNumber;
 
 			$query->where("cal.schedule_date <= DATE_ADD('$dateString', INTERVAL $intervalAfter DAY)")
 				->where("cal.schedule_date >= DATE_SUB('$dateString', INTERVAL $intervalBefore DAY)");
@@ -367,7 +367,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 		$query       = $this->_db->getQuery(true);
 		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$selection = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
+		$selection   = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
 		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
 		$selection .= "cal.startTime, cal.endTime, cal.schedule_date";
 
@@ -401,10 +401,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		else
 		{
-			$selectedDate = new DateTime($dateString);
-			$dayNumber = $selectedDate->format('N');
+			$selectedDate   = new DateTime($dateString);
+			$dayNumber      = $selectedDate->format('N');
 			$intervalBefore = $dayNumber;
-			$intervalAfter = 7 - $dayNumber;
+			$intervalAfter  = 7 - $dayNumber;
 
 			$query->where("cal.schedule_date <= DATE_ADD('$dateString', INTERVAL $intervalAfter DAY)")
 				->where("cal.schedule_date >= DATE_SUB('$dateString', INTERVAL $intervalBefore DAY)");
@@ -455,7 +455,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 		$query       = $this->_db->getQuery(true);
 		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$selection = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
+		$selection   = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
 		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
 		$selection .= "cal.startTime, cal.endTime, cal.schedule_date";
 
@@ -472,7 +472,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		foreach ($roomIDs as $roomID)
 		{
 			// Regex for e.g. "rooms":{"xyz123":"","roomID":""
-			$regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.:.]][[.{.]]' .
+			$regexp       = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.:.]][[.{.]]' .
 				'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
 				'[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]' .
 				'[[.quotation-mark.]][^removed]';
@@ -497,10 +497,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		else
 		{
-			$selectedDate = new DateTime($dateString);
-			$dayNumber = $selectedDate->format('N');
+			$selectedDate   = new DateTime($dateString);
+			$dayNumber      = $selectedDate->format('N');
 			$intervalBefore = $dayNumber;
-			$intervalAfter = 7 - $dayNumber;
+			$intervalAfter  = 7 - $dayNumber;
 
 			$query->where("cal.schedule_date <= DATE_ADD('$dateString', INTERVAL $intervalAfter DAY)")
 				->where("cal.schedule_date >= DATE_SUB('$dateString', INTERVAL $intervalBefore DAY)");

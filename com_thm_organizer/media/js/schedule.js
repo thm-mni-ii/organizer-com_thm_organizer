@@ -18,9 +18,9 @@ var activeDay, schedules, scheduleWrapper, isMobile, dateField, weekdays, weekda
 /**
  * Schedule class for saving params and update the already existing schedules.
  *
- * @param id  unique string
+ * @param id unique string
  */
-Schedule = function(id)
+Schedule = function (id)
 {
     this.id = id; // string
     this.table = null; // HTMLTableElement
@@ -44,7 +44,7 @@ jQuery(document).ready(function ()
     {
         document.getElementById('calendar-icon').style.display = 'none';
     }
-    
+
     /**
      * swipe touch event handler changing the shown day and date
      * @see http://www.javascriptkit.com/javatutors/touchevents.shtml
@@ -272,7 +272,7 @@ function changeDate(nextDate, nextMonth)
 /**
  * gets the maximum count of days of the given month
  *
- * @param date  Date object
+ * @param date Date object
  *
  * @returns number (28|29|30|31)
  */
@@ -485,7 +485,7 @@ function computeTableHeight()
 /**
  * sets the name of the weekday in the element with id = weekday
  *
- * @param date  Date object
+ * @param date Date object
  */
 function setWeekday(date)
 {
@@ -556,8 +556,8 @@ function setGridByClick()
 /**
  * here the table head changes to the grids specified weekdays with start day and end day
  *
- * @param schedule  DOM element table
- * @param grid  object with day data
+ * @param schedule DOM element table
+ * @param grid object with day data
  */
 function setGridDays(schedule, grid)
 {
@@ -584,7 +584,7 @@ function setGridDays(schedule, grid)
  * sets the chosen times of the grid in the schedules tables
  *
  * @param schedule   table-DOM-Element
- * @param grid   grid with start- and end times
+ * @param grid grid with start- and end times
  */
 function setGridTime(schedule, grid)
 {
@@ -620,7 +620,6 @@ function setGridTime(schedule, grid)
         ownElements[element].style.display = hasPeriods ? 'none' : 'block';
     }
 }
-
 
 /******* ********* *******/
 /******* Ajax part *******/
@@ -801,7 +800,7 @@ function updateLessons()
 /**
  * create a new entry in the dropdown field for selecting a schedule
  *
- * @param schedule  Schedule object
+ * @param schedule Schedule object
  */
 function addScheduleToSelection(schedule)
 {
@@ -820,7 +819,7 @@ function addScheduleToSelection(schedule)
  * Creates a table DOM-element with an input and label for selecting it and a caption with the given title.
  * It gets appended to the scheduleWrapper.
  *
- * @param schedule  Schedule object
+ * @param schedule Schedule object
  * @returns HTMLTableElement
  */
 function createScheduleTable(schedule)
@@ -961,8 +960,8 @@ function fillTimes(table)
 /**
  * inserts lessons into a schedule table
  *
- * @param table  HTMLTableElement | object
- * @param lessons   JSON data
+ * @param table HTMLTableElement | object
+ * @param lessons JSON data
  */
 function insertLessons(table, lessons)
 {
@@ -1137,7 +1136,7 @@ function onlyShowFormInput(fieldIDsToShow)
 /**
  * removes all children elements of one given parent element
  *
- * @param element object  parent element
+ * @param element object parent element
  */
 function removeChildren(element)
 {
@@ -1194,7 +1193,7 @@ function getScheduleByResponse(responseUrl)
 
     scheduleID = id[1] + id[2];
 
-    scheduleObjects.forEach(function(element)
+    scheduleObjects.forEach(function (element)
     {
         if (element.id == scheduleID)
         {
@@ -1214,7 +1213,7 @@ function getScheduleById(id)
 {
     var schedule = false;
 
-    scheduleObjects.forEach(function(element)
+    scheduleObjects.forEach(function (element)
     {
         if (element.id == id)
         {

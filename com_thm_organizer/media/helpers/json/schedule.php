@@ -146,12 +146,12 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			}
 
 			$lessonSubjectID = $lessonSubjects[$configuration->subjectID]['id'];
-			$pullConfig = $configuration;
+			$pullConfig      = $configuration;
 			unset($pullConfig->lessonID, $pullConfig->subjectID);
-			$pullConfig = json_encode($pullConfig);
-			$configData    = array('lessonID' => $lessonSubjectID, 'configuration' => $pullConfig);
-			$configsTable  = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
-			$exists        = $configsTable->load($configData);
+			$pullConfig   = json_encode($pullConfig);
+			$configData   = array('lessonID' => $lessonSubjectID, 'configuration' => $pullConfig);
+			$configsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
+			$exists       = $configsTable->load($configData);
 
 			if ($exists)
 			{
@@ -767,6 +767,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		if (!is_object($numericCollection) OR empty($numericCollection))
 		{
 			$numericCollection = null;
+
 			return;
 		}
 
@@ -1062,7 +1063,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				$data['methodID'] = $lesson->methodID;
 			}
 
-			$data['delta'] = empty($lesson->delta) ? '' : $lesson->delta;
+			$data['delta']   = empty($lesson->delta) ? '' : $lesson->delta;
 			$data['comment'] = empty($lesson->comment) ? '' : $lesson->comment;
 
 			$success = $table->save($data);
@@ -1584,8 +1585,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 			foreach ($removedSubjectIDs as $removedSubjectID)
 			{
-				$removedSubject = $this->refSchedule->lessons->$carriedLessonID->subjects->$removedSubjectID;
-				$removedSubject->delta = 'removed';
+				$removedSubject                                                         = $this->refSchedule->lessons->$carriedLessonID->subjects->$removedSubjectID;
+				$removedSubject->delta                                                  = 'removed';
 				$this->schedule->lessons->$carriedLessonID->subjects->$removedSubjectID = $removedSubject;
 			}
 

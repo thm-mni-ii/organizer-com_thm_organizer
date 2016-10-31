@@ -14,12 +14,12 @@ $oneStar    = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1star
 $twoStars   = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
 $threeStars = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 
-$displayExpertise = $this->displayStarAttribute($this->item->expertise);
+$displayExpertise  = $this->displayStarAttribute($this->item->expertise);
 $displayMethodComp = $this->displayStarAttribute($this->item->method_competence);
 $displaySocialComp = $this->displayStarAttribute($this->item->social_competence);
-$displaySelfComp = $this->displayStarAttribute($this->item->self_competence);
+$displaySelfComp   = $this->displayStarAttribute($this->item->self_competence);
 
-$prerequisites = $this->getDependencies('pre');
+$prerequisites  = $this->getDependencies('pre');
 $postrequisites = $this->getDependencies('post');
 
 ?>
