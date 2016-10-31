@@ -23,7 +23,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Performs an automated merge of field entries, in as far as this is possible according to plausibility constraints.
 	 *
-	 * @param   string $resource the resource type being merged
+	 * @param string $resource the resource type being merged
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -111,7 +111,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Attempts to delete resource entries
 	 *
-	 * @param   string $resource the name of the resource type being deleted
+	 * @param string $resource the name of the resource type being deleted
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -173,8 +173,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Method to get all gpuntis IDs for the resources to be merged
 	 *
-	 * @param   string $resource the name of the resource
-	 * @param   array  $allDBIDs all of the resource db entry ids
+	 * @param string $resource the name of the resource
+	 * @param array  $allDBIDs all of the resource db entry ids
 	 *
 	 * @return  mixed  array on success, otherwise null
 	 */
@@ -197,8 +197,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Method to get all gpuntis IDs for the resources to be merged
 	 *
-	 * @param   string $tableName the unique portion of the database table with the appropriate 'description' entries
-	 * @param   array  $dbID      the id of the resource entry
+	 * @param string $tableName the unique portion of the database table with the appropriate 'description' entries
+	 * @param array  $dbID      the id of the resource entry
 	 *
 	 * @return  mixed  array on success, otherwise null
 	 */
@@ -221,8 +221,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Retrieves resource entries from the database
 	 *
-	 * @param   string $tableName    the unique portion of the resource table name
-	 * @param   bool   $onlySelected whether or not to retrieve all entries
+	 * @param string $tableName    the unique portion of the resource table name
+	 * @param bool   $onlySelected whether or not to retrieve all entries
 	 *
 	 * @return  mixed  array on success, otherwise null
 	 */
@@ -283,7 +283,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Retrieves the schedule for the given id.
 	 *
-	 * @param   int $scheduleID the id of the schedule
+	 * @param int $scheduleID the id of the schedule
 	 *
 	 * @return  mixed  object on success, otherwise null
 	 */
@@ -312,8 +312,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Merges resource entries and cleans association tables.
 	 *
-	 * @param   string $resource the name of the resource type
-	 * @param   array  $data     the data when called from auto merge
+	 * @param string $resource the name of the resource type
+	 * @param array  $data     the data when called from auto merge
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -383,9 +383,9 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Removes the resource from the schedule
 	 *
-	 * @param   object &$schedule  the schedule from which the resource will be removed
-	 * @param   int    $resourceID the id of the resource in the db
-	 * @param   string $gpuntisID  the gpuntis ID for the given resource
+	 * @param object &$schedule  the schedule from which the resource will be removed
+	 * @param int    $resourceID the id of the resource in the db
+	 * @param string $gpuntisID  the gpuntis ID for the given resource
 	 *
 	 * @return  void  modifies the schedule
 	 */
@@ -394,8 +394,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Removes the resource from the schedule
 	 *
-	 * @param   int    $resourceID the id of the resource in the db
-	 * @param   string $gpuntisID  the gpuntis ID for the given resource
+	 * @param int    $resourceID the id of the resource in the db
+	 * @param string $gpuntisID  the gpuntis ID for the given resource
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */
@@ -432,7 +432,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Attempts to save a resource entry, updating schedule data as necessary.
 	 *
-	 * @param   string $resource the name of the resource type being merged
+	 * @param string $resource the name of the resource type being merged
 	 *
 	 * @return  mixed  integer on success, otherwise false
 	 */
@@ -486,10 +486,10 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Replaces old room associations
 	 *
-	 * @param   string $resource  the name of the resource type being merged
-	 * @param   int    $newDBID   the id onto which the room entries merge
-	 * @param   string $oldDBIDs  a string containing the ids to be replaced
-	 * @param   string $tableName the unique part of the table name
+	 * @param string $resource  the name of the resource type being merged
+	 * @param int    $newDBID   the id onto which the room entries merge
+	 * @param string $oldDBIDs  a string containing the ids to be replaced
+	 * @param string $tableName the unique part of the table name
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -519,8 +519,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Replaces old room associations
 	 *
-	 * @param   int    $newDBID  the id onto which the room entries merge
-	 * @param   string $oldDBIDs a string containing the ids to be replaced
+	 * @param int    $newDBID  the id onto which the room entries merge
+	 * @param string $oldDBIDs a string containing the ids to be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -529,12 +529,12 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Processes the data for an individual schedule
 	 *
-	 * @param   object &$schedule     the schedule being processed
-	 * @param   array  &$data         the data for the schedule db entry
-	 * @param   int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-	 * @param   string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-	 * @param   array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param   array  $allDBIDs      all db IDs for the resources to be merged
+	 * @param object &$schedule     the schedule being processed
+	 * @param array  &$data         the data for the schedule db entry
+	 * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
+	 * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
+	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
+	 * @param array  $allDBIDs      all db IDs for the resources to be merged
 	 *
 	 * @return  void
 	 */
@@ -543,11 +543,11 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Updates room data and lesson associations in active schedules
 	 *
-	 * @param   int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-	 * @param   string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-	 * @param   array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param   array  $allDBIDs      all db IDs for the resources to be merged
-	 * @param   array  $data          the data for the schedule db entry
+	 * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
+	 * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
+	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
+	 * @param array  $allDBIDs      all db IDs for the resources to be merged
+	 * @param array  $data          the data for the schedule db entry
 	 *
 	 * @return bool  true on success, otherwise false
 	 */

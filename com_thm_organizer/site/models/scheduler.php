@@ -74,7 +74,7 @@ class THM_OrganizerModelScheduler extends JModelLegacy
 	/**
 	 * Method to check if the component is available
 	 *
-	 * @param   string $com Component name
+	 * @param string $com Component name
 	 *
 	 * @return  Boolean true if the component is available, false otherwise
 	 */
@@ -105,7 +105,7 @@ class THM_OrganizerModelScheduler extends JModelLegacy
 	/**
 	 * Method to get the active schedule
 	 *
-	 * @param   string $deptAndSem The department semester selection
+	 * @param string $deptAndSem The department semester selection
 	 *
 	 * @return   mixed  The active schedule or false
 	 */
@@ -150,7 +150,7 @@ class THM_OrganizerModelScheduler extends JModelLegacy
 	/**
 	 * Method to get the active schedule
 	 *
-	 * @param   string $scheduleID The schedule ID
+	 * @param string $scheduleID The schedule ID
 	 *
 	 * @return   mixed  The active schedule or false
 	 */

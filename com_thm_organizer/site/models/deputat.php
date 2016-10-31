@@ -48,7 +48,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Sets construction model properties
 	 *
-	 * @param   array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 */
 	public function __construct($config = array())
 	{
@@ -92,7 +92,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Resolves the department id to its name
 	 *
-	 * @param   int $departmentID the id of the department
+	 * @param int $departmentID the id of the department
 	 *
 	 * @return  void  sets the object variable $departmentName on success
 	 */
@@ -226,10 +226,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Sets consumption by instance (block + lesson)
 	 *
-	 * @param   object &$schedule the schedule being processed
-	 * @param   string $day       the day being iterated
-	 * @param   object &$blocks   the blocks of the date being iterated
-	 * @param   array  &$teachers teachers to compare against if the schedule is not the original
+	 * @param object &$schedule the schedule being processed
+	 * @param string $day       the day being iterated
+	 * @param object &$blocks   the blocks of the date being iterated
+	 * @param array  &$teachers teachers to compare against if the schedule is not the original
 	 *
 	 * @return  void
 	 */
@@ -262,12 +262,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Iterates the lesson associated pools for the purpose of teacher consumption
 	 *
-	 * @param   object &$schedule   the schedule being processed
-	 * @param   string $day         the day being iterated
-	 * @param   int    $blockNumber the block number being iterated
-	 * @param   string $lessonID    the lesson ID
-	 * @param   int    $hours       the number of school hours for the lesson
-	 * @param   array  &$teachers   teachers to compare against if the schedule is not the original
+	 * @param object &$schedule   the schedule being processed
+	 * @param string $day         the day being iterated
+	 * @param int    $blockNumber the block number being iterated
+	 * @param string $lessonID    the lesson ID
+	 * @param int    $hours       the number of school hours for the lesson
+	 * @param array  &$teachers   teachers to compare against if the schedule is not the original
 	 *
 	 * @return  void
 	 */
@@ -310,12 +310,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Sets the pertinent deputat information
 	 *
-	 * @param   object &$schedule   the schedule being processed
-	 * @param   string $day         the day being iterated
-	 * @param   int    $blockNumber the block number being iterated
-	 * @param   string $lessonID    the lesson being iterated
-	 * @param   string $teacherID   the teacher being iterated
-	 * @param   int    $hours       the number of school hours for the lesson
+	 * @param object &$schedule   the schedule being processed
+	 * @param string $day         the day being iterated
+	 * @param int    $blockNumber the block number being iterated
+	 * @param string $lessonID    the lesson being iterated
+	 * @param string $teacherID   the teacher being iterated
+	 * @param int    $hours       the number of school hours for the lesson
 	 *
 	 * @return  void  sets object values
 	 */
@@ -388,8 +388,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks whether the subject is relevant
 	 *
-	 * @param   object &$schedule the schedule being processed
-	 * @param   string $lessonID  the id of the lesson
+	 * @param object &$schedule the schedule being processed
+	 * @param string $lessonID  the id of the lesson
 	 *
 	 * @return  bool  true if relevant, otherwise false
 	 */
@@ -418,8 +418,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks whether the lesson type is relevant
 	 *
-	 * @param   object &$schedule the schedule being processed
-	 * @param   string $lessonID  the id of the lesson
+	 * @param object &$schedule the schedule being processed
+	 * @param string $lessonID  the id of the lesson
 	 *
 	 * @return  mixed  string type if relevant, otherwise false
 	 */
@@ -444,9 +444,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Associates a teacher with a given lesson
 	 *
-	 * @param   object &$schedule the schedule being processed
-	 * @param   string $lessonID  the id of the lesson
-	 * @param   string $teacherID the id of the teacher
+	 * @param object &$schedule the schedule being processed
+	 * @param string $lessonID  the id of the lesson
+	 * @param string $teacherID the id of the teacher
 	 *
 	 * @return  void  sets object variables
 	 */
@@ -466,8 +466,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Creates a concatenated subject name from the relevant subject names for the lesson
 	 *
-	 * @param   object &$schedule the schedule being processed
-	 * @param   string $lessonID  the id of the lesson
+	 * @param object &$schedule the schedule being processed
+	 * @param string $lessonID  the id of the lesson
 	 *
 	 * @return  string  the concatenated name of the subject(s)
 	 */
@@ -506,9 +506,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Creates a concatenated pool name from the relevant pool keys for the lesson
 	 *
-	 * @param   object &$schedule the schedule being processed
-	 * @param   string $lessonID  the id of the lesson
-	 * @param   string $teacherID the id of the teacher
+	 * @param object &$schedule the schedule being processed
+	 * @param string $lessonID  the id of the lesson
+	 * @param string $teacherID the id of the teacher
 	 *
 	 * @return  string  the concatenated name of the subject(s)
 	 */
@@ -543,8 +543,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks whether the lesson should be tallied instead of summarized. (Oral exams or colloquia)
 	 *
-	 * @param   object &$schedule the schedule being processed
-	 * @param   string $lessonID  the id of the lesson
+	 * @param object &$schedule the schedule being processed
+	 * @param string $lessonID  the id of the lesson
 	 *
 	 * @return  bool  true if the lesson should be tallied instead of summarized, otherwise false
 	 */
@@ -643,8 +643,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		/**
 		 * Compares the string values of two array indexes
 		 *
-		 * @param   array $one the first array
-		 * @param   array $two the second array
+		 * @param array $one the first array
+		 * @param array $two the second array
 		 *
 		 * @return  int  see return value for strcmp
 		 */
@@ -659,8 +659,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Sets the values for tallied lessons
 	 *
-	 * @param   string $teacherID     the teacher's id
-	 * @param   array  &$lessonValues the values for the lesson being iterated
+	 * @param string $teacherID     the teacher's id
+	 * @param array  &$lessonValues the values for the lesson being iterated
 	 *
 	 * @return  void  sets values in the object variable $deputat
 	 */
@@ -693,7 +693,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Gets the rate at which lessons are converted to scholastic weekly hours
 	 *
-	 * @param   string $subjectName the 'subject' name
+	 * @param string $subjectName the 'subject' name
 	 *
 	 * @return  float|int  the conversion rate
 	 */
@@ -721,9 +721,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Sets the values for summarized lessons
 	 *
-	 * @param   string $teacherID     the teacher's id
-	 * @param   array  &$lessonValues the values for the lesson being iterated
-	 * @param   string $index         the index to be used for the lesson
+	 * @param string $teacherID     the teacher's id
+	 * @param array  &$lessonValues the values for the lesson being iterated
+	 * @param string $index         the index to be used for the lesson
 	 *
 	 * @return  void  sets values in the object variable $deputat
 	 */
@@ -751,8 +751,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Sorts two period keys. (Callable)
 	 *
-	 * @param   string $keyOne the first key
-	 * @param   string $keyTwo the second key
+	 * @param string $keyOne the first key
+	 * @param string $keyTwo the second key
 	 *
 	 * @return int
 	 *
@@ -792,7 +792,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Converts day names to the their order number
 	 *
-	 * @param   string $dayName the name of the day
+	 * @param string $dayName the name of the day
 	 *
 	 * @return  int  the number of the day
 	 */
@@ -830,7 +830,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Gets the total hours from an array with the structure period > date > hours
 	 *
-	 * @param   array $periods the periods for the lesson
+	 * @param array $periods the periods for the lesson
 	 *
 	 * @return  int  the sum of the lesson's hours
 	 */
@@ -848,8 +848,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks lesson values to determine the plausibility of aggregation
 	 *
-	 * @param   array $lessonValues     the values for the lesson being iterated in the outer loop
-	 * @param   array $comparisonValues the values for the lesson being iterated in the inner loop
+	 * @param array $lessonValues     the values for the lesson being iterated in the outer loop
+	 * @param array $comparisonValues the values for the lesson being iterated in the inner loop
 	 *
 	 * @return  bool  true if the lessons are a plausible match, otherwise false
 	 */
@@ -870,9 +870,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Aggregates similar lessons to a single output
 	 *
-	 * @param   string $teacherID    the id of the teacher
-	 * @param   string $subjectIndex the index of this group of lessons in the array
-	 * @param   array  $aggValues    the values to be aggregated
+	 * @param string $teacherID    the id of the teacher
+	 * @param string $subjectIndex the index of this group of lessons in the array
+	 * @param array  $aggValues    the values to be aggregated
 	 *
 	 * @return  void  alters object variables
 	 */
@@ -963,9 +963,9 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks for the cross department deputat of teachers belonging to the department
 	 *
-	 * @param   array  $teachers  the teachers listed in the original schedule
-	 * @param   string $startDate the start date of the original schedule
-	 * @param   string $endDate   the end date of the original schedule
+	 * @param array  $teachers  the teachers listed in the original schedule
+	 * @param string $startDate the start date of the original schedule
+	 * @param string $endDate   the end date of the original schedule
 	 *
 	 * @return  void  adds deputat to the lesson values array
 	 */
@@ -997,8 +997,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks the database for plausible schedules
 	 *
-	 * @param   string $startDate the start date of the original schedule
-	 * @param   string $endDate   the end date of the original schedule
+	 * @param string $startDate the start date of the original schedule
+	 * @param string $endDate   the end date of the original schedule
 	 *
 	 * @return  mixed  array on success, otherwise null
 	 */
@@ -1026,7 +1026,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Checks the database for plausible schedules
 	 *
-	 * @param   int $scheduleID the id of the schedule to be iterated
+	 * @param int $scheduleID the id of the schedule to be iterated
 	 *
 	 * @return  mixed  array on success, otherwise null
 	 */

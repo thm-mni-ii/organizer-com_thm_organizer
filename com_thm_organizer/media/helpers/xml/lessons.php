@@ -79,8 +79,8 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Creates the lesson model
 	 *
-	 * @param   object &$scheduleModel the model for the schedule
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the model for the schedule
+	 * @param object &$xmlObject     the xml object being validated
 	 */
 	public function __construct(&$scheduleModel, &$xmlObject)
 	{
@@ -196,8 +196,8 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Determines how the missing room attribute will be handled
 	 *
-	 * @param   string $currentDT the timestamp of the date being iterated
-	 * @param   string $period    the value of the period attribute
+	 * @param string $currentDT the timestamp of the date being iterated
+	 * @param string $period    the value of the period attribute
 	 *
 	 * @return  boolean  true if blocking and not set elsewhere, otherwise false
 	 */
@@ -255,7 +255,7 @@ class THM_OrganizerHelperXMLLessons
 	 * Checks whether lesson nodes have the expected structure and required
 	 * information
 	 *
-	 * @param   object &$lessonNode a SimpleXML object modeling the lesson node to be validated
+	 * @param object &$lessonNode a SimpleXML object modeling the lesson node to be validated
 	 *
 	 * @return void
 	 */
@@ -363,7 +363,7 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Checks if the untis id is valid
 	 *
-	 * @param   string $rawUntisID the untis lesson id
+	 * @param string $rawUntisID the untis lesson id
 	 *
 	 * @return  mixed  string if valid, otherwise false
 	 */
@@ -387,8 +387,8 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the subjectID and builds dependant structural elements
 	 *
-	 * @param   string $gpuntisID  the id of the subject
-	 * @param   string $department the name of the department
+	 * @param string $gpuntisID  the id of the subject
+	 * @param string $department the name of the department
 	 *
 	 * @return  mixed  string the name of the lesson (subjects) on success,
 	 *                 otherwise boolean false
@@ -454,7 +454,7 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the description
 	 *
-	 * @param   object &$lessonNode the lesson node
+	 * @param object &$lessonNode the lesson node
 	 *
 	 * @return  boolean  string the methodID on success, otherwise false
 	 */
@@ -484,8 +484,8 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the teacher attribute and sets corresponding schedule elements
 	 *
-	 * @param   string $gpuntisID    the teacher id
-	 * @param   string $subjectIndex the unique organizational subject id
+	 * @param string $gpuntisID    the teacher id
+	 * @param string $subjectIndex the unique organizational subject id
 	 *
 	 * @return  boolean  true if valid, otherwise false
 	 */
@@ -545,7 +545,7 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the pools attribute and sets corresponding schedule elements
 	 *
-	 * @param   string $gpuntisIDs the ids of the associated pools as string
+	 * @param string $gpuntisIDs the ids of the associated pools as string
 	 *
 	 * @return  boolean  true if valid, otherwise false
 	 */
@@ -608,8 +608,8 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Checks for the validity and consistency of date values
 	 *
-	 * @param   int $startDT the start date as integer
-	 * @param   int $endDT   the end date as integer
+	 * @param int $startDT the start date as integer
+	 * @param int $endDT   the end date as integer
 	 *
 	 * @return  boolean  true if dates are valid, otherwise false
 	 */
@@ -676,9 +676,9 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the occurrences attribute
 	 *
-	 * @param   string $raw   the string containing the occurrences
-	 * @param   int    $start the timestamp of the lesson's begin
-	 * @param   int    $end   the timestamp of the lesson's end
+	 * @param string $raw   the string containing the occurrences
+	 * @param int    $start the timestamp of the lesson's begin
+	 * @param int    $end   the timestamp of the lesson's end
 	 *
 	 * @return  mixed   array if valid, otherwise false
 	 */
@@ -698,10 +698,10 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Iterates over possible occurrences and validates them
 	 *
-	 * @param   array  $potentialInstances an array of 'occurrences'
-	 * @param   int    $currentDT          the starting timestamp
-	 * @param   array  &$instances         the object containing the instances
-	 * @param   string $grid               the grid used by the lesson
+	 * @param array  $potentialInstances an array of 'occurrences'
+	 * @param int    $currentDT          the starting timestamp
+	 * @param array  &$instances         the object containing the instances
+	 * @param string $grid               the grid used by the lesson
 	 *
 	 * @return  void
 	 */
@@ -739,9 +739,9 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates a lesson instance
 	 *
-	 * @param   object &$instance the lesson instance
-	 * @param   int    $currentDT the current date time in the iteration
-	 * @param   string $grid      the grid used by the lesson
+	 * @param object &$instance the lesson instance
+	 * @param int    $currentDT the current date time in the iteration
+	 * @param string $grid      the grid used by the lesson
 	 *
 	 * @return  boolean  true if valid, otherwise false
 	 */
@@ -788,9 +788,9 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the room attribute
 	 *
-	 * @param   string $roomAttribute the room attribute
-	 * @param   int    $currentDT     the timestamp of the date being iterated
-	 * @param   string $period        the period attribute
+	 * @param string $roomAttribute the room attribute
+	 * @param int    $currentDT     the timestamp of the date being iterated
+	 * @param string $period        the period attribute
 	 *
 	 * @return  array  the roomIDs on success, otherwise false
 	 */

@@ -37,7 +37,7 @@ abstract class THM_OrganizerViewList extends JViewLegacy
 	/**
 	 * Method to create a list output
 	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return void
 	 */

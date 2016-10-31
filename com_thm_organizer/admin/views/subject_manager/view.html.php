@@ -32,7 +32,7 @@ class THM_OrganizerViewSubject_Manager extends THM_OrganizerViewList
 	/**
 	 * Retrieves display items and loads them into context.
 	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
 	 */

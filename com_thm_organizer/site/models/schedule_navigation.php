@@ -132,7 +132,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Sets properties which depend on the menu settings
 	 *
-	 * @param   object &$menuItem the menu item
+	 * @param object &$menuItem the menu item
 	 *
 	 * @return  void  sets object variables
 	 */
@@ -163,8 +163,8 @@ class THM_OrganizerModelSchedule_Navigation
 	 * Function to sort the checked array. Used in uksort($array, $callback) in the
 	 * __construct function.
 	 *
-	 * @param   string $firstElement  First argument
-	 * @param   string $secondElement Second argument
+	 * @param string $firstElement  First argument
+	 * @param string $secondElement Second argument
 	 *
 	 * @return  integer
 	 *
@@ -421,7 +421,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Resolves the Untis rooms with the rooms stored in the database
 	 *
-	 * @param   array $rooms an array of room objects
+	 * @param array $rooms an array of room objects
 	 *
 	 * @return  void
 	 */
@@ -442,7 +442,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Resolves the Untis teachers with the teachers stored in the database
 	 *
-	 * @param   array $teachers an array of teacher objects
+	 * @param array $teachers an array of teacher objects
 	 *
 	 * @return  void
 	 */
@@ -463,7 +463,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Method to check if the node is checked
 	 *
-	 * @param   int $nodeID The node id
+	 * @param int $nodeID The node id
 	 *
 	 * @return Boolean true if the node is checked unless false
 	 */
@@ -539,8 +539,8 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Method to create the schedule nodes (teacher, room, class)
 	 *
-	 * @param   int $key        The node key
-	 * @param   int $scheduleID The semester id
+	 * @param int $key        The node key
+	 * @param int $scheduleID The semester id
 	 *
 	 * @return  array  the category nodes
 	 */
@@ -596,10 +596,10 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Method to get the schedule lessons
 	 *
-	 * @param   integer $key          the node key
-	 * @param   string  $category     the resource category
-	 * @param   integer $scheduleID   the schedule id
-	 * @param   boolean $allDisplayed whether the all node should be displayed
+	 * @param integer $key          the node key
+	 * @param string  $category     the resource category
+	 * @param integer $scheduleID   the schedule id
+	 * @param boolean $allDisplayed whether the all node should be displayed
 	 *
 	 * @return  array  an array of  subcategory nodes
 	 */
@@ -694,7 +694,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Gets the resource nodes
 	 *
-	 * @param   array $parameters the parameters for the resource node creation
+	 * @param array $parameters the parameters for the resource node creation
 	 *
 	 * @return  void  variables are saved to the referenced arrays in $parameters
 	 */
@@ -734,9 +734,9 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Sets the categories (nodes) for schedule navigation
 	 *
-	 * @param   string $type           the resource category
-	 * @param   array  &$subcategories the array in which the categories are stored
-	 * @param   object &$resource      the object modeling the resource
+	 * @param string $type           the resource category
+	 * @param array  &$subcategories the array in which the categories are stored
+	 * @param object &$resource      the object modeling the resource
 	 *
 	 * @return  void  sets values in the
 	 */
@@ -800,7 +800,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Method to mark a node as expanded that has only one child element
 	 *
-	 * @param   array &$children An reference to a node child
+	 * @param array &$children An reference to a node child
 	 *
 	 * @return void
 	 */
@@ -821,8 +821,8 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Method to check if an tree node has lessons
 	 *
-	 * @param   string $resourceID the resource id
-	 * @param   string $category   the resource type
+	 * @param string $resourceID the resource id
+	 * @param string $category   the resource type
 	 *
 	 * @return  boolean
 	 */
@@ -839,7 +839,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Checks if a room is used in a lesson
 	 *
-	 * @param   string $roomID the room id
+	 * @param string $roomID the room id
 	 *
 	 * @return  boolean  true if the room is used in a lesson
 	 */
@@ -870,8 +870,8 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Checks whether a generic resource is associated with a planned lesson
 	 *
-	 * @param   string $resourceID the id of the resource
-	 * @param   string $category   the resource's type
+	 * @param string $resourceID the id of the resource
+	 * @param string $category   the resource's type
 	 *
 	 * @return  bool  true if the resource is associated with a planned lesson, otherwise false
 	 */
@@ -892,7 +892,7 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Checks if a lesson associated with a resource is has planned instances
 	 *
-	 * @param   array &$lessonKeys the lesson keys with which a resource is associated
+	 * @param array &$lessonKeys the lesson keys with which a resource is associated
 	 *
 	 * @return  boolean  true if the associated lesson is planned, otherwise
 	 *                   false
@@ -920,8 +920,8 @@ class THM_OrganizerModelSchedule_Navigation
 	 * Checks if a lesson associated with a resource is has planned instances on
 	 * a particular day
 	 *
-	 * @param   object $day         the planned lessons for a single day
-	 * @param   array  &$lessonKeys the lesson keys with which a resource is associated
+	 * @param object $day         the planned lessons for a single day
+	 * @param array  &$lessonKeys the lesson keys with which a resource is associated
 	 *
 	 * @return  boolean  true if the associated lesson is planned, otherwise
 	 *                   false
@@ -945,9 +945,9 @@ class THM_OrganizerModelSchedule_Navigation
 	/**
 	 * Gets a node to hold all the resources of one category
 	 *
-	 * @param   string $categoryKey the key of the parent category
-	 * @param   string $category    the name of the parent category
-	 * @param   string $scheduleID  the id of the schedule which it came from
+	 * @param string $categoryKey the key of the parent category
+	 * @param string $category    the name of the parent category
+	 * @param string $scheduleID  the id of the schedule which it came from
 	 *
 	 * @return  THM_OrganizerNode
 	 */

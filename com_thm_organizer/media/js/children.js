@@ -159,7 +159,7 @@ function setElementOnLastPosition(position)
  * Sets the current values of a row to another row indicated by the value of the
  * order field
  *
- * @param   {int} firstPos
+ * @param {int} firstPos
  *
  * @returns  {void}
  */
@@ -193,7 +193,7 @@ function orderWithNumber(firstPos)
 /**
  * Removes a child row from the display
  *
- * @param   {int}  rowNumber  the number of the row to be deleted
+ * @param {int}  rowNumber  the number of the row to be deleted
  *
  * @returns  {void}
  */

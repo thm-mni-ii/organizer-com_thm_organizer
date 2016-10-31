@@ -23,10 +23,10 @@ class THM_OrganizerHelperXMLDescriptions
 	/**
 	 * Checks whether the resource already exists in the database
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   string $tableName      the name of the table to check
-	 * @param   string $gpuntisID      the gpuntis description id
-	 * @param   string $constant       the text constant for message output
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param string $tableName      the name of the table to check
+	 * @param string $gpuntisID      the gpuntis description id
+	 * @param string $constant       the text constant for message output
 	 *
 	 * @return  bool  true if the entry already exists, otherwise false
 	 */
@@ -61,8 +61,8 @@ class THM_OrganizerHelperXMLDescriptions
 	/**
 	 * Checks whether description nodes have the expected structure and required information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$xmlObject     the xml object being validated
 	 *
 	 * @return void
 	 */

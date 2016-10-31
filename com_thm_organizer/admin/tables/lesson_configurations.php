@@ -24,7 +24,7 @@ class THM_OrganizerTableLesson_Configurations extends JTable
 	/**
 	 * Constructor function for the class representing the lesson_configurations table
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{

@@ -24,7 +24,7 @@ class THM_OrganizerTablePools extends JTable
 	/**
 	 * Constructor function for the class representing the mapping table
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{
@@ -34,8 +34,8 @@ class THM_OrganizerTablePools extends JTable
 	/**
 	 * Overridden bind function
 	 *
-	 * @param   array $array  named array
-	 * @param   mixed $ignore An optional array or space separated list of properties to ignore while binding.
+	 * @param array $array  named array
+	 * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 */

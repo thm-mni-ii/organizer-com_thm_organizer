@@ -26,9 +26,9 @@ class THM_OrganizerTemplateGroupedList
 	/**
 	 * Renders subject information
 	 *
-	 * @param   array  &$view  the view context
-	 * @param   array  $params the group parameters (order, name, id)
-	 * @param   string $type   the type of group
+	 * @param array  &$view  the view context
+	 * @param array  $params the group parameters (order, name, id)
+	 * @param string $type   the type of group
 	 *
 	 * @return  void
 	 */
@@ -82,8 +82,8 @@ class THM_OrganizerTemplateGroupedList
 	/**
 	 * Creates an array of groups with the indexes name and id
 	 *
-	 * @param   array &$items the subjects associated with the degree program
-	 * @param   array $params the group parameters (order, name, id)
+	 * @param array &$items the subjects associated with the degree program
+	 * @param array $params the group parameters (order, name, id)
 	 *
 	 * @return  array  the groups used in the tab
 	 */
@@ -138,7 +138,7 @@ class THM_OrganizerTemplateGroupedList
 	/**
 	 * Further processes pool groups to ensure single output and links from parent groups
 	 *
-	 * @param   array $groups the already processed groups
+	 * @param array $groups the already processed groups
 	 *
 	 * @return  array  the modified $groups
 	 */
@@ -219,8 +219,8 @@ class THM_OrganizerTemplateGroupedList
 	/**
 	 * Gets the items to be displayed for the group being currently iterated
 	 *
-	 * @param   array  &$group the group being iterated
-	 * @param   string $type   the type of group
+	 * @param array  &$group the group being iterated
+	 * @param string $type   the type of group
 	 *
 	 * @return  array  the items to be displayed in the group
 	 */

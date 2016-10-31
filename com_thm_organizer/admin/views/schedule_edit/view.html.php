@@ -29,7 +29,7 @@ class THM_OrganizerViewSchedule_Edit extends THM_OrganizerViewEdit
 	 * loads persistent data into view context and intitiates functions for the
 	 * creation of html elements
 	 *
-	 * @param   object $tpl the template object
+	 * @param object $tpl the template object
 	 *
 	 * @return void
 	 */

@@ -25,7 +25,7 @@ class THM_OrganizerModelMonitor_Edit extends THM_OrganizerModelEdit
 	/**
 	 * Constructor
 	 *
-	 * @param   array $config an optional array of configuration information
+	 * @param array $config an optional array of configuration information
 	 */
 	public function __construct($config = array())
 	{

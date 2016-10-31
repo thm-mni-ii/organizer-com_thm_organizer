@@ -24,7 +24,7 @@ class THM_OrganizerTablePlanning_Periods extends JTable
 	/**
 	 * Constructor to call the parent constructor
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{

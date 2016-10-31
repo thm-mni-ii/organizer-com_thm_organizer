@@ -42,7 +42,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	/**
 	 * Constructor
 	 *
-	 * @param   array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @since   12.2
 	 * @throws  Exception
@@ -101,9 +101,9 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	/**
 	 * Sets event information for the given block in the given schedule
 	 *
-	 * @param   array  &$blocks the array where the information is stored
-	 * @param   int    $blockNo the index of the block being iterated
-	 * @param   object $events  the events in the block being iterated
+	 * @param array  &$blocks the array where the information is stored
+	 * @param int    $blockNo the index of the block being iterated
+	 * @param object $events  the events in the block being iterated
 	 *
 	 * @return  array the events for the given date
 	 */
@@ -271,7 +271,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	/**
 	 * Sets display parameters
 	 *
-	 * @param   object &$monitorEntry the JTable object for the monitors table
+	 * @param object &$monitorEntry the JTable object for the monitors table
 	 *
 	 * @return  void
 	 */

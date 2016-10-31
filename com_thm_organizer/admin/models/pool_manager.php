@@ -33,7 +33,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	/**
 	 * constructor
 	 *
-	 * @param   array $config configurations parameter
+	 * @param array $config configurations parameter
 	 */
 	public function __construct($config = array())
 	{
@@ -187,8 +187,8 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	/**
 	 * Overwrites the JModelList populateState function
 	 *
-	 * @param   string $ordering  the column by which the table is should be ordered
-	 * @param   string $direction the direction in which this column should be ordered
+	 * @param string $ordering  the column by which the table is should be ordered
+	 * @param string $direction the direction in which this column should be ordered
 	 *
 	 * @return  void  sets object state variables
 	 *

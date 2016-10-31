@@ -34,7 +34,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 	/**
 	 * Constructor to set the config array and call the parent constructor
 	 *
-	 * @param   array $config Configuration  (default: array)
+	 * @param array $config Configuration  (default: array)
 	 */
 	public function __construct($config = array())
 	{

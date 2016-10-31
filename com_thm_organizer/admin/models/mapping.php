@@ -23,9 +23,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds mappings as they exist in LSF for an imported degree program
 	 *
-	 * @param   int             $programID   the id of the program in the local
+	 * @param int             $programID   the id of the program in the local
 	 *                                       database
-	 * @param   SimpleXMLObject &$lsfData    the data recieved from the LSF system
+	 * @param SimpleXMLObject &$lsfData    the data recieved from the LSF system
 	 *
 	 * @return  boolean  true if the data was mapped, otherwise false
 	 */
@@ -54,8 +54,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds a pool from LSF to the mappings table
 	 *
-	 * @param   object &$pool           the object representing the LSF pool
-	 * @param   int    $parentMappingID the id of the program mapping
+	 * @param object &$pool           the object representing the LSF pool
+	 * @param int    $parentMappingID the id of the program mapping
 	 *
 	 * @return  boolean  true if the pool is mapped, otherwise false
 	 */
@@ -129,8 +129,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds a subject from LSF to the mappings table
 	 *
-	 * @param   object &$subject          the subject object
-	 * @param   int    $parentMappingID   the id of the parent element in the
+	 * @param object &$subject          the subject object
+	 * @param int    $parentMappingID   the id of the parent element in the
 	 *                                    mappings table
 	 *
 	 * @return  boolean  true if the mapping exists, otherwise false
@@ -185,7 +185,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Adds a pool mapping to a parent mapping
 	 *
-	 * @param   array &$pool   an array containing data about a pool and its
+	 * @param array &$pool   an array containing data about a pool and its
 	 *                         children
 	 *
 	 * @return  bool  true on success, otherwise false
@@ -259,7 +259,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Addsa a subject mapping to the parent mapping
 	 *
-	 * @param   array &$subject an array containing data about a subject
+	 * @param array &$subject an array containing data about a subject
 	 *
 	 * @return boolean
 	 */
@@ -302,8 +302,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Checks whether a mapping exists for the selected resource
 	 *
-	 * @param   int    $resourceID   the id of the resource
-	 * @param   string $resourceType the type of the resource
+	 * @param int    $resourceID   the id of the resource
+	 * @param string $resourceType the type of the resource
 	 *
 	 * @return  bool true if the resource has an existing mapping, otherwise false
 	 */
@@ -331,8 +331,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Deletes mappings of a specific pool.
 	 *
-	 * @param   int    $resourceID the id of the mapping
-	 * @param   string $type       the mapping's type
+	 * @param int    $resourceID the id of the mapping
+	 * @param string $type       the mapping's type
 	 *
 	 * @return  boolean true on success, otherwise false
 	 */
@@ -391,7 +391,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Deletes the children of a specific mapping.
 	 *
-	 * @param   int $mappingID the id of the mapping
+	 * @param int $mappingID the id of the mapping
 	 *
 	 * @return  boolean true on success, otherwise false
 	 */
@@ -432,7 +432,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Method to delete a single entry
 	 *
-	 * @param   int $entryID the id value of the entry to be deleted
+	 * @param int $entryID the id value of the entry to be deleted
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */
@@ -535,8 +535,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Attempt to determine the left value for the mapping to be created
 	 *
-	 * @param   int   $parentID the parent of the item to be inserted
-	 * @param   mixed $ordering the targeted ordering on completion
+	 * @param int   $parentID the parent of the item to be inserted
+	 * @param mixed $ordering the targeted ordering on completion
 	 *
 	 * @return  mixed  int the left value for the mapping to be created, or
 	 *                 or boolean false on db error.
@@ -582,9 +582,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Retrieves child mappings for a given pool
 	 *
-	 * @param   int    $resourceID   the resource id
-	 * @param   string $type         the resource id (defaults: pool)
-	 * @param   bool   $deep         if the function should be used to find
+	 * @param int    $resourceID   the resource id
+	 * @param string $type         the resource id (defaults: pool)
+	 * @param bool   $deep         if the function should be used to find
 	 *                               children iteratively or not (default: false)
 	 *
 	 * @return  array  empty if no child data exists
@@ -695,9 +695,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 * Retrieves the existing ordering of a pool to its parent item, or the
 	 * value 'last'
 	 *
-	 * @param   int    $parentID   the id of the parent mapping
-	 * @param   int    $resourceID the id of the resource
-	 * @param   string $type       the type of resource being ordered
+	 * @param int    $parentID   the id of the parent mapping
+	 * @param int    $resourceID the id of the resource
+	 * @param string $type       the type of resource being ordered
 	 *
 	 * @return  int  the value of the highest existing ordering or 1 if none exist
 	 */
@@ -757,7 +757,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Retrieves parent data
 	 *
-	 * @param   int $parentID the id of the parent item
+	 * @param int $parentID the id of the parent item
 	 *
 	 * @return  array  the parent mapping
 	 */
@@ -785,9 +785,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Creates and returns instance of JTable for the DB Table Mappings
 	 *
-	 * @param   string $name    The table name. Optional.
-	 * @param   string $prefix  The class prefix. Optional.
-	 * @param   array  $options Configuration array for model. Optional.
+	 * @param string $name    The table name. Optional.
+	 * @param string $prefix  The class prefix. Optional.
+	 * @param array  $options Configuration array for model. Optional.
 	 *
 	 * @return  JTable
 	 */
@@ -799,7 +799,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Saves pool and dependent mappings
 	 *
-	 * @param   array &$data the pool form data from the post request
+	 * @param array &$data the pool form data from the post request
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -850,7 +850,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 * Checks whether the degree program root mapping has already been created.
 	 * If it has not already been done the creation function is called.
 	 *
-	 * @param   int $programID the id of the degree program
+	 * @param int $programID the id of the degree program
 	 *
 	 * @return  boolean  true if the program root mapping exists/was created,
 	 *                   otherwise false
@@ -942,7 +942,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Saves a subject mapping
 	 *
-	 * @param   array &$data the subject form data from the post request
+	 * @param array &$data the subject form data from the post request
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -981,8 +981,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Retrieves existing mappings
 	 *
-	 * @param   int    $resourceID the id of the resource in its resource table
-	 * @param   string $type       the type of resource entry being searched for
+	 * @param int    $resourceID the id of the resource in its resource table
+	 * @param string $type       the type of resource entry being searched for
 	 *
 	 * @return  mixed  array on success, otherwise false
 	 */
@@ -1010,8 +1010,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 * existing entries with parents no longer selected from the database, and
 	 * deleting selected parent entries which already exist from the selection.
 	 *
-	 * @param   array &$selectedParents the parent pools selected by the user
-	 * @param   array $existingMappings the existing mappings for the subject
+	 * @param array &$selectedParents the parent pools selected by the user
+	 * @param array $existingMappings the existing mappings for the subject
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -1041,8 +1041,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 * Shifts the ordering for existing siblings who have an ordering at or
 	 * above the ordering to be inserted
 	 *
-	 * @param   int $parentID    the id of the parent
-	 * @param   int $insertOrder the ordering of the item to be inserted
+	 * @param int $parentID    the id of the parent
+	 * @param int $insertOrder the ordering of the item to be inserted
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -1068,7 +1068,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	/**
 	 * Shifts left and right values to allow for the values to be inserted
 	 *
-	 * @param   int $value   the integer value above which left and right values
+	 * @param int $value   the integer value above which left and right values
 	 *                       need to be shifted
 	 *
 	 * @return  bool  true on success, otherwise false

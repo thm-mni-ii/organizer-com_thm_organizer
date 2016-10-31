@@ -200,8 +200,8 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
 	/**
 	 * Overwrites the JModelList populateState function
 	 *
-	 * @param   string $ordering  the column by which the table is should be ordered
-	 * @param   string $direction the direction in which this column should be ordered
+	 * @param string $ordering  the column by which the table is should be ordered
+	 * @param string $direction the direction in which this column should be ordered
 	 *
 	 * @return  void  sets object state variables
 	 *
@@ -237,7 +237,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
 	/**
 	 * Sets exclusions for parent and child pools based on mapping values.
 	 *
-	 * @param   object &$query the query object
+	 * @param object &$query the query object
 	 */
 	private function setMappingFilters(&$query)
 	{
@@ -271,8 +271,8 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
 	/**
 	 * Sets the program id filter for a query. Used in pool manager and subject manager.
 	 *
-	 * @param   object &$query    the query object
-	 * @param   int    $programID the id of the resource from the filter
+	 * @param object &$query    the query object
+	 * @param int    $programID the id of the resource from the filter
 	 *
 	 * @return  void  sets query object variables
 	 */

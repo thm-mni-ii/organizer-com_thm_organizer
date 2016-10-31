@@ -44,7 +44,7 @@ class THM_OrganizerLSFClient
 	/**
 	 * Method to perform a soap request based on a certain lsf query
 	 *
-	 * @param   string $query Query structure
+	 * @param string $query Query structure
 	 *
 	 * @return  mixed  SimpleXMLElement if the query was successful, otherwise false
 	 */
@@ -75,9 +75,9 @@ class THM_OrganizerLSFClient
 	 * Performs a soap request, in order to get the xml strucutre of the given
 	 * configuration
 	 *
-	 * @param   string $program degree program code
-	 * @param   string $degree  associated degree
-	 * @param   string $year    year of accreditation
+	 * @param string $program degree program code
+	 * @param string $degree  associated degree
+	 * @param string $year    year of accreditation
 	 *
 	 * @return SimpleXMLElement
 	 */
@@ -95,7 +95,7 @@ class THM_OrganizerLSFClient
 	/**
 	 * Method to get the module by mni number
 	 *
-	 * @param   string $moduleID The module mni number
+	 * @param string $moduleID The module mni number
 	 *
 	 * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
 	 */
@@ -111,7 +111,7 @@ class THM_OrganizerLSFClient
 	/**
 	 * Method to get the module by mni number
 	 *
-	 * @param   int $moduleID The module mni number
+	 * @param int $moduleID The module mni number
 	 *
 	 * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
 	 */
@@ -127,7 +127,7 @@ class THM_OrganizerLSFClient
 	/**
 	 * Creates the header used by all XML queries
 	 *
-	 * @param   string $objectType the LSF object type
+	 * @param string $objectType the LSF object type
 	 *
 	 * @return  string  the header of the XML query
 	 */

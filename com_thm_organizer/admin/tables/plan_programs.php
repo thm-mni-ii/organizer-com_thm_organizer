@@ -24,7 +24,7 @@ class THM_OrganizerTablePlan_Programs extends JTable
 	/**
 	 * Constructor function for the class representing the mapping table
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{

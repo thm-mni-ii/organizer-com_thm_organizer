@@ -26,8 +26,8 @@ class THM_OrganizerHelperXMLPrograms
 	/**
 	 * Validates the resource collection node
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$xmlObject     the xml object being validated
 	 *
 	 * @return  void
 	 */
@@ -53,8 +53,8 @@ class THM_OrganizerHelperXMLPrograms
 	/**
 	 * Checks whether program nodes have the expected structure and required information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$programNode   the degree (program/department) node to be validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$programNode   the degree (program/department) node to be validated
 	 *
 	 * @return void
 	 */

@@ -40,7 +40,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
 	/**
 	 * Method to get display
 	 *
-	 * @param   Object $tpl template  (default: null)
+	 * @param Object $tpl template  (default: null)
 	 *
 	 * @return  void
 	 */
@@ -148,7 +148,7 @@ class THM_OrganizerViewConsumption extends JViewLegacy
 	/**
 	 * Creates a select box for resources
 	 *
-	 * @param   string $typeName the resource type
+	 * @param string $typeName the resource type
 	 *
 	 * @return  void
 	 */

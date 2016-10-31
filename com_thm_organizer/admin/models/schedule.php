@@ -43,7 +43,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * Activates the selected schedule
 	 *
-	 * @param   int $scheduleID the explicit id of the schedule to activate
+	 * @param int $scheduleID the explicit id of the schedule to activate
 	 *
 	 * @return  true on success, otherwise false
 	 */
@@ -59,10 +59,11 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$reference = $this->getScheduleRow($save, $active->departmentID, $active->planningPeriodID);
 		if (empty($reference) OR empty($reference->id))
 		{
-			$jsonModel  = new THM_OrganizerModelJSONSchedule($this->newSchedule);
+			$jsonModel = new THM_OrganizerModelJSONSchedule($this->newSchedule);
 			$jsonModel->save();
 			$active->set('active', 1);
 			$active->store();
+
 			return true;
 		}
 
@@ -77,7 +78,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		// Free up memory
 		unset($oldJsonModel);
 
-		$jsonModel  = new THM_OrganizerModelJSONSchedule;
+		$jsonModel = new THM_OrganizerModelJSONSchedule;
+
 		return $jsonModel->setReference($reference, $active);
 	}
 
@@ -104,7 +106,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * Activates the selected schedule
 	 *
-	 * @param   int $scheduleID the explicit id of the schedule to activate
+	 * @param int $scheduleID the explicit id of the schedule to activate
 	 *
 	 * @return  true on success, otherwise false
 	 */
@@ -178,7 +180,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * Deletes a single schedule
 	 *
-	 * @param   int $scheduleID the id of the schedule to be deleted
+	 * @param int $scheduleID the id of the schedule to be deleted
 	 *
 	 * @return boolean true on success otherwise false
 	 */
@@ -207,7 +209,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		if (empty($departmentID) OR empty($planningPeriodID))
 		{
 			$referenceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
-			$pullData = $referenceIDs[0];
+			$pullData     = $referenceIDs[0];
 		}
 
 		// Active schedule row
@@ -373,7 +375,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			return false;
 		}
 
-		$this->schedule = $xmlModel->schedule;
+		$this->schedule    = $xmlModel->schedule;
 		$this->newSchedule = $xmlModel->newSchedule;
 
 		$new = JTable::getInstance('schedules', 'thm_organizerTable');
@@ -395,6 +397,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		{
 			$new->set('active', 1);
 			$new->store();
+
 			return true;
 		}
 
@@ -409,7 +412,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		// Free up memory
 		unset($oldJsonModel);
 
-		$jsonModel  = new THM_OrganizerModelJSONSchedule;
+		$jsonModel = new THM_OrganizerModelJSONSchedule;
+
 		return $jsonModel->setReference($reference, $new);
 	}
 }

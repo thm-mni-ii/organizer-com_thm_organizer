@@ -116,7 +116,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	/**
 	 * Creates a textual output for the various expenditure values
 	 *
-	 * @param   object &$subject the object containing subject data
+	 * @param object &$subject the object containing subject data
 	 *
 	 * @return  void  sets values in the references object
 	 */
@@ -155,7 +155,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	 * Loads an array of names and links into the subject model for subjects for
 	 * which this subject is a prerequisite.
 	 *
-	 * @param   object &$subject the object containing subject data
+	 * @param object &$subject the object containing subject data
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	 * Loads an array of names and links into the subject model for subjects for
 	 * which this subject is a prerequisite.
 	 *
-	 * @param   object &$subject the object containing subject data
+	 * @param object &$subject the object containing subject data
 	 *
 	 * @return  void
 	 */

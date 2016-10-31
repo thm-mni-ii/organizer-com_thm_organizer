@@ -25,7 +25,7 @@ class THM_OrganizerViewMethod_Edit extends THM_OrganizerViewEdit
 	/**
 	 * Method to get display
 	 *
-	 * @param   Object $tpl template  (default: null)
+	 * @param Object $tpl template  (default: null)
 	 *
 	 * @return  void
 	 */

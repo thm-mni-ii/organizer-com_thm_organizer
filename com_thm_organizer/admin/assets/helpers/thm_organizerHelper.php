@@ -22,7 +22,7 @@ class THM_OrganizerHelper
 	/**
 	 * Calls the appropriate controller
 	 *
-	 * @param   boolean $isAdmin whether the file is being called from the backend
+	 * @param boolean $isAdmin whether the file is being called from the backend
 	 *
 	 * @return  void
 	 */
@@ -61,7 +61,7 @@ class THM_OrganizerHelper
 	/**
 	 * Attempts to delete entries from a standard table
 	 *
-	 * @param   string $table the table name
+	 * @param string $table the table name
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */

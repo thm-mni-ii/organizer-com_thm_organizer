@@ -25,7 +25,7 @@ class THM_OrganizerHelperPrograms
 	/**
 	 * Retrieves the table id if existent.
 	 *
-	 * @param   string $gpuntisID the grid name in untis
+	 * @param string $gpuntisID the grid name in untis
 	 *
 	 * @return mixed int id on success, otherwise null
 	 */
@@ -45,7 +45,7 @@ class THM_OrganizerHelperPrograms
 	/**
 	 * Attempts to get the plan program's id, creating it if non-existent.
 	 *
-	 * @param   object $program the program object
+	 * @param object $program the program object
 	 *
 	 * @return mixed int on success, otherwise null
 	 */
@@ -73,7 +73,7 @@ class THM_OrganizerHelperPrograms
 	/**
 	 * Determines whether the data conveyed in the gpuntis ID is plausible for finding a real program.
 	 *
-	 * @param   string $gpuntisID the id used in untis for this program
+	 * @param string $gpuntisID the id used in untis for this program
 	 *
 	 * @return  array empty if the id is implausible
 	 */
@@ -108,8 +108,8 @@ class THM_OrganizerHelperPrograms
 	/**
 	 * Attempts to get the real program's id, creating the stub if non-existent.
 	 *
-	 * @param   array  $programData the program data
-	 * @param   string $tempName    the name to be used if no entry already exists
+	 * @param array  $programData the program data
+	 * @param string $tempName    the name to be used if no entry already exists
 	 *
 	 * @return mixed int on success, otherwise false
 	 */

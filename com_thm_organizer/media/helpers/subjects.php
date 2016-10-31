@@ -25,7 +25,7 @@ class THM_OrganizerHelperSubjects
 	/**
 	 * Retrieves the table id if existent.
 	 *
-	 * @param   string $subjectIndex the subject index (dept. abbreviation + gpuntis id)
+	 * @param string $subjectIndex the subject index (dept. abbreviation + gpuntis id)
 	 *
 	 * @return mixed int id on success, otherwise null
 	 */
@@ -45,7 +45,7 @@ class THM_OrganizerHelperSubjects
 	/**
 	 * Attempts to get the plan subject's id, creating it if non-existent.
 	 *
-	 * @param   object $subject the subject object
+	 * @param object $subject the subject object
 	 *
 	 * @return mixed int on success, otherwise null
 	 */

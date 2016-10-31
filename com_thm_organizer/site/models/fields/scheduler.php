@@ -162,7 +162,7 @@ class JFormFieldScheduler extends JFormField
 	/**
 	 * Retrieves the saved menu parameters creating default values if none exist
 	 *
-	 * @param   int $menuID the id of the menu entry
+	 * @param int $menuID the id of the menu entry
 	 *
 	 * @return  object  an object with the menu parameters
 	 *

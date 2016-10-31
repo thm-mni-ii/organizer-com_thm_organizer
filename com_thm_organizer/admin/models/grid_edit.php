@@ -27,7 +27,7 @@ class THM_OrganizerModelGrid_Edit extends THM_OrganizerModelEdit
 	/**
 	 * Constructor.
 	 *
-	 * @param   array $config An optional associative array of configuration settings.
+	 * @param array $config An optional associative array of configuration settings.
 	 */
 	public function __construct($config = array())
 	{

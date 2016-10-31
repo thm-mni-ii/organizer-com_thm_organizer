@@ -44,7 +44,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	/**
 	 * Constructor
 	 *
-	 * @param   array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @since   12.2
 	 * @throws  Exception
@@ -61,8 +61,8 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string $ordering  An optional ordering field.
-	 * @param   string $direction An optional direction (asc|desc).
+	 * @param string $ordering  An optional ordering field.
+	 * @param string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 */
@@ -85,7 +85,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	/**
 	 * Cleans form data.
 	 *
-	 * @param   array &$data the data received from the form
+	 * @param array &$data the data received from the form
 	 *
 	 * @return  void  modifies &$data
 	 */
@@ -201,7 +201,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	/**
 	 * Gets the room information for a day
 	 *
-	 * @param   string $date the date string
+	 * @param string $date the date string
 	 *
 	 * @return  void  room information for the given day is added to the $blocks object variable
 	 */
@@ -236,9 +236,9 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	/**
 	 * Sets event information for the given block in the given schedule
 	 *
-	 * @param   array  &$blocks the array where the information is stored
-	 * @param   int    $blockNo the index of the block being iterated
-	 * @param   object $events  the events in the block being iterated
+	 * @param array  &$blocks the array where the information is stored
+	 * @param int    $blockNo the index of the block being iterated
+	 * @param object $events  the events in the block being iterated
 	 *
 	 * @return  array the events for the given date
 	 */
@@ -459,10 +459,10 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	/**
 	 * Filters rooms then adds them to the array as appropriate
 	 *
-	 * @param   array &$room       the room being iterated
-	 * @param   mixed $filterTypes array of type IDs to be filtered against, otherwise false
-	 * @param   mixed $filterRooms array of room IDs to be filtered against, otherwise false
-	 * @param   array &$rooms      the array containing the filter results
+	 * @param array &$room       the room being iterated
+	 * @param mixed $filterTypes array of type IDs to be filtered against, otherwise false
+	 * @param mixed $filterRooms array of room IDs to be filtered against, otherwise false
+	 * @param array &$rooms      the array containing the filter results
 	 *
 	 * @return  void  modifies &$rooms
 	 */

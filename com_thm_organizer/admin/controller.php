@@ -27,7 +27,7 @@ class THM_OrganizerController extends JControllerLegacy
 	/**
 	 * Class constructor
 	 *
-	 * @param   array $config An optional associative array of configuration settings.
+	 * @param array $config An optional associative array of configuration settings.
 	 */
 	public function __construct($config = array())
 	{
@@ -164,8 +164,8 @@ class THM_OrganizerController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean $cachable  If true, the view output will be cached
-	 * @param   array   $urlparams An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param boolean $cachable  If true, the view output will be cached
+	 * @param array   $urlparams An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 */

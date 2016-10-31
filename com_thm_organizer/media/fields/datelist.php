@@ -73,7 +73,7 @@ class JFormFieldDateList extends JFormFieldList
 	/**
 	 * Resolves the textColumns for concatenated values
 	 *
-	 * @param   object &$query the query object
+	 * @param object &$query the query object
 	 *
 	 * @return  string  the string to use for text selection
 	 */

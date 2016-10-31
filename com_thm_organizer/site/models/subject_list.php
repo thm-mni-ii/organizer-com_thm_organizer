@@ -143,8 +143,8 @@ class THM_OrganizerModelSubject_List extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string $ordering  An optional ordering field.
-	 * @param   string $direction An optional direction (asc|desc).
+	 * @param string $ordering  An optional ordering field.
+	 * @param string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 */
@@ -181,7 +181,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 	/**
 	 * Builds the search clause based upon user input
 	 *
-	 * @param   object &$query the query object upon which search conditions will be set
+	 * @param object &$query the query object upon which search conditions will be set
 	 *
 	 * @return  string
 	 */

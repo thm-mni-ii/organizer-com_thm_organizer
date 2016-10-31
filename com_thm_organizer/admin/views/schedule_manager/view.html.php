@@ -35,7 +35,7 @@ class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
 	 * loads data into view output context and initiates functions creating html
 	 * elements
 	 *
-	 * @param   string $tpl the template to be used
+	 * @param string $tpl the template to be used
 	 *
 	 * @return void
 	 */

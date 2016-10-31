@@ -69,7 +69,7 @@ class THMDownload
 	/**
 	 * Constructor with the configuration object
 	 *
-	 * @param   MySchedConfig $cfg A object which has configurations including
+	 * @param MySchedConfig $cfg A object which has configurations including
 	 */
 	public function __construct($cfg)
 	{

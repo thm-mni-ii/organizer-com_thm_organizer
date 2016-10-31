@@ -27,7 +27,7 @@ class THM_OrganizerTableAssets extends JTable
 	 * Method to store a row in the database from the JTable instance properties. Completely overwrites the method in
 	 * JTable because they use the subclass specific update nulls setting for assets which is just stupid.
 	 *
-	 * @param   boolean $updateNulls True to update fields even if they are null.
+	 * @param boolean $updateNulls True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -142,8 +142,8 @@ class THM_OrganizerTableAssets extends JTable
 	/**
 	 * Overridden bind function
 	 *
-	 * @param   array $array  named array
-	 * @param   mixed $ignore An optional array or space separated list of properties to ignore while binding.
+	 * @param array $array  named array
+	 * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 */
@@ -163,7 +163,7 @@ class THM_OrganizerTableAssets extends JTable
 	 * Removes inherited groups before Joomla erroneously sets the value to 0. Joomla must have something similar, but I
 	 * don't have time to look for it.
 	 *
-	 * @param   array &$rules the rules from the form
+	 * @param array &$rules the rules from the form
 	 *
 	 * @return  void  unsets group indexes with a truly empty value
 	 */

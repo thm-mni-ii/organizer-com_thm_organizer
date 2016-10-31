@@ -24,7 +24,7 @@ class THM_OrganizerViewScheduler_Tree extends JViewLegacy
 	/**
 	 * Method to get extra
 	 *
-	 * @param   string $tpl template
+	 * @param string $tpl template
 	 *
 	 * @return void
 	 *

@@ -24,7 +24,7 @@ class THM_OrganizerTemplateUngroupedList
 	/**
 	 * Renders subject information
 	 *
-	 * @param   array &$view the view context
+	 * @param array &$view the view context
 	 *
 	 * @return  void
 	 */

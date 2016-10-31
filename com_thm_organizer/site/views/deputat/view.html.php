@@ -39,7 +39,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 	/**
 	 * Method to get display
 	 *
-	 * @param   Object $tpl template  (default: null)
+	 * @param Object $tpl template  (default: null)
 	 *
 	 * @return  void
 	 */
@@ -175,8 +175,8 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 	/**
 	 * Retrieves a rows containing information about
 	 *
-	 * @param   int   $teacherID the teacherID
-	 * @param   array &$deputat  the table columns
+	 * @param int   $teacherID the teacherID
+	 * @param array &$deputat  the table columns
 	 *
 	 * @return  string  HTML string for the summary row
 	 */
@@ -229,8 +229,8 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 	 * Retrieves a row containing a summary of the column values in all the other rows. In the process it removes
 	 * columns without values.
 	 *
-	 * @param   int   $teacherID the teacherID
-	 * @param   array &$deputat  the table columns
+	 * @param int   $teacherID the teacherID
+	 * @param array &$deputat  the table columns
 	 *
 	 * @return  string  HTML string for the summary row
 	 */

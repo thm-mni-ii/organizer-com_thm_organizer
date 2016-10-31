@@ -33,7 +33,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 	/**
 	 * Method to get display
 	 *
-	 * @param   Object $tpl template  (default: null)
+	 * @param Object $tpl template  (default: null)
 	 *
 	 * @return void
 	 */
@@ -179,7 +179,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 	/**
 	 * Creates teacher output
 	 *
-	 * @param   array $teacher the teacher item
+	 * @param array $teacher the teacher item
 	 *
 	 * @return  void  creates HTML output
 	 */

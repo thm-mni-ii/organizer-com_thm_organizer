@@ -128,7 +128,7 @@ class THM_OrganizerLeaf
 	/**
 	 * Creates the leaf for the navigation tree
 	 *
-	 * @param   array $parameters the configuration parameters
+	 * @param array $parameters the configuration parameters
 	 */
 	public function __construct($parameters)
 	{
@@ -144,7 +144,7 @@ class THM_OrganizerLeaf
 	/**
 	 * Sets the name displayed for the leaf
 	 *
-	 * @param   object &$resource the resource associated with the leaf
+	 * @param object &$resource the resource associated with the leaf
 	 *
 	 * @return  void  sets the object attribute text
 	 */
@@ -208,8 +208,8 @@ class THM_OrganizerLeaf
 	/**
 	 * Sets individual leaf properties
 	 *
-	 * @param   array &$checked       the checked nodes
-	 * @param   array &$publicDefault the public default nodes
+	 * @param array &$checked       the checked nodes
+	 * @param array &$publicDefault the public default nodes
 	 *
 	 * @return  void  sets class properties
 	 */

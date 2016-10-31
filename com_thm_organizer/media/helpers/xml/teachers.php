@@ -26,8 +26,8 @@ class THM_OrganizerHelperXMLTeachers
 	/**
 	 * Checks whether teacher nodes have the expected structure and required information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$xmlObject     the xml object being validated
 	 *
 	 * @return void
 	 */
@@ -89,8 +89,8 @@ class THM_OrganizerHelperXMLTeachers
 	 * Checks whether teacher nodes have the expected structure and required
 	 * information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$teacherNode   the teacher node to be validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$teacherNode   the teacher node to be validated
 	 *
 	 * @return void
 	 */
@@ -134,9 +134,9 @@ class THM_OrganizerHelperXMLTeachers
 	/**
 	 * Validates the teacher's field attribute
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$teacherNode   the teacher node object
-	 * @param   string $teacherID      the teacher's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$teacherNode   the teacher node object
+	 * @param string $teacherID      the teacher's id
 	 *
 	 * @return  void
 	 */
@@ -162,9 +162,9 @@ class THM_OrganizerHelperXMLTeachers
 	/**
 	 * Validates the teacher's forename attribute
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$teacherNode   the teacher node object
-	 * @param   string $teacherID      the teacher's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$teacherNode   the teacher node object
+	 * @param string $teacherID      the teacher's id
 	 *
 	 * @return  void
 	 */
@@ -184,9 +184,9 @@ class THM_OrganizerHelperXMLTeachers
 	/**
 	 * Validates the teacher's surname
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$teacherNode   the teacher node object
-	 * @param   string $teacherID      the teacher's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$teacherNode   the teacher node object
+	 * @param string $teacherID      the teacher's id
 	 *
 	 * @return  mixed  string surname if valid, otherwise false
 	 */
@@ -208,9 +208,9 @@ class THM_OrganizerHelperXMLTeachers
 	/**
 	 * Validates the teacher's description attribute
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$teacherNode   the teacher node object
-	 * @param   string $teacherID      the teacher's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$teacherNode   the teacher node object
+	 * @param string $teacherID      the teacher's id
 	 *
 	 * @return  void
 	 */
@@ -230,8 +230,8 @@ class THM_OrganizerHelperXMLTeachers
 	/**
 	 * Validates the teacher's untis id
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$teacherNode   the teacher node object
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$teacherNode   the teacher node object
 	 *
 	 * @return  mixed  string untis id if valid, otherwise false
 	 */
@@ -267,9 +267,9 @@ class THM_OrganizerHelperXMLTeachers
 	/**
 	 * Validates the teacher's description attribute
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$teacherNode   the teacher node object
-	 * @param   string $teacherID      the teacher's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$teacherNode   the teacher node object
+	 * @param string $teacherID      the teacher's id
 	 *
 	 * @return  void
 	 */

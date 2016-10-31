@@ -27,7 +27,7 @@ abstract class THM_OrganizerViewForm extends JViewLegacy
 	/**
 	 * Method to get display
 	 *
-	 * @param   Object $tpl template  (default: null)
+	 * @param Object $tpl template  (default: null)
 	 *
 	 * @return  void
 	 */

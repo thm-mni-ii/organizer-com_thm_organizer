@@ -25,7 +25,7 @@ class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
 	/**
 	 * Constructor to call the parent constructor
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{
@@ -64,8 +64,8 @@ class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
 	/**
 	 * Sets the parent as the component root
 	 *
-	 * @param   JTable  $table A JTable object for the asset parent.
-	 * @param   integer $id    Id to look up
+	 * @param JTable  $table A JTable object for the asset parent.
+	 * @param integer $id    Id to look up
 	 *
 	 * @return  int  the asset id of the component root
 	 *

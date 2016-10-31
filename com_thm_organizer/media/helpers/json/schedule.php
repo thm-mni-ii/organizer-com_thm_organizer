@@ -715,7 +715,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Removes delta information from a schedule
 	 *
-	 * @param   object &$schedule the schedule being processed
+	 * @param object &$schedule the schedule being processed
 	 *
 	 * @return void
 	 */
@@ -733,7 +733,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Removes delta information from the calendar
 	 *
-	 * @param   object &$calendar the schedule configurations
+	 * @param object &$calendar the schedule configurations
 	 *
 	 * @return void removes delta information and unsets removed schedule entries
 	 */
@@ -757,7 +757,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Removes delta information from array collections
 	 *
-	 * @param   object &$numericCollection the array collection being currently iterated
+	 * @param object &$numericCollection the array collection being currently iterated
 	 *
 	 * @return void removes delta information and unsets removed schedule entries
 	 */
@@ -786,7 +786,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Removes delta information from the configurations
 	 *
-	 * @param   object &$configurations the schedule configurations
+	 * @param object &$configurations the schedule configurations
 	 *
 	 * @return void removes delta information and unsets removed schedule entries
 	 */
@@ -820,7 +820,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Removes delta information from object collections
 	 *
-	 * @param   object &$objectNodes the object collection being currently iterated
+	 * @param object &$objectNodes the object collection being currently iterated
 	 *
 	 * @return void removes delta information and unsets removed schedule entries
 	 */

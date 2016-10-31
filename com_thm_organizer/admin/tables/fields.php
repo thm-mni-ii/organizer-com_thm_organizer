@@ -25,7 +25,7 @@ class THM_OrganizerTableFields extends JTable
 	/**
 	 * Constructor to call the parent constructor
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{
@@ -35,7 +35,7 @@ class THM_OrganizerTableFields extends JTable
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
 	 *
-	 * @param   boolean $updateNulls True to update fields even if they are null.
+	 * @param boolean $updateNulls True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 */

@@ -24,7 +24,7 @@ class THM_OrganizerTableTeachers extends JTable
 	/**
 	 * Constructor function for the class representing the teachers table
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{
@@ -34,7 +34,7 @@ class THM_OrganizerTableTeachers extends JTable
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
 	 *
-	 * @param   boolean $updateNulls True to update fields even if they are null.
+	 * @param boolean $updateNulls True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 */

@@ -61,7 +61,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	/**
 	 * Method to display the template
 	 *
-	 * @param   null $tpl template
+	 * @param null $tpl template
 	 *
 	 * @return mixed
 	 */

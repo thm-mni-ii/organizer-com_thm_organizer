@@ -128,7 +128,7 @@ class THM_OrganizerNode
 	/**
 	 * Constructor
 	 *
-	 * @param   array $parameters the configuration parameters
+	 * @param array $parameters the configuration parameters
 	 */
 	public function __construct($parameters)
 	{
@@ -145,7 +145,7 @@ class THM_OrganizerNode
 	/**
 	 * Sets individual node properties
 	 *
-	 * @param   array &$parameters the checked nodes
+	 * @param array &$parameters the checked nodes
 	 *
 	 * @return  void  sets class properties
 	 */

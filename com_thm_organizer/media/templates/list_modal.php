@@ -23,7 +23,7 @@ class THM_OrganizerTemplateList_Modal
 	/**
 	 * Method to create a list output
 	 *
-	 * @param   object &$view the view context calling the function
+	 * @param object &$view the view context calling the function
 	 *
 	 * @return void
 	 */
@@ -71,7 +71,7 @@ class THM_OrganizerTemplateList_Modal
 	/**
 	 * Renders the search input group if set in the filter xml
 	 *
-	 * @param   array &$filters the filters set for the view
+	 * @param array &$filters the filters set for the view
 	 *
 	 * @return  void
 	 */
@@ -122,7 +122,7 @@ class THM_OrganizerTemplateList_Modal
 	/**
 	 * Renders the table head
 	 *
-	 * @param   array &$headers an array containing the table headers
+	 * @param array &$headers an array containing the table headers
 	 *
 	 * @return  void
 	 */
@@ -139,8 +139,8 @@ class THM_OrganizerTemplateList_Modal
 	/**
 	 * Renders the table head
 	 *
-	 * @param   array &$headers an array containing the table headers
-	 * @param   array &$filters the filters set for the view
+	 * @param array &$headers an array containing the table headers
+	 * @param array &$filters the filters set for the view
 	 *
 	 * @return  void
 	 */
@@ -183,7 +183,7 @@ class THM_OrganizerTemplateList_Modal
 	/**
 	 * Renders the table head
 	 *
-	 * @param   array &$items an array containing the table headers
+	 * @param array &$items an array containing the table headers
 	 *
 	 * @return  void
 	 */
@@ -207,7 +207,7 @@ class THM_OrganizerTemplateList_Modal
 	/**
 	 * Renders the table foot
 	 *
-	 * @param   object &$view the view context calling the function
+	 * @param object &$view the view context calling the function
 	 *
 	 * @return  void
 	 */
@@ -223,7 +223,7 @@ class THM_OrganizerTemplateList_Modal
 	/**
 	 * Renders hidden fields
 	 *
-	 * @param   object &$view the view object
+	 * @param object &$view the view object
 	 *
 	 * @return  void  outputs hidden fields html
 	 */

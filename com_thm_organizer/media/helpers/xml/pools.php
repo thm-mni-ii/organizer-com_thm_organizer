@@ -28,9 +28,9 @@ class THM_OrganizerHelperXMLPools
 	/**
 	 * Sets grid information for the pool node
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   int    $poolID
-	 * @param   object &$poolNode      the pool node to be modified
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param int    $poolID
+	 * @param object &$poolNode      the pool node to be modified
 	 *
 	 * @return  void modifies the $scheduleModel object
 	 */
@@ -57,8 +57,8 @@ class THM_OrganizerHelperXMLPools
 	/**
 	 * Validates the pools (classes) node
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$xmlObject     the xml object being validated
 	 *
 	 * @return  void
 	 */
@@ -84,8 +84,8 @@ class THM_OrganizerHelperXMLPools
 	/**
 	 * Checks whether pool nodes have the expected structure and required information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$poolNode      the pool node to be validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$poolNode      the pool node to be validated
 	 *
 	 * @return  void
 	 */
@@ -151,8 +151,8 @@ class THM_OrganizerHelperXMLPools
 	/**
 	 * Validates the pools's gp untis id
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$poolNode      the pool node object
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$poolNode      the pool node object
 	 *
 	 * @return  mixed  string id if valid, otherwise false
 	 */

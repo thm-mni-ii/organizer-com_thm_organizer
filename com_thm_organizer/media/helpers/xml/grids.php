@@ -23,7 +23,7 @@ class THM_OrganizerHelperXMLGrids
 	/**
 	 * Retrieves the table id if existent.
 	 *
-	 * @param   string $gpuntisID the grid name in untis
+	 * @param string $gpuntisID the grid name in untis
 	 *
 	 * @return mixed int id on success, otherwise null
 	 */
@@ -41,8 +41,8 @@ class THM_OrganizerHelperXMLGrids
 	/**
 	 * Saves the grid to the corresponding table if not already existent.
 	 *
-	 * @param   string $gpuntisID the gpuntis name for the grid
-	 * @param   object $grid      the object modelling the grid information
+	 * @param string $gpuntisID the gpuntis name for the grid
+	 * @param object $grid      the object modelling the grid information
 	 *
 	 * @return  void creates database entries
 	 */
@@ -68,12 +68,12 @@ class THM_OrganizerHelperXMLGrids
 	/**
 	 * Sets grid entries for later storage in the database
 	 *
-	 * @param   object $grids     the grids container object
-	 * @param   string $gpuntisID the name used for the grid in untis
-	 * @param   int    $day       the day number
-	 * @param   int    $period    the period number
-	 * @param   int    $startTime the period start time as a 4 digit number
-	 * @param   int    $endTime   the period end time as a 4 digit number
+	 * @param object $grids     the grids container object
+	 * @param string $gpuntisID the name used for the grid in untis
+	 * @param int    $day       the day number
+	 * @param int    $period    the period number
+	 * @param int    $startTime the period start time as a 4 digit number
+	 * @param int    $endTime   the period end time as a 4 digit number
 	 *
 	 * @return void modifies the grids object
 	 */
@@ -113,8 +113,8 @@ class THM_OrganizerHelperXMLGrids
 	/**
 	 * Validates the timeperiods node
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$xmlObject     the xml object being validated
 	 *
 	 * @return  void
 	 */
@@ -147,9 +147,9 @@ class THM_OrganizerHelperXMLGrids
 	 * Checks whether pool nodes have the expected structure and required
 	 * information
 	 *
-	 * @param   object &$scheduleModel  the validating schedule model
-	 * @param   object &$timePeriodNode the time period node to be validated
-	 * @param   object &$grids          the container for grids
+	 * @param object &$scheduleModel  the validating schedule model
+	 * @param object &$timePeriodNode the time period node to be validated
+	 * @param object &$grids          the container for grids
 	 *
 	 * @return void
 	 */

@@ -62,7 +62,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
 	/**
 	 * Sets program attributes
 	 *
-	 * @param   object &$program the object modeling the program data
+	 * @param object &$program the object modeling the program data
 	 *
 	 * @return  void  sets object attributes
 	 */
@@ -94,7 +94,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
 	/**
 	 * Sets the children for the given element
 	 *
-	 * @param   object &$element the object modeling the program data
+	 * @param object &$element the object modeling the program data
 	 *
 	 * @return  void  sets object attributes
 	 */
@@ -148,8 +148,8 @@ class THM_OrganizerModelCurriculum extends JModelItem
 	/**
 	 * Retrieves a pool element
 	 *
-	 * @param   int $poolID    the pool id
-	 * @param   int $mappingID the mapping id
+	 * @param int $poolID    the pool id
+	 * @param int $mappingID the mapping id
 	 *
 	 * @return  mixed  object on success, otherwise null
 	 */
@@ -190,8 +190,8 @@ class THM_OrganizerModelCurriculum extends JModelItem
 	/**
 	 * Retrieves a subject element
 	 *
-	 * @param   int $subjectID the subject id
-	 * @param   int $mappingID the mapping id
+	 * @param int $subjectID the subject id
+	 * @param int $mappingID the mapping id
 	 *
 	 * @return  mixed  object on success, otherwise null
 	 */

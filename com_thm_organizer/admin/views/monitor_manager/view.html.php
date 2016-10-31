@@ -31,7 +31,7 @@ class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
 	/**
 	 * Loads data from the model into the view context
 	 *
-	 * @param   string $tpl the name of the template to be used
+	 * @param string $tpl the name of the template to be used
 	 *
 	 * @return  void
 	 */

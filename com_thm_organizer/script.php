@@ -30,7 +30,7 @@ class Com_THM_OrganizerInstallerScript
 	 * It also seems that under 3.x this function is ignored if the method is upgrade even if no prior installation
 	 * existed.
 	 *
-	 * @param   object $parent the class calling this method
+	 * @param object $parent the class calling this method
 	 *
 	 * @return void
 	 *
@@ -161,7 +161,7 @@ class Com_THM_OrganizerInstallerScript
 	/**
 	 * Method to uninstall the component
 	 *
-	 * @param   object $parent the class calling this method
+	 * @param object $parent the class calling this method
 	 *
 	 * @return void
 	 *
@@ -179,7 +179,7 @@ class Com_THM_OrganizerInstallerScript
 	/**
 	 * Provides an output once Joomla! has finished the update process.
 	 *
-	 * @param   Object $parent JInstallerComponent
+	 * @param Object $parent JInstallerComponent
 	 *
 	 * @return void
 	 */

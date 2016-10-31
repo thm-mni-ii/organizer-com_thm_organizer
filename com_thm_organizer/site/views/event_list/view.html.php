@@ -23,7 +23,7 @@ class THM_OrganizerViewEvent_List extends JViewLegacy
 	/**
 	 * Loads persistent data into the view context
 	 *
-	 * @param   string $tpl the name of the template to load
+	 * @param string $tpl the name of the template to load
 	 *
 	 * @return  void
 	 */

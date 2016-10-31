@@ -146,8 +146,8 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 	/**
 	 * Overwrites the JModelList populateState function
 	 *
-	 * @param   string $ordering  the column by which the table is should be ordered
-	 * @param   string $direction the direction in which this column should be ordered
+	 * @param string $ordering  the column by which the table is should be ordered
+	 * @param string $direction the direction in which this column should be ordered
 	 *
 	 * @return  void  sets object state variables
 	 *

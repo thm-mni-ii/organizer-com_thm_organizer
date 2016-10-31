@@ -26,8 +26,8 @@ class THM_OrganizerHelperXMLRooms
 	/**
 	 * Validates the rooms node
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$xmlObject     the xml object being validated
 	 *
 	 * @return  void
 	 */
@@ -67,9 +67,9 @@ class THM_OrganizerHelperXMLRooms
 	/**
 	 * Validates the room's display name
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$roomNode      the room node object
-	 * @param   string $roomID         the room's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$roomNode      the room node object
+	 * @param string $roomID         the room's id
 	 *
 	 * @return  mixed  string display name if valid, otherwise false
 	 */
@@ -92,8 +92,8 @@ class THM_OrganizerHelperXMLRooms
 	 * Checks whether room nodes have the expected structure and required
 	 * information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$roomNode      the room node to be validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$roomNode      the room node to be validated
 	 *
 	 * @return void
 	 */
@@ -135,9 +135,9 @@ class THM_OrganizerHelperXMLRooms
 	/**
 	 * Validates the room's description attribute
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$roomNode      the room node object
-	 * @param   string $roomID         the room's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$roomNode      the room node object
+	 * @param string $roomID         the room's id
 	 *
 	 * @return  void
 	 */
@@ -161,8 +161,8 @@ class THM_OrganizerHelperXMLRooms
 	/**
 	 * Validates the room's untis id
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$roomNode      the room node object
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$roomNode      the room node object
 	 *
 	 * @return  mixed  string untis id if valid, otherwise false
 	 */

@@ -26,9 +26,9 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	/**
 	 * Removes the resource from the schedule
 	 *
-	 * @param   object &$schedule  the schedule from which the resource will be removed
-	 * @param   int    $resourceID the id of the resource in the db
-	 * @param   string $gpuntisID  the gpuntis ID for the given resource
+	 * @param object &$schedule  the schedule from which the resource will be removed
+	 * @param int    $resourceID the id of the resource in the db
+	 * @param string $gpuntisID  the gpuntis ID for the given resource
 	 *
 	 * @return  void  modifies the schedule
 	 */
@@ -55,8 +55,8 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	/**
 	 * Updates key references to the entry being merged.
 	 *
-	 * @param   int   $newDBID  the id onto which the room entries merge
-	 * @param   array $oldDBIDs an array containing the ids to be replaced
+	 * @param int   $newDBID  the id onto which the room entries merge
+	 * @param array $oldDBIDs an array containing the ids to be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -74,12 +74,12 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	/**
 	 * Processes the data for an individual schedule
 	 *
-	 * @param   object &$schedule     the schedule being processed
-	 * @param   array  &$data         the data for the schedule db entry
-	 * @param   int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-	 * @param   string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-	 * @param   array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param   array  $allDBIDs      all db IDs for the resources to be merged
+	 * @param object &$schedule     the schedule being processed
+	 * @param array  &$data         the data for the schedule db entry
+	 * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
+	 * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
+	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
+	 * @param array  $allDBIDs      all db IDs for the resources to be merged
 	 *
 	 * @return  void
 	 *

@@ -51,7 +51,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Sets construction model properties
 	 *
-	 * @param   array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 */
 	public function __construct($config = array())
 	{
@@ -111,7 +111,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Retrieves a list of room items
 	 *
-	 * @param   string $type the type of item to be retrieved
+	 * @param string $type the type of item to be retrieved
 	 *
 	 * @return array
 	 */
@@ -217,7 +217,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Sets consumption by instance (block + lesson)
 	 *
-	 * @param   object &$blocks the blocks of the date being iterated
+	 * @param object &$blocks the blocks of the date being iterated
 	 *
 	 * @return  void
 	 */
@@ -258,8 +258,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Iterates the lesson associated pools for the purpose of teacher consumption
 	 *
-	 * @param   string $lessonID the lesson ID
-	 * @param   int    $hours    the duration of the current block in hours
+	 * @param string $lessonID the lesson ID
+	 * @param int    $hours    the duration of the current block in hours
 	 *
 	 * @return  void
 	 */
@@ -291,11 +291,11 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Sets teacher consumption values, creating the storage objects if not set
 	 *
-	 * @param   string $degree      the degree name
-	 * @param   string $teacherID   the teacher id
-	 * @param   string $delta       the teacher's delta information for the
+	 * @param string $degree      the degree name
+	 * @param string $teacherID   the teacher id
+	 * @param string $delta       the teacher's delta information for the
 	 *                              lesson being iterated
-	 * @param   int    $hours       the duration of the current block in hours
+	 * @param int    $hours       the duration of the current block in hours
 	 *
 	 * @return  void
 	 */
@@ -334,10 +334,10 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Sets room consumption values by lesson
 	 *
-	 * @param   string $lessonID  the id of the lesson being iterated
-	 * @param   string $roomID    the id of the room being iterated
-	 * @param   string $roomDelta the room's delta value
-	 * @param   int    $hours     the duration of the current block in hours
+	 * @param string $lessonID  the id of the lesson being iterated
+	 * @param string $roomID    the id of the room being iterated
+	 * @param string $roomDelta the room's delta value
+	 * @param int    $hours     the duration of the current block in hours
 	 *
 	 * @return  void
 	 */
@@ -363,9 +363,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Sets consumption values for a lesson instance
 	 *
-	 * @param   string $degree the degree name
-	 * @param   string $roomID the room id
-	 * @param   int    $hours  the duration of the current block in hours
+	 * @param string $degree the degree name
+	 * @param string $roomID the room id
+	 * @param int    $hours  the duration of the current block in hours
 	 *
 	 * @return  void
 	 */
@@ -449,9 +449,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Builds the consumption table head
 	 *
-	 * @param   array  $columns the columns of the table
-	 * @param   array  $rows    the rows used in the table
-	 * @param   string $type    the type of resource
+	 * @param array  $columns the columns of the table
+	 * @param array  $rows    the rows used in the table
+	 * @param string $type    the type of resource
 	 *
 	 * @return  string  the table head as a string
 	 */
@@ -484,9 +484,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	 * Retrieves a row containing a summary of the column values in all the other rows. In the process it removes
 	 * columns without values.
 	 *
-	 * @param   string $type     the resource type
-	 * @param   array  &$columns the table columns
-	 * @param   array  $rows     the resource entries
+	 * @param string $type     the resource type
+	 * @param array  &$columns the table columns
+	 * @param array  $rows     the resource entries
 	 *
 	 * @return  string  HTML string for the summary row
 	 */
@@ -521,9 +521,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Gets the sum for the column
 	 *
-	 * @param   string $type        the type of resource
-	 * @param   string $columnIndex the index at which the sum is to be calculated
-	 * @param   array  &$resources  the resources whose values are to be summed
+	 * @param string $type        the type of resource
+	 * @param string $columnIndex the index at which the sum is to be calculated
+	 * @param array  &$resources  the resources whose values are to be summed
 	 *
 	 * @return  int  the sum for the column
 	 */
@@ -544,9 +544,9 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Creates the consumption table body
 	 *
-	 * @param   array  $columns the columns used in the table
-	 * @param   array  $rows    the rows used in the table
-	 * @param   string $type    the type of resource being observed
+	 * @param array  $columns the columns used in the table
+	 * @param array  $rows    the rows used in the table
+	 * @param string $type    the type of resource being observed
 	 *
 	 * @return  string  a html sting containing the table body
 	 */
@@ -585,10 +585,10 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Gets a list of resource names
 	 *
-	 * @param   string $category   the resource category (rooms|teachers)
-	 * @param   array  $resources  the resources
-	 * @param   array  $properties the properties used to build the name
-	 * @param   string $separator  an optional separator to place between property values
+	 * @param string $category   the resource category (rooms|teachers)
+	 * @param array  $resources  the resources
+	 * @param array  $properties the properties used to build the name
+	 * @param string $separator  an optional separator to place between property values
 	 *
 	 * @return  array  a list of resource names
 	 */
@@ -634,7 +634,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Gets the list of selected resources
 	 *
-	 * @param   string $type the resource type (rooms|room_types|teachers|fields)
+	 * @param string $type the resource type (rooms|room_types|teachers|fields)
 	 *
 	 * @return  void
 	 */
@@ -703,7 +703,7 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Removed unselected resource entries from the consumption values
 	 *
-	 * @param   string $resource the resource to be filtered
+	 * @param string $resource the resource to be filtered
 	 *
 	 * @return  void  removes consumption entries
 	 */
@@ -733,8 +733,8 @@ class THM_OrganizerModelConsumption extends JModelLegacy
 	/**
 	 * Removed unselected entries from the consumption values
 	 *
-	 * @param   string $resource the resource to be filtered
-	 * @param   string $type     the type of resource to be filtered
+	 * @param string $resource the resource to be filtered
+	 * @param string $type     the type of resource to be filtered
 	 *
 	 * @return  void  removes consumption entries
 	 */

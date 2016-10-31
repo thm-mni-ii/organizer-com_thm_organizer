@@ -45,8 +45,8 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
 	/**
 	 * Method to execute tasks
 	 *
-	 * @param   string $task    The task to execute
-	 * @param   array  $options An array with options to forward to the class that handle the task (Default: array)
+	 * @param string $task    The task to execute
+	 * @param array  $options An array with options to forward to the class that handle the task (Default: array)
 	 *
 	 * @return  array
 	 */
@@ -99,8 +99,8 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
 	/**
 	 * Instantiates a new Class. Seems a little superfluous...
 	 *
-	 * @param   string $className the name of the class
-	 * @param   array  $options   the parameters for the object
+	 * @param string $className the name of the class
+	 * @param array  $options   the parameters for the object
 	 *
 	 * @return  object  the newly instantiated class
 	 */

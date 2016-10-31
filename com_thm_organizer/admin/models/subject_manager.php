@@ -39,7 +39,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	/**
 	 * Constructor to set up the config array and call the parent constructor
 	 *
-	 * @param   array $config Configuration  (default: array)
+	 * @param array $config Configuration  (default: array)
 	 */
 	public function __construct($config = array())
 	{
@@ -184,8 +184,8 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	/**
 	 * Overwrites the JModelList populateState function
 	 *
-	 * @param   string $ordering  the column by which the table is should be ordered
-	 * @param   string $direction the direction in which this column should be ordered
+	 * @param string $ordering  the column by which the table is should be ordered
+	 * @param string $direction the direction in which this column should be ordered
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{

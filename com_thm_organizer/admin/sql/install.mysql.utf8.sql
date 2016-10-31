@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar_configuration_map` (
   `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar_configuration_map` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
   `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
   `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
   `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
   `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -94,14 +94,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
               COLLATE utf8_bin          DEFAULT NULL,
   `field_de`  VARCHAR(60)      NOT NULL DEFAULT '',
   `colorID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `field_en`  VARCHAR(100)      NOT NULL DEFAULT '',
+  `field_en`  VARCHAR(100)     NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `gpuntisID` (`gpuntisID`),
   KEY `colorID` (`colorID`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
   `id`           INT(1) UNSIGNED NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_grids` (
   `id`          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_grids` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `id`                INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_configurations` (
   `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_configurations` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_pools` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_pools` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_subjects` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_subjects` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,

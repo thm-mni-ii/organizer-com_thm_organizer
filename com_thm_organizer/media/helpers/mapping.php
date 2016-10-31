@@ -58,9 +58,9 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the mapping boundaries of the selected resource
 	 *
-	 * @param   string  $resourceType      the type of the selected resource
-	 * @param   int     $resourceID        the id of the selected resource
-	 * @param   boolean $excludeChildPools whether the return values should have child pools filtered out
+	 * @param string  $resourceType      the type of the selected resource
+	 * @param int     $resourceID        the id of the selected resource
+	 * @param boolean $excludeChildPools whether the return values should have child pools filtered out
 	 *
 	 * @return  mixed  array with boundary values on success, otherwise false
 	 *
@@ -110,7 +110,7 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the ids of both direct and indirect pool children
 	 *
-	 * @param   array &$mappings the current mappings of the pool
+	 * @param array &$mappings the current mappings of the pool
 	 *
 	 * @return  array  the ids of the children of a pool
 	 */
@@ -149,9 +149,9 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Provides an indentation according to the structural depth of a pool
 	 *
-	 * @param   string $name         the name of the pool
-	 * @param   int    $level        the pool's structural depth
-	 * @param   bool   $withPrograms if programs will be listed with the pools
+	 * @param string $name         the name of the pool
+	 * @param int    $level        the pool's structural depth
+	 * @param bool   $withPrograms if programs will be listed with the pools
 	 *
 	 * @return  string
 	 */
@@ -177,7 +177,7 @@ class THM_OrganizerHelperMapping
 	 * Retrieves a string value representing the degree programs to which the
 	 * pool is ordered. Used in subject manager view.
 	 *
-	 * @param   int $resourceID the id of the resource
+	 * @param int $resourceID the id of the resource
 	 *
 	 * @return  string  string representing the associated program(s)
 	 */
@@ -208,8 +208,8 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Gets a HTML option based upon a pool mapping
 	 *
-	 * @param   array &$mapping         the pool mapping entry
-	 * @param   array &$selectedParents the selected parents
+	 * @param array &$mapping         the pool mapping entry
+	 * @param array &$selectedParents the selected parents
 	 *
 	 * @return  string  HTML option
 	 */
@@ -240,7 +240,7 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the mappings of superordinate programs
 	 *
-	 * @param   array &$mappings the existing mappings of the element
+	 * @param array &$mappings the existing mappings of the element
 	 *
 	 * @return  array  the superordinate program mappings
 	 *
@@ -285,7 +285,7 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves all mapping entries subordinate to associated degree programs
 	 *
-	 * @param   array &$programEntries the program mappings themselves
+	 * @param array &$programEntries the program mappings themselves
 	 *
 	 * @return  array  an array containing information for all program mappings
 	 *
@@ -328,8 +328,8 @@ class THM_OrganizerHelperMapping
 	 * Retrieves a string value representing the degree programs to which the
 	 * pool is ordered. Used in pool and subject manager views.
 	 *
-	 * @param   string $resourceType the type of the mapped resource
-	 * @param   int    $resourceID   the id of the resource
+	 * @param string $resourceType the type of the mapped resource
+	 * @param int    $resourceID   the id of the resource
 	 *
 	 * @return  string  string representing the associated program(s)
 	 */
@@ -360,9 +360,9 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Gets a HTML option based upon a program mapping
 	 *
-	 * @param   array  &$mapping         the program mapping entry
-	 * @param   array  &$selectedParents the selected parents
-	 * @param   string $resourceType     the type of resource
+	 * @param array  &$mapping         the program mapping entry
+	 * @param array  &$selectedParents the selected parents
+	 * @param string $resourceType     the type of resource
 	 *
 	 * @return  string  HTML option
 	 *
@@ -407,8 +407,8 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the names of the programs to which a resource is ordered. Used in self.
 	 *
-	 * @param   array $resourceRanges the left and right values of the resource's mappings
-	 * @param   bool  $getIDs         whether or not the program ids should be included in the return value
+	 * @param array $resourceRanges the left and right values of the resource's mappings
+	 * @param bool  $getIDs         whether or not the program ids should be included in the return value
 	 *
 	 * @return  mixed array the names of the programs to which the pool is ordered on success, otherwise false
 	 */
@@ -454,8 +454,8 @@ class THM_OrganizerHelperMapping
 	 * Retrieves the mapped left and right values for the resource's existing mappings.
 	 * Used in programs field, and self.
 	 *
-	 * @param   string $resourceType the type of the mapped resource
-	 * @param   int    $resourceID   the id of the mapped resource
+	 * @param string $resourceType the type of the mapped resource
+	 * @param int    $resourceID   the id of the mapped resource
 	 *
 	 * @return  array contains the sought left and right values
 	 */
@@ -498,7 +498,7 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the set of program boundaries for the programs to which this subject is associated.
 	 *
-	 * @param   int $subjectID the id of the subject
+	 * @param int $subjectID the id of the subject
 	 *
 	 * @return  array the program boundaries
 	 */
@@ -536,7 +536,7 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the names of the programs to which a resource is ordered
 	 *
-	 * @param   array $ranges the left and right values of the resource's mappings
+	 * @param array $ranges the left and right values of the resource's mappings
 	 *
 	 * @return  array  the names of the programs to which the pool is ordered
 	 */
@@ -597,7 +597,7 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the ids of associated degree programs
 	 *
-	 * @param   array $ranges the ranges for the individual subject entries
+	 * @param array $ranges the ranges for the individual subject entries
 	 *
 	 * @return  array  the ids of the associated programs
 	 *
@@ -675,7 +675,7 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the mapping boundaries of the selected resource
 	 *
-	 * @param   int $boundaries the boundaries of a single pool
+	 * @param int $boundaries the boundaries of a single pool
 	 *
 	 * @return  array  array of arrays with boundary values
 	 *
@@ -751,11 +751,11 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Retrieves the parent ids of the resource in question. Used in parentpool field.
 	 *
-	 * @param   int    $resourceID   the resource id
-	 * @param   string $resourceType the type of resource
-	 * @param   array  &$mappings    an array to store the mappings in
-	 * @param   array  &$mappingIDs  an array to store the mapping ids in
-	 * @param   array  &$parentIDs   an array to store the parent ids in
+	 * @param int    $resourceID   the resource id
+	 * @param string $resourceType the type of resource
+	 * @param array  &$mappings    an array to store the mappings in
+	 * @param array  &$mappingIDs  an array to store the mapping ids in
+	 * @param array  &$parentIDs   an array to store the parent ids in
 	 *
 	 * @return  void
 	 *
@@ -810,10 +810,10 @@ class THM_OrganizerHelperMapping
 	/**
 	 * Sets the program id filter for a query. Used in pool manager and subject manager.
 	 *
-	 * @param   object &$query           the query object
-	 * @param   int    $resourceID       the id of the resource from the filter
-	 * @param   string $resourceType     the type of the resource from the filter
-	 * @param   string $formResourceType the type of the resource from the form
+	 * @param object &$query           the query object
+	 * @param int    $resourceID       the id of the resource from the filter
+	 * @param string $resourceType     the type of the resource from the filter
+	 * @param string $formResourceType the type of the resource from the form
 	 *
 	 * @return  void  sets query object variables
 	 */

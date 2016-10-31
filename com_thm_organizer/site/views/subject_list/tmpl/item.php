@@ -25,8 +25,8 @@ class THM_OrganizerTemplateItem
 	/**
 	 * Renders subject information
 	 *
-	 * @param   array  &$item the item to be displayed
-	 * @param   string $type  the type of group
+	 * @param array  &$item the item to be displayed
+	 * @param string $type  the type of group
 	 *
 	 * @return  string  the HTML for the item to be displayed
 	 */

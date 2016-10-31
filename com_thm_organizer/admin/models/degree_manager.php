@@ -32,7 +32,7 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 	/**
 	 * Constructor to set up the configuration and call the parent constructor
 	 *
-	 * @param   array $config the configuration  (default: array)
+	 * @param array $config the configuration  (default: array)
 	 */
 	public function __construct($config = array())
 	{

@@ -23,8 +23,8 @@ class THM_OrganizerHelperDepartment_Resources
 	/**
 	 * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
 	 *
-	 * @param   int    $planResourceID the db id for the plan resource
-	 * @param   string $column         the column in which the resource information is stored
+	 * @param int    $planResourceID the db id for the plan resource
+	 * @param string $column         the column in which the resource information is stored
 	 *
 	 * @throws Exception
 	 */

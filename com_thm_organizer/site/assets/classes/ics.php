@@ -63,7 +63,7 @@ class THMICSBuilder extends THMAbstractBuilder
 	/**
 	 * Constructor with the configuration object
 	 *
-	 * @param   Object $cfg A object which has configurations including
+	 * @param Object $cfg A object which has configurations including
 	 */
 	public function __construct($cfg)
 	{
@@ -73,9 +73,9 @@ class THMICSBuilder extends THMAbstractBuilder
 	/**
 	 * Method to create a ics schedule
 	 *
-	 * @param   Object $scheduleGrid The event object
-	 * @param   string $username     The current logged in username
-	 * @param   string $title        The schedule title
+	 * @param Object $scheduleGrid The event object
+	 * @param string $username     The current logged in username
+	 * @param string $title        The schedule title
 	 *
 	 * @return array An array with information about the status of the creation
 	 */
@@ -135,8 +135,8 @@ class THMICSBuilder extends THMAbstractBuilder
 	/**
 	 * Method to set an event
 	 *
-	 * @param   object &$vCalendar The event array
-	 * @param   object $lesson     The semester end date
+	 * @param object &$vCalendar The event array
+	 * @param object $lesson     The semester end date
 	 *
 	 * @return  array  an array with event information
 	 */
@@ -211,7 +211,7 @@ class THMICSBuilder extends THMAbstractBuilder
 	/**
 	 * Method to check the username and password
 	 *
-	 * @param   int $block The block
+	 * @param int $block The block
 	 *
 	 * @return array An array which includes the block time
 	 */
@@ -251,7 +251,7 @@ class THMICSBuilder extends THMAbstractBuilder
 	/**
 	 * Method to get the active schedule
 	 *
-	 * @param   string $planningPeriod The department semester selection (Default: null)
+	 * @param string $planningPeriod The department semester selection (Default: null)
 	 *
 	 * @return   mixed  The active schedule or false
 	 */
@@ -266,7 +266,7 @@ class THMICSBuilder extends THMAbstractBuilder
 	/**
 	 * Method to transform teacher ids to teacher names
 	 *
-	 * @param   array $teachers An array with teacher ids
+	 * @param array $teachers An array with teacher ids
 	 *
 	 * @return  array  An array with teacher names
 	 */

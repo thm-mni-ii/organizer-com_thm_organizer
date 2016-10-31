@@ -55,8 +55,8 @@ class JFormFieldPrograms extends JFormField
 	/**
 	 * Adds the javascript to the page necessary to refresh the parent pool options
 	 *
-	 * @param   int    $resourceID   the resource's id
-	 * @param   string $resourceType the resource's type
+	 * @param int    $resourceID   the resource's id
+	 * @param string $resourceType the resource's type
 	 *
 	 * @return  void
 	 */

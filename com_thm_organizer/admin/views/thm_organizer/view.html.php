@@ -27,7 +27,7 @@ class THM_OrganizerViewTHM_Organizer extends JViewLegacy
 	/**
 	 * Loads model data into view context
 	 *
-	 * @param   string $tpl the template type to be used
+	 * @param string $tpl the template type to be used
 	 *
 	 * @return  void or JError on unauthorized access
 	 */

@@ -23,8 +23,8 @@ class THM_OrganizerModelEdit extends JModelAdmin
 	/**
 	 * Method to get the form
 	 *
-	 * @param   array $data     Data         (default: array)
-	 * @param   bool  $loadData Load data  (default: true)
+	 * @param array $data     Data         (default: array)
+	 * @param bool  $loadData Load data  (default: true)
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *
@@ -46,7 +46,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer $pk The id of the primary key.
+	 * @param integer $pk The id of the primary key.
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
@@ -71,9 +71,9 @@ class THM_OrganizerModelEdit extends JModelAdmin
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param   string $name    The table name. Optional.
-	 * @param   string $prefix  The class prefix. Optional.
-	 * @param   array  $options Configuration array for model. Optional.
+	 * @param string $name    The table name. Optional.
+	 * @param string $prefix  The class prefix. Optional.
+	 * @param array  $options Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A JTable object
 	 */

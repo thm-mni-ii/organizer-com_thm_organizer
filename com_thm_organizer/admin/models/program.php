@@ -62,7 +62,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
 	/**
 	 * Method to save degree programs
 	 *
-	 * @param   array $data program data if not called from a program edit form
+	 * @param array $data program data if not called from a program edit form
 	 *
 	 * @return  Boolean
 	 */

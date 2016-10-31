@@ -23,7 +23,7 @@ class THM_OrganizerTemplateList
 	/**
 	 * Method to create a list output
 	 *
-	 * @param   object &$view the view context calling the function
+	 * @param object &$view the view context calling the function
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders the search input group if set in the filter xml
 	 *
-	 * @param   array &$filters the filters set for the view
+	 * @param array &$filters the filters set for the view
 	 *
 	 * @return  void
 	 */
@@ -113,7 +113,7 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders the table head
 	 *
-	 * @param   array &$headers an array containing the table headers
+	 * @param array &$headers an array containing the table headers
 	 *
 	 * @return  void
 	 */
@@ -130,8 +130,8 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders the table head
 	 *
-	 * @param   array &$headers an array containing the table headers
-	 * @param   array &$filters the filters set for the view
+	 * @param array &$headers an array containing the table headers
+	 * @param array &$filters the filters set for the view
 	 *
 	 * @return  void
 	 */
@@ -175,7 +175,7 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders the table head
 	 *
-	 * @param   array &$items an array containing the table headers
+	 * @param array &$items an array containing the table headers
 	 *
 	 * @return  void
 	 */
@@ -210,8 +210,8 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders a row
 	 *
-	 * @param   array $row        the row to be displayed
-	 * @param   int   &$iteration the current iteration
+	 * @param array $row        the row to be displayed
+	 * @param int   &$iteration the current iteration
 	 *
 	 * @return  void  outputs HTML
 	 */
@@ -272,7 +272,7 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders the table foot
 	 *
-	 * @param   object &$view the view context calling the function
+	 * @param object &$view the view context calling the function
 	 *
 	 * @return  void
 	 */
@@ -288,7 +288,7 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders the batch window
 	 *
-	 * @param   object &$view the view context calling the function
+	 * @param object &$view the view context calling the function
 	 *
 	 * @return  void
 	 */
@@ -309,7 +309,7 @@ class THM_OrganizerTemplateList
 	/**
 	 * Renders hidden fields
 	 *
-	 * @param   object &$view the view object
+	 * @param object &$view the view object
 	 *
 	 * @return  void  outputs hidden fields html
 	 */

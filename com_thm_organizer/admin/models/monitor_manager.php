@@ -36,7 +36,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 	/**
 	 * constructor
 	 *
-	 * @param   array $config configurations parameter
+	 * @param array $config configurations parameter
 	 */
 	public function __construct($config = array())
 	{
@@ -81,7 +81,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 	/**
 	 * Adds the filter settings for display behaviour
 	 *
-	 * @param   object &$query the query object
+	 * @param object &$query the query object
 	 *
 	 * @return  void
 	 */
@@ -112,7 +112,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 	/**
 	 * Adds the filter settings for displayed content
 	 *
-	 * @param   object &$query the query object
+	 * @param object &$query the query object
 	 *
 	 * @return  void
 	 */

@@ -33,7 +33,7 @@ class THMScheduleDirector
 	/**
 	 * Constructor to set the builder
 	 *
-	 * @param   THMAbstractBuilder $builder The builder to use
+	 * @param THMAbstractBuilder $builder The builder to use
 	 */
 	public function __construct(THMAbstractBuilder $builder)
 	{
@@ -43,9 +43,9 @@ class THMScheduleDirector
 	/**
 	 * Method to create a schedule
 	 *
-	 * @param   object $scheduleData The event object
-	 * @param   string $username     The current logged in username
-	 * @param   string $title        The schedule title
+	 * @param object $scheduleData The event object
+	 * @param string $username     The current logged in username
+	 * @param string $title        The schedule title
 	 *
 	 * @return array An array with information about the status of the creation
 	 */

@@ -35,7 +35,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	/**
 	 * Method to get display
 	 *
-	 * @param   Object $tpl template  (default: null)
+	 * @param Object $tpl template  (default: null)
 	 *
 	 * @return  void
 	 */

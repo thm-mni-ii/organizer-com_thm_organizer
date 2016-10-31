@@ -72,8 +72,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Retrieves a list of the fields associated with program subjects their colors
 	 *
-	 * @param   int $left  the left value for the program
-	 * @param   int $right the right value for the program
+	 * @param int $left  the left value for the program
+	 * @param int $right the right value for the program
 	 *
 	 * @return  mixed  array on success, otherwise false
 	 */
@@ -105,8 +105,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Retrieves pool specific information
 	 *
-	 * @param   int    $poolID  the id of the pool being sought
-	 * @param   string $langTag the current display language
+	 * @param int    $poolID  the id of the pool being sought
+	 * @param string $langTag the current display language
 	 *
 	 * @return  mixed  The return value or null if the query failed.
 	 *
@@ -146,7 +146,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Method to get program information
 	 *
-	 * @param   int $programID the id of the program being modelled
+	 * @param int $programID the id of the program being modelled
 	 *
 	 * @return  array
 	 *
@@ -182,8 +182,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Retrieves subject specific information
 	 *
-	 * @param   int    $subjectID the id of the subject being sought
-	 * @param   string $langTag   the current display language
+	 * @param int    $subjectID the id of the subject being sought
+	 * @param string $langTag   the current display language
 	 *
 	 * @return  mixed  The return value or null if the query failed.
 	 *
@@ -248,9 +248,9 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Retrieves program children recursively
 	 *
-	 * @param   int    $lft     the left boundary of the program in the nested table
-	 * @param   int    $rgt     the right boundary of the program in the nested table
-	 * @param   string $langTag the current display language
+	 * @param int    $lft     the left boundary of the program in the nested table
+	 * @param int    $rgt     the right boundary of the program in the nested table
+	 * @param string $langTag the current display language
 	 *
 	 * @return  array  empty if no child data exists
 	 *
@@ -316,7 +316,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Retrieves the ordering of the last direct child element
 	 *
-	 * @param   int $mappingID the id of the mapped element
+	 * @param int $mappingID the id of the mapped element
 	 *
 	 * @return  int  the last child element's ordering value
 	 *
@@ -344,7 +344,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Checks for and sets schedule data if an applicable schedule is found
 	 *
-	 * @param   string $programName the name of the program being modelled
+	 * @param string $programName the name of the program being modelled
 	 *
 	 * @return  void
 	 *
@@ -389,7 +389,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	/**
 	 * Sets subject properties relating to the responsible teacher
 	 *
-	 * @param   object &$subjectData an object containing subject data
+	 * @param object &$subjectData an object containing subject data
 	 *
 	 * @return  void
 	 */

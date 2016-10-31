@@ -1,4 +1,3 @@
-
 UPDATE `#__thm_organizer_grids`
 SET `grid` = REPLACE(`grid`, 'start_time', 'startTime');
 

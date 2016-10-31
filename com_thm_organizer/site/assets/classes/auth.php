@@ -26,7 +26,7 @@ class THMAuth
 	/**
 	 * Constructor with the joomla data configuration object
 	 *
-	 * @param   MySchedConfig $cfg A object which has configurations including
+	 * @param MySchedConfig $cfg A object which has configurations including
 	 */
 	public function __construct($cfg)
 	{
@@ -36,7 +36,7 @@ class THMAuth
 	/**
 	 * Method to map the LDAPP user roles to the MySched roles
 	 *
-	 * @param   string $role The user role
+	 * @param string $role The user role
 	 *
 	 * @return  string  the mapped role
 	 */
@@ -76,7 +76,7 @@ class THMAuth
 	/**
 	 * Method to check the joomla sid is correct
 	 *
-	 * @param   string $token The joomla sid
+	 * @param string $token The joomla sid
 	 *
 	 * @return  array  an array with the result
 	 */
@@ -99,7 +99,7 @@ class THMAuth
 	/**
 	 * Method to check the session id
 	 *
-	 * @param   string $sid The session id
+	 * @param string $sid The session id
 	 *
 	 * @return Boolean If $sid is the same as the current session id it returns true otherwise false
 	 */

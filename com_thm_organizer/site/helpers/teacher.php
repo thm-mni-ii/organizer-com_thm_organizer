@@ -23,7 +23,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Method to get the groups picture
 	 *
-	 * @param   int $userID ID of a module
+	 * @param int $userID ID of a module
 	 *
 	 * @return  mixed  JHtml image or an empty string
 	 */
@@ -58,7 +58,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Retrieves the teacher responsible for the subject's development
 	 *
-	 * @param   int $teacherID the teacher's id
+	 * @param int $teacherID the teacher's id
 	 *
 	 * @return  array  an array of teacher data
 	 */
@@ -90,11 +90,11 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Retrieves the teacher responsible for the subject's development
 	 *
-	 * @param   int  $subjectID        the subject's id
-	 * @param   int  $responsibility   represents the teacher's level of
+	 * @param int  $subjectID        the subject's id
+	 * @param int  $responsibility   represents the teacher's level of
 	 *                                 responsibility for the subject
-	 * @param   bool $multiple         whether or not multiple results are desired
-	 * @param   bool $unique           whether or not unique results are desired
+	 * @param bool $multiple         whether or not multiple results are desired
+	 * @param bool $unique           whether or not unique results are desired
 	 *
 	 * @return  array  an array of teacher data
 	 */
@@ -150,7 +150,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Checks for multiple teacher entries (responsibilities) for a subject and removes the lesser
 	 *
-	 * @param   array &$list the list of teachers responsilbe for a subject
+	 * @param array &$list the list of teachers responsilbe for a subject
 	 *
 	 * @return  void  removes duplicate list entries dependent on responsibility
 	 */
@@ -176,7 +176,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Generates a default teacher text based upon organizer's internal data
 	 *
-	 * @param   mixed $teacherData   array or object with teacher data
+	 * @param mixed $teacherData   array or object with teacher data
 	 *                               (objects are converted internally to arrays)
 	 *
 	 * @return  string  the default name of the teacher
@@ -194,7 +194,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Generates a default teacher text based upon organizer's internal data
 	 *
-	 * @param   mixed $teacherData   array or object with teacher data
+	 * @param mixed $teacherData   array or object with teacher data
 	 *                               (objects are converted internally to arrays)
 	 *
 	 * @return  string  the default name of the teacher
@@ -211,7 +211,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Method to determine the name of a given module
 	 *
-	 * @param   int $userID the user id of the teacher
+	 * @param int $userID the user id of the teacher
 	 *
 	 * @return  string title, first, and last names of the teacher as existent
 	 *
@@ -225,9 +225,9 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Method to build the link to a user profile of THM Groups
 	 *
-	 * @param   int    $userID    the teacher's user ID
-	 * @param   string $surname   the teacher's surname
-	 * @param   int    $itemID    the menu item id from which the link will be
+	 * @param int    $userID    the teacher's user ID
+	 * @param string $surname   the teacher's surname
+	 * @param int    $itemID    the menu item id from which the link will be
 	 *                            called
 	 *
 	 * @return  string  the url of the teacher's thm groups details
@@ -242,7 +242,7 @@ class THM_OrganizerHelperTeacher
 	/**
 	 * Method to resolve the Untis ID to a user ID
 	 *
-	 * @param   string $gpuntisID the teacher's gpuntis ID
+	 * @param string $gpuntisID the teacher's gpuntis ID
 	 *
 	 * @return  mixed  the teacher's user ID or null if the query failed
 	 */

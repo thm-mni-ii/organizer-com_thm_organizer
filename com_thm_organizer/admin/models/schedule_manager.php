@@ -33,7 +33,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	/**
 	 * sets variables and configuration data
 	 *
-	 * @param   array $config the configuration parameters
+	 * @param array $config the configuration parameters
 	 */
 	public function __construct($config = array())
 	{
@@ -79,7 +79,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	/**
 	 * Provides a default method for setting filters for non-unique values
 	 *
-	 * @param   object &$query the query object
+	 * @param object &$query the query object
 	 *
 	 * @return  void
 	 */
@@ -184,7 +184,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	/**
 	 * Generates a toggle for the attribute in question
 	 *
-	 * @param   int $id the id of the database entry
+	 * @param int $id the id of the database entry
 	 *
 	 * @return  string  a HTML string
 	 */

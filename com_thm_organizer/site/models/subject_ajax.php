@@ -136,8 +136,8 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 	/**
 	 * Checks whether the pool is subordinate to the selected program
 	 *
-	 * @param   array $poolBoundaries    the pool's left and right values
-	 * @param   array $programBoundaries the program's left and right values
+	 * @param array $poolBoundaries    the pool's left and right values
+	 * @param array $programBoundaries the program's left and right values
 	 *
 	 * @return  boolean  true if the pool is subordinate to the program,
 	 *                   otherwise false

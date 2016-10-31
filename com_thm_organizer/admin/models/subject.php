@@ -52,7 +52,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Deletes an individual subject entry in the mappings and subjects tables
 	 *
-	 * @param   int $subjectID the id of the subject to be deleted
+	 * @param int $subjectID the id of the subject to be deleted
 	 *
 	 * @return  boolean  true if successful, otherwise false
 	 */
@@ -143,8 +143,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Checks if the property should be displayed. Setting it to NULL if not.
 	 *
-	 * @param   array  &$data    the form data
-	 * @param   string $property the property name
+	 * @param array  &$data    the form data
+	 * @param string $property the property name
 	 *
 	 * @return  void  can change the &$data value at the property name index
 	 */
@@ -159,7 +159,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Processes the teachers selected for the subject
 	 *
-	 * @param   array &$data the post data
+	 * @param array &$data the post data
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */
@@ -203,8 +203,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	 * Removes teacher associations for the given subject and level of
 	 * responsibility.
 	 *
-	 * @param   int $subjectID      the subject id
-	 * @param   int $responsibility the teacher responsibility level (1|2)
+	 * @param int $subjectID      the subject id
+	 * @param int $responsibility the teacher responsibility level (1|2)
 	 *
 	 * @return boolean
 	 */
@@ -235,9 +235,9 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Adds a teacher association
 	 *
-	 * @param   int   $subjectID        the id of the subject
-	 * @param   array $teacherID        the id of the teacher
-	 * @param   int   $responsibility   the teacher's responsibility for the
+	 * @param int   $subjectID        the id of the subject
+	 * @param array $teacherID        the id of the teacher
+	 * @param int   $responsibility   the teacher's responsibility for the
 	 *                                  subject
 	 *
 	 * @return  bool  true on success, otherwise false
@@ -265,7 +265,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Processes the subject pre- & postrequisites selected for the subject
 	 *
-	 * @param   array &$data the post data
+	 * @param array &$data the post data
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */
@@ -308,7 +308,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Removes pre- & postrequisite associations for the given subject
 	 *
-	 * @param   int $subjectID the subject id
+	 * @param int $subjectID the subject id
 	 *
 	 * @return  boolean
 	 */
@@ -334,8 +334,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Adds a prerequisite association
 	 *
-	 * @param   int   $subjectID    the id of the subject
-	 * @param   array $prerequisite the id of the prerequisite
+	 * @param int   $subjectID    the id of the subject
+	 * @param array $prerequisite the id of the prerequisite
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */
@@ -362,8 +362,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	/**
 	 * Processes the mappings of the subject selected
 	 *
-	 * @param   int   $subjectID the id of the subject
-	 * @param   array &$data     the post data
+	 * @param int   $subjectID the id of the subject
+	 * @param array &$data     the post data
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */

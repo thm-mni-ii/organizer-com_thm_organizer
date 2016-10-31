@@ -28,7 +28,7 @@ class THM_OrganizerViewAjaxHandler extends JViewLegacy
 	/**
 	 * Method to get extra
 	 *
-	 * @param   string $tpl template
+	 * @param string $tpl template
 	 *
 	 * @return void
 	 *
@@ -55,8 +55,8 @@ class THM_OrganizerViewAjaxHandler extends JViewLegacy
 	/**
 	 * Method to send a response to the client
 	 *
-	 * @param   Object $mix The information to send can be a array, string or boolean
-	 * @param   array  $arr Additional information to send
+	 * @param Object $mix The information to send can be a array, string or boolean
+	 * @param array  $arr Additional information to send
 	 *
 	 * @return void
 	 */

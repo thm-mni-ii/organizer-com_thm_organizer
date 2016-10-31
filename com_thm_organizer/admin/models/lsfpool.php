@@ -23,8 +23,8 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 	/**
 	 * Creates a pool entry if none exists and calls
 	 *
-	 * @param   object &$stub        a simplexml object containing rudimentary subject data
-	 * @param   int    $departmentID the id of the department to which this data belongs
+	 * @param object &$stub        a simplexml object containing rudimentary subject data
+	 * @param int    $departmentID the id of the department to which this data belongs
 	 *
 	 * @return  mixed  int value of subject id on success, otherwise false
 	 */
@@ -72,11 +72,11 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 	/**
 	 * Sets the value of a generic attribute if available
 	 *
-	 * @param   object &$pool     the array where subject data is being stored
-	 * @param   string $key       the key where the value should be put
-	 * @param   array  $value     the xpath value where the attribute value
+	 * @param object &$pool     the array where subject data is being stored
+	 * @param string $key       the key where the value should be put
+	 * @param array  $value     the xpath value where the attribute value
 	 *                            should be
-	 * @param   string $default   the default value
+	 * @param string $default   the default value
 	 *
 	 * @return  void
 	 */
@@ -96,8 +96,8 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 	/**
 	 * Processes the children of the stub element
 	 *
-	 * @param   object &$stub        the pool element
-	 * @param   int    $departmentID the id of the department to which this data belongs
+	 * @param object &$stub        the pool element
+	 * @param int    $departmentID the id of the department to which this data belongs
 	 *
 	 * @return  boolean true on success, otherwise false
 	 */

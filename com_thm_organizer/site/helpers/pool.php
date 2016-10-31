@@ -24,7 +24,7 @@ class THM_OrganizerHelperPool
 	/**
 	 * Creates a text for the required pool credit points
 	 *
-	 * @param   object &$pool the pool
+	 * @param object &$pool the pool
 	 *
 	 * @return  string  the required amount of credit points
 	 */

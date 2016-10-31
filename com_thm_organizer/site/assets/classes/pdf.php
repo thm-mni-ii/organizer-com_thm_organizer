@@ -40,8 +40,8 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Constructor with the configuration object
 	 *
-	 * @param   object $cfg     an object which has configurations including
-	 * @param   array  $options an object which has options including
+	 * @param object $cfg     an object which has configurations including
+	 * @param array  $options an object which has options including
 	 */
 	public function __construct($cfg, $options)
 	{
@@ -54,9 +54,9 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Method to create a PDF schedule
 	 *
-	 * @param   Object $scheduleData the schedule object
-	 * @param   string $username     the joomla username
-	 * @param   string $title        the schedule title
+	 * @param Object $scheduleData the schedule object
+	 * @param string $username     the joomla username
+	 * @param string $title        the schedule title
 	 *
 	 * @return array An array with information about the status of the creation
 	 */
@@ -136,8 +136,8 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Gets the title
 	 *
-	 * @param   string $username the current logged in username
-	 * @param   string $title    the schedule title
+	 * @param string $username the current logged in username
+	 * @param string $title    the schedule title
 	 *
 	 * @return  string  the document title
 	 */
@@ -194,7 +194,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Gets the data needed for the construction of the headers
 	 *
-	 * @param   int $columns the number of schedule columns
+	 * @param int $columns the number of schedule columns
 	 *
 	 * @return  array  the header data
 	 */
@@ -257,7 +257,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Gets the data settings used for schedule pdf files
 	 *
-	 * @param   int $columns the number of schedule columns
+	 * @param int $columns the number of schedule columns
 	 *
 	 * @return  array  the data settings
 	 */
@@ -301,9 +301,9 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Fills the time label column with values
 	 *
-	 * @param   object &$scheduleData the object with the schedule data
-	 * @param   array  &$schedule     the array holding the schedule data for the pdf document
-	 * @param   int    $rows          the number of rows
+	 * @param object &$scheduleData the object with the schedule data
+	 * @param array  &$schedule     the array holding the schedule data for the pdf document
+	 * @param int    $rows          the number of rows
 	 *
 	 * @return  void  sets data in the schedule
 	 */
@@ -320,8 +320,8 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Sets the schedule data to be displayed in the pdf
 	 *
-	 * @param   object &$scheduleData the schedule data from the HTML display
-	 * @param   array  &$schedule     the schedule data for the PDF display
+	 * @param object &$scheduleData the schedule data from the HTML display
+	 * @param array  &$schedule     the schedule data for the PDF display
 	 *
 	 * @return  void  sets data in the schedule to be output
 	 *
@@ -374,7 +374,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Processes the displayed HTML output for PDF output
 	 *
-	 * @param   string $htmlLesson the HTML lesson output
+	 * @param string $htmlLesson the HTML lesson output
 	 *
 	 * @return  mixed|string
 	 */
@@ -396,7 +396,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Renders the row being iterated
 	 *
-	 * @param   array &$row the row being iterated
+	 * @param array &$row the row being iterated
 	 *
 	 * @return  void
 	 */
@@ -434,7 +434,7 @@ class THMPDFBuilder extends THMAbstractBuilder
 	/**
 	 * Find the maximum number of entries in a single column for the row
 	 *
-	 * @param   array &$row the row being iterated
+	 * @param array &$row the row being iterated
 	 *
 	 * @return  int  the maximum number of entries for the row
 	 */

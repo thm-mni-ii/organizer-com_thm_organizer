@@ -72,7 +72,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 * Checks for subjects with the given possible module number mapped to the same programs
 	 *
 	 * @param array $possibleModuleNumbers the possible module numbers used in the attribute text
-	 * @param array $programs the programs to which the subject is mapped array(id, name, lft, rgt)
+	 * @param array $programs              the programs to which the subject is mapped array(id, name, lft, rgt)
 	 *
 	 * @return array the subject details for subjects with dependencies
 	 */
@@ -120,7 +120,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 					continue;
 				}
 
-				if (empty($subjects[$possibleModuleNumber] ))
+				if (empty($subjects[$possibleModuleNumber]))
 				{
 					$subjects[$possibleModuleNumber] = $mappedSubjects;
 				}
@@ -138,7 +138,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 * Checks whether proof and method values are valid and set, and filling them with values
 	 * from other languages if possible
 	 *
-	 * @param   object &$subject the subject object
+	 * @param object &$subject the subject object
 	 *
 	 * @return  void
 	 */
@@ -160,7 +160,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Removes the formatted text tag on a text node
 	 *
-	 * @param   string $text the xml node as a string
+	 * @param string $text the xml node as a string
 	 *
 	 * @return  string  the node without its formatted text shell
 	 */
@@ -202,8 +202,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Gets the subjects existing mapping ids for the given program
 	 *
-	 * @param array $program the program being iterated
-	 * @param int $subjectID the id of the subject being iterated
+	 * @param array $program   the program being iterated
+	 * @param int   $subjectID the id of the subject being iterated
 	 *
 	 * @return array|mixed the mapping ids for the subject or null if the query failed
 	 */
@@ -224,6 +224,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+
 			return array();
 		}
 	}
@@ -265,7 +266,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Method to import data associated with a subject from LSF
 	 *
-	 * @param   int $subjectID the id of the subject entry
+	 * @param int $subjectID the id of the subject entry
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -306,8 +307,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Parses the object and sets subject attributes
 	 *
-	 * @param   object &$subject      the subject table object
-	 * @param   object &$dataObject   an object representing the data from the
+	 * @param object &$subject      the subject table object
+	 * @param object &$dataObject   an object representing the data from the
 	 *                                LSF response
 	 *
 	 * @return  boolean  true on success, otherwise false
@@ -359,8 +360,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Checks for the existence and viability of seldom used fields
 	 *
-	 * @param   object &$dataObject the data object
-	 * @param   object &$subject    the subject object
+	 * @param object &$dataObject the data object
+	 * @param object &$subject    the subject object
 	 *
 	 * @return  void
 	 */
@@ -432,8 +433,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Creates a subject entry if none exists and imports data to fill it
 	 *
-	 * @param   object &$stub        a simplexml object containing rudimentary subject data
-	 * @param   int    $departmentID the id of the department to which this data belongs
+	 * @param object &$stub        a simplexml object containing rudimentary subject data
+	 * @param int    $departmentID the id of the department to which this data belongs
 	 *
 	 * @return  boolean true on success, otherwise false
 	 */
@@ -487,7 +488,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Parses the prerequisites text and replaces subject references with links to the subjects
 	 *
-	 * @param   string $subjectID the id of the subject being processed
+	 * @param string $subjectID the id of the subject being processed
 	 *
 	 * @return  bool true on success, otherwise false
 	 */
@@ -520,7 +521,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$attributeChanged = false;
 
 		$prerequisiteAttributes = array('prerequisites_de', 'prerequisites_en');
-		$prerequisites = array();
+		$prerequisites          = array();
 
 		foreach ($prerequisiteAttributes as $attribute)
 		{
@@ -537,7 +538,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				if ($emptyAttribute)
 				{
 					$subjectTable->$attribute = '';
-					$attributeChanged = true;
+					$attributeChanged         = true;
 				}
 			}
 		}
@@ -550,7 +551,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 
 		$postRequisiteAttributes = array('used_for_de', 'used_for_en');
-		$postrequisites = array();
+		$postrequisites          = array();
 
 		foreach ($postRequisiteAttributes as $attribute)
 		{
@@ -590,9 +591,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Saves the dependencies to the prerequisites table
 	 *
-	 * @param int    $subjectID the id of the subject being processed
-	 * @param array  $dependencies
-	 * @param $type
+	 * @param int   $subjectID the id of the subject being processed
+	 * @param array $dependencies
+	 * @param     $type
 	 *
 	 * @return bool
 	 */
@@ -612,7 +613,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			{
 				foreach ($mappings as $mappingID => $subjectData)
 				{
-					if($subjectData['programID'] == $program['id'])
+					if ($subjectData['programID'] == $program['id'])
 					{
 						$dependencyMappings[$mappingID] = $mappingID;
 					}
@@ -645,10 +646,10 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets the value of a generic attribute if available
 	 *
-	 * @param   object &$subject the array where subject data is being stored
-	 * @param   string $key      the key where the value should be put
-	 * @param   string $value    the value string
-	 * @param   string $default  the default value
+	 * @param object &$subject the array where subject data is being stored
+	 * @param string $key      the key where the value should be put
+	 * @param string $value    the value string
+	 * @param string $default  the default value
 	 *
 	 * @return  void
 	 */
@@ -660,8 +661,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets subject properties according to those of the dynamic lsf properties
 	 *
-	 * @param   object &$subject    the subject object
-	 * @param   object &$objectNode the object containing lsf texts
+	 * @param object &$subject    the subject object
+	 * @param object &$objectNode the object containing lsf texts
 	 *
 	 * @return  void
 	 */
@@ -800,8 +801,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets attributes dealing with required student expenditure
 	 *
-	 * @param   object &$subject the subject data
-	 * @param   array  $text     the expenditure text
+	 * @param object &$subject the subject data
+	 * @param array  $text     the expenditure text
 	 *
 	 * @return  void
 	 */
@@ -834,8 +835,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets the responsible teachers in the association table
 	 *
-	 * @param   int    $subjectID   the id of the subject
-	 * @param   object &$dataObject an object containing the lsf response
+	 * @param int    $subjectID   the id of the subject
+	 * @param object &$dataObject an object containing the lsf response
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */
@@ -866,10 +867,10 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets subject teachers by their responsibility to the subject
 	 *
-	 * @param   int   $subjectID        the subject's id
-	 * @param   array &$teachers        an array containing information about the
+	 * @param int   $subjectID        the subject's id
+	 * @param array &$teachers        an array containing information about the
 	 *                                  subject's teachers
-	 * @param   int   $responsibility   the teacher's responsibility level
+	 * @param int   $responsibility   the teacher's responsibility level
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -956,7 +957,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 * Saves the prerequisite relation.
 	 *
 	 * @param array $prerequisiteMappings the mappings for the prerequiste subject for the program
-	 * @param array $subjectMappings the mappings for the subject for the program
+	 * @param array $subjectMappings      the mappings for the subject for the program
 	 *
 	 * @return bool true on success otherwise false
 	 */
@@ -1034,9 +1035,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Sets business administration department start attributes
 	 *
-	 * @param   object &$subject  the subject object
-	 * @param   string $attribute the attribute's name in the xml response
-	 * @param   string $value     the value set in lsf
+	 * @param object &$subject  the subject object
+	 * @param string $attribute the attribute's name in the xml response
+	 * @param string $value     the value set in lsf
 	 *
 	 * @return  void
 	 */

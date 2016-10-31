@@ -26,8 +26,8 @@ class THM_OrganizerHelperXMLSubjects
 	/**
 	 * Checks whether subject nodes have the expected structure and required information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$xmlObject     the xml object being validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$xmlObject     the xml object being validated
 	 *
 	 * @return void
 	 */
@@ -68,8 +68,8 @@ class THM_OrganizerHelperXMLSubjects
 	 * Checks whether subject nodes have the expected structure and required
 	 * information
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$subjectNode   the subject node to be validated
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$subjectNode   the subject node to be validated
 	 *
 	 * @return void
 	 */
@@ -119,10 +119,10 @@ class THM_OrganizerHelperXMLSubjects
 	/**
 	 * Validates the subject's longname
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$subjectNode   the subject node object
-	 * @param   string $subjectIndex   the subject's interdepartment unique identifier
-	 * @param   string $subjectID      the subject's id
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$subjectNode   the subject node object
+	 * @param string $subjectIndex   the subject's interdepartment unique identifier
+	 * @param string $subjectID      the subject's id
 	 *
 	 * @return  mixed  string longname if valid, otherwise false
 	 */
@@ -144,9 +144,9 @@ class THM_OrganizerHelperXMLSubjects
 	/**
 	 * Validates the subject's subject number (text) attribute
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$subjectNode   the subject node object
-	 * @param   string $subjectIndex   the subject's interdepartment unique identifier
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$subjectNode   the subject node object
+	 * @param string $subjectIndex   the subject's interdepartment unique identifier
 	 *
 	 * @return  void
 	 */
@@ -169,9 +169,9 @@ class THM_OrganizerHelperXMLSubjects
 	/**
 	 * Validates the subject's field (description) attribute
 	 *
-	 * @param   object &$scheduleModel the validating schedule model
-	 * @param   object &$subjectNode   the subject node object
-	 * @param   string $subjectIndex   the subject's interdepartment unique identifier
+	 * @param object &$scheduleModel the validating schedule model
+	 * @param object &$subjectNode   the subject node object
+	 * @param string $subjectIndex   the subject's interdepartment unique identifier
 	 *
 	 * @return  void
 	 */

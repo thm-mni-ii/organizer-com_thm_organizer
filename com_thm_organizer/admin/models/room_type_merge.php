@@ -25,7 +25,7 @@ class THM_OrganizerModelRoom_Type_Merge extends THM_OrganizerModelForm
 	/**
 	 * Constructor.
 	 *
-	 * @param   array $config An optional associative array of configuration settings.
+	 * @param array $config An optional associative array of configuration settings.
 	 */
 	public function __construct($config = array())
 	{

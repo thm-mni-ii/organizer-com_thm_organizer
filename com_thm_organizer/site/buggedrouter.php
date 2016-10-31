@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Build the route for the com_thm_organizer component
  *
- * @param   array &$query an array of URL arguments
+ * @param array &$query an array of URL arguments
  *
  * @return  array  the URL arguments to use to assemble the subsequent URL.
  */
@@ -55,8 +55,8 @@ function THM_organizerBuildRoute(&$query)
 /**
  * Sets the segments necessary for the event details view
  *
- * @param   array &$query    the url query parameters
- * @param   array &$segments the segments for the sef url
+ * @param array &$query    the url query parameters
+ * @param array &$segments the segments for the sef url
  *
  * @return  void
  */
@@ -99,9 +99,9 @@ function setSubjectDetailsSegments(&$query, &$segments)
 /**
  * Sets the segments necessary for the subject list view
  *
- * @param   array  &$query    the url query parameters
- * @param   array  &$segments the segments for the sef url
- * @param   object &$item     the associated menu item (if applicable)
+ * @param array  &$query    the url query parameters
+ * @param array  &$segments the segments for the sef url
+ * @param object &$item     the associated menu item (if applicable)
  *
  * @return  void
  */
@@ -149,7 +149,7 @@ function setSubjectListSegments(&$query, &$segments, &$item)
 /**
  * Gets the language tag, either from the query or the joomla framework
  *
- * @param   array &$query the url query
+ * @param array &$query the url query
  *
  * @return  string  the language tag
  */
@@ -168,8 +168,8 @@ function getLanguageTag(&$query)
 /**
  * Sets the segments necessary for the ajaxhandler view
  *
- * @param   array &$query    the url query as array
- * @param   array &$segments the sequential parameters
+ * @param array &$query    the url query as array
+ * @param array &$segments the sequential parameters
  *
  * @return  void
  */
@@ -204,8 +204,8 @@ function setGroupBySegment(&$query, &$segments)
 /**
  * Creates a human readable groupby segment
  *
- * @param   array &$query    the url query as array
- * @param   array &$segments the sequential parameters
+ * @param array &$query    the url query as array
+ * @param array &$segments the sequential parameters
  *
  * @return  void
  */
@@ -227,8 +227,8 @@ function setAjaxHandlerSegment(&$query, &$segments)
 /**
  * Sets the item id segment if existent
  *
- * @param   array &$query    the url query as array
- * @param   array &$segments the sequential parameters
+ * @param array &$query    the url query as array
+ * @param array &$segments the sequential parameters
  *
  * @return void
  */
@@ -247,7 +247,7 @@ function setItemidSegment(&$query, &$segments)
 /**
  * Parse the segments of a URL.
  *
- * @param   array $segments the segments of the URL to parse.
+ * @param array $segments the segments of the URL to parse.
  *
  * @return  array  the URL attributes to be used by the application.
  */

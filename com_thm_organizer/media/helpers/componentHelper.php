@@ -22,7 +22,7 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   object &$view the view context calling the function
+	 * @param object &$view the view context calling the function
 	 *
 	 * @return void
 	 */
@@ -118,7 +118,7 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Set variables for user actions.
 	 *
-	 * @param   object &$object the object calling the function (manager model or edit view)
+	 * @param object &$object the object calling the function (manager model or edit view)
 	 *
 	 * @return void
 	 */
@@ -140,8 +140,8 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Checks access for edit views
 	 *
-	 * @param   object &$model the model checking permissions
-	 * @param   int    $itemID the id if the resource to be edited (empty for new entries)
+	 * @param object &$model the model checking permissions
+	 * @param int    $itemID the id if the resource to be edited (empty for new entries)
 	 *
 	 * @return  bool  true if the user can access the edit view, otherwise false
 	 */
@@ -199,8 +199,8 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Checks for resources which have not yet been saved as an asset allowing transitional edit access
 	 *
-	 * @param   string $resourceName the name of the resource type
-	 * @param   int    $itemID       the id of the item being checked
+	 * @param string $resourceName the name of the resource type
+	 * @param int    $itemID       the id of the item being checked
 	 *
 	 * @return  bool  true if the resource has an associated asset, otherwise false
 	 */
@@ -228,8 +228,8 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Checks whether the user has access to a department
 	 *
-	 * @param   string $resourceName the name of the resource type
-	 * @param   int    $itemID       the id of the resource
+	 * @param string $resourceName the name of the resource type
+	 * @param int    $itemID       the id of the resource
 	 *
 	 * @return  bool  true if the user has access to at least one department, otherwise false
 	 */
@@ -307,8 +307,8 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Gets a div with a given background color and text with a dynamically calculated text color
 	 *
-	 * @param   string $text    the text to be displayed
-	 * @param   string $bgColor hexadecimal color code
+	 * @param string $text    the text to be displayed
+	 * @param string $bgColor hexadecimal color code
 	 *
 	 * @return  string  the html output string
 	 */
@@ -323,7 +323,7 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Gets an appropriate value for text color
 	 *
-	 * @param   string $bgColor the background color associated with the field
+	 * @param string $bgColor the background color associated with the field
 	 *
 	 * @return  string  the hexadecimal value for an appropriate text color
 	 */
@@ -349,7 +349,7 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Formats the date stored in the database according to the format in the component parameters
 	 *
-	 * @param   string $date the date to be formatted
+	 * @param string $date the date to be formatted
 	 *
 	 * @return  string|bool  a formatted date string otherwise false
 	 */
@@ -364,7 +364,7 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Formats the date stored in the database according to the format in the component parameters
 	 *
-	 * @param   string $date the date to be formatted
+	 * @param string $date the date to be formatted
 	 *
 	 * @return  string|bool  a formatted date string otherwise false
 	 */
@@ -387,7 +387,7 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Formats the date stored in the database according to the format in the component parameters
 	 *
-	 * @param   string $time the date to be formatted
+	 * @param string $time the date to be formatted
 	 *
 	 * @return  string|bool  a formatted date string otherwise false
 	 */
@@ -402,7 +402,7 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Converts a date string from the format in the component settings into the format used by the database
 	 *
-	 * @param   string $date the date string
+	 * @param string $date the date string
 	 *
 	 * @return  string  date sting in format Y-m-d
 	 */
@@ -422,11 +422,11 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Creates a select box
 	 *
-	 * @param   mixed  $entries        a set of keys and values
-	 * @param   string $name           the name of the element
-	 * @param   mixed  $attributes     optional attributes: object, array, or string in the form key => value(,)+
-	 * @param   mixed  $selected       optional selected items
-	 * @param   array  $defaultOptions default options key => value
+	 * @param mixed  $entries        a set of keys and values
+	 * @param string $name           the name of the element
+	 * @param mixed  $attributes     optional attributes: object, array, or string in the form key => value(,)+
+	 * @param mixed  $selected       optional selected items
+	 * @param array  $defaultOptions default options key => value
 	 *
 	 * @return  string  the html output for the select box
 	 */

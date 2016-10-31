@@ -24,7 +24,7 @@ class THM_OrganizerViewRoom_Display extends JViewLegacy
 	/**
 	 * Loads persistent data into the view context
 	 *
-	 * @param   string $tpl the name of the template to load
+	 * @param string $tpl the name of the template to load
 	 *
 	 * @return  void
 	 */

@@ -25,7 +25,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 	/**
 	 * Retrieves program information relevant for soap queries to the LSF system.
 	 *
-	 * @param   int $programID the id of the degree program
+	 * @param int $programID the id of the degree program
 	 *
 	 * @return  array  empty if the program could not be found
 	 */
@@ -78,6 +78,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+
 			return array();
 		}
 	}
@@ -109,7 +110,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 	/**
 	 * Method to import data associated with a degree program from LSF
 	 *
-	 * @param   int $programID the id of the program to be imported
+	 * @param int $programID the id of the program to be imported
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -155,7 +156,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 
 			foreach ($subordinateSubjectIDs AS $subjectID)
 			{
-				$subjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+				$subjectModel         = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
 				$dependenciesResolved = $subjectModel->resolveDependencies($subjectID);
 				if (!$dependenciesResolved)
 				{
@@ -170,8 +171,8 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 	/**
 	 * Processes the child nodes of the program root node
 	 *
-	 * @param   object &$program     the simplexml object object containing program information
-	 * @param   int    $departmentID the id of the department to which this data belongs
+	 * @param object &$program     the simplexml object object containing program information
+	 * @param int    $departmentID the id of the department to which this data belongs
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -195,8 +196,8 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 	/**
 	 * Checks for a program mapping, creating one if non-existant
 	 *
-	 * @param   int    $programID     the id of the program
-	 * @param   object &$mappingModel the mapping model
+	 * @param int    $programID     the id of the program
+	 * @param object &$mappingModel the mapping model
 	 *
 	 * @return  boolean  true on existant/created mapping, otherwise false
 	 */

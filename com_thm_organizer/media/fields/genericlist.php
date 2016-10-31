@@ -82,7 +82,7 @@ class JFormFieldGenericList extends JFormFieldList
 	/**
 	 * Resolves the textColumns for concatenated values
 	 *
-	 * @param   object &$query the query object
+	 * @param object &$query the query object
 	 *
 	 * @return  string  the string to use for text selection
 	 */
@@ -115,7 +115,7 @@ class JFormFieldGenericList extends JFormFieldList
 	/**
 	 * Resolves the textColumns for concatenated values
 	 *
-	 * @param   object &$query the query object
+	 * @param object &$query the query object
 	 *
 	 * @return  string  the string to use for text selection
 	 */
@@ -140,7 +140,7 @@ class JFormFieldGenericList extends JFormFieldList
 	/**
 	 * Sets value oriented parameters from component settings
 	 *
-	 * @param   array &$options the input options
+	 * @param array &$options the input options
 	 *
 	 * @return  void  sets option values
 	 */

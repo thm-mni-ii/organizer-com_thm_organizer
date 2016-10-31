@@ -51,7 +51,7 @@ class THM_OrganizerModelPool extends JModelLegacy
 	/**
 	 * Removes a single pool and mappings
 	 *
-	 * @param   int $poolID the pool id
+	 * @param int $poolID the pool id
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */

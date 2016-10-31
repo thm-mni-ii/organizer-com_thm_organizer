@@ -25,7 +25,7 @@ class THM_OrganizerTableMonitors extends JTable
 	/**
 	 * Constructor function for the class representing the monitors table
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{

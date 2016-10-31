@@ -47,9 +47,9 @@ class MySchedPdf extends FPDF_TABLE
 	/**
 	 * Constructor which performs initial tasks
 	 *
-	 * @param   string $title     the title for the pdf
-	 * @param   string $startDate the start date
-	 * @param   string $endDate   the end date
+	 * @param string $title     the title for the pdf
+	 * @param string $startDate the start date
+	 * @param string $endDate   the end date
 	 */
 	public function __construct($title, $startDate, $endDate)
 	{

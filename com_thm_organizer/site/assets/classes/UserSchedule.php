@@ -60,8 +60,8 @@ class THMUserSchedule
 	/**
 	 * Constructor with the configuration object
 	 *
-	 * @param   Object $cfg     A object which has configurations including
-	 * @param   array  $options Options
+	 * @param Object $cfg     A object which has configurations including
+	 * @param array  $options Options
 	 */
 	public function __construct($cfg, $options = array())
 	{

@@ -42,7 +42,7 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	/**
 	 * Removes delta information from a schedule
 	 *
-	 * @param   object &$schedule the schedule being processed
+	 * @param object &$schedule the schedule being processed
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	/**
 	 * sanitizes a given lesson property
 	 *
-	 * @param   array &$property the array holding information about the property
+	 * @param array &$property the array holding information about the property
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	/**
 	 * removes delta information from a schedule
 	 *
-	 * @param   array &$lessons the currently active schedule lessons
+	 * @param array &$lessons the currently active schedule lessons
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	/**
 	 * sanitizes the calendar array of delta information
 	 *
-	 * @param   array &$calendar the calendar data to be sanitized
+	 * @param array &$calendar the calendar data to be sanitized
 	 *
 	 * @return void
 	 */
@@ -183,8 +183,8 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	 * Examines the calendars of the actual and the reference schedules to
 	 * determine changes
 	 *
-	 * @param   object &$calendar    the calendar of the actual schedule
-	 * @param   object &$refCalendar the calendar of the reference schedule
+	 * @param object &$calendar    the calendar of the actual schedule
+	 * @param object &$refCalendar the calendar of the reference schedule
 	 *
 	 * @return void
 	 */
@@ -283,8 +283,8 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	/**
 	 * Examines the lessons of the new and old schedules to determine the delta
 	 *
-	 * @param   array $lessons    the lessons of the new schedule
-	 * @param   array $refLessons the lessons of the old schedule
+	 * @param array $lessons    the lessons of the new schedule
+	 * @param array $refLessons the lessons of the old schedule
 	 *
 	 * @return void
 	 */
@@ -386,8 +386,8 @@ class THM_OrganizerModelOldJSONSchedule extends JModelLegacy
 	 * examines a property of both schedules and creates a delta according to
 	 * property indexes
 	 *
-	 * @param   array &$property    the property of the new lesson to be examined
-	 * @param   array &$refProperty the property of the old lesson to be examined
+	 * @param array &$property    the property of the new lesson to be examined
+	 * @param array &$refProperty the property of the old lesson to be examined
 	 *
 	 * @return boolean $changesExist true if a property index is not in both sets
 	 */

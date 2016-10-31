@@ -24,7 +24,7 @@ class THM_OrganizerTableCalendar_Configuration_Map extends JTable
 	/**
 	 * Constructor function for the class representing the calendar_configurations_map table
 	 *
-	 * @param   JDatabaseDriver &$dbo A database connector object
+	 * @param JDatabaseDriver &$dbo A database connector object
 	 */
 	public function __construct(&$dbo)
 	{

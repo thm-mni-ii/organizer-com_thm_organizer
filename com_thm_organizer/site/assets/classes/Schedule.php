@@ -69,7 +69,7 @@ class THMSchedule
 	/**
 	 * Constructor with the configuration object
 	 *
-	 * @param   MySchedConfig $cfg An object which has configurations including
+	 * @param MySchedConfig $cfg An object which has configurations including
 	 */
 	public function __construct($cfg)
 	{

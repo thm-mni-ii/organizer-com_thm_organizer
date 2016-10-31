@@ -24,7 +24,7 @@ class THM_OrganizerTemplateEdit_Tabbed
 	/**
 	 * Method to create a list output
 	 *
-	 * @param   object &$view the view context calling the function
+	 * @param object &$view the view context calling the function
 	 *
 	 * @return void
 	 */

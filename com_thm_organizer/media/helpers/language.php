@@ -110,7 +110,7 @@ class THM_OrganizerHelperLanguage
 	/**
 	 * Sets the language to the one requested. This can only be called after getLanguage().
 	 *
-	 * @param   array $params the configuration parameters
+	 * @param array $params the configuration parameters
 	 *
 	 * @return  array  html links for language redirection
 	 */
@@ -147,7 +147,7 @@ class THM_OrganizerHelperLanguage
 	/**
 	 * Method to link another language
 	 *
-	 * @param   string $newLanguage the target language for the switch
+	 * @param string $newLanguage the target language for the switch
 	 *
 	 * @return  string  a HTML anchor tag with the appropriate information
 	 */
@@ -166,8 +166,8 @@ class THM_OrganizerHelperLanguage
 	/**
 	 * Method to link another language
 	 *
-	 * @param   string $url         the base url
-	 * @param   string $newLanguage the target language for the switch
+	 * @param string $url         the base url
+	 * @param string $newLanguage the target language for the switch
 	 *
 	 * @return  string  a HTML anchor tag with the appropriate information
 	 */

@@ -114,7 +114,7 @@ class JFormFieldChildren extends JFormField
 	/**
 	 * Sets mapping data dependent upon the resource type
 	 *
-	 * @param   array &$children the subordinate resource data
+	 * @param array &$children the subordinate resource data
 	 *
 	 * @return  void  adds data to the &$children array
 	 */
@@ -142,8 +142,8 @@ class JFormFieldChildren extends JFormField
 	/**
 	 * Retrieves the child's name from the database
 	 *
-	 * @param   string $resourceID   the id used for the child element
-	 * @param   string $resourceType the child element's type
+	 * @param string $resourceID   the id used for the child element
+	 * @param string $resourceType the child element's type
 	 *
 	 * @return  string  the name of the child element
 	 */
@@ -173,7 +173,7 @@ class JFormFieldChildren extends JFormField
 	/**
 	 * Generates the HTML Output for the children field
 	 *
-	 * @param   array &$children the children of the resource being edited
+	 * @param array &$children the children of the resource being edited
 	 *
 	 * @return  string  the HTML string for the children field
 	 */

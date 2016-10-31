@@ -62,8 +62,8 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	/**
 	 * Creates an array with dates as indexes for the days of the given planning period
 	 *
-	 * @param   int $startDate the datetime upon which the school year begins
-	 * @param   int $endDate   the datetime upon which the school year ends
+	 * @param int $startDate the datetime upon which the school year begins
+	 * @param int $endDate   the datetime upon which the school year ends
 	 *
 	 * @return void
 	 */
@@ -233,10 +233,10 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	/**
 	 * Validates a date attribute
 	 *
-	 * @param   string $name     the attribute name
-	 * @param   string $value    the attribute value
-	 * @param   string $constant the unique text constant fragment
-	 * @param   string $severity the severity of the item being inspected
+	 * @param string $name     the attribute name
+	 * @param string $value    the attribute value
+	 * @param string $constant the unique text constant fragment
+	 * @param string $severity the severity of the item being inspected
 	 *
 	 * @return  void
 	 */
@@ -265,11 +265,11 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	/**
 	 * Validates a text attribute
 	 *
-	 * @param   string $name     the attribute name
-	 * @param   string $value    the attribute value
-	 * @param   string $constant the unique text constant fragment
-	 * @param   string $severity the severity of the item being inspected
-	 * @param   string $regex    the regex to check the text against
+	 * @param string $name     the attribute name
+	 * @param string $value    the attribute value
+	 * @param string $constant the unique text constant fragment
+	 * @param string $severity the severity of the item being inspected
+	 * @param string $regex    the regex to check the text against
 	 *
 	 * @return  void
 	 */

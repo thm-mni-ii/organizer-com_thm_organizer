@@ -33,7 +33,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 	/**
 	 * Loads persistent data into the view context
 	 *
-	 * @param   string $tpl the name of the template to load
+	 * @param string $tpl the name of the template to load
 	 *
 	 * @return  void
 	 */
@@ -99,9 +99,9 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 	/**
 	 * Creates a tooltip for individual blocks
 	 *
-	 * @param   string $date    the block's date
-	 * @param   int    $blockNo the block number
-	 * @param   string $roomNo  the room number
+	 * @param string $date    the block's date
+	 * @param int    $blockNo the block number
+	 * @param string $roomNo  the room number
 	 *
 	 * @return  string  formatted tooltip
 	 */
@@ -125,7 +125,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 	/**
 	 * Creates tips for block events
 	 *
-	 * @param   array $events the events taking place in the block
+	 * @param array $events the events taking place in the block
 	 *
 	 * @return  string  the html to be used in the tooltip
 	 */

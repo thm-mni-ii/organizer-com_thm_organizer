@@ -26,7 +26,7 @@ class THM_OrganizerHelperPools
 	/**
 	 * Retrieves the table id if existent.
 	 *
-	 * @param   string $gpuntisID the pool name in untis
+	 * @param string $gpuntisID the pool name in untis
 	 *
 	 * @return mixed int id on success, otherwise null
 	 */
@@ -46,7 +46,7 @@ class THM_OrganizerHelperPools
 	/**
 	 * Attempts to get the plan pool's id, creating it if non-existent.
 	 *
-	 * @param   object $pool the pool object
+	 * @param object $pool the pool object
 	 *
 	 * @return mixed int on success, otherwise null
 	 */

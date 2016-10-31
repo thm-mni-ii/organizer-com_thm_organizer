@@ -51,7 +51,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 	/**
 	 * Method to get extra
 	 *
-	 * @param   string $tpl template
+	 * @param string $tpl template
 	 *
 	 * @return  mixed  false on error, otherwise void
 	 */
@@ -235,7 +235,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 	/**
 	 * Validates the schedule data retrieved from the database
 	 *
-	 * @param   mixed &$scheduleRow object if the query was successful, otherwise false
+	 * @param mixed &$scheduleRow object if the query was successful, otherwise false
 	 *
 	 * @return  bool  true if the schedule structure matches the expected structure
 	 */
@@ -275,7 +275,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 	/**
 	 * Checks whether the major resource groupings are existent and have values
 	 *
-	 * @param   object &$schedule the schedule object
+	 * @param object &$schedule the schedule object
 	 *
 	 * @return  bool  true if the schedule has values of all required resource types, otherwise false
 	 */
@@ -297,7 +297,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 	/**
 	 * Formats the block row names for word wrapping in HTML
 	 *
-	 * @param   mixed &$period object if an actual period, otherwise int for the period count
+	 * @param mixed &$period object if an actual period, otherwise int for the period count
 	 *
 	 * @return  void
 	 */
@@ -325,7 +325,7 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 	/**
 	 * Sets the startup variable for javascript
 	 *
-	 * @param   object &$scheduleRow the schedule row from the database
+	 * @param object &$scheduleRow the schedule row from the database
 	 *
 	 * @return  void
 	 */
@@ -378,9 +378,9 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 	/**
 	 * Sets the lessons for a particular date
 	 *
-	 * @param   string $date     the date index
-	 * @param   object &$blocks  the blocks for the given date
-	 * @param   array  &$lessons the array to contain the lessons
+	 * @param string $date     the date index
+	 * @param object &$blocks  the blocks for the given date
+	 * @param array  &$lessons the array to contain the lessons
 	 *
 	 * @return  void
 	 */
@@ -398,11 +398,11 @@ class THM_OrganizerViewScheduler extends JViewLegacy
 	/**
 	 * Sets the data for a lesson instance (and for the lesson itself on initial call)
 	 *
-	 * @param   string $date     the date index
-	 * @param   string $block    the block index
-	 * @param   string $lessonID the untis lesson id
-	 * @param   object &$rooms   the rooms in which the lesson takes (has taken) place
-	 * @param   array  &$lessons the array to contain the lessons
+	 * @param string $date     the date index
+	 * @param string $block    the block index
+	 * @param string $lessonID the untis lesson id
+	 * @param object &$rooms   the rooms in which the lesson takes (has taken) place
+	 * @param array  &$lessons the array to contain the lessons
 	 *
 	 * @return  void  the data is added to the lessons array
 	 */
