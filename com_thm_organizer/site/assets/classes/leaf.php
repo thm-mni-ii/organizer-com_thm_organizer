@@ -158,7 +158,8 @@ class THM_OrganizerLeaf
 					$this->text = $resource->surname;
 					if (!empty($resource->forename))
 					{
-						$this->text .= ", " . $resource->forename{0} . ".";
+						// Getting the first letter by other means can cause encoding problems with 'interesting' first names.
+						$this->text .= ", " . mb_substr($resource->forename, 0, 1) . ".";
 					}
 
 					break;
