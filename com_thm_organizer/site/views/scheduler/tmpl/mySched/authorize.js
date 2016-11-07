@@ -293,15 +293,6 @@ MySched.Authorize = function ()
         saveIfAuth: function (showWindow)
         {
             var task = "";
-            // TODO: This doesn't make any sense to me, because of the line after the if clause
-            if (MySched.selectedSchedule.id === "mySchedule")
-            {
-                task = "UserSchedule.save";
-            }
-            else
-            {
-                task = "saveScheduleChanges";
-            }
 
             // Saving always refers to "My schedule"
             task = "UserSchedule.save";

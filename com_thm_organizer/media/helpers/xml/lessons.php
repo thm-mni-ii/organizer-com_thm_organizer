@@ -243,11 +243,11 @@ class THM_OrganizerHelperXMLLessons
 			$this->validateIndividual($lessonNode);
 		}
 
-		if (!empty($this->scheduleWarnings['LESSON-METHOD']))
+		if (!empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD']))
 		{
-			$warningCount = $this->scheduleWarnings['LESSON-METHOD'];
-			unset($this->scheduleWarnings['LESSON-METHOD']);
-			$this->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_METHODID', $warningCount);
+			$warningCount = $this->scheduleModel->scheduleWarnings['LESSON-METHOD'];
+			unset($this->scheduleModel->scheduleWarnings['LESSON-METHOD']);
+			$this->scheduleModel->scheduleWarnings[]= JText::sprintf('COM_THM_ORGANIZER_WARNING_METHODID', $warningCount);
 		}
 	}
 
