@@ -29,17 +29,68 @@ class THM_OrganizerHelperPrograms
 	 *
 	 * @return mixed int id on success, otherwise null
 	 */
-	public static function getID($gpuntisID)
+	public static function getID($program)
 	{
 		$table  = JTable::getInstance('plan_programs', 'thm_organizerTable');
-		$data   = array('gpuntisID' => $gpuntisID);
-		$exists = $table->load($data);
-		if ($exists)
+
+		$plausibleFields = array('gpuntisID', 'name');
+
+		foreach ($plausibleFields as $plausibleField)
 		{
-			return $exists ? $table->id : null;
+			$data   = array($plausibleField => $program->$plausibleField);
+			$exists = $table->load($data);
+
+			if ($exists)
+			{
+				return $table->id;
+			}
 		}
 
 		return null;
+	}
+
+	/**
+	 * Getter method for schedule programs in database
+	 *
+	 * @return array an array of program information
+	 *
+	 * @throws RuntimeException
+	 */
+	public static function getPlanPrograms()
+	{
+		$dbo    = JFactory::getDbo();
+		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
+		$departmentID = JFactory::getApplication()->input->getInt('departmentID', 0);
+
+		$query     = $dbo->getQuery(true);
+		$nameParts = array("p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'");
+		$query->select('pp.id, pp.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
+		$query->from('#__thm_organizer_plan_programs AS pp');
+		$query->leftJoin('#__thm_organizer_programs AS p ON pp.programID = p.id');
+		$query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+
+		if (!empty($departmentID))
+		{
+			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = pp.id');
+			$query->where("dr.departmentID = '$departmentID'");
+		}
+
+		$query->order('ppName');
+		$dbo->setQuery($query);
+
+		$default = array();
+		try
+		{
+			$results = $dbo->loadAssocList();
+		}
+		catch (RuntimeException $exc)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return $default;
+		}
+
+		return empty($results)? $default : $results;
 	}
 
 	/**
@@ -51,7 +102,7 @@ class THM_OrganizerHelperPrograms
 	 */
 	public static function getPlanResourceID($program)
 	{
-		$programID = self::getID($program->gpuntisID);
+		$programID = self::getID($program);
 		if (!empty($programID))
 		{
 			return $programID;
