@@ -121,9 +121,9 @@ abstract class THM_OrganizerModelList extends JModelList
 		{
 			$total = (int) $this->_db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
-			$this->setError($e->getMessage());
+			$this->setError($exc->getMessage());
 
 			return false;
 		}

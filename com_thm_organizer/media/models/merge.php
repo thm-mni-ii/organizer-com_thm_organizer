@@ -527,6 +527,83 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	protected abstract function updateAssociations($newDBID, $oldDBIDs);
 
 	/**
+	 * Updates department resource associations
+	 *
+	 * @param string $resource  the name of the resource type being merged
+	 * @param int    $newDBID   the id onto which the room entries merge
+	 * @param string $oldDBIDs  a string containing the ids to be replaced
+	 *
+	 * @return  boolean  true on success, otherwise false
+	 */
+	protected function updateDRAssociation($resource, $newDBID, $oldDBIDs)
+	{
+		$oldIDString = "'" . implode("', '", $oldDBIDs) . "'";
+		$allIDString = "'$newDBID', $oldIDString";
+
+		$departmentQuery = $this->_db->getQuery(true);
+		$departmentQuery->select("DISTINCT departmentID");
+		$departmentQuery->from("#__thm_organizer_department_resources");
+		$departmentQuery->where("{$resource}ID IN ( $allIDString )");
+		$this->_db->setQuery((string) $departmentQuery);
+
+		try
+		{
+			$departmentAssociations = $this->_db->loadColumn();
+		}
+		catch (Exception $exception)
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+
+		// This should not be able to occur
+		if (empty($departmentAssociations))
+		{
+			return true;
+		}
+
+		foreach ($departmentAssociations as $departmentID)
+		{
+			$deleteQuery = $this->_db->getQuery(true);
+			$deleteQuery->delete("#__thm_organizer_department_resources");
+			$deleteQuery->where("departmentID = '$departmentID'");
+			$deleteQuery->where("{$resource}ID IN ( $allIDString )");
+			$this->_db->setQuery($deleteQuery);
+
+			try
+			{
+				$this->_db->execute();
+			}
+			catch (Exception $exception)
+			{
+				$this->_db->transactionRollback();
+
+				return false;
+			}
+
+			$insertQuery = $this->_db->getQuery(true);
+			$insertQuery->insert("#__thm_organizer_department_resources");
+			$insertQuery->columns("departmentID, {$resource}ID");
+			$insertQuery->values("'$departmentID', '$newDBID'");
+			$this->_db->setQuery($insertQuery);
+
+			try
+			{
+				$this->_db->execute();
+			}
+			catch (Exception $exception)
+			{
+				$this->_db->transactionRollback();
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Processes the data for an individual schedule
 	 *
 	 * @param object &$schedule     the schedule being processed

@@ -38,8 +38,8 @@ try
 	require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
 	THM_OrganizerHelper::callController();
 }
-catch (Exception $e)
+catch (Exception $exc)
 {
-	JLog::add($e->__toString(), JLog::ERROR, $componentName);
+	JLog::add($exc->__toString(), JLog::ERROR, $componentName);
 	throw $e;
 }

@@ -119,8 +119,8 @@
         <package name="pkg_thm_organizer" git="git://scm.thm.de/icampus/pkg_thm_organizer.git"/>
     </packages>
     <updateservers>
-        <server type="collection" name="THM Organizer Component Update" priority="1">
-            https://www.thm.de/thmupdate/index.php?option=com_ars&amp;view=update&amp;task=all&amp;format=xml
+        <server type="extension" priority="1" name="THM Organizer Component Update Site">
+            http://jenkins-ci.mni.thm.de/view/THM%20Control/job/Releases/lastSuccessfulBuild/artifact/updates/com_thm_organizer.xml
         </server>
     </updateservers>
 </extension>

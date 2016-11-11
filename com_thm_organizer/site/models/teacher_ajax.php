@@ -82,7 +82,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 		{
 			$teachers = $dbo->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 

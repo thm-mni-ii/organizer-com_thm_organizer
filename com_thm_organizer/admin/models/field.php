@@ -92,12 +92,6 @@ class THM_OrganizerModelField extends THM_OrganizerModelMerge
 			return false;
 		}
 
-		$ptUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'plan_teachers');
-		if (!$ptUpdated)
-		{
-			return false;
-		}
-
 		$poolsUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'pools');
 		if (!$poolsUpdated)
 		{

@@ -59,7 +59,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -107,7 +107,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -146,7 +146,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -197,7 +197,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -243,7 +243,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -333,7 +333,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -420,7 +420,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -515,7 +515,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$result = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 

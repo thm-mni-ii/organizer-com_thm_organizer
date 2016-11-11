@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
 
 /**
@@ -129,7 +129,7 @@ class THM_OrganizerHelperXMLRooms
 		if (!empty($roomID))
 		{
 			$scheduleModel->schedule->rooms->$gpuntisID->id = $roomID;
-			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($roomID, 'roomID');
+			THM_OrganizerHelperDepartments::setDepartmentResource($roomID, 'roomID');
 		}
 	}
 

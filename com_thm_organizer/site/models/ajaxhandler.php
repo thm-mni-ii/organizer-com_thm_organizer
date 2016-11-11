@@ -90,7 +90,7 @@ class THM_OrganizerModelAjaxhandler extends JModelLegacy
 
 			return $class->$taskArray[1]();
 		}
-		catch (Exception $e)
+		catch (Exception $exc)
 		{
 			return array("success" => false, "data" => "Error while perfoming the task.");
 		}

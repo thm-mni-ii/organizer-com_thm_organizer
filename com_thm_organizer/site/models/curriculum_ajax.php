@@ -94,7 +94,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		{
 			return $this->_db->setQuery((string) $query)->loadAssocList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
@@ -171,7 +171,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		{
 			$programData = $dbo->loadObject();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
 		}
@@ -212,7 +212,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		{
 			$subjectData = $dbo->loadObject();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
 		}
@@ -272,7 +272,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		{
 			$mappings = $dbo->loadAssocList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
 		}
@@ -333,7 +333,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		{
 			$childOrder = $dbo->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
 		}
@@ -363,7 +363,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		{
 			$currentSchedules = $dbo->loadAssocList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			throw new Exception(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 500);
 		}

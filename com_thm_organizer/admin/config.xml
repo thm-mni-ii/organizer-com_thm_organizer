@@ -13,6 +13,14 @@
                 required="true"
                 default="d.m.Y"/>
         <field
+                name="dateFormatShort"
+                label="COM_THM_ORGANIZER_DATE_FORMAT"
+                description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
+                type="text"
+                size="40"
+                required="true"
+                default="d.m"/>
+        <field
                 name="timeFormat"
                 label="COM_THM_ORGANIZER_TIME_FORMAT"
                 description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"

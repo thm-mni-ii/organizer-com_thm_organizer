@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'department_resources.php';
+require_once 'departments.php';
 require_once 'programs.php';
 
 /**
@@ -41,6 +41,70 @@ class THM_OrganizerHelperPools
 		}
 
 		return null;
+	}
+
+	/**
+	 * Getter method for pools in database e.g. for selecting a schedule
+	 *
+	 * @param bool $short whether or not abbreviated names should be returned
+	 *
+	 * @return string  all pools in JSON format
+	 *
+	 * @throws RuntimeException
+	 */
+	public static function getPlanPools($short = true)
+	{
+		$dbo = JFactory::getDbo();
+
+		$query = $dbo->getQuery(true);
+		$query->select('ppo.id, ppo.name, ppo.full_name');
+		$query->from('#__thm_organizer_plan_pools AS ppo');
+
+		$input               = JFactory::getApplication()->input;
+		$selectedDepartments = $input->getString('departmentIDs');
+		$selectedPrograms = $input->getString('programIDs');
+
+		if (!empty($selectedDepartments))
+		{
+			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.poolID = ppo.id');
+			$departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
+			$query->where("dr.departmentID IN ($departmentIDs)");
+		}
+
+		if (!empty($selectedPrograms))
+		{
+			$programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
+			$query->where("ppo.programID in ($programIDs)");
+		}
+
+		$dbo->setQuery($query);
+
+		$default = array();
+		try
+		{
+			$results = $dbo->loadAssocList();
+		}
+		catch (RuntimeException $exc)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return $default;
+		}
+
+		if (empty($results))
+		{
+			return $default;
+		}
+
+		$pools = array();
+		foreach ($results as $pool)
+		{
+			$pools[$pool['id']] = $short? $pool['name'] : $pool['full_name'];
+		}
+
+		asort($pools);
+
+		return $pools;
 	}
 
 	/**

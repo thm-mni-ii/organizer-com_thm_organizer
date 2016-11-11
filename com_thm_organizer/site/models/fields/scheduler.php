@@ -180,7 +180,7 @@ class JFormFieldScheduler extends JFormField
 		{
 			$rawParams = $dbo->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			throw new Exception(JText::_("COM_THM_ORGANIZER_DATABASE_EXCEPTION"), 500);
 		}

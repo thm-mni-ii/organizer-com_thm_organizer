@@ -62,12 +62,6 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	 */
 	protected function updateAssociations($newDBID, $oldDBIDs)
 	{
-		$updated = $this->updateAssociation('type', $newDBID, $oldDBIDs, 'plan_rooms');
-		if (!$updated)
-		{
-			return false;
-		}
-
 		return $this->updateAssociation('type', $newDBID, $oldDBIDs, 'rooms');
 	}
 

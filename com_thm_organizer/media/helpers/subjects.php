@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'department_resources.php';
+require_once 'departments.php';
 
 /**
  * Provides validation methods for xml subject objects
@@ -52,9 +52,12 @@ class THM_OrganizerHelperSubjects
 	public static function getPlanResourceID($subjectIndex, $subject)
 	{
 		$subjectID = self::getID($subjectIndex);
+
+		$table   = JTable::getInstance('plan_subjects', 'thm_organizerTable');
+
 		if (!empty($subjectID))
 		{
-			return $subjectID;
+			$table->load($subjectID);
 		}
 
 		$data                 = array();
@@ -69,7 +72,6 @@ class THM_OrganizerHelperSubjects
 		$data['subjectNo'] = $subject->subjectNo;
 		$data['name']      = $subject->longname;
 
-		$table   = JTable::getInstance('plan_subjects', 'thm_organizerTable');
 		$success = $table->save($data);
 
 		return $success ? $table->id : null;

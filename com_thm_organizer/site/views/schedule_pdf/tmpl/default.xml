@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <name>THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <creationDate>October 2016</creationDate>
+    <copyright>TH Mittelhessen 2016</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>james.antrim@nm.thm.de</authorEMail>
+    <authorUrl>www.thm.de</authorUrl>
+    <layout title="COM_THM_ORGANIZER_SCHEDULE_PDF_TITLE">
+        <message>COM_THM_ORGANIZER_SCHEDULE_PDF_DESCRIPTION</message>
+    </layout>
+    <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
+        <fieldset name="details">
+            <field type="spacer" name="resource-heading" label="COM_THM_ORGANIZER_RESOURCES_SETTINGS"/>
+            <field name="planningPeriod"
+                   type="genericlist"
+                   valueColumn="id"
+                   textColumn="name"
+                   table="thm_organizer_planning_periods"
+                   label="COM_THM_ORGANIZER_PLANNING_PERIODS">
+                <option value="">JALL</option>
+            </field>
+            <field name="poolIDs"
+                   type="genericlist"
+                   multiple="true"
+                   valueColumn="id"
+                   textColumn="full_name"
+                   table="thm_organizer_plan_pools"
+                   label="COM_THM_ORGANIZER_POOLS">
+                <option value="">JALL</option>
+            </field>
+            <field name="teacherIDs"
+                   type="genericlist"
+                   multiple="true"
+                   valueColumn="t.id"
+                   textColumn="t.surname, t.forename"
+                   glue=", "
+                   table="thm_organizer_teachers AS t,thm_organizer_lesson_teachers AS lt ON lt.teacherID = t.id"
+                   label="COM_THM_ORGANIZER_TEACHERS">
+                <option value="">JALL</option>
+            </field>
+            <field name="roomIDs"
+                   type="genericlist"
+                   multiple="true"
+                   valueColumn="id"
+                   textColumn="name"
+                   table="thm_organizer_rooms"
+                   label="COM_THM_ORGANIZER_ROOMS">
+                <option value="">JALL</option>
+            </field>
+            <field name="mySchedule"
+                   type="list"
+                   class="chzn-color-state"
+                   label="COM_THM_ORGANIZER_MY_SCHEDULE"
+                   description="COM_THM_ORGANIZER_MY_SCHEDULE_DESC"
+                   default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="scheduleLength"
+                   type="list"
+                   label="COM_THM_ORGANIZER_TIME_PERIOD"
+                   description="COM_THM_ORGANIZER_TIME_PERIOD_DESC"
+                   default="week">
+                <option value="day">COM_THM_ORGANIZER_DAY</option>
+                <option value="week">COM_THM_ORGANIZER_WEEK</option>
+                <option value="month">COM_THM_ORGANIZER_MONTH</option>
+                <option value="period">COM_THM_ORGANIZER_PLANNING_PERIOD</option>
+            </field>
+            <field name="format"
+                   type="list"
+                   label="COM_THM_ORGANIZER_EXPORT_FORMAT"
+                   description="COM_THM_ORGANIZER_EXPORT_FORMAT_DESC"
+                   default="1">
+                <option value="pdf">PDF</option>
+                <option value="ics">ICS</option>
+            </field>
+            <field name="presentationFormat"
+                   type="list"
+                   label="COM_THM_ORGANIZER_PRESENTATION_FORMAT"
+                   description="COM_THM_ORGANIZER_PRESENTATION_FORMAT_DESC"
+                   default="2">
+                <option value="1">COM_THM_ORGANIZER_LIST</option>
+                <option value="2">COM_THM_ORGANIZER_SIMPLE_SCHEDULE</option>
+                <option value="3">COM_THM_ORGANIZER_AGGREGATED_SCHEDULE</option>
+                <option value="4">COM_THM_ORGANIZER_PLANNING_PERIOD</option>
+            </field>
+            <field name="paperFormat"
+                   type="list"
+                   label="COM_THM_ORGANIZER_PAPER_FORMAT"
+                   description="COM_THM_ORGANIZER_PAPER_FORMAT_DESC"
+                   default="A4">
+                <option value="A3">COM_THM_ORGANIZER_A3</option>
+                <option value="A4">COM_THM_ORGANIZER_A4</option>
+            </field>
+        </fieldset>
+    </fields>
+</metadata>

@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
@@ -128,7 +128,7 @@ class THM_OrganizerHelperXMLTeachers
 		if (!empty($teacherID))
 		{
 			$scheduleModel->schedule->teachers->$gpuntisID->id = $teacherID;
-			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($teacherID, 'teacherID');
+			THM_OrganizerHelperDepartments::setDepartmentResource($teacherID, 'teacherID');
 		}
 	}
 

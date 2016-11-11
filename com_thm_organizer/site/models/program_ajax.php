@@ -61,7 +61,7 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
 		{
 			$programs = $dbo->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 

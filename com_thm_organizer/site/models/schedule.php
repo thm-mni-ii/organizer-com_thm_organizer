@@ -45,7 +45,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		{
 			$result = $dbo->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
@@ -75,7 +75,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		{
 			$grids = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 

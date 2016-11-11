@@ -11,7 +11,8 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'department_resources.php';
+require_once 'departments.php';
+require_once 'language.php';
 
 /**
  * Provides validation methods for xml degree (department) objects
@@ -31,7 +32,7 @@ class THM_OrganizerHelperPrograms
 	 */
 	public static function getID($program)
 	{
-		$table  = JTable::getInstance('plan_programs', 'thm_organizerTable');
+		$table = JTable::getInstance('plan_programs', 'thm_organizerTable');
 
 		$plausibleFields = array('gpuntisID', 'name');
 
@@ -58,7 +59,7 @@ class THM_OrganizerHelperPrograms
 	 */
 	public static function getPlanPrograms()
 	{
-		$dbo    = JFactory::getDbo();
+		$dbo          = JFactory::getDbo();
 		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
 		$departmentID = JFactory::getApplication()->input->getInt('departmentID', 0);
 
@@ -90,7 +91,7 @@ class THM_OrganizerHelperPrograms
 			return $default;
 		}
 
-		return empty($results)? $default : $results;
+		return empty($results) ? $default : $results;
 	}
 
 	/**

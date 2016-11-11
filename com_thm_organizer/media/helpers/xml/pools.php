@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 
 require_once 'grids.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 require_once 'programs.php';
 
@@ -145,7 +145,7 @@ class THM_OrganizerHelperXMLPools
 		if (!empty($planResourceID))
 		{
 			$scheduleModel->schedule->pools->$poolID->id = $planResourceID;
-			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($planResourceID, 'poolID');
+			THM_OrganizerHelperDepartments::setDepartmentResource($planResourceID, 'poolID');
 		}
 	}
 

@@ -350,21 +350,31 @@ class THM_OrganizerHelperComponent
 	 * Formats the date stored in the database according to the format in the component parameters
 	 *
 	 * @param string $date the date to be formatted
+	 * @param bool   $withText if the day name should be part of the output
 	 *
 	 * @return  string|bool  a formatted date string otherwise false
 	 */
-	public static function formatDate($date)
+	public static function formatDate($date, $withText = false)
 	{
 		$params     = JComponentHelper::getParams('com_thm_organizer');
 		$dateFormat = $params->get('dateFormat', 'd.m.Y');
+		$formattedDate = date($dateFormat, strtotime($date));
 
-		return date($dateFormat, strtotime($date));
+		if ($withText)
+		{
+			$shortDOW      = date('l', strtotime($date));
+			$text          = JText::_(strtoupper($shortDOW));
+			$formattedDate = "$text $formattedDate";
+		}
+
+		return $formattedDate;
 	}
 
 	/**
 	 * Formats the date stored in the database according to the format in the component parameters
 	 *
-	 * @param string $date the date to be formatted
+	 * @param string $date     the date to be formatted
+	 * @param bool   $withText if the day name should be part of the output
 	 *
 	 * @return  string|bool  a formatted date string otherwise false
 	 */

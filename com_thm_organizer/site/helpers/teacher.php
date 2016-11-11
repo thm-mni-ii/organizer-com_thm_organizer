@@ -258,7 +258,7 @@ class THM_OrganizerHelperTeacher
 		{
 			return $dbo->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 

@@ -68,41 +68,44 @@ class THM_OrganizerHelperSchedule
 			}
 
 			$subjectName = self::getSubjectName($lesson);
-			$subjectIndex = $subjectName;
-			$subjectNo   = empty($lesson['subjectNo']) ? '' : $lesson['subjectNo'];
-			$subjectIndex .= empty($subjectNo)? '' : " ($subjectNo)";
 
 			$configuration = json_decode($lesson['configuration'], true);
 			self::resolveConfiguration($configuration);
 
-			if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]))
+			if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]))
 			{
-				$subjectAbbr = self::getSubjectAbbr($lesson);
+				$subjectAbbr      = self::getSubjectAbbr($lesson);
+				$subjectNo        = empty($lesson['subjectNo']) ? '' : $lesson['subjectNo'];
+				$subjectShortName = empty($lesson['subjectShortName']) ? $subjectAbbr : $lesson['subjectShortName'];
 
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]
-					= array('subjectNo' => $subjectNo, 'name' => $subjectName, 'abbr' => $subjectAbbr);
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName] = array(
+					'subjectNo' => $subjectNo,
+					'name'      => $subjectName,
+					'shortName' => $subjectShortName,
+					'abbr'      => $subjectAbbr
+				);
 
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['teachers'] = $configuration['teachers'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['rooms']    = $configuration['rooms'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['programs'] = array();
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] = $configuration['teachers'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']    = $configuration['rooms'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'] = array();
 			}
 			else
 			{
-				$previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['teachers'];
-				$previousRooms    = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['rooms'];
+				$previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'];
+				$previousRooms    = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'];
 
 
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['teachers'] = $previousTeachers + $configuration['teachers'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['rooms']    = $previousRooms + $configuration['rooms'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] = $previousTeachers + $configuration['teachers'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']    = $previousRooms + $configuration['rooms'];
 			}
 
-			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['pools'][$lesson['poolID']]
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
 				= array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
 
 			$subjectID = $lesson['subjectID'];
 			$programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
 
-			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectIndex]['programs'][$subjectID] = $programs;
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectID] = $programs;
 		}
 
 		ksort($aggregatedLessons);
@@ -257,9 +260,9 @@ class THM_OrganizerHelperSchedule
 
 		$aggregatedLessons = self::aggregateInstances($rawLessons);
 
-		$dates = self::getDates($parameters);
+		$dates   = self::getDates($parameters);
 		$startDT = strtotime($dates['startDate']);
-		$endDT = strtotime($dates['endDate']);
+		$endDT   = strtotime($dates['endDate']);
 
 		for ($currentDT = $startDT; $currentDT <= $endDT; $currentDT = strtotime('+1 days', $currentDT))
 		{
@@ -317,9 +320,9 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Saves the planning period to the corresponding table if not already existent.
 	 *
-	 * @param   string $ppName    the abbreviation for the planning period
-	 * @param   int    $startDate the integer value of the start date
-	 * @param   int    $endDate   the integer value of the end date
+	 * @param string $ppName    the abbreviation for the planning period
+	 * @param int    $startDate the integer value of the start date
+	 * @param int    $endDate   the integer value of the end date
 	 *
 	 * @return  void creates database entries
 	 */
@@ -360,7 +363,7 @@ class THM_OrganizerHelperSchedule
 				continue;
 			}
 
-			$configuration['teachers'][$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID);
+			$configuration['teachers'][$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
 		}
 
 		foreach ($configuration['rooms'] AS $roomID => $delta)
@@ -388,7 +391,7 @@ class THM_OrganizerHelperSchedule
 		$type = $parameters['scheduleLength'];
 
 		$startDayName = date('l', strtotime("Sunday + {$parameters['startDay']} days"));
-		$endDayName = date('l', strtotime("Sunday + {$parameters['endDay']} days"));
+		$endDayName   = date('l', strtotime("Sunday + {$parameters['endDay']} days"));
 
 		switch ($type)
 		{

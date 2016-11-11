@@ -59,7 +59,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 	 */
 	protected function updateAssociations($newDBID, $oldDBIDs)
 	{
-		$drUpdated = $this->updateAssociation('teacher', $newDBID, $oldDBIDs, 'department_resources');
+		$drUpdated = $this->updateDRAssociation('teacher', $newDBID, $oldDBIDs);
 		if (!$drUpdated)
 		{
 			return false;
@@ -67,12 +67,6 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 
 		$ltUpdated = $this->updateAssociation('teacher', $newDBID, $oldDBIDs, 'lesson_teachers');
 		if (!$ltUpdated)
-		{
-			return false;
-		}
-
-		$ptUpdated = $this->updateAssociation('teacher', $newDBID, $oldDBIDs, 'plan_teachers');
-		if (!$ptUpdated)
 		{
 			return false;
 		}

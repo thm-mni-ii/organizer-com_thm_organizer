@@ -285,13 +285,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			return false;
 		}
 
-		if (!empty($scheduleRow->newSchedule))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_MIGRATE_EXISTS'), 'warning');
-
-			return true;
-		}
-
 		$this->refSchedule = json_decode($scheduleRow->schedule);
 		$this->schedule    = new stdClass;
 
@@ -539,7 +532,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				$this->refSchedule->pools->$gpuntisID->id = $poolID;
 				$this->schedule->pools[]                  = $poolID;
-				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($poolID, 'poolID', $this->schedule->departmentID);
+				THM_OrganizerHelperDepartments::setDepartmentResource($poolID, 'poolID', $this->schedule->departmentID);
 			}
 		}
 	}
@@ -567,7 +560,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				$this->refSchedule->degrees->$gpuntisID->id = $programID;
 				$this->schedule->programs[]                 = $programID;
-				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($programID, 'programID', $this->schedule->departmentID);
+				THM_OrganizerHelperDepartments::setDepartmentResource($programID, 'programID', $this->schedule->departmentID);
 			}
 		}
 	}
@@ -595,7 +588,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				$this->refSchedule->rooms->$gpuntisID->id = $roomID;
 				$this->schedule->rooms[]                  = $roomID;
-				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($roomID, 'roomID', $this->schedule->departmentID);
+				THM_OrganizerHelperDepartments::setDepartmentResource($roomID, 'roomID', $this->schedule->departmentID);
 			}
 		}
 	}
@@ -623,7 +616,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				$this->refSchedule->subjects->$gpuntisID->id = $subjectID;
 				$this->schedule->subjects[]                  = $subjectID;
-				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($subjectID, 'subjectID', $this->schedule->departmentID);
+				THM_OrganizerHelperDepartments::setDepartmentResource($subjectID, 'subjectID', $this->schedule->departmentID);
 			}
 		}
 	}
@@ -651,7 +644,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				$this->refSchedule->teachers->$gpuntisID->id = $teacherID;
 				$this->schedule->teachers[]                  = $teacherID;
-				THM_OrganizerHelperDepartment_Resources::setDepartmentResource($teacherID, 'teacherID', $this->schedule->departmentID);
+				THM_OrganizerHelperDepartments::setDepartmentResource($teacherID, 'teacherID', $this->schedule->departmentID);
 			}
 		}
 	}

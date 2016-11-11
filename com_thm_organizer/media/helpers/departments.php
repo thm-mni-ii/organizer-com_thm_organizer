@@ -3,13 +3,15 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperDepartment_Resources
+ * @name        THM_OrganizerHelperDepartments
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+require_once 'language.php';
 
 /**
  * Provides validation methods for department resources
@@ -18,7 +20,7 @@ defined('_JEXEC') or die;
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.media
  */
-class THM_OrganizerHelperDepartment_Resources
+class THM_OrganizerHelperDepartments
 {
 	/**
 	 * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
@@ -59,5 +61,55 @@ class THM_OrganizerHelperDepartment_Resources
 		}
 
 		return;
+	}
+
+	/**
+	 * Getter method for teachers in database. Only retrieving the IDs here allows for formatting the names according to
+	 * the needs of the calling views.
+	 *
+	 * @param bool $short whether or not abbreviated names should be returned
+	 *
+	 * @return string  all pools in JSON format
+	 *
+	 * @throws RuntimeException
+	 */
+	public static function getPlanDepartments($short = true)
+	{
+		$dbo = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$tag = THM_OrganizerHelperLanguage::getShortTag();
+
+		$query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
+		$query->from('#__thm_organizer_departments AS d');
+		$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id');
+
+		$dbo->setQuery($query);
+
+		$default = array();
+		try
+		{
+			$results = $dbo->loadAssocList();
+		}
+		catch (RuntimeException $exc)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return $default;
+		}
+
+		if (empty($results))
+		{
+			return $default;
+		}
+
+		$departments = array();
+		foreach ($results as $department)
+		{
+			$departments[$department['id']] = $short? $department['shortName'] : $department['name'];
+		}
+
+		asort($departments);
+
+		return $departments;
 	}
 }

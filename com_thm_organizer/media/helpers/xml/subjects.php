@@ -11,7 +11,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/department_resources.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 
 /**
@@ -113,7 +113,7 @@ class THM_OrganizerHelperXMLSubjects
 		if (!empty($planResourceID))
 		{
 			$scheduleModel->schedule->subjects->$subjectIndex->id = $planResourceID;
-			THM_OrganizerHelperDepartment_Resources::setDepartmentResource($planResourceID, 'subjectID');
+			THM_OrganizerHelperDepartments::setDepartmentResource($planResourceID, 'subjectID');
 		}
 	}
 

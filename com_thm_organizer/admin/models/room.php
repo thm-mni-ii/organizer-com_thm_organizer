@@ -57,7 +57,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 	 */
 	protected function updateAssociations($newDBID, $oldDBIDs)
 	{
-		$drUpdated = $this->updateAssociation('room', $newDBID, $oldDBIDs, 'department_resources');
+		$drUpdated = $this->updateDRAssociation('room', $newDBID, $oldDBIDs);
 		if (!$drUpdated)
 		{
 			return false;
@@ -65,12 +65,6 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 
 		$monitorsUpdated = $this->updateAssociation('room', $newDBID, $oldDBIDs, 'monitors');
 		if (!$monitorsUpdated)
-		{
-			return false;
-		}
-
-		$prUpdated = $this->updateAssociation('room', $newDBID, $oldDBIDs, 'plan_rooms');
-		if (!$prUpdated)
 		{
 			return false;
 		}

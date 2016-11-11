@@ -215,7 +215,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 		{
 			$pools = $this->_db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
