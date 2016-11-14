@@ -26,7 +26,7 @@ class THM_OrganizerHelperPrograms
 	/**
 	 * Retrieves the table id if existent.
 	 *
-	 * @param string $gpuntisID the grid name in untis
+	 * @param mixed $program the program object (gpuntisID & name) or string (gpuntisID)
 	 *
 	 * @return mixed int id on success, otherwise null
 	 */
@@ -34,17 +34,25 @@ class THM_OrganizerHelperPrograms
 	{
 		$table = JTable::getInstance('plan_programs', 'thm_organizerTable');
 
-		$plausibleFields = array('gpuntisID', 'name');
+		$gpuntisID = is_string($program)? $program : $program->gpuntisID;
+		$pullData   = array('gpuntisID' => $gpuntisID);
+		$exists = $table->load($pullData);
 
-		foreach ($plausibleFields as $plausibleField)
+		if ($exists)
 		{
-			$data   = array($plausibleField => $program->$plausibleField);
-			$exists = $table->load($data);
+			return $table->id;
+		}
+		elseif (is_string($program))
+		{
+			return null;
+		}
 
-			if ($exists)
-			{
-				return $table->id;
-			}
+		$pullData   = array('name' => $program->name);
+		$exists = $table->load($pullData);
+
+		if ($exists)
+		{
+			return $table->id;
 		}
 
 		return null;
