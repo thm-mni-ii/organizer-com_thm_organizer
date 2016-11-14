@@ -406,6 +406,8 @@ class THM_OrganizerTemplateSchedulePDFA4
 				// One long cell for the border
 				$this->document->MultiCell(0, $height, '', 0, 0, 0, 0, '', '', true);
 
+				$this->document->Ln();
+
 				$this->outputRowEnd();
 
 				continue;
