@@ -37,7 +37,7 @@ button:hover,
   content: "\e900";
 }
 
-.save-schedule-icon::before {
+.save-icon::before {
   font-family: icomoon-special !important;
   content: "\e962";
 }
@@ -164,6 +164,11 @@ button:hover,
   // @media (max-width: 664px) {
   clear: both;
   //  }
+
+  .controls,
+  .calender-icon {
+    display: none;
+  }
 
   button, span, input {
     float: left;
@@ -322,7 +327,26 @@ button:hover,
       content: " / ";
     }
 
+    .save-menu {
+      display: none;
+      position: absolute;
+      width: 15rem;
+      margin: auto;
+      background: $background-green;
+    }
+
     .add-lesson {
+      position: absolute;
+      right: 0.3rem;
+      bottom: 0.1rem;
+      background: $background;
+      color: $green-100;
+      border: 0;
+      padding: 0;
+    }
+
+    .delete-lesson {
+      display: none;
       position: absolute;
       right: 0.3rem;
       bottom: 0.1rem;
@@ -373,17 +397,9 @@ button:hover,
 .no-mobile {
   > .menu-bar {
     padding-bottom: 0.3rem;
-
-    a:first-of-type,
-    label:first-of-type {
-      display: none;
-    }
   }
 
   #schedule-form {
-    margin-top: 1rem;
-    position: inherit;
-
     // später zu entfernen!
     > form > div {
       float: left;

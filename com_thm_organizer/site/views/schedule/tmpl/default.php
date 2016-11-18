@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  COM_THM_ORGANIZER.site
+ * @subpackage  com_thm_organizer.site
  * @name        default .php
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -23,51 +23,16 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 	<input id="export-menu-item" type="checkbox" name="schedule-menu" role="menubar">
 	<input id="schedule-form-menu-item" type="checkbox" name="schedule-menu" role="menubar">
 
+	<h1>THM Organizer <?php echo $this->getModel()->departmentName; ?></h1> <!--TODO: find a long mark header -->
 	<div class="menu-bar">
 		<label for="schedule-form-menu-item"><span class="icon-menu-3"></span></label>
 		<label for="time-menu-item"><span class="time-grid-icon"></span></label>
 		<label for="schedule-selection-menu-item"><span class="icon-calendar"></span></label>
-		<button type="button"><span class="save-schedule-icon"></span></button>
+		<button type="button"><span class="save-icon"></span></button>
 		<label for="export-menu-item"><span class="icon-download"></span></label>
 	</div>
 
 	<!-- Menu -->
-	<div id="time-selection" tabindex="0" class="selection">
-		<select id="grid" name="grid" required>
-			<?php
-			foreach ($this->grids as $grid)
-			{
-				$checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
-				echo "<option value='" . $grid->grid . "' $checked >$grid->name</option>";
-			}
-			?>
-		</select>
-	</div>
-	<div id="schedule-selection" tabindex="0" class="selection">
-		<select id="schedules" name="schedules" required>
-			<option value="my-schedule" selected><?php echo JText::_("COM_THM_ORGANIZER_MY_SCHEDULE"); ?></option>
-		</select>
-	</div>
-	<div id="export-selection" tabindex="0" class="selection">
-		<ul>
-			<li>
-				<button type="button" value="pdf"><span class="icon-file-pdf"></span>
-					<?php echo JText::_('COM_THM_ORGANIZER_PDF_SCHEDULE') ?>
-				</button>
-			</li>
-			<li>
-				<button type="button" value="excel"><span class="icon-file-excel"></span>
-					<?php echo JText::_('COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL') ?>
-				</button>
-			</li>
-			<li>
-				<button type="button" value="iCal"><span class="icon-calendar"></span>
-					<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_ICS') ?>
-				</button>
-			</li>
-		</ul>
-	</div>
-	<!-- on last position, because on big devices it is not expandable and the other menus should be near their icon -->
 	<div id="schedule-form" tabindex="0" class="selection">
 		<div id="category-input">
 			<select id="category" name="category" required>
@@ -109,6 +74,40 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			</select>
 		</div>
 	</div>
+	<div id="time-selection" tabindex="0" class="selection">
+		<select id="grid" name="grid" required>
+			<?php
+			foreach ($this->getModel()->grids as $grid)
+			{
+				$checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
+				echo "<option value='" . $grid->grid . "' $checked >$grid->name</option>";
+			}
+			?>
+		</select>
+	</div>
+	<div id="schedule-selection" tabindex="0" class="selection">
+		<select id="schedules" name="schedules" required>
+		</select>
+	</div>
+	<div id="export-selection" tabindex="0" class="selection">
+		<ul>
+			<li>
+				<button type="button" value="pdf"><span class="icon-file-pdf"></span>
+					<?php echo JText::_('COM_THM_ORGANIZER_PDF_SCHEDULE') ?>
+				</button>
+			</li>
+			<li>
+				<button type="button" value="excel"><span class="icon-file-excel"></span>
+					<?php echo JText::_('COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL') ?>
+				</button>
+			</li>
+			<li>
+				<button type="button" value="iCal"><span class="icon-calendar"></span>
+					<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_ICS') ?>
+				</button>
+			</li>
+		</ul>
+	</div>
 
 	<div class="date-input">
 		<button id="previous-month" class="controls" type="button">
@@ -118,9 +117,8 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			<span class="icon-arrow-left"></span>
 		</button>
 		<form>
-			<span id="weekday"><!-- filled by setUpCalender --></span>
-			<input id="date" type="date" name="date" required onchange="setUpCalendar();"/>
-			<button id="calendar-icon" type="button" onclick="showCalendar();">
+			<input id="date" type="date" name="date" required/>
+			<button id="calendar-icon" type="button" class="controls">
 				<span class="icon-calendar"></span>
 			</button>
 			<div id="choose-date">
@@ -128,7 +126,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 					<thead>
 					<tr>
 						<td colspan="1">
-							<button onclick="previousMonth();" type="button">
+							<button id="calendar-previous-month" type="button">
 								<span class="icon-arrow-left"></span>
 							</button>
 						</td>
@@ -136,7 +134,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 							<span id="display-month"></span> <span id="display-year"></span>
 						</td>
 						<td colspan="1">
-							<button onclick="nextMonth();" type="button">
+							<button id="calendar-next-month" type="button">
 								<span class="icon-arrow-right"></span>
 							</button>
 						</td>
@@ -159,7 +157,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 					<tfoot>
 					<tr>
 						<td colspan="7">
-							<button type="button" class="today" onclick="insertDate();setUpCalendar();">
+							<button id="today" type="button" class="today">
 								<?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
 							</button>
 						</td>
@@ -177,32 +175,43 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 	</div>
 
 	<?php
-	$daysOfTheWeek = array(
-		JText::_('Monday'), JText::_('Tuesday'), JText::_('Wednesday'), JText::_('Thursday'),
-		JText::_('Friday'), JText::_('Saturday'), JText::_('Sunday')
+	$daysOfTheWeek  = array(
+		JText::_('MON'), JText::_('TUE'), JText::_('WED'), JText::_('THU'),
+		JText::_('FRI'), JText::_('SAT'), JText::_('SUN')
 	);
-	$periods       = get_object_vars($this->defaultGrid->periods);
+	$datesOfTheWeek = array(
+		THM_OrganizerHelperComponent::formatDate('monday this week'),
+		THM_OrganizerHelperComponent::formatDate('tuesday this week'),
+		THM_OrganizerHelperComponent::formatDate('wednesday this week'),
+		THM_OrganizerHelperComponent::formatDate('thursday this week'),
+		THM_OrganizerHelperComponent::formatDate('friday this week'),
+		THM_OrganizerHelperComponent::formatDate('saturday this week'),
+		THM_OrganizerHelperComponent::formatDate('sunday this week')
+	);
+	$grid           = json_decode($this->defaultGrid->grid);
+	$periods        = get_object_vars($grid->periods);
 	?>
 
 	<div id="scheduleWrapper" class="scheduleWrapper">
-		<input class="scheduler-input" checked type="radio" id="my-schedule" name="schedules">
-		<div id="my-schedule" class="scheduler">
+		<?php
+		if (JFactory::getUser()->guest)
+		{
+		?>
+		<input id="guest-schedule" class="scheduler-input" checked type="radio" name="schedules">
+		<div id="guest-schedule" class="scheduler">
 			<table>
 				<thead>
 				<tr>
 					<th><?php echo JText::_('COM_THM_ORGANIZER_TIME'); ?></th>
-
 					<?php
-					for ($weekday = $this->defaultGrid->startDay - 1; $weekday < $this->defaultGrid->endDay; ++$weekday)
+					for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday)
 					{
-						echo '<th>' . $daysOfTheWeek[$weekday] . '</th>';
+						echo "<th>$daysOfTheWeek[$weekday]</th>";
 					}
 					?>
-
 				</tr>
 				</thead>
 				<tbody>
-
 				<?php
 				for ($period = 1; $period <= count($periods); ++$period)
 				{
@@ -219,59 +228,14 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 					echo "<br> - <br>";
 					echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
 					echo "</td>";
-					foreach ($this->mySchedule->days as $day)
-					{
-						echo "<td>";
-						foreach ($day->$period as $lesson)
-						{
-							echo '<div class="lesson">';
-							if (isset($lesson->time))
-							{
-								echo '<span class="own-time">' .
-									THM_OrganizerHelperComponent::formatTime($lesson->time) .
-									'</span> ';
-							}
-
-							if (isset($lesson->name))
-							{
-								echo '<span class="name">' . $lesson->name . '</span> ';
-							}
-
-							if (isset($lesson->module))
-							{
-								echo '<span class="module">' . $lesson->module . '</span> ';
-							}
-
-							if (isset($lesson->teacher))
-							{
-								echo '<span class="person">' . $lesson->teacher . '</span> ';
-							}
-
-							if (isset($lesson->misc))
-							{
-								echo '<span class="misc">' . $lesson->misc . '</span> ';
-							}
-
-							if (isset($lesson->room))
-							{
-								echo '<span class="locations">';
-								/* TODO: <span class="old"></span> */
-								echo '<span class="new">';
-								echo '<a href="#">' . $lesson->room . '</a>';
-								echo "</span>";
-								echo "</span>";
-							}
-
-							echo '<button class="add-lesson"><span class="icon-plus-2"></span></button>';
-							echo "</div>";
-						} // Lessons
-						echo "</td>";
-					} // Days
 					echo "</tr>";
 				} // Periods
 				?>
 				</tbody>
 			</table>
 		</div>
+		<?php 
+		} // guest table
+		?>
 	</div>
 </div>

@@ -25,25 +25,57 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 class THM_OrganizerModelSchedule extends JModelLegacy
 {
 	/**
+	 * time grids for displaying the schedules
+	 *
+	 * @var array
+	 */
+	public $grids;
+
+	/**
+	 * name of active department
+	 *
+	 * @var array
+	 */
+	public $departmentName;
+
+	/**
+	 * THM_OrganizerModelSchedule constructor.
+	 *
+	 * @param   array $config options
+	 *
+	 * @throws Exception
+	 */
+	public function __construct(array $config)
+	{
+		parent::__construct($config);
+		$this->grids          = $this->getGrids();
+		$this->departmentName = $this->getDepartmentName();
+	}
+
+	/**
 	 * getter for the default time grid out of database
 	 *
-	 * @return  object|false
+	 * @return false|string
 	 *
-	 * @throws  RuntimeException
+	 * @throws Exception
 	 */
-	public function getDepartments()
+	public function getDepartmentName()
 	{
-		$languageTag = explode('-', JFactory::getLanguage()->getTag())[0];
-		$dbo         = JFactory::getDbo();
-		$query       = $dbo->getQuery(true);
+		$languageTag        = THM_OrganizerHelperLanguage::getShortTag();
+		$this->params       = JFactory::getApplication()->getParams();
+		$this->departmentID = $this->params->get('departmentID', 0);
+
+		$query = $this->_db->getQuery(true);
 		$query
-			->select("id, name_$languageTag as name")
-			->from('#__thm_organizer_departments');
-		$dbo->setQuery((string) $query);
+			->select("name_$languageTag as name")
+			->from('#__thm_organizer_departments')
+			->where("id = $this->departmentID");
+
+		$this->_db->setQuery((string) $query);
 
 		try
 		{
-			$result = $dbo->loadObjectList();
+			$result = $this->_db->loadResult();
 		}
 		catch (RuntimeException $exc)
 		{
@@ -58,13 +90,12 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * Getter method for all grids in database
 	 *
-	 * @return mixed  array | empty js-object in case of errors
+	 * @return mixed  array | empty in case of errors or no results
 	 *
 	 * @throws RuntimeException
 	 */
 	public function getGrids()
 	{
-		$this->_db   = JFactory::getDbo();
 		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
 		$query       = $this->_db->getQuery(true);
 		$query->select("name_$languageTag AS name, grid, defaultGrid")
@@ -91,11 +122,36 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	}
 
 	/**
-	 * example and default fallback of a time grid loaded from database
+	 * gets the first default grid from all grid objects in database
 	 *
-	 * @return array
+	 * @return object JSON grid
 	 */
-	private function getTimeFallback()
+	public function getDefaultGrid()
+	{
+		$defaultGrids = array_filter(
+			$this->grids,
+			function ($var)
+			{
+				return $var->defaultGrid;
+			}
+		);
+
+		if (empty($defaultGrids))
+		{
+			return $this->getGridFallback();
+		}
+		else
+		{
+			return $defaultGrids[0];
+		}
+	}
+
+	/**
+	 * example and fallback of a default time grid
+	 *
+	 * @return object (json)
+	 */
+	private function getGridFallback()
 	{
 		$fallback = '{
 				"periods": {
@@ -131,9 +187,9 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * an example of schedules and their json data
 	 *
-	 * @return array
+	 * @return object
 	 */
-	public function getMySchedule()
+	public function getTestSchedule()
 	{
 		return json_decode(
 			'{
@@ -313,6 +369,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                         ]
                     }
                 }
-            }');
+            }'
+		);
 	}
 }

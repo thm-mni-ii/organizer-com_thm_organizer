@@ -9,78 +9,234 @@
  * @link        www.mni.thm.de
  */
 
-// _,-*#%&.* CALENDAR functions *.&%#*-,_ //
+"use strict";
 
+var calendarIsVisible = false, calendar, dateField, year, month, table, months = [];
+
+Date.prototype.getPresentationFormat = function ()
+{
+    var mm = (this.getMonth() + 1).toString(), // getMonth() is zero-based
+        dd = this.getDate().toString();
+
+    return [
+        dd < 10 ? '0' + dd : dd,
+        mm < 10 ? '0' + mm : mm,
+        this.getFullYear()
+    ].join('.');
+};
+
+/**
+ * first function to call for the calendar. sets eventListeners for HTML-elements and variables.
+ */
 function initCalendar()
 {
-    // when browser is supporting date input, hide the selfmade calendar and change dates format
-    if (isBrowserSupportingDateInput())
+    window.table = document.getElementById('calendar-table');
+    window.calendar = document.getElementById('choose-date');
+    window.dateField = document.getElementById('date');
+    window.month = document.getElementById('display-month');
+    window.year = document.getElementById('display-year');
+    window.months = [
+        text.JANUARY,
+        text.FEBRUARY,
+        text.MARCH,
+        text.MARCH,
+        text.APRIL,
+        text.MAY,
+        text.JULY,
+        text.AUGUST,
+        text.SEPTEMBER,
+        text.OCTOBER,
+        text.NOVEMBER,
+        text.DECEMBER
+    ];
+
+    showControls();
+
+    /**
+     * EventListener for the control buttons of the date input
+     */
+    window.dateField.addEventListener('change', setUpCalendar);
+    document.getElementById('calendar-icon').addEventListener('click', showCalendar);
+
+    document.getElementById('calendar-next-month').addEventListener('click', function ()
     {
-        document.getElementById('calendar-icon').style.display = 'none';
-    }
-    insertDate();
-    window.calVisible = false;
+        changeCalendarMonth(true);
+    });
+    document.getElementById('calendar-previous-month').addEventListener('click', function ()
+    {
+        changeCalendarMonth(false);
+    });
+
+    document.getElementById('today').addEventListener('click', function ()
+    {
+        insertDate();
+        setUpCalendar();
+    });
+
+    document.getElementById('previous-month').addEventListener('click', function ()
+    {
+        changeSelectedDate(false, false);
+    });
+
+    document.getElementById('previous-day').addEventListener('click', function ()
+    {
+        changeSelectedDate(false, true);
+    });
+
+    document.getElementById('next-day').addEventListener('click', function ()
+    {
+        changeSelectedDate(true, true);
+    });
+
+    document.getElementById('next-month').addEventListener('click', function ()
+    {
+        changeSelectedDate(true, false);
+    });
 }
 
+/**
+ * increase or decrease displayed month in calendar table.
+ *
+ * @param increaseMonth boolean default = true
+ */
+function changeCalendarMonth(increaseMonth)
+{
+    var date = window.dateField.valueAsDate, increase = (typeof increaseMonth === 'undefined') ? true : increaseMonth;
+
+    if (increase)
+    {
+        date.setMonth(date.getMonth() + 1);
+    }
+    else
+    {
+        date.setMonth(date.getMonth() - 1);
+    }
+
+    setUpCalendar(date);
+}
+
+/**
+ * increase or decrease in steps of days or months in the current date in date field
+ *
+ * @param increase boolean default = true
+ * @param day boolean default = true
+ */
+function changeSelectedDate(increase, day)
+{
+    /** in schedule.js */
+    changeDate(increase, day);
+
+    if (window.calendarIsVisible)
+    {
+        setUpCalendar();
+    }
+
+    updateSchedule();
+}
+
+/**
+ * display calendar controls like changing to previous month.
+ */
+function showControls()
+{
+    var dateControls = document.getElementsByClassName('date-input')[0].getElementsByClassName('controls');
+
+    for (var controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
+    {
+        dateControls[controlIndex].style.display = 'inline';
+    }
+}
+
+/**
+ * hides or shows the calendar, depending on its previous status.
+ */
 function showCalendar()
 {
-    document.getElementById('choose-date').style.visibility = (window.calVisible == false) ? 'visible' : 'hidden';
-    window.calVisible = !this.calVisible;
+    window.calendar.style.visibility = (window.calendarIsVisible) ? 'hidden' : 'visible';
+    window.calendarIsVisible = !window.calendarIsVisible;
 
-    if (window.calVisible == true)
+    if (window.calendarIsVisible == true)
     {
         setUpCalendar();
     }
 }
 
+/**
+ * hides the calendar.
+ */
 function hideCalendar()
 {
-    document.getElementById('choose-date').style.visibility = 'hidden';
-    window.calVisible = false;
+    window.calendar.style.visibility = 'hidden';
+    window.calendarIsVisible = false;
 }
 
+/**
+ * builds the calendar (table), depending on a given date or the date field.
+ *
+ * @param optionalDate string
+ */
 function setUpCalendar(optionalDate)
 {
-    var date = (typeof optionalDate === 'undefined') ? document.getElementById('date').value : optionalDate;
-    var chosenDate = new Date();
+    var date, parts;
 
-    if (date != '')
+    if (typeof optionalDate === 'string' && optionalDate.match(/\d{2}\.\d{2}\.\d{4}/))
     {
-        var parts = date.split('.', 3);
+        parts = optionalDate.split('.', 3);
         /** found at https://wiki.selfhtml.org/wiki/JavaScript/Objekte/String/split */
-        chosenDate = new Date(parseInt(parts[2], 10), parseInt(parts[1] - 1, 10), parseInt(parts[0], 10));
+        date = new Date(parseInt(parts[2], 10), parseInt(parts[1] - 1, 10), parseInt(parts[0], 10));
+    }
+    else if (optionalDate instanceof Date)
+    {
+        date = optionalDate;
+    }
+    else
+    {
+        date = window.dateField.valueAsDate;
     }
 
     resetTable();
-    setUpCalendarHead(chosenDate);
-    fillCalendar(chosenDate);
+    setUpCalendarHead(date);
+    fillCalendar(date);
 }
 
+/**
+ * displays month and year in calendar table head
+ *
+ * @param date Date object
+ */
+function setUpCalendarHead(date)
+{
+    window.month.innerHTML = window.months[date.getMonth()];
+    window.year.innerHTML = date.getFullYear().toString();
+}
+
+/**
+ * deletes the rows of the calendar table for refreshing.
+ */
 function resetTable()
 {
-    var table = document.getElementById('calendar-table').getElementsByTagName('tbody')[0];
-    var rowCount = table.getElementsByTagName('tr').length;
-    for (var r = rowCount; r > 0; r--)
+    var tableBody = window.table.getElementsByTagName('tbody')[0],
+        rowLength = window.table.getElementsByTagName('tr').length;
+
+    for (var rowIndex = 0; rowIndex < rowLength; ++rowIndex)
     {
-        table.deleteRow(r - 1);
+        /** '-1' represents the last row */
+        tableBody.deleteRow(-1);
     }
 }
 
-function setUpCalendarHead(chosenDate)
-{
-    document.getElementById('display-month').innerHTML = castMonth(chosenDate.getMonth());
-    document.getElementById('display-year').innerHTML = chosenDate.getFullYear().toString();
-}
-
-function fillCalendar(chosenDate)
+/**
+ * calendar table gets filled with days of the month, chosen by the given date
+ *
+ * @param date Date object
+ */
+function fillCalendar(date)
 {
     /** inspired by https://wiki.selfhtml.org/wiki/JavaScript/Anwendung_und_Praxis/Monatskalender */
-    var generalMonth = new Date(chosenDate.getFullYear(), chosenDate.getMonth(), 1);
-    var weekdayStart = generalMonth.getDay() == 0 ? 7 : generalMonth.getDay();
-    var month = chosenDate.getMonth() + 1;
-    var year = chosenDate.getFullYear();
-    var months30days = [4, 6, 9, 11];
-    var days = 31;
+    var table = window.table.getElementsByTagName('tbody')[0], generalMonth = new Date(date.getFullYear(),
+        date.getMonth(), 1), weekdayStart = generalMonth.getDay() == 0 ? 7 : generalMonth.getDay(),
+        month = date.getMonth() + 1, year = date.getFullYear(), rows, row, cell,
+        months30days = [4, 6, 9, 11], days = 31, day = 1;
 
     /** compute count of days */
     if (months30days.indexOf(month) != -1)
@@ -94,21 +250,21 @@ function fillCalendar(chosenDate)
     }
 
     /** append rows to table */
-    var table = document.getElementById('calendar-table').getElementsByTagName('tbody')[0];
-    var day = 1;
-    var rows = Math.min(Math.ceil((days + generalMonth.getDay() - 1) / 7), 6);
-    for (var r = 0; r <= rows; r++)
+    rows = Math.min(Math.ceil((days + generalMonth.getDay() - 1) / 7), 6);
+
+    for (var rowIndex = 0; rowIndex <= rows; rowIndex++)
     {
-        var row = table.insertRow(r);
-        for (var c = 0; c <= 6; c++)
+        row = table.insertRow(rowIndex);
+        for (var cellIndex = 0; cellIndex <= 6; cellIndex++)
         {
-            var cell = row.insertCell(c);
-            if ((r == 0 && c < weekdayStart - 1) || day > days)
+            cell = row.insertCell(cellIndex);
+            if ((rowIndex == 0 && cellIndex < weekdayStart - 1) || day > days)
             {
                 cell.innerHTML = ' ';
             }
             else
             {
+                /** closure function needed, to give individual params to eventListeners inside of a for-loop */
                 (function (day)
                 {
                     var button = document.createElement('button');
@@ -121,86 +277,27 @@ function fillCalendar(chosenDate)
                     button.innerHTML = day.toString();
                     cell.appendChild(button);
                 }(day));
+
                 day++;
             }
         }
     }
 }
 
+/**
+ * the date chosen in the calendar table gets set in the date field
+ *
+ * @param date Date object
+ */
 function insertDate(date)
 {
-    if (date === undefined)
-    {
-        date = new Date();
-    }
+    var chosenDate = (typeof date === 'undefined') ? new Date() : date;
 
-    document.getElementById('date').valueAsDate = date;
-
-    if (!isBrowserSupportingDateInput())
-    {
-        var day = date.getDate();
-        var dayString = (day < 10) ? "0" + day.toString() : day.toString();
-        var month = date.getMonth() + 1;
-        var monthString = (month < 10) ? "0" + month.toString() : month.toString();
-        var year = date.getFullYear();
-
-        document.getElementById('date').value = dayString + "." + monthString + "." + year.toString();
-    }
+    window.dateField.valueAsDate = chosenDate;
+    window.dateField.value = chosenDate.getPresentationFormat();
 
     hideCalendar();
-}
 
-function previousMonth()
-{
-    var year = document.getElementById('display-year').innerHTML;
-    var oldMonth = document.getElementById('display-month').innerHTML;
-    var newMonth = castMonth(oldMonth);
-    var newDate = "1." + newMonth + "." + year;
-
-    setUpCalendar(newDate);
-}
-
-function nextMonth()
-{
-    var year = document.getElementById('display-year').innerHTML;
-    var oldMonth = document.getElementById('display-month').innerHTML;
-    var newMonth = castMonth(oldMonth) + 2; //because of the array
-    var newDate = "1." + newMonth + "." + year;
-
-    setUpCalendar(newDate);
-}
-
-function castMonth(month)
-{
-    var months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
-        "September", "Oktober", "November", "Dezember"];
-
-    if (typeof month === 'string')
-    {
-        return months.indexOf(month);
-    }
-
-    if (typeof month === 'number')
-    {
-        return months[month];
-    }
-
-    return undefined;
-}
-
-/**
- * tests the support of the browser for the input type=date
- * @see http://stackoverflow.com/questions/10193294/how-can-i-tell-if-a-browser-supports-input-type-date
- *
- * @returns boolean
- */
-function isBrowserSupportingDateInput()
-{
-    var input = document.createElement('input');
-    var notValidDate = 'not-valid-date';
-
-    input.setAttribute('type', 'date');
-    input.setAttribute('value', notValidDate);
-
-    return input.value !== notValidDate;
+    /** schedule.js */
+    updateSchedule();
 }

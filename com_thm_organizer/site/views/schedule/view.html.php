@@ -12,7 +12,10 @@
 
 defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * View class for the display of schedules
@@ -24,9 +27,16 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 class THM_OrganizerViewSchedule extends JViewLegacy
 {
 	/**
+	 * format for displaying dates
+	 *
+	 * @var string
+	 */
+	protected $dateFormat;
+
+	/**
 	 * default time grid, loaded first
 	 *
-	 * @var array
+	 * @var object
 	 */
 	protected $defaultGrid;
 
@@ -38,13 +48,6 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	protected $departmentID;
 
 	/**
-	 * time grids for displaying the schedules
-	 *
-	 * @var array
-	 */
-	protected $grids;
-
-	/**
 	 * mobile device or not
 	 *
 	 * @var boolean
@@ -54,37 +57,27 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	/**
 	 * Contains the current languageTag
 	 *
-	 * @var    Object
+	 * @var string
 	 */
 	protected $languageTag = "de-DE";
 
 	/**
 	 * Method to display the template
 	 *
-	 * @param null $tpl template
+	 * @param   null $tpl template
 	 *
 	 * @return mixed
 	 */
 	public function display($tpl = null)
 	{
-		$this->isMobile     = THM_OrganizerHelperComponent::isSmartphone();
-		$this->languageTag  = JFactory::getLanguage()->getTag();
-		$this->mySchedule   = $this->getModel()->getMySchedule();
-		$params             = JFactory::getApplication()->getMenu()->getActive()->params;
-		$this->departmentID = $params->get('departmentID');
-		$this->grids        = $this->getModel()->getGrids();
-
-		$defaultGrids      = array_filter(
-			$this->grids,
-			function ($var)
-			{
-				return $var->defaultGrid;
-			}
-		);
-		$this->defaultGrid = json_decode($defaultGrids[0]->grid);
-
+		$this->isMobile      = THM_OrganizerHelperComponent::isSmartphone();
+		$this->languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+		$this->defaultGrid   = $this->getModel()->getDefaultGrid();
+		$compParams          = JComponentHelper::getParams('com_thm_organizer');
+		$this->dateFormat    = $compParams->get('dateFormat', 'd.m.Y');
+		$params              = JFactory::getApplication()->getMenu()->getActive()->params;
+		$this->departmentID  = $params->get('departmentID', '0');
 		$this->modifyDocument();
-
 		parent::display($tpl);
 	}
 
