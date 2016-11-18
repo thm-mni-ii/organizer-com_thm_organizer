@@ -12,6 +12,8 @@
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 
 /**
  * Class provides methods to retrieve data for pool ajax calls
@@ -57,6 +59,19 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 		$this->fillOptions($options, $programMappings, $unSelectableMappings, $parentIDs, $resourceType);
 
 		return implode('', $options);
+	}
+
+	/**
+	 * Gets the pool options as a string
+	 *
+	 * @param bool $short whether or not the options should use abbreviated names
+	 *
+	 * @return string the concatenated plan pool options
+	 */
+	public function getPlanOptions($short = false)
+	{
+		$planOptions = THM_OrganizerHelperPools::getPlanPools($short);
+		return json_encode($planOptions);
 	}
 
 	/**

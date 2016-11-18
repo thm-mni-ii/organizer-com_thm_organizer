@@ -418,15 +418,23 @@ class THM_OrganizerHelperComponent
 	 */
 	public static function standardizeDate($date)
 	{
+		$default = date('Y-m-d');
+
 		if (empty($date))
 		{
-			return '';
+			return $default;
 		}
 
-		$params     = JComponentHelper::getParams('com_thm_organizer');
-		$dateFormat = $params->get('dateFormat', 'd.m.Y');
+		// Already standardized
+		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $date) === 1)
+		{
+			return $date;
+		}
 
-		return date_format(date_create_from_format($dateFormat, $date), 'Y-m-d');
+		$dateFormat     = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
+		$supportedDate = date_create_from_format($dateFormat, $date);
+
+		return empty($supportedDate)? $default : date_format($supportedDate, 'Y-m-d');
 	}
 
 	/**

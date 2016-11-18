@@ -1,386 +1,59 @@
-.icon-organizer::before,
-a[href$="view=thm_organizer"]::before,
-a[href$="option=com_thm_organizer"]::before {
-    font-family: icomoon;
-    content: "\e60b";
-}
-
-.icon-organizer_degrees::before,
-a[href*="view=degree_manager"]::before {
-    font-family: icomoon;
-    content: "\e606";
-}
-
-.icon-organizer_users::before,
-a[href*="view=user_manager"]::before {
-    font-family: icomoon;
-    content: "\e01f";
-}
-
-.icon-organizer_monitors::before,
-a[href*="view=monitor_manager"]::before {
-    font-family: icomoon;
-    content: "\e01c";
-}
-
-.icon-organizer_teachers::before,
-a[href*="view=teacher_manager"]::before {
-    font-family: icomoon;
-    content: "\e604";
-}
-
-.icon-organizer_departments::before,
-a[href*="view=department_manager"]::before {
-    font-family: icomoon;
-    content: "\e244";
-}
-
-.icon-organizer_subjects::before,
-a[href*="view=subject_manager"]::before {
-    font-family: icomoon;
-    content: "\e603";
-}
-
-.icon-organizer_fields::before,
-a[href*="view=field_manager"]::before {
-    font-family: icomoon;
-    content: "\74";
-}
-
-.icon-organizer_colors::before,
-a[href*="view=color_manager"]::before {
-    font-family: icomoon;
-    content: "\e014";
-}
-
-.icon-organizer_subject_pools::before,
-a[href*="view=pool_manager"]::before {
-    font-family: icomoon;
-    content: "\44";
-}
-
-.icon-organizer_rooms::before,
-a[href*="view=room_manager"]::before {
-    font-family: icomoon;
-    content: "\e60a";
-}
-
-.icon-organizer_degree_programs::before,
-a[href*="view=program_manager"]::before {
-    font-family: icomoon;
-    content: "\31";
-}
-
-.icon-organizer_schedules::before,
-.icon-mni::before,
-a[href*="view=schedule_manager"]::before,
-a[href*="view=virtual_schedule_manager"]::before {
-    font-family: icomoon;
-    content: "\e600";
-}
-
-.icon-organizer_categories::before,
-a[href*="view=category_manager"]::before {
-    font-family: icomoon;
-    content: "\e601";
-}
-
-.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-    font-weight: bold;
-}
-
-.icon-add-Space {
-    font-size: 14px;
-}
-
-a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-    color: #80ba24;
-}
-
-a[href*="option=com_thm_organizer&view="]::before {
-    padding-right: 8px;
-}
-
-.nav-list li.active a, .dropdown-submenu:hover > a[href*="option=com_thm_organizer"], #menu-com-thm-organizer a:hover {
-    background: #62c462;
-    background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #51a351));
-    background: -webkit-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: -o-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: -ms-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
-}
-
-.searchArea a, thead a {
-    color: #4a5c66;
-}
-
-.searchArea a:hover, thead a:hover {
-    color: #80ba24;
-}
-
-.js-stools-field-filter, .js-stools-field-list {
-    max-width: 200px;
-}
-
-.js-stools-field-filter select, .js-stools-field-list select {
-    width: auto;
-}
-
-.js-stools-field-filter span, .js-stools-field-list span {
-    overflow: hidden !important;
-}
-
-.table-striped {
-    margin-top: 7px;
-    border-collapse: separate;
-    border-top: 1px solid #bbb;
-    -webkit-border-radius: 3px 3px 0 0;
-    -moz-border-radius: 3px 3px 0 0;
-    -ms-border-radius: 3px 3px 0 0;
-    -o-border-radius: 3px 3px 0 0;
-    border-radius: 3px 3px 0 0;
-}
-
-thead {
-    color: #4a5c66;
-}
-
-tr:nth-child(1) th {
-    background: #cce3a7;
-    background: -moz-linear-gradient(top, #cce3a7 0%, #B9D986 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cce3a7), color-stop(100%, #B9D986));
-    background: -webkit-linear-gradient(top, #cce3a7 0%, #B9D986 100%);
-    background: -o-linear-gradient(top, #cce3a7 0%, #B9D986 100%);
-    background: -ms-linear-gradient(top, #cce3a7 0%, #B9D986 100%);
-    background: linear-gradient(to bottom, #cce3a7 0%, #B9D986 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
-    padding-top: 5px;
-    padding-bottom: 2px;
-    padding-left: 1px;
-}
-
-tr:nth-child(1) th:first-child {
-    -webkit-border-radius: 3px 0 0 0;
-    -moz-border-radius: 3px 0 0 0;
-    -ms-border-radius: 3px 0 0 0;
-    -o-border-radius: 3px 0 0 0;
-    border-radius: 3px 0 0 0;
-}
-
-tr:nth-child(1) th:last-child {
-    -webkit-border-radius: 0 3px 0 0;
-    -moz-border-radius: 0 3px 0 0;
-    -ms-border-radius: 0 3px 0 0;
-    -o-border-radius: 0 3px 0 0;
-    border-radius: 0 3px 0 0;
-}
-
-tr:nth-child(n+1) th:first-child {
-    border-left: 1px solid #bbb;
-}
-
-tr:nth-child(n+1) th:last-child {
-    border-right: 1px solid #bbb;
-}
-
-tr:nth-last-child(1) th {
-    background: #B9D986;
-    background: -moz-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #B9D986), color-stop(100%, #cce3a7));
-    background: -webkit-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: -o-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: -ms-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: linear-gradient(to bottom, #B9D986 0%, #cce3a7 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
-    padding-top: 0;
-    padding-left: 0;
-    border: none;
-    border-bottom: 1px solid #bbb;
-}
-
-tr:nth-last-child(1) th:first-child {
-    border-bottom-left-radius: 3px;
-    padding-left: 8px;
-}
-
-tr:nth-last-child(1) th:last-child {
-    border-bottom-right-radius: 3px;
-}
-
-tbody tr:first-child td {
-    border-top-style: none;
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-    .controls input[type="file"] {
-        line-height: 0;
-        padding-top: 3px;
-    }
-}
-
-@media (min-width: 768px) {
-    #mapping .control-group:nth-of-type(1), #mappings .control-group:nth-of-type(1) {
-        width: 50%;
-        float: left;
-    }
-
-    #mapping .control-group:nth-of-type(1) .controls select, #mappings .control-group:nth-of-type(1) .controls select {
-        width: 95%;
-    }
-
-    #mapping .control-group:nth-of-type(2), #mappings .control-group:nth-of-type(2) {
-        width: 50%;
-        float: right;
-    }
-
-    #mapping .control-group:nth-of-type(2) .controls select, #mappings .control-group:nth-of-type(2) .controls select {
-        width: 95%;
-    }
-
-    #mapping .control-group:nth-of-type(3), #mappings .control-group:nth-of-type(3) {
-        clear: both;
-    }
-}
-
-#mapping .chzn-container-multi .chzn-choices li, #mappings .chzn-container-multi .chzn-choices li {
-    float: none;
-    margin-right: 5px;
-    margin-top: 5px;
-}
-
-#mapping .search-choice, #mappings .search-choice {
-    border: 1px solid #bbb;
-    background: #ffffff;
-    background: -moz-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f4f4f4));
-    background: -webkit-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
-    background: -o-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
-    background: -ms-linear-gradient(top, #ffffff 0%, #f4f4f4 100%);
-    background: linear-gradient(to bottom, #ffffff 0%, #f4f4f4 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
-    line-height: 14px;
-}
-
-#mapping .chzn-choices, #mappings .chzn-choices {
-    background: #B9D986;
-    background: -moz-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #B9D986), color-stop(100%, #cce3a7));
-    background: -webkit-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: -o-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: -ms-linear-gradient(top, #B9D986 0%, #cce3a7 100%);
-    background: linear-gradient(to bottom, #B9D986 0%, #cce3a7 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
-    border: 1px solid #bbb;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
-}
-
-#mapping .highlighted, #mappings .highlighted {
-    background: #62c462;
-    background: -moz-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #51a351));
-    background: -webkit-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: -o-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: -ms-linear-gradient(top, #62c462 0%, #51a351 100%);
-    background: linear-gradient(to bottom, #62c462 0%, #51a351 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0);
-}
-
-#mapping table, #mappings table {
-    width: 98%;
-}
-
-#mapping thead tr:nth-child(1) th, #mappings thead tr:nth-child(1) th {
-    padding: 5px 0 5px 8px;
-}
-
-#mapping thead .thm_organizer_pools_ordering, #mappings thead .thm_organizer_pools_ordering {
-    width: 200px;
-}
-
-#mapping tbody .child-order .btn-small, #mappings tbody .child-order .btn-small {
-    padding: 1px 4px;
-    font-size: 12px;
-    line-height: 8px;
-}
-
-#mapping tbody .child-order .text-area-order, #mappings tbody .child-order .text-area-order {
-    padding: 1px 2px;
-    text-align: center;
-    height: 14px;
-}
-
-#mapping tbody .child-name, #mappings tbody .child-name {
-    padding-right: 30px;
-}
-
-@media (max-width: 480px) {
-    .table-striped thead th, .table-striped tbody td {
-        display: none;
-    }
-
-    .table-striped thead th:nth-child(2), .table-striped tbody td:nth-child(2) {
-        display: table-cell;
-    }
-
-    .table-striped thead th:nth-child(2), .table-striped tbody td:nth-child(2) {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    #color_manager-list thead th, #color_manager-list tbody td {
-        display: none;
-    }
-
-    #color_manager-list thead th:nth-child(3), #color_manager-list tbody td:nth-child(3) {
-        display: table-cell;
-    }
-
-    #color_manager-list thead th:nth-child(3), #color_manager-list tbody td:nth-child(3) {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    #teacher_manager-list thead th, #teacher_manager-list tbody td {
-        display: none;
-    }
-
-    #teacher_manager-list thead th:nth-child(2), #teacher_manager-list tbody td:nth-child(2) {
-        display: table-cell;
-    }
-
-    #teacher_manager-list thead th:nth-child(3), #teacher_manager-list tbody td:nth-child(3) {
-        display: table-cell;
-    }
-
-    #teacher_manager-list thead th:nth-child(2), #teacher_manager-list tbody td:nth-child(2) {
-        padding-left: 8px;
-    }
-
-    #pool_manager-list thead th, #pool_manager-list tbody td {
-        display: none;
-    }
-
-    #pool_manager-list thead th:nth-child(2), #pool_manager-list tbody td:nth-child(2) {
-        display: table-cell;
-    }
-
-    #pool_manager-list thead th:nth-child(4), #pool_manager-list tbody td:nth-child(4) {
-        display: table-cell;
-    }
-
-    #pool_manager-list thead th:nth-child(2), #pool_manager-list tbody td:nth-child(2) {
-        padding-left: 8px;
-    }
-}
-
-@media (min-width: 480px) and (max-width: 768px) {
-    .table-striped thead th:nth-child(n+5), .table-striped tbody td:nth-child(n+5) {
-        display: none;
-    }
-}
+/*
+Error: It's not clear which file to import for '@import "backend"'.
+       Candidates:
+         _backend.scss
+         backend.scss
+       Please delete or rename all but one of these files.
+        on line 1 of backend.scss
+
+1: @import 'backend';
+2: @import 'variables';
+3: 
+4: //********************************************************************************************************************\//
+5: // Media Queries for Tables in Backend
+6: //********************************************************************************************************************\//
+
+Backtrace:
+backend.scss:1
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/import_node.rb:67:in `rescue in import'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/import_node.rb:45:in `import'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/import_node.rb:28:in `imported_file'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/import_node.rb:37:in `css_import?'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:311:in `visit_import'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:157:in `visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:20:in `render'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/engine.rb:278:in `render'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin.rb:82:in `update_stylesheets'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/sass_scss.rb:361:in `watch_or_update'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/sass_scss.rb:51:in `process_result'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/base.rb:52:in `parse'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/base.rb:19:in `parse!'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/bin/scss:13:in `<top (required)>'
+C:/Ruby21/bin/scss:23:in `load'
+C:/Ruby21/bin/scss:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: It's not clear which file to import for '@import \"backend\"'.\A        Candidates:\A          _backend.scss\A          backend.scss\A        Please delete or rename all but one of these files.\A         on line 1 of backend.scss\A \A 1: @import 'backend';\A 2: @import 'variables';\A 3: \A 4: //********************************************************************************************************************//\A 5: // Media Queries for Tables in Backend\A 6: //********************************************************************************************************************//"; }

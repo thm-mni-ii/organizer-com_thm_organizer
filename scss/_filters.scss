@@ -1,0 +1,16 @@
+@import 'variables';
+
+%fieldset {
+  background-color: $background;
+  border: $border;
+  clear: both;
+  color: $font-color;
+  font-family: $font-family;
+  font-size: $font-size;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  margin-bottom: 4px;
+
+  @include box-shadow(2px, 2px, 4px, $shadow-color);
+}

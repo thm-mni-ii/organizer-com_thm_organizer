@@ -1,4 +1,4 @@
-@import '../../lib_thm_core/scss/variables';
+@import 'variables';
 
 @media(max-width: 480px) {
 
@@ -88,7 +88,7 @@
 /******************************************************************************/
 /* Styles for Monitor                                                         */
 /******************************************************************************/
-@import '../../lib_thm_core/scss/variables';
+@import 'variables';
 
 .display-events {
   font-family: 'THM-Medium', Verdana, Arial;

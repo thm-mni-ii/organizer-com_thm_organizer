@@ -1,0 +1,36 @@
+.nav.nav-tabs {
+  border-bottom: $border-thick;
+  margin-top: 15px;
+  margin-bottom: 0;
+
+  & > li {
+    margin-bottom: 0;
+    margin-left: 2px;
+  }
+
+  & > li:first-child {
+    margin-left: 10px;
+  }
+
+  & > li > a, & > li.active > a {
+    border-top: $border-thick;
+    border-right: $border-thick;
+    border-bottom: none;
+    border-left: $border-thick;
+    border-radius: 0;
+    padding-left: 12px;
+  }
+
+  & > li > a:hover {
+    background-color: $background;
+  }
+
+  & > li.active > a {
+    background: $background-grey;
+    color: $foreground;
+
+    &:hover {
+      background: $background-grey;
+    }
+  }
+}

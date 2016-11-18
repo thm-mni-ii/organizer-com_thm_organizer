@@ -1,6 +1,6 @@
-@import '../../lib_thm_core/scss/mixins';
-@import '../../lib_thm_core/scss/variables';
-@import '../../lib_thm_core/scss/filters';
+@import 'mixins';
+@import 'variables';
+@import 'filters';
 
 .consumption {
   color: $font-color;

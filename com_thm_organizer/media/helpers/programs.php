@@ -69,7 +69,7 @@ class THM_OrganizerHelperPrograms
 	{
 		$dbo          = JFactory::getDbo();
 		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
-		$departmentID = JFactory::getApplication()->input->getInt('departmentID', 0);
+		$departmentIDs = JFactory::getApplication()->input->get('departmentIDs', array(), 'raw');
 
 		$query     = $dbo->getQuery(true);
 		$nameParts = array("p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'");
@@ -78,10 +78,10 @@ class THM_OrganizerHelperPrograms
 		$query->leftJoin('#__thm_organizer_programs AS p ON pp.programID = p.id');
 		$query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 
-		if (!empty($departmentID))
+		if (!empty($departmentIDs))
 		{
 			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = pp.id');
-			$query->where("dr.departmentID = '$departmentID'");
+			$query->where("dr.departmentID IN ('" . str_replace(",", "', '", $departmentIDs) . "')");
 		}
 
 		$query->order('ppName');

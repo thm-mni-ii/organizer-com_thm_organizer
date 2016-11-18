@@ -1,679 +1,460 @@
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
-    font-family: icomoon;
-    content: "\e60b";
-}
+  font-family: icomoon;
+  content: "\e60b"; }
 
 .icon-organizer_degrees::before,
 a[href*="view=degree_manager"]::before {
-    font-family: icomoon;
-    content: "\e606";
-}
+  font-family: icomoon;
+  content: "\e606"; }
 
 .icon-organizer_users::before,
 a[href*="view=user_manager"]::before {
-    font-family: icomoon;
-    content: "\e01f";
-}
+  font-family: icomoon;
+  content: "\e01f"; }
 
 .icon-organizer_monitors::before,
 a[href*="view=monitor_manager"]::before {
-    font-family: icomoon;
-    content: "\e01c";
-}
+  font-family: icomoon;
+  content: "\e01c"; }
 
 .icon-organizer_teachers::before,
 a[href*="view=teacher_manager"]::before {
-    font-family: icomoon;
-    content: "\e604";
-}
+  font-family: icomoon;
+  content: "\e604"; }
 
 .icon-organizer_departments::before,
 a[href*="view=department_manager"]::before {
-    font-family: icomoon;
-    content: "\e244";
-}
+  font-family: icomoon;
+  content: "\e244"; }
 
 .icon-organizer_subjects::before,
 a[href*="view=subject_manager"]::before {
-    font-family: icomoon;
-    content: "\e603";
-}
+  font-family: icomoon;
+  content: "\e603"; }
 
 .icon-organizer_fields::before,
 a[href*="view=field_manager"]::before {
-    font-family: icomoon;
-    content: "\74";
-}
+  font-family: icomoon;
+  content: "\74"; }
 
 .icon-organizer_colors::before,
 a[href*="view=color_manager"]::before {
-    font-family: icomoon;
-    content: "\e014";
-}
+  font-family: icomoon;
+  content: "\e014"; }
 
 .icon-organizer_subject_pools::before,
 a[href*="view=pool_manager"]::before {
-    font-family: icomoon;
-    content: "\44";
-}
+  font-family: icomoon;
+  content: "\44"; }
 
 .icon-organizer_rooms::before,
 a[href*="view=room_manager"]::before {
-    font-family: icomoon;
-    content: "\e60a";
-}
+  font-family: icomoon;
+  content: "\e60a"; }
 
 .icon-organizer_degree_programs::before,
 a[href*="view=program_manager"]::before {
-    font-family: icomoon;
-    content: "\31";
-}
+  font-family: icomoon;
+  content: "\31"; }
 
 .icon-organizer_schedules::before,
 .icon-mni::before,
 a[href*="view=schedule_manager"]::before,
 a[href*="view=virtual_schedule_manager"]::before {
-    font-family: icomoon;
-    content: "\e600";
-}
+  font-family: icomoon;
+  content: "\e600"; }
 
 .icon-organizer_categories::before,
 a[href*="view=category_manager"]::before {
-    font-family: icomoon;
-    content: "\e601";
-}
+  font-family: icomoon;
+  content: "\e601"; }
 
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-    font-weight: bold;
-}
+  font-weight: bold; }
 
 .icon-add-Space {
-    font-size: 14px;
-}
+  font-size: 14px; }
 
 a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-    color: #80ba24;
-}
+  color: #80ba24; }
 
 a[href*="option=com_thm_organizer&view="]::before {
-    padding-right: 8px;
-}
+  padding-right: 8px; }
 
 .control-group .chzn-container {
-    width: 170px !important;
-}
-
+  width: 170px !important; }
 .control-group .x-form-item-label-default {
-    width: 180px !important;
-    float: left;
-}
-
+  width: 180px !important;
+  float: left; }
 .control-group .x-form-text-field-body-default {
-    min-width: 900px;
-    max-width: 900px;
-    float: left;
-}
-
+  min-width: 900px;
+  max-width: 900px;
+  float: left; }
 .control-group .x-form-item-default {
-    height: auto !important;
-    margin-top: 15px;
-}
-
+  height: auto !important;
+  margin-top: 15px; }
 .control-group .x-form-text-wrap-default {
-    border-style: none;
-}
-
-.control-group .x-form-text-wrap-default input {
-    margin: 0;
-}
-
+  border-style: none; }
+  .control-group .x-form-text-wrap-default input {
+    margin: 0; }
 .control-group .x-form-text {
-    height: 29px !important;
-    background-color: #4a5c66;
-    color: white;
-    border-radius: 3px 0 0 3px;
-}
-
+  height: 29px !important;
+  background-color: #4a5c66;
+  color: white;
+  border-radius: 3px 0 0 3px; }
 .control-group .x-form-trigger-wrap {
-    height: auto;
-}
+  height: auto; }
 
 .x-form-text-default {
-    background-image: none;
-}
+  background-image: none; }
 
 .control-group:first-child {
-    margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 #ext-element-7 + .control-group {
-    display: none;
-}
+  display: none; }
 
 .control-group:last-child {
-    margin-top: 40px;
-    margin-bottom: 40px !important;
-}
+  margin-top: 40px;
+  margin-bottom: 40px !important; }
 
 /**********************************************************************************************************************/
 /* Frontend                                                                                                           */
 /**********************************************************************************************************************/
 div#main .MySchedMainW {
-    color: #4a5c66;
-    /* Header, Resource Selection and Toolbar *************************************************************************/
-    /* Schedules */
-}
-
-div#main .MySchedMainW .x-border-box, div#main .MySchedMainW .x-panel-body, div#main .MySchedMainW .x-box-inner, div#main .MySchedMainW .x-box-target, div#main .MySchedMainW .x-grid-view, div#main .MySchedMainW .x-grid-item-container {
+  color: #4a5c66;
+  /* Header, Resource Selection and Toolbar *************************************************************************/
+  /* Schedules */ }
+  div#main .MySchedMainW .x-border-box, div#main .MySchedMainW .x-panel-body, div#main .MySchedMainW .x-box-inner, div#main .MySchedMainW .x-box-target, div#main .MySchedMainW .x-grid-view, div#main .MySchedMainW .x-grid-item-container {
     background-color: white;
     border: none;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #viewport, div#main .MySchedMainW #viewport-body {
-    border-bottom: 2px solid #4a5c66;
-}
-
-div#main .MySchedMainW #topPanel {
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body {
-    width: 100% !important;
-    /* Header */
-    /* Resource Selection & Toolbar */
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #headerPanel {
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header {
-    background-color: white;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title {
-    line-height: 22px;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .schedule-title, div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .upload-date {
-    display: inline-block;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .schedule-title {
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    font-weight: normal;
-    margin-right: 10px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .externallogin {
-    float: right;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #toolbarPanel {
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-default {
-    background-image: none;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-wrap-default {
-    border-style: none;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body input[type="text"].x-form-field {
-    border: 1px solid #77858c;
-    cursor: default;
-    height: 2.5em;
-    margin: 0;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body input[type="text"]:disabled {
-    cursor: not-allowed;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt {
-    padding: 0 !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default {
-    display: inline-block;
-    margin-right: 10px;
-    width: calc(33% - 10px) !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap {
-    height: 37px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap .x-form-field {
-    background-color: #f2f5f6;
-    background: url("../images/select.png") no-repeat right white;
-    background-size: 18px;
-    overflow: hidden;
-    padding-right: 24px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 175px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar {
-    background-color: white;
-    border: none;
-    padding: 0;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn {
-    border: none;
-    top: 7px !important;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-btn-default-toolbar-small, div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-icon-el {
-    background-color: white;
-    background-image: none;
-    border: none;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-tool-img {
-    background-image: none;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon {
-    background-image: none;
-    position: relative;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon:before {
-    font-family: icomoon;
-    content: "\e933";
-    font-size: 20px;
-    color: #4a5c66;
-    vertical-align: text-bottom;
-    position: absolute;
-    right: 0;
-    top: 8px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap {
-    height: 37px;
-    width: 125px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap input[type="text"].x-form-field {
-    padding-right: 12px;
-    text-align: right;
-    width: 130px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default {
-    vertical-align: middle;
-    padding-right: 10px;
-    float: left;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default:before {
-    font-family: icomoon;
-    content: "\44";
-    font-size: 20px;
-    color: #4a5c66;
-    position: absolute;
-    top: 16px;
-    top: 18px \0;
-    left: 12px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek {
-    margin-left: -20px;
-    margin-right: 15px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon {
-    background-image: none;
-    position: relative;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon:before {
-    font-family: icomoon;
-    content: "\e932";
-    font-size: 20px;
-    color: #4a5c66;
-    vertical-align: text-bottom;
-    position: absolute;
-    left: -2px;
-    top: 8px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner {
-    font-size: 14px;
-    padding-left: 16px;
-    text-align: left;
-    width: 110px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner::before {
-    color: #4a5c66;
-    font-size: 20px;
-    left: 0;
-    position: absolute;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave {
-    margin-right: 10px;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .x-btn-inner::before {
-    font-family: icomoon-special;
-    content: "\e962";
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .tbSave {
-    display: none;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-icon-el {
-    background-image: none;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-inner::before {
-    content: "\e021";
-    font-family: icomoon;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .tbDownload {
-    display: none;
-}
-
-div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
-    background-image: none;
-    display: none;
-}
-
-div#main .MySchedMainW #tabPanel {
+    width: 100% !important; }
+  div#main .MySchedMainW #viewport, div#main .MySchedMainW #viewport-body {
+    border-bottom: 2px solid #4a5c66; }
+  div#main .MySchedMainW #topPanel {
+    width: 100% !important; }
+    div#main .MySchedMainW #topPanel #topPanel-body {
+      width: 100% !important;
+      /* Header */
+      /* Resource Selection & Toolbar */ }
+      div#main .MySchedMainW #topPanel #topPanel-body #headerPanel {
+        width: 100% !important; }
+        div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header {
+          background-color: white;
+          border: none;
+          box-shadow: none;
+          padding: 0;
+          width: 100% !important; }
+          div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title {
+            line-height: 22px;
+            width: 100% !important; }
+            div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .schedule-title, div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .upload-date {
+              display: inline-block; }
+            div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .schedule-title {
+              font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+              font-size: 20px;
+              font-weight: normal;
+              margin-right: 10px; }
+            div#main .MySchedMainW #topPanel #topPanel-body #headerPanel .x-panel-header .x-panel-header-title .externallogin {
+              float: right; }
+      div#main .MySchedMainW #topPanel #topPanel-body #toolbarPanel {
+        width: 100% !important; }
+      div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-default {
+        background-image: none; }
+      div#main .MySchedMainW #topPanel #topPanel-body .x-form-text-wrap-default {
+        border-style: none; }
+      div#main .MySchedMainW #topPanel #topPanel-body input[type="text"].x-form-field {
+        border: 1px solid #77858c;
+        cursor: default;
+        height: 2.5em;
+        margin: 0; }
+      div#main .MySchedMainW #topPanel #topPanel-body input[type="text"]:disabled {
+        cursor: not-allowed; }
+      div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt {
+        padding: 0 !important; }
+        div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default {
+          display: inline-block;
+          margin-right: 10px;
+          width: calc(33% - 10px) !important; }
+          div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap {
+            height: 37px; }
+            div#main .MySchedMainW #topPanel #topPanel-body #selectBoxes-body #selectBoxes-innerCt .x-field-default .x-form-trigger-wrap .x-form-field {
+              background-color: #f2f5f6;
+              background: url("../images/select.png") no-repeat right white;
+              background-size: 18px;
+              overflow: hidden;
+              padding-right: 24px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              width: 175px; }
+      div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar {
+        background-color: white;
+        border: none;
+        padding: 0; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn {
+          border: none;
+          top: 7px !important; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-btn-default-toolbar-small, div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-over.x-icon-el {
+          background-color: white;
+          background-image: none;
+          border: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-tool-img {
+          background-image: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon {
+          background-image: none;
+          position: relative; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .MySched_prevWeekIcon:before {
+            font-family: icomoon;
+            content: "\e933";
+            font-size: 20px;
+            color: #4a5c66;
+            vertical-align: text-bottom;
+            position: absolute;
+            right: 0;
+            top: 8px; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap {
+          height: 37px;
+          width: 125px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap input[type="text"].x-form-field {
+            padding-right: 12px;
+            text-align: right;
+            width: 130px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default {
+            vertical-align: middle;
+            padding-right: 10px;
+            float: left; }
+            div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-form-trigger-wrap .x-form-date-trigger-default:before {
+              font-family: icomoon;
+              content: "\44";
+              font-size: 20px;
+              color: #4a5c66;
+              position: absolute;
+              top: 16px;
+              top: 18px \0 ;
+              left: 12px; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek {
+          margin-left: -20px;
+          margin-right: 15px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon {
+            background-image: none;
+            position: relative; }
+            div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #MySched_nextWeek .MySched_nextWeekIcon:before {
+              font-family: icomoon;
+              content: "\e932";
+              font-size: 20px;
+              color: #4a5c66;
+              vertical-align: text-bottom;
+              position: absolute;
+              left: -2px;
+              top: 8px; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner {
+          font-size: 14px;
+          padding-left: 16px;
+          text-align: left;
+          width: 110px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar .x-btn-inner::before {
+            color: #4a5c66;
+            font-size: 20px;
+            left: 0;
+            position: absolute; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave {
+          margin-right: 10px; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .x-btn-inner::before {
+            font-family: icomoon-special;
+            content: "\e962"; }
+          div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #btnSave .tbSave {
+            display: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-icon-el {
+          background-image: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-inner::before {
+          content: "\e021";
+          font-family: icomoon; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .tbDownload {
+          display: none; }
+        div#main .MySchedMainW #topPanel #topPanel-body #buttonPanel .x-toolbar #downloadMenu .x-btn-arrow-right.x-btn-wrap-default-toolbar-small::after {
+          background-image: none;
+          display: none; }
+  div#main .MySchedMainW #tabPanel {
     top: 91px !important;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar {
-    background-color: white;
-    border: 0;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body {
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller {
-    background: transparent;
-    background-image: none;
-    positon: relative;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller:before {
-    color: #4a5c66;
-    content: "\e933";
-    font-family: icomoon;
-    font-size: 20px;
-    position: absolute;
-    top: 18px;
-    vertical-align: text-bottom;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller-right::before {
-    content: "\e932";
-    right: 5px;
-    top: 18px;
-    z-index: 999;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller-body-horizontal {
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .myScheduleIcon::before {
-    font-family: icomoon;
-    content: "\44";
-    font-size: 12px;
-    color: #394a59;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-tab-active .myScheduleIcon::before {
-    font-family: icomoon;
-    content: "\44";
-    font-size: 12px;
-    color: white;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar-strip, div#main .MySchedMainW #tabPanel .x-grid-header-ct, div#main .MySchedMainW #tabPanel .x-grid-rowbody-tr {
-    background-color: #dfeec8;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab {
-    background-color: white;
-    border: 2px solid #77858c;
-    border-bottom: none;
-    color: #394a59;
-    margin-bottom: 3px;
-    padding: 10px;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab .x-tab-inner-default {
-    line-height: 1rem;
-    font-size: .85rem;
-    font-weight: normal;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab .x-tab-button-default {
-    height: auto;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab .x-tab-close-btn {
-    background: transparent;
-    background-image: none;
-    positon: relative;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab .x-tab-close-btn:before {
-    color: #4a5c66;
-    content: "\e935";
-    font-family: icomoon;
-    font-size: 10px;
-    position: absolute;
-    right: 3px;
-    top: 8px;
-    vertical-align: text-bottom;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab.x-tab-active {
-    background-color: #4a5c66;
-    border: 2px solid #4a5c66;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab.x-tab-active .x-tab-inner-default {
-    color: white;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab.x-tab-active .x-tab-close-btn:before {
-    color: white;
-}
-
-div#main .MySchedMainW #tabPanel .x-tab-bar-strip {
-    background-color: #4a5c66;
-    border: 2px solid #4a5c66;
-    border-bottom: none;
-    height: 7px;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child {
-    border: 2px solid #4a5c66;
-    border-top: none;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct {
-    background: #4a5c66;
-    border: none;
-    border-bottom: 2px solid #4a5c66;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner {
-    background: #4a5c66;
-    height: 28px !important;
-    padding-bottom: 6px;
-    width: 100% !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target {
-    width: calc(100% + 6px) !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header {
-    background-color: #4a5c66;
-    display: inline-block;
-    position: static !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header-text {
-    color: white;
-    font-size: .8rem;
-    font-weight: normal;
-    line-height: .9rem;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item {
-    margin-bottom: 0;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item.x-grid-item-alt {
-    background-color: white;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item:first-child {
-    border-top: none;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item:first-child .x-grid-row .x-grid-cell {
-    border-top: none;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item:last-child .x-grid-rowbody-tr {
-    display: none;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockFree, div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockBusy_DIS, div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockOccupied_DIS {
-    background-color: white;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockBusy {
-    background-color: #a4adb2;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockOccupied {
-    background-color: #002959;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell {
-    border: 1px solid #77858c;
-    padding: 6px;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner {
-    padding: 0;
-    padding-bottom: 4px;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox {
-    background: #f2f5f6;
-    border: 1px solid #77858c;
-    cursor: move;
-    font-size: .75rem;
-    margin: 2px;
-    overflow: hidden;
-    padding: 4px;
-    text-align: center;
-    white-space: pre-wrap;
-    z-index: 1000;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .lecturename {
-    cursor: pointer;
-    font-size: .8rem;
-    font-weight: bold;
-    margin: -2px;
-    word-wrap: break-word;
-    white-space: normal;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon {
-    font-size: 10px;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-plus {
-    color: #80ba24;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-remove {
-    color: #9c132e;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first {
-    border-left: none;
-    font-size: .8rem;
-    max-width: 50px;
-    vertical-align: middle;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first .x-grid-cell-inner {
-    font-weight: bold;
-    padding: 0;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-last {
-    border-right: none;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-5 {
-    min-width: calc(20% - 10px) !important;
-    max-width: calc(20% - 10px) !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-6 {
-    min-width: calc(16.6% - 8.3px) !important;
-    max-width: calc(16.6% - 8.3px) !important;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr .x-grid-cell-rowbody {
-    padding: 0;
-}
-
-div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr.MySched_pause .x-grid-rowbody {
-    font-size: .9rem;
-    font-weight: bold;
-    padding: 8px;
-    text-align: center;
-}
+    width: 100% !important; }
+    div#main .MySchedMainW #tabPanel .x-tab-bar {
+      background-color: white;
+      border: 0;
+      width: 100% !important; }
+      div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body {
+        width: 100% !important; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller {
+          background: transparent;
+          background-image: none;
+          positon: relative; }
+          div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller:before {
+            color: #4a5c66;
+            content: "\e933";
+            font-family: icomoon;
+            font-size: 20px;
+            position: absolute;
+            top: 18px;
+            vertical-align: text-bottom; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller-right::before {
+          content: "\e932";
+          right: 5px;
+          top: 18px;
+          z-index: 999; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-box-scroller-body-horizontal {
+          width: 100% !important; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .myScheduleIcon::before {
+          font-family: icomoon;
+          content: "\44";
+          font-size: 12px;
+          color: #394a59; }
+        div#main .MySchedMainW #tabPanel .x-tab-bar .x-tab-bar-body .x-tab-active .myScheduleIcon::before {
+          font-family: icomoon;
+          content: "\44";
+          font-size: 12px;
+          color: white; }
+    div#main .MySchedMainW #tabPanel .x-tab-bar-strip, div#main .MySchedMainW #tabPanel .x-grid-header-ct, div#main .MySchedMainW #tabPanel .x-grid-rowbody-tr {
+      background-color: #dfeec8; }
+    div#main .MySchedMainW #tabPanel .x-tab {
+      background-color: white;
+      border: 2px solid #77858c;
+      border-bottom: none;
+      color: #394a59;
+      margin-bottom: 3px;
+      padding: 10px; }
+      div#main .MySchedMainW #tabPanel .x-tab .x-tab-inner-default {
+        line-height: 1rem;
+        font-size: .85rem;
+        font-weight: normal; }
+      div#main .MySchedMainW #tabPanel .x-tab .x-tab-button-default {
+        height: auto; }
+      div#main .MySchedMainW #tabPanel .x-tab .x-tab-close-btn {
+        background: transparent;
+        background-image: none;
+        positon: relative; }
+        div#main .MySchedMainW #tabPanel .x-tab .x-tab-close-btn:before {
+          color: #4a5c66;
+          content: "\e935";
+          font-family: icomoon;
+          font-size: 10px;
+          position: absolute;
+          right: 3px;
+          top: 8px;
+          vertical-align: text-bottom; }
+    div#main .MySchedMainW #tabPanel .x-tab.x-tab-active {
+      background-color: #4a5c66;
+      border: 2px solid #4a5c66; }
+      div#main .MySchedMainW #tabPanel .x-tab.x-tab-active .x-tab-inner-default {
+        color: white; }
+      div#main .MySchedMainW #tabPanel .x-tab.x-tab-active .x-tab-close-btn:before {
+        color: white; }
+    div#main .MySchedMainW #tabPanel .x-tab-bar-strip {
+      background-color: #4a5c66;
+      border: 2px solid #4a5c66;
+      border-bottom: none;
+      height: 7px; }
+    div#main .MySchedMainW #tabPanel .x-tabpanel-child {
+      border: 2px solid #4a5c66;
+      border-top: none;
+      width: 100% !important; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct {
+        background: #4a5c66;
+        border: none;
+        border-bottom: 2px solid #4a5c66;
+        width: 100% !important; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner {
+          background: #4a5c66;
+          height: 28px !important;
+          padding-bottom: 6px;
+          width: 100% !important; }
+          div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target {
+            width: calc(100% + 6px) !important; }
+            div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header {
+              background-color: #4a5c66;
+              display: inline-block;
+              position: static !important; }
+            div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-header-ct .x-box-inner .x-box-target .x-column-header-text {
+              color: white;
+              font-size: .8rem;
+              font-weight: normal;
+              line-height: .9rem; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item {
+        margin-bottom: 0; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item.x-grid-item-alt {
+          background-color: white; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item:first-child {
+          border-top: none; }
+          div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item:first-child .x-grid-row .x-grid-cell {
+            border-top: none; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item:last-child .x-grid-rowbody-tr {
+          display: none; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockFree, div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockBusy_DIS, div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockOccupied_DIS {
+          background-color: white; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockBusy {
+          background-color: #a4adb2; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .blockOccupied {
+          background-color: #002959; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell {
+          border: 1px solid #77858c;
+          padding: 6px; }
+          div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner {
+            padding: 0;
+            padding-bottom: 4px; }
+            div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox {
+              background: #f2f5f6;
+              border: 1px solid #77858c;
+              cursor: move;
+              font-size: .75rem;
+              margin: 2px;
+              overflow: hidden;
+              padding: 4px;
+              text-align: center;
+              white-space: pre-wrap;
+              z-index: 1000; }
+              div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .lecturename {
+                cursor: pointer;
+                font-size: .8rem;
+                font-weight: bold;
+                margin: -2px;
+                word-wrap: break-word;
+                white-space: normal; }
+              div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon {
+                font-size: 10px; }
+                div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-plus {
+                  color: #80ba24; }
+                div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell .x-grid-cell-inner .lectureBox .status_icons .control_icon.icon-remove {
+                  color: #9c132e; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first {
+          border-left: none;
+          font-size: .8rem;
+          max-width: 50px;
+          vertical-align: middle; }
+          div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-first .x-grid-cell-inner {
+            font-weight: bold;
+            padding: 0; }
+        div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-item .x-grid-row .x-grid-cell-last {
+          border-right: none; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-5 {
+        min-width: calc(20% - 10px) !important;
+        max-width: calc(20% - 10px) !important; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .days-6 {
+        min-width: calc(16.6% - 8.3px) !important;
+        max-width: calc(16.6% - 8.3px) !important; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr .x-grid-cell-rowbody {
+        padding: 0; }
+      div#main .MySchedMainW #tabPanel .x-tabpanel-child .x-grid-rowbody-tr.MySched_pause .x-grid-rowbody {
+        font-size: .9rem;
+        font-weight: bold;
+        padding: 8px;
+        text-align: center; }
 
 body .x-boundlist {
-    border: 1px solid #77858c;
-    min-width: 175px;
-    width: auto !important;
-}
-
-body .x-boundlist li {
+  border: 1px solid #77858c;
+  min-width: 175px;
+  width: auto !important; }
+  body .x-boundlist li {
     margin: 0;
-    padding: 6px;
-}
-
+    padding: 6px; }
 body .x-mask {
-    background-color: white !important;
-}
+  background-color: white !important; }

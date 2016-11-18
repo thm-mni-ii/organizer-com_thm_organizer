@@ -1,0 +1,103 @@
+.nav.nav-tabs {
+  border-bottom: 2px solid #4a5c66;
+  margin-top: 15px;
+  margin-bottom: 0; }
+  .nav.nav-tabs > li {
+    margin-bottom: 0;
+    margin-left: 2px; }
+  .nav.nav-tabs > li:first-child {
+    margin-left: 10px; }
+  .nav.nav-tabs > li > a, .nav.nav-tabs > li.active > a {
+    border-top: 2px solid #4a5c66;
+    border-right: 2px solid #4a5c66;
+    border-bottom: none;
+    border-left: 2px solid #4a5c66;
+    border-radius: 0;
+    padding-left: 12px; }
+  .nav.nav-tabs > li > a:hover {
+    background-color: #f2f5f6; }
+  .nav.nav-tabs > li.active > a {
+    background: #4a5c66;
+    color: white; }
+    .nav.nav-tabs > li.active > a:hover {
+      background: #4a5c66; }
+
+div#main div#j-main-container .chzn-container {
+  height: auto;
+  min-height: 1.8rem; }
+div#main div#j-main-container fieldset {
+  background-color: white;
+  position: relative; }
+  div#main div#j-main-container fieldset:first-of-type {
+    background-color: #f2f5f6; }
+  div#main div#j-main-container fieldset legend {
+    border: none;
+    font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 0;
+    padding: 1rem;
+    position: absolute;
+    text-transform: uppercase; }
+    div#main div#j-main-container fieldset legend .disclaimer {
+      font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+      font-size: .7rem;
+      font-style: italic;
+      text-transform: none; }
+
+div.header-container {
+  padding-bottom: 1rem; }
+  div.header-container div.header-title {
+    float: left;
+    font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 1.8rem; }
+  div.header-container .toolbar {
+    float: right; }
+  div.header-container .tool-wrapper {
+    display: inline-block; }
+    div.header-container .tool-wrapper a, div.header-container .tool-wrapper button {
+      cursor: pointer; }
+
+button {
+  border: none; }
+
+.btn-reset, .btn-reset:hover {
+  background-color: white;
+  color: #394a59;
+  margin-left: 8px; }
+
+.control-item {
+  width: 100%;
+  padding: .5rem 1rem; }
+  .control-item:first-of-type {
+    margin-top: 2.5rem; }
+
+.control-label {
+  float: left;
+  width: 12rem; }
+  .control-label .label-text {
+    font-size: .9rem; }
+  .control-label .icon-info {
+    font-size: .7rem; }
+
+.controls {
+  float: left; }
+  .controls .input-append {
+    font-size: 1.3rem; }
+    .controls .input-append > button.btn {
+      margin-top: .15rem; }
+      .controls .input-append > button.btn:focus, .controls .input-append > button.btn:active {
+        outline: none; }
+
+.clear {
+  clear: both; }
+
+.tooltip.right {
+  margin-left: -1rem; }
+.tooltip > .tooltip-inner {
+  background-color: #f2f5f6;
+  color: #394a59;
+  border: 1px solid #77858c;
+  border-radius: 0;
+  padding: .2rem;
+  font-size: .8rem; }

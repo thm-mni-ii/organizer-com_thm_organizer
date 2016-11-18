@@ -3,13 +3,13 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTemplateSchedulePDFA3
+ * @name        THM_OrganizerTemplateSchedule_Export_PDF_A3
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-class THM_OrganizerTemplateSchedulePDFA3
+class THM_OrganizerTemplateSchedule_Export_PDF_A3
 {
 	private $document;
 
@@ -147,7 +147,7 @@ class THM_OrganizerTemplateSchedulePDFA3
 		$columns     = array();
 		$columnIndex = 0;
 
-		$paperFormat = $this->parameters['paperFormat'];
+		$paperFormat = $this->parameters['documentFormat'];
 		foreach ($dates as $date)
 		{
 			$columns[$columnIndex]          = array();
@@ -918,7 +918,7 @@ class THM_OrganizerTemplateSchedulePDFA3
 		else
 		{
 			$this->document->AddPage();
-			$this->document->cell('', '', JText::_('COM_THM_ORGANIZER_NO_LESSONS_AVAILABLE'));
+			$this->document->cell('', '', JText::_('COM_THM_ORGANIZER_NO_LESSONS'));
 		}
 		$this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
 		ob_flush();

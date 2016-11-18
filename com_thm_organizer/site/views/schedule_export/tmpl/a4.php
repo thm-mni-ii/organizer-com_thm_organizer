@@ -4,13 +4,13 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTemplateSchedulePDFA4
+ * @name        THM_OrganizerTemplateSchedule_Export_PDF_A4
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-class THM_OrganizerTemplateSchedulePDFA4
+class THM_OrganizerTemplateSchedule_Export_PDF_A4
 {
 	private $document;
 
@@ -501,7 +501,7 @@ class THM_OrganizerTemplateSchedulePDFA4
 		else
 		{
 			$this->document->AddPage();
-			$this->document->cell('', '', JText::_('COM_THM_ORGANIZER_NO_LESSONS_AVAILABLE'));
+			$this->document->cell('', '', JText::_('COM_THM_ORGANIZER_NO_LESSONS'));
 		}
 		$this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
 		ob_flush();

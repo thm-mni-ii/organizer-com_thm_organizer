@@ -12,6 +12,8 @@
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
 
 /**
  * Class provides methods for retrieving program data
@@ -23,11 +25,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 class THM_OrganizerModelProgram_Ajax extends JModelLegacy
 {
 	/**
-	 * Constructor to set up the class variables and call the parent constructor
+	 * Gets the program options as a string
+	 *
+	 * @return string the concatenated plan program options
 	 */
-	public function __construct()
+	public function getPlanOptions()
 	{
-		parent::__construct();
+		$planOptions = THM_OrganizerHelperPrograms::getPlanPrograms();
+		return json_encode($planOptions);
 	}
 
 	/**

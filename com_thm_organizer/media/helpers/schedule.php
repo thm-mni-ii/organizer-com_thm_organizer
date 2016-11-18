@@ -388,7 +388,7 @@ class THM_OrganizerHelperSchedule
 	public static function getDates($parameters)
 	{
 		$date = $parameters['date'];
-		$type = $parameters['scheduleLength'];
+		$type = $parameters['dateRestriction'];
 
 		$startDayName = date('l', strtotime("Sunday + {$parameters['startDay']} days"));
 		$endDayName   = date('l', strtotime("Sunday + {$parameters['endDay']} days"));

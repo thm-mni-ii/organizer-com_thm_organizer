@@ -147,7 +147,7 @@ class THM_OrganizerHelperTeachers
 
 		if (!empty($selectedDepartments))
 		{
-			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = t.id');
+			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = lt.teacherID');
 			$departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
 			$query->where("dr.departmentID IN ($departmentIDs)");
 		}
@@ -183,10 +183,11 @@ class THM_OrganizerHelperTeachers
 		$teachers = array();
 		foreach ($teacherIDs as $teacherID)
 		{
-			$teachers[$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID, $short);
+			$name = THM_OrganizerHelperTeachers::getLNFName($teacherID, $short);
+			$teachers[$name] = $teacherID;
 		}
 
-		asort($teachers);
+		ksort($teachers);
 
 		return $teachers;
 	}

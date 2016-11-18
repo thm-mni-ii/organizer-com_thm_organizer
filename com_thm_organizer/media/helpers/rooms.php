@@ -87,7 +87,7 @@ class THM_OrganizerHelperRooms
 	}
 
 	/**
-	 * Getter method for teachers in database. Only retrieving the IDs here allows for formatting the names according to
+	 * Getter method for rooms in database. Only retrieving the IDs here allows for formatting the names according to
 	 * the needs of the calling views.
 	 *
 	 * @return string  all pools in JSON format
@@ -100,7 +100,7 @@ class THM_OrganizerHelperRooms
 		$default        = array();
 
 		$allRoomQuery = $dbo->getQuery(true);
-		$allRoomQuery->select('DISTINCT id, longname')->from('#__thm_organizer_rooms');
+		$allRoomQuery->select('DISTINCT id, name')->from('#__thm_organizer_rooms');
 		$dbo->setQuery($allRoomQuery);
 
 		try
@@ -167,9 +167,11 @@ class THM_OrganizerHelperRooms
 
 			if (!empty($count))
 			{
-				$relevantRooms[$room['id']] = $room['longname'];
+				$relevantRooms[$room['name']] = $room['id'];
 			}
 		}
+
+		ksort($relevantRooms);
 
 		return $relevantRooms;
 	}

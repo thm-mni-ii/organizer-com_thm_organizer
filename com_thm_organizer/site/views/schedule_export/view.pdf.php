@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        thm_organizerViewSchedule_Export
+ * @name        THM_OrganizerViewSchedule_Export
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -26,7 +26,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewSchedule_PDF extends JViewLegacy
+class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
 	public $document;
 
@@ -59,17 +59,17 @@ class THM_OrganizerViewSchedule_PDF extends JViewLegacy
 		$grid = $model->grid;
 		$lessons = $model->lessons;
 
-		switch ($parameters['paperFormat'])
+		switch ($parameters['documentFormat'])
 		{
 			case 'A3':
 				require_once __DIR__ . '/tmpl/a3.php';
-				new THM_OrganizerTemplateSchedulePDFA3($parameters, $grid, $lessons);
+				new THM_OrganizerTemplateSchedule_Export_PDF_A3($parameters, $grid, $lessons);
 				break;
 
 			case 'A4':
 			default:
 				require_once __DIR__ . '/tmpl/a4.php';
-				new THM_OrganizerTemplateSchedulePDFA4($parameters, $grid, $lessons);
+				new THM_OrganizerTemplateSchedule_Export_PDF_A4($parameters, $grid, $lessons);
 				break;
 
 		}

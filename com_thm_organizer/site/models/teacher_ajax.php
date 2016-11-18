@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class provides methods for building a model of the curriculum in JSON format
@@ -24,11 +26,16 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 {
 	/**
-	 * Constructor to set up the class variables and call the parent constructor
+	 * Gets the pool options as a string
+	 *
+	 * @param bool $short whether or not the options should use abbreviated names
+	 *
+	 * @return string the concatenated plan pool options
 	 */
-	public function __construct()
+	public function getPlanOptions($short = false)
 	{
-		parent::__construct();
+		$planOptions = THM_OrganizerHelperTeachers::getPlanTeachers($short);
+		return json_encode($planOptions);
 	}
 
 	/**

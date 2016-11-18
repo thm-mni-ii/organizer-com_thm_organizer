@@ -1,245 +1,34 @@
-.thm_organizer_new_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-new.png");
-}
+/*
+Sass::SyntaxError: ".thm_organizer_new_span" failed to @extend "%icon-new".
+The selector "%icon-new" was not found.
+Use "@extend %icon-new !optional" if the extend should be able to fail.
 
-.thm_organizer_edit_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-edit.png");
-}
 
-.thm_organizer_delete_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-trash.png");
-}
-
-.thm_organizer_submit_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-forward.png");
-}
-
-.thm_organizer_back_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-refresh.png");
-}
-
-.thm_organizer_list_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-list.png");
-}
-
-.thm_organizer_event_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-event.png");
-}
-
-.thm_organizer_save_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-save.png");
-}
-
-.thm_organizer_save_new_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-save-new.png");
-}
-
-.thm_organizer_preview_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-preview.png");
-}
-
-.thm_organizer_cancel_span {
-    background-image: url("../../../media/com_thm_organizer/images/icon-32-cancel.png");
-}
-
-.icon-organizer::before,
-a[href$="view=thm_organizer"]::before,
-a[href$="option=com_thm_organizer"]::before {
-    font-family: icomoon;
-    content: "\e60b";
-}
-
-.icon-organizer_degrees::before,
-a[href*="view=degree_manager"]::before {
-    font-family: icomoon;
-    content: "\e606";
-}
-
-.icon-organizer_users::before,
-a[href*="view=user_manager"]::before {
-    font-family: icomoon;
-    content: "\e01f";
-}
-
-.icon-organizer_monitors::before,
-a[href*="view=monitor_manager"]::before {
-    font-family: icomoon;
-    content: "\e01c";
-}
-
-.icon-organizer_teachers::before,
-a[href*="view=teacher_manager"]::before {
-    font-family: icomoon;
-    content: "\e604";
-}
-
-.icon-organizer_departments::before,
-a[href*="view=department_manager"]::before {
-    font-family: icomoon;
-    content: "\e244";
-}
-
-.icon-organizer_subjects::before,
-a[href*="view=subject_manager"]::before {
-    font-family: icomoon;
-    content: "\e603";
-}
-
-.icon-organizer_fields::before,
-a[href*="view=field_manager"]::before {
-    font-family: icomoon;
-    content: "\74";
-}
-
-.icon-organizer_colors::before,
-a[href*="view=color_manager"]::before {
-    font-family: icomoon;
-    content: "\e014";
-}
-
-.icon-organizer_subject_pools::before,
-a[href*="view=pool_manager"]::before {
-    font-family: icomoon;
-    content: "\43";
-}
-
-.icon-organizer_rooms::before,
-a[href*="view=room_manager"]::before {
-    font-family: icomoon;
-    content: "\e60a";
-}
-
-.icon-organizer_degree_programs::before,
-a[href*="view=program_manager"]::before {
-    font-family: icomoon;
-    content: "\31";
-}
-
-.icon-organizer_schedules::before,
-.icon-mni::before,
-a[href*="view=schedule_manager"]::before,
-a[href*="view=virtual_schedule_manager"]::before {
-    font-family: icomoon;
-    content: "\e600";
-}
-
-.icon-organizer_categories::before,
-a[href*="view=category_manager"]::before {
-    font-family: icomoon;
-    content: "\e601";
-}
-
-.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-    font-weight: bold;
-}
-
-.icon-add-Space {
-    font-size: 14px;
-}
-
-a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-    color: #80ba24;
-}
-
-a[href*="option=com_thm_organizer&view="]::before {
-    padding-right: 8px;
-}
-
-.thm_organizer_action_link,
-.thm_organizer_action_link_preview {
-    margin: 0;
-    padding: 1px 5px;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.thm_organizer_action_link {
-    display: inline-block;
-}
-
-.thm_organizer_action_link_preview {
-    display: block;
-    float: left;
-}
-
-.thm_organizer_action_span {
-    display: block;
-    float: none;
-    height: 32px;
-    margin: 0 auto 0 auto;
-    width: 32px;
-}
-
-.Popup {
-    background: #f2f5f6;
-    bottom: 70px;
-    display: none;
-    height: 650px;
-    left: 50%;
-    margin-left: -470px;
-    overflow: hidden;
-    padding: 10px;
-    position: fixed;
-    text-align: center;
-    top: 70px;
-    width: 920px;
-    z-index: 3;
-    -webkit-box-shadow: 0 0 10px #222;
-    -moz-box-shadow: 0 0 10px #222;
-    -ms-box-shadow: 0 0 10px #222;
-    -o-box-shadow: 0 0 10px #222;
-    box-shadow: 0 0 10px #222;
-}
-
-.closePopup {
-    height: 22px;
-    width: 920px;
-}
-
-.loader {
-    background: url("../../../media/com_thm_organizer/images/thm-ajax-loader.gif") 50% 50% no-repeat;
-    display: none;
-    height: 80%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-body.loading {
-    overflow: hidden;
-}
-
-body.loading .loader {
-    display: block;
-}
-
-.overlay {
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.65);
-    display: none;
-    height: 100%;
-    left: 0;
-    right: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 2;
-}
-
-.thm_organizer_divider_span {
-    border-right: solid 1px #c7c7c7;
-    display: block;
-    float: left;
-    height: 48px;
-    margin-right: 4px;
-    padding-left: 4px;
-    padding-right: 1px;
-    padding-top: 1px;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-    width: 2px;
-}
+Backtrace:
+toolbar.scss:40
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/extend.rb:61:in `block in check_extends_fired!'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/util/subset_map.rb:105:in `block in each_value'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/util/subset_map.rb:105:in `each'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/util/subset_map.rb:105:in `each_value'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/extend.rb:50:in `check_extends_fired!'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/visitors/extend.rb:16:in `visit'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:39:in `css_tree'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:20:in `render'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/engine.rb:278:in `render'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/plugin.rb:82:in `update_stylesheets'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/sass_scss.rb:361:in `watch_or_update'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/sass_scss.rb:51:in `process_result'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/base.rb:52:in `parse'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/lib/sass/exec/base.rb:19:in `parse!'
+C:/Ruby21/lib/ruby/gems/2.1.0/gems/sass-3.4.19/bin/scss:13:in `<top (required)>'
+C:/Ruby21/bin/scss:23:in `load'
+C:/Ruby21/bin/scss:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Sass::SyntaxError: \".thm_organizer_new_span\" failed to @extend \"%icon-new\".\A The selector \"%icon-new\" was not found.\A Use \"@extend %icon-new !optional\" if the extend should be able to fail.\A "; }

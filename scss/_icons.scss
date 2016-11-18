@@ -1,115 +1,113 @@
+//********************************************************************************************************************//
+// Icons - Backend with iconfont
+//********************************************************************************************************************//
+
+//icons zur jeweiligen View im Header hinzufuegen über Klassennamen
+//und icons zu sidebar und drop-down-menü hinzufuegen vor dem Link
+//********************************************************************************************************************//
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
   font-family: icomoon;
-  content: "\e60b"; }
+  content: "\e60b";
+}
 
 .icon-organizer_degrees::before,
 a[href*="view=degree_manager"]::before {
   font-family: icomoon;
-  content: "\e606"; }
+  content: "\e606";
+}
 
 .icon-organizer_users::before,
 a[href*="view=user_manager"]::before {
   font-family: icomoon;
-  content: "\e01f"; }
+  content: "\e01f";
+}
 
 .icon-organizer_monitors::before,
 a[href*="view=monitor_manager"]::before {
   font-family: icomoon;
-  content: "\e01c"; }
+  content: "\e01c";
+}
 
 .icon-organizer_teachers::before,
 a[href*="view=teacher_manager"]::before {
   font-family: icomoon;
-  content: "\e604"; }
+  content: "\e604";
+}
 
 .icon-organizer_departments::before,
 a[href*="view=department_manager"]::before {
   font-family: icomoon;
-  content: "\e244"; }
+  content: "\e244";
+}
 
 .icon-organizer_subjects::before,
 a[href*="view=subject_manager"]::before {
   font-family: icomoon;
-  content: "\e603"; }
+  content: "\e603";
+}
 
 .icon-organizer_fields::before,
 a[href*="view=field_manager"]::before {
   font-family: icomoon;
-  content: "\74"; }
+  content: "\74";
+}
 
 .icon-organizer_colors::before,
 a[href*="view=color_manager"]::before {
   font-family: icomoon;
-  content: "\e014"; }
+  content: "\e014";
+}
 
 .icon-organizer_subject_pools::before,
 a[href*="view=pool_manager"]::before {
   font-family: icomoon;
-  content: "\44"; }
+  content: "\44";
+}
 
 .icon-organizer_rooms::before,
 a[href*="view=room_manager"]::before {
   font-family: icomoon;
-  content: "\e60a"; }
+  content: "\e60a";
+}
 
 .icon-organizer_degree_programs::before,
 a[href*="view=program_manager"]::before {
   font-family: icomoon;
-  content: "\31"; }
+  content: "\31";
+}
 
 .icon-organizer_schedules::before,
 .icon-mni::before,
 a[href*="view=schedule_manager"]::before,
 a[href*="view=virtual_schedule_manager"]::before {
   font-family: icomoon;
-  content: "\e600"; }
+  content: "\e600";
+}
 
 .icon-organizer_categories::before,
 a[href*="view=category_manager"]::before {
   font-family: icomoon;
-  content: "\e601"; }
+  content: "\e601";
+}
 
+// Anpassung einzelner Icons
+//********************************************************************************************************************//
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .icon-add-Space {
-  font-size: 14px; }
+  font-size: 14px;
+}
 
+// Icon thm-logo in sidebar und drop-down-menü in thm-grün färben
 a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-  color: #80ba24; }
+  color: $thm;
+}
 
+// Allen Icons in der Navigation einen rechten Abstand zum Text geben
 a[href*="option=com_thm_organizer&view="]::before {
-  padding-right: 8px; }
-
-.contentpane.component #j-main-container.j-toggle-main {
-  float: none;
-  margin-left: 0;
-  width: 98%; }
-
-#adminForm {
-  width: 100%; }
-  #adminForm .js-stools-container-bar {
-    width: 100%; }
-    #adminForm .js-stools-container-bar .js-stools-field-list {
-      margin-bottom: 0; }
-      #adminForm .js-stools-container-bar .js-stools-field-list .chzn-single {
-        padding: 1px; }
-        #adminForm .js-stools-container-bar .js-stools-field-list .chzn-single > span {
-          margin-left: 4px;
-          margin-right: 22px; }
-
-.btn-wrapper, .ordering-select {
-  display: inline-block;
-  float: left;
-  margin-right: 4px; }
-
-.btn-wrapper.input-append {
-  margin-bottom: 0; }
-
-.ordering-select select {
-  margin-bottom: 0; }
-
-#toolbar-new {
-  float: right; }
+  padding-right: 8px;
+}

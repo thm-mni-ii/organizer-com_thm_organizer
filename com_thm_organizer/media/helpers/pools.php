@@ -99,10 +99,11 @@ class THM_OrganizerHelperPools
 		$pools = array();
 		foreach ($results as $pool)
 		{
-			$pools[$pool['id']] = $short? $pool['name'] : $pool['full_name'];
+			$name = $short? $pool['name'] : $pool['full_name'];
+			$pools[$name] = $pool['id'];
 		}
 
-		asort($pools);
+		ksort($pools);
 
 		return $pools;
 	}

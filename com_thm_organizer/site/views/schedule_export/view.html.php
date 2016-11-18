@@ -73,6 +73,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$this->model = $this->getModel();
 
 		$this->setResourceFields();
+		$this->setFilterFields();
 		$this->setFormatFields();
 
 		parent::display($tpl);
@@ -90,7 +91,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		if (!$this->compiler)
 		{
-			JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_FPDF_LIBRARY_NOT_INSTALLED');
+			JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_TCPDF_LIBRARY_NOT_INSTALLED');
 
 			return false;
 		}
@@ -109,9 +110,46 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('jquery.ui');
 		JHtml::_('behavior.calendar');
+		JHtml::_('formbehavior.chosen', 'select');
 
 		$document = JFactory::getDocument();
-		//$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/schedule_export.css');
+		$document->addScript(JUri::root() . '/media/com_thm_organizer/js/schedule_export.js');
+		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/schedule_export.css');
+	}
+
+	/**
+	 * Creates resource selection fields for the form
+	 *
+	 * @return void sets indexes in $this->fields['resouceSettings'] with html content
+	 */
+	private function setFilterFields()
+	{
+		$this->fields['filterFields'] = array();
+		$attribs = array('multiple' => 'multiple');
+
+		// Departments
+		$deptAttribs = $attribs;
+		$deptAttribs['onChange'] = 'repopulatePrograms();repopulateResources();';
+		$deptAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+		$planDepartmentOptions = $this->model->getDepartmentOptions();
+		$departmentSelect = JHtml::_('select.genericlist', $planDepartmentOptions, 'departmentIDs[]', $deptAttribs, 'value', 'text');
+		$this->fields['filterFields']['departmetIDs'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_DEPARTMENTS'),
+			'description' => JText::_('COM_THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
+			'input' => $departmentSelect
+		);
+
+		// Programs
+		$programAttribs = $attribs;
+		$programAttribs['onChange'] = 'repopulateResources();';
+		$programAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER');
+		$planProgramOptions = $this->model->getProgramOptions();
+		$programSelect = JHtml::_('select.genericlist', $planProgramOptions, 'programIDs[]', $programAttribs, 'value', 'text');
+		$this->fields['filterFields']['programIDs'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_PROGRAMS'),
+			'description' => JText::_('COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
+			'input' => $programSelect
+		);
 	}
 
 	/**
@@ -125,56 +163,66 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$attribs = array();
 
 		$fileFormats = array();
-		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
-		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_DOCUMENT'), 'value' => 'pdf');
-		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'), 'value' => 'xls');
-		$defaultFileFormat = 'pdf';
-		$fileFormatSelect = JHtml::_('select.genericlist', $fileFormats, 'fileFormat', $attribs, 'value', 'text', $defaultFileFormat);
-		$fileFormatLabel = JText::_('COM_THM_ORGANIZER_FILE_FORMATS');
-		$this->fields['formatSettings']['fileFormats'] = array('label' => $fileFormatLabel, 'input' => $fileFormatSelect);
-
-		$documentFormats = array();
-		$documentFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_A3_SHEET'), 'value' => 'A3');
-		$documentFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_A4_SHEET'), 'value' => 'A4');
-		$defaultDocumentFormat = 'A4';
-		$documentFormatSelect = JHtml::_('select.genericlist', $documentFormats, 'documentFormat', $attribs, 'value', 'text', $defaultDocumentFormat);
-		$documentFormatLabel = JText::_('COM_THM_ORGANIZER_DOCUMENT_FORMATS');
-		$this->fields['formatSettings']['documentFormats'] = array('label' => $documentFormatLabel, 'input' => $documentFormatSelect);
+		//$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
+		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A3_DOCUMENT'), 'value' => 'pdf.a3');
+		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A4_DOCUMENT'), 'value' => 'pdf.a4');
+		//$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'), 'value' => 'xls');
+		$defaultFileFormat = 'pdf.a4';
+		$fileFormatSelect = JHtml::_('select.genericlist', $fileFormats, 'format', $attribs, 'value', 'text', $defaultFileFormat);
+		$this->fields['formatSettings']['fileFormat'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_FILE_FORMAT'),
+			'description' => JText::_('COM_THM_ORGANIZER_FILE_FORMAT_DESC'),
+			'input' => $fileFormatSelect
+		);
 
 		$displayFormats = array();
-		$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_LIST'), 'value' => 'list');
-		$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_TIME_TABLE'), 'value' => 'timeTable');
+		//$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_LIST'), 'value' => 'list');
+		$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_SCHEDULE'), 'value' => 'schedule');
 		$defaultDisplayFormat = 'timeTable';
 		$displayFormatSelect = JHtml::_('select.genericlist', $displayFormats, 'displayFormat', $attribs, 'value', 'text', $defaultDisplayFormat);
-		$displayFormatLabel = JText::_('COM_THM_ORGANIZER_DOCUMENT_FORMATS');
-		$this->fields['formatSettings']['displayFormats'] = array('label' => $displayFormatLabel, 'input' => $displayFormatSelect);
+		$this->fields['formatSettings']['displayFormats'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_DISPLAY_FORMAT'),
+			'description' => JText::_('COM_THM_ORGANIZER_DISPLAY_FORMAT_DESC'),
+			'input' => $displayFormatSelect
+		);
 
 		$dateValue = date('Y-m-d');
-		$dateFormat = '%d.%m.%Y'; // TODO: Deal with this % bullshit somehow.
+
+		// TODO: Deal with this % bullshit somehow.
+		$dateFormat = '%d.%m.%Y';
 		$dateSelect = JHtml::_('calendar', $dateValue, 'date', 'date', $dateFormat, $attribs);
-		$dateLabel = JText::_('JDATE');
-		$this->fields['formatSettings']['date'] = array('label' => $dateLabel, 'input' => $dateSelect);
+		$this->fields['formatSettings']['date'] = array(
+			'label' => JText::_('JDATE'),
+			'description' => JText::_('COM_THM_ORGANIZER_DATE_DESC'),
+			'input' => $dateSelect
+		);
 
 		$dateRestrictions = array();
-		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_DAY'), 'value' => 'day');
-		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_WEEK'), 'value' => 'week');
-		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month');
-		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'semester');
-		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_CUSTOM'), 'value' => 'custom');
+		//$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_DAY_PLAN'), 'value' => 'day');
+		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_WEEK_PLAN'), 'value' => 'week');
+		//$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_MONTH_PLAN'), 'value' => 'month');
+		//$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_SEMESTER_PLAN'), 'value' => 'semester');
+		//$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_CUSTOM_PLAN'), 'value' => 'custom');
 		$defaultDateRestriction = 'week';
 		$dateRestrictionSelect = JHtml::_('select.genericlist', $dateRestrictions, 'dateRestriction', $attribs, 'value', 'text', $defaultDateRestriction);
-		$dateRestrictionLabel = JText::_('COM_THM_ORGANIZER_DATE_RESTRICTIONS');
-		$this->fields['formatSettings']['dateRestrictions'] = array('label' => $dateRestrictionLabel, 'input' => $dateRestrictionSelect);
+		$this->fields['formatSettings']['dateRestriction'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION'),
+			'description' => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION_DESC'),
+			'input' => $dateRestrictionSelect
+		);
 
 		// TODO: Add grid selection here
 
 		$scheduleFormats = array();
-		$scheduleFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_STACK_PLAN'), 'value' => 'stack');
-		$scheduleFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_SEQUENCE_PLAN'), 'value' => 'sequence');
+		$scheduleFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_STACKED_PLANS'), 'value' => 'stack');
+		$scheduleFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_SEQUENCED_PLANS'), 'value' => 'sequence');
 		$defaultScheduleFormat = 'sequence';
 		$scheduleFormatSelect = JHtml::_('select.genericlist', $scheduleFormats, 'scheduleFormat', $attribs, 'value', 'text', $defaultScheduleFormat);
-		$scheduleFormatLabel = JText::_('COM_THM_ORGANIZER_SCHEDULE_FORMATS');
-		$this->fields['formatSettings']['scheduleFormat'] = array('label' => $scheduleFormatLabel, 'input' => $scheduleFormatSelect);
+		/*$this->fields['formatSettings']['scheduleFormat'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_SCHEDULE_FORMAT'),
+			'description' => JText::_('COM_THM_ORGANIZER_SCHEDULE_FORMAT_DESC'),
+			'input' => $scheduleFormatSelect
+		);*/
 	}
 
 	/**
@@ -184,49 +232,40 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	 */
 	private function setResourceFields()
 	{
-		$this->fields['resourceSettings'] = array();
-		$attribs = array('size' => '10', 'multiple' => 'multiple');
-		$defaultOptions = array(array('value' => '', 'text' => JText::_('JALL')));
-
-		// Departments
-		$defaultDepartmentOption = '';
-		$planDepartmentOptions = $this->model->getDepartmentOptions();
-		$viewDepartmentOptions = array_merge($defaultOptions, $planDepartmentOptions);
-		$departmentSelect = JHtml::_('select.genericlist', $viewDepartmentOptions, 'departmentIDs', $attribs, 'value', 'text', $defaultDepartmentOption);
-		$departmentLabel = JText::_('COM_THM_ORGANIZER_DEPARTMENTS');
-		$this->fields['resourceSettings']['departmetIDs'] = array('label' => $departmentLabel, 'input' => $departmentSelect);
-
-		// Programs
-		$defaultProgramOption = '';
-		$planProgramOptions = $this->model->getProgramOptions();
-		$viewProgramOptions = array_merge($defaultOptions, $planProgramOptions);
-		$programSelect = JHtml::_('select.genericlist', $viewProgramOptions, 'programIDs', $attribs, 'value', 'text', $defaultProgramOption);
-		$programLabel = JText::_('COM_THM_ORGANIZER_PROGRAMS');
-		$this->fields['resourceSettings']['programIDs'] = array('label' => $programLabel, 'input' => $programSelect);
+		$this->fields['resourceFields'] = array();
+		$attribs = array('multiple' => 'multiple');
 
 		// Pools
-		$defaultPoolOption = '';
+		$poolAttribs = $attribs;
+		$poolAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
 		$planPoolOptions = $this->model->getPoolOptions();
-		$viewPoolOptions = array_merge($defaultOptions, $planPoolOptions);
-		$poolSelect = JHtml::_('select.genericlist', $viewPoolOptions, 'poolIDs', $attribs, 'value', 'text', $defaultPoolOption);
-		$poolLabel = JText::_('COM_THM_ORGANIZER_POOLS');
-		$this->fields['resourceSettings']['poolIDs'] = array('label' => $poolLabel, 'input' => $poolSelect);
-
+		$poolSelect = JHtml::_('select.genericlist', $planPoolOptions, 'poolIDs[]', $poolAttribs, 'value', 'text');
+		$this->fields['resourceFields']['poolIDs'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_POOLS'),
+			'description' => JText::_('COM_THM_ORGANIZER_POOLS_EXPORT_DESC'),
+			'input' => $poolSelect
+		);
 
 		// Teachers
-		$defaultTeacherOption = '';
+		$teacherAttribs = $attribs;
+		$teacherAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
 		$planTeacherOptions = $this->model->getTeacherOptions();
-		$viewTeacherOptions = array_merge($defaultOptions, $planTeacherOptions);
-		$teacherSelect = JHtml::_('select.genericlist', $viewTeacherOptions, 'teacherIDs', $attribs, 'value', 'text', $defaultTeacherOption);
-		$teacherLabel = JText::_('COM_THM_ORGANIZER_TEACHERS');
-		$this->fields['resourceSettings']['teacherIDs'] = array('label' => $teacherLabel, 'input' => $teacherSelect);
+		$teacherSelect = JHtml::_('select.genericlist', $planTeacherOptions, 'teacherIDs[]', $teacherAttribs, 'value', 'text');
+		$this->fields['resourceFields']['teacherIDs'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_TEACHERS'),
+			'description' => JText::_('COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC'),
+			'input' => $teacherSelect
+		);
 
 		// Rooms
-		$defaultRoomOption = '';
+		$roomAttribs = $attribs;
+		$roomAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
 		$planRoomOptions = $this->model->getRoomOptions();
-		$viewRoomOptions = array_merge($defaultOptions, $planRoomOptions);
-		$roomSelect = JHtml::_('select.genericlist', $viewRoomOptions, 'roomIDs', $attribs, 'value', 'text', $defaultRoomOption);
-		$roomLabel = JText::_('COM_THM_ORGANIZER_ROOMS');
-		$this->fields['resourceSettings']['roomIDs'] = array('label' => $roomLabel, 'input' => $roomSelect);
+		$roomSelect = JHtml::_('select.genericlist', $planRoomOptions, 'roomIDs[]', $roomAttribs, 'value', 'text');
+		$this->fields['resourceFields']['roomIDs'] = array(
+			'label' => JText::_('COM_THM_ORGANIZER_ROOMS'),
+			'description' => JText::_('COM_THM_ORGANIZER_ROOMS_EXPORT_DESC'),
+			'input' => $roomSelect
+		);
 	}
 }

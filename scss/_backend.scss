@@ -1,0 +1,191 @@
+//Hier unterteilte Hauptabschnitte: Navigation, Hauptbereich, Toolbar -> Neu/Bearbeiten
+@import 'variables';
+@import 'mixins';
+@import 'icons';
+
+//********************************************************************************************************************//
+// Navigation anpassen
+//********************************************************************************************************************//
+.nav-list li.active a, .dropdown-submenu:hover > a[href*="option=com_thm_organizer"], #menu-com-thm-organizer a:hover {
+  @include linearGradient($gr-color-top-item, $gr-color-bottom-item);
+}
+
+//********************************************************************************************************************//
+// Hauptbereich anpassen
+//********************************************************************************************************************//
+
+// Filterüberschrift im Tabellenkopf und Filter im Search-Bereich anpassen
+//********************************************************************************************************************//
+.searchArea a, thead a {
+  color: $background-grey;
+  &:hover {
+    color: $thm;
+  }
+}
+
+// Filterbreite anpassen, ohne: von chosen festgelegt
+.js-stools-field-filter, .js-stools-field-list {
+  max-width: 200px;
+  select {
+    width: auto;
+  }
+
+  span {
+    overflow: hidden !important; // sonst von jquery.searchtools.css überschrieben
+  }
+}
+
+// Tabelle anpassen
+//********************************************************************************************************************//
+.table-striped {
+  margin-top: 7px;
+  border-collapse: separate;
+  border-top: 1px solid #bbb;
+  @include border-radius(3px 3px 0 0);
+}
+
+// Tabellenkopf (thead) anpassen *************************************************************************************//
+thead {
+  color: $background-grey;
+}
+
+tr:nth-child(1) th {
+  @include linearGradient($gr-color-bottom-bg, $gr-color-top-bg);
+  padding-top: 5px;
+  padding-bottom: 2px;
+  padding-left: 1px;
+  &:first-child {
+    @include border-radius(3px 0 0 0);
+  }
+
+  &:last-child {
+    @include border-radius(0 3px 0 0);
+  }
+}
+
+tr:nth-child(n+1) th {
+  &:first-child {
+    border-left: 1px solid #bbb;
+  }
+
+  &:last-child {
+    border-right: 1px solid #bbb;
+  }
+}
+
+tr:nth-last-child(1) th {
+  @include linearGradient($gr-color-top-bg, $gr-color-bottom-bg);
+  padding-top: 0;
+  padding-left: 0;
+  border: none;
+  border-bottom: 1px solid #bbb;
+  &:first-child {
+    border-bottom-left-radius: 3px;
+    padding-left: 8px;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 3px;
+  }
+}
+
+// Tabellenkörper (tbody) anpassen  **********************************************************************************//
+tbody tr:first-child td {
+  border-top-style: none;
+}
+
+//********************************************************************************************************************//
+// Toolbar -> Neu/Bearbeiten
+//********************************************************************************************************************//
+
+// Style fuer Datei-Upload anpassen , nur in Chrome notwendig (Vergleich mit Firefox,IE)
+// beispielsweise in Stundenpläne -> Neu
+//********************************************************************************************************************//
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .controls input[type="file"] {
+    line-height: 0;
+    padding-top: 3px;
+  }
+}
+
+// Mapping anpassen
+// Modulpool bearbeiten -> Studiengänge & Modulpools
+//********************************************************************************************************************//
+#mapping, #mappings {
+  @media (min-width: 768px) {
+    .control-group:nth-of-type(1) {
+      width: 50%;
+      float: left;
+      .controls select {
+        width: 95%;
+      }
+    }
+
+    .control-group:nth-of-type(2) {
+      width: 50%;
+      float: right;
+      .controls select {
+        width: 95%;
+      }
+    }
+
+    .control-group:nth-of-type(3) {
+      clear: both;
+    }
+  }
+
+  .chzn-container-multi .chzn-choices li {
+    float: none;
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+
+  .search-choice {
+    border: 1px solid #bbb;
+    @include linearGradient(#ffffff, #f4f4f4);
+    line-height: 14px;
+  }
+
+  .chzn-choices {
+    @include linearGradient($gr-color-top-bg, $gr-color-bottom-bg);
+    border: 1px solid #bbb;
+    @include border-radius(3px);
+  }
+
+  .highlighted {
+    @include linearGradient($gr-color-top-item, $gr-color-bottom-item);
+  }
+
+  table {
+    width: 98%;
+  }
+
+  thead {
+    tr:nth-child(1) th {
+      padding: 5px 0 5px 8px;
+    }
+    .thm_organizer_pools_ordering {
+      width: 200px;
+    }
+  }
+
+  tbody {
+    .child-order {
+      .btn-small {
+        padding: 1px 4px;
+        font-size: 12px;
+        line-height: 8px;
+      }
+
+      .text-area-order {
+        padding: 1px 2px;
+        text-align: center;
+        height: 14px;
+      }
+    }
+
+    .child-name {
+      padding-right: 30px;
+    }
+  }
+}

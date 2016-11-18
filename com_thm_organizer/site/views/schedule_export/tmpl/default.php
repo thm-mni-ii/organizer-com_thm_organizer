@@ -13,59 +13,97 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
-$attribs = array();
-
-$fileFormats = array();
-$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
-$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_DOCUMENT'), 'value' => 'pdf');
-$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'), 'value' => 'xls');
-$defaultFileFormat = 'pdf';
-
-$documentFormats = array();
-$documentFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_A3_SHEET'), 'value' => 'A3');
-$documentFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_A4_SHEET'), 'value' => 'A4');
-$defaultDocumentFormat = 'A4';
-
-$displayFormats = array();
-$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_LIST'), 'value' => 'list');
-$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_TIME_TABLE'), 'value' => 'timeTable');
-$defaultDisplayFormat = 'timeTable';
+$infoSpan = '&nbsp;<span class="icon-info"></span>';
 
 ?>
+<script type="text/javascript">
+	var rootURI = '<?php echo JUri::root(); ?>', allText = '<?php echo JText::_('JALL');?>',
+		selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>';
+</script>
 <div id="j-main-container">
-	<div id="header-container" class="header-container">
-		<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
-	</div>
-	<form action="<?php echo $action; ?>" method="post" name="adminForm" id="adminForm" target="_blank">
-<?php
-		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'resources'));
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'resources', $this->lang->_('COM_THM_ORGANIZER_RESOURCE_SETTINGS'));
-
-		foreach ($this->fields['resourceSettings'] as $resourceID => $resource)
-		{
-			echo '<div class="control-label">';
-			echo '<label for="' . $resourceID . '">' . $resource['label'] . '</label>';
-			echo '</div>';
-			echo '<div class="controls">';
-			echo $resource['input'];
-			echo '</div>';
-		}
-
-		echo JHtml::_('bootstrap.endTab');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'format', $this->lang->_('COM_THM_ORGANIZER_FORMAT_SETTINGS'));
-
-		foreach ($this->fields['formatSettings'] as $formatFieldID => $formatField)
-		{
-			echo '<div class="control-label">';
-			echo '<label for="' . $formatFieldID . '">' . $formatField['label'] . '</label>';
-			echo '</div>';
-			echo '<div class="controls">';
-			echo $formatField['input'];
-			echo '</div>';
-		}
-
-		echo JHtml::_('bootstrap.endTab');
-		echo JHtml::_('bootstrap.endTabSet');
-?>
+	<form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank" onsubmit="validateSelection();setFormat();">
+		<div id="header-container" class="header-container">
+			<div class="header-title">
+				<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
+			</div >
+			<div class="toolbar">
+				<button type="submit" class="btn">
+					<?php echo JText::_('JSUBMIT')?>
+					<span class="icon-download"></span>
+				</button>
+				<button type="reset" class="btn">
+					<?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET')?>
+					<span class="icon-cancel"></span>
+				</button>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<fieldset>
+			<legend>
+				<?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION'); ?>
+				<span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION_DESC'); ?></span>
+			</legend>
+			<?php
+			foreach ($this->fields['resourceFields'] as $resourceID => $resource)
+			{
+				echo '<div class="control-item">';
+				echo '<div class="control-label">';
+				echo '<label title="' . $resource['description'] . '" for="' . $resourceID . '">';
+				echo '<span class="label-text">' . $resource['label'] . '</span>' . $infoSpan;
+				echo '</label>';
+				echo '</div>';
+				echo '<div class="controls">';
+				echo $resource['input'];
+				echo '</div>';
+				echo '<div class="clear"></div>';
+				echo '</div>';
+			}
+			?>
+		</fieldset>
+		<fieldset>
+			<legend>
+				<?php echo $this->lang->_('COM_THM_ORGANIZER_FILTERS'); ?>
+				<span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_OPTIONAL'); ?></span>
+			</legend>
+			<?php
+			foreach ($this->fields['filterFields'] as $filterID => $filter)
+			{
+				echo '<div class="control-item">';
+				echo '<div class="control-label">';
+				echo '<label title="' . $filter['description'] . '" for="' . $filterID . '">';
+				echo '<span class="label-text">' . $filter['label'] . '</span>' . $infoSpan;
+				echo '</label>';
+				echo '</div>';
+				echo '<div class="controls">';
+				echo $filter['input'];
+				echo '</div>';
+				echo '<div class="clear"></div>';
+				echo '</div>';
+			}
+			?>
+		</fieldset>
+		<fieldset>
+			<legend><?php echo $this->lang->_('COM_THM_ORGANIZER_FORMAT_SETTINGS'); ?></legend>
+			<?php
+			foreach ($this->fields['formatSettings'] as $formatFieldID => $formatField)
+			{
+				echo '<div class="control-item">';
+				echo '<div class="control-label">';
+				echo '<label title="' . $formatField['description'] . '" for="' . $formatFieldID . '">';
+				echo '<span class="label-text">' . $formatField['label'] . '</span>' . $infoSpan;
+				echo '</label>';
+				echo '</div>';
+				echo '<div class="controls">';
+				echo $formatField['input'];
+				echo '</div>';
+				echo '<div class="clear"></div>';
+				echo '</div>';
+			}
+			?>
+		</fieldset>
+		<input type="hidden" name="option" value="com_thm_organizer" />
+		<input type="hidden" name="view" value="schedule_export" />
+		<input type="hidden" name="format" value="" />
+		<input type="hidden" name="documentFormat" value="" />
 	</form>
 </div>

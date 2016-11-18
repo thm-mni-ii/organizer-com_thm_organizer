@@ -1,148 +1,123 @@
 fieldset.filter-bar, div.filter-bar {
-    background-color: #f2f5f6;
-    border: 1px solid #77858c;
-    clear: both;
-    color: #394a59;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    overflow: auto;
-    padding: 8px 4px 4px 4px;
-    z-index: 12;
-    margin-bottom: 4px;
-    -webkit-box-shadow: 2px 2px 4px #a4adb2;
-    -moz-box-shadow: 2px 2px 4px #a4adb2;
-    -ms-box-shadow: 2px 2px 4px #a4adb2;
-    -o-box-shadow: 2px 2px 4px #a4adb2;
-    box-shadow: 2px 2px 4px #a4adb2;
-}
+  background-color: #f2f5f6;
+  border: 1px solid #77858c;
+  clear: both;
+  color: #394a59;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  overflow: auto;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  margin-bottom: 4px;
+  -webkit-box-shadow: 2px 2px 4px #a4adb2;
+  -moz-box-shadow: 2px 2px 4px #a4adb2;
+  -ms-box-shadow: 2px 2px 4px #a4adb2;
+  -o-box-shadow: 2px 2px 4px #a4adb2;
+  box-shadow: 2px 2px 4px #a4adb2; }
 
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
-    font-family: icomoon;
-    content: "\e60b";
-}
+  font-family: icomoon;
+  content: "\e60b"; }
 
 .icon-organizer_degrees::before,
 a[href*="view=degree_manager"]::before {
-    font-family: icomoon;
-    content: "\e606";
-}
+  font-family: icomoon;
+  content: "\e606"; }
 
 .icon-organizer_users::before,
 a[href*="view=user_manager"]::before {
-    font-family: icomoon;
-    content: "\e01f";
-}
+  font-family: icomoon;
+  content: "\e01f"; }
 
 .icon-organizer_monitors::before,
 a[href*="view=monitor_manager"]::before {
-    font-family: icomoon;
-    content: "\e01c";
-}
+  font-family: icomoon;
+  content: "\e01c"; }
 
 .icon-organizer_teachers::before,
 a[href*="view=teacher_manager"]::before {
-    font-family: icomoon;
-    content: "\e604";
-}
+  font-family: icomoon;
+  content: "\e604"; }
 
 .icon-organizer_departments::before,
 a[href*="view=department_manager"]::before {
-    font-family: icomoon;
-    content: "\e244";
-}
+  font-family: icomoon;
+  content: "\e244"; }
 
 .icon-organizer_subjects::before,
 a[href*="view=subject_manager"]::before {
-    font-family: icomoon;
-    content: "\e603";
-}
+  font-family: icomoon;
+  content: "\e603"; }
 
 .icon-organizer_fields::before,
 a[href*="view=field_manager"]::before {
-    font-family: icomoon;
-    content: "\74";
-}
+  font-family: icomoon;
+  content: "\74"; }
 
 .icon-organizer_colors::before,
 a[href*="view=color_manager"]::before {
-    font-family: icomoon;
-    content: "\e014";
-}
+  font-family: icomoon;
+  content: "\e014"; }
 
 .icon-organizer_subject_pools::before,
 a[href*="view=pool_manager"]::before {
-    font-family: icomoon;
-    content: "\44";
-}
+  font-family: icomoon;
+  content: "\44"; }
 
 .icon-organizer_rooms::before,
 a[href*="view=room_manager"]::before {
-    font-family: icomoon;
-    content: "\e60a";
-}
+  font-family: icomoon;
+  content: "\e60a"; }
 
 .icon-organizer_degree_programs::before,
 a[href*="view=program_manager"]::before {
-    font-family: icomoon;
-    content: "\31";
-}
+  font-family: icomoon;
+  content: "\31"; }
 
 .icon-organizer_schedules::before,
 .icon-mni::before,
 a[href*="view=schedule_manager"]::before,
 a[href*="view=virtual_schedule_manager"]::before {
-    font-family: icomoon;
-    content: "\e600";
-}
+  font-family: icomoon;
+  content: "\e600"; }
 
 .icon-organizer_categories::before,
 a[href*="view=category_manager"]::before {
-    font-family: icomoon;
-    content: "\e601";
-}
+  font-family: icomoon;
+  content: "\e601"; }
 
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-    font-weight: bold;
-}
+  font-weight: bold; }
 
 .icon-add-Space {
-    font-size: 14px;
-}
+  font-size: 14px; }
 
 a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-    color: #80ba24;
-}
+  color: #80ba24; }
 
 a[href*="option=com_thm_organizer&view="]::before {
-    padding-right: 8px;
-}
+  padding-right: 8px; }
 
 fieldset.filter-bar, div.filter-bar {
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
-}
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px; }
 
 fieldset.filter-bar button, div.filter-bar button {
-    margin: 0;
-}
+  margin: 0; }
 
 table {
-    width: 100%;
-}
+  width: 100%; }
 
 th, td {
-    text-align: center;
-}
+  text-align: center; }
 
 th.column0, td.column0 {
-    max-width: .5em;
-}
+  max-width: .5em; }
 
 th.column3, td.column3, th.column4, td.column4 {
-    max-width: 3em;
-}
+  max-width: 3em; }
