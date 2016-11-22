@@ -56,7 +56,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 	}
 
 	/**
-	 * THM_OrganizerTemplateSchedulePDFA4 constructor.
+	 * THM_OrganizerTemplateSchedule_Export_PDF_A3 constructor.
 	 *
 	 * @param array $parameters the parameters for document
 	 * @param array $grid       the lesson grid for use in display
@@ -880,9 +880,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 
 			$lineCount  = max($minLineCount, $row['lineCount']);
 			$cellHeight = $lineCount * $this->parameters['cellLineHeight'];
-
 			$timeText = $outputTime ? $rowHeader['text'] : '';
-			$border   = $rowNumber == $lastRowNumber ? $this->getLastCellBorder() : $this->getRowHeadCellBorder();
+			$border   = $rowNumber == $lastRowNumber ? $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
 			$this->outputTimeCell($cellHeight, $timeText, $border);
 			$outputTime = false;
 			$rowNumber++;

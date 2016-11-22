@@ -18,23 +18,25 @@ $infoSpan = '&nbsp;<span class="icon-info"></span>';
 ?>
 <script type="text/javascript">
 	var rootURI = '<?php echo JUri::root(); ?>', allText = '<?php echo JText::_('JALL');?>',
-		selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>';
+		selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
+		downloadText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
+		generateText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>';
 </script>
 <div id="j-main-container">
-	<form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank" onsubmit="validateSelection();setFormat();">
+	<form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank" onsubmit="validateSelection();">
 		<div id="header-container" class="header-container">
 			<div class="header-title">
 				<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
 			</div >
 			<div class="toolbar">
 				<button type="submit" class="btn">
-					<?php echo JText::_('JSUBMIT')?>
+					<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD')?>
 					<span class="icon-download"></span>
 				</button>
-				<button type="reset" class="btn">
+				<!--<button type="reset" class="btn">
 					<?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET')?>
 					<span class="icon-cancel"></span>
-				</button>
+				</button>-->
 			</div>
 			<div class="clear"></div>
 		</div>

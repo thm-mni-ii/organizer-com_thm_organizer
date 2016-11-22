@@ -15,8 +15,6 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -29,14 +27,6 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
 	public $document;
-
-	private $cellLineHeight = 3;
-
-	private $dataWidth = 45;
-
-	private $padding = 2;
-
-	private $timeWidth = 11;
 
 	/**
 	 * Method to get extra
@@ -61,11 +51,13 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		switch ($parameters['documentFormat'])
 		{
+			case 'a3':
 			case 'A3':
 				require_once __DIR__ . '/tmpl/a3.php';
 				new THM_OrganizerTemplateSchedule_Export_PDF_A3($parameters, $grid, $lessons);
 				break;
 
+			case 'a4':
 			case 'A4':
 			default:
 				require_once __DIR__ . '/tmpl/a4.php';

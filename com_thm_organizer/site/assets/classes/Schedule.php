@@ -3,13 +3,14 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        Schedule
- * @description Schedule file from com_thm_organizer
+ * @name        THM_OrganizerViewSchedule_Export
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/scheduledirector.php";
 

@@ -19,7 +19,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
 	private $parameters;
 
 	/**
-	 * THM_OrganizerTemplateSchedulePDFA4 constructor.
+	 * THM_OrganizerTemplateSchedule_Export_PDF_A4 constructor.
 	 *
 	 * @param array $parameters the parameters for document
 	 * @param array $grid       the lesson grid for use in display

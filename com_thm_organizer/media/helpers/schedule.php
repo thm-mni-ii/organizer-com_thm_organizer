@@ -388,10 +388,13 @@ class THM_OrganizerHelperSchedule
 	public static function getDates($parameters)
 	{
 		$date = $parameters['date'];
-		$type = $parameters['dateRestriction'];
+		$type = $parameters['format'] == 'ics'? 'ics' : $parameters['dateRestriction'];
 
-		$startDayName = date('l', strtotime("Sunday + {$parameters['startDay']} days"));
-		$endDayName   = date('l', strtotime("Sunday + {$parameters['endDay']} days"));
+		$startDayNo = empty($parameters['startDay'])? 1 : $parameters['startDay'];
+		$endDayNo = empty($parameters['endDay'])? 6 : $parameters['endDay'];
+
+		$startDayName = date('l', strtotime("Sunday + $startDayNo days"));
+		$endDayName   = date('l', strtotime("Sunday + $endDayNo days"));
 
 		switch ($type)
 		{
@@ -420,6 +423,15 @@ class THM_OrganizerHelperSchedule
 
 				// Get the start and end dates of the planning period
 				//$dates = array('startDate' => $date, 'endDate' => $date);
+				break;
+
+			case 'ics':
+
+				// ICS calendars get the next 6 months of data
+				$startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
+				$previewEnd = date('Y-m-d', strtotime('+6 month', strtotime($date)));
+				$endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($previewEnd)));
+				$dates      = array('startDate' => $startDate, 'endDate' => $endDate);
 				break;
 		}
 

@@ -67,8 +67,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		$this->modifyDocument();
 
-		$menu       = JFactory::getApplication()->getMenu()->getActive();
-		$this->lang = THM_OrganizerHelperLanguage::getLanguage($menu->params->get('initialLanguage', 'de'));
+		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
 		$this->model = $this->getModel();
 
@@ -162,8 +161,10 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$this->fields['formatSettings'] = array();
 		$attribs = array();
 
+		$formatAttribs = $attribs;
+		$formatAttribs['onChange'] = 'setFormat();';
 		$fileFormats = array();
-		//$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
+		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
 		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A3_DOCUMENT'), 'value' => 'pdf.a3');
 		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A4_DOCUMENT'), 'value' => 'pdf.a4');
 		//$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'), 'value' => 'xls');
