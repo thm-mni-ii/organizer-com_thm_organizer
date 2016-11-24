@@ -49,22 +49,9 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$grid = $model->grid;
 		$lessons = $model->lessons;
 
-		switch ($parameters['documentFormat'])
-		{
-			case 'a3':
-			case 'A3':
-				require_once __DIR__ . '/tmpl/a3.php';
-				new THM_OrganizerTemplateSchedule_Export_PDF_A3($parameters, $grid, $lessons);
-				break;
-
-			case 'a4':
-			case 'A4':
-			default:
-				require_once __DIR__ . '/tmpl/a4.php';
-				new THM_OrganizerTemplateSchedule_Export_PDF_A4($parameters, $grid, $lessons);
-				break;
-
-		}
+		$fileName = $parameters['documentFormat'] . '_' . $parameters['displayFormat'] . '_' . $parameters['pdfWeekFormat'];
+		require_once __DIR__ . "/tmpl/$fileName.php";
+		new THM_OrganizerTemplateSchedule_Export_PDF($parameters, $grid, $lessons);
 	}
 
 	/**

@@ -429,15 +429,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		$this->setResourceArray('teacher', $parameters);
 		$this->setResourceArray('room', $parameters);
 
-		//$this->setResourceArray('subject', $parameters);
-		//$this->setResourceArray('lesson', $parameters);
-		//$this->setResourceArray('instance', $parameters);
-
-
 		$parameters['mySchedule'] = $input->getBool('mySchedule', false);
 
-		$allowedLengths                = array('day', 'week', 'month', 'period');
-		$rawLength                     = $input->getString('scheduleLength', 'week');
+		$allowedLengths                = array('day', 'week', 'month', 'semester', 'custom');
+		$rawLength                     = $input->getString('dateRestriction', 'week');
 		$parameters['dateRestriction'] = in_array($rawLength, $allowedLengths) ? $rawLength : 'week';
 
 		$rawDate            = $input->getString('date');
@@ -452,12 +447,14 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
 		switch ($parameters['format'])
 		{
-			case 'ics':
-				break;
 			case 'pdf':
 				$parameters['documentFormat'] = $input->getString('documentFormat', 'A4');
-			default:
+				$parameters['displayFormat'] = $input->getString('displayFormat', 'schedule');
 				$parameters['gridID'] = $input->getInt('gridID', 0);
+				$parameters['pdfWeekFormat'] = $input->getString('pdfWeekFormat', 'sequence');
+				break;
+			case 'xls':
+				$parameters['xlsWeekFormat'] = $input->getString('xlsWeekFormat', 'sequence');
 				break;
 		}
 
@@ -528,11 +525,8 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
 		$dates = THM_OrganizerHelperSchedule::getDates($this->parameters);
 
-		$this->parameters['docTitle']  = $docTitle . ' ' . $dates['startDate'];
+		$this->parameters['docTitle']  = $docTitle . $dates['startDate'];
 		$this->parameters['pageTitle'] = $pageTitle;
-
-		$timeConstant       = 'COM_THM_ORGANIZER_' . strtoupper($this->parameters['dateRestriction']) . '_PLAN';
-		$this->parameters['headerString'] = JText::_($timeConstant) . ": " . THM_OrganizerHelperComponent::formatDate($dates['startDate']);
 	}
 
 

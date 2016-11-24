@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_SITE . '/media/com_thm_organizer/icalcreator/iCalcreator.php';
+jimport('phpexcel.library.PHPExcel');
 
 /**
  * Class provides methods to create a schedule in ics format
@@ -30,7 +30,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 	private $lessons;
 
-	private $calendar;
+	private $spreadsheet;
 
 	/**
 	 * Method to get extra
@@ -44,8 +44,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$model            = $this->getModel();
 		$this->parameters = $model->parameters;
 		$this->lessons    = $model->lessons;
-
-		$this->createCalendar();
+echo "<pre>" . print_r($this->parameters, true) . "</pre>";die;
+		$this->createSpreadSheet();
 		$this->addData();
 
 		$this->calendar->returnCalendar();
@@ -53,37 +53,26 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	}
 
 	/**
-	 * Method to create a ics schedule
+	 * Method to create an xls spreadsheet
 	 *
-	 * @return void sets the object variable calendar
+	 * @return void creates the object variable spreadsheet
 	 */
-	public function createCalendar()
+	public function createSpreadSheet()
 	{
-		$vCalendar = new vcalendar;
-		$vCalendar->setConfig('unique_id', $this->parameters['docTitle']);
-		$vCalendar->setConfig("lang", THM_OrganizerHelperLanguage::getShortTag());
-		$vCalendar->setProperty("x-wr-calname", $this->parameters['pageTitle']);
-		$vCalendar->setProperty("X-WR-CALDESC", $this->parameters['headerString']);
-		$vCalendar->setProperty("X-WR-TIMEZONE", "Europe/Berlin");
-		$vCalendar->setProperty("METHOD", "PUBLISH");
+		$spreadSheet = new PHPExcel();
 
-		$vTimeZone1 = new vtimezone;
-		$vTimeZone1->setProperty("TZID", "Europe/Berlin");
+		$userName = JFactory::getUser()->name;
+		$spreadSheet->getProperties()->setCreator("THM Organizer")
+			->setLastModifiedBy($userName)
+			->setTitle($this->parameters['pageTitle'])
+			->setDescription($this->parameters['headerString']);
 
-		$vTimeZone2 = new vtimezone('standard');
-		$vTimeZone2->setProperty("DTSTART", 1601, 1, 1, 0, 0, 0);
-		$vTimeZone2->setProperty("TZNAME", "Standard Time");
-
-		$vTimeZone1->setComponent($vTimeZone2);
-		$vCalendar->setComponent($vTimeZone1);
-
-		$this->calendar = $vCalendar;
+		$this->spreadsheet = $spreadSheet;
 	}
 
 	/**
-	 * Adds events to the calendar
 	 *
-	 * @return void calls the function to add individual events to the calendar
+	 * @return void
 	 */
 	private function addData()
 	{

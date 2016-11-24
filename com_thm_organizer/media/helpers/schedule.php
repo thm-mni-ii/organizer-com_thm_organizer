@@ -419,10 +419,26 @@ class THM_OrganizerHelperSchedule
 				$dates      = array('startDate' => $startDate, 'endDate' => $endDate);
 				break;
 
-			case 'period':
+			case 'semester':
 
-				// Get the start and end dates of the planning period
-				//$dates = array('startDate' => $date, 'endDate' => $date);
+				$dbo = JFactory::getDbo();
+				$query = $dbo->getQuery(true);
+				$query->select('startDate, endDate')
+					->from('#__thm_organizer_planning_periods')
+					->where("'$date' BETWEEN startDate AND endDate");
+				$dbo->setQuery($query);
+
+				try
+				{
+					$dates = $dbo->loadAssoc();
+				}
+				catch (Exception $exc)
+				{
+					JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+					return array();
+				}
+
 				break;
 
 			case 'ics':

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Joomla component
  * @package     THM_Organizer
@@ -9,7 +10,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-class THM_OrganizerTemplateSchedule_Export_PDF_A3
+class THM_OrganizerTemplateSchedule_Export_PDF
 {
 	private $document;
 
@@ -73,21 +74,21 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 		if ($resourceCount > 1)
 		{
 			$this->aggregateRequestedResources();
-			$this->parameters['dataWidth'] = 62;
+			$this->parameters['dataWidth']      = $this->parameters['dateRestriction'] == 'day' ? 164 : 62;
 			$this->parameters['cellLineHeight'] = 3.6;
 		}
 		else
 		{
-			$this->parameters['dataWidth'] = 66;
+			$this->parameters['dataWidth']      = $this->parameters['dateRestriction'] == 'day' ? 188 : 66;
 			$this->parameters['cellLineHeight'] = 3.8;
 		}
 
-		$this->parameters['resourceCount']  = $resourceCount;
-		$this->parameters['padding']        = 2;
-		$this->parameters['timeWidth']      = 11;
-		$this->parameters['resourceWidth']  = 24;
+		$this->parameters['resourceCount'] = $resourceCount;
+		$this->parameters['padding']       = 2;
+		$this->parameters['timeWidth']     = 11;
+		$this->parameters['resourceWidth'] = 24;
 
-		$this->document   = $this->getDocument();
+		$this->document = $this->getDocument();
 		$this->render();
 	}
 
@@ -150,11 +151,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 		$paperFormat = $this->parameters['documentFormat'];
 		foreach ($dates as $date)
 		{
-			$columns[$columnIndex]          = array();
-			$columns[$columnIndex]['value'] = $date;
-			$text                           = $paperFormat == 'A4' ?
-				THM_OrganizerHelperComponent::formatDateShort($date, true) : THM_OrganizerHelperComponent::formatDate($date, true);
-			$columns[$columnIndex]['text']  = $text;
+			$columns[$date]          = array();
+			$columns[$date]['value'] = $date;
+			$columns[$date]['text']  = THM_OrganizerHelperComponent::formatDate($date, true);
 			$columnIndex++;
 		}
 
@@ -168,21 +167,19 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 	 */
 	private function getDocument()
 	{
-		$document = new THM_OrganizerTCPDFScheduleA3();
+		$orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
+		$document    = new THM_OrganizerTCPDFSchedule($orientation);
 		$document->SetCreator('THM Organizer');
 		$document->SetAuthor(JFactory::getUser()->name);
-
-		$pageTitle = $this->parameters['pageTitle'];
-		$document->SetTitle($pageTitle);
-		$document->SetHeaderData('thm.svg', 40, $pageTitle, $this->parameters['headerString'], array(57, 74, 89));
-
+		$document->SetTitle($this->parameters['pageTitle']);
 		$document->SetMargins(5, 25, 5);
 		$document->setHeaderMargin(5);
 
 		// This is here to access the bottom margin.
-		$document->setPageOrientation('L', false, '15');
+		$document->setPageOrientation($orientation, false, '15');
 		$document->setCellPaddings('', .5, '', .5);
 		$document->SetTextColor(57, 74, 89);
+		$document->setHeaderTemplateAutoreset(true);
 
 		return $document;
 	}
@@ -629,13 +626,15 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 	/**
 	 * Outputs an empty row for the given time
 	 *
-	 * @param int    $lineCount   the number of lines calculated for the time text
-	 * @param string $timeText    the text to be output for the row time
-	 * @param int    $columnCount the number of date columns in the table
+	 * @param int    $lineCount     the number of lines calculated for the time text
+	 * @param string $timeText      the text to be output for the row time
+	 * @param array  $columnHeaders the column headers / indexes
+	 * @param string $startDate     the first column date/index to use
+	 * @param string $breakDate     the last column date/index to iterate
 	 *
 	 * @return void
 	 */
-	private function outputEmptyRow($lineCount, $timeText, $columnCount)
+	private function outputEmptyRow($lineCount, $timeText, $columnHeaders, $startDate, $breakDate)
 	{
 		$originalY = $this->document->getY();
 		$newY      = $originalY + $this->padding;
@@ -654,14 +653,19 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 			);
 		}
 
-		for ($i = 0; $i < $columnCount; $i++)
+		for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 		{
-			$this->document->MultiCell(
-				$this->parameters['dataWidth'],
-				$height,
-				'',
-				'RB', 'C', 0, 0, '', '', true, 0, false, true
-			);
+			$dow        = date('w', strtotime($currentDate));
+			$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+			if ($validIndex)
+			{
+				$this->document->MultiCell(
+					$this->parameters['dataWidth'],
+					$height,
+					'',
+					'RB', 'C', 0, 0, '', '', true, 0, false, true
+				);
+			}
 		}
 
 		$this->document->Ln();
@@ -675,7 +679,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 	 *
 	 * @return void  outputs to the document
 	 */
-	private function outputHeader($columnHeaders, $showTime = true)
+	private function outputHeader($columnHeaders, $startDate, $breakDate)
 	{
 		// TODO: strategize for day, month, semester and no grid output
 
@@ -684,19 +688,22 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 		$this->document->SetFont('helvetica', '', 10, '', 'default', true);
 		$this->document->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(74, 92, 102)));
 
-		if ($showTime)
-		{
-			$this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C', 0, 0);
-		}
+		$this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C', 0, 0);
 
 		if ($this->parameters['resourceCount'] > 1)
 		{
 			$this->document->MultiCell($this->parameters['resourceWidth'], 0, JText::_('COM_THM_ORGANIZER_RESOURCE'), 'TB', 'C', 0, 0);
 		}
 
-		foreach ($columnHeaders as $columnHeader)
+		for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 		{
-			$this->document->MultiCell($this->parameters['dataWidth'], 0, $columnHeader['text'], 'TB', 'C', 0, 0);
+			$dow        = date('w', strtotime($currentDate));
+			$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+
+			if ($validIndex)
+			{
+				$this->document->MultiCell($this->parameters['dataWidth'], 0, $columnHeaders[$currentDate]['text'], 'TB', 'C', 0, 0);
+			}
 		}
 
 		$this->document->Ln();
@@ -708,14 +715,16 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 	/**
 	 * Outputs the rows associated with a particular time index. (Not further compartmentalized according to resources.)
 	 *
-	 * @param array $resourceCells the data for the rows associated with the time index
-	 * @param int   $minLineCount  the minimum amount of lines a row may have => number used in time column of row header.
-	 * @param array $rowHeader     the row header / index information being iterated
-	 * @param array $columnHeaders the column headers / indexes
+	 * @param array  $resourceCells the data for the rows associated with the time index
+	 * @param int    $minLineCount  the minimum amount of lines a row may have => number used in time column of row header.
+	 * @param array  $rowHeader     the row header / index information being iterated
+	 * @param array  $columnHeaders the column headers / indexes
+	 * @param string $startDate     the first column date/index to use
+	 * @param string $breakDate     the last column date/index to iterate
 	 *
 	 * @return void
 	 */
-	private function outputResourceRows(&$resourceCells, $minLineCount, $rowHeader, &$columnHeaders)
+	private function outputResourceRows(&$resourceCells, $minLineCount, $rowHeader, &$columnHeaders, $startDate, $breakDate)
 	{
 		// Less one because of the line count index
 		$lastRowNumber = $resourceCells['rowCount'];
@@ -743,17 +752,17 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 				$outputTime = false;
 				$rowNumber++;
 
-				$resourceText   = $outputResource ? $resourceName : '';
+				$resourceText = $outputResource ? $resourceName : '';
 				if ($resourceRowNumber == $lastResourceRowNumber)
 				{
 
 					$resourceBorder = $this->getLastRowHeadCellBorder();
-					$dataBorder = $this->getLastCellBorder();
+					$dataBorder     = $this->getLastCellBorder();
 				}
 				else
 				{
 					$resourceBorder = $this->getRowHeadCellBorder();
-					$dataBorder = $this->getCellBorder();
+					$dataBorder     = $this->getCellBorder();
 				}
 
 				$this->document->MultiCell(
@@ -766,17 +775,23 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 				$outputResource = false;
 				$resourceRowNumber++;
 
-				foreach ($columnHeaders as $columnHeader)
+				for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 				{
-					$dataText = empty($row[$columnHeader['value']]) ? '' : $row[$columnHeader['value']];
-					// Lesson instance cell
-					$this->document->MultiCell(
-						$this->parameters['dataWidth'],
-						$cellHeight,
-						$dataText,
-						$dataBorder, 'C', 0, 0, '', '', true, 0, false, true,
-						$cellHeight, 'M'
-					);
+					$dow        = date('w', strtotime($currentDate));
+					$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+
+					if ($validIndex)
+					{
+						$dataText = empty($row[$columnHeaders[$currentDate]['value']]) ? '' : $row[$columnHeaders[$currentDate]['value']];
+						// Lesson instance cell
+						$this->document->MultiCell(
+							$this->parameters['dataWidth'],
+							$cellHeight,
+							$dataText,
+							$dataBorder, 'C', 0, 0, '', '', true, 0, false, true,
+							$cellHeight, 'M'
+						);
+					}
 				}
 
 				$this->document->Ln();
@@ -793,46 +808,60 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 	{
 		$rowHeaders    = $this->getRowHeaders();
 		$columnHeaders = $this->getColumnHeaders();
+		$dimensions    = $this->document->getPageDimensions();
+		$timeConstant  = $this->parameters['dateRestriction'] == 'day' ?
+			'' : JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
 
-		$dimensions = $this->document->getPageDimensions();
-
-		$this->outputHeader($columnHeaders);
-
-		foreach ($rowHeaders as $rowHeader)
+		$startDate = key($columnHeaders);
+		while (!empty($columnHeaders[$startDate]))
 		{
-			$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
-			$rowCells        = $this->getRowCells($rowHeader, $columnHeaders);
-			$originalY       = $this->document->getY();
+			$startDateText = THM_OrganizerHelperComponent::formatDate($startDate);
+			$endDate       = date('Y-m-d', strtotime("+6 day", strtotime($startDate)));
+			$endDateText   = THM_OrganizerHelperComponent::formatDate($endDate);
+			$breakDate     = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+			$headerString  = JText::_($timeConstant) . "$startDateText - $endDateText";
+			$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, array(57, 74, 89));
 
-			if (empty($rowCells))
+			$this->outputHeader($columnHeaders, $startDate, $breakDate);
+
+			foreach ($rowHeaders as $rowHeader)
 			{
-				$totalRowHeight = $headerLineCount * $this->parameters['cellLineHeight'];
-			}
-			else
-			{
-				$minLineCount       = max($headerLineCount, $rowCells['lineCount']);
-				$totalRowHeight     = $minLineCount * $this->parameters['cellLineHeight'];
+				$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
+				$rowCells        = $this->getRowCells($rowHeader, $columnHeaders);
+				$originalY       = $this->document->getY();
+
+				if (empty($rowCells))
+				{
+					$totalRowHeight = $headerLineCount * $this->parameters['cellLineHeight'];
+				}
+				else
+				{
+					$minLineCount   = max($headerLineCount, $rowCells['lineCount']);
+					$totalRowHeight = $minLineCount * $this->parameters['cellLineHeight'];
+				}
+
+				// The row size would cause it to traverse the page break
+				if (($originalY + $totalRowHeight + $dimensions['bm']) > ($dimensions['hk']))
+				{
+					$this->document->Ln();
+					$this->outputHeader($columnHeaders, $startDate, $breakDate);
+				}
+
+				if (empty($rowCells))
+				{
+					$this->outputEmptyRow($headerLineCount, $rowHeader['text'], $columnHeaders, $startDate, $breakDate);
+				}
+				elseif ($this->parameters['resourceCount'] < 2)
+				{
+					$this->outputTimeRows($rowCells, $headerLineCount, $rowHeader, $columnHeaders, $startDate, $breakDate);
+				}
+				else
+				{
+					$this->outputResourceRows($rowCells, $headerLineCount, $rowHeader, $columnHeaders, $startDate, $breakDate);
+				}
 			}
 
-			// The row size would cause it to traverse the page break
-			if (($originalY + $totalRowHeight + $dimensions['bm']) > ($dimensions['hk']))
-			{
-				$this->document->Ln();
-				$this->outputHeader($columnHeaders);
-			}
-
-			if (empty($rowCells))
-			{
-				$this->outputEmptyRow($headerLineCount, $rowHeader['text'], count($columnHeaders));
-			}
-			elseif ($this->parameters['resourceCount'] < 2)
-			{
-				$this->outputTimeRows($rowCells, $headerLineCount, $rowHeader, $columnHeaders);
-			}
-			else
-			{
-				$this->outputResourceRows($rowCells, $headerLineCount, $rowHeader, $columnHeaders);
-			}
+			$startDate = $breakDate;
 		}
 	}
 
@@ -858,14 +887,16 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 	/**
 	 * Outputs the rows associated with a particular time index. (Not further compartmentalized according to resources.)
 	 *
-	 * @param array $rowCells      the data for the rows associated with the time index
-	 * @param int   $minLineCount  the minimum amount of lines a row may have => number used in time column of row header.
-	 * @param array $rowHeader     the row header / index information being iterated
-	 * @param array $columnHeaders the column headers / indexes
+	 * @param array  $rowCells      the data for the rows associated with the time index
+	 * @param int    $minLineCount  the minimum amount of lines a row may have => number used in time column of row header.
+	 * @param array  $rowHeader     the row header / index information being iterated
+	 * @param array  $columnHeaders the column headers / indexes
+	 * @param string $startDate     the first column date/index to use
+	 * @param string $breakDate     the last column date/index to iterate
 	 *
 	 * @return void
 	 */
-	private function outputTimeRows(&$rowCells, $minLineCount, $rowHeader, &$columnHeaders)
+	private function outputTimeRows(&$rowCells, $minLineCount, $rowHeader, &$columnHeaders, $startDate, $breakDate)
 	{
 		// Less one because of the line count index
 		$lastRowNumber = count($rowCells) - 1;
@@ -880,23 +911,29 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
 
 			$lineCount  = max($minLineCount, $row['lineCount']);
 			$cellHeight = $lineCount * $this->parameters['cellLineHeight'];
-			$timeText = $outputTime ? $rowHeader['text'] : '';
-			$border   = $rowNumber == $lastRowNumber ? $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
+			$timeText   = $outputTime ? $rowHeader['text'] : '';
+			$border     = $rowNumber == $lastRowNumber ? $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
 			$this->outputTimeCell($cellHeight, $timeText, $border);
 			$outputTime = false;
 			$rowNumber++;
 
-			foreach ($columnHeaders as $columnHeader)
+			for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 			{
-				$dataText = empty($row[$columnHeader['value']]) ? '' : $row[$columnHeader['value']];
-				// Lesson instance cell
-				$this->document->MultiCell(
-					$this->parameters['dataWidth'],
-					$cellHeight,
-					$dataText,
-					'RB', 'C', 0, 0, '', '', true, 0, false, true,
-					$cellHeight, 'M'
-				);
+				$dow        = date('w', strtotime($currentDate));
+				$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+
+				if ($validIndex)
+				{
+					$dataText = empty($row[$columnHeaders[$currentDate]['value']]) ? '' : $row[$columnHeaders[$currentDate]['value']];
+					// Lesson instance cell
+					$this->document->MultiCell(
+						$this->parameters['dataWidth'],
+						$cellHeight,
+						$dataText,
+						'RB', 'C', 0, 0, '', '', true, 0, false, true,
+						$cellHeight, 'M'
+					);
+				}
 			}
 
 			$this->document->Ln();
@@ -931,15 +968,17 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A3
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerTCPDFScheduleA3 extends TCPDF
+class THM_OrganizerTCPDFSchedule extends TCPDF
 {
 
 	/**
 	 * Constructs using the implementation of the parent class restricted to the relevant parameters.
+	 *
+	 * @param string $orientation the page orientation 'p' => portrait, 'l' => landscape
 	 */
-	public function __construct()
+	public function __construct($orientation = 'l')
 	{
-		parent::__construct('L', 'mm', 'A3');
+		parent::__construct($orientation, 'mm', 'A3');
 	}
 
 	//Page header

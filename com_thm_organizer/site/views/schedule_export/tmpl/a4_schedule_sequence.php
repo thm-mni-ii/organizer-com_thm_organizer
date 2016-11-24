@@ -4,13 +4,13 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTemplateSchedule_Export_PDF_A4
+ * @name        THM_OrganizerTemplateSchedule_Export_PDF
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-class THM_OrganizerTemplateSchedule_Export_PDF_A4
+class THM_OrganizerTemplateSchedule_Export_PDF
 {
 	private $document;
 
@@ -33,7 +33,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
 		$this->document   = $this->getDocument();
 
 		$this->parameters['cellLineHeight'] = 4.4;
-		$this->parameters['dataWidth']      = 45;
+
+		$this->parameters['dataWidth'] = $this->parameters['dateRestriction'] == 'day' ? 188 : 45;
 		$this->parameters['padding']        = 1;
 		$this->parameters['timeWidth']      = 11;
 
@@ -71,30 +72,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
 	}
 
 	/**
-	 * Creates the basic pdf object
-	 *
-	 * @return THM_Organizer_PDF_Schedule_Export
-	 */
-	private function getDocument()
-	{
-		$document = new THM_OrganizerTCPDFScheduleA4();
-		$document->SetCreator('THM Organizer');
-		$document->SetAuthor(JFactory::getUser()->name);
-
-		$pageTitle = $this->parameters['pageTitle'];
-		$document->SetTitle($pageTitle);
-		$document->SetHeaderData('thm.svg', 40, $pageTitle, $this->parameters['headerString'], array(57, 74, 89));
-
-		$document->SetMargins(5, 25, 5);
-		$document->SetAutoPageBreak(true, 5);
-		$document->setHeaderMargin(5);
-		$document->setCellPaddings('', 1, '', 1);
-		$document->SetTextColor(57, 74, 89);
-
-		return $document;
-	}
-
-	/**
 	 * Gets the row header information. startTime and endTime are used for later indexing purposes. Text is the text to
 	 * actually be displayed in the row header.
 	 *
@@ -104,18 +81,38 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
 	{
 		$dates = array_keys($this->lessons);
 
-		$columns     = array();
-		$columnIndex = 0;
+		$columns = array();
 
 		foreach ($dates as $date)
 		{
-			$columns[$columnIndex]          = array();
-			$columns[$columnIndex]['value'] = $date;
-			$columns[$columnIndex]['text']  = THM_OrganizerHelperComponent::formatDateShort($date, true);
-			$columnIndex++;
+			$columns[$date]          = array();
+			$columns[$date]['value'] = $date;
+			$columns[$date]['text']  = THM_OrganizerHelperComponent::formatDateShort($date, true);
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Creates the basic pdf object
+	 *
+	 * @return THM_Organizer_PDF_Schedule_Export
+	 */
+	private function getDocument()
+	{
+		$orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
+		$document = new THM_OrganizerTCPDFSchedule($orientation);
+		$document->SetCreator('THM Organizer');
+		$document->SetAuthor(JFactory::getUser()->name);
+		$document->SetTitle($this->parameters['pageTitle']);
+		$document->SetMargins(5, 25, 5);
+		$document->SetAutoPageBreak(true, 5);
+		$document->setHeaderMargin(5);
+		$document->setCellPaddings('', 1, '', 1);
+		$document->SetTextColor(57, 74, 89);
+		$document->setHeaderTemplateAutoreset(true);
+
+		return $document;
 	}
 
 	/**
@@ -307,27 +304,28 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
 	 * Outputs the column headers to the document
 	 *
 	 * @param array $columnHeaders The date information to be output to the document.
-	 * @param bool  $showTime      Whether or not the time column should be displayed, default true.
+	 * @param string $startDate     the first column date/index to use
+	 * @param string $breakDate     the last column date/index to iterate
 	 *
 	 * @return void  outputs to the document
 	 */
-	private function outputHeader($columnHeaders, $showTime = true)
+	private function outputHeader($columnHeaders, $startDate, $breakDate)
 	{
-		// TODO: strategize for day, month, semester and no grid output
-
 		$this->document->AddPage();
 
 		$this->document->SetFont('helvetica', '', 10, '', 'default', true);
 		$this->document->SetLineStyle(array('width' => 0.5, 'dash' => 0, 'color' => array(74, 92, 102)));
 
-		if ($showTime)
-		{
-			$this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C', 0, 0);
-		}
+		$this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C', 0, 0);
 
-		foreach ($columnHeaders as $columnHeader)
+		for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 		{
-			$this->document->MultiCell($this->parameters['dataWidth'] + 1, 0, $columnHeader['text'], 'TB', 'C', 0, 0);
+			$dow = date('w', strtotime($currentDate));
+			$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+			if ($validIndex)
+			{
+				$this->document->MultiCell($this->parameters['dataWidth'] + 1, 0, $columnHeaders[$currentDate]['text'], 'TB', 'C', 0, 0);
+			}
 		}
 
 		$this->document->Ln();
@@ -357,114 +355,133 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
 	{
 		$rowHeaders    = $this->getRowHeaders();
 		$columnHeaders = $this->getColumnHeaders();
+		$dimensions    = $this->document->getPageDimensions();
+		$timeConstant  = $this->parameters['dateRestriction'] == 'day'?
+			'': JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
 
-		$dimensions = $this->document->getPageDimensions();
-
-		$this->outputHeader($columnHeaders);
-
-		foreach ($rowHeaders as $rowHeader)
+		$startDate = key($columnHeaders);
+		while (!empty($columnHeaders[$startDate]))
 		{
-			$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
-			$rowCells        = $this->getRowCells($rowHeader, $columnHeaders);
-			$originalY       = $this->document->getY();
+			$startDateText = THM_OrganizerHelperComponent::formatDate($startDate);
+			$endDate      = date('Y-m-d', strtotime("+6 day", strtotime($startDate)));
+			$endDateText = THM_OrganizerHelperComponent::formatDate($endDate);
+			$breakDate    = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+			$headerString = JText::_($timeConstant) . "$startDateText - $endDateText";
+			$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, array(57, 74, 89));
 
-			if (empty($rowCells))
+			$this->outputHeader($columnHeaders, $startDate, $breakDate);
+
+			foreach ($rowHeaders as $rowHeader)
 			{
-				$totalRowHeight = $headerLineCount * $this->parameters['cellLineHeight'];
+				$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
+				$rowCells        = $this->getRowCells($rowHeader, $columnHeaders);
+				$originalY       = $this->document->getY();
 
-				// This should actually be less one because of the line count index, but the footer adds it back.
-				$totalPaddingHeight = count($rowCells) * $this->parameters['padding'];
-			}
-			else
-			{
-				$minLineCount       = max($headerLineCount, $rowCells['lineCount']);
-				$totalRowHeight    = $minLineCount * $this->parameters['cellLineHeight'];
-				$totalPaddingHeight = 2 * $this->parameters['padding'];
-			}
-
-			// The row size would cause it to traverse the page break
-			if (($originalY + $totalRowHeight + $totalPaddingHeight + $dimensions['bm']) > ($dimensions['hk']))
-			{
-				$this->document->Ln();
-				$this->outputHeader($columnHeaders);
-
-				// New page, new Y
-				$originalY = $this->document->getY();
-			}
-
-			$this->document->SetFont('helvetica', '', 8, '', 'default', true);
-
-			if (empty($rowCells))
-			{
-				$newY = $originalY + $this->parameters['padding'];
-				$this->document->setY($newY);
-
-				$height = $headerLineCount * $this->parameters['cellLineHeight'];
-				$text   = $rowHeader['text'];
-				$this->outputTimeCell($height, $text);
-
-				// One long cell for the border
-				$this->document->MultiCell(0, $height, '', 0, 0, 0, 0, '', '', true);
-
-				$this->document->Ln();
-
-				$this->outputRowEnd();
-
-				continue;
-			}
-
-			$rowHeight  = 0;
-			$outputTime = true;
-			foreach ($rowCells as $rowName => $row)
-			{
-				if ($rowName === 'lineCount')
+				if (empty($rowCells))
 				{
+					$totalRowHeight = $headerLineCount * $this->parameters['cellLineHeight'];
+
+					// This should actually be less one because of the line count index, but the footer adds it back.
+					$totalPaddingHeight = count($rowCells) * $this->parameters['padding'];
+				}
+				else
+				{
+					$minLineCount       = max($headerLineCount, $rowCells['lineCount']);
+					$totalRowHeight     = $minLineCount * $this->parameters['cellLineHeight'];
+					$totalPaddingHeight = 2 * $this->parameters['padding'];
+				}
+
+				// The row size would cause it to traverse the page break
+				if (($originalY + $totalRowHeight + $totalPaddingHeight + $dimensions['bm']) > ($dimensions['hk']))
+				{
+					$this->document->Ln();
+					$this->outputHeader($columnHeaders, $startDate, $breakDate);
+
+					// New page, new Y
+					$originalY = $this->document->getY();
+				}
+
+				$this->document->SetFont('helvetica', '', 8, '', 'default', true);
+
+				if (empty($rowCells))
+				{
+					$newY = $originalY + $this->parameters['padding'];
+					$this->document->setY($newY);
+
+					$height = $headerLineCount * $this->parameters['cellLineHeight'];
+					$text   = $rowHeader['text'];
+					$this->outputTimeCell($height, $text);
+
+					// One long cell for the border
+					$this->document->MultiCell(0, $height, '', 0, 0, 0, 0, '', '', true);
+
+					$this->document->Ln();
+
+					$this->outputRowEnd();
+
 					continue;
 				}
 
-				$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(57, 74, 89)));
-
-				$originalY = $this->document->getY();
-				$newY      = $originalY + $rowHeight + $this->parameters['padding'];
-				$this->document->setY($newY);
-
-				$lineCount  = $outputTime? max($headerLineCount, $row['lineCount']) : $row['lineCount'];
-				$cellHeight = $lineCount * $this->parameters['cellLineHeight'];
-
-				$timeText = $outputTime ? $rowHeader['text'] : '';
-				$this->outputTimeCell($cellHeight, $timeText);
-				$outputTime = false;
-
-				foreach ($columnHeaders as $columnHeader)
+				$rowHeight  = 0;
+				$outputTime = true;
+				foreach ($rowCells as $rowName => $row)
 				{
-					// Small horizontal spacer
-					$this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
-
-					if (empty($row[$columnHeader['value']]))
+					if ($rowName === 'lineCount')
 					{
-						$dataText = '';
-						$border   = 0;
-					}
-					else
-					{
-						$dataText = $row[$columnHeader['value']];
-						$border   = 'LRBT';
+						continue;
 					}
 
-					// Lesson instance cell
-					$this->document->MultiCell(
-						$this->parameters['dataWidth'],
-						$cellHeight,
-						$dataText,
-						$border, 'C', 0, 0, '', '', true, 0, false, true,
-						$cellHeight, 'M'
-					);
+					$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(57, 74, 89)));
+
+					$originalY = $this->document->getY();
+					$newY      = $originalY + $rowHeight + $this->parameters['padding'];
+					$this->document->setY($newY);
+
+					$lineCount  = $outputTime ? max($headerLineCount, $row['lineCount']) : $row['lineCount'];
+					$cellHeight = $lineCount * $this->parameters['cellLineHeight'];
+
+					$timeText = $outputTime ? $rowHeader['text'] : '';
+					$this->outputTimeCell($cellHeight, $timeText);
+					$outputTime = false;
+
+					for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
+					{
+						$dow = date('w', strtotime($currentDate));
+						$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+						if ($validIndex)
+						{
+							// Small horizontal spacer
+							$this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
+
+							if (empty($row[$columnHeaders[$currentDate]['value']]))
+							{
+								$dataText = '';
+								$border   = 0;
+							}
+							else
+							{
+								$dataText = $row[$columnHeaders[$currentDate]['value']];
+								$border   = 'LRBT';
+							}
+
+							// Lesson instance cell
+							$this->document->MultiCell(
+								$this->parameters['dataWidth'],
+								$cellHeight,
+								$dataText,
+								$border, 'C', 0, 0, '', '', true, 0, false, true,
+								$cellHeight, 'M'
+							);
+						}
+					}
+
+					$this->document->Ln();
 				}
 
-				$this->document->Ln();
+				$this->outputRowEnd();
 			}
 
-			$this->outputRowEnd();
+			$startDate = $breakDate;
 		}
 	}
 
@@ -494,6 +511,11 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
 	 */
 	private function render()
 	{
+		/*
+		 *
+		$timeConstant       = 'COM_THM_ORGANIZER_' . strtoupper($this->parameters['dateRestriction']) . '_PLAN';
+		$this->parameters['headerString'] = JText::_($timeConstant) . ": " . THM_OrganizerHelperComponent::formatDate($dates['startDate']);
+		 */
 		if (!empty($this->lessons))
 		{
 			$this->outputTable();
@@ -515,15 +537,17 @@ class THM_OrganizerTemplateSchedule_Export_PDF_A4
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerTCPDFScheduleA4 extends TCPDF
+class THM_OrganizerTCPDFSchedule extends TCPDF
 {
 
 	/**
 	 * Constructs using the implementation of the parent class restricted to the relevant parameters.
+	 *
+	 * @param string $orientation the page orientation 'p' => portrait, 'l' => landscape
 	 */
-	public function __construct()
+	public function __construct($orientation = 'l')
 	{
-		parent::__construct('L', 'mm', 'A4');
+		parent::__construct($orientation, 'mm', 'A4');
 	}
 
 	//Page header

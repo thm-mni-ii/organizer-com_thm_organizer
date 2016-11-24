@@ -45,12 +45,18 @@ div#main div#j-main-container fieldset {
       font-style: italic;
       text-transform: none; }
 
+[class^="icon-"],
+[class*=" icon-"],
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  color: inherit !important; }
+
 div.header-container {
   padding-bottom: 1rem; }
   div.header-container div.header-title {
-    float: left;
     font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
-    font-size: 1.8rem; }
+    font-size: 1.8rem;
+    margin-bottom: .5rem; }
   div.header-container .toolbar {
     float: right; }
   div.header-container .tool-wrapper {

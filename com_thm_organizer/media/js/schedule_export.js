@@ -100,6 +100,56 @@ function addTeachers(teachers)
     teacherSelection.chosen();
 }
 
+function copyLink(success)
+{
+    var format, url, selectedPools, emptyPools,
+        selectedRooms, emptyRooms,
+        selectedTeachers, emptyTeachers;
+
+    if (!success)
+    {
+        event.preventDefault();
+        return false;
+    }
+
+    format = $("input[name=format]").val();
+    url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
+
+    if (format !== 'ics')
+    {
+        return true;
+    }
+
+    selectedPools = $('#poolIDs').val();
+    emptyPools = selectedPools == undefined ||selectedPools == null || selectedPools.length === 0;
+
+    if (!emptyPools)
+    {
+        url += '&poolIDs=' + selectedPools;
+    }
+
+    selectedRooms = $('#roomIDs').val();
+    emptyRooms = selectedRooms == undefined || selectedRooms == null || selectedRooms.length === 0;
+
+    if (!emptyRooms)
+    {
+        url += '&roomIDs=' + selectedRooms;
+    }
+
+    selectedTeachers = $('#teacherIDs').val();
+    emptyTeachers = selectedTeachers == undefined || selectedTeachers == null || selectedTeachers.length === 0;
+
+    if (!emptyTeachers)
+    {
+        url += '&teacherIDs=' + selectedTeachers;
+    }
+
+    window.prompt(copyText, url);
+
+    event.preventDefault();
+    return false;
+}
+
 /**
  * Load pools dependent on the selected departments and programs
  */
@@ -220,21 +270,54 @@ function repopulatePrograms()
 
 function setFormat()
 {
-    var format = $('#format').find(":selected").val(), formatArray = format.split('.');
-    $("input[name=format]").val(formatArray[0]);
+    var formatValue = $('#format').find(":selected").val(), formatArray = formatValue.split('.'),
+        format = formatArray[0], documentFormat = formatArray[1], actionButton = $("#action-btn"),
+        linkContainer =$('#link-container'), linkTarget = $('#link-target');
 
-    if (formatArray[1] !== undefined)
+    switch (format)
     {
-        $("input[name=documentFormat]").val(formatArray[1]);
+        case 'ics':
+            $("input[name=format]").val(format);
+            actionButton.text(generateText + ' ').append('<span class="icon-feed"></span>');
+            $("#displayFormat-container").hide();
+            $("#date-container").hide();
+            $("#dateRestriction-container").hide();
+            $("#pdfWeekFormat-container").hide();
+            $("#xlsWeekFormat-container").hide();
+            break;
+        case 'xls':
+            $("input[name=format]").val(format);
+            actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
+            linkContainer.hide();
+            linkTarget.text('');
+            $("#displayFormat-container").hide();
+            $("#pdfWeekFormat-container").hide();
+            $("#date-container").show();
+            $("#dateRestriction-container").show();
+            $("#xlsWeekFormat-container").show();
+            break;
+        case 'pdf':
+        default:
+            $("input[name=format]").val(format);
+            documentFormat = documentFormat === undefined ? 'a4' : documentFormat;
+            $("input[name=documentFormat]").val(formatArray[1]);
+            actionButton.text(downloadText + ' ').append('<span class="icon-file-pdf"></span>');
+            linkContainer.hide();
+            linkTarget.text('');
+            $("#displayFormat-container").show();
+            $("#date-container").show();
+            $("#dateRestriction-container").show();
+            $("#pdfWeekFormat-container").show();
+            $("#xlsWeekFormat-container").hide();
+            break;
     }
 }
 
 function validateSelection()
 {
-    var selectedPools = $('#poolIDs').val(), emptyPools, allPools,
-        selectedRooms = $('#roomIDs').val(), emptyRooms, allRooms,
-        selectedTeachers = $('#teacherIDs').val(), emptyTeachers, allTeachers,
-        allIndex;
+    var selectedPools = $('#poolIDs').val(), emptyPools,
+        selectedRooms = $('#roomIDs').val(), emptyRooms,
+        selectedTeachers = $('#teacherIDs').val(), emptyTeachers;
 
     emptyPools = selectedPools == null || selectedPools.length === 0;
     emptyRooms = selectedRooms == null || selectedRooms.length === 0;
@@ -247,52 +330,5 @@ function validateSelection()
         return false;
     }
 
-    if (!emptyPools)
-    {
-        allIndex = selectedPools.indexOf('');
-
-        if (allIndex > -1)
-        {
-            selectedPools.splice(allIndex, 1);
-        }
-
-        if (selectedPools.length > 0)
-        {
-            return true;
-        }
-    }
-
-    if (!emptyRooms)
-    {
-        allIndex = selectedRooms.indexOf('');
-
-        if (allIndex > -1)
-        {
-            selectedRooms.splice(allIndex, 1);
-        }
-
-        if (selectedRooms.length > 0)
-        {
-            return true;
-        }
-    }
-
-    if (!emptyTeachers)
-    {
-        allIndex = selectedTeachers.indexOf('');
-
-        if (allIndex > -1)
-        {
-            selectedTeachers.splice(allIndex, 1);
-        }
-
-        if (selectedTeachers.length > 0)
-        {
-            return true;
-        }
-    }
-
-    alert(selectionWarning);
-    event.preventDefault();
-    return false;
+    return true;
 }
