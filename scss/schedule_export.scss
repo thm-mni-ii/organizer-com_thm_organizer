@@ -38,12 +38,19 @@ div#main div#j-main-container{
   }
 }
 
+[class^="icon-"],
+[class*=" icon-"],
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  color: inherit !important;
+}
+
+
 div.header-container {
 
   padding-bottom: 1rem;
 
   div.header-title {
-    float: left;
     font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
     font-size: 1.8rem;
   }
@@ -59,6 +66,7 @@ div.header-container {
       cursor: pointer;
     }
   }
+
 }
 
 button {

@@ -107,6 +107,16 @@ class THM_OrganizerHelperComponent
 			$viewName == 'schedule_manager'
 		);
 		JHtmlSidebar::addEntry(
+			JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE'),
+			'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
+			$viewName == 'plan_pool_manager'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE'),
+			'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
+			$viewName == 'plan_program_manager'
+		);
+		JHtmlSidebar::addEntry(
 			JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE'),
 			'index.php?option=com_thm_organizer&amp;view=grid_manager',
 			$viewName == 'grid_manager'
@@ -157,8 +167,19 @@ class THM_OrganizerHelperComponent
 		$name = $model->get('name');
 
 		// Views accessible with component create/edit access
-		$resourceEditViews = array('color_edit', 'degree_edit', 'field_edit', 'room_edit', 'teacher_edit');
-		if (in_array($name, $resourceEditViews))
+		$resourceManagedViews = array(
+			'color_edit',
+			'degree_edit',
+			'field_edit',
+			'grid_edit',
+			'method_edit',
+			'monitor_edit',
+			'room_edit',
+			'room_type_edit',
+			'teacher_edit'
+		);
+
+		if (in_array($name, $resourceManagedViews))
 		{
 			if ((int) $itemID > 0)
 			{
@@ -168,14 +189,39 @@ class THM_OrganizerHelperComponent
 			return $model->actions->{'core.create'};
 		}
 
+		// Views accessible solely with component edit access
+		$resourceEditedViews = array(
+			'plan_pool_edit',
+			'plan_program_edit'
+		);
+
+		if (in_array($name, $resourceEditedViews))
+		{
+			return $model->actions->{'core.edit'};
+		}
+
 		// Merge views always deal with existing resources and implicitly delete one or more entries in doing so
-		$resourceMergeViews = array('room_merge', 'teacher_merge');
+		$resourceMergeViews = array(
+			'field_merge',
+			'method_merge',
+			'plan_pool_merge',
+			'plan_program_merge',
+			'room_merge',
+			'teacher_merge'
+		);
+
 		if (in_array($name, $resourceMergeViews))
 		{
 			return ($model->actions->{'core.edit'} AND $model->actions->{'core.delete'});
 		}
 
-		$departmentEditViews = array('pool_edit', 'program_edit', 'schedule_edit', 'subject_edit');
+		$departmentEditViews = array(
+			'pool_edit',
+			'program_edit',
+			'schedule_edit',
+			'subject_edit'
+		);
+
 		if (in_array($name, $departmentEditViews))
 		{
 			if (!empty($itemID))

@@ -281,6 +281,35 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	}
 
 	/**
+	 * Retrieves the (old format) schedule for the given id.
+	 *
+	 * @param int $scheduleID the id of the schedule
+	 *
+	 * @return  mixed  object on success, otherwise null
+	 */
+	protected function getOldScheduleObject($scheduleID)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('schedule');
+		$query->from('#__thm_organizer_schedules');
+		$query->where("id = '$scheduleID'");
+		$this->_db->setQuery((string) $query);
+
+		try
+		{
+			$schedule = $this->_db->loadResult();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+			return null;
+		}
+
+		return empty($schedule) ? null : json_decode($schedule);
+	}
+
+	/**
 	 * Retrieves the schedule for the given id.
 	 *
 	 * @param int $scheduleID the id of the schedule
@@ -290,7 +319,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	protected function getScheduleObject($scheduleID)
 	{
 		$query = $this->_db->getQuery(true);
-		$query->select('schedule');
+		$query->select('newSchedule');
 		$query->from('#__thm_organizer_schedules');
 		$query->where("id = '$scheduleID'");
 		$this->_db->setQuery((string) $query);
@@ -410,7 +439,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
 		foreach ($scheduleIDs as $scheduleID)
 		{
-			$scheduleObject = $this->getScheduleObject($scheduleID);
+			$scheduleObject = $this->getOldScheduleObject($scheduleID);
 			if (empty($scheduleObject))
 			{
 				continue;
@@ -452,20 +481,16 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		{
 			$table->load($data['id']);
 
-			$gpuntisIDChanged = $table->gpuntisID != $data['gpuntisID'];
-			if ($gpuntisIDChanged)
+			$gpuntisIDs                     = array();
+			$gpuntisIDs[$data['gpuntisID']] = $data['gpuntisID'];
+			$gpuntisIDs[$table->gpuntisID]  = $table->gpuntisID;
+
+			$schedulesUpdated = $this->updateSchedules($data['id'], $data['gpuntisID'], $gpuntisIDs, array($data['id']), $data);
+			if (!$schedulesUpdated)
 			{
-				$gpuntisIDs                     = array();
-				$gpuntisIDs[$data['gpuntisID']] = $data['gpuntisID'];
-				$gpuntisIDs[$table->gpuntisID]  = $table->gpuntisID;
+				$this->_db->transactionRollback();
 
-				$schedulesUpdated = $this->updateSchedules($data['id'], $data['gpuntisID'], $gpuntisIDs, array($data['id']), $data);
-				if (!$schedulesUpdated)
-				{
-					$this->_db->transactionRollback();
-
-					return false;
-				}
+				return false;
 			}
 		}
 
@@ -529,17 +554,17 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	/**
 	 * Updates department resource associations
 	 *
-	 * @param string $resource  the name of the resource type being merged
-	 * @param int    $newDBID   the id onto which the room entries merge
-	 * @param string $oldDBIDs  a string containing the ids to be replaced
+	 * @param string $resource the name of the resource type being merged
+	 * @param int    $newDBID  the id onto which the room entries merge
+	 * @param string $oldDBIDs a string containing the ids to be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
 	protected function updateDRAssociation($resource, $newDBID, $oldDBIDs)
 	{
 		$oldIDString = "'" . implode("', '", $oldDBIDs) . "'";
-		$allIDString = "'$newDBID', $oldIDString";
 
+		$allIDString = "'$newDBID', $oldIDString";
 		$departmentQuery = $this->_db->getQuery(true);
 		$departmentQuery->select("DISTINCT departmentID");
 		$departmentQuery->from("#__thm_organizer_department_resources");
@@ -548,7 +573,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
 		try
 		{
-			$departmentAssociations = $this->_db->loadColumn();
+			$allDeptAssociations = $this->_db->loadColumn();
 		}
 		catch (Exception $exception)
 		{
@@ -558,50 +583,92 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		}
 
 		// This should not be able to occur
-		if (empty($departmentAssociations))
+		if (empty($allDeptAssociations))
 		{
 			return true;
 		}
 
-		foreach ($departmentAssociations as $departmentID)
+		// Remove entries that have been merged out
+		$deleteQuery = $this->_db->getQuery(true);
+		$deleteQuery->delete("#__thm_organizer_department_resources");
+		$deleteQuery->where("{$resource}ID IN ( $oldIDString )");
+		$this->_db->setQuery($deleteQuery);
+
+		try
 		{
-			$deleteQuery = $this->_db->getQuery(true);
-			$deleteQuery->delete("#__thm_organizer_department_resources");
-			$deleteQuery->where("departmentID = '$departmentID'");
-			$deleteQuery->where("{$resource}ID IN ( $allIDString )");
-			$this->_db->setQuery($deleteQuery);
+			$this->_db->execute();
+		}
+		catch (Exception $exception)
+		{
+			$this->_db->transactionRollback();
 
-			try
+			return false;
+		}
+
+		// Rerun the dept query to find the departments that remain
+		$this->_db->setQuery((string) $departmentQuery);
+
+		try
+		{
+			$remainingDeptAssociations = $this->_db->loadColumn();
+		}
+		catch (Exception $exception)
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+
+		// Should not occur
+		if (empty($remainingDeptAssociations))
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+
+		// Find and readd any department associations that were lost
+		$missingDeptAssociations = array_diff($allDeptAssociations, $remainingDeptAssociations);
+
+		if (!empty($missingDeptAssociations))
+		{
+			foreach ($missingDeptAssociations as $departmentID)
 			{
-				$this->_db->execute();
-			}
-			catch (Exception $exception)
-			{
-				$this->_db->transactionRollback();
+				$insertQuery = $this->_db->getQuery(true);
+				$insertQuery->insert("#__thm_organizer_department_resources");
+				$insertQuery->columns("departmentID, {$resource}ID");
+				$insertQuery->values("'$departmentID', '$newDBID'");
+				$this->_db->setQuery($insertQuery);
 
-				return false;
-			}
+				try
+				{
+					$this->_db->execute();
+				}
+				catch (Exception $exception)
+				{
+					$this->_db->transactionRollback();
 
-			$insertQuery = $this->_db->getQuery(true);
-			$insertQuery->insert("#__thm_organizer_department_resources");
-			$insertQuery->columns("departmentID, {$resource}ID");
-			$insertQuery->values("'$departmentID', '$newDBID'");
-			$this->_db->setQuery($insertQuery);
-
-			try
-			{
-				$this->_db->execute();
-			}
-			catch (Exception $exception)
-			{
-				$this->_db->transactionRollback();
-
-				return false;
+					return false;
+				}
 			}
 		}
 
 		return true;
 	}
+
+	/**
+	 * Processes the data for an individual schedule
+	 *
+	 * @param object &$schedule     the schedule being processed
+	 * @param array  &$data         the data for the schedule db entry
+	 * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
+	 * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
+	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
+	 * @param array  $allDBIDs      all db IDs for the resources to be merged
+	 *
+	 * @return  void
+	 */
+	protected abstract function updateOldSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
 
 	/**
 	 * Processes the data for an individual schedule
@@ -639,16 +706,26 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
 		foreach ($scheduleIDs as $scheduleID)
 		{
-			$scheduleObject = $this->getScheduleObject($scheduleID);
-			if (empty($scheduleObject))
+			$oldScheduleObject = $this->getOldScheduleObject($scheduleID);
+			if (empty($oldScheduleObject))
 			{
 				continue;
 			}
 
-			$this->updateSchedule($scheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
+			$this->updateOldSchedule($oldScheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
+
+			$tableData             = array();
 			$tableData['id']       = $scheduleID;
-			$tableData['schedule'] = json_encode($scheduleObject);
-			$success               = $scheduleTable->save($tableData);
+			$tableData['schedule'] = json_encode($oldScheduleObject);
+
+			$scheduleObject = $this->getScheduleObject($scheduleID);
+			if (!empty($scheduleObject))
+			{
+				$this->updateSchedule($scheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
+				$tableData['newSchedule'] = json_encode($scheduleObject);
+			}
+
+			$success = $scheduleTable->save($tableData);
 			if (!$success)
 			{
 				return false;

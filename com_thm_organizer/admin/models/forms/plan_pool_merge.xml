@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
+        <field name="id"
+               type="mergeID"
+               other="false"/>
+        <field name="gpuntisID"
+               type="mergeByValue"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_GPUNTISID"
+               description="COM_THM_ORGANIZER_GPUNTISID_DESC"
+               required="true"/>
+        <field name="name"
+               type="mergeByValue"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_SHORT_NAME"
+               description="COM_THM_ORGANIZER_SHORT_NAME_DESC"
+               required="true"/>
+        <field name="full_name"
+               type="mergeByValue"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_NAME"
+               description="COM_THM_ORGANIZER_NAME_DESC"
+               required="true"/>
+        <field name="programID"
+               type="planProgramID"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_PROGRAM"
+               description="COM_THM_ORGANIZER_PROGRAM_DESC"/>
+        <field name="otherIDs"
+               type="mergeID"
+               other="true"/>
+    </fieldset>
+</form>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
+        <field name="id" type="hidden"/>
+        <field name="gpuntisID"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_GPUNTISID"
+               description="COM_THM_ORGANIZER_GPUNTISID_DESC"
+               readonly="true"/>
+        <field name="name"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_SHORT_NAME"
+               description="COM_THM_ORGANIZER_SHORT_NAME_DESC"
+               required="true"/>
+        <field name="full_name"
+               type="text"
+               class="inputbox"
+               size="40"
+               label="COM_THM_ORGANIZER_NAME"
+               description="COM_THM_ORGANIZER_NAME_DESC"
+               required="true"/>
+        <field name="programID"
+               type="genericlist"
+               valueColumn="id"
+               textColumn="name"
+               table="thm_organizer_plan_programs"
+               label="COM_THM_ORGANIZER_PROGRAM"
+               required="true"/>
+    </fieldset>
+</form>

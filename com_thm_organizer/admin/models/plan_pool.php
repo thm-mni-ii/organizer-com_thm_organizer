@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelRoom_Type
+ * @name        THM_OrganizerModelRoom
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -14,14 +14,13 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 
 /**
- * Class THM_OrganizerModelRoom_Type for component com_thm_organizer
- * Class provides methods to deal with room type
+ * Class provides methods for room database abstraction
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.admin
  */
-class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
+class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 {
 	/**
 	 * Removes the resource from the schedule
@@ -34,22 +33,7 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	 */
 	protected function removeFromSchedule(&$schedule, $resourceID, $gpuntisID)
 	{
-		foreach ($schedule->rooms AS $roomID => $room)
-		{
-			$descriptionRelevant = (isset($room->description) AND $room->description == $gpuntisID);
-			$idRelevant          = (isset($room->typeID) AND $room->typeID == $resourceID);
-			if ($descriptionRelevant OR $idRelevant)
-			{
-				if (isset($schedule->rooms->$roomID->description))
-				{
-					unset($schedule->rooms->$roomID->description);
-				}
-				if (isset($schedule->rooms->$roomID->typeID))
-				{
-					unset($schedule->rooms->$roomID->typeID);
-				}
-			}
-		}
+		return;
 	}
 
 	/**
@@ -62,7 +46,13 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	 */
 	protected function updateAssociations($newDBID, $oldDBIDs)
 	{
-		return $this->updateAssociation('type', $newDBID, $oldDBIDs, 'rooms');
+		$drUpdated = $this->updateDRAssociation('pool', $newDBID, $oldDBIDs);
+		if (!$drUpdated)
+		{
+			return false;
+		}
+
+		return $this->updateAssociation('pool', $newDBID, $oldDBIDs, 'lesson_pools');
 	}
 
 	/**
@@ -81,19 +71,49 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	 */
 	protected function updateOldSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
 	{
-		foreach ($schedule->rooms AS $roomGPUntisID => $room)
+		$programUntisID = $this->getDescriptionGPUntisID('plan_programs', $data['programID']);
+
+		foreach ($schedule->pools as $gpuntisID => $pool)
 		{
-			$update = (in_array($room->description, $allGPUntisIDs) OR in_array($room->typeID, $allDBIDs));
-			if ($update)
+			if (in_array($gpuntisID, $allGPUntisIDs))
 			{
-				$schedule->rooms->$roomGPUntisID->description = $newGPUntisID;
-				$schedule->rooms->$roomGPUntisID->typeID      = $newDBID;
+				// Whether old or new high probability of having to overwrite an attribute this enables standard handling.
+				unset($schedule->pools->$gpuntisID);
+
+				$schedule->pools->$newGPUntisID               = new stdClass;
+				$schedule->pools->$newGPUntisID->id           = $newDBID;
+				$schedule->pools->$newGPUntisID->name         = $newGPUntisID;
+				$schedule->pools->$newGPUntisID->gpuntisID    = $newGPUntisID;
+				$schedule->pools->$newGPUntisID->localUntisID = $newGPUntisID;
+				$schedule->pools->$newGPUntisID->longname     = $data['full_name'];
+				$schedule->pools->$newGPUntisID->restriction  = $data['name'];
+				$schedule->pools->$newGPUntisID->degree       = $programUntisID;
+
+				// This will play little role later due to the times in the calendar table
+				$schedule->pools->$newGPUntisID->grid   = $pool->grid;
+
+				if (!empty($pool->gridID))
+				{
+					$schedule->pools->$newGPUntisID->gridID = $pool->gridID;
+				}
+			}
+		}
+
+		foreach ($schedule->lessons as $lessonIndex => $lesson)
+		{
+			foreach ($lesson->pools as $gpuntisID => $delta)
+			{
+				if (in_array($gpuntisID, $allGPUntisIDs))
+				{
+					unset($schedule->lessons->$lessonIndex->pools->$gpuntisID);
+					$schedule->lessons->$lessonIndex->pools->$newGPUntisID = $delta;
+				}
 			}
 		}
 	}
 
 	/**
-	 * The room types are a part of the resource data in the new structure.
+	 * Degree programs are not in the new
 	 *
 	 * @param object &$schedule     the schedule being processed
 	 * @param array  &$data         the data for the schedule db entry
@@ -108,6 +128,19 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
 	 */
 	protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
 	{
-		return;
+		foreach ($schedule->lessons as $lessonIndex => $lesson)
+		{
+			foreach ($lesson->subjects as $subjectID => $subjectConfig)
+			{
+				foreach ($subjectConfig->pools as $poolID => $delta)
+				{
+					if (in_array($poolID, $allDBIDs))
+					{
+						unset($schedule->lessons->$lessonIndex->subjects->$subjectID->pools->$poolID);
+						$schedule->lessons->$lessonIndex->subjects->$subjectID->pools->$newDBID = $delta;
+					}
+				}
+			}
+		}
 	}
 }

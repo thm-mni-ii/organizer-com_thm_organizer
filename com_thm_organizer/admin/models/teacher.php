@@ -86,7 +86,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 	 *
 	 * @return  void
 	 */
-	protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+	protected function updateOldSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
 	{
 		if (!empty($data['fieldID']))
 		{
@@ -129,6 +129,58 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 					unset($schedule->lessons->$lessonID->teachers->$teacherGPUntisID);
 					$schedule->lessons->$lessonID->teachers->$newGPUntisID = $delta;
 				}
+			}
+		}
+	}
+
+	/**
+	 * Processes the data for an individual schedule
+	 *
+	 * @param object &$schedule     the schedule being processed
+	 * @param array  &$data         the data for the schedule db entry
+	 * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
+	 * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
+	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
+	 * @param array  $allDBIDs      all db IDs for the resources to be merged
+	 *
+	 * @return  void
+	 */
+	protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+	{
+		foreach ($schedule->lessons as $lessonIndex => $lesson)
+		{
+			foreach ($lesson->subjects as $subjectID => $subjectConfig)
+			{
+				foreach ($subjectConfig->teachers as $teacherID => $delta)
+				{
+					if (in_array($teacherID, $allDBIDs))
+					{
+						unset($schedule->lessons->$lessonIndex->subjects->$subjectID->teachers->$teacherID);
+						$schedule->lessons->$lessonIndex->subjects->$subjectID->teachers->$newDBID = $delta;
+					}
+				}
+			}
+		}
+
+		foreach ($schedule->configurations as $index => $configuration)
+		{
+			$inConfig = false;
+			$configuration = json_decode($configuration);
+
+			foreach ($configuration->teachers as $teacherID => $delta)
+			{
+				if (in_array($teacherID, $allDBIDs))
+				{
+					// Whether old or new high probability of having to overwrite an attribute this enables standard handling.
+					unset($configuration->teachers->$teacherID);
+					$inConfig = true;
+					$configuration->teachers->$newDBID = $delta;
+				}
+			}
+
+			if ($inConfig)
+			{
+				$schedule->configurations[$index] = json_encode($configuration);
 			}
 		}
 	}
