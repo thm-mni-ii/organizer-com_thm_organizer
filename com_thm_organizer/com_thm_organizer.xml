@@ -11,7 +11,7 @@
     <creationDate>November 2016</creationDate>
     <copyright>TH Mittelhessen 2016</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>3.7.16</version>
+    <version>3.7.17</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
@@ -66,54 +66,38 @@
     <administration>
         <menu>COM_THM_ORGANIZER</menu>
         <submenu>
-            <menu alias="Degrees" link="option=com_thm_organizer&amp;view=degree_manager" view="degree_manager"
-                  alt="THM-Organizer/Degrees">COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE
+            <menu alias="Degrees" link="option=com_thm_organizer&amp;view=degree_manager" view="degree_manager" alt="THM-Organizer/Degrees">COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE
             </menu>
-            <menu alias="Monitor Manager" link="option=com_thm_organizer&amp;view=monitor_manager"
-                  view="monitor_manager" alt="THM-Organizer/Monitors">COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE
+            <menu alias="Monitor Manager" link="option=com_thm_organizer&amp;view=monitor_manager" view="monitor_manager" alt="THM-Organizer/Monitors">COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE
             </menu>
-            <menu alias="Teachers" link="option=com_thm_organizer&amp;view=teacher_manager" view="teacher_manager"
-                  alt="THM-Organizer/Teachers">COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE
+            <menu alias="Teachers" link="option=com_thm_organizer&amp;view=teacher_manager" view="teacher_manager" alt="THM-Organizer/Teachers">COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE
             </menu>
-            <menu alias="Departments" link="option=com_thm_organizer&amp;view=department_manager"
-                  view="department_manager" alt="THM-Organizer/Departments">COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE
+            <menu alias="Departments" link="option=com_thm_organizer&amp;view=department_manager" view="department_manager" alt="THM-Organizer/Departments">COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE
             </menu>
-            <menu alias="Subjects" link="option=com_thm_organizer&amp;view=subject_manager" view="subject_manager"
-                  alt="THM-Organizer/Subjects">COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE
+            <menu alias="Subjects" link="option=com_thm_organizer&amp;view=subject_manager" view="subject_manager" alt="THM-Organizer/Subjects">COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE
             </menu>
-            <menu alias="Fields" link="option=com_thm_organizer&amp;view=field_manager" view="field_manager"
-                  alt="THM-Organizer/Fields">COM_THM_ORGANIZER_FIELD_MANAGER_TITLE
+            <menu alias="Fields" link="option=com_thm_organizer&amp;view=field_manager" view="field_manager" alt="THM-Organizer/Fields">COM_THM_ORGANIZER_FIELD_MANAGER_TITLE
             </menu>
-            <menu alias="Colors" link="option=com_thm_organizer&amp;view=color_manager" view="color_manager"
-                  alt="THM-Organizer/Colors">COM_THM_ORGANIZER_COLOR_MANAGER_TITLE
+            <menu alias="Colors" link="option=com_thm_organizer&amp;view=color_manager" view="color_manager" alt="THM-Organizer/Colors">COM_THM_ORGANIZER_COLOR_MANAGER_TITLE
             </menu>
-            <menu alias="Methods" link="option=com_thm_organizer&amp;view=method_manager" view="method_manager"
-                  alt="THM-Organizer/Methods">COM_THM_ORGANIZER_METHOD_MANAGER_TITLE
+            <menu alias="Methods" link="option=com_thm_organizer&amp;view=method_manager" view="method_manager" alt="THM-Organizer/Methods">COM_THM_ORGANIZER_METHOD_MANAGER_TITLE
             </menu>
-            <menu alias="Subject Pools" link="option=com_thm_organizer&amp;view=pool_manager" view="pool_manager"
-                  alt="THM-Organizer/Subject Pools">COM_THM_ORGANIZER_POOL_MANAGER_TITLE
+            <menu alias="Subject Pools" link="option=com_thm_organizer&amp;view=pool_manager" view="pool_manager" alt="THM-Organizer/Subject Pools">COM_THM_ORGANIZER_POOL_MANAGER_TITLE
             </menu>
-            <menu alias="Rooms" link="option=com_thm_organizer&amp;view=room_manager" view="room_manager"
-                  alt="THM-Organizer/Rooms">COM_THM_ORGANIZER_ROOM_MANAGER_TITLE
+            <menu alias="Rooms" link="option=com_thm_organizer&amp;view=room_manager" view="room_manager" alt="THM-Organizer/Rooms">COM_THM_ORGANIZER_ROOM_MANAGER_TITLE
             </menu>
-            <menu alias="Room Types" link="option=com_thm_organizer&amp;view=room_type_manager" view="room_type_manager"
-                  alt="THM-Organizer/Room Types">COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE
+            <menu alias="Room Types" link="option=com_thm_organizer&amp;view=room_type_manager" view="room_type_manager" alt="THM-Organizer/Room Types">COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE
             </menu>
-            <menu alias="Degree Programs" link="option=com_thm_organizer&amp;view=program_manager"
-                  view="degree_program_manager" alt="THM-Organizer/Degree Programs">
+            <menu alias="Degree Programs" link="option=com_thm_organizer&amp;view=program_manager" view="degree_program_manager" alt="THM-Organizer/Degree Programs">
                 COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE
             </menu>
-            <menu alias="Schedule Manager" link="option=com_thm_organizer&amp;view=schedule_manager"
-                  view="schedule_manager" alt="THM-Organizer/Schedules">COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE
+            <menu alias="Schedule Manager" link="option=com_thm_organizer&amp;view=schedule_manager" view="schedule_manager" alt="THM-Organizer/Schedules">COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE
             </menu>
-            <menu alias="Schedule Pool Manager" link="option=com_thm_organizer&amp;view=plan_pool_manager"
-                  view="plan_pool_manager" alt="THM-Organizer/Schedule Pools">COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE
+            <menu alias="Schedule Pool Manager" link="option=com_thm_organizer&amp;view=plan_pool_manager" view="plan_pool_manager" alt="THM-Organizer/Schedule Pools">COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE
             </menu>
-            <menu alias="Schedule Program Manager" link="option=com_thm_organizer&amp;view=plan_program_manager"
-                  view="plan_program_manager" alt="THM-Organizer/Schedule Programs">COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE
+            <menu alias="Schedule Program Manager" link="option=com_thm_organizer&amp;view=plan_program_manager" view="plan_program_manager" alt="THM-Organizer/Schedule Programs">COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE
             </menu>
-            <menu alias="Grids" link="option=com_thm_organizer&amp;view=grid_manager" view="grid_manager"
-                  alt="THM-Organizer/Grids">COM_THM_ORGANIZER_GRID_MANAGER_TITLE
+            <menu alias="Grids" link="option=com_thm_organizer&amp;view=grid_manager" view="grid_manager" alt="THM-Organizer/Grids">COM_THM_ORGANIZER_GRID_MANAGER_TITLE
             </menu>
         </submenu>
         <files folder="admin">
