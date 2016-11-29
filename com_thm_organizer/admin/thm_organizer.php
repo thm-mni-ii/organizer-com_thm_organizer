@@ -41,5 +41,5 @@ try
 catch (Exception $exc)
 {
 	JLog::add($exc->__toString(), JLog::ERROR, $componentName);
-	throw $e;
+	throw $exc;
 }

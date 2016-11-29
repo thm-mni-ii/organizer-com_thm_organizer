@@ -70,6 +70,12 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 			return new stdClass;
 		}
 
+		// This should not occur.
+		if (empty($subject->id))
+		{
+			return new stdClass;
+		}
+
 		$this->setExpenditureText($subject);
 		$this->setDependencies($subject);
 		$this->setTeachers($subject);
@@ -86,9 +92,24 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	{
 		$input     = JFactory::getApplication()->input;
 		$requestID = $input->getInt('id', 0);
+
 		if (!empty($requestID))
 		{
-			return $requestID;
+			// Ensure that the requested ID is existent in the table
+			$query = $this->_db->getQuery(true);
+			$query->select('id')->from('#__thm_organizer_subjects')->where("id = '$requestID'");
+			$this->_db->setQuery((string) $query);
+
+			try
+			{
+				return $this->_db->loadResult();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+				return null;
+			}
 		}
 
 		$externalID = $input->getString('nrmni', '');

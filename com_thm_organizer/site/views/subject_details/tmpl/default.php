@@ -14,27 +14,34 @@ $oneStar    = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1star
 $twoStars   = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS');
 $threeStars = JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS');
 
-$displayExpertise  = $this->displayStarAttribute($this->item->expertise);
-$displayMethodComp = $this->displayStarAttribute($this->item->method_competence);
-$displaySocialComp = $this->displayStarAttribute($this->item->social_competence);
-$displaySelfComp   = $this->displayStarAttribute($this->item->self_competence);
+$displayExpertise  = isset($this->item->expertise) ? $this->displayStarAttribute($this->item->expertise) : false;
+$displayMethodComp = isset($this->item->method_competence) ? $this->displayStarAttribute($this->item->method_competence) : false;
+$displaySocialComp = isset($this->item->social_competence) ? $this->displayStarAttribute($this->item->social_competence) : false;
+$displaySelfComp   = isset($this->item->self_competence) ? $this->displayStarAttribute($this->item->self_competence) : false;
 
 $prerequisites  = $this->getDependencies('pre');
 $postrequisites = $this->getDependencies('post');
 
 ?>
 <div class="toolbar">
-	<div class="tool-wrapper language-switches">
+    <div class="tool-wrapper language-switches">
 		<?php
 		foreach ($this->languageSwitches AS $switch)
 		{
 			echo $switch;
 		}
 		?>
-	</div>
+    </div>
 </div>
 <div class="clearfix"></div>
-<h1 class="componentheading"><?php echo $this->item->name; ?></h1>
+<?php
+if (!empty($this->item->name))
+{
+?>
+    <h1 class="componentheading"><?php echo $this->item->name; ?></h1>
+<?php
+}
+?>
 <div class="subject-list">
 	<?php
 	if (!empty($this->item->externalID))
@@ -339,6 +346,6 @@ $postrequisites = $this->getDependencies('post');
 		echo '</div></div>';
 	}
 	?>
-	</dl>
+    </dl>
 	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
 </div>

@@ -30,4 +30,29 @@ class THM_OrganizerTablePlan_Pools extends JTable
 	{
 		parent::__construct('#__thm_organizer_plan_pools', 'id', $dbo);
 	}
+
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return  boolean  true
+	 */
+	public function check()
+	{
+		$this->fieldID = null;
+		$this->poolID = null;
+
+		return true;
+	}
+
+	/**
+	 * Method to store a row in the database from the JTable instance properties.
+	 *
+	 * @param boolean $updateNulls True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store(true);
+	}
 }
