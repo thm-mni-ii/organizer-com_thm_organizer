@@ -59,12 +59,17 @@ class THM_OrganizerHelperSchedule
 
 			if (empty($aggregatedLessons[$date][$times][$lessonID]))
 			{
-				$aggregatedLessons[$date][$times][$lessonID]              = array();
-				$aggregatedLessons[$date][$times][$lessonID]['method']    = empty($lesson['method']) ? '' : $lesson['method'];
-				$aggregatedLessons[$date][$times][$lessonID]['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
-				$aggregatedLessons[$date][$times][$lessonID]['startTime'] = $lesson['startTime'];
-				$aggregatedLessons[$date][$times][$lessonID]['endTime']   = $lesson['endTime'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects']  = array();
+				$aggregatedLessons[$date][$times][$lessonID]                  = array();
+				$aggregatedLessons[$date][$times][$lessonID]['method']        = empty($lesson['method']) ? '' : $lesson['method'];
+				$aggregatedLessons[$date][$times][$lessonID]['comment']       = empty($lesson['comment']) ? '' : $lesson['comment'];
+				$aggregatedLessons[$date][$times][$lessonID]['startTime']     = $lesson['startTime'];
+				$aggregatedLessons[$date][$times][$lessonID]['endTime']       = $lesson['endTime'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects']      = array();
+				$aggregatedLessons[$date][$times][$lessonID]['ccmID']         = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
+				$aggregatedLessons[$date][$times][$lessonID]['calendarDelta'] = empty($lesson['calendarDelta']) ? '' : $lesson['calendarDelta'];
+				$aggregatedLessons[$date][$times][$lessonID]['lessonDelta']   = empty($lesson['lessonDelta']) ? '' : $lesson['lessonDelta'];
+				$aggregatedLessons[$date][$times][$lessonID]['poolDelta']     = empty($lesson['poolDelta']) ? '' : $lesson['poolDelta'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjectDelta']  = empty($lesson['subjectDelta']) ? '' : $lesson['subjectDelta'];
 			}
 
 			$subjectName = self::getSubjectName($lesson);
@@ -185,11 +190,13 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Gets the lessons for the given pool ids.
 	 *
-	 * @param array $parameters array of pool ids or a single pool id
+	 * @param   array $parameters array of pool ids or a single pool id
+	 * @param   bool  $delta      decides on including removed lessons
 	 *
+	 * @throws Exception
 	 * @return string
 	 */
-	public static function getLessons($parameters)
+	public static function getLessons($parameters, $delta = false)
 	{
 		$tag   = THM_OrganizerHelperLanguage::getShortTag();
 		$dbo   = JFactory::getDbo();
@@ -200,7 +207,8 @@ class THM_OrganizerHelperSchedule
 		$select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, s.abbreviation_$tag AS subjectAbbr, ";
 		$select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ";
 		$select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
-		$select .= "lc.configuration ";
+		$select .= "lc.configuration";
+		$select .= $delta ? ", lp.delta AS poolDelta, ls.delta AS subjectsDelta, l.delta AS lessonDelta, c.delta AS calendarDelta" : '';
 
 		$query->select($select);
 		$query->from('#__thm_organizer_lessons AS l');
@@ -218,16 +226,21 @@ class THM_OrganizerHelperSchedule
 		$query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
 		$query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
 
-		$query->where("lp.delta != 'removed'");
-		$query->where("ls.delta != 'removed'");
-		$query->where("l.delta != 'removed'");
-		$query->where("c.delta != 'removed'");
+		if (!$delta)
+		{
+			$query->where("lp.delta != 'removed'");
+			$query->where("ls.delta != 'removed'");
+			$query->where("l.delta != 'removed'");
+			$query->where("c.delta != 'removed'");
+		}
 
 		self::addDateClauses($parameters, $query);
 
 		if (!empty($parameters['mySchedule']))
 		{
 			// Get the user's schedule
+			$query->innerJoin('#__thm_organizer_user_lessons AS u ON u.lessonID = l.id');
+			$query->where('u.userID = ' . JFactory::getUser()->id);
 		}
 		elseif (!empty($parameters['instanceIDs']))
 		{
@@ -248,7 +261,7 @@ class THM_OrganizerHelperSchedule
 		}
 		catch (Exception $exc)
 		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return array();
 		}
@@ -388,10 +401,10 @@ class THM_OrganizerHelperSchedule
 	public static function getDates($parameters)
 	{
 		$date = $parameters['date'];
-		$type = $parameters['format'] == 'ics'? 'ics' : $parameters['dateRestriction'];
+		$type = $parameters['format'] == 'ics' ? 'ics' : $parameters['dateRestriction'];
 
-		$startDayNo = empty($parameters['startDay'])? 1 : $parameters['startDay'];
-		$endDayNo = empty($parameters['endDay'])? 6 : $parameters['endDay'];
+		$startDayNo = empty($parameters['startDay']) ? 1 : $parameters['startDay'];
+		$endDayNo   = empty($parameters['endDay']) ? 6 : $parameters['endDay'];
 
 		$startDayName = date('l', strtotime("Sunday + $startDayNo days"));
 		$endDayName   = date('l', strtotime("Sunday + $endDayNo days"));
@@ -421,7 +434,7 @@ class THM_OrganizerHelperSchedule
 
 			case 'semester':
 
-				$dbo = JFactory::getDbo();
+				$dbo   = JFactory::getDbo();
 				$query = $dbo->getQuery(true);
 				$query->select('startDate, endDate')
 					->from('#__thm_organizer_planning_periods')
@@ -434,7 +447,7 @@ class THM_OrganizerHelperSchedule
 				}
 				catch (Exception $exc)
 				{
-					JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 					return array();
 				}
@@ -444,7 +457,7 @@ class THM_OrganizerHelperSchedule
 			case 'ics':
 
 				// ICS calendars get the next 6 months of data
-				$startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
+				$startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
 				$previewEnd = date('Y-m-d', strtotime('+6 month', strtotime($date)));
 				$endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($previewEnd)));
 				$dates      = array('startDate' => $startDate, 'endDate' => $endDate);

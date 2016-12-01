@@ -73,20 +73,7 @@ Schedules = function ()
      */
     this.getScheduleByResponse = function (responseUrl)
     {
-        var id = responseUrl.match(/&(\w+)IDs=(\d+)/), schedule = this.schedules[0], scheduleID;
-
-        /** check for teacher response */
-        if (id == null)
-        {
-            id = responseUrl.match(/&(teacher)ID=(\d+)/);
-
-            if (id == null)
-            {
-                return false;
-            }
-        }
-
-        scheduleID = id[1] + id[2];
+        var id = responseUrl.match(/&(\w+)IDs=(\d+)/), schedule = this.schedules[0], scheduleID = id[1] + id[2];
 
         this.schedules.forEach(function (element)
         {
@@ -145,36 +132,6 @@ Date.prototype.getWireFormat = function ()
         mm < 10 ? '0' + mm : mm,
         dd < 10 ? '0' + dd : dd
     ].join('-'); // padding
-};
-
-Array.prototype.getStartTime = function (index)
-{
-    var match;
-    if (this[index] == undefined)
-    {
-        return false;
-    }
-    match = this[index].match(/^(\d{2}:\d{2})/);
-    if (match == null)
-    {
-        return false;
-    }
-    return match[1];
-};
-
-Array.prototype.getEndTime = function (index)
-{
-    var match;
-    if (this[index] == undefined)
-    {
-        return false;
-    }
-    match = this[index].match(/(\d{2}:\d{2})$/);
-    if (match == null)
-    {
-        return false;
-    }
-    return match[1];
 };
 
 jQuery(document).ready(function ()
@@ -258,19 +215,19 @@ jQuery(document).ready(function ()
                 console.log('searching default category...');
         }
 
-        getRequest(chosenCategory);
+        getFormRequest(chosenCategory);
     });
 
     jQuery('#program').chosen().change(function ()
     {
         onlyShowFormInput(['program-input', 'pool-input']);
-        getRequest('pool');
+        getFormRequest('pool');
     });
 
     jQuery('#roomtype').chosen().change(function ()
     {
         onlyShowFormInput(['room-type-input', 'room-input']);
-        getRequest('room');
+        getFormRequest('room');
     });
 
     jQuery('#pool').chosen().change(function ()
@@ -654,7 +611,7 @@ function setGridTime(table, timeGrid)
  *
  * @param resource  string
  */
-function getRequest(resource)
+function getFormRequest(resource)
 {
     var task;
 
@@ -691,7 +648,7 @@ function getRequest(resource)
  */
 function updateForm()
 {
-    var values, category, fieldID, formField, option, nextName, optionWithVersion = false;
+    var values, category, fieldID, formField, option;
 
     if (ajaxSelection.readyState == 4 && ajaxSelection.status == 200)
     {
@@ -701,33 +658,27 @@ function updateForm()
         formField = document.getElementById(fieldID);
         removeChildren(formField);
 
-        for (var index = 0; index < values.length; ++index)
+        for (var value in values)
         {
-            option = document.createElement('option');
-            option.setAttribute('value', values[index].id);
-            option.innerHTML = values[index].name;
-
-            /** check for the need of a version number in case of two equally program names (name ordering required) */
-            if (category == 'program')
+            /** prevent using prototype variables */
+            if (values.hasOwnProperty(value))
             {
-                nextName = (values.length > index + 1) ? values[index + 1].name : '';
-                if (optionWithVersion)
+                if (value.name !== undefined)
                 {
-                    option.innerHTML += ' ' + values[index].version;
-                    optionWithVersion = false;
+                    option = document.createElement('option');
+                    option.setAttribute('value', values[value].id);
+                    option.innerHTML = values[value].name;
+                    formField.appendChild(option);
                 }
-                else if (nextName == values[index].name)
-                {
-                    option.innerHTML += ' ' + values[index].version;
-                    optionWithVersion = true;
-                }
+                /** needed - otherwise select field is empty */
                 else
                 {
-                    optionWithVersion = false;
+                    option = document.createElement('option');
+                    option.setAttribute('value', values[value]);
+                    option.innerHTML = value;
+                    formField.appendChild(option);
                 }
             }
-
-            formField.appendChild(option);
         }
 
         formField.removeAttribute('disabled');
@@ -742,41 +693,26 @@ function updateForm()
  */
 function getLessonRequest(resource)
 {
-    var task = '', id = getSelectedValues(resource), schedule, field;
+    var task, IDs = getSelectedValues(resource), schedule, field;
 
-    if (id.match(/^\d+$/) == null)
+    if (IDs.match(/^(\d+[,]?)+$/) == null)
     {
         return;
     }
 
-    switch (resource)
-    {
-        case 'pool':
-            task = '&task=getLessonsByPools' + '&poolIDs=';
-            break;
-        case 'room':
-            task = '&task=getLessonsByRooms' + '&roomIDs=';
-            break;
-        case 'teacher':
-            task = '&task=getLessonsByTeacher' + '&teacherID=';
-            break;
-        default:
-            console.log('searching default category...');
-            return;
-    }
-
-    task += id;
+    task = "&task=getLessons";
+    task += "&" + resource + "IDs=" + IDs;
     task += '&date=' + getDateFieldString();
     task += window.isMobile ? '&oneDay=true' : '';
 
-    schedule = scheduleObjects.getScheduleById(resource + id);
+    schedule = scheduleObjects.getScheduleById(resource + IDs);
     if (schedule)
     {
-        updateSchedule(id);
+        updateSchedule(IDs);
         return;
     }
 
-    schedule = new Schedule(resource + id);
+    schedule = new Schedule(resource + IDs);
     schedule.task = task;
     field = document.getElementById(resource);
     schedule.title = field.options[field.selectedIndex].text;
@@ -870,7 +806,7 @@ function removeScheduleFromSelection()
 function createScheduleTable(schedule)
 {
     var scheduleWrapper = document.getElementById('scheduleWrapper'),
-        input, div, table, tbody, row, weekEnd = 7;
+        input, div, table, tbody, row, weekEnd = 7, grid;
 
     /** create input field for selecting this schedule */
     input = document.createElement('input');
@@ -919,57 +855,140 @@ function createScheduleTable(schedule)
 }
 
 /**
- * Creates a lesson which means a div element filled by a JSON data
+ * Creates a lesson which means a div element filled by data
  *
- * @param lessonData  JSON
- * @returns HTMLDivElement
+ * @param data  Object lesson data
+ * @param day String for the elements ID
+ * @param lessonID String id of lesson
+ * @param ownTime boolean show own time
+ * @returns Array|boolean HTMLDivElements in an array or false in case of wrong input
  */
-function createLesson(lessonData)
+function createLesson(data, day, lessonID, ownTime)
 {
-    var lesson, ownTimeSpan, nameSpan, moduleSpan, personSpan, saveMenu, saveSemester, savePeriod, saveInstance,
-        saveButton, saveIcon, deleteButton, deleteIcon, closeSaveMenu;
+    var lessons, lessonData, lessonElement, ownTimeSpan, nameSpan, moduleSpan, teacherSpan, roomSpan, saveMenu;
 
-    lesson = document.createElement('div');
-    lesson.id = lessonData.id + '-' + lessonData.schedule_date + '-' + lessonData.startTime;
-    lesson.className = 'lesson';
-
-    if (lessonData.lessonDelta)
+    if (!data.hasOwnProperty("subjects") || typeof data == 'undefined' || typeof lessonID == 'undefined')
     {
-        lesson.className += ' old';
+        return false;
     }
 
-    if (lessonData.startTime && lessonData.endTime)
+    day = typeof day == 'undefined' ? (new Date()).getWireFormat() : day;
+    ownTime = typeof ownTime == 'undefined' ? false : ownTime;
+    lessons = [];
+
+    for (var subject in data.subjects)
     {
-        ownTimeSpan = document.createElement('span');
-        ownTimeSpan.className = 'own-time';
-        ownTimeSpan.innerHTML =
-            lessonData.startTime.match(/^(\d{2}:\d{2})/)[1] + ' - ' +
-            lessonData.endTime.match(/^(\d{2}:\d{2})/)[1];
-        lesson.appendChild(ownTimeSpan);
+        if (!data.subjects.hasOwnProperty(subject))
+        {
+            return false;
+        }
+        lessonData = data.subjects[subject];
+
+        lessonElement = document.createElement('div');
+        lessonElement.id = lessonID + '-' + day + '-' + data.startTime;
+        lessonElement.className = 'lesson';
+
+        /** delta = 'removed' or 'new' or changed ? add class like 'lesson-new' */
+        if (data.lessonDelta !== '')
+        {
+            lessonElement.className += ' lesson-' + data.lessonDelta;
+        }
+        if (data.subjectDelta !== '')
+        {
+            lessonElement.className += ' subject-' + data.subjectDelta;
+        }
+        if (data.calendarDelta !== '')
+        {
+            lessonElement.className += ' calendar-' + data.calendarDelta;
+        }
+        if (data.poolDelta !== '')
+        {
+            lessonElement.className += ' pool-' + data.poolDelta;
+        }
+
+        if (data.startTime && data.endTime)
+        {
+            ownTimeSpan = document.createElement('span');
+            ownTimeSpan.className = 'own-time';
+            ownTimeSpan.innerHTML =
+                data.startTime.match(/^(\d{2}:\d{2})/)[1] + ' - ' + data.endTime.match(/^(\d{2}:\d{2})/)[1];
+            if (ownTime)
+            {
+                ownTimeSpan.style.display = 'block';
+            }
+            lessonElement.appendChild(ownTimeSpan);
+        }
+
+        if (lessonData.shortName)
+        {
+            nameSpan = document.createElement('span');
+            nameSpan.className = 'name';
+            nameSpan.innerHTML = lessonData.shortName;
+            lessonElement.appendChild(nameSpan);
+        }
+
+        if (lessonData.subjectNo)
+        {
+            moduleSpan = document.createElement('span');
+            moduleSpan.className = 'module';
+            moduleSpan.innerHTML = lessonData.subjectNo;
+            lessonElement.appendChild(moduleSpan);
+        }
+
+        if (lessonData.teachers)
+        {
+            for (var teacherID in lessonData.teachers)
+            {
+                if (lessonData.teachers.hasOwnProperty(teacherID))
+                {
+                    teacherSpan = document.createElement('span');
+                    teacherSpan.className = 'teacher';
+                    teacherSpan.innerHTML = lessonData.teachers[teacherID];
+                    lessonElement.appendChild(teacherSpan);
+                }
+            }
+        }
+
+        if (lessonData.rooms)
+        {
+            for (var roomID in lessonData.rooms)
+            {
+                if (lessonData.rooms.hasOwnProperty(roomID))
+                {
+                    roomSpan = document.createElement('span');
+                    roomSpan.className = 'room';
+                    roomSpan.innerHTML = lessonData.rooms[roomID];
+                    lessonElement.appendChild(roomSpan);
+                }
+            }
+        }
+
+        // TODO: kein save menu wenn user schedule
+        /** outsource creating of save menu to prevent closures of eventListeners */
+        saveMenu = createSaveMenu(data.ccmID);
+        saveMenu.forEach(function (element)
+        {
+            lessonElement.appendChild(element);
+        });
+
+        lessons.push(lessonElement);
     }
 
-    if (lessonData.subjectName)
-    {
-        nameSpan = document.createElement('span');
-        nameSpan.className = 'name';
-        nameSpan.innerHTML = lessonData.subjectName;
-        lesson.appendChild(nameSpan);
-    }
+    return lessons;
+}
 
-    if (lessonData.subjectNo)
-    {
-        moduleSpan = document.createElement('span');
-        moduleSpan.className = 'module';
-        moduleSpan.innerHTML = lessonData.subjectNo;
-        lesson.appendChild(moduleSpan);
-    }
+/**
+ * creates html elements for saving a lesson in the users schedule
+ * @param ccmID String
+ * @return Array|boolean
+ */
+function createSaveMenu(ccmID)
+{
+    var saveMenu, saveSemester, savePeriod, saveInstance, saveButton, saveIcon, deleteButton, deleteIcon, closeSaveMenu;
 
-    if (lessonData.teacherName)
+    if (typeof ccmID == 'undefined')
     {
-        personSpan = document.createElement('span');
-        personSpan.className = 'person';
-        personSpan.innerHTML = lessonData.teacherName;
-        lesson.appendChild(personSpan);
+        return false;
     }
 
     /** one save menu for each lesson */
@@ -984,27 +1003,29 @@ function createLesson(lessonData)
     });
 
     saveSemester = document.createElement('button');
-    saveSemester.className = 'save-semester';
+    saveSemester.className = 'save-lesson';
     saveSemester.innerHTML = text.SAVE_SEMESTER;
     saveSemester.addEventListener('click', function ()
     {
-        saveLesson(text.CONFIG_SAVE_SEMESTER, lessonData);
+        saveLesson(text.CONFIG_SAVE_SEMESTER, ccmID);
         saveMenu.style.display = 'none';
     });
+
     savePeriod = document.createElement('button');
     savePeriod.className = 'save-period';
     savePeriod.innerHTML = text.SAVE_PERIOD;
     savePeriod.addEventListener('click', function ()
     {
-        saveLesson(text.CONFIG_SAVE_PERIOD, lessonData);
+        saveLesson(text.CONFIG_SAVE_PERIOD, ccmID);
         saveMenu.style.display = 'none';
     });
+
     saveInstance = document.createElement('button');
     saveInstance.className = 'save-instance';
     saveInstance.innerHTML = text.SAVE_INSTANCE;
     saveInstance.addEventListener('click', function ()
     {
-        saveLesson(text.CONFIG_SAVE_INSTANCE, lessonData);
+        saveLesson(text.CONFIG_SAVE_INSTANCE, ccmID);
         saveMenu.style.display = 'none';
     });
 
@@ -1033,11 +1054,7 @@ function createLesson(lessonData)
         //TODO: delete lesson
     });
 
-    lesson.appendChild(saveButton);
-    lesson.appendChild(deleteButton);
-    lesson.appendChild(saveMenu);
-
-    return lesson;
+    return [saveButton, deleteButton, saveMenu];
 }
 
 /**
@@ -1071,108 +1088,109 @@ function insertTableHead(table)
  */
 function insertLessons(table, lessons)
 {
-    var lessonsInDay, headCells = table.getElementsByTagName('tr')[0].getElementsByTagName('th');
+    var colNumber = 1, rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr'), block, lesson,
+        times = JSON.parse(getSelectedValues('grid')), tableStartTime, tableEndTime, blockTimes, lessonElements,
+        blockIndex, blockStart, blockEnd, cell, nextCellExist;
 
-    for (var cellNumber = 1; cellNumber < headCells.length; ++cellNumber)
+    for (var date in lessons)
     {
-        lessonsInDay = lessons.filter(
-            function (lesson)
-            {
-                var lessonDay = new Date(lesson.schedule_date).getPresentationFormat();
-                return lessonDay == window.datePattern.exec(headCells[cellNumber].innerHTML)[0];
-            }
-        );
-
-        lessonsInDay.sort(
-            function (a, b)
-            {
-                return a.startTime > b.startTime;
-            }
-        );
-
-        fillColumn(table, cellNumber, lessonsInDay);
-    }
-}
-
-/**
- * fills the specified column with all lessons of the array which matches the time on the left side
- *
- * @param table HTMLTableElement
- * @param colNumber int
- * @param lessons array[object]
- */
-function fillColumn(table, colNumber, lessons)
-{
-    var rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr'), timeCell,
-        cells = [], times = [], lessonIndex = 0, cellLessons, lessonElement, blockStart, blockEnd;
-
-    /** collect td elements and times */
-    for (var rowIndex = 0; rowIndex < rows.length; ++rowIndex)
-    {
-        cells.push(rows[rowIndex].getElementsByTagName('td')[colNumber]);
-        timeCell = rows[rowIndex].getElementsByTagName('td')[0];
-        if (timeCell.style.display != 'none')
+        if (!lessons.hasOwnProperty(date))
         {
-            times.push(timeCell.innerHTML);
+            continue;
         }
-    }
 
-    /** no times on the left side - every lesson appears in the first row */
-    if (times.length == 0)
-    {
-        lessons.forEach(
-            function (lesson)
-            {
-                ++lessonIndex;
-                lessonElement = createLesson(lesson);
-                lessonElement.getElementsByClassName('own-time')[0].style.display = 'block';
-                cells[0].appendChild(lessonElement);
-            }
-        )
-    }
-    /** insert lessons in cells */
-    else
-    {
-        for (var cellIndex = 0; cellIndex < cells.length; ++cellIndex)
+        /** no times on the left side - every lesson appears in the first row */
+        if (times.length == 0)
         {
-            blockStart = times.getStartTime(cellIndex);
-            blockEnd = times.getEndTime(cellIndex);
-
-            cellLessons = lessons.filter(
-                function (lesson)
+            for (block in lessons[date])
+            {
+                if (!lessons[date].hasOwnProperty(block))
                 {
-                    var lessonStartTime = lesson.startTime.match(/^(\d{2}:\d{2})/)[1];
-                    return lessonStartTime >= blockStart && lessonStartTime < blockEnd;
+                    continue;
                 }
-            );
-
-            cellLessons.forEach(
-                function (lesson)
+                for (lesson in lessons[date][block])
                 {
-                    var lessonElement = createLesson(lesson),
-                        lessonStartTime = lesson.startTime.match(/^(\d{2}:\d{2})/)[1],
-                        lessonEndTime = lesson.endTime.match(/^(\d{2}:\d{2})/)[1],
-                        nextBlock = times[cellIndex + 1] !== undefined,
-                        lessonNextBlock;
+                    if (!lessons[date][block].hasOwnProperty(lesson))
+                    {
+                        continue;
+                    }
 
+                    lessonElements = createLesson(lessons[date][block][lesson], date, lesson, true);
+                    lessonElements.forEach(function (element)
+                    {
+                        rows[0].getElementsByTagName('td')[colNumber].appendChild(element);
+                    });
+                }
+            }
+        }
+        /** insert lessons in cells */
+        else
+        {
+            blockIndex = 0;
+            for (block in lessons[date])
+            {
+                if (!lessons[date].hasOwnProperty(block))
+                {
+                    continue;
+                }
+
+                /** periods start at 1, html td-elements at 0 */
+                tableStartTime = times.periods[blockIndex + 1].startTime;
+                tableEndTime = times.periods[blockIndex + 1].endTime;
+                blockTimes = block.match(/^(\d{4})-(\d{4})$/);
+                blockStart = blockTimes[1];
+                blockEnd = blockTimes[2];
+
+                /** block does not fit? go to next block */
+                while (tableStartTime < blockStart && tableEndTime < blockEnd)
+                {
+                    ++blockIndex;
+                    tableStartTime = times.periods[blockIndex + 1].startTime;
+                    tableEndTime = times.periods[blockIndex + 1].endTime;
+                }
+
+                for (lesson in lessons[date][block])
+                {
+                    if (!lessons[date][block].hasOwnProperty(lesson))
+                    {
+                        continue;
+                    }
+                    cell = rows[blockIndex].getElementsByTagName('td')[colNumber];
+                    nextCellExist = rows[blockIndex + 1] !== undefined;
+
+                    /** time matches */
+                    if (tableStartTime == blockStart && tableStartTime < blockEnd)
+                    {
+                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson);
+                        lessonElements.forEach(function (element)
+                        {
+                            cell.appendChild(element);
+                        });
+                    }
                     /** lesson fits inside block but has slightly other times */
-                    if (lessonStartTime != blockStart || lessonEndTime != blockEnd)
+                    if (tableStartTime <= blockStart && tableEndTime != blockEnd)
                     {
-                        lessonElement.getElementsByClassName('own-time')[0].style.display = 'block';
+                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson, true);
+                        lessonElements.forEach(function (element)
+                        {
+                            cell.appendChild(element);
+                        });
                     }
-
-                    /** lesson fits into next block too */
-                    if (nextBlock && lessonEndTime >= times.getStartTime(cellIndex + 1))
+                    /** lesson fits into next block too, so add a copy to this */
+                    if (nextCellExist && tableEndTime >= times.periods[blockIndex + 2].startTime)
                     {
-                        lessonNextBlock = createLesson(lesson);
-                        lessonNextBlock.getElementsByClassName('own-time')[0].style.display = 'block';
-                        cells[cellIndex + 1].appendChild(lessonNextBlock);
+                        nextCell = rows[blockIndex + 1].getElementsByTagName('td')[colNumber];
+                        lessonsNextBlock = createLesson(lessons[date][block][lesson], date, lesson, true);
+                        lessonsNextBlock.forEach(function (element)
+                        {
+                            nextCell.appendChild(element);
+                        });
                     }
-
-                    cells[cellIndex].appendChild(lessonElement);
                 }
-            );
+                ++blockIndex;
+            }
         }
+        ++colNumber;
     }
 }
 
@@ -1403,21 +1421,19 @@ function setDatePattern()
  * choose between lessons of whole semester (1), just this daytime (2) or only the selected instance of a lesson (3).
  *
  * @param taskNumber number
- * @param lessonData object
+ * @param ccmID String calendar_configuration_map ID
  */
-function saveLesson(taskNumber, lessonData)
+function saveLesson(taskNumber, ccmID)
 {
     var config = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
         task = '&task=saveLesson&config=' + config;
 
-    if (typeof lessonData != 'object')
+    if (typeof ccmID == 'undefined')
     {
-        return;
+        return false;
     }
 
-    task += "&lessonID=" + lessonData.id;
-    task += "&date=" + lessonData.schedule_date;
-    task += "&time=" + lessonData.startTime;
+    task += "&ccmID=" + ccmID;
 
     ajaxSave = new XMLHttpRequest();
     ajaxSave.open('GET', url + task, true);
@@ -1440,6 +1456,8 @@ function lessonSaved()
         addButton.style.display = 'none';
         deleteButton = lesson.getElementsByClassName('delete-lesson')[0];
         deleteButton.style.display = 'block';
+        // TODO: je nach config andere lessons (der Periode/des Semesters) "x-en"
+        // TODO: "x-en" von Lavi machen lassen und nur class hinzufügen
     }
 }
 
@@ -1449,6 +1467,9 @@ function lessonSaved()
 function getUsersSchedule()
 {
     var task = '&task=getUsersSchedule';
+
+    task += "&date=" + window.dateField.valueAsDate.getWireFormat();
+    task += (isMobile) ? '&oneDay=true' : '';
 
     ajaxUser = new XMLHttpRequest();
     ajaxUser.open('GET', url + task, true);

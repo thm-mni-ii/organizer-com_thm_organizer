@@ -11,11 +11,21 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/schedule.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 define('LESSONS_OF_SEMESTER', 1);
 define('LESSONS_OF_PERIOD', 2);
@@ -31,96 +41,33 @@ define('LESSONS_INSTANCE', 3);
 class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 {
 	/**
-	 * TODO: in helper auslagern bzw. von helper übernehmen
-	 * Getter method for programs in database
-	 * e.g. for selecting a schedule
+	 * Getter method for programs
 	 *
-	 * @throws RuntimeException
 	 * @return string  a json coded array of available program objects
 	 */
 	public function getPrograms()
 	{
-		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
-		$departmentID = JFactory::getApplication()->input->getInt('departmentID', 0);
+		$programs = THM_OrganizerHelperPrograms::getPlanPrograms();
 
-		$query     = $this->_db->getQuery(true);
-		$nameParts = array("program.name_$languageTag", "' ('", " d.abbreviation", "')'");
-		$query->select('plan.id, program.version, ' . $query->concatenate($nameParts, "") . ' AS name')
-			->from('#__thm_organizer_plan_programs AS plan')
-			->leftJoin('#__thm_organizer_programs AS program ON plan.programID = program.id')
-			->innerJoin('#__thm_organizer_degrees AS d ON d.id = program.degreeID');
-
-		if ($departmentID != 0)
+		$results = array();
+		foreach ($programs as $program)
 		{
-			$query->where("program.departmentID = '$departmentID'");
+			$results[$program['name']] = $program['id'];
 		}
 
-		$query->order('name');
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$result = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-			return '[]';
-		}
-
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
+		return empty($results) ? '[]' : json_encode($results);
 	}
 
 	/**
-	 * Getter method for pools in database
-	 * e.g. for selecting a schedule
+	 * Getter method for pools
 	 *
-	 * @throws RuntimeException
 	 * @return string  all pools in JSON format
 	 */
 	public function getPools()
 	{
-		$programInput = JFactory::getApplication()->input->getString('programIDs');
-		$programIDs   = explode(',', $programInput);
-		$conditions   = array();
+		$result = THM_OrganizerHelperPools::getPlanPools();
 
-		$query = $this->_db->getQuery(true);
-		$query->select('id, name')
-			->from('#__thm_organizer_plan_pools');
-
-		foreach ($programIDs as $programID)
-		{
-			$conditions[] = "programID = '$programID'";
-		}
-
-		$query->where($conditions, 'OR');
-
-		$query->order('name');
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$result = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-			return '[]';
-		}
-
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
+		return empty($result) ? '[]' : json_encode($result);
 	}
 
 	/**
@@ -152,12 +99,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			return '[]';
 		}
 
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
+		return empty($result) ? '[]' : json_encode($result);
 	}
 
 	/**
@@ -201,12 +143,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			return '[]';
 		}
 
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
+		return empty($result) ? '[]' : json_encode($result);
 	}
 
 	/**
@@ -218,329 +155,64 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 */
 	public function getTeachers()
 	{
-		$departmentID = JFactory::getApplication()->input->getInt('departmentID');
+		$result = THM_OrganizerHelperTeachers::getPlanTeachers();
 
-		$query = $this->_db->getQuery(true);
-		$query->select("tea.id, tea.surname AS name")
-			->from('#__thm_organizer_teachers AS tea')
-			->group('tea.id');
-
-		if ($departmentID != 0)
-		{
-			$query->leftJoin('#__thm_organizer_department_resources AS dr ON tea.id = dr.teacherID');
-			$query->where("dr.departmentID = $departmentID");
-		}
-
-		$query->order('name');
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$result = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-			return '[]';
-		}
-
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
+		return empty($result) ? '[]' : json_encode($result);
 	}
 
 	/**
-	 * Getter method for lessons in database
-	 * e.g. for selecting a schedule
+	 * get lessons by chosen resource
 	 *
-	 * @throws RuntimeException
-	 * @return string  all lessons in JSON format
+	 * @return string JSON coded lessons
 	 */
-	public function getLessonsByPools()
+	public function getLessons()
 	{
-		$input      = JFactory::getApplication()->input;
-		$dateString = $input->getString('date');
-		$poolInput  = $input->getString('poolIDs');
-		$oneDay     = $input->getString('oneDay', false);
-		$poolIDs    = explode(',', $poolInput);
-		$conditions = array();
-
-		$query       = $this->_db->getQuery(true);
-		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$selection   = "less.id, subs.name AS subjectName, subs.subjectNo, ";
-		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
-		$selection .= "cal.startTime, cal.endTime, cal.schedule_date, cal.delta AS calendarDelta";
-		$query->select($selection)
-			->from('#__thm_organizer_plan_pools AS poo')
-			->innerJoin('#__thm_organizer_lesson_pools AS lepo ON poo.id = lepo.poolID')
-			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON lepo.subjectID = lesu.id')
-			->innerJoin('#__thm_organizer_lessons AS less ON lesu.lessonID = less.id')
-			->innerJoin('#__thm_organizer_calendar AS cal ON less.id = cal.lessonID')
-			->leftJoin('#__thm_organizer_plan_subjects AS subs ON lesu.subjectID = subs.id')
-			->leftJoin('#__thm_organizer_lesson_teachers AS letea ON lesu.id = letea.subjectID')
-			->leftJoin('#__thm_organizer_teachers AS tea ON letea.teacherID = tea.id');
-
-		foreach ($poolIDs as $poolID)
+		$input       = JFactory::getApplication()->input;
+		$inputParams = $input->getArray();
+		$inputKeys   = array_keys($inputParams);
+		$parameters  = array();
+		foreach ($inputKeys as $key)
 		{
-			$conditions[] = "poo.id = $poolID";
+			if ($key == 'poolIDs' || $key == 'teacherIDs' || $key == 'roomIDs')
+			{
+				$parameters[$key] = explode(',', $inputParams[$key]);
+			}
 		}
 
-		$poolConditions = '(' . implode($conditions, ' OR ') . ')';
-		$query->where($poolConditions);
+		$oneDay                        = $input->getString('oneDay', false);
+		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
+		$parameters['date']            = $input->getString('date');
+		$parameters['format']          = '';
 
-		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $dateString) !== 1)
-		{
-			return '[]';
-		}
+		$lessons = THM_OrganizerHelperSchedule::getLessons($parameters, true);
 
-		if ($oneDay)
-		{
-			$query->where("cal.schedule_date = '$dateString'");
-		}
-		else
-		{
-			$selectedDate  = new DateTime($dateString);
-			$dayNumber     = $selectedDate->format('N');
-			$intervalAfter = 7 - $dayNumber;
-			$maxDate       = $selectedDate->add(new DateInterval('P' . $intervalAfter . 'D'));
-			$maxDateString = $maxDate->format('Y-m-d');
-
-			$intervalBefore = $dayNumber;
-			$selectedDate   = new DateTime($dateString);
-			$minDate        = $selectedDate->sub(new DateInterval('P' . $intervalBefore . 'D'));
-			$minDateString  = $minDate->format('Y-m-d');
-
-			$query->where("cal.schedule_date < '$maxDateString'")
-				->where("cal.schedule_date > '$minDateString'");
-		}
-
-		$query->where("cal.delta != 'removed'");
-
-		$query->order('subjectName');
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$result = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-			return '[]';
-		}
-
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
-	}
-
-	/**
-	 * Getter for lessons in database,
-	 * filtered by a teacher, departmentID and date.
-	 * e.g. for selecting a schedule
-	 *
-	 * @throws RuntimeException
-	 * @return string  all lessons in JSON format
-	 */
-	public function getLessonsByTeacher()
-	{
-		$input        = JFactory::getApplication()->input;
-		$departmentID = $input->getInt('departmentID');
-		$teacherID    = $input->getInt('teacherID');
-		$dateString   = $input->getString('date');
-		$oneDay       = $input->getString('oneDay', false);
-
-		$query       = $this->_db->getQuery(true);
-		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$selection   = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
-		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
-		$selection .= "cal.startTime, cal.endTime, cal.schedule_date";
-
-		$query->select($selection)
-			->from('#__thm_organizer_teachers AS tea')
-			->innerJoin('#__thm_organizer_lesson_teachers AS letea ON tea.id = letea.teacherID')
-			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON letea.subjectID = lesu.id')
-			->innerJoin('#__thm_organizer_lessons AS less ON lesu.lessonID = less.id')
-			->innerJoin('#__thm_organizer_calendar AS cal ON less.id = cal.lessonID')
-			->leftJoin('#__thm_organizer_plan_subjects AS subs ON lesu.subjectID = subs.id');
-
-		if ($departmentID != 0)
-		{
-			$query->leftJoin('#__thm_organizer_department_resources AS dr ON tea.id = dr.teacherID');
-			$query->where("dr.departmentID = $departmentID");
-		}
-
-		if ($oneDay)
-		{
-			$query->where("cal.schedule_date = '$dateString'");
-		}
-		else
-		{
-			$selectedDate  = new DateTime($dateString);
-			$dayNumber     = $selectedDate->format('N');
-			$intervalAfter = 7 - $dayNumber;
-			$maxDate       = $selectedDate->add(new DateInterval('P' . $intervalAfter . 'D'));
-			$maxDateString = $maxDate->format('Y-m-d');
-
-			$intervalBefore = $dayNumber;
-			$selectedDate   = new DateTime($dateString);
-			$minDate        = $selectedDate->sub(new DateInterval('P' . $intervalBefore . 'D'));
-			$minDateString  = $minDate->format('Y-m-d');
-
-			$query->where("cal.schedule_date < '$maxDateString'")
-				->where("cal.schedule_date > '$minDateString'");
-		}
-
-		$query->where("cal.delta != 'removed'")
-			->where("tea.id = $teacherID");
-
-		$query->order('subjectName');
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$result = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-			return '[]';
-		}
-
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
-	}
-
-	/**
-	 * Getter for lessons in database,
-	 * filtered by a room, departmentID and date.
-	 * e.g. for selecting a schedule
-	 *
-	 * @throws RuntimeException
-	 * @return string  all lessons in JSON format
-	 */
-	public function getLessonsByRooms()
-	{
-		$input      = JFactory::getApplication()->input;
-		$dateString = $input->getString('date');
-		$oneDay     = $input->getString('oneDay', false);
-		$roomInput  = $input->getString('roomIDs');
-		$roomIDs    = explode(',', $roomInput);
-		$conditions = array();
-
-		$query       = $this->_db->getQuery(true);
-		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$selection   = "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, less.delta AS lessonDelta, ";
-		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
-		$selection .= "cal.startTime, cal.endTime, cal.schedule_date";
-
-		$query->select($selection)
-			->from('#__thm_organizer_lessons AS less')
-			->innerJoin('#__thm_organizer_lesson_configurations AS leco ON less.id = leco.lessonID')
-			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON less.id = lesu.lessonID')
-			->innerJoin('#__thm_organizer_calendar AS cal ON less.id = cal.lessonID')
-			->leftJoin('#__thm_organizer_plan_subjects AS subs ON lesu.subjectID = subs.id')
-			->leftJoin('#__thm_organizer_lesson_teachers AS letea ON lesu.id = letea.subjectID')
-			->leftJoin('#__thm_organizer_teachers AS tea ON letea.teacherID = tea.id');
-
-		foreach ($roomIDs as $roomID)
-		{
-			// Regex for e.g. "rooms":{"xyz123":"","roomID":""
-			$regexp       = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.:.]][[.{.]]' .
-				'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-				'[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]' .
-				'[[.quotation-mark.]][^removed]';
-			$conditions[] = "leco.configuration REGEXP '$regexp'";
-		}
-
-		$roomConditions = '(' . implode($conditions, ' OR ') . ')';
-		$query->where($roomConditions);
-
-		if ($oneDay)
-		{
-			$query->where("cal.schedule_date = '$dateString'");
-		}
-		else
-		{
-			$selectedDate  = new DateTime($dateString);
-			$dayNumber     = $selectedDate->format('N');
-			$intervalAfter = 7 - $dayNumber;
-			$maxDate       = $selectedDate->add(new DateInterval('P' . $intervalAfter . 'D'));
-			$maxDateString = $maxDate->format('Y-m-d');
-
-			$intervalBefore = $dayNumber;
-			$selectedDate   = new DateTime($dateString);
-			$minDate        = $selectedDate->sub(new DateInterval('P' . $intervalBefore . 'D'));
-			$minDateString  = $minDate->format('Y-m-d');
-
-			$query->where("cal.schedule_date < '$maxDateString'")
-				->where("cal.schedule_date > '$minDateString'");
-		}
-
-		$query->where("cal.delta != 'removed'");
-
-		$query->order('subjectName');
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$result = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-			return '[]';
-		}
-
-		if (empty($result))
-		{
-			return '[]';
-		}
-
-		return json_encode($result);
+		return empty($lessons) ? '[]' : json_encode($lessons);
 	}
 
 	/**
 	 * saves lessons of a whole semester in the personal schedule of the logged in user
 	 *
 	 * @throws RuntimeException
-	 * @return boolean
+	 * @return string
 	 */
 	public function saveLesson()
 	{
-		$input        = JFactory::getApplication()->input;
-		$lessonID     = $input->getInt('lessonID');
-		$config       = $input->getInt('config', LESSONS_OF_PERIOD);
-		$dateInput    = $input->getString('date');
-		$timeInput    = $input->getString('time');
-		$scheduleDate = DateTime::createFromFormat('Y-m-d H:i:s', $dateInput . ' ' . $timeInput);
-		$user         = JFactory::getUser();
+		$input  = JFactory::getApplication()->input;
+		$config = $input->getInt('config', LESSONS_OF_PERIOD);
+		$ccmID  = $input->getString('ccmID');
+		$userID   = JFactory::getUser()->id;
 
 		/** no logged in user */
-		if (empty($user->id))
+		if (empty($userID))
 		{
-			return false;
+			return '[]';
 		}
 
 		/** get configurations of selected lesson */
-		$configurations = $this->getConfigurations($lessonID, $config, $scheduleDate);
+		$configurations = $this->getConfigurations($config, $ccmID);
 		if (empty($configurations))
 		{
-			return false;
+			return '[]';
 		}
 
 		/** insert in database */
@@ -548,10 +220,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 		$columns = array('userID', 'lessonID', 'user_date', 'configuration');
 		$values  = array(
-			$user->id,
-			$lessonID,
+			$userID,
+			$configurations['lessonID'],
 			$this->_db->quote(date('Y-m-d H:i:s')),
-			$this->_db->quote(json_encode($configurations))
+			$this->_db->quote(json_encode($configurations['configurations']))
 		);
 
 		$query->insert($this->_db->quoteName('#__thm_organizer_user_lessons'))
@@ -565,134 +237,205 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return '[]';
 		}
 
 		/** returns (js-)'id' of lesson in case of success */
-		return $success ? $lessonID . '-' . $dateInput . '-' . $timeInput : false;
+		return $success ?
+			$configurations['lessonID'] . '-' . $configurations['scheduleDate'] . '-' . $configurations['startTime']
+			: '[]';
 	}
 
 	/**
 	 * loads matching configurations of a lesson
 	 *
-	 * @param   int      $lessonID     id of lesson
-	 * @param   int      $config       global params like LESSONS_OF_SEMESTER
-	 * @param   DateTime $scheduleDate date of lesson
+	 * @param   int    $config global param like LESSONS_OF_SEMESTER
+	 * @param   string $ccmID  calendar_configuration_map ID
 	 *
 	 * @throws RuntimeException
-	 * @return array|boolean
+	 * @return array|bool array with lessonID and an array with configurationIDs
 	 */
-	private function getConfigurations($lessonID, $config, $scheduleDate)
+	private function getConfigurations($config, $ccmID)
 	{
 		$query = $this->_db->getQuery(true);
-		$query->select('map.id, cal.schedule_date, cal.startTime')
+		$query->select('lessonID, startTime, endTime, schedule_date, DAYOFWEEK(cal.schedule_date) AS weekday')
 			->from('#__thm_organizer_calendar_configuration_map AS map')
 			->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
-			->where("lessonID = '$lessonID'")
+			->where("map.id = '$ccmID'")
 			->where("delta != 'removed'");
 
-		if ($config !== LESSONS_OF_SEMESTER)
-		{
-			$time    = $scheduleDate->format('H:i:s');
-			$date    = $scheduleDate->format('Y-m-d');
-			$weekday = ((int) $scheduleDate->format('N')) + 1;
-
-			/** lessons for same day of the week and same time */
-			$query->where("startTime = '$time'");
-			$query->where("DAYOFWEEK(schedule_date) = '$weekday'");
-
-			/** only the selected instance of lesson */
-			if ($config == LESSONS_INSTANCE)
-			{
-				$query->where("schedule_date = '$date'");
-			}
-		}
-
-		$query->order('id');
+		$query->order('map.id');
 		$this->_db->setQuery((string) $query);
 
 		try
 		{
-			$calendars = $this->_db->loadObjectList();
+			$result = $this->_db->loadObject();
 		}
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return '[]';
+			return false;
 		}
 
-		if (empty($calendars))
+		if (empty($result))
 		{
+			return null;
+		}
+
+		/** get other matching configurations, depending on given config */
+		$query = $this->_db->getQuery(true);
+		$query->select('map.id')
+			->from('#__thm_organizer_calendar_configuration_map AS map')
+			->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
+			->where("cal.lessonID = '$result->lessonID'")
+			->where("delta != 'removed'");
+
+		if ($config !== LESSONS_OF_SEMESTER)
+		{
+			/** lessons for same day of the week and same time */
+			$query->where("cal.startTime = '$result->startTime'");
+			$query->where("cal.endTime = '$result->endTime'");
+			$query->where("DAYOFWEEK(cal.schedule_date) = '$result->weekday'");
+
+			/** only the selected instance of lesson */
+			if ($config == LESSONS_INSTANCE)
+			{
+				$query->where("cal.schedule_date = '$result->schedule_date'");
+			}
+		}
+
+		$query->order('map.id');
+		$this->_db->setQuery((string) $query);
+
+		try
+		{
+			$results = $this->_db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
 			return false;
+		}
+
+		if (empty($results))
+		{
+			return null;
 		}
 
 		/** collect configurations to encode them into json */
 		$configurations = [];
-		foreach ($calendars as $configuration)
+		foreach ($results as $configuration)
 		{
 			$configurations[] = $configuration->id;
 		}
 
-		return $configurations;
+		return array(
+			'lessonID'       => $result->lessonID,
+			'scheduleDate'   => $result->schedule_date,
+			'startTime'      => $result->startTime,
+			'endTime'        => $result->endTime,
+			'configurations' => $configurations
+		);
 	}
 
 	/**
-	 * gets schedule of now logged in user.
-	 * returns false in case no user is logged in.
+	 * gets schedule of now logged in user
 	 *
 	 * @return string lessons in JSON format - empty in case of errors
 	 */
 	public function getUsersSchedule()
 	{
-		$user = JFactory::getUser();
+		$input                         = JFactory::getApplication()->input;
+		$parameters                    = array();
+		$parameters['date']            = $input->getString('date');
+		$oneDay                        = $input->getString('oneDay', false);
+		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
+		$parameters['format']          = '';
+		$parameters['mySchedule']      = "mySchedule";
 
-		if ($user->guest OR empty($user->id))
+		if (JFactory::getUser()->guest)
 		{
 			return '[]';
 		}
 
-		$query     = $this->_db->getQuery(true);
-		$selection = "usle.lessonID AS id, less.delta AS lessonDelta, ";
-		$selection .= "subs.id AS subjectID, subs.name AS subjectName, subs.subjectNo, ";
-		$selection .= "cal.startTime, cal.endTime, cal.schedule_date";
+		/** @var array $userLessons */
+		$userLessons = THM_OrganizerHelperSchedule::getLessons($parameters, true);
+		if (empty($userLessons))
+		{
+			return '[]';
+		}
 
-		$query->select($selection)
-			->from('#__thm_organizer_user_lessons AS usle')
-			->innerJoin('#__thm_organizer_lessons AS less ON usle.lessonID = less.id')
-			->innerJoin('#__thm_organizer_lesson_subjects AS lesu ON less.id = lesu.lessonID')
-			->innerJoin('#__thm_organizer_lesson_configurations AS leco ON lesu.id = leco.lessonID')
-			->innerJoin('#__thm_organizer_calendar AS cal ON less.id = cal.lessonID')
-			->innerJoin('#__thm_organizer_plan_subjects AS subs ON lesu.subjectID = subs.id')
-			->where("userID = $user->id");
+		$configurations = $this->getUserConfigurations();
+		if (!$configurations)
+		{
+			return '[]';
+		}
 
-		/* TODO: zweite query: map ids json decode - foreach filtern und damit teachers und rooms holen
-		$teacherName = $query->concatenate(array('SUBSTRING(tea.forename, 1, 1)', 'tea.surname'), '. ');
-		$selection .= "tea.id AS teacherID, $teacherName AS teacherName, ";
-		 ->leftJoin('#__thm_organizer_lesson_teachers AS letea ON lesu.id = letea.subjectID')
-		 ->leftJoin('#__thm_organizer_teachers AS tea ON letea.teacherID = tea.id')
-		*/
+		/** filter lessons by users configuration */
+		foreach ($userLessons as &$day)
+		{
+			foreach ($day as &$block)
+			{
+				foreach ($block as $lessonID => &$lesson)
+				{
+					if (!$configurations[$lessonID] OR !in_array($lesson['ccmID'], $configurations[$lessonID]))
+					{
+						unset($block[$lessonID]);
+					}
+				}
+			}
+		}
+
+		return json_encode($userLessons);
+	}
+
+	/**
+	 * Gets lessons configurations by logged in user
+	 *
+	 * @throws RuntimeException
+	 * @return array|boolean|null result as object array, error = false, null = no results
+	 */
+	private function getUserConfigurations()
+	{
+		$query  = $this->_db->getQuery(true);
+		$userID = JFactory::getUser()->id;
+		if (!$userID)
+		{
+			return false;
+		}
+
+		$query->select("lessonID, configuration")
+			->from('#__thm_organizer_user_lessons')
+			->where("userID = $userID");
 
 		$this->_db->setQuery((string) $query);
 
 		try
 		{
-			$result = $this->_db->loadObjectList();
+			$results = $this->_db->loadAssocList();
 		}
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return '[]';
+			return false;
 		}
 
-		if (empty($result))
+		if (empty($results))
 		{
-			return '[]';
+			return null;
 		}
 
-		return json_encode($result);
+		$configurations = array();
+		foreach ($results as $result)
+		{
+			$configurations[$result['lessonID']] = json_decode($result['configuration']);
+		}
+
+		return $configurations;
 	}
 }

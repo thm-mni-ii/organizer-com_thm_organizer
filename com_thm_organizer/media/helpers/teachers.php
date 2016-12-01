@@ -170,7 +170,7 @@ class THM_OrganizerHelperTeachers
 		}
 		catch (RuntimeException $exc)
 		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return $default;
 		}
