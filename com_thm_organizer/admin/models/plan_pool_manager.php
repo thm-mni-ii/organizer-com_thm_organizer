@@ -43,12 +43,11 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	 */
 	protected function getListQuery()
 	{
-		$query    = $this->_db->getQuery(true);
+		$query = $this->_db->getQuery(true);
 
-		$select = "ppl.id, ppl.gpuntisID, ppl.full_name, ";
+		$select    = "ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ";
 		$linkParts = array("'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", "ppl.id");
 		$select .= $query->concatenate($linkParts, "") . " AS link";
-		$query->select($select);
 
 		$query->from('#__thm_organizer_plan_pools AS ppl');
 
@@ -59,6 +58,17 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 			$query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.poolID = ppl.id");
 			$query->where("dr.departmentID = '$departmentID'");
 		}
+
+		$programID = $this->state->get('list.programID');
+
+		if ($programID)
+		{
+			$select .= ", ppr.id as programID, ppr.name as programName";
+			$query->innerJoin("#__thm_organizer_plan_programs AS ppr ON ppl.programID = ppr.id");
+			$query->where("ppl.programID = '$programID'");
+		}
+
+		$query->select($select);
 
 		$searchColumns = array('ppl.full_name', 'ppl.name', 'ppl.gpuntisID');
 		$this->setSearchFilter($query, $searchColumns);
@@ -87,10 +97,11 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 		{
 			foreach ($items as $item)
 			{
-				$return[$index] = array();
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-				$return[$index]['gpuntisID']     = JHtml::_('link', $item->link, $item->gpuntisID);
+				$return[$index]              = array();
+				$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
 				$return[$index]['full_name'] = JHtml::_('link', $item->link, $item->full_name);
+				$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
+				$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
 				$index++;
 			}
 		}
@@ -114,8 +125,9 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 			$headers['checkbox'] = '';
 		}
 
-		$headers['gpuntisID']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
 		$headers['full_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ppl.full_name', $direction, $ordering);
+		$headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction, $ordering);
+		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
 
 		return $headers;
 	}

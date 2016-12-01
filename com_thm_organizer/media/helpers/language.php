@@ -152,7 +152,7 @@ class THM_OrganizerHelperLanguage
 	 * @return  string  a HTML anchor tag with the appropriate information
 	 */
 	private static function languageSwitch($newLanguage)
-	{//$( "#languageTag" ).val("' . $newLanguage . '");submit();
+	{
 		$constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
 		$imgPath   = JUri::root() . "/templates/thm/images/assets/icon_earth.jpg";
 		$switch    = '<a onclick="$(\'#languageTag\').val(\'' . $newLanguage . '\');$(\'#adminForm\').submit();">';
