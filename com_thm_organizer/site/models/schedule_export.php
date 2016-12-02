@@ -50,7 +50,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	public function __construct(array $config)
 	{
 		parent::__construct($config);
-		$format = JFactory::getApplication()->input->getString('format');
+		$format        = JFactory::getApplication()->input->getString('format');
 		$lessonFormats = array('pdf', 'ics', 'xls');
 
 		// Don't bother setting these variables for html and raw formats
@@ -115,33 +115,48 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getPoolTitles()
 	{
-		$poolID       = array_values($this->parameters['poolIDs'])[0];
-		$defaultNames = array('docTitle' => 'Schedule_', 'pageTitle' => '');
+		$titles  = array('docTitle' => '', 'pageTitle' => '');
+		$poolIDs = array_values($this->parameters['poolIDs']);
 
-		if (empty($poolID))
+		if (empty($poolIDs))
 		{
-			return $defaultNames;
+			return $titles;
 		}
 
-		$table = JTable::getInstance('plan_pools', 'thm_organizerTable');
+		$table       = JTable::getInstance('plan_pools', 'thm_organizerTable');
+		$oneResource = count($poolIDs) === 1;
 
-		try
+		foreach ($poolIDs as $poolID)
 		{
-			$success = $table->load($poolID);
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+			try
+			{
+				$success = $table->load($poolID);
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
 
-			return $defaultNames;
+				return array();
+			}
+
+			if ($success)
+			{
+				$gpuntisID = JApplicationHelper::stringURLSafe($table->gpuntisID);
+
+				if ($oneResource)
+				{
+					$titles['docTitle']  = $gpuntisID . '_';
+					$titles['pageTitle'] = $table->full_name;
+
+					return $titles;
+				}
+
+				$titles['docTitle'] .= $gpuntisID . '_';
+				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $table->gpuntisID : ", {$table->gpuntisID}";
+			}
 		}
 
-		if (!$success)
-		{
-			return $defaultNames;
-		}
-
-		return array('docTitle' => $table->gpuntisID . '_', 'pageTitle' => $table->full_name);
+		return $titles;
 	}
 
 	/**
@@ -235,35 +250,48 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getRoomTitles()
 	{
-		$roomID       = array_values($this->parameters['roomIDs'])[0];
-		$defaultNames = array('docTitle' => 'Schedule_', 'pageTitle' => '');
+		$titles  = array('docTitle' => '', 'pageTitle' => '');
+		$roomIDs = array_values($this->parameters['roomIDs']);
 
-		if (empty($roomID))
+		if (empty($roomIDs))
 		{
-			return $defaultNames;
+			return $titles;
 		}
 
-		$table = JTable::getInstance('rooms', 'thm_organizerTable');
+		$table       = JTable::getInstance('rooms', 'thm_organizerTable');
+		$oneResource = count($roomIDs) === 1;
 
-		try
+		foreach ($roomIDs as $roomID)
 		{
-			$success = $table->load($roomID);
+			try
+			{
+				$success = $table->load($roomID);
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+
+				return array();
+			}
+
+			if ($success)
+			{
+				$gpuntisID = JApplicationHelper::stringURLSafe($table->gpuntisID);
+
+				if ($oneResource)
+				{
+					$titles['docTitle']  = $gpuntisID . '_';
+					$titles['pageTitle'] = $table->name;
+
+					return $titles;
+				}
+
+				$titles['docTitle'] .= $gpuntisID . '_';
+				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $table->name : ", {$table->name}";
+			}
 		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
 
-			return $defaultNames;
-		}
-
-		if (!$success)
-		{
-			return $defaultNames;
-		}
-
-		$docTitle = JApplicationHelper::stringURLSafe($table->name);
-
-		return array('docTitle' => $docTitle . '_', 'pageTitle' => $table->name);
+		return $titles;
 	}
 
 	/**
@@ -273,59 +301,75 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getSubjectTitles()
 	{
-		$subjectID    = array_values($this->parameters['subjectIDs'])[0];
-		$defaultNames = array('docTitle' => 'Schedule_', 'pageTitle' => '');
+		$subjectIDs    = array_values($this->parameters['subjectIDs']);
+		$titles = array('docTitle' => '', 'pageTitle' => '');
 
-		if (empty($subjectID))
+		if (empty($subjectIDs))
 		{
-			return $defaultNames;
+			return $titles;
 		}
 
+		$oneResource = count($subjectIDs) === 1;
 		$tag = THM_OrganizerHelperLanguage::getShortTag();
 
 		$query = $this->_db->getQuery(true);
-		$query->select("ps.name AS psName, s.short_name_$tag AS shortName, s.name_$tag AS name");
+		$query->select("ps.name AS psName, ps.gpuntisID as gpuntisID, s.short_name_$tag AS shortName, s.name_$tag AS name");
 		$query->from('#__thm_organizer_plan_subjects AS ps');
 		$query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
 		$query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
-		$query->where("ps.id = '$subjectID'");
-		$this->_db->setQuery($query);
 
-		try
+		foreach ($subjectIDs as $subjectID)
 		{
-			$subjectNames = $this->_db->loadAssoc();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+			$query->clear('where');
+			$query->where("ps.id = '$subjectID'");
+			$this->_db->setQuery($query);
 
-			return $defaultNames;
-		}
-
-		if (empty($subjectNames))
-		{
-			return $defaultNames;
-		}
-
-		if (empty($subjectNames['name']))
-		{
-			if (empty($subjectNames['shortName']))
+			try
 			{
-				$name = $subjectNames['psName'];
+				$subjectNames = $this->_db->loadAssoc();
 			}
-			else
+			catch (Exception $exc)
 			{
-				$name = $subjectNames['shortName'];
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+
+				return $titles;
 			}
-		}
-		else
-		{
-			$name = $subjectNames['name'];
+
+			if (!empty($subjectNames))
+			{
+				$gpuntisID = JApplicationHelper::stringURLSafe($subjectNames['gpuntisID']);
+
+				if (empty($subjectNames['name']))
+				{
+					if (empty($subjectNames['shortName']))
+					{
+						$name = $subjectNames['psName'];
+					}
+					else
+					{
+						$name = $subjectNames['shortName'];
+					}
+				}
+				else
+				{
+					$name = $subjectNames['name'];
+				}
+
+				if ($oneResource)
+				{
+					$titles['docTitle']  = $gpuntisID . '_';
+					$titles['pageTitle'] = $name;
+
+					return $titles;
+				}
+
+				$titles['docTitle'] .= $gpuntisID . '_';
+				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $gpuntisID : ", {$gpuntisID}";
+			}
+
 		}
 
-		$docTitle = JApplicationHelper::stringURLSafe($name);
-
-		return array('docTitle' => $docTitle . '_', 'pageTitle' => $name);
+		return $titles;
 	}
 
 	/**
@@ -356,24 +400,49 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getTeacherTitles()
 	{
-		$teacherID    = array_values($this->parameters['teacherIDs'])[0];
-		$defaultNames = array('docTitle' => 'Schedule_', 'pageTitle' => '');
+		$titles     = array('docTitle' => '', 'pageTitle' => '');
+		$teacherIDs = array_values($this->parameters['teacherIDs']);
 
-		if (empty($teacherID))
+		if (empty($teacherIDs))
 		{
-			return $defaultNames;
+			return $titles;
 		}
 
-		$rawTitle = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
+		$table       = JTable::getInstance('teachers', 'thm_organizerTable');
+		$oneResource = count($teacherIDs) === 1;
 
-		if (empty($rawTitle))
+		foreach ($teacherIDs as $teacherID)
 		{
-			return $defaultNames;
+			try
+			{
+				$success = $table->load($teacherID);
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+
+				return array();
+			}
+
+			if ($success)
+			{
+				if ($oneResource)
+				{
+					$displayName = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
+					$titles['docTitle']  = JApplicationHelper::stringURLSafe($displayName) . '_';
+					$titles['pageTitle'] = $displayName;
+
+					return $titles;
+				}
+
+				$displayName = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
+				$gpuntisID = JApplicationHelper::stringURLSafe($table->gpuntisID);
+				$titles['docTitle'] .= $gpuntisID . '_';
+				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
+			}
 		}
 
-		$docTitle = JApplicationHelper::stringURLSafe($rawTitle);
-
-		return array('docTitle' => $docTitle . '_', 'pageTitle' => $rawTitle);
+		return $titles;
 	}
 
 	/**
@@ -423,7 +492,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	{
 		$input = JFactory::getApplication()->input;
 
-		$parameters = array();
+		$parameters           = array();
 		$parameters['format'] = $input->getString('format', 'pdf');
 		$this->setResourceArray('pool', $parameters);
 		$this->setResourceArray('teacher', $parameters);
@@ -435,7 +504,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		$rawLength                     = $input->getString('dateRestriction', 'week');
 		$parameters['dateRestriction'] = in_array($rawLength, $allowedLengths) ? $rawLength : 'week';
 
-		$rawDate            = $input->getString('date');
+		$rawDate = $input->getString('date');
 		if (empty($rawDate))
 		{
 			$parameters['date'] = date('Y-m-d');
@@ -449,9 +518,9 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		{
 			case 'pdf':
 				$parameters['documentFormat'] = $input->getString('documentFormat', 'A4');
-				$parameters['displayFormat'] = $input->getString('displayFormat', 'schedule');
-				$parameters['gridID'] = $input->getInt('gridID', 0);
-				$parameters['pdfWeekFormat'] = $input->getString('pdfWeekFormat', 'sequence');
+				$parameters['displayFormat']  = $input->getString('displayFormat', 'schedule');
+				$parameters['gridID']         = $input->getInt('gridID', 0);
+				$parameters['pdfWeekFormat']  = $input->getString('pdfWeekFormat', 'sequence');
 				break;
 			case 'xls':
 				$parameters['xlsWeekFormat'] = $input->getString('xlsWeekFormat', 'sequence');
@@ -468,13 +537,15 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function setTitles()
 	{
+		$docTitle      = JText::_('COM_THM_ORGANIZER_SCHEDULE') . '_';
+		$pageTitle     = '';
 		$useMySchedule = !empty($this->parameters['mySchedule']);
-		$useLessons    = (!empty($this->parameters['lessonIDs']));
-		$useInstances  = (!empty($this->parameters['instanceIDs']));
-		$usePools      = (!empty($this->parameters['poolIDs']) AND count($this->parameters['poolIDs']) === 1);
-		$useTeachers   = (!empty($this->parameters['teacherIDs']) AND count($this->parameters['teacherIDs']) === 1);
-		$useRooms      = (!empty($this->parameters['roomIDs']) AND count($this->parameters['roomIDs']) === 1);
-		$useSubjects   = (!empty($this->parameters['subjectIDs']) AND count($this->parameters['subjectIDs']) === 1);
+		$useLessons    = !empty($this->parameters['lessonIDs']);
+		$useInstances  = !empty($this->parameters['instanceIDs']);
+		$usePools      = !empty($this->parameters['poolIDs']);
+		$useTeachers   = !empty($this->parameters['teacherIDs']);
+		$useRooms      = !empty($this->parameters['roomIDs']);
+		$useSubjects   = !empty($this->parameters['subjectIDs']);
 
 		if ($useMySchedule)
 		{
@@ -485,30 +556,30 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		{
 			if ($usePools)
 			{
-				$pool      = $this->getPoolTitles();
-				$docTitle  = $pool['docTitle'];
-				$pageTitle = $pool['pageTitle'];
+				$titles = $this->getPoolTitles();
+				$docTitle .= $titles['docTitle'];
+				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 
 			if ($useTeachers)
 			{
-				$teacher   = $this->getTeacherTitles();
-				$docTitle  = $teacher['docTitle'];
-				$pageTitle = $teacher['pageTitle'];
+				$titles = $this->getTeacherTitles();
+				$docTitle .= $titles['docTitle'];
+				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 
 			if ($useRooms)
 			{
-				$room      = $this->getRoomTitles();
-				$docTitle  = $room['docTitle'];
-				$pageTitle = $room['pageTitle'];
+				$titles = $this->getRoomTitles();
+				$docTitle .= $titles['docTitle'];
+				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 
 			if ($useSubjects)
 			{
-				$subject   = $this->getSubjectTitles();
-				$docTitle  = $subject['docTitle'];
-				$pageTitle = $subject['pageTitle'];
+				$titles = $this->getSubjectTitles();
+				$docTitle .= $titles['docTitle'];
+				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 		}
 		else
@@ -517,15 +588,8 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			$pageTitle = '';
 		}
 
-		if (!empty($pageTitle))
-		{
-			$pageTitle .= " ";
-		}
-
-
-		$dates = THM_OrganizerHelperSchedule::getDates($this->parameters);
-
-		$this->parameters['docTitle']  = $docTitle . $dates['startDate'];
+		// Constructed docTitle always ends with a "_" character at this point.
+		$this->parameters['docTitle']  = $docTitle . date('Ymd');
 		$this->parameters['pageTitle'] = $pageTitle;
 	}
 
