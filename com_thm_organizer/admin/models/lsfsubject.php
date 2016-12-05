@@ -166,6 +166,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	private function cleanText($text)
 	{
+		// Gets rid of a0 encoding from copy and paste from word
+		$text = str_replace(chr(160), " ", $text);
+
 		// Remove the formatted text tag
 		$text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
 
