@@ -24,16 +24,16 @@ $initialHidden = array('xlsWeekFormat');
 		copyText = '<?php echo JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
 </script>
 <div id="j-main-container">
-	<form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank" onsubmit="copyLink(validateSelection());">
+	<form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank"">
 		<div id="header-container" class="header-container">
 			<div class="header-title">
 				<?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
 			</div >
 			<div class="toolbar">
-				<button type="submit" id="action-btn" class="btn">
+				<a id="action-btn" class="btn" onclick="handleSubmit();">
 					<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD')?>
 					<span class="icon-file-pdf"></span>
-				</button>
+				</a>
 			</div>
 			<div class="clear"></div>
 		</div>

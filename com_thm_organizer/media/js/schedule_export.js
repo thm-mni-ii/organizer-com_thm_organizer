@@ -6,7 +6,6 @@ $( document ).ready(function() {
     $('label').tooltip({delay: 200, placement: 'right'});
 });
 
-
 /**
  * Clear the current list and add new pools to it
  *
@@ -108,7 +107,6 @@ function copyLink(success)
 
     if (!success)
     {
-        event.preventDefault();
         return false;
     }
 
@@ -146,8 +144,27 @@ function copyLink(success)
 
     window.prompt(copyText, url);
 
-    event.preventDefault();
     return false;
+}
+
+function handleSubmit()
+{
+    var validSelection = validateSelection();
+
+    if (!validSelection)
+    {
+        return false;
+    }
+
+    if ($("input[name=format]").val() == 'ics')
+    {
+        copyLink();
+        return true;
+    }
+
+    $("#adminForm").submit();
+
+    return true;
 }
 
 /**
@@ -328,7 +345,6 @@ function validateSelection()
     if (emptyPools && emptyRooms && emptyTeachers)
     {
         alert(selectionWarning);
-        event.preventDefault();
         return false;
     }
 
