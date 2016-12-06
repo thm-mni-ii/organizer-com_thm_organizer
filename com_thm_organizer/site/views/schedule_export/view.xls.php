@@ -18,7 +18,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 jimport('phpexcel.library.PHPExcel');
 
 /**
- * Class provides methods to create a schedule in ics format
+ * Class provides methods to create xls documents based upon schedule data
  *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
@@ -42,50 +42,13 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$model            = $this->getModel();
-		$this->parameters = $model->parameters;
-		$this->lessons    = $model->lessons;
-echo "<pre>" . print_r($this->parameters, true) . "</pre>";die;
-		$this->createSpreadSheet();
-		$this->addData();
+		$parameters = $model->parameters;
 
-		$this->calendar->returnCalendar();
+		$fileName = $parameters['documentFormat'] . '_' . $parameters['xlsWeekFormat'];
+		require_once __DIR__ . "/tmpl/$fileName.php";
+		$export = new THM_OrganizerTemplateExport_XLS($parameters, $model->lessons);
+		$export->render();
 		ob_flush();
-	}
-
-	/**
-	 * Method to create an xls spreadsheet
-	 *
-	 * @return void creates the object variable spreadsheet
-	 */
-	public function createSpreadSheet()
-	{
-		$spreadSheet = new PHPExcel();
-
-		$userName = JFactory::getUser()->name;
-		$spreadSheet->getProperties()->setCreator("THM Organizer")
-			->setLastModifiedBy($userName)
-			->setTitle($this->parameters['pageTitle'])
-			->setDescription($this->parameters['headerString']);
-
-		$this->spreadsheet = $spreadSheet;
-	}
-
-	/**
-	 *
-	 * @return void
-	 */
-	private function addData()
-	{
-		foreach ($this->lessons as $date => $timesIndexes)
-		{
-			foreach ($timesIndexes as $times => $lessonInstances)
-			{
-				foreach ($lessonInstances as $lessonInstance)
-				{
-					$this->setEvent($date, $lessonInstance);
-				}
-			}
-		}
 	}
 
 	/**

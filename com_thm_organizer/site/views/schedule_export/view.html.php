@@ -162,7 +162,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$formatAttribs = $attribs;
 		$formatAttribs['onChange'] = 'setFormat();';
 		$fileFormats = array();
-		//$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'), 'value' => 'xls');
+		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_XLS_CALENDAR_BLIND'), 'value' => 'xls.si');
 		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
 		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A3_DOCUMENT'), 'value' => 'pdf.a3');
 		$fileFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A4_DOCUMENT'), 'value' => 'pdf.a4');

@@ -523,6 +523,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 				$parameters['pdfWeekFormat']  = $input->getString('pdfWeekFormat', 'sequence');
 				break;
 			case 'xls':
+				$parameters['documentFormat'] = $input->getString('documentFormat', 'si');
 				$parameters['xlsWeekFormat'] = $input->getString('xlsWeekFormat', 'sequence');
 				break;
 		}
@@ -592,6 +593,4 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		$this->parameters['docTitle']  = $docTitle . date('Ymd');
 		$this->parameters['pageTitle'] = $pageTitle;
 	}
-
-
 }

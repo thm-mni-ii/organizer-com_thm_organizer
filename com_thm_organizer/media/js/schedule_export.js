@@ -287,6 +287,8 @@ function setFormat()
             break;
         case 'xls':
             $("input[name=format]").val(format);
+            documentFormat = documentFormat === undefined ? 'si' : documentFormat;
+            $("input[name=documentFormat]").val(documentFormat);
             actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
             linkContainer.hide();
             linkTarget.text('');
@@ -300,7 +302,7 @@ function setFormat()
         default:
             $("input[name=format]").val(format);
             documentFormat = documentFormat === undefined ? 'a4' : documentFormat;
-            $("input[name=documentFormat]").val(formatArray[1]);
+            $("input[name=documentFormat]").val(documentFormat);
             actionButton.text(downloadText + ' ').append('<span class="icon-file-pdf"></span>');
             linkContainer.hide();
             linkTarget.text('');
