@@ -184,6 +184,7 @@ jQuery(document).ready(function ()
     initSchedule();
     computeTableHeight();
     setDatePattern();
+    changePositionOfDateInput();
 
     /**
      * swipe touch event handler changing the shown day and date
@@ -296,13 +297,13 @@ jQuery(document).ready(function ()
     });
 
     /**
-     * Change Checkbox behaviour for the checkboxes in the menubar
-     * just one of the checkboxes is checked at the same time
+     * Change Tab-Behaviour of menu-bar, so all tabs can be closed
      */
-    jQuery('input[type="checkbox"]').on('change', function ()
+    jQuery(".tabs-toggle").on('click', function ()
     {
-        jQuery('input[type="checkbox"]').not(this).prop('checked', false);
+        changeTabBehaviour(jQuery(this));
     });
+
 });
 
 /**
@@ -333,6 +334,11 @@ function initSchedule()
     if (window.scheduleWrapper.getElementsByTagName('table').length == 0)
     {
         createUsersSchedule();
+        //change the active tab
+        jQuery('#tab-selected-schedules').parent('li').addClass("active");
+        jQuery('#selected-schedules').addClass("active");
+        jQuery('#tab-schedule-form').parent('li').removeClass("active");
+        jQuery('#schedule-form').removeClass("active")
     }
 
     if (!browserSupportsDate())
@@ -504,7 +510,7 @@ function computeTableHeight()
  */
 function showDay(visibleDay)
 {
-    var vDay = (typeof visibleDay === 'undefined') ? window.dateField.valueAsDate.getDay(): visibleDay,
+    var vDay = (typeof visibleDay === 'undefined') ? window.dateField.valueAsDate.getDay() : visibleDay,
         schedules = window.scheduleWrapper.getElementsByClassName('scheduler'), rows, heads, cells;
 
     for (var schedule = 0; schedule < schedules.length; ++schedule)
@@ -518,11 +524,11 @@ function showDay(visibleDay)
             {
                 if (head == vDay)
                 {
-                    heads[head].style.display = "table-cell";
+                    jQuery(heads[head]).addClass("activeColumn");
                 }
                 else
                 {
-                    heads[head].style.display = "none";
+                    jQuery(heads[head]).removeClass("activeColumn");
                 }
             }
             cells = rows[row].getElementsByTagName('td');
@@ -530,11 +536,11 @@ function showDay(visibleDay)
             {
                 if (cell == vDay)
                 {
-                    cells[cell].style.display = "table-cell";
+                    jQuery(cells[cell]).addClass("activeColumn");
                 }
                 else
                 {
-                    cells[cell].style.display = "none";
+                    jQuery(cells[cell]).removeClass("activeColumn");
                 }
             }
         }
@@ -819,13 +825,39 @@ function addScheduleToSelection(schedule)
 {
     var option = document.createElement('option');
 
-    option.innerHTML = schedule.title;
+    option.innerHTML = "<span class='title'>" + schedule.title + "</span>";
+    if (schedule.id != 'user')
+    {
+        option.innerHTML += "<button onclick='removeScheduleFromSelection()' class='removeOption'>" +
+            "<span class='icon-remove'></span></button>";
+    }
     option.value = schedule.id;
     option.selected = 'selected';
     document.getElementById('schedules').appendChild(option);
 
     /** updating chosen.js */
     jQuery('#schedules').chosen('destroy').chosen();
+}
+
+/**
+ * remove an entry from the dropdown field for selecting a schedule
+ * works just with chosen, don't work in mobile, because chosen isn't be used there
+ */
+function removeScheduleFromSelection()
+{
+    var x = document.getElementById("schedules"), scheduleInput = document.getElementById(jQuery('#schedules').val());
+
+    x.remove(x.selectedIndex);
+
+    /** updating chosen.js */
+    jQuery('#schedules').chosen('destroy').chosen();
+
+    if (scheduleInput)
+    {
+        scheduleInput.checked = 'checked';
+    }
+
+    //TODO: else{} if no schedule can be select (list is empty) , the guest-schedule-table has to be shown
 }
 
 /**
@@ -895,7 +927,7 @@ function createScheduleTable(schedule)
 function createLesson(lessonData)
 {
     var lesson, ownTimeSpan, nameSpan, moduleSpan, personSpan, saveMenu, saveSemester, savePeriod, saveInstance,
-        saveButton, saveIcon, deleteButton, deleteIcon;
+        saveButton, saveIcon, deleteButton, deleteIcon, closeSaveMenu;
 
     lesson = document.createElement('div');
     lesson.id = lessonData.id + '-' + lessonData.schedule_date + '-' + lessonData.startTime;
@@ -944,6 +976,13 @@ function createLesson(lessonData)
     saveMenu = document.createElement('div');
     saveMenu.className = 'save-menu';
 
+    closeSaveMenu = document.createElement('button');
+    closeSaveMenu.className = 'icon-cancel';
+    closeSaveMenu.addEventListener('click', function ()
+    {
+        saveMenu.style.display = 'none';
+    });
+
     saveSemester = document.createElement('button');
     saveSemester.className = 'save-semester';
     saveSemester.innerHTML = text.SAVE_SEMESTER;
@@ -969,6 +1008,7 @@ function createLesson(lessonData)
         saveMenu.style.display = 'none';
     });
 
+    saveMenu.appendChild(closeSaveMenu);
     saveMenu.appendChild(saveSemester);
     saveMenu.appendChild(savePeriod);
     saveMenu.appendChild(saveInstance);
@@ -1438,4 +1478,50 @@ function updateUsersSchedule()
         setGridDays(schedule.table);
         insertLessons(schedule.table, lessons);
     }
+}
+
+/**
+ * Change tab-behaviour of tabs in menu-bar, so all tabs can be closed
+ *
+ * @param clickedTab Object
+ */
+function changeTabBehaviour(clickedTab)
+{
+    var tabId = clickedTab.attr("data-id");
+
+    if (clickedTab.parent('li').hasClass("active"))
+    {
+        clickedTab.parent('li').toggleClass("inactive", "");
+        jQuery('#' + tabId).toggleClass("inactive", "");
+    }
+    else
+    {
+        jQuery(".tabs-tab").removeClass("inactive");
+        jQuery(".tab-panel").removeClass("inactive");
+    }
+}
+
+/**
+ * change position of the date-input, depending of screen-width
+ */
+function changePositionOfDateInput()
+{
+    var mq = window.matchMedia("(max-width: 677px)");
+    if (window.isMobile)
+    {
+        jQuery(".date-input").insertAfter(".menu-bar");
+    }
+
+    mq.addListener(function ()
+    {
+        if (mq.matches)
+        {
+            jQuery(".date-input").insertAfter(".menu-bar");
+        }
+
+        else
+        {
+            jQuery(".date-input").appendTo(".date-input-list-item");
+        }
+    });
 }

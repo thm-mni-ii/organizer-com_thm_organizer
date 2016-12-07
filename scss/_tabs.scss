@@ -1,0 +1,66 @@
+ul.tabs {
+  margin-bottom: 0;
+
+  span {
+    font-size: 1.2rem;
+  }
+}
+
+.tabs-tab {
+  display: inline;
+  margin: 0 0.3rem;
+
+  &:first-child {
+    margin-left: 0.5rem;
+  }
+
+  &:nth-child(n+2) {
+    margin-left: 0;
+  }
+}
+
+.tabs-toggle {
+  padding: 0.5rem 0.5rem 0.1rem 0.4rem;
+
+  &:hover {
+    text-decoration: none;
+    background-color: #f2f4f5;
+  }
+}
+
+li.active:not(.inactive) {
+  .tabs-toggle {
+    cursor: pointer;
+    background-color: #DFE5E6;
+  }
+
+  //change icon to "cancel", when tab is open
+  [class^="icon-"]::before {
+    content: "\e935";
+    font-family: IcoMoon !important;
+  }
+}
+
+.tab-content {
+  background: #DFE5E6;
+  overflow: visible;
+
+  .active {
+    display: block;
+  }
+
+  > div {
+    margin-left: 0.5rem;
+  }
+}
+
+.tab-panel {
+  overflow-x: visible;
+  overflow-y: visible;
+  padding: 12px 0;
+  display: none;
+
+  &.inactive {
+    display: none !important;
+  }
+}

@@ -5,9 +5,14 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 @import 'variables';
+@import 'tabs';
 
-// Schedule Header
-//********************************************************************************************************************//
+.schedule .ym-cbox {
+
+  @media screen and (max-width: 677px) {
+    padding: inherit !important;
+  }
+}
 
 a,
 a:visited {
@@ -16,8 +21,7 @@ a:visited {
 
 button {
   font-size: 1.3rem;
-  color: $font-color;
-  background-color: $foreground;
+  background-color: transparent;
   border: none;
 }
 
@@ -27,53 +31,70 @@ button:hover,
   cursor: pointer;
 }
 
-.organizer input[type=checkbox] {
+.organizer input[type=checkbox], input[type=radio] {
   display: none;
 }
 
-//menu-bar
-.time-grid-icon::before {
+// Icons *************************************************************************************************************//
+.icon-time-grid::before {
   font-family: icomoon-special !important;
   content: "\e900";
 }
 
-.save-icon::before {
-  font-family: icomoon-special !important;
-  content: "\e962";
+.icon-remove::before {
+  font-size: 1rem;
+  vertical-align: super;
 }
 
+.icon-arrow-left-22::before,
+.icon-arrow-right-22::before,
+.icon-arrow-left::before,
+.icon-arrow-right::before,
+.date-input .icon-calendar::before {
+  font-size: 1rem;
+}
+
+.add-lesson .icon-plus::before {
+  color: #80ba24;
+}
+
+.delete-lesson .icon-delete::before {
+  color: #b54e62;
+}
+
+// Schedule Header
+//********************************************************************************************************************//
+
+// Tabs **************************************************************************************************************//
+//the following rules need to be specifity as that, for overriding the tab-plugin rules
 .menu-bar {
-  padding-bottom: 0.2rem;
-  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
 
-  a, button, label {
-    width: 2rem;
-    display: inline-block;
+  // in mobile view: date-input is a neighbour of menu-bar
+  + .date-input {
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
   }
 
-  span {
-    font-size: 1.2rem;
-  }
-
-  button {
-    text-align: left;
+  .date-input{
+    vertical-align: middle;
+    margin: 0 0.3rem;
   }
 }
 
 .selection {
-  position: absolute;
-  /** only for pushing it out of the users view */
-  left: -200rem;
 
-  ul {
-    list-style-type: none;
+  select:disabled {
+    background-color: #d2d6d9;
   }
 
-  li {
-    margin: 0.1rem 0 0.1rem 0 !important;
-    //  padding: 0.3rem 0 0 0.3rem !important;
-    // margin: 0.5rem 0 0.5rem 0;
-    //  padding: 0.3rem 0 0 0.3rem;
+  > div {
+    display: inline-block;
+    vertical-align: top;
+
+    &:not(#category-input) {
+      display: none;
+    }
   }
 
   a,
@@ -89,37 +110,29 @@ button:hover,
   &:focus {
     outline: none;
   }
+
+  input[disabled] {
+    cursor: wait;
+  }
+
 }
 
-/** checked menu (input field) expand related (sibling) menus */
-#schedule-form-menu-item:checked ~ #schedule-form,
-#time-menu-item:checked ~ #time-selection,
-#schedule-selection-menu-item:checked ~ #schedule-selection,
-#export-menu-item:checked ~ #export-selection {
-  position: static;
-}
+#schedule-form {
 
-#schedule-form-menu-item:checked ~ .menu-bar label:nth-of-type(1) > span:before,
-#time-menu-item:checked ~ .menu-bar > label:nth-of-type(2) > span:before,
-#schedule-selection-menu-item:checked ~ .menu-bar > label:nth-of-type(3) > span:before,
-#export-menu-item:checked ~ .menu-bar > label:nth-of-type(4) > span:before {
-  color: $red-100;
-}
+  select:disabled {
+    background-color: $grey-25;
+  }
 
-//menu select
-#schedule-form select:disabled {
-  background-color: $grey-25;
-}
+  > div:not(#category-input) {
+    display: none;
+  }
 
-#schedule-form > div:not(#category-input) {
-  display: none;
-}
+  .chzn-container {
+    width: 176px !important;
 
-#schedule-form .chzn-container {
-  width: 176px !important;
-
-  .chzn-search input {
-    width: 100% !important;
+    .chzn-search input {
+      width: 100% !important;
+    }
   }
 }
 
@@ -130,7 +143,35 @@ button:hover,
   }
 }
 
+#selected-schedules {
+
+  .chzn-results li {
+    position: relative;
+  }
+
+  .removeOption {
+    position: absolute;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+    background: none;
+  }
+
+  .highlighted .icon-remove::before {
+    color: white;
+  }
+}
+
+#tab-exports {
+  padding-right: 0.7rem;
+}
+
 //overwrite chosen icon in selectBox
+.chzn-container {
+  margin: 0.25rem 0.5rem 0 0;
+}
+
 .chzn-container-single .chzn-single div b {
   background-image: none;
 }
@@ -147,23 +188,15 @@ button:hover,
   }
 }
 
-.icon-arrow-left-22::before,
-.icon-arrow-right-22::before,
-.icon-arrow-left::before,
-.icon-arrow-right::before,
-.date-input .icon-calendar::before {
-  font-size: 1rem;
-  //  position: absolute;
-  //  top: 0.65rem;
-  //  left: 0;
+// Date-Input ********************************************************************************************************//
+.date-input-list-item {
+  display: inline;
+  margin-left: 0;
+  vertical-align: super;
 }
 
 .date-input {
-  position: relative;
-  top: 0.25rem;
-  // @media (max-width: 664px) {
-  clear: both;
-  //  }
+  display: inline-block;
 
   .controls,
   .calender-icon {
@@ -171,40 +204,48 @@ button:hover,
   }
 
   button, span, input {
-    float: left;
-    padding: 0 0.08rem;
+    display: inline;
 
     @media (max-width: 360px) {
-      padding: 0 0.05rem;
-    }
-
-    // mozilla-hack, doesn't understand 0.08
-    @-moz-document url-prefix() {
-      & {
-        padding: 0;
-      }
+      vertical-align: bottom;
     }
   }
 
   button {
-    height: 2.1rem;
-  }
-
-  & button:first-child {
-    margin-left: 0.4rem;
+    @-moz-document url-prefix() {
+      width: 1rem;
+    }
   }
 
   span {
-    //   font-size: 1.4rem;
     position: relative;
   }
 
-  form > span:first-child {
-    width: 1.8rem;
-    font-size: 1rem;
-    text-align: center;
-    //   top: 0.38rem;
-    top: 0.34rem;
+  form {
+    margin: 0;
+
+    > span:first-child {
+      width: 1.8rem;
+      font-size: 1rem;
+      text-align: center;
+      top: 0.34rem;
+    }
+  }
+
+  input[type=date] {
+    width: 8rem !important;
+    padding: 0 0 0 0.1rem !important;
+    vertical-align: sub;
+    margin-bottom: 0;
+
+    @-moz-document url-prefix() {
+      width: 5rem !important;
+    }
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-calendar-picker-indicator {
+      opacity: 1;
+    }
   }
 
   #calendar-icon {
@@ -237,8 +278,8 @@ button:hover,
   }
 }
 
-// Content - Stundenplan-Tabelle
-///*******************************************************************************************************************//
+// Content - Schedule-Table
+//********************************************************************************************************************//
 .scheduler-input:checked + .scheduler {
   z-index: 2;
 }
@@ -257,7 +298,7 @@ button:hover,
 
 .scheduler {
   position: absolute;
-  background-color: $background;
+  background-color: white;
   z-index: 1;
   top: 0;
   left: 0;
@@ -271,25 +312,32 @@ button:hover,
   }
 
   table {
-    border: $border;
-    border-width: 0.2rem 0 0 0;
+    border-top: 0.15rem #394a59 solid;
+    table-layout: fixed;
 
-    .no-mobile & {
-      table-layout: fixed;
-      width: 100%;
+    @media (max-width: 677px) {
+      table-layout: auto;
     }
   }
 
-  @media (min-width: 678px) {
-    td, th {
-      .no-mobile & {
-        width: 16%;
+  td, th {
+    width: 16%;
+
+    &:first-child {
+      width: 2.5rem;
+    }
+
+    &.activeColumn {
+      @media (max-width: 677px) {
+        display: table-cell !important;
+        width: auto;
+        padding-right: 1rem;
       }
     }
 
-    td:first-child, th:first-child {
-      .no-mobile & {
-        width: 2.5rem;
+    &:nth-child(n+2) {
+      @media (max-width: 677px) {
+        display: none;
       }
     }
   }
@@ -301,78 +349,103 @@ button:hover,
   a:hover {
     text-decoration: underline;
   }
+}
 
-  .lesson {
-    //   width: 80%;
-    border: 0.1rem solid $grey-100;
-    background-color: $background;
-    margin: 0 auto 0.5rem;
-    padding: 0.1rem 0.1rem 1.5rem 0.1rem;
-    position: relative;
+.lesson {
+  border: 0.1rem solid $grey-100;
+  background-color: $background;
+  margin: 0 auto 0.5rem;
+  padding: 0.1rem 0.1rem 1.5rem 0.1rem;
+  position: relative;
+}
 
-    .name {
-      font-weight: bold;
-      word-wrap: break-word;
-    }
+.name {
+  font-weight: bold;
+  word-wrap: break-word;
+}
 
-    .module:before {
-      content: " (";
-    }
+.module {
+  &:before {
+    content: " (";
+  }
 
-    .module:after {
-      content: ") ";
-    }
+  &:after {
+    content: ") ";
+  }
+}
 
-    .misc:before, .locations:before {
-      content: " / ";
-    }
+.misc:before, .locations:before {
+  content: " / ";
+}
 
-    .save-menu {
-      display: none;
-      position: absolute;
-      width: 15rem;
-      margin: auto;
-      background: $background-green;
-    }
+.save-menu {
+  background: $background-green;
+  display: none;
+  font-size: smaller;
+  position: absolute;
+  width: 15rem;
+  z-index: 1;
 
-    .add-lesson {
-      position: absolute;
-      right: 0.3rem;
-      bottom: 0.1rem;
-      background: $background;
-      color: $green-100;
-      border: 0;
-      padding: 0;
-    }
+  .icon-cancel {
+    position: absolute;
+    width: initial;
+    height: initial;
+    right: 0;
+    padding: 0.1rem;
 
-    .delete-lesson {
-      display: none;
-      position: absolute;
-      right: 0.3rem;
-      bottom: 0.1rem;
-      background: $background;
-      color: $green-100;
-      border: 0;
-      padding: 0;
-    }
-
-    .old {
-      text-decoration: line-through;
-
-      .add-lesson {
-        display: none;
-      }
-    }
-
-    .new {
-      color: $gr-color-bottom-item;
+    &::before {
+      font-size: medium;
     }
   }
 
-  .break {
-    background-color: $green-50;
-    padding: 0.3rem;
+  button {
+    text-align: left;
+    width: calc(100% - 2rem);
+    line-height: normal;
+    padding: 0.1rem;
+
+    &:hover {
+      background-color: darken($background-green, 10%);
+    }
   }
+
+  .save-semester {
+    margin-top: 1rem;
+  }
+}
+
+.save-instance {
+  margin-bottom: 1rem;
+}
+
+.add-lesson {
+  position: absolute;
+  right: 0.3rem;
+  bottom: 0.1rem;
+}
+
+.delete-lesson {
+  display: none;
+  position: absolute;
+  right: 0.3rem;
+  bottom: 0.1rem;
+}
+
+.old {
+  text-decoration: line-through;
+
+  .add-lesson {
+    display: none;
+  }
+}
+
+.new {
+  color: $gr-color-bottom-item;
+}
+
+.break {
+  background-color: $green-50;
+  padding: 0.2rem;
 }
 
 .no-break tr:nth-child(4) td,
@@ -388,107 +461,5 @@ button:hover,
   th:first-child,
   tr td:first-child {
     display: none;
-  }
-}
-
-//********************************************************************************************************************//
-// Device specials                                                                                                    //
-//********************************************************************************************************************//
-.no-mobile {
-  > .menu-bar {
-    padding-bottom: 0.3rem;
-  }
-
-  #schedule-form {
-    // später zu entfernen!
-    > form > div {
-      float: left;
-      margin: 0.25rem 0.5rem;
-    }
-
-    .input-wrapper > div {
-      margin: 0.25rem 0.5rem 0.25rem 0;
-    }
-
-    select {
-      width: 11rem;
-    }
-  }
-
-  .date-input input[type=date] {
-    //   margin-left: 0.5rem;
-    width: 10rem !important;
-    padding: 0.36rem !important;
-
-    @-moz-document url-prefix() {
-      & {
-        width: 8.6rem !important;
-      }
-    }
-
-  }
-
-  // .lesson {
-  //   width: 9.5rem;
-  // }
-}
-
-//********************************************************************************************************************//
-// spezifisch - mobile Ansicht
-//********************************************************************************************************************//
-
-.tmpl-mobile {
-  /** otherwise the table is as wide as on big devices */
-  min-width: 20rem;
-
-  .ym-cbox {
-    width: initial !important;
-  }
-
-  .date-input {
-    margin-top: 1rem;
-    display: block;
-
-    > form > button {
-      display: none;
-    }
-
-    > form > input[type=date] {
-      width: auto !important; // div#main is always overwriting
-    }
-  }
-
-  .scheduler {
-    td:first-child, th:first-child {
-      width: 0.7rem;
-    }
-
-    td:nth-child(n+3), th:nth-child(n+3) {
-      //visibility: collapse; behave like hidden, should not
-      display: none;
-    }
-  }
-}
-
-@media screen and (max-width: 664px) {
-  .schedule .ym-cbox {
-    width: initial !important;
-  }
-
-  .no-mobile {
-
-    .date-input {
-      margin-top: 1rem;
-      display: block;
-
-      > form > button {
-        display: none;
-      }
-
-      > form > input[type=date] {
-        width: auto !important; // div#main is always overwriting
-      }
-    }
-
   }
 }
