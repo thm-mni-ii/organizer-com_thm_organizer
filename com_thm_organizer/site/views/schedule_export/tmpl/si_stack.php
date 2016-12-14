@@ -237,6 +237,11 @@ class THM_OrganizerTemplateExport_XLS
 		return JText::_('COM_THM_ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
 	}
 
+	/**
+	 * Outputs the generated Excel file
+	 *
+	 * @return void
+	 */
 	public function render()
 	{
 		$objWriter = PHPExcel_IOFactory::createWriter($this->spreadSheet, 'Excel2007');

@@ -96,11 +96,28 @@ class THM_OrganizerHelperRooms
 	 */
 	public static function getPlanRooms()
 	{
-		$dbo            = JFactory::getDbo();
-		$default        = array();
+		$dbo           = JFactory::getDbo();
+		$default       = array();
+		$input         = JFactory::getApplication()->input;
+		$selectedRooms = $input->get('roomIDs', array(), 'array');
+		$selectedTypes = $input->get('typeIDs', array(), 'array');
 
 		$allRoomQuery = $dbo->getQuery(true);
-		$allRoomQuery->select('DISTINCT id, name')->from('#__thm_organizer_rooms');
+		$allRoomQuery->select('DISTINCT r.id, r.name, r.typeID')->from('#__thm_organizer_rooms AS r');
+
+		if (!empty($selectedRooms))
+		{
+			$roomIDs = "'" . implode("', '", $selectedRooms) . "'";
+			$allRoomQuery->where("r.id IN ($roomIDs)");
+		}
+
+		if (!empty($selectedTypes))
+		{
+			$allRoomQuery->innerJoin("#__thm_organizer_room_types AS rt ON r.typeID = rt.id");
+			$typeIDs = "'" . implode("', '", $selectedTypes) . "'";
+			$allRoomQuery->where("rt.id IN ($typeIDs)");
+		}
+
 		$dbo->setQuery($allRoomQuery);
 
 		try
@@ -119,10 +136,9 @@ class THM_OrganizerHelperRooms
 			return $default;
 		}
 
-		$input         = JFactory::getApplication()->input;
 		$selectedDepartments = $input->getString('departmentIDs');
 		$selectedPrograms    = $input->getString('programIDs');
-		$relevantRooms = array();
+		$relevantRooms       = array();
 
 		foreach ($allRooms as $room)
 		{
@@ -133,9 +149,9 @@ class THM_OrganizerHelperRooms
 			$relevanceQuery->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
 
 			$regex = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.colon.]][[.{.]]' .
-					'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-					"[[.quotation-mark.]]{$room['id']}[[.quotation-mark.]][[.colon.]]" .
-					'[[.quotation-mark.]][^removed]';
+				'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
+				"[[.quotation-mark.]]{$room['id']}[[.quotation-mark.]][[.colon.]]" .
+				'[[.quotation-mark.]][^removed]';
 			$relevanceQuery->where("lc.configuration REGEXP '$regex'");
 
 			if (!empty($selectedDepartments))
@@ -167,7 +183,7 @@ class THM_OrganizerHelperRooms
 
 			if (!empty($count))
 			{
-				$relevantRooms[$room['name']] = $room['id'];
+				$relevantRooms[$room['name']] = array('id' => $room['id'], 'typeID' => $room['typeID']);
 			}
 		}
 

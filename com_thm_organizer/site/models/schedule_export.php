@@ -5,7 +5,6 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerModelSchedule_Export
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
  * @copyright   2016 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
@@ -23,8 +22,6 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
-/** @noinspection PhpIncludeInspection */
-//require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class provides methods for retrieving program data
@@ -233,9 +230,9 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
 		$options = array();
 
-		foreach ($rooms as $roomName => $roomID)
+		foreach ($rooms as $roomName => $roomData)
 		{
-			$option['value'] = $roomID;
+			$option['value'] = $roomData['id'];
 			$option['text']  = $roomName;
 			$options[]       = $option;
 		}

@@ -12,9 +12,9 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**
  * Class provides methods for building a model of the curriculum in JSON format
@@ -23,7 +23,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelRoom_Ajax extends JModelLegacy
+class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
 {
 	/**
 	 * Gets the pool options as a string
@@ -32,15 +32,21 @@ class THM_OrganizerModelRoom_Ajax extends JModelLegacy
 	 *
 	 * @return string the concatenated plan pool options
 	 */
-	public function getPlanOptions($short = false)
+	public function getOptions()
 	{
-		$rooms = THM_OrganizerHelperRooms::getPlanRooms($short);
+		$planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
+		$options     = array();
 
-		foreach($rooms as $roomName => $roomData)
+		foreach ($planningPeriods as $planningPeriodID => $planningPeriod)
 		{
-			$rooms[$roomName] = $roomData['id'];
+			$shortSD = THM_OrganizerHelperComponent::formatDate($planningPeriod['startDate']);
+			$shortED = THM_OrganizerHelperComponent::formatDate($planningPeriod['endDate']);
+
+			$option['value'] = $planningPeriod['id'];
+			$option['text']  = "{$planningPeriod['name']} ($shortSD - $shortED)";
+			$options[]       = $option;
 		}
 
-		return json_encode($rooms);
+		return json_encode($options);
 	}
 }
