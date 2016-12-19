@@ -140,7 +140,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 	{
 		foreach ($schedule->configurations as $index => $configuration)
 		{
-			$inConfig = false;
+			$inConfig      = false;
 			$configuration = json_decode($configuration);
 
 			foreach ($configuration->rooms as $roomID => $delta)
@@ -149,7 +149,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 				{
 					// Whether old or new high probability of having to overwrite an attribute this enables standard handling.
 					unset($configuration->rooms->$roomID);
-					$inConfig = true;
+					$inConfig                       = true;
 					$configuration->rooms->$newDBID = $delta;
 				}
 			}

@@ -53,7 +53,7 @@ class THM_OrganizerHelperSubjects
 	{
 		$subjectID = self::getID($subjectIndex);
 
-		$table   = JTable::getInstance('plan_subjects', 'thm_organizerTable');
+		$table = JTable::getInstance('plan_subjects', 'thm_organizerTable');
 
 		if (!empty($subjectID))
 		{

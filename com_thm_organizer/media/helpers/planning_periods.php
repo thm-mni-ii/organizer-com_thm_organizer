@@ -29,8 +29,8 @@ class THM_OrganizerHelperPlanning_Periods
 	 */
 	public static function getCurrentID()
 	{
-		$date = date('Y-m-d');
-		$dbo           = JFactory::getDbo();
+		$date  = date('Y-m-d');
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('id')
 			->from('#__thm_organizer_planning_periods')
@@ -58,7 +58,7 @@ class THM_OrganizerHelperPlanning_Periods
 	 */
 	public static function getID($data)
 	{
-		$ppTable    = JTable::getInstance('planning_periods', 'thm_organizerTable');
+		$ppTable      = JTable::getInstance('planning_periods', 'thm_organizerTable');
 		$loadCriteria = array('startDate' => $data['startDate'], 'endDate' => $data['endDate']);
 
 		try
@@ -122,9 +122,9 @@ class THM_OrganizerHelperPlanning_Periods
 	 */
 	public static function getPlanningPeriods()
 	{
-		$dbo           = JFactory::getDbo();
-		$default       = array();
-		$input         = JFactory::getApplication()->input;
+		$dbo                 = JFactory::getDbo();
+		$default             = array();
+		$input               = JFactory::getApplication()->input;
 		$selectedDepartments = $input->getString('departmentIDs');
 		$selectedPrograms    = $input->getString('programIDs');
 
@@ -167,6 +167,6 @@ class THM_OrganizerHelperPlanning_Periods
 			return $default;
 		}
 
-		return empty($results)? $default : $results;
+		return empty($results) ? $default : $results;
 	}
 }

@@ -32,6 +32,7 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
 	public function getPlanOptions()
 	{
 		$planOptions = THM_OrganizerHelperPrograms::getPlanPrograms();
+
 		return json_encode($planOptions);
 	}
 

@@ -126,7 +126,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 		}
 
 		$headers['full_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ppl.full_name', $direction, $ordering);
-		$headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction, $ordering);
+		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction, $ordering);
 		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
 
 		return $headers;

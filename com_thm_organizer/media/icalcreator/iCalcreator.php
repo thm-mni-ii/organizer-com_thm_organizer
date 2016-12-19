@@ -30,32 +30,39 @@
  *
  * iCalcreator (class) files includes
  *
- * @package icalcreator
+ * @package   icalcreator
  * @copyright Copyright (c) 2007-2015 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * @since 2.21.14 - 2015-04-02
+ * @since     2.21.14 - 2015-04-02
  */
 /*********************************************************************************/
 /**
  *         Do NOT remove or change version!!
  */
-define( 'ICALCREATOR_VERSION', 'iCalcreator 2.22' );
+define('ICALCREATOR_VERSION', 'iCalcreator 2.22');
 /*********************************************************************************/
-if( !defined( 'ICALCREATOR_LIB_DIR' ))
-  define( 'ICALCREATOR_LIB_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR );
+if (!defined('ICALCREATOR_LIB_DIR'))
+{
+	define('ICALCREATOR_LIB_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR);
+}
 /**
  * iCalLoader
  *
  * load iCalcreator src and util classes
  *
  * @param string $class
+ *
  * @return void
  */
-function iCalLoader( $class ) {
-  $file  = ICALCREATOR_LIB_DIR . $class . '.class.php';
-  if( file_exists( $file ))
-    include $file;
+function iCalLoader($class)
+{
+	$file = ICALCREATOR_LIB_DIR . $class . '.class.php';
+	if (file_exists($file))
+	{
+		include $file;
+	}
 }
-spl_autoload_register( 'iCalLoader' );
+
+spl_autoload_register('iCalLoader');
 /**
  * iCalcreator add-on functionality functions
  */

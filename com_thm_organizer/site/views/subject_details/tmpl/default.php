@@ -37,9 +37,9 @@ $postrequisites = $this->getDependencies('post');
 <?php
 if (!empty($this->item->name))
 {
-?>
+	?>
     <h1 class="componentheading"><?php echo $this->item->name; ?></h1>
-<?php
+	<?php
 }
 ?>
 <div class="subject-list">

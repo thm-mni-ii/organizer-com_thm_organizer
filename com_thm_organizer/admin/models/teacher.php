@@ -164,7 +164,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 
 		foreach ($schedule->configurations as $index => $configuration)
 		{
-			$inConfig = false;
+			$inConfig      = false;
 			$configuration = json_decode($configuration);
 
 			foreach ($configuration->teachers as $teacherID => $delta)
@@ -173,7 +173,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 				{
 					// Whether old or new high probability of having to overwrite an attribute this enables standard handling.
 					unset($configuration->teachers->$teacherID);
-					$inConfig = true;
+					$inConfig                          = true;
 					$configuration->teachers->$newDBID = $delta;
 				}
 			}

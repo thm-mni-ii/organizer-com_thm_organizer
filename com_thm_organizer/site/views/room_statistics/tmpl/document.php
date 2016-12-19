@@ -22,7 +22,13 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 
 	public $endDoW;
 
+	private $headerFill;
+
+	private $lightBorder;
+
 	public $metaData;
+
+	private $rightBorder;
 
 	public $rooms;
 
@@ -71,15 +77,47 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 			->setTitle(JText::_('COM_THM_ORGANIZER_ROOM_STATISTICS_EXPORT_TITLE'))
 			->setDescription($description);
 
-		$fontColor = new PHPExcel_Style_Color();
-		$fontColor->setRGB('394A59');
-		$this->spreadSheet->getDefaultStyle()->getFont()
-			->setName('Arial')
-			->setSize('12')
-			->setColor($fontColor);
+		$this->headerFill = array(
+			'type'  => PHPExcel_Style_Fill::FILL_SOLID,
+			'color' => array('rgb' => 'DFE5E6')
+		);
+
+		$this->rightBorder = array(
+			'left'   => array('style' => PHPExcel_Style_Border::BORDER_NONE),
+			'right'  => array(
+				'style' => PHPExcel_Style_Border::BORDER_THICK,
+				'color' => array('rgb' => '394A59')
+			),
+			'bottom' => array(
+				'style' => PHPExcel_Style_Border::BORDER_HAIR,
+				'color' => array('rgb' => 'DFE5E6')
+			),
+			'top'    => array('style' => PHPExcel_Style_Border::BORDER_NONE)
+		);
+
+		$this->lightBorder = array(
+			'left'   => array('style' => PHPExcel_Style_Border::BORDER_NONE),
+			'right'  => array(
+				'style' => PHPExcel_Style_Border::BORDER_HAIR,
+				'color' => array('rgb' => 'DFE5E6')
+			),
+			'bottom' => array(
+				'style' => PHPExcel_Style_Border::BORDER_HAIR,
+				'color' => array('rgb' => 'DFE5E6')
+			),
+			'top'    => array('style' => PHPExcel_Style_Border::BORDER_NONE)
+		);
 
 		$this->spreadSheet->getDefaultStyle()->getAlignment()
 			->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
+		$this->spreadSheet->getDefaultStyle()->applyFromArray(array(
+			'font' => array(
+				'name'  => 'arial',
+				'size'  => 12,
+				'color' => array('rgb' => '394A59')
+			)
+		));
 
 		$this->addSummarySheet();
 		$this->addWeekSheet();
@@ -101,8 +139,7 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 		$this->spreadSheet->getActiveSheet()->getDefaultRowDimension()->setRowHeight('18');
 		$this->spreadSheet->getActiveSheet()->setTitle(JTEXT::_('COM_THM_ORGANIZER_GLOSSARY'));
 		$this->spreadSheet->getActiveSheet()->mergeCells("A1:F1");
-		$title = JText::_('COM_THM_ORGANIZER_ROOM_STATISTICS_TITLE') . ' - ' . JTEXT::_('COM_THM_ORGANIZER_GLOSSARY');
-		$this->spreadSheet->getActiveSheet()->setCellValue('A1', $title);
+		$this->spreadSheet->getActiveSheet()->setCellValue('A1', JTEXT::_('COM_THM_ORGANIZER_GLOSSARY'));
 		$this->spreadSheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
 
 		$this->spreadSheet->getActiveSheet()->mergeCells("A3:B3");
@@ -140,14 +177,16 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 	 * @param int   $roomID    the room id
 	 * @param array $weeksData the utilization data grouped by week number
 	 *
-	 * @return void
+	 * @return array and array with the total and adjusted totals for the room being iterated
 	 */
 	private function addSummaryDataRow($rowNo, $roomID, $weeksData)
 	{
 		$this->spreadSheet->getActiveSheet()->setCellValue("A{$rowNo}", $this->rooms[$roomID]);
-		$roomType = (empty($this->roomTypeMap[$roomID]) OR empty($this->roomTypes[$this->roomTypeMap[$roomID]]))?
+		$this->spreadSheet->getActiveSheet()->getStyle("A{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+		$roomType = (empty($this->roomTypeMap[$roomID]) OR empty($this->roomTypes[$this->roomTypeMap[$roomID]])) ?
 			'' : $this->roomTypes[$this->roomTypeMap[$roomID]]['name'];
 		$this->spreadSheet->getActiveSheet()->setCellValue("B{$rowNo}", $roomType);
+		$this->spreadSheet->getActiveSheet()->getStyle("B{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
 
 		$total         = 0;
 		$adjustedTotal = 0;
@@ -163,14 +202,22 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 		}
 
 		$this->spreadSheet->getActiveSheet()->setCellValue("C{$rowNo}", $use);
-		$sumValue = empty($total)? 0 : $use / $total;
+		$this->spreadSheet->getActiveSheet()->getStyle("C{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+
+		$sumValue = empty($total) ? 0 : $use / $total;
 		$this->spreadSheet->getActiveSheet()->setCellValue("D{$rowNo}", $sumValue);
-		$this->spreadSheet->getActiveSheet()->getStyle("D{$rowNo}")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+		$this->spreadSheet->getActiveSheet()->getStyle("D{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+		$this->spreadSheet->getActiveSheet()->getStyle("D{$rowNo}")->getNumberFormat()
+			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE);
 
 		$this->spreadSheet->getActiveSheet()->setCellValue("E{$rowNo}", $adjustedUse);
-		$adjSumValue = empty($adjustedTotal)? 0 : $adjustedUse / $adjustedTotal;
+		$this->spreadSheet->getActiveSheet()->getStyle("E{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+
+		$adjSumValue = empty($adjustedTotal) ? 0 : $adjustedUse / $adjustedTotal;
 		$this->spreadSheet->getActiveSheet()->setCellValue("F{$rowNo}", $adjSumValue);
-		$this->spreadSheet->getActiveSheet()->getStyle("F{$rowNo}")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+		$this->spreadSheet->getActiveSheet()->getStyle("F{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+		$this->spreadSheet->getActiveSheet()->getStyle("F{$rowNo}")->getNumberFormat()
+			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE);
 
 		return array('total' => $total, 'adjustedTotal' => $adjustedTotal);
 	}
@@ -185,16 +232,15 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 		$this->spreadSheet->setActiveSheetIndex(0);
 		$this->spreadSheet->getActiveSheet()->getDefaultRowDimension()->setRowHeight('18');
 		$this->spreadSheet->getActiveSheet()->setTitle(JTEXT::_('COM_THM_ORGANIZER_SUMMARY'));
-		$this->spreadSheet->getActiveSheet()->mergeCells("A1:F1");
-		$title = JText::_('COM_THM_ORGANIZER_ROOM_STATISTICS_TITLE') . ' - ';
-		$title .= ' ' . $this->startDate . ' ' . JText::_('COM_THM_ORGANIZER_UNTIL') . ' ' . $this->endDate;
+		$this->spreadSheet->getActiveSheet()->mergeCells("A1:H1");
+		$title = JText::_('COM_THM_ORGANIZER_SUMMARY') . ' - ' . $this->startDate . ' ' . JText::_('COM_THM_ORGANIZER_UNTIL') . ' ' . $this->endDate;
 		$this->spreadSheet->getActiveSheet()->setCellValue('A1', $title);
 		$this->spreadSheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
 
 		// TableStartRow is
 		$headerRow = 6;
-		$firstRow = $headerRow + 1;
-		$lastRow  = $headerRow;
+		$firstRow  = $headerRow + 1;
+		$lastRow   = $headerRow;
 
 		foreach ($this->roomData as $roomID => $roomData)
 		{
@@ -202,38 +248,62 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 			$totals = $this->addSummaryDataRow($lastRow, $roomID, $roomData['weeks']);
 		}
 
+		$this->spreadSheet->getActiveSheet()->getStyle("B3")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("C3", JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("C3")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("D3", JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("D3")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("E3", JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("E3")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("F3", JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("F3")->applyFromArray(array('fill' => $this->headerFill));
 
 
 		$this->spreadSheet->getActiveSheet()->setCellValue('A6', JText::_('COM_THM_ORGANIZER_NAME'));
+		$this->spreadSheet->getActiveSheet()->getStyle("A6")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue('B6', JText::_('COM_THM_ORGANIZER_ROOM_TYPE'));
+		$this->spreadSheet->getActiveSheet()->getStyle("B6")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("C6", JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("C6")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("D6", JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("D6")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("E6", JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("E6")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setCellValue("F6", JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("F6")->applyFromArray(array('fill' => $this->headerFill));
 		$this->spreadSheet->getActiveSheet()->setAutoFilter("A6:F{$lastRow}");
 
 		$this->spreadSheet->getActiveSheet()->setCellValue('B4', JText::_('COM_THM_ORGANIZER_SUMMARY'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('C4', "=SUBTOTAL(109,C{$firstRow}:C{$lastRow})");
-		$this->spreadSheet->getActiveSheet()
-			->setCellValue('D4', "=C4/(SUBTOTAL(102,C{$firstRow}:C{$lastRow})*{$totals['total']})");
-		$this->spreadSheet->getActiveSheet()->getStyle("D4")->getNumberFormat()
-			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-		$this->spreadSheet->getActiveSheet()->setCellValue('E4', "=SUBTOTAL(109,E{$firstRow}:E{$lastRow})");
-		$this->spreadSheet->getActiveSheet()
-			->setCellValue('F4', "=E4/(SUBTOTAL(102,E{$firstRow}:E{$lastRow})*{$totals['adjustedTotal']})");
-		$this->spreadSheet->getActiveSheet()->getStyle("F4")->getNumberFormat()
-			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+		$this->spreadSheet->getActiveSheet()->getStyle("B4")->applyFromArray(array('fill' => $this->headerFill));
 
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('C')->setWidth(12.5);
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('D')->setWidth(12.5);
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('E')->setWidth(12.5);
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('F')->setWidth(12.5);
+		$this->spreadSheet->getActiveSheet()->setCellValue('C4', "=SUBTOTAL(109,C{$firstRow}:C{$lastRow})");
+		$this->spreadSheet->getActiveSheet()->getStyle("C4")->applyFromArray(array('borders' => $this->lightBorder));
+
+		$this->spreadSheet->getActiveSheet()
+			->setCellValue('D4', "=IF(C4=0,0,C4/(SUBTOTAL(102,C{$firstRow}:C{$lastRow})*{$totals['total']}))");
+		$this->spreadSheet->getActiveSheet()->getStyle("D4")->applyFromArray(array('borders' => $this->lightBorder));
+		$this->spreadSheet->getActiveSheet()->getStyle('D4')->getNumberFormat()
+			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE);
+
+		$this->spreadSheet->getActiveSheet()->setCellValue('E4', "=SUBTOTAL(109,E{$firstRow}:E{$lastRow})");
+		$this->spreadSheet->getActiveSheet()->getStyle("E4")->applyFromArray(array('borders' => $this->lightBorder));
+
+		$this->spreadSheet->getActiveSheet()
+			->setCellValue('F4', "=IF(E4=0,0,E4/(SUBTOTAL(102,E{$firstRow}:E{$lastRow})*{$totals['adjustedTotal']}))");
+		$this->spreadSheet->getActiveSheet()->getStyle("F4")->applyFromArray(array('borders' => $this->lightBorder));
+		$this->spreadSheet->getActiveSheet()->getStyle('F4')->getNumberFormat()
+			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE);
+
+
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('A')->setWidth(11.5);
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('C')->setWidth(10);
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('D')->setWidth(10);
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('E')->setWidth(10);
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+
+		$this->spreadSheet->getActiveSheet()->getPageSetup()->setColumnsToRepeatAtLeft('A,B');
+		$this->spreadSheet->getActiveSheet()->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(6, 6);
 	}
 
 	/**
@@ -248,7 +318,9 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 	private function addWeekDataRow($rowNo, $roomID, $weeksData)
 	{
 		$this->spreadSheet->getActiveSheet(1)->setCellValue("A{$rowNo}", $this->rooms[$roomID]);
+		$this->spreadSheet->getActiveSheet()->getStyle("A{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
 		$this->spreadSheet->getActiveSheet(1)->setCellValue("B{$rowNo}", $this->roomTypes[$this->roomTypeMap[$roomID]]['name']);
+		$this->spreadSheet->getActiveSheet()->getStyle("B{$rowNo}")->applyFromArray(array('borders' => $this->rightBorder));
 
 		$total         = 0;
 		$adjustedTotal = 0;
@@ -265,16 +337,23 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 
 			++$column;
 			$this->spreadSheet->getActiveSheet()->setCellValue("{$column}{$rowNo}", $weekData['use']);
+			$this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+
 			++$column;
-			$value = empty($weekData['total'])? 0 : $weekData['use'] / $weekData['total'];
+			$value = empty($weekData['total']) ? 0 : $weekData['use'] / $weekData['total'];
 			$this->spreadSheet->getActiveSheet()->setCellValue("{$column}{$rowNo}", $value);
 			$this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->getNumberFormat()
 				->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+			$this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+
 			++$column;
 			$this->spreadSheet->getActiveSheet()->setCellValue("{$column}{$rowNo}", $weekData['adjustedUse']);
+			$this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(array('borders' => $this->lightBorder));
+
 			++$column;
-			$adjustedValue = empty($weekData['adjustedTotal'])? 0 : $weekData['adjustedUse'] / $weekData['adjustedTotal'];
+			$adjustedValue = empty($weekData['adjustedTotal']) ? 0 : $weekData['adjustedUse'] / $weekData['adjustedTotal'];
 			$this->spreadSheet->getActiveSheet()->setCellValue("{$column}{$rowNo}", $adjustedValue);
+			$this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(array('borders' => $this->rightBorder));
 			$this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->getNumberFormat()
 				->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 		}
@@ -285,24 +364,72 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 	/**
 	 * Adds a header group consisting of a title row of 4 merged cells and a header row consisting of 4 header cells
 	 *
-	 * @param string $startColumn the column letter where the column group should start
+	 * @param string $startColumn   the first column
+	 * @param string $groupTitle    the group header title
+	 * @param int    $firstRow      the first data row of the table
+	 * @param int    $lastRow       the last data row of the table
+	 * @param int    $total         the maximum number of reservable blocks for the given week
+	 * @param int    $adjustedTotal the adjusted maximum number of reservable blocks for the given week
 	 *
-	 * @return void
+	 * @return string the column name currently iterated to
 	 */
-	private function addWeekHeaderGroup($startColumn, $groupTitle)
+	private function addWeekHeaderGroup($startColumn, $groupTitle, $firstRow, $lastRow, $total, $adjustedTotal)
 	{
 		++$startColumn;
 		$currentColumn = $startColumn;
-		$this->spreadSheet->getActiveSheet()->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
-		++$currentColumn;
-		$this->spreadSheet->getActiveSheet()->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
-		++$currentColumn;
-		$this->spreadSheet->getActiveSheet()->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
-		++$currentColumn;
-		$this->spreadSheet->getActiveSheet()->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
+		$totalColumn   = $currentColumn;
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}4", "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(array('borders' => $this->lightBorder));
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
-		$this->spreadSheet->getActiveSheet()->mergeCells("{$startColumn}2:{$currentColumn}2");
-		$this->spreadSheet->getActiveSheet()->setCellValue("{$startColumn}2", $groupTitle);
+		++$currentColumn;
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet(1)
+			->setCellValue(
+				"{$currentColumn}4",
+				"=IF({$totalColumn}4=0,0,{$totalColumn}4/(SUBTOTAL(102,{$totalColumn}{$firstRow}:{$totalColumn}{$lastRow})*{$total}))"
+			);
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(array('borders' => $this->lightBorder));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
+			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
+
+		++$currentColumn;
+		$adjTotalColumn = $currentColumn;
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}4", "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(array('borders' => $this->lightBorder));
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
+
+		++$currentColumn;
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(array('fill' => $this->headerFill, 'borders' => $this->rightBorder));
+		$this->spreadSheet->getActiveSheet(1)
+			->setCellValue(
+				"{$currentColumn}4",
+				"=IF({$adjTotalColumn}4=0,0,{$adjTotalColumn}4/(SUBTOTAL(102,{$adjTotalColumn}{$firstRow}:{$adjTotalColumn}{$lastRow})*{$adjustedTotal}))"
+			);
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(array('borders' => $this->rightBorder));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
+			->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(array('fill' => $this->headerFill, 'borders' => $this->rightBorder));
+		$this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
+
+		$this->spreadSheet->getActiveSheet(1)->mergeCells("{$startColumn}6:{$currentColumn}6");
+		$this->spreadSheet->getActiveSheet(1)->setCellValue("{$startColumn}6", $groupTitle);
+		$this->spreadSheet->getActiveSheet()->getStyle("{$startColumn}6")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}6")->applyFromArray(array('borders' => $this->rightBorder));
 
 		return $currentColumn;
 	}
@@ -316,17 +443,17 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 	{
 		$this->spreadSheet->createSheet();
 		$this->spreadSheet->setActiveSheetIndex(1);
-		$this->spreadSheet->getActiveSheet()->getDefaultRowDimension()->setRowHeight('18');
-		$this->spreadSheet->getActiveSheet()->setTitle(JTEXT::_('COM_THM_ORGANIZER_BY_WEEK'));
-		$this->spreadSheet->getActiveSheet()->mergeCells("A1:H1");
-		$title = JText::_('COM_THM_ORGANIZER_ROOM_STATISTICS_TITLE') . ' - ' . JText::_('COM_THM_ORGANIZER_BY_WEEK');
-		$this->spreadSheet->getActiveSheet()->setCellValue('A1', $title);
-		$this->spreadSheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
+		$this->spreadSheet->getActiveSheet(1)->getDefaultRowDimension()->setRowHeight('18');
+		$this->spreadSheet->getActiveSheet(1)->setTitle(JTEXT::_('COM_THM_ORGANIZER_BY_WEEK'));
+		$this->spreadSheet->getActiveSheet(1)->mergeCells("A1:H1");
+		$this->spreadSheet->getActiveSheet(1)->setCellValue('A1', JText::_('COM_THM_ORGANIZER_BY_WEEK'));
+		$this->spreadSheet->getActiveSheet(1)->getStyle('A1')->getFont()->setSize(16);
+		$this->spreadSheet->getActiveSheet()->getStyle("B3")->applyFromArray(array('fill' => $this->headerFill, 'borders' => $this->rightBorder));
+		$this->spreadSheet->getActiveSheet(1)->setCellValue('B4', JText::_('COM_THM_ORGANIZER_SUMMARY'));
+		$this->spreadSheet->getActiveSheet()->getStyle("B4")->applyFromArray(array('fill' => $this->headerFill, 'borders' => $this->rightBorder));
 
-		// Merge the blank cells in the upper left corner
-		$this->spreadSheet->getActiveSheet()->mergeCells("A2:B2");
-
-		$startRow = 3;
+		$startRow = 6;
+		$firstRow = $startRow + 1;
 		$lastRow  = $startRow;
 		foreach ($this->roomData as $roomID => $roomData)
 		{
@@ -338,22 +465,26 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 
 		foreach ($this->metaData['weeks'] as $weekData)
 		{
-			$startDate     = THM_OrganizerHelperComponent::formatDate($weekData['startDate']);
-			$endDate       = THM_OrganizerHelperComponent::formatDate($weekData['endDate']);
-			$groupTitle    = "$startDate - $endDate";
-			$currentColumn = $this->addWeekHeaderGroup($currentColumn, $groupTitle);
+			$startDate          = THM_OrganizerHelperComponent::formatDate($weekData['startDate']);
+			$endDate            = THM_OrganizerHelperComponent::formatDate($weekData['endDate']);
+			$groupTitle         = "$startDate - $endDate";
+			$singleRoomTotal    = $weekData['total'] / count($this->roomData);
+			$singleRoomAdjTotal = $weekData['adjustedTotal'] / count($this->roomData);
+			$currentColumn      = $this->addWeekHeaderGroup($currentColumn, $groupTitle, $firstRow, $lastRow, $singleRoomTotal, $singleRoomAdjTotal);
 		}
 
-		$this->spreadSheet->getActiveSheet()->setCellValue('A3', JText::_('COM_THM_ORGANIZER_NAME'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('B3', JText::_('COM_THM_ORGANIZER_ROOM_TYPE'));
-		$this->spreadSheet->getActiveSheet()->setAutoFilter("A3:{$lastColumn}{$lastRow}");
+		$this->spreadSheet->getActiveSheet(1)->setCellValue('A7', JText::_('COM_THM_ORGANIZER_NAME'));
+		$this->spreadSheet->getActiveSheet()->getStyle("A7")->applyFromArray(array('fill' => $this->headerFill));
+		$this->spreadSheet->getActiveSheet()->getStyle("B6")->applyFromArray(array('borders' => $this->rightBorder));
+		$this->spreadSheet->getActiveSheet(1)->setCellValue('B7', JText::_('COM_THM_ORGANIZER_ROOM_TYPE'));
+		$this->spreadSheet->getActiveSheet()->getStyle("B7")->applyFromArray(array('fill' => $this->headerFill, 'borders' => $this->rightBorder));
+		$this->spreadSheet->getActiveSheet(1)->setAutoFilter("A7:{$lastColumn}{$lastRow}");
 
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('A')->setWidth(12.5);
-		$this->spreadSheet->getActiveSheet()->getColumnDimension('B')->setWidth(12.5);
-		foreach(range('C',$lastColumn) as $columnID)
-		{
-			$this->spreadSheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
-		}
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('A')->setWidth('11.5');
+		$this->spreadSheet->getActiveSheet()->getColumnDimension('B')->setWidth('18');
+
+		$this->spreadSheet->getActiveSheet()->getPageSetup()->setColumnsToRepeatAtLeftByStartAndEnd('A', 'B');
+		$this->spreadSheet->getActiveSheet()->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(6, 7);
 	}
 
 	/**

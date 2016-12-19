@@ -70,13 +70,13 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->isMobile      = THM_OrganizerHelperComponent::isSmartphone();
-		$this->languageTag   = THM_OrganizerHelperLanguage::getShortTag();
-		$this->defaultGrid   = $this->getModel()->getDefaultGrid();
-		$compParams          = JComponentHelper::getParams('com_thm_organizer');
-		$this->dateFormat    = $compParams->get('dateFormat', 'd.m.Y');
-		$params              = JFactory::getApplication()->getMenu()->getActive()->params;
-		$this->departmentID  = $params->get('departmentID', '0');
+		$this->isMobile     = THM_OrganizerHelperComponent::isSmartphone();
+		$this->languageTag  = THM_OrganizerHelperLanguage::getShortTag();
+		$this->defaultGrid  = $this->getModel()->getDefaultGrid();
+		$compParams         = JComponentHelper::getParams('com_thm_organizer');
+		$this->dateFormat   = $compParams->get('dateFormat', 'd.m.Y');
+		$params             = JFactory::getApplication()->getMenu()->getActive()->params;
+		$this->departmentID = $params->get('departmentID', '0');
 		$this->modifyDocument();
 		parent::display($tpl);
 	}

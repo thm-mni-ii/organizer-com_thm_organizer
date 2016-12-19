@@ -29,6 +29,7 @@ C:/Ruby21/bin/scss:23:in `load'
 C:/Ruby21/bin/scss:23:in `<main>'
 */
 body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Sass::SyntaxError: \".thm_organizer_new_span\" failed to @extend \"%icon-new\".\A The selector \"%icon-new\" was not found.\A Use \"@extend %icon-new !optional\" if the extend should be able to fail.\A "; }
+    white-space: pre;
+    font-family: monospace;
+    content: "Sass::SyntaxError: \".thm_organizer_new_span\" failed to @extend \"%icon-new\".\A The selector \"%icon-new\" was not found.\A Use \"@extend %icon-new !optional\" if the extend should be able to fail.\A ";
+}

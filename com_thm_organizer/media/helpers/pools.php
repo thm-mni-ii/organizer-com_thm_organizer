@@ -62,7 +62,7 @@ class THM_OrganizerHelperPools
 
 		$input               = JFactory::getApplication()->input;
 		$selectedDepartments = $input->getString('departmentIDs');
-		$selectedPrograms = $input->getString('programIDs');
+		$selectedPrograms    = $input->getString('programIDs');
 
 		if (!empty($selectedDepartments))
 		{
@@ -99,7 +99,7 @@ class THM_OrganizerHelperPools
 		$pools = array();
 		foreach ($results as $pool)
 		{
-			$name = $short? $pool['name'] : $pool['full_name'];
+			$name         = $short ? $pool['name'] : $pool['full_name'];
 			$pools[$name] = $pool['id'];
 		}
 

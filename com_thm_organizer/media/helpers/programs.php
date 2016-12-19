@@ -34,9 +34,9 @@ class THM_OrganizerHelperPrograms
 	{
 		$table = JTable::getInstance('plan_programs', 'thm_organizerTable');
 
-		$gpuntisID = is_string($program)? $program : $program->gpuntisID;
-		$pullData   = array('gpuntisID' => $gpuntisID);
-		$exists = $table->load($pullData);
+		$gpuntisID = is_string($program) ? $program : $program->gpuntisID;
+		$pullData  = array('gpuntisID' => $gpuntisID);
+		$exists    = $table->load($pullData);
 
 		if ($exists)
 		{
@@ -47,8 +47,8 @@ class THM_OrganizerHelperPrograms
 			return null;
 		}
 
-		$pullData   = array('name' => $program->name);
-		$exists = $table->load($pullData);
+		$pullData = array('name' => $program->name);
+		$exists   = $table->load($pullData);
 
 		if ($exists)
 		{
@@ -67,8 +67,8 @@ class THM_OrganizerHelperPrograms
 	 */
 	public static function getPlanPrograms()
 	{
-		$dbo          = JFactory::getDbo();
-		$languageTag  = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo           = JFactory::getDbo();
+		$languageTag   = THM_OrganizerHelperLanguage::getShortTag();
 		$departmentIDs = JFactory::getApplication()->input->get('departmentIDs', array(), 'raw');
 
 		$query     = $dbo->getQuery(true);

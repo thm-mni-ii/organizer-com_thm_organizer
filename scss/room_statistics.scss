@@ -88,8 +88,18 @@ button {
   padding: .5rem 1rem;
 
   &:first-of-type {
+    margin-top: 1rem;
+  }
+
+}
+
+
+fieldset:nth-of-type(2) {
+
+  .control-item:first-of-type {
     margin-top: 2.5rem;
   }
+
 }
 
 .control-label {

@@ -78,10 +78,10 @@ class THM_OrganizerModelPlan_Program extends THM_OrganizerModelMerge
 				// Whether old or new high probability of having to overwrite an attribute this enables standard handling.
 				unset($schedule->degrees->$gpuntisID);
 
-				$schedule->degrees->$newGPUntisID              = new stdClass;
-				$schedule->degrees->$newGPUntisID->id          = $newDBID;
-				$schedule->degrees->$newGPUntisID->gpuntisID   = $newGPUntisID;
-				$schedule->degrees->$newGPUntisID->name        = $data['name'];
+				$schedule->degrees->$newGPUntisID            = new stdClass;
+				$schedule->degrees->$newGPUntisID->id        = $newDBID;
+				$schedule->degrees->$newGPUntisID->gpuntisID = $newGPUntisID;
+				$schedule->degrees->$newGPUntisID->name      = $data['name'];
 			}
 		}
 

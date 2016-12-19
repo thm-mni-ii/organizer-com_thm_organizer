@@ -564,7 +564,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	{
 		$oldIDString = "'" . implode("', '", $oldDBIDs) . "'";
 
-		$allIDString = "'$newDBID', $oldIDString";
+		$allIDString     = "'$newDBID', $oldIDString";
 		$departmentQuery = $this->_db->getQuery(true);
 		$departmentQuery->select("DISTINCT departmentID");
 		$departmentQuery->from("#__thm_organizer_department_resources");

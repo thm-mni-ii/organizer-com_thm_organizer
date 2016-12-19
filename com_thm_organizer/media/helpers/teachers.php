@@ -135,7 +135,7 @@ class THM_OrganizerHelperTeachers
 	 */
 	public static function getPlanTeachers($short = true)
 	{
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
 		$query->select("DISTINCT lt.teacherID");
@@ -143,7 +143,7 @@ class THM_OrganizerHelperTeachers
 
 		$input               = JFactory::getApplication()->input;
 		$selectedDepartments = $input->getString('departmentIDs');
-		$selectedPrograms = $input->getString('programIDs');
+		$selectedPrograms    = $input->getString('programIDs');
 
 		if (!empty($selectedDepartments))
 		{
@@ -183,7 +183,7 @@ class THM_OrganizerHelperTeachers
 		$teachers = array();
 		foreach ($teacherIDs as $teacherID)
 		{
-			$name = THM_OrganizerHelperTeachers::getLNFName($teacherID, $short);
+			$name            = THM_OrganizerHelperTeachers::getLNFName($teacherID, $short);
 			$teachers[$name] = $teacherID;
 		}
 

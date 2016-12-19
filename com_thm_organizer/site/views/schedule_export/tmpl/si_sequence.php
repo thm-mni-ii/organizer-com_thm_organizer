@@ -112,24 +112,24 @@ class THM_OrganizerTemplateExport_XLS
 		$letter = 'D';
 		if ($this->parameters['showTeachers'])
 		{
-			$column = ++$letter;
-			$cell   = "$column$row";
+			$column       = ++$letter;
+			$cell         = "$column$row";
 			$teachersText = implode(' / ', $teachers);
 			$this->spreadSheet->getActiveSheet()->setCellValue($cell, $teachersText);
 		}
 
 		if ($this->parameters['showRooms'])
 		{
-			$column = ++$letter;
-			$cell   = "$column$row";
+			$column    = ++$letter;
+			$cell      = "$column$row";
 			$roomsText = implode(' / ', $rooms);
 			$this->spreadSheet->getActiveSheet()->setCellValue($cell, $roomsText);
 		}
 
 		if ($this->parameters['showPools'])
 		{
-			$column = ++$letter;
-			$cell   = "$column$row";
+			$column    = ++$letter;
+			$cell      = "$column$row";
 			$poolsText = implode(' / ', $pools);
 			$this->spreadSheet->getActiveSheet()->setCellValue($cell, $poolsText);
 		}
@@ -170,7 +170,7 @@ class THM_OrganizerTemplateExport_XLS
 			$this->spreadSheet->getActiveSheet()->setCellValue($cell, JText::_('COM_THM_ORGANIZER_POOLS'));
 		}
 
-		foreach(range('A',$letter) as $columnID)
+		foreach (range('A', $letter) as $columnID)
 		{
 			$this->spreadSheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 		}

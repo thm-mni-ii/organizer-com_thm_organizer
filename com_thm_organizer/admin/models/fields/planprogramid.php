@@ -33,8 +33,8 @@ class JFormFieldPlanProgramID extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$dbo        = JFactory::getDbo();
-		$query      = $dbo->getQuery(true);
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
 		$query->select("DISTINCT ppr.id AS value, ppr.name AS text");
 		$query->from("#__thm_organizer_plan_programs AS ppr");
 		$query->innerJoin("#__thm_organizer_plan_pools AS ppl ON ppl.programID = ppr.id");

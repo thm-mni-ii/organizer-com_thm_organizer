@@ -298,8 +298,8 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getSubjectTitles()
 	{
-		$subjectIDs    = array_values($this->parameters['subjectIDs']);
-		$titles = array('docTitle' => '', 'pageTitle' => '');
+		$subjectIDs = array_values($this->parameters['subjectIDs']);
+		$titles     = array('docTitle' => '', 'pageTitle' => '');
 
 		if (empty($subjectIDs))
 		{
@@ -307,7 +307,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		}
 
 		$oneResource = count($subjectIDs) === 1;
-		$tag = THM_OrganizerHelperLanguage::getShortTag();
+		$tag         = THM_OrganizerHelperLanguage::getShortTag();
 
 		$query = $this->_db->getQuery(true);
 		$query->select("ps.name AS psName, ps.gpuntisID as gpuntisID, s.short_name_$tag AS shortName, s.name_$tag AS name");
@@ -425,7 +425,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			{
 				if ($oneResource)
 				{
-					$displayName = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
+					$displayName         = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
 					$titles['docTitle']  = JApplicationHelper::stringURLSafe($displayName) . '_';
 					$titles['pageTitle'] = $displayName;
 
@@ -433,7 +433,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 				}
 
 				$displayName = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
-				$gpuntisID = JApplicationHelper::stringURLSafe($table->gpuntisID);
+				$gpuntisID   = JApplicationHelper::stringURLSafe($table->gpuntisID);
 				$titles['docTitle'] .= $gpuntisID . '_';
 				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
 			}
@@ -521,7 +521,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 				break;
 			case 'xls':
 				$parameters['documentFormat'] = $input->getString('documentFormat', 'si');
-				$parameters['xlsWeekFormat'] = $input->getString('xlsWeekFormat', 'sequence');
+				$parameters['xlsWeekFormat']  = $input->getString('xlsWeekFormat', 'sequence');
 				break;
 		}
 

@@ -48,7 +48,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$query    = $this->_db->getQuery(true);
 
-		$select = "ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
+		$select    = "ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
 		$linkParts = array("'index.php?option=com_thm_organizer&view=plan_program_edit&id='", "ppr.id");
 		$select .= $query->concatenate($linkParts, "") . " AS link";
 		$query->select($select);
@@ -92,10 +92,10 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 		{
 			foreach ($items as $item)
 			{
-				$return[$index] = array();
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-				$return[$index]['gpuntisID']     = JHtml::_('link', $item->link, $item->gpuntisID);
-				$return[$index]['name'] = JHtml::_('link', $item->link, $item->name);
+				$return[$index]              = array();
+				$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
+				$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
+				$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
 				$index++;
 			}
 		}
@@ -119,8 +119,8 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 			$headers['checkbox'] = '';
 		}
 
-		$headers['gpuntisID']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
-		$headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'ppr.name', $direction, $ordering);
+		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
+		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'ppr.name', $direction, $ordering);
 
 		return $headers;
 	}

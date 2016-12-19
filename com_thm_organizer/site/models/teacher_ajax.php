@@ -35,6 +35,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 	public function getPlanOptions($short = false)
 	{
 		$planOptions = THM_OrganizerHelperTeachers::getPlanTeachers($short);
+
 		return json_encode($planOptions);
 	}
 

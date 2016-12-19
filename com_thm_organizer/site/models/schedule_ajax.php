@@ -200,7 +200,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$input  = JFactory::getApplication()->input;
 		$config = $input->getInt('config', LESSONS_OF_PERIOD);
 		$ccmID  = $input->getString('ccmID');
-		$userID   = JFactory::getUser()->id;
+		$userID = JFactory::getUser()->id;
 
 		/** no logged in user */
 		if (empty($userID))

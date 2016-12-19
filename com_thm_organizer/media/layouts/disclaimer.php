@@ -24,10 +24,10 @@ $poText   = $lang->_('COM_THM_ORGANIZER_DISCLAIMER_PO_TEXT');
 $poOutput = sprintf($poText, $poLink);
 ?>
 <div class="legal-disclaimer">
-	<h4><?php echo $lang->_('COM_THM_ORGANIZER_DISCLAIMER_HEADER'); ?></h4>
-	<ul>
-		<li><?php echo $lsfOutput; ?></li>
-		<li><?php echo $ambOutput; ?></li>
-		<li><?php echo $poOutput; ?></li>
-	</ul>
+    <h4><?php echo $lang->_('COM_THM_ORGANIZER_DISCLAIMER_HEADER'); ?></h4>
+    <ul>
+        <li><?php echo $lsfOutput; ?></li>
+        <li><?php echo $ambOutput; ?></li>
+        <li><?php echo $poOutput; ?></li>
+    </ul>
 </div>

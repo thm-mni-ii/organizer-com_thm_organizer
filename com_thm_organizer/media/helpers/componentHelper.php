@@ -395,15 +395,15 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Formats the date stored in the database according to the format in the component parameters
 	 *
-	 * @param string $date the date to be formatted
+	 * @param string $date     the date to be formatted
 	 * @param bool   $withText if the day name should be part of the output
 	 *
 	 * @return  string|bool  a formatted date string otherwise false
 	 */
 	public static function formatDate($date, $withText = false)
 	{
-		$params     = JComponentHelper::getParams('com_thm_organizer');
-		$dateFormat = $params->get('dateFormat', 'd.m.Y');
+		$params        = JComponentHelper::getParams('com_thm_organizer');
+		$dateFormat    = $params->get('dateFormat', 'd.m.Y');
 		$formattedDate = date($dateFormat, strtotime($date));
 
 		if ($withText)
@@ -477,10 +477,10 @@ class THM_OrganizerHelperComponent
 			return $date;
 		}
 
-		$dateFormat     = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
+		$dateFormat    = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
 		$supportedDate = date_create_from_format($dateFormat, $date);
 
-		return empty($supportedDate)? $default : date_format($supportedDate, 'Y-m-d');
+		return empty($supportedDate) ? $default : date_format($supportedDate, 'Y-m-d');
 	}
 
 	/**

@@ -39,7 +39,7 @@ class THM_OrganizerTablePlan_Pools extends JTable
 	public function check()
 	{
 		$this->fieldID = null;
-		$this->poolID = null;
+		$this->poolID  = null;
 
 		return true;
 	}

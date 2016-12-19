@@ -1,79 +1,96 @@
 body {
-  overflow: hidden !important; }
+    overflow: hidden !important;
+}
 
 .display-schedule {
-  font-family: Verdana, Arial;
-  margin: auto 0;
-  line-height: normal;
-  color: #4a5c66; }
+    font-family: Verdana, Arial;
+    margin: auto 0;
+    line-height: normal;
+    color: #4a5c66;
+}
 
 .head {
-  padding: 3em 48px;
-  border-bottom: 1px solid #ECECEC;
-  box-shadow: 0 5px 3px #888888;
-  margin-bottom: 10px;
-  position: relative; }
+    padding: 3em 48px;
+    border-bottom: 1px solid #ECECEC;
+    box-shadow: 0 5px 3px #888888;
+    margin-bottom: 10px;
+    position: relative;
+}
 
 .thm-logo {
-  width: 224px;
-  float: left; }
-  .thm-logo img {
     width: 224px;
-    height: 84px; }
+    float: left;
+}
+
+.thm-logo img {
+    width: 224px;
+    height: 84px;
+}
 
 .room-name {
-  text-align: center;
-  font-size: 95px;
-  font-weight: bold;
-  line-height: 72px;
-  margin: 0 205px 0 210px; }
+    text-align: center;
+    font-size: 95px;
+    font-weight: bold;
+    line-height: 72px;
+    margin: 0 205px 0 210px;
+}
 
 .date-info {
-  text-align: right;
-  color: #80ba24;
-  font-weight: bold;
-  font-size: 250%;
-  position: absolute;
-  bottom: 39px;
-  right: 48px; }
-  .date-info .weekday {
-    text-transform: uppercase; }
+    text-align: right;
+    color: #80ba24;
+    font-weight: bold;
+    font-size: 250%;
+    position: absolute;
+    bottom: 39px;
+    right: 48px;
+}
+
+.date-info .weekday {
+    text-transform: uppercase;
+}
 
 .schedule-area {
-  margin: 0 48px;
-  font-size: 200%; }
+    margin: 0 48px;
+    font-size: 200%;
+}
 
 .schedule-block {
-  padding: 2rem 1rem;
-  background-color: #eeeeee;
-  border-bottom: 3px solid white;
-  min-height: 3.5vmin; }
+    padding: 2rem 1rem;
+    background-color: #eeeeee;
+    border-bottom: 3px solid white;
+    min-height: 3.5vmin;
+}
 
 .block-time {
-  float: left; }
+    float: left;
+}
 
 .block-title {
-  float: left;
-  font-weight: bold;
-  word-wrap: break-word;
-  padding-left: 8%; }
+    float: left;
+    font-weight: bold;
+    word-wrap: break-word;
+    padding-left: 8%;
+}
 
 .block-extra {
-  text-align: right;
-  word-wrap: break-word; }
+    text-align: right;
+    word-wrap: break-word;
+}
 
 .active {
-  background-color: #9C132D;
-  color: white;
-  padding: 2.5rem 1rem; }
+    background-color: #9C132D;
+    color: white;
+    padding: 2.5rem 1rem;
+}
 
 img.room-display-content {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  max-height: 100%;
-  margin: auto;
-  overflow: auto; }
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 100%;
+    margin: auto;
+    overflow: auto;
+}

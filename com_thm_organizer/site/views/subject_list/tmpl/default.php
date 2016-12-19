@@ -17,40 +17,40 @@ $resetVisibility .= strlen($query) ? 'visibible' : 'hidden';
 $resetVisibility .= ';"';
 ?>
 <div id="j-main-container" class="span10">
-	<form action="<?php JUri::current(); ?>" id="adminForm" method="post"
-	      name="adminForm" xmlns="http://www.w3.org/1999/html">
-		<div class="toolbar">
-			<div class="tool-wrapper language-switches">
+    <form action="<?php JUri::current(); ?>" id="adminForm" method="post"
+          name="adminForm" xmlns="http://www.w3.org/1999/html">
+        <div class="toolbar">
+            <div class="tool-wrapper language-switches">
 				<?php
 				foreach ($this->languageSwitches AS $switch)
 				{
 					echo $switch;
 				}
 				?>
-			</div>
-			<div class="tool-wrapper search">
-				<input type="text" name="search" id="filter_search"
-				       value="<?php echo $query; ?>"
-				       title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_SUBJECTS'); ?>"
-				       size="25"/>
-				<button type="submit" class="btn-search hasTooltip"
-				        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-					<i class="icon-search"></i>
-				</button>
-				<button type="button" class="btn-reset hasTooltip" <?php echo $resetVisibility; ?>
-				        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
-				        onclick="document.getElementById('filter_search').value='';this.form.submit();">
-					<i class="icon-delete"></i>
-				</button>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		<input type="hidden" id="programID" name="programID" value="<?php echo $this->state->get('programID'); ?>"/>
-		<input type="hidden" id="menuID" name="menuID" value="<?php echo $this->state->get('menuID'); ?>"/>
-		<input type="hidden" id="languageTag" name="languageTag"
-		       value="<?php echo $this->state->get('languageTag'); ?>"/>
+            </div>
+            <div class="tool-wrapper search">
+                <input type="text" name="search" id="filter_search"
+                       value="<?php echo $query; ?>"
+                       title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_SUBJECTS'); ?>"
+                       size="25"/>
+                <button type="submit" class="btn-search hasTooltip"
+                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+                    <i class="icon-search"></i>
+                </button>
+                <button type="button" class="btn-reset hasTooltip" <?php echo $resetVisibility; ?>
+                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
+                        onclick="document.getElementById('filter_search').value='';this.form.submit();">
+                    <i class="icon-delete"></i>
+                </button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <input type="hidden" id="programID" name="programID" value="<?php echo $this->state->get('programID'); ?>"/>
+        <input type="hidden" id="menuID" name="menuID" value="<?php echo $this->state->get('menuID'); ?>"/>
+        <input type="hidden" id="languageTag" name="languageTag"
+               value="<?php echo $this->state->get('languageTag'); ?>"/>
 		<?php echo JHtml::_('form.token'); ?>
-		<h1 class="componentheading"><?php echo $this->programName; ?></h1>
+        <h1 class="componentheading"><?php echo $this->programName; ?></h1>
 		<?php
 		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $this->groupBy));
 		echo JHtml::_('bootstrap.addTab', 'myTab', 'list', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
@@ -73,6 +73,6 @@ $resetVisibility .= ';"';
 		echo JHtml::_('bootstrap.endTab');
 		echo JHtml::_('bootstrap.endTabSet');
 		?>
-	</form>
+    </form>
 	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
 </div>

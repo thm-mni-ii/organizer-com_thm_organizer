@@ -45,14 +45,14 @@ class THM_OrganizerTemplateExport_XLS
 
 		$this->setColumnDisplay();
 
-		$today = date('Y-m-d');
+		$today             = date('Y-m-d');
 		$activeSheetNumber = 0;
-		$sheetNumber = 0;
-		$startDate = key($this->lessons);
+		$sheetNumber       = 0;
+		$startDate         = key($this->lessons);
 
 		while (isset($this->lessons[$startDate]))
 		{
-			$breakDate    = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+			$breakDate = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
 
 			$this->addSheet($sheetNumber, $startDate);
 			$this->addData($startDate, $breakDate);
@@ -142,24 +142,24 @@ class THM_OrganizerTemplateExport_XLS
 		$letter = 'D';
 		if ($this->parameters['showTeachers'])
 		{
-			$column = ++$letter;
-			$cell   = "$column$row";
+			$column       = ++$letter;
+			$cell         = "$column$row";
 			$teachersText = implode(' / ', $teachers);
 			$this->spreadSheet->getActiveSheet()->setCellValue($cell, $teachersText);
 		}
 
 		if ($this->parameters['showRooms'])
 		{
-			$column = ++$letter;
-			$cell   = "$column$row";
+			$column    = ++$letter;
+			$cell      = "$column$row";
 			$roomsText = implode(' / ', $rooms);
 			$this->spreadSheet->getActiveSheet()->setCellValue($cell, $roomsText);
 		}
 
 		if ($this->parameters['showPools'])
 		{
-			$column = ++$letter;
-			$cell   = "$column$row";
+			$column    = ++$letter;
+			$cell      = "$column$row";
 			$poolsText = implode(' / ', $pools);
 			$this->spreadSheet->getActiveSheet()->setCellValue($cell, $poolsText);
 		}
@@ -179,10 +179,10 @@ class THM_OrganizerTemplateExport_XLS
 
 		$this->spreadSheet->setActiveSheetIndex($sheetNumber);
 
-		$rawEndDate    = date('Y-m-d', strtotime("+6 day", strtotime($rawStartDate)));
-		$startDate = THM_OrganizerHelperComponent::formatDate($rawStartDate);
-		$endDate = THM_OrganizerHelperComponent::formatDate($rawEndDate);
-		$dates = "$startDate - $endDate";
+		$rawEndDate = date('Y-m-d', strtotime("+6 day", strtotime($rawStartDate)));
+		$startDate  = THM_OrganizerHelperComponent::formatDate($rawStartDate);
+		$endDate    = THM_OrganizerHelperComponent::formatDate($rawEndDate);
+		$dates      = "$startDate - $endDate";
 
 		$this->spreadSheet->getActiveSheet()->setTitle($dates);
 
@@ -217,7 +217,7 @@ class THM_OrganizerTemplateExport_XLS
 		$pageHeading = JText::_('COM_THM_ORGANIZER_WEEK') . ": $dates";
 		$this->spreadSheet->getActiveSheet()->setCellValue('A1', $pageHeading);
 
-		foreach(range('A',$letter) as $columnID)
+		foreach (range('A', $letter) as $columnID)
 		{
 			$this->spreadSheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 		}

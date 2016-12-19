@@ -247,7 +247,7 @@ class THM_OrganizerHelperXMLLessons
 		{
 			$warningCount = $this->scheduleModel->scheduleWarnings['LESSON-METHOD'];
 			unset($this->scheduleModel->scheduleWarnings['LESSON-METHOD']);
-			$this->scheduleModel->scheduleWarnings[]= JText::sprintf('COM_THM_ORGANIZER_WARNING_METHODID', $warningCount);
+			$this->scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_METHODID', $warningCount);
 		}
 	}
 

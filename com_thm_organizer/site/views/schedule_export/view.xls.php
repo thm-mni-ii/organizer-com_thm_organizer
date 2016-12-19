@@ -41,7 +41,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$model            = $this->getModel();
+		$model      = $this->getModel();
 		$parameters = $model->parameters;
 
 		$fileName = $parameters['documentFormat'] . '_' . $parameters['xlsWeekFormat'];
@@ -80,7 +80,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		);
 		$vEvent->setProperty("DTSTART", $dtStart);
 
-		$dtEnd   = array(
+		$dtEnd = array(
 			"year"  => $datePieces[0],
 			"month" => $datePieces[1],
 			"day"   => $datePieces[2],
@@ -91,9 +91,9 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$vEvent->setProperty("DTEND", $dtEnd);
 
 		$subjectNames = array_keys($lessonInstance['subjects']);
-		$subjectNos = array();
-		$teachers = array();
-		$rooms = array();
+		$subjectNos   = array();
+		$teachers     = array();
+		$rooms        = array();
 		foreach ($lessonInstance['subjects'] AS $subjectConfiguration)
 		{
 			if (!empty($subjectConfiguration['subjectNo']))
@@ -102,18 +102,18 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 			}
 
 			$teachers = $teachers + $subjectConfiguration['teachers'];
-			$rooms = $rooms + $subjectConfiguration['rooms'];
+			$rooms    = $rooms + $subjectConfiguration['rooms'];
 		}
 
-		$comment = empty($lessonInstance['comment'])? '' : $lessonInstance['comment'];
+		$comment = empty($lessonInstance['comment']) ? '' : $lessonInstance['comment'];
 		$vEvent->setProperty("DESCRIPTION", $comment);
 
 		$title = implode('/', $subjectNames);
-		$title .= empty($lessonInstance['method'])? '' : " - {$lessonInstance['method']}";
-		$title .= empty($subjectNos)? '' : " (" . implode('/', $subjectNos) . ")";
+		$title .= empty($lessonInstance['method']) ? '' : " - {$lessonInstance['method']}";
+		$title .= empty($subjectNos) ? '' : " (" . implode('/', $subjectNos) . ")";
 
 		$teachersText = implode('/', $teachers);
-		$roomsText = implode('/', $rooms);
+		$roomsText    = implode('/', $rooms);
 
 		$summary = JText::sprintf('COM_THM_ORGANIZER_ICS_SUMMARY', $title, $teachersText);
 

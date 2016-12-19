@@ -36,7 +36,7 @@ class THM_OrganizerModelRoom_Ajax extends JModelLegacy
 	{
 		$rooms = THM_OrganizerHelperRooms::getPlanRooms($short);
 
-		foreach($rooms as $roomName => $roomData)
+		foreach ($rooms as $roomName => $roomData)
 		{
 			$rooms[$roomName] = $roomData['id'];
 		}

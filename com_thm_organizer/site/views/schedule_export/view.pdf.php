@@ -44,10 +44,10 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 			return false;
 		}
 
-		$model = $this->getModel();
+		$model      = $this->getModel();
 		$parameters = $model->parameters;
-		$grid = $model->grid;
-		$lessons = $model->lessons;
+		$grid       = $model->grid;
+		$lessons    = $model->lessons;
 
 		$fileName = $parameters['documentFormat'] . '_' . $parameters['displayFormat'] . '_' . $parameters['pdfWeekFormat'];
 		require_once __DIR__ . "/tmpl/$fileName.php";

@@ -54,92 +54,92 @@ class JFormFieldScheduler extends JFormField
 		$menuID = JFactory::getApplication()->input->getInt("id", 0);
 		$params = $this->getParams($menuID);
 		?>
-		<script type="text/javascript" charset="utf-8">
-			var prefix = '<?php echo JUri::root(true); ?>',
-				menuID = <?php echo $menuID ?>,
-				treeIDs = <?php echo $params->id; ?>,
-				publicDefaultID = <?php echo $params->publicDefaultID; ?>,
-				COM_THM_ORGANIZER_SHOW_ALL = '<?php echo JText::_('COM_THM_ORGANIZER_SHOW_ALL'); ?>',
-				externLinks = [], images = [];
+        <script type="text/javascript" charset="utf-8">
+            var prefix = '<?php echo JUri::root(true); ?>',
+                menuID = <?php echo $menuID ?>,
+                treeIDs = <?php echo $params->id; ?>,
+                publicDefaultID = <?php echo $params->publicDefaultID; ?>,
+                COM_THM_ORGANIZER_SHOW_ALL = '<?php echo JText::_('COM_THM_ORGANIZER_SHOW_ALL'); ?>',
+                externLinks = [], images = [];
 
-			externLinks.ajaxHandler = '<?php echo JUri::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'; ?>';
+            externLinks.ajaxHandler = '<?php echo JUri::root() . 'index.php?option=com_thm_organizer&view=ajaxhandler&format=raw'; ?>';
 
-			Joomla.submitbutton = function (task, type)
-			{
-				if (task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
-				{
-					var dbElement = Ext.get('jform_params_id'),
-						pdElement = Ext.get('jform_params_publicDefaultID');
-					var displayOptions = [];
-					var doEL = document.getElementsByName("jform[params][displayRoomSchedule]");
+            Joomla.submitbutton = function (task, type)
+            {
+                if (task == "item.apply" || task == "item.save" || task == "item.save2new" || task == "item.save2copy")
+                {
+                    var dbElement = Ext.get('jform_params_id'),
+                        pdElement = Ext.get('jform_params_publicDefaultID');
+                    var displayOptions = [];
+                    var doEL = document.getElementsByName("jform[params][displayRoomSchedule]");
 
-					for (var i = 0; i < doEL.length; i++)
-					{
-						if (doEL[i].checked === true && doEL[i].value == 0)
-						{
-							displayOptions.push('room');
-						}
-					}
-					doEL = document.getElementsByName("jform[params][displayTeacherSchedule]");
+                    for (var i = 0; i < doEL.length; i++)
+                    {
+                        if (doEL[i].checked === true && doEL[i].value == 0)
+                        {
+                            displayOptions.push('room');
+                        }
+                    }
+                    doEL = document.getElementsByName("jform[params][displayTeacherSchedule]");
 
-					for (var i = 0; i < doEL.length; i++)
-					{
-						if (doEL[i].checked === true && doEL[i].value == 0)
-						{
-							displayOptions.push('teacher');
-						}
-					}
+                    for (var i = 0; i < doEL.length; i++)
+                    {
+                        if (doEL[i].checked === true && doEL[i].value == 0)
+                        {
+                            displayOptions.push('teacher');
+                        }
+                    }
 
-					var vals = selectBoxes.getSelectedValues();
-					dbElement.dom.value = Ext.encode(vals);
+                    var vals = selectBoxes.getSelectedValues();
+                    dbElement.dom.value = Ext.encode(vals);
 
-					//pdElement.dom.value = Ext.encode(tree.getPublicDefault());
-				}
+                    //pdElement.dom.value = Ext.encode(tree.getPublicDefault());
+                }
 
-				if (task == 'item.setType' || task == 'item.setMenuType')
-				{
-					if (task == 'item.setType')
-					{
-						document.id('item-form').elements['jform[type]'].value = type;
-						document.id('fieldtype').value = 'type';
-					}
-					else
-					{
-						document.id('item-form').elements['jform[menutype]'].value = type;
-					}
+                if (task == 'item.setType' || task == 'item.setMenuType')
+                {
+                    if (task == 'item.setType')
+                    {
+                        document.id('item-form').elements['jform[type]'].value = type;
+                        document.id('fieldtype').value = 'type';
+                    }
+                    else
+                    {
+                        document.id('item-form').elements['jform[menutype]'].value = type;
+                    }
 
-					Joomla.submitform('item.setType', document.id('item-form'));
-				}
-				else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
-				{
-					Joomla.submitform(task, document.id('item-form'));
-				}
-				else
-				{
-					// special case for modal popups validation response
-					$$('#item-form .modal-value.invalid').each(function (field)
-					{
-						var idReversed = field.id.split("").reverse().join("");
-						var separatorLocation = idReversed.indexOf('_');
-						var name = idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
-						document.id(name).addClass('invalid');
-					});
-				}
-			}
+                    Joomla.submitform('item.setType', document.id('item-form'));
+                }
+                else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+                {
+                    Joomla.submitform(task, document.id('item-form'));
+                }
+                else
+                {
+                    // special case for modal popups validation response
+                    $$('#item-form .modal-value.invalid').each(function (field)
+                    {
+                        var idReversed = field.id.split("").reverse().join("");
+                        var separatorLocation = idReversed.indexOf('_');
+                        var name = idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
+                        document.id(name).addClass('invalid');
+                    });
+                }
+            }
 
-		</script>
+        </script>
 
-		<style type="text/css">
-			.x-tree-node-cb {
-				float: none;
-			}
+        <style type="text/css">
+            .x-tree-node-cb {
+                float: none;
+            }
 
-			.MySched_scheduler_selection_icons {
-				margin: 0;
-			}
+            .MySched_scheduler_selection_icons {
+                margin: 0;
+            }
 
-		</style>
-		<div style="width: auto; height: auto;" id="tree-div"></div>
+        </style>
+        <div style="width: auto; height: auto;" id="tree-div"></div>
 		<?php
 	}
 

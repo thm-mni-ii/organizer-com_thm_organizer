@@ -75,9 +75,9 @@ class THM_OrganizerHelperDepartments
 	 */
 	public static function getPlanDepartments($short = true)
 	{
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
-		$tag = THM_OrganizerHelperLanguage::getShortTag();
+		$tag   = THM_OrganizerHelperLanguage::getShortTag();
 
 		$query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
 		$query->from('#__thm_organizer_departments AS d');
@@ -105,7 +105,7 @@ class THM_OrganizerHelperDepartments
 		$departments = array();
 		foreach ($results as $department)
 		{
-			$departments[$department['id']] = $short? $department['shortName'] : $department['name'];
+			$departments[$department['id']] = $short ? $department['shortName'] : $department['name'];
 		}
 
 		asort($departments);

@@ -90,7 +90,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 				$schedule->pools->$newGPUntisID->degree       = $programUntisID;
 
 				// This will play little role later due to the times in the calendar table
-				$schedule->pools->$newGPUntisID->grid   = $pool->grid;
+				$schedule->pools->$newGPUntisID->grid = $pool->grid;
 
 				if (!empty($pool->gridID))
 				{

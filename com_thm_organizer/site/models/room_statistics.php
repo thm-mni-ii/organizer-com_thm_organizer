@@ -635,37 +635,37 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	 */
 	private function createMetaData()
 	{
-		$this->metaData = array();
+		$this->metaData         = array();
 		$this->metaData['days'] = array();
-		$dailyBlocks = count($this->grid);
+		$dailyBlocks            = count($this->grid);
 
 		foreach (array_keys($this->calendarData) as $date)
 		{
-			$this->metaData['days'][$date] = array();
+			$this->metaData['days'][$date]          = array();
 			$this->metaData['days'][$date]['total'] = 0;
-			$this->metaData['days'][$date]['use'] = 0;
+			$this->metaData['days'][$date]['use']   = 0;
 
 			foreach ($this->rooms as $roomName => $roomData)
 			{
 				$this->metaData['days'][$date]['total'] += $dailyBlocks;
-				$roomUse = empty($this->roomData[$roomData['id']]['days'][$date])? 0 : $this->roomData[$roomData['id']]['days'][$date];
+				$roomUse = empty($this->roomData[$roomData['id']]['days'][$date]) ? 0 : $this->roomData[$roomData['id']]['days'][$date];
 				$this->metaData['days'][$date]['use'] += $roomUse;
 			}
 		}
 
 		$this->metaData['weeks'] = array();
-		$weekNo = 1;
+		$weekNo                  = 1;
 
 		for ($weekStartDate = $this->startDate; $weekStartDate <= $this->endDate; $weekStartDate = date('Y-m-d', strtotime("$weekStartDate + 7 days")))
 		{
-			$week['startDate'] = $weekStartDate;
-			$endDayName      = date('l', strtotime("Sunday + $this->endDoW days"));
-			$weekEndDate = date('Y-m-d', strtotime("$endDayName this week", strtotime($weekStartDate)));
-			$week['endDate'] = $weekEndDate;
+			$week['startDate']     = $weekStartDate;
+			$endDayName            = date('l', strtotime("Sunday + $this->endDoW days"));
+			$weekEndDate           = date('Y-m-d', strtotime("$endDayName this week", strtotime($weekStartDate)));
+			$week['endDate']       = $weekEndDate;
 			$week['adjustedTotal'] = 0;
-			$week['adjustedUse'] = 0;
-			$week['total'] = 0;
-			$week['use'] = 0;
+			$week['adjustedUse']   = 0;
+			$week['total']         = 0;
+			$week['use']           = 0;
 
 			for ($currentDate = $weekStartDate; $currentDate <= $weekEndDate; $currentDate = date('Y-m-d', strtotime("$currentDate + 1 days")))
 			{
@@ -689,11 +689,11 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
 					if (empty($this->roomData[$roomData['id']]['weeks'][$weekNo]))
 					{
-						$this->roomData[$roomData['id']]['weeks'][$weekNo] = array();
+						$this->roomData[$roomData['id']]['weeks'][$weekNo]                  = array();
 						$this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedTotal'] = 0;
-						$this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedUse'] = 0;
-						$this->roomData[$roomData['id']]['weeks'][$weekNo]['total'] = 0;
-						$this->roomData[$roomData['id']]['weeks'][$weekNo]['use'] = 0;
+						$this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedUse']   = 0;
+						$this->roomData[$roomData['id']]['weeks'][$weekNo]['total']         = 0;
+						$this->roomData[$roomData['id']]['weeks'][$weekNo]['use']           = 0;
 					}
 
 					$this->roomData[$roomData['id']]['weeks'][$weekNo]['total'] += $dailyBlocks;
@@ -714,9 +714,9 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 		}
 
 		$this->metaData['adjustedTotal'] = 0;
-		$this->metaData['adjustedUse'] = 0;
-		$this->metaData['total'] = 0;
-		$this->metaData['use'] = 0;
+		$this->metaData['adjustedUse']   = 0;
+		$this->metaData['total']         = 0;
+		$this->metaData['use']           = 0;
 
 		foreach ($this->metaData['weeks'] as $weekNo => $weekData)
 		{
@@ -758,11 +758,11 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 				{
 					if (empty($this->roomData[$roomData['id']]))
 					{
-						$this->roomData[$roomData['id']] = array();
+						$this->roomData[$roomData['id']]         = array();
 						$this->roomData[$roomData['id']]['days'] = array();
 					}
 
-					$newValue = empty($this->roomData[$roomData['id']]['days'][$date])?
+					$newValue = empty($this->roomData[$roomData['id']]['days'][$date]) ?
 						0 : $this->roomData[$roomData['id']]['days'][$date];
 
 					if (in_array($roomData['id'], $roomIDs))

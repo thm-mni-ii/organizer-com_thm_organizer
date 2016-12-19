@@ -2,7 +2,8 @@
  * Created by James Antrim on 11/15/2016.
  */
 
-$( document ).ready(function() {
+$(document).ready(function ()
+{
     $('label').tooltip({delay: 200, placement: 'right'});
 });
 
@@ -119,7 +120,7 @@ function copyLink(success)
     }
 
     selectedPools = $('#poolIDs').val();
-    emptyPools = selectedPools == undefined ||selectedPools == null || selectedPools.length === 0;
+    emptyPools = selectedPools == undefined || selectedPools == null || selectedPools.length === 0;
 
     if (!emptyPools)
     {
@@ -289,7 +290,7 @@ function setFormat()
 {
     var formatValue = $('#format').find(":selected").val(), formatArray = formatValue.split('.'),
         format = formatArray[0], documentFormat = formatArray[1], actionButton = $("#action-btn"),
-        linkContainer =$('#link-container'), linkTarget = $('#link-target');
+        linkContainer = $('#link-container'), linkTarget = $('#link-target');
 
     switch (format)
     {

@@ -14,11 +14,11 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/list_modal.php';
 THM_OrganizerTemplateList_Modal::render($this);
 ?>
 <script>
-	jQuery(document).ready(function ()
-	{
-		jQuery('div#toolbar-new button').click(function ()
-		{
-			window.parent.closeIframeWindow('#pool_selection-list', 'p');
-		});
-	});
+    jQuery(document).ready(function ()
+    {
+        jQuery('div#toolbar-new button').click(function ()
+        {
+            window.parent.closeIframeWindow('#pool_selection-list', 'p');
+        });
+    });
 </script>
