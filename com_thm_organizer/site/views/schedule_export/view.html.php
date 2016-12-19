@@ -104,7 +104,18 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('jquery.ui');
 		JHtml::_('behavior.calendar');
-		JHtml::_('formbehavior.chosen', 'select');
+
+		$seeingImpaired = (bool) JFactory::getApplication()->getMenu()->getActive()->params->get('si', false);
+		if (!$seeingImpaired)
+		{
+			JHtml::_('formbehavior.chosen', 'select');
+			$layout      = $model->params['layout'];
+			$this->setLayout($layout);
+		}
+		else
+		{
+			$this->setLayout('default_si');
+		}
 
 		$document = JFactory::getDocument();
 		$document->addScript(JUri::root() . '/media/com_thm_organizer/js/schedule_export.js');
@@ -155,16 +166,18 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	{
 		$this->fields['formatSettings'] = array();
 		$attribs                        = array();
+		$seeingImpaired                 = (bool) JFactory::getApplication()->getMenu()->getActive()->params->get('si', false);
 
-		$formatAttribs                            = $attribs;
-		$formatAttribs['onChange']                = 'setFormat();';
-		$fileFormats                              = array();
-		$fileFormats[]                            = array('text' => JText::_('COM_THM_ORGANIZER_XLS_CALENDAR_BLIND'), 'value' => 'xls.si');
-		$fileFormats[]                            = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
-		$fileFormats[]                            = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A3_DOCUMENT'), 'value' => 'pdf.a3');
-		$fileFormats[]                            = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A4_DOCUMENT'), 'value' => 'pdf.a4');
-		$defaultFileFormat                        = 'pdf.a4';
-		$fileFormatSelect                         = JHtml::_('select.genericlist', $fileFormats, 'format', $formatAttribs, 'value', 'text', $defaultFileFormat);
+		$formatAttribs             = $attribs;
+		$formatAttribs['onChange'] = 'setFormat();';
+		$fileFormats               = array();
+		$fileFormats[]             = array('text' => JText::_('COM_THM_ORGANIZER_XLS_CALENDAR_BLIND'), 'value' => 'xls.si');
+		$fileFormats[]             = array('text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics');
+		$fileFormats[]             = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A3_DOCUMENT'), 'value' => 'pdf.a3');
+		$fileFormats[]             = array('text' => JText::_('COM_THM_ORGANIZER_PDF_A4_DOCUMENT'), 'value' => 'pdf.a4');
+		$defaultFileFormat         = $seeingImpaired ? 'xls.si' : 'pdf.a4';
+		$fileFormatSelect          = JHtml::_('select.genericlist', $fileFormats, 'format', $formatAttribs, 'value', 'text', $defaultFileFormat);
+
 		$this->fields['formatSettings']['format'] = array(
 			'label'       => JText::_('COM_THM_ORGANIZER_FILE_FORMAT'),
 			'description' => JText::_('COM_THM_ORGANIZER_FILE_FORMAT_DESC'),
@@ -173,9 +186,10 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		$displayFormats = array();
 		//$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_LIST'), 'value' => 'list');
-		$displayFormats[]                                = array('text' => JText::_('COM_THM_ORGANIZER_SCHEDULE'), 'value' => 'schedule');
-		$defaultDisplayFormat                            = 'schedule';
-		$displayFormatSelect                             = JHtml::_('select.genericlist', $displayFormats, 'displayFormat', $attribs, 'value', 'text', $defaultDisplayFormat);
+		$displayFormats[]     = array('text' => JText::_('COM_THM_ORGANIZER_SCHEDULE'), 'value' => 'schedule');
+		$defaultDisplayFormat = 'schedule';
+		$displayFormatSelect  = JHtml::_('select.genericlist', $displayFormats, 'displayFormat', $attribs, 'value', 'text', $defaultDisplayFormat);
+
 		$this->fields['formatSettings']['displayFormat'] = array(
 			'label'       => JText::_('COM_THM_ORGANIZER_DISPLAY_FORMAT'),
 			'description' => JText::_('COM_THM_ORGANIZER_DISPLAY_FORMAT_DESC'),
@@ -186,7 +200,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$rawDateFormat = JFactory::getApplication()->getParams()->get('dateFormat');
 		$dateFormat    = preg_replace("/([a-zA-Z])/", "%$1", $rawDateFormat);
 
-		$dateSelect                             = JHtml::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
+		$dateSelect = JHtml::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
+
 		$this->fields['formatSettings']['date'] = array(
 			'label'       => JText::_('JDATE'),
 			'description' => JText::_('COM_THM_ORGANIZER_DATE_DESC'),
@@ -199,8 +214,9 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month');
 		$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester');
 		//$dateRestrictions[] = array('text' => JText::_('COM_THM_ORGANIZER_CUSTOM_PLAN'), 'value' => 'custom');
-		$defaultDateRestriction                            = 'week';
-		$dateRestrictionSelect                             = JHtml::_('select.genericlist', $dateRestrictions, 'dateRestriction', $attribs, 'value', 'text', $defaultDateRestriction);
+		$defaultDateRestriction = 'week';
+		$dateRestrictionSelect  = JHtml::_('select.genericlist', $dateRestrictions, 'dateRestriction', $attribs, 'value', 'text', $defaultDateRestriction);
+
 		$this->fields['formatSettings']['dateRestriction'] = array(
 			'label'       => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION'),
 			'description' => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION_DESC'),
@@ -211,20 +227,22 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		$pdfWeekFormats = array();
 		//$pdfWeekFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_STACKED_PLANS'), 'value' => 'stack');
-		$pdfWeekFormats[]                                = array('text' => JText::_('COM_THM_ORGANIZER_SEQUENCED_PLANS'), 'value' => 'sequence');
-		$defaultPDFWeekFormat                            = 'sequence';
-		$pdfWeekFormatSelect                             = JHtml::_('select.genericlist', $pdfWeekFormats, 'pdfWeekFormat', $attribs, 'value', 'text', $defaultPDFWeekFormat);
+		$pdfWeekFormats[]     = array('text' => JText::_('COM_THM_ORGANIZER_SEQUENCED_PLANS'), 'value' => 'sequence');
+		$defaultPDFWeekFormat = 'sequence';
+		$pdfWeekFormatSelect  = JHtml::_('select.genericlist', $pdfWeekFormats, 'pdfWeekFormat', $attribs, 'value', 'text', $defaultPDFWeekFormat);
+
 		$this->fields['formatSettings']['pdfWeekFormat'] = array(
 			'label'       => JText::_('COM_THM_ORGANIZER_WEEK_FORMAT'),
 			'description' => JText::_('COM_THM_ORGANIZER_WEEK_FORMAT_PDF_DESC'),
 			'input'       => $pdfWeekFormatSelect
 		);
 
-		$xlsWeekFormats                                  = array();
-		$xlsWeekFormats[]                                = array('text' => JText::_('COM_THM_ORGANIZER_ONE_WORKSHEET'), 'value' => 'sequence');
-		$xlsWeekFormats[]                                = array('text' => JText::_('COM_THM_ORGANIZER_MULTIPLE_WORKSHEETS'), 'value' => 'stack');
-		$defaultXLSWeekFormat                            = 'sequence';
-		$xlsWeekFormatSelect                             = JHtml::_('select.genericlist', $xlsWeekFormats, 'xlsWeekFormat', $attribs, 'value', 'text', $defaultXLSWeekFormat);
+		$xlsWeekFormats       = array();
+		$xlsWeekFormats[]     = array('text' => JText::_('COM_THM_ORGANIZER_ONE_WORKSHEET'), 'value' => 'sequence');
+		$xlsWeekFormats[]     = array('text' => JText::_('COM_THM_ORGANIZER_MULTIPLE_WORKSHEETS'), 'value' => 'stack');
+		$defaultXLSWeekFormat = 'sequence';
+		$xlsWeekFormatSelect  = JHtml::_('select.genericlist', $xlsWeekFormats, 'xlsWeekFormat', $attribs, 'value', 'text', $defaultXLSWeekFormat);
+
 		$this->fields['formatSettings']['xlsWeekFormat'] = array(
 			'label'       => JText::_('COM_THM_ORGANIZER_WEEK_FORMAT'),
 			'description' => JText::_('COM_THM_ORGANIZER_WEEK_FORMAT_XLS_DESC'),

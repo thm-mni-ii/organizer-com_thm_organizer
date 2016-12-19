@@ -26,8 +26,11 @@ function addPools(pools)
         poolSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
     });
 
-    poolSelection.chosen("destroy");
-    poolSelection.chosen();
+    if (si !== true)
+    {
+        poolSelection.chosen("destroy");
+        poolSelection.chosen();
+    }
 }
 
 /**
@@ -50,8 +53,11 @@ function addPrograms(programs)
         programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
     });
 
-    programSelection.chosen("destroy");
-    programSelection.chosen();
+    if (si !== true)
+    {
+        programSelection.chosen("destroy");
+        programSelection.chosen();
+    }
 }
 
 /**
@@ -73,8 +79,11 @@ function addRooms(rooms)
         roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
     });
 
-    roomSelection.chosen("destroy");
-    roomSelection.chosen();
+    if (si !== true)
+    {
+        roomSelection.chosen("destroy");
+        roomSelection.chosen();
+    }
 }
 
 /**
@@ -96,8 +105,11 @@ function addTeachers(teachers)
         teacherSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
     });
 
-    teacherSelection.chosen("destroy");
-    teacherSelection.chosen();
+    if (si !== true)
+    {
+        teacherSelection.chosen("destroy");
+        teacherSelection.chosen();
+    }
 }
 
 function copyLink()

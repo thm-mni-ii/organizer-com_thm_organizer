@@ -35,6 +35,23 @@ div#main div#j-main-container{
         text-transform: none;
       }
     }
+
+    select {
+      min-width: 6rem;
+      width: auto;
+    }
+  }
+}
+
+
+div#main div#j-main-container.export-si fieldset{
+
+  &:first-of-type {
+    background-color: $foreground;
+  }
+
+  &:nth-of-type(2) {
+    background-color: $background;
   }
 }
 
