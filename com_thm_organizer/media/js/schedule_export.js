@@ -100,16 +100,11 @@ function addTeachers(teachers)
     teacherSelection.chosen();
 }
 
-function copyLink(success)
+function copyLink()
 {
     var format, url, selectedPools, emptyPools,
         selectedRooms, emptyRooms,
         selectedTeachers, emptyTeachers;
-
-    if (!success)
-    {
-        return false;
-    }
 
     format = $("input[name=format]").val();
     url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
@@ -150,14 +145,15 @@ function copyLink(success)
 
 function handleSubmit()
 {
-    var validSelection = validateSelection();
+    var validSelection = validateSelection(), formatValue = $("input[name=format]").val();
 
     if (!validSelection)
     {
         return false;
     }
 
-    if ($("input[name=format]").val() == 'ics')
+
+    if (formatValue == 'ics')
     {
         copyLink();
         return true;
