@@ -100,14 +100,13 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	 */
 	private function modifyDocument()
 	{
-		JHtml::_('bootstrap.framework');
-		JHtml::_('bootstrap.tooltip');
-		JHtml::_('jquery.ui');
-		JHtml::_('behavior.calendar');
-
 		$seeingImpaired = (bool) JFactory::getApplication()->getMenu()->getActive()->params->get('si', false);
 		if (!$seeingImpaired)
 		{
+			JHtml::_('bootstrap.framework');
+			JHtml::_('bootstrap.tooltip');
+			JHtml::_('jquery.ui');
+			JHtml::_('behavior.calendar');
 			JHtml::_('formbehavior.chosen', 'select');
 			$layout      = $model->params['layout'];
 			$this->setLayout($layout);
@@ -198,9 +197,17 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		// The Joomla calendar form field demands the % character before the real date format instruction values.
 		$rawDateFormat = JFactory::getApplication()->getParams()->get('dateFormat');
-		$dateFormat    = preg_replace("/([a-zA-Z])/", "%$1", $rawDateFormat);
+		$today = date('Y-m-d');
 
-		$dateSelect = JHtml::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
+		if ($seeingImpaired)
+		{
+			$dateSelect = '<input name="date" type="date" value="' . $today . '">';
+		}
+		else
+		{
+			$dateFormat    = preg_replace("/([a-zA-Z])/", "%$1", $rawDateFormat);
+			$dateSelect = JHtml::_('calendar', $today, 'date', 'date', $dateFormat, $attribs);
+		}
 
 		$this->fields['formatSettings']['date'] = array(
 			'label'       => JText::_('JDATE'),

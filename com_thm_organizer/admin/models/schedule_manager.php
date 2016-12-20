@@ -148,7 +148,11 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 			$created = THM_OrganizerHelperComponent::formatDate($item->creationDate);
 			$created .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationTime);
 			$return[$index]['created']  = $created;
-			$return[$index]['migrated'] = $this->getMigrate($item->id, $item->migrated);
+
+			if ($canEdit)
+			{
+				$return[$index]['migrated'] = $this->getMigrate($item->id, $item->migrated);
+			}
 
 
 			$index++;

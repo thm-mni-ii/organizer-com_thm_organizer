@@ -110,8 +110,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 		{
 			list($indexStart, $indexEnd) = explode('-', $index);
 
-			$tooEarly = $indexEnd < $rowStart;
-			$tooLate  = $rowEnd < $indexStart;
+			$tooEarly = $indexEnd <= $rowStart;
+			$tooLate  = $rowEnd <= $indexStart;
 
 			if (!$tooEarly AND !$tooLate)
 			{

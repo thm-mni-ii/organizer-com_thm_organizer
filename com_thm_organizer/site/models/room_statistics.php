@@ -260,8 +260,8 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
 		foreach ($this->grid as $blockNo => $times)
 		{
-			$tooEarly = $times['endTime'] < $startTime;
-			$tooLate  = $times['startTime'] > $endTime;
+			$tooEarly = $times['endTime'] <= $startTime;
+			$tooLate  = $times['startTime'] >= $endTime;
 
 			if ($tooEarly OR $tooLate)
 			{

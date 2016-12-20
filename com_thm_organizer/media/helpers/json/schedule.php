@@ -934,6 +934,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function saveCalendar()
 	{
+		$lessonEntries = array();
 		foreach ($this->schedule->calendar as $date => $times)
 		{
 			$calData                  = array();
@@ -971,7 +972,41 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 					{
 						return false;
 					}
+
+					if (empty($lessonEntries[$lessonID]))
+					{
+						$lessonEntries[$lessonID] = array();
+					}
+
+					$lessonEntries[$lessonsTable->id][$calendarTable->id] = $calendarTable->id;
 				}
+			}
+		}
+
+		// Set deprecated moves to removed
+		$dbo = JFactory::getDbo();
+		$deprecatedQuery = $dbo->getQuery(true);
+		$deprecatedQuery->update('#__thm_organizer_calendar');
+		$deprecatedQuery->set("delta = 'removed'");
+
+		foreach ($lessonEntries as $lessonID => $calendarIDArray)
+		{
+			$calendarIDs = "'" . implode("', '", $calendarIDArray) . "'";
+			$deprecatedQuery->clear('where');
+			$deprecatedQuery->where("lessonID = '$lessonID'");
+			$deprecatedQuery->where("id NOT IN ($calendarIDs)");
+			$deprecatedQuery->where("delta != 'removed'");
+			$dbo->setQuery($deprecatedQuery);
+
+			try
+			{
+				$dbo->execute();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+				//JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+				return false;
 			}
 		}
 

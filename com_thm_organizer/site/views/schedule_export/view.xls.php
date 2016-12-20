@@ -30,8 +30,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 	private $lessons;
 
-	private $spreadsheet;
-
 	/**
 	 * Method to get extra
 	 *
@@ -49,77 +47,5 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$export = new THM_OrganizerTemplateExport_XLS($parameters, $model->lessons);
 		$export->render();
 		ob_flush();
-	}
-
-	/**
-	 * Method to add an event to the calendar
-	 *
-	 * @param string $date           the lesson instance date
-	 * @param array  $lessonInstance the lesson instance
-	 *
-	 * @return void sets object variables
-	 */
-	private function setEvent($date, $lessonInstance)
-	{
-		$vEvent = new vevent;
-		$vEvent->setProperty("TRANSP", "OPAQUE");
-		$vEvent->setProperty("SEQUENCE", "0");
-		$vEvent->setProperty("PRIORITY", "5");
-
-		$datePieces      = explode("-", $date);
-		$startTimePieces = explode(":", $lessonInstance['startTime']);
-		$endTimePieces   = explode(":", $lessonInstance['endTime']);
-
-		$dtStart = array(
-			"year"  => $datePieces[0],
-			"month" => $datePieces[1],
-			"day"   => $datePieces[2],
-			"hour"  => $startTimePieces[0],
-			"min"   => $startTimePieces[1],
-			"sec"   => $startTimePieces[2]
-		);
-		$vEvent->setProperty("DTSTART", $dtStart);
-
-		$dtEnd = array(
-			"year"  => $datePieces[0],
-			"month" => $datePieces[1],
-			"day"   => $datePieces[2],
-			"hour"  => $endTimePieces[0],
-			"min"   => $endTimePieces[1],
-			"sec"   => $endTimePieces[2]
-		);
-		$vEvent->setProperty("DTEND", $dtEnd);
-
-		$subjectNames = array_keys($lessonInstance['subjects']);
-		$subjectNos   = array();
-		$teachers     = array();
-		$rooms        = array();
-		foreach ($lessonInstance['subjects'] AS $subjectConfiguration)
-		{
-			if (!empty($subjectConfiguration['subjectNo']))
-			{
-				$subjectNos[$subjectConfiguration['subjectNo']] = $subjectConfiguration['subjectNo'];
-			}
-
-			$teachers = $teachers + $subjectConfiguration['teachers'];
-			$rooms    = $rooms + $subjectConfiguration['rooms'];
-		}
-
-		$comment = empty($lessonInstance['comment']) ? '' : $lessonInstance['comment'];
-		$vEvent->setProperty("DESCRIPTION", $comment);
-
-		$title = implode('/', $subjectNames);
-		$title .= empty($lessonInstance['method']) ? '' : " - {$lessonInstance['method']}";
-		$title .= empty($subjectNos) ? '' : " (" . implode('/', $subjectNos) . ")";
-
-		$teachersText = implode('/', $teachers);
-		$roomsText    = implode('/', $rooms);
-
-		$summary = JText::sprintf('COM_THM_ORGANIZER_ICS_SUMMARY', $title, $teachersText);
-
-		$vEvent->setProperty("ORGANIZER", $teachersText);
-		$vEvent->setProperty("LOCATION", $roomsText);
-		$vEvent->setProperty("SUMMARY", $summary);
-		$this->calendar->setComponent($vEvent);
 	}
 }

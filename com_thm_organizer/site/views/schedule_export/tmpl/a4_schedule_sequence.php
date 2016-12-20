@@ -35,8 +35,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 		$this->parameters['cellLineHeight'] = 4.4;
 
 		$this->parameters['dataWidth'] = $this->parameters['dateRestriction'] == 'day' ? 188 : 45;
-		$this->parameters['padding']        = 1;
-		$this->parameters['timeWidth']      = 11;
+		$this->parameters['padding']   = 1;
+		$this->parameters['timeWidth'] = 11;
 
 		$this->render();
 	}
@@ -59,8 +59,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 		{
 			list($indexStart, $indexEnd) = explode('-', $index);
 
-			$tooEarly = $indexEnd < $rowStart;
-			$tooLate  = $rowEnd < $indexStart;
+			$tooEarly = $indexEnd <= $rowStart;
+			$tooLate  = $rowEnd <= $indexStart;
 
 			if (!$tooEarly AND !$tooLate)
 			{
@@ -101,7 +101,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	private function getDocument()
 	{
 		$orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
-		$document = new THM_OrganizerTCPDFSchedule($orientation);
+		$document    = new THM_OrganizerTCPDFSchedule($orientation);
 		$document->SetCreator('THM Organizer');
 		$document->SetAuthor(JFactory::getUser()->name);
 		$document->SetTitle($this->parameters['pageTitle']);
@@ -303,7 +303,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	/**
 	 * Outputs the column headers to the document
 	 *
-	 * @param array $columnHeaders The date information to be output to the document.
+	 * @param array  $columnHeaders The date information to be output to the document.
 	 * @param string $startDate     the first column date/index to use
 	 * @param string $breakDate     the last column date/index to iterate
 	 *
@@ -320,7 +320,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 
 		for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 		{
-			$dow = date('w', strtotime($currentDate));
+			$dow        = date('w', strtotime($currentDate));
 			$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
 			if ($validIndex)
 			{
@@ -356,17 +356,17 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 		$rowHeaders    = $this->getRowHeaders();
 		$columnHeaders = $this->getColumnHeaders();
 		$dimensions    = $this->document->getPageDimensions();
-		$timeConstant  = $this->parameters['dateRestriction'] == 'day'?
-			'': JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
+		$timeConstant  = $this->parameters['dateRestriction'] == 'day' ?
+			'' : JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
 
 		$startDate = key($columnHeaders);
 		while (!empty($columnHeaders[$startDate]))
 		{
 			$startDateText = THM_OrganizerHelperComponent::formatDate($startDate);
-			$endDate      = date('Y-m-d', strtotime("+6 day", strtotime($startDate)));
-			$endDateText = THM_OrganizerHelperComponent::formatDate($endDate);
-			$breakDate    = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
-			$headerString = JText::_($timeConstant) . "$startDateText - $endDateText";
+			$endDate       = date('Y-m-d', strtotime("+6 day", strtotime($startDate)));
+			$endDateText   = THM_OrganizerHelperComponent::formatDate($endDate);
+			$breakDate     = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+			$headerString  = JText::_($timeConstant) . "$startDateText - $endDateText";
 			$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, array(57, 74, 89));
 
 			$this->outputHeader($columnHeaders, $startDate, $breakDate);
@@ -446,7 +446,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 
 					for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 					{
-						$dow = date('w', strtotime($currentDate));
+						$dow        = date('w', strtotime($currentDate));
 						$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
 						if ($validIndex)
 						{
@@ -511,11 +511,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	 */
 	private function render()
 	{
-		/*
-		 *
-		$timeConstant       = 'COM_THM_ORGANIZER_' . strtoupper($this->parameters['dateRestriction']) . '_PLAN';
-		$this->parameters['headerString'] = JText::_($timeConstant) . ": " . THM_OrganizerHelperComponent::formatDate($dates['startDate']);
-		 */
 		if (!empty($this->lessons))
 		{
 			$this->outputTable();
