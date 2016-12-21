@@ -1,13 +1,7 @@
 var text = [];
 text.APRIL = "<?php echo JText::_('APRIL'); ?>";
 text.AUGUST = "<?php echo JText::_('AUGUST'); ?>";
-text.CONFIG_SAVE_SEMESTER = "<?php echo '1'; ?>"; //TODO: aus model holen
-text.CONFIG_SAVE_PERIOD = "<?php echo '2'; ?>";
-text.CONFIG_SAVE_INSTANCE = "<?php echo '3'; ?>";
 text.DECEMBER = "<?php echo JText::_('DECEMBER'); ?>";
-text.dateFormat = "<?php echo $this->dateFormat; ?>";
-text.defaultTimes = JSON.parse('<?php echo $this->defaultGrid->grid; ?>');
-text.departmentID = "<?php echo $this->departmentID; ?>";
 text.FEBRUARY = "<?php echo JText::_('FEBRUARY'); ?>";
 text.FRIDAY = "<?php echo JText::_('FRIDAY'); ?>";
 text.FRIDAY_SHORT = "<?php echo JText::_('FRI'); ?>";

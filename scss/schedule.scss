@@ -431,6 +431,19 @@ button:hover,
   bottom: 0.1rem;
 }
 
+.added {
+  .add-lesson {
+    display: none;
+  }
+  .delete-lesson {
+    display: inline-block;
+  }
+}
+
+.no-saving .add-lesson {
+  display: none;
+}
+
 .old {
   text-decoration: line-through;
 
@@ -448,8 +461,11 @@ button:hover,
   padding: 0.2rem;
 }
 
-.no-break tr:nth-child(4) td,
 .own-time {
+  display: block;
+}
+
+.no-break tr:nth-child(4) td {
   display: none;
 }
 

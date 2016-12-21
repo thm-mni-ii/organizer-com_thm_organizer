@@ -238,7 +238,6 @@ class THM_OrganizerHelperSchedule
 
 		if (!empty($parameters['mySchedule']))
 		{
-			// Get the user's schedule
 			$query->innerJoin('#__thm_organizer_user_lessons AS u ON u.lessonID = l.id');
 			$query->where('u.userID = ' . JFactory::getUser()->id);
 		}
@@ -287,6 +286,11 @@ class THM_OrganizerHelperSchedule
 		}
 
 		ksort($aggregatedLessons);
+
+		if (!empty($parameters['mySchedule']))
+		{
+			return self::getUserFilteredLessons($aggregatedLessons);
+		}
 
 		return $aggregatedLessons;
 	}
@@ -394,7 +398,7 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Resolves the given date to the start and end dates for the requested time period
 	 *
-	 * @param array $date the schedule configuration parameters
+	 * @param array $parameters the schedule configuration parameters
 	 *
 	 * @return array the corresponding start and end dates
 	 */
@@ -465,5 +469,62 @@ class THM_OrganizerHelperSchedule
 		}
 
 		return $dates;
+	}
+
+	/**
+	 * Filters given lessons by their ccmIDs for the logged in user
+	 *
+	 * @param array $lessons aggregated lessons
+	 *
+	 * @return array lessonIDs as keys and ccmIDs as values
+	 */
+	private static function getUserFilteredLessons($lessons)
+	{
+		$userID = JFactory::getUser()->id;
+		$dbo    = JFactory::getDbo();
+		$query  = $dbo->getQuery(true);
+
+		$query->select("lessonID, configuration")
+			->from('#__thm_organizer_user_lessons')
+			->where("userID = $userID");
+		$dbo->setQuery($query);
+
+		try
+		{
+			$results = $dbo->loadAssocList('lessonID', 'configuration');
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
+			return array();
+		}
+
+		$configurations = array();
+		foreach ($results as $index => $result)
+		{
+			$configurations[$index] = json_decode($result);
+		}
+
+		if (empty($configurations))
+		{
+			return array();
+		}
+
+		foreach ($lessons as &$date)
+		{
+			foreach ($date as &$times)
+			{
+				foreach ($times as $lessonID => $lesson)
+				{
+					if (!$configurations[$lessonID] OR !in_array($lesson['ccmID'], $configurations[$lessonID]))
+					{
+						unset($times[$lessonID]);
+					}
+				}
+			}
+		}
+
+		return $lessons;
 	}
 }

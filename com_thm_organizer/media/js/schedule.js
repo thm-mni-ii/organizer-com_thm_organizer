@@ -12,7 +12,7 @@
 "use strict";
 
 var scheduleWrapper, isMobile, dateField, weekdays, Schedule, Schedules, scheduleObjects, datePattern,
-    ajaxSelection = null, ajaxLessons = null, ajaxSchedule = null, ajaxSave = null, ajaxUser = null,
+    ajaxSelection = null, ajaxLessons = null, ajaxSchedule = null, ajaxSave = null,
     url = 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw';
 
 /**
@@ -49,41 +49,39 @@ Schedules = function ()
     /**
      * gets the Schedule object which belongs to the given id
      * @param id  string
-     * @return Schedule | false
+     * @return Schedule | boolean
      */
     this.getScheduleById = function (id)
     {
-        var schedule = false;
-
-        this.schedules.forEach(function (element)
+        for (var scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
         {
-            if (element.id == id)
+            if (this.schedules[scheduleIndex].id == id)
             {
-                schedule = element;
+                return this.schedules[scheduleIndex];
             }
-        });
+        }
 
-        return schedule;
+        return false;
     };
 
     /**
      * gets the Schedule object which belongs to the given response url from an Ajax request
      * @param responseUrl  string
-     * @return Schedule | false  default = user schedule ('my schedule')
+     * @return Schedule | boolean
      */
-    this.getScheduleByResponse = function (responseUrl)
+    this.getScheduleByRequest = function (responseUrl)
     {
-        var id = responseUrl.match(/&(\w+)IDs=(\d+)/), schedule = this.schedules[0], scheduleID = id[1] + id[2];
+        var id = responseUrl.match(/&(\w+)IDs=(\d+)/), scheduleID = (id == null) ? 'user' : id[1] + id[2];
 
-        this.schedules.forEach(function (element)
+        for (var scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
         {
-            if (element.id == scheduleID)
+            if (this.schedules[scheduleIndex].id == scheduleID)
             {
-                schedule = element;
+                return this.schedules[scheduleIndex];
             }
-        });
+        }
 
-        return schedule;
+        return false;
     };
 };
 
@@ -95,7 +93,7 @@ Schedules = function ()
  */
 Date.prototype.getPresentationFormat = function ()
 {
-    var date = text.dateFormat,
+    var date = variables.dateFormat,
         day = this.getDate(),
         dayLong = day < 10 ? '0' + day : day,
         month = this.getMonth() + 1, // getMonth() is zero-based
@@ -274,7 +272,7 @@ function initSchedule()
     window.isMobile = window.matchMedia("(max-width: 677px)").matches;
     window.dateField = document.getElementById('date');
     window.dateField.valueAsDate = today;
-    window.url += '&departmentID=' + text.departmentID;
+    window.url += '&departmentID=' + variables.departmentID;
     window.weekdays = [
         text.MONDAY_SHORT,
         text.TUESDAY_SHORT,
@@ -287,8 +285,7 @@ function initSchedule()
 
     window.scheduleObjects = new Schedules;
 
-    /** no 'guest'-table? -> create user schedule */
-    if (window.scheduleWrapper.getElementsByTagName('table').length == 0)
+    if (variables.userID !== '0')
     {
         createUsersSchedule();
         //change the active tab
@@ -322,16 +319,17 @@ function createUsersSchedule()
 {
     var schedule = new Schedule('user');
 
-    schedule.lessons = getUsersSchedule();
     schedule.title = text.MY_SCHEDULE;
-    schedule.task = '&task=getUsersSchedule';
+    schedule.task = '&task=getUserSchedule';
+    schedule.task += '&date=' + getDateFieldString();
+
     schedule.table = createScheduleTable(schedule);
     insertTableHead(schedule.table);
     setGridTime(schedule.table);
     addScheduleToSelection(schedule);
-    computeTableHeight();
-
     window.scheduleObjects.addSchedule(schedule);
+    schedule.lessons = updateSchedule('user');
+    computeTableHeight();
 }
 
 /**
@@ -505,21 +503,18 @@ function showDay(visibleDay)
 }
 
 /**
+ * TODO: prüfen ob break vorhanden sein soll (anhand json data?)
  * onclick of a grid selection sets the selected grid on every schedule
  */
 function setGridByClick()
 {
-    var grid = JSON.parse(getSelectedValues('grid'));
-
-    // TODO: prüfen ob break vorhanden sein soll (anhand json data?)
-
     scheduleObjects.schedules.forEach(
         function (schedule)
         {
-            setGridDays(schedule.table, grid);
-            setGridTime(schedule.table, grid);
+            setGridDays(schedule.table);
+            setGridTime(schedule.table);
             resetSchedule(schedule.table);
-            insertLessons(schedule.table, schedule.lessons);
+            insertLessons(schedule);
         }
     );
 
@@ -530,14 +525,12 @@ function setGridByClick()
  * here the table head changes to the grids specified weekdays with start day and end day
  *
  * @param table DOM element table
- * @param timeGrid object with grid data
  */
-function setGridDays(table, timeGrid)
+function setGridDays(table)
 {
-    var grid = (typeof timeGrid === 'undefined') ? JSON.parse(getSelectedValues('grid')) : timeGrid,
+    var grid = JSON.parse(getSelectedValues('grid')), currentDay = grid.startDay, endDay = grid.endDay,
         head = table.getElementsByTagName('thead')[0], headItems = head.getElementsByTagName('th'),
-        headerDate = window.dateField.valueAsDate, day = headerDate.getDay(),
-        currentDay = grid.startDay, endDay = grid.endDay;
+        headerDate = window.dateField.valueAsDate, day = headerDate.getDay();
 
     /** set date to monday of the same week */
     if (day == 0)
@@ -708,7 +701,7 @@ function getLessonRequest(resource)
     schedule = scheduleObjects.getScheduleById(resource + IDs);
     if (schedule)
     {
-        updateSchedule(IDs);
+        updateSchedule(resource + IDs);
         return;
     }
 
@@ -734,7 +727,7 @@ function updateLessons()
 
     if (ajaxLessons.readyState == 4 && ajaxLessons.status == 200)
     {
-        schedule = scheduleObjects.getScheduleByResponse(ajaxLessons.responseURL);
+        schedule = scheduleObjects.getScheduleByRequest(ajaxLessons.responseURL);
 
         if (!schedule)
         {
@@ -746,7 +739,7 @@ function updateLessons()
 
         insertTableHead(schedule.table);
         setGridTime(schedule.table);
-        insertLessons(schedule.table, schedule.lessons);
+        insertLessons(schedule);
         addScheduleToSelection(schedule);
         computeTableHeight();
     }
@@ -829,9 +822,9 @@ function createScheduleTable(schedule)
     table.appendChild(tbody);
 
     /** filled with rows and cells (by -1 for last position */
-    if (text.defaultTimes.hasOwnProperty('periods'))
+    if (variables.defaultTimes.hasOwnProperty('periods'))
     {
-        for (var periods in text.defaultTimes.periods)
+        for (var periods in variables.defaultTimes.periods)
         {
             row = tbody.insertRow(-1);
 
@@ -861,11 +854,13 @@ function createScheduleTable(schedule)
  * @param day String for the elements ID
  * @param lessonID String id of lesson
  * @param ownTime boolean show own time
+ * @param usersSchedule boolean in users schedule no save menu needed
  * @returns Array|boolean HTMLDivElements in an array or false in case of wrong input
  */
-function createLesson(data, day, lessonID, ownTime)
+function createLesson(data, day, lessonID, ownTime, usersSchedule)
 {
-    var lessons, lessonData, lessonElement, ownTimeSpan, nameSpan, moduleSpan, teacherSpan, roomSpan, saveMenu;
+    var lessons, subjectData, lessonElement, ownTimeSpan, nameSpan, moduleSpan, teacherSpan, roomSpan,
+        saveMenu, deleteButton;
 
     if (!data.hasOwnProperty("subjects") || typeof data == 'undefined' || typeof lessonID == 'undefined')
     {
@@ -874,6 +869,7 @@ function createLesson(data, day, lessonID, ownTime)
 
     day = typeof day == 'undefined' ? (new Date()).getWireFormat() : day;
     ownTime = typeof ownTime == 'undefined' ? false : ownTime;
+    usersSchedule = typeof usersSchedule == 'undefined' ? false : usersSchedule;
     lessons = [];
 
     for (var subject in data.subjects)
@@ -882,13 +878,15 @@ function createLesson(data, day, lessonID, ownTime)
         {
             return false;
         }
-        lessonData = data.subjects[subject];
+        subjectData = data.subjects[subject];
 
         lessonElement = document.createElement('div');
-        lessonElement.id = lessonID + '-' + day + '-' + data.startTime;
         lessonElement.className = 'lesson';
 
-        /** delta = 'removed' or 'new' or changed ? add class like 'lesson-new' */
+        /** data attributes instead of classes for finding the lesson later */
+        lessonElement.dataset.ccmID = data.ccmID;
+
+        /** delta = 'removed' or 'new' or 'changed' ? add class like 'lesson-new' */
         if (data.lessonDelta !== '')
         {
             lessonElement.className += ' lesson-' + data.lessonDelta;
@@ -906,70 +904,82 @@ function createLesson(data, day, lessonID, ownTime)
             lessonElement.className += ' pool-' + data.poolDelta;
         }
 
-        if (data.startTime && data.endTime)
+        if (ownTime&& data.startTime && data.endTime)
         {
             ownTimeSpan = document.createElement('span');
             ownTimeSpan.className = 'own-time';
             ownTimeSpan.innerHTML =
                 data.startTime.match(/^(\d{2}:\d{2})/)[1] + ' - ' + data.endTime.match(/^(\d{2}:\d{2})/)[1];
-            if (ownTime)
-            {
-                ownTimeSpan.style.display = 'block';
-            }
             lessonElement.appendChild(ownTimeSpan);
         }
 
-        if (lessonData.shortName)
+        if (subjectData.shortName)
         {
             nameSpan = document.createElement('span');
             nameSpan.className = 'name';
-            nameSpan.innerHTML = lessonData.shortName;
+            nameSpan.innerHTML = subjectData.shortName;
             lessonElement.appendChild(nameSpan);
         }
 
-        if (lessonData.subjectNo)
+        if (subjectData.subjectNo)
         {
             moduleSpan = document.createElement('span');
             moduleSpan.className = 'module';
-            moduleSpan.innerHTML = lessonData.subjectNo;
+            moduleSpan.innerHTML = subjectData.subjectNo;
             lessonElement.appendChild(moduleSpan);
         }
 
-        if (lessonData.teachers)
+        if (subjectData.teachers)
         {
-            for (var teacherID in lessonData.teachers)
+            for (var teacherID in subjectData.teachers)
             {
-                if (lessonData.teachers.hasOwnProperty(teacherID))
+                if (subjectData.teachers.hasOwnProperty(teacherID))
                 {
                     teacherSpan = document.createElement('span');
                     teacherSpan.className = 'teacher';
-                    teacherSpan.innerHTML = lessonData.teachers[teacherID];
+                    teacherSpan.innerHTML = subjectData.teachers[teacherID];
                     lessonElement.appendChild(teacherSpan);
                 }
             }
         }
 
-        if (lessonData.rooms)
+        if (subjectData.rooms)
         {
-            for (var roomID in lessonData.rooms)
+            for (var roomID in subjectData.rooms)
             {
-                if (lessonData.rooms.hasOwnProperty(roomID))
+                if (subjectData.rooms.hasOwnProperty(roomID))
                 {
                     roomSpan = document.createElement('span');
                     roomSpan.className = 'room';
-                    roomSpan.innerHTML = lessonData.rooms[roomID];
+                    roomSpan.innerHTML = subjectData.rooms[roomID];
                     lessonElement.appendChild(roomSpan);
                 }
             }
         }
 
-        // TODO: kein save menu wenn user schedule
-        /** outsource creating of save menu to prevent closures of eventListeners */
-        saveMenu = createSaveMenu(data.ccmID);
-        saveMenu.forEach(function (element)
+        /** save-menu */
+        if (variables.userID == '0')
         {
-            lessonElement.appendChild(element);
-        });
+            lessonElement.className += ' no-saving';
+        }
+        else
+        {
+            /** outsource creating of save menu and deleteButton to prevent closures of eventListeners */
+            saveMenu = createSaveMenu(data.ccmID);
+            saveMenu.forEach(function (element)
+            {
+                lessonElement.appendChild(element);
+            });
+
+            deleteButton = createDeleteButton(data.ccmID);
+            lessonElement.appendChild(deleteButton);
+
+            /** makes delete button visible only */
+            if (usersSchedule || isSavedByUser(lessonElement))
+            {
+                lessonElement.className += ' added';
+            }
+        }
 
         lessons.push(lessonElement);
     }
@@ -984,7 +994,7 @@ function createLesson(data, day, lessonID, ownTime)
  */
 function createSaveMenu(ccmID)
 {
-    var saveMenu, saveSemester, savePeriod, saveInstance, saveButton, saveIcon, deleteButton, deleteIcon, closeSaveMenu;
+    var saveMenu, saveSemester, savePeriod, saveInstance, saveButton, saveIcon, closeSaveMenu;
 
     if (typeof ccmID == 'undefined')
     {
@@ -1007,7 +1017,7 @@ function createSaveMenu(ccmID)
     saveSemester.innerHTML = text.SAVE_SEMESTER;
     saveSemester.addEventListener('click', function ()
     {
-        saveLesson(text.CONFIG_SAVE_SEMESTER, ccmID);
+        saveLesson(variables.SAVE_MODE_SEMESTER, ccmID);
         saveMenu.style.display = 'none';
     });
 
@@ -1016,7 +1026,7 @@ function createSaveMenu(ccmID)
     savePeriod.innerHTML = text.SAVE_PERIOD;
     savePeriod.addEventListener('click', function ()
     {
-        saveLesson(text.CONFIG_SAVE_PERIOD, ccmID);
+        saveLesson(variables.SAVE_MODE_PERIOD, ccmID);
         saveMenu.style.display = 'none';
     });
 
@@ -1025,7 +1035,7 @@ function createSaveMenu(ccmID)
     saveInstance.innerHTML = text.SAVE_INSTANCE;
     saveInstance.addEventListener('click', function ()
     {
-        saveLesson(text.CONFIG_SAVE_INSTANCE, ccmID);
+        saveLesson(variables.SAVE_MODE_INSTANCE, ccmID);
         saveMenu.style.display = 'none';
     });
 
@@ -1044,17 +1054,34 @@ function createSaveMenu(ccmID)
         saveMenu.style.display = 'block';
     });
 
-    deleteButton = document.createElement('button');
-    deleteButton.className = 'delete-lesson';
-    deleteIcon = document.createElement('span');
+    return [saveButton, saveMenu];
+}
+
+/**
+ * TODO: auch hier ganzes menü bereitstellen (per Rechtsklick)
+ * creates a button to delete the given lesson
+ * @param ccmID String
+ * @return Element|boolean HTMLButtonElement for the DOM
+ */
+function createDeleteButton(ccmID)
+{
+    var deleteButton = document.createElement('button'), deleteIcon = document.createElement('span');
+
+    if (typeof ccmID == 'undefined')
+    {
+        return false;
+    }
+
     deleteIcon.className = 'icon-delete';
+    deleteButton.className = 'delete-lesson';
     deleteButton.appendChild(deleteIcon);
+
     deleteButton.addEventListener('click', function ()
     {
-        //TODO: delete lesson
+        deleteLesson(variables.SAVE_MODE_INSTANCE, ccmID);
     });
 
-    return [saveButton, deleteButton, saveMenu];
+    return deleteButton;
 }
 
 /**
@@ -1081,16 +1108,16 @@ function insertTableHead(table)
 }
 
 /**
- * inserts lessons into a schedule table
+ * inserts lessons into a schedule
  *
- * @param table HTMLTableElement | object
- * @param lessons array[objects] - JSON data
+ * @param schedule Schedule object with table, task...
  */
-function insertLessons(table, lessons)
+function insertLessons(schedule)
 {
-    var colNumber = 1, rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr'), block, lesson,
+    var colNumber = 1, rows = schedule.table.getElementsByTagName('tbody')[0].getElementsByTagName('tr'), block, lesson,
         times = JSON.parse(getSelectedValues('grid')), tableStartTime, tableEndTime, blockTimes, lessonElements,
-        blockIndex, blockStart, blockEnd, cell, nextCellExist;
+        blockIndex, blockStart, blockEnd, cell, nextCellExist, nextCell, lessonsNextBlock,
+        isUsersSchedule = (schedule.id == 'user'), lessons = schedule.lessons;
 
     for (var date in lessons)
     {
@@ -1100,7 +1127,7 @@ function insertLessons(table, lessons)
         }
 
         /** no times on the left side - every lesson appears in the first row */
-        if (times.length == 0)
+        if (!times.periods)
         {
             for (block in lessons[date])
             {
@@ -1142,7 +1169,7 @@ function insertLessons(table, lessons)
                 blockEnd = blockTimes[2];
 
                 /** block does not fit? go to next block */
-                while (tableStartTime < blockStart && tableEndTime < blockEnd)
+                while (tableStartTime < blockStart && tableEndTime < blockStart)
                 {
                     ++blockIndex;
                     tableStartTime = times.periods[blockIndex + 1].startTime;
@@ -1159,9 +1186,9 @@ function insertLessons(table, lessons)
                     nextCellExist = rows[blockIndex + 1] !== undefined;
 
                     /** time matches */
-                    if (tableStartTime == blockStart && tableStartTime < blockEnd)
+                    if (tableStartTime == blockStart && tableEndTime == blockEnd)
                     {
-                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson);
+                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson, false, isUsersSchedule);
                         lessonElements.forEach(function (element)
                         {
                             cell.appendChild(element);
@@ -1170,17 +1197,17 @@ function insertLessons(table, lessons)
                     /** lesson fits inside block but has slightly other times */
                     if (tableStartTime <= blockStart && tableEndTime != blockEnd)
                     {
-                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson, true);
+                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson, true, isUsersSchedule);
                         lessonElements.forEach(function (element)
                         {
                             cell.appendChild(element);
                         });
                     }
                     /** lesson fits into next block too, so add a copy to this */
-                    if (nextCellExist && tableEndTime >= times.periods[blockIndex + 2].startTime)
+                    if (nextCellExist && blockEnd >= times.periods[blockIndex + 2].startTime)
                     {
                         nextCell = rows[blockIndex + 1].getElementsByTagName('td')[colNumber];
-                        lessonsNextBlock = createLesson(lessons[date][block][lesson], date, lesson, true);
+                        lessonsNextBlock = createLesson(lessons[date][block][lesson], date, lesson, true, isUsersSchedule);
                         lessonsNextBlock.forEach(function (element)
                         {
                             nextCell.appendChild(element);
@@ -1245,21 +1272,21 @@ function updateSchedule(id)
  */
 function insertUpdatedScheduleData()
 {
-    var lessons, schedule;
+    var schedule;
 
     if (ajaxSchedule.readyState == 4 && ajaxSchedule.status == 200)
     {
-        lessons = JSON.parse(ajaxSchedule.responseText);
-        schedule = scheduleObjects.getScheduleByResponse(ajaxSchedule.responseURL);
+        schedule = scheduleObjects.getScheduleByRequest(ajaxSchedule.responseURL);
 
         if (!schedule)
         {
             return;
         }
 
+        schedule.lessons = JSON.parse(ajaxSchedule.responseText);
         resetSchedule(schedule.table);
         setGridDays(schedule.table);
-        insertLessons(schedule.table, lessons);
+        insertLessons(schedule);
     }
 }
 
@@ -1401,7 +1428,7 @@ function getDateFieldsDateObject()
  */
 function setDatePattern()
 {
-    var pattern = text.dateFormat;
+    var pattern = variables.dateFormat;
 
     pattern = pattern.replace(/d/, "\\d{2}");
     pattern = pattern.replace(/j/, "\\d{1,2}");
@@ -1425,8 +1452,8 @@ function setDatePattern()
  */
 function saveLesson(taskNumber, ccmID)
 {
-    var config = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
-        task = '&task=saveLesson&config=' + config;
+    var saveMode = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
+        task = '&task=saveLesson&saveMode=' + saveMode;
 
     if (typeof ccmID == 'undefined')
     {
@@ -1446,59 +1473,103 @@ function saveLesson(taskNumber, ccmID)
  */
 function lessonSaved()
 {
+    var savedLessons, lessons, lesson;
+
     if (ajaxSave.readyState == 4 && ajaxSave.status == 200)
     {
-        var id = ajaxSave.responseText, lesson, addButton, deleteButton;
+        updateSchedule('user');
+        savedLessons = JSON.parse(ajaxSave.responseText);
 
         /** change save button of saved lesson to delete button */
-        lesson = document.getElementById(id);
-        addButton = lesson.getElementsByClassName('add-lesson')[0];
-        addButton.style.display = 'none';
-        deleteButton = lesson.getElementsByClassName('delete-lesson')[0];
-        deleteButton.style.display = 'block';
-        // TODO: je nach config andere lessons (der Periode/des Semesters) "x-en"
-        // TODO: "x-en" von Lavi machen lassen und nur class hinzufügen
-    }
-}
-
-/**
- * send an Ajax request to get users personal schedule
- */
-function getUsersSchedule()
-{
-    var task = '&task=getUsersSchedule';
-
-    task += "&date=" + window.dateField.valueAsDate.getWireFormat();
-    task += (isMobile) ? '&oneDay=true' : '';
-
-    ajaxUser = new XMLHttpRequest();
-    ajaxUser.open('GET', url + task, true);
-    ajaxUser.onreadystatechange = updateUsersSchedule;
-    ajaxUser.send(null);
-}
-
-/**
- * handles Ajax request for the users schedule and display it in its table
- */
-function updateUsersSchedule()
-{
-    var lessons, schedule;
-
-    if (ajaxUser.readyState == 4 && ajaxUser.status == 200)
-    {
-        lessons = JSON.parse(ajaxUser.responseText);
-        schedule = scheduleObjects.getScheduleById('user');
-
-        if (!schedule)
+        window.scheduleObjects.schedules.forEach(function (schedule)
         {
-            return;
-        }
-
-        schedule.lessons = lessons;
-        resetSchedule(schedule.table);
-        setGridDays(schedule.table);
-        insertLessons(schedule.table, lessons);
+            lessons = schedule.table.getElementsByClassName('lesson');
+            for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
+            {
+                if (savedLessons.includes(lessons[lessonIndex].dataset.ccmID))
+                {
+                    lessons[lessonIndex].className += ' added';
+                }
+            }
+        });
     }
+}
+
+/**
+ * deletes a lesson from users schedule
+ * @param taskNumber number
+ * @param ccmID String calendar_configuration_map ID
+ */
+function deleteLesson(taskNumber, ccmID)
+{
+    var saveMode = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
+        task = '&task=deleteLesson&saveMode=' + saveMode;
+
+    if (typeof ccmID == 'undefined')
+    {
+        return false;
+    }
+
+    task += "&ccmID=" + ccmID;
+
+    ajaxSave = new XMLHttpRequest();
+    ajaxSave.open('GET', url + task, true);
+    ajaxSave.onreadystatechange = lessonDeleted;
+    ajaxSave.send(null);
+}
+
+/**
+ * deleted lessons get their save menu again
+ */
+function lessonDeleted()
+{
+    var lessons, lesson, deletedLessons;
+
+    if (ajaxSave.readyState == 4 && ajaxSave.status == 200)
+    {
+        deletedLessons = JSON.parse(ajaxSave.responseText);
+
+        /** change save button of saved lesson to delete button */
+        window.scheduleObjects.schedules.forEach(function (schedule)
+        {
+            lessons = schedule.table.getElementsByClassName('lesson');
+            for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
+            {
+                if (deletedLessons.includes(lessons[lessonIndex].dataset.ccmID))
+                {
+                    lessons[lessonIndex].className = 'lesson';
+                }
+            }
+        });
+
+        updateSchedule('user');
+    }
+}
+
+/**
+ * checks for a lesson if it is already saved in the users schedule
+ * @param lesson HTMLDivElement
+ * @return boolean
+ */
+function isSavedByUser(lesson)
+{
+    var usersSchedule = window.scheduleObjects.getScheduleById('user'), lessons;
+
+    if (typeof lesson == 'undefined' || !usersSchedule)
+    {
+        return false;
+    }
+
+    lessons = usersSchedule.table.getElementsByClassName('lesson');
+    for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
+    {
+        if (lessons[lessonIndex].dataset.ccmID == lesson.dataset.ccmID)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
