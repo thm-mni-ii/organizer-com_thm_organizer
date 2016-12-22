@@ -108,8 +108,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 			JHtml::_('jquery.ui');
 			JHtml::_('behavior.calendar');
 			JHtml::_('formbehavior.chosen', 'select');
-			$layout      = $model->params['layout'];
-			$this->setLayout($layout);
+			$this->setLayout('default');
 		}
 		else
 		{
