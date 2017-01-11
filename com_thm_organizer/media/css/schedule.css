@@ -278,29 +278,29 @@ button:hover,
 .misc:before, .locations:before {
   content: " / "; }
 
-.save-menu {
+.lesson-menu {
   background: #dfeec8;
   display: none;
   font-size: smaller;
   position: absolute;
   width: 15rem;
   z-index: 1; }
-  .save-menu .icon-cancel {
+  .lesson-menu .icon-cancel {
     position: absolute;
     width: initial;
     height: initial;
     right: 0;
     padding: 0.1rem; }
-    .save-menu .icon-cancel::before {
+    .lesson-menu .icon-cancel::before {
       font-size: medium; }
-  .save-menu button {
+  .lesson-menu button {
     text-align: left;
     width: calc(100% - 2rem);
     line-height: normal;
     padding: 0.1rem; }
-    .save-menu button:hover {
+    .lesson-menu button:hover {
       background-color: #c8e2a1; }
-  .save-menu .save-semester {
+  .lesson-menu .save-semester {
     margin-top: 1rem; }
 
 .save-instance {

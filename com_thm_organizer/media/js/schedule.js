@@ -132,6 +132,9 @@ Date.prototype.getWireFormat = function ()
     ].join('-'); // padding
 };
 
+/**
+ * adds event listeners and initialise (user) schedule and date input form field
+ */
 jQuery(document).ready(function ()
 {
     var startX, startY;
@@ -258,7 +261,6 @@ jQuery(document).ready(function ()
     {
         changeTabBehaviour(jQuery(this));
     });
-
 });
 
 /**
@@ -850,24 +852,21 @@ function createScheduleTable(schedule)
 /**
  * Creates a lesson which means a div element filled by data
  *
- * @param data  Object lesson data
- * @param day String for the elements ID
- * @param lessonID String id of lesson
- * @param ownTime boolean show own time
- * @param usersSchedule boolean in users schedule no save menu needed
- * @returns Array|boolean HTMLDivElements in an array or false in case of wrong input
+ * @param data          Object      lesson data
+ * @param ownTime       boolean     show own time
+ * @param usersSchedule boolean     defines if the lessons are for the users schedule (no save menu needed)
+ * 
+ * @returns Array|boolean           HTMLDivElements in an array or false in case of wrong input
  */
-function createLesson(data, day, lessonID, ownTime, usersSchedule)
+function createLesson(data, ownTime, usersSchedule)
 {
-    var lessons, subjectData, lessonElement, ownTimeSpan, nameSpan, moduleSpan, teacherSpan, roomSpan,
-        saveMenu, deleteButton;
+    var lessons, subjectData, lessonElement, ownTimeSpan, nameSpan, moduleSpan, teacherSpan, roomSpan;
 
-    if (!data.hasOwnProperty("subjects") || typeof data == 'undefined' || typeof lessonID == 'undefined')
+    if (typeof data == 'undefined' || !data.hasOwnProperty("subjects"))
     {
         return false;
     }
 
-    day = typeof day == 'undefined' ? (new Date()).getWireFormat() : day;
     ownTime = typeof ownTime == 'undefined' ? false : ownTime;
     usersSchedule = typeof usersSchedule == 'undefined' ? false : usersSchedule;
     lessons = [];
@@ -904,7 +903,7 @@ function createLesson(data, day, lessonID, ownTime, usersSchedule)
             lessonElement.className += ' pool-' + data.poolDelta;
         }
 
-        if (ownTime&& data.startTime && data.endTime)
+        if (ownTime && data.startTime && data.endTime)
         {
             ownTimeSpan = document.createElement('span');
             ownTimeSpan.className = 'own-time';
@@ -957,28 +956,38 @@ function createLesson(data, day, lessonID, ownTime, usersSchedule)
             }
         }
 
-        /** save-menu */
         if (variables.userID == '0')
         {
             lessonElement.className += ' no-saving';
         }
         else
         {
-            /** outsource creating of save menu and deleteButton to prevent closures of eventListeners */
-            saveMenu = createSaveMenu(data.ccmID);
-            saveMenu.forEach(function (element)
-            {
-                lessonElement.appendChild(element);
-            });
-
-            deleteButton = createDeleteButton(data.ccmID);
-            lessonElement.appendChild(deleteButton);
+            /** outsource creating of menu to prevent closures of eventListeners */
+            addLessonMenu(lessonElement);
+            addLessonMenu(lessonElement, false);
 
             /** makes delete button visible only */
             if (usersSchedule || isSavedByUser(lessonElement))
             {
                 lessonElement.className += ' added';
             }
+
+            /**
+             * right click on lessons show save/delete menu
+             */
+            lessonElement.addEventListener('contextmenu', function (event)
+            {
+                if (this.className.match(/added/))
+                {
+                    this.getElementsByClassName('delete')[0].style.display = 'block';
+                }
+                else
+                {
+                    this.getElementsByClassName('save')[0].style.display = 'block';
+                }
+
+                event.preventDefault();
+            });
         }
 
         lessons.push(lessonElement);
@@ -988,100 +997,67 @@ function createLesson(data, day, lessonID, ownTime, usersSchedule)
 }
 
 /**
- * creates html elements for saving a lesson in the users schedule
- * @param ccmID String
- * @return Array|boolean
+ * creates html elements for saving/deleting a lesson to/from the users schedule
+ * @param lessonElement String
+ * @param saveMenu default = true. returns a menu to delete the lesson by false
  */
-function createSaveMenu(ccmID)
+function addLessonMenu(lessonElement, saveMenu)
 {
-    var saveMenu, saveSemester, savePeriod, saveInstance, saveButton, saveIcon, closeSaveMenu;
+    var saving = (typeof saveMenu == 'undefined') ? true : saveMenu, ccmID = lessonElement.dataset.ccmID,
+        menu, semesterMode, periodMode, instanceMode, singleActionButton, buttonIcon, closeMenuButton;
 
-    if (typeof ccmID == 'undefined')
+    menu = document.createElement('div');
+    menu.className = 'lesson-menu';
+    menu.className += saving ? ' save' : ' delete';
+
+    closeMenuButton = document.createElement('button');
+    closeMenuButton.className = 'icon-cancel';
+    closeMenuButton.addEventListener('click', function ()
     {
-        return false;
-    }
-
-    /** one save menu for each lesson */
-    saveMenu = document.createElement('div');
-    saveMenu.className = 'save-menu';
-
-    closeSaveMenu = document.createElement('button');
-    closeSaveMenu.className = 'icon-cancel';
-    closeSaveMenu.addEventListener('click', function ()
-    {
-        saveMenu.style.display = 'none';
+        menu.style.display = 'none';
     });
 
-    saveSemester = document.createElement('button');
-    saveSemester.className = 'save-lesson';
-    saveSemester.innerHTML = text.SAVE_SEMESTER;
-    saveSemester.addEventListener('click', function ()
+    semesterMode = document.createElement('button');
+    semesterMode.innerHTML = saving ? text.SAVE_SEMESTER : text.DELETE_SEMESTER;
+    semesterMode.addEventListener('click', function ()
     {
-        saveLesson(variables.SAVE_MODE_SEMESTER, ccmID);
-        saveMenu.style.display = 'none';
+        handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
+        menu.style.display = 'none';
     });
 
-    savePeriod = document.createElement('button');
-    savePeriod.className = 'save-period';
-    savePeriod.innerHTML = text.SAVE_PERIOD;
-    savePeriod.addEventListener('click', function ()
+    periodMode = document.createElement('button');
+    periodMode.innerHTML = saving ? text.SAVE_PERIOD : text.DELETE_PERIOD;
+    periodMode.addEventListener('click', function ()
     {
-        saveLesson(variables.SAVE_MODE_PERIOD, ccmID);
-        saveMenu.style.display = 'none';
+        handleLesson(variables.SAVE_MODE_PERIOD, ccmID, saving);
+        menu.style.display = 'none';
     });
 
-    saveInstance = document.createElement('button');
-    saveInstance.className = 'save-instance';
-    saveInstance.innerHTML = text.SAVE_INSTANCE;
-    saveInstance.addEventListener('click', function ()
+    instanceMode = document.createElement('button');
+    instanceMode.innerHTML = saving ? text.SAVE_INSTANCE : text.DELETE_INSTANCE;
+    instanceMode.addEventListener('click', function ()
     {
-        saveLesson(variables.SAVE_MODE_INSTANCE, ccmID);
-        saveMenu.style.display = 'none';
+        handleLesson(variables.SAVE_MODE_INSTANCE, ccmID, saving);
+        menu.style.display = 'none';
     });
 
-    saveMenu.appendChild(closeSaveMenu);
-    saveMenu.appendChild(saveSemester);
-    saveMenu.appendChild(savePeriod);
-    saveMenu.appendChild(saveInstance);
+    menu.appendChild(closeMenuButton);
+    menu.appendChild(semesterMode);
+    menu.appendChild(periodMode);
+    menu.appendChild(instanceMode);
 
-    saveButton = document.createElement('button');
-    saveButton.className = 'add-lesson';
-    saveIcon = document.createElement('span');
-    saveIcon.className = 'icon-plus';
-    saveButton.appendChild(saveIcon);
-    saveButton.addEventListener('click', function ()
+    singleActionButton = document.createElement('button');
+    singleActionButton.className = saving ? 'add-lesson' : 'delete-lesson';
+    buttonIcon = document.createElement('span');
+    buttonIcon.className = saving ? 'icon-plus' : 'icon-delete';
+    singleActionButton.appendChild(buttonIcon);
+    singleActionButton.addEventListener('click', function ()
     {
-        saveMenu.style.display = 'block';
+        handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
     });
 
-    return [saveButton, saveMenu];
-}
-
-/**
- * TODO: auch hier ganzes menü bereitstellen (per Rechtsklick)
- * creates a button to delete the given lesson
- * @param ccmID String
- * @return Element|boolean HTMLButtonElement for the DOM
- */
-function createDeleteButton(ccmID)
-{
-    var deleteButton = document.createElement('button'), deleteIcon = document.createElement('span');
-
-    if (typeof ccmID == 'undefined')
-    {
-        return false;
-    }
-
-    deleteIcon.className = 'icon-delete';
-    deleteButton.className = 'delete-lesson';
-    deleteButton.appendChild(deleteIcon);
-
-    deleteButton.addEventListener('click', function ()
-    {
-        deleteLesson(variables.SAVE_MODE_INSTANCE, ccmID);
-    });
-
-    return deleteButton;
+    lessonElement.appendChild(singleActionButton);
+    lessonElement.appendChild(menu);
 }
 
 /**
@@ -1142,7 +1118,7 @@ function insertLessons(schedule)
                         continue;
                     }
 
-                    lessonElements = createLesson(lessons[date][block][lesson], date, lesson, true);
+                    lessonElements = createLesson(lessons[date][block][lesson], true);
                     lessonElements.forEach(function (element)
                     {
                         rows[0].getElementsByTagName('td')[colNumber].appendChild(element);
@@ -1188,7 +1164,7 @@ function insertLessons(schedule)
                     /** time matches */
                     if (tableStartTime == blockStart && tableEndTime == blockEnd)
                     {
-                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson, false, isUsersSchedule);
+                        lessonElements = createLesson(lessons[date][block][lesson], false, isUsersSchedule);
                         lessonElements.forEach(function (element)
                         {
                             cell.appendChild(element);
@@ -1197,7 +1173,7 @@ function insertLessons(schedule)
                     /** lesson fits inside block but has slightly other times */
                     if (tableStartTime <= blockStart && tableEndTime != blockEnd)
                     {
-                        lessonElements = createLesson(lessons[date][block][lesson], date, lesson, true, isUsersSchedule);
+                        lessonElements = createLesson(lessons[date][block][lesson], true, isUsersSchedule);
                         lessonElements.forEach(function (element)
                         {
                             cell.appendChild(element);
@@ -1207,7 +1183,7 @@ function insertLessons(schedule)
                     if (nextCellExist && blockEnd >= times.periods[blockIndex + 2].startTime)
                     {
                         nextCell = rows[blockIndex + 1].getElementsByTagName('td')[colNumber];
-                        lessonsNextBlock = createLesson(lessons[date][block][lesson], date, lesson, true, isUsersSchedule);
+                        lessonsNextBlock = createLesson(lessons[date][block][lesson], true, isUsersSchedule);
                         lessonsNextBlock.forEach(function (element)
                         {
                             nextCell.appendChild(element);
@@ -1449,38 +1425,37 @@ function setDatePattern()
  *
  * @param taskNumber number
  * @param ccmID String calendar_configuration_map ID
+ * @param save boolean indicate to save or to delete the lesson
  */
-function saveLesson(taskNumber, ccmID)
+function handleLesson(taskNumber, ccmID, save)
 {
-    var saveMode = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
-        task = '&task=saveLesson&saveMode=' + saveMode;
+    var mode = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
+        saving = (typeof save == 'undefined') ? true : save,
+        task = '&task= ' + (saving ? '&task=saveLesson' : '&task=deleteLesson');
 
     if (typeof ccmID == 'undefined')
     {
         return false;
     }
 
-    task += "&ccmID=" + ccmID;
-
+    task += "&saveMode=" + mode + "&ccmID=" + ccmID;
     ajaxSave = new XMLHttpRequest();
     ajaxSave.open('GET', url + task, true);
-    ajaxSave.onreadystatechange = lessonSaved;
+    ajaxSave.onreadystatechange = lessonHandled;
     ajaxSave.send(null);
 }
 
 /**
- * replaces the save button of a saved lesson with a delete button
+ * replaces the save button of a saved lesson with a delete button and reverse
  */
-function lessonSaved()
+function lessonHandled()
 {
-    var savedLessons, lessons, lesson;
+    var savedLessons, lessons;
 
     if (ajaxSave.readyState == 4 && ajaxSave.status == 200)
     {
-        updateSchedule('user');
         savedLessons = JSON.parse(ajaxSave.responseText);
 
-        /** change save button of saved lesson to delete button */
         window.scheduleObjects.schedules.forEach(function (schedule)
         {
             lessons = schedule.table.getElementsByClassName('lesson');
@@ -1488,56 +1463,14 @@ function lessonSaved()
             {
                 if (savedLessons.includes(lessons[lessonIndex].dataset.ccmID))
                 {
-                    lessons[lessonIndex].className += ' added';
-                }
-            }
-        });
-    }
-}
-
-/**
- * deletes a lesson from users schedule
- * @param taskNumber number
- * @param ccmID String calendar_configuration_map ID
- */
-function deleteLesson(taskNumber, ccmID)
-{
-    var saveMode = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
-        task = '&task=deleteLesson&saveMode=' + saveMode;
-
-    if (typeof ccmID == 'undefined')
-    {
-        return false;
-    }
-
-    task += "&ccmID=" + ccmID;
-
-    ajaxSave = new XMLHttpRequest();
-    ajaxSave.open('GET', url + task, true);
-    ajaxSave.onreadystatechange = lessonDeleted;
-    ajaxSave.send(null);
-}
-
-/**
- * deleted lessons get their save menu again
- */
-function lessonDeleted()
-{
-    var lessons, lesson, deletedLessons;
-
-    if (ajaxSave.readyState == 4 && ajaxSave.status == 200)
-    {
-        deletedLessons = JSON.parse(ajaxSave.responseText);
-
-        /** change save button of saved lesson to delete button */
-        window.scheduleObjects.schedules.forEach(function (schedule)
-        {
-            lessons = schedule.table.getElementsByClassName('lesson');
-            for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
-            {
-                if (deletedLessons.includes(lessons[lessonIndex].dataset.ccmID))
-                {
-                    lessons[lessonIndex].className = 'lesson';
+                    if (lessons[lessonIndex].className === 'lesson')
+                    {
+                        lessons[lessonIndex].className += ' added';
+                    }
+                    else
+                    {
+                        lessons[lessonIndex].className = 'lesson';
+                    }
                 }
             }
         });

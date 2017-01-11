@@ -37,16 +37,4 @@ class THM_OrganizerTableUser_Lessons extends JTable
 	{
 		parent::__construct('#__thm_organizer_user_lessons', 'id', $dbo);
 	}
-
-	/**
-	 * defines the nullable columns
-	 *
-	 * @return boolean true
-	 */
-	public function check()
-	{
-		$this->status_date  = null;
-
-		return true;
-	}
 }
