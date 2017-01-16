@@ -3,7 +3,7 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewRoom_Statistics
+ * @name        THM_OrganizerViewDepartment_Statistics
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -24,7 +24,7 @@ jimport('phpexcel.library.PHPExcel');
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewRoom_Statistics extends JViewLegacy
+class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
 {
 	/**
 	 * Method to get extra
@@ -38,7 +38,7 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
 		$model = $this->getModel();
 
 		require_once __DIR__ . "/tmpl/document.php";
-		$export = new THM_OrganizerTemplateRoom_Statistics_XLS($model);
+		$export = new THM_OrganizerTemplateDepartment_Statistics_XLS($model);
 		$export->render();
 		ob_flush();
 	}

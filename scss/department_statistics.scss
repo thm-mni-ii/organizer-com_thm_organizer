@@ -1,0 +1,152 @@
+@import 'variables';
+@import 'tabbed_navigation';
+
+div#main div#j-main-container {
+
+  .chzn-container {
+    height: auto;
+    min-height: 1.8rem;
+  }
+
+  fieldset {
+
+    background-color: $foreground;
+    position: relative;
+
+    &:first-of-type {
+      background-color: $background;
+    }
+
+    legend {
+
+      border: none;
+      font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      line-height: 1rem;
+      margin-bottom: 0;
+      padding: 1rem;
+      position: absolute;
+      text-transform: uppercase;
+
+      .disclaimer {
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;;
+        font-size: .7rem;
+        font-style: italic;
+        text-transform: none;
+      }
+    }
+  }
+}
+
+[class^="icon-"],
+[class*=" icon-"],
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  color: inherit !important;
+}
+
+div.header-container {
+
+  padding-bottom: 1rem;
+
+  div.header-title {
+    font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 1.8rem;
+  }
+
+  .toolbar {
+    float: right;
+  }
+
+  .tool-wrapper {
+    display: inline-block;
+
+    a, button {
+      cursor: pointer;
+    }
+  }
+
+}
+
+button {
+  border: none;
+}
+
+.btn-reset, .btn-reset:hover {
+  background-color: $foreground;
+  color: $font-color;
+  margin-left: 8px;
+}
+
+//********************************************************************************************************************//
+// Form
+//********************************************************************************************************************//
+
+.control-item {
+  width: 100%;
+  padding: .5rem 1rem;
+
+  &:first-of-type {
+    margin-top: 1rem;
+  }
+
+}
+
+fieldset:nth-of-type(2) {
+
+  .control-item:first-of-type {
+    margin-top: 2.5rem;
+  }
+
+}
+
+.control-label {
+  float: left;
+  width: 12rem;
+
+  .label-text {
+    font-size: .9rem;
+  }
+
+  .icon-info {
+    font-size: .7rem;
+  }
+}
+
+.controls {
+
+  float: left;
+
+  .input-append {
+
+    font-size: 1.3rem;
+
+    & > button.btn {
+      margin-top: .15rem;
+
+      &:focus, &:active {
+        outline: none;
+      }
+    }
+  }
+}
+
+.clear {
+  clear: both;
+}
+
+.tooltip {
+
+  &.right {
+    margin-left: -1rem;
+  }
+
+  & > .tooltip-inner {
+    background-color: $background;
+    color: $font-color;
+    border: $border;
+    border-radius: 0;
+    padding: .2rem;
+    font-size: .8rem;
+  }
+}
