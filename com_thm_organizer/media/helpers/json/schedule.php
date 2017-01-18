@@ -1195,7 +1195,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 * Saves the lesson pools from the schedule object to the database and triggers functions for saving lesson associations.
 	 *
 	 * @param string $subjectID the db id of the lesson subject association
-	 * @param object $teachers  the teacherss associated with the subject
+	 * @param object $teachers  the teachers associated with the subject
 	 *
 	 * @return void saves lessons to the database
 	 */

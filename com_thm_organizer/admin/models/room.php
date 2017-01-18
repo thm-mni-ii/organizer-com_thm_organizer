@@ -23,6 +23,32 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 {
 	/**
+	 * Processes the references for a single date
+	 *
+	 * @param object &$schedule     the schedule being processed
+	 * @param string $date          the date being currently iterated
+	 * @param object $blocks        the block being currently iterated
+	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
+	 * @param string $gpuntisID     the gpuntis ID to use for the resource in the schedule, empty during deletion
+	 *
+	 * @return  void
+	 */
+	private function iterateDateReferences(&$schedule, $date, $blocks, $allGPUntisIDs, $gpuntisID = null)
+	{
+		if (is_object($blocks))
+		{
+			foreach ($blocks as $block => $lessons)
+			{
+				$lessonIDs = array_keys((array) $lessons);
+				foreach ($lessonIDs as $lessonID)
+				{
+					$this->updateRoomReference($schedule, $date, $block, $lessonID, $allGPUntisIDs, $gpuntisID);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Removes the resource from the schedule
 	 *
 	 * @param object &$schedule  the schedule from which the resource will be removed
@@ -157,32 +183,6 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 			if ($inConfig)
 			{
 				$schedule->configurations[$index] = json_encode($configuration);
-			}
-		}
-	}
-
-	/**
-	 * Processes the references for a single date
-	 *
-	 * @param object &$schedule     the schedule being processed
-	 * @param string $date          the date being currently iterated
-	 * @param object $blocks        the block being currently iterated
-	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param string $gpuntisID     the gpuntis ID to use for the resource in the schedule, empty during deletion
-	 *
-	 * @return  void
-	 */
-	private function iterateDateReferences(&$schedule, $date, $blocks, $allGPUntisIDs, $gpuntisID = null)
-	{
-		if (is_object($blocks))
-		{
-			foreach ($blocks as $block => $lessons)
-			{
-				$lessonIDs = array_keys((array) $lessons);
-				foreach ($lessonIDs as $lessonID)
-				{
-					$this->updateRoomReference($schedule, $date, $block, $lessonID, $allGPUntisIDs, $gpuntisID);
-				}
 			}
 		}
 	}

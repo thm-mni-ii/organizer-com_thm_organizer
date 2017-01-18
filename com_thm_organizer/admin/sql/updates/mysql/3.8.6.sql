@@ -1,0 +1,2 @@
+ALTER TABLE `#__thm_organizer_lesson_configurations`
+  ADD `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;

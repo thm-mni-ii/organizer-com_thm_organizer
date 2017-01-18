@@ -159,6 +159,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_configurations` (
   `lessonID`      INT(11) UNSIGNED NOT NULL,
   `configuration` TEXT             NOT NULL
   COMMENT 'A configuration of teachers and rooms for a lesson, inclusive of their delta status.',
+  `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `lessonID` (`lessonID`)
 )
