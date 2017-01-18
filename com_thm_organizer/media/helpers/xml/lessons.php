@@ -329,15 +329,25 @@ class THM_OrganizerHelperXMLLessons
 			return;
 		}
 
-		$startDT    = strtotime(trim((string) $lessonNode->effectivebegindate));
-		$endDT      = strtotime(trim((string) $lessonNode->effectiveenddate));
-		$datesValid = $this->validateDates($startDT, $endDT);
+
+		$effBeginDT  = strtotime(trim((string) $lessonNode->effectivebegindate));
+		$termBeginDT = strtotime($this->scheduleModel->newSchedule->startDate);
+		$startDT     = $effBeginDT < $termBeginDT ? $termBeginDT : $effBeginDT;
+		$effEndDT    = strtotime(trim((string) $lessonNode->effectiveenddate));
+		$termEndDT   = strtotime($this->scheduleModel->newSchedule->endDate);
+		$endDT       = $termEndDT < $effEndDT ? $termEndDT : $effEndDT;
+
+		// Effective dts are used to avoid unnecessary validation errors
+		$datesValid = $this->validateDates($effBeginDT, $effEndDT);
+
 		if (!$datesValid)
 		{
 			return;
 		}
 
 		$rawInstances       = trim((string) $lessonNode->occurence);
+
+		// Adjusted dates are used because effective dts are not always accurate for the time frame
 		$potentialInstances = $this->truncateInstances($rawInstances, $startDT, $endDT);
 
 		$comment = trim((string) $lessonNode->text);
