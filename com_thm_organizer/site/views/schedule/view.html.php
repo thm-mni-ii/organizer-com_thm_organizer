@@ -48,6 +48,20 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	protected $departmentID;
 
 	/**
+	 * specifies the start date of calendar selection
+	 *
+	 * @var string
+	 */
+	protected $startDate;
+
+	/**
+	 * specifies the end date of calendar selection
+	 *
+	 * @var string
+	 */
+	protected $endDate;
+
+	/**
 	 * mobile device or not
 	 *
 	 * @var boolean
@@ -64,7 +78,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	/**
 	 * Method to display the template
 	 *
-	 * @param   null $tpl template
+	 * @param null $tpl template
 	 *
 	 * @return mixed
 	 */
@@ -77,6 +91,8 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$this->dateFormat   = $compParams->get('dateFormat', 'd.m.Y');
 		$params             = JFactory::getApplication()->getMenu()->getActive()->params;
 		$this->departmentID = $params->get('departmentID', '0');
+		$this->startDate    = $params->get('startDate', '');
+		$this->endDate      = $params->get('endDate', '');
 		$this->modifyDocument();
 		parent::display($tpl);
 	}

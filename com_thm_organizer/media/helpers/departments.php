@@ -69,7 +69,7 @@ class THM_OrganizerHelperDepartments
 	 *
 	 * @param bool $short whether or not abbreviated names should be returned
 	 *
-	 * @return string  all pools in JSON format
+	 * @return array
 	 *
 	 * @throws RuntimeException
 	 */
@@ -92,7 +92,7 @@ class THM_OrganizerHelperDepartments
 		}
 		catch (RuntimeException $exc)
 		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return $default;
 		}

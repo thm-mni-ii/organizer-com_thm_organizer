@@ -11,22 +11,742 @@
 
 "use strict";
 
-var scheduleWrapper, isMobile, dateField, weekdays, Schedule, Schedules, scheduleObjects, datePattern,
-    ajaxSelection = null, ajaxLessons = null, ajaxSchedule = null, ajaxSave = null,
-    url = 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw';
+var scheduleWrapper, isMobile, dateField, weekdays, Schedule, ScheduleTable, Schedules, scheduleObjects, datePattern,
+    ajaxSelection = null, scheduleRequests = [], ajaxSave = null,
+    url = "index.php?option=com_thm_organizer&view=schedule_ajax&format=raw";
 
 /**
- * Schedule class for saving params and update the already existing schedules.
+ * Schedule 'class' for saving params and update the scheduleTable
  *
- * @param id unique string
+ * @param resource string name of (e.g. form) resource
+ * @param IDs string makes together with resource the schedule ID
+ * @param optionalTitle string optional title for directly linked schedules (e.g. teacher or room)
  */
-Schedule = function (id)
+Schedule = function (resource, IDs, optionalTitle)
 {
-    this.id = id; // string
-    this.table = document.getElementsByTagName('table')[1]; // HTMLTableElement
-    this.lessons = []; // JSON data of lessons
-    this.title = 'Default Schedule'; // title in form selection
-    this.task = '';
+    this.resource = resource; // For ScheduleTable usage
+    this.id = resource === "user" ? resource
+        : IDs ? resource + IDs
+        : resource + getSelectedValues(resource, "-");
+    this.scheduleTable = new ScheduleTable(this);
+    this.title = "";
+    this.task = "";
+    this.ajaxRequest = new XMLHttpRequest();
+    this.lessons = [];
+
+    /**
+     * constructor-like function to init table, task and title
+     */
+    this.create = function ()
+    {
+        this.scheduleTable.create();
+        this.setTitle();
+        this.setTask();
+    };
+
+    /**
+     * Sets Ajax url for updating lessons
+     */
+    this.setTask = function ()
+    {
+        this.task = "&departmentIDs=" + variables.departmentID;
+
+        if (resource === "user")
+        {
+            this.task += "&task=getUserSchedule";
+        }
+        else
+        {
+            this.task += "&task=getLessons";
+            this.task += "&" + resource + "IDs=" + (IDs ? IDs.replace(/-/g, ",") : getSelectedValues(resource));
+        }
+
+        this.task += "&date=" + getDateFieldString() + (window.isMobile ? "&oneDay=true" : "");
+    };
+
+    /**
+     * Sets title that depends on the selected schedule
+     */
+    this.setTitle = function ()
+    {
+        var field = document.getElementById(resource);
+
+        if (optionalTitle)
+        {
+            this.title = optionalTitle;
+            return;
+        }
+
+        if (resource === "user")
+        {
+            this.title = text.MY_SCHEDULE;
+            return;
+        }
+
+        for (var fieldIndex = 0; fieldIndex < field.selectedOptions.length; ++fieldIndex)
+        {
+            this.title += field.selectedOptions[fieldIndex].text;
+            if (field.selectedOptions.length > fieldIndex + 1)
+            {
+                this.title += " - ";
+            }
+        }
+    };
+
+    /**
+     * Sends an Ajax request with the actual date to update the schedule
+     */
+    this.requestUpdate = function ()
+    {
+        this.task = this.task.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + getDateFieldString());
+        this.ajaxRequest.open("GET", url + this.task, true);
+        this.ajaxRequest.onreadystatechange = insertLessonResponse;
+        this.ajaxRequest.send(null);
+        window.scheduleRequests.push(this.ajaxRequest);
+    };
+
+    /**
+     * Sets new lessons and updates table with them
+     *
+     * @param newLessons array
+     */
+    this.setLessons = function (newLessons)
+    {
+        this.lessons = newLessons;
+        this.scheduleTable.update(newLessons);
+    };
+
+    /**
+     * updates table with already given lessons, e.g. for changing time grids
+     */
+    this.updateTable = function ()
+    {
+        this.scheduleTable.update(this.lessons, true);
+    };
+};
+
+/**
+ * Class for the HTMLTableElement of a schedule
+ *
+ * @param schedule Schedule object
+ */
+ScheduleTable = function (schedule)
+{
+    this.timeGrid = JSON.parse(getSelectedValues("grid"));
+    this.visibleDay = getDateFieldsDateObject().getDay();
+    this.userSchedule = schedule.id === "user";
+    this.lessonElements = []; // HTMLDivElements
+    this.table = document.createElement("table"); // HTMLTableElement
+
+    /**
+     * constructor-like function to build the HTMLTableElement
+     */
+    this.create = function ()
+    {
+        this.createScheduleElement();
+        this.insertTableHead();
+        this.setGridTime();
+    };
+
+    /**
+     * updates the table with the actual selected time grid and given lessons.
+     *
+     * @param lessons object
+     * @param newTimeGrid boolean
+     */
+    this.update = function (lessons, newTimeGrid)
+    {
+        this.visibleDay = getDateFieldsDateObject().getDay();
+        this.resetTable();
+
+        if (window.isMobile)
+        {
+            this.setActiveColumn();
+        }
+
+        if (newTimeGrid)
+        {
+            this.timeGrid = JSON.parse(getSelectedValues("grid"));
+            this.setGridDays();
+            this.setGridTime();
+        }
+
+        this.insertLessons(lessons);
+    };
+
+    /**
+     * Creates a table DOM-element with an input and label for selecting it and a caption with the given title.
+     * It gets appended to the scheduleWrapper.
+     */
+    this.createScheduleElement = function ()
+    {
+        var input, div, tbody, row, weekEnd = 7;
+
+        // Create input field for selecting this schedule
+        input = document.createElement("input");
+        input.className = "schedule-input";
+        input.type = "radio";
+        input.setAttribute("id", schedule.id);
+        input.setAttribute("name", "schedules");
+        input.setAttribute("checked", "checked");
+        window.scheduleWrapper.appendChild(input);
+
+        // Create a new schedule table
+        div = document.createElement("div");
+        div.setAttribute("id", schedule.id + "-schedule");
+        div.setAttribute("class", "schedule-table");
+        div.appendChild(this.table);
+        window.scheduleWrapper.appendChild(div);
+
+        tbody = document.createElement("tbody");
+        this.table.appendChild(tbody);
+
+        // Filled with rows and cells (with -1 for last position)
+        if (this.timeGrid.hasOwnProperty("periods"))
+        {
+            for (var periods in this.timeGrid.periods)
+            {
+                row = tbody.insertRow(-1);
+
+                for (var firstDay = 0; firstDay < weekEnd; ++firstDay)
+                {
+                    row.insertCell(-1);
+                }
+            }
+        }
+        else
+        {
+            row = tbody.insertRow(-1);
+
+            for (var weekStart = 0; weekStart < weekEnd; ++weekStart)
+            {
+                row.insertCell(-1);
+            }
+        }
+    };
+
+    /**
+     * Insert table head and side cells with time data
+     */
+    this.insertTableHead = function ()
+    {
+        var tHead = this.table.createTHead(), tr = tHead.insertRow(0), weekend = 7, th, thText,
+            headerDate = getDateFieldsDateObject();
+
+        // Set date to monday
+        headerDate.setDate(headerDate.getDate() - headerDate.getDay());
+
+        for (var headIndex = 0; headIndex < weekend; ++headIndex)
+        {
+            th = document.createElement("th");
+            thText = weekdays[headIndex - 1] + " (" + headerDate.getPresentationFormat() + ")";
+            th.innerHTML = (headIndex === 0) ? text.TIME : thText;
+            if (headIndex === this.visibleDay)
+            {
+                jQuery(th).addClass("activeColumn");
+            }
+            tr.appendChild(th);
+            headerDate.setDate(headerDate.getDate() + 1);
+        }
+    };
+
+    /**
+     * sets the chosen times of the grid in the schedules tables
+     */
+    this.setGridTime = function ()
+    {
+        var rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
+            hasPeriods = this.timeGrid.hasOwnProperty("periods"), period = 1, timeCell, startTime, endTime;
+
+        for (var row = 0; row < rows.length; ++row)
+        {
+            timeCell = rows[row].getElementsByTagName("td")[0];
+            if (timeCell.className != "break")
+            {
+                if (hasPeriods)
+                {
+                    startTime = this.timeGrid.periods[period].startTime;
+                    startTime = startTime.replace(/(\d{2})(\d{2})/, "$1:$2");
+                    endTime = this.timeGrid.periods[period].endTime;
+                    endTime = endTime.replace(/(\d{2})(\d{2})/, "$1:$2");
+                    timeCell.style.display = '';
+                    timeCell.innerHTML = startTime + "<br> - <br>" + endTime;
+
+                    ++period;
+                }
+                else
+                {
+                    timeCell.style.display = "none";
+                }
+            }
+        }
+    };
+
+    /**
+     * here the table head changes to the grids specified weekdays with start day and end day
+     */
+    this.setGridDays = function ()
+    {
+        var currentDay = this.timeGrid.startDay, endDay = this.timeGrid.endDay,
+            headerDate = window.dateField.valueAsDate, day = headerDate.getDay(),
+            head = this.table.getElementsByTagName("thead")[0], headItems = head.getElementsByTagName("th");
+
+        // Set date to monday of the same week
+        if (day === 0)
+        {
+            headerDate.setDate(headerDate.getDate() - 6);
+        }
+        else
+        {
+            // Sunday is 0, so we add a one for monday
+            headerDate.setDate(headerDate.getDate() - day + 1);
+        }
+
+        // Show TIME header on the left side ?
+        headItems[0].style.display = this.timeGrid.hasOwnProperty("periods") ? '' : "none";
+
+        // Fill thead with days of week
+        for (var thElement = 1; thElement < headItems.length; ++thElement)
+        {
+            if (thElement === currentDay && currentDay <= endDay)
+            {
+                headItems[thElement].innerHTML = weekdays[currentDay - 1] + " (" + headerDate.getPresentationFormat() + ")";
+                headerDate.setDate(headerDate.getDate() + 1);
+                ++currentDay;
+            }
+            else
+            {
+                headItems[thElement].innerHTML = '';
+            }
+        }
+    };
+
+    /**
+     * inserts lessons into a schedule
+     *
+     * @param lessons array
+     */
+    this.insertLessons = function (lessons)
+    {
+        var colNumber = window.isMobile ? this.visibleDay : 1,
+            rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
+            block, lesson, tableStartTime, tableEndTime, blockTimes, lessonElements, blockIndex, blockStart, blockEnd,
+            cell, nextCell, lessonsNextBlock, previousCell, showOwnTime;
+
+        for (var date in lessons)
+        {
+            if (!lessons.hasOwnProperty(date))
+            {
+                continue;
+            }
+
+            // No times on the left side - every lesson appears in the first row
+            if (!this.timeGrid.periods)
+            {
+                for (block in lessons[date])
+                {
+                    if (!lessons[date].hasOwnProperty(block))
+                    {
+                        continue;
+                    }
+                    for (lesson in lessons[date][block])
+                    {
+                        if (!lessons[date][block].hasOwnProperty(lesson))
+                        {
+                            continue;
+                        }
+
+                        lessonElements = this.createLesson(lessons[date][block][lesson], true);
+                        lessonElements.forEach(function (element)
+                        {
+                            cell = rows[0].getElementsByTagName("td")[colNumber];
+                            cell.appendChild(element);
+                        });
+                    }
+                }
+            }
+            // Insert lessons in cells
+            else
+            {
+                blockIndex = 0;
+                for (block in lessons[date])
+                {
+                    if (!lessons[date].hasOwnProperty(block))
+                    {
+                        continue;
+                    }
+
+                    // Periods start at 1, html td-elements at 0
+                    tableStartTime = this.timeGrid.periods[blockIndex + 1].startTime;
+                    tableEndTime = this.timeGrid.periods[blockIndex + 1].endTime;
+                    blockTimes = block.match(/^(\d{4})-(\d{4})$/);
+                    blockStart = blockTimes[1];
+                    blockEnd = blockTimes[2];
+
+                    // Block does not fit? go to next block
+                    while (tableEndTime < blockStart)
+                    {
+                        ++blockIndex;
+                        tableStartTime = this.timeGrid.periods[blockIndex + 1].startTime;
+                        tableEndTime = this.timeGrid.periods[blockIndex + 1].endTime;
+                    }
+
+                    for (lesson in lessons[date][block])
+                    {
+                        if (!lessons[date][block].hasOwnProperty(lesson))
+                        {
+                            continue;
+                        }
+                        cell = rows[blockIndex].getElementsByTagName("td")[colNumber];
+                        jQuery(cell).addClass("lessons");
+                        
+                        // Append lesson in current table cell
+                        showOwnTime = tableStartTime != blockStart || tableEndTime != blockEnd;
+                        lessonElements = this.createLesson(lessons[date][block][lesson], showOwnTime);
+                        lessonElements.forEach(function (element)
+                        {
+                            cell.appendChild(element);
+                        });
+
+                        // Lesson fits into next cell too, so add a copy to this
+                        if (rows[blockIndex + 1] && blockEnd > this.timeGrid.periods[blockIndex + 2].startTime)
+                        {
+                            nextCell = rows[blockIndex + 1].getElementsByTagName("td")[colNumber];
+                            lessonsNextBlock = this.createLesson(lessons[date][block][lesson], true);
+                            lessonsNextBlock.forEach(function (element)
+                            {
+                                nextCell.appendChild(element);
+                            });
+                        }
+                    }
+                    ++blockIndex;
+                }
+            }
+            ++colNumber;
+        }
+    };
+
+    /**
+     * Creates a lesson which means a div element filled by data
+     *
+     * @param data          Object      lesson data
+     * @param ownTime       boolean     show own time
+     *
+     * @returns Array|boolean           HTMLDivElements in an array or false in case of wrong input
+     */
+    this.createLesson = function (data, ownTime)
+    {
+        var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectSpan, moduleSpan, poolID, poolName,
+            poolSpan, poolLink, teacherSpan, teacherLink, teacherID, teacherName, roomSpan, roomLink, roomID, roomName;
+
+        if (!data || !data.hasOwnProperty("subjects"))
+        {
+            return false;
+        }
+
+        ownTime = typeof ownTime === "undefined" ? false : ownTime;
+        lessons = [];
+
+        for (subject in data.subjects)
+        {
+            if (!data.subjects.hasOwnProperty(subject))
+            {
+                return false;
+            }
+            subjectData = data.subjects[subject];
+
+            lessonElement = document.createElement("div");
+            lessonElement.className = "lesson";
+
+            // Data attributes instead of classes for finding the lesson later
+            lessonElement.dataset.ccmID = data.ccmID;
+
+            // Delta = "removed" or "new" or "changed" ? add class like "lesson-new"
+            if (data.lessonDelta)
+            {
+                lessonElement.className += " lesson-" + data.lessonDelta;
+            }
+            if (data.calendarDelta)
+            {
+                lessonElement.className += " calendar-" + data.calendarDelta;
+            }
+            if (ownTime && data.startTime && data.endTime)
+            {
+                ownTimeSpan = document.createElement("span");
+                ownTimeSpan.className = "own-time";
+                ownTimeSpan.innerHTML =
+                    data.startTime.match(/^(\d{2}:\d{2})/)[1] + " - " + data.endTime.match(/^(\d{2}:\d{2})/)[1];
+                lessonElement.appendChild(ownTimeSpan);
+            }
+            if (subjectData.shortName)
+            {
+                subjectSpan = document.createElement("span");
+                subjectSpan.className = "name " + data.subjectDelta;
+                subjectSpan.innerHTML = subjectData.shortName;
+                lessonElement.appendChild(subjectSpan);
+            }
+
+            if (subjectData.subjectNo)
+            {
+                moduleSpan = document.createElement("span");
+                moduleSpan.className = "module";
+                moduleSpan.innerHTML = subjectData.subjectNo;
+                lessonElement.appendChild(moduleSpan);
+            }
+            if (schedule.resource !== "pool" && subjectData.pools)
+            {
+                for (poolID in subjectData.pools)
+                {
+                    if (subjectData.pools.hasOwnProperty(poolID))
+                    {
+                        poolName = subjectData.pools[poolID].fullName;
+                        poolLink = document.createElement("a");
+                        poolLink.innerHTML = poolName;
+                        poolLink.addEventListener("click", function ()
+                        {
+                            sendLessonRequest('pool', poolID, poolName);
+                        });
+                        poolSpan = document.createElement("span");
+                        poolSpan.className = "pool " + data.poolDelta;
+                        poolSpan.appendChild(poolLink);
+                        lessonElement.appendChild(poolSpan);
+                    }
+                }
+            }
+            if (subjectData.teachers)
+            {
+                for (teacherID in subjectData.teachers)
+                {
+                    if (subjectData.teachers.hasOwnProperty(teacherID))
+                    {
+                        teacherName = subjectData.teachers[teacherID];
+                        teacherLink = document.createElement("a");
+                        teacherLink.innerHTML = teacherName;
+                        teacherLink.addEventListener("click", function ()
+                        {
+                            sendLessonRequest('teacher', teacherID, teacherName);
+                        });
+                        teacherSpan = document.createElement("span");
+                        teacherSpan.className = "person " + data.teacherDelta; // TODO: teacherDelta
+                        teacherSpan.appendChild(teacherLink);
+                        lessonElement.appendChild(teacherSpan);
+                    }
+                }
+            }
+
+            if (subjectData.rooms)
+            {
+                for (roomID in subjectData.rooms)
+                {
+                    if (subjectData.rooms.hasOwnProperty(roomID))
+                    {
+                        roomName = subjectData.rooms[roomID];
+                        roomLink = document.createElement("a");
+                        roomLink.innerHTML = roomName;
+                        roomLink.addEventListener("click", function ()
+                        {
+                            sendLessonRequest('room', roomID, roomName);
+                        });
+                        roomSpan = document.createElement("span");
+                        roomSpan.className = "location " + data.roomDelta; // TODO: roomDelta
+                        roomSpan.appendChild(roomLink);
+                        lessonElement.appendChild(roomSpan);
+                    }
+                }
+            }
+
+            if (variables.isRegistered)
+            {
+                this.addLessonMenu(lessonElement);
+                this.addLessonMenu(lessonElement, false);
+
+                // Makes delete button visible only
+                if (this.userSchedule || this.isSavedByUser(lessonElement))
+                {
+                    lessonElement.className += " added";
+                }
+
+                // Right click on lessons show save/delete menu // TODO: ein contextmenu für alle und nur ccmid mitgeben
+                lessonElement.addEventListener("contextmenu", function (event)
+                {
+                    if (this.className.match(/added/))
+                    {
+                        this.getElementsByClassName("delete")[0].style.display = "block";
+                    }
+                    else
+                    {
+                        this.getElementsByClassName("save")[0].style.display = "block";
+                    }
+
+                    event.preventDefault();
+                });
+            }
+            else
+            {
+                lessonElement.className += " no-saving";
+            }
+
+            this.lessonElements.push(lessonElement);
+            lessons.push(lessonElement);
+        }
+
+        return lessons;
+    };
+
+    /**
+     * Creates HTML elements for saving/deleting a lesson to/from the users schedule
+     *
+     * @param lessonElement HTMLDivElement
+     * @param saveMenu boolean default = true. returns a menu to delete the lesson by false
+     */
+    this.addLessonMenu = function (lessonElement, saveMenu)
+    {
+        var saving = (typeof saveMenu === "undefined") ? true : saveMenu, ccmID = lessonElement.dataset.ccmID,
+            menu, semesterMode, periodMode, instanceMode, singleActionButton, buttonIcon, closeMenuButton;
+
+        menu = document.createElement("div");
+        menu.className = "lesson-menu";
+        menu.className += saving ? " save" : " delete";
+
+        closeMenuButton = document.createElement("button");
+        closeMenuButton.className = "icon-cancel";
+        closeMenuButton.addEventListener("click", function ()
+        {
+            menu.style.display = "none";
+        });
+
+        semesterMode = document.createElement("button");
+        semesterMode.innerHTML = saving ? text.SAVE_SEMESTER : text.DELETE_SEMESTER;
+        semesterMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
+            menu.style.display = "none";
+        });
+
+        periodMode = document.createElement("button");
+        periodMode.innerHTML = saving ? text.SAVE_PERIOD : text.DELETE_PERIOD;
+        periodMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_PERIOD, ccmID, saving);
+            menu.style.display = "none";
+        });
+
+        instanceMode = document.createElement("button");
+        instanceMode.innerHTML = saving ? text.SAVE_INSTANCE : text.DELETE_INSTANCE;
+        instanceMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_INSTANCE, ccmID, saving);
+            menu.style.display = "none";
+        });
+
+        menu.appendChild(closeMenuButton);
+        menu.appendChild(semesterMode);
+        menu.appendChild(periodMode);
+        menu.appendChild(instanceMode);
+
+        singleActionButton = document.createElement("button");
+        singleActionButton.className = saving ? "add-lesson" : "delete-lesson";
+        buttonIcon = document.createElement("span");
+        buttonIcon.className = saving ? "icon-plus" : "icon-delete";
+        singleActionButton.appendChild(buttonIcon);
+        singleActionButton.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
+        });
+
+        lessonElement.appendChild(singleActionButton);
+        lessonElement.appendChild(menu);
+    };
+
+    /**
+     * checks for a lesson if it is already saved in the users schedule
+     *
+     * @param lesson HTMLDivElement
+     * @return boolean
+     */
+    this.isSavedByUser = function (lesson)
+    {
+        var userSchedule = window.scheduleObjects.getScheduleById("user"), lessons;
+
+        if (!lesson || !userSchedule)
+        {
+            return false;
+        }
+
+        lessons = userSchedule.scheduleTable.lessonElements;
+        for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
+        {
+            if (lessons[lessonIndex].dataset.ccmID === lesson.dataset.ccmID)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    /**
+     * Removes all lessons
+     */
+    this.resetTable = function ()
+    {
+        var lessons = this.lessonElements;
+
+        for (var index = lessons.length - 1; index >= 0; --index)
+        {
+            lessons[index].parentNode.className = "";
+            lessons[index].parentNode.removeChild(lessons[index]);
+        }
+
+        this.lessonElements = [];
+    };
+
+    /**
+     * Sets only the selected day column visible for mobile devices
+     */
+    this.setActiveColumn = function ()
+    {
+        var heads, cells, rows = this.table.getElementsByTagName("tr");
+
+        for (var row = 0; row < rows.length; ++row)
+        {
+            heads = rows[row].getElementsByTagName("th");
+            for (var head = 1; head < heads.length; ++head)
+            {
+                if (head === this.visibleDay)
+                {
+                    jQuery(heads[head]).addClass("activeColumn");
+                }
+                else
+                {
+                    jQuery(heads[head]).removeClass("activeColumn");
+                }
+            }
+            cells = rows[row].getElementsByTagName("td");
+            for (var cell = 1; cell < cells.length; ++cell)
+            {
+                if (cell === this.visibleDay)
+                {
+                    jQuery(cells[cell]).addClass("activeColumn");
+                }
+                else
+                {
+                    jQuery(cells[cell]).removeClass("activeColumn");
+                }
+            }
+        }
+    };
+
+    /**
+     * Removes the HTMLTableElement itself and the related HTMLInputElement
+     */
+    this.remove = function ()
+    {
+        // input element
+        window.scheduleWrapper.removeChild(document.getElementById(schedule.id));
+        // table element
+        window.scheduleWrapper.removeChild(document.getElementById(schedule.id + "-schedule"));
+    }
 };
 
 /**
@@ -44,6 +764,29 @@ Schedules = function ()
     this.addSchedule = function (schedule)
     {
         this.schedules.push(schedule);
+    };
+
+    /**
+     * Removes a schedule and all related HTML elements
+     * @param schedule Schedule object | string id
+     */
+    this.removeSchedule = function (schedule)
+    {
+        if (typeof schedule === "string")
+        {
+            schedule = this.schedules.find(
+                function (obj)
+                {
+                    return obj.id === schedule;
+                }
+            );
+        }
+
+        if (schedule.scheduleTable)
+        {
+            schedule.scheduleTable.remove();
+            this.schedules.splice(this.schedules.indexOf(schedule), 1);
+        }
     };
 
     /**
@@ -69,19 +812,12 @@ Schedules = function ()
      * @param responseUrl  string
      * @return Schedule | boolean
      */
-    this.getScheduleByRequest = function (responseUrl)
+    this.getScheduleByResponse = function (responseUrl)
     {
-        var id = responseUrl.match(/&(\w+)IDs=(\d+)/), scheduleID = (id == null) ? 'user' : id[1] + id[2];
+        var matches = responseUrl.match(/&departmentIDs=\d+.*&(\w+)IDs=((\d+[,]?)*)&|$/),
+            id = (!matches[0]) ? "user" : matches[1] + matches[2].replace(/,/g, "-");
 
-        for (var scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
-        {
-            if (this.schedules[scheduleIndex].id == scheduleID)
-            {
-                return this.schedules[scheduleIndex];
-            }
-        }
-
-        return false;
+        return this.getScheduleById(id);
     };
 };
 
@@ -95,19 +831,19 @@ Date.prototype.getPresentationFormat = function ()
 {
     var date = variables.dateFormat,
         day = this.getDate(),
-        dayLong = day < 10 ? '0' + day : day,
+        dayLong = day < 10 ? "0" + day : day,
         month = this.getMonth() + 1, // getMonth() is zero-based
-        monthLong = month < 10 ? '0' + month : month,
+        monthLong = month < 10 ? "0" + month : month,
         year = this.getYear(),
         yearLong = this.getFullYear();
 
-    /** insert day */
+    // Insert day
     date = date.replace(/j/, day.toString());
     date = date.replace(/d/, dayLong);
-    /** insert month */
+    // Insert month
     date = date.replace(/n/, month.toString());
     date = date.replace(/m/, monthLong);
-    /** insert year */
+    // Insert year
     date = date.replace(/Y/, yearLong.toString());
     date = date.replace(/y/, year.toString());
 
@@ -127,9 +863,9 @@ Date.prototype.getWireFormat = function ()
 
     return [
         this.getFullYear(),
-        mm < 10 ? '0' + mm : mm,
-        dd < 10 ? '0' + dd : dd
-    ].join('-'); // padding
+        mm < 10 ? "0" + mm : mm,
+        dd < 10 ? "0" + dd : dd
+    ].join("-"); // padding
 };
 
 /**
@@ -137,7 +873,7 @@ Date.prototype.getWireFormat = function ()
  */
 jQuery(document).ready(function ()
 {
-    var startX, startY;
+    var startX, startY, hasDepartmentSelection = document.getElementById("department-input");
 
     initSchedule();
     computeTableHeight();
@@ -149,14 +885,14 @@ jQuery(document).ready(function ()
      * @see http://www.javascriptkit.com/javatutors/touchevents.shtml
      * @see http://www.html5rocks.com/de/mobile/touch/
      */
-    window.scheduleWrapper.addEventListener('touchstart', function (event)
+    window.scheduleWrapper.addEventListener("touchstart", function (event)
     {
         var touch = event.changedTouches[0];
         startX = parseInt(touch.pageX);
         startY = parseInt(touch.pageY);
     });
 
-    window.scheduleWrapper.addEventListener('touchend', function (event)
+    window.scheduleWrapper.addEventListener("touchend", function (event)
     {
         var touch = event.changedTouches[0], minDist = 50,
             distX = parseInt(touch.pageX) - startX,
@@ -166,98 +902,148 @@ jQuery(document).ready(function ()
         {
             if (distX < -(minDist))
             {
-                event.preventDefault();
                 event.stopPropagation();
                 changeDate();
-
-                if (window.isMobile)
-                {
-                    showDay();
-                }
                 updateSchedule();
             }
             if (distX > minDist)
             {
-                event.preventDefault();
                 event.stopPropagation();
                 changeDate(false);
-
-                if (window.isMobile)
-                {
-                    showDay();
-                }
                 updateSchedule();
             }
         }
     });
 
-    jQuery('#grid').chosen().change(setGridByClick);
-    jQuery('#date').change(updateSchedule);
+    jQuery("#grid").chosen().change(updateSchedule);
+    jQuery("#date").change(updateSchedule);
 
-    /**
-     * form behaviour -> only show field, by selecting the 'parent' before
-     */
-    jQuery('#category').chosen().change(function ()
+    // Select 'programs' by website loading and load results
+    sendFormRequest("program");
+    if (hasDepartmentSelection)
     {
-        var chosenCategory = document.getElementById('category').value;
+        onlyShowFormInput("department-input", false);
+    }
+    else
+    {
+        onlyShowFormInput("program-input");
+    }
+
+    // Form behaviour -> only show field, by selecting the "parent" before
+    jQuery("#category").chosen().change(function ()
+    {
+        var chosenCategory = document.getElementById("category").value;
 
         switch (chosenCategory)
         {
-            case 'program':
-                onlyShowFormInput('program-input');
+            case "program":
+                if (hasDepartmentSelection)
+                {
+                    onlyShowFormInput("department-input", false);
+                    return;
+                }
+                onlyShowFormInput("program-input");
                 break;
-            case 'roomtype':
-                onlyShowFormInput('room-type-input');
+            case "roomtype":
+                onlyShowFormInput("room-type-input");
                 break;
-            case 'teacher':
-                onlyShowFormInput('teacher-input');
+            case "teacher":
+                onlyShowFormInput("teacher-input");
                 break;
             default:
-                console.log('searching default category...');
+                console.log("searching default category...");
         }
 
-        getFormRequest(chosenCategory);
+        sendFormRequest(chosenCategory);
     });
 
-    jQuery('#program').chosen().change(function ()
+    if (hasDepartmentSelection)
     {
-        onlyShowFormInput(['program-input', 'pool-input']);
-        getFormRequest('pool');
-    });
+        jQuery("#department").chosen().change(function ()
+        {
+            var departments = getSelectedValues("department");
+            if (!departments)
+            {
+                onlyShowFormInput("department-input", false);
+            }
+            else
+            {
+                variables.departmentID = departments;
+                onlyShowFormInput(["department-input", "program-input"]);
+                sendFormRequest("program");
+            }
+        });
+    }
 
-    jQuery('#roomtype').chosen().change(function ()
+    jQuery("#program").chosen().change(function ()
     {
-        onlyShowFormInput(['room-type-input', 'room-input']);
-        getFormRequest('room');
+        if (!getSelectedValues("program") && hasDepartmentSelection)
+        {
+            return onlyShowFormInput(["department-input", "program-input"], false);
+        }
+        else if (!getSelectedValues("program"))
+        {
+            return onlyShowFormInput("program-input", false);
+        }
+        else if (hasDepartmentSelection)
+        {
+            onlyShowFormInput(["department-input", "program-input", "pool-input"]);
+        }
+        else
+        {
+            onlyShowFormInput(["program-input", "pool-input"]);
+        }
+
+        sendFormRequest("pool");
     });
 
-    jQuery('#pool').chosen().change(function ()
+    jQuery("#roomtype").chosen().change(function ()
     {
-        getLessonRequest('pool');
+        if (!getSelectedValues("roomtype"))
+        {
+            onlyShowFormInput("room-type-input", false);
+        }
+        else
+        {
+            onlyShowFormInput(["room-type-input", "room-input"]);
+            sendFormRequest("room");
+        }
     });
 
-    jQuery('#teacher').chosen().change(function ()
+    jQuery("#pool").chosen().change(function ()
     {
-        getLessonRequest('teacher');
+        if (getSelectedValues("pool"))
+        {
+            sendLessonRequest("pool");
+        }
     });
 
-    jQuery('#room').chosen().change(function ()
+    jQuery("#teacher").chosen().change(function ()
     {
-        getLessonRequest('room');
+        if (getSelectedValues("teacher"))
+        {
+            sendLessonRequest("teacher");
+        }
     });
 
-    jQuery('#schedules').chosen().change(function ()
+    jQuery("#room").chosen().change(function ()
     {
-        var scheduleInput = document.getElementById(jQuery('#schedules').val());
-
-        /** to show the schedule after this input field (by css) */
-        scheduleInput.checked = 'checked';
+        if (getSelectedValues("room"))
+        {
+            sendLessonRequest("room");
+        }
     });
 
-    /**
-     * Change Tab-Behaviour of menu-bar, so all tabs can be closed
-     */
-    jQuery(".tabs-toggle").on('click', function ()
+    jQuery("#schedules").chosen().change(function ()
+    {
+        var scheduleInput = document.getElementById(jQuery("#schedules").val());
+
+        // To show the schedule after this input field (by css)
+        scheduleInput.checked = "checked";
+    });
+
+    // Change Tab-Behaviour of menu-bar, so all tabs can be closed
+    jQuery(".tabs-toggle").on("click", function ()
     {
         changeTabBehaviour(jQuery(this));
     });
@@ -270,11 +1056,11 @@ function initSchedule()
 {
     var today = new Date();
 
-    window.scheduleWrapper = document.getElementById('scheduleWrapper');
+    window.scheduleWrapper = document.getElementById("scheduleWrapper");
+    window.scheduleObjects = new Schedules;
     window.isMobile = window.matchMedia("(max-width: 677px)").matches;
-    window.dateField = document.getElementById('date');
+    window.dateField = document.getElementById("date");
     window.dateField.valueAsDate = today;
-    window.url += '&departmentID=' + variables.departmentID;
     window.weekdays = [
         text.MONDAY_SHORT,
         text.TUESDAY_SHORT,
@@ -285,320 +1071,34 @@ function initSchedule()
         text.SUNDAY_SHORT
     ];
 
-    window.scheduleObjects = new Schedules;
-
-    if (variables.userID !== '0')
+    if (variables.isRegistered)
     {
-        createUsersSchedule();
-        //change the active tab
-        jQuery('#tab-selected-schedules').parent('li').addClass("active");
-        jQuery('#selected-schedules').addClass("active");
-        jQuery('#tab-schedule-form').parent('li').removeClass("active");
-        jQuery('#schedule-form').removeClass("active")
+        createUserSchedule();
+        switchToScheduleListTab();
     }
 
     if (!browserSupportsDate())
     {
         window.dateField.value = today.getPresentationFormat();
 
-        /** calendar.js */
-        if (typeof initCalendar === 'function')
+        // calendar.js
+        if (typeof initCalendar === "function")
         {
             initCalendar();
         }
-    }
-
-    if (window.isMobile)
-    {
-        showDay();
     }
 }
 
 /**
  * gets the users schedule, write it into a HTML table and add it to schedules selection
  */
-function createUsersSchedule()
+function createUserSchedule()
 {
-    var schedule = new Schedule('user');
-
-    schedule.title = text.MY_SCHEDULE;
-    schedule.task = '&task=getUserSchedule';
-    schedule.task += '&date=' + getDateFieldString();
-
-    schedule.table = createScheduleTable(schedule);
-    insertTableHead(schedule.table);
-    setGridTime(schedule.table);
+    var schedule = new Schedule("user");
+    schedule.create();
+    schedule.requestUpdate();
     addScheduleToSelection(schedule);
     window.scheduleObjects.addSchedule(schedule);
-    schedule.lessons = updateSchedule('user');
-    computeTableHeight();
-}
-
-/**
- * tests the support of the browser for the input type=date
- * @see http://stackoverflow.com/questions/10193294/how-can-i-tell-if-a-browser-supports-input-type-date
- *
- * @returns boolean
- */
-function browserSupportsDate()
-{
-    var input = document.createElement('input'), notValidDate = 'not-valid-date';
-
-    input.setAttribute('type', 'date');
-    input.setAttribute('value', notValidDate);
-
-    return input.value !== notValidDate;
-}
-
-/**
- * goes one day for- or backward in the schedules and takes the date out of the input field with 'date' as id
- *
- * @param nextDate boolean goes forward by default, backward with false
- * @param dayStep boolean indicates the step the date takes
- */
-function changeDate(nextDate, dayStep)
-{
-    var increaseDate = (typeof nextDate === 'undefined') ? true : nextDate,
-        day = (typeof dayStep === 'undefined') ? true : dayStep, scheduleDate = getDateFieldsDateObject();
-
-    if (increaseDate)
-    {
-        if (day)
-        {
-            scheduleDate.setDate(scheduleDate.getDate() + 1);
-        }
-        else
-        {
-            scheduleDate.setMonth(scheduleDate.getMonth() + 1);
-        }
-
-        /** jump over sunday */
-        if (scheduleDate.getDay() == 0)
-        {
-            scheduleDate.setDate(scheduleDate.getDate() + 1);
-        }
-    }
-    /** decrease date */
-    else
-    {
-        if (day)
-        {
-            scheduleDate.setDate(scheduleDate.getDate() - 1);
-        }
-        else
-        {
-            scheduleDate.setMonth(scheduleDate.getMonth() - 1);
-        }
-
-        /** jump over sunday */
-        if (scheduleDate.getDay() == 0)
-        {
-            scheduleDate.setDate(scheduleDate.getDate() - 1);
-        }
-    }
-
-    window.dateField.valueAsDate = scheduleDate;
-
-    // for browsers which doesn't update the value with the valueAsDate property for type=date
-    if (!browserSupportsDate())
-    {
-        window.dateField.value = scheduleDate.getPresentationFormat();
-    }
-}
-
-/**
- * changes the schedules div min-height as high as the maximum of all the lessons
- */
-function computeTableHeight()
-{
-    var schedules = document.getElementsByClassName('scheduler'),
-        rows, cell, lessonsInCell, lessonCount, emptyCellCount, maxLessons = 0, emptyBlocksInMaxLessons = 0,
-        headerHeight, remPerEmptyRow, minHeight, remPerLesson, calcHeight, totalRemHeight;
-
-    // counting the lessons in horizontal order
-    for (var schedule = 0; schedule < schedules.length; ++schedule)
-    {
-        rows = schedules[schedule].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-        var rowLength = rows.length;
-        var cellLength = rows[0].getElementsByTagName('td').length;
-
-        // Monday to Fr/Sa/Su
-        for (var day = 1; day < cellLength; ++day)
-        {
-            lessonCount = 0;
-            emptyCellCount = 0;
-
-            // Block 1 to ~6
-            for (var block = 0; block < rowLength; ++block)
-            {
-                // To jump over break (cell length == 1)
-                if (rows[block].getElementsByTagName('td').length > 1)
-                {
-                    cell = rows[block].getElementsByTagName('td')[day];
-                    lessonsInCell = cell.getElementsByClassName('lesson').length;
-                    if (lessonsInCell > 0)
-                    {
-                        lessonCount += lessonsInCell;
-                    }
-                    else
-                    {
-                        ++emptyCellCount;
-                    }
-                }
-            }
-
-            maxLessons = Math.max(lessonCount, maxLessons);
-        }
-    }
-
-    headerHeight = 6; // Include caption & break
-    remPerEmptyRow = 7;
-    minHeight = window.isMobile ? 50 : 40;
-    remPerLesson = window.isMobile ? 5 : 9;
-    calcHeight = (maxLessons * remPerLesson) + (emptyBlocksInMaxLessons * remPerEmptyRow) + headerHeight;
-    totalRemHeight = Math.max(calcHeight, minHeight);
-    window.scheduleWrapper.style.minHeight = totalRemHeight + 'rem';
-}
-
-/**
- * makes the selected day and the time column visible only
- *
- * @param visibleDay number 1 = monday, 2 = tuesday...
- */
-function showDay(visibleDay)
-{
-    var vDay = (typeof visibleDay === 'undefined') ? window.dateField.valueAsDate.getDay() : visibleDay,
-        schedules = window.scheduleWrapper.getElementsByClassName('scheduler'), rows, heads, cells;
-
-    for (var schedule = 0; schedule < schedules.length; ++schedule)
-    {
-        /** for browsers, which can not collapse cols or colgroups */
-        rows = schedules[schedule].getElementsByTagName('tr');
-        for (var row = 0; row < rows.length; ++row)
-        {
-            heads = rows[row].getElementsByTagName('th');
-            for (var head = 1; head < heads.length; ++head)
-            {
-                if (head == vDay)
-                {
-                    jQuery(heads[head]).addClass("activeColumn");
-                }
-                else
-                {
-                    jQuery(heads[head]).removeClass("activeColumn");
-                }
-            }
-            cells = rows[row].getElementsByTagName('td');
-            for (var cell = 1; cell < cells.length; ++cell)
-            {
-                if (cell == vDay)
-                {
-                    jQuery(cells[cell]).addClass("activeColumn");
-                }
-                else
-                {
-                    jQuery(cells[cell]).removeClass("activeColumn");
-                }
-            }
-        }
-    }
-}
-
-/**
- * TODO: prüfen ob break vorhanden sein soll (anhand json data?)
- * onclick of a grid selection sets the selected grid on every schedule
- */
-function setGridByClick()
-{
-    scheduleObjects.schedules.forEach(
-        function (schedule)
-        {
-            setGridDays(schedule.table);
-            setGridTime(schedule.table);
-            resetSchedule(schedule.table);
-            insertLessons(schedule);
-        }
-    );
-
-    computeTableHeight();
-}
-
-/**
- * here the table head changes to the grids specified weekdays with start day and end day
- *
- * @param table DOM element table
- */
-function setGridDays(table)
-{
-    var grid = JSON.parse(getSelectedValues('grid')), currentDay = grid.startDay, endDay = grid.endDay,
-        head = table.getElementsByTagName('thead')[0], headItems = head.getElementsByTagName('th'),
-        headerDate = window.dateField.valueAsDate, day = headerDate.getDay();
-
-    /** set date to monday of the same week */
-    if (day == 0)
-    {
-        headerDate.setDate(headerDate.getDate() - 6);
-    }
-    else
-    {
-        /** sunday is 0, so we add a one for monday */
-        headerDate.setDate(headerDate.getDate() - day + 1);
-    }
-
-    /** show TIME header on the left side ? */
-    headItems[0].style.display = grid.hasOwnProperty('periods') ? '' : 'none';
-
-    /** fill thead with days of week */
-    for (var thElement = 1; thElement < headItems.length; ++thElement)
-    {
-        if (thElement == currentDay && currentDay <= endDay)
-        {
-            headItems[thElement].innerHTML = weekdays[currentDay - 1] + ' (' + headerDate.getPresentationFormat() + ')';
-            headerDate.setDate(headerDate.getDate() + 1);
-            ++currentDay;
-        }
-        else
-        {
-            headItems[thElement].innerHTML = '';
-        }
-    }
-}
-
-/**
- * sets the chosen times of the grid in the schedules tables
- *
- * @param table   table-DOM-Element
- * @param timeGrid grid with start- and end times
- */
-function setGridTime(table, timeGrid)
-{
-    var grid = (typeof timeGrid === 'undefined') ? JSON.parse(getSelectedValues('grid')) : timeGrid,
-        rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr'),
-        hasPeriods = grid.hasOwnProperty('periods'),
-        period = 1, timeCell, startTime, endTime;
-
-    for (var row = 0; row < rows.length; ++row)
-    {
-        timeCell = rows[row].getElementsByTagName('td')[0];
-        if (timeCell.className != 'break')
-        {
-            if (hasPeriods)
-            {
-                startTime = grid.periods[period].startTime;
-                startTime = startTime.replace(/(\d{2})(\d{2})/, "$1:$2");
-                endTime = grid.periods[period].endTime;
-                endTime = endTime.replace(/(\d{2})(\d{2})/, "$1:$2");
-                timeCell.style.display = '';
-                timeCell.innerHTML = startTime + "<br> - <br>" + endTime;
-
-                ++period;
-            }
-            else
-            {
-                timeCell.style.display = 'none';
-            }
-        }
-    }
 }
 
 /**
@@ -606,34 +1106,34 @@ function setGridTime(table, timeGrid)
  *
  * @param resource  string
  */
-function getFormRequest(resource)
+function sendFormRequest(resource)
 {
-    var task;
+    var task = "&departmentIDs=" + variables.departmentID;
 
     switch (resource)
     {
-        case 'program':
-            task = '&task=getPrograms';
+        case "program":
+            task += "&task=getPrograms";
             break;
-        case 'pool':
-            task = '&task=getPools' + '&programIDs=' + getSelectedValues('program');
+        case "pool":
+            task += "&task=getPools" + "&programIDs=" + getSelectedValues("program");
             break;
-        case 'roomtype':
-            task = '&task=getRoomTypes';
+        case "roomtype":
+            task += "&task=getRoomTypes";
             break;
-        case 'room':
-            task = '&task=getRooms' + '&typeID=' + getSelectedValues('roomtype');
+        case "room":
+            task += "&task=getRooms" + "&typeID=" + getSelectedValues("roomtype");
             break;
-        case 'teacher':
-            task = '&task=getTeachers';
+        case "teacher":
+            task += "&task=getTeachers";
             break;
         default:
-            console.log('searching default category...');
+            console.log("searching default category...");
     }
 
-    /** global variable for catching responds in other functions */
+    // Global variable for catching responds in other functions
     ajaxSelection = new XMLHttpRequest();
-    ajaxSelection.open('GET', url + task, true);
+    ajaxSelection.open("GET", url + task, true);
     ajaxSelection.onreadystatechange = updateForm;
     ajaxSelection.send(null);
 }
@@ -643,107 +1143,189 @@ function getFormRequest(resource)
  */
 function updateForm()
 {
-    var values, category, fieldID, formField, option;
+    var values, fieldID, formField, option, optionCount;
 
-    if (ajaxSelection.readyState == 4 && ajaxSelection.status == 200)
+    if (ajaxSelection.readyState === 4 && ajaxSelection.status === 200)
     {
         values = JSON.parse(ajaxSelection.responseText);
-        category = ajaxSelection.responseURL.match(/&task=get(\w+)s/);
-        fieldID = category[1].toLowerCase();
+        fieldID = ajaxSelection.responseURL.match(/&task=get(\w+)s/)[1].toLowerCase();
         formField = document.getElementById(fieldID);
         removeChildren(formField);
+        optionCount = Object.keys(values).length;
 
         for (var value in values)
         {
-            /** prevent using prototype variables */
+            // Prevent using prototype variables
             if (values.hasOwnProperty(value))
             {
-                if (value.name !== undefined)
+                if (value.name)
                 {
-                    option = document.createElement('option');
-                    option.setAttribute('value', values[value].id);
+                    option = document.createElement("option");
+                    option.setAttribute("value", values[value].id);
                     option.innerHTML = values[value].name;
+                    option.selected = optionCount === 1;
                     formField.appendChild(option);
                 }
-                /** needed - otherwise select field is empty */
+                // Needed - otherwise select field is empty
                 else
                 {
-                    option = document.createElement('option');
-                    option.setAttribute('value', values[value]);
+                    option = document.createElement("option");
+                    option.setAttribute("value", values[value]);
                     option.innerHTML = value;
+                    option.selected = optionCount === 1;
                     formField.appendChild(option);
                 }
             }
         }
 
-        formField.removeAttribute('disabled');
-        jQuery('#' + fieldID).chosen('destroy').chosen();
+        formField.removeAttribute("disabled");
+        jQuery("#" + fieldID).chosen("destroy").chosen();
+
+        if (optionCount === 1)
+        {
+            sendLessonRequest(fieldID);
+        }
     }
+}
+
+/**
+ * Sends an Ajax request to update all schedules or just the specified one.
+ *
+ * @param id   string
+ */
+function updateSchedule(id)
+{
+    if (typeof id === "string")
+    {
+        window.scheduleObjects.getScheduleById(id).requestUpdate();
+    }
+    else
+    {
+        scheduleObjects.schedules.forEach(
+            function (schedule)
+            {
+                // Function called by grids eventListener
+                if (id && id.target && id.target.id === "grid")
+                {
+                    schedule.updateTable();
+                }
+                else
+                {
+                    schedule.requestUpdate();
+                }
+            }
+        );
+    }
+
+    computeTableHeight();
 }
 
 /**
  * starts an Ajax request to get lessons for the selected resource
  *
  * @param resource  string
+ * @param optionalID  string specific id instead of resource form selection
+ * @param optionalTitle  string the same with optionalID
  */
-function getLessonRequest(resource)
+function sendLessonRequest(resource, optionalID, optionalTitle)
 {
-    var task, IDs = getSelectedValues(resource), schedule, field;
+    var IDs = optionalID || getSelectedValues(resource, "-"), schedule = scheduleObjects.getScheduleById(resource + IDs);
 
-    if (IDs.match(/^(\d+[,]?)+$/) == null)
-    {
-        return;
-    }
-
-    task = "&task=getLessons";
-    task += "&" + resource + "IDs=" + IDs;
-    task += '&date=' + getDateFieldString();
-    task += window.isMobile ? '&oneDay=true' : '';
-
-    schedule = scheduleObjects.getScheduleById(resource + IDs);
     if (schedule)
     {
-        updateSchedule(resource + IDs);
-        return;
+        schedule.requestUpdate();
     }
-
-    schedule = new Schedule(resource + IDs);
-    schedule.task = task;
-    field = document.getElementById(resource);
-    schedule.title = field.options[field.selectedIndex].text;
-    scheduleObjects.addSchedule(schedule);
-
-    /** global variable for catching responds in other functions */
-    ajaxLessons = new XMLHttpRequest();
-    ajaxLessons.open('GET', url + task, true);
-    ajaxLessons.onreadystatechange = updateLessons;
-    ajaxLessons.send(null);
+    else
+    {
+        schedule = new Schedule(resource, IDs, optionalTitle);
+        schedule.create();
+        schedule.requestUpdate();
+        scheduleObjects.addSchedule(schedule);
+        addScheduleToSelection(schedule);
+        switchToScheduleListTab();
+    }
 }
 
 /**
- * Creates a new schedule with lessons out of the Ajax request by selecting a schedule
+ * Processes Ajax responses and updates the related schedules
  */
-function updateLessons()
+function insertLessonResponse()
 {
-    var schedule;
+    var ajaxRequest, schedule;
 
-    if (ajaxLessons.readyState == 4 && ajaxLessons.status == 200)
+    for (var ajaxIndex = 0; ajaxIndex < window.scheduleRequests.length; ++ajaxIndex)
     {
-        schedule = scheduleObjects.getScheduleByRequest(ajaxLessons.responseURL);
-
-        if (!schedule)
+        ajaxRequest = window.scheduleRequests[ajaxIndex];
+        if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
         {
-            return;
+            schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
+            schedule.setLessons(JSON.parse(ajaxRequest.responseText));
+            window.scheduleRequests.splice(ajaxIndex, 1);
         }
+    }
 
-        schedule.lessons = JSON.parse(ajaxLessons.responseText);
-        schedule.table = createScheduleTable(schedule);
+    computeTableHeight();
+}
 
-        insertTableHead(schedule.table);
-        setGridTime(schedule.table);
-        insertLessons(schedule);
-        addScheduleToSelection(schedule);
-        computeTableHeight();
+/**
+ * save lesson in users personal schedule
+ * choose between lessons of whole semester (1), just this daytime (2) or only the selected instance of a lesson (3).
+ *
+ * @param taskNumber number
+ * @param ccmID String calendar_configuration_map ID
+ * @param save boolean indicate to save or to delete the lesson
+ */
+function handleLesson(taskNumber, ccmID, save)
+{
+    var mode = (typeof taskNumber === "undefined") ? "1" : taskNumber,
+        saving = (typeof save === "undefined") ? true : save,
+        task = "&task= " + (saving ? "&task=saveLesson" : "&task=deleteLesson");
+
+    if (!ccmID)
+    {
+        return false;
+    }
+
+    task += "&saveMode=" + mode + "&ccmID=" + ccmID;
+    ajaxSave = new XMLHttpRequest();
+    ajaxSave.open("GET", url + task, true);
+    ajaxSave.onreadystatechange = lessonHandled;
+    ajaxSave.send(null);
+}
+
+/**
+ * replaces the save button of a saved lesson with a delete button and reverse
+ */
+function lessonHandled()
+{
+    var handledLessons, lessonElements;
+
+    if (ajaxSave.readyState === 4 && ajaxSave.status === 200)
+    {
+        handledLessons = JSON.parse(ajaxSave.responseText);
+
+        window.scheduleObjects.schedules.forEach(
+            function (schedule)
+            {
+                lessonElements = schedule.scheduleTable.lessonElements;
+                for (var lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
+                {
+                    if (handledLessons.includes(lessonElements[lessonIndex].dataset.ccmID))
+                    {
+                        if (lessonElements[lessonIndex].className === "lesson")
+                        {
+                            lessonElements[lessonIndex].className += " added";
+                        }
+                        else
+                        {
+                            lessonElements[lessonIndex].className = "lesson";
+                        }
+                    }
+                }
+            }
+        );
+
+        updateSchedule("user");
     }
 }
 
@@ -754,20 +1336,18 @@ function updateLessons()
  */
 function addScheduleToSelection(schedule)
 {
-    var option = document.createElement('option');
+    var option = document.createElement("option");
 
     option.innerHTML = "<span class='title'>" + schedule.title + "</span>";
-    if (schedule.id != 'user')
+    if (schedule.id != "user")
     {
         option.innerHTML += "<button onclick='removeScheduleFromSelection()' class='removeOption'>" +
             "<span class='icon-remove'></span></button>";
     }
     option.value = schedule.id;
-    option.selected = 'selected';
-    document.getElementById('schedules').appendChild(option);
-
-    /** updating chosen.js */
-    jQuery('#schedules').chosen('destroy').chosen();
+    option.selected = "selected";
+    document.getElementById("schedules").appendChild(option);
+    jQuery("#schedules").chosen("destroy").chosen();
 }
 
 /**
@@ -776,508 +1356,21 @@ function addScheduleToSelection(schedule)
  */
 function removeScheduleFromSelection()
 {
-    var x = document.getElementById("schedules"), scheduleInput = document.getElementById(jQuery('#schedules').val());
+    var selection = document.getElementById("schedules"), scheduleName = selection[selection.selectedIndex].value,
+        nextSchedule;
 
-    x.remove(x.selectedIndex);
+    window.scheduleObjects.removeSchedule(scheduleName);
+    selection.remove(selection.selectedIndex);
+    jQuery("#schedules").chosen("destroy").chosen();
 
-    /** updating chosen.js */
-    jQuery('#schedules').chosen('destroy').chosen();
-
-    if (scheduleInput)
+    nextSchedule = document.getElementById(jQuery("#schedules").val());
+    if (nextSchedule)
     {
-        scheduleInput.checked = 'checked';
+        nextSchedule.checked = "checked";
     }
-
-    //TODO: else{} if no schedule can be select (list is empty) , the guest-schedule-table has to be shown
-}
-
-/**
- * Creates a table DOM-element with an input and label for selecting it and a caption with the given title.
- * It gets appended to the scheduleWrapper.
- *
- * @param schedule Schedule object
- * @returns HTMLTableElement
- */
-function createScheduleTable(schedule)
-{
-    var scheduleWrapper = document.getElementById('scheduleWrapper'),
-        input, div, table, tbody, row, weekEnd = 7, grid;
-
-    /** create input field for selecting this schedule */
-    input = document.createElement('input');
-    input.className = 'scheduler-input';
-    input.type = 'radio';
-    input.setAttribute('id', schedule.id);
-    input.setAttribute('name', 'schedules');
-    input.setAttribute('checked', 'checked');
-    scheduleWrapper.appendChild(input);
-
-    /** making a new schedule table */
-    div = document.createElement('div');
-    div.setAttribute('id', schedule.id + '-schedule');
-    div.setAttribute('class', 'scheduler');
-    table = document.createElement('table');
-    div.appendChild(table);
-    scheduleWrapper.appendChild(div);
-
-    tbody = document.createElement('tbody');
-    table.appendChild(tbody);
-
-    /** filled with rows and cells (by -1 for last position */
-    if (variables.defaultTimes.hasOwnProperty('periods'))
+    else if (!variables.isRegistered)
     {
-        for (var periods in variables.defaultTimes.periods)
-        {
-            row = tbody.insertRow(-1);
-
-            for (var firstDay = 0; firstDay < weekEnd; ++firstDay)
-            {
-                row.insertCell(-1);
-            }
-        }
-    }
-    else
-    {
-        row = tbody.insertRow(-1);
-
-        for (var weekStart = 0; weekStart < weekEnd; ++weekStart)
-        {
-            row.insertCell(-1);
-        }
-    }
-
-    return table;
-}
-
-/**
- * Creates a lesson which means a div element filled by data
- *
- * @param data          Object      lesson data
- * @param ownTime       boolean     show own time
- * @param usersSchedule boolean     defines if the lessons are for the users schedule (no save menu needed)
- * 
- * @returns Array|boolean           HTMLDivElements in an array or false in case of wrong input
- */
-function createLesson(data, ownTime, usersSchedule)
-{
-    var lessons, subjectData, lessonElement, ownTimeSpan, nameSpan, moduleSpan, teacherSpan, roomSpan;
-
-    if (typeof data == 'undefined' || !data.hasOwnProperty("subjects"))
-    {
-        return false;
-    }
-
-    ownTime = typeof ownTime == 'undefined' ? false : ownTime;
-    usersSchedule = typeof usersSchedule == 'undefined' ? false : usersSchedule;
-    lessons = [];
-
-    for (var subject in data.subjects)
-    {
-        if (!data.subjects.hasOwnProperty(subject))
-        {
-            return false;
-        }
-        subjectData = data.subjects[subject];
-
-        lessonElement = document.createElement('div');
-        lessonElement.className = 'lesson';
-
-        /** data attributes instead of classes for finding the lesson later */
-        lessonElement.dataset.ccmID = data.ccmID;
-
-        /** delta = 'removed' or 'new' or 'changed' ? add class like 'lesson-new' */
-        if (data.lessonDelta !== '')
-        {
-            lessonElement.className += ' lesson-' + data.lessonDelta;
-        }
-        if (data.subjectDelta !== '')
-        {
-            lessonElement.className += ' subject-' + data.subjectDelta;
-        }
-        if (data.calendarDelta !== '')
-        {
-            lessonElement.className += ' calendar-' + data.calendarDelta;
-        }
-        if (data.poolDelta !== '')
-        {
-            lessonElement.className += ' pool-' + data.poolDelta;
-        }
-
-        if (ownTime && data.startTime && data.endTime)
-        {
-            ownTimeSpan = document.createElement('span');
-            ownTimeSpan.className = 'own-time';
-            ownTimeSpan.innerHTML =
-                data.startTime.match(/^(\d{2}:\d{2})/)[1] + ' - ' + data.endTime.match(/^(\d{2}:\d{2})/)[1];
-            lessonElement.appendChild(ownTimeSpan);
-        }
-
-        if (subjectData.shortName)
-        {
-            nameSpan = document.createElement('span');
-            nameSpan.className = 'name';
-            nameSpan.innerHTML = subjectData.shortName;
-            lessonElement.appendChild(nameSpan);
-        }
-
-        if (subjectData.subjectNo)
-        {
-            moduleSpan = document.createElement('span');
-            moduleSpan.className = 'module';
-            moduleSpan.innerHTML = subjectData.subjectNo;
-            lessonElement.appendChild(moduleSpan);
-        }
-
-        if (subjectData.teachers)
-        {
-            for (var teacherID in subjectData.teachers)
-            {
-                if (subjectData.teachers.hasOwnProperty(teacherID))
-                {
-                    teacherSpan = document.createElement('span');
-                    teacherSpan.className = 'teacher';
-                    teacherSpan.innerHTML = subjectData.teachers[teacherID];
-                    lessonElement.appendChild(teacherSpan);
-                }
-            }
-        }
-
-        if (subjectData.rooms)
-        {
-            for (var roomID in subjectData.rooms)
-            {
-                if (subjectData.rooms.hasOwnProperty(roomID))
-                {
-                    roomSpan = document.createElement('span');
-                    roomSpan.className = 'room';
-                    roomSpan.innerHTML = subjectData.rooms[roomID];
-                    lessonElement.appendChild(roomSpan);
-                }
-            }
-        }
-
-        if (variables.userID == '0')
-        {
-            lessonElement.className += ' no-saving';
-        }
-        else
-        {
-            /** outsource creating of menu to prevent closures of eventListeners */
-            addLessonMenu(lessonElement);
-            addLessonMenu(lessonElement, false);
-
-            /** makes delete button visible only */
-            if (usersSchedule || isSavedByUser(lessonElement))
-            {
-                lessonElement.className += ' added';
-            }
-
-            /**
-             * right click on lessons show save/delete menu
-             */
-            lessonElement.addEventListener('contextmenu', function (event)
-            {
-                if (this.className.match(/added/))
-                {
-                    this.getElementsByClassName('delete')[0].style.display = 'block';
-                }
-                else
-                {
-                    this.getElementsByClassName('save')[0].style.display = 'block';
-                }
-
-                event.preventDefault();
-            });
-        }
-
-        lessons.push(lessonElement);
-    }
-
-    return lessons;
-}
-
-/**
- * creates html elements for saving/deleting a lesson to/from the users schedule
- * @param lessonElement String
- * @param saveMenu default = true. returns a menu to delete the lesson by false
- */
-function addLessonMenu(lessonElement, saveMenu)
-{
-    var saving = (typeof saveMenu == 'undefined') ? true : saveMenu, ccmID = lessonElement.dataset.ccmID,
-        menu, semesterMode, periodMode, instanceMode, singleActionButton, buttonIcon, closeMenuButton;
-
-    menu = document.createElement('div');
-    menu.className = 'lesson-menu';
-    menu.className += saving ? ' save' : ' delete';
-
-    closeMenuButton = document.createElement('button');
-    closeMenuButton.className = 'icon-cancel';
-    closeMenuButton.addEventListener('click', function ()
-    {
-        menu.style.display = 'none';
-    });
-
-    semesterMode = document.createElement('button');
-    semesterMode.innerHTML = saving ? text.SAVE_SEMESTER : text.DELETE_SEMESTER;
-    semesterMode.addEventListener('click', function ()
-    {
-        handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
-        menu.style.display = 'none';
-    });
-
-    periodMode = document.createElement('button');
-    periodMode.innerHTML = saving ? text.SAVE_PERIOD : text.DELETE_PERIOD;
-    periodMode.addEventListener('click', function ()
-    {
-        handleLesson(variables.SAVE_MODE_PERIOD, ccmID, saving);
-        menu.style.display = 'none';
-    });
-
-    instanceMode = document.createElement('button');
-    instanceMode.innerHTML = saving ? text.SAVE_INSTANCE : text.DELETE_INSTANCE;
-    instanceMode.addEventListener('click', function ()
-    {
-        handleLesson(variables.SAVE_MODE_INSTANCE, ccmID, saving);
-        menu.style.display = 'none';
-    });
-
-    menu.appendChild(closeMenuButton);
-    menu.appendChild(semesterMode);
-    menu.appendChild(periodMode);
-    menu.appendChild(instanceMode);
-
-    singleActionButton = document.createElement('button');
-    singleActionButton.className = saving ? 'add-lesson' : 'delete-lesson';
-    buttonIcon = document.createElement('span');
-    buttonIcon.className = saving ? 'icon-plus' : 'icon-delete';
-    singleActionButton.appendChild(buttonIcon);
-    singleActionButton.addEventListener('click', function ()
-    {
-        handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
-    });
-
-    lessonElement.appendChild(singleActionButton);
-    lessonElement.appendChild(menu);
-}
-
-/**
- * Insert table head and side cells with time data
- *
- * @param table HTMLTableElement
- */
-function insertTableHead(table)
-{
-    var thead = table.createTHead(), tr = thead.insertRow(0), weekend = 7, headerDate = getDateFieldsDateObject(),
-        th, thText;
-
-    /** set date to monday */
-    headerDate.setDate(headerDate.getDate() - headerDate.getDay());
-
-    for (var headIndex = 0; headIndex < weekend; ++headIndex)
-    {
-        th = document.createElement('th');
-        thText = weekdays[headIndex - 1] + ' (' + headerDate.getPresentationFormat() + ')';
-        th.innerHTML = (headIndex == 0) ? text.TIME : thText;
-        tr.appendChild(th);
-        headerDate.setDate(headerDate.getDate() + 1);
-    }
-}
-
-/**
- * inserts lessons into a schedule
- *
- * @param schedule Schedule object with table, task...
- */
-function insertLessons(schedule)
-{
-    var colNumber = 1, rows = schedule.table.getElementsByTagName('tbody')[0].getElementsByTagName('tr'), block, lesson,
-        times = JSON.parse(getSelectedValues('grid')), tableStartTime, tableEndTime, blockTimes, lessonElements,
-        blockIndex, blockStart, blockEnd, cell, nextCellExist, nextCell, lessonsNextBlock,
-        isUsersSchedule = (schedule.id == 'user'), lessons = schedule.lessons;
-
-    for (var date in lessons)
-    {
-        if (!lessons.hasOwnProperty(date))
-        {
-            continue;
-        }
-
-        /** no times on the left side - every lesson appears in the first row */
-        if (!times.periods)
-        {
-            for (block in lessons[date])
-            {
-                if (!lessons[date].hasOwnProperty(block))
-                {
-                    continue;
-                }
-                for (lesson in lessons[date][block])
-                {
-                    if (!lessons[date][block].hasOwnProperty(lesson))
-                    {
-                        continue;
-                    }
-
-                    lessonElements = createLesson(lessons[date][block][lesson], true);
-                    lessonElements.forEach(function (element)
-                    {
-                        rows[0].getElementsByTagName('td')[colNumber].appendChild(element);
-                    });
-                }
-            }
-        }
-        /** insert lessons in cells */
-        else
-        {
-            blockIndex = 0;
-            for (block in lessons[date])
-            {
-                if (!lessons[date].hasOwnProperty(block))
-                {
-                    continue;
-                }
-
-                /** periods start at 1, html td-elements at 0 */
-                tableStartTime = times.periods[blockIndex + 1].startTime;
-                tableEndTime = times.periods[blockIndex + 1].endTime;
-                blockTimes = block.match(/^(\d{4})-(\d{4})$/);
-                blockStart = blockTimes[1];
-                blockEnd = blockTimes[2];
-
-                /** block does not fit? go to next block */
-                while (tableStartTime < blockStart && tableEndTime < blockStart)
-                {
-                    ++blockIndex;
-                    tableStartTime = times.periods[blockIndex + 1].startTime;
-                    tableEndTime = times.periods[blockIndex + 1].endTime;
-                }
-
-                for (lesson in lessons[date][block])
-                {
-                    if (!lessons[date][block].hasOwnProperty(lesson))
-                    {
-                        continue;
-                    }
-                    cell = rows[blockIndex].getElementsByTagName('td')[colNumber];
-                    nextCellExist = rows[blockIndex + 1] !== undefined;
-
-                    /** time matches */
-                    if (tableStartTime == blockStart && tableEndTime == blockEnd)
-                    {
-                        lessonElements = createLesson(lessons[date][block][lesson], false, isUsersSchedule);
-                        lessonElements.forEach(function (element)
-                        {
-                            cell.appendChild(element);
-                        });
-                    }
-                    /** lesson fits inside block but has slightly other times */
-                    if (tableStartTime <= blockStart && tableEndTime != blockEnd)
-                    {
-                        lessonElements = createLesson(lessons[date][block][lesson], true, isUsersSchedule);
-                        lessonElements.forEach(function (element)
-                        {
-                            cell.appendChild(element);
-                        });
-                    }
-                    /** lesson fits into next block too, so add a copy to this */
-                    if (nextCellExist && blockEnd >= times.periods[blockIndex + 2].startTime)
-                    {
-                        nextCell = rows[blockIndex + 1].getElementsByTagName('td')[colNumber];
-                        lessonsNextBlock = createLesson(lessons[date][block][lesson], true, isUsersSchedule);
-                        lessonsNextBlock.forEach(function (element)
-                        {
-                            nextCell.appendChild(element);
-                        });
-                    }
-                }
-                ++blockIndex;
-            }
-        }
-        ++colNumber;
-    }
-}
-
-/**
- * Sends an Ajax request for the active schedule, to update it.
- * @param id   string
- */
-function updateSchedule(id)
-{
-    var updateTask = '', schedule, dateString = getDateFieldString(),
-        mobileTask = window.isMobile ? '&oneDay=true' : '';
-
-    /** update all schedules */
-    if (id == undefined || typeof id !== 'string')
-    {
-        scheduleObjects.schedules.forEach(
-            function (schedule)
-            {
-                updateTask = schedule.task.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + dateString);
-                updateTask += mobileTask;
-
-                /** synchronous request handling or some schedules do not get their update */
-                ajaxSchedule = new XMLHttpRequest();
-                ajaxSchedule.open('GET', url + updateTask, false);
-                ajaxSchedule.onreadystatechange = insertUpdatedScheduleData;
-                ajaxSchedule.send(null);
-            }
-        );
-    }
-    /** update the given schedule only */
-    else
-    {
-        schedule = window.scheduleObjects.getScheduleById(id);
-        if (!schedule)
-        {
-            return;
-        }
-
-        updateTask = schedule.task.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + dateString);
-        updateTask += mobileTask;
-
-        /** global variable for catching responds in other functions */
-        ajaxSchedule = new XMLHttpRequest();
-        ajaxSchedule.open('GET', url + updateTask, true);
-        ajaxSchedule.onreadystatechange = insertUpdatedScheduleData;
-        ajaxSchedule.send(null);
-    }
-}
-
-/**
- * the active schedule is shown with new information, like another date
- */
-function insertUpdatedScheduleData()
-{
-    var schedule;
-
-    if (ajaxSchedule.readyState == 4 && ajaxSchedule.status == 200)
-    {
-        schedule = scheduleObjects.getScheduleByRequest(ajaxSchedule.responseURL);
-
-        if (!schedule)
-        {
-            return;
-        }
-
-        schedule.lessons = JSON.parse(ajaxSchedule.responseText);
-        resetSchedule(schedule.table);
-        setGridDays(schedule.table);
-        insertLessons(schedule);
-    }
-}
-
-/**
- * removes all lessons of a schedule for updating it
- *
- * @param table HTMLTableElement | object
- */
-function resetSchedule(table)
-{
-    var lessons = table.getElementsByClassName('lesson'), lessonCount = lessons.length - 1;
-
-    for (var index = lessonCount; index >= 0; --index)
-    {
-        lessons[index].parentNode.removeChild(lessons[index]);
+        document.getElementById("default-schedule").checked = "checked";
     }
 }
 
@@ -1285,11 +1378,12 @@ function resetSchedule(table)
  * every div with the class 'input-wrapper' gets hidden, when it is not named as param.
  *
  * @param fieldIDsToShow string|Array
+ * @param disable boolean default = true
  */
-function onlyShowFormInput(fieldIDsToShow)
+function onlyShowFormInput(fieldIDsToShow, disable)
 {
-    var form = document.getElementById('schedule-form'), fields = form.getElementsByClassName('input-wrapper'),
-        field, fieldElement, fieldToShow;
+    var disabled = typeof disable === "undefined" ? true : disable, field, fieldElement, fieldToShow,
+        form = document.getElementById("schedule-form"), fields = form.getElementsByClassName("input-wrapper");
 
     for (var fieldIndex = 0; fieldIndex < fields.length; ++fieldIndex)
     {
@@ -1297,34 +1391,33 @@ function onlyShowFormInput(fieldIDsToShow)
 
         if (fieldIDsToShow instanceof Array)
         {
-            if (fieldIDsToShow.indexOf(field.id) == -1)
+            if (fieldIDsToShow.indexOf(field.id) === -1)
             {
-                field.style.display = '';
+                field.style.display = "";
             }
             else
             {
-                field.style.display = 'inline-block';
+                field.style.display = "inline-block";
                 fieldToShow = field;
             }
         }
         else
         {
-            if (field.id != fieldIDsToShow)
+            if (field.id !== fieldIDsToShow)
             {
-                field.style.display = '';
+                field.style.display = "";
             }
             else
             {
-                field.style.display = 'inline-block';
+                field.style.display = "inline-block";
                 fieldToShow = field;
             }
         }
     }
 
-    /** gets enabled after Ajax request came in */
-    fieldElement = fieldToShow.getElementsByTagName('select')[0];
-    fieldElement.disabled = true;
-    jQuery('#' + fieldElement.id).chosen('destroy').chosen();
+    fieldElement = fieldToShow.getElementsByTagName("select")[0];
+    fieldElement.disabled = disabled;
+    jQuery("#" + fieldElement.id).chosen("destroy").chosen();
 }
 
 /**
@@ -1346,23 +1439,97 @@ function removeChildren(element)
  * gets the concatenated and selected values of one multiple form field
  *
  * @param fieldID  int
+ * @param separator string default = ","
  * @returns string
  */
-function getSelectedValues(fieldID)
+function getSelectedValues(fieldID, separator)
 {
-    var chosenOptions = document.getElementById(fieldID).selectedOptions, selectedValues = '';
+    var sep = (!separator) ? "," : separator, chosenOptions = document.getElementById(fieldID).selectedOptions,
+        selectedValues = "";
 
     for (var selectIndex = 0; selectIndex < chosenOptions.length; ++selectIndex)
     {
         selectedValues += chosenOptions[selectIndex].value;
 
-        if (chosenOptions[selectIndex + 1] !== undefined)
+        if (chosenOptions[selectIndex + 1])
         {
-            selectedValues += ",";
+            selectedValues += sep;
         }
     }
 
     return selectedValues;
+}
+
+/**
+ * tests the support of the browser for the input type=date
+ * @see http://stackoverflow.com/questions/10193294/how-can-i-tell-if-a-browser-supports-input-type-date
+ *
+ * @returns boolean
+ */
+function browserSupportsDate()
+{
+    var input = document.createElement("input"), notValidDate = "not-valid-date";
+
+    input.setAttribute("type", "date");
+    input.setAttribute("value", notValidDate);
+
+    return input.value !== notValidDate;
+}
+
+/**
+ * goes one day for- or backward in the schedules and takes the date out of the input field with 'date' as id
+ *
+ * @param nextDate boolean goes forward by default, backward with false
+ * @param dayStep boolean indicates the step the date takes
+ */
+function changeDate(nextDate, dayStep)
+{
+    var increaseDate = (typeof nextDate === "undefined") ? true : nextDate,
+        day = (typeof dayStep === "undefined") ? true : dayStep, scheduleDate = getDateFieldsDateObject();
+
+    if (increaseDate)
+    {
+        if (day)
+        {
+            scheduleDate.setDate(scheduleDate.getDate() + 1);
+        }
+        else
+        {
+            scheduleDate.setMonth(scheduleDate.getMonth() + 1);
+        }
+
+        // Jump over sunday
+        if (scheduleDate.getDay() === 0)
+        {
+            scheduleDate.setDate(scheduleDate.getDate() + 1);
+        }
+    }
+    // Decrease date
+    else
+    {
+        if (day)
+        {
+            scheduleDate.setDate(scheduleDate.getDate() - 1);
+        }
+        else
+        {
+            scheduleDate.setMonth(scheduleDate.getMonth() - 1);
+        }
+
+        // Jump over sunday
+        if (scheduleDate.getDay() === 0)
+        {
+            scheduleDate.setDate(scheduleDate.getDate() - 1);
+        }
+    }
+
+    window.dateField.valueAsDate = scheduleDate;
+
+    // For browsers which doesn't update the value with the valueAsDate property for type=date
+    if (!browserSupportsDate())
+    {
+        window.dateField.value = scheduleDate.getPresentationFormat();
+    }
 }
 
 /**
@@ -1387,15 +1554,14 @@ function getDateFieldString()
  */
 function getDateFieldsDateObject()
 {
-    var parts;
+    var parts = window.dateField.value.split(".", 3);
 
     if (browserSupportsDate())
     {
         return window.dateField.valueAsDate;
     }
 
-    parts = window.dateField.value.split('.', 3);
-    /** 12:00:00 o'clock for timezone offset */
+    // 12:00:00 o'clock for timezone offset
     return new Date(parseInt(parts[2], 10), parseInt(parts[1] - 1, 10), parseInt(parts[0], 10), 12, 0, 0);
 }
 
@@ -1412,97 +1578,11 @@ function setDatePattern()
     pattern = pattern.replace(/n/, "\\d{1,2}");
     pattern = pattern.replace(/y/, "\\d{2}");
     pattern = pattern.replace(/Y/, "\\d{4}");
-    /** escape bindings like dots */
+    // Escape bindings like dots
     pattern = pattern.replace(/\./g, "\\.");
     pattern = pattern.replace(/\\/g, "\\");
 
     window.datePattern = new RegExp(pattern);
-}
-
-/**
- * save lesson in users personal schedule
- * choose between lessons of whole semester (1), just this daytime (2) or only the selected instance of a lesson (3).
- *
- * @param taskNumber number
- * @param ccmID String calendar_configuration_map ID
- * @param save boolean indicate to save or to delete the lesson
- */
-function handleLesson(taskNumber, ccmID, save)
-{
-    var mode = (typeof taskNumber == 'undefined') ? '1' : taskNumber,
-        saving = (typeof save == 'undefined') ? true : save,
-        task = '&task= ' + (saving ? '&task=saveLesson' : '&task=deleteLesson');
-
-    if (typeof ccmID == 'undefined')
-    {
-        return false;
-    }
-
-    task += "&saveMode=" + mode + "&ccmID=" + ccmID;
-    ajaxSave = new XMLHttpRequest();
-    ajaxSave.open('GET', url + task, true);
-    ajaxSave.onreadystatechange = lessonHandled;
-    ajaxSave.send(null);
-}
-
-/**
- * replaces the save button of a saved lesson with a delete button and reverse
- */
-function lessonHandled()
-{
-    var savedLessons, lessons;
-
-    if (ajaxSave.readyState == 4 && ajaxSave.status == 200)
-    {
-        savedLessons = JSON.parse(ajaxSave.responseText);
-
-        window.scheduleObjects.schedules.forEach(function (schedule)
-        {
-            lessons = schedule.table.getElementsByClassName('lesson');
-            for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
-            {
-                if (savedLessons.includes(lessons[lessonIndex].dataset.ccmID))
-                {
-                    if (lessons[lessonIndex].className === 'lesson')
-                    {
-                        lessons[lessonIndex].className += ' added';
-                    }
-                    else
-                    {
-                        lessons[lessonIndex].className = 'lesson';
-                    }
-                }
-            }
-        });
-
-        updateSchedule('user');
-    }
-}
-
-/**
- * checks for a lesson if it is already saved in the users schedule
- * @param lesson HTMLDivElement
- * @return boolean
- */
-function isSavedByUser(lesson)
-{
-    var usersSchedule = window.scheduleObjects.getScheduleById('user'), lessons;
-
-    if (typeof lesson == 'undefined' || !usersSchedule)
-    {
-        return false;
-    }
-
-    lessons = usersSchedule.table.getElementsByClassName('lesson');
-    for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
-    {
-        if (lessons[lessonIndex].dataset.ccmID == lesson.dataset.ccmID)
-        {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 /**
@@ -1514,16 +1594,27 @@ function changeTabBehaviour(clickedTab)
 {
     var tabId = clickedTab.attr("data-id");
 
-    if (clickedTab.parent('li').hasClass("active"))
+    if (clickedTab.parent("li").hasClass("active"))
     {
-        clickedTab.parent('li').toggleClass("inactive", "");
-        jQuery('#' + tabId).toggleClass("inactive", "");
+        clickedTab.parent("li").toggleClass("inactive", "");
+        jQuery("#" + tabId).toggleClass("inactive", "");
     }
     else
     {
         jQuery(".tabs-tab").removeClass("inactive");
         jQuery(".tab-panel").removeClass("inactive");
     }
+}
+
+/**
+ * Activates tab with a list of selected schedules
+ */
+function switchToScheduleListTab()
+{
+    jQuery("#tab-selected-schedules").parent("li").addClass("active");
+    jQuery("#selected-schedules").addClass("active");
+    jQuery("#tab-schedule-form").parent("li").removeClass("active");
+    jQuery("#schedule-form").removeClass("active")
 }
 
 /**
@@ -1549,4 +1640,58 @@ function changePositionOfDateInput()
             jQuery(".date-input").appendTo(".date-input-list-item");
         }
     });
+}
+
+/**
+ * changes the schedules div min-height as high as the maximum of all the lessons
+ */
+function computeTableHeight()
+{
+    var schedules = document.getElementsByClassName("schedule-table"),
+        rows, cell, lessonsInCell, lessonCount, emptyCellCount, maxLessons = 0, emptyBlocksInMaxLessons = 0,
+        headerHeight, remPerEmptyRow, minHeight, remPerLesson, calcHeight, totalRemHeight;
+
+    // counting the lessons in horizontal order
+    for (var schedule = 0; schedule < schedules.length; ++schedule)
+    {
+        rows = schedules[schedule].getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        var rowLength = rows.length;
+        var cellLength = rows[0].getElementsByTagName("td").length;
+
+        // Monday to Fr/Sa/Su
+        for (var day = 1; day < cellLength; ++day)
+        {
+            lessonCount = 0;
+            emptyCellCount = 0;
+
+            // Block 1 to ~6
+            for (var block = 0; block < rowLength; ++block)
+            {
+                // To jump over break (cell length == 1)
+                if (rows[block].getElementsByTagName("td").length > 1)
+                {
+                    cell = rows[block].getElementsByTagName("td")[day];
+                    lessonsInCell = cell.getElementsByClassName("lesson").length;
+                    if (lessonsInCell > 0)
+                    {
+                        lessonCount += lessonsInCell;
+                    }
+                    else
+                    {
+                        ++emptyCellCount;
+                    }
+                }
+            }
+
+            maxLessons = Math.max(lessonCount, maxLessons);
+        }
+    }
+
+    headerHeight = 6; // Include caption & break
+    remPerEmptyRow = 7;
+    minHeight = window.isMobile ? 50 : 40;
+    remPerLesson = window.isMobile ? 5 : 9;
+    calcHeight = (maxLessons * remPerLesson) + (emptyBlocksInMaxLessons * remPerEmptyRow) + headerHeight;
+    totalRemHeight = Math.max(calcHeight, minHeight);
+    window.scheduleWrapper.style.minHeight = totalRemHeight + "rem";
 }

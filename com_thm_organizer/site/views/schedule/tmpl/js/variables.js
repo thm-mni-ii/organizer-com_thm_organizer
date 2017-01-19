@@ -5,4 +5,4 @@ variables.SAVE_MODE_INSTANCE = 3;
 variables.dateFormat = "<?php echo $this->dateFormat; ?>";
 variables.defaultTimes = JSON.parse('<?php echo $this->defaultGrid->grid; ?>');
 variables.departmentID = "<?php echo $this->departmentID; ?>";
-variables.userID = "<?php echo JFactory::getUser()->id; ?>";
+variables.isRegistered = "<?php echo JFactory::getUser()->guest; ?>" == "0";

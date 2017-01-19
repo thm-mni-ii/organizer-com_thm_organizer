@@ -212,7 +212,7 @@ button:hover,
     .date-input div .today {
       width: 100%; }
 
-.scheduler-input:checked + .scheduler {
+.schedule-input:checked + .schedule-table {
   z-index: 2; }
 
 .scheduleWrapper {
@@ -224,7 +224,7 @@ button:hover,
   .scheduleWrapper a:hover {
     color: #394a59; }
 
-.scheduler {
+.schedule-table {
   position: absolute;
   background-color: white;
   z-index: 1;
@@ -232,31 +232,31 @@ button:hover,
   left: 0;
   right: 0;
   bottom: 0; }
-  .scheduler caption {
+  .schedule-table caption {
     background-color: white;
     font-size: 1.3rem;
     margin-left: 0; }
-  .scheduler table {
+  .schedule-table table {
     border-top: 0.15rem #394a59 solid;
     table-layout: fixed; }
     @media (max-width: 677px) {
-      .scheduler table {
+      .schedule-table table {
         table-layout: auto; } }
-  .scheduler td, .scheduler th {
+  .schedule-table td, .schedule-table th {
     width: 16%; }
-    .scheduler td:first-child, .scheduler th:first-child {
+    .schedule-table td:first-child, .schedule-table th:first-child {
       width: 2.5rem; }
     @media (max-width: 677px) {
-      .scheduler td.activeColumn, .scheduler th.activeColumn {
+      .schedule-table td.activeColumn, .schedule-table th.activeColumn {
         display: table-cell !important;
         width: auto;
         padding-right: 1rem; } }
     @media (max-width: 677px) {
-      .scheduler td:nth-child(n+2), .scheduler th:nth-child(n+2) {
+      .schedule-table td:nth-child(n+2), .schedule-table th:nth-child(n+2) {
         display: none; } }
-  .scheduler th, .scheduler td, .scheduler .lesson, .scheduler .break {
+  .schedule-table th, .schedule-table td, .schedule-table .lesson, .schedule-table .break {
     text-align: center; }
-  .scheduler a:hover {
+  .schedule-table a:hover {
     text-decoration: underline; }
 
 .lesson {

@@ -208,7 +208,12 @@ class THM_OrganizerHelperSchedule
 		$select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ";
 		$select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
 		$select .= "lc.configuration";
-		$select .= $delta ? ", lp.delta AS poolDelta, ls.delta AS subjectsDelta, l.delta AS lessonDelta, c.delta AS calendarDelta" : '';
+
+		if ($delta)
+		{
+			$select .= ", lp.delta AS poolDelta, ls.delta AS subjectsDelta, l.delta AS lessonDelta,";
+			$select .= "c.delta AS calendarDelta, lt.delta AS teacherDelta";
+		}
 
 		$query->select($select);
 		$query->from('#__thm_organizer_lessons AS l');
@@ -232,6 +237,7 @@ class THM_OrganizerHelperSchedule
 			$query->where("ls.delta != 'removed'");
 			$query->where("l.delta != 'removed'");
 			$query->where("c.delta != 'removed'");
+			$query->where("lt.delta != 'removed'");
 		}
 
 		self::addDateClauses($parameters, $query);

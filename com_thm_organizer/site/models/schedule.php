@@ -14,6 +14,8 @@ jimport('joomla.application.component.model');
 
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 
 /**
  * Class THM_OrganizerModelSchedule for loading the chosen schedule from the database
@@ -32,6 +34,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	public $grids;
 
 	/**
+	 * Departments for selecting schedules
+	 *
+	 * @var array
+	 */
+	public $departments;
+
+	/**
 	 * name of active department
 	 *
 	 * @var array
@@ -41,14 +50,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * THM_OrganizerModelSchedule constructor.
 	 *
-	 * @param   array $config options
-	 *
-	 * @throws Exception
+	 * @param array $config options
 	 */
 	public function __construct(array $config)
 	{
 		parent::__construct($config);
 		$this->grids          = $this->getGrids();
+		$this->departments    = $this->getDepartments();
 		$this->departmentName = $this->getDepartmentName();
 	}
 
@@ -56,8 +64,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 * getter for the default time grid out of database
 	 *
 	 * @return false|string
-	 *
-	 * @throws Exception
 	 */
 	public function getDepartmentName()
 	{
@@ -91,8 +97,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 * Getter method for all grids in database
 	 *
 	 * @return mixed  array | empty in case of errors or no results
-	 *
-	 * @throws RuntimeException
 	 */
 	public function getGrids()
 	{
@@ -147,6 +151,16 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	}
 
 	/**
+	 * Gets all available department names and IDs
+	 *
+	 * @return array
+	 */
+	public function getDepartments()
+	{
+		return THM_OrganizerHelperDepartments::getPlanDepartments(true);
+	}
+
+	/**
 	 * example and fallback of a default time grid
 	 *
 	 * @return object (json)
@@ -182,194 +196,5 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			}';
 
 		return json_decode($fallback);
-	}
-
-	/**
-	 * an example of schedules and their json data
-	 *
-	 * @return object
-	 */
-	public function getTestSchedule()
-	{
-		return json_decode(
-			'{
-                "name": "BWL",
-                "pool": "Finanzen",
-                "id": "bwl-finanzen",
-                "days": {
-                    "1": {
-                        "1": [
-                            {
-                                "name": "BWL-er Kram",
-                                "room": "A.4.4.4",
-                                "teacher": "BWLer",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "2": [
-                        ],
-                        "3": [
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                            {
-                                "name": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
-                                "room": "B1.2.3",
-                                "teacher": "Zuckerberg",
-                                "time": "1800",
-                                "module": "CS123"
-                            }
-                        ]
-                    },
-                    "2": {
-                        "1": [
-                            {
-                                "name": "Irgendwas mit Geld",
-                                "name_en": "Something with money",
-                                "room": "A.6.6.6",
-                                "teacher": "Schmidt",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "2": [
-                            {
-                                "name": "Zaster",
-                                "name_en": "Zaster",
-                                "room": "A.7.7.7",
-                                "teacher": "Müller",
-                                "module": "CS123"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name": "Die kleinste Geige der Welt",
-                                "name_en": "Die kleinste Geige der Welt",
-                                "room": "A.1.1.1",
-                                "teacher": "Schneider",
-                                "module": "CS123"
-                            }
-                        ],
-                        "4": [
-                            {
-                                "name": "Moneten",
-                                "name_en": "Moneten",
-                                "room": "A.1.1.1",
-                                "teacher": "Schneider",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "3": { 
-                        "1": [
-                        ],
-                        "2": [
-                        ],
-                        "3": [
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "4": {
-                        "1": [
-                            {
-                                "name": "BWL-er Kram",
-                                "name_en": "BWL-er Kram",
-                                "room": "A.4.4.4",
-                                "teacher": "BWLer",
-                                "module": "CS123"
-                            }
-                        ],
-                        "2": [
-                            {
-                                "name": "Irgendwas mit Geld",
-                                "name_en": "Irgendwas mit Geld",
-                                "room": "A.6.6.6",
-                                "teacher": "Schmidt",
-                                "module": "CS123"
-                            }
-                        ],
-                        "3": [
-                            {
-                                "name": "Projektmanagement und -qualität",
-                                "name_en": "Projektmanagement und -qualität",
-                                "room": "A.7.7.7",
-                                "teacher": "Müller",
-                                "module": "CS123"
-                            }
-                        ],
-                        "4": [
-                            {
-                                "name": "Wie bleibe ich reich?",
-                                "name_en": "Wie bleibe ich reich?",
-                                "room": "A.1.1.1",
-                                "teacher": "Schneider",
-                                "module": "CS123"
-                            }
-                        ],
-                        "5": [
-                            {
-                                "name": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
-                                "name_en": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
-                                "room": "B1.2.3",
-                                "teacher": "Zuckerberg",
-                                "time": "1200",
-                                "module": "CS123"
-                            }
-                        ],
-                        "6": [
-                            {
-                                "name": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
-                                "name_en": "Angebot-Nachfrage-Modell in Kohärenz zum Social-Media-Hype",
-                                "room": "B1.2.3",
-                                "teacher": "Zuckerberg",
-                                "module": "CS123"
-                            }
-                        ]
-                    },
-                    "5": {
-                        "1": [
-                        ],
-                        "2": [
-                        ],
-                        "3": [
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                        ]
-                    },
-                    "6": {
-                        "1": [
-                        ],
-                        "2": [
-                        ],
-                        "3": [
-                        ],
-                        "4": [
-                        ],
-                        "5": [
-                        ],
-                        "6": [
-                        ]
-                    }
-                }
-            }'
-		);
 	}
 }

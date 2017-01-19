@@ -280,7 +280,7 @@ button:hover,
 
 // Content - Schedule-Table
 //********************************************************************************************************************//
-.scheduler-input:checked + .scheduler {
+.schedule-input:checked + .schedule-table {
   z-index: 2;
 }
 
@@ -296,7 +296,7 @@ button:hover,
   }
 }
 
-.scheduler {
+.schedule-table {
   position: absolute;
   background-color: white;
   z-index: 1;

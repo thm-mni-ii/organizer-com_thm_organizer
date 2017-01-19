@@ -65,14 +65,15 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 */
 	public function getPools()
 	{
-		$result = THM_OrganizerHelperPools::getPlanPools();
+		$selectedPrograms = JFactory::getApplication()->input->getString('programIDs');
+		$programIDs       = explode(",", $selectedPrograms);
+		$result           = THM_OrganizerHelperPools::getPlanPools(count($programIDs) > 0);
 
 		return empty($result) ? '[]' : json_encode($result);
 	}
 
 	/**
-	 * Getter method for room types in database
-	 * e.g. for selecting a schedule
+	 * Getter method for room types
 	 *
 	 * @throws RuntimeException
 	 * @return string  all room types in JSON format
@@ -90,12 +91,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 		try
 		{
-			$result = $this->_db->loadObjectList();
+			// Like teachers, pools etc. roomTypes are returned as an ["name" => "id"] array instead of an object
+			$result = $this->_db->loadAssocList('name', 'id');
 		}
 		catch (RuntimeException $exc)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
 			return '[]';
 		}
 
@@ -104,14 +104,13 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 	/**
 	 * Getter method for rooms in database
-	 * e.g. for selecting a schedule
 	 *
 	 * @throws RuntimeException
 	 * @return string  all rooms in JSON format
 	 */
 	public function getRooms()
 	{
-		$departmentID = JFactory::getApplication()->input->getInt('departmentID');
+		$departmentID = JFactory::getApplication()->input->getInt('departmentIDs');
 		$typeID       = JFactory::getApplication()->input->getInt('typeID');
 
 		$query = $this->_db->getQuery(true);
@@ -124,22 +123,17 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			$query->where("dr.departmentID = $departmentID");
 		}
 
-		if ($departmentID != 0)
-		{
-			$query->where("roo.typeID = $typeID");
-		}
-
+		$query->where("roo.typeID = $typeID");
 		$query->order('name');
 		$this->_db->setQuery($query);
 
 		try
 		{
-			$result = $this->_db->loadObjectList();
+			// Like teachers, pools etc. rooms are returned as an ["name" => "id"] array instead of an object
+			$result = $this->_db->loadAssocList('name', 'id');
 		}
 		catch (RuntimeException $exc)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
 			return '[]';
 		}
 
@@ -148,7 +142,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 	/**
 	 * Getter method for teachers in database
-	 * e.g. for selecting a schedule
 	 *
 	 * @return string  all teachers in JSON format
 	 */
@@ -178,7 +171,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			}
 		}
 
-		$oneDay                        = $input->getString('oneDay', false);
+		$parameters['userID']          = JFactory::getUser()->id;
+		$oneDay                        = $input->getBool('oneDay', false);
 		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
 		$parameters['date']            = $input->getString('date');
 		$parameters['format']          = '';
@@ -220,8 +214,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
-
 			return '[]';
 		}
 
@@ -278,7 +270,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 * @param int    $saveMode global param like LESSONS_OF_SEMESTER
 	 * @param string $ccmID    calendar_configuration_map ID
 	 *
-	 * @throws RuntimeException
 	 * @return array
 	 */
 	private function getMatchingCcmIDs($saveMode, $ccmID)
@@ -299,8 +290,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
 			return array();
 		}
 
@@ -340,8 +329,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
 			return array();
 		}
 
@@ -373,8 +360,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
-
 			return '[]';
 		}
 
@@ -391,7 +376,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		else
 		{
-			$configurations  = array_flip(json_decode($userLessonTable->configuration));
+			$configurations = array_flip(json_decode($userLessonTable->configuration));
 			foreach ($matchingCcmIDs as $ccmID)
 			{
 				unset($configurations[$ccmID]);

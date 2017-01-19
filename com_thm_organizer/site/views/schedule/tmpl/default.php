@@ -55,7 +55,9 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						<span class="icon-arrow-left"></span>
 					</button>
 					<form>
-						<input id="date" type="date" name="date" required/>
+						<input id="date" type="date" name="date" required
+						       min="<?php echo $this->startDate; ?>"
+						       max="<?php echo $this->endDate; ?>"/>
 						<button id="calendar-icon" type="button" class="controls">
 							<span class="icon-calendar"></span>
 						</button>
@@ -127,13 +129,30 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			     aria-labelledby="tab-schedule-form" aria-hidden="false">
 				<div id="category-input">
 					<select id="category" name="category" required>
-						<option value="placeholder" disabled
-						        selected><?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?></option>
-						<option value="program"><?php echo JText::_("COM_THM_ORGANIZER_PROGRAMS"); ?></option>
+						<option value="placeholder" disabled>
+							<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
+						</option>
+						<option value="program" selected><?php echo JText::_("COM_THM_ORGANIZER_PROGRAMS"); ?></option>
 						<option value="roomtype"><?php echo JText::_("COM_THM_ORGANIZER_ROOM_PLANS"); ?></option>
 						<option value="teacher"><?php echo JText::_("COM_THM_ORGANIZER_TEACHERPLAN"); ?></option>
 					</select>
 				</div>
+				<?php
+				if ($this->departmentID == 0)
+				{
+					?>
+					<div id="department-input" class="input-wrapper">
+						<select id="department" name="department" multiple
+						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
+							<?php
+							foreach ($this->getModel()->departments as $id => $department)
+							{
+								echo "<option value='" . $id . "'>$department</option>";
+							}
+							?>
+						</select>
+					</div>
+				<?php } ?>
 				<div id="program-input" class="input-wrapper">
 					<select id="program" name="program" multiple
 					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER"); ?>">
@@ -219,8 +238,8 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 		if (JFactory::getUser()->guest)
 		{
 			?>
-			<input id="guest-schedule" class="scheduler-input" checked type="radio" name="schedules">
-			<div id="guest-schedule" class="scheduler">
+			<input id="default-schedule" class="schedule-input" checked type="radio" name="schedules">
+			<div id="default-schedule" class="schedule-table">
 				<table>
 					<thead>
 					<tr>
