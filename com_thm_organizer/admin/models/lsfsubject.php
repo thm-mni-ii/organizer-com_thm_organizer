@@ -166,8 +166,11 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	private function cleanText($text)
 	{
-		// Gets rid of a0 encoding from copy and paste from word
+
+		// Gets rid of bullshit encoding from copy and paste from word
 		$text = str_replace(chr(160), " ", $text);
+		$text = str_replace(chr(194), " ", $text);
+		$text = str_replace(chr(195).chr(159), " ", $text);
 
 		// Remove the formatted text tag
 		$text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
@@ -175,29 +178,36 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		// Remove non self closing tags with no content and unwanted self closing tags
 		$text = preg_replace("/<((?!br|col|link).)[a-z]*[\s]*\/>/", "", $text);
 
-		// Remove non-self closing tags containing only white space
-		$text = preg_replace("/<[^\/>][^>]*>\s*<\/[^>]+>/", "", $text);
-
 		// Replace non-blank spaces
 		$text = preg_replace("/\&nbsp\;/", " ", $text);
 
-		// Replace multiple whitespace characters with a single single space
-		$text = preg_replace("/\s+/", " ", $text);
+		// Run iterative parsing for nested bullshit.
+		do
+		{
+			$startText = $text;
 
-		// Replace non-blank spaces
-		$text = preg_replace("/^\s+/", "", $text);
+			// Replace multiple whitespace characters with a single single space
+			$text = preg_replace("/\s+/", " ", $text);
 
-		// Remove leading white space
-		$text = preg_replace("/^\s+/", "", $text);
+			// Replace non-blank spaces
+			$text = preg_replace("/^\s+/", "", $text);
 
-		// Remove trailing white space
-		$text = preg_replace("/\s+$/", "", $text);
+			// Remove leading white space
+			$text = preg_replace("/^\s+/", "", $text);
 
-		// Replace remaining white space with an actual space to prevent errors from weird coding
-		$text = preg_replace("/\s$/", " ", $text);
+			// Remove trailing white space
+			$text = preg_replace("/\s+$/", "", $text);
 
-		// Remove white space between closing and opening tags
-		$text = preg_replace("/(<\/[^>]+>)\s*(<[^>]*>)/", "$1$2", $text);
+			// Replace remaining white space with an actual space to prevent errors from weird coding
+			$text = preg_replace("/\s$/", " ", $text);
+
+			// Remove white space between closing and opening tags
+			$text = preg_replace("/(<\/[^>]+>)\s*(<[^>]*>)/", "$1$2", $text);
+
+			// Remove non-self closing tags containing only white space
+			$text = preg_replace("/<[^\/>][^>]*>\s*<\/[^>]+>/", "", $text);
+		}
+		while($text != $startText);
 
 		return $text;
 	}
@@ -671,9 +681,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	private function setObjectProperty(&$subject, &$objectNode)
 	{
-		$shortTag      = THM_OrganizerHelperLanguage::getShortTag();
-		$nameAttribute = "name_$shortTag";
-		$name          = $subject->$nameAttribute;
 		$category      = (string) $objectNode->kategorie;
 
 		/**
@@ -738,7 +745,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
 				// This should never have been implemented with multiple languages
 				$litText = empty($germanText) ? $englishText : $germanText;
-				$this->setAttribute($subject, 'literature', $germanText);
+				$this->setAttribute($subject, 'literature', $litText);
+				//$contents = str_split($subject->literature);
+				//echo "<pre>" . print_r($germanXML, true) . "</pre>";
+				//foreach ($contents as $char)
+				//{
+				//	echo "<pre>" . print_r(ord($char) . ": $char", true) . "</pre>";
+				//}die;
 				break;
 
 			case 'Qualifikations und Lernziele':
