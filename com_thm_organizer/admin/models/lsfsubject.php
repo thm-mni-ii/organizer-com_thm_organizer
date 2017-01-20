@@ -746,12 +746,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				// This should never have been implemented with multiple languages
 				$litText = empty($germanText) ? $englishText : $germanText;
 				$this->setAttribute($subject, 'literature', $litText);
-				//$contents = str_split($subject->literature);
-				//echo "<pre>" . print_r($germanXML, true) . "</pre>";
-				//foreach ($contents as $char)
-				//{
-				//	echo "<pre>" . print_r(ord($char) . ": $char", true) . "</pre>";
-				//}die;
 				break;
 
 			case 'Qualifikations und Lernziele':

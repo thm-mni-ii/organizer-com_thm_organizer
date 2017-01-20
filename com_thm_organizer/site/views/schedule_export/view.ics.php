@@ -63,7 +63,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$vCalendar->setConfig('unique_id', $this->parameters['docTitle']);
 		$vCalendar->setConfig("lang", THM_OrganizerHelperLanguage::getShortTag());
 		$vCalendar->setProperty("x-wr-calname", $this->parameters['pageTitle']);
-		$vCalendar->setProperty("X-WR-CALDESC", $this->parameters['headerString']);
 		$vCalendar->setProperty("X-WR-TIMEZONE", "Europe/Berlin");
 		$vCalendar->setProperty("METHOD", "PUBLISH");
 

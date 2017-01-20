@@ -36,8 +36,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
 	public $grid;
 
-	public $headerString;
-
 	public $lessons;
 
 	public $pageTitle;
