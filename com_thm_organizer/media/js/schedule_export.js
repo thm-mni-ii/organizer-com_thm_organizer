@@ -112,42 +112,55 @@ function addTeachers(teachers)
     }
 }
 
+/**
+ * Creates a link to a generated ics file
+ *
+ * @returns {boolean}
+ */
 function copyLink()
 {
-    var format, url, selectedPools, emptyPools,
-        selectedRooms, emptyRooms,
-        selectedTeachers, emptyTeachers;
+    var format, url, myschedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
 
     format = $("input[name=format]").val();
-    url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
 
     if (format !== 'ics')
     {
         return true;
     }
 
-    selectedPools = $('#poolIDs').val();
-    emptyPools = selectedPools == undefined || selectedPools == null || selectedPools.length === 0;
+    url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
 
-    if (!emptyPools)
+    myschedule = $('#myschedule:checked').val();
+
+    if (myschedule === 'on' && username !== undefined && auth !== undefined)
     {
-        url += '&poolIDs=' + selectedPools;
+        url += '&myschedule=1&username=' + username + '&auth=' + auth;
     }
-
-    selectedRooms = $('#roomIDs').val();
-    emptyRooms = selectedRooms == undefined || selectedRooms == null || selectedRooms.length === 0;
-
-    if (!emptyRooms)
+    else
     {
-        url += '&roomIDs=' + selectedRooms;
-    }
+        selectedPools = $('#poolIDs').val();
+        emptyPools = selectedPools == undefined || selectedPools == null || selectedPools.length === 0;
 
-    selectedTeachers = $('#teacherIDs').val();
-    emptyTeachers = selectedTeachers == undefined || selectedTeachers == null || selectedTeachers.length === 0;
+        if (!emptyPools)
+        {
+            url += '&poolIDs=' + selectedPools;
+        }
 
-    if (!emptyTeachers)
-    {
-        url += '&teacherIDs=' + selectedTeachers;
+        selectedRooms = $('#roomIDs').val();
+        emptyRooms = selectedRooms == undefined || selectedRooms == null || selectedRooms.length === 0;
+
+        if (!emptyRooms)
+        {
+            url += '&roomIDs=' + selectedRooms;
+        }
+
+        selectedTeachers = $('#teacherIDs').val();
+        emptyTeachers = selectedTeachers == undefined || selectedTeachers == null || selectedTeachers.length === 0;
+
+        if (!emptyTeachers)
+        {
+            url += '&teacherIDs=' + selectedTeachers;
+        }
     }
 
     window.prompt(copyText, url);
@@ -341,11 +354,41 @@ function setFormat()
     }
 }
 
+/**
+ * Toggles the output of resource and filter fields depenent on the selection of my schedule
+ */
+function toggleMySchedule()
+{
+    var myschedule = $('#myschedule:checked').val();
+
+    if (myschedule === 'on')
+    {
+        $("#filterFields").hide();
+        $("#poolIDs-container").hide();
+        $("#roomIDs-container").hide();
+        $("#teacherIDs-container").hide();
+    }
+    else
+    {
+        $("#filterFields").show();
+        $("#poolIDs-container").show();
+        $("#roomIDs-container").show();
+        $("#teacherIDs-container").show();
+    }
+
+}
+
 function validateSelection()
 {
-    var selectedPools = $('#poolIDs').val(), emptyPools,
+    var myschedule = $('#myschedule:checked').val(),
+        selectedPools = $('#poolIDs').val(), emptyPools,
         selectedRooms = $('#roomIDs').val(), emptyRooms,
         selectedTeachers = $('#teacherIDs').val(), emptyTeachers;
+
+    if (myschedule === 'on')
+    {
+        return true;
+    }
 
     emptyPools = selectedPools == null || selectedPools.length === 0;
     emptyRooms = selectedRooms == null || selectedRooms.length === 0;

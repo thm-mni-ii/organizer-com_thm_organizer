@@ -427,6 +427,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 */
 	public function getUserSchedule()
 	{
+		if (JFactory::getUser()->guest)
+		{
+			return '[]';
+		}
+
 		$input                         = JFactory::getApplication()->input;
 		$parameters                    = array();
 		$parameters['date']            = $input->getString('date');
@@ -434,11 +439,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
 		$parameters['format']          = '';
 		$parameters['mySchedule']      = true;
-
-		if (JFactory::getUser()->guest)
-		{
-			return '[]';
-		}
+		$parameters['userID']          = JFactory::getUser()->id;
 
 		$userLessons = THM_OrganizerHelperSchedule::getLessons($parameters, true);
 

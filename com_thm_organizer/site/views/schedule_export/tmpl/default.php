@@ -15,13 +15,21 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 
 $infoSpan = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = array('xlsWeekFormat');
+$user = JFactory::getUser();
 ?>
 <script type="text/javascript">
 	var rootURI = '<?php echo JUri::root(); ?>', allText = '<?php echo JText::_('JALL');?>',
 		selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
 		downloadText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
 		generateText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
-		copyText = '<?php echo JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
+		copyText = '<?php echo JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>',
+        registered = <?php echo $user->id; ?>;
+
+<?php if ($user->id !== 0) :?>
+    var username = '<?php echo $user->username; ?>',
+        auth = '<?php echo urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT)); ?>';
+<?php endif; ?>
+
 </script>
 <div id="j-main-container">
 	<form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank"">
@@ -37,7 +45,7 @@ $initialHidden = array('xlsWeekFormat');
 			</div>
 			<div class="clear"></div>
 		</div>
-		<fieldset>
+		<fieldset id="resourceFields">
 			<legend>
 				<?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION'); ?>
 				<span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION_DESC'); ?></span>
@@ -60,7 +68,7 @@ $initialHidden = array('xlsWeekFormat');
 			}
 			?>
 		</fieldset>
-		<fieldset>
+		<fieldset id="filterFields">
 			<legend>
 				<?php echo $this->lang->_('COM_THM_ORGANIZER_FILTERS'); ?>
 				<span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_OPTIONAL'); ?></span>

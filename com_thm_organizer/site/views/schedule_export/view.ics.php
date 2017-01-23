@@ -72,6 +72,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$vTimeZone2 = new vtimezone('standard');
 		$vTimeZone2->setProperty("DTSTART", 1601, 1, 1, 0, 0, 0);
 		$vTimeZone2->setProperty("TZNAME", "Standard Time");
+		$vTimeZone2->setProperty("TZOFFSETFROM", "+0100");
+		$vTimeZone2->setProperty("TZOFFSETTO", "+0200");
 
 		$vTimeZone1->setComponent($vTimeZone2);
 		$vCalendar->setComponent($vTimeZone1);

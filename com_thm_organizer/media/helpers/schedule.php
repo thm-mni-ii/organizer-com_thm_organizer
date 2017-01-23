@@ -236,14 +236,10 @@ class THM_OrganizerHelperSchedule
 
 		self::addDateClauses($parameters, $query);
 
-		if (!empty($parameters['mySchedule']))
+		if (!empty($parameters['mySchedule']) AND !empty($parameters['userID']))
 		{
 			$query->innerJoin('#__thm_organizer_user_lessons AS u ON u.lessonID = l.id');
-			$query->where('u.userID = ' . JFactory::getUser()->id);
-		}
-		elseif (!empty($parameters['instanceIDs']))
-		{
-			// Get only the requested instances
+			$query->where('u.userID = ' . $parameters['userID']);
 		}
 		else
 		{
@@ -287,9 +283,9 @@ class THM_OrganizerHelperSchedule
 
 		ksort($aggregatedLessons);
 
-		if (!empty($parameters['mySchedule']))
+		if (!empty($parameters['mySchedule']) AND !empty($parameters['userID']))
 		{
-			return self::getUserFilteredLessons($aggregatedLessons);
+			return self::getUserFilteredLessons($aggregatedLessons, $parameters['userID']);
 		}
 
 		return $aggregatedLessons;
@@ -475,14 +471,14 @@ class THM_OrganizerHelperSchedule
 	 * Filters given lessons by their ccmIDs for the logged in user
 	 *
 	 * @param array $lessons aggregated lessons
+	 * @param int   $userID  the user id for personal lessons
 	 *
 	 * @return array lessonIDs as keys and ccmIDs as values
 	 */
-	private static function getUserFilteredLessons($lessons)
+	private static function getUserFilteredLessons($lessons, $userID)
 	{
-		$userID = JFactory::getUser()->id;
-		$dbo    = JFactory::getDbo();
-		$query  = $dbo->getQuery(true);
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
 
 		$query->select("lessonID, configuration")
 			->from('#__thm_organizer_user_lessons')
@@ -491,7 +487,7 @@ class THM_OrganizerHelperSchedule
 
 		try
 		{
-			$results = $dbo->loadAssocList('lessonID', 'configuration');
+			$results = $dbo->loadAssocList('lessonID');
 		}
 		catch (Exception $e)
 		{
@@ -500,26 +496,26 @@ class THM_OrganizerHelperSchedule
 			return array();
 		}
 
-		$configurations = array();
-		foreach ($results as $index => $result)
-		{
-			$configurations[$index] = json_decode($result);
-		}
-
-		if (empty($configurations))
+		if (empty($results))
 		{
 			return array();
 		}
 
-		foreach ($lessons as &$date)
+		$configurations = array();
+		foreach ($results as $index => $result)
 		{
-			foreach ($date as &$times)
+			$configurations[$index] = json_decode($result['configuration']);
+		}
+
+		foreach ($lessons as $date => $blockTimes)
+		{
+			foreach ($blockTimes as $times => $lessonSet)
 			{
-				foreach ($times as $lessonID => $lesson)
+				foreach ($lessonSet as $lessonID => $lessonData)
 				{
-					if (!$configurations[$lessonID] OR !in_array($lesson['ccmID'], $configurations[$lessonID]))
+					if (empty($configurations[$lessonID]) OR !in_array($lessonData['ccmID'], $configurations[$lessonID]))
 					{
-						unset($times[$lessonID]);
+						unset($lessons[$date][$blockTimes][$lessonID]);
 					}
 				}
 			}

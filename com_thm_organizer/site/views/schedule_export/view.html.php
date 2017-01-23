@@ -266,6 +266,17 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$this->fields['resourceFields'] = array();
 		$attribs                        = array('multiple' => 'multiple');
 
+		$user = JFactory::getUser();
+
+		if (!empty($user->id))
+		{
+			$this->fields['resourceFields']['myschedule'] = array(
+				'label'       => JText::_('COM_THM_ORGANIZER_MY_SCHEDULE'),
+				'description' => JText::_('COM_THM_ORGANIZER_MY_SCHEDULE_EXPORT_DESC'),
+				'input'       => '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">'
+			);
+		}
+
 		// Pools
 		$poolAttribs                               = $attribs;
 		$poolAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');

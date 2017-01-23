@@ -489,11 +489,25 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
 		$parameters           = array();
 		$parameters['format'] = $input->getString('format', 'pdf');
-		$this->setResourceArray('pool', $parameters);
-		$this->setResourceArray('teacher', $parameters);
-		$this->setResourceArray('room', $parameters);
+		$parameters['mySchedule'] = $input->getBool('myschedule', false);
 
-		$parameters['mySchedule'] = $input->getBool('mySchedule', false);
+		if (empty($parameters['mySchedule']))
+		{
+			$this->setResourceArray('pool', $parameters);
+			$this->setResourceArray('teacher', $parameters);
+			$this->setResourceArray('room', $parameters);
+		}
+		else
+		{
+			$userName = $input->getString('username');
+			$user = JFactory::getUser($userName);
+			$authentication = urldecode($input->getString('auth', ''));
+			$authenticates = password_verify($user->email . $user->registerDate, $authentication);
+			if ($authenticates)
+			{
+				$parameters['userID'] = $user->id;
+			}
+		}
 
 		$allowedLengths                = array('day', 'week', 'month', 'semester', 'custom');
 		$rawLength                     = $input->getString('dateRestriction', 'week');
