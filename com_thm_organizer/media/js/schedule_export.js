@@ -367,6 +367,7 @@ function toggleMySchedule()
         $("#poolIDs-container").hide();
         $("#roomIDs-container").hide();
         $("#teacherIDs-container").hide();
+		$("input[name=myschedule]").val(1);
     }
     else
     {
@@ -374,6 +375,7 @@ function toggleMySchedule()
         $("#poolIDs-container").show();
         $("#roomIDs-container").show();
         $("#teacherIDs-container").show();
+		$("input[name=myschedule]").val(0);
     }
 
 }

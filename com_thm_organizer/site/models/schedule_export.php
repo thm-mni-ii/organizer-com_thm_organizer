@@ -499,13 +499,20 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		}
 		else
 		{
-			$userName = $input->getString('username');
-			$user = JFactory::getUser($userName);
+			$userName = $input->getString('username', '');
 			$authentication = urldecode($input->getString('auth', ''));
-			$authenticates = password_verify($user->email . $user->registerDate, $authentication);
-			if ($authenticates)
+			if (!empty($userName) and !empty($authentication))
 			{
-				$parameters['userID'] = $user->id;
+				$user = JFactory::getUser($userName);
+				$authenticates = password_verify($user->email . $user->registerDate, $authentication);
+				if ($authenticates)
+				{
+					$parameters['userID'] = $user->id;
+				}
+			}
+			elseif (JFactory::getUser()->id != 0)
+			{
+				$parameters['userID'] = JFactory::getUser()->id;
 			}
 		}
 
