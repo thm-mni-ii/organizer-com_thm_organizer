@@ -521,7 +521,7 @@ class THM_OrganizerHelperSchedule
 				{
 					if (empty($configurations[$lessonID]) OR !in_array($lessonData['ccmID'], $configurations[$lessonID]))
 					{
-						unset($lessons[$date][$blockTimes][$lessonID]);
+						unset($lessons[$date][$times][$lessonID]);
 					}
 				}
 			}

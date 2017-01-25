@@ -36,11 +36,6 @@ button:hover,
 }
 
 // Icons *************************************************************************************************************//
-.icon-time-grid::before {
-  font-family: icomoon-special !important;
-  content: "\e900";
-}
-
 .icon-remove::before {
   font-size: 1rem;
   vertical-align: super;
@@ -56,10 +51,12 @@ button:hover,
 
 .add-lesson .icon-plus::before {
   color: #80ba24;
+  font-weight: bold;
 }
 
 .delete-lesson .icon-delete::before {
   color: #b54e62;
+  font-weight: bold;
 }
 
 // Schedule Header
@@ -76,9 +73,8 @@ button:hover,
     margin-left: 0.5rem;
   }
 
-  .date-input{
+  .date-input {
     vertical-align: middle;
-    margin: 0 0.3rem;
   }
 }
 
@@ -86,15 +82,6 @@ button:hover,
 
   select:disabled {
     background-color: #d2d6d9;
-  }
-
-  > div {
-    display: inline-block;
-    vertical-align: top;
-
-    &:not(#category-input) {
-      display: none;
-    }
   }
 
   a,
@@ -117,14 +104,23 @@ button:hover,
 
 }
 
+.input-wrapper, .selection > div:first-child {
+  display: inline-block;
+  vertical-align: top;
+
+  @media screen and (max-width: 950px) {
+    display: block;
+  }
+}
+
+.hide {
+  display: none !important;
+}
+
 #schedule-form {
 
   select:disabled {
     background-color: $grey-25;
-  }
-
-  > div:not(#category-input) {
-    display: none;
   }
 
   .chzn-container {
@@ -151,7 +147,7 @@ button:hover,
 
   .removeOption {
     position: absolute;
-    right: 20px;
+    right: 10px;
     width: 10px;
     height: 10px;
     cursor: pointer;
@@ -163,8 +159,44 @@ button:hover,
   }
 }
 
+// overwrite template, because width of select box can be larger
+.tab-content div#selected-schedules {
+
+  .chzn-container {
+    width: auto !important;
+    min-width: 276px !important;
+
+    .chzn-single span {
+      margin-right: 26px;
+      line-height: 1.4;
+    }
+  }
+
+  .chzn-search input{
+    width: 100%;
+  }
+}
+
 #tab-exports {
   padding-right: 0.7rem;
+}
+
+.link-item {
+
+  margin-bottom: 0.3rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    background-color: white;
+    color: #394A59;
+    border: 1px solid #4a5d66;
+    padding: 0.4rem;
+    display: inline-block;
+    width: 276px;
+  }
 }
 
 //overwrite chosen icon in selectBox
@@ -192,6 +224,7 @@ button:hover,
 .date-input-list-item {
   display: inline;
   margin-left: 0;
+  margin-right: 0.4rem;
   vertical-align: super;
 }
 
@@ -280,14 +313,13 @@ button:hover,
 
 // Content - Schedule-Table
 //********************************************************************************************************************//
-.schedule-input:checked + .schedule-table {
-  z-index: 2;
+.schedule-input:not(:checked) + .schedule-table {
+  width: 0;
+  position: absolute;
+  left: -3000px;
 }
 
 .scheduleWrapper {
-  position: relative;
-  min-height: 50rem;
-  clear: both;
 
   a,
   a:visited,
@@ -297,13 +329,6 @@ button:hover,
 }
 
 .schedule-table {
-  position: absolute;
-  background-color: white;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 
   caption {
     background-color: $foreground;
@@ -313,31 +338,28 @@ button:hover,
 
   table {
     border-top: 0.15rem #394a59 solid;
-    table-layout: fixed;
-
-    @media (max-width: 677px) {
-      table-layout: auto;
-    }
   }
 
   td, th {
     width: 16%;
 
+    &:not(.activeColumn) {
+      @media (max-width: 677px) {
+        display: none;
+      }
+    }
+
     &:first-child {
       width: 2.5rem;
+      @media (max-width: 677px) {
+        display: table-cell;
+      }
     }
 
     &.activeColumn {
       @media (max-width: 677px) {
-        display: table-cell !important;
         width: auto;
         padding-right: 1rem;
-      }
-    }
-
-    &:nth-child(n+2) {
-      @media (max-width: 677px) {
-        display: none;
       }
     }
   }
@@ -355,13 +377,35 @@ button:hover,
   border: 0.1rem solid $grey-100;
   background-color: $background;
   margin: 0 auto 0.5rem;
-  padding: 0.1rem 0.1rem 1.5rem 0.1rem;
-  position: relative;
+  padding: 0 0.2rem;
 }
 
 .name {
   font-weight: bold;
   word-wrap: break-word;
+}
+
+.pools {
+
+  border-bottom: 1px solid $grey-25;
+}
+
+.pools, .pool {
+  padding: 0.2rem 0;
+
+  @media (max-width: 360px) {
+    padding: 0.1rem 0;
+  }
+}
+
+.persons, .locations {
+  @media (max-width: 360px) {
+    display: inline-block;
+  }
+}
+
+.location {
+  margin-left: 0.3rem;
 }
 
 .module {
@@ -374,61 +418,43 @@ button:hover,
   }
 }
 
-.misc:before, .locations:before {
+.misc:before, .location:before {
   content: " / ";
 }
 
+.add-lesson, .delete-lesson {
+  position: relative;
+  text-align: right;
+  width: 93%;
+}
+
 .lesson-menu {
-  background: $background-green;
   display: none;
-  font-size: smaller;
   position: absolute;
-  width: 15rem;
+  background-color: $background-green;
   z-index: 2;
-
-  .icon-cancel {
-    position: absolute;
-    width: initial;
-    height: initial;
-    right: 0;
-    padding: 0.1rem;
-
-    &::before {
-      font-size: medium;
-    }
-  }
+  padding: 0.5rem;
 
   button {
-    text-align: left;
-    width: calc(100% - 2rem);
-    line-height: normal;
-    padding: 0.1rem;
+    display: block;
+  }
 
-    &:hover {
-      background-color: darken($background-green, 10%);
+  button.icon-cancel {
+    width: 100%;
+    text-align: right;
+
+    &::before {
+      font-weight: bold;
     }
   }
-
-  .save-semester {
-    margin-top: 1rem;
-  }
-}
-
-.save-instance {
-  margin-bottom: 1rem;
-}
-
-.add-lesson {
-  position: absolute;
-  right: 0.3rem;
-  bottom: 0.1rem;
 }
 
 .delete-lesson {
   display: none;
-  position: absolute;
-  right: 0.3rem;
-  bottom: 0.1rem;
+}
+
+.save, .delete {
+  display: none;
 }
 
 .added {

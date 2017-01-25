@@ -28,16 +28,29 @@ ul.tabs {
   }
 }
 
+.tab-text {
+  font-size: 1rem !important;
+  color: #394A59;
+  margin-left: 0.3rem;
+  vertical-align: text-bottom;
+
+  @media (max-width: 677px) {
+    display: none;
+  }
+}
+
 li.active:not(.inactive) {
   .tabs-toggle {
     cursor: pointer;
     background-color: #DFE5E6;
+    position: relative;
   }
 
   //change icon to "cancel", when tab is open
   [class^="icon-"]::before {
     content: "\e935";
     font-family: IcoMoon !important;
+    position: absolute;
   }
 }
 

@@ -5,346 +5,547 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 ul.tabs {
-  margin-bottom: 0; }
-  ul.tabs span {
-    font-size: 1.2rem; }
+  margin-bottom: 0;
+}
+
+ul.tabs span {
+  font-size: 1.2rem;
+}
 
 .tabs-tab {
   display: inline;
-  margin: 0 0.3rem; }
-  .tabs-tab:first-child {
-    margin-left: 0.5rem; }
-  .tabs-tab:nth-child(n+2) {
-    margin-left: 0; }
+  margin: 0 0.3rem;
+}
+
+.tabs-tab:first-child {
+  margin-left: 0.5rem;
+}
+
+.tabs-tab:nth-child(n+2) {
+  margin-left: 0;
+}
 
 .tabs-toggle {
-  padding: 0.5rem 0.5rem 0.1rem 0.4rem; }
-  .tabs-toggle:hover {
-    text-decoration: none;
-    background-color: #f2f4f5; }
+  padding: 0.5rem 0.5rem 0.1rem 0.4rem;
+}
+
+.tabs-toggle:hover {
+  text-decoration: none;
+  background-color: #f2f4f5;
+}
+
+.tab-text {
+  font-size: 1rem !important;
+  color: #394A59;
+  margin-left: 0.3rem;
+  vertical-align: text-bottom;
+}
+
+@media (max-width: 677px) {
+  .tab-text {
+    display: none;
+  }
+}
 
 li.active:not(.inactive) .tabs-toggle {
   cursor: pointer;
-  background-color: #DFE5E6; }
+  background-color: #DFE5E6;
+  position: relative;
+}
+
 li.active:not(.inactive) [class^="icon-"]::before {
   content: "\e935";
-  font-family: IcoMoon !important; }
+  font-family: IcoMoon !important;
+  position: absolute;
+}
 
 .tab-content {
   background: #DFE5E6;
-  overflow: visible; }
-  .tab-content .active {
-    display: block; }
-  .tab-content > div {
-    margin-left: 0.5rem; }
+  overflow: visible;
+}
+
+.tab-content .active {
+  display: block;
+}
+
+.tab-content > div {
+  margin-left: 0.5rem;
+}
 
 .tab-panel {
   overflow-x: visible;
   overflow-y: visible;
   padding: 12px 0;
-  display: none; }
-  .tab-panel.inactive {
-    display: none !important; }
+  display: none;
+}
+
+.tab-panel.inactive {
+  display: none !important;
+}
 
 @media screen and (max-width: 677px) {
   .schedule .ym-cbox {
-    padding: inherit !important; } }
+    padding: inherit !important;
+  }
+}
 
 a,
 a:visited {
-  color: #394a59; }
+  color: #394a59;
+}
 
 button {
   font-size: 1.3rem;
   background-color: transparent;
-  border: none; }
+  border: none;
+}
 
 button:hover,
 .menu-bar a:hover,
 .menu-bar label:hover {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .organizer input[type=checkbox], input[type=radio] {
-  display: none; }
-
-.icon-time-grid::before {
-  font-family: icomoon-special !important;
-  content: "\e900"; }
+  display: none;
+}
 
 .icon-remove::before {
   font-size: 1rem;
-  vertical-align: super; }
+  vertical-align: super;
+}
 
 .icon-arrow-left-22::before,
 .icon-arrow-right-22::before,
 .icon-arrow-left::before,
 .icon-arrow-right::before,
 .date-input .icon-calendar::before {
-  font-size: 1rem; }
+  font-size: 1rem;
+}
 
 .add-lesson .icon-plus::before {
-  color: #80ba24; }
+  color: #80ba24;
+  font-weight: bold;
+}
 
 .delete-lesson .icon-delete::before {
-  color: #b54e62; }
+  color: #b54e62;
+  font-weight: bold;
+}
 
 .menu-bar {
-  margin-bottom: 0.5rem; }
-  .menu-bar + .date-input {
-    margin-bottom: 0.5rem;
-    margin-left: 0.5rem; }
-  .menu-bar .date-input {
-    vertical-align: middle;
-    margin: 0 0.3rem; }
+  margin-bottom: 0.5rem;
+}
+
+.menu-bar + .date-input {
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.menu-bar .date-input {
+  vertical-align: middle;
+}
 
 .selection select:disabled {
-  background-color: #d2d6d9; }
-.selection > div {
-  display: inline-block;
-  vertical-align: top; }
-  .selection > div:not(#category-input) {
-    display: none; }
+  background-color: #d2d6d9;
+}
+
 .selection a,
 .selection button,
 .selection label {
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+}
+
 .selection button > span {
-  margin-right: 0.5rem; }
+  margin-right: 0.5rem;
+}
+
 .selection:focus {
-  outline: none; }
+  outline: none;
+}
+
 .selection input[disabled] {
-  cursor: wait; }
+  cursor: wait;
+}
+
+.input-wrapper, .selection > div:first-child {
+  display: inline-block;
+  vertical-align: top;
+}
+
+@media screen and (max-width: 950px) {
+  .input-wrapper, .selection > div:first-child {
+    display: block;
+  }
+}
+
+.hide {
+  display: none !important;
+}
 
 #schedule-form select:disabled {
-  background-color: #d2d6d9; }
-#schedule-form > div:not(#category-input) {
-  display: none; }
+  background-color: #d2d6d9;
+}
+
 #schedule-form .chzn-container {
-  width: 176px !important; }
-  #schedule-form .chzn-container .chzn-search input {
-    width: 100% !important; }
+  width: 176px !important;
+}
+
+#schedule-form .chzn-container .chzn-search input {
+  width: 100% !important;
+}
 
 #schedule-form .chzn-container .chzn-single > span, #schedule-selection .chzn-container .chzn-single > span {
-  line-height: 1.4; }
+  line-height: 1.4;
+}
 
 #selected-schedules .chzn-results li {
-  position: relative; }
+  position: relative;
+}
+
 #selected-schedules .removeOption {
   position: absolute;
-  right: 20px;
+  right: 10px;
   width: 10px;
   height: 10px;
   cursor: pointer;
-  background: none; }
+  background: none;
+}
+
 #selected-schedules .highlighted .icon-remove::before {
-  color: white; }
+  color: white;
+}
+
+.tab-content div#selected-schedules .chzn-container {
+  width: auto !important;
+  min-width: 276px !important;
+}
+
+.tab-content div#selected-schedules .chzn-container .chzn-single span {
+  margin-right: 26px;
+  line-height: 1.4;
+}
+
+.tab-content div#selected-schedules .chzn-search input {
+  width: 100%;
+}
 
 #tab-exports {
-  padding-right: 0.7rem; }
+  padding-right: 0.7rem;
+}
+
+.link-item {
+  margin-bottom: 0.3rem;
+}
+
+.link-item:last-child {
+  margin-bottom: 0;
+}
+
+.link-item a {
+  background-color: white;
+  color: #394A59;
+  border: 1px solid #4a5d66;
+  padding: 0.4rem;
+  display: inline-block;
+  width: 276px;
+}
 
 .chzn-container {
-  margin: 0.25rem 0.5rem 0 0; }
+  margin: 0.25rem 0.5rem 0 0;
+}
 
 .chzn-container-single .chzn-single div b {
-  background-image: none; }
+  background-image: none;
+}
 
 .chzn-container-multi {
   background-image: none !important;
   height: auto !important;
-  min-height: 2.5em; }
-  .chzn-container-multi .chzn-choices .search-choice {
-    float: none !important;
-    margin: 0.3rem !important;
-    padding: 0.3rem !important; }
+  min-height: 2.5em;
+}
+
+.chzn-container-multi .chzn-choices .search-choice {
+  float: none !important;
+  margin: 0.3rem !important;
+  padding: 0.3rem !important;
+}
 
 .date-input-list-item {
   display: inline;
   margin-left: 0;
-  vertical-align: super; }
+  margin-right: 0.4rem;
+  vertical-align: super;
+}
 
 .date-input {
-  display: inline-block; }
-  .date-input .controls,
-  .date-input .calender-icon {
-    display: none; }
+  display: inline-block;
+}
+
+.date-input .controls,
+.date-input .calender-icon {
+  display: none;
+}
+
+.date-input button, .date-input span, .date-input input {
+  display: inline;
+}
+
+@media (max-width: 360px) {
   .date-input button, .date-input span, .date-input input {
-    display: inline; }
-    @media (max-width: 360px) {
-      .date-input button, .date-input span, .date-input input {
-        vertical-align: bottom; } }
+    vertical-align: bottom;
+  }
+}
+
 @-moz-document url-prefix() {
   .date-input button {
-    width: 1rem; } }
-  .date-input span {
-    position: relative; }
-  .date-input form {
-    margin: 0; }
-    .date-input form > span:first-child {
-      width: 1.8rem;
-      font-size: 1rem;
-      text-align: center;
-      top: 0.34rem; }
-  .date-input input[type=date] {
-    width: 8rem !important;
-    padding: 0 0 0 0.1rem !important;
-    vertical-align: sub;
-    margin-bottom: 0; }
+    width: 1rem;
+  }
+}
+
+.date-input span {
+  position: relative;
+}
+
+.date-input form {
+  margin: 0;
+}
+
+.date-input form > span:first-child {
+  width: 1.8rem;
+  font-size: 1rem;
+  text-align: center;
+  top: 0.34rem;
+}
+
+.date-input input[type=date] {
+  width: 8rem !important;
+  padding: 0 0 0 0.1rem !important;
+  vertical-align: sub;
+  margin-bottom: 0;
+}
+
 @-moz-document url-prefix() {
   .date-input input[type=date] {
-    width: 5rem !important; } }
-    .date-input input[type=date]::-webkit-inner-spin-button, .date-input input[type=date]::-webkit-calendar-picker-indicator {
-      opacity: 1; }
-  .date-input #calendar-icon {
-    position: relative; }
-  .date-input div {
-    visibility: hidden;
-    position: absolute;
-    background-color: #f2f5f6;
-    z-index: 3;
-    border: 1px solid black;
-    top: 2.5rem; }
-    .date-input div td {
-      text-align: center; }
-    .date-input div thead span {
-      float: none; }
-    .date-input div button {
-      background-color: #f2f5f6; }
-    .date-input div .today {
-      width: 100%; }
+    width: 5rem !important;
+  }
+}
 
-.schedule-input:checked + .schedule-table {
-  z-index: 2; }
+.date-input input[type=date]::-webkit-inner-spin-button, .date-input input[type=date]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+}
 
-.scheduleWrapper {
+.date-input #calendar-icon {
   position: relative;
-  min-height: 50rem;
-  clear: both; }
-  .scheduleWrapper a,
-  .scheduleWrapper a:visited,
-  .scheduleWrapper a:hover {
-    color: #394a59; }
+}
 
-.schedule-table {
+.date-input div {
+  visibility: hidden;
   position: absolute;
+  background-color: #f2f5f6;
+  z-index: 3;
+  border: 1px solid black;
+  top: 2.5rem;
+}
+
+.date-input div td {
+  text-align: center;
+}
+
+.date-input div thead span {
+  float: none;
+}
+
+.date-input div button {
+  background-color: #f2f5f6;
+}
+
+.date-input div .today {
+  width: 100%;
+}
+
+.schedule-input:not(:checked) + .schedule-table {
+  width: 0;
+  position: absolute;
+  left: -3000px;
+}
+
+.scheduleWrapper a,
+.scheduleWrapper a:visited,
+.scheduleWrapper a:hover {
+  color: #394a59;
+}
+
+.schedule-table caption {
   background-color: white;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; }
-  .schedule-table caption {
-    background-color: white;
-    font-size: 1.3rem;
-    margin-left: 0; }
-  .schedule-table table {
-    border-top: 0.15rem #394a59 solid;
-    table-layout: fixed; }
-    @media (max-width: 677px) {
-      .schedule-table table {
-        table-layout: auto; } }
-  .schedule-table td, .schedule-table th {
-    width: 16%; }
-    .schedule-table td:first-child, .schedule-table th:first-child {
-      width: 2.5rem; }
-    @media (max-width: 677px) {
-      .schedule-table td.activeColumn, .schedule-table th.activeColumn {
-        display: table-cell !important;
-        width: auto;
-        padding-right: 1rem; } }
-    @media (max-width: 677px) {
-      .schedule-table td:nth-child(n+2), .schedule-table th:nth-child(n+2) {
-        display: none; } }
-  .schedule-table th, .schedule-table td, .schedule-table .lesson, .schedule-table .break {
-    text-align: center; }
-  .schedule-table a:hover {
-    text-decoration: underline; }
+  font-size: 1.3rem;
+  margin-left: 0;
+}
+
+.schedule-table table {
+  border-top: 0.15rem #394a59 solid;
+}
+
+.schedule-table td, .schedule-table th {
+  width: 16%;
+}
+
+@media (max-width: 677px) {
+  .schedule-table td:not(.activeColumn), .schedule-table th:not(.activeColumn) {
+    display: none;
+  }
+}
+
+.schedule-table td:first-child, .schedule-table th:first-child {
+  width: 2.5rem;
+}
+
+@media (max-width: 677px) {
+  .schedule-table td:first-child, .schedule-table th:first-child {
+    display: table-cell;
+  }
+}
+
+@media (max-width: 677px) {
+  .schedule-table td.activeColumn, .schedule-table th.activeColumn {
+    width: auto;
+    padding-right: 1rem;
+  }
+}
+
+.schedule-table th, .schedule-table td, .schedule-table .lesson, .schedule-table .break {
+  text-align: center;
+}
+
+.schedule-table a:hover {
+  text-decoration: underline;
+}
 
 .lesson {
   border: 0.1rem solid #4a5c66;
   background-color: #f2f5f6;
   margin: 0 auto 0.5rem;
-  padding: 0.1rem 0.1rem 1.5rem 0.1rem;
-  position: relative; }
+  padding: 0 0.2rem;
+}
 
 .name {
   font-weight: bold;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+}
+
+.pools {
+  border-bottom: 1px solid #d2d6d9;
+}
+
+.pools, .pool {
+  padding: 0.2rem 0;
+}
+
+@media (max-width: 360px) {
+  .pools, .pool {
+    padding: 0.1rem 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .persons, .locations {
+    display: inline-block;
+  }
+}
+
+.location {
+  margin-left: 0.3rem;
+}
 
 .module:before {
-  content: " ("; }
-.module:after {
-  content: ") "; }
+  content: " (";
+}
 
-.misc:before, .locations:before {
-  content: " / "; }
+.module:after {
+  content: ") ";
+}
+
+.misc:before, .location:before {
+  content: " / ";
+}
+
+.add-lesson, .delete-lesson {
+  position: relative;
+  text-align: right;
+  width: 93%;
+}
 
 .lesson-menu {
-  background: #dfeec8;
   display: none;
-  font-size: smaller;
   position: absolute;
-  width: 15rem;
-  z-index: 2; }
-  .lesson-menu .icon-cancel {
-    position: absolute;
-    width: initial;
-    height: initial;
-    right: 0;
-    padding: 0.1rem; }
-    .lesson-menu .icon-cancel::before {
-      font-size: medium; }
-  .lesson-menu button {
-    text-align: left;
-    width: calc(100% - 2rem);
-    line-height: normal;
-    padding: 0.1rem; }
-    .lesson-menu button:hover {
-      background-color: #c8e2a1; }
-  .lesson-menu .save-semester {
-    margin-top: 1rem; }
+  background-color: #dfeec8;
+  z-index: 2;
+  padding: 0.5rem;
+}
 
-.save-instance {
-  margin-bottom: 1rem; }
+.lesson-menu button {
+  display: block;
+}
 
-.add-lesson {
-  position: absolute;
-  right: 0.3rem;
-  bottom: 0.1rem; }
+.lesson-menu button.icon-cancel {
+  width: 100%;
+  text-align: right;
+}
+
+.lesson-menu button.icon-cancel::before {
+  font-weight: bold;
+}
 
 .delete-lesson {
   display: none;
-  position: absolute;
-  right: 0.3rem;
-  bottom: 0.1rem; }
+}
+
+.save, .delete {
+  display: none;
+}
 
 .added .add-lesson {
-  display: none; }
+  display: none;
+}
+
 .added .delete-lesson {
-  display: inline-block; }
+  display: inline-block;
+}
 
 .no-saving .add-lesson {
-  display: none; }
+  display: none;
+}
 
 .old {
-  text-decoration: line-through; }
-  .old .add-lesson {
-    display: none; }
+  text-decoration: line-through;
+}
+
+.old .add-lesson {
+  display: none;
+}
 
 .new {
-  color: #51a351; }
+  color: #51a351;
+}
 
 .break {
   background-color: #bfdc91;
-  padding: 0.2rem; }
+  padding: 0.2rem;
+}
 
 .own-time {
-  display: block; }
+  display: block;
+}
 
 .no-break tr:nth-child(4) td {
-  display: none; }
+  display: none;
+}
 
 .invisible-time tr td {
-  border-width: 0; }
+  border-width: 0;
+}
+
 .invisible-time th:first-child,
 .invisible-time tr td:first-child {
-  display: none; }
+  display: none;
+}

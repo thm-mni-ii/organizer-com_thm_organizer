@@ -29,21 +29,24 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 				<a href="#schedule-form" class="tabs-toggle" id="tab-schedule-form"
 				   data-toggle="tab" data-id="schedule-form" role="tab" aria-controls="schedule-form"
 				   aria-selected="true">
-					<span class="icon-calendar"></span>
+					<span class="icon-info-calender"></span>
+					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_TITLE"); ?></span>
 				</a>
 			</li>
 			<li class="tabs-tab" role="presentation">
 				<a href="#selected-schedules" class="tabs-toggle" id="tab-selected-schedules"
 				   data-toggle="tab" data-id="selected-schedules" role="tab" aria-controls="selected-schedules"
 				   aria-selected="true">
-					<span class="icon-calendar"></span>
+					<span class="icon-checkin"></span>
+					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SELECTED"); ?></span>
 				</a>
 			</li>
 			<li class="tabs-tab" role="presentation">
 				<a href="#time-selection" class="tabs-toggle" id="tab-time-selection"
 				   data-toggle="tab" data-id="time-selection" role="tab" aria-controls="time-selection"
 				   aria-selected="true">
-					<span class="icon-time-grid"></span>
+					<span class="icon-grid-2"></span>
+					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_GRID_MANAGER_TITLE"); ?></span>
 				</a>
 			</li>
 			<li class="date-input-list-item">
@@ -118,6 +121,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 				<a href="#exports" class="tabs-toggle" id="tab-exports" data-toggle="tab"
 				   data-id="exports" role="tab" aria-controls="exports" aria-selected="true">
 					<span class="icon-download"></span>
+					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_FILE_FORMAT"); ?></span>
 				</a>
 			</li>
 		</ul>
@@ -153,31 +157,27 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						</select>
 					</div>
 				<?php } ?>
-				<div id="program-input" class="input-wrapper">
-					<select id="program" name="program" multiple
-					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER"); ?>">
+				<div id="program-input" class="input-wrapper ">
+					<select id="program" name="program" >
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="pool-input" class="input-wrapper">
-					<select id="pool" name="pool" multiple
-					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER"); ?>">
+				<div id="pool-input" class="input-wrapper hide">
+					<select id="pool" name="pool">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="room-type-input" class="input-wrapper">
-					<select id="roomtype" name="room-type"
-					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_SELECT_OPTION"); ?>">
+				<div id="room-type-input" class="input-wrapper hide">
+					<select id="roomtype" name="room-type">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="room-input" class="input-wrapper">
-					<select id="room" name="room" multiple
-					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER"); ?>">
+				<div id="room-input" class="input-wrapper hide">
+					<select id="room" name="room">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="teacher-input" class="input-wrapper">
+				<div id="teacher-input" class="input-wrapper hide">
 					<select id="teacher" name="teacher"
 					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER"); ?>">
 						<!-- filled by ajax -->
