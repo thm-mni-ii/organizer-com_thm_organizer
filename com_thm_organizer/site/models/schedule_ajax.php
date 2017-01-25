@@ -67,7 +67,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	{
 		$selectedPrograms = JFactory::getApplication()->input->getString('programIDs');
 		$programIDs       = explode(",", $selectedPrograms);
-		$result           = THM_OrganizerHelperPools::getPlanPools(count($programIDs) > 0);
+		$result           = THM_OrganizerHelperPools::getPlanPools(count($programIDs) == 1);
 
 		return empty($result) ? '[]' : json_encode($result);
 	}

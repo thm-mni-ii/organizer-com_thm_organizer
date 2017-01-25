@@ -250,6 +250,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 	);
 	$grid           = json_decode($this->defaultGrid->grid);
 	$periods        = get_object_vars($grid->periods);
+	$activeDay      = date("w");
 	?>
 
 	<div id="scheduleWrapper" class="scheduleWrapper">
@@ -266,7 +267,14 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						<?php
 						for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday)
 						{
-							echo "<th>$daysOfTheWeek[$weekday]</th>";
+							if ($activeDay == $weekday + 1)
+							{
+								echo "<th class='activeColumn'>$daysOfTheWeek[$weekday]</th>";
+							}
+							else
+							{
+								echo "<th>$daysOfTheWeek[$weekday]</th>";
+							}
 						}
 						?>
 					</tr>
@@ -277,7 +285,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 					{
 						if ($period == 4)
 						{
-							echo "<tr>";
+							echo '<tr class="break-row">';
 							echo '<td class="break" colspan="7">' . JText::_('COM_THM_ORGANIZER_LUNCHTIME') . '</td>';
 							echo "</tr>";
 						}
@@ -288,11 +296,12 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 						echo "<br> - <br>";
 						echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
 						echo "</td>";
+						echo '<td class="activeColumn"></td>';
 						echo "</tr>";
 
 						if ($period == 1 OR $period == 2 OR $period == 4 OR $period == 5)
 						{
-							echo "<tr>";
+							echo '<tr class="break-row">';
 							echo '<td class="break" colspan="7"></td>';
 							echo "</tr>";
 						}
@@ -304,5 +313,32 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 			<?php
 		} // Guest table
 		?>
+	</div>
+
+	<div class="lesson-menu">
+		<div class="save">
+			<button class="icon-cancel close-save"></button>
+			<button id="save-mode-semester">
+				<?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_SEMESTER') ?>
+			</button>
+			<button id="save-mode-period">
+				<?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_PERIOD') ?>
+			</button>
+			<button id="save-mode-instance">
+				<?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_INSTANCE') ?>
+			</button>
+		</div>
+		<div class="delete">
+			<button class="icon-cancel close-delete"></button>
+			<button id="delete-mode-semester">
+				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_SEMESTER') ?>
+			</button>
+			<button id="delete-mode-period">
+				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_PERIOD') ?>
+			</button>
+			<button id="delete-mode-instance">
+				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_INSTANCE') ?>
+			</button>
+		</div>
 	</div>
 </div>

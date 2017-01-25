@@ -284,7 +284,7 @@ button:hover,
   font-size: smaller;
   position: absolute;
   width: 15rem;
-  z-index: 1; }
+  z-index: 2; }
   .lesson-menu .icon-cancel {
     position: absolute;
     width: initial;

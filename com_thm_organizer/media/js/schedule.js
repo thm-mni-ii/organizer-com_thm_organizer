@@ -11,9 +11,9 @@
 
 "use strict";
 
-var scheduleWrapper, isMobile, dateField, weekdays, Schedule, ScheduleTable, Schedules, scheduleObjects, datePattern,
-    ajaxSelection = null, scheduleRequests = [], ajaxSave = null,
-    url = "index.php?option=com_thm_organizer&view=schedule_ajax&format=raw";
+var scheduleWrapper, isMobile, dateField, weekdays, Schedule, ScheduleTable, LessonMenu, Schedules, scheduleObjects,
+    datePattern, ajaxSelection = null, scheduleRequests = [], ajaxSave = null,
+    ajaxUrl = "index.php?option=com_thm_organizer&view=schedule_ajax&format=raw";
 
 /**
  * Schedule 'class' for saving params and update the scheduleTable
@@ -69,7 +69,7 @@ Schedule = function (resource, IDs, optionalTitle)
      */
     this.setTitle = function ()
     {
-        var field = document.getElementById(resource);
+        var resourceField = document.getElementById(resource), categoryField = document.getElementById("program");
 
         if (optionalTitle)
         {
@@ -83,10 +83,26 @@ Schedule = function (resource, IDs, optionalTitle)
             return;
         }
 
-        for (var fieldIndex = 0; fieldIndex < field.selectedOptions.length; ++fieldIndex)
+        // Get pre-selected value like "Informatik Master"
+        if (resource === "pool")
         {
-            this.title += field.selectedOptions[fieldIndex].text;
-            if (field.selectedOptions.length > fieldIndex + 1)
+            for (var catIndex = 0; catIndex < categoryField.selectedOptions.length; ++catIndex)
+            {
+                this.title += categoryField.selectedOptions[catIndex].text;
+                if (categoryField.selectedOptions.length > catIndex + 1)
+                {
+                    this.title += " - ";
+                }
+            }
+
+            this.title += " - ";
+        }
+
+        // Get resource selection like "1. Semester" or "A20.1.1"
+        for (var resIndex = 0; resIndex < resourceField.selectedOptions.length; ++resIndex)
+        {
+            this.title += resourceField.selectedOptions[resIndex].text;
+            if (resourceField.selectedOptions.length > resIndex + 1)
             {
                 this.title += " - ";
             }
@@ -99,7 +115,7 @@ Schedule = function (resource, IDs, optionalTitle)
     this.requestUpdate = function ()
     {
         this.task = this.task.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + getDateFieldString());
-        this.ajaxRequest.open("GET", url + this.task, true);
+        this.ajaxRequest.open("GET", ajaxUrl + this.task, true);
         this.ajaxRequest.onreadystatechange = insertLessonResponse;
         this.ajaxRequest.send(null);
         window.scheduleRequests.push(this.ajaxRequest);
@@ -260,9 +276,9 @@ ScheduleTable = function (schedule)
 
         for (var row = 0; row < rows.length; ++row)
         {
-            timeCell = rows[row].getElementsByTagName("td")[0];
-            if (timeCell.className != "break")
+            if (!rows[row].className.match(/break-row/))
             {
+                timeCell = rows[row].getElementsByTagName("td")[0];
                 if (hasPeriods)
                 {
                     startTime = this.timeGrid.periods[period].startTime;
@@ -331,7 +347,7 @@ ScheduleTable = function (schedule)
         var colNumber = window.isMobile ? this.visibleDay : 1,
             rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
             block, lesson, tableStartTime, tableEndTime, blockTimes, lessonElements, blockIndex, blockStart, blockEnd,
-            cell, nextCell, lessonsNextBlock, previousCell, showOwnTime;
+            cell, nextCell, lessonsNextBlock, showOwnTime;
 
         for (var date in lessons)
         {
@@ -375,6 +391,8 @@ ScheduleTable = function (schedule)
                     {
                         continue;
                     }
+
+                    // TODO: if (!rows[blockIndex].className.match(/break-row/)) row überspringen
 
                     // Periods start at 1, html td-elements at 0
                     tableStartTime = this.timeGrid.periods[blockIndex + 1].startTime;
@@ -437,7 +455,8 @@ ScheduleTable = function (schedule)
     this.createLesson = function (data, ownTime)
     {
         var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectSpan, moduleSpan, poolID, poolName,
-            poolSpan, poolLink, teacherSpan, teacherLink, teacherID, teacherName, roomSpan, roomLink, roomID, roomName;
+            poolSpan, poolLink, teacherSpan, teacherLink, teacherID, teacherName, roomSpan, roomLink, roomID, roomName,
+            saveActionButton, deleteActionButton, buttonIcon, added = false, subjectNumbers;
 
         if (!data || !data.hasOwnProperty("subjects"))
         {
@@ -481,17 +500,21 @@ ScheduleTable = function (schedule)
             if (subjectData.shortName)
             {
                 subjectSpan = document.createElement("span");
-                subjectSpan.className = "name " + data.subjectDelta;
+                subjectSpan.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
                 subjectSpan.innerHTML = subjectData.shortName;
                 lessonElement.appendChild(subjectSpan);
             }
-
             if (subjectData.subjectNo)
             {
-                moduleSpan = document.createElement("span");
-                moduleSpan.className = "module";
-                moduleSpan.innerHTML = subjectData.subjectNo;
-                lessonElement.appendChild(moduleSpan);
+                // multiple spans in case of semicolon separated module number for the design
+                subjectNumbers = subjectData.subjectNo.split(";");
+                for (var numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
+                {
+                    moduleSpan = document.createElement("span");
+                    moduleSpan.className = "module";
+                    moduleSpan.innerHTML = subjectNumbers[numIndex];
+                    lessonElement.appendChild(moduleSpan);
+                }
             }
             if (schedule.resource !== "pool" && subjectData.pools)
             {
@@ -507,13 +530,13 @@ ScheduleTable = function (schedule)
                             sendLessonRequest('pool', poolID, poolName);
                         });
                         poolSpan = document.createElement("span");
-                        poolSpan.className = "pool " + data.poolDelta;
+                        poolSpan.className = "pool " + (data.poolDelta ? data.poolDelta : "");
                         poolSpan.appendChild(poolLink);
                         lessonElement.appendChild(poolSpan);
                     }
                 }
             }
-            if (subjectData.teachers)
+            if (schedule.resource !== "teacher" && subjectData.teachers)
             {
                 for (teacherID in subjectData.teachers)
                 {
@@ -527,14 +550,14 @@ ScheduleTable = function (schedule)
                             sendLessonRequest('teacher', teacherID, teacherName);
                         });
                         teacherSpan = document.createElement("span");
-                        teacherSpan.className = "person " + data.teacherDelta; // TODO: teacherDelta
+                        teacherSpan.className = "person " + (data.teacherDelta ? data.teacherDelta : ""); // TODO: teacherDelta
                         teacherSpan.appendChild(teacherLink);
                         lessonElement.appendChild(teacherSpan);
                     }
                 }
             }
 
-            if (subjectData.rooms)
+            if (schedule.resource !== "room" && subjectData.rooms)
             {
                 for (roomID in subjectData.rooms)
                 {
@@ -548,38 +571,59 @@ ScheduleTable = function (schedule)
                             sendLessonRequest('room', roomID, roomName);
                         });
                         roomSpan = document.createElement("span");
-                        roomSpan.className = "location " + data.roomDelta; // TODO: roomDelta
+                        roomSpan.className = "location " + (data.roomDelta ? data.roomDelta : ""); // TODO: roomDelta
                         roomSpan.appendChild(roomLink);
                         lessonElement.appendChild(roomSpan);
                     }
                 }
             }
 
-            if (variables.isRegistered)
+            if (variables.registered)
             {
-                this.addLessonMenu(lessonElement);
-                this.addLessonMenu(lessonElement, false);
-
                 // Makes delete button visible only
                 if (this.userSchedule || this.isSavedByUser(lessonElement))
                 {
                     lessonElement.className += " added";
+                    added = true;
                 }
 
-                // Right click on lessons show save/delete menu // TODO: ein contextmenu für alle und nur ccmid mitgeben
+                // Right click on lessons show save/delete menu
                 lessonElement.addEventListener("contextmenu", function (event)
                 {
-                    if (this.className.match(/added/))
+                    if (added)
                     {
-                        this.getElementsByClassName("delete")[0].style.display = "block";
+                        window.lessonMenu.getDeleteMenu(this);
                     }
                     else
                     {
-                        this.getElementsByClassName("save")[0].style.display = "block";
+                        window.lessonMenu.getSaveMenu(this);
                     }
 
                     event.preventDefault();
                 });
+
+                // Buttons for instant saving/deleting without extra context menu
+                saveActionButton = document.createElement("button");
+                saveActionButton.className = "add-lesson";
+                buttonIcon = document.createElement("span");
+                buttonIcon.className = "icon-plus";
+                saveActionButton.appendChild(buttonIcon);
+                saveActionButton.addEventListener("click", function ()
+                {
+                    handleLesson(variables.SAVE_MODE_SEMESTER, data.ccmID, true);
+                });
+                lessonElement.appendChild(saveActionButton);
+
+                deleteActionButton = document.createElement("button");
+                deleteActionButton.className = "delete-lesson";
+                buttonIcon = document.createElement("span");
+                buttonIcon.className = "icon-delete";
+                deleteActionButton.appendChild(buttonIcon);
+                deleteActionButton.addEventListener("click", function ()
+                {
+                    handleLesson(variables.SAVE_MODE_SEMESTER, data.ccmID, false);
+                });
+                lessonElement.appendChild(deleteActionButton);
             }
             else
             {
@@ -591,71 +635,6 @@ ScheduleTable = function (schedule)
         }
 
         return lessons;
-    };
-
-    /**
-     * Creates HTML elements for saving/deleting a lesson to/from the users schedule
-     *
-     * @param lessonElement HTMLDivElement
-     * @param saveMenu boolean default = true. returns a menu to delete the lesson by false
-     */
-    this.addLessonMenu = function (lessonElement, saveMenu)
-    {
-        var saving = (typeof saveMenu === "undefined") ? true : saveMenu, ccmID = lessonElement.dataset.ccmID,
-            menu, semesterMode, periodMode, instanceMode, singleActionButton, buttonIcon, closeMenuButton;
-
-        menu = document.createElement("div");
-        menu.className = "lesson-menu";
-        menu.className += saving ? " save" : " delete";
-
-        closeMenuButton = document.createElement("button");
-        closeMenuButton.className = "icon-cancel";
-        closeMenuButton.addEventListener("click", function ()
-        {
-            menu.style.display = "none";
-        });
-
-        semesterMode = document.createElement("button");
-        semesterMode.innerHTML = saving ? text.SAVE_SEMESTER : text.DELETE_SEMESTER;
-        semesterMode.addEventListener("click", function ()
-        {
-            handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
-            menu.style.display = "none";
-        });
-
-        periodMode = document.createElement("button");
-        periodMode.innerHTML = saving ? text.SAVE_PERIOD : text.DELETE_PERIOD;
-        periodMode.addEventListener("click", function ()
-        {
-            handleLesson(variables.SAVE_MODE_PERIOD, ccmID, saving);
-            menu.style.display = "none";
-        });
-
-        instanceMode = document.createElement("button");
-        instanceMode.innerHTML = saving ? text.SAVE_INSTANCE : text.DELETE_INSTANCE;
-        instanceMode.addEventListener("click", function ()
-        {
-            handleLesson(variables.SAVE_MODE_INSTANCE, ccmID, saving);
-            menu.style.display = "none";
-        });
-
-        menu.appendChild(closeMenuButton);
-        menu.appendChild(semesterMode);
-        menu.appendChild(periodMode);
-        menu.appendChild(instanceMode);
-
-        singleActionButton = document.createElement("button");
-        singleActionButton.className = saving ? "add-lesson" : "delete-lesson";
-        buttonIcon = document.createElement("span");
-        buttonIcon.className = saving ? "icon-plus" : "icon-delete";
-        singleActionButton.appendChild(buttonIcon);
-        singleActionButton.addEventListener("click", function ()
-        {
-            handleLesson(variables.SAVE_MODE_SEMESTER, ccmID, saving);
-        });
-
-        lessonElement.appendChild(singleActionButton);
-        lessonElement.appendChild(menu);
     };
 
     /**
@@ -747,6 +726,104 @@ ScheduleTable = function (schedule)
         // table element
         window.scheduleWrapper.removeChild(document.getElementById(schedule.id + "-schedule"));
     }
+};
+
+/**
+ * Creates a lesson menu for saving and deleting a lesson, which opens by right clicking on it
+ */
+LessonMenu = function ()
+{
+    var that = this;
+    this.currentCcmID = 0;
+    this.lessonMenuElement = document.getElementsByClassName('lesson-menu')[0];
+    this.saveMenu = undefined;
+    this.closeSaveMenuButton = undefined;
+    this.saveSemesterMode = document.getElementById('save-mode-semester');
+    this.savePeriodMode = document.getElementById('save-mode-period');
+    this.saveInstanceMode = document.getElementById('save-mode-instance');
+    this.deleteMenu = undefined;
+    this.closeDeleteMenuButton = undefined;
+    this.deleteSemesterMode = document.getElementById('delete-mode-semester');
+    this.deletePeriodMode = document.getElementById('delete-mode-period');
+    this.deleteInstanceMode = document.getElementById('delete-mode-instance');
+
+    /**
+     * Detects HTML elements for saving/deleting a lesson to/from the users schedule and add eventListener
+     */
+    this.create = function ()
+    {
+        this.saveMenu = this.lessonMenuElement.getElementsByClassName('save')[0];
+        this.closeSaveMenuButton = this.saveMenu.getElementsByClassName('icon-cancel')[0];
+        this.deleteMenu = this.lessonMenuElement.getElementsByClassName('delete')[0];
+        this.closeDeleteMenuButton = this.deleteMenu.getElementsByClassName('icon-cancel')[0];
+
+        this.closeSaveMenuButton.addEventListener("click", function ()
+        {
+            that.saveMenu.style.display = "none";
+        });
+        this.saveSemesterMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_SEMESTER, that.currentCcmID, true);
+            that.saveMenu.style.display = "none";
+        });
+        this.savePeriodMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_PERIOD, that.currentCcmID, true);
+            that.saveMenu.style.display = "none";
+        });
+        this.saveInstanceMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_INSTANCE, that.currentCcmID, true);
+            that.saveMenu.style.display = "none";
+        });
+        this.closeDeleteMenuButton.addEventListener("click", function ()
+        {
+            that.deleteMenu.style.display = "none";
+        });
+        this.deleteSemesterMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_SEMESTER, that.currentCcmID, false);
+            that.deleteMenu.style.display = "none";
+        });
+        this.deletePeriodMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_PERIOD, that.currentCcmID, false);
+            that.deleteMenu.style.display = "none";
+        });
+        this.deleteInstanceMode.addEventListener("click", function ()
+        {
+            handleLesson(variables.SAVE_MODE_INSTANCE, that.currentCcmID, false);
+            that.deleteMenu.style.display = "none";
+        });
+    };
+
+    /**
+     * Pops up at clicked lesson and sends an ajaxRequest to save lessons ccmID
+     *
+     * @param lessonElement HTMLDivElement
+     */
+    this.getSaveMenu = function (lessonElement)
+    {
+        this.currentCcmID = lessonElement.dataset.ccmID;
+        this.saveMenu.style.display = "block";
+        this.deleteMenu.style.display = "none";
+        this.lessonMenuElement.style.display = "block";
+        lessonElement.appendChild(this.lessonMenuElement);
+    };
+
+    /**
+     * Pops up at clicked lesson and sends an ajaxRequest to delete lessons ccmID
+     *
+     * @param lessonElement HTMLDivElement
+     */
+    this.getDeleteMenu = function (lessonElement)
+    {
+        this.currentCcmID = lessonElement.dataset.ccmID;
+        this.saveMenu.style.display = "none";
+        this.deleteMenu.style.display = "block";
+        this.lessonMenuElement.style.display = "block";
+        lessonElement.appendChild(this.lessonMenuElement);
+    };
 };
 
 /**
@@ -1054,64 +1131,64 @@ jQuery(document).ready(function ()
  */
 function handleExport(format)
 {
-	var schedule = jQuery('#schedules').val(), url = variables.exportbase,
-		formats, resourceID;
+    var schedule = jQuery('#schedules').val(), url = variables.exportbase,
+        formats, resourceID;
 
-	formats = format.split('.');
-	url += "&format=" +formats[0];
+    formats = format.split('.');
+    url += "&format=" + formats[0];
 
-	if (formats[1] !== undefined)
-	{
-		url += "&documentFormat=" +formats[1];
-	}
+    if (formats[1] !== undefined)
+    {
+        url += "&documentFormat=" + formats[1];
+    }
 
-	if (schedule === 'user')
-	{
-		url += "&myschedule=1";
-		if (formats[0] === 'ics')
-		{
-			url += "&username=" + variables.username + "&auth=" + variables.auth;
-			window.prompt(text.copy, url);
-			jQuery('#export-selection').val('placeholder');
-			jQuery('#export-selection').trigger("chosen:updated");
-			return;
-		}
-	}
-	else
-	{
-		resourceID = schedule.match(/[0-9]+/);
+    if (schedule === 'user')
+    {
+        url += "&myschedule=1";
+        if (formats[0] === 'ics')
+        {
+            url += "&username=" + variables.username + "&auth=" + variables.auth;
+            window.prompt(text.copy, url);
+            jQuery('#export-selection').val('placeholder');
+            jQuery('#export-selection').trigger("chosen:updated");
+            return;
+        }
+    }
+    else
+    {
+        resourceID = schedule.match(/[0-9]+/);
 
-		if (resourceID === null)
-		{
-			jQuery('#export-selection').val('placeholder');
-			jQuery('#export-selection').trigger("chosen:updated");
-			return;
-		}
+        if (resourceID === null)
+        {
+            jQuery('#export-selection').val('placeholder');
+            jQuery('#export-selection').trigger("chosen:updated");
+            return;
+        }
 
-		if (schedule.search(/pool/) === 0)
-		{
-			url += "&poolIDs=" + resourceID;
-		}
-		else if (schedule.search(/room/) === 0)
-		{
-			url += "&roomIDs=" + resourceID;
-		}
-		else if (schedule.search(/teacher/) === 0)
-		{
-			url += "&teacherIDs=" + resourceID;
-		}
-		else
-		{
-			jQuery('#export-selection').val('placeholder');
-			jQuery('#export-selection').trigger("chosen:updated");
-			return;
-		}
-	}
+        if (schedule.search(/pool/) === 0)
+        {
+            url += "&poolIDs=" + resourceID;
+        }
+        else if (schedule.search(/room/) === 0)
+        {
+            url += "&roomIDs=" + resourceID;
+        }
+        else if (schedule.search(/teacher/) === 0)
+        {
+            url += "&teacherIDs=" + resourceID;
+        }
+        else
+        {
+            jQuery('#export-selection').val('placeholder');
+            jQuery('#export-selection').trigger("chosen:updated");
+            return;
+        }
+    }
 
-	window.open(url);
-	jQuery('#export-selection').val('placeholder');
-	jQuery('#export-selection').trigger("chosen:updated");
-	return;
+    window.open(url);
+    jQuery('#export-selection').val('placeholder');
+    jQuery('#export-selection').trigger("chosen:updated");
+    return;
 }
 
 /**
@@ -1121,11 +1198,13 @@ function initSchedule()
 {
     var today = new Date();
 
-    window.scheduleWrapper = document.getElementById("scheduleWrapper");
-    window.scheduleObjects = new Schedules;
     window.isMobile = window.matchMedia("(max-width: 677px)").matches;
     window.dateField = document.getElementById("date");
     window.dateField.valueAsDate = today;
+    window.lessonMenu = new LessonMenu;
+    window.lessonMenu.create();
+    window.scheduleObjects = new Schedules;
+    window.scheduleWrapper = document.getElementById("scheduleWrapper");
     window.weekdays = [
         text.MONDAY_SHORT,
         text.TUESDAY_SHORT,
@@ -1198,7 +1277,7 @@ function sendFormRequest(resource)
 
     // Global variable for catching responds in other functions
     ajaxSelection = new XMLHttpRequest();
-    ajaxSelection.open("GET", url + task, true);
+    ajaxSelection.open("GET", ajaxUrl + task, true);
     ajaxSelection.onreadystatechange = updateForm;
     ajaxSelection.send(null);
 }
@@ -1353,7 +1432,7 @@ function handleLesson(taskNumber, ccmID, save)
 
     task += "&saveMode=" + mode + "&ccmID=" + ccmID;
     ajaxSave = new XMLHttpRequest();
-    ajaxSave.open("GET", url + task, true);
+    ajaxSave.open("GET", ajaxUrl + task, true);
     ajaxSave.onreadystatechange = lessonHandled;
     ajaxSave.send(null);
 }
