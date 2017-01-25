@@ -533,7 +533,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		switch ($parameters['format'])
 		{
 			case 'pdf':
-				$parameters['documentFormat'] = $input->getString('documentFormat', 'A4');
+				$parameters['documentFormat'] = $input->getString('documentFormat', 'a4');
 				$parameters['displayFormat']  = $input->getString('displayFormat', 'schedule');
 				$parameters['gridID']         = $input->getInt('gridID', 0);
 				$parameters['pdfWeekFormat']  = $input->getString('pdfWeekFormat', 'sequence');

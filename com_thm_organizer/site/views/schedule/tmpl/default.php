@@ -206,11 +206,30 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 
 			<div class="tab-panel" id="exports"
 			     role="tabpanel" aria-labelledby="tab-exports-menu" aria-hidden="false">
-				<select id="export-selection" name="export" required>
-					<option value="pdf"><?php echo JText::_('COM_THM_ORGANIZER_PDF_SCHEDULE') ?></option>
-					<option value="excel"><?php echo JText::_('COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL') ?></option>
-					<option value="iCal"><?php echo JText::_('COM_THM_ORGANIZER_SCHEDULER_ICS') ?></option>
-				</select>
+				<div class="link-item">
+					<a onclick="handleExport('pdf.a4');">
+						<span class="icon-file-pdf"></span>
+						<?php echo JText::_('COM_THM_ORGANIZER_PDF_DOCUMENT'); ?>
+					</a>
+				</div>
+				<div class="link-item">
+					<a onclick="handleExport('xls.si');">
+						<span class="icon-file-xls"></span>
+						<?php echo JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'); ?>
+					</a>
+				</div>
+				<div class="link-item">
+					<a onclick="handleExport('ics');">
+						<span class="icon-info-calender"></span>
+						<?php echo JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'); ?>
+					</a>
+				</div>
+				<div class="link-item">
+					<a href="index.php?option=com_thm_organizer&view=schedule_export" target="_blank">
+						<span class="icon-plus"></span>
+						<?php echo JText::_('COM_THM_ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>

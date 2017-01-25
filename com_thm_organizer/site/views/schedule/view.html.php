@@ -106,8 +106,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	{
 		$doc = JFactory::getDocument();
 
-		$doc->addScript(JHtml::_('jQuery.framework'));
-		$doc->addScript(JHtml::_('formbehavior.chosen', 'select'));
+		JHtml::_('formbehavior.chosen', 'select');
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/calendar.js");
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
 

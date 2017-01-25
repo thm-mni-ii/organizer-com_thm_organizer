@@ -42,3 +42,4 @@ text.TUESDAY = "<?php echo JText::_('TUESDAY'); ?>";
 text.TUESDAY_SHORT = "<?php echo JText::_('TUE'); ?>";
 text.WEDNESDAY = "<?php echo JText::_('WEDNESDAY'); ?>";
 text.WEDNESDAY_SHORT = "<?php echo JText::_('WED'); ?>";
+text.copy = "<?php echo JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK'); ?>";

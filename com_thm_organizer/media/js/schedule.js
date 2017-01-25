@@ -399,7 +399,7 @@ ScheduleTable = function (schedule)
                         }
                         cell = rows[blockIndex].getElementsByTagName("td")[colNumber];
                         jQuery(cell).addClass("lessons");
-                        
+
                         // Append lesson in current table cell
                         showOwnTime = tableStartTime != blockStart || tableEndTime != blockEnd;
                         lessonElements = this.createLesson(lessons[date][block][lesson], showOwnTime);
@@ -1050,6 +1050,71 @@ jQuery(document).ready(function ()
 });
 
 /**
+ *
+ */
+function handleExport(format)
+{
+	var schedule = jQuery('#schedules').val(), url = variables.exportbase,
+		formats, resourceID;
+
+	formats = format.split('.');
+	url += "&format=" +formats[0];
+
+	if (formats[1] !== undefined)
+	{
+		url += "&documentFormat=" +formats[1];
+	}
+
+	if (schedule === 'user')
+	{
+		url += "&myschedule=1";
+		if (formats[0] === 'ics')
+		{
+			url += "&username=" + variables.username + "&auth=" + variables.auth;
+			window.prompt(text.copy, url);
+			jQuery('#export-selection').val('placeholder');
+			jQuery('#export-selection').trigger("chosen:updated");
+			return;
+		}
+	}
+	else
+	{
+		resourceID = schedule.match(/[0-9]+/);
+
+		if (resourceID === null)
+		{
+			jQuery('#export-selection').val('placeholder');
+			jQuery('#export-selection').trigger("chosen:updated");
+			return;
+		}
+
+		if (schedule.search(/pool/) === 0)
+		{
+			url += "&poolIDs=" + resourceID;
+		}
+		else if (schedule.search(/room/) === 0)
+		{
+			url += "&roomIDs=" + resourceID;
+		}
+		else if (schedule.search(/teacher/) === 0)
+		{
+			url += "&teacherIDs=" + resourceID;
+		}
+		else
+		{
+			jQuery('#export-selection').val('placeholder');
+			jQuery('#export-selection').trigger("chosen:updated");
+			return;
+		}
+	}
+
+	window.open(url);
+	jQuery('#export-selection').val('placeholder');
+	jQuery('#export-selection').trigger("chosen:updated");
+	return;
+}
+
+/**
  * sets values for the start and shows only the actual day on mobile devices
  */
 function initSchedule()
@@ -1071,7 +1136,7 @@ function initSchedule()
         text.SUNDAY_SHORT
     ];
 
-    if (variables.isRegistered)
+    if (variables.registered)
     {
         createUserSchedule();
         switchToScheduleListTab();
@@ -1368,7 +1433,7 @@ function removeScheduleFromSelection()
     {
         nextSchedule.checked = "checked";
     }
-    else if (!variables.isRegistered)
+    else if (!variables.registered)
     {
         document.getElementById("default-schedule").checked = "checked";
     }
