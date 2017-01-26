@@ -27,7 +27,7 @@ Schedule = function (resource, IDs, optionalTitle)
 	this.resource = resource; // For ScheduleTable usage
 	this.id = resource === "user" ? resource
 		: IDs ? resource + IDs
-		: resource + getSelectedValues(resource, "-");
+			: resource + getSelectedValues(resource, "-");
 	this.scheduleTable = new ScheduleTable(this);
 	this.title = "";
 	this.task = "";
@@ -510,6 +510,10 @@ ScheduleTable = function (schedule)
 					subjectSpan = document.createElement("span");
 					subjectSpan.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
 					subjectSpan.innerHTML = subjectData.shortName;
+					if (data.method)
+					{
+						subjectSpan.innerHTML += ' - ' + data.method;
+					}
 					subjectOuterDiv.appendChild(subjectSpan);
 				}
 				if (subjectData.subjectNo)
@@ -634,7 +638,7 @@ ScheduleTable = function (schedule)
 				saveActionButton.appendChild(buttonIcon);
 				saveActionButton.addEventListener("click", function ()
 				{
-					handleLesson(variables.SAVE_MODE_SEMESTER, data.ccmID, true);
+					handleLesson(variables.PERIOD_MODE, data.ccmID, true);
 				});
 				lessonElement.appendChild(saveActionButton);
 
@@ -645,7 +649,7 @@ ScheduleTable = function (schedule)
 				deleteActionButton.appendChild(buttonIcon);
 				deleteActionButton.addEventListener("click", function ()
 				{
-					handleLesson(variables.SAVE_MODE_SEMESTER, data.ccmID, false);
+					handleLesson(variables.PERIOD_MODE, data.ccmID, false);
 				});
 				lessonElement.appendChild(deleteActionButton);
 			}
@@ -787,17 +791,17 @@ LessonMenu = function ()
 		});
 		this.saveSemesterMode.addEventListener("click", function ()
 		{
-			handleLesson(variables.SAVE_MODE_SEMESTER, that.currentCcmID, true);
+			handleLesson(variables.SEMESTER_MODE, that.currentCcmID, true);
 			that.saveMenu.style.display = "none";
 		});
 		this.savePeriodMode.addEventListener("click", function ()
 		{
-			handleLesson(variables.SAVE_MODE_PERIOD, that.currentCcmID, true);
+			handleLesson(variables.PERIOD_MODE, that.currentCcmID, true);
 			that.saveMenu.style.display = "none";
 		});
 		this.saveInstanceMode.addEventListener("click", function ()
 		{
-			handleLesson(variables.SAVE_MODE_INSTANCE, that.currentCcmID, true);
+			handleLesson(variables.INSTANCE_MODE, that.currentCcmID, true);
 			that.saveMenu.style.display = "none";
 		});
 		this.closeDeleteMenuButton.addEventListener("click", function ()
@@ -806,17 +810,17 @@ LessonMenu = function ()
 		});
 		this.deleteSemesterMode.addEventListener("click", function ()
 		{
-			handleLesson(variables.SAVE_MODE_SEMESTER, that.currentCcmID, false);
+			handleLesson(variables.SEMESTER_MODE, that.currentCcmID, false);
 			that.deleteMenu.style.display = "none";
 		});
 		this.deletePeriodMode.addEventListener("click", function ()
 		{
-			handleLesson(variables.SAVE_MODE_PERIOD, that.currentCcmID, false);
+			handleLesson(variables.PERIOD_MODE, that.currentCcmID, false);
 			that.deleteMenu.style.display = "none";
 		});
 		this.deleteInstanceMode.addEventListener("click", function ()
 		{
-			handleLesson(variables.SAVE_MODE_INSTANCE, that.currentCcmID, false);
+			handleLesson(variables.INSTANCE_MODE, that.currentCcmID, false);
 			that.deleteMenu.style.display = "none";
 		});
 	};
@@ -1477,7 +1481,7 @@ function handleLesson(taskNumber, ccmID, save)
 		return false;
 	}
 
-	task += "&saveMode=" + mode + "&ccmID=" + ccmID;
+	task += "&mode=" + mode + "&ccmID=" + ccmID;
 	ajaxSave = new XMLHttpRequest();
 	ajaxSave.open("GET", ajaxUrl + task, true);
 	ajaxSave.onreadystatechange = lessonHandled;
@@ -1806,36 +1810,6 @@ function switchToScheduleListTab()
 	jQuery("#selected-schedules").addClass("active");
 	jQuery("#tab-schedule-form").parent("li").removeClass("active");
 	jQuery("#schedule-form").removeClass("active");
-
-	if (jQuery("#pool") !== null)
-	{
-		jQuery("#pool").val('');
-		jQuery("#pool").trigger("chosen:updated");
-	}
-
-	if (jQuery("#program") !== null)
-	{
-		jQuery("#program").val('');
-		jQuery("#program").trigger("chosen:updated");
-	}
-
-	if (jQuery("#room") !== null)
-	{
-		jQuery("#room").val('');
-		jQuery("#room").trigger("chosen:updated");
-	}
-
-	if (jQuery("#roomtype") !== null)
-	{
-		jQuery("#roomtype").val('');
-		jQuery("#roomtype").trigger("chosen:updated");
-	}
-
-	if (jQuery("#teacher") !== null)
-	{
-		jQuery("#teacher").val('');
-		jQuery("#teacher").trigger("chosen:updated");
-	}
 }
 
 /**
@@ -1870,9 +1844,9 @@ function handleBreakRows(scheduleTable, grid)
 {
 	var numberOfColumns = isMobile ? 2
 			: jQuery(scheduleTable).find('tr:first').find('th').filter(function ()
-		{
-			return jQuery(this).css('display') != 'none';
-		}).length,
+			{
+				return jQuery(this).css('display') != 'none';
+			}).length,
 		tableTbodyRow = jQuery(scheduleTable).find('tbody').find('tr'),
 		addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
 		addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';

@@ -27,9 +27,9 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/schedule.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
-define('LESSONS_OF_SEMESTER', 1);
-define('LESSONS_OF_PERIOD', 2);
-define('LESSONS_INSTANCE', 3);
+define('SEMESTER_MODE', 1);
+define('PERIOD_MODE', 2);
+define('INSTANCE_MODE', 3);
 
 /**
  * Class provides methods for retrieving program data
@@ -190,7 +190,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function saveLesson()
 	{
 		$input    = JFactory::getApplication()->input;
-		$saveMode = $input->getInt('saveMode', LESSONS_OF_PERIOD);
+		$mode     = $input->getInt('mode', PERIOD_MODE);
 		$ccmID    = $input->getString('ccmID');
 		$userID   = JFactory::getUser()->id;
 		$lessonID = $this->getLessonIDByCcmID($ccmID);
@@ -201,7 +201,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 
 		/** get configurations of selected lesson */
-		$newCcmIDs = $this->getMatchingCcmIDs($saveMode, $ccmID);
+		$newCcmIDs = $this->getMatchingCcmIDs($mode, $ccmID);
 		if (empty($newCcmIDs))
 		{
 			return '[]';
@@ -267,12 +267,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	/**
 	 * loads matching calendar_configuration_map IDs of a lesson
 	 *
-	 * @param int    $saveMode global param like LESSONS_OF_SEMESTER
-	 * @param string $ccmID    calendar_configuration_map ID
+	 * @param int    $mode  global param like SEMESTER_MODE
+	 * @param string $ccmID calendar_configuration_map ID
 	 *
 	 * @return array
 	 */
-	private function getMatchingCcmIDs($saveMode, $ccmID)
+	private function getMatchingCcmIDs($mode, $ccmID)
 	{
 		$query = $this->_db->getQuery(true);
 		$query->select('lessonID, startTime, endTime, schedule_date, DAYOFWEEK(cal.schedule_date) AS weekday')
@@ -306,7 +306,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			->where("cal.lessonID = '$calReference->lessonID'")
 			->where("delta != 'removed'");
 
-		if ($saveMode !== LESSONS_OF_SEMESTER)
+		if ($mode !== SEMESTER_MODE)
 		{
 			/** lessons for same day of the week and same time */
 			$query->where("cal.startTime = '$calReference->startTime'");
@@ -314,7 +314,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			$query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
 
 			/** only the selected instance of lesson */
-			if ($saveMode == LESSONS_INSTANCE)
+			if ($mode == INSTANCE_MODE)
 			{
 				$query->where("cal.schedule_date = '$calReference->schedule_date'");
 			}
@@ -343,7 +343,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function deleteLesson()
 	{
 		$input    = JFactory::getApplication()->input;
-		$saveMode = $input->getInt('saveMode', LESSONS_INSTANCE);
+		$mode     = $input->getInt('mode', PERIOD_MODE);
 		$ccmID    = $input->getString('ccmID');
 		$lessonID = $this->getLessonIDByCcmID($ccmID);
 		$userID   = JFactory::getUser()->id;
@@ -363,14 +363,14 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			return '[]';
 		}
 
-		$matchingCcmIDs = $this->getMatchingCcmIDs($saveMode, $ccmID);
+		$matchingCcmIDs = $this->getMatchingCcmIDs($mode, $ccmID);
 		if (!$hasUserLesson OR empty($matchingCcmIDs))
 		{
 			return '[]';
 		}
 
 		/** delete a lesson completely? delete whole row in database */
-		if ($saveMode == LESSONS_OF_SEMESTER)
+		if ($mode == SEMESTER_MODE)
 		{
 			$success = $userLessonTable->delete($userLessonTable->id);
 		}
