@@ -52,7 +52,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$results = array();
 		foreach ($programs as $program)
 		{
-			$results[$program['name']] = $program['id'];
+			$name = empty($program['name'])? $program['ppName'] : $program['name'];
+			$results[$name] = $program['id'];
 		}
 
 		return empty($results) ? '[]' : json_encode($results);

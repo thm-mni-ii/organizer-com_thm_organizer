@@ -4,7 +4,7 @@
 
 $(document).ready(function ()
 {
-    $('label').tooltip({delay: 200, placement: 'right'});
+	$('label').tooltip({delay: 200, placement: 'right'});
 });
 
 /**
@@ -14,23 +14,23 @@ $(document).ready(function ()
  */
 function addPools(pools)
 {
-    "use strict";
+	"use strict";
 
-    var poolSelection = $('#poolIDs'), selectedPools = poolSelection.val(), selected;
+	var poolSelection = $('#poolIDs'), selectedPools = poolSelection.val(), selected;
 
-    poolSelection.children().remove();
+	poolSelection.children().remove();
 
-    $.each(pools, function (name, id)
-    {
-        selected = $.inArray(id, selectedPools) > -1 ? 'selected' : '';
-        poolSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
-    });
+	$.each(pools, function (name, id)
+	{
+		selected = $.inArray(id, selectedPools) > -1 ? 'selected' : '';
+		poolSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+	});
 
-    if (si !== true)
-    {
-        poolSelection.chosen("destroy");
-        poolSelection.chosen();
-    }
+	if (si !== true)
+	{
+		poolSelection.chosen("destroy");
+		poolSelection.chosen();
+	}
 }
 
 /**
@@ -40,24 +40,24 @@ function addPools(pools)
  */
 function addPrograms(programs)
 {
-    "use strict";
+	"use strict";
 
-    var programSelection = $('#programIDs'), selectedPrograms = programSelection.val(), selected;
+	var programSelection = $('#programIDs'), selectedPrograms = programSelection.val(), selected;
 
-    programSelection.children().remove();
+	programSelection.children().remove();
 
-    $.each(programs, function (key, value)
-    {
-        var name = value.name == null ? value.ppName : value.name;
-        selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
-        programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
-    });
+	$.each(programs, function (key, value)
+	{
+		var name = value.name == null ? value.ppName : value.name;
+		selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
+		programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
+	});
 
-    if (si !== true)
-    {
-        programSelection.chosen("destroy");
-        programSelection.chosen();
-    }
+	if (si !== true)
+	{
+		programSelection.chosen("destroy");
+		programSelection.chosen();
+	}
 }
 
 /**
@@ -67,23 +67,23 @@ function addPrograms(programs)
  */
 function addRooms(rooms)
 {
-    "use strict";
+	"use strict";
 
-    var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
+	var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
 
-    roomSelection.children().remove();
+	roomSelection.children().remove();
 
-    $.each(rooms, function (name, id)
-    {
-        selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
-        roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
-    });
+	$.each(rooms, function (name, id)
+	{
+		selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
+		roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+	});
 
-    if (si !== true)
-    {
-        roomSelection.chosen("destroy");
-        roomSelection.chosen();
-    }
+	if (si !== true)
+	{
+		roomSelection.chosen("destroy");
+		roomSelection.chosen();
+	}
 }
 
 /**
@@ -93,23 +93,23 @@ function addRooms(rooms)
  */
 function addTeachers(teachers)
 {
-    "use strict";
+	"use strict";
 
-    var teacherSelection = $('#teacherIDs'), selectedTeachers = teacherSelection.val(), selected;
+	var teacherSelection = $('#teacherIDs'), selectedTeachers = teacherSelection.val(), selected;
 
-    teacherSelection.children().remove();
+	teacherSelection.children().remove();
 
-    $.each(teachers, function (name, id)
-    {
-        selected = $.inArray(id, selectedTeachers) > -1 ? 'selected' : '';
-        teacherSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
-    });
+	$.each(teachers, function (name, id)
+	{
+		selected = $.inArray(id, selectedTeachers) > -1 ? 'selected' : '';
+		teacherSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+	});
 
-    if (si !== true)
-    {
-        teacherSelection.chosen("destroy");
-        teacherSelection.chosen();
-    }
+	if (si !== true)
+	{
+		teacherSelection.chosen("destroy");
+		teacherSelection.chosen();
+	}
 }
 
 /**
@@ -119,74 +119,73 @@ function addTeachers(teachers)
  */
 function copyLink()
 {
-    var format, url, myschedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
+	var format, url, myschedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
 
-    format = $("input[name=format]").val();
+	format = $("input[name=format]").val();
 
-    if (format !== 'ics')
-    {
-        return true;
-    }
+	if (format !== 'ics')
+	{
+		return true;
+	}
 
-    url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
+	url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
 
-    myschedule = $('#myschedule:checked').val();
+	myschedule = $('#myschedule:checked').val();
 
-    if (myschedule === 'on' && username !== undefined && auth !== undefined)
-    {
-        url += '&myschedule=1&username=' + username + '&auth=' + auth;
-    }
-    else
-    {
-        selectedPools = $('#poolIDs').val();
-        emptyPools = selectedPools == undefined || selectedPools == null || selectedPools.length === 0;
+	if (myschedule === 'on' && username !== undefined && auth !== undefined)
+	{
+		url += '&myschedule=1&username=' + username + '&auth=' + auth;
+	}
+	else
+	{
+		selectedPools = $('#poolIDs').val();
+		emptyPools = selectedPools == undefined || selectedPools == null || selectedPools.length === 0;
 
-        if (!emptyPools)
-        {
-            url += '&poolIDs=' + selectedPools;
-        }
+		if (!emptyPools)
+		{
+			url += '&poolIDs=' + selectedPools;
+		}
 
-        selectedRooms = $('#roomIDs').val();
-        emptyRooms = selectedRooms == undefined || selectedRooms == null || selectedRooms.length === 0;
+		selectedRooms = $('#roomIDs').val();
+		emptyRooms = selectedRooms == undefined || selectedRooms == null || selectedRooms.length === 0;
 
-        if (!emptyRooms)
-        {
-            url += '&roomIDs=' + selectedRooms;
-        }
+		if (!emptyRooms)
+		{
+			url += '&roomIDs=' + selectedRooms;
+		}
 
-        selectedTeachers = $('#teacherIDs').val();
-        emptyTeachers = selectedTeachers == undefined || selectedTeachers == null || selectedTeachers.length === 0;
+		selectedTeachers = $('#teacherIDs').val();
+		emptyTeachers = selectedTeachers == undefined || selectedTeachers == null || selectedTeachers.length === 0;
 
-        if (!emptyTeachers)
-        {
-            url += '&teacherIDs=' + selectedTeachers;
-        }
-    }
+		if (!emptyTeachers)
+		{
+			url += '&teacherIDs=' + selectedTeachers;
+		}
+	}
 
-    window.prompt(copyText, url);
+	window.prompt(copyText, url);
 
-    return false;
+	return false;
 }
 
 function handleSubmit()
 {
-    var validSelection = validateSelection(), formatValue = $("input[name=format]").val();
+	var validSelection = validateSelection(), formatValue = $("input[name=format]").val();
 
-    if (!validSelection)
-    {
-        return false;
-    }
+	if (!validSelection)
+	{
+		return false;
+	}
 
+	if (formatValue == 'ics')
+	{
+		copyLink();
+		return true;
+	}
 
-    if (formatValue == 'ics')
-    {
-        copyLink();
-        return true;
-    }
+	$("#adminForm").submit();
 
-    $("#adminForm").submit();
-
-    return true;
+	return true;
 }
 
 /**
@@ -194,82 +193,82 @@ function handleSubmit()
  */
 function repopulateResources()
 {
-    "use strict";
+	"use strict";
 
-    var selectedDepartments = $('#departmentIDs').val(), selectedPrograms = $('#programIDs').val(),
-        invalidDepartments, invalidPrograms, allIndex, componentParameters, selectionParameters = '';
+	var selectedDepartments = $('#departmentIDs').val(), selectedPrograms = $('#programIDs').val(),
+		invalidDepartments, invalidPrograms, allIndex, componentParameters, selectionParameters = '';
 
-    invalidDepartments = selectedDepartments == null || selectedDepartments.length === 0;
-    invalidPrograms = selectedPrograms == null || selectedPrograms.length === 0;
+	invalidDepartments = selectedDepartments == null || selectedDepartments.length === 0;
+	invalidPrograms = selectedPrograms == null || selectedPrograms.length === 0;
 
-    // The all selection was revoked from something.
-    if (invalidDepartments && invalidPrograms)
-    {
-        return;
-    }
+	// The all selection was revoked from something.
+	if (invalidDepartments && invalidPrograms)
+	{
+		return;
+	}
 
-    componentParameters = 'index.php?option=com_thm_organizer&format=raw&task=getPlanOptions';
+	componentParameters = 'index.php?option=com_thm_organizer&format=raw&task=getPlanOptions';
 
-    if (!invalidDepartments)
-    {
-        selectionParameters += '&departmentIDs=' + selectedDepartments;
-    }
+	if (!invalidDepartments)
+	{
+		selectionParameters += '&departmentIDs=' + selectedDepartments;
+	}
 
-    if (!invalidPrograms)
-    {
-        selectionParameters += '&programIDs=' + selectedPrograms;
-    }
+	if (!invalidPrograms)
+	{
+		selectionParameters += '&programIDs=' + selectedPrograms;
+	}
 
-    $.ajax({
-        type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=pool_ajax',
-        dataType: 'json',
-        success: function (data)
-        {
-            addPools(data);
-        },
-        error: function (xhr, textStatus, errorThrown)
-        {
-            if (xhr.status === 404 || xhr.status === 500)
-            {
-                $.ajax(repopulateResources());
-            }
-        }
-    });
+	$.ajax({
+		type: 'GET',
+		url: rootURI + componentParameters + selectionParameters + '&view=pool_ajax',
+		dataType: 'json',
+		success: function (data)
+		{
+			addPools(data);
+		},
+		error: function (xhr, textStatus, errorThrown)
+		{
+			if (xhr.status === 404 || xhr.status === 500)
+			{
+				$.ajax(repopulateResources());
+			}
+		}
+	});
 
-    $.ajax({
-        type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=teacher_ajax',
-        dataType: 'json',
-        success: function (data)
-        {
-            addTeachers(data);
-        },
-        error: function (xhr, textStatus, errorThrown)
-        {
-            if (xhr.status === 404 || xhr.status === 500)
-            {
-                $.ajax(repopulateResources());
-            }
-        }
-    });
+	$.ajax({
+		type: 'GET',
+		url: rootURI + componentParameters + selectionParameters + '&view=teacher_ajax',
+		dataType: 'json',
+		success: function (data)
+		{
+			addTeachers(data);
+		},
+		error: function (xhr, textStatus, errorThrown)
+		{
+			if (xhr.status === 404 || xhr.status === 500)
+			{
+				$.ajax(repopulateResources());
+			}
+		}
+	});
 
-    $.ajax({
-        type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=room_ajax',
-        dataType: 'json',
-        success: function (data)
-        {
-            addRooms(data);
-        },
-        error: function (xhr, textStatus, errorThrown)
-        {
-            if (xhr.status === 404 || xhr.status === 500)
-            {
-                $.ajax(repopulateResources());
-            }
-        }
-    });
+	$.ajax({
+		type: 'GET',
+		url: rootURI + componentParameters + selectionParameters + '&view=room_ajax',
+		dataType: 'json',
+		success: function (data)
+		{
+			addRooms(data);
+		},
+		error: function (xhr, textStatus, errorThrown)
+		{
+			if (xhr.status === 404 || xhr.status === 500)
+			{
+				$.ajax(repopulateResources());
+			}
+		}
+	});
 }
 
 /**
@@ -277,81 +276,81 @@ function repopulateResources()
  */
 function repopulatePrograms()
 {
-    "use strict";
+	"use strict";
 
-    var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
-    componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
+	var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
+	componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
 
-    if (selectedDepartments == null)
-    {
-        return;
-    }
+	if (selectedDepartments == null)
+	{
+		return;
+	}
 
-    selectionParameters = '&departmentIDs=' + selectedDepartments;
+	selectionParameters = '&departmentIDs=' + selectedDepartments;
 
-    $.ajax({
-        type: 'GET',
-        url: rootURI + componentParameters + selectionParameters,
-        dataType: 'json',
-        success: function (data)
-        {
-            addPrograms(data);
-        },
-        error: function (xhr, textStatus, errorThrown)
-        {
-            if (xhr.status === 404 || xhr.status === 500)
-            {
-                $.ajax(repopulatePrograms());
-            }
-        }
-    });
+	$.ajax({
+		type: 'GET',
+		url: rootURI + componentParameters + selectionParameters,
+		dataType: 'json',
+		success: function (data)
+		{
+			addPrograms(data);
+		},
+		error: function (xhr, textStatus, errorThrown)
+		{
+			if (xhr.status === 404 || xhr.status === 500)
+			{
+				$.ajax(repopulatePrograms());
+			}
+		}
+	});
 }
 
 function setFormat()
 {
-    var formatValue = $('#format').find(":selected").val(), formatArray = formatValue.split('.'),
-        format = formatArray[0], documentFormat = formatArray[1], actionButton = $("#action-btn"),
-        linkContainer = $('#link-container'), linkTarget = $('#link-target');
+	var formatValue = $('#format').find(":selected").val(), formatArray = formatValue.split('.'),
+		format = formatArray[0], documentFormat = formatArray[1], actionButton = $("#action-btn"),
+		linkContainer = $('#link-container'), linkTarget = $('#link-target');
 
-    switch (format)
-    {
-        case 'ics':
-            $("input[name=format]").val(format);
-            actionButton.text(generateText + ' ').append('<span class="icon-feed"></span>');
-            $("#displayFormat-container").hide();
-            $("#date-container").hide();
-            $("#dateRestriction-container").hide();
-            $("#pdfWeekFormat-container").hide();
-            $("#xlsWeekFormat-container").hide();
-            break;
-        case 'xls':
-            $("input[name=format]").val(format);
-            documentFormat = documentFormat === undefined ? 'si' : documentFormat;
-            $("input[name=documentFormat]").val(documentFormat);
-            actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
-            linkContainer.hide();
-            linkTarget.text('');
-            $("#displayFormat-container").hide();
-            $("#pdfWeekFormat-container").hide();
-            $("#date-container").show();
-            $("#dateRestriction-container").show();
-            $("#xlsWeekFormat-container").show();
-            break;
-        case 'pdf':
-        default:
-            $("input[name=format]").val(format);
-            documentFormat = documentFormat === undefined ? 'a4' : documentFormat;
-            $("input[name=documentFormat]").val(documentFormat);
-            actionButton.text(downloadText + ' ').append('<span class="icon-file-pdf"></span>');
-            linkContainer.hide();
-            linkTarget.text('');
-            $("#displayFormat-container").show();
-            $("#date-container").show();
-            $("#dateRestriction-container").show();
-            $("#pdfWeekFormat-container").show();
-            $("#xlsWeekFormat-container").hide();
-            break;
-    }
+	switch (format)
+	{
+		case 'ics':
+			$("input[name=format]").val(format);
+			actionButton.text(generateText + ' ').append('<span class="icon-feed"></span>');
+			$("#displayFormat-container").hide();
+			$("#date-container").hide();
+			$("#dateRestriction-container").hide();
+			$("#pdfWeekFormat-container").hide();
+			$("#xlsWeekFormat-container").hide();
+			break;
+		case 'xls':
+			$("input[name=format]").val(format);
+			documentFormat = documentFormat === undefined ? 'si' : documentFormat;
+			$("input[name=documentFormat]").val(documentFormat);
+			actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
+			linkContainer.hide();
+			linkTarget.text('');
+			$("#displayFormat-container").hide();
+			$("#pdfWeekFormat-container").hide();
+			$("#date-container").show();
+			$("#dateRestriction-container").show();
+			$("#xlsWeekFormat-container").show();
+			break;
+		case 'pdf':
+		default:
+			$("input[name=format]").val(format);
+			documentFormat = documentFormat === undefined ? 'a4' : documentFormat;
+			$("input[name=documentFormat]").val(documentFormat);
+			actionButton.text(downloadText + ' ').append('<span class="icon-file-pdf"></span>');
+			linkContainer.hide();
+			linkTarget.text('');
+			$("#displayFormat-container").show();
+			$("#date-container").show();
+			$("#dateRestriction-container").show();
+			$("#pdfWeekFormat-container").show();
+			$("#xlsWeekFormat-container").hide();
+			break;
+	}
 }
 
 /**
@@ -359,48 +358,48 @@ function setFormat()
  */
 function toggleMySchedule()
 {
-    var myschedule = $('#myschedule:checked').val();
+	var myschedule = $('#myschedule:checked').val();
 
-    if (myschedule === 'on')
-    {
-        $("#filterFields").hide();
-        $("#poolIDs-container").hide();
-        $("#roomIDs-container").hide();
-        $("#teacherIDs-container").hide();
+	if (myschedule === 'on')
+	{
+		$("#filterFields").hide();
+		$("#poolIDs-container").hide();
+		$("#roomIDs-container").hide();
+		$("#teacherIDs-container").hide();
 		$("input[name=myschedule]").val(1);
-    }
-    else
-    {
-        $("#filterFields").show();
-        $("#poolIDs-container").show();
-        $("#roomIDs-container").show();
-        $("#teacherIDs-container").show();
+	}
+	else
+	{
+		$("#filterFields").show();
+		$("#poolIDs-container").show();
+		$("#roomIDs-container").show();
+		$("#teacherIDs-container").show();
 		$("input[name=myschedule]").val(0);
-    }
+	}
 
 }
 
 function validateSelection()
 {
-    var myschedule = $('#myschedule:checked').val(),
-        selectedPools = $('#poolIDs').val(), emptyPools,
-        selectedRooms = $('#roomIDs').val(), emptyRooms,
-        selectedTeachers = $('#teacherIDs').val(), emptyTeachers;
+	var myschedule = $('#myschedule:checked').val(),
+		selectedPools = $('#poolIDs').val(), emptyPools,
+		selectedRooms = $('#roomIDs').val(), emptyRooms,
+		selectedTeachers = $('#teacherIDs').val(), emptyTeachers;
 
-    if (myschedule === 'on')
-    {
-        return true;
-    }
+	if (myschedule === 'on')
+	{
+		return true;
+	}
 
-    emptyPools = selectedPools == null || selectedPools.length === 0;
-    emptyRooms = selectedRooms == null || selectedRooms.length === 0;
-    emptyTeachers = selectedTeachers == null || selectedTeachers.length === 0;
+	emptyPools = selectedPools == null || selectedPools.length === 0;
+	emptyRooms = selectedRooms == null || selectedRooms.length === 0;
+	emptyTeachers = selectedTeachers == null || selectedTeachers.length === 0;
 
-    if (emptyPools && emptyRooms && emptyTeachers)
-    {
-        alert(selectionWarning);
-        return false;
-    }
+	if (emptyPools && emptyRooms && emptyTeachers)
+	{
+		alert(selectionWarning);
+		return false;
+	}
 
-    return true;
+	return true;
 }

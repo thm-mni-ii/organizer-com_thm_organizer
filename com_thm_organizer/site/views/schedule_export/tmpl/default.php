@@ -18,12 +18,14 @@ $initialHidden = array('xlsWeekFormat');
 $user = JFactory::getUser();
 ?>
 <script type="text/javascript">
-	var rootURI = '<?php echo JUri::root(); ?>', allText = '<?php echo JText::_('JALL');?>',
+	var rootURI = '<?php echo JUri::root(); ?>',
+		allText = '<?php echo JText::_('JALL');?>',
 		selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
 		downloadText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
 		generateText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
 		copyText = '<?php echo JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>',
-        registered = <?php echo $user->id; ?>;
+        registered = <?php echo $user->id; ?>,
+		si = <?php echo JFactory::getApplication()->getMenu()->getActive()->params->get('si', 0); ?>;
 
 <?php if ($user->id !== 0) :?>
     var username = '<?php echo $user->username; ?>',
