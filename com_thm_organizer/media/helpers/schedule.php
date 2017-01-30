@@ -32,20 +32,22 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Aggregates the distinct lesson configurations to distinct instances
 	 *
-	 * @param $lessons
+	 * @param mixed $lessons
+	 * @param bool  $delta
 	 *
 	 * @return array
 	 */
-	private static function aggregateInstances($lessons)
+	private static function aggregateInstances($lessons, $delta)
 	{
 		$aggregatedLessons = array();
 		foreach ($lessons as $lesson)
 		{
-			$date      = $lesson['date'];
-			$lessonID  = $lesson['lessonID'];
-			$startTime = substr(str_replace(':', '', $lesson['startTime']), 0, 4);
-			$endTime   = substr(str_replace(':', '', $lesson['endTime']), 0, 4);
-			$times     = "$startTime-$endTime";
+			$date         = $lesson['date'];
+			$lessonID     = $lesson['lessonID'];
+			$subjectDelta = empty($lesson['subjectDelta']) ? '' : $lesson['subjectDelta'];
+			$startTime    = substr(str_replace(':', '', $lesson['startTime']), 0, 4);
+			$endTime      = substr(str_replace(':', '', $lesson['endTime']), 0, 4);
+			$times        = "$startTime-$endTime";
 
 			if (empty($aggregatedLessons[$date]))
 			{
@@ -69,13 +71,12 @@ class THM_OrganizerHelperSchedule
 				$aggregatedLessons[$date][$times][$lessonID]['calendarDelta'] = empty($lesson['calendarDelta']) ? '' : $lesson['calendarDelta'];
 				$aggregatedLessons[$date][$times][$lessonID]['lessonDelta']   = empty($lesson['lessonDelta']) ? '' : $lesson['lessonDelta'];
 				$aggregatedLessons[$date][$times][$lessonID]['poolDelta']     = empty($lesson['poolDelta']) ? '' : $lesson['poolDelta'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjectDelta']  = empty($lesson['subjectDelta']) ? '' : $lesson['subjectDelta'];
 			}
 
 			$subjectName = self::getSubjectName($lesson);
 
 			$configuration = json_decode($lesson['configuration'], true);
-			self::resolveConfiguration($configuration);
+			self::resolveConfiguration($configuration, $delta);
 
 			if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]))
 			{
@@ -99,16 +100,19 @@ class THM_OrganizerHelperSchedule
 				$previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'];
 				$previousRooms    = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'];
 
-
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] = $previousTeachers + $configuration['teachers'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']    = $previousRooms + $configuration['rooms'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['delta']    = $subjectDelta;
 			}
 
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teacherDeltas'] = $configuration['teacherDeltas'];
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['roomDeltas']    = $configuration['roomDeltas'];
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
 				= array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
 
 			$subjectID = $lesson['subjectID'];
 			$programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
+			self::addPlanPrograms($programs);
 
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectID] = $programs;
 		}
@@ -122,7 +126,7 @@ class THM_OrganizerHelperSchedule
 	 * Adds the date clauses to the query
 	 *
 	 * @param array  $parameters the parameters configuring the export
-	 * @param object $query      the query object
+	 * @param object &$query     the query object
 	 *
 	 * @return void modifies the query object
 	 */
@@ -136,12 +140,13 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Requested resources are not restrictive amongst themselves
 	 *
-	 * @param array  $parameters the request parameters
-	 * @param object &$query     the query object
+	 * @param array   $parameters the request parameters
+	 * @param object  &$query     the query object
+	 * @param boolean $delta      decides on including removed rooms and teachers
 	 *
 	 * @return void modifies the query object
 	 */
-	private static function addResourceClauses($parameters, &$query)
+	private static function addResourceClauses($parameters, &$query, $delta = false)
 	{
 		$wherray = array();
 
@@ -154,10 +159,12 @@ class THM_OrganizerHelperSchedule
 		{
 			foreach ($parameters['teacherIDs'] AS $teacherID)
 			{
-				$regexp    = '[[.quotation-mark.]]teachers[[.quotation-mark.]][[.colon.]][[.{.]]' .
+				$regexp = '[[.quotation-mark.]]teachers[[.quotation-mark.]][[.colon.]][[.{.]]' .
 					'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-					'[[.quotation-mark.]]' . $teacherID . '[[.quotation-mark.]][[.colon.]]' .
-					'[[.quotation-mark.]][^removed]';
+					'[[.quotation-mark.]]' . $teacherID . '[[.quotation-mark.]][[.colon.]]';
+
+				$regexp .= (!$delta) ? '[[.quotation-mark.]][^removed]' : '';
+
 				$wherray[] = "lc.configuration REGEXP '$regexp'";
 			}
 		}
@@ -166,10 +173,12 @@ class THM_OrganizerHelperSchedule
 		{
 			foreach ($parameters['roomIDs'] AS $roomID)
 			{
-				$regexp    = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.colon.]][[.{.]]' .
+				$regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.colon.]][[.{.]]' .
 					'([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-					'[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]' .
-					'[[.quotation-mark.]][^removed]';
+					'[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]';
+
+				$regexp .= (!$delta) ? '[[.quotation-mark.]][^removed]' : '';
+
 				$wherray[] = "lc.configuration REGEXP '$regexp'";
 			}
 		}
@@ -190,8 +199,8 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Gets the lessons for the given pool ids.
 	 *
-	 * @param   array $parameters array of pool ids or a single pool id
-	 * @param   bool  $delta      decides on including removed lessons
+	 * @param array $parameters array of pool ids or a single pool id
+	 * @param bool  $delta      decides on including removed lessons
 	 *
 	 * @throws Exception
 	 * @return string
@@ -207,7 +216,7 @@ class THM_OrganizerHelperSchedule
 		$select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, s.abbreviation_$tag AS subjectAbbr, ";
 		$select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ";
 		$select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
-		$select .= "lc.configuration";
+		$select .= "lc.configuration, pp.id AS planProgramID";
 
 		if ($delta)
 		{
@@ -216,16 +225,12 @@ class THM_OrganizerHelperSchedule
 		}
 
 		$query->select($select);
-		$query->from('#__thm_organizer_lessons AS l');
-		$query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
+		self::setLessonQuery($parameters, $query, $delta);
+
 		$query->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id');
-		$query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
-		$query->innerJoin('#__thm_organizer_plan_pools AS pool ON pool.id = lp.poolID');
+		$query->innerJoin('#__thm_organizer_plan_programs AS pp ON pool.programID = pp.id');
 		$query->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id');
 		$query->innerJoin('#__thm_organizer_teachers AS teacher ON lt.teacherID = teacher.id');
-		$query->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
-		$query->innerJoin('#__thm_organizer_lesson_configurations AS lc ON lc.lessonID = ls.id');
-		$query->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = lc.id');
 
 		$query->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
 		$query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
@@ -233,27 +238,11 @@ class THM_OrganizerHelperSchedule
 
 		if (!$delta)
 		{
-			$query->where("lp.delta != 'removed'");
-			$query->where("ls.delta != 'removed'");
-			$query->where("l.delta != 'removed'");
-			$query->where("c.delta != 'removed'");
 			$query->where("lt.delta != 'removed'");
 		}
 
 		self::addDateClauses($parameters, $query);
-
-		if (!empty($parameters['mySchedule']) AND !empty($parameters['userID']))
-		{
-			$query->innerJoin('#__thm_organizer_user_lessons AS u ON u.lessonID = l.id');
-			$query->where('u.userID = ' . $parameters['userID']);
-		}
-		else
-		{
-			self::addResourceClauses($parameters, $query);
-		}
-
 		$query->order('c.startTime');
-
 		$dbo->setQuery($query);
 
 		try
@@ -269,10 +258,10 @@ class THM_OrganizerHelperSchedule
 
 		if (empty($rawLessons))
 		{
-			return array();
+			return self::getNextAvailableDates($parameters);
 		}
 
-		$aggregatedLessons = self::aggregateInstances($rawLessons);
+		$aggregatedLessons = self::aggregateInstances($rawLessons, $delta);
 
 		$dates   = self::getDates($parameters);
 		$startDT = strtotime($dates['startDate']);
@@ -368,29 +357,48 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Removes deprecated room and teacher indexes and resolves the remaining indexes to the names to be displayed
 	 *
-	 * @param &$configuration the lesson instance configuration
+	 * @param mixed &$configuration the lesson instance configuration
+	 * @param bool  $getDelta       returns only the configurations name by false or an array of name and delta
 	 *
-	 * @return void modifies $configuration
+	 * @return void
 	 */
-	private static function resolveConfiguration(&$configuration)
+	private static function resolveConfiguration(&$configuration, $getDelta = false)
 	{
+		$configuration['teacherDeltas'] = array();
+
 		foreach ($configuration['teachers'] AS $teacherID => $delta)
 		{
-			if (!empty($delta) AND $delta === 'removed')
+			if (!empty($delta))
 			{
-				unset($configuration['teachers'][$teacherID]);
-				continue;
+				if ($getDelta)
+				{
+					$configuration['teacherDeltas'][$teacherID] = $delta;
+				}
+				elseif ($delta === 'removed')
+				{
+					unset($configuration['teachers'][$teacherID]);
+					continue;
+				}
 			}
 
 			$configuration['teachers'][$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
 		}
 
+		$configuration['roomDeltas'] = array();
+
 		foreach ($configuration['rooms'] AS $roomID => $delta)
 		{
-			if (!empty($delta) AND $delta === 'removed')
+			if (!empty($delta))
 			{
-				unset($configuration['rooms'][$roomID]);
-				continue;
+				if ($getDelta)
+				{
+					$configuration['roomDeltas'][$roomID] = $delta;
+				}
+				elseif ($delta === 'removed')
+				{
+					unset($configuration['rooms'][$roomID]);
+					continue;
+				}
 			}
 
 			$configuration['rooms'][$roomID] = THM_OrganizerHelperRooms::getName($roomID);
@@ -471,6 +479,132 @@ class THM_OrganizerHelperSchedule
 		}
 
 		return $dates;
+	}
+
+	/**
+	 * Searches for the next and last date where lessons can be found and returns them.
+	 *
+	 * @param array $parameters the schedule configuration parameters
+	 *
+	 * @return array next and latest available dates
+	 */
+	public static function getNextAvailableDates($parameters)
+	{
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select("MIN(c.schedule_date) AS minDate");
+		self::setLessonQuery($parameters, $query);
+		$query->where("c.schedule_date > '" . $parameters['date'] . "'");
+		$dbo->setQuery($query);
+
+		try
+		{
+			$futureDate = $dbo->loadResult();
+		}
+		catch (Exception $exc)
+		{
+			return array();
+		}
+
+		$query = $dbo->getQuery(true);
+		$query->select("MAX(c.schedule_date) AS maxDate");
+		self::setLessonQuery($parameters, $query);
+		$query->where("c.schedule_date < '" . $parameters['date'] . "'");
+		$dbo->setQuery($query);
+
+		try
+		{
+			$pastDate = $dbo->loadResult();
+		}
+		catch (Exception $exc)
+		{
+			return array();
+		}
+
+		return array("pastDate" => $pastDate, "futureDate" => $futureDate);
+	}
+
+	/**
+	 * Modifies query to get lessons, constrained by parameters
+	 *
+	 * @param array          $parameters the schedule configuration parameters
+	 * @param JDatabaseQuery &$query     the query object
+	 * @param boolean        $delta      decides on including removed lessons
+	 *
+	 * @return void
+	 */
+	private static function setLessonQuery($parameters, &$query, $delta = false)
+	{
+		$query->from('#__thm_organizer_lessons AS l');
+		$query->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
+		$query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
+		$query->innerJoin('#__thm_organizer_lesson_configurations AS lc ON lc.lessonID = ls.id');
+		$query->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = lc.id');
+		$query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
+		$query->innerJoin('#__thm_organizer_plan_pools AS pool ON pool.id = lp.poolID');
+
+		if (!$delta)
+		{
+			$query->where("lp.delta != 'removed'");
+			$query->where("ls.delta != 'removed'");
+			$query->where("l.delta != 'removed'");
+			$query->where("c.delta != 'removed'");
+		}
+
+		if (!empty($parameters['mySchedule']) AND !empty($parameters['userID']))
+		{
+			$query->innerJoin('#__thm_organizer_user_lessons AS u ON u.lessonID = l.id');
+			$query->where('u.userID = ' . $parameters['userID']);
+		}
+		else
+		{
+			self::addResourceClauses($parameters, $query, $delta);
+		}
+	}
+
+	/**
+	 * Returns plan programs that belongs to given programs
+	 *
+	 * @param array &$programs objects with program data
+	 *
+	 * @return void
+	 */
+	private static function addPlanPrograms(&$programs)
+	{
+		$programClauses = array();
+		foreach ($programs as $program)
+		{
+			$programClauses[] = "programID = " . $program['id'];
+		}
+
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("id, programID")
+			->from('#__thm_organizer_plan_programs')
+			->where($programClauses, "OR");
+
+		$dbo->setQuery($query);
+
+		try
+		{
+			$results = $dbo->loadAssocList('programID', 'id');
+		}
+		catch (Exception $e)
+		{
+			return;
+		}
+
+		if (!empty($results))
+		{
+			foreach ($programs as &$program)
+			{
+				if (isset($results[$program['id']]))
+				{
+					$program['planProgramID'] = $results[$program['id']];
+				}
+			}
+		}
 	}
 
 	/**

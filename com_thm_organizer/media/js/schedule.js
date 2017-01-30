@@ -11,9 +11,257 @@
 
 "use strict";
 
-var scheduleWrapper, isMobile, dateField, weekdays, Schedule, ScheduleTable, LessonMenu, Schedules, scheduleObjects,
-	datePattern, ajaxSelection = null, scheduleRequests = [], ajaxSave = null,
-	ajaxUrl = "index.php?option=com_thm_organizer&view=schedule_ajax&format=raw";
+var ajaxSave = null, ajaxSelection = null, Calendar, calendar, dateField, datePattern,
+	isMobile, nextDateSelection, jumpToNextDate = true, LessonMenu, Schedule, Schedules, scheduleObjects, ScheduleTable,
+	scheduleRequests = [], scheduleWrapper, weekdays;
+
+/**
+ * Calendar class for a date input field with HTMLTableElement as calendar.
+ * By choosing a date, schedules are updated.
+ */
+Calendar = function ()
+{
+	var that = this; // Helper for inner functions
+	this.calendarDiv = document.getElementById('calendar');
+	this.calendarIsVisible = false;
+	this.activeDate = new Date();
+	this.month = document.getElementById('display-month');
+	this.months = [
+		text.JANUARY,
+		text.FEBRUARY,
+		text.MARCH,
+		text.APRIL,
+		text.MAY,
+		text.JUNE,
+		text.JULY,
+		text.AUGUST,
+		text.SEPTEMBER,
+		text.OCTOBER,
+		text.NOVEMBER,
+		text.DECEMBER
+	];
+	this.table = document.getElementById('calendar-table');
+	this.year = document.getElementById('display-year');
+
+	/**
+	 * This function is called immediately after creating a new Calendar.
+	 * Sets eventListeners for HTML-elements and variables.
+	 */
+	this.init = function ()
+	{
+		this.activeDate = getDateFieldsDateObject();
+		this.showControls();
+
+		window.dateField.addEventListener('change', that.setUpCalendar);
+		document.getElementById('calendar-icon').addEventListener('click', that.showCalendar);
+		document.getElementById('calendar-next-month').addEventListener('click', that.changeCalendarMonth);
+		document.getElementById('calendar-previous-month').addEventListener('click', function ()
+		{
+			that.changeCalendarMonth(false);
+		});
+		document.getElementById('next-week').addEventListener('click', that.changeSelectedDate);
+		document.getElementById('previous-week').addEventListener('click', function ()
+		{
+			that.changeSelectedDate(false, true);
+		});
+		document.getElementById('next-month').addEventListener('click', function ()
+		{
+			that.changeSelectedDate(true, false);
+		});
+		document.getElementById('previous-month').addEventListener('click', function ()
+		{
+			that.changeSelectedDate(false, false);
+		});
+		document.getElementById('today').addEventListener('click', function ()
+		{
+			that.insertDate();
+			that.setUpCalendar();
+		});
+	};
+
+	/**
+	 * Increase or decrease displayed month in calendar table.
+	 *
+	 * @param increaseMonth boolean default = true
+	 */
+	this.changeCalendarMonth = function (increaseMonth)
+	{
+		var increase = (typeof increaseMonth === 'undefined') ? true : increaseMonth;
+
+		if (increase)
+		{
+			// day 1 for preventing get Feb 31
+			that.activeDate.setMonth(that.activeDate.getMonth() + 1, 1);
+		}
+		else
+		{
+			that.activeDate.setMonth(that.activeDate.getMonth() - 1, 1);
+		}
+
+		that.setUpCalendar();
+	};
+
+	/**
+	 * Increase or decrease in steps of days or months in the current date in date field
+	 *
+	 * @param increase boolean default = true
+	 * @param week boolean default = true
+	 */
+	this.changeSelectedDate = function (increase, week)
+	{
+		changeDate(increase, week);
+		updateSchedule();
+
+		if (this.calendarIsVisible)
+		{
+			this.setUpCalendar();
+		}
+	};
+
+	/**
+	 * Display calendar controls like changing to previous month.
+	 */
+	this.showControls = function ()
+	{
+		var dateControls = document.getElementsByClassName('date-input')[0].getElementsByClassName('controls');
+
+		for (var controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
+		{
+			dateControls[controlIndex].style.display = 'inline';
+		}
+	};
+
+	/**
+	 * Hides the calendar.
+	 */
+	this.hideCalendar = function ()
+	{
+		this.calendarDiv.style.visibility = 'hidden';
+		this.calendarIsVisible = false;
+	};
+
+	/**
+	 * The date chosen in the calendar table gets set in the date field
+	 *
+	 * @param date Date object
+	 */
+	this.insertDate = function (date)
+	{
+		// that, because this = eventListener
+		that.activeDate = (typeof date === 'undefined') ? new Date() : date;
+		window.dateField.value = that.activeDate.getPresentationFormat();
+
+		that.hideCalendar();
+		updateSchedule();
+	};
+
+	/**
+	 * Builds the calendar (table), depending on a given date or the date field.
+	 */
+	this.setUpCalendar = function ()
+	{
+		that.resetTable();
+		that.setUpCalendarHead();
+		that.fillCalendar();
+	};
+
+	/**
+	 * Hides or shows the calendar, depending on its previous status.
+	 */
+	this.showCalendar = function ()
+	{
+		that.calendarDiv.style.visibility = (that.calendarIsVisible) ? 'hidden' : 'visible';
+		that.calendarIsVisible = !that.calendarIsVisible;
+
+		if (that.calendarIsVisible)
+		{
+			that.setUpCalendar();
+		}
+	};
+
+	/**
+	 * Displays month and year in calendar table head
+	 */
+	this.setUpCalendarHead = function ()
+	{
+		this.month.innerHTML = this.months[this.activeDate.getMonth()];
+		this.year.innerHTML = this.activeDate.getFullYear().toString();
+	};
+
+	/**
+	 * Deletes the rows of the calendar table for refreshing.
+	 */
+	this.resetTable = function ()
+	{
+		var tableBody = this.table.getElementsByTagName('tbody')[0],
+			rowLength = this.table.getElementsByTagName('tr').length;
+
+		for (var rowIndex = 0; rowIndex < rowLength; ++rowIndex)
+		{
+			// '-1' represents the last row
+			tableBody.deleteRow(-1);
+		}
+	};
+
+	/**
+	 * Calendar table gets filled with days of the month, chosen by the given date
+	 */
+	this.fillCalendar = function ()
+	{
+		// Inspired by https://wiki.selfhtml.org/wiki/JavaScript/Anwendung_und_Praxis/Monatskalender
+		var tableBody = this.table.getElementsByTagName('tbody')[0],
+			rows, rowIndex, row, cell, cellIndex, months30days = [4, 6, 9, 11], days = 31, day = 1,
+			generalMonth = new Date(this.activeDate.getFullYear(), this.activeDate.getMonth(), 1),
+			weekdayStart = generalMonth.getDay() == 0 ? 7 : generalMonth.getDay(),
+			month = this.activeDate.getMonth() + 1,
+			year = this.activeDate.getFullYear();
+
+		// Compute count of days
+		if (months30days.indexOf(month) != -1)
+		{
+			days = 30;
+		}
+
+		if (month == 2)
+		{
+			days = (year % 4 == 0) ? 29 : 28;
+		}
+
+		// Append rows to table
+		rows = Math.min(Math.ceil((days + generalMonth.getDay() - 1) / 7), 6);
+
+		for (rowIndex = 0; rowIndex <= rows; rowIndex++)
+		{
+			row = tableBody.insertRow(rowIndex);
+			for (cellIndex = 0; cellIndex <= 6; cellIndex++)
+			{
+				cell = row.insertCell(cellIndex);
+				if ((rowIndex == 0 && cellIndex < weekdayStart - 1) || day > days)
+				{
+					cell.innerHTML = ' ';
+				}
+				else
+				{
+					// Closure function needed, to give individual params to eventListeners inside of a for-loop
+					(function (day)
+					{
+						var button = document.createElement('button');
+						button.type = 'button';
+						button.className = 'day';
+						button.innerHTML = day.toString();
+						button.addEventListener('click', function ()
+						{
+							that.insertDate(new Date(year, month - 1, day))
+						}, false);
+						cell.appendChild(button);
+					}(day));
+
+					day++;
+				}
+			}
+		}
+	};
+};
 
 /**
  * Schedule 'class' for saving params and update the scheduleTable
@@ -24,15 +272,16 @@ var scheduleWrapper, isMobile, dateField, weekdays, Schedule, ScheduleTable, Les
  */
 Schedule = function (resource, IDs, optionalTitle)
 {
-	this.resource = resource; // For ScheduleTable usage
+	this.ajaxRequest = new XMLHttpRequest();
 	this.id = resource === "user" ? resource
 		: IDs ? resource + IDs
 		: resource + getSelectedValues(resource, "-");
+	this.lessons = [];
+	this.programID = resource === "pool" ? getSelectedValues("program") : null;
+	this.resource = resource; // For ScheduleTable usage
 	this.scheduleTable = new ScheduleTable(this);
 	this.title = "";
 	this.task = "";
-	this.ajaxRequest = new XMLHttpRequest();
-	this.lessons = [];
 
 	/**
 	 * constructor-like function to init table, task and title
@@ -115,7 +364,7 @@ Schedule = function (resource, IDs, optionalTitle)
 	this.requestUpdate = function ()
 	{
 		this.task = this.task.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + getDateFieldString());
-		this.ajaxRequest.open("GET", ajaxUrl + this.task, true);
+		this.ajaxRequest.open("GET", variables.ajaxbase + this.task, true);
 		this.ajaxRequest.onreadystatechange = insertLessonResponse;
 		this.ajaxRequest.send(null);
 		window.scheduleRequests.push(this.ajaxRequest);
@@ -148,11 +397,12 @@ Schedule = function (resource, IDs, optionalTitle)
  */
 ScheduleTable = function (schedule)
 {
-	this.timeGrid = JSON.parse(getSelectedValues("grid"));
-	this.visibleDay = getDateFieldsDateObject().getDay();
-	this.userSchedule = schedule.id === "user";
 	this.lessonElements = []; // HTMLDivElements
+	this.schedule = schedule;
 	this.table = document.createElement("table"); // HTMLTableElement
+	this.timeGrid = JSON.parse(getSelectedValues("grid"));
+	this.userSchedule = schedule.id === "user";
+	this.visibleDay = getDateFieldsDateObject().getDay();
 
 	/**
 	 * constructor-like function to build the HTMLTableElement
@@ -174,6 +424,7 @@ ScheduleTable = function (schedule)
 	{
 		this.visibleDay = getDateFieldsDateObject().getDay();
 		this.resetTable();
+		this.setGridDays();
 
 		if (window.isMobile)
 		{
@@ -183,12 +434,14 @@ ScheduleTable = function (schedule)
 		if (newTimeGrid)
 		{
 			this.timeGrid = JSON.parse(getSelectedValues("grid"));
-			this.setGridDays();
 			this.setGridTime();
 		}
 
-		this.insertLessons(lessons);
-		//	handleBreakRows(this.table, this.timeGrid); TODO insertLessons muss auf break-row überprüft werden, damit es funktioniert
+		handleBreakRows(this.table, this.timeGrid);
+		if (!(lessons["pastDate"] || lessons["futureDate"]))
+		{
+			this.insertLessons(lessons);
+		}
 	};
 
 	/**
@@ -305,13 +558,13 @@ ScheduleTable = function (schedule)
 	this.setGridDays = function ()
 	{
 		var currentDay = this.timeGrid.startDay, endDay = this.timeGrid.endDay,
-			headerDate = window.dateField.valueAsDate, day = headerDate.getDay(),
+			headerDate = getDateFieldsDateObject(), day = headerDate.getDay(),
 			head = this.table.getElementsByTagName("thead")[0], headItems = head.getElementsByTagName("th");
 
-		// Set date to monday of the same week
+		// Set date to monday of the coming week
 		if (day === 0)
 		{
-			headerDate.setDate(headerDate.getDate() - 6);
+			headerDate.setDate(headerDate.getDate() + 1);
 		}
 		else
 		{
@@ -346,9 +599,9 @@ ScheduleTable = function (schedule)
 	this.insertLessons = function (lessons)
 	{
 		var colNumber = window.isMobile ? this.visibleDay : 1,
-			rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
-			block, lesson, tableStartTime, tableEndTime, blockTimes, lessonElements, blockIndex, blockStart, blockEnd,
-			cell, nextCell, lessonsNextBlock, showOwnTime;
+			rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"), rowIndex,
+			block, lesson, tableStartTime, tableEndTime, blockTimes, lessonElements, gridIndex, blockStart, blockEnd,
+			cell, nextCell, nextBlock, nextRow, showOwnTime;
 
 		for (var date in lessons)
 		{
@@ -385,7 +638,9 @@ ScheduleTable = function (schedule)
 			// Insert lessons in cells
 			else
 			{
-				blockIndex = 0;
+				// blockIndex for grid, rowIndex for rows without break
+				gridIndex = 1;
+				rowIndex = 0;
 				for (block in lessons[date])
 				{
 					if (!lessons[date].hasOwnProperty(block))
@@ -393,21 +648,23 @@ ScheduleTable = function (schedule)
 						continue;
 					}
 
-					// TODO: if (!rows[blockIndex].className.match(/break-row/)) row überspringen
-
-					// Periods start at 1, html td-elements at 0
-					tableStartTime = this.timeGrid.periods[blockIndex + 1].startTime;
-					tableEndTime = this.timeGrid.periods[blockIndex + 1].endTime;
+					tableStartTime = this.timeGrid.periods[gridIndex].startTime;
+					tableEndTime = this.timeGrid.periods[gridIndex].endTime;
 					blockTimes = block.match(/^(\d{4})-(\d{4})$/);
 					blockStart = blockTimes[1];
 					blockEnd = blockTimes[2];
 
 					// Block does not fit? go to next block
-					while (tableEndTime < blockStart)
+					while (tableEndTime <= blockStart)
 					{
-						++blockIndex;
-						tableStartTime = this.timeGrid.periods[blockIndex + 1].startTime;
-						tableEndTime = this.timeGrid.periods[blockIndex + 1].endTime;
+						do {
+							++rowIndex;
+						}
+						while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
+
+						++gridIndex;
+						tableStartTime = this.timeGrid.periods[gridIndex].startTime;
+						tableEndTime = this.timeGrid.periods[gridIndex].endTime;
 					}
 
 					for (lesson in lessons[date][block])
@@ -416,29 +673,41 @@ ScheduleTable = function (schedule)
 						{
 							continue;
 						}
-						cell = rows[blockIndex].getElementsByTagName("td")[colNumber];
-						jQuery(cell).addClass("lessons");
 
 						// Append lesson in current table cell
+						cell = rows[rowIndex].getElementsByTagName("td")[colNumber];
 						showOwnTime = tableStartTime != blockStart || tableEndTime != blockEnd;
 						lessonElements = this.createLesson(lessons[date][block][lesson], showOwnTime);
 						lessonElements.forEach(function (element)
 						{
 							cell.appendChild(element);
 						});
+						jQuery(cell).addClass("lessons");
 
-						// Lesson fits into next cell too, so add a copy to this
-						if (rows[blockIndex + 1] && blockEnd > this.timeGrid.periods[blockIndex + 2].startTime)
+						// Lesson fits into next cell too? Add a copy to this
+						nextBlock = this.timeGrid.periods[gridIndex + 1];
+						nextRow = rows[rowIndex + 1];
+						if (nextRow && nextRow.className.match(/break/))
 						{
-							nextCell = rows[blockIndex + 1].getElementsByTagName("td")[colNumber];
-							lessonsNextBlock = this.createLesson(lessons[date][block][lesson], true);
-							lessonsNextBlock.forEach(function (element)
+							nextRow = rows[rowIndex + 2];
+						}
+						if (nextRow && nextBlock && blockEnd > nextBlock.startTime)
+						{
+							nextCell = nextRow.getElementsByTagName("td")[colNumber];
+							jQuery(nextCell).addClass("lessons");
+							lessonElements = this.createLesson(lessons[date][block][lesson], showOwnTime);
+							lessonElements.forEach(function (element)
 							{
 								nextCell.appendChild(element);
 							});
 						}
 					}
-					++blockIndex;
+					++gridIndex;
+					// Jump over break
+					do {
+						++rowIndex;
+					}
+					while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
 				}
 			}
 			++colNumber;
@@ -455,10 +724,10 @@ ScheduleTable = function (schedule)
 	 */
 	this.createLesson = function (data, ownTime)
 	{
-		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, subjectSpan, moduleSpan, poolID,
+		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, poolID,
 			poolName, poolsOuterDiv, poolDiv, poolLink, teachersOuterDiv, teacherSpan, teacherLink, teacherID,
-			teacherName, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, saveActionButton, deleteActionButton,
-			buttonIcon, added = false, subjectNumbers;
+			teacherName, teacherDelta, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, roomDelta, saveActionButton,
+			deleteActionButton,	buttonIcon, added = false;
 
 		if (!data || !data.hasOwnProperty("subjects"))
 		{
@@ -505,29 +774,7 @@ ScheduleTable = function (schedule)
 				subjectOuterDiv = document.createElement("div");
 				subjectOuterDiv.className = "subjectNameNr";
 
-				if (subjectData.shortName)
-				{
-					subjectSpan = document.createElement("span");
-					subjectSpan.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
-					subjectSpan.innerHTML = subjectData.shortName;
-					if (data.method)
-					{
-						subjectSpan.innerHTML += ' - ' + data.method;
-					}
-					subjectOuterDiv.appendChild(subjectSpan);
-				}
-				if (subjectData.subjectNo)
-				{
-					// multiple spans in case of semicolon separated module number for the design
-					subjectNumbers = subjectData.subjectNo.split(";");
-					for (var numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
-					{
-						moduleSpan = document.createElement("span");
-						moduleSpan.className = "module";
-						moduleSpan.innerHTML = subjectNumbers[numIndex];
-						subjectOuterDiv.appendChild(moduleSpan);
-					}
-				}
+				this.addSubjectElements(subjectOuterDiv, subjectData);
 				lessonElement.appendChild(subjectOuterDiv);
 			}
 
@@ -572,8 +819,9 @@ ScheduleTable = function (schedule)
 						{
 							sendLessonRequest('teacher', teacherID, teacherName);
 						});
+						teacherDelta = subjectData.teacherDeltas[teacherID];
 						teacherSpan = document.createElement("span");
-						teacherSpan.className = "person " + (data.teacherDelta ? data.teacherDelta : ""); // TODO: teacherDelta
+						teacherSpan.className = "person " + (teacherDelta ? teacherDelta : "");
 						teacherSpan.appendChild(teacherLink);
 						teachersOuterDiv.appendChild(teacherSpan);
 					}
@@ -597,8 +845,9 @@ ScheduleTable = function (schedule)
 						{
 							sendLessonRequest('room', roomID, roomName);
 						});
+						roomDelta = subjectData.roomDeltas[roomID];
 						roomSpan = document.createElement("span");
-						roomSpan.className = "location " + (data.roomDelta ? data.roomDelta : ""); // TODO: roomDelta
+						roomSpan.className = "location " + (roomDelta ? roomDelta : "");
 						roomSpan.appendChild(roomLink);
 						roomsOuterDiv.appendChild(roomSpan);
 					}
@@ -663,6 +912,86 @@ ScheduleTable = function (schedule)
 		}
 
 		return lessons;
+	};
+
+	/**
+	 * Adds DOM-elements with eventListener directing to subject details, when there are some, to given outer element
+	 *
+	 * @param outerElement HTMLDivElement
+	 * @param data Object lessonData with subjects
+	 */
+	this.addSubjectElements = function (outerElement, data)
+	{
+		var subjectLinkID, openSubjectDetailsLink, planProgramID, programID, schedule = this.schedule,
+			subjectNameElement, numIndex, subjectNumbers, subjectNumberElement;
+
+		// Find the right subjectID for subject details depending on schedule plan program
+		function getSubjectDetailsID()
+		{
+			var subjectID, planProgramID;
+
+			for (subjectID in data.programs)
+			{
+				if (!data.programs.hasOwnProperty(subjectID))
+				{
+					continue;
+				}
+				for (programID in data.programs[subjectID])
+				{
+					if (!data.programs[subjectID].hasOwnProperty(programID))
+					{
+						continue;
+					}
+					if (data.programs[subjectID][programID]["planProgramID"] === schedule.programID)
+					{
+						return subjectID;
+					}
+				}
+			}
+		}
+
+		subjectLinkID = getSubjectDetailsID();
+		openSubjectDetailsLink = function ()
+		{
+			window.open(variables.subjectDetailbase.replace(/&id=\d+/, "&id=" + subjectLinkID), "_blank");
+		};
+
+		// Add subject name and module name as DOM-elements to given outer element
+		if (data.shortName)
+		{
+			if (subjectLinkID)
+			{
+				subjectNameElement = document.createElement("a");
+				subjectNameElement.addEventListener("click", openSubjectDetailsLink);
+			}
+			else
+			{
+				subjectNameElement = document.createElement("span");
+			}
+			subjectNameElement.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
+			subjectNameElement.innerHTML = data.shortName + (data.method ? " - " + data.method : "");
+			outerElement.appendChild(subjectNameElement);
+		}
+		if (data.subjectNo)
+		{
+			// multiple spans in case of semicolon separated module number for the design
+			subjectNumbers = data.subjectNo.split(";");
+			for (numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
+			{
+				if (subjectLinkID)
+				{
+					subjectNumberElement = document.createElement("a");
+					subjectNumberElement.addEventListener("click", openSubjectDetailsLink);
+				}
+				else
+				{
+					subjectNumberElement = document.createElement("span");
+				}
+				subjectNumberElement.className = "module";
+				subjectNumberElement.innerHTML = subjectNumbers[numIndex];
+				outerElement.appendChild(subjectNumberElement);
+			}
+		}
 	};
 
 	/**
@@ -956,30 +1285,14 @@ Date.prototype.getPresentationFormat = function ()
 };
 
 /**
- * get date string in format yyyy-mm-dd.
- * needed for input type='date' supporting browsers to handle a value.
- *
- * @returns string
- */
-Date.prototype.getWireFormat = function ()
-{
-	var mm = this.getMonth() + 1, // getMonth() is zero-based
-		dd = this.getDate();
-
-	return [
-		this.getFullYear(),
-		mm < 10 ? "0" + mm : mm,
-		dd < 10 ? "0" + dd : dd
-	].join("-"); // padding
-};
-
-/**
  * adds event listeners and initialise (user) schedule and date input form field
  */
 jQuery(document).ready(function ()
 {
 	var startX, startY, hasDepartmentSelection = document.getElementById("department-input");
 
+	window.dateField = document.getElementById("date");
+	window.dateField.value = new Date().getPresentationFormat();
 	initSchedule();
 	setDatePattern();
 	changePositionOfDateInput();
@@ -1021,6 +1334,14 @@ jQuery(document).ready(function ()
 
 	jQuery("#grid").chosen().change(updateSchedule);
 	jQuery("#date").change(updateSchedule);
+	pastDateButton.addEventListener("click", nextDateEventHandler);
+	futureDateButton.addEventListener("click", nextDateEventHandler);
+	window.nextDateSelection.getElementsByClassName("close")[0].addEventListener("click", function ()
+	{
+		window.jumpToNextDate = false;
+		window.nextDateSelection.style.display = "none";
+		updateSchedule();
+	});
 
 	// Select 'programs' by website loading and load results
 	sendFormRequest("program");
@@ -1159,7 +1480,7 @@ jQuery(document).ready(function ()
 function handleExport(format)
 {
 	var schedule = jQuery('#schedules').val(), url = variables.exportbase,
-		formats, resourceID;
+		formats, resourceID, exportSelection = jQuery('#export-selection');
 
 	formats = format.split('.');
 	url += "&format=" + formats[0];
@@ -1176,8 +1497,8 @@ function handleExport(format)
 		{
 			url += "&username=" + variables.username + "&auth=" + variables.auth;
 			window.prompt(text.copy, url);
-			jQuery('#export-selection').val('placeholder');
-			jQuery('#export-selection').trigger("chosen:updated");
+			exportSelection.val('placeholder');
+			exportSelection.trigger("chosen:updated");
 			return;
 		}
 	}
@@ -1187,8 +1508,8 @@ function handleExport(format)
 
 		if (resourceID === null)
 		{
-			jQuery('#export-selection').val('placeholder');
-			jQuery('#export-selection').trigger("chosen:updated");
+			exportSelection.val('placeholder');
+			exportSelection.trigger("chosen:updated");
 			return;
 		}
 
@@ -1206,16 +1527,15 @@ function handleExport(format)
 		}
 		else
 		{
-			jQuery('#export-selection').val('placeholder');
-			jQuery('#export-selection').trigger("chosen:updated");
+			exportSelection.val('placeholder');
+			exportSelection.trigger("chosen:updated");
 			return;
 		}
 	}
 
 	window.open(url);
-	jQuery('#export-selection').val('placeholder');
-	jQuery('#export-selection').trigger("chosen:updated");
-	return;
+	exportSelection.val('placeholder');
+	exportSelection.trigger("chosen:updated");
 }
 
 /**
@@ -1223,13 +1543,14 @@ function handleExport(format)
  */
 function initSchedule()
 {
-	var today = new Date();
-
-	window.isMobile = variables.isMobile;
-	window.dateField = document.getElementById("date");
-	window.dateField.valueAsDate = today;
+	window.calendar = new Calendar();
+	window.calendar.init();
+	window.futureDateButton = document.getElementById("future-date");
+	window.isMobile = window.matchMedia("(max-width: 677px)").matches;
+	window.nextDateSelection = document.getElementById("next-date-selection");
 	window.lessonMenu = new LessonMenu;
 	window.lessonMenu.create();
+	window.pastDateButton = document.getElementById("past-date");
 	window.scheduleObjects = new Schedules;
 	window.scheduleWrapper = document.getElementById("scheduleWrapper");
 	window.weekdays = [
@@ -1246,17 +1567,6 @@ function initSchedule()
 	{
 		createUserSchedule();
 		switchToScheduleListTab();
-	}
-
-	if (!browserSupportsDate())
-	{
-		window.dateField.value = today.getPresentationFormat();
-
-		// calendar.js
-		if (typeof initCalendar === "function")
-		{
-			initCalendar();
-		}
 	}
 }
 
@@ -1304,7 +1614,7 @@ function sendFormRequest(resource)
 
 	// Global variable for catching responds in other functions
 	ajaxSelection = new XMLHttpRequest();
-	ajaxSelection.open("GET", ajaxUrl + task, true);
+	ajaxSelection.open("GET", variables.ajaxbase + task, true);
 	ajaxSelection.onreadystatechange = updateForm;
 	ajaxSelection.send(null);
 }
@@ -1314,8 +1624,7 @@ function sendFormRequest(resource)
  */
 function updateForm()
 {
-	var values, fieldID, formField, option, optionCount, fields = ['pool', 'program', 'room', 'roomtype', 'teacher'],
-		placeHolderIndex;
+	var values, fieldID, formField, option, optionCount, fields = ['pool', 'program', 'room', 'roomtype', 'teacher'];
 
 	if (ajaxSelection.readyState === 4 && ajaxSelection.status === 200)
 	{
@@ -1439,8 +1748,9 @@ function sendLessonRequest(resource, optionalID, optionalTitle)
 		schedule.requestUpdate();
 		scheduleObjects.addSchedule(schedule);
 		addScheduleToSelection(schedule);
-		switchToScheduleListTab();
 	}
+
+	switchToScheduleListTab();
 }
 
 /**
@@ -1448,18 +1758,86 @@ function sendLessonRequest(resource, optionalID, optionalTitle)
  */
 function insertLessonResponse()
 {
-	var ajaxRequest, schedule;
+	var ajaxRequest, response, schedule;
 
 	for (var ajaxIndex = 0; ajaxIndex < window.scheduleRequests.length; ++ajaxIndex)
 	{
 		ajaxRequest = window.scheduleRequests[ajaxIndex];
 		if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
 		{
-			schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
-			schedule.setLessons(JSON.parse(ajaxRequest.responseText));
-			window.scheduleRequests.splice(ajaxIndex, 1);
+			response = JSON.parse(ajaxRequest.responseText);
+			if ((response.pastDate || response.futureDate) && window.jumpToNextDate)
+			{
+				openNextDateQuestion(response);
+				window.scheduleRequests.splice(ajaxIndex, 1);
+			}
+			else
+			{
+				schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
+				schedule.setLessons(response);
+				window.scheduleRequests.splice(ajaxIndex, 1);
+			}
+		}
+		// Allow question about changing to next date again TODO: besseren Ort finden
+		if (!window.jumpToNextDate && window.scheduleRequests.length === 0)
+		{
+			window.jumpToNextDate = true;
 		}
 	}
+}
+
+/**
+ * Opens div which asks user to jump to the last or next available date
+ *
+ * @param dates array with pastDate and/or futureDate value
+ */
+function openNextDateQuestion(dates)
+{
+	var pastDate = dates["pastDate"] ? new Date(dates["pastDate"]) : null,
+		futureDate = dates["futureDate"] ? new Date(dates["futureDate"]) : null;
+
+	if (!dates)
+	{
+		return;
+	}
+	else
+	{
+		window.nextDateSelection.style.display = "block";
+	}
+
+	if (pastDate)
+	{
+		window.pastDateButton.innerHTML =
+			window.pastDateButton.innerHTML.replace(window.datePattern, pastDate.getPresentationFormat());
+		window.pastDateButton.dataset.date = dates["pastDate"];
+		window.pastDateButton.style.display = "block";
+	}
+	else
+	{
+		window.pastDateButton.style.display = "none";
+	}
+	if (futureDate)
+	{
+		window.futureDateButton.innerHTML =
+			window.futureDateButton.innerHTML.replace(window.datePattern, futureDate.getPresentationFormat());
+		window.futureDateButton.dataset.date = dates["futureDate"];
+		window.futureDateButton.style.display = "block";
+	}
+	else
+	{
+		window.futureDateButton.style.display = "none";
+	}
+}
+
+/**
+ * The date field gets the selected date, schedules get updates and the selection-div-element is hidden again
+ */
+function nextDateEventHandler()
+{
+	// 'this' is the element that triggered the eventHandler
+	window.dateField.value = new Date(this.dataset.date).getPresentationFormat();
+	window.nextDateSelection.style.display = "none";
+	updateSchedule();
 }
 
 /**
@@ -1483,7 +1861,7 @@ function handleLesson(taskNumber, ccmID, save)
 
 	task += "&mode=" + mode + "&ccmID=" + ccmID;
 	ajaxSave = new XMLHttpRequest();
-	ajaxSave.open("GET", ajaxUrl + task, true);
+	ajaxSave.open("GET", variables.ajaxbase + task, true);
 	ajaxSave.onreadystatechange = lessonHandled;
 	ajaxSave.send(null);
 }
@@ -1656,75 +2034,54 @@ function getSelectedValues(fieldID, separator)
 }
 
 /**
- * tests the support of the browser for the input type=date
- * @see http://stackoverflow.com/questions/10193294/how-can-i-tell-if-a-browser-supports-input-type-date
- *
- * @returns boolean
- */
-function browserSupportsDate()
-{
-	var input = document.createElement("input"), notValidDate = "not-valid-date";
-
-	input.setAttribute("type", "date");
-	input.setAttribute("value", notValidDate);
-
-	return input.value !== notValidDate;
-}
-
-/**
  * goes one day for- or backward in the schedules and takes the date out of the input field with 'date' as id
  *
  * @param nextDate boolean goes forward by default, backward with false
- * @param dayStep boolean indicates the step the date takes
+ * @param weekStep boolean indicates the step the date takes
  */
-function changeDate(nextDate, dayStep)
+function changeDate(nextDate, weekStep)
 {
 	var increaseDate = (typeof nextDate === "undefined") ? true : nextDate,
-		day = (typeof dayStep === "undefined") ? true : dayStep, scheduleDate = getDateFieldsDateObject();
+		week = (typeof weekStep === "undefined") ? true : weekStep,
+		newDate = getDateFieldsDateObject();
 
 	if (increaseDate)
 	{
-		if (day)
+		if (week)
 		{
-			scheduleDate.setDate(scheduleDate.getDate() + 1);
+			newDate.setDate(newDate.getDate() + 7);
 		}
 		else
 		{
-			scheduleDate.setMonth(scheduleDate.getMonth() + 1);
+			newDate.setMonth(newDate.getMonth() + 1);
 		}
 
 		// Jump over sunday
-		if (scheduleDate.getDay() === 0)
+		if (newDate.getDay() === 0)
 		{
-			scheduleDate.setDate(scheduleDate.getDate() + 1);
+			newDate.setDate(newDate.getDate() + 1);
 		}
 	}
 	// Decrease date
 	else
 	{
-		if (day)
+		if (week)
 		{
-			scheduleDate.setDate(scheduleDate.getDate() - 1);
+			newDate.setDate(newDate.getDate() - 7);
 		}
 		else
 		{
-			scheduleDate.setMonth(scheduleDate.getMonth() - 1);
+			newDate.setMonth(newDate.getMonth() - 1);
 		}
 
 		// Jump over sunday
-		if (scheduleDate.getDay() === 0)
+		if (newDate.getDay() === 0)
 		{
-			scheduleDate.setDate(scheduleDate.getDate() - 1);
+			newDate.setDate(newDate.getDate() - 1);
 		}
 	}
 
-	window.dateField.valueAsDate = scheduleDate;
-
-	// For browsers which doesn't update the value with the valueAsDate property for type=date
-	if (!browserSupportsDate())
-	{
-		window.dateField.value = scheduleDate.getPresentationFormat();
-	}
+	window.dateField.value = newDate.getPresentationFormat();
 }
 
 /**
@@ -1734,11 +2091,6 @@ function changeDate(nextDate, dayStep)
  */
 function getDateFieldString()
 {
-	if (browserSupportsDate())
-	{
-		return window.dateField.valueAsDate.getWireFormat();
-	}
-
 	return window.dateField.value.replace(/(\d{2})\.(\d{2})\.(\d{4})/, "$3" + "-" + "$2" + "-" + "$1");
 }
 
@@ -1750,14 +2102,11 @@ function getDateFieldString()
 function getDateFieldsDateObject()
 {
 	var parts = window.dateField.value.split(".", 3);
-
-	if (browserSupportsDate())
+	if (parts)
 	{
-		return window.dateField.valueAsDate;
+		// 12:00:00 o'clock for timezone offset
+		return new Date(parseInt(parts[2], 10), parseInt(parts[1] - 1, 10), parseInt(parts[0], 10), 12, 0, 0);
 	}
-
-	// 12:00:00 o'clock for timezone offset
-	return new Date(parseInt(parts[2], 10), parseInt(parts[1] - 1, 10), parseInt(parts[0], 10), 12, 0, 0);
 }
 
 /**
@@ -1839,6 +2188,9 @@ function changePositionOfDateInput()
 
 /**
  * add or remove rows for breaks depending of time grids
+ * 
+ * @param scheduleTable HTMLTableElement
+ * @param grid object
  */
 function handleBreakRows(scheduleTable, grid)
 {
@@ -1858,7 +2210,6 @@ function handleBreakRows(scheduleTable, grid)
 			jQuery(".break").closest('tr').remove();
 			tableTbodyRow.not(':eq(0)').addClass("hide");
 		}
-
 		else if (grid.periods[1].endTime == grid.periods[2].startTime)
 		{
 			jQuery(".break").closest('tr').remove();
@@ -1869,7 +2220,6 @@ function handleBreakRows(scheduleTable, grid)
 			tableTbodyRow.not(':eq(0)').removeClass("hide");
 			for (var periods in grid.periods)
 			{
-
 				if (periods == 1 || periods == 2 || periods == 4 || periods == 5)
 				{
 					jQuery(addBreakRow).insertAfter(tableTbodyRow.eq(periods - 1));
@@ -1889,7 +2239,7 @@ function handleBreakRows(scheduleTable, grid)
 jQuery(document).mouseup(function (e)
 {
 	var popup = jQuery(".lesson-menu"),
-		calendarPopup = jQuery("#choose-date");
+		calendarPopup = jQuery("#calendar");
 
 	if (!popup.is(e.target) && popup.has(e.target).length == 0)
 	{
@@ -1898,11 +2248,11 @@ jQuery(document).mouseup(function (e)
 
 	if (jQuery('.controls').css('display') !== 'none')
 	{
-		if (window.calendar.style.visibility)
+		if (window.calendar.calendarDiv.style.visibility)
 		{
 			if (!calendarPopup.is(e.target) && calendarPopup.has(e.target).length == 0)
 			{
-				hideCalendar();
+				window.calendar.hideCalendar();
 			}
 		}
 	}

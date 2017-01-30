@@ -54,62 +54,60 @@ $mobile = $this->isMobile ? 'mobile' : '';
 					<button id="previous-month" class="controls" type="button">
 						<span class="icon-arrow-left-22"></span>
 					</button>
-					<button id="previous-day" class="controls" type="button">
+					<button id="previous-week" class="controls" type="button">
 						<span class="icon-arrow-left"></span>
 					</button>
-					<form>
-						<input id="date" type="date" name="date" required
-						       min="<?php echo $this->startDate; ?>"
-						       max="<?php echo $this->endDate; ?>"/>
-						<button id="calendar-icon" type="button" class="controls">
-							<span class="icon-calendar"></span>
-						</button>
-						<div id="choose-date">
-							<table id="calendar-table">
-								<thead>
-								<tr>
-									<td colspan="1">
-										<button id="calendar-previous-month" type="button">
-											<span class="icon-arrow-left"></span>
-										</button>
-									</td>
-									<td colspan="5">
-										<span id="display-month"></span> <span id="display-year"></span>
-									</td>
-									<td colspan="1">
-										<button id="calendar-next-month" type="button">
-											<span class="icon-arrow-right"></span>
-										</button>
-									</td>
-								</tr>
-								</thead>
-								<thead>
-								<tr>
-									<td><?php echo JText::_("MON"); ?></td>
-									<td><?php echo JText::_("TUE"); ?></td>
-									<td><?php echo JText::_("WED"); ?></td>
-									<td><?php echo JText::_("THU"); ?></td>
-									<td><?php echo JText::_("FRI"); ?></td>
-									<td><?php echo JText::_("SAT"); ?></td>
-									<td><?php echo JText::_("SUN"); ?></td>
-								</tr>
-								</thead>
-								<tbody>
-								<!-- generated code with JavaScript -->
-								</tbody>
-								<tfoot>
-								<tr>
-									<td colspan="7">
-										<button id="today" type="button" class="today">
-											<?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
-										</button>
-									</td>
-								</tr>
-								</tfoot>
-							</table>
-						</div>
-					</form>
-					<button id="next-day" class="controls" type="button">
+					<input id="date" type="text" name="date" required
+					       min="<?php echo $this->startDate; ?>"
+					       max="<?php echo $this->endDate; ?>"/>
+					<button id="calendar-icon" type="button" class="controls">
+						<span class="icon-calendar"></span>
+					</button>
+					<div id="calendar">
+						<table id="calendar-table">
+							<thead>
+							<tr>
+								<td colspan="1">
+									<button id="calendar-previous-month" type="button">
+										<span class="icon-arrow-left"></span>
+									</button>
+								</td>
+								<td colspan="5">
+									<span id="display-month"></span> <span id="display-year"></span>
+								</td>
+								<td colspan="1">
+									<button id="calendar-next-month" type="button">
+										<span class="icon-arrow-right"></span>
+									</button>
+								</td>
+							</tr>
+							</thead>
+							<thead>
+							<tr>
+								<td><?php echo JText::_("MON"); ?></td>
+								<td><?php echo JText::_("TUE"); ?></td>
+								<td><?php echo JText::_("WED"); ?></td>
+								<td><?php echo JText::_("THU"); ?></td>
+								<td><?php echo JText::_("FRI"); ?></td>
+								<td><?php echo JText::_("SAT"); ?></td>
+								<td><?php echo JText::_("SUN"); ?></td>
+							</tr>
+							</thead>
+							<tbody>
+							<!-- generated code with JavaScript -->
+							</tbody>
+							<tfoot>
+							<tr>
+								<td colspan="7">
+									<button id="today" type="button" class="today">
+										<?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
+									</button>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+					<button id="next-week" class="controls" type="button">
 						<span class="icon-arrow-right"></span>
 					</button>
 					<button id="next-month" class="controls" type="button">
@@ -158,7 +156,7 @@ $mobile = $this->isMobile ? 'mobile' : '';
 					</div>
 				<?php } ?>
 				<div id="program-input" class="input-wrapper ">
-					<select id="program" name="program" >
+					<select id="program" name="program">
 						<!-- filled by ajax -->
 					</select>
 				</div>
@@ -340,5 +338,16 @@ $mobile = $this->isMobile ? 'mobile' : '';
 				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_INSTANCE') ?>
 			</button>
 		</div>
+	</div>
+
+	<div id="next-date-selection">
+		<p><?php echo JText::_("COM_THM_ORGANIZER_GO_TO_OTHER_DATE"); ?></p>
+		<button class="close icon-cancel"></button>
+		<button id="past-date"><?php echo JText::_("COM_THM_ORGANIZER_NEXT_PAST_DATE");
+			echo ": ";
+			echo date("d.m.Y"); ?></button>
+		<button id="future-date"><?php echo JText::_("COM_THM_ORGANIZER_NEXT_FUTURE_DATE");
+			echo ": ";
+			echo date("d.m.Y"); ?></button>
 	</div>
 </div>
