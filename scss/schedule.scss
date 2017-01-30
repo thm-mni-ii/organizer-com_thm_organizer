@@ -7,7 +7,7 @@
 @import 'variables';
 @import 'tabs';
 
-.schedule .ym-cbox {
+.tmpl-mobile .schedule .ym-cbox {
 
   @media screen and (max-width: 677px) {
     padding: inherit !important;
@@ -36,9 +36,22 @@ button:hover,
 }
 
 // Icons *************************************************************************************************************//
+.icon-schedules::before {
+  font-family: icomoon-special !important;
+  font-size: 1.1rem;
+}
+
+.icon-checkin::before, .icon-download::before {
+  vertical-align: text-bottom;
+  font-size: 1.2rem;
+}
+
+.icon-grid-2::before {
+  font-size: 1rem;
+}
+
 .icon-remove::before {
   font-size: 1rem;
-  vertical-align: super;
 }
 
 .icon-arrow-left-22::before,
@@ -74,7 +87,7 @@ button:hover,
   }
 
   .date-input {
-    vertical-align: middle;
+    margin-right: 0.3rem;
   }
 }
 
@@ -172,7 +185,7 @@ button:hover,
     }
   }
 
-  .chzn-search input{
+  .chzn-search input {
     width: 100%;
   }
 }
@@ -224,7 +237,6 @@ button:hover,
 .date-input-list-item {
   display: inline;
   margin-left: 0;
-  margin-right: 0.4rem;
   vertical-align: super;
 }
 
@@ -238,24 +250,35 @@ button:hover,
 
   button, span, input {
     display: inline;
+    vertical-align: middle;
 
     @media (max-width: 360px) {
       vertical-align: bottom;
     }
   }
 
-  button {
+  > button {
     @-moz-document url-prefix() {
-      width: 1rem;
+      width: 0.8rem;
+    }
+
+    &:last-child {
+      margin-right: 0.2rem;
     }
   }
 
   span {
     position: relative;
+
+    &::before {
+      font-size: small;
+    }
   }
 
   form {
-    margin: 0;
+    margin: 0 0 0 0.2rem;
+    display: inline-block;
+    position: relative;
 
     > span:first-child {
       width: 1.8rem;
@@ -285,16 +308,42 @@ button:hover,
     position: relative;
   }
 
+  //choose-date
   div {
     visibility: hidden;
     position: absolute;
     background-color: $background;
     z-index: 3;
-    border: 1px solid black;
-    top: 2.5rem;
+    border: 1px solid #d2d6d9;
+    padding: 0.3rem 1rem;
+
+    table {
+      margin: 0;
+      font-size: small;
+    }
+
+    thead {
+      td {
+        padding: 0.1rem 0.2rem;
+      }
+    }
+
+    thead:last-of-type {
+      border: 1px solid #4a5d66;
+      border-bottom: none;
+    }
+
+    tbody {
+      border: 1px solid #4a5d66;
+
+      td:hover {
+        background: #d2d6d9;
+      }
+    }
 
     td {
       text-align: center;
+      padding: 0 0.2rem;
     }
 
     thead span {
@@ -302,7 +351,15 @@ button:hover,
     }
 
     button {
-      background-color: $background;
+      color: #394a59;
+
+      span {
+        vertical-align: baseline;
+      }
+    }
+
+    tfoot td:hover {
+      background: #d2d6d9;
     }
 
     .today {
@@ -343,24 +400,8 @@ button:hover,
   td, th {
     width: 16%;
 
-    &:not(.activeColumn) {
-      @media (max-width: 677px) {
-        display: none;
-      }
-    }
-
     &:first-child {
       width: 2.5rem;
-      @media (max-width: 677px) {
-        display: table-cell;
-      }
-    }
-
-    &.activeColumn {
-      @media (max-width: 677px) {
-        width: auto;
-        padding-right: 1rem;
-      }
     }
   }
 
@@ -370,6 +411,22 @@ button:hover,
 
   a:hover {
     text-decoration: underline;
+  }
+}
+
+.organizer.mobile {
+
+  td, th {
+    &:not(.activeColumn) {
+      display: none;
+    }
+    &:first-child {
+      display: table-cell;
+    }
+    &.activeColumn {
+      width: auto;
+      padding-right: 1rem;
+    }
   }
 }
 
@@ -398,12 +455,6 @@ button:hover,
   }
 }
 
-.persons, .locations {
-  @media (max-width: 360px) {
-    display: inline-block;
-  }
-}
-
 .location {
   margin-left: 0.3rem;
 }
@@ -418,7 +469,17 @@ button:hover,
   }
 }
 
-.misc:before, .location:before {
+.tmpl-mobile {
+  .persons, .locations {
+      display: inline-block;
+    }
+
+  .location:nth-of-type(1):before {
+    content: " / ";
+  }
+}
+
+.misc:before, .location:nth-of-type(n+2):before {
   content: " / ";
 }
 

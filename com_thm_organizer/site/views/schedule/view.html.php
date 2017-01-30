@@ -110,7 +110,8 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/calendar.js");
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
 
-		$doc->addStyleSheet(JUri::root() . "libraries/thm_core/fonts/iconfont-frontend.css");
+	//	$doc->addStyleSheet(JUri::root() . "libraries/thm_core/fonts/iconfont-frontend.css");
+		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/fonts/iconfont-frontend.css");
 		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
 		$doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");
 	}

@@ -11,14 +11,14 @@
  */
 
 defined('_JEXEC') or die;
-$noMobile = !$this->isMobile ? 'no-mobile' : '';
+$mobile = $this->isMobile ? 'mobile' : '';
 ?>
 
 <script type="text/javascript" charset="utf-8">
 	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/text.js"; ?>
 	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/variables.js"; ?>
 </script>
-<div class="organizer <?php echo $noMobile; ?>">
+<div class="organizer <?php echo $mobile; ?>">
 
 	<h1>THM Organizer <?php echo $this->getModel()->departmentName; ?></h1> <!--TODO: find a long mark header -->
 
@@ -29,7 +29,7 @@ $noMobile = !$this->isMobile ? 'no-mobile' : '';
 				<a href="#schedule-form" class="tabs-toggle" id="tab-schedule-form"
 				   data-toggle="tab" data-id="schedule-form" role="tab" aria-controls="schedule-form"
 				   aria-selected="true">
-					<span class="icon-info-calender"></span>
+					<span class="icon-schedules"></span>
 					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_TITLE"); ?></span>
 				</a>
 			</li>

@@ -27,7 +27,7 @@ Schedule = function (resource, IDs, optionalTitle)
 	this.resource = resource; // For ScheduleTable usage
 	this.id = resource === "user" ? resource
 		: IDs ? resource + IDs
-			: resource + getSelectedValues(resource, "-");
+		: resource + getSelectedValues(resource, "-");
 	this.scheduleTable = new ScheduleTable(this);
 	this.title = "";
 	this.task = "";
@@ -1225,7 +1225,7 @@ function initSchedule()
 {
 	var today = new Date();
 
-	window.isMobile = window.matchMedia("(max-width: 677px)").matches;
+	window.isMobile = variables.isMobile;
 	window.dateField = document.getElementById("date");
 	window.dateField.valueAsDate = today;
 	window.lessonMenu = new LessonMenu;
@@ -1547,7 +1547,7 @@ function addScheduleToSelection(schedule)
 
 /**
  * remove an entry from the dropdown field for selecting a schedule
- * works just with chosen, don't work in mobile, because chosen isn't be used there
+ * works just with chosen, don't work in mobile because the button wouldn't be added, because chosen isn't be used there
  */
 function removeScheduleFromSelection()
 {
@@ -1844,9 +1844,9 @@ function handleBreakRows(scheduleTable, grid)
 {
 	var numberOfColumns = isMobile ? 2
 			: jQuery(scheduleTable).find('tr:first').find('th').filter(function ()
-			{
-				return jQuery(this).css('display') != 'none';
-			}).length,
+		{
+			return jQuery(this).css('display') != 'none';
+		}).length,
 		tableTbodyRow = jQuery(scheduleTable).find('tbody').find('tr'),
 		addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
 		addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';
@@ -1884,13 +1884,26 @@ function handleBreakRows(scheduleTable, grid)
 }
 
 /*
- * context-menu-popup will be closed when clicking outside this
+ * context-menu-popup and calendar-popup will be closed when clicking outside this
  */
 jQuery(document).mouseup(function (e)
 {
-	var popup = $(".lesson-menu");
+	var popup = jQuery(".lesson-menu"),
+		calendarPopup = jQuery("#choose-date");
+
 	if (!popup.is(e.target) && popup.has(e.target).length == 0)
 	{
 		popup.hide(500);
+	}
+
+	if (jQuery('.controls').css('display') !== 'none')
+	{
+		if (window.calendar.style.visibility)
+		{
+			if (!calendarPopup.is(e.target) && calendarPopup.has(e.target).length == 0)
+			{
+				hideCalendar();
+			}
+		}
 	}
 });

@@ -33,3 +33,7 @@
 .icon-file-excel:before {
     content: "\eadd";
 }
+
+.icon-schedules:before {
+    content: "\e600";
+}
