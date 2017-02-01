@@ -83,7 +83,7 @@ class THM_OrganizerHelperRooms
 			return null;
 		}
 
-		return $success ? $roomTable->name : null;
+		return $success ? $roomTable->longname : null;
 	}
 
 	/**

@@ -667,6 +667,13 @@ ScheduleTable = function (schedule)
 						tableEndTime = this.timeGrid.periods[gridIndex].endTime;
 					}
 
+					cell = rows[rowIndex].getElementsByTagName("td")[colNumber];
+					if (variables.registered && schedule.id !== "user"
+						&& this.isOccupiedByUserLesson(rowIndex, colNumber))
+					{
+						jQuery(cell).addClass("occupied");
+					}
+
 					for (lesson in lessons[date][block])
 					{
 						if (!lessons[date][block].hasOwnProperty(lesson))
@@ -674,8 +681,6 @@ ScheduleTable = function (schedule)
 							continue;
 						}
 
-						// Append lesson in current table cell
-						cell = rows[rowIndex].getElementsByTagName("td")[colNumber];
 						showOwnTime = tableStartTime != blockStart || tableEndTime != blockEnd;
 						lessonElements = this.createLesson(lessons[date][block][lesson], showOwnTime);
 						lessonElements.forEach(function (element)
@@ -724,9 +729,9 @@ ScheduleTable = function (schedule)
 	 */
 	this.createLesson = function (data, ownTime)
 	{
-		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, poolID,
-			poolName, poolsOuterDiv, poolDiv, poolLink, teachersOuterDiv, teacherSpan, teacherLink, teacherID,
-			teacherName, teacherDelta, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, roomDelta, saveActionButton,
+		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, poolID, poolFullName,
+			poolsOuterDiv, poolDiv, poolLink, teachersOuterDiv, teacherSpan, teacherLink, teacherID, teacherName,
+			teacherDelta, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, roomDelta, saveActionButton,
 			deleteActionButton,	buttonIcon, added = false;
 
 		if (!data || !data.hasOwnProperty("subjects"))
@@ -769,7 +774,7 @@ ScheduleTable = function (schedule)
 				lessonElement.appendChild(ownTimeSpan);
 			}
 
-			if ((subjectData.shortName) || (subjectData.subjectNo))
+			if (subjectData.name || subjectData.subjectNo)
 			{
 				subjectOuterDiv = document.createElement("div");
 				subjectOuterDiv.className = "subjectNameNr";
@@ -778,7 +783,7 @@ ScheduleTable = function (schedule)
 				lessonElement.appendChild(subjectOuterDiv);
 			}
 
-			if (schedule.id !== "user" && schedule.resource !== "pool" && subjectData.pools)
+			if (subjectData.pools && schedule.id !== "user" && schedule.resource !== "pool")
 			{
 				poolsOuterDiv = document.createElement("div");
 				poolsOuterDiv.className = "pools";
@@ -787,12 +792,12 @@ ScheduleTable = function (schedule)
 				{
 					if (subjectData.pools.hasOwnProperty(poolID))
 					{
-						poolName = subjectData.pools[poolID].fullName;
+						poolFullName = subjectData.pools[poolID].fullName;
 						poolLink = document.createElement("a");
-						poolLink.innerHTML = poolName;
+						poolLink.innerHTML = subjectData.pools[poolID].gpuntisID;
 						poolLink.addEventListener("click", function ()
 						{
-							sendLessonRequest('pool', poolID, poolName);
+							sendLessonRequest('pool', poolID, poolFullName);
 						});
 						poolDiv = document.createElement("div");
 						poolDiv.className = "pool " + (data.poolDelta ? data.poolDelta : "");
@@ -957,7 +962,7 @@ ScheduleTable = function (schedule)
 		};
 
 		// Add subject name and module name as DOM-elements to given outer element
-		if (data.shortName)
+		if (data.name && data.shortName)
 		{
 			if (subjectLinkID)
 			{
@@ -968,8 +973,15 @@ ScheduleTable = function (schedule)
 			{
 				subjectNameElement = document.createElement("span");
 			}
+			if (variables.isMobile)
+			{
+				subjectNameElement.innerHTML = data.shortName + (data.method ? " - " + data.method : "");
+			}
+			else
+			{
+				subjectNameElement.innerHTML = data.name + (data.method ? " - " + data.method : "");
+			}
 			subjectNameElement.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
-			subjectNameElement.innerHTML = data.shortName + (data.method ? " - " + data.method : "");
 			outerElement.appendChild(subjectNameElement);
 		}
 		if (data.subjectNo)
@@ -1019,6 +1031,23 @@ ScheduleTable = function (schedule)
 		}
 
 		return false;
+	};
+
+	/**
+	 * Checks for a block if the user has lessons in it already
+	 *
+	 * @param rowIndex int
+	 * @param colIndex int
+	 * @return boolean
+	 */
+	this.isOccupiedByUserLesson = function (rowIndex, colIndex)
+	{
+		var userScheduleTable = window.scheduleObjects.getScheduleById("user").scheduleTable.table,
+			rows = userScheduleTable.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
+			row = rows[rowIndex],
+			cell = row ? row.getElementsByTagName("td")[colIndex] : false;
+
+		return (cell && cell.className && cell.className.match(/lessons/));
 	};
 
 	/**
@@ -1475,7 +1504,9 @@ jQuery(document).ready(function ()
 });
 
 /**
+ * Opens export window of selected schedule
  *
+ * @param format string
  */
 function handleExport(format)
 {
@@ -2233,7 +2264,7 @@ function handleBreakRows(scheduleTable, grid)
 	}
 }
 
-/*
+/**
  * context-menu-popup and calendar-popup will be closed when clicking outside this
  */
 jQuery(document).mouseup(function (e)
