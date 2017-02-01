@@ -1,0 +1,861 @@
+{
+  "2017-01-30": {
+    "1000-1200": {
+      "19501": {
+        "method": "KLA",
+        "comment": "BMT-2, BPT-2, KTM-2, UHSI-2",
+        "startTime": "10:00:00",
+        "endTime": "12:00:00",
+        "subjects": {
+          "Physik 2": {
+            "subjectNo": "KMUB-11800;MNI-MN101",
+            "name": "Physik 2",
+            "shortName": "Physik2",
+            "abbr": "Physik2",
+            "teachers": {
+              "325": "Elvers, N.",
+              "870": "Spruck, K."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325216",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1200-1400": {
+      "19529": {
+        "method": "KLA",
+        "comment": "BPT-6",
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "subjects": {
+          "Bioproduktaufarbeitung": {
+            "subjectNo": "KMUB-10580",
+            "name": "Bioproduktaufarbeitung",
+            "shortName": "BioprodAuf",
+            "abbr": "BioprodAuf",
+            "teachers": {
+              "142": "Czermak, P.",
+              "138": "Hemberger, J."
+            },
+            "rooms": {
+              "289": "HH3"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325246",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      },
+      "19534": {
+        "method": "KLA",
+        "comment": "BPT-6",
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "subjects": {
+          "Pharmazeutische Technologie": {
+            "subjectNo": "KMUB-11750",
+            "name": "Pharmazeutische Technologie",
+            "shortName": "PharmaTech",
+            "abbr": "PharmaTech",
+            "teachers": {
+              "137": "Runkel, F."
+            },
+            "rooms": {
+              "84": "A12.3.04",
+              "322": "D10.3.02"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "334846",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1400-1600": {
+      "19528": {
+        "method": "KLA",
+        "comment": "BMT-1, BPT-1, KTM-1, UHSI-1, BI",
+        "startTime": "14:00:00",
+        "endTime": "16:00:00",
+        "subjects": {
+          "Biologie": {
+            "subjectNo": "LSE-1104",
+            "name": "Biologie",
+            "shortName": "Bio",
+            "abbr": "Bio",
+            "teachers": {
+              "139": "Windisch, U."
+            },
+            "rooms": {
+              "288": "HH1"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325245",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      },
+      "19646": {
+        "method": "KLA",
+        "comment": "BMT-1, BPT-1, KTM-1, UHSI-1",
+        "startTime": "14:00:00",
+        "endTime": "16:00:00",
+        "subjects": {
+          "Anatomie": {
+            "subjectNo": "LSE-1104",
+            "name": "Anatomie",
+            "shortName": "Anatomie",
+            "abbr": "Anatomie",
+            "teachers": {
+              "341": "Grant, P."
+            },
+            "rooms": {
+              "289": "HH3"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325365",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1600-1800": {
+      "19506": {
+        "method": "KLA",
+        "comment": "BPT-4",
+        "startTime": "16:00:00",
+        "endTime": "18:00:00",
+        "subjects": {
+          "Molekularbiologie 1": {
+            "subjectNo": "KMUB-11630;MNI-BI100",
+            "name": "Molekularbiologie 1",
+            "shortName": "Molbio1",
+            "abbr": "Molbio1",
+            "teachers": {
+              "147": "Gokorsch, S."
+            },
+            "rooms": {
+              "20": "A10.4.25"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325221",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    }
+  },
+  "2017-01-31": {
+    "1000-1200": {
+      "19512": {
+        "method": "KLA",
+        "comment": "BPT-3, KTM-3, UHSI-3",
+        "startTime": "10:00:00",
+        "endTime": "12:00:00",
+        "subjects": {
+          "Str\u00f6mungslehre": {
+            "subjectNo": "KMUB-12270",
+            "name": "Str\u00f6mungslehre",
+            "shortName": "Str\u00f6mThermo",
+            "abbr": "Str\u00f6mThermo",
+            "teachers": {
+              "169": "Weigand, H."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325227",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      },
+      "19513": {
+        "method": "KLA",
+        "comment": "BPT-3, KTM-3, UHSI-3",
+        "startTime": "10:00:00",
+        "endTime": "12:00:00",
+        "subjects": {
+          "Techn. Thermodynamik": {
+            "subjectNo": "KMUB-12270",
+            "name": "Techn. Thermodynamik",
+            "shortName": "TecTherm",
+            "abbr": "TecTherm",
+            "teachers": {
+              "770": "Elter, P."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325229",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1200-1400": {
+      "19512": {
+        "method": "KLA",
+        "comment": "BPT-3, KTM-3, UHSI-3",
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "subjects": {
+          "Str\u00f6mungslehre": {
+            "subjectNo": "KMUB-12270",
+            "name": "Str\u00f6mungslehre",
+            "shortName": "Str\u00f6mThermo",
+            "abbr": "Str\u00f6mThermo",
+            "teachers": {
+              "169": "Weigand, H."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325228",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      },
+      "19513": {
+        "method": "KLA",
+        "comment": "BPT-3, KTM-3, UHSI-3",
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "subjects": {
+          "Techn. Thermodynamik": {
+            "subjectNo": "KMUB-12270",
+            "name": "Techn. Thermodynamik",
+            "shortName": "TecTherm",
+            "abbr": "TecTherm",
+            "teachers": {
+              "770": "Elter, P."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325230",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1600-1800": {
+      "19512": {
+        "method": "KLA",
+        "comment": "BPT-3, KTM-3, UHSI-3",
+        "startTime": "16:00:00",
+        "endTime": "18:00:00",
+        "subjects": {
+          "Str\u00f6mungslehre": {
+            "subjectNo": "KMUB-12270",
+            "name": "Str\u00f6mungslehre",
+            "shortName": "Str\u00f6mThermo",
+            "abbr": "Str\u00f6mThermo",
+            "teachers": {
+              "169": "Weigand, H."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "334827",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      },
+      "19513": {
+        "method": "KLA",
+        "comment": "BPT-3, KTM-3, UHSI-3",
+        "startTime": "16:00:00",
+        "endTime": "18:00:00",
+        "subjects": {
+          "Techn. Thermodynamik": {
+            "subjectNo": "KMUB-12270",
+            "name": "Techn. Thermodynamik",
+            "shortName": "TecTherm",
+            "abbr": "TecTherm",
+            "teachers": {
+              "770": "Elter, P."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "334829",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    }
+  },
+  "2017-02-01": {
+    "1200-1400": {
+      "19520": {
+        "method": "KLA",
+        "comment": "BPT-3",
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "subjects": {
+          "Chemie 3": {
+            "subjectNo": "KMUB-10700",
+            "name": "Chemie 3",
+            "shortName": "Chem3",
+            "abbr": "Chem3",
+            "teachers": {
+              "137": "Runkel, F."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325237",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1400-1600": {
+      "19528": {
+        "method": "KLA",
+        "comment": "BMT-1, BPT-1, KTM-1, UHSI-1, BI",
+        "startTime": "14:00:00",
+        "endTime": "16:00:00",
+        "subjects": {
+          "Biologie": {
+            "subjectNo": "LSE-1104",
+            "name": "Biologie",
+            "shortName": "Bio",
+            "abbr": "Bio",
+            "teachers": {
+              "139": "Windisch, U."
+            },
+            "rooms": {
+              "288": "HH1",
+              "289": "HH3"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "334839",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      },
+      "19646": {
+        "method": "KLA",
+        "comment": "BMT-1, BPT-1, KTM-1, UHSI-1",
+        "startTime": "14:00:00",
+        "endTime": "16:00:00",
+        "subjects": {
+          "Anatomie": {
+            "subjectNo": "LSE-1104",
+            "name": "Anatomie",
+            "shortName": "Anatomie",
+            "abbr": "Anatomie",
+            "teachers": {
+              "341": "Grant, P."
+            },
+            "rooms": {
+              "289": "HH3"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "334930",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1600-1800": {
+      "19537": {
+        "method": "KLA",
+        "comment": "BPT-5",
+        "startTime": "16:00:00",
+        "endTime": "18:00:00",
+        "subjects": {
+          "Bioanalytik": {
+            "subjectNo": "KMUB-10420",
+            "name": "Bioanalytik",
+            "shortName": "BioAnal",
+            "abbr": "BioAnal",
+            "teachers": {
+              "138": "Hemberger, J."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325254",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    }
+  },
+  "2017-02-02": {
+    "0800-1000": {
+      "19529": {
+        "method": "KLA",
+        "comment": "BPT-6",
+        "startTime": "08:00:00",
+        "endTime": "10:00:00",
+        "subjects": {
+          "Bioproduktaufarbeitung": {
+            "subjectNo": "KMUB-10580",
+            "name": "Bioproduktaufarbeitung",
+            "shortName": "BioprodAuf",
+            "abbr": "BioprodAuf",
+            "teachers": {
+              "138": "Hemberger, J.",
+              "142": "Czermak, P."
+            },
+            "rooms": {
+              "290": "KONG"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "334841",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1000-1200": {
+      "20570": {
+        "method": "KLA",
+        "comment": "BPT-3, UHSI-3",
+        "startTime": "10:00:00",
+        "endTime": "12:00:00",
+        "subjects": {
+          "Englisch 1": {
+            "subjectNo": "KMUB-12800",
+            "name": "Englisch 1",
+            "shortName": "Engl1",
+            "abbr": "Engl1",
+            "teachers": {
+              "1302": "Sprachenzentrum"
+            },
+            "rooms": {
+              "56": "A10.8.08",
+              "289": "HH3",
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "344193",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1200-1400": {
+      "19534": {
+        "method": "KLA",
+        "comment": "BPT-6",
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "subjects": {
+          "Pharmazeutische Technologie": {
+            "subjectNo": "KMUB-11750",
+            "name": "Pharmazeutische Technologie",
+            "shortName": "PharmaTech",
+            "abbr": "PharmaTech",
+            "teachers": {
+              "137": "Runkel, F."
+            },
+            "rooms": {
+              "20": "A10.4.25"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325251",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1400-1600": {
+      "19628": {
+        "method": "KLA",
+        "comment": "BMT-2, BPT-2, KTM-2, UHSI-2",
+        "startTime": "14:00:00",
+        "endTime": "16:00:00",
+        "subjects": {
+          "Statistik": {
+            "subjectNo": "KMUB-12240;W-204",
+            "name": "Statistik",
+            "shortName": "Stat",
+            "abbr": "Stat",
+            "teachers": {
+              "425": "Recker, F."
+            },
+            "rooms": {
+              "289": "HH3",
+              "288": "HH1"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325346",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1600-1800": {
+      "19663": {
+        "method": "KLA",
+        "comment": "KHY, BPT, UHSI",
+        "startTime": "16:00:00",
+        "endTime": "18:00:00",
+        "subjects": {
+          "Englisch 1": {
+            "subjectNo": "KMUB-12800",
+            "name": "Englisch 1",
+            "shortName": "Engl1",
+            "abbr": "Engl1",
+            "teachers": {
+              "98": "Beckmann, C."
+            },
+            "rooms": {
+              "127": "A21.0.03"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325380",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    }
+  },
+  "2017-02-03": {
+    "1000-1200": {
+      "19542": {
+        "method": "KLA",
+        "comment": "BPT-6",
+        "startTime": "10:00:00",
+        "endTime": "12:00:00",
+        "subjects": {
+          "Spez.Kap.Pharmakokinetik": {
+            "subjectNo": "KMUB-12990",
+            "name": "Spez.Kap.Pharmakokinetik",
+            "shortName": "SpezKapPharm",
+            "abbr": "SpezKapPharm",
+            "teachers": {
+              "827": "Maas, J."
+            },
+            "rooms": {
+              "84": "A12.3.04",
+              "322": "D10.3.02"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325259",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    },
+    "1400-1600": {
+      "19654": {
+        "method": "KLA",
+        "comment": "BPT-5",
+        "startTime": "14:00:00",
+        "endTime": "16:00:00",
+        "subjects": {
+          "Spezielle Rechtsgebiete BPT": {
+            "subjectNo": "KMUB-12220",
+            "name": "Spezielle Rechtsgebiete BPT",
+            "shortName": "SpezRechtBPT",
+            "abbr": "SpezRechtBPT",
+            "teachers": {
+              "832": "M\u00fcller, H."
+            },
+            "rooms": {
+              "127": "A21.0.03"
+            },
+            "programs": {
+              "": []
+            },
+            "pools": {
+              "271": {
+                "gpuntisID": "BPT.KW",
+                "name": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.)",
+                "fullName": "Biotechnologie \/ Biopharmazeutische Technologie (B.Sc.), Klausurwochen"
+              }
+            }
+          }
+        },
+        "ccmID": "325371",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": "",
+        "subjectDelta": ""
+      }
+    }
+  },
+  "2017-02-04": []
+}
