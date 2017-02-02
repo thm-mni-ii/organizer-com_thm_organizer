@@ -83,9 +83,27 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	{
 		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
+		/** @noinspection PhpIncludeInspection */
+		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
+		$rooms = THM_OrganizerHelperRooms::getPlanRooms();
+
+		$relevantIDs = array();
+		foreach ($rooms as $room)
+		{
+			if (!empty($room['typeID']))
+			{
+				$relevantIDs[$room['typeID']] = $room['typeID'];
+			}
+		}
+
 		$query = $this->_db->getQuery(true);
 		$query->select("id, name_$languageTag AS name")
 			->from('#__thm_organizer_room_types AS type');
+
+		if (!empty($relevantIDs))
+		{
+			$query->where("id IN ('" . implode("','", $relevantIDs) . "')");
+		}
 
 		$query->order('name');
 		$this->_db->setQuery($query);

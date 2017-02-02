@@ -73,14 +73,15 @@ class THM_OrganizerHelperPrograms
 
 		$query     = $dbo->getQuery(true);
 		$nameParts = array("p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'");
-		$query->select('pp.id, pp.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
-		$query->from('#__thm_organizer_plan_programs AS pp');
-		$query->leftJoin('#__thm_organizer_programs AS p ON pp.programID = p.id');
+		$query->select('DISTINCT ppr.id, ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
+		$query->from('#__thm_organizer_plan_programs AS ppr');
+		$query->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id');
+		$query->leftJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
 		$query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 
 		if (!empty($departmentIDs))
 		{
-			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = pp.id');
+			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id');
 			$query->where("dr.departmentID IN ('" . str_replace(",", "', '", $departmentIDs) . "')");
 		}
 
