@@ -341,13 +341,13 @@ $mobile = $this->isMobile ? 'mobile' : '';
 	</div>
 
 	<div id="next-date-selection">
-		<p><?php echo JText::_("COM_THM_ORGANIZER_GO_TO_OTHER_DATE"); ?></p>
+		<p><?php echo JText::_("COM_THM_ORGANIZER_JUMP_DATE"); ?></p>
 		<button class="close icon-cancel"></button>
-		<button id="past-date"><?php echo JText::_("COM_THM_ORGANIZER_NEXT_PAST_DATE");
-			echo ": ";
-			echo date("d.m.Y"); ?></button>
-		<button id="future-date"><?php echo JText::_("COM_THM_ORGANIZER_NEXT_FUTURE_DATE");
-			echo ": ";
-			echo date("d.m.Y"); ?></button>
+		<button id="past-date">
+			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
+		</button>
+		<button id="future-date">
+			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
+		</button>
 	</div>
 </div>

@@ -490,11 +490,14 @@ button:hover,
 }
 
 #next-date-selection {
-  display: none;
-  position: absolute;
-  z-index: 2;
   background-color: $background-green;
+  display: none;
+  left: calc(50% - 12rem);
   padding: 0.5rem;
+  position: absolute;
+  top: 28rem;
+  width: 24rem;
+  z-index: 2;
 }
 
 .lesson-menu {
