@@ -5,21 +5,42 @@
 **  Site:       www.mni.thm.de
 **  ------------------------------------ */
 ul.tabs {
-  margin-bottom: 0; }
+  margin-bottom: 0;
+}
 
 .tabs-tab {
   display: inline;
-  margin: 0 0.3rem; }
-  .tabs-tab:first-child {
-    margin-left: 0.5rem; }
-  .tabs-tab:nth-child(n+2) {
-    margin-left: 0; }
+  margin: 0 0.3rem;
+}
+
+.tabs-tab:first-child {
+  margin-left: 0.5rem;
+}
+
+.tabs-tab:nth-child(n+2) {
+  margin-left: 0;
+}
 
 .tabs-toggle {
-  padding: 0.5rem 0.5rem 0.1rem 0.4rem; }
-  .tabs-toggle:hover {
-    text-decoration: none;
-    background-color: #f2f4f5; }
+  padding: 0.5rem 0.5rem 0.1rem 0.4rem;
+}
+
+.tabs-toggle:hover {
+  text-decoration: none;
+  background-color: #f2f4f5;
+}
+
+.tab-text {
+  font-size: 1rem;
+  color: #394A59;
+  margin-left: 0.3rem;
+}
+
+@media (max-width: 677px) {
+  .tab-text {
+    display: none;
+  }
+}
 
 .tab-text {
   font-size: 1rem;
@@ -32,99 +53,152 @@ ul.tabs {
 li.active:not(.inactive) .tabs-toggle {
   cursor: pointer;
   background-color: #DFE5E6;
-  position: relative; }
+  position: relative;
+}
+
 li.active:not(.inactive) [class^="icon-"]::before {
   content: "\e935";
   font-family: IcoMoon !important;
   vertical-align: text-bottom;
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+}
 
 .tab-content {
   background: #DFE5E6;
-  overflow: visible; }
-  .tab-content .active {
-    display: block; }
-  .tab-content > div {
-    margin-left: 0.5rem; }
+  overflow: visible;
+}
+
+.tab-content .active {
+  display: block;
+}
+
+.tab-content > div {
+  margin-left: 0.5rem;
+}
 
 .tab-panel {
   overflow-x: visible;
   overflow-y: visible;
   padding: 12px 0;
-  display: none; }
-  .tab-panel.inactive {
-    display: none !important; }
+  display: none;
+}
+
+.tab-panel.inactive {
+  display: none !important;
+}
 
 @media screen and (max-width: 677px) {
   .tmpl-mobile .schedule .ym-cbox {
-    padding: inherit !important; } }
+    padding: inherit !important;
+  }
+}
 
 a,
 a:visited {
-  color: #394a59; }
+  color: #394a59;
+}
 
 button {
   font-size: 1.3rem;
   background-color: transparent;
-  border: none; }
+  border: none;
+}
 
 button:hover,
 .menu-bar a:hover,
 .menu-bar label:hover {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .organizer input[type=checkbox], input[type=radio] {
-  display: none; }
+  display: none;
+}
 
 .icon-schedules::before {
   font-family: icomoon-special !important;
-  font-size: 1.1rem; }
+  font-size: 1.1rem;
+}
 
 .icon-checkin::before, .icon-download::before {
   vertical-align: text-bottom;
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+}
 
 .icon-grid-2::before {
-  font-size: 1rem; }
+  font-size: 1rem;
+}
 
 .icon-remove::before {
-  font-size: 1rem; }
+  font-size: 1rem;
+}
 
 .icon-arrow-left-22::before,
 .icon-arrow-right-22::before,
 .icon-arrow-left::before,
 .icon-arrow-right::before,
 .date-input .icon-calendar::before {
-  font-size: 1rem; }
+  font-size: 1rem;
+}
 
 .add-lesson .icon-plus::before {
   color: #80ba24;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .delete-lesson .icon-delete::before {
   color: #b54e62;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .menu-bar {
-  margin-bottom: 0.5rem; }
-  .menu-bar + .date-input {
-    margin-bottom: 0.5rem;
-    margin-left: 0.5rem; }
-  .menu-bar .date-input {
-    margin-right: 0.3rem; }
+  margin-bottom: 0.5rem;
+}
+
+.menu-bar + .date-input {
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.menu-bar .date-input {
+  margin-right: 0.3rem;
+}
 
 .selection select:disabled {
-  background-color: #d2d6d9; }
+  background-color: #d2d6d9;
+}
+
 .selection a,
 .selection button,
 .selection label {
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+}
+
 .selection button > span {
-  margin-right: 0.5rem; }
+  margin-right: 0.5rem;
+}
+
 .selection:focus {
-  outline: none; }
+  outline: none;
+}
+
 .selection input[disabled] {
-  cursor: wait; }
+  cursor: wait;
+}
+
+.input-wrapper, .selection > div:first-child {
+  display: inline-block;
+  vertical-align: top;
+}
+
+@media screen and (max-width: 950px) {
+  .input-wrapper, .selection > div:first-child {
+    display: block;
+  }
+}
+
+.hide {
+  display: none !important;
+}
 
 .input-wrapper, .selection > div:first-child {
   display: inline-block;
@@ -137,26 +211,51 @@ button:hover,
   display: none !important; }
 
 #schedule-form select:disabled {
-  background-color: #d2d6d9; }
+  background-color: #d2d6d9;
+}
+
 #schedule-form .chzn-container {
-  width: 176px !important; }
-  #schedule-form .chzn-container .chzn-search input {
-    width: 100% !important; }
+  width: 176px !important;
+}
+
+#schedule-form .chzn-container .chzn-search input {
+  width: 100% !important;
+}
 
 #schedule-form .chzn-container .chzn-single > span, #schedule-selection .chzn-container .chzn-single > span {
-  line-height: 1.4; }
+  line-height: 1.4;
+}
 
 #selected-schedules .chzn-results li {
-  position: relative; }
+  position: relative;
+}
+
 #selected-schedules .removeOption {
   position: absolute;
   right: 10px;
   width: 10px;
   height: 10px;
   cursor: pointer;
-  background: none; }
+  background: none;
+}
+
 #selected-schedules .highlighted .icon-remove::before {
-  color: white; }
+  color: white;
+}
+
+.tab-content div#selected-schedules .chzn-container {
+  width: auto !important;
+  min-width: 276px !important;
+}
+
+.tab-content div#selected-schedules .chzn-container .chzn-single span {
+  margin-right: 26px;
+  line-height: 1.4;
+}
+
+.tab-content div#selected-schedules .chzn-search input {
+  width: 100%;
+}
 
 .tab-content div#selected-schedules .chzn-container {
   width: auto !important;
@@ -168,7 +267,25 @@ button:hover,
   width: 100%; }
 
 #tab-exports {
-  padding-right: 0.7rem; }
+  padding-right: 0.7rem;
+}
+
+.link-item {
+  margin-bottom: 0.3rem;
+}
+
+.link-item:last-child {
+  margin-bottom: 0;
+}
+
+.link-item a {
+  background-color: white;
+  color: #394A59;
+  border: 1px solid #4a5d66;
+  padding: 0.4rem;
+  display: inline-block;
+  width: 276px;
+}
 
 .link-item {
   margin-bottom: 0.3rem; }
@@ -183,123 +300,209 @@ button:hover,
     width: 276px; }
 
 .chzn-container {
-  margin: 0.25rem 0.5rem 0 0; }
+  margin: 0.25rem 0.5rem 0 0;
+}
 
 .chzn-container-single .chzn-single div b {
-  background-image: none; }
+  background-image: none;
+}
 
 .chzn-container-multi {
   background-image: none !important;
   height: auto !important;
-  min-height: 2.5em; }
-  .chzn-container-multi .chzn-choices .search-choice {
-    float: none !important;
-    margin: 0.3rem !important;
-    padding: 0.3rem !important; }
+  min-height: 2.5em;
+}
+
+.chzn-container-multi .chzn-choices .search-choice {
+  float: none !important;
+  margin: 0.3rem !important;
+  padding: 0.3rem !important;
+}
 
 .date-input-list-item {
   display: inline;
   margin-left: 0;
-  vertical-align: super; }
+  vertical-align: super;
+}
 
 .date-input {
-  display: inline-block; }
-  .date-input .controls,
-  .date-input .calender-icon {
-    display: none; }
+  display: inline-block;
+}
+
+.date-input .controls,
+.date-input .calender-icon {
+  display: none;
+}
+
+.date-input button, .date-input span, .date-input input {
+  display: inline;
+  vertical-align: middle;
+}
+
+@media (max-width: 360px) {
   .date-input button, .date-input span, .date-input input {
-    display: inline;
-    vertical-align: middle; }
-    @media (max-width: 360px) {
-      .date-input button, .date-input span, .date-input input {
-        vertical-align: bottom; } }
+    vertical-align: bottom;
+  }
+}
+
 @-moz-document url-prefix() {
   .date-input > button {
-    width: 0.8rem; } }
-  .date-input > button:last-child {
-    margin-right: 0.2rem; }
-  .date-input span {
-    position: relative; }
-    .date-input span::before {
-      font-size: small; }
-  .date-input form {
-    margin: 0 0 0 0.2rem;
-    display: inline-block;
-    position: relative; }
-    .date-input form > span:first-child {
-      width: 1.8rem;
-      font-size: 1rem;
-      text-align: center;
-      top: 0.34rem; }
-  .date-input #date {
-    width: 8rem !important;
-    padding: 0 0 0 0.1rem !important;
-    vertical-align: sub;
-    margin-bottom: 0; }
+    width: 0.8rem;
+  }
+}
+
+.date-input > button:last-child {
+  margin-right: 0.2rem;
+}
+
+.date-input span {
+  position: relative;
+}
+
+.date-input span::before {
+  font-size: small;
+}
+
+.date-input form {
+  margin: 0 0 0 0.2rem;
+  display: inline-block;
+  position: relative;
+}
+
+.date-input form > span:first-child {
+  width: 1.8rem;
+  font-size: 1rem;
+  text-align: center;
+  top: 0.34rem;
+}
+
+.date-input #date {
+  width: 8rem !important;
+  padding: 0 0 0 0.1rem !important;
+  vertical-align: sub;
+  margin-bottom: 0;
+}
+
 @-moz-document url-prefix() {
   .date-input #date {
-    width: 5rem !important; } }
-    .date-input #date::-webkit-inner-spin-button, .date-input #date::-webkit-calendar-picker-indicator {
-      opacity: 1; }
-  .date-input #calendar-icon {
-    position: relative; }
-  .date-input div {
-    visibility: hidden;
-    position: absolute;
-    background-color: #f2f5f6;
-    z-index: 3;
-    border: 1px solid #d2d6d9;
-    padding: 0.3rem 1rem; }
-    .date-input div table {
-      margin: 0;
-      font-size: small; }
-    .date-input div thead td {
-      padding: 0.1rem 0.2rem; }
-    .date-input div thead:last-of-type {
-      border: 1px solid #4a5d66;
-      border-bottom: none; }
-    .date-input div tbody {
-      border: 1px solid #4a5d66; }
-      .date-input div tbody td:hover {
-        background: #d2d6d9; }
-    .date-input div td {
-      text-align: center;
-      padding: 0 0.2rem; }
-    .date-input div thead span {
-      float: none; }
-    .date-input div button {
-      color: #394a59; }
-      .date-input div button span {
-        vertical-align: baseline; }
-    .date-input div tfoot td:hover {
-      background: #d2d6d9; }
-    .date-input div .today {
-      width: 100%; }
+    width: 5rem !important;
+  }
+}
+
+.date-input #date::-webkit-inner-spin-button, .date-input #date::-webkit-calendar-picker-indicator {
+  opacity: 1;
+}
+
+.date-input #calendar-icon {
+  position: relative;
+}
+
+.date-input div {
+  visibility: hidden;
+  position: absolute;
+  background-color: #f2f5f6;
+  z-index: 3;
+  border: 1px solid #d2d6d9;
+  padding: 0.3rem 1rem;
+}
+
+.date-input div table {
+  margin: 0;
+  font-size: small;
+}
+
+.date-input div thead td {
+  padding: 0.1rem 0.2rem;
+}
+
+.date-input div thead:last-of-type {
+  border: 1px solid #4a5d66;
+  border-bottom: none;
+}
+
+.date-input div tbody {
+  border: 1px solid #4a5d66;
+}
+
+.date-input div tbody td:hover {
+  background: #d2d6d9;
+}
+
+.date-input div td {
+  text-align: center;
+  padding: 0 0.2rem;
+}
+
+.date-input div thead span {
+  float: none;
+}
+
+.date-input div button {
+  color: #394a59;
+}
+
+.date-input div button span {
+  vertical-align: baseline;
+}
+
+.date-input div tfoot td:hover {
+  background: #d2d6d9;
+}
+
+.date-input div .today {
+  width: 100%;
+}
 
 .schedule-input:not(:checked) + .schedule-table {
   width: 0;
   position: absolute;
-  left: -3000px; }
+  left: -3000px;
+}
 
 .scheduleWrapper a,
 .scheduleWrapper a:visited,
 .scheduleWrapper a:hover {
-  color: #394a59; }
+  color: #394a59;
+}
 
 .schedule-table caption {
   background-color: white;
   font-size: 1.3rem;
-  margin-left: 0; }
+  margin-left: 0;
+}
+
 .schedule-table table {
-  border-top: 0.15rem #394a59 solid; }
+  border-top: 0.15rem #394a59 solid;
+}
+
 .schedule-table td, .schedule-table th {
-  width: 16%; }
-  .schedule-table td:first-child, .schedule-table th:first-child {
-    width: 2.5rem; }
+  width: 16%;
+}
+
+.schedule-table td:first-child, .schedule-table th:first-child {
+  width: 2.5rem;
+}
+
 .schedule-table th, .schedule-table td, .schedule-table .lesson, .schedule-table .break {
-  text-align: center; }
+  text-align: center;
+}
+
 .schedule-table a:hover {
-  text-decoration: underline; }
+  text-decoration: underline;
+}
+
+.organizer.mobile td:not(.activeColumn), .organizer.mobile th:not(.activeColumn) {
+  display: none;
+}
+
+.organizer.mobile td:first-child, .organizer.mobile th:first-child {
+  display: table-cell;
+}
+
+.organizer.mobile td.activeColumn, .organizer.mobile th.activeColumn {
+  width: auto;
+  padding-right: 1rem;
+}
 
 .organizer.mobile td:not(.activeColumn), .organizer.mobile th:not(.activeColumn) {
   display: none; }
@@ -313,11 +516,31 @@ button:hover,
   border: 0.1rem solid #4a5c66;
   background-color: #f2f5f6;
   margin: 0 auto 0.5rem;
-  padding: 0 0.2rem; }
+  padding: 0 0.2rem;
+}
 
 .name {
   font-weight: bold;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+}
+
+.pools {
+  border-bottom: 1px solid #d2d6d9;
+}
+
+.pools, .pool {
+  padding: 0.2rem 0;
+}
+
+@media (max-width: 360px) {
+  .pools, .pool {
+    padding: 0.1rem 0;
+  }
+}
+
+.location {
+  margin-left: 0.3rem;
+}
 
 .pools {
   border-bottom: 1px solid #d2d6d9; }
@@ -332,14 +555,38 @@ button:hover,
   margin-left: 0.3rem; }
 
 .module:before {
-  content: " ("; }
+  content: " (";
+}
+
 .module:after {
-  content: ") "; }
+  content: ") ";
+}
 
 .tmpl-mobile .persons, .tmpl-mobile .locations {
-  display: inline-block; }
+  display: inline-block;
+}
+
 .tmpl-mobile .location:nth-of-type(1):before {
-  content: " / "; }
+  content: " / ";
+}
+
+.misc:before, .location:nth-of-type(n+2):before {
+  content: " / ";
+}
+
+.add-lesson, .delete-lesson {
+  position: relative;
+  text-align: right;
+  width: 93%;
+}
+
+#next-date-selection {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  background-color: #dfeec8;
+  padding: 0.5rem;
+}
 
 .misc:before, .location:nth-of-type(n+2):before {
   content: " / "; }
@@ -361,49 +608,72 @@ button:hover,
   position: absolute;
   background-color: #dfeec8;
   z-index: 2;
-  padding: 0.5rem; }
-  .lesson-menu button {
-    display: block; }
-  .lesson-menu button.icon-cancel {
-    width: 100%;
-    text-align: right; }
-    .lesson-menu button.icon-cancel::before {
-      font-weight: bold; }
+  padding: 0.5rem;
+}
+
+.lesson-menu button {
+  display: block;
+}
+
+.lesson-menu button.icon-cancel {
+  width: 100%;
+  text-align: right;
+}
+
+.lesson-menu button.icon-cancel::before {
+  font-weight: bold;
+}
 
 .delete-lesson {
-  display: none; }
+  display: none;
+}
 
 .save, .delete {
-  display: none; }
+  display: none;
+}
 
 .added .add-lesson {
-  display: none; }
+  display: none;
+}
+
 .added .delete-lesson {
-  display: inline-block; }
+  display: inline-block;
+}
 
 .no-saving .add-lesson {
-  display: none; }
+  display: none;
+}
 
 .old {
-  text-decoration: line-through; }
-  .old .add-lesson {
-    display: none; }
+  text-decoration: line-through;
+}
+
+.old .add-lesson {
+  display: none;
+}
 
 .new {
-  color: #51a351; }
+  color: #51a351;
+}
 
 .break {
   background-color: #bfdc91;
-  padding: 0.2rem; }
+  padding: 0.2rem;
+}
 
 .own-time {
-  display: block; }
+  display: block;
+}
 
 .no-break tr:nth-child(4) td {
-  display: none; }
+  display: none;
+}
 
 .invisible-time tr td {
-  border-width: 0; }
+  border-width: 0;
+}
+
 .invisible-time th:first-child,
 .invisible-time tr td:first-child {
-  display: none; }
+  display: none;
+}

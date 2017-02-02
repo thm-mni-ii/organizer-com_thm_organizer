@@ -1797,15 +1797,12 @@ function insertLessonResponse()
 		if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
 		{
 			response = JSON.parse(ajaxRequest.responseText);
+			schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
+			schedule.setLessons(response);
+
 			if ((response.pastDate || response.futureDate) && window.jumpToNextDate)
 			{
 				openNextDateQuestion(response);
-				window.scheduleRequests.splice(ajaxIndex, 1);
-			}
-			else
-			{
-				schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
-				schedule.setLessons(response);
 				window.scheduleRequests.splice(ajaxIndex, 1);
 			}
 		}
