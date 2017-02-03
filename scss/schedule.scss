@@ -208,6 +208,10 @@ button:hover,
   margin: 0.5rem;
   width: 50%;
 
+  .organizer.mobile & {
+    width: 90%
+  }
+
   &.shown {
     background: $background-green;
   }
@@ -479,7 +483,7 @@ button:hover,
   }
 }
 
-.calendar-removed {
+.lesson-removed {
   opacity: 0.5;
   text-decoration: line-through;
 }
