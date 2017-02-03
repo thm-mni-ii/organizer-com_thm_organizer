@@ -492,6 +492,18 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
 				return false;
 			}
+
+			if(!empty($data['departments']))
+			{
+				$resourceName = str_replace('plan_', '', $resource);
+				$departmentsUpdated = $this->updateDepartments($resourceName, $data);
+				if (!$departmentsUpdated)
+				{
+					$this->_db->transactionRollback();
+
+					return false;
+				}
+			}
 		}
 
 		// No need to update associations. New entries have no associations. Existing entries keep their ids.
@@ -550,6 +562,87 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 * @return  boolean  true on success, otherwise false
 	 */
 	protected abstract function updateAssociations($newDBID, $oldDBIDs);
+
+	/**
+	 * Updates the associated departments for a resource
+	 *
+	 * @param string $resourceName the resource name (without the 'plan_' prefix)
+	 * @param array  $data         the data from the request
+	 *
+	 * @return bool true on success, otherwise false
+	 */
+	private function updateDepartments($resourceName, $data)
+	{
+		$existingQuery = $this->_db->getQuery(true);
+		$existingQuery->select("DISTINCT departmentID");
+		$existingQuery->from('#__thm_organizer_department_resources');
+		$existingQuery->where("{$resourceName}ID = '{$data['id']}'");
+		$this->_db->setQuery($existingQuery);
+
+		try
+		{
+			$existing = $this->_db->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+
+		$deprecated = array_diff($existing, $data['departments']);
+
+		if (!empty($deprecated))
+		{
+			$deletionQuery = $this->_db->getQuery(true);
+			$deletionQuery->delete('#__thm_organizer_department_resources');
+			$deletionQuery->where("{$resourceName}ID = '{$data['id']}'");
+			$deletionQuery->where("departmentID IN ('" . implode("','", $deprecated) . "')");
+			$this->_db->setQuery($deletionQuery);
+
+			try
+			{
+				$this->_db->execute();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+				$this->_db->transactionRollback();
+				return false;
+			}
+		}
+
+		$new = array_diff($data['departments'], $existing);
+
+		if (!empty($new))
+		{
+			$insertQuery = $this->_db->getQuery(true);
+			$insertQuery->insert("#__thm_organizer_department_resources");
+			$insertQuery->columns("departmentID, {$resourceName}ID");
+
+			foreach ($new as $newID)
+			{
+				$insertQuery->values("'$newID', '{$data['id']}'");
+				$this->_db->setQuery($insertQuery);
+
+				try
+				{
+					$this->_db->execute();
+				}
+				catch (Exception $exc)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+					JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+					$this->_db->transactionRollback();
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Updates department resource associations

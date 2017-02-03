@@ -21,5 +21,11 @@
                label="COM_THM_ORGANIZER_PROGRAM">
             <option value="">JNONE</option>
         </field>
+        <field name="departments"
+               type="departments"
+               resource="program"
+               class="inputbox"
+               label="COM_THM_ORGANIZER_DEPARTMENTS"
+               description="COM_THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"/>
     </fieldset>
 </form>

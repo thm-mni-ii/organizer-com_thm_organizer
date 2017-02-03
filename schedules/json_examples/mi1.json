@@ -1,0 +1,3094 @@
+{
+  "2017-01-23": {
+    "0800-0930": {
+      "15149": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Gesundheits\u00f6konomie": {
+            "subjectNo": "GWI1001",
+            "name": "Gesundheits\u00f6konomie",
+            "shortName": "Gesundheits\u00f6konomie",
+            "abbr": "GH\u00d6",
+            "teachers": {
+              "476": "Thiemann, H."
+            },
+            "rooms": {
+              "158": "B21.0.01"
+            },
+            "programs": {
+              "1945": {
+                "41": {
+                  "name": "Medizinisches Management (B.Sc. 2016)",
+                  "id": "41",
+                  "lft": "7423",
+                  "rgt": "7494",
+                  "planProgramID": "20"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "271250",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "15201": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272179",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15256": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "273881",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23840": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "399434",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "15164": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Objektorientierte Programmierung": {
+            "subjectNo": "GING1031",
+            "name": "Objektorientierte Programmierung",
+            "shortName": "OOP",
+            "abbr": "OOP",
+            "teachers": {
+              "1045": "Haller, A."
+            },
+            "rooms": {
+              "151": "B14.3.15"
+            },
+            "programs": {
+              "1511": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "271504",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "15165": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Naturwissenschaftliche und technische Grundlagen": {
+            "subjectNo": "GMNG1004",
+            "name": "Naturwissenschaftliche und technische Grundlagen",
+            "shortName": "Naturwis. u. tech. Grund",
+            "abbr": "NaturTechG",
+            "teachers": {
+              "82": "Gro\u00df, V."
+            },
+            "rooms": {
+              "150": "B14.3.14"
+            },
+            "programs": {
+              "1606": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "271517",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "15166": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Naturwissenschaftliche und technische Grundlagen": {
+            "subjectNo": "GMNG1004",
+            "name": "Naturwissenschaftliche und technische Grundlagen",
+            "shortName": "Naturwis. u. tech. Grund",
+            "abbr": "NaturTechG",
+            "teachers": {
+              "495": "Sus, R."
+            },
+            "rooms": {
+              "150": "B14.3.14"
+            },
+            "programs": {
+              "1606": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "271530",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1730-1900": {
+      "15226": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "17:30:00",
+        "endTime": "19:00:00",
+        "subjects": {
+          "Medizinische Grundlagen I": {
+            "subjectNo": "GMED1001",
+            "name": "Medizinische Grundlagen I",
+            "shortName": "Medizinische Grundl. I",
+            "abbr": "MGI",
+            "teachers": {
+              "1312": "B\u00f6hm, K."
+            },
+            "rooms": {
+              "158": "B21.0.01"
+            },
+            "programs": {
+              "1520": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              },
+              "1926": {
+                "41": {
+                  "name": "Medizinisches Management (B.Sc. 2016)",
+                  "id": "41",
+                  "lft": "7423",
+                  "rgt": "7494",
+                  "planProgramID": "20"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272675",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-01-24": {
+    "0800-0930": {
+      "15224": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "13": "Schmitt, W."
+            },
+            "rooms": {
+              "116": "A20.0.08"
+            },
+            "programs": {
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272650",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15421": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "13": "Schmitt, W."
+            },
+            "rooms": {
+              "116": "A20.0.08"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "276816",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23959": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "13": "Schmitt, W."
+            },
+            "rooms": {
+              "116": "A20.0.08"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "403342",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "15200": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "433": "R\u00f6der, J."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272165",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15321": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "433": "R\u00f6der, J."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "275158",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23905": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "433": "R\u00f6der, J."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "400688",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "15200": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "433": "R\u00f6der, J."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272166",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15224": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "13": "Schmitt, W."
+            },
+            "rooms": {
+              "80": "A12.1.16"
+            },
+            "programs": {
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272651",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15321": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "433": "R\u00f6der, J."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "275159",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15421": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "13": "Schmitt, W."
+            },
+            "rooms": {
+              "80": "A12.1.16"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "276817",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23905": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "433": "R\u00f6der, J."
+            },
+            "rooms": {
+              "297": "A.2.01"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "400687",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      },
+      "23959": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "13": "Schmitt, W."
+            },
+            "rooms": {
+              "80": "A12.1.16"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "403343",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "15202": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272204",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15350": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "275558",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15173": {
+        "method": "PRK",
+        "comment": "Kurs 1",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "401230",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-01-25": {
+    "0800-0930": {
+      "15150": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Gesundheits\u00f6konomie": {
+            "subjectNo": "GWI1001",
+            "name": "Gesundheits\u00f6konomie",
+            "shortName": "Gesundheits\u00f6konomie",
+            "abbr": "GH\u00d6",
+            "teachers": {
+              "277": "Amanullah, A."
+            },
+            "rooms": {
+              "158": "B21.0.01"
+            },
+            "programs": {
+              "1945": {
+                "41": {
+                  "name": "Medizinisches Management (B.Sc. 2016)",
+                  "id": "41",
+                  "lft": "7423",
+                  "rgt": "7494",
+                  "planProgramID": "20"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "271263",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "15121": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Objektorientierte Programmierung": {
+            "subjectNo": "GING1031",
+            "name": "Objektorientierte Programmierung",
+            "shortName": "OOP",
+            "abbr": "OOP",
+            "teachers": {
+              "1045": "Haller, A.",
+              "1272": "Takoulegha, D."
+            },
+            "rooms": {
+              "144": "B13.0.03"
+            },
+            "programs": {
+              "1511": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "270654",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23980": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Objektorientierte Programmierung": {
+            "subjectNo": "GING1031",
+            "name": "Objektorientierte Programmierung",
+            "shortName": "OOP",
+            "abbr": "OOP",
+            "teachers": {
+              "1272": "Takoulegha, D.",
+              "1045": "Haller, A."
+            },
+            "rooms": {
+              "149": "B14.3.13"
+            },
+            "programs": {
+              "1511": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "427498",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "15120": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Objektorientierte Programmierung": {
+            "subjectNo": "GING1031",
+            "name": "Objektorientierte Programmierung",
+            "shortName": "OOP",
+            "abbr": "OOP",
+            "teachers": {
+              "1272": "Takoulegha, D."
+            },
+            "rooms": {
+              "149": "B14.3.13"
+            },
+            "programs": {
+              "1511": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "270641",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "15203": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272218",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15248": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "273742",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23831": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "399270",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-01-26": {
+    "0950-1120": {
+      "15227": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272682",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15436": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "277005",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23961": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "403534",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "15202": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272205",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15350": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "275559",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15173": {
+        "method": "PRK",
+        "comment": "Kurs 1",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Diskrete Mathematik": {
+            "subjectNo": "MN1007",
+            "name": "Diskrete Mathematik",
+            "shortName": "Diskrete Mathematik",
+            "abbr": "DiskMat",
+            "teachers": {
+              "30": "Just, B."
+            },
+            "rooms": {
+              "122": "A20.1.36"
+            },
+            "programs": {
+              "16": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1529": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "401205",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-01-27": {
+    "0800-0930": {
+      "15204": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "117": "A20.0.09"
+            },
+            "programs": {
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272231",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15230": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "354": "Hiller, A."
+            },
+            "rooms": {
+              "119": "A20.1.08"
+            },
+            "programs": {
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272714",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15435": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "117": "A20.0.09"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "276997",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15438": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "354": "Hiller, A."
+            },
+            "rooms": {
+              "119": "A20.1.08"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "277036",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23960": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "117": "A20.0.09"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "403527",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23963": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "354": "Hiller, A."
+            },
+            "rooms": {
+              "119": "A20.1.08"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "403566",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "15205": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "117": "A20.0.09"
+            },
+            "programs": {
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272244",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15229": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "354": "Hiller, A."
+            },
+            "rooms": {
+              "120": "A20.1.09"
+            },
+            "programs": {
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "272701",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15435": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "117": "A20.0.09"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "276998",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "15438": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "354": "Hiller, A."
+            },
+            "rooms": {
+              "120": "A20.1.09"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "277037",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23960": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "23": "Christidis, A."
+            },
+            "rooms": {
+              "117": "A20.0.09"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "403526",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "23963": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Grundlagen der Informatik": {
+            "subjectNo": "CS1014",
+            "name": "Grundlagen der Informatik",
+            "shortName": "Grund. der Informatik",
+            "abbr": "GDI",
+            "teachers": {
+              "354": "Hiller, A."
+            },
+            "rooms": {
+              "120": "A20.1.09"
+            },
+            "programs": {
+              "4": {
+                "29": {
+                  "name": "Bioinformatik (B.Sc. 2012)",
+                  "id": "29",
+                  "lft": "4711",
+                  "rgt": "4876",
+                  "planProgramID": "9"
+                },
+                "1": {
+                  "name": "Informatik (B.Sc. 2010)",
+                  "id": "1",
+                  "lft": "11",
+                  "rgt": "212",
+                  "planProgramID": "12"
+                },
+                "33": {
+                  "name": "Ingenieur-Informatik (B.Sc. 2010)",
+                  "id": "33",
+                  "lft": "5759",
+                  "rgt": "5928",
+                  "planProgramID": "14"
+                }
+              },
+              "1512": {
+                "24": {
+                  "name": "Medizinische Informatik (B.Sc. 2010)",
+                  "id": "24",
+                  "lft": "4329",
+                  "rgt": "4552",
+                  "planProgramID": "18"
+                },
+                "30": {
+                  "name": "Medizinische Informatik (B.Sc. 2015)",
+                  "id": "30",
+                  "lft": "4877",
+                  "rgt": "5262"
+                }
+              }
+            },
+            "teacherDeltas": [],
+            "roomDeltas": [],
+            "pools": {
+              "41": {
+                "gpuntisID": "MI.1",
+                "name": "1. Semester",
+                "fullName": "Medizinische Informatik (B.Sc.), 1. Semester"
+              }
+            },
+            "delta": ""
+          }
+        },
+        "ccmID": "403565",
+        "calendarDelta": "removed",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-01-28": []
+}
