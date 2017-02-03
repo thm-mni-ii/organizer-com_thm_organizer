@@ -14,15 +14,24 @@
   }
 }
 
-a,
-a:visited {
+a {
   color: $font-color;
+  &:visited {
+    color: $font-color;
+  }
+  &:focus {
+    outline: none;
+  }
 }
 
 button {
   font-size: 1.3rem;
   background-color: transparent;
   border: none;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 button:hover,
@@ -190,6 +199,30 @@ button:hover,
   }
 }
 
+.selected-schedule {
+  background-color: white;
+  border: 1px solid #4a5d66;
+  color: #394A59;
+  display: block;
+  padding: 0.4rem;
+  margin: 0.5rem;
+  width: 50%;
+
+  &.shown {
+    background: $background-green;
+  }
+
+  .show-schedule {
+    margin-right: 0.5rem;
+  }
+
+  .remove-schedule {
+    float: right;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+}
+
 #tab-exports {
   padding-right: 0.7rem;
 }
@@ -310,12 +343,13 @@ button:hover,
 
   //choose-date
   div {
-    visibility: hidden;
-    position: absolute;
     background-color: $background;
-    z-index: 3;
     border: 1px solid #d2d6d9;
+    box-shadow: 0 0 5px #888;
     padding: 0.3rem 1rem;
+    position: absolute;
+    visibility: hidden;
+    z-index: 3;
 
     table {
       margin: 0;
@@ -430,32 +464,40 @@ button:hover,
   }
 }
 
+.occupied {
+  background-color: $background-navigation;
+}
+
 .lesson {
   border: 0.1rem solid $grey-100;
   background-color: $background;
   margin: 0 auto 0.5rem;
   padding: 0 0.2rem;
+
+  a {
+    cursor: pointer;
+  }
+}
+
+.calendar-removed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+//don't know correct class name
+.calendar-added {
+  border-color: $thm;
+
+  a, span {
+    color: $thm;
+  }
 }
 
 .name {
   font-weight: bold;
   word-wrap: break-word;
-}
-
-.pools {
-  border-bottom: 1px solid $grey-25;
-}
-
-.pools, .pool {
-  padding: 0.2rem 0;
-
-  @media (max-width: 360px) {
-    padding: 0.1rem 0;
-  }
-}
-
-.location {
-  margin-left: 0.3rem;
+  word-break: break-all;
+  white-space: pre-wrap;
 }
 
 .module {
@@ -468,17 +510,29 @@ button:hover,
   }
 }
 
+.pools, .pool {
+  padding: 0.2rem 0;
+
+  @media (max-width: 360px) {
+    padding: 0.1rem 0;
+  }
+}
+
+.pool:nth-of-type(n+2):before {
+  content: " , ";
+}
+
 .tmpl-mobile {
   .persons, .locations {
-      display: inline-block;
-    }
+    display: inline-block;
+  }
 
   .location:nth-of-type(1):before {
     content: " / ";
   }
 }
 
-.misc:before, .location:nth-of-type(n+2):before {
+.misc:before, .location:nth-of-type(n+2):before, .person:nth-of-type(n+2):before {
   content: " / ";
 }
 
@@ -486,10 +540,16 @@ button:hover,
   position: relative;
   text-align: right;
   width: 93%;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .message-pop-up {
   background-color: $background-green;
+  box-shadow: 0 0 5px #888;
+  color: $font-color;
   display: none;
   left: calc(50% - 12rem);
   padding: 0.5rem;
@@ -497,6 +557,16 @@ button:hover,
   top: 28rem;
   width: 24rem;
   z-index: 2;
+
+  button {
+    color: inherit;
+  }
+
+  .organizer.mobile & {
+    left: auto;
+    right: auto;
+    width: 90%;
+  }
 }
 
 .lesson-menu {
@@ -505,6 +575,7 @@ button:hover,
   background-color: $background-green;
   z-index: 2;
   padding: 0.5rem;
+  box-shadow: 0 0 5px #888;
 
   button {
     display: block;

@@ -85,15 +85,26 @@ li.active:not(.inactive) [class^="icon-"]::before {
     }
 }
 
-a,
+a {
+    color: #394a59;
+}
+
 a:visited {
     color: #394a59;
+}
+
+a:focus {
+    outline: none;
 }
 
 button {
     font-size: 1.3rem;
     background-color: transparent;
     border: none;
+}
+
+button:focus {
+    outline: none;
 }
 
 button:hover,
@@ -239,6 +250,30 @@ button:hover,
     width: 100%;
 }
 
+.selected-schedule {
+    background-color: white;
+    border: 1px solid #4a5d66;
+    color: #394A59;
+    display: block;
+    padding: 0.4rem;
+    margin: 0.5rem;
+    width: 50%;
+}
+
+.selected-schedule.shown {
+    background: #dfeec8;
+}
+
+.selected-schedule .show-schedule {
+    margin-right: 0.5rem;
+}
+
+.selected-schedule .remove-schedule {
+    float: right;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
 #tab-exports {
     padding-right: 0.7rem;
 }
@@ -359,12 +394,13 @@ button:hover,
 }
 
 .date-input div {
-    visibility: hidden;
-    position: absolute;
     background-color: #f2f5f6;
-    z-index: 3;
     border: 1px solid #d2d6d9;
+    box-shadow: 0 0 5px #888;
     padding: 0.3rem 1rem;
+    position: absolute;
+    visibility: hidden;
+    z-index: 3;
 }
 
 .date-input div table {
@@ -465,6 +501,10 @@ button:hover,
     padding-right: 1rem;
 }
 
+.occupied {
+    background-color: #dfe5e6;
+}
+
 .lesson {
     border: 0.1rem solid #4a5c66;
     background-color: #f2f5f6;
@@ -472,13 +512,36 @@ button:hover,
     padding: 0 0.2rem;
 }
 
+.lesson a {
+    cursor: pointer;
+}
+
+.calendar-removed {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.calendar-added {
+    border-color: #80ba24;
+}
+
+.calendar-added a, .calendar-added span {
+    color: #80ba24;
+}
+
 .name {
     font-weight: bold;
     word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
 }
 
-.pools {
-    border-bottom: 1px solid #d2d6d9;
+.module:before {
+    content: " (";
+}
+
+.module:after {
+    content: ") ";
 }
 
 .pools, .pool {
@@ -491,16 +554,8 @@ button:hover,
     }
 }
 
-.location {
-    margin-left: 0.3rem;
-}
-
-.module:before {
-    content: " (";
-}
-
-.module:after {
-    content: ") ";
+.pool:nth-of-type(n+2):before {
+    content: " , ";
 }
 
 .tmpl-mobile .persons, .tmpl-mobile .locations {
@@ -511,7 +566,7 @@ button:hover,
     content: " / ";
 }
 
-.misc:before, .location:nth-of-type(n+2):before {
+.misc:before, .location:nth-of-type(n+2):before, .person:nth-of-type(n+2):before {
     content: " / ";
 }
 
@@ -521,8 +576,14 @@ button:hover,
     width: 93%;
 }
 
+.add-lesson:focus, .delete-lesson:focus {
+    outline: none;
+}
+
 .message-pop-up {
     background-color: #dfeec8;
+    box-shadow: 0 0 5px #888;
+    color: #394a59;
     display: none;
     left: calc(50% - 12rem);
     padding: 0.5rem;
@@ -532,12 +593,23 @@ button:hover,
     z-index: 2;
 }
 
+.message-pop-up button {
+    color: inherit;
+}
+
+.organizer.mobile .message-pop-up {
+    left: auto;
+    right: auto;
+    width: 90%;
+}
+
 .lesson-menu {
     display: none;
     position: absolute;
     background-color: #dfeec8;
     z-index: 2;
     padding: 0.5rem;
+    box-shadow: 0 0 5px #888;
 }
 
 .lesson-menu button {
