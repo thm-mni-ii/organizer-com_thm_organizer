@@ -57,9 +57,7 @@ $mobile = $this->isMobile ? 'mobile' : '';
 					<button id="previous-week" class="controls" type="button">
 						<span class="icon-arrow-left"></span>
 					</button>
-					<input id="date" type="text" name="date" required
-					       min="<?php echo $this->startDate; ?>"
-					       max="<?php echo $this->endDate; ?>"/>
+					<input id="date" type="text" required/>
 					<button id="calendar-icon" type="button" class="controls">
 						<span class="icon-calendar"></span>
 					</button>
@@ -130,7 +128,7 @@ $mobile = $this->isMobile ? 'mobile' : '';
 			<div class="tab-panel selection active" id="schedule-form" role="tabpanel"
 			     aria-labelledby="tab-schedule-form" aria-hidden="false">
 				<div id="category-input">
-					<select id="category" name="category" required>
+					<select id="category" required>
 						<option value="placeholder" disabled>
 							<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
 						</option>
@@ -144,7 +142,7 @@ $mobile = $this->isMobile ? 'mobile' : '';
 				{
 					?>
 					<div id="department-input" class="input-wrapper">
-						<select id="department" name="department" multiple
+						<select id="department" multiple
 						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
 							<?php
 							foreach ($this->getModel()->departments as $id => $department)
@@ -156,27 +154,27 @@ $mobile = $this->isMobile ? 'mobile' : '';
 					</div>
 				<?php } ?>
 				<div id="program-input" class="input-wrapper ">
-					<select id="program" name="program">
+					<select id="program">
 						<!-- filled by ajax -->
 					</select>
 				</div>
 				<div id="pool-input" class="input-wrapper hide">
-					<select id="pool" name="pool">
+					<select id="pool">
 						<!-- filled by ajax -->
 					</select>
 				</div>
 				<div id="room-type-input" class="input-wrapper hide">
-					<select id="roomtype" name="room-type">
+					<select id="roomtype">
 						<!-- filled by ajax -->
 					</select>
 				</div>
 				<div id="room-input" class="input-wrapper hide">
-					<select id="room" name="room">
+					<select id="room">
 						<!-- filled by ajax -->
 					</select>
 				</div>
 				<div id="teacher-input" class="input-wrapper hide">
-					<select id="teacher" name="teacher"
+					<select id="teacher"
 					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER"); ?>">
 						<!-- filled by ajax -->
 					</select>
@@ -191,7 +189,7 @@ $mobile = $this->isMobile ? 'mobile' : '';
 
 			<div class="tab-panel" id="time-selection" role="tabpanel"
 			     aria-labelledby="tab-time" aria-hidden="false">
-				<select id="grid" name="grid" required>
+				<select id="grid" required>
 					<?php
 					foreach ($this->getModel()->grids as $grid)
 					{
@@ -340,7 +338,7 @@ $mobile = $this->isMobile ? 'mobile' : '';
 		</div>
 	</div>
 
-	<div id="next-date-selection">
+	<div id="next-date-selection" class="message-pop-up">
 		<p><?php echo JText::_("COM_THM_ORGANIZER_JUMP_DATE"); ?></p>
 		<button class="close icon-cancel"></button>
 		<button id="past-date">
@@ -349,5 +347,10 @@ $mobile = $this->isMobile ? 'mobile' : '';
 		<button id="future-date">
 			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
 		</button>
+	</div>
+
+	<div id="no-lessons" class="message-pop-up">
+		<p><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></p>
+		<button class="close icon-cancel"></button>
 	</div>
 </div>

@@ -48,20 +48,6 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	protected $departmentID;
 
 	/**
-	 * specifies the start date of calendar selection
-	 *
-	 * @var string
-	 */
-	protected $startDate;
-
-	/**
-	 * specifies the end date of calendar selection
-	 *
-	 * @var string
-	 */
-	protected $endDate;
-
-	/**
 	 * mobile device or not
 	 *
 	 * @var boolean
@@ -91,8 +77,6 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$this->dateFormat   = $compParams->get('dateFormat', 'd.m.Y');
 		$params             = JFactory::getApplication()->getMenu()->getActive()->params;
 		$this->departmentID = $params->get('departmentID', '0');
-		$this->startDate    = $params->get('startDate', '');
-		$this->endDate      = $params->get('endDate', '');
 		$this->modifyDocument();
 		parent::display($tpl);
 	}
@@ -107,10 +91,8 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$doc = JFactory::getDocument();
 
 		JHtml::_('formbehavior.chosen', 'select');
-		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/calendar.js");
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
 
-	//	$doc->addStyleSheet(JUri::root() . "libraries/thm_core/fonts/iconfont-frontend.css");
 		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/fonts/iconfont-frontend.css");
 		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
 		$doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");

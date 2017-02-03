@@ -12,8 +12,8 @@
 "use strict";
 
 var ajaxSave = null, ajaxSelection = null, Calendar, calendar, dateField, datePattern,
-	isMobile, nextDateSelection, jumpToNextDate = true, LessonMenu, Schedule, Schedules, scheduleObjects, ScheduleTable,
-	scheduleRequests = [], scheduleWrapper, weekdays;
+	isMobile, nextDateSelection, noLessons, LessonMenu, Schedule, Schedules, scheduleObjects, ScheduleTable,
+	scheduleRequests = [], scheduleWrapper, weekdays, placeholder;
 
 /**
  * Calendar class for a date input field with HTMLTableElement as calendar.
@@ -291,6 +291,9 @@ Schedule = function (resource, IDs, optionalTitle)
 		this.scheduleTable.create();
 		this.setTitle();
 		this.setTask();
+		this.requestUpdate();
+		addScheduleToSelection(this);
+		window.scheduleObjects.addSchedule(this);
 	};
 
 	/**
@@ -422,22 +425,21 @@ ScheduleTable = function (schedule)
 	 */
 	this.update = function (lessons, newTimeGrid)
 	{
-		this.visibleDay = getDateFieldsDateObject().getDay();
-		this.resetTable();
-		this.setGridDays();
-
 		if (window.isMobile)
 		{
 			this.setActiveColumn();
 		}
-
 		if (newTimeGrid)
 		{
 			this.timeGrid = JSON.parse(getSelectedValues("grid"));
 			this.setGridTime();
 		}
 
-		handleBreakRows(this.table, this.timeGrid);
+		this.visibleDay = getDateFieldsDateObject().getDay();
+		this.resetTable();
+		this.setGridDays();
+		this.handleBreakRows();
+
 		if (!(lessons["pastDate"] || lessons["futureDate"]))
 		{
 			this.insertLessons(lessons);
@@ -450,7 +452,7 @@ ScheduleTable = function (schedule)
 	 */
 	this.createScheduleElement = function ()
 	{
-		var input, div, tbody, row, weekEnd = 7;
+		var input, div, tbody, row, initGrid, period, firstDay, weekEnd = 7;
 
 		// Create input field for selecting this schedule
 		input = document.createElement("input");
@@ -472,23 +474,11 @@ ScheduleTable = function (schedule)
 		this.table.appendChild(tbody);
 
 		// Filled with rows and cells (with -1 for last position)
-		if (this.timeGrid.hasOwnProperty("periods"))
-		{
-			for (var periods in this.timeGrid.periods)
-			{
-				row = tbody.insertRow(-1);
-
-				for (var firstDay = 0; firstDay < weekEnd; ++firstDay)
-				{
-					row.insertCell(-1);
-				}
-			}
-		}
-		else
+		initGrid = this.timeGrid.hasOwnProperty("periods") ? this.timeGrid : variables.defaultGrid;
+		for (period in initGrid.periods)
 		{
 			row = tbody.insertRow(-1);
-
-			for (var weekStart = 0; weekStart < weekEnd; ++weekStart)
+			for (firstDay = 0; firstDay < weekEnd; ++firstDay)
 			{
 				row.insertCell(-1);
 			}
@@ -928,7 +918,7 @@ ScheduleTable = function (schedule)
 	this.addSubjectElements = function (outerElement, data)
 	{
 		var subjectLinkID, openSubjectDetailsLink, planProgramID, programID, schedule = this.schedule,
-			subjectNameElement, numIndex, subjectNumbers, subjectNumberElement;
+			subjectNameElement, name, numIndex, subjectNumbers, subjectNumberElement;
 
 		// Find the right subjectID for subject details depending on schedule plan program
 		function getSubjectDetailsID()
@@ -979,7 +969,9 @@ ScheduleTable = function (schedule)
 			}
 			else
 			{
-				subjectNameElement.innerHTML = data.name + (data.method ? " - " + data.method : "");
+				// Append whitespace to slashs for better word break
+				name = data.name.match(/\S\/\S/g) ? data.name.replace(/(\S)\/(\S)/g, "$1 / $2") : data.name;
+				subjectNameElement.innerHTML = name + (data.method ? " - " + data.method : "");
 			}
 			subjectNameElement.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
 			outerElement.appendChild(subjectNameElement);
@@ -1111,7 +1103,48 @@ ScheduleTable = function (schedule)
 		window.scheduleWrapper.removeChild(document.getElementById(schedule.id));
 		// table element
 		window.scheduleWrapper.removeChild(document.getElementById(schedule.id + "-schedule"));
-	}
+	};
+
+	/**
+	 * Add or remove rows for breaks depending on time grid
+	 */
+	this.handleBreakRows = function ()
+	{
+		var numberOfColumns = isMobile ? 2
+				: jQuery(this.table).find('tr:first').find('th').filter(function ()
+			{
+				return jQuery(this).css('display') != 'none';
+			}).length,
+			tableTbodyRow = jQuery(this.table).find('tbody').find('tr'),
+			addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
+			addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';
+
+		if (!this.timeGrid.hasOwnProperty('periods'))
+		{
+			jQuery(".break").closest('tr').remove();
+			tableTbodyRow.not(':eq(0)').addClass("hide");
+		}
+		else if (this.timeGrid.periods[1].endTime == this.timeGrid.periods[2].startTime)
+		{
+			jQuery(".break").closest('tr').remove();
+			tableTbodyRow.not(':eq(0)').removeClass("hide");
+		}
+		else if (!(tableTbodyRow.hasClass("break-row")))
+		{
+			tableTbodyRow.not(':eq(0)').removeClass("hide");
+			for (var periods in this.timeGrid.periods)
+			{
+				if (periods == 1 || periods == 2 || periods == 4 || periods == 5)
+				{
+					jQuery(addBreakRow).insertAfter(tableTbodyRow.eq(periods - 1));
+				}
+				if (periods == 3)
+				{
+					jQuery(addLunchBreakRow).insertAfter(tableTbodyRow.eq(periods - 1));
+				}
+			}
+		}
+	};
 };
 
 /**
@@ -1367,9 +1400,11 @@ jQuery(document).ready(function ()
 	futureDateButton.addEventListener("click", nextDateEventHandler);
 	window.nextDateSelection.getElementsByClassName("close")[0].addEventListener("click", function ()
 	{
-		window.jumpToNextDate = false;
 		window.nextDateSelection.style.display = "none";
-		updateSchedule();
+	});
+	window.noLessons.getElementsByClassName("close")[0].addEventListener("click", function ()
+	{
+		window.noLessons.style.display = "none";
 	});
 
 	// Select 'programs' by website loading and load results
@@ -1463,31 +1498,6 @@ jQuery(document).ready(function ()
 			sendFormRequest("room");
 		}
 	});
-
-	jQuery("#pool").chosen().change(function ()
-	{
-		if (getSelectedValues("pool"))
-		{
-			sendLessonRequest("pool");
-		}
-	});
-
-	jQuery("#teacher").chosen().change(function ()
-	{
-		if (getSelectedValues("teacher"))
-		{
-			sendLessonRequest("teacher");
-		}
-	});
-
-	jQuery("#room").chosen().change(function ()
-	{
-		if (getSelectedValues("room"))
-		{
-			sendLessonRequest("room");
-		}
-	});
-
 	jQuery("#schedules").chosen().change(function ()
 	{
 		var scheduleInput = document.getElementById(jQuery("#schedules").val());
@@ -1579,6 +1589,7 @@ function initSchedule()
 	window.futureDateButton = document.getElementById("future-date");
 	window.isMobile = window.matchMedia("(max-width: 677px)").matches;
 	window.nextDateSelection = document.getElementById("next-date-selection");
+	window.noLessons = document.getElementById("no-lessons");
 	window.lessonMenu = new LessonMenu;
 	window.lessonMenu.create();
 	window.pastDateButton = document.getElementById("past-date");
@@ -1593,6 +1604,13 @@ function initSchedule()
 		text.SATURDAY_SHORT,
 		text.SUNDAY_SHORT
 	];
+	window.placeholder = {
+		"pool": text.POOL_PLACEHOLDER,
+		"program": text.PROGRAM_PLACEHOLDER,
+		"room": text.ROOM_PLACEHOLDER,
+		"roomtype": text.ROOMTYPE_PLACEHOLDER,
+		"teacher": text.TEACHER_PLACEHOLDER
+	};
 
 	if (variables.registered)
 	{
@@ -1608,9 +1626,6 @@ function createUserSchedule()
 {
 	var schedule = new Schedule("user");
 	schedule.create();
-	schedule.requestUpdate();
-	addScheduleToSelection(schedule);
-	window.scheduleObjects.addSchedule(schedule);
 }
 
 /**
@@ -1655,7 +1670,7 @@ function sendFormRequest(resource)
  */
 function updateForm()
 {
-	var values, fieldID, formField, option, optionCount, fields = ['pool', 'program', 'room', 'roomtype', 'teacher'];
+	var values, fieldID, formField, option, optionCount, drop;
 
 	if (ajaxSelection.readyState === 4 && ajaxSelection.status === 200)
 	{
@@ -1665,30 +1680,11 @@ function updateForm()
 		removeChildren(formField);
 		optionCount = Object.keys(values).length;
 
-		if (fields.indexOf(fieldID) !== -1)
+		if (window.placeholder[fieldID])
 		{
 			option = document.createElement("option");
-			option.setAttribute("value", '');
-			if (fieldID === 'pool')
-			{
-				option.innerHTML = text.POOL_PLACEHOLDER;
-			}
-			if (fieldID === 'program')
-			{
-				option.innerHTML = text.PROGRAM_PLACEHOLDER;
-			}
-			if (fieldID === 'room')
-			{
-				option.innerHTML = text.ROOM_PLACEHOLDER;
-			}
-			if (fieldID === 'roomtype')
-			{
-				option.innerHTML = text.ROOMTYPE_PLACEHOLDER;
-			}
-			if (fieldID === 'teacher')
-			{
-				option.innerHTML = text.TEACHER_PLACEHOLDER;
-			}
+			option.setAttribute("value", "");
+			option.innerHTML = window.placeholder[fieldID];
 			formField.appendChild(option);
 		}
 
@@ -1719,6 +1715,20 @@ function updateForm()
 
 		formField.removeAttribute("disabled");
 		jQuery("#" + fieldID).chosen("destroy").chosen();
+
+		// Select on click, even on already selected(!) options (unlike chosens "change" event)
+		if (fieldID === "pool" || fieldID === "teacher" || fieldID === "room")
+		{
+			drop = document.getElementById(fieldID + "-input").getElementsByClassName("chzn-drop")[0];
+			drop.addEventListener("click", function(event)
+			{
+				var selectedOption = event.target;
+				if (selectedOption && selectedOption.dataset.optionArrayIndex !== 0)
+				{
+					sendLessonRequest(fieldID);
+				}
+			});
+		}
 
 		if (optionCount === 1)
 		{
@@ -1776,9 +1786,6 @@ function sendLessonRequest(resource, optionalID, optionalTitle)
 	{
 		schedule = new Schedule(resource, IDs, optionalTitle);
 		schedule.create();
-		schedule.requestUpdate();
-		scheduleObjects.addSchedule(schedule);
-		addScheduleToSelection(schedule);
 	}
 
 	switchToScheduleListTab();
@@ -1800,16 +1807,15 @@ function insertLessonResponse()
 			schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
 			schedule.setLessons(response);
 
-			if ((response.pastDate || response.futureDate) && window.jumpToNextDate)
+			if ((response.pastDate || response.futureDate) && schedule.id === jQuery("#schedules").val())
 			{
 				openNextDateQuestion(response);
-				window.scheduleRequests.splice(ajaxIndex, 1);
 			}
-		}
-		// Allow question about changing to next date again TODO: besseren Ort finden
-		if (!window.jumpToNextDate && window.scheduleRequests.length === 0)
-		{
-			window.jumpToNextDate = true;
+			else if (response.pastDate === null && response.futureDate === null)
+			{
+				window.noLessons.style.display = "block";
+			}
+			window.scheduleRequests.splice(ajaxIndex, 1);
 		}
 	}
 }
@@ -1824,14 +1830,7 @@ function openNextDateQuestion(dates)
 	var pastDate = dates["pastDate"] ? new Date(dates["pastDate"]) : null,
 		futureDate = dates["futureDate"] ? new Date(dates["futureDate"]) : null;
 
-	if (!dates)
-	{
-		return;
-	}
-	else
-	{
-		window.nextDateSelection.style.display = "block";
-	}
+	window.nextDateSelection.style.display = "block";
 
 	if (pastDate)
 	{
@@ -2212,53 +2211,6 @@ function changePositionOfDateInput()
 			jQuery(".date-input").appendTo(".date-input-list-item");
 		}
 	});
-}
-
-/**
- * add or remove rows for breaks depending of time grids
- * 
- * @param scheduleTable HTMLTableElement
- * @param grid object
- */
-function handleBreakRows(scheduleTable, grid)
-{
-	var numberOfColumns = isMobile ? 2
-			: jQuery(scheduleTable).find('tr:first').find('th').filter(function ()
-		{
-			return jQuery(this).css('display') != 'none';
-		}).length,
-		tableTbodyRow = jQuery(scheduleTable).find('tbody').find('tr'),
-		addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
-		addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';
-
-	if (grid)
-	{
-		if (!grid.hasOwnProperty('periods'))
-		{
-			jQuery(".break").closest('tr').remove();
-			tableTbodyRow.not(':eq(0)').addClass("hide");
-		}
-		else if (grid.periods[1].endTime == grid.periods[2].startTime)
-		{
-			jQuery(".break").closest('tr').remove();
-			tableTbodyRow.not(':eq(0)').removeClass("hide");
-		}
-		else if (!(tableTbodyRow.hasClass("break-row")))
-		{
-			tableTbodyRow.not(':eq(0)').removeClass("hide");
-			for (var periods in grid.periods)
-			{
-				if (periods == 1 || periods == 2 || periods == 4 || periods == 5)
-				{
-					jQuery(addBreakRow).insertAfter(tableTbodyRow.eq(periods - 1));
-				}
-				if (periods == 3)
-				{
-					jQuery(addLunchBreakRow).insertAfter(tableTbodyRow.eq(periods - 1));
-				}
-			}
-		}
-	}
 }
 
 /**

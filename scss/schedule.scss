@@ -443,7 +443,6 @@ button:hover,
 }
 
 .pools {
-
   border-bottom: 1px solid $grey-25;
 }
 
@@ -489,7 +488,7 @@ button:hover,
   width: 93%;
 }
 
-#next-date-selection {
+.message-pop-up {
   background-color: $background-green;
   display: none;
   left: calc(50% - 12rem);

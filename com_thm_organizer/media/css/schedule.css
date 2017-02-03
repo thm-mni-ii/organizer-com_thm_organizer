@@ -521,7 +521,7 @@ button:hover,
     width: 93%;
 }
 
-#next-date-selection {
+.message-pop-up {
     background-color: #dfeec8;
     display: none;
     left: calc(50% - 12rem);

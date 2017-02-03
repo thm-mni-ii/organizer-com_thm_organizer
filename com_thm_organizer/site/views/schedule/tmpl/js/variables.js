@@ -5,7 +5,7 @@ variables.INSTANCE_MODE = 3;
 variables.ajaxbase = "<?php echo JUri::root() . 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw'; ?>";
 variables.auth = "<?php echo !empty(JFactory::getUser()->id)? urlencode(password_hash(JFactory::getUser()->email . JFactory::getUser()->registerDate, PASSWORD_BCRYPT)) : ''; ?>";
 variables.dateFormat = "<?php echo $this->dateFormat; ?>";
-variables.defaultTimes = JSON.parse('<?php echo $this->defaultGrid->grid; ?>');
+variables.defaultGrid = JSON.parse('<?php echo $this->defaultGrid->grid; ?>');
 variables.departmentID = "<?php echo $this->departmentID; ?>";
 variables.exportbase = "<?php echo JUri::root() .'index.php?option=com_thm_organizer&view=schedule_export'; ?>";
 variables.isMobile = "<?php echo $this->isMobile; ?>";
