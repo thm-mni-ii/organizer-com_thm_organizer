@@ -739,6 +739,7 @@ ScheduleTable = function (schedule)
 				return false;
 			}
 			subjectData = data.subjects[subject];
+			subjectData.method = (data.method ? data.method : "")
 
 			lessonElement = document.createElement("div");
 			lessonElement.className = "lesson";
