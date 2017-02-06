@@ -183,8 +183,6 @@ $mobile = $this->isMobile ? 'mobile' : '';
 
 			<div class="tab-panel" id="selected-schedules" role="tabpanel"
 			     aria-labelledby="tab-selected-schedules" aria-hidden="false">
-				<select id="schedules" name="schedules" required
-				        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_SELECT_OPTION"); ?>"></select>
 			</div>
 
 			<div class="tab-panel" id="time-selection" role="tabpanel"
@@ -254,7 +252,7 @@ $mobile = $this->isMobile ? 'mobile' : '';
 		if (JFactory::getUser()->guest)
 		{
 			?>
-			<input id="default-schedule" class="schedule-input" checked type="radio" name="schedules">
+			<input id="default-input" class="schedule-input" checked="checked" type="radio" name="schedules">
 			<div id="default-schedule" class="schedule-table">
 				<table>
 					<thead>

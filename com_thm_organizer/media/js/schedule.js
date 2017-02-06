@@ -59,18 +59,21 @@ Calendar = function ()
 		{
 			that.changeCalendarMonth(false);
 		});
-		document.getElementById('next-week').addEventListener('click', that.changeSelectedDate);
+		document.getElementById('next-week').addEventListener('click', function ()
+		{
+			that.changeSelectedDate(true, "week");
+		});
 		document.getElementById('previous-week').addEventListener('click', function ()
 		{
-			that.changeSelectedDate(false, true);
+			that.changeSelectedDate(false, "week");
 		});
 		document.getElementById('next-month').addEventListener('click', function ()
 		{
-			that.changeSelectedDate(true, false);
+			that.changeSelectedDate(true, "month");
 		});
 		document.getElementById('previous-month').addEventListener('click', function ()
 		{
-			that.changeSelectedDate(false, false);
+			that.changeSelectedDate(false, "month");
 		});
 		document.getElementById('today').addEventListener('click', function ()
 		{
@@ -86,9 +89,7 @@ Calendar = function ()
 	 */
 	this.changeCalendarMonth = function (increaseMonth)
 	{
-		var increase = (typeof increaseMonth === 'undefined') ? true : increaseMonth;
-
-		if (increase)
+		if (typeof increaseMonth === 'undefined' ? true : increaseMonth)
 		{
 			// day 1 for preventing get Feb 31
 			that.activeDate.setMonth(that.activeDate.getMonth() + 1, 1);
@@ -102,14 +103,14 @@ Calendar = function ()
 	};
 
 	/**
-	 * Increase or decrease in steps of days or months in the current date in date field
+	 * Changes the current (date field) date and updates schedules
 	 *
-	 * @param increase boolean default = true
-	 * @param week boolean default = true
+	 * @param increase boolean increase or decrease
+	 * @param step string how big the change step is ("day"|"week"|"month")
 	 */
-	this.changeSelectedDate = function (increase, week)
+	this.changeSelectedDate = function (increase, step)
 	{
-		changeDate(increase, week);
+		changeDate(increase, step);
 		updateSchedule();
 
 		if (this.calendarIsVisible)
@@ -425,17 +426,13 @@ ScheduleTable = function (schedule)
 	 */
 	this.update = function (lessons, newTimeGrid)
 	{
-		if (window.isMobile)
-		{
-			this.setActiveColumn();
-		}
+		this.visibleDay = getDateFieldsDateObject().getDay();
 		if (newTimeGrid)
 		{
 			this.timeGrid = JSON.parse(getSelectedValues("grid"));
 			this.setGridTime();
 		}
 
-		this.visibleDay = getDateFieldsDateObject().getDay();
 		this.resetTable();
 		this.setGridDays();
 		this.handleBreakRows();
@@ -443,6 +440,11 @@ ScheduleTable = function (schedule)
 		if (!(lessons["pastDate"] || lessons["futureDate"]))
 		{
 			this.insertLessons(lessons);
+		}
+
+		if (window.isMobile)
+		{
+			this.setActiveColumn();
 		}
 	};
 
@@ -458,7 +460,7 @@ ScheduleTable = function (schedule)
 		input = document.createElement("input");
 		input.className = "schedule-input";
 		input.type = "radio";
-		input.setAttribute("id", schedule.id);
+		input.setAttribute("id", schedule.id + "-input");
 		input.setAttribute("name", "schedules");
 		input.setAttribute("checked", "checked");
 		window.scheduleWrapper.appendChild(input);
@@ -570,7 +572,8 @@ ScheduleTable = function (schedule)
 		{
 			if (thElement === currentDay && currentDay <= endDay)
 			{
-				headItems[thElement].innerHTML = weekdays[currentDay - 1] + " (" + headerDate.getPresentationFormat() + ")";
+				headItems[thElement].innerHTML = weekdays[currentDay - 1] +
+					" (" + headerDate.getPresentationFormat(true) + ")";
 				headerDate.setDate(headerDate.getDate() + 1);
 				++currentDay;
 			}
@@ -739,10 +742,10 @@ ScheduleTable = function (schedule)
 				return false;
 			}
 			subjectData = data.subjects[subject];
-			subjectData.method = (data.method ? data.method : "")
+			subjectData.method = (data.method ? data.method : "");
 
 			lessonElement = document.createElement("div");
-			lessonElement.className = "lesson";
+			lessonElement.classList.add("lesson");
 
 			// Data attributes instead of classes for finding the lesson later
 			lessonElement.dataset.ccmID = data.ccmID;
@@ -750,11 +753,11 @@ ScheduleTable = function (schedule)
 			// Delta = "removed" or "new" or "changed" ? add class like "lesson-new"
 			if (data.lessonDelta)
 			{
-				lessonElement.className += " lesson-" + data.lessonDelta;
+				lessonElement.classList.add("lesson-" + data.lessonDelta);
 			}
 			if (data.calendarDelta)
 			{
-				lessonElement.className += " calendar-" + data.calendarDelta;
+				lessonElement.classList.add("calendar-" + data.calendarDelta);
 			}
 			if (ownTime && data.startTime && data.endTime)
 			{
@@ -770,7 +773,7 @@ ScheduleTable = function (schedule)
 				subjectOuterDiv = document.createElement("div");
 				subjectOuterDiv.className = "subjectNameNr";
 
-				this.addSubjectElements(subjectOuterDiv, subjectData);
+				this.addSubjectElements(subjectOuterDiv, subjectData, data.method);
 				lessonElement.appendChild(subjectOuterDiv);
 			}
 
@@ -856,7 +859,7 @@ ScheduleTable = function (schedule)
 				// Makes delete button visible only
 				if (this.userSchedule || this.isSavedByUser(lessonElement))
 				{
-					lessonElement.className += " added";
+					lessonElement.classList.add("added");
 					added = true;
 				}
 
@@ -900,7 +903,7 @@ ScheduleTable = function (schedule)
 			}
 			else
 			{
-				lessonElement.className += " no-saving";
+				lessonElement.classList.add("no-saving");
 			}
 
 			this.lessonElements.push(lessonElement);
@@ -1101,7 +1104,7 @@ ScheduleTable = function (schedule)
 	this.remove = function ()
 	{
 		// input element
-		window.scheduleWrapper.removeChild(document.getElementById(schedule.id));
+		window.scheduleWrapper.removeChild(document.getElementById(schedule.id + "-input"));
 		// table element
 		window.scheduleWrapper.removeChild(document.getElementById(schedule.id + "-schedule"));
 	};
@@ -1322,17 +1325,18 @@ Schedules = function ()
  * get date string in the components specified format.
  * @see http://stackoverflow.com/a/3067896/6355472
  *
+ * @param shortYear boolean default = depending on
  * @returns string
  */
-Date.prototype.getPresentationFormat = function ()
+Date.prototype.getPresentationFormat = function (shortYear)
 {
 	var date = variables.dateFormat,
 		day = this.getDate(),
 		dayLong = day < 10 ? "0" + day : day,
 		month = this.getMonth() + 1, // getMonth() is zero-based
 		monthLong = month < 10 ? "0" + month : month,
-		year = this.getYear(),
-		yearLong = this.getFullYear();
+		yearLong = this.getFullYear(),
+		year = yearLong.toString().substr(2, 2); // getYear() is deprecated
 
 	// Insert day
 	date = date.replace(/j/, day.toString());
@@ -1340,9 +1344,17 @@ Date.prototype.getPresentationFormat = function ()
 	// Insert month
 	date = date.replace(/n/, month.toString());
 	date = date.replace(/m/, monthLong);
+
 	// Insert year
-	date = date.replace(/Y/, yearLong.toString());
-	date = date.replace(/y/, year.toString());
+	if (typeof shortYear === "undefined" ? false : shortYear)
+	{
+		date = date.replace(/y|Y/, year.toString());
+	}
+	else
+	{
+		date = date.replace(/Y/, yearLong.toString());
+		date = date.replace(/y/, year.toString());
+	}
 
 	return date;
 };
@@ -1383,13 +1395,13 @@ jQuery(document).ready(function ()
 			if (distX < -(minDist))
 			{
 				event.stopPropagation();
-				changeDate();
+				changeDate(true, window.isMobile ? "day" : "week");
 				updateSchedule();
 			}
 			if (distX > minDist)
 			{
 				event.stopPropagation();
-				changeDate(false);
+				changeDate(false, window.isMobile ? "day" : "week");
 				updateSchedule();
 			}
 		}
@@ -1521,7 +1533,7 @@ jQuery(document).ready(function ()
  */
 function handleExport(format)
 {
-	var schedule = jQuery('.selected-schedule.shown')[0].id, url = variables.exportbase,
+	var schedule = getSelectedScheduleID(), url = variables.exportbase,
 		formats, resourceID, exportSelection = jQuery('#export-selection');
 
 	formats = format.split('.');
@@ -1689,26 +1701,13 @@ function updateForm()
 
 		for (var value in values)
 		{
-			// Prevent using prototype variables
 			if (values.hasOwnProperty(value))
 			{
-				if (value.name)
-				{
-					option = document.createElement("option");
-					option.setAttribute("value", values[value].id);
-					option.innerHTML = values[value].name;
-					option.selected = optionCount === 1;
-					formField.appendChild(option);
-				}
-				// Needed - otherwise select field is empty
-				else
-				{
-					option = document.createElement("option");
-					option.setAttribute("value", values[value]);
-					option.innerHTML = value;
-					option.selected = optionCount === 1;
-					formField.appendChild(option);
-				}
+				option = document.createElement("option");
+				option.setAttribute("value", value.name ? values[value].id : values[value]);
+				option.innerHTML = value.name ? values[value].name : value;
+				option.selected = optionCount === 1;
+				formField.appendChild(option);
 			}
 		}
 
@@ -1718,15 +1717,25 @@ function updateForm()
 		// Select on click, even on already selected(!) options (unlike chosens "change" event)
 		if (fieldID === "pool" || fieldID === "teacher" || fieldID === "room")
 		{
-			drop = document.getElementById(fieldID + "-input").getElementsByClassName("chzn-drop")[0];
-			drop.addEventListener("click", function(event)
+			if (!variables.isMobile)
 			{
-				var selectedOption = event.target;
-				if (selectedOption && selectedOption.dataset.optionArrayIndex !== 0)
+				drop = document.getElementById(fieldID + "-input").getElementsByClassName("chzn-drop")[0];
+
+				drop.addEventListener("click", function (event)
+				{
+					if (event.target.dataset.optionArrayIndex)
+					{
+						sendLessonRequest(fieldID);
+					}
+				});
+			}
+			else
+			{
+				formField.addEventListener("change", function ()
 				{
 					sendLessonRequest(fieldID);
-				}
-			});
+				});
+			}
 		}
 
 		if (optionCount === 1)
@@ -1806,7 +1815,7 @@ function insertLessonResponse()
 			schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
 			schedule.setLessons(response);
 
-			if ((response.pastDate || response.futureDate) && schedule.id === jQuery("#schedules").val())
+			if ((response.pastDate || response.futureDate) && schedule.id === getSelectedScheduleID())
 			{
 				openNextDateQuestion(response);
 			}
@@ -1911,13 +1920,9 @@ function lessonHandled()
 				{
 					if (handledLessons.includes(lessonElements[lessonIndex].dataset.ccmID))
 					{
-						if (lessonElements[lessonIndex].className === "lesson")
+						if (lessonElements[lessonIndex].classList.contains("lesson"))
 						{
-							lessonElements[lessonIndex].className += " added";
-						}
-						else
-						{
-							lessonElements[lessonIndex].className = "lesson";
+							lessonElements[lessonIndex].classList.add("added");
 						}
 					}
 				}
@@ -1949,7 +1954,7 @@ function addScheduleToSelection(schedule)
 	showButton.innerHTML = "<span class='icon-eye-open'></span>";
 	showButton.addEventListener("click", function ()
 	{
-		showSelectedSchedule(schedule.id);
+		showSchedule(schedule.id);
 	});
 	selectedItem.append(showButton);
 
@@ -1965,23 +1970,42 @@ function addScheduleToSelection(schedule)
 		selectedItem.append(removeButton);
 	}
 	jQuery("#selected-schedules").append(selectedItem);
-	showSelectedSchedule(schedule.id);
+	showSchedule(schedule.id);
 }
 
-function showSelectedSchedule(scheduleID)
+/**
+ * Shows schedule with given ID
+ *
+ * @param scheduleID string
+ */
+function showSchedule(scheduleID)
 {
 	var scheduleElements = jQuery(".schedule-input"),
 		schedulesIndex;
 
 	for (schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
 	{
-		if (scheduleElements[schedulesIndex].id == (scheduleID))
+		var schedule = scheduleElements[schedulesIndex];
+		if (scheduleElements[schedulesIndex].id === scheduleID + "-input")
 		{
-			document.getElementById(scheduleElements[schedulesIndex].id).checked = "checked";
+			scheduleElements[schedulesIndex].checked = "checked";
 			jQuery(".selected-schedule").removeClass("shown");
 			jQuery("#" + scheduleID).addClass("shown");
 		}
 	}
+}
+
+/**
+ * Gets ID of now selected schedule in #selected-schedules HTMLDivElement.
+ * Returns false in case no schedule was found.
+ *
+ * @returns string|boolean
+ */
+function getSelectedScheduleID()
+{
+	var selectedSchedule = document.getElementById("selected-schedules").getElementsByClassName("shown")[0];
+
+	return selectedSchedule ? selectedSchedule.id : false;
 }
 
 /**
@@ -1991,7 +2015,16 @@ function removeScheduleFromSelection(clickedButton, schedule)
 {
 	clickedButton.parentNode.remove();
 	window.scheduleObjects.removeSchedule(schedule);
-	showSelectedSchedule(jQuery("#scheduleWrapper").find(".schedule-input").last().attr("id"));
+
+	if (window.scheduleObjects.schedules.length === 0)
+	{
+		showSchedule("default");
+		switchToFormTab();
+	}
+	else
+	{
+		showSchedule(jQuery("#selected-schedules").find(".selected-schedule").last().attr("id"));
+	}
 }
 
 /**
@@ -2083,24 +2116,24 @@ function getSelectedValues(fieldID, separator)
 /**
  * goes one day for- or backward in the schedules and takes the date out of the input field with 'date' as id
  *
- * @param nextDate boolean goes forward by default, backward with false
- * @param weekStep boolean indicates the step the date takes
+ * @param increase boolean goes forward by default, backward with false
+ * @param step     string  defines how big the step is as "day", "week" or "month"
  */
-function changeDate(nextDate, weekStep)
+function changeDate(increase, step)
 {
-	var increaseDate = (typeof nextDate === "undefined") ? true : nextDate,
-		week = (typeof weekStep === "undefined") ? true : weekStep,
+	var stepString = step ? step : "week",
+		stepInt = stepString === "week" ? 7 : 1,
 		newDate = getDateFieldsDateObject();
 
-	if (increaseDate)
+	if (typeof increase === "undefined" ? true : increase)
 	{
-		if (week)
+		if (step === "month")
 		{
-			newDate.setDate(newDate.getDate() + 7);
+			newDate.setMonth(newDate.getMonth() + stepInt);
 		}
 		else
 		{
-			newDate.setMonth(newDate.getMonth() + 1);
+			newDate.setDate(newDate.getDate() + stepInt);
 		}
 
 		// Jump over sunday
@@ -2112,13 +2145,13 @@ function changeDate(nextDate, weekStep)
 	// Decrease date
 	else
 	{
-		if (week)
+		if (step === "month")
 		{
-			newDate.setDate(newDate.getDate() - 7);
+			newDate.setMonth(newDate.getMonth() - stepInt);
 		}
 		else
 		{
-			newDate.setMonth(newDate.getMonth() - 1);
+			newDate.setDate(newDate.getDate() - stepInt);
 		}
 
 		// Jump over sunday
@@ -2206,6 +2239,17 @@ function switchToScheduleListTab()
 	jQuery("#selected-schedules").addClass("active");
 	jQuery("#tab-schedule-form").parent("li").removeClass("active");
 	jQuery("#schedule-form").removeClass("active");
+}
+
+/**
+ * Activates tab with a list of selected schedules
+ */
+function switchToFormTab()
+{
+	jQuery("#tab-schedule-form").parent("li").addClass("active");
+	jQuery("#schedule-form").addClass("active");
+	jQuery("#tab-selected-schedules").parent("li").removeClass("active");
+	jQuery("#selected-schedules").removeClass("active");
 }
 
 /**
