@@ -46,7 +46,8 @@ class JFormFieldGenericList extends JFormFieldList
 
 		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
 		$this->setFrom($query);
-		$query->order("text ASC");
+		$order = $this->getAttribute('order', "text ASC");
+		$query->order($order);
 		$dbo->setQuery((string) $query);
 
 		try

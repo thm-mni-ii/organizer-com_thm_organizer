@@ -16,12 +16,12 @@
                onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field name="semestername"
+        <field name="planningPeriodID"
                type="genericlist"
-               valueColumn="semestername"
-               textColumn="semestername"
-               table="thm_organizer_schedules"
-               label="COM_THM_ORGANIZER_PLANNING_PERIOD"
+               valueColumn="pp.id"
+               textColumn="pp.name"
+               order="pp.startDate DESC"
+               table="thm_organizer_schedules AS s,thm_organizer_planning_periods AS pp ON pp.id = s.planningPeriodID"
                onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
@@ -32,16 +32,6 @@
             <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_ACTIVE_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_ACTIVE_NO</option>
-        </field>
-        <field name="created"
-               type="datelist"
-               format="date"
-               valueColumn="creationDate"
-               textColumn="creationDate"
-               table="thm_organizer_schedules"
-               label="COM_THM_ORGANIZER_CREATION_DATE"
-               onchange="this.form.submit();">
-            <option value="">JALL</option>
         </field>
     </fields>
     <fields name="list">

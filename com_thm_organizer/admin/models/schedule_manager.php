@@ -56,50 +56,22 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$dbo      = $this->getDbo();
 		$query    = $dbo->getQuery(true);
 
-		$select = "s.id, d.short_name_$shortTag AS departmentname, semestername, active, ";
-		$select .= "endDate, creationDate, creationTime, !ISNULL(NULLIF(newSchedule, '')) as migrated, ";
-		$createdParts = array("creationDate", "creationTime");
-		$select .= $query->concatenate($createdParts, " ") . " AS created, ";
-		$sNameParts = array("semestername", "SUBSTRING(endDate, 3, 2)");
-		$select .= $query->concatenate($sNameParts, " ") . " AS semestername ";
+		$select = "s.id, s.active, s.creationDate, s.creationTime, ";
+		$select .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
+		$select .= "pp.id as planningPeriodID, pp.name AS planningPeriodName, ";
+		$createdParts = array("s.creationDate", "s.creationTime");
+		$select .= $query->concatenate($createdParts, " ") . " AS created ";
+
 		$query->select($select);
 		$query->from("#__thm_organizer_schedules AS s");
 		$query->innerJoin("#__thm_organizer_departments AS d ON s.departmentID = d.id");
+		$query->innerJoin("#__thm_organizer_planning_periods AS pp ON s.planningPeriodID = pp.id");
 
-		$this->setSearchFilter($query, array('departmentname', 'semestername', 'd.name'));
-		$this->setValueFilters($query, array('departmentID', 'semestername', 'active'));
-		$this->setCreatedFilter($query);
+		$this->setValueFilters($query, array('departmentID', 'planningPeriodID', 'active'));
 
 		$this->setOrdering($query);
 
 		return $query;
-	}
-
-
-	/**
-	 * Provides a default method for setting filters for non-unique values
-	 *
-	 * @param object &$query the query object
-	 *
-	 * @return  void
-	 */
-	private function setCreatedFilter(&$query)
-	{
-		$value = $this->state->get("filter.created", '');
-
-		/**
-		 * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
-		 * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
-		 * be extended we could maybe add a parameter for it later.
-		 */
-		if (empty($value))
-		{
-			return;
-		}
-
-		$query->where("creationDate = '$value'");
-
-		return;
 	}
 
 	/**
@@ -122,38 +94,21 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 			$return[$index] = array();
 			$canEdit        = THM_OrganizerHelperComponent::allowResourceManage('schedule', $item->id);
 
-			if ($canEdit)
+			if (!$canEdit)
 			{
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			}
-			else
-			{
-				$return[$index]['checkbox'] = '';
+				continue;
 			}
 
-			$return[$index]['departmentID'] = $item->departmentname;
-			$return[$index]['semestername'] = $item->semestername;
+			$return[$index]['checkbox']         = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['departmentID']     = $item->departmentName;
+			$return[$index]['planningPeriodID'] = $item->planningPeriodName;
 
-			if ($canEdit)
-			{
-				$return[$index]['active']
-					= $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
-			}
-			else
-			{
-				$return[$index]['active']
-					= $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'), null);
-			}
+			$return[$index]['active']
+				= $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
 
 			$created = THM_OrganizerHelperComponent::formatDate($item->creationDate);
 			$created .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationTime);
-			$return[$index]['created']  = $created;
-
-			if ($canEdit)
-			{
-				$return[$index]['migrated'] = $this->getMigrate($item->id, $item->migrated);
-			}
-
+			$return[$index]['created'] = $created;
 
 			$index++;
 		}
@@ -171,16 +126,17 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction = $this->state->get('list.direction', $this->defaultDirection);
 
-		$headers                 = array();
-		$headers['checkbox']     = '';
-		$headers['departmentID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentname', $direction, $ordering);
-		$headers['semestername'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNING_PERIOD', 'semestername', $direction, $ordering);
-		$headers['active']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_STATE', 'active', $direction, $ordering);
-		$headers['created']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_DATE', 'created', $direction, $ordering);
-		if ($this->actions->{'core.admin'})
-		{
-			$headers['migrated'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_MIGRATED', 'migrated', $direction, $ordering);
-		}
+		$headers             = array();
+		$headers['checkbox'] = '';
+
+		$headers['departmentID']
+			= JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentname', $direction, $ordering);
+		$headers['planningPeriodID']
+			= JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNING_PERIOD', 'semestername', $direction, $ordering);
+		$headers['active']
+			= JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_STATE', 'active', $direction, $ordering);
+		$headers['created']
+			= JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_DATE', 'created', $direction, $ordering);
 
 		return $headers;
 	}
