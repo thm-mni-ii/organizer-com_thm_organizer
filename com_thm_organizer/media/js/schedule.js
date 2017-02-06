@@ -720,9 +720,9 @@ ScheduleTable = function (schedule)
 	this.createLesson = function (data, ownTime)
 	{
 		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, poolID, poolFullName,
-			poolsOuterDiv, poolDiv, poolLink, teachersOuterDiv, teacherSpan, teacherLink, teacherID, teacherName,
+			poolsOuterDiv, poolSpan, poolLink, teachersOuterDiv, teacherSpan, teacherLink, teacherID, teacherName,
 			teacherDelta, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, roomDelta, saveActionButton,
-			deleteActionButton,	buttonIcon, added = false;
+			deleteActionButton, buttonIcon, added = false;
 
 		if (!data || !data.hasOwnProperty("subjects"))
 		{
@@ -789,10 +789,10 @@ ScheduleTable = function (schedule)
 						{
 							sendLessonRequest('pool', poolID, poolFullName);
 						});
-						poolDiv = document.createElement("div");
-						poolDiv.className = "pool " + (data.poolDelta ? data.poolDelta : "");
-						poolDiv.appendChild(poolLink);
-						poolsOuterDiv.appendChild(poolDiv);
+						poolSpan = document.createElement("span");
+						poolSpan.className = "pool " + (data.poolDelta ? data.poolDelta : "");
+						poolSpan.appendChild(poolLink);
+						poolsOuterDiv.appendChild(poolSpan);
 					}
 				}
 				lessonElement.appendChild(poolsOuterDiv);
@@ -1178,7 +1178,7 @@ LessonMenu = function ()
 
 		this.closeSaveMenuButton.addEventListener("click", function ()
 		{
-			that.saveMenu.parentElement.style.display = "none";
+			that.saveMenu.style.display = "none";
 		});
 		this.saveSemesterMode.addEventListener("click", function ()
 		{
@@ -1197,7 +1197,7 @@ LessonMenu = function ()
 		});
 		this.closeDeleteMenuButton.addEventListener("click", function ()
 		{
-			that.deleteMenu.parentELement.style.display = "none";
+			that.deleteMenu.style.display = "none";
 		});
 		this.deleteSemesterMode.addEventListener("click", function ()
 		{
@@ -1520,7 +1520,7 @@ jQuery(document).ready(function ()
  */
 function handleExport(format)
 {
-	var schedule = jQuery('#schedules').val(), url = variables.exportbase,
+	var schedule = jQuery('.selected-schedule.shown')[0].id, url = variables.exportbase,
 		formats, resourceID, exportSelection = jQuery('#export-selection');
 
 	formats = format.split('.');
@@ -1549,10 +1549,10 @@ function handleExport(format)
 
 		if (resourceID === null)
 		{
-			exportSelection.val('placeholder');
-			exportSelection.trigger("chosen:updated");
 			return;
 		}
+
+		url += "&date=" + getDateFieldString();
 
 		if (schedule.search(/pool/) === 0)
 		{
@@ -1568,8 +1568,6 @@ function handleExport(format)
 		}
 		else
 		{
-			exportSelection.val('placeholder');
-			exportSelection.trigger("chosen:updated");
 			return;
 		}
 	}
@@ -1936,42 +1934,63 @@ function lessonHandled()
  */
 function addScheduleToSelection(schedule)
 {
-	var option = document.createElement("option");
+	var selectedItem = document.createElement("div");
+	selectedItem.id = schedule.id;
+	selectedItem.className = "selected-schedule";
 
-	option.innerHTML = "<span class='title'>" + schedule.title + "</span>";
-	if (schedule.id != "user")
+	var selectedTitle = document.createElement("span");
+	selectedTitle.className = "title";
+	selectedTitle.innerHTML = schedule.title;
+	selectedItem.append(selectedTitle);
+
+	var showButton = document.createElement("button");
+	showButton.className = "show-schedule";
+	showButton.innerHTML = "<span class='icon-eye-open'></span>";
+	showButton.addEventListener("click", function ()
 	{
-		option.innerHTML += "<button onclick='removeScheduleFromSelection()' class='removeOption'>" +
-			"<span class='icon-remove'></span></button>";
+		showSelectedSchedule(schedule.id);
+	});
+	selectedItem.append(showButton);
+
+	if (schedule.id !== "user")
+	{
+		var removeButton = document.createElement("button");
+		removeButton.className = "remove-schedule";
+		removeButton.innerHTML = "<span class='icon-remove'></span>";
+		removeButton.addEventListener("click", function ()
+		{
+			removeScheduleFromSelection(this, schedule);
+		});
+		selectedItem.append(removeButton);
 	}
-	option.value = schedule.id;
-	option.selected = "selected";
-	document.getElementById("schedules").appendChild(option);
-	jQuery("#schedules").chosen("destroy").chosen();
+	jQuery("#selected-schedules").append(selectedItem);
+	showSelectedSchedule(schedule.id);
+}
+
+function showSelectedSchedule(scheduleID)
+{
+	var scheduleElements = jQuery(".schedule-input"),
+		schedulesIndex;
+
+	for (schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
+	{
+		if (scheduleElements[schedulesIndex].id == (scheduleID))
+		{
+			document.getElementById(scheduleElements[schedulesIndex].id).checked = "checked";
+			jQuery(".selected-schedule").removeClass("shown");
+			jQuery("#" + scheduleID).addClass("shown");
+		}
+	}
 }
 
 /**
  * remove an entry from the dropdown field for selecting a schedule
- * works just with chosen, don't work in mobile because the button wouldn't be added, because chosen isn't be used there
  */
-function removeScheduleFromSelection()
+function removeScheduleFromSelection(clickedButton, schedule)
 {
-	var selection = document.getElementById("schedules"), scheduleName = selection[selection.selectedIndex].value,
-		nextSchedule;
-
-	window.scheduleObjects.removeSchedule(scheduleName);
-	selection.remove(selection.selectedIndex);
-	jQuery("#schedules").chosen("destroy").chosen();
-
-	nextSchedule = document.getElementById(jQuery("#schedules").val());
-	if (nextSchedule)
-	{
-		nextSchedule.checked = "checked";
-	}
-	else if (!variables.registered)
-	{
-		document.getElementById("default-schedule").checked = "checked";
-	}
+	clickedButton.parentNode.remove();
+	window.scheduleObjects.removeSchedule(schedule);
+	showSelectedSchedule(jQuery("#scheduleWrapper").find(".schedule-input").last().attr("id"));
 }
 
 /**
@@ -2214,16 +2233,22 @@ function changePositionOfDateInput()
 }
 
 /**
- * context-menu-popup and calendar-popup will be closed when clicking outside this
+ * context-menu-popup, calendar-popup and next-date-popup will be closed when clicking outside this
  */
 jQuery(document).mouseup(function (e)
 {
 	var popup = jQuery(".lesson-menu"),
-		calendarPopup = jQuery("#calendar");
+		calendarPopup = jQuery("#calendar"),
+		nextDatePopup = jQuery("#next-date-selection");
 
 	if (!popup.is(e.target) && popup.has(e.target).length == 0)
 	{
-		popup.hide(500);
+		popup.hide(0);
+	}
+
+	if (!nextDatePopup.is(e.target) && nextDatePopup.has(e.target).length == 0)
+	{
+		nextDatePopup.hide(0);
 	}
 
 	if (jQuery('.controls').css('display') !== 'none')
