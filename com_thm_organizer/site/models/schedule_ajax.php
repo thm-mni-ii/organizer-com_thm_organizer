@@ -52,7 +52,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$results = array();
 		foreach ($programs as $program)
 		{
-			$name = empty($program['name'])? $program['ppName'] : $program['name'];
+			$name           = empty($program['name']) ? $program['ppName'] : $program['name'];
 			$results[$name] = $program['id'];
 		}
 
@@ -195,6 +195,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
 		$parameters['date']            = $input->getString('date');
 		$parameters['format']          = '';
+		$deltaDays                     = $input->getString('deltaDays', '');
+		$parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d H:i:s', strtotime("-" . $deltaDays . " days"));
 
 		$lessons = THM_OrganizerHelperSchedule::getLessons($parameters, true);
 
@@ -444,6 +446,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$parameters['format']          = '';
 		$parameters['mySchedule']      = true;
 		$parameters['userID']          = JFactory::getUser()->id;
+		$deltaDays                     = $input->getString('deltaDays', '');
+		$parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d H:i:s', strtotime("-" . $deltaDays . " days"));
 
 		$userLessons = THM_OrganizerHelperSchedule::getLessons($parameters, true);
 

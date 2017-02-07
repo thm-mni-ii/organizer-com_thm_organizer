@@ -306,7 +306,7 @@ Schedule = function (resource, IDs, optionalTitle)
 	this.setTask = function ()
 	{
 		this.task = "&departmentIDs=" + variables.departmentID;
-		this.task += variables.deltaDisplayPeriod ? "&deltaDisplayPeriod=" + variables.deltaDisplayPeriod : '';
+		this.task += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : '';
 
 		if (resource === "user")
 		{
@@ -717,8 +717,8 @@ ScheduleTable = function (schedule)
 	this.insertLessonsWithoutPeriod = function (lessons)
 	{
 		var colNumber = variables.isMobile ? this.visibleDay : 1,
-			block, date, lessonElements, rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
-			cell, lesson;
+			rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
+			date, block, lesson, lessonElements, cell;
 
 		for (date in lessons)
 		{
@@ -743,6 +743,7 @@ ScheduleTable = function (schedule)
 					}
 				}
 			}
+			++colNumber;
 		}
 	};
 

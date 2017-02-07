@@ -48,6 +48,13 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	protected $departmentID;
 
 	/**
+	 * The time period in days in which removed lessons should get displayed.
+	 *
+	 * @var string
+	 */
+	protected $deltaDays;
+
+	/**
 	 * mobile device or not
 	 *
 	 * @var boolean
@@ -77,6 +84,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$this->dateFormat   = $compParams->get('dateFormat', 'd.m.Y');
 		$params             = JFactory::getApplication()->getMenu()->getActive()->params;
 		$this->departmentID = $params->get('departmentID', '0');
+		$this->deltaDays    = $params->get('deltaDays', '');
 		$this->modifyDocument();
 		parent::display($tpl);
 	}

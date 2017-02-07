@@ -7,6 +7,7 @@ variables.auth = "<?php echo !empty(JFactory::getUser()->id)? urlencode(password
 variables.dateFormat = "<?php echo $this->dateFormat; ?>";
 variables.defaultGrid = JSON.parse('<?php echo $this->defaultGrid->grid; ?>');
 variables.departmentID = "<?php echo $this->departmentID; ?>";
+variables.deltaDays = "<?php echo $this->deltaDays; ?>";
 variables.grids = [];
 <?php
 foreach ($this->getModel()->grids as $key => $grid)
