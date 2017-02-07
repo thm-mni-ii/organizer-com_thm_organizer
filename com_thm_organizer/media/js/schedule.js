@@ -54,7 +54,10 @@ Calendar = function ()
 
 		window.dateField.addEventListener('change', that.setUpCalendar);
 		document.getElementById('calendar-icon').addEventListener('click', that.showCalendar);
-		document.getElementById('calendar-next-month').addEventListener('click', that.changeCalendarMonth);
+		document.getElementById('calendar-next-month').addEventListener('click', function ()
+		{
+			that.changeCalendarMonth(true)
+		});
 		document.getElementById('calendar-previous-month').addEventListener('click', function ()
 		{
 			that.changeCalendarMonth(false);
@@ -89,7 +92,7 @@ Calendar = function ()
 	 */
 	this.changeCalendarMonth = function (increaseMonth)
 	{
-		if (typeof increaseMonth === 'undefined' ? true : increaseMonth)
+		if (increaseMonth)
 		{
 			// day 1 for preventing get Feb 31
 			that.activeDate.setMonth(that.activeDate.getMonth() + 1, 1);
@@ -773,7 +776,7 @@ ScheduleTable = function (schedule)
 				subjectOuterDiv = document.createElement("div");
 				subjectOuterDiv.className = "subjectNameNr";
 
-				this.addSubjectElements(subjectOuterDiv, subjectData, data.method);
+				this.addSubjectElements(subjectOuterDiv, subjectData);
 				lessonElement.appendChild(subjectOuterDiv);
 			}
 
@@ -1336,7 +1339,7 @@ Date.prototype.getPresentationFormat = function (shortYear)
 		month = this.getMonth() + 1, // getMonth() is zero-based
 		monthLong = month < 10 ? "0" + month : month,
 		yearLong = this.getFullYear(),
-		year = yearLong.toString().substr(2, 2); // getYear() is deprecated
+		year = yearLong.toString().substr(2, 2);
 
 	// Insert day
 	date = date.replace(/j/, day.toString());
@@ -2125,7 +2128,7 @@ function changeDate(increase, step)
 		stepInt = stepString === "week" ? 7 : 1,
 		newDate = getDateFieldsDateObject();
 
-	if (typeof increase === "undefined" ? true : increase)
+	if (increase)
 	{
 		if (step === "month")
 		{
