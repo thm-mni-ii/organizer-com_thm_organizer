@@ -100,6 +100,10 @@ button:hover,
   }
 }
 
+.organizer.mobile .date-input .controls:nth-last-of-type(n+2) {
+  margin-right: 0.5rem;
+}
+
 .selection {
 
   select:disabled {
@@ -205,25 +209,38 @@ button:hover,
   color: #394A59;
   display: block;
   padding: 0.4rem;
-  margin: 0.5rem;
-  width: 50%;
+  margin: 0.5rem 0;
+  width: 25rem;
 
   .organizer.mobile & {
     width: 90%
   }
 
+  @media screen and (max-width: 950px) {
+    width: 90%;
+  }
+
   &.shown {
     background: $background-green;
+
+    // change icon-eye-close to icon-eye-open
+    .show-schedule span::before {
+      content: "\3c";
+    }
+  }
+
+  .title {
+    text-align: left;
+    width: calc(100% - 3rem);
   }
 
   .show-schedule {
-    margin-right: 0.5rem;
+    width: 1rem;
+    margin-right: 1rem;
   }
 
   .remove-schedule {
-    float: right;
-    margin-left: 0.5rem;
-    vertical-align: middle;
+    width: 1rem;
   }
 }
 
@@ -406,6 +423,14 @@ button:hover,
   }
 }
 
+.organizer.mobile {
+  #calendar-table {
+    td {
+      padding: 0.3rem;
+    }
+  }
+}
+
 // Content - Schedule-Table
 //********************************************************************************************************************//
 .schedule-input:not(:checked) + .schedule-table {
@@ -452,7 +477,7 @@ button:hover,
   }
 }
 
-.organizer.mobile {
+.organizer.mobile .scheduleWrapper {
 
   td, th {
     &:not(.activeColumn) {
@@ -483,7 +508,7 @@ button:hover,
   }
 }
 
-.lesson-removed {
+.calendar-removed {
   opacity: 0.5;
   text-decoration: line-through;
 }

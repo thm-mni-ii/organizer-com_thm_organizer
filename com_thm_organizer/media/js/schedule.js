@@ -1943,18 +1943,24 @@ function lessonHandled()
  */
 function addScheduleToSelection(schedule)
 {
-	var selectedItem = document.createElement("div");
+	var selectedItem, selectedTitle, showButton, removeButton;
+
+	selectedItem = document.createElement("div");
 	selectedItem.id = schedule.id;
 	selectedItem.className = "selected-schedule";
 
-	var selectedTitle = document.createElement("span");
+	selectedTitle = document.createElement("button");
 	selectedTitle.className = "title";
 	selectedTitle.innerHTML = schedule.title;
+	selectedTitle.addEventListener("click", function ()
+	{
+		showSchedule(schedule.id);
+	});
 	selectedItem.append(selectedTitle);
 
-	var showButton = document.createElement("button");
+	showButton = document.createElement("button");
 	showButton.className = "show-schedule";
-	showButton.innerHTML = "<span class='icon-eye-open'></span>";
+	showButton.innerHTML = "<span class='icon-eye-close'></span>";
 	showButton.addEventListener("click", function ()
 	{
 		showSchedule(schedule.id);
@@ -1963,7 +1969,7 @@ function addScheduleToSelection(schedule)
 
 	if (schedule.id !== "user")
 	{
-		var removeButton = document.createElement("button");
+		removeButton = document.createElement("button");
 		removeButton.className = "remove-schedule";
 		removeButton.innerHTML = "<span class='icon-remove'></span>";
 		removeButton.addEventListener("click", function ()

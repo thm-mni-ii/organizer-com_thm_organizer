@@ -86,7 +86,7 @@ li.active:not(.inactive) [class^="icon-"]::before {
 }
 
 a {
-    color: #394a59;
+  color: #394a59;
 }
 
 a:visited {
@@ -94,7 +94,7 @@ a:visited {
 }
 
 a:focus {
-    outline: none;
+  outline: none;
 }
 
 button {
@@ -104,7 +104,7 @@ button {
 }
 
 button:focus {
-    outline: none;
+  outline: none;
 }
 
 button:hover,
@@ -164,6 +164,10 @@ button:hover,
 
 .menu-bar .date-input {
   margin-right: 0.3rem;
+}
+
+.organizer.mobile .date-input .controls:nth-last-of-type(n+2) {
+  margin-right: 0.5rem;
 }
 
 .selection select:disabled {
@@ -251,31 +255,45 @@ button:hover,
 }
 
 .selected-schedule {
-    background-color: white;
-    border: 1px solid #4a5d66;
-    color: #394A59;
-    display: block;
-    padding: 0.4rem;
-    margin: 0.5rem;
-    width: 50%;
+  background-color: white;
+  border: 1px solid #4a5d66;
+  color: #394A59;
+  display: block;
+  padding: 0.4rem;
+  margin: 0.5rem 0;
+  width: 25rem;
 }
 
 .organizer.mobile .selected-schedule {
+  width: 90%;
+}
+
+@media screen and (max-width: 950px) {
+  .selected-schedule {
     width: 90%;
+  }
 }
 
 .selected-schedule.shown {
-    background: #dfeec8;
+  background: #dfeec8;
+}
+
+.selected-schedule.shown .show-schedule span::before {
+  content: "\3c";
+}
+
+.selected-schedule .title {
+  text-align: left;
+  width: calc(100% - 3rem);
 }
 
 .selected-schedule .show-schedule {
-    margin-right: 0.5rem;
+  width: 1rem;
+  margin-right: 1rem;
 }
 
 .selected-schedule .remove-schedule {
-    float: right;
-    margin-left: 0.5rem;
-    vertical-align: middle;
+  width: 1rem;
 }
 
 #tab-exports {
@@ -398,13 +416,13 @@ button:hover,
 }
 
 .date-input div {
-    background-color: #f2f5f6;
-    border: 1px solid #d2d6d9;
-    box-shadow: 0 0 5px #888;
-    padding: 0.3rem 1rem;
-    position: absolute;
-    visibility: hidden;
-    z-index: 3;
+  background-color: #f2f5f6;
+  border: 1px solid #d2d6d9;
+  box-shadow: 0 0 5px #888;
+  padding: 0.3rem 1rem;
+  position: absolute;
+  visibility: hidden;
+  z-index: 3;
 }
 
 .date-input div table {
@@ -454,6 +472,10 @@ button:hover,
   width: 100%;
 }
 
+.organizer.mobile #calendar-table td {
+  padding: 0.3rem;
+}
+
 .schedule-input:not(:checked) + .schedule-table {
   width: 0;
   position: absolute;
@@ -492,21 +514,21 @@ button:hover,
   text-decoration: underline;
 }
 
-.organizer.mobile td:not(.activeColumn), .organizer.mobile th:not(.activeColumn) {
+.organizer.mobile .scheduleWrapper td:not(.activeColumn), .organizer.mobile .scheduleWrapper th:not(.activeColumn) {
   display: none;
 }
 
-.organizer.mobile td:first-child, .organizer.mobile th:first-child {
+.organizer.mobile .scheduleWrapper td:first-child, .organizer.mobile .scheduleWrapper th:first-child {
   display: table-cell;
 }
 
-.organizer.mobile td.activeColumn, .organizer.mobile th.activeColumn {
+.organizer.mobile .scheduleWrapper td.activeColumn, .organizer.mobile .scheduleWrapper th.activeColumn {
   width: auto;
   padding-right: 1rem;
 }
 
 .occupied {
-    background-color: #dfe5e6;
+  background-color: #dfe5e6;
 }
 
 .lesson {
@@ -517,35 +539,35 @@ button:hover,
 }
 
 .lesson a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .calendar-removed {
-    opacity: 0.5;
-    text-decoration: line-through;
+  opacity: 0.5;
+  text-decoration: line-through;
 }
 
 .calendar-added {
-    border-color: #80ba24;
+  border-color: #80ba24;
 }
 
 .calendar-added a, .calendar-added span {
-    color: #80ba24;
+  color: #80ba24;
 }
 
 .name {
-    font-weight: bold;
-    word-wrap: break-word;
-    word-break: break-all;
-    white-space: pre-wrap;
+  font-weight: bold;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: pre-wrap;
 }
 
 .module:before {
-    content: " (";
+  content: " (";
 }
 
 .module:after {
-    content: ") ";
+  content: ") ";
 }
 
 .pools, .pool {
@@ -559,7 +581,7 @@ button:hover,
 }
 
 .pool:nth-of-type(n+2):before {
-    content: " , ";
+  content: " , ";
 }
 
 .tmpl-mobile .persons, .tmpl-mobile .locations {
@@ -571,7 +593,7 @@ button:hover,
 }
 
 .misc:before, .location:nth-of-type(n+2):before, .person:nth-of-type(n+2):before {
-    content: " / ";
+  content: " / ";
 }
 
 .add-lesson, .delete-lesson {
@@ -581,39 +603,39 @@ button:hover,
 }
 
 .add-lesson:focus, .delete-lesson:focus {
-    outline: none;
+  outline: none;
 }
 
 .message-pop-up {
-    background-color: #dfeec8;
-    box-shadow: 0 0 5px #888;
-    color: #394a59;
-    display: none;
-    left: calc(50% - 12rem);
-    padding: 0.5rem;
-    position: absolute;
-    top: 28rem;
-    width: 24rem;
-    z-index: 2;
+  background-color: #dfeec8;
+  box-shadow: 0 0 5px #888;
+  color: #394a59;
+  display: none;
+  left: calc(50% - 12rem);
+  padding: 0.5rem;
+  position: absolute;
+  top: 28rem;
+  width: 24rem;
+  z-index: 2;
 }
 
 .message-pop-up button {
-    color: inherit;
+  color: inherit;
 }
 
 .organizer.mobile .message-pop-up {
-    left: auto;
-    right: auto;
-    width: 90%;
+  left: auto;
+  right: auto;
+  width: 90%;
 }
 
 .lesson-menu {
-    display: none;
-    position: absolute;
-    background-color: #dfeec8;
-    z-index: 2;
-    padding: 0.5rem;
-    box-shadow: 0 0 5px #888;
+  display: none;
+  position: absolute;
+  background-color: #dfeec8;
+  z-index: 2;
+  padding: 0.5rem;
+  box-shadow: 0 0 5px #888;
 }
 
 .lesson-menu button {
