@@ -11,9 +11,9 @@
 
 "use strict";
 
-var ajaxSave = null, ajaxSelection = null, Calendar, calendar, dateField, datePattern,
-	isMobile, nextDateSelection, noLessons, LessonMenu, Schedule, Schedules, scheduleObjects, ScheduleTable,
-	scheduleRequests = [], scheduleWrapper, weekdays, placeholder;
+var ajaxSave = null, ajaxSelection = null, Calendar, calendar, dateField, datePattern, nextDateSelection, noLessons,
+	LessonMenu, Schedule, Schedules, scheduleObjects, ScheduleTable, scheduleRequests = [], scheduleWrapper, weekdays,
+	placeholder;
 
 /**
  * Calendar class for a date input field with HTMLTableElement as calendar.
@@ -306,6 +306,7 @@ Schedule = function (resource, IDs, optionalTitle)
 	this.setTask = function ()
 	{
 		this.task = "&departmentIDs=" + variables.departmentID;
+		this.task += variables.deltaDisplayPeriod ? "&deltaDisplayPeriod=" + variables.deltaDisplayPeriod : '';
 
 		if (resource === "user")
 		{
@@ -317,7 +318,7 @@ Schedule = function (resource, IDs, optionalTitle)
 			this.task += "&" + resource + "IDs=" + (IDs ? IDs.replace(/-/g, ",") : getSelectedValues(resource));
 		}
 
-		this.task += "&date=" + getDateFieldString() + (window.isMobile ? "&oneDay=true" : "");
+		this.task += "&date=" + getDateFieldString() + (variables.isMobile ? "&oneDay=true" : "");
 	};
 
 	/**
@@ -407,7 +408,7 @@ ScheduleTable = function (schedule)
 	this.lessonElements = []; // HTMLDivElements
 	this.schedule = schedule;
 	this.table = document.createElement("table"); // HTMLTableElement
-	this.timeGrid = JSON.parse(getSelectedValues("grid"));
+	this.timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid);
 	this.userSchedule = schedule.id === "user";
 	this.visibleDay = getDateFieldsDateObject().getDay();
 
@@ -432,7 +433,7 @@ ScheduleTable = function (schedule)
 		this.visibleDay = getDateFieldsDateObject().getDay();
 		if (newTimeGrid)
 		{
-			this.timeGrid = JSON.parse(getSelectedValues("grid"));
+			this.timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid);
 			this.setGridTime();
 		}
 
@@ -445,7 +446,7 @@ ScheduleTable = function (schedule)
 			this.insertLessons(lessons);
 		}
 
-		if (window.isMobile)
+		if (variables.isMobile)
 		{
 			this.setActiveColumn();
 		}
@@ -594,47 +595,21 @@ ScheduleTable = function (schedule)
 	 */
 	this.insertLessons = function (lessons)
 	{
-		var colNumber = window.isMobile ? this.visibleDay : 1,
+		var colNumber = variables.isMobile ? this.visibleDay : 1,
 			rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"), rowIndex,
 			block, lesson, tableStartTime, tableEndTime, blockTimes, lessonElements, gridIndex, blockStart, blockEnd,
 			cell, nextCell, nextBlock, nextRow, showOwnTime;
 
-		for (var date in lessons)
+		if (this.timeGrid.periods)
 		{
-			if (!lessons.hasOwnProperty(date))
+			for (var date in lessons)
 			{
-				continue;
-			}
-
-			// No times on the left side - every lesson appears in the first row
-			if (!this.timeGrid.periods)
-			{
-				for (block in lessons[date])
+				if (!lessons.hasOwnProperty(date))
 				{
-					if (!lessons[date].hasOwnProperty(block))
-					{
-						continue;
-					}
-					for (lesson in lessons[date][block])
-					{
-						if (!lessons[date][block].hasOwnProperty(lesson))
-						{
-							continue;
-						}
-
-						lessonElements = this.createLesson(lessons[date][block][lesson], true);
-						lessonElements.forEach(function (element)
-						{
-							cell = rows[0].getElementsByTagName("td")[colNumber];
-							cell.appendChild(element);
-						});
-					}
+					continue;
 				}
-			}
-			// Insert lessons in cells
-			else
-			{
-				// blockIndex for grid, rowIndex for rows without break
+
+				// gridIndex for grid, rowIndex for rows without break
 				gridIndex = 1;
 				rowIndex = 0;
 				for (block in lessons[date])
@@ -642,6 +617,21 @@ ScheduleTable = function (schedule)
 					if (!lessons[date].hasOwnProperty(block))
 					{
 						continue;
+					}
+
+					// Prevent going into next grid, when this block fits into previous too
+					// e.g. block0 = 08:00 - 09:30, block1 = 08:00 - 10:00 o'clock
+					if (gridIndex > 1)
+					{
+						// tableEndTime from last iterated block
+						if (tableEndTime && block.match(/^(\d{4})-(\d{4})$/)[1] <= tableEndTime)
+						{
+							--gridIndex;
+							do {
+								--rowIndex;
+							}
+							while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
+						}
 					}
 
 					tableStartTime = this.timeGrid.periods[gridIndex].startTime;
@@ -710,8 +700,49 @@ ScheduleTable = function (schedule)
 					}
 					while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
 				}
+				++colNumber;
 			}
-			++colNumber;
+		}
+		else
+		{
+			this.insertLessonsWithoutPeriod(lessons);
+		}
+	};
+
+	/**
+	 * No times on the left side - every lesson appears in the first row
+	 *
+	 * @param lessons object
+	 */
+	this.insertLessonsWithoutPeriod = function (lessons)
+	{
+		var colNumber = variables.isMobile ? this.visibleDay : 1,
+			block, date, lessonElements, rows = this.table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
+			cell, lesson;
+
+		for (date in lessons)
+		{
+			if (lessons.hasOwnProperty(date))
+			{
+				for (block in lessons[date])
+				{
+					if (lessons[date].hasOwnProperty(block))
+					{
+						for (lesson in lessons[date][block])
+						{
+							if (lessons[date][block].hasOwnProperty(lesson))
+							{
+								lessonElements = this.createLesson(lessons[date][block][lesson], true);
+								lessonElements.forEach(function (element)
+								{
+									cell = rows[0].getElementsByTagName("td")[colNumber];
+									cell.appendChild(element);
+								});
+							}
+						}
+					}
+				}
+			}
 		}
 	};
 
@@ -1117,7 +1148,7 @@ ScheduleTable = function (schedule)
 	 */
 	this.handleBreakRows = function ()
 	{
-		var numberOfColumns = isMobile ? 2
+		var numberOfColumns = variables.isMobile ? 2
 				: jQuery(this.table).find('tr:first').find('th').filter(function ()
 			{
 				return jQuery(this).css('display') != 'none';
@@ -1398,13 +1429,13 @@ jQuery(document).ready(function ()
 			if (distX < -(minDist))
 			{
 				event.stopPropagation();
-				changeDate(true, window.isMobile ? "day" : "week");
+				changeDate(true, variables.isMobile ? "day" : "week");
 				updateSchedule();
 			}
 			if (distX > minDist)
 			{
 				event.stopPropagation();
-				changeDate(false, window.isMobile ? "day" : "week");
+				changeDate(false, variables.isMobile ? "day" : "week");
 				updateSchedule();
 			}
 		}
@@ -1537,10 +1568,16 @@ jQuery(document).ready(function ()
 function handleExport(format)
 {
 	var schedule = getSelectedScheduleID(), url = variables.exportbase,
-		formats, resourceID, exportSelection = jQuery('#export-selection');
+		formats, resourceID, exportSelection = jQuery('#export-selection'),
+		gridID = variables.grids[getSelectedValues("grid")].id;
 
 	formats = format.split('.');
 	url += "&format=" + formats[0];
+
+	if (formats[0] === 'pdf')
+	{
+		url += "&gridID=" + gridID;
+	}
 
 	if (formats[1] !== undefined)
 	{
@@ -1601,7 +1638,6 @@ function initSchedule()
 	window.calendar = new Calendar();
 	window.calendar.init();
 	window.futureDateButton = document.getElementById("future-date");
-	window.isMobile = window.matchMedia("(max-width: 677px)").matches;
 	window.nextDateSelection = document.getElementById("next-date-selection");
 	window.noLessons = document.getElementById("no-lessons");
 	window.lessonMenu = new LessonMenu;
@@ -1989,12 +2025,10 @@ function addScheduleToSelection(schedule)
  */
 function showSchedule(scheduleID)
 {
-	var scheduleElements = jQuery(".schedule-input"),
-		schedulesIndex;
+	var scheduleElements = jQuery(".schedule-input"), schedulesIndex;
 
 	for (schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
 	{
-		var schedule = scheduleElements[schedulesIndex];
 		if (scheduleElements[schedulesIndex].id === scheduleID + "-input")
 		{
 			scheduleElements[schedulesIndex].checked = "checked";
@@ -2251,7 +2285,7 @@ function switchToScheduleListTab()
 }
 
 /**
- * Activates tab with a list of selected schedules
+ * Activates tab with a form for selecting a new schedule
  */
 function switchToFormTab()
 {
@@ -2267,7 +2301,7 @@ function switchToFormTab()
 function changePositionOfDateInput()
 {
 	var mq = window.matchMedia("(max-width: 677px)");
-	if (window.isMobile)
+	if (variables.isMobile)
 	{
 		jQuery(".date-input").insertAfter(".menu-bar");
 	}

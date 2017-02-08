@@ -189,10 +189,10 @@ $mobile = $this->isMobile ? 'mobile' : '';
 			     aria-labelledby="tab-time" aria-hidden="false">
 				<select id="grid" required>
 					<?php
-					foreach ($this->getModel()->grids as $grid)
+					foreach ($this->getModel()->grids as $key => $grid)
 					{
 						$checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
-						echo "<option value='" . $grid->grid . "' $checked >$grid->name</option>";
+						echo "<option value='" . $key . "' $checked >$grid->name</option>";
 					}
 					?>
 				</select>

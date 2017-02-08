@@ -7,6 +7,18 @@ variables.auth = "<?php echo !empty(JFactory::getUser()->id)? urlencode(password
 variables.dateFormat = "<?php echo $this->dateFormat; ?>";
 variables.defaultGrid = JSON.parse('<?php echo $this->defaultGrid->grid; ?>');
 variables.departmentID = "<?php echo $this->departmentID; ?>";
+variables.grids = [];
+<?php
+foreach ($this->getModel()->grids as $key => $grid)
+{
+?>
+variables.grids[<?php echo $key; ?>] = {
+	"id" : "<?php echo $grid->id; ?>",
+	"grid" : '<?php echo $grid->grid; ?>'
+}
+<?php
+}
+?>
 variables.exportbase = "<?php echo JUri::root() .'index.php?option=com_thm_organizer&view=schedule_export'; ?>";
 variables.isMobile = "<?php echo $this->isMobile; ?>";
 variables.registered = "<?php echo !empty(JFactory::getUser()->id); ?>";
