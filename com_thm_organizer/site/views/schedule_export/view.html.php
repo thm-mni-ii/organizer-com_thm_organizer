@@ -182,6 +182,16 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 			'input'       => $fileFormatSelect
 		);
 
+		$grids = $this->model->getGridOptions();
+		$defaultGrid = $this->model->defaultGrid;
+		$gridSelect  = JHtml::_('select.genericlist', $grids, 'gridID', $attribs, 'value', 'text', $defaultGrid);
+
+		$this->fields['formatSettings']['gridID'] = array(
+			'label'       => JText::_('COM_THM_ORGANIZER_GRID'),
+			'description' => JText::_('COM_THM_ORGANIZER_GRID_EXPORT_DESC'),
+			'input'       => $gridSelect
+		);
+
 		$displayFormats = array();
 		//$displayFormats[] = array('text' => JText::_('COM_THM_ORGANIZER_LIST'), 'value' => 'list');
 		$displayFormats[]     = array('text' => JText::_('COM_THM_ORGANIZER_SCHEDULE'), 'value' => 'schedule');

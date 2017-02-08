@@ -15,6 +15,8 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
@@ -32,6 +34,8 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
  */
 class THM_OrganizerModelSchedule_Export extends JModelLegacy
 {
+	public $defaultGrid = 1;
+
 	public $docTitle;
 
 	public $grid;
@@ -84,6 +88,46 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	}
 
 	/**
+	 * Retrieves grid options
+	 *
+	 * @return array an array of grid options
+	 */
+	public function getGridOptions()
+	{
+		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+		$query    = $this->_db->getQuery(true);
+		$query->select("id, name_$shortTag as name, defaultGrid")->from('#__thm_organizer_grids');
+		$this->_db->setQuery($query);
+
+		$options = array();
+
+		try
+		{
+			$grids = $this->_db->loadAssocList();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
+			return $options;
+		}
+
+		foreach ($grids as $grid)
+		{
+			if ($grid['defaultGrid'])
+			{
+				$this->defaultGrid = $grid['id'];
+			}
+
+			$option['value'] = $grid['id'];
+			$option['text']  = $grid['name'];
+			$options[]       = $option;
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Retrieves pool options
 	 *
 	 * @return array an array of pool options
@@ -129,7 +173,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			}
 			catch (Exception $exc)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 				return array();
 			}
@@ -264,7 +308,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			}
 			catch (Exception $exc)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 				return array();
 			}
@@ -325,7 +369,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			}
 			catch (Exception $exc)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 				return $titles;
 			}
@@ -414,7 +458,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			}
 			catch (Exception $exc)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 				return array();
 			}
@@ -467,13 +511,18 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		}
 		catch (Exception $exc)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return;
 		}
 
-		$gridSettings                 = json_decode($rawGrid, true);
-		$this->grid                   = $gridSettings['periods'];
+		$gridSettings = json_decode($rawGrid, true);
+
+		if (!empty($gridSettings['periods']))
+		{
+			$this->grid = $gridSettings['periods'];
+		}
+
 		$this->parameters['startDay'] = $gridSettings['startDay'];
 		$this->parameters['endDay']   = $gridSettings['endDay'];
 	}
@@ -487,8 +536,8 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	{
 		$input = JFactory::getApplication()->input;
 
-		$parameters           = array();
-		$parameters['format'] = $input->getString('format', 'pdf');
+		$parameters               = array();
+		$parameters['format']     = $input->getString('format', 'pdf');
 		$parameters['mySchedule'] = $input->getBool('myschedule', false);
 
 		if (empty($parameters['mySchedule']))
@@ -499,11 +548,11 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		}
 		else
 		{
-			$userName = $input->getString('username', '');
+			$userName       = $input->getString('username', '');
 			$authentication = urldecode($input->getString('auth', ''));
 			if (!empty($userName) and !empty($authentication))
 			{
-				$user = JFactory::getUser($userName);
+				$user          = JFactory::getUser($userName);
 				$authenticates = password_verify($user->email . $user->registerDate, $authentication);
 				if ($authenticates)
 				{

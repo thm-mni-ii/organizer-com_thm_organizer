@@ -6,35 +6,37 @@
  * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerTemplateSchedule_Export_PDF
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2017 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-class THM_OrganizerTemplateSchedule_Export_PDF
+
+require_once 'pdf_schedule_sequence.php';
+
+class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSchedule_Sequence_PDF
 {
-	private $document;
-
-	private $lessons;
-
-	private $parameters;
-
 	/**
 	 * THM_OrganizerTemplateSchedule_Export_PDF_A4 constructor.
 	 *
 	 * @param array $parameters the parameters for document
-	 * @param array $grid       the lesson grid for use in display
 	 * @param array &$lessons   the lessons to be displayed
+	 * @param array $grid       the lesson grid for use in display
 	 */
-	public function __construct($parameters, $grid, &$lessons)
+	public function __construct($parameters, &$lessons, $grid = null)
 	{
-		$this->parameters = $parameters;
-		$this->grid       = $grid;
-		$this->lessons    = $lessons;
-		$this->document   = $this->getDocument();
+		parent::__construct($parameters, $lessons, $grid);
 
 		$this->parameters['cellLineHeight'] = 4.4;
 
-		$this->parameters['dataWidth'] = $this->parameters['dateRestriction'] == 'day' ? 188 : 45;
+		if ($this->parameters['dateRestriction'] == 'day')
+		{
+			$this->parameters['dataWidth'] = empty($this->grid) ? 200 : 188;
+		}
+		else
+		{
+			$this->parameters['dataWidth'] = empty($this->grid) ? 46.5 : 45;
+		}
+
 		$this->parameters['padding']   = 1;
 		$this->parameters['timeWidth'] = 11;
 
@@ -42,63 +44,11 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	}
 
 	/**
-	 * Filters the lesson indexes for those applicable to the row being iterated.
-	 *
-	 * @param array $rowHeader     An array containing information about the row being iterated.
-	 * @param array $lessonIndexes An array of indexes (startTime-endTime) for the given day.
-	 *
-	 * @return array The lesson indexes applicable for the row.
-	 */
-	private function filterIndexes($rowHeader, $lessonIndexes)
-	{
-		$rowStart = $rowHeader['startTime'];
-		$rowEnd   = $rowHeader['endTime'];
-
-		$filteredIndexes = array();
-		foreach ($lessonIndexes as $index)
-		{
-			list($indexStart, $indexEnd) = explode('-', $index);
-
-			$tooEarly = $indexEnd <= $rowStart;
-			$tooLate  = $rowEnd <= $indexStart;
-
-			if (!$tooEarly AND !$tooLate)
-			{
-				$filteredIndexes[] = $index;
-			}
-		}
-
-		return $filteredIndexes;
-	}
-
-	/**
-	 * Gets the row header information. startTime and endTime are used for later indexing purposes. Text is the text to
-	 * actually be displayed in the row header.
-	 *
-	 * @return array
-	 */
-	private function getColumnHeaders()
-	{
-		$dates = array_keys($this->lessons);
-
-		$columns = array();
-
-		foreach ($dates as $date)
-		{
-			$columns[$date]          = array();
-			$columns[$date]['value'] = $date;
-			$columns[$date]['text']  = THM_OrganizerHelperComponent::formatDateShort($date, true);
-		}
-
-		return $columns;
-	}
-
-	/**
 	 * Creates the basic pdf object
 	 *
 	 * @return THM_Organizer_PDF_Schedule_Export
 	 */
-	private function getDocument()
+	protected function getDocument()
 	{
 		$orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
 		$document    = new THM_OrganizerTCPDFSchedule($orientation);
@@ -116,108 +66,14 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	}
 
 	/**
-	 * Creates the text to be output for the lesson instance
-	 *
-	 * @param array $instance the instance information
-	 *
-	 * @return string the html for the instance text
-	 */
-	private function getInstanceText($instance)
-	{
-		$subjectNames = array();
-		$subjectNos   = array();
-		$pools        = array();
-		$teachers     = array();
-		$rooms        = array();
-		$method       = empty($instance['method']) ? '' : $instance['method'];
-		$comment      = empty($instance['comment']) ? '' : $instance['comment'];
-
-		foreach ($instance['subjects'] as $subjectName => $subject)
-		{
-			if (!in_array($subjectName, $subjectNames))
-			{
-				$subjectNames[] = $subjectName;
-			}
-
-			if (!empty($subject['subjectNo']) AND !in_array($subject['subjectNo'], $subjectNos))
-			{
-				$subjectNos[] = $subject['subjectNo'];
-			}
-
-			// Only if no specific pool was requested individually
-			if (empty($this->parameters['poolIDs']) OR count($this->parameters['poolIDs']) > 1)
-			{
-				foreach ($subject['pools'] as $poolID => $pool)
-				{
-					$pools[$poolID] = $pool['gpuntisID'];
-				}
-			}
-
-			// Only if no specific teacher was requested individually
-			if (empty($this->parameters['teacherIDs']) OR count($this->parameters['teacherIDs']) > 1)
-			{
-				foreach ($subject['teachers'] as $teacherID => $teacherName)
-				{
-					$teachers[$teacherID] = $teacherName;
-				}
-			}
-
-			// Only if no specific room was requested individually
-			if (empty($this->parameters['roomIDs']) OR count($this->parameters['roomIDs']) > 1)
-			{
-				foreach ($subject['rooms'] as $roomID => $roomName)
-				{
-					$rooms[$roomID] = $roomName;
-				}
-			}
-		}
-
-		$subjectName = implode('/', $subjectNames);
-		$subjectName .= " - $method";
-
-		if (!empty($subjectNos))
-		{
-			$subjectName .= ' (' . implode('/', $subjectNos) . ')';
-		}
-
-		$text = "$subjectName\n";
-
-		$output = array();
-
-		if (!empty($pools))
-		{
-			$output[] = implode('/', $pools);
-		}
-
-		if (!empty($teachers))
-		{
-			$output[] = implode('/', $teachers);
-		}
-
-		if (!empty($rooms))
-		{
-			$output[] = implode('/', $rooms);
-		}
-
-		if (!empty($comment))
-		{
-			$output[] = "$comment";
-		}
-
-		$text .= implode(' ', $output);
-
-		return $text;
-	}
-
-	/**
 	 * Gets the text to be displayed in the row cells
 	 *
-	 * @param array $rowHeader     the row header information: start- and endTime used for indexing, text => the text to display
 	 * @param array $columnHeaders the column header information: value => the date (Y-m-d), text => the text to display
+	 * @param array $rowHeader     the row header information: start- and endTime used for indexing, text => the text to display
 	 *
 	 * @return array
 	 */
-	private function getRowCells($rowHeader, $columnHeaders)
+	protected function getRowCells($columnHeaders, $rowHeader = null)
 	{
 		$rowCells = array();
 
@@ -225,8 +81,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 		{
 			$date         = $columnHeader['value'];
 			$indexLessons = $this->lessons[$date];
-			$timeIndexes  = $this->filterIndexes($rowHeader, array_keys($indexLessons));
-			$indexCount   = 0;
+			$allIndexes  = array_keys($indexLessons);
+			$timeIndexes = $this->filterIndexes($allIndexes, $rowHeader);
+			$indexCount  = 0;
 
 			// No lesson instances on the given day
 			if (empty($timeIndexes))
@@ -243,7 +100,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 						$rowCells[$indexCount] = array();
 					}
 
-					$rowCells[$indexCount][$date] = $this->getInstanceText($instance);
+					$rowCells[$indexCount][$date] = $this->getInstanceText($instance, $timeIndex, $rowHeader);
 					$indexCount++;
 				}
 			}
@@ -276,47 +133,118 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	}
 
 	/**
-	 * Gets the row header information. startTime and endTime are used for later indexing purposes. Text is the text to
-	 * actually be displayed in the row header.
+	 * Outputs the lessons organized according to a grid structure with times
 	 *
-	 * @return mixed
+	 * @param $rowHeaders
+	 * @param $columnHeaders
+	 * @param $dimensions
+	 * @param $startDate
+	 * @param $breakDate
+	 *
+	 * @return void
 	 */
-	private function getRowHeaders()
+	protected function outputGrid(&$columnHeaders, $dimensions, $startDate, $breakDate)
 	{
-		$rows     = array();
-		$rowIndex = 0;
+		$rowCells  = $this->getRowCells($columnHeaders);
+		$originalY = $this->document->getY();
 
-		foreach ($this->grid as $times)
+		if (empty($rowCells))
 		{
-			$rows[$rowIndex]              = array();
-			$rows[$rowIndex]['startTime'] = $times['startTime'];
-			$rows[$rowIndex]['endTime']   = $times['endTime'];
-			$formattedStartTime           = THM_OrganizerHelperComponent::formatTime($times['startTime']);
-			$formattedEndTime             = THM_OrganizerHelperComponent::formatTime($times['endTime']);
-			$rows[$rowIndex]['text']      = $formattedStartTime . "\n-\n" . $formattedEndTime;
-			$rowIndex++;
+			return;
+		}
+		else
+		{
+			$totalRowHeight     = $rowCells['lineCount'] * $this->parameters['cellLineHeight'];
+			$totalPaddingHeight = 2 * $this->parameters['padding'];
 		}
 
-		return $rows;
+		// The row size would cause it to traverse the page break
+		if (($originalY + $totalRowHeight + $totalPaddingHeight + $dimensions['bm']) > ($dimensions['hk']))
+		{
+			$this->document->Ln();
+			$this->outputHeader($columnHeaders, $startDate, $breakDate, true);
+
+			// New page, new Y
+			$originalY = $this->document->getY();
+		}
+
+		$this->document->SetFont('helvetica', '', 8, '', 'default', true);
+
+
+		$rowHeight = 0;
+		foreach ($rowCells as $rowName => $row)
+		{
+			if ($rowName === 'lineCount')
+			{
+				continue;
+			}
+
+			$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(57, 74, 89)));
+
+			$originalY = $this->document->getY();
+			$newY      = $originalY + $rowHeight + $this->parameters['padding'];
+			$this->document->setY($newY);
+
+			$cellHeight = $row['lineCount'] * $this->parameters['cellLineHeight'];
+
+			for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
+			{
+				$dow        = date('w', strtotime($currentDate));
+				$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+				if ($validIndex)
+				{
+					// Small horizontal spacer
+					$this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
+
+					if (empty($row[$columnHeaders[$currentDate]['value']]))
+					{
+						$dataText = '';
+						$border   = 0;
+					}
+					else
+					{
+						$dataText = $row[$columnHeaders[$currentDate]['value']];
+						$border   = 'LRBT';
+					}
+
+					// Lesson instance cell
+					$this->document->MultiCell(
+						$this->parameters['dataWidth'],
+						$cellHeight,
+						$dataText,
+						$border, 'C', 0, 0, '', '', true, 0, false, true,
+						$cellHeight, 'M'
+					);
+				}
+			}
+
+			$this->document->Ln();
+		}
+
+		$this->outputRowEnd();
 	}
 
 	/**
 	 * Outputs the column headers to the document
 	 *
-	 * @param array  $columnHeaders The date information to be output to the document.
-	 * @param string $startDate     the first column date/index to use
-	 * @param string $breakDate     the last column date/index to iterate
+	 * @param array  $columnHeaders  The date information to be output to the document.
+	 * @param string $startDate      the first column date/index to use
+	 * @param string $breakDate      the last column date/index to iterate
+	 * @param bool   $outputTimeGrid whether or not the time column should be written
 	 *
 	 * @return void  outputs to the document
 	 */
-	private function outputHeader($columnHeaders, $startDate, $breakDate)
+	protected function outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid)
 	{
 		$this->document->AddPage();
 
 		$this->document->SetFont('helvetica', '', 10, '', 'default', true);
 		$this->document->SetLineStyle(array('width' => 0.5, 'dash' => 0, 'color' => array(74, 92, 102)));
 
-		$this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C', 0, 0);
+		if ($outputTimeGrid)
+		{
+			$this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C', 0, 0);
+		}
 
 		for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
 		{
@@ -347,145 +275,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	}
 
 	/**
-	 * Outputs the schedule table to the document
-	 *
-	 * @return void Outputs lesson instance data to the document.
-	 */
-	private function outputTable()
-	{
-		$rowHeaders    = $this->getRowHeaders();
-		$columnHeaders = $this->getColumnHeaders();
-		$dimensions    = $this->document->getPageDimensions();
-		$timeConstant  = $this->parameters['dateRestriction'] == 'day' ?
-			'' : JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
-
-		$startDate = key($columnHeaders);
-		while (!empty($columnHeaders[$startDate]))
-		{
-			$startDateText = THM_OrganizerHelperComponent::formatDate($startDate);
-			$endDate       = date('Y-m-d', strtotime("+6 day", strtotime($startDate)));
-			$endDateText   = THM_OrganizerHelperComponent::formatDate($endDate);
-			$breakDate     = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
-			$headerString  = JText::_($timeConstant) . "$startDateText - $endDateText";
-			$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, array(57, 74, 89));
-
-			$this->outputHeader($columnHeaders, $startDate, $breakDate);
-
-			foreach ($rowHeaders as $rowHeader)
-			{
-				$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
-				$rowCells        = $this->getRowCells($rowHeader, $columnHeaders);
-				$originalY       = $this->document->getY();
-
-				if (empty($rowCells))
-				{
-					$totalRowHeight = $headerLineCount * $this->parameters['cellLineHeight'];
-
-					// This should actually be less one because of the line count index, but the footer adds it back.
-					$totalPaddingHeight = count($rowCells) * $this->parameters['padding'];
-				}
-				else
-				{
-					$minLineCount       = max($headerLineCount, $rowCells['lineCount']);
-					$totalRowHeight     = $minLineCount * $this->parameters['cellLineHeight'];
-					$totalPaddingHeight = 2 * $this->parameters['padding'];
-				}
-
-				// The row size would cause it to traverse the page break
-				if (($originalY + $totalRowHeight + $totalPaddingHeight + $dimensions['bm']) > ($dimensions['hk']))
-				{
-					$this->document->Ln();
-					$this->outputHeader($columnHeaders, $startDate, $breakDate);
-
-					// New page, new Y
-					$originalY = $this->document->getY();
-				}
-
-				$this->document->SetFont('helvetica', '', 8, '', 'default', true);
-
-				if (empty($rowCells))
-				{
-					$newY = $originalY + $this->parameters['padding'];
-					$this->document->setY($newY);
-
-					$height = $headerLineCount * $this->parameters['cellLineHeight'];
-					$text   = $rowHeader['text'];
-					$this->outputTimeCell($height, $text);
-
-					// One long cell for the border
-					$this->document->MultiCell(0, $height, '', 0, 0, 0, 0, '', '', true);
-
-					$this->document->Ln();
-
-					$this->outputRowEnd();
-
-					continue;
-				}
-
-				$rowHeight  = 0;
-				$outputTime = true;
-				foreach ($rowCells as $rowName => $row)
-				{
-					if ($rowName === 'lineCount')
-					{
-						continue;
-					}
-
-					$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(57, 74, 89)));
-
-					$originalY = $this->document->getY();
-					$newY      = $originalY + $rowHeight + $this->parameters['padding'];
-					$this->document->setY($newY);
-
-					$lineCount  = $outputTime ? max($headerLineCount, $row['lineCount']) : $row['lineCount'];
-					$cellHeight = $lineCount * $this->parameters['cellLineHeight'];
-
-					$timeText = $outputTime ? $rowHeader['text'] : '';
-					$this->outputTimeCell($cellHeight, $timeText);
-					$outputTime = false;
-
-					for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
-					{
-						$dow        = date('w', strtotime($currentDate));
-						$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
-						if ($validIndex)
-						{
-							// Small horizontal spacer
-							$this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
-
-							if (empty($row[$columnHeaders[$currentDate]['value']]))
-							{
-								$dataText = '';
-								$border   = 0;
-							}
-							else
-							{
-								$dataText = $row[$columnHeaders[$currentDate]['value']];
-								$border   = 'LRBT';
-							}
-
-							// Lesson instance cell
-							$this->document->MultiCell(
-								$this->parameters['dataWidth'],
-								$cellHeight,
-								$dataText,
-								$border, 'C', 0, 0, '', '', true, 0, false, true,
-								$cellHeight, 'M'
-							);
-						}
-					}
-
-					$this->document->Ln();
-				}
-
-				$this->outputRowEnd();
-			}
-
-			$startDate = $breakDate;
-		}
-	}
-
-	/**
 	 * Writes the time cell to the document
 	 *
 	 * @param int    $height the estimated cell height
@@ -505,23 +294,127 @@ class THM_OrganizerTemplateSchedule_Export_PDF
 	}
 
 	/**
-	 * Renders the document
+	 * Outputs the lessons organized according to a grid structure with times
+	 *
+	 * @param array  &$rowHeaders    the row grid times
+	 * @param array  &$columnHeaders the dates
+	 * @param array  &$dimensions    the dimensions of the cells
+	 * @param string $startDate      the date to start from
+	 * @param string $breakDate      the date to stop iteration
 	 *
 	 * @return void
 	 */
-	private function render()
+	protected function outputTimeGrid(&$rowHeaders, &$columnHeaders, $dimensions, $startDate, $breakDate)
 	{
-		if (!empty($this->lessons))
+		foreach ($rowHeaders as $rowHeader)
 		{
-			$this->outputTable();
+			$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
+			$rowCells        = $this->getRowCells($columnHeaders, $rowHeader);
+			$originalY       = $this->document->getY();
+
+			if (empty($rowCells))
+			{
+				$totalRowHeight = $headerLineCount * $this->parameters['cellLineHeight'];
+
+				// This should actually be less one because of the line count index, but the footer adds it back.
+				$totalPaddingHeight = count($rowCells) * $this->parameters['padding'];
+			}
+			else
+			{
+				$minLineCount       = max($headerLineCount, $rowCells['lineCount']);
+				$totalRowHeight     = $minLineCount * $this->parameters['cellLineHeight'];
+				$totalPaddingHeight = 2 * $this->parameters['padding'];
+			}
+
+			// The row size would cause it to traverse the page break
+			if (($originalY + $totalRowHeight + $totalPaddingHeight + $dimensions['bm']) > ($dimensions['hk']))
+			{
+				$this->document->Ln();
+				$this->outputHeader($columnHeaders, $startDate, $breakDate, true);
+
+				// New page, new Y
+				$originalY = $this->document->getY();
+			}
+
+			$this->document->SetFont('helvetica', '', 8, '', 'default', true);
+
+			if (empty($rowCells))
+			{
+				$newY = $originalY + $this->parameters['padding'];
+				$this->document->setY($newY);
+
+				$height = $headerLineCount * $this->parameters['cellLineHeight'];
+				$text   = $rowHeader['text'];
+				$this->outputTimeCell($height, $text);
+
+				// One long cell for the border
+				$this->document->MultiCell(0, $height, '', 0, 0, 0, 0, '', '', true);
+
+				$this->document->Ln();
+
+				$this->outputRowEnd();
+
+				continue;
+			}
+
+			$rowHeight  = 0;
+			$outputTime = true;
+			foreach ($rowCells as $rowName => $row)
+			{
+				if ($rowName === 'lineCount')
+				{
+					continue;
+				}
+
+				$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(57, 74, 89)));
+
+				$originalY = $this->document->getY();
+				$newY      = $originalY + $rowHeight + $this->parameters['padding'];
+				$this->document->setY($newY);
+
+				$lineCount  = $outputTime ? max($headerLineCount, $row['lineCount']) : $row['lineCount'];
+				$cellHeight = $lineCount * $this->parameters['cellLineHeight'];
+
+				$timeText = $outputTime ? $rowHeader['text'] : '';
+				$this->outputTimeCell($cellHeight, $timeText);
+				$outputTime = false;
+
+				for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate))))
+				{
+					$dow        = date('w', strtotime($currentDate));
+					$validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int) $this->parameters['startDay'] AND $dow <= (int) $this->parameters['endDay']);
+					if ($validIndex)
+					{
+						// Small horizontal spacer
+						$this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
+
+						if (empty($row[$columnHeaders[$currentDate]['value']]))
+						{
+							$dataText = '';
+							$border   = 0;
+						}
+						else
+						{
+							$dataText = $row[$columnHeaders[$currentDate]['value']];
+							$border   = 'LRBT';
+						}
+
+						// Lesson instance cell
+						$this->document->MultiCell(
+							$this->parameters['dataWidth'],
+							$cellHeight,
+							$dataText,
+							$border, 'C', 0, 0, '', '', true, 0, false, true,
+							$cellHeight, 'M'
+						);
+					}
+				}
+
+				$this->document->Ln();
+			}
+
+			$this->outputRowEnd();
 		}
-		else
-		{
-			$this->document->AddPage();
-			$this->document->cell('', '', JText::_('COM_THM_ORGANIZER_NO_LESSONS'));
-		}
-		$this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
-		ob_flush();
 	}
 }
 
