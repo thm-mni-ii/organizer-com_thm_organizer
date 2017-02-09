@@ -592,6 +592,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 				$parameters['xlsWeekFormat']  = $input->getString('xlsWeekFormat', 'sequence');
 				break;
 		}
+		$parameters['delta'] = 0;
 
 		$this->parameters = $parameters;
 	}

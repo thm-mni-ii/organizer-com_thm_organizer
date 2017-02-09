@@ -245,7 +245,7 @@ class THM_OrganizerHelperSchedule
 		}
 		else
 		{
-			$query->where("lt.delta != 'removed' OR (lt.delta = 'removed' AND lt.modified > " . $parameters['delta'] . ")");
+			$query->where("(lt.delta != 'removed' OR (lt.delta = 'removed' AND lt.modified > '" . $parameters['delta'] . "'))");
 		}
 
 		self::addDateClauses($parameters, $query);
@@ -545,10 +545,10 @@ class THM_OrganizerHelperSchedule
 		}
 		else
 		{
-			$query->where("lp.delta != 'removed' OR (lp.delta = 'removed' AND lp.modified > " . $parameters['delta'] . ")");
-			$query->where("ls.delta != 'removed' OR (ls.delta = 'removed' AND ls.modified > " . $parameters['delta'] . ")");
-			$query->where("l.delta != 'removed' OR (l.delta = 'removed' AND l.modified > " . $parameters['delta'] . ")");
-			$query->where("c.delta != 'removed' OR (c.delta = 'removed' AND c.modified > " . $parameters['delta'] . ")");
+			$query->where("(lp.delta != 'removed' OR (lp.delta = 'removed' AND lp.modified > '" . $parameters['delta'] . "'))");
+			$query->where("(ls.delta != 'removed' OR (ls.delta = 'removed' AND ls.modified > '" . $parameters['delta'] . "'))");
+			$query->where("(l.delta != 'removed' OR (l.delta = 'removed' AND l.modified > '" . $parameters['delta'] . "'))");
+			$query->where("(c.delta != 'removed' OR (c.delta = 'removed' AND c.modified > '" . $parameters['delta'] . "'))");
 		}
 
 		if (!empty($parameters['mySchedule']) AND !empty($parameters['userID']))

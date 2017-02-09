@@ -43,6 +43,52 @@ class THM_OrganizerHelperSubjects
 	}
 
 	/**
+	 * Retrieves the (plan) subject name
+	 *
+	 * @param int    $subjectID the table id for the subject
+	 * @param string $type      the type of the id (real or plan)
+	 *
+	 * @return array an array of program information
+	 */
+	public static function getName($subjectID, $type)
+	{
+		$dbo           = JFactory::getDbo();
+		$languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+
+		$query     = $dbo->getQuery(true);
+		$query->select("ps.name as psName, s.name_$languageTag as name");
+		$query->from('#__thm_organizer_plan_subjects AS ps');
+
+		if ($type == 'real')
+		{
+			$query->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
+			$query->innerJoin('#__thm_organizer_subjects AS s ON s.id = sm.subjectID');
+			$query->where("s.id = '$subjectID'");
+		}
+		else
+		{
+			$query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
+			$query->leftJoin('#__thm_organizer_subjects AS s ON s.id = sm.subjectID');
+			$query->where("ps.id = '$subjectID'");
+		}
+
+		$dbo->setQuery($query);
+
+		try
+		{
+			$names = $dbo->loadAssoc();
+		}
+		catch (RuntimeException $exc)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return '';
+		}
+
+		return empty($names)? '' : empty($names['name'])? $names['psName'] : $names['name'];
+	}
+
+	/**
 	 * Attempts to get the plan subject's id, creating it if non-existent.
 	 *
 	 * @param object $subject the subject object

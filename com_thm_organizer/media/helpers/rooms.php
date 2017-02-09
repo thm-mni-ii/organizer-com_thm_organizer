@@ -66,7 +66,7 @@ class THM_OrganizerHelperRooms
 	 *
 	 * @param string $roomID the room's id
 	 *
-	 * @return  mixed  string the name if the room could be resolved, otherwise null
+	 * @return  string the name if the room could be resolved, otherwise empty
 	 */
 	public static function getName($roomID)
 	{
@@ -80,10 +80,10 @@ class THM_OrganizerHelperRooms
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return null;
+			return '';
 		}
 
-		return $success ? $roomTable->longname : null;
+		return $success ? $roomTable->longname : '';
 	}
 
 	/**

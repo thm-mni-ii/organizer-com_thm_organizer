@@ -59,6 +59,53 @@ class THM_OrganizerHelperPrograms
 	}
 
 	/**
+	 * Retrieves the (plan) program name
+	 *
+	 * @param int $programID the table id for the program
+	 * @param string $type the type of the id (real or plan)
+	 *
+	 * @return string the name of the (plan) program, otherwise empty
+	 */
+	public static function getName($programID, $type)
+	{
+		$dbo           = JFactory::getDbo();
+		$languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+
+		$query     = $dbo->getQuery(true);
+		$nameParts = array("p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'");
+		$query->select('ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
+		$query->from('#__thm_organizer_plan_programs AS ppr');
+
+		if ($type == 'real')
+		{
+			$query->innerJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
+			$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+			$query->where("p.id = '$programID'");
+		}
+		else
+		{
+			$query->leftJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
+			$query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+			$query->where("ppr.id = '$programID'");
+		}
+
+		$dbo->setQuery($query);
+
+		try
+		{
+			$names = $dbo->loadAssoc();
+		}
+		catch (RuntimeException $exc)
+		{
+			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+			return '';
+		}
+
+		return empty($names)? '' : empty($names['name'])? $names['ppName'] : $names['name'];
+	}
+
+	/**
 	 * Getter method for schedule programs in database
 	 *
 	 * @return array an array of program information

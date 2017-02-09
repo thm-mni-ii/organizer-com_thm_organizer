@@ -28,19 +28,42 @@ class THM_OrganizerHelperPools
 	 *
 	 * @param string $gpuntisID the pool name in untis
 	 *
-	 * @return mixed int id on success, otherwise null
+	 * @return int id on success, otherwise 0
 	 */
 	public static function getID($gpuntisID)
 	{
 		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
 		$data   = array('gpuntisID' => $gpuntisID);
 		$exists = $table->load($data);
-		if ($exists)
-		{
-			return $exists ? $table->id : null;
-		}
+		return $exists ? $table->id : 0;
+	}
 
-		return null;
+	/**
+	 * Retrieves the pool's full name if existent.
+	 *
+	 * @param int $poolID the table's pool id
+	 *
+	 * @return string the full name, otherwise an empty string
+	 */
+	public static function getFullName($poolID)
+	{
+		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+		$exists = $table->load($poolID);
+		return $exists ? $table->full_name : '';
+	}
+
+	/**
+	 * Retrieves the pool's full name if existent.
+	 *
+	 * @param int $poolID the table's pool id
+	 *
+	 * @return string the full name, otherwise an empty string
+	 */
+	public static function getName($poolID)
+	{
+		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+		$exists = $table->load($poolID);
+		return $exists ? $table->name : '';
 	}
 
 	/**

@@ -12,18 +12,20 @@
 
 defined('_JEXEC') or die;
 $mobile = $this->isMobile ? 'mobile' : '';
+$displayName = empty($this->model->displayName)?
+	'THM Organizer  - ' . JText::_('COM_THM_ORGANIZER_SCHEDULES')
+	: JText::_('COM_THM_ORGANIZER_SCHEDULE') . ' - ' . $this->model->displayName;
 ?>
 
 <script type="text/javascript" charset="utf-8">
-	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/text.js"; ?>
-	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/variables.js"; ?>
+	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/text.js.php"; ?>
+	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/variables.js.php"; ?>
 </script>
 <div class="organizer <?php echo $mobile; ?>">
 
-	<h1>THM Organizer <?php echo $this->getModel()->departmentName; ?></h1> <!--TODO: find a long mark header -->
+	<h1><?php echo $displayName; ?></h1> <!--TODO: find a long mark header -->
 
 	<div class="menu-bar">
-		<!--	<a id="rl_tabs-scrollto_0" class="anchor rl_tabs-scroll nn_tabs-scroll"></a> -->
 		<ul class="tabs" role="tablist">
 			<li class="tabs-tab active" role="presentation">
 				<a href="#schedule-form" class="tabs-toggle" id="tab-schedule-form"
@@ -127,6 +129,22 @@ $mobile = $this->isMobile ? 'mobile' : '';
 
 			<div class="tab-panel selection active" id="schedule-form" role="tabpanel"
 			     aria-labelledby="tab-schedule-form" aria-hidden="false">
+				<?php
+				if (empty($this->model->params['departmentID']))
+				{
+					?>
+					<div id="department-input" class="input-wrapper">
+						<select id="department" multiple
+								data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
+							<?php
+							foreach ($this->getModel()->departments as $id => $department)
+							{
+								echo "<option value='" . $id . "'>$department</option>";
+							}
+							?>
+						</select>
+					</div>
+				<?php } ?>
 				<div id="category-input">
 					<select id="category" required>
 						<option value="placeholder" disabled>
@@ -137,22 +155,6 @@ $mobile = $this->isMobile ? 'mobile' : '';
 						<option value="teacher"><?php echo JText::_("COM_THM_ORGANIZER_TEACHERPLAN"); ?></option>
 					</select>
 				</div>
-				<?php
-				if ($this->departmentID == 0)
-				{
-					?>
-					<div id="department-input" class="input-wrapper">
-						<select id="department" multiple
-						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
-							<?php
-							foreach ($this->getModel()->departments as $id => $department)
-							{
-								echo "<option value='" . $id . "'>$department</option>";
-							}
-							?>
-						</select>
-					</div>
-				<?php } ?>
 				<div id="program-input" class="input-wrapper ">
 					<select id="program">
 						<!-- filled by ajax -->

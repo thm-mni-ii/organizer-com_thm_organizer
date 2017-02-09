@@ -23,6 +23,38 @@ require_once 'language.php';
 class THM_OrganizerHelperDepartments
 {
 	/**
+	 * Retrieves the department name from the database
+	 *
+	 * @param int $departmentID the
+	 *
+	 * @return string  the name of the department in the active language
+	 */
+	public static function getName($departmentID)
+	{
+		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo         = JFactory::getDbo();
+
+		$query = $dbo->getQuery(true);
+		$query->select("name_$languageTag as name")->from('#__thm_organizer_departments')
+			->where("id = '$departmentID'");
+
+		$dbo->setQuery((string) $query);
+
+		try
+		{
+			$name = $dbo->loadResult();
+		}
+		catch (RuntimeException $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
+			return '';
+		}
+
+		return empty($name) ? '' : $name;
+	}
+
+	/**
 	 * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
 	 *
 	 * @param int    $planResourceID the db id for the plan resource
