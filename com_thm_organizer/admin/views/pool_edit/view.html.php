@@ -49,19 +49,29 @@ class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
 		JToolbarHelper::title($title, 'organizer_subject_pools');
 		JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_ACTION_APPLY_NEW' : 'COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
 		JToolbarHelper::save('pool.save');
+		JToolbarHelper::save2new('pool.save2new');
+
+		//if (!$isNew)
+		//{
+			JToolbarHelper::save2copy('pool.save2copy');
+		//}
+
 		JToolbarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 
 		$toolbar = JToolbar::getInstance('toolbar');
 
-		$baseURL   = 'index.php?option=com_thm_organizer&amp;tmpl=component&amp;type=pool&amp;id=' . $resourceID . '&amp;';
-		$poolIcon  = 'list';
-		$poolTitle = JText::_('COM_THM_ORGANIZER_ADD_POOL');
-		$poolLink  = $baseURL . 'view=pool_selection';
-		$toolbar->appendButton('Popup', $poolIcon, $poolTitle, $poolLink);
+		if (!$isNew)
+		{
+			$baseURL   = 'index.php?option=com_thm_organizer&amp;tmpl=component&amp;type=pool&amp;id=' . $resourceID . '&amp;';
+			$poolIcon  = 'list';
+			$poolTitle = JText::_('COM_THM_ORGANIZER_ADD_POOL');
+			$poolLink  = $baseURL . 'view=pool_selection';
+			$toolbar->appendButton('Popup', $poolIcon, $poolTitle, $poolLink);
 
-		$subjectIcon  = 'book';
-		$subjectTitle = JText::_('COM_THM_ORGANIZER_ADD_SUBJECT');
-		$subjectLink  = $baseURL . 'view=subject_selection';
-		$toolbar->appendButton('Popup', $subjectIcon, $subjectTitle, $subjectLink);
+			$subjectIcon  = 'book';
+			$subjectTitle = JText::_('COM_THM_ORGANIZER_ADD_SUBJECT');
+			$subjectLink  = $baseURL . 'view=subject_selection';
+			$toolbar->appendButton('Popup', $subjectIcon, $subjectTitle, $subjectLink);
+		}
 	}
 }

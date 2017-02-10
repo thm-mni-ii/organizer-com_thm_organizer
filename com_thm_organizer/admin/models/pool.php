@@ -82,12 +82,18 @@ class THM_OrganizerModelPool extends JModelLegacy
 	 * @return  mixed  integer on successful pool creation, otherwise boolean
 	 *                 true/false on success/failure
 	 */
-	public function save()
+	public function save($new = false)
 	{
 		$data  = JFactory::getApplication()->input->get('jform', array(), 'array');
 		$table = JTable::getInstance('pools', 'thm_organizerTable');
 
 		$this->_db->transactionStart();
+
+		if ($new)
+		{
+			unset($data['id']);
+			unset($data['asset_id']);
+		}
 
 		if (empty($data['fieldID']))
 		{
@@ -96,26 +102,28 @@ class THM_OrganizerModelPool extends JModelLegacy
 
 		$success = $table->save($data);
 
-		// Successfully inserted a new pool
-		if ($success AND empty($data['id']))
-		{
-			$this->_db->transactionCommit();
-
-			return $table->id;
-		}
-
-		// New pool unsuccessfully inserted
-		elseif (empty($data['id']))
+		if (!$success OR empty($table->id))
 		{
 			$this->_db->transactionRollback();
 
 			return false;
 		}
 
+		$mappingsIrrelevant = (empty($data['programID']) OR empty($data['parentID']));
+
+		// Successfully inserted a new pool
+		if ($mappingsIrrelevant)
+		{
+			$this->_db->transactionCommit();
+
+			return $table->id;
+		}
+
 		// Process mapping information
 		else
 		{
 			$model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+			$data['id'] = $table->id;
 
 			// No mappings desired
 			if (empty($data['parentID']))
@@ -151,5 +159,16 @@ class THM_OrganizerModelPool extends JModelLegacy
 				}
 			}
 		}
+	}
+
+	/**
+	 * Saves
+	 *
+	 * @return  mixed  integer on successful pool creation, otherwise boolean
+	 *                 true/false on success/failure
+	 */
+	public function save2copy()
+	{
+		return $this->save(true);
 	}
 }
