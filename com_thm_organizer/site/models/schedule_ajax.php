@@ -195,10 +195,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
 		$parameters['date']            = $input->getString('date');
 		$parameters['format']          = '';
-		$deltaDays                     = $input->getString('deltaDays', '');
-		$parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d H:i:s', strtotime("-" . $deltaDays . " days"));
+		$deltaDays                     = $input->getString('deltaDays', '14');
+		$parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime("-" . $deltaDays . " days"));
 
-		$lessons = THM_OrganizerHelperSchedule::getLessons($parameters, true);
+		$lessons = THM_OrganizerHelperSchedule::getLessons($parameters);
 
 		return empty($lessons) ? '[]' : json_encode($lessons);
 	}
@@ -446,10 +446,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$parameters['format']          = '';
 		$parameters['mySchedule']      = true;
 		$parameters['userID']          = JFactory::getUser()->id;
-		$deltaDays                     = $input->getString('deltaDays', '');
-		$parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d H:i:s', strtotime("-" . $deltaDays . " days"));
+		$deltaDays                     = $input->getString('deltaDays', '14');
+		$parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime("-" . $deltaDays . " days"));
 
-		$userLessons = THM_OrganizerHelperSchedule::getLessons($parameters, true);
+		$userLessons = THM_OrganizerHelperSchedule::getLessons($parameters);
 
 		return empty($userLessons) ? '[]' : json_encode($userLessons);
 	}

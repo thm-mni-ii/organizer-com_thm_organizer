@@ -13,7 +13,7 @@ variables.grids = [];
 variables.grids[<?php echo $key; ?>] = {
 	"id" : "<?php echo $grid->id; ?>",
 	"grid" : '<?php echo $grid->grid; ?>'
-}
+};
 <?php endforeach; ?>
 variables.exportbase = "<?php echo JUri::root() .'index.php?option=com_thm_organizer&view=schedule_export'; ?>";
 variables.isMobile = "<?php echo $this->isMobile; ?>";

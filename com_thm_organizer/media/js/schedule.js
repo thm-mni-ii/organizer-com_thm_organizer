@@ -895,23 +895,9 @@ ScheduleTable = function (schedule)
 				if (this.userSchedule || this.isSavedByUser(lessonElement))
 				{
 					lessonElement.classList.add("added");
-					added = true;
 				}
 
-				// Right click on lessons show save/delete menu
-				lessonElement.addEventListener("contextmenu", function (event)
-				{
-					if (added)
-					{
-						window.lessonMenu.getDeleteMenu(this);
-					}
-					else
-					{
-						window.lessonMenu.getSaveMenu(this);
-					}
-
-					event.preventDefault();
-				});
+				this.addContextMenu(lessonElement, subjectData);
 
 				// Buttons for instant saving/deleting without extra context menu
 				saveActionButton = document.createElement("button");
@@ -946,6 +932,35 @@ ScheduleTable = function (schedule)
 		}
 
 		return lessons;
+	};
+
+	/**
+	 * Adds context menu to given lessonElement
+	 * Right click on lesson show save/delete menu
+	 *
+	 * @param lessonElement HTMLDivElement the html element which needs a context menu
+	 * @param data array                   the lesson/subject data
+	 */
+	this.addContextMenu = function (lessonElement, data)
+	{
+		var lesson = lessonElement;
+
+		lesson.addEventListener("contextmenu", function (event)
+		{
+			if (!lesson.classList.contains("calendar-removed") && !lesson.classList.contains("lesson-removed"))
+			{
+				event.preventDefault();
+				window.lessonMenu.getSaveMenu(lesson);
+				window.lessonMenu.setLessonData(data);
+			}
+
+			if (lesson.classList.contains("added"))
+			{
+				event.preventDefault();
+				window.lessonMenu.getDeleteMenu(lesson);
+				window.lessonMenu.setLessonData(data);
+			}
+		});
 	};
 
 	/**
@@ -1194,30 +1209,30 @@ LessonMenu = function ()
 	var that = this;
 	this.currentCcmID = 0;
 	this.lessonMenuElement = document.getElementsByClassName('lesson-menu')[0];
-	this.saveMenu = undefined;
-	this.closeSaveMenuButton = undefined;
+	this.closeButton = this.lessonMenuElement.getElementsByClassName('icon-cancel')[0];
+	this.subjectSpan = this.lessonMenuElement.getElementsByClassName('subject')[0];
+	this.moduleSpan = this.lessonMenuElement.getElementsByClassName('module')[0];
+	this.personsDiv = this.lessonMenuElement.getElementsByClassName('persons')[0];
+	this.roomsDiv = this.lessonMenuElement.getElementsByClassName('rooms')[0];
+	this.poolsDiv = this.lessonMenuElement.getElementsByClassName('pools')[0];
+	this.descriptionSpan = this.lessonMenuElement.getElementsByClassName('description')[0];
+	this.saveMenu = this.lessonMenuElement.getElementsByClassName('save')[0];
 	this.saveSemesterMode = document.getElementById('save-mode-semester');
 	this.savePeriodMode = document.getElementById('save-mode-period');
 	this.saveInstanceMode = document.getElementById('save-mode-instance');
-	this.deleteMenu = undefined;
-	this.closeDeleteMenuButton = undefined;
+	this.deleteMenu = this.lessonMenuElement.getElementsByClassName('delete')[0];
 	this.deleteSemesterMode = document.getElementById('delete-mode-semester');
 	this.deletePeriodMode = document.getElementById('delete-mode-period');
 	this.deleteInstanceMode = document.getElementById('delete-mode-instance');
 
 	/**
-	 * Detects HTML elements for saving/deleting a lesson to/from the users schedule and add eventListener
+	 * Adds eventListeners to html elements
 	 */
 	this.create = function ()
 	{
-		this.saveMenu = this.lessonMenuElement.getElementsByClassName('save')[0];
-		this.closeSaveMenuButton = this.saveMenu.getElementsByClassName('icon-cancel')[0];
-		this.deleteMenu = this.lessonMenuElement.getElementsByClassName('delete')[0];
-		this.closeDeleteMenuButton = this.deleteMenu.getElementsByClassName('icon-cancel')[0];
-
-		this.closeSaveMenuButton.addEventListener("click", function ()
+		this.closeButton.addEventListener("click", function ()
 		{
-			that.saveMenu.style.display = "none";
+			that.lessonMenuElement.style.display = "none";
 		});
 		this.saveSemesterMode.addEventListener("click", function ()
 		{
@@ -1234,10 +1249,6 @@ LessonMenu = function ()
 			handleLesson(variables.INSTANCE_MODE, that.currentCcmID, true);
 			that.saveMenu.style.display = "none";
 		});
-		this.closeDeleteMenuButton.addEventListener("click", function ()
-		{
-			that.deleteMenu.style.display = "none";
-		});
 		this.deleteSemesterMode.addEventListener("click", function ()
 		{
 			handleLesson(variables.SEMESTER_MODE, that.currentCcmID, false);
@@ -1253,6 +1264,60 @@ LessonMenu = function ()
 			handleLesson(variables.INSTANCE_MODE, that.currentCcmID, false);
 			that.deleteMenu.style.display = "none";
 		});
+	};
+
+	/**
+	 * Resets HTMLDivElements
+	 */
+	this.resetElements = function ()
+	{
+		removeChildren(this.personsDiv);
+		removeChildren(this.roomsDiv);
+		removeChildren(this.poolsDiv);
+	};
+
+	/**
+	 * Inserts data of active lesson
+	 *
+	 * @param data object lesson data like subject name, persons, locations...
+	 */
+	this.setLessonData = function (data)
+	{
+		var teacherID, personSpan, roomID, roomSpan, poolID, poolSpan;
+
+		this.resetElements();
+
+		this.subjectSpan.innerHTML = data.name;
+		this.moduleSpan.innerHTML = data.subjectNo;
+		this.descriptionSpan.innerHTML = ""; // TODO: description Link hinzufügen
+
+		for (teacherID in data.teachers)
+		{
+			if (data.teachers.hasOwnProperty(teacherID) && data.teacherDeltas[teacherID] != "removed")
+			{
+				personSpan = document.createElement("span");
+				personSpan.innerHTML = data.teachers[teacherID];
+				this.personsDiv.appendChild(personSpan);
+			}
+		}
+		for (roomID in data.rooms)
+		{
+			if (data.rooms.hasOwnProperty(roomID) && data.roomDeltas[roomID] != "removed")
+			{
+				roomSpan = document.createElement("span");
+				roomSpan.innerHTML = data.rooms[roomID];
+				this.roomsDiv.appendChild(roomSpan);
+			}
+		}
+		for (poolID in data.pools)
+		{
+			if (data.pools.hasOwnProperty(poolID))
+			{
+				poolSpan = document.createElement("span");
+				poolSpan.innerHTML = data.pools[poolID].gpuntisID;
+				this.poolsDiv.appendChild(poolSpan);
+			}
+		}
 	};
 
 	/**

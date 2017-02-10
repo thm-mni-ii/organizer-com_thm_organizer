@@ -23,7 +23,7 @@ $displayName = empty($this->model->displayName)?
 </script>
 <div class="organizer <?php echo $mobile; ?>">
 
-	<h1><?php echo $displayName; ?></h1> <!--TODO: find a long mark header -->
+	<h1><?php echo $displayName; ?></h1>
 
 	<div class="menu-bar">
 		<ul class="tabs" role="tablist">
@@ -312,8 +312,16 @@ $displayName = empty($this->model->displayName)?
 	</div>
 
 	<div class="lesson-menu">
+		<div class="lesson-data">
+			<button class="icon-cancel"></button>
+			<span class="subject"></span>
+			<span class="module"></span>
+			<div class="persons"></div>
+			<div class="rooms"></div>
+			<div class="pools"></div>
+			<span class="description"></span>
+		</div>
 		<div class="save">
-			<button class="icon-cancel close-save"></button>
 			<button id="save-mode-semester">
 				<?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_SEMESTER') ?>
 			</button>
@@ -325,7 +333,6 @@ $displayName = empty($this->model->displayName)?
 			</button>
 		</div>
 		<div class="delete">
-			<button class="icon-cancel close-delete"></button>
 			<button id="delete-mode-semester">
 				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_SEMESTER') ?>
 			</button>
