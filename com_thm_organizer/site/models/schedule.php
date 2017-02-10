@@ -168,7 +168,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$this->params = array();
 
 		// No explicit resource selection was made check if departments were requested
-		$this->params['departmentID']  = $params->get('departmentID', $input->getInt('departmentID', 0));
+		$this->params['departmentID']  = $input->getInt('departmentID', $params->get('departmentID', 0));
 		$this->params['showPrograms']  = $params->get('showPrograms', 1);
 		$this->params['showPools']     = $params->get('showPools', 1);
 		$this->params['showRooms']     = $params->get('showRooms', 1);
@@ -294,7 +294,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			return;
 		}
 
-		// This will only be requested by URL so there is no need to check params
+		// This will only be requested by URL so there is no need to check params or $setTitle
 		$this->setResourceArray('subject');
 
 		if (!empty($this->params['subjectIDs']))
@@ -305,12 +305,12 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$this->params['showRoomTypes'] = 0;
 			$this->params['showTeachers'] = 0;
 
-			if (count($this->params['subjectIDs']) === 1 AND $setTitle)
-			{
-				/** @noinspection PhpIncludeInspection */
-				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-				$this->displayName .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'][0], 'plan');
-			}
+			// There can be only one.
+			$this->params['subjectIDs'] = array_shift($this->params['subjectIDs']);
+
+			/** @noinspection PhpIncludeInspection */
+			require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
+			$this->displayName .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'][0], 'plan');
 
 			return;
 		}
