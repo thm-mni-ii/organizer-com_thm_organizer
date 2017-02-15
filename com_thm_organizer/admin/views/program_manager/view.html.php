@@ -38,6 +38,13 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.manage'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -49,29 +56,21 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
 	protected function addToolBar()
 	{
 		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_degree_programs');
-		if (count(THM_OrganizerHelperComponent::getAccessibleDepartments()))
-		{
-			JToolbarHelper::addNew('program.add');
-			JToolbarHelper::editList('program.edit');
-			JToolbarHelper::custom(
-				'program.importLSFData',
-				'import',
-				'',
-				'COM_THM_ORGANIZER_ACTION_IMPORT',
-				true
-			);
-			JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
-		}
-		// No departments are available and must first be created
-		elseif ($this->getModel()->actions->{'core.admin'})
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_NO_DEPARTMENTS'), 'notice');
-		}
+		JToolbarHelper::addNew('program.add');
+		JToolbarHelper::editList('program.edit');
+		JToolbarHelper::custom(
+			'program.importLSFData',
+			'import',
+			'',
+			'COM_THM_ORGANIZER_ACTION_IMPORT',
+			true
+		);
+		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
 
 		if ($this->getModel()->actions->{'core.admin'})
 		{
 			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer', '500');
+			JToolbarHelper::preferences('com_thm_organizer');
 		}
 	}
 }

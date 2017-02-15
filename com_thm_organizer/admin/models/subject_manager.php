@@ -58,8 +58,9 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	 */
 	protected function getListQuery()
 	{
-		$dbo      = JFactory::getDbo();
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('manage');
+		$dbo                = JFactory::getDbo();
+		$shortTag           = THM_OrganizerHelperLanguage::getShortTag();
 
 		// Create the sql query
 		$query  = $dbo->getQuery(true);
@@ -70,11 +71,13 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 		$query->from('#__thm_organizer_subjects AS s');
 		$query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+		$query->where("(s.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR s.departmentID IS NULL)");
 
 		$searchFields = array('s.name_de', 'short_name_de', 'abbreviation_de', 's.name_en', 'short_name_en',
 		                      'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
 		                      'description_en', 'objective_en', 'content_en', 'lsfID'
 		);
+
 		$this->setSearchFilter($query, $searchFields);
 		$this->setValueFilters($query, array('externalID'));
 		$this->setLocalizedFilters($query, array('name', 'field'));
@@ -98,12 +101,14 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
 			$return[$index]               = array();
@@ -139,9 +144,8 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
+		$ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction             = $this->state->get('list.direction', $this->defaultDirection);
 		$headers               = array();
 		$headers['checkbox']   = '';
 		$headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);

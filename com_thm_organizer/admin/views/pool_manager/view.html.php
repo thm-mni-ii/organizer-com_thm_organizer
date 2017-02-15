@@ -37,6 +37,13 @@ class THM_OrganizerViewPool_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.manage'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -53,7 +60,11 @@ class THM_OrganizerViewPool_Manager extends THM_OrganizerViewList
 		JToolbarHelper::addNew('pool.add');
 		JToolbarHelper::editList('pool.edit');
 		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'pool.delete');
-		JToolbarHelper::divider();
-		JToolbarHelper::preferences('com_thm_organizer');
+
+		if ($this->getModel()->actions->{'core.admin'})
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_thm_organizer');
+		}
 	}
 }

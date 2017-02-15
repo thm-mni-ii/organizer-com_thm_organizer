@@ -37,6 +37,13 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -48,23 +55,9 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
 	protected function addToolBar()
 	{
 		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_plan_programs');
-
-		$actions = $this->getModel()->actions;
-
-		if ($actions->{'core.edit'})
-		{
-			JToolbarHelper::editList('plan_program.edit');
-		}
-
-		if ($actions->{'core.edit'} AND $actions->{'core.delete'})
-		{
-			JToolbarHelper::custom('plan_program.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-		}
-
-		if ($actions->{'core.admin'})
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer');
-		}
+		JToolbarHelper::editList('plan_program.edit');
+		JToolbarHelper::custom('plan_program.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+		JToolbarHelper::divider();
+		JToolbarHelper::preferences('com_thm_organizer');
 	}
 }

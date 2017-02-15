@@ -87,23 +87,22 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
-		if ($this->actions->{'core.edit'})
+
+		foreach ($items as $item)
 		{
-			foreach ($items as $item)
-			{
-				$return[$index]              = array();
-				$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
-				$return[$index]['full_name'] = JHtml::_('link', $item->link, $item->full_name);
-				$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
-				$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
-				$index++;
-			}
+			$return[$index]              = array();
+			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['full_name'] = JHtml::_('link', $item->link, $item->full_name);
+			$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
+			$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
+			$index++;
 		}
 
 		return $return;
@@ -116,15 +115,10 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction            = $this->state->get('list.direction', $this->defaultDirection);
+		$headers              = array();
+		$headers['checkbox']  = '';
 		$headers['full_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ppl.full_name', $direction, $ordering);
 		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction, $ordering);
 		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);

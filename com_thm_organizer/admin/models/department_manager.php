@@ -51,7 +51,8 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 	 */
 	protected function getListQuery()
 	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('department');
+		$shortTag           = THM_OrganizerHelperLanguage::getShortTag();
 
 		// Create the query
 		$query  = $this->_db->getQuery(true);
@@ -61,6 +62,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 		$query->select($select);
 		$query->from('#__thm_organizer_departments AS d');
 		$query->innerJoin('#__assets AS a ON d.asset_id = a.id');
+		$query->where("d.id IN ('" . implode("', '", $allowedDepartments) . "')");
 
 		$this->setSearchFilter($query, array('short_name_de', 'name_de', 'short_name_en', 'name_en'));
 		$this->setLocalizedFilters($query, array('short_name', 'name'));
@@ -79,27 +81,20 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
-			if ($this->actions->{'core.admin'})
-			{
-				$return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
-				$return[$index]['short_name'] = JHtml::_('link', $item->link, $item->short_name);
-				$return[$index]['name']       = JHtml::_('link', $item->link, $item->name);
-			}
-			else
-			{
-				$return[$index]['short_name'] = $item->short_name;
-				$return[$index]['name']       = $item->name;
-			}
-
+			$return[$index]               = array();
+			$return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['short_name'] = JHtml::_('link', $item->link, $item->short_name);
+			$return[$index]['name']       = JHtml::_('link', $item->link, $item->name);
 			$index++;
 		}
 
@@ -113,15 +108,10 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.admin'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction             = $this->state->get('list.direction', $this->defaultDirection);
+		$headers               = array();
+		$headers['checkbox']   = '';
 		$headers['short_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'f.field', $direction, $ordering);
 		$headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 

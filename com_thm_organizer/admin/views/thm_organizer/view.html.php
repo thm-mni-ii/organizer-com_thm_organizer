@@ -37,7 +37,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
 	{
 		JHtml::_('behavior.tooltip');
 
-		THM_OrganizerHelperComponent::addSubmenu($this);
+		//THM_OrganizerHelperComponent::addSubmenu($this);
 
 		parent::display($tpl);
 	}
@@ -56,5 +56,22 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_thm_organizer');
 		}
+	}
+
+	/**
+	 * Adds styles and scripts to the document
+	 *
+	 * @return  void  modifies the document
+	 */
+	protected function modifyDocument()
+	{
+		JHtml::_('bootstrap.tooltip');
+		JHtml::_('behavior.framework', true);
+		JHtml::_('behavior.formvalidation');
+		JHtml::_('formbehavior.chosen', 'select');
+
+		$document = JFactory::getDocument();
+		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
+		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
 	}
 }

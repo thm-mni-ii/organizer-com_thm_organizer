@@ -38,6 +38,13 @@ class THM_OrganizerViewField_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -49,17 +56,11 @@ class THM_OrganizerViewField_Manager extends THM_OrganizerViewList
 	protected function addToolBar()
 	{
 		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_VIEW_TITLE'), 'organizer_fields');
-
-		$actions = $this->getModel()->actions;
-
-		if ($actions->{'core.admin'})
-		{
-			JToolbarHelper::addNew('field.add');
-			JToolbarHelper::editList('field.edit');
-			JToolbarHelper::custom('field.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-			JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'field.delete');
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer');
-		}
+		JToolbarHelper::addNew('field.add');
+		JToolbarHelper::editList('field.edit');
+		JToolbarHelper::custom('field.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'field.delete');
+		JToolbarHelper::divider();
+		JToolbarHelper::preferences('com_thm_organizer');
 	}
 }

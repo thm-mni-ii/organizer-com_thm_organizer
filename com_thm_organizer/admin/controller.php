@@ -319,7 +319,7 @@ class THM_OrganizerController extends JControllerLegacy
 	 */
 	public function save()
 	{
-		$success = $this->getModel($this->_resource)->save($this->_resource);
+		$success = $this->getModel($this->_resource)->save();
 
 		if (!empty($success))
 		{

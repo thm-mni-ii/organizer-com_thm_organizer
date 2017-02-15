@@ -52,7 +52,8 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	 */
 	protected function getListQuery()
 	{
-		$query = $this->_db->getQuery(true);
+		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('manage');
+		$query              = $this->_db->getQuery(true);
 
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$select   = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag AS field, color, ";
@@ -63,6 +64,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 		$query->from('#__thm_organizer_pools AS p');
 		$query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+		$query->where("(p.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR p.departmentID IS NULL)");
 
 		$searchColumns = array('p.name_de', 'short_name_de', 'abbreviation_de', 'description_de',
 		                       'p.name_en', 'short_name_en', 'abbreviation_en', 'description_en'
@@ -88,12 +90,14 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
 			$return[$index]              = array();
@@ -130,9 +134,8 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
+		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction            = $this->state->get('list.direction', $this->defaultDirection);
 		$headers              = array();
 		$headers['checkbox']  = '';
 		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);

@@ -38,6 +38,13 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.department'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -49,15 +56,12 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
 	protected function addToolBar()
 	{
 		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_VIEW_TITLE'), 'organizer_departments');
+		JToolbarHelper::addNew('department.add');
+		JToolbarHelper::editList('department.edit');
+		JToolbarHelper::deleteList('', 'department.delete');
 
-		$actions = $this->getModel()->actions;
-
-		$isAdmin = ($actions->{'core.admin'});
-		if ($isAdmin)
+		if ($this->getModel()->actions->{'core.admin'})
 		{
-			JToolbarHelper::addNew('department.add');
-			JToolbarHelper::editList('department.edit');
-			JToolbarHelper::deleteList('', 'department.delete');
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_thm_organizer');
 		}

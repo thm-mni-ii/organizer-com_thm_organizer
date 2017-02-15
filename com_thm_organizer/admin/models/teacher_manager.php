@@ -82,43 +82,27 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$itemForename   = empty($item->forename) ? '' : $item->forename;
-			$itemUsername   = empty($item->username) ? '' : $item->username;
-			$itemGPUntisID  = empty($item->gpuntisID) ? '' : $item->gpuntisID;
-			$return[$index] = array();
+			$itemForename  = empty($item->forename) ? '' : $item->forename;
+			$itemUsername  = empty($item->username) ? '' : $item->username;
+			$itemGPUntisID = empty($item->gpuntisID) ? '' : $item->gpuntisID;
 
-			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-			{
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			}
+			$return[$index]                = array();
+			$return[$index]['checkbox']    = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['surname']     = JHtml::_('link', $item->link, $item->surname);
+			$return[$index]['forename']    = JHtml::_('link', $item->link, $itemForename);
+			$return[$index]['username']    = JHtml::_('link', $item->link, $itemUsername);
+			$return[$index]['t.gpuntisID'] = JHtml::_('link', $item->link, $itemGPUntisID);
 
-			if ($this->actions->{'core.edit'})
-			{
-				$surname   = JHtml::_('link', $item->link, $item->surname);
-				$forename  = JHtml::_('link', $item->link, $itemForename);
-				$username  = JHtml::_('link', $item->link, $itemUsername);
-				$gpuntisID = JHtml::_('link', $item->link, $itemGPUntisID);
-			}
-			else
-			{
-				$surname   = $item->surname;
-				$forename  = $itemForename;
-				$username  = $itemUsername;
-				$gpuntisID = $itemGPUntisID;
-			}
-
-			$return[$index]['surname']     = $surname;
-			$return[$index]['forename']    = $forename;
-			$return[$index]['username']    = $username;
-			$return[$index]['t.gpuntisID'] = $gpuntisID;
 			if (!empty($item->field))
 			{
 				$bgColor                 = empty($item->color) ? 'ffffff' : $item->color;
@@ -142,15 +126,10 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering               = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction              = $this->state->get('list.direction', $this->defaultDirection);
+		$headers                = array();
+		$headers['checkbox']    = '';
 		$headers['surname']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
 		$headers['forename']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);
 		$headers['username']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction, $ordering);

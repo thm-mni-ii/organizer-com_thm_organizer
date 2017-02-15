@@ -37,6 +37,13 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'} AND !$actions->{'organizer.fm'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -48,30 +55,12 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
 	protected function addToolBar()
 	{
 		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_VIEW_TITLE'), 'organizer_rooms');
+		JToolbarHelper::addNew('room.add');
+		JToolbarHelper::editList('room.edit');
+		JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room.delete');
 
-		$actions = $this->getModel()->actions;
-
-		if ($actions->{'core.create'})
-		{
-			JToolbarHelper::addNew('room.add');
-		}
-
-		if ($actions->{'core.edit'})
-		{
-			JToolbarHelper::editList('room.edit');
-		}
-
-		if ($actions->{'core.edit'} AND $actions->{'core.delete'})
-		{
-			JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-		}
-
-		if ($actions->{'core.delete'})
-		{
-			JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room.delete');
-		}
-
-		if ($actions->{'core.admin'})
+		if ($this->getModel()->actions->{'core.admin'})
 		{
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_thm_organizer');

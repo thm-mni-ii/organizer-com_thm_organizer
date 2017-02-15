@@ -150,44 +150,34 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
-		$params = JComponentHelper::getParams('com_thm_organizer');
+		$params       = JComponentHelper::getParams('com_thm_organizer');
+		$displayParam = $params->get('display');
+		$contentParam = $params->get('content');
+		$index        = 0;
 
-		$index = 0;
 		foreach ($items as $item)
 		{
 			// Set default attributes
 			if (!empty($item->useDefaults))
 			{
-				$item->display = $params->get('display');
-				$item->content = $params->get('content');
+				$item->display = $displayParam;
+				$item->content = $contentParam;
 			}
 
-			$return[$index] = array();
-			if ($this->actions->{'core.admin'})
-			{
-				$return[$index]['checkbox']    = JHtml::_('grid.id', $index, $item->id);
-				$return[$index]['longname']    = JHtml::_('link', $item->link, $item->longname);
-				$return[$index]['ip']          = JHtml::_('link', $item->link, $item->ip);
-				$tip                           = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
-				$return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
-				$return[$index]['display']     = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
-				$return[$index]['content']     = JHtml::_('link', $item->link, $item->content);
-			}
-			else
-			{
-				$return[$index]['longname']    = $item->longname;
-				$return[$index]['ip']          = $item->ip;
-				$tip                           = $item->useDefaults ? JText::_('COM_THM_ORGANIZER_ACTIVE_DESC') : JText::_('COM_THM_ORGANIZER_INACTIVE_DESC');
-				$return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip, null);
-				$return[$index]['display']     = $this->displayBehaviour[$item->display];
-				$return[$index]['content']     = $item->content;
-			}
-
+			$return[$index]                = array();
+			$return[$index]['checkbox']    = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['longname']    = JHtml::_('link', $item->link, $item->longname);
+			$return[$index]['ip']          = JHtml::_('link', $item->link, $item->ip);
+			$tip                           = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
+			$return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
+			$return[$index]['display']     = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
+			$return[$index]['content']     = JHtml::_('link', $item->link, $item->content);
 			$index++;
 		}
 
@@ -201,15 +191,10 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.admin'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering               = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction              = $this->state->get('list.direction', $this->defaultDirection);
+		$headers                = array();
+		$headers['checkbox']    = '';
 		$headers['longname']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
 		$headers['ip']          = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
 		$headers['useDefaults'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEFAULT_SETTINGS', 'm.useDefault', $direction, $ordering);

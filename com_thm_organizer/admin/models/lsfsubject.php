@@ -170,7 +170,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		// Gets rid of bullshit encoding from copy and paste from word
 		$text = str_replace(chr(160), " ", $text);
 		$text = str_replace(chr(194), " ", $text);
-		$text = str_replace(chr(195).chr(159), " ", $text);
+		$text = str_replace(chr(195) . chr(159), " ", $text);
 
 		// Remove the formatted text tag
 		$text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
@@ -207,7 +207,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			// Remove non-self closing tags containing only white space
 			$text = preg_replace("/<[^\/>][^>]*>\s*<\/[^>]+>/", "", $text);
 		}
-		while($text != $startText);
+		while ($text != $startText);
 
 		return $text;
 	}
@@ -464,7 +464,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$table = JTable::getInstance('subjects', 'thm_organizerTable');
 
 		// Attempt to load using the departmentID
-		$table->load(array('lsfID' => $lsfID, 'departmentID' => $departmentID));
+		$data = array('lsfID' => $lsfID, 'departmentID' => $departmentID);
+		$table->load($data);
+
 		if (empty($table->id))
 		{
 			// Check for a non-migrated row
@@ -472,14 +474,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 
 		// No row was found => create one
-		if (empty($table->id))
+		if (empty($table->id) OR empty($table->departmentID))
 		{
 			if ($unwanted)
 			{
 				return true;
 			}
 
-			$data      = array('lsfID' => $lsfID, 'departmentID' => $departmentID);
 			$stubSaved = $table->save($data);
 			if (!$stubSaved)
 			{
@@ -681,7 +682,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	private function setObjectProperty(&$subject, &$objectNode)
 	{
-		$category      = (string) $objectNode->kategorie;
+		$category = (string) $objectNode->kategorie;
 
 		/**
 		 * SimpleXML is terrible with mixed content. Since there is no guarantee what a node's format is,

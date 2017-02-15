@@ -77,35 +77,22 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
 	 */
 	public function getItems()
 	{
-		$items  = parent::getItems();
+		$items = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
-			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-			{
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			}
-
-			if ($this->actions->{'core.edit'})
-			{
-				$gpuntisID = JHtml::_('link', $item->link, $item->gpuntisID);
-				$name      = JHtml::_('link', $item->link, $item->name);
-			}
-			else
-			{
-				$gpuntisID = $item->gpuntisID;
-				$name      = $item->name;
-			}
-
-			$return[$index]['gpuntisID']    = $gpuntisID;
-			$return[$index]['name']         = $name;
+			$return[$index]                 = array();
+			$return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['gpuntisID']    = JHtml::_('link', $item->link, $item->gpuntisID);
+			$return[$index]['name']         = JHtml::_('link', $item->link, $item->name);
 			$return[$index]['min_capacity'] = $item->min_capacity;
 			$return[$index]['max_capacity'] = $item->max_capacity;
 			$return[$index]['roomCount']    = $item->roomCount;
@@ -122,15 +109,10 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering                = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction               = $this->state->get('list.direction', $this->defaultDirection);
+		$headers                 = array();
+		$headers['checkbox']     = '';
 		$headers['gpuntisID']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'name', $direction, $ordering);
 		$headers['name']         = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 		$headers['min_capacity'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_MIN_CAPACITY', 'min_capacity', $direction, $ordering);

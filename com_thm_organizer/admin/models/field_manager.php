@@ -82,35 +82,21 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
-			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-			{
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			}
-
-			if ($this->actions->{'core.edit'})
-			{
-				$field     = JHtml::_('link', $item->link, $item->field);
-				$gpuntisID = JHtml::_('link', $item->link, $item->gpuntisID);
-			}
-			else
-			{
-				$field     = $item->field;
-				$gpuntisID = $item->gpuntisID;
-			}
-
-			$return[$index]['field']     = $field;
-			$return[$index]['gpuntisID'] = $gpuntisID;
-			$colorOutput                 = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
-			$return[$index]['colorID']   = $colorOutput;
+			$return[$index]              = array();
+			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['field']     = JHtml::_('link', $item->link, $item->field);
+			$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
+			$return[$index]['colorID']   = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
 			$index++;
 		}
 
@@ -124,15 +110,10 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction            = $this->state->get('list.direction', $this->defaultDirection);
+		$headers              = array();
+		$headers['checkbox']  = '';
 		$headers['field']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'field', $direction, $ordering);
 		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'gpuntisID', $direction, $ordering);
 		$headers['colorID']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);

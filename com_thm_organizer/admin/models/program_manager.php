@@ -54,7 +54,9 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 	 */
 	protected function getListQuery()
 	{
+		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('manage');
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+
 		$query    = $this->_db->getQuery(true);
 		$select   = "dp.name_$shortTag AS name, version, ";
 		$select .= "dp.id AS id, d.abbreviation AS abbreviation, dpt.short_name_$shortTag AS departmentname, ";
@@ -66,6 +68,7 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 		$query->leftJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
 		$query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
 		$query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
+		$query->where("(dp.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR dp.departmentID IS NULL)");
 
 		$searchColumns = array('dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en');
 		$this->setSearchFilter($query, $searchColumns);
@@ -86,33 +89,21 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
-			$canEdit        = THM_OrganizerHelperComponent::allowResourceManage('program', $item->id);
-			if ($canEdit)
-			{
-				$return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
-				$return[$index]['dp.name']      = JHtml::_('link', $item->link, $item->name);
-				$return[$index]['degreeID']     = JHtml::_('link', $item->link, $item->abbreviation);
-				$return[$index]['version']      = JHtml::_('link', $item->link, $item->version);
-				$return[$index]['departmentID'] = JHtml::_('link', $item->link, $item->departmentname);
-			}
-			else
-			{
-				$return[$index]['checkbox']     = '';
-				$return[$index]['dp.name']      = $item->name;
-				$return[$index]['degreeID']     = $item->abbreviation;
-				$return[$index]['version']      = $item->version;
-				$return[$index]['departmentID'] = $item->departmentname;
-			}
-
+			$return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['dp.name']      = JHtml::_('link', $item->link, $item->name);
+			$return[$index]['degreeID']     = JHtml::_('link', $item->link, $item->abbreviation);
+			$return[$index]['version']      = JHtml::_('link', $item->link, $item->version);
+			$return[$index]['departmentID'] = JHtml::_('link', $item->link, $item->departmentname);
 			$index++;
 		}
 

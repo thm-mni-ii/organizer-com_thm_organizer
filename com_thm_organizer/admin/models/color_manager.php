@@ -65,31 +65,20 @@ class THM_OrganizerModelColor_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
-			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-			{
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			}
-
-			if ($this->actions->{'core.edit'})
-			{
-				$name = JHtml::_('link', $item->link, $item->name);
-			}
-			else
-			{
-				$name = $item->name;
-			}
-
-			$return[$index]['name']  = $name;
-			$return[$index]['color'] = THM_OrganizerHelperComponent::getColorField($item->color, $item->color);
+			$return[$index]             = array();
+			$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
+			$return[$index]['color']    = THM_OrganizerHelperComponent::getColorField($item->color, $item->color);
 			$index++;
 		}
 
@@ -103,17 +92,12 @@ class THM_OrganizerModelColor_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
-		$headers['name']  = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-		$headers['color'] = JText::_('COM_THM_ORGANIZER_COLOR');
+		$ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction           = $this->state->get('list.direction', $this->defaultDirection);
+		$headers             = array();
+		$headers['checkbox'] = '';
+		$headers['name']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+		$headers['color']    = JText::_('COM_THM_ORGANIZER_COLOR');
 
 		return $headers;
 	}

@@ -29,6 +29,7 @@ class THM_OrganizerHelperComponent
 	public static function addSubmenu(&$view)
 	{
 		$viewName = $view->get('name');
+		$actions  = $view->getModel()->actions;
 
 		// No submenu creation while editing a resource
 		if (strpos($viewName, 'edit'))
@@ -37,90 +38,147 @@ class THM_OrganizerHelperComponent
 		}
 
 		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_MAIN_TITLE'),
+			JText::_('COM_THM_ORGANIZER'),
 			'index.php?option=com_thm_organizer&amp;view=thm_organizer',
 			$viewName == 'thm_organizer'
 		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=degree_manager',
-			$viewName == 'degree_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=monitor_manager',
-			$viewName == 'monitor_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=teacher_manager',
-			$viewName == 'teacher_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=department_manager',
-			$viewName == 'department_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=subject_manager',
-			$viewName == 'subject_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=field_manager',
-			$viewName == 'field_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=color_manager',
-			$viewName == 'color_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=method_manager',
-			$viewName == 'method_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=pool_manager',
-			$viewName == 'pool_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=room_manager',
-			$viewName == 'room_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=room_type_manager',
-			$viewName == 'room_type_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=program_manager',
-			$viewName == 'program_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=schedule_manager',
-			$viewName == 'schedule_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
-			$viewName == 'plan_pool_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
-			$viewName == 'plan_program_manager'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE'),
-			'index.php?option=com_thm_organizer&amp;view=grid_manager',
-			$viewName == 'grid_manager'
-		);
+
+		if ($actions->{'organizer.menu.schedule'})
+		{
+			$spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_SCHEDULING') . '</span>';
+			JHtmlSidebar::addEntry($spanText, '', false);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD'),
+				'index.php?option=com_thm_organizer&amp;view=schedule_edit',
+				$viewName == 'schedule_edit'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=schedule_manager',
+				$viewName == 'schedule_manager'
+			);
+			if ($actions->{'core.admin'})
+			{
+				JHtmlSidebar::addEntry(
+					JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
+					'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
+					$viewName == 'plan_pool_manager'
+				);
+				JHtmlSidebar::addEntry(
+					JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
+					'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
+					$viewName == 'plan_program_manager'
+				);
+			}
+		}
+
+		if ($actions->{'organizer.menu.department'} OR $actions->{'organizer.menu.manage'})
+		{
+			$spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
+			JHtmlSidebar::addEntry($spanText, '', false);
+
+			if ($actions->{'organizer.menu.department'})
+			{
+				JHtmlSidebar::addEntry(
+					JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE'),
+					'index.php?option=com_thm_organizer&amp;view=department_manager',
+					$viewName == 'department_manager'
+				);
+			}
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=pool_manager',
+				$viewName == 'pool_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=program_manager',
+				$viewName == 'program_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=subject_manager',
+				$viewName == 'subject_manager'
+			);
+		}
+
+		if ($actions->{'organizer.hr'})
+		{
+			$spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
+			JHtmlSidebar::addEntry($spanText, '', false);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=teacher_manager',
+				$viewName == 'teacher_manager'
+			);
+		}
+
+		if ($actions->{'organizer.fm'})
+		{
+			$spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
+			JHtmlSidebar::addEntry($spanText, '', false);
+			/*JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=campus_manager',
+				$viewName == 'campus_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=building_manager',
+				$viewName == 'building_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_EQUIPMENT_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=equipment_manager',
+				$viewName == 'equipment_manager'
+			);*/
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=monitor_manager',
+				$viewName == 'monitor_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=room_manager',
+				$viewName == 'room_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=room_type_manager',
+				$viewName == 'room_type_manager'
+			);
+		}
+
+		if ($actions->{'core.admin'})
+		{
+			$spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_ADMINISTRATION') . '</span>';
+			JHtmlSidebar::addEntry($spanText, '', false);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=color_manager',
+				$viewName == 'color_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=degree_manager',
+				$viewName == 'degree_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=field_manager',
+				$viewName == 'field_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=grid_manager',
+				$viewName == 'grid_manager'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=method_manager',
+				$viewName == 'method_manager'
+			);
+		}
 
 		$view->sidebar = JHtmlSidebar::render();
 	}
@@ -142,6 +200,43 @@ class THM_OrganizerHelperComponent
 		foreach ($actions as $action)
 		{
 			$result->set($action->name, $user->authorise($action->name, 'com_thm_organizer'));
+		}
+
+		$allowedDepartments = self::getAccessibleDepartments();
+
+		if (empty($allowedDepartments))
+		{
+			$result->set('organizer.menu.department', false);
+			$result->set('organizer.menu.manage', false);
+			$result->set('organizer.menu.schedule', false);
+		}
+		else
+		{
+			$department = false;
+			$manage     = false;
+			$schedules  = false;
+
+			if ($user->authorise('core.admin'))
+			{
+				$department = true;
+				$manage     = true;
+				$schedules  = true;
+			}
+			else
+			{
+				foreach ($allowedDepartments as $departmentID)
+				{
+					// The or allows for any odd cases of cross department responsiblities
+					$department = ($department OR $user->authorise('organizer.department', "com_thm_organizer.department.$departmentID"));
+					$manage     = ($manage OR $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID"));
+					$schedules  = ($schedules OR $user->authorise('organizer.schedule', "com_thm_organizer.department.$departmentID"));
+
+				}
+			}
+
+			$result->set('organizer.menu.department', $department);
+			$result->set('organizer.menu.manage', $manage);
+			$result->set('organizer.menu.schedule', $schedules);
 		}
 
 		$object->actions = $result;
@@ -166,56 +261,31 @@ class THM_OrganizerHelperComponent
 
 		$name = $model->get('name');
 
-		// Views accessible with component create/edit access
-		$resourceManagedViews = array(
-			'color_edit',
-			'degree_edit',
-			'field_edit',
-			'grid_edit',
-			'method_edit',
+		$facilityManagementViews = array(
+			'campus_edit',
+			'building_edit',
+			'equipment_edit',
 			'monitor_edit',
 			'room_edit',
-			'room_type_edit',
-			'teacher_edit'
-		);
-
-		if (in_array($name, $resourceManagedViews))
-		{
-			if ((int) $itemID > 0)
-			{
-				return $model->actions->{'core.edit'};
-			}
-
-			return $model->actions->{'core.create'};
-		}
-
-		// Views accessible solely with component edit access
-		$resourceEditedViews = array(
-			'plan_pool_edit',
-			'plan_program_edit'
-		);
-
-		if (in_array($name, $resourceEditedViews))
-		{
-			return $model->actions->{'core.edit'};
-		}
-
-		// Merge views always deal with existing resources and implicitly delete one or more entries in doing so
-		$resourceMergeViews = array(
-			'field_merge',
-			'method_merge',
-			'plan_pool_merge',
-			'plan_program_merge',
 			'room_merge',
-			'teacher_merge'
+			'room_type_edit'
 		);
 
-		if (in_array($name, $resourceMergeViews))
+		if (in_array($name, $facilityManagementViews))
 		{
-			return ($model->actions->{'core.edit'} AND $model->actions->{'core.delete'});
+			return $model->actions->{'organizer.fm'};
+		}
+
+		// Views accessible with component create/edit access
+		$humanResourceViews = array('teacher_edit', 'teacher_merge');
+
+		if (in_array($name, $humanResourceViews))
+		{
+			return $model->actions->{'organizer.hr'};
 		}
 
 		$departmentEditViews = array(
+			'department_edit',
 			'pool_edit',
 			'program_edit',
 			'schedule_edit',
@@ -224,19 +294,22 @@ class THM_OrganizerHelperComponent
 
 		if (in_array($name, $departmentEditViews))
 		{
+			$resource = str_replace('_edit', '', $name);;
+
 			if (!empty($itemID))
 			{
-				$resourceName = str_replace('_edit', '', $name);
-				$initialized  = self::checkAssetInitialization($resourceName, $itemID);
+				$initialized = self::checkAssetInitialization($resource, $itemID);
+
 				if (!$initialized)
 				{
-					return self::allowDeptResourceCreate();
+					return self::allowDeptResourceCreate($resource);
 				}
 
-				return self::allowResourceManage($resourceName, $itemID);
+				$action = $resource == 'department' ? 'department' : $resource == 'schedule' ? 'schedule' : 'manage';
+				return self::allowResourceManage($resource, $itemID, $action);
 			}
 
-			return self::allowDeptResourceCreate();
+			return self::allowDeptResourceCreate($resource);
 		}
 
 		return false;
@@ -274,34 +347,64 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Checks whether the user has access to a department
 	 *
-	 * @param string $resourceName the name of the resource type
-	 * @param int    $itemID       the id of the resource
+	 * @param string $resource   the name of the resource type
+	 * @param int    $resourceID the id of the resource
+	 * @param string $action     a specific action which must be performable on the resource
 	 *
 	 * @return  bool  true if the user has access to at least one department, otherwise false
 	 */
-	public static function allowResourceManage($resourceName, $itemID)
+	public static function allowResourceManage($resource, $resourceID, $action = '')
 	{
 		$user = JFactory::getUser();
 
 		// Core admin sets this implicitly
 		$isAdmin = $user->authorise('core.admin', "com_thm_organizer");
-		$canEdit = $user->authorise('core.manage', "com_thm_organizer.$resourceName.$itemID");
-		if ($isAdmin OR $canEdit)
+
+		if ($isAdmin)
 		{
 			return true;
 		}
 
-		return false;
+		$canManageDepartment    = false;
+		$canManageDocumentation = false;
+		$canManageSchedules     = false;
+
+		if (!empty($action))
+		{
+			if ($action == 'department')
+			{
+				$canManageDepartment = $user->authorise('organizer.department', "com_thm_organizer.$resource.$resourceID");
+			}
+			elseif ($action == 'manage')
+			{
+				$canManageDocumentation = $user->authorise('organizer.manage', "com_thm_organizer.$resource.$resourceID");
+			}
+			elseif ($action == 'schedule')
+			{
+				$canManageSchedules = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
+			}
+		}
+		else
+		{
+			$canManageDepartment    = $user->authorise('organizer.department', "com_thm_organizer.$resource.$resourceID");
+			$canManageDocumentation = $user->authorise('organizer.manage', "com_thm_organizer.$resource.$resourceID");
+			$canManageSchedules     = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
+		}
+
+		return ($canManageDepartment OR $canManageDocumentation OR $canManageSchedules);
 	}
 
 	/**
 	 * Checks whether the user has access to a department
 	 *
+	 * @param string $resource the resource type
+	 *
 	 * @return  bool  true if the user has access to at least one department, otherwise false
 	 */
-	public static function allowDeptResourceCreate()
+	public static function allowDeptResourceCreate($resource)
 	{
-		$allowedDepartments = self::getAccessibleDepartments();
+		$area               = $resource == 'department' ? 'department' : $resource == 'schedule' ? 'schedule' : 'manage';
+		$allowedDepartments = self::getAccessibleDepartments($area);
 
 		return count($allowedDepartments) ? true : false;
 	}
@@ -309,9 +412,11 @@ class THM_OrganizerHelperComponent
 	/**
 	 * Gets the ids of for which the user is authorized access
 	 *
+	 * @param string $action the specific action for access checks
+	 *
 	 * @return  array  the department ids, empty if user has no access
 	 */
-	public static function getAccessibleDepartments()
+	public static function getAccessibleDepartments($action = '')
 	{
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
@@ -337,11 +442,12 @@ class THM_OrganizerHelperComponent
 		}
 
 		$allowedDepartmentIDs = array();
+
 		foreach ($departmentIDs as $departmentID)
 		{
-			$isComponentAdmin    = $user->authorise('core.admin', "com_thm_organizer.department.$departmentID");
-			$canManageDepartment = $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID");
-			if ($isComponentAdmin OR $canManageDepartment)
+			$allowed = self::allowResourceManage('department', $departmentID, $action);
+
+			if ($allowed)
 			{
 				$allowedDepartmentIDs[] = $departmentID;
 			}

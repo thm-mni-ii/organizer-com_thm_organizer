@@ -10,6 +10,49 @@
   @include linearGradient($gr-color-top-item, $gr-color-bottom-item);
 }
 
+.sidebar-nav {
+  font-color: $font-color;
+}
+
+.menu-spacer {
+  background-color: $background-navigation;
+  display: block;
+  font-size: 1.1rem;
+  margin: .3rem -2rem 0 -2rem;
+  padding: .3rem 1.6rem .3rem 2rem;
+  width: 100%;
+}
+
+.organizer-logo, .organizer-description {
+  font-size: .9rem;
+  margin-bottom: .6rem;
+}
+
+.action-group {
+  h1, h2, h3, h4, h5, h6 {
+    background-color: $background-navigation;
+    font-color: $font-color;
+    font-size: 1.3rem;
+    margin: .5rem 0;
+    padding: .5rem;
+  }
+}
+
+
+.action-item{
+
+  font-size: 1.1rem;
+  margin: 0 0 .5rem .5rem;
+
+  a[href*="_manager"]::before {
+    content: "";
+  }
+
+  &.quicklink {
+    font-size: 1.3rem;
+  }
+}
+
 //********************************************************************************************************************//
 // Hauptbereich anpassen
 //********************************************************************************************************************//
@@ -29,6 +72,7 @@
   select {
     width: auto;
   }
+
 
   span {
     overflow: hidden !important; // sonst von jquery.searchtools.css überschrieben

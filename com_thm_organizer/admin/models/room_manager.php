@@ -79,36 +79,21 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
-			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-			{
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			}
-
-			if ($this->actions->{'core.edit'})
-			{
-				$name     = JHtml::_('link', $item->link, $item->name);
-				$longname = JHtml::_('link', $item->link, $item->longname);
-				$typeID   = JHtml::_('link', $item->link, $item->type);
-			}
-			else
-			{
-				$name     = $item->name;
-				$longname = $item->longname;
-				$typeID   = $item->type;
-			}
-
-			$return[$index]['name']     = $name;
-			$return[$index]['longname'] = $longname;
-			$return[$index]['typeID']   = $typeID;
+			$return[$index]             = array();
+			$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
+			$return[$index]['longname'] = JHtml::_('link', $item->link, $item->longname);
+			$return[$index]['typeID']   = JHtml::_('link', $item->link, $item->type);
 			$index++;
 		}
 
@@ -122,15 +107,10 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction           = $this->state->get('list.direction', $this->defaultDirection);
+		$headers             = array();
+		$headers['checkbox'] = '';
 		$headers['name']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $ordering);
 		$headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname', $direction, $ordering);
 		$headers['typeID']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);

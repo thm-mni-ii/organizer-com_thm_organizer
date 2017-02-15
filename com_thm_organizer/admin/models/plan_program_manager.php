@@ -82,22 +82,21 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
-		if ($this->actions->{'core.edit'})
+
+		foreach ($items as $item)
 		{
-			foreach ($items as $item)
-			{
-				$return[$index]              = array();
-				$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
-				$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
-				$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
-				$index++;
-			}
+			$return[$index]              = array();
+			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
+			$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
+			$index++;
 		}
 
 		return $return;
@@ -110,15 +109,10 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
-		$headers = array();
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction            = $this->state->get('list.direction', $this->defaultDirection);
+		$headers              = array();
+		$headers['checkbox']  = '';
 		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
 		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'ppr.name', $direction, $ordering);
 

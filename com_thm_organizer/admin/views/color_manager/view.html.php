@@ -39,6 +39,13 @@ class THM_OrganizerViewColor_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -50,28 +57,10 @@ class THM_OrganizerViewColor_Manager extends THM_OrganizerViewList
 	protected function addToolBar()
 	{
 		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_VIEW_TITLE'), 'organizer_colors');
-
-		$actions = $this->getModel()->actions;
-
-		if ($actions->{'core.create'})
-		{
-			JToolbarHelper::addNew('color.add');
-		}
-
-		if ($actions->{'core.edit'})
-		{
-			JToolbarHelper::editList('color.edit');
-		}
-
-		if ($actions->{'core.delete'})
-		{
-			JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'color.delete');
-		}
-
-		if ($actions->{'core.admin'})
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer');
-		}
+		JToolbarHelper::addNew('color.add');
+		JToolbarHelper::editList('color.edit');
+		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'color.delete');
+		JToolbarHelper::divider();
+		JToolbarHelper::preferences('com_thm_organizer');
 	}
 }

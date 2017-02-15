@@ -57,32 +57,21 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
-			if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-			{
-				$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			}
+			$return[$index]             = array();
+			$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+			$return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
+			$grid                       = json_decode($item->grid);
 
-			if ($this->actions->{'core.edit'})
-			{
-				$name = JHtml::_('link', $item->link, $item->name);
-			}
-			else
-			{
-				$name = $item->name;
-			}
-
-			$return[$index]['name'] = $name;
-
-			$grid = json_decode($item->grid);
 			if (isset($grid) AND isset($grid->periods))
 			{
 				$periods     = get_object_vars($grid->periods);
@@ -117,13 +106,8 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$headers = array();
-
-		if ($this->actions->{'core.edit'} OR $this->actions->{'core.delete'})
-		{
-			$headers['checkbox'] = '';
-		}
-
+		$headers              = array();
+		$headers['checkbox']  = '';
 		$headers['name']      = JText::_('COM_THM_ORGANIZER_NAME');
 		$headers['startDay']  = JText::_('COM_THM_ORGANIZER_START_DAY');
 		$headers['endDay']    = JText::_('COM_THM_ORGANIZER_END_DAY');

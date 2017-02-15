@@ -37,6 +37,13 @@ class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
 	 */
 	public function display($tpl = null)
 	{
+		$actions = $this->getModel()->actions;
+
+		if (!$actions->{'core.admin'} AND !$actions->{'organizer.fm'})
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -48,15 +55,14 @@ class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
 	protected function addToolBar()
 	{
 		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_VIEW_TITLE'), 'organizer_monitors');
+		JToolbarHelper::addNew('monitor.add');
+		JToolbarHelper::editList('monitor.edit');
+		JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'monitor.delete');
 
 		$actions = $this->getModel()->actions;
 
-		$isAdmin = ($actions->{'core.admin'});
-		if ($isAdmin)
+		if ($actions->{'core.admin'})
 		{
-			JToolbarHelper::addNew('monitor.add');
-			JToolbarHelper::editList('monitor.edit');
-			JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'monitor.delete');
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_thm_organizer');
 		}

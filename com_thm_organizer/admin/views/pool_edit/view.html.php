@@ -51,10 +51,10 @@ class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
 		JToolbarHelper::save('pool.save');
 		JToolbarHelper::save2new('pool.save2new');
 
-		//if (!$isNew)
-		//{
+		if (!$isNew)
+		{
 			JToolbarHelper::save2copy('pool.save2copy');
-		//}
+		}
 
 		JToolbarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 

@@ -180,6 +180,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 	{
 		$lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
 		$lsfPoolModel    = JModelLegacy::getInstance('LSFPool', 'THM_OrganizerModel');
+
 		foreach ($program->gruppe as $resource)
 		{
 			$stubProcessed = isset($resource->modulliste->modul) ?

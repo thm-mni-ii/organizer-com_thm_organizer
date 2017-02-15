@@ -1,126 +1,81 @@
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
-    font-family: icomoon;
-    content: "\e60b";
-}
+  font-family: icomoon;
+  content: "\e60b"; }
 
-.icon-organizer_degrees::before,
-a[href*="view=degree_manager"]::before {
-    font-family: icomoon;
-    content: "\e606";
-}
+.icon-organizer_degrees::before {
+  font-family: icomoon;
+  content: "\e606"; }
 
-.icon-organizer_users::before,
-a[href*="view=user_manager"]::before {
-    font-family: icomoon;
-    content: "\e01f";
-}
+.icon-organizer_monitors::before {
+  font-family: icomoon;
+  content: "\e01c"; }
 
-.icon-organizer_monitors::before,
-a[href*="view=monitor_manager"]::before {
-    font-family: icomoon;
-    content: "\e01c";
-}
+.icon-organizer_teachers::before {
+  font-family: icomoon;
+  content: "\e604"; }
 
-.icon-organizer_teachers::before,
-a[href*="view=teacher_manager"]::before {
-    font-family: icomoon;
-    content: "\e604";
-}
+.icon-organizer_room_types::before,
+.icon-organizer_departments::before {
+  font-family: icomoon;
+  content: "\e243"; }
 
-.icon-organizer_departments::before,
-a[href*="view=department_manager"]::before {
-    font-family: icomoon;
-    content: "\e244";
-}
+.icon-organizer_subjects::before {
+  font-family: icomoon;
+  content: "\e603"; }
 
-.icon-organizer_subjects::before,
-a[href*="view=subject_manager"]::before {
-    font-family: icomoon;
-    content: "\e603";
-}
+.icon-organizer_fields::before {
+  font-family: icomoon;
+  content: "\74"; }
 
-.icon-organizer_fields::before,
-a[href*="view=field_manager"]::before {
-    font-family: icomoon;
-    content: "\74";
-}
+.icon-organizer_colors::before {
+  font-family: icomoon;
+  content: "\e014"; }
 
-.icon-organizer_colors::before,
-a[href*="view=color_manager"]::before {
-    font-family: icomoon;
-    content: "\e014";
-}
+.icon-organizer_subject_pools::before {
+  font-family: icomoon;
+  content: "\44"; }
 
-.icon-organizer_subject_pools::before,
-a[href*="view=pool_manager"]::before {
-    font-family: icomoon;
-    content: "\44";
-}
+.icon-organizer_rooms::before {
+  font-family: icomoon;
+  content: "\e60a"; }
 
-.icon-organizer_rooms::before,
-a[href*="view=room_manager"]::before {
-    font-family: icomoon;
-    content: "\e60a";
-}
-
-.icon-organizer_degree_programs::before,
-a[href*="view=program_manager"]::before {
-    font-family: icomoon;
-    content: "\31";
-}
+.icon-organizer_degree_programs::before {
+  font-family: icomoon;
+  content: "\31"; }
 
 .icon-organizer_schedules::before,
-.icon-mni::before,
-a[href*="view=schedule_manager"]::before,
-a[href*="view=virtual_schedule_manager"]::before {
-    font-family: icomoon;
-    content: "\e600";
-}
-
-.icon-organizer_categories::before,
-a[href*="view=category_manager"]::before {
-    font-family: icomoon;
-    content: "\e601";
-}
+.icon-mni::before {
+  font-family: icomoon;
+  content: "\e600"; }
 
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-    font-weight: bold;
-}
+  font-weight: bold; }
 
 .icon-add-Space {
-    font-size: 14px;
-}
+  font-size: 14px; }
 
 a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-    color: #80ba24;
-}
+  color: #80ba24; }
 
 a[href*="option=com_thm_organizer&view="]::before {
-    padding-right: 8px;
-}
+  padding-right: 8px; }
 
 .thm_organizer_children {
-    float: left;
-    padding-top: 5px;
-}
+  float: left;
+  padding-top: 5px; }
 
 .child-order input.text-area-order {
-    width: 2em;
-}
+  width: 2em; }
 
 #childList .btn, #childList input[type="text"] {
-    margin-right: 4px;
-}
+  margin-right: 4px; }
 
 .modal-body {
-    overflow-y: hidden;
-    min-height: 450px;
-}
-
-.modal-body iframe.iframe {
+  overflow-y: hidden;
+  min-height: 450px; }
+  .modal-body iframe.iframe {
     height: auto;
     min-height: 450px;
-    width: 100%;
-}
+    width: 100%; }

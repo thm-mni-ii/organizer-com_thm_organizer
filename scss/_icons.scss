@@ -12,84 +12,61 @@ a[href$="option=com_thm_organizer"]::before {
   content: "\e60b";
 }
 
-.icon-organizer_degrees::before,
-a[href*="view=degree_manager"]::before {
+.icon-organizer_degrees::before {
   font-family: icomoon;
   content: "\e606";
 }
 
-.icon-organizer_users::before,
-a[href*="view=user_manager"]::before {
-  font-family: icomoon;
-  content: "\e01f";
-}
-
-.icon-organizer_monitors::before,
-a[href*="view=monitor_manager"]::before {
+.icon-organizer_monitors::before {
   font-family: icomoon;
   content: "\e01c";
 }
 
-.icon-organizer_teachers::before,
-a[href*="view=teacher_manager"]::before {
+.icon-organizer_teachers::before {
   font-family: icomoon;
   content: "\e604";
 }
 
-.icon-organizer_departments::before,
-a[href*="view=department_manager"]::before {
+.icon-organizer_room_types::before,
+.icon-organizer_departments::before {
   font-family: icomoon;
-  content: "\e244";
+  content: "\e243";
 }
 
-.icon-organizer_subjects::before,
-a[href*="view=subject_manager"]::before {
+.icon-organizer_subjects::before {
   font-family: icomoon;
   content: "\e603";
 }
 
-.icon-organizer_fields::before,
-a[href*="view=field_manager"]::before {
+.icon-organizer_fields::before {
   font-family: icomoon;
   content: "\74";
 }
 
-.icon-organizer_colors::before,
-a[href*="view=color_manager"]::before {
+.icon-organizer_colors::before {
   font-family: icomoon;
   content: "\e014";
 }
 
-.icon-organizer_subject_pools::before,
-a[href*="view=pool_manager"]::before {
+.icon-organizer_subject_pools::before {
   font-family: icomoon;
   content: "\44";
 }
 
-.icon-organizer_rooms::before,
-a[href*="view=room_manager"]::before {
+.icon-organizer_rooms::before {
   font-family: icomoon;
   content: "\e60a";
 }
 
-.icon-organizer_degree_programs::before,
-a[href*="view=program_manager"]::before {
+.icon-organizer_degree_programs::before {
   font-family: icomoon;
   content: "\31";
 }
 
 .icon-organizer_schedules::before,
-.icon-mni::before,
-a[href*="view=schedule_manager"]::before,
-a[href*="view=virtual_schedule_manager"]::before {
+.icon-mni::before {
   font-family: icomoon;
   content: "\e600";
-}
-
-.icon-organizer_categories::before,
-a[href*="view=category_manager"]::before {
-  font-family: icomoon;
-  content: "\e601";
 }
 
 // Anpassung einzelner Icons

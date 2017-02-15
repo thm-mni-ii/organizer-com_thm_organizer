@@ -52,9 +52,10 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	 */
 	protected function getListQuery()
 	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo      = $this->getDbo();
-		$query    = $dbo->getQuery(true);
+		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+		$shortTag           = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo                = $this->getDbo();
+		$query              = $dbo->getQuery(true);
 
 		$select = "s.id, s.active, s.creationDate, s.creationTime, ";
 		$select .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
@@ -66,6 +67,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$query->from("#__thm_organizer_schedules AS s");
 		$query->innerJoin("#__thm_organizer_departments AS d ON s.departmentID = d.id");
 		$query->innerJoin("#__thm_organizer_planning_periods AS pp ON s.planningPeriodID = pp.id");
+		$query->where("d.id IN ('" . implode("', '", $allowedDepartments) . "')");
 
 		$this->setValueFilters($query, array('departmentID', 'planningPeriodID', 'active'));
 
@@ -83,21 +85,17 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	{
 		$items  = parent::getItems();
 		$return = array();
+
 		if (empty($items))
 		{
 			return $return;
 		}
 
 		$index = 0;
+
 		foreach ($items as $item)
 		{
 			$return[$index] = array();
-			$canEdit        = THM_OrganizerHelperComponent::allowResourceManage('schedule', $item->id);
-
-			if (!$canEdit)
-			{
-				continue;
-			}
 
 			$return[$index]['checkbox']         = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['departmentID']     = $item->departmentName;
@@ -123,9 +121,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction = $this->state->get('list.direction', $this->defaultDirection);
-
+		$ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+		$direction           = $this->state->get('list.direction', $this->defaultDirection);
 		$headers             = array();
 		$headers['checkbox'] = '';
 
