@@ -14,11 +14,14 @@
   }
 }
 
+// Allgemein *********************************************************************************************************//
 a {
   color: $font-color;
+
   &:visited {
     color: $font-color;
   }
+
   &:focus {
     outline: none;
   }
@@ -32,16 +35,18 @@ button {
   &:focus {
     outline: none;
   }
+
+  :hover {
+    cursor: pointer;
+  }
 }
 
-button:hover,
-.menu-bar a:hover,
-.menu-bar label:hover {
-  cursor: pointer;
-}
-
-.organizer input[type=checkbox], input[type=radio] {
+input[type=radio] {
   display: none;
+}
+
+.hide {
+  display: none !important;
 }
 
 // Icons *************************************************************************************************************//
@@ -50,7 +55,8 @@ button:hover,
   font-size: 1.1rem;
 }
 
-.icon-checkin::before, .icon-download::before {
+.icon-checkin::before,
+.icon-download::before {
   vertical-align: text-bottom;
   font-size: 1.2rem;
 }
@@ -84,12 +90,11 @@ button:hover,
 // Schedule Header
 //********************************************************************************************************************//
 
-// Tabs **************************************************************************************************************//
-//the following rules need to be specifity as that, for overriding the tab-plugin rules
+// specific tabs *****************************************************************************************************//
 .menu-bar {
   margin-bottom: 0.5rem;
 
-  // in mobile view: date-input is a neighbour of menu-bar
+  // in mobile view: date-input is a neighbour of menu-bar...
   + .date-input {
     margin-bottom: 0.5rem;
     margin-left: 0.5rem;
@@ -98,27 +103,20 @@ button:hover,
   .date-input {
     margin-right: 0.3rem;
   }
+
+  a:hover,
+  label:hover {
+    cursor: pointer;
+  }
 }
 
-.organizer.mobile .date-input .controls:nth-last-of-type(n+2) {
-  margin-right: 0.5rem;
+#tab-exports {
+  padding-right: 0.7rem;
 }
 
+// specific tab-content *********************************************************************************************//
+// Planauswahl
 .selection {
-
-  select:disabled {
-    background-color: #d2d6d9;
-  }
-
-  a,
-  button,
-  label {
-    font-size: 1.2rem;
-  }
-
-  button > span {
-    margin-right: 0.5rem;
-  }
 
   &:focus {
     outline: none;
@@ -127,20 +125,16 @@ button:hover,
   input[disabled] {
     cursor: wait;
   }
-
 }
 
-.input-wrapper, .selection > div:first-child {
+.selection > div:first-child,
+.input-wrapper {
   display: inline-block;
   vertical-align: top;
 
   @media screen and (max-width: 950px) {
     display: block;
   }
-}
-
-.hide {
-  display: none !important;
 }
 
 #schedule-form {
@@ -150,59 +144,19 @@ button:hover,
   }
 
   .chzn-container {
-    width: 176px !important;
+    margin-left: 0.5rem;
 
     .chzn-search input {
       width: 100% !important;
     }
-  }
-}
 
-//with id to overwrite template without using !important
-#schedule-form, #schedule-selection {
-  .chzn-container .chzn-single > span {
-    line-height: 1.4;
-  }
-}
-
-#selected-schedules {
-
-  .chzn-results li {
-    position: relative;
-  }
-
-  .removeOption {
-    position: absolute;
-    right: 10px;
-    width: 10px;
-    height: 10px;
-    cursor: pointer;
-    background: none;
-  }
-
-  .highlighted .icon-remove::before {
-    color: white;
-  }
-}
-
-// overwrite template, because width of select box can be larger
-.tab-content div#selected-schedules {
-
-  .chzn-container {
-    width: auto !important;
-    min-width: 276px !important;
-
-    .chzn-single span {
-      margin-right: 26px;
+    .chzn-single > span {
       line-height: 1.4;
     }
   }
-
-  .chzn-search input {
-    width: 100%;
-  }
 }
 
+//Ausgewaehlt
 .selected-schedule {
   background-color: white;
   border: 1px solid #4a5d66;
@@ -212,8 +166,8 @@ button:hover,
   margin: 0.5rem 0;
   width: 25rem;
 
-  .organizer.mobile & {
-    width: 90%
+  &:first-child {
+    margin-top: 0;
   }
 
   @media screen and (max-width: 950px) {
@@ -244,46 +198,29 @@ button:hover,
   }
 }
 
-#tab-exports {
-  padding-right: 0.7rem;
-}
-
+//Exportformat
 .link-item {
-
   margin-bottom: 0.3rem;
 
   &:last-child {
     margin-bottom: 0;
+
+    a {
+      padding-left: 0.5rem;
+      color: #394A59;
+    }
   }
 
-  a {
-    background-color: white;
-    color: #394A59;
-    border: 1px solid #4a5d66;
-    padding: 0.4rem;
-    display: inline-block;
-    width: 276px;
-  }
-}
+  &:nth-last-child(n+2) {
 
-//overwrite chosen icon in selectBox
-.chzn-container {
-  margin: 0.25rem 0.5rem 0 0;
-}
-
-.chzn-container-single .chzn-single div b {
-  background-image: none;
-}
-
-.chzn-container-multi {
-  background-image: none !important;
-  height: auto !important;
-  min-height: 2.5em;
-
-  .chzn-choices .search-choice {
-    float: none !important;
-    margin: 0.3rem !important;
-    padding: 0.3rem !important;
+    a {
+      background-color: white;
+      color: #394A59;
+      border: 1px solid #4a5d66;
+      padding: 0.4rem;
+      display: inline-block;
+      width: 276px;
+    }
   }
 }
 
@@ -329,40 +266,18 @@ button:hover,
     }
   }
 
-  form {
-    margin: 0 0 0 0.2rem;
-    display: inline-block;
-    position: relative;
-
-    > span:first-child {
-      width: 1.8rem;
-      font-size: 1rem;
-      text-align: center;
-      top: 0.34rem;
-    }
-  }
-
   #date {
-    width: 8rem !important;
-    padding: 0 0 0 0.1rem !important;
+    width: 5rem !important;
+    padding: 0 0 0 0.3rem !important;
     vertical-align: sub;
     margin-bottom: 0;
-
-    @-moz-document url-prefix() {
-      width: 5rem !important;
-    }
-
-    &::-webkit-inner-spin-button,
-    &::-webkit-calendar-picker-indicator {
-      opacity: 1;
-    }
   }
 
   #calendar-icon {
     position: relative;
   }
 
-  //choose-date
+  //calendar
   div {
     background-color: $background;
     border: 1px solid #d2d6d9;
@@ -423,22 +338,8 @@ button:hover,
   }
 }
 
-.organizer.mobile {
-  #calendar-table {
-    td {
-      padding: 0.3rem;
-    }
-  }
-}
-
 // Content - Schedule-Table
 //********************************************************************************************************************//
-.schedule-input:not(:checked) + .schedule-table {
-  width: 0;
-  position: absolute;
-  left: -3000px;
-}
-
 .scheduleWrapper {
 
   a,
@@ -448,48 +349,29 @@ button:hover,
   }
 }
 
+.schedule-input:not(:checked) + .schedule-table {
+  width: 0;
+  position: absolute;
+  left: -3000px;
+}
+
 .schedule-table {
 
-  caption {
-    background-color: $foreground;
-    font-size: 1.3rem;
-    margin-left: 0;
-  }
-
   table {
-    border-top: 0.15rem #394a59 solid;
+    border-top: 0.15rem solid #394a59;
   }
 
   td, th {
     width: 16%;
+    text-align: center;
 
     &:first-child {
       width: 2.5rem;
     }
   }
 
-  th, td, .lesson, .break {
-    text-align: center;
-  }
-
   a:hover {
     text-decoration: underline;
-  }
-}
-
-.organizer.mobile .scheduleWrapper {
-
-  td, th {
-    &:not(.activeColumn) {
-      display: none;
-    }
-    &:first-child {
-      display: table-cell;
-    }
-    &.activeColumn {
-      width: auto;
-      padding-right: 1rem;
-    }
   }
 }
 
@@ -539,7 +421,7 @@ button:hover,
   }
 }
 
-.pools, .pool {
+.pools {
   padding: 0.2rem 0;
 
   @media (max-width: 360px) {
@@ -551,17 +433,8 @@ button:hover,
   content: " , ";
 }
 
-.tmpl-mobile {
-  .persons, .locations {
-    display: inline-block;
-  }
-
-  .location:nth-of-type(1):before {
-    content: " / ";
-  }
-}
-
-.misc:before, .location:nth-of-type(n+2):before, .person:nth-of-type(n+2):before {
+.person:nth-of-type(n+2):before,
+.location:nth-of-type(n+2):before {
   content: " / ";
 }
 
@@ -590,12 +463,6 @@ button:hover,
   button {
     color: inherit;
   }
-
-  .organizer.mobile & {
-    left: auto;
-    right: auto;
-    width: 90%;
-  }
 }
 
 .lesson-menu {
@@ -608,6 +475,7 @@ button:hover,
 
   button {
     display: block;
+    cursor: pointer;
   }
 
   button.icon-cancel {
@@ -641,18 +509,6 @@ button:hover,
   display: none;
 }
 
-.old {
-  text-decoration: line-through;
-
-  .add-lesson {
-    display: none;
-  }
-}
-
-.new {
-  color: $gr-color-bottom-item;
-}
-
 .break {
   background-color: $green-50;
   padding: 0.2rem;
@@ -662,17 +518,73 @@ button:hover,
   display: block;
 }
 
-.no-break tr:nth-child(4) td {
-  display: none;
-}
+// Mobile ************************************************************************************************************//
+.organizer.mobile {
 
-.invisible-time {
-  tr td {
-    border-width: 0;
+  .date-input {
+
+    .controls:nth-last-of-type(n+2) {
+      margin-right: 0.5rem;
+    }
   }
 
-  th:first-child,
-  tr td:first-child {
-    display: none;
+  .selected-schedule {
+    width: 90%
+  }
+
+  #calendar-table {
+
+    td {
+      padding: 0.3rem;
+    }
+  }
+
+  .scheduleWrapper {
+
+    td, th {
+
+      &:not(.activeColumn) {
+        display: none;
+      }
+
+      &:first-child {
+        display: table-cell;
+      }
+
+      &.activeColumn {
+        width: auto;
+        padding-right: 1rem;
+      }
+    }
+  }
+
+  .pools,
+  .persons,
+  .locations {
+    display: inline-block;
+  }
+
+  .pools {
+    margin-right: 0.2rem;
+
+    + .persons {
+      .person:nth-of-type(1):before {
+        content: " / ";
+      }
+    }
+  }
+
+  .locations {
+    margin-left: 0.2rem;
+  }
+
+  .location:nth-of-type(1):before {
+    content: " / ";
+  }
+
+  .message-pop-up {
+    left: auto;
+    right: auto;
+    width: 90%;
   }
 }

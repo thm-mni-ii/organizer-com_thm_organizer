@@ -1471,6 +1471,7 @@ jQuery(document).ready(function ()
 	initSchedule();
 	setDatePattern();
 	changePositionOfDateInput();
+	disableTabs();
 
 	/**
 	 * swipe touch event handler changing the shown day and date
@@ -1927,6 +1928,7 @@ function insertLessonResponse()
 			else if (response.pastDate === null && response.futureDate === null)
 			{
 				window.noLessons.style.display = "block";
+				disableTabs();
 			}
 			window.scheduleRequests.splice(ajaxIndex, 1);
 		}
@@ -2102,6 +2104,7 @@ function showSchedule(scheduleID)
 			jQuery("#" + scheduleID).addClass("shown");
 		}
 	}
+	disableTabs();
 }
 
 /**
@@ -2387,22 +2390,46 @@ function changePositionOfDateInput()
 }
 
 /**
- * context-menu-popup, calendar-popup and next-date-popup will be closed when clicking outside this
+ * disable tabs, when only the default-schedule-table is shown
+ */
+function disableTabs()
+{
+	var i, disableTabs = [jQuery("#tab-selected-schedules"), jQuery("#tab-time-selection"), jQuery("#tab-exports")];
+
+	if (jQuery(".schedule-input").length == 1 && jQuery(".schedule-input").is("#default-input"))
+	{
+		for (i = 0; i < disableTabs.length; i++)
+		{
+			disableTabs[i].attr("data-toggle", "");
+			disableTabs[i].parent('li').addClass("disabled-tab");
+		}
+	}
+	else
+	{
+		for (i = 0; i < disableTabs.length; i++)
+		{
+			disableTabs[i].attr("data-toggle", "tab");
+			disableTabs[i].parent('li').removeClass("disabled-tab");
+
+		}
+	}
+}
+
+/**
+ * context-menu-popup, calendar-popup and message-popup will be closed when clicking outside this
  */
 jQuery(document).mouseup(function (e)
 {
-	var popup = jQuery(".lesson-menu"),
-		calendarPopup = jQuery("#calendar"),
-		nextDatePopup = jQuery("#next-date-selection");
+	var popup = jQuery(".lesson-menu"), calendarPopup = jQuery("#calendar"), messagePopup = jQuery(".message-pop-up");
 
 	if (!popup.is(e.target) && popup.has(e.target).length == 0)
 	{
 		popup.hide(0);
 	}
 
-	if (!nextDatePopup.is(e.target) && nextDatePopup.has(e.target).length == 0)
+	if (!messagePopup.is(e.target) && messagePopup.has(e.target).length == 0)
 	{
-		nextDatePopup.hide(0);
+		messagePopup.hide(0);
 	}
 
 	if (jQuery('.controls').css('display') !== 'none')

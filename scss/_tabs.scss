@@ -35,6 +35,7 @@ ul.tabs {
 }
 
 li.active:not(.inactive) {
+
   .tabs-toggle {
     cursor: pointer;
     background-color: #DFE5E6;
@@ -47,6 +48,22 @@ li.active:not(.inactive) {
     font-family: IcoMoon !important;
     vertical-align: text-bottom;
     font-size: 1.2rem;
+  }
+}
+
+.disabled-tab {
+
+  a {
+
+    &:hover {
+      background: transparent;
+      cursor: default;
+    }
+  }
+
+  span,
+  span::before {
+    color: $grey-50;
   }
 }
 
