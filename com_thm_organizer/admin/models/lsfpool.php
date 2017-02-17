@@ -10,6 +10,8 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
 
 /**
  * Provides persistence handling for subject pools
@@ -37,17 +39,21 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 			return false;
 		}
 
-		$unwanted = !empty($stub->sperrmh) AND strtolower((string) $stub->sperrmh) == 'x';
-		if ($unwanted)
-		{
-			return true;
-		}
+		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($stub);
+		$blocked = !empty($stub->sperrmh) AND strtolower((string) $stub->sperrmh) == 'x';
 
 		$lsfID = empty($stub->pordid) ? (string) $stub->modulid : (string) $stub->pordid;
 		$hisID = empty($stub->nrhis) ? (string) $stub->modulnrhis : (string) $stub->nrhis;
 
 		$pool = JTable::getInstance('pools', 'thm_organizerTable');
 		$pool->load(array('lsfID' => $lsfID, 'hisID' => $hisID));
+
+		if (!empty($pool->id) AND ($blocked OR $invalidTitle))
+		{
+			$poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
+
+			return $poolModel->deleteEntry($pool->id);
+		}
 
 		$pool->departmentID = $departmentID;
 		$pool->lsfID        = $lsfID;
@@ -103,24 +109,26 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 	 */
 	private function processChildren(&$stub, $departmentID)
 	{
-		if (!empty($stub->modulliste->modul))
-		{
-			$lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
-			foreach ($stub->modulliste->modul as $subStub)
-			{
-				if (isset($subStub->modulliste->modul))
-				{
-					$stubProcessed = $this->processStub($subStub, $departmentID);
-				}
-				else
-				{
-					$stubProcessed = $lsfSubjectModel->processStub($subStub, $departmentID);
-				}
+		$lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
 
-				if (!$stubProcessed)
-				{
-					return false;
-				}
+		foreach ($stub->modulliste->modul as $subStub)
+		{
+			$type    = THM_OrganizerLSFClient::determineType($subStub);
+			$success = true;
+
+			if ($type == 'subject')
+			{
+				$success = $lsfSubjectModel->processStub($subStub, $departmentID);
+			}
+			elseif ($type == 'pool')
+			{
+				$success = $this->processStub($subStub, $departmentID);
+			}
+
+			// Malformed xml, invalid/incomplete data, database errors
+			if (!$success)
+			{
+				return false;
 			}
 		}
 

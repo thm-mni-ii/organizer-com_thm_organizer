@@ -42,6 +42,25 @@ class THM_OrganizerLSFClient
 	}
 
 	/**
+	 * Determines the resource type pool|subject|invalid
+	 *
+	 * @param object &$resource
+	 *
+	 * @return string pool|subject|invalid
+	 */
+	public static function determineType(&$resource)
+	{
+		$type = (string) $resource->pordtyp;
+
+		if ($type == 'M')
+		{
+			return 'subject';
+		}
+
+		return (isset($resource->modulliste->modul) AND $type == 'K')? 'pool' : 'invalid';
+	}
+
+	/**
 	 * Method to perform a soap request based on a certain lsf query
 	 *
 	 * @param string $query Query structure
@@ -72,21 +91,16 @@ class THM_OrganizerLSFClient
 	}
 
 	/**
-	 * Performs a soap request, in order to get the xml strucutre of the given
-	 * configuration
+	 * Method to get the module by mni number
 	 *
-	 * @param string $program degree program code
-	 * @param string $degree  associated degree
-	 * @param string $year    year of accreditation
+	 * @param int $moduleID The module mni number
 	 *
-	 * @return SimpleXMLElement
+	 * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
 	 */
-	public function getModules($program, $degree = null, $year = null)
+	public function getModuleByModulid($moduleID)
 	{
-		$XML = $this->header('studiengang');
-		$XML .= "<pord.abschl>$degree</pord.abschl>";
-		$XML .= "<pord.pversion>$year</pord.pversion>";
-		$XML .= "<pord.stg>$program</pord.stg>";
+		$XML = $this->header('ModuleAll');
+		$XML .= "<pord.pordnr>$moduleID</pord.pordnr>";
 		$XML .= $this->footer();
 
 		return self::getDataXML($XML);
@@ -109,16 +123,21 @@ class THM_OrganizerLSFClient
 	}
 
 	/**
-	 * Method to get the module by mni number
+	 * Performs a soap request, in order to get the xml strucutre of the given
+	 * configuration
 	 *
-	 * @param int $moduleID The module mni number
+	 * @param string $program degree program code
+	 * @param string $degree  associated degree
+	 * @param string $year    year of accreditation
 	 *
-	 * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
+	 * @return SimpleXMLElement
 	 */
-	public function getModuleByModulid($moduleID)
+	public function getModules($program, $degree = null, $year = null)
 	{
-		$XML = $this->header('ModuleAll');
-		$XML .= "<pord.pordnr>$moduleID</pord.pordnr>";
+		$XML = $this->header('studiengang');
+		$XML .= "<pord.abschl>$degree</pord.abschl>";
+		$XML .= "<pord.pversion>$year</pord.pversion>";
+		$XML .= "<pord.stg>$program</pord.stg>";
 		$XML .= $this->footer();
 
 		return self::getDataXML($XML);
@@ -150,5 +169,29 @@ class THM_OrganizerLSFClient
 	private function footer()
 	{
 		return '</filter></SOAPDataService>';
+	}
+
+	/**
+	 * Ensures that the title(s) are set and do not contain 'dummy'. This function favors the German title.
+	 *
+	 * @param object &$resource the resource being checked
+	 * @param bool   $isSubject
+	 *
+	 * @return bool true if one of the titles has the possibility of being valid, otherwise false
+	 */
+	public static function invalidTitle(&$resource, $isSubject = false)
+	{
+		$titleDE = $isSubject? trim((string) $resource->modul->titelde) : trim((string) $resource->titelde);
+		$titleEN = $isSubject? trim((string) $resource->modul->titelen) : trim((string) $resource->titelen);
+		$title = empty($titleDE)? $titleEN : $titleDE;
+
+		if (empty($title))
+		{
+			return true;
+		}
+
+		$dummyPos = stripos($title, 'dummy');
+
+		return $dummyPos !== false;
 	}
 }

@@ -367,7 +367,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 */
 	public function upload()
 	{
-		$xmlModel = new THM_OrganizerModelXMLSchedule();
+		$xmlModel = new THM_OrganizerModelXMLSchedule;
 		$valid    = $xmlModel->validate();
 
 		if (!$valid)

@@ -10,6 +10,8 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
 
 /**
  * Provides methods dealing with the persistence of mappings
@@ -40,8 +42,18 @@ class THM_OrganizerModelMapping extends JModelLegacy
 
 		foreach ($lsfData->gruppe AS $resource)
 		{
-			$mapped = (isset($resource->modulliste->modul)) ?
-				$this->addLSFPool($resource, $mappingsTable->id) : $this->addLSFSubject($resource, $mappingsTable->id);
+			$type   = (string) $resource->pordtyp;
+			$mapped = true;
+
+			if ($type == 'M')
+			{
+				$mapped = $this->addLSFSubject($resource, $mappingsTable->id);
+			}
+			elseif ($type == 'K')
+			{
+				$mapped = $this->addLSFPool($resource, $mappingsTable->id);
+			}
+
 			if (!$mapped)
 			{
 				return false;
@@ -61,14 +73,16 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 */
 	private function addLSFPool(&$pool, $parentMappingID)
 	{
-		$lsfID = empty($pool->pordid) ? (string) $pool->modulid : (string) $pool->pordid;
-		$unwanted = !empty($pool->sperrmh) AND strtolower((string) $pool->sperrmh) == 'x';
+		$lsfID        = empty($pool->pordid) ? (string) $pool->modulid : (string) $pool->pordid;
+		$blocked      = !empty($pool->sperrmh) AND strtolower((string) $pool->sperrmh) == 'x';
+		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($pool);
+		$noChildren   = !isset($pool->modulliste->modul);
+		$poolsTable   = JTable::getInstance('pools', 'THM_OrganizerTable');
+		$poolExists   = $poolsTable->load(array('lsfID' => $lsfID));
 
-		$poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
-		$poolExists = $poolsTable->load(array('lsfID' => $lsfID));
 		if ($poolExists)
 		{
-			if ($unwanted)
+			if ($blocked OR $invalidTitle OR $noChildren)
 			{
 				$poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
 
@@ -98,11 +112,14 @@ class THM_OrganizerModelMapping extends JModelLegacy
 
 			foreach ($pool->modulliste->modul as $sub)
 			{
-				if (isset($sub->modulliste->modul))
+				$type   = (string) $sub->pordtyp;
+				$mapped = true;
+
+				if ($type == 'K')
 				{
 					$mapped = $this->addLSFPool($sub, $mappingsTable->id);
 				}
-				else
+				elseif ($type == 'M')
 				{
 					$mapped = $this->addLSFSubject($sub, $mappingsTable->id);
 				}
@@ -116,12 +133,12 @@ class THM_OrganizerModelMapping extends JModelLegacy
 			return true;
 		}
 
-		if ($unwanted)
+		if ($blocked OR $invalidTitle OR $noChildren)
 		{
 			return true;
 		}
 
-		JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_POOL_LOAD_FAIL', 'error');
+		JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_POOL_MAP_FAIL', 'error');
 
 		return false;
 	}
@@ -138,17 +155,20 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	private function addLSFSubject(&$subject, $parentMappingID)
 	{
 		$lsfID = (string) (empty($subject->modulid) ? $subject->pordid : $subject->modulid);
-		$unwanted = !empty($subject->sperrmh) AND strtolower((string) $subject->sperrmh) == 'x';
+		$blocked = !empty($subject->sperrmh) AND strtolower((string) $subject->sperrmh) == 'x';
+		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($subject);
 
 		$subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
 		$subjectExists = $subjectsTable->load(array('lsfID' => $lsfID));
+
 		if ($subjectExists)
 		{
 			$mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
 			$mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id));
+
 			if ($mappingExists)
 			{
-				if ($unwanted)
+				if ($blocked OR $invalidTitle)
 				{
 					return $this->deleteEntry($mappingsTable->id);
 				}
@@ -162,6 +182,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 			$subjectMapping['subjectID'] = $subjectsTable->id;
 			$subjectMapping['ordering']  = $this->getOrdering($parentMappingID, $subjectsTable->id, 'subject');
 			$subjectAdded                = $this->addSubject($subjectMapping);
+
 			if (!$subjectAdded)
 			{
 				JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
@@ -172,12 +193,13 @@ class THM_OrganizerModelMapping extends JModelLegacy
 			return true;
 		}
 
-		if ($unwanted)
+		if ($blocked OR $invalidTitle)
 		{
 			return true;
 		}
 
-		JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_LOAD_FAIL', 'error');
+		// TODO: Language constant here!
+		JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_SUBJECT_MAP_FAIL', 'error');
 
 		return false;
 	}

@@ -183,9 +183,20 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 
 		foreach ($program->gruppe as $resource)
 		{
-			$stubProcessed = isset($resource->modulliste->modul) ?
-				$lsfPoolModel->processStub($resource, $departmentID) : $lsfSubjectModel->processStub($resource, $departmentID);
-			if (!$stubProcessed)
+			$type    = THM_OrganizerLSFClient::determineType($resource);
+			$success = true;
+
+			if ($type == 'subject')
+			{
+				$success = $lsfSubjectModel->processStub($resource, $departmentID);
+			}
+			elseif ($type == 'pool')
+			{
+				$success = $lsfPoolModel->processStub($resource, $departmentID);
+			}
+
+			// Malformed xml, invalid/incomplete data, database errors
+			if (!$success)
 			{
 				return false;
 			}

@@ -307,7 +307,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
 		// The system administrator does not wish to display entries with this value
 		$blocked = strtolower((string) $lsfData->modul->sperrmh) == 'x';
-		if ($blocked)
+		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($lsfData, true);
+
+		if ($blocked OR $invalidTitle)
 		{
 			$subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
 
@@ -360,8 +362,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 
 		$this->checkProofAndMethod($subject);
-
 		$success = $subject->store();
+
 		if (!$success)
 		{
 			return false;
@@ -459,8 +461,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			return false;
 		}
 
-		$unwanted = !empty($stub->sperrmh) AND strtolower((string) $stub->sperrmh) == 'x';
-
 		$table = JTable::getInstance('subjects', 'thm_organizerTable');
 
 		// Attempt to load using the departmentID
@@ -473,10 +473,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			$table->load(array('lsfID' => $lsfID));
 		}
 
+		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($stub);
+		$blocked = !empty($stub->sperrmh) AND strtolower((string) $stub->sperrmh) == 'x';
+
 		// No row was found => create one
 		if (empty($table->id) OR empty($table->departmentID))
 		{
-			if ($unwanted)
+			if ($blocked OR $invalidTitle)
 			{
 				return true;
 			}
@@ -489,7 +492,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 
 		// Already exists and should no longer be maintained.
-		elseif ($unwanted)
+		elseif ($blocked OR $invalidTitle)
 		{
 			$subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
 
@@ -1080,64 +1083,5 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 
 		$subject->$attributeName = $value;
-	}
-
-	/**
-	 * Updates all subject descriptions stored in the database
-	 *
-	 * @return  void
-	 */
-	public function updateAll()
-	{
-		// The execution time is dynamic and higher than most servers are configured to
-		ini_set('MAX_EXECUTION_TIME', -1);
-
-		$query = $this->_db->getQuery(true);
-		$query->select("DISTINCT id")->from('#__thm_organizer_subjects');
-		$this->_db->setQuery((string) $query);
-		$subjectIDs = $this->_db->loadColumn();
-
-		if (empty($subjectIDs))
-		{
-			return;
-		}
-
-		$failed = array();
-		foreach ($subjectIDs as $subjectID)
-		{
-			$success = $this->importSingle($subjectID);
-			if (!$success)
-			{
-				$failed[] = $subjectID;
-			}
-
-			$dependenciesResolved = $this->resolveDependencies($subjectID);
-			if (!$dependenciesResolved)
-			{
-				$failed[] = $subjectID;
-			}
-		}
-
-		if (!empty($failed))
-		{
-			$completeFail = count($failed) == count($subjectIDs);
-			if ($completeFail)
-			{
-				$msgType = 'error';
-				$msg     = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-			}
-			else
-			{
-				$msgType = 'error';
-				$msg     = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL_PARTIAL');
-			}
-
-			JFactory::getApplication()->enqueueMessage($msg, $msgType);
-
-			return;
-		}
-
-		$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-		JFactory::getApplication()->enqueueMessage($msg);
 	}
 }
