@@ -175,7 +175,7 @@ class THM_OrganizerLSFClient
 	 * Ensures that the title(s) are set and do not contain 'dummy'. This function favors the German title.
 	 *
 	 * @param object &$resource the resource being checked
-	 * @param bool   $isSubject
+	 * @param bool   $isSubject whether or not the formatting is that of the program or subject soap response
 	 *
 	 * @return bool true if one of the titles has the possibility of being valid, otherwise false
 	 */
