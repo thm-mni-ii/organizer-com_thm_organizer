@@ -759,8 +759,8 @@ ScheduleTable = function (schedule)
 	{
 		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, poolID, poolFullName,
 			poolsOuterDiv, poolSpan, poolLink, teachersOuterDiv, teacherSpan, teacherLink, teacherID, teacherName,
-			teacherDelta, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, roomDelta, saveActionButton,
-			deleteActionButton, buttonIcon, added = false;
+			teacherDelta, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, roomDelta, saveDiv, saveActionButton,
+			deleteDiv, deleteActionButton, questionActionButton, added = false;
 
 		if (!data || !data.hasOwnProperty("subjects"))
 		{
@@ -899,28 +899,44 @@ ScheduleTable = function (schedule)
 
 				this.addContextMenu(lessonElement, subjectData);
 
-				// Buttons for instant saving/deleting without extra context menu
+				// Buttons for saving/deleting
+				saveDiv = document.createElement("div");
+				saveDiv.className = "add-lesson";
 				saveActionButton = document.createElement("button");
-				saveActionButton.className = "add-lesson";
-				buttonIcon = document.createElement("span");
-				buttonIcon.className = "icon-plus";
-				saveActionButton.appendChild(buttonIcon);
+				saveActionButton.className = "icon-plus";
 				saveActionButton.addEventListener("click", function ()
 				{
 					handleLesson(variables.PERIOD_MODE, data.ccmID, true);
 				});
-				lessonElement.appendChild(saveActionButton);
+				saveDiv.appendChild(saveActionButton);
+				questionActionButton = document.createElement("button");
+				questionActionButton.className = "icon-question";
+				questionActionButton.addEventListener("click", function ()
+				{
+					window.lessonMenu.getSaveMenu(lessonElement);
+					window.lessonMenu.setLessonData(subjectData);
+				});
+				saveDiv.appendChild(questionActionButton);
+				lessonElement.appendChild(saveDiv);
 
+				deleteDiv = document.createElement("div");
+				deleteDiv.className = "delete-lesson";
 				deleteActionButton = document.createElement("button");
-				deleteActionButton.className = "delete-lesson";
-				buttonIcon = document.createElement("span");
-				buttonIcon.className = "icon-delete";
-				deleteActionButton.appendChild(buttonIcon);
+				deleteActionButton.className = "icon-delete";
 				deleteActionButton.addEventListener("click", function ()
 				{
 					handleLesson(variables.PERIOD_MODE, data.ccmID, false);
 				});
-				lessonElement.appendChild(deleteActionButton);
+				deleteDiv.appendChild(deleteActionButton);
+				questionActionButton = document.createElement("button");
+				questionActionButton.className = "icon-question";
+				questionActionButton.addEventListener("click", function ()
+				{
+					window.lessonMenu.getDeleteMenu(lessonElement);
+					window.lessonMenu.setLessonData(subjectData);
+				});
+				deleteDiv.appendChild(questionActionButton);
+				lessonElement.appendChild(deleteDiv);
 			}
 			else
 			{
@@ -1237,32 +1253,32 @@ LessonMenu = function ()
 		this.saveSemesterMode.addEventListener("click", function ()
 		{
 			handleLesson(variables.SEMESTER_MODE, that.currentCcmID, true);
-			that.saveMenu.style.display = "none";
+			that.saveMenu.parentNode.style.display = "none";
 		});
 		this.savePeriodMode.addEventListener("click", function ()
 		{
 			handleLesson(variables.PERIOD_MODE, that.currentCcmID, true);
-			that.saveMenu.style.display = "none";
+			that.saveMenu.parentNode.style.display = "none";
 		});
 		this.saveInstanceMode.addEventListener("click", function ()
 		{
 			handleLesson(variables.INSTANCE_MODE, that.currentCcmID, true);
-			that.saveMenu.style.display = "none";
+			that.saveMenu.parentNode.style.display = "none";
 		});
 		this.deleteSemesterMode.addEventListener("click", function ()
 		{
 			handleLesson(variables.SEMESTER_MODE, that.currentCcmID, false);
-			that.deleteMenu.style.display = "none";
+			that.deleteMenu.parentNode.style.display = "none";
 		});
 		this.deletePeriodMode.addEventListener("click", function ()
 		{
 			handleLesson(variables.PERIOD_MODE, that.currentCcmID, false);
-			that.deleteMenu.style.display = "none";
+			that.deleteMenu.parentNode.style.display = "none";
 		});
 		this.deleteInstanceMode.addEventListener("click", function ()
 		{
 			handleLesson(variables.INSTANCE_MODE, that.currentCcmID, false);
-			that.deleteMenu.style.display = "none";
+			that.deleteMenu.parentNode.style.display = "none";
 		});
 	};
 
@@ -1925,10 +1941,10 @@ function insertLessonResponse()
 			{
 				openNextDateQuestion(response);
 			}
-			else if (response.pastDate === null && response.futureDate === null)
+			else if (response.pastDate === null && response.futureDate === null
+				&& schedule.id === getSelectedScheduleID())
 			{
 				window.noLessons.style.display = "block";
-				disableTabs();
 			}
 			window.scheduleRequests.splice(ajaxIndex, 1);
 		}
@@ -1952,22 +1968,22 @@ function openNextDateQuestion(dates)
 		window.pastDateButton.innerHTML =
 			window.pastDateButton.innerHTML.replace(window.datePattern, pastDate.getPresentationFormat());
 		window.pastDateButton.dataset.date = dates["pastDate"];
-		window.pastDateButton.style.display = "block";
+		jQuery(window.pastDateButton).removeClass("hide");
 	}
 	else
 	{
-		window.pastDateButton.style.display = "none";
+		jQuery(window.pastDateButton).addClass("hide");
 	}
 	if (futureDate)
 	{
 		window.futureDateButton.innerHTML =
 			window.futureDateButton.innerHTML.replace(window.datePattern, futureDate.getPresentationFormat());
 		window.futureDateButton.dataset.date = dates["futureDate"];
-		window.futureDateButton.style.display = "block";
+		jQuery(window.futureDateButton).removeClass("hide");
 	}
 	else
 	{
-		window.futureDateButton.style.display = "none";
+		jQuery(window.futureDateButton).addClass("hide");
 	}
 }
 
@@ -2029,7 +2045,14 @@ function lessonHandled()
 					{
 						if (lessonElements[lessonIndex].classList.contains("lesson"))
 						{
-							lessonElements[lessonIndex].classList.add("added");
+							if (lessonElements[lessonIndex].classList.contains("added"))
+							{
+								lessonElements[lessonIndex].classList.remove("added");
+							}
+							else
+							{
+								lessonElements[lessonIndex].classList.add("added");
+							}
 						}
 					}
 				}

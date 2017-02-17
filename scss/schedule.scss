@@ -31,6 +31,7 @@ button {
   font-size: 1.3rem;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 
   &:focus {
     outline: none;
@@ -65,8 +66,10 @@ input[type=radio] {
   font-size: 1rem;
 }
 
-.icon-remove::before {
+.icon-remove::before,
+.icon-cancel::before {
   font-size: 1rem;
+  text-shadow: none;
 }
 
 .icon-arrow-left-22::before,
@@ -77,14 +80,26 @@ input[type=radio] {
   font-size: 1rem;
 }
 
-.add-lesson .icon-plus::before {
+.add-lesson .icon-plus::before,
+.add-lesson .icon-question::before {
   color: #80ba24;
-  font-weight: bold;
+  font-size: 1rem;
 }
 
-.delete-lesson .icon-delete::before {
+.delete-lesson .icon-delete::before,
+.delete-lesson .icon-question::before {
   color: #b54e62;
-  font-weight: bold;
+  font-size: 1rem;
+}
+
+#future-date::before {
+  font-family: IcoMoon;
+  content: "\e205";
+}
+
+#past-date::before {
+  font-family: IcoMoon;
+  content: "\e206";
 }
 
 // Schedule Header
@@ -134,6 +149,7 @@ input[type=radio] {
 
   @media screen and (max-width: 950px) {
     display: block;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -170,10 +186,6 @@ input[type=radio] {
     margin-top: 0;
   }
 
-  @media screen and (max-width: 950px) {
-    width: 90%;
-  }
-
   &.shown {
     background: $background-green;
 
@@ -200,7 +212,7 @@ input[type=radio] {
 
 //Exportformat
 .link-item {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 
   &:last-child {
     margin-bottom: 0;
@@ -439,12 +451,15 @@ input[type=radio] {
 }
 
 .add-lesson, .delete-lesson {
-  position: relative;
   text-align: right;
-  width: 93%;
 
   &:focus {
     outline: none;
+  }
+
+  .icon-question {
+    margin-left: 0.5rem;
+    margin-right: 0.2rem;
   }
 }
 
@@ -460,31 +475,126 @@ input[type=radio] {
   width: 24rem;
   z-index: 2;
 
+  p {
+    margin: 0.5rem 0 1rem 0;
+  }
+
   button {
     color: inherit;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .icon-cancel {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 1;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+#past-date {
+  display: block;
+  margin-bottom: 0.3rem;
+
+  @media screen and (min-width: 678px) {
+    display: inline-block;
+  }
+}
+
+#future-date {
+  display: block;
+
+  @media screen and (min-width: 678px) {
+    display: inline-block;
+    position: absolute;
+    right: 0.5rem;
   }
 }
 
 .lesson-menu {
-  display: none;
-  position: absolute;
   background-color: $background-green;
-  z-index: 2;
-  padding: 0.5rem;
   box-shadow: 0 0 5px #888;
+  color: $font-color;
+  display: none;
+  padding: 0.5rem;
+  position: absolute;
+  z-index: 2;
 
   button {
-    display: block;
+    color: $font-color;
     cursor: pointer;
+    display: block;
+    text-align: left;
+
+    &:nth-last-of-type(n+2) {
+      margin-bottom: 0.3rem;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
-  button.icon-cancel {
-    width: 100%;
-    text-align: right;
+  .icon-cancel {
+    position: absolute;
+    right: 0.5rem;
 
-    &::before {
-      font-weight: bold;
+    &:hover {
+      text-decoration: none;
     }
+  }
+
+  .persons, .rooms {
+    display: inline-block;
+  }
+
+  .rooms span::before,
+  .persons span:nth-of-type(n+2)::before {
+    content: " / ";
+  }
+
+  .pools {
+    padding: 0;
+
+    span:nth-of-type(n+2)::before {
+      content: " , "
+    }
+  }
+}
+
+.lesson-data {
+  color: $grey-100;
+  margin: 0.8rem 0.7rem 0.8rem 0;
+}
+
+.delete {
+
+  button::before {
+    font-family: IcoMoon;
+    content: "\e935";
+    color: #b54e62;
+    display: inline-block;
+    margin-right: 0.2rem;
+    vertical-align: text-top;
+  }
+}
+
+.save {
+  button::before {
+    font-family: IcoMoon;
+    content: "\5d";
+    color: #80ba24;
+    display: inline-block;
+    margin-right: 0.2rem;
+    vertical-align: text-top;
   }
 }
 
@@ -501,7 +611,7 @@ input[type=radio] {
     display: none;
   }
   .delete-lesson {
-    display: inline-block;
+    display: block;
   }
 }
 
@@ -528,8 +638,16 @@ input[type=radio] {
     }
   }
 
+  .selection {
+
+    select {
+      //overwrite bootstrap
+      margin-bottom: 0;
+    }
+  }
+
   .selected-schedule {
-    width: 90%
+    width: 90%;
   }
 
   #calendar-table {
@@ -586,5 +704,16 @@ input[type=radio] {
     left: auto;
     right: auto;
     width: 90%;
+  }
+
+  .lesson-menu {
+    right: 0.5rem;
+    left: 0.5rem;
+
+    .pools {
+      span:first-child::before {
+        content: " / "
+      }
+    }
   }
 }

@@ -53,7 +53,7 @@ li.active:not(.inactive) {
 
 .disabled-tab {
 
-  a {
+  .menu-bar & a {
 
     &:hover {
       background: transparent;

@@ -55,7 +55,7 @@ li.active:not(.inactive) [class^="icon-"]::before {
     font-size: 1.2rem;
 }
 
-.disabled-tab a:hover {
+.menu-bar .disabled-tab a:hover {
     background: transparent;
     cursor: default;
 }
@@ -111,6 +111,7 @@ button {
     font-size: 1.3rem;
     background-color: transparent;
     border: none;
+    cursor: pointer;
 }
 
 button:focus {
@@ -144,8 +145,10 @@ input[type=radio] {
     font-size: 1rem;
 }
 
-.icon-remove::before {
+.icon-remove::before,
+.icon-cancel::before {
     font-size: 1rem;
+    text-shadow: none;
 }
 
 .icon-arrow-left-22::before,
@@ -156,14 +159,26 @@ input[type=radio] {
     font-size: 1rem;
 }
 
-.add-lesson .icon-plus::before {
+.add-lesson .icon-plus::before,
+.add-lesson .icon-question::before {
     color: #80ba24;
-    font-weight: bold;
+    font-size: 1rem;
 }
 
-.delete-lesson .icon-delete::before {
+.delete-lesson .icon-delete::before,
+.delete-lesson .icon-question::before {
     color: #b54e62;
-    font-weight: bold;
+    font-size: 1rem;
+}
+
+#future-date::before {
+    font-family: IcoMoon;
+    content: "\e205";
+}
+
+#past-date::before {
+    font-family: IcoMoon;
+    content: "\e206";
 }
 
 .menu-bar {
@@ -206,6 +221,7 @@ input[type=radio] {
     .selection > div:first-child,
     .input-wrapper {
         display: block;
+        margin-bottom: 0.5rem;
     }
 }
 
@@ -239,12 +255,6 @@ input[type=radio] {
     margin-top: 0;
 }
 
-@media screen and (max-width: 950px) {
-    .selected-schedule {
-        width: 90%;
-    }
-}
-
 .selected-schedule.shown {
     background: #dfeec8;
 }
@@ -268,7 +278,7 @@ input[type=radio] {
 }
 
 .link-item {
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .link-item:last-child {
@@ -493,13 +503,16 @@ input[type=radio] {
 }
 
 .add-lesson, .delete-lesson {
-    position: relative;
     text-align: right;
-    width: 93%;
 }
 
 .add-lesson:focus, .delete-lesson:focus {
     outline: none;
+}
+
+.add-lesson .icon-question, .delete-lesson .icon-question {
+    margin-left: 0.5rem;
+    margin-right: 0.2rem;
 }
 
 .message-pop-up {
@@ -515,31 +528,125 @@ input[type=radio] {
     z-index: 2;
 }
 
+.message-pop-up p {
+    margin: 0.5rem 0 1rem 0;
+}
+
 .message-pop-up button {
     color: inherit;
-}
-
-.lesson-menu {
-    display: none;
-    position: absolute;
-    background-color: #dfeec8;
-    z-index: 2;
-    padding: 0.5rem;
-    box-shadow: 0 0 5px #888;
-}
-
-.lesson-menu button {
-    display: block;
     cursor: pointer;
 }
 
-.lesson-menu button.icon-cancel {
-    width: 100%;
-    text-align: right;
+.message-pop-up button:hover {
+    text-decoration: underline;
 }
 
-.lesson-menu button.icon-cancel::before {
-    font-weight: bold;
+.message-pop-up .icon-cancel {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 1;
+}
+
+.message-pop-up .icon-cancel:hover {
+    text-decoration: none;
+}
+
+#past-date {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+@media screen and (min-width: 678px) {
+    #past-date {
+        display: inline-block;
+    }
+}
+
+#future-date {
+    display: block;
+}
+
+@media screen and (min-width: 678px) {
+    #future-date {
+        display: inline-block;
+        position: absolute;
+        right: 0.5rem;
+    }
+}
+
+.lesson-menu {
+    background-color: #dfeec8;
+    box-shadow: 0 0 5px #888;
+    color: #394a59;
+    display: none;
+    padding: 0.5rem;
+    position: absolute;
+    z-index: 2;
+}
+
+.lesson-menu button {
+    color: #394a59;
+    cursor: pointer;
+    display: block;
+    text-align: left;
+}
+
+.lesson-menu button:nth-last-of-type(n+2) {
+    margin-bottom: 0.3rem;
+}
+
+.lesson-menu button:hover {
+    text-decoration: underline;
+}
+
+.lesson-menu .icon-cancel {
+    position: absolute;
+    right: 0.5rem;
+}
+
+.lesson-menu .icon-cancel:hover {
+    text-decoration: none;
+}
+
+.lesson-menu .persons, .lesson-menu .rooms {
+    display: inline-block;
+}
+
+.lesson-menu .rooms span::before,
+.lesson-menu .persons span:nth-of-type(n+2)::before {
+    content: " / ";
+}
+
+.lesson-menu .pools {
+    padding: 0;
+}
+
+.lesson-menu .pools span:nth-of-type(n+2)::before {
+    content: " , ";
+}
+
+.lesson-data {
+    color: #4a5c66;
+    margin: 0.8rem 0.7rem 0.8rem 0;
+}
+
+.delete button::before {
+    font-family: IcoMoon;
+    content: "\e935";
+    color: #b54e62;
+    display: inline-block;
+    margin-right: 0.2rem;
+    vertical-align: text-top;
+}
+
+.save button::before {
+    font-family: IcoMoon;
+    content: "\5d";
+    color: #80ba24;
+    display: inline-block;
+    margin-right: 0.2rem;
+    vertical-align: text-top;
 }
 
 .delete-lesson {
@@ -555,7 +662,7 @@ input[type=radio] {
 }
 
 .added .delete-lesson {
-    display: inline-block;
+    display: block;
 }
 
 .no-saving .add-lesson {
@@ -573,6 +680,10 @@ input[type=radio] {
 
 .organizer.mobile .date-input .controls:nth-last-of-type(n+2) {
     margin-right: 0.5rem;
+}
+
+.organizer.mobile .selection select {
+    margin-bottom: 0;
 }
 
 .organizer.mobile .selected-schedule {
@@ -622,4 +733,13 @@ input[type=radio] {
     left: auto;
     right: auto;
     width: 90%;
+}
+
+.organizer.mobile .lesson-menu {
+    right: 0.5rem;
+    left: 0.5rem;
+}
+
+.organizer.mobile .lesson-menu .pools span:first-child::before {
+    content: " / ";
 }

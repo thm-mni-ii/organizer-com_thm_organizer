@@ -11,8 +11,8 @@
  */
 
 defined('_JEXEC') or die;
-$mobile = $this->isMobile ? 'mobile' : '';
-$displayName = empty($this->model->displayName)?
+$mobile      = $this->isMobile ? 'mobile' : '';
+$displayName = empty($this->model->displayName) ?
 	'THM Organizer  - ' . JText::_('COM_THM_ORGANIZER_SCHEDULES')
 	: JText::_('COM_THM_ORGANIZER_SCHEDULE') . ' - ' . $this->model->displayName;
 ?>
@@ -32,7 +32,8 @@ $displayName = empty($this->model->displayName)?
 				   data-toggle="tab" data-id="schedule-form" role="tab" aria-controls="schedule-form"
 				   aria-selected="true">
 					<span class="icon-schedules"></span>
-					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_TITLE"); ?></span>
+					<span
+						class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_TITLE"); ?></span>
 				</a>
 			</li>
 			<li class="tabs-tab" role="presentation">
@@ -59,7 +60,7 @@ $displayName = empty($this->model->displayName)?
 					<button id="previous-week" class="controls" type="button">
 						<span class="icon-arrow-left"></span>
 					</button>
-					<input id="date" type="text" required/>
+					<input id="date" type="text" required />
 					<button id="calendar-icon" type="button" class="controls">
 						<span class="icon-calendar"></span>
 					</button>
@@ -135,7 +136,7 @@ $displayName = empty($this->model->displayName)?
 					?>
 					<div id="department-input" class="input-wrapper">
 						<select id="department" multiple
-								data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
+						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
 							<?php
 							foreach ($this->getModel()->departments as $id => $department)
 							{
@@ -312,10 +313,12 @@ $displayName = empty($this->model->displayName)?
 	</div>
 
 	<div class="lesson-menu">
+		<button class="icon-cancel"></button>
 		<div class="lesson-data">
-			<button class="icon-cancel"></button>
-			<span class="subject"></span>
-			<span class="module"></span>
+			<div class="subjectNameNr">
+				<span class="subject"></span>
+				<span class="module"></span>
+			</div>
 			<div class="persons"></div>
 			<div class="rooms"></div>
 			<div class="pools"></div>
