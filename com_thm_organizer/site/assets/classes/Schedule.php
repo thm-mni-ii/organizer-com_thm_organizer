@@ -44,7 +44,7 @@ class THMSchedule
 	 *
 	 * @var    String
 	 */
-	private $_username = null;
+	private $username = null;
 
 	/**
 	 * Schedule title
@@ -76,7 +76,7 @@ class THMSchedule
 	{
 		$input               = JFactory::getApplication()->input;
 		$this->_scheduleData = json_decode(file_get_contents("php://input"));
-		$this->_username     = $input->getString("username");
+		$this->username     = $input->getString("username");
 		$this->_title        = $input->getString("title");
 		$this->_what         = $input->getString("what");
 		$this->startDate     = $input->getString("startDate");
@@ -106,6 +106,6 @@ class THMSchedule
 
 		$director = new THMScheduleDirector($this->_builder);
 
-		return $director->createSchedule($this->_scheduleData, $this->_username, $this->_title);
+		return $director->createSchedule($this->_scheduleData, $this->username, $this->_title);
 	}
 }

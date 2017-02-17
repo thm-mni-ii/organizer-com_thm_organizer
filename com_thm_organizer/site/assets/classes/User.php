@@ -27,7 +27,7 @@ class THMUser
 	 *
 	 * @var    String
 	 */
-	private $_username = null;
+	private $username = null;
 
 	/**
 	 * Token
@@ -58,7 +58,7 @@ class THMUser
 	public function __construct($cfg)
 	{
 		$input           = JFactory::getApplication()->input;
-		$this->_username = $input->getString("username");
+		$this->username = $input->getString("username");
 		$this->_token    = $input->get("token");
 		$this->_passwd   = $input->get("passwd");
 		$this->_cfg      = $cfg;

@@ -30,6 +30,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
 	public function save()
 	{
 		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+
 		if (empty($data['roomID']))
 		{
 			unset($data['roomID']);
@@ -51,6 +52,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
 		$input       = JFactory::getApplication()->input;
 		$monitorID   = $input->getInt('id', 0);
 		$plausibleID = ($monitorID > 0);
+
 		if ($plausibleID)
 		{
 			$table = JTable::getInstance('monitors', 'thm_organizerTable');
@@ -75,13 +77,16 @@ class THM_OrganizerModelMonitor extends JModelLegacy
 		$success    = true;
 		$monitorIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$table      = JTable::getInstance('monitors', 'thm_organizerTable');
+
 		if (isset($monitorIDs) and count($monitorIDs) > 0)
 		{
 			$dbo = JFactory::getDbo();
 			$dbo->transactionStart();
+
 			foreach ($monitorIDs as $monitorID)
 			{
 				$success = $table->delete($monitorID);
+
 				if (!$success)
 				{
 					$dbo->transactionRollback();
@@ -89,6 +94,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
 					return $success;
 				}
 			}
+
 			$dbo->transactionCommit();
 		}
 

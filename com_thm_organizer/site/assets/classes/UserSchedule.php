@@ -41,7 +41,7 @@ class THMUserSchedule
 	 *
 	 * @var    String
 	 */
-	private $_username = null;
+	private $username = null;
 
 	/**
 	 * Config
@@ -70,11 +70,11 @@ class THMUserSchedule
 
 		if (isset($options["username"]))
 		{
-			$this->_username = $options["username"];
+			$this->username = $options["username"];
 		}
 		else
 		{
-			$this->_username = JFactory::getUser()->username;
+			$this->username = JFactory::getUser()->username;
 		}
 
 		$this->_cfg = $cfg;
@@ -106,7 +106,7 @@ class THMUserSchedule
 			);
 		}
 
-		$validSession = (isset($this->_jsid) AND !empty($this->_username));
+		$validSession = (isset($this->_jsid) AND !empty($this->username));
 		if ($validSession)
 		{
 			$timestamp = time();
@@ -116,7 +116,7 @@ class THMUserSchedule
 			$query = $dbo->getQuery(true);
 
 			// Remove older entries
-			$query->delete($dbo->quoteName("#__thm_organizer_user_schedules"))->where("username = '$this->_username' ");
+			$query->delete($dbo->quoteName("#__thm_organizer_user_schedules"))->where("username = '$this->username' ");
 			$dbo->setQuery((string) $query);
 
 			try
@@ -136,7 +136,7 @@ class THMUserSchedule
 
 			// Prepare the insert query.
 			$columns = array('username', 'data', 'created');
-			$values  = array($dbo->quote($this->_username), $dbo->quote($this->_json), $dbo->quote($timestamp));
+			$values  = array($dbo->quote($this->username), $dbo->quote($this->_json), $dbo->quote($timestamp));
 			$query->insert('#__thm_organizer_user_schedules')->columns($dbo->quoteName($columns))->values(implode(',', $values));
 			$dbo->setQuery((string) $query);
 			try
@@ -181,7 +181,7 @@ class THMUserSchedule
 	 */
 	public function load()
 	{
-		if (isset($this->_username))
+		if (isset($this->username))
 		{
 			$dbo  = JFactory::getDbo();
 			$data = array();
@@ -189,7 +189,7 @@ class THMUserSchedule
 			$query = $dbo->getQuery(true);
 			$query->select('data');
 			$query->from('#__thm_organizer_user_schedules');
-			$query->where("username = '$this->_username'");
+			$query->where("username = '$this->username'");
 			$dbo->setQuery((string) $query);
 
 			try

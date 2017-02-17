@@ -166,7 +166,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	private function cleanText($text)
 	{
-
 		// Gets rid of bullshit encoding from copy and paste from word
 		$text = str_replace(chr(160), " ", $text);
 		$text = str_replace(chr(194), " ", $text);
@@ -236,7 +235,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 		catch (Exception $exc)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return array();
 		}
@@ -251,9 +250,11 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	{
 		$subjectIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$this->_db->transactionStart();
+
 		foreach ($subjectIDs as $subjectID)
 		{
 			$subjectImported = $this->importSingle($subjectID);
+
 			if (!$subjectImported)
 			{
 				$this->_db->transactionRollback();
@@ -262,13 +263,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			}
 
 			$dependenciesResolved = $this->resolveDependencies($subjectID);
+
 			if (!$dependenciesResolved)
 			{
 				$this->_db->transactionRollback();
 
 				return false;
 			}
-
 		}
 
 		$this->_db->transactionCommit();
@@ -608,6 +609,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	/**
 	 * Saves the dependencies to the prerequisites table
 	 *
+	 * @param array  $programs     the programs that the schedule should be associated with
 	 * @param int    $subjectID    the id of the subject being processed
 	 * @param array  $dependencies the subject dependencies
 	 * @param string $type         the type (direction) of dependency: pre|post

@@ -45,6 +45,7 @@ class JFormFieldMergeByID extends JFormFieldList
 		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
 		$query->from("#__{$tables[0]}");
 		$count = count($tables);
+
 		if ($count > 1)
 		{
 			$baseParts = explode(' AS ', $tables[0]);
@@ -90,8 +91,8 @@ class JFormFieldMergeByID extends JFormFieldList
 	{
 		$textColumn  = $this->getAttribute('textColumn');
 		$textColumns = explode(',', $textColumn);
+		$localized   = $this->getAttribute('localized', false);
 
-		$localized = $this->getAttribute('localized', false);
 		if ($localized)
 		{
 			/** @noinspection PhpIncludeInspection */
@@ -102,6 +103,7 @@ class JFormFieldMergeByID extends JFormFieldList
 				$textColumns[$key] = $value . '_' . $tag;
 			}
 		}
+
 		$glue = $this->getAttribute('glue');
 
 		if (count($textColumns) === 1 OR empty($glue))

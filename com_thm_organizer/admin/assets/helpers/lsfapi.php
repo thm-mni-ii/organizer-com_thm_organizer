@@ -21,24 +21,24 @@ class THM_OrganizerLSFClient
 {
 	public $clientSet = false;
 
-	private $_client;
+	private $client;
 
-	private $_username;
+	private $username;
 
-	private $_password;
+	private $password;
 
 	/**
 	 * Constructor to set up the client
 	 */
 	public function __construct()
 	{
-		$this->_username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
-		$this->_password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
+		$this->username  = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
+		$this->password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
 
 		$options             = array();
 		$options['uri']      = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
 		$options['location'] = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
-		$this->_client       = new SoapClient(null, $options);
+		$this->client       = new SoapClient(null, $options);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class THM_OrganizerLSFClient
 	private function getDataXML($query)
 	{
 		$app    = JFactory::getApplication();
-		$result = $this->_client->__soapCall('getDataXML', array('xmlParams' => $query));
+		$result = $this->client->__soapCall('getDataXML', array('xmlParams' => $query));
 		if (!$result)
 		{
 			$app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');
@@ -154,8 +154,8 @@ class THM_OrganizerLSFClient
 	{
 		$header = "<?xml version='1.0' encoding='UTF-8'?><SOAPDataService>";
 		$header .= "<general><object>$objectType</object></general><user-auth>";
-		$header .= "<username>$this->_username</username>";
-		$header .= "<password>$this->_password</password>";
+		$header .= "<username>$this->username</username>";
+		$header .= "<password>$this->password</password>";
 		$header .= "</user-auth><filter>";
 
 		return $header;

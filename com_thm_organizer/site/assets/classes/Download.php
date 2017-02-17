@@ -36,14 +36,14 @@ class THMDownload
 	 *
 	 * @var    String
 	 */
-	private $_username = null;
+	private $username = null;
 
 	/**
 	 * Title
 	 *
 	 * @var    String
 	 */
-	private $_title = null;
+	private $title = null;
 
 	/**
 	 * Type
@@ -74,8 +74,8 @@ class THMDownload
 	public function __construct($cfg)
 	{
 		$input           = JFactory::getApplication()->input;
-		$this->_username = $input->getString("username");
-		$this->_title    = $input->getString("title");
+		$this->username = $input->getString("username");
+		$this->title    = $input->getString("title");
 		$this->_what     = $input->getString("what");
 		$this->_save     = $input->get("save");
 		$this->_cfg      = $cfg;
@@ -89,20 +89,20 @@ class THMDownload
 	 */
 	public function schedule()
 	{
-		if (isset($this->_username) && isset($this->_title) && isset($this->_what) && isset($this->_save))
+		if (isset($this->username) && isset($this->title) && isset($this->_what) && isset($this->_save))
 		{
 			$path         = "/";
-			$this->_title = urldecode($this->_title);
+			$this->title = urldecode($this->title);
 
-			if ($this->_title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $this->_username != "undefined")
+			if ($this->title == JText::_("COM_THM_ORGANIZER_SCHEDULER_MYSCHEDULE") && $this->username != "undefined")
 			{
-				$this->_title = $this->_username . " - " . $this->_title;
+				$this->title = $this->username . " - " . $this->title;
 			}
 
 			$tmpFile = $this->_cfg->pdf_downloadFolder . $path . 'stundenplan.' . $this->_what;
-			$file    = $this->_cfg->pdf_downloadFolder . $path . $this->_title . '.' . $this->_what;
+			$file    = $this->_cfg->pdf_downloadFolder . $path . $this->title . '.' . $this->_what;
 
-			if (empty($this->_title) || $this->_title == 'undefined')
+			if (empty($this->title) || $this->title == 'undefined')
 			{
 				if (!file_exists($tmpFile))
 				{
@@ -111,7 +111,7 @@ class THMDownload
 				else
 				{
 					$file         = $tmpFile;
-					$this->_title = 'stundenplan';
+					$this->title = 'stundenplan';
 				}
 			}
 
@@ -123,7 +123,7 @@ class THMDownload
 			{
 				if ($this->_save == "true")
 				{
-					@copy($file, $this->_cfg->pdf_downloadFolder . $path . $this->_username . '.' . $this->_what);
+					@copy($file, $this->_cfg->pdf_downloadFolder . $path . $this->username . '.' . $this->_what);
 				}
 				elseif ($this->_what == "pdf")
 				{
@@ -137,7 +137,7 @@ class THMDownload
 				// Todo: Add some kind of default encoding for errors.
 
 				header("Content-Length: " . filesize($file));
-				header("Content-Disposition: attachment; filename=\"" . $this->_title . "." . $this->_what . "\"");
+				header("Content-Disposition: attachment; filename=\"" . $this->title . "." . $this->_what . "\"");
 
 				// Datei senden
 				@readfile($file);

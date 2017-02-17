@@ -37,12 +37,14 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
 		{
 			$descriptionRelevant = $lesson->description == $gpuntisID;
 			$idRelevant          = $lesson->methodID == $resourceID;
+
 			if ($descriptionRelevant OR $idRelevant)
 			{
 				if (isset($lesson->description))
 				{
 					unset($schedule->lessons->$lessonID->description);
 				}
+
 				if (isset($lesson->methodID))
 				{
 					unset($schedule->lessons->$lessonID->methodID);

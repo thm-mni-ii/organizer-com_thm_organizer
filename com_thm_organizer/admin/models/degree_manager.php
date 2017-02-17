@@ -86,7 +86,6 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-
 			$return[$index]                 = array();
 			$return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['name']         = JHtml::_('link', $item->link, $item->name);

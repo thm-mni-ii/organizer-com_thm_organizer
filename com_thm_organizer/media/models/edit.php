@@ -20,6 +20,8 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerModelEdit extends JModelAdmin
 {
+	public $actions;
+
 	/**
 	 * Method to get the form
 	 *

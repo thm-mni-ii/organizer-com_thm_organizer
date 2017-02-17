@@ -77,9 +77,13 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 				$periods     = get_object_vars($grid->periods);
 				$firstPeriod = $periods[1];
 				$lastPeriod  = end($periods);
-				/** 'l' (lowercase L) in date function for full textual day of the week */
-				$return[$index]['startDay']  = JText::_(strtoupper(date('l', strtotime("Sunday + {$grid->startDay} days"))));
-				$return[$index]['endDay']    = JText::_(strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days"))));
+
+				$startDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->startDay} days")));
+				$endDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days")));
+
+				// 'l' (lowercase L) in date function for full textual day of the week.
+				$return[$index]['startDay']  = JText::_($startDayConstant);
+				$return[$index]['endDay']    = JText::_($endDayConstant);
 				$return[$index]['startTime'] = THM_OrganizerHelperComponent::formatTime($firstPeriod->startTime);
 				$return[$index]['endTime']   = THM_OrganizerHelperComponent::formatTime($lastPeriod->endTime);
 			}

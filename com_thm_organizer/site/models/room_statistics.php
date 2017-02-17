@@ -487,7 +487,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 		}
 		catch (Exception $exc)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_DATABASE_ERROR'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
 			return;
 		}
