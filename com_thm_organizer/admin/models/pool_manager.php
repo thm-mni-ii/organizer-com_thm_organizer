@@ -67,7 +67,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 		$query->where("(p.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR p.departmentID IS NULL)");
 
 		$searchColumns = array('p.name_de', 'short_name_de', 'abbreviation_de', 'description_de',
-		                       'p.name_en', 'short_name_en', 'abbreviation_en', 'description_en'
+								'p.name_en', 'short_name_en', 'abbreviation_en', 'description_en'
 		);
 		$this->setSearchFilter($query, $searchColumns);
 		$this->setLocalizedFilters($query, array('p.name'));

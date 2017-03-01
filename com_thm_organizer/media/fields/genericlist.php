@@ -46,6 +46,7 @@ class JFormFieldGenericList extends JFormFieldList
 
 		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
 		$this->setFrom($query);
+		$this->setWhere($query);
 		$order = $this->getAttribute('order', "text ASC");
 		$query->order($order);
 		$dbo->setQuery((string) $query);
@@ -118,7 +119,7 @@ class JFormFieldGenericList extends JFormFieldList
 	 *
 	 * @param object &$query the query object
 	 *
-	 * @return  string  the string to use for text selection
+	 * @return  void modifies the query as necessary
 	 */
 	private function setFrom(&$query)
 	{
@@ -164,5 +165,29 @@ class JFormFieldGenericList extends JFormFieldList
 			$options[$componentParameter] = JHtml::_('select.option', $componentParameter, $componentParameter);
 		}
 		ksort($options);
+	}
+
+	/**
+	 * Adds filter conditions
+	 *
+	 * @param object &$query the query object
+	 *
+	 * @return  void modifies the query as necessary
+	 */
+	private function setWhere(&$query)
+	{
+		$rawConditions = $this->getAttribute('conditions');
+
+		if (empty($rawConditions))
+		{
+			return;
+		}
+
+		$conditions = explode(',', $rawConditions);
+
+		foreach ($conditions as $condition)
+		{
+			$query->where($condition);
+		}
 	}
 }

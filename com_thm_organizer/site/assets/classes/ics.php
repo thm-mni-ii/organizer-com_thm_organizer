@@ -14,7 +14,7 @@
 defined('_JEXEC') or die;
 require_once dirname(__FILE__) . "/AbstractBuilder.php";
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_BASE . "/libraries/thm_core/icalcreator/iCalcreator.php";
+require_once JPATH_SITE . '/media/com_thm_organizer/icalcreator/iCalcreator.php';
 
 /**
  * Class provides methods to create a schedule in ics format
@@ -120,6 +120,9 @@ class THMICSBuilder extends THMAbstractBuilder
 
 		$vTimeZone1->setComponent($vTimeZone2);
 		$vCalendar->setComponent($vTimeZone1);
+
+		$exc = new Exception;
+		echo "<pre>" . print_r($exc->getTraceAsString(), true) . "</pre>";
 
 		foreach ($scheduleGrid as $lesson)
 		{

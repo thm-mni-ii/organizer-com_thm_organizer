@@ -162,19 +162,6 @@ class THM_OrganizerController extends JControllerLegacy
 	}
 
 	/**
-	 * Method to display a view.
-	 *
-	 * @param boolean $cachable  If true, the view output will be cached
-	 * @param array   $urlparams An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  JController  This object to support chaining.
-	 */
-	public function display($cachable = false, $urlparams = array())
-	{
-		parent::display($cachable, $urlparams);
-	}
-
-	/**
 	 * Redirects to the edit view with an item id. Access checks performed in the view.
 	 *
 	 * @return  void
