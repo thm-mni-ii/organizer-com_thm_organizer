@@ -962,52 +962,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 					}
 
 					$calData['lessonID'] = $lessonsTable->id;
-
-					$loadQuery = $this->_db->getQuery(true);
-					$loadQuery->select('id')->from('#__thm_organizer_calendar')
-						->where("schedule_date = '{$calData['schedule_date']}'")
-						->where("startTime = '{$calData['startTime']}'")
-						->where("endTime = '{$calData['endTime']}'")
-						->where("lessonID = '{$calData['lessonID']}'");
-
-					$this->_db->setQuery($loadQuery);
-
-					try
-					{
-						$existingEntries = $this->_db->loadColumn();
-					}
-					catch (Exception $exc)
-					{
-						JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-						return false;
-					}
-
-					// Removes deprecated entries with the same unique signature (date, times & lesson)
-					if ($existingEntries)
-					{
-						$calData['id'] = array_shift($existingEntries);
-
-						$deleteQuery = $this->_db->getQuery(true);
-						$deleteQuery->delete('#__thm_organizer_calendar');
-						foreach ($existingEntries as $deprecatedID)
-						{
-							$deleteQuery->clear('where');
-							$deleteQuery->where("id = '$deprecatedID'");
-							$this->_db->setQuery($deleteQuery);
-
-							try
-							{
-								$this->_db->execute();
-							}
-							catch (Exception $exc)
-							{
-								JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-								return false;
-							}
-						}
-					}
-
-					$calendarTable = JTable::getInstance('calendar', 'thm_organizerTable');
+					$calendarTable       = JTable::getInstance('calendar', 'thm_organizerTable');
 
 					$calendarTable->load($calData);
 					$calData['delta'] = $instanceData->delta;
@@ -1048,6 +1003,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			catch (Exception $exc)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
 				return false;
 			}
 		}

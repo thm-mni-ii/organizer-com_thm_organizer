@@ -465,9 +465,10 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 *
 	 * @return  mixed  integer on success, otherwise false
 	 */
-	public function save($resource)
+	public function save()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$input = JFactory::getApplication()->input;
+		$data  = $input->get('jform', array(), 'array');
 
 		if (empty($data['gpuntisID']))
 		{
@@ -475,6 +476,10 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		}
 
 		$this->_db->transactionStart();
+
+		$task      = $input->get('task', '');
+		$taskParts = explode('.', $task);
+		$resource  = $taskParts[0];
 
 		$table = JTable::getInstance("{$resource}s", 'thm_organizerTable');
 		if (!empty($data['id']))
@@ -493,9 +498,9 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 				return false;
 			}
 
-			if(!empty($data['departments']))
+			if (!empty($data['departments']))
 			{
-				$resourceName = str_replace('plan_', '', $resource);
+				$resourceName       = str_replace('plan_', '', $resource);
 				$departmentsUpdated = $this->updateDepartments($resourceName, $data);
 				if (!$departmentsUpdated)
 				{
@@ -610,6 +615,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
 				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 				$this->_db->transactionRollback();
+
 				return false;
 			}
 		}
@@ -636,6 +642,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 					JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 					$this->_db->transactionRollback();
+
 					return false;
 				}
 			}
