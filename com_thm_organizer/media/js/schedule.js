@@ -1637,9 +1637,12 @@ jQuery(document).ready(function ()
 	});
 
 	// Change Tab-Behaviour of menu-bar, so all tabs can be closed
-	jQuery(".tabs-toggle").on("click", function ()
+	jQuery(".tabs-toggle").on("click", function (event)
 	{
 		changeTabBehaviour(jQuery(this));
+
+		//prevent loading of tabs-url:
+		event.preventDefault();
 	});
 });
 
@@ -1968,22 +1971,22 @@ function openNextDateQuestion(dates)
 		window.pastDateButton.innerHTML =
 			window.pastDateButton.innerHTML.replace(window.datePattern, pastDate.getPresentationFormat());
 		window.pastDateButton.dataset.date = dates["pastDate"];
-		jQuery(window.pastDateButton).removeClass("hide");
+		jQuery(window.pastDateButton).show();
 	}
 	else
 	{
-		jQuery(window.pastDateButton).addClass("hide");
+		jQuery(window.pastDateButton).hide();
 	}
 	if (futureDate)
 	{
 		window.futureDateButton.innerHTML =
 			window.futureDateButton.innerHTML.replace(window.datePattern, futureDate.getPresentationFormat());
 		window.futureDateButton.dataset.date = dates["futureDate"];
-		jQuery(window.futureDateButton).removeClass("hide");
+		jQuery(window.futureDateButton).show();
 	}
 	else
 	{
-		jQuery(window.futureDateButton).addClass("hide");
+		jQuery(window.futureDateButton).hide();
 	}
 }
 
@@ -2433,7 +2436,6 @@ function disableTabs()
 		{
 			disableTabs[i].attr("data-toggle", "tab");
 			disableTabs[i].parent('li').removeClass("disabled-tab");
-
 		}
 	}
 }

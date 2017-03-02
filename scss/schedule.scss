@@ -36,10 +36,6 @@ button {
   &:focus {
     outline: none;
   }
-
-  :hover {
-    cursor: pointer;
-  }
 }
 
 input[type=radio] {
@@ -51,55 +47,23 @@ input[type=radio] {
 }
 
 // Icons *************************************************************************************************************//
-.icon-schedules::before {
-  font-family: icomoon-special !important;
-  font-size: 1.1rem;
-}
-
-.icon-checkin::before,
-.icon-download::before {
-  vertical-align: text-bottom;
-  font-size: 1.2rem;
-}
-
-.icon-grid-2::before {
-  font-size: 1rem;
-}
-
 .icon-remove::before,
 .icon-cancel::before {
   font-size: 1rem;
-  text-shadow: none;
 }
 
-.icon-arrow-left-22::before,
-.icon-arrow-right-22::before,
-.icon-arrow-left::before,
-.icon-arrow-right::before,
-.date-input .icon-calendar::before {
-  font-size: 1rem;
-}
-
-.add-lesson .icon-plus::before,
-.add-lesson .icon-question::before {
+.add-lesson .icon-plus::before {
   color: #80ba24;
-  font-size: 1rem;
 }
 
-.delete-lesson .icon-delete::before,
-.delete-lesson .icon-question::before {
+.icon-question::before,
+.add-lesson .icon-plus::before,
+.delete-lesson .icon-delete::before {
+  font-size: 1.1rem;
+}
+
+.delete-lesson .icon-delete::before {
   color: #b54e62;
-  font-size: 1rem;
-}
-
-#future-date::before {
-  font-family: IcoMoon;
-  content: "\e205";
-}
-
-#past-date::before {
-  font-family: IcoMoon;
-  content: "\e206";
 }
 
 // Schedule Header
@@ -122,6 +86,13 @@ input[type=radio] {
   a:hover,
   label:hover {
     cursor: pointer;
+  }
+}
+
+.tabs-toggle {
+  .icon-grid-2::before,
+  .icon-schedules::before {
+    font-size: 1.1rem;
   }
 }
 
@@ -149,7 +120,12 @@ input[type=radio] {
 
   @media screen and (max-width: 950px) {
     display: block;
-    margin-bottom: 0.5rem;
+  }
+}
+
+.input-wrapper {
+  @media screen and (max-width: 950px) {
+    margin-top: 0.5rem;
   }
 }
 
@@ -160,7 +136,7 @@ input[type=radio] {
   }
 
   .chzn-container {
-    margin-left: 0.5rem;
+    margin-right: 0.3rem;
 
     .chzn-search input {
       width: 100% !important;
@@ -179,11 +155,14 @@ input[type=radio] {
   color: #394A59;
   display: block;
   padding: 0.4rem;
-  margin: 0.5rem 0;
-  width: 25rem;
+  width: 276px;
 
   &:first-child {
     margin-top: 0;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 0.5rem;
   }
 
   &.shown {
@@ -208,6 +187,7 @@ input[type=radio] {
   .remove-schedule {
     width: 1rem;
   }
+
 }
 
 //Exportformat
@@ -475,16 +455,38 @@ input[type=radio] {
   width: 24rem;
   z-index: 2;
 
-  p {
-    margin: 0.5rem 0 1rem 0;
+  .icon-notification, p {
+    margin: 0.5rem 0 0.5rem 0;
+    width: initial;
+
+    &::before {
+      margin-right: 0.3rem;
+      font-size: 1rem;
+      vertical-align: bottom;
+    }
   }
 
   button {
     color: inherit;
-    cursor: pointer;
+    width: initial;
+    display: block;
 
     &:hover {
       text-decoration: underline;
+    }
+
+    &::before {
+      font-size: 1.1rem;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+    @media screen and (min-width: 678px) {
+      display: inline-block;
+    }
+
+    &:not(.icon-cancel) {
+      margin-top: 0.5rem;
     }
   }
 
@@ -494,28 +496,22 @@ input[type=radio] {
     right: 0.5rem;
     opacity: 1;
 
-    &:hover {
-      text-decoration: none;
+    &::before {
+      text-shadow: none;
     }
   }
-}
 
-#past-date {
-  display: block;
-  margin-bottom: 0.3rem;
+  .icon-arrow-left-2 {
 
-  @media screen and (min-width: 678px) {
-    display: inline-block;
-  }
-}
+    @media screen and (min-width: 678px) {
+      + .icon-arrow-right-2 {
+        margin-left: 2.5rem;
+      }
+    }
 
-#future-date {
-  display: block;
-
-  @media screen and (min-width: 678px) {
-    display: inline-block;
-    position: absolute;
-    right: 0.5rem;
+    @media screen and (max-width: 677px) {
+      margin-bottom: 0.5rem;
+    }
   }
 }
 
@@ -530,7 +526,6 @@ input[type=radio] {
 
   button {
     color: $font-color;
-    cursor: pointer;
     display: block;
     text-align: left;
 

@@ -10,7 +10,6 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-    font-family: 'icomoon-special';
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -36,4 +35,5 @@
 
 .icon-schedules:before {
     content: "\e600";
+    font-family: 'icomoon-special' !important;
 }

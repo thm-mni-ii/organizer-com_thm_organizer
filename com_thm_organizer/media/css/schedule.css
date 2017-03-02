@@ -30,10 +30,20 @@ ul.tabs {
     background-color: #f2f4f5;
 }
 
+.tabs-toggle [class^="icon-"] {
+    position: relative;
+    line-height: 0.8;
+}
+
+.tabs-toggle [class^="icon-"]::before {
+    position: absolute;
+    font-size: 1.3rem;
+}
+
 .tab-text {
     font-size: 1rem;
     color: #394A59;
-    margin-left: 0.3rem;
+    margin-left: 0.5rem;
 }
 
 @media (max-width: 677px) {
@@ -51,8 +61,7 @@ li.active:not(.inactive) .tabs-toggle {
 li.active:not(.inactive) [class^="icon-"]::before {
     content: "\e935";
     font-family: IcoMoon !important;
-    vertical-align: text-bottom;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 .menu-bar .disabled-tab a:hover {
@@ -118,10 +127,6 @@ button:focus {
     outline: none;
 }
 
-button :hover {
-    cursor: pointer;
-}
-
 input[type=radio] {
     display: none;
 }
@@ -130,55 +135,23 @@ input[type=radio] {
     display: none !important;
 }
 
-.icon-schedules::before {
-    font-family: icomoon-special !important;
-    font-size: 1.1rem;
-}
-
-.icon-checkin::before,
-.icon-download::before {
-    vertical-align: text-bottom;
-    font-size: 1.2rem;
-}
-
-.icon-grid-2::before {
-    font-size: 1rem;
-}
-
 .icon-remove::before,
 .icon-cancel::before {
     font-size: 1rem;
-    text-shadow: none;
 }
 
-.icon-arrow-left-22::before,
-.icon-arrow-right-22::before,
-.icon-arrow-left::before,
-.icon-arrow-right::before,
-.date-input .icon-calendar::before {
-    font-size: 1rem;
-}
-
-.add-lesson .icon-plus::before,
-.add-lesson .icon-question::before {
+.add-lesson .icon-plus::before {
     color: #80ba24;
-    font-size: 1rem;
 }
 
-.delete-lesson .icon-delete::before,
-.delete-lesson .icon-question::before {
+.icon-question::before,
+.add-lesson .icon-plus::before,
+.delete-lesson .icon-delete::before {
+    font-size: 1.1rem;
+}
+
+.delete-lesson .icon-delete::before {
     color: #b54e62;
-    font-size: 1rem;
-}
-
-#future-date::before {
-    font-family: IcoMoon;
-    content: "\e205";
-}
-
-#past-date::before {
-    font-family: IcoMoon;
-    content: "\e206";
 }
 
 .menu-bar {
@@ -197,6 +170,11 @@ input[type=radio] {
 .menu-bar a:hover,
 .menu-bar label:hover {
     cursor: pointer;
+}
+
+.tabs-toggle .icon-grid-2::before,
+.tabs-toggle .icon-schedules::before {
+    font-size: 1.1rem;
 }
 
 #tab-exports {
@@ -221,7 +199,12 @@ input[type=radio] {
     .selection > div:first-child,
     .input-wrapper {
         display: block;
-        margin-bottom: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .input-wrapper {
+        margin-top: 0.5rem;
     }
 }
 
@@ -230,7 +213,7 @@ input[type=radio] {
 }
 
 #schedule-form .chzn-container {
-    margin-left: 0.5rem;
+    margin-right: 0.3rem;
 }
 
 #schedule-form .chzn-container .chzn-search input {
@@ -247,12 +230,15 @@ input[type=radio] {
     color: #394A59;
     display: block;
     padding: 0.4rem;
-    margin: 0.5rem 0;
-    width: 25rem;
+    width: 276px;
 }
 
 .selected-schedule:first-child {
     margin-top: 0;
+}
+
+.selected-schedule:not(:last-of-type) {
+    margin-bottom: 0.5rem;
 }
 
 .selected-schedule.shown {
@@ -528,17 +514,41 @@ input[type=radio] {
     z-index: 2;
 }
 
-.message-pop-up p {
-    margin: 0.5rem 0 1rem 0;
+.message-pop-up .icon-notification, .message-pop-up p {
+    margin: 0.5rem 0 0.5rem 0;
+    width: initial;
+}
+
+.message-pop-up .icon-notification::before, .message-pop-up p::before {
+    margin-right: 0.3rem;
+    font-size: 1rem;
+    vertical-align: bottom;
 }
 
 .message-pop-up button {
     color: inherit;
-    cursor: pointer;
+    width: initial;
+    display: block;
 }
 
 .message-pop-up button:hover {
     text-decoration: underline;
+}
+
+.message-pop-up button::before {
+    font-size: 1.1rem;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+@media screen and (min-width: 678px) {
+    .message-pop-up button {
+        display: inline-block;
+    }
+}
+
+.message-pop-up button:not(.icon-cancel) {
+    margin-top: 0.5rem;
 }
 
 .message-pop-up .icon-cancel {
@@ -548,30 +558,19 @@ input[type=radio] {
     opacity: 1;
 }
 
-.message-pop-up .icon-cancel:hover {
-    text-decoration: none;
-}
-
-#past-date {
-    display: block;
-    margin-bottom: 0.3rem;
+.message-pop-up .icon-cancel::before {
+    text-shadow: none;
 }
 
 @media screen and (min-width: 678px) {
-    #past-date {
-        display: inline-block;
+    .message-pop-up .icon-arrow-left-2 + .icon-arrow-right-2 {
+        margin-left: 2.5rem;
     }
 }
 
-#future-date {
-    display: block;
-}
-
-@media screen and (min-width: 678px) {
-    #future-date {
-        display: inline-block;
-        position: absolute;
-        right: 0.5rem;
+@media screen and (max-width: 677px) {
+    .message-pop-up .icon-arrow-left-2 {
+        margin-bottom: 0.5rem;
     }
 }
 
@@ -587,7 +586,6 @@ input[type=radio] {
 
 .lesson-menu button {
     color: #394a59;
-    cursor: pointer;
     display: block;
     text-align: left;
 }

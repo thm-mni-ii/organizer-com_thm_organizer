@@ -351,16 +351,16 @@ $displayName = empty($this->model->displayName) ?
 	<div id="next-date-selection" class="message-pop-up">
 		<p><?php echo JText::_("COM_THM_ORGANIZER_JUMP_DATE"); ?></p>
 		<button class="close icon-cancel"></button>
-		<button id="past-date">
+		<button id="past-date" class="icon-arrow-left-2">
 			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
 		</button>
-		<button id="future-date">
+		<button id="future-date" class="icon-arrow-right-2">
 			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
 		</button>
 	</div>
 
 	<div id="no-lessons" class="message-pop-up">
-		<p><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></p>
+		<p class="icon-notification""><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></p>
 		<button class="close icon-cancel"></button>
 	</div>
 </div>
