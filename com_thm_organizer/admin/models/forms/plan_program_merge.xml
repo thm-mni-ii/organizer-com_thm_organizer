@@ -18,7 +18,7 @@
                required="true"/>
         <field name="programID"
                type="mergeByID"
-               textColumn="p.name_de,p.version,d.abbreviation"
+               textcolumn="p.name_de,p.version,d.abbreviation"
                glue=", "
                tables="thm_organizer_plan_programs AS ppr,thm_organizer_programs AS p ON ppr.programID = p.id,thm_organizer_degrees AS d ON p.degreeID = d.id"
                class="inputbox"

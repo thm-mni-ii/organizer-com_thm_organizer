@@ -24,7 +24,7 @@
                required="true"/>
         <field name="typeID"
                type="mergeByID"
-               textColumn="name"
+               textcolumn="name"
                localized="true"
                tables="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON t.id = r.typeID"
                class="inputbox"

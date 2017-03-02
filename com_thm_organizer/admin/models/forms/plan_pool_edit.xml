@@ -25,8 +25,8 @@
                required="true"/>
         <field name="programID"
                type="genericlist"
-               valueColumn="id"
-               textColumn="name"
+               valuecolumn="id"
+               textcolumn="name"
                table="thm_organizer_plan_programs"
                label="COM_THM_ORGANIZER_PROGRAM"
                required="true"/>

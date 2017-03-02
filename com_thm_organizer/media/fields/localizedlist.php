@@ -44,8 +44,8 @@ class JFormFieldLocalizedList extends JFormFieldList
 		$query = $dbo->getQuery(true);
 
 		$tag         = THM_OrganizerHelperLanguage::getShortTag();
-		$valueColumn = $this->getAttribute('valueColumn') . "_$tag";
-		$textColumn  = $this->getAttribute('textColumn') . "_$tag";
+		$valueColumn = $this->getAttribute('valuecolumn') . "_$tag";
+		$textColumn  = $this->getAttribute('textcolumn') . "_$tag";
 
 		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
 		$this->setFrom($query);

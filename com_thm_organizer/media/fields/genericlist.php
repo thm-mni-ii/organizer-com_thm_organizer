@@ -41,7 +41,7 @@ class JFormFieldGenericList extends JFormFieldList
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$valueColumn = $this->getAttribute('valueColumn');
+		$valueColumn = $this->getAttribute('valuecolumn');
 		$textColumn  = $this->resolveText($query);
 
 		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
@@ -90,7 +90,7 @@ class JFormFieldGenericList extends JFormFieldList
 	 */
 	private function resolveText(&$query)
 	{
-		$textColumn  = $this->getAttribute('textColumn');
+		$textColumn  = $this->getAttribute('textcolumn');
 		$textColumns = explode(',', $textColumn);
 
 		$localized = $this->getAttribute('localized', false);

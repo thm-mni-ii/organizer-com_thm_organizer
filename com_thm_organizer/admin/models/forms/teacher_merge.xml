@@ -29,7 +29,7 @@
         </field>
         <field name="fieldID"
                type="mergeByID"
-               textColumn="field"
+               textcolumn="field"
                localized="true"
                tables="thm_organizer_teachers AS t,thm_organizer_fields AS f ON t.fieldID = f.id"
                class="inputbox"

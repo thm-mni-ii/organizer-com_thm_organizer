@@ -89,7 +89,7 @@ class JFormFieldMergeByID extends JFormFieldList
 	 */
 	private function resolveText(&$query)
 	{
-		$textColumn  = $this->getAttribute('textColumn');
+		$textColumn  = $this->getAttribute('textcolumn');
 		$textColumns = explode(',', $textColumn);
 		$localized   = $this->getAttribute('localized', false);
 

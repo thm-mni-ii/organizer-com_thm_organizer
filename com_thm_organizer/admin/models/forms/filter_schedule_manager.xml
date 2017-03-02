@@ -15,8 +15,8 @@
         </field>
         <field name="planningPeriodID"
                type="genericlist"
-               valueColumn="pp.id"
-               textColumn="pp.name"
+               valuecolumn="pp.id"
+               textcolumn="pp.name"
                order="pp.startDate DESC"
                table="thm_organizer_schedules AS s,thm_organizer_planning_periods AS pp ON pp.id = s.planningPeriodID"
                onchange="this.form.submit();">

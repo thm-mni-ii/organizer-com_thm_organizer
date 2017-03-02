@@ -15,8 +15,8 @@
             <field name="departmentID"
                    type="genericlist"
                    localized="true"
-                   valueColumn="id"
-                   textColumn="name"
+                   valuecolumn="id"
+                   textcolumn="name"
                    table="thm_organizer_departments"
                    label="COM_THM_ORGANIZER_DEPARTMENT"
                    description="COM_THM_ORGANIZER_DEPARTMENT_DESC">

@@ -15,8 +15,8 @@
         <field
                 name="departmentID"
                 type="genericlist"
-                valueColumn="d.id"
-                textColumn="d.short_name"
+                valuecolumn="d.id"
+                textcolumn="d.short_name"
                 localized="true"
                 table="thm_organizer_department_resources AS dr,thm_organizer_departments AS d ON d.id = dr.departmentID"
                 onchange="this.form.submit();">

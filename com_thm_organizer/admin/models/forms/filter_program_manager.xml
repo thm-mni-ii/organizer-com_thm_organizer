@@ -13,8 +13,8 @@
         <field
                 name="dp.name"
                 type="localizedlist"
-                valueColumn="name"
-                textColumn="name"
+                valuecolumn="name"
+                textcolumn="name"
                 table="thm_organizer_programs"
                 label="COM_THM_ORGANIZER_NAME"
                 onchange="this.form.submit();"
@@ -24,8 +24,8 @@
         <field
                 name="degreeID"
                 type="genericlist"
-                valueColumn="d.id"
-                textColumn="d.abbreviation"
+                valuecolumn="d.id"
+                textcolumn="d.abbreviation"
                 table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id"
                 label="COM_THM_ORGANIZER_DEGREE"
                 onchange="this.form.submit();"
@@ -35,8 +35,8 @@
         <field
                 name="version"
                 type="genericlist"
-                valueColumn="version"
-                textColumn="version"
+                valuecolumn="version"
+                textcolumn="version"
                 table="thm_organizer_programs"
                 label="COM_THM_ORGANIZER_VERSION"
                 onchange="this.form.submit();"
@@ -46,8 +46,8 @@
         <field
                 name="departmentID"
                 type="genericlist"
-                valueColumn="d.id"
-                textColumn="d.short_name"
+                valuecolumn="d.id"
+                textcolumn="d.short_name"
                 localized="true"
                 table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID"
                 onchange="this.form.submit();">

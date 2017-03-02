@@ -40,8 +40,8 @@
                description="COM_THM_ORGANIZER_USERNAME_DESC"/>
         <field name="fieldID"
                type="genericlist"
-               valueColumn="id"
-               textColumn="field"
+               valuecolumn="id"
+               textcolumn="field"
                localized="true"
                table="thm_organizer_fields"
                class="inputbox"

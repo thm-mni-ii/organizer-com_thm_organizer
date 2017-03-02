@@ -15,8 +15,8 @@
         </field>
         <field name="degreeID"
                type="genericlist"
-               valueColumn="id"
-               textColumn="name"
+               valuecolumn="id"
+               textcolumn="name"
                table="thm_organizer_degrees"
                label="COM_THM_ORGANIZER_DEGREE"
                description="COM_THM_ORGANIZER_DEGREE_DESC"
@@ -40,8 +40,8 @@
                required="true"/>
         <field name="fieldID"
                type="genericlist"
-               valueColumn="id"
-               textColumn="field"
+               valuecolumn="id"
+               textcolumn="field"
                table="thm_organizer_fields"
                localized="true"
                class="inputbox"

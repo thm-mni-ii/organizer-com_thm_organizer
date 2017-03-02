@@ -24,8 +24,8 @@
                required="true"/>
         <field name="typeID"
                type="genericlist"
-               valueColumn="id"
-               textColumn="name"
+               valuecolumn="id"
+               textcolumn="name"
                localized="true"
                table="thm_organizer_room_types"
                label="COM_THM_ORGANIZER_TYPE"

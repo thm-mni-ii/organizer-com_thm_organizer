@@ -13,8 +13,8 @@
         <field
                 name="name"
                 type="genericlist"
-                valueColumn="name"
-                textColumn="name"
+                valuecolumn="name"
+                textcolumn="name"
                 table="thm_organizer_rooms"
                 label="COM_THM_ORGANIZER_NAME"
                 onchange="this.form.submit();"
@@ -24,8 +24,8 @@
         <field
                 name="longname"
                 type="genericlist"
-                valueColumn="longname"
-                textColumn="longname"
+                valuecolumn="longname"
+                textcolumn="longname"
                 table="thm_organizer_rooms"
                 label="COM_THM_ORGANIZER_DISPLAY_NAME"
                 onchange="this.form.submit();"
@@ -35,8 +35,8 @@
         <field
                 name="typeID"
                 type="genericlist"
-                valueColumn="t.id"
-                textColumn="name"
+                valuecolumn="t.id"
+                textcolumn="name"
                 localized="true"
                 table="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON r.typeID = t.id"
                 label="COM_THM_ORGANIZER_TYPE"
