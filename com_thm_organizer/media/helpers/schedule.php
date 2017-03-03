@@ -230,7 +230,6 @@ class THM_OrganizerHelperSchedule
 		$query->select($select);
 		self::setLessonQuery($parameters, $query);
 
-		$query->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id');
 		$query->innerJoin('#__thm_organizer_plan_programs AS pp ON pool.programID = pp.id');
 		$query->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id');
 		$query->innerJoin('#__thm_organizer_teachers AS teacher ON lt.teacherID = teacher.id');
@@ -534,6 +533,7 @@ class THM_OrganizerHelperSchedule
 		$query->innerJoin('#__thm_organizer_lesson_configurations AS lc ON lc.lessonID = ls.id');
 		$query->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = lc.id');
 		$query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
+		$query->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id');
 		$query->innerJoin('#__thm_organizer_plan_pools AS pool ON pool.id = lp.poolID');
 
 		if (empty($parameters['delta']))

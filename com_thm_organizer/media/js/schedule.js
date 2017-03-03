@@ -11,9 +11,8 @@
 
 "use strict";
 
-var ajaxSave = null, ajaxSelection = null, Calendar, calendar, dateField, datePattern, nextDateSelection, noLessons,
-	LessonMenu, Schedule, Schedules, scheduleObjects, ScheduleTable, scheduleRequests = [], scheduleWrapper, weekdays,
-	placeholder;
+var ajaxSave = null, ajaxSelection = null, calendar, dateField, datePattern, nextDateSelection, noLessons,
+	scheduleObjects, scheduleWrapper, weekdays, placeholder,
 
 /**
  * Calendar class for a date input field with HTMLTableElement as calendar.
@@ -265,7 +264,7 @@ Calendar = function ()
 			}
 		}
 	};
-};
+},
 
 /**
  * Schedule 'class' for saving params and update the scheduleTable
@@ -276,6 +275,9 @@ Calendar = function ()
  */
 Schedule = function (resource, IDs, optionalTitle)
 {
+	// for inner helper functions
+	var that = this;
+
 	this.ajaxRequest = new XMLHttpRequest();
 	this.id = resource === "user" ? resource
 		: IDs ? resource + IDs
@@ -293,8 +295,6 @@ Schedule = function (resource, IDs, optionalTitle)
 	this.create = function ()
 	{
 		this.scheduleTable.create();
-		this.setTitle();
-		this.setTask();
 		this.requestUpdate();
 		addScheduleToSelection(this);
 		window.scheduleObjects.addSchedule(this);
@@ -303,68 +303,71 @@ Schedule = function (resource, IDs, optionalTitle)
 	/**
 	 * Sets Ajax url for updating lessons
 	 */
-	this.setTask = function ()
+	this.task = (function ()
 	{
-		this.task = "&departmentIDs=" + variables.departmentID;
-		this.task += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : '';
+		var task = "&departmentIDs=" + (variables.departmentID ? variables.departmentID : getSelectedValues("department"));
+		task += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : '';
+		task += "&task=getLessons";
+		task += "&date=" + getDateFieldString() + (variables.isMobile ? "&oneDay=true" : "");
+		task += "&mySchedule=" + (resource === "user" ? "1" : "0");
 
-		if (resource === "user")
+		if (resource !== "user")
 		{
-			this.task += "&task=getUserSchedule";
-		}
-		else
-		{
-			this.task += "&task=getLessons";
-			this.task += "&" + resource + "IDs=" + (IDs ? IDs.replace(/-/g, ",") : getSelectedValues(resource));
+			task += "&" + resource + "IDs=" + (IDs ? IDs.replace(/-/g, ",") : getSelectedValues(resource));
 		}
 
-		this.task += "&date=" + getDateFieldString() + (variables.isMobile ? "&oneDay=true" : "");
-	};
+		return task;
+	})();
 
 	/**
 	 * Sets title that depends on the selected schedule
 	 */
-	this.setTitle = function ()
+	this.title = (function ()
 	{
-		var resourceField = document.getElementById(resource), categoryField = document.getElementById("program");
+		var title = variables.displayName ? variables.displayName : "",
+			resourceField = document.getElementById(resource), resIndex,
+			programField = document.getElementById("program"), programIndex;
 
 		if (optionalTitle)
 		{
-			this.title = optionalTitle;
-			return;
+			return optionalTitle;
 		}
 
 		if (resource === "user")
 		{
-			this.title = text.MY_SCHEDULE;
-			return;
+			return text.MY_SCHEDULE;
 		}
 
 		// Get pre-selected value like "Informatik Master"
-		if (resource === "pool")
+		if (resource === "pool" && programField.selectedOptions)
 		{
-			for (var catIndex = 0; catIndex < categoryField.selectedOptions.length; ++catIndex)
+			title = title ? title + " - " : title;
+			for (programIndex = 0; programIndex < programField.selectedOptions.length; ++programIndex)
 			{
-				this.title += categoryField.selectedOptions[catIndex].text;
-				if (categoryField.selectedOptions.length > catIndex + 1)
+				title += programField.selectedOptions[programIndex].text;
+				if (programField.selectedOptions.length > programIndex + 1)
 				{
-					this.title += " - ";
+					title += " - ";
 				}
 			}
-
-			this.title += " - ";
 		}
 
 		// Get resource selection like "1. Semester" or "A20.1.1"
-		for (var resIndex = 0; resIndex < resourceField.selectedOptions.length; ++resIndex)
+		if (resourceField && resourceField.selectedOptions)
 		{
-			this.title += resourceField.selectedOptions[resIndex].text;
-			if (resourceField.selectedOptions.length > resIndex + 1)
+			title = title ? title + " - " : title;
+			for (resIndex = 0; resIndex < resourceField.selectedOptions.length; ++resIndex)
 			{
-				this.title += " - ";
+				title += resourceField.selectedOptions[resIndex].text;
+				if (resourceField.selectedOptions.length > resIndex + 1)
+				{
+					title += " - ";
+				}
 			}
 		}
-	};
+
+		return title;
+	}());
 
 	/**
 	 * Sends an Ajax request with the actual date to update the schedule
@@ -373,20 +376,30 @@ Schedule = function (resource, IDs, optionalTitle)
 	{
 		this.task = this.task.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + getDateFieldString());
 		this.ajaxRequest.open("GET", variables.ajaxbase + this.task, true);
-		this.ajaxRequest.onreadystatechange = insertLessonResponse;
-		this.ajaxRequest.send(null);
-		window.scheduleRequests.push(this.ajaxRequest);
-	};
 
-	/**
-	 * Sets new lessons and updates table with them
-	 *
-	 * @param newLessons array
-	 */
-	this.setLessons = function (newLessons)
-	{
-		this.lessons = newLessons;
-		this.scheduleTable.update(newLessons);
+		this.ajaxRequest.onreadystatechange = function ()
+		{
+			if (that.ajaxRequest.readyState === 4 && that.ajaxRequest.status === 200)
+			{
+				var response = JSON.parse(that.ajaxRequest.responseText);
+
+				if ((response.pastDate || response.futureDate) && that.id === getSelectedScheduleID())
+				{
+					openNextDateQuestion(response);
+				}
+				else if (response.pastDate === null && response.futureDate === null)
+				{
+					window.noLessons.style.display = "block";
+				}
+				else
+				{
+					that.lessons = response;
+					that.scheduleTable.update(response);
+				}
+			}
+		};
+
+		this.ajaxRequest.send(null);
 	};
 
 	/**
@@ -396,7 +409,7 @@ Schedule = function (resource, IDs, optionalTitle)
 	{
 		this.scheduleTable.update(this.lessons, true);
 	};
-};
+},
 
 /**
  * Class for the HTMLTableElement of a schedule
@@ -497,15 +510,15 @@ ScheduleTable = function (schedule)
 	this.insertTableHead = function ()
 	{
 		var tHead = this.table.createTHead(), tr = tHead.insertRow(0), weekend = 7, th, thText,
-			headerDate = getDateFieldsDateObject();
+			headerDate = getDateFieldsDateObject(), headIndex;
 
 		// Set date to monday
 		headerDate.setDate(headerDate.getDate() - headerDate.getDay());
 
-		for (var headIndex = 0; headIndex < weekend; ++headIndex)
+		for (headIndex = 0; headIndex < weekend; ++headIndex)
 		{
 			th = document.createElement("th");
-			thText = weekdays[headIndex - 1] + " (" + headerDate.getPresentationFormat() + ")";
+			thText = window.weekdays[headIndex - 1] + " (" + headerDate.getPresentationFormat() + ")";
 			th.innerHTML = (headIndex === 0) ? text.TIME : thText;
 			if (headIndex === this.visibleDay)
 			{
@@ -554,7 +567,7 @@ ScheduleTable = function (schedule)
 	this.setGridDays = function ()
 	{
 		var currentDay = this.timeGrid.startDay, endDay = this.timeGrid.endDay,
-			headerDate = getDateFieldsDateObject(), day = headerDate.getDay(),
+			headerDate = getDateFieldsDateObject(), day = headerDate.getDay(), thElement,
 			head = this.table.getElementsByTagName("thead")[0], headItems = head.getElementsByTagName("th");
 
 		// Set date to monday of the coming week
@@ -572,11 +585,11 @@ ScheduleTable = function (schedule)
 		headItems[0].style.display = this.timeGrid.hasOwnProperty("periods") ? '' : "none";
 
 		// Fill thead with days of week
-		for (var thElement = 1; thElement < headItems.length; ++thElement)
+		for (thElement = 1; thElement < headItems.length; ++thElement)
 		{
 			if (thElement === currentDay && currentDay <= endDay)
 			{
-				headItems[thElement].innerHTML = weekdays[currentDay - 1] +
+				headItems[thElement].innerHTML = window.weekdays[currentDay - 1] +
 					" (" + headerDate.getPresentationFormat(true) + ")";
 				headerDate.setDate(headerDate.getDate() + 1);
 				++currentDay;
@@ -757,10 +770,8 @@ ScheduleTable = function (schedule)
 	 */
 	this.createLesson = function (data, ownTime)
 	{
-		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, poolID, poolFullName,
-			poolsOuterDiv, poolSpan, poolLink, teachersOuterDiv, teacherSpan, teacherLink, teacherID, teacherName,
-			teacherDelta, roomsOuterDiv, roomSpan, roomLink, roomID, roomName, roomDelta, saveDiv, saveActionButton,
-			deleteDiv, deleteActionButton, questionActionButton, added = false;
+		var lessons, subject, subjectData, lessonElement, ownTimeSpan, subjectOuterDiv, poolsOuterDiv, teachersOuterDiv,
+			roomsOuterDiv, added = false;
 
 		if (!data || !data.hasOwnProperty("subjects"))
 		{
@@ -816,24 +827,7 @@ ScheduleTable = function (schedule)
 			{
 				poolsOuterDiv = document.createElement("div");
 				poolsOuterDiv.className = "pools";
-
-				for (poolID in subjectData.pools)
-				{
-					if (subjectData.pools.hasOwnProperty(poolID))
-					{
-						poolFullName = subjectData.pools[poolID].fullName;
-						poolLink = document.createElement("a");
-						poolLink.innerHTML = subjectData.pools[poolID].gpuntisID;
-						poolLink.addEventListener("click", function ()
-						{
-							sendLessonRequest('pool', poolID, poolFullName);
-						});
-						poolSpan = document.createElement("span");
-						poolSpan.className = "pool " + (data.poolDelta ? data.poolDelta : "");
-						poolSpan.appendChild(poolLink);
-						poolsOuterDiv.appendChild(poolSpan);
-					}
-				}
+				this.addDataElements("pool", poolsOuterDiv, subjectData.pools, data.poolDelta);
 				lessonElement.appendChild(poolsOuterDiv);
 			}
 
@@ -841,25 +835,7 @@ ScheduleTable = function (schedule)
 			{
 				teachersOuterDiv = document.createElement("div");
 				teachersOuterDiv.className = "persons";
-
-				for (teacherID in subjectData.teachers)
-				{
-					if (subjectData.teachers.hasOwnProperty(teacherID))
-					{
-						teacherName = subjectData.teachers[teacherID];
-						teacherLink = document.createElement("a");
-						teacherLink.innerHTML = teacherName;
-						teacherLink.addEventListener("click", function ()
-						{
-							sendLessonRequest('teacher', teacherID, teacherName);
-						});
-						teacherDelta = subjectData.teacherDeltas[teacherID];
-						teacherSpan = document.createElement("span");
-						teacherSpan.className = "person " + (teacherDelta ? teacherDelta : "");
-						teacherSpan.appendChild(teacherLink);
-						teachersOuterDiv.appendChild(teacherSpan);
-					}
-				}
+				this.addDataElements("teacher", teachersOuterDiv, subjectData.teachers, subjectData.teacherDeltas, "person");
 				lessonElement.appendChild(teachersOuterDiv);
 			}
 
@@ -867,25 +843,7 @@ ScheduleTable = function (schedule)
 			{
 				roomsOuterDiv = document.createElement("div");
 				roomsOuterDiv.className = "locations";
-
-				for (roomID in subjectData.rooms)
-				{
-					if (subjectData.rooms.hasOwnProperty(roomID))
-					{
-						roomName = subjectData.rooms[roomID];
-						roomLink = document.createElement("a");
-						roomLink.innerHTML = roomName;
-						roomLink.addEventListener("click", function ()
-						{
-							sendLessonRequest('room', roomID, roomName);
-						});
-						roomDelta = subjectData.roomDeltas[roomID];
-						roomSpan = document.createElement("span");
-						roomSpan.className = "location " + (roomDelta ? roomDelta : "");
-						roomSpan.appendChild(roomLink);
-						roomsOuterDiv.appendChild(roomSpan);
-					}
-				}
+				this.addDataElements("room", roomsOuterDiv, subjectData.rooms, subjectData.roomDeltas, "location");
 				lessonElement.appendChild(roomsOuterDiv);
 			}
 
@@ -898,45 +856,7 @@ ScheduleTable = function (schedule)
 				}
 
 				this.addContextMenu(lessonElement, subjectData);
-
-				// Buttons for saving/deleting
-				saveDiv = document.createElement("div");
-				saveDiv.className = "add-lesson";
-				saveActionButton = document.createElement("button");
-				saveActionButton.className = "icon-plus";
-				saveActionButton.addEventListener("click", function ()
-				{
-					handleLesson(variables.PERIOD_MODE, data.ccmID, true);
-				});
-				saveDiv.appendChild(saveActionButton);
-				questionActionButton = document.createElement("button");
-				questionActionButton.className = "icon-question";
-				questionActionButton.addEventListener("click", function ()
-				{
-					window.lessonMenu.getSaveMenu(lessonElement);
-					window.lessonMenu.setLessonData(subjectData);
-				});
-				saveDiv.appendChild(questionActionButton);
-				lessonElement.appendChild(saveDiv);
-
-				deleteDiv = document.createElement("div");
-				deleteDiv.className = "delete-lesson";
-				deleteActionButton = document.createElement("button");
-				deleteActionButton.className = "icon-delete";
-				deleteActionButton.addEventListener("click", function ()
-				{
-					handleLesson(variables.PERIOD_MODE, data.ccmID, false);
-				});
-				deleteDiv.appendChild(deleteActionButton);
-				questionActionButton = document.createElement("button");
-				questionActionButton.className = "icon-question";
-				questionActionButton.addEventListener("click", function ()
-				{
-					window.lessonMenu.getDeleteMenu(lessonElement);
-					window.lessonMenu.setLessonData(subjectData);
-				});
-				deleteDiv.appendChild(questionActionButton);
-				lessonElement.appendChild(deleteDiv);
+				this.addActionButtons(lessonElement, subjectData);
 			}
 			else
 			{
@@ -980,6 +900,58 @@ ScheduleTable = function (schedule)
 	};
 
 	/**
+	 * Adds buttons for saving and deleting a lesson
+	 *
+	 * @param lessonElement HTMLDivElement
+	 * @param data Object
+	 */
+	this.addActionButtons = function(lessonElement, data)
+	{
+		var saveDiv, saveActionButton, questionActionButton, deleteDiv, deleteActionButton;
+
+		// Saving a lesson
+		saveActionButton = document.createElement("button");
+		saveActionButton.className = "icon-plus";
+		saveActionButton.addEventListener("click", function ()
+		{
+			handleLesson(variables.PERIOD_MODE, data.ccmID, true);
+		});
+		questionActionButton = document.createElement("button");
+		questionActionButton.className = "icon-question";
+		questionActionButton.addEventListener("click", function ()
+		{
+			window.lessonMenu.getSaveMenu(lessonElement);
+			window.lessonMenu.setLessonData(subjectData);
+		});
+		saveDiv = document.createElement("div");
+		saveDiv.className = "add-lesson";
+		saveDiv.appendChild(saveActionButton);
+		saveDiv.appendChild(questionActionButton);
+		lessonElement.appendChild(saveDiv);
+
+		// Deleting a lesson
+		deleteActionButton = document.createElement("button");
+		deleteActionButton.className = "icon-delete";
+		deleteActionButton.addEventListener("click", function ()
+		{
+			handleLesson(variables.PERIOD_MODE, data.ccmID, false);
+		});
+		questionActionButton = document.createElement("button");
+		questionActionButton.className = "icon-question";
+		questionActionButton.addEventListener("click", function ()
+		{
+			window.lessonMenu.getDeleteMenu(lessonElement);
+			window.lessonMenu.setLessonData(subjectData);
+		});
+		deleteDiv = document.createElement("div");
+		deleteDiv.className = "delete-lesson";
+		deleteDiv.appendChild(deleteActionButton);
+		deleteDiv.appendChild(questionActionButton);
+
+		lessonElement.appendChild(deleteDiv);
+	};
+
+	/**
 	 * Adds DOM-elements with eventListener directing to subject details, when there are some, to given outer element
 	 *
 	 * @param outerElement HTMLDivElement
@@ -991,7 +963,7 @@ ScheduleTable = function (schedule)
 			subjectNameElement, name, numIndex, subjectNumbers, subjectNumberElement;
 
 		// Find the right subjectID for subject details depending on schedule plan program
-		function getSubjectDetailsID()
+		subjectLinkID = (function ()
 		{
 			var subjectID, planProgramID;
 
@@ -1013,9 +985,8 @@ ScheduleTable = function (schedule)
 					}
 				}
 			}
-		}
+		}());
 
-		subjectLinkID = getSubjectDetailsID();
 		openSubjectDetailsLink = function ()
 		{
 			window.open(variables.subjectDetailbase.replace(/&id=\d+/, "&id=" + subjectLinkID), "_blank");
@@ -1024,7 +995,7 @@ ScheduleTable = function (schedule)
 		// Add subject name and module name as DOM-elements to given outer element
 		if (data.name && data.shortName)
 		{
-			if (subjectLinkID)
+			if (subjectLinkID && variables.showPools !== "0")
 			{
 				subjectNameElement = document.createElement("a");
 				subjectNameElement.addEventListener("click", openSubjectDetailsLink);
@@ -1064,6 +1035,47 @@ ScheduleTable = function (schedule)
 				subjectNumberElement.className = "module";
 				subjectNumberElement.innerHTML = subjectNumbers[numIndex];
 				outerElement.appendChild(subjectNumberElement);
+			}
+		}
+	};
+
+	/**
+	 * Adds HTML elements containing the given data in relation to given resource.
+	 *
+	 * @param resource string 			resource to add e.g. "room" or "pool"
+	 * @param outerElement HTMLElement  wrapper element
+	 * @param data Object 				lesson data
+	 * @param delta Object|string 		optional, delta like "new" or "remove"
+	 * @param className string 			optional, class to style the elements
+	 */
+	this.addDataElements = function (resource, outerElement, data, delta, className)
+	{
+		var id, span, nameElement, showX = "show" + resource.slice(0, 1).toUpperCase() + resource.slice(1) + "s";
+
+		for (id in data)
+		{
+			if (data.hasOwnProperty(id))
+			{
+				span = document.createElement("span");
+				delta = delta[id] ? delta[id] : (typeof delta === "string" ? delta : "");
+				span.className = (className ? className : resource) + (delta ? " " + delta : "");
+				nameElement = variables[showX] !== "0" ? document.createElement("a") : document.createElement("span");
+				nameElement.innerHTML = data[id].gpuntisID ? data[id].gpuntisID : data[id];
+
+				if (variables[showX] !== "0")
+				{
+					// closure because of for-loop
+					(function (id)
+					{
+						nameElement.addEventListener("click", function ()
+						{
+							sendLessonRequest(resource, id, data[id].fullName ? data[id].fullName : data[id]);
+						});
+					})(id);
+				}
+
+				span.appendChild(nameElement);
+				outerElement.appendChild(span);
 			}
 		}
 	};
@@ -1215,7 +1227,7 @@ ScheduleTable = function (schedule)
 			}
 		}
 	};
-};
+},
 
 /**
  * Creates a lesson menu for saving and deleting a lesson, which opens by right clicking on it
@@ -1363,7 +1375,7 @@ LessonMenu = function ()
 		this.lessonMenuElement.style.display = "block";
 		lessonElement.appendChild(this.lessonMenuElement);
 	};
-};
+},
 
 /**
  * Container for all schedule objects
@@ -1480,14 +1492,41 @@ Date.prototype.getPresentationFormat = function (shortYear)
  */
 jQuery(document).ready(function ()
 {
-	var startX, startY, hasDepartmentSelection = document.getElementById("department-input");
+	var startX, startY, userSchedule;
 
+	window.weekdays = [
+		text.MONDAY_SHORT,
+		text.TUESDAY_SHORT,
+		text.WEDNESDAY_SHORT,
+		text.THURSDAY_SHORT,
+		text.FRIDAY_SHORT,
+		text.SATURDAY_SHORT,
+		text.SUNDAY_SHORT
+	];
+	window.placeholder = {
+		"pool": text.POOL_PLACEHOLDER,
+		"program": text.PROGRAM_PLACEHOLDER,
+		"room": text.ROOM_PLACEHOLDER,
+		"roomtype": text.ROOMTYPE_PLACEHOLDER,
+		"teacher": text.TEACHER_PLACEHOLDER
+	};
 	window.dateField = document.getElementById("date");
 	window.dateField.value = new Date().getPresentationFormat();
-	initSchedule();
-	setDatePattern();
-	changePositionOfDateInput();
-	disableTabs();
+	window.futureDateButton = document.getElementById("future-date");
+	window.inputFields = document.getElementById("schedule-form").getElementsByClassName("input-wrapper");
+	window.nextDateSelection = document.getElementById("next-date-selection");
+	window.nextDateSelection.getElementsByClassName("close")[0].addEventListener("click", function ()
+	{
+		window.nextDateSelection.style.display = "none";
+	});
+	window.noLessons = document.getElementById("no-lessons");
+	window.noLessons.getElementsByClassName("close")[0].addEventListener("click", function ()
+	{
+		window.noLessons.style.display = "none";
+	});
+	window.pastDateButton = document.getElementById("past-date");
+	window.pastDateButton.addEventListener("click", nextDateEventHandler);
+	window.scheduleWrapper = document.getElementById("scheduleWrapper");
 
 	/**
 	 * swipe touch event handler changing the shown day and date
@@ -1526,108 +1565,17 @@ jQuery(document).ready(function ()
 
 	jQuery("#grid").chosen().change(updateSchedule);
 	jQuery("#date").change(updateSchedule);
-	pastDateButton.addEventListener("click", nextDateEventHandler);
-	futureDateButton.addEventListener("click", nextDateEventHandler);
-	window.nextDateSelection.getElementsByClassName("close")[0].addEventListener("click", function ()
-	{
-		window.nextDateSelection.style.display = "none";
-	});
-	window.noLessons.getElementsByClassName("close")[0].addEventListener("click", function ()
-	{
-		window.noLessons.style.display = "none";
-	});
-
-	// Select 'programs' by website loading and load results
-	sendFormRequest("program");
-	if (hasDepartmentSelection)
-	{
-		onlyShowFormInput("department-input", false);
-	}
-	else
-	{
-		onlyShowFormInput("program-input");
-	}
-
-	// Form behaviour -> only show field, by selecting the "parent" before
 	jQuery("#category").chosen().change(function ()
 	{
-		var chosenCategory = document.getElementById("category").value;
-
-		switch (chosenCategory)
-		{
-			case "program":
-				if (hasDepartmentSelection)
-				{
-					onlyShowFormInput("department-input", false);
-					return;
-				}
-				onlyShowFormInput("program-input");
-				break;
-			case "roomtype":
-				onlyShowFormInput("room-type-input");
-				break;
-			case "teacher":
-				onlyShowFormInput("teacher-input");
-				break;
-			default:
-				console.log("searching default category...");
-		}
-
-		sendFormRequest(chosenCategory);
+		sendFormRequest(this.value);
+		showForm("category-" + this.value);
+	});
+	jQuery("#department").chosen().change(function ()
+	{
+		showForm("category-" + getSelectedValues("category"));
+		sendFormRequest(getSelectedValues("category"));
 	});
 
-	if (hasDepartmentSelection)
-	{
-		jQuery("#department").chosen().change(function ()
-		{
-			var departments = getSelectedValues("department");
-			if (!departments)
-			{
-				onlyShowFormInput("department-input", false);
-			}
-			else
-			{
-				variables.departmentID = departments;
-				onlyShowFormInput(["department-input", "program-input"]);
-				sendFormRequest("program");
-			}
-		});
-	}
-
-	jQuery("#program").chosen().change(function ()
-	{
-		if (!getSelectedValues("program") && hasDepartmentSelection)
-		{
-			return onlyShowFormInput(["department-input", "program-input"], false);
-		}
-		else if (!getSelectedValues("program"))
-		{
-			return onlyShowFormInput("program-input", false);
-		}
-		else if (hasDepartmentSelection)
-		{
-			onlyShowFormInput(["department-input", "program-input", "pool-input"]);
-		}
-		else
-		{
-			onlyShowFormInput(["program-input", "pool-input"]);
-		}
-
-		sendFormRequest("pool");
-	});
-
-	jQuery("#roomtype").chosen().change(function ()
-	{
-		if (!getSelectedValues("roomtype"))
-		{
-			onlyShowFormInput("room-type-input", false);
-		}
-		else
-		{
-			onlyShowFormInput(["room-type-input", "room-input"]);
-			sendFormRequest("room");
-		}
-	});
 	jQuery("#schedules").chosen().change(function ()
 	{
 		var scheduleInput = document.getElementById(jQuery("#schedules").val());
@@ -1644,6 +1592,23 @@ jQuery(document).ready(function ()
 		//prevent loading of tabs-url:
 		event.preventDefault();
 	});
+
+	window.calendar = new Calendar();
+	window.calendar.init();
+	window.lessonMenu = new LessonMenu;
+	window.lessonMenu.create();
+	window.scheduleObjects = new Schedules;
+	setDatePattern();
+	changePositionOfDateInput();
+	disableTabs();
+	setUpForm();
+
+	if (variables.registered)
+	{
+		userSchedule = new Schedule("user");
+		userSchedule.create();
+		switchToScheduleListTab();
+	}
 });
 
 /**
@@ -1717,61 +1682,141 @@ function handleExport(format)
 }
 
 /**
- * sets values for the start and shows only the actual day on mobile devices
+ * Configures and build form depending on (url-) parameters
  */
-function initSchedule()
+function setUpForm()
 {
-	window.calendar = new Calendar();
-	window.calendar.init();
-	window.futureDateButton = document.getElementById("future-date");
-	window.nextDateSelection = document.getElementById("next-date-selection");
-	window.noLessons = document.getElementById("no-lessons");
-	window.lessonMenu = new LessonMenu;
-	window.lessonMenu.create();
-	window.pastDateButton = document.getElementById("past-date");
-	window.scheduleObjects = new Schedules;
-	window.scheduleWrapper = document.getElementById("scheduleWrapper");
-	window.weekdays = [
-		text.MONDAY_SHORT,
-		text.TUESDAY_SHORT,
-		text.WEDNESDAY_SHORT,
-		text.THURSDAY_SHORT,
-		text.FRIDAY_SHORT,
-		text.SATURDAY_SHORT,
-		text.SUNDAY_SHORT
-	];
-	window.placeholder = {
-		"pool": text.POOL_PLACEHOLDER,
-		"program": text.PROGRAM_PLACEHOLDER,
-		"room": text.ROOM_PLACEHOLDER,
-		"roomtype": text.ROOMTYPE_PLACEHOLDER,
-		"teacher": text.TEACHER_PLACEHOLDER
-	};
+	var title = variables.displayName,
+		formConfig = (function ()
+		{
+			var program = variables.showPrograms !== "0", // (string) "0" = true
+				room = variables.showRooms !== "0",
+				teacher = variables.showTeachers !== "0",
+				paramIDs = (function ()
+				{
+					var params = variables.subjectIDs || variables.programIDs || variables.poolIDs || variables.roomIDs
+						|| variables.roomTypeIDs || variables.teacherIDs;
 
-	if (variables.registered)
+					if (typeof params === "number")
+					{
+						return params.toString();
+					}
+					else if (typeof params === "object")
+					{
+						return params.join(",");
+					}
+					return null;
+				})(),
+				categoryName = (function ()
+				{
+					return variables.subjectIDs ? "subject"
+						: variables.programIDs ? "program"
+						: variables.poolIDs ? "pool"
+						: variables.teacherIDs ? "teacher"
+						: variables.roomTypeIDs ? "roomtype"
+						: variables.roomIDs ? "room"
+						: null;
+				})();
+
+			return {
+				max: (program ? 1 : 0) + (room ? 1 : 0) + (teacher ? 1 : 0),
+				inputToShowFirst: program ? "program" : room ? "roomtype" : "teacher",
+				IDs: paramIDs,
+				category: categoryName
+			};
+		})();
+
+	// Hide category input when there is only one category activated or no category needed
+	if (formConfig.max === 1 || formConfig.IDs)
 	{
-		createUserSchedule();
-		switchToScheduleListTab();
+		document.getElementById("category-input").classList.add("hide");
+	}
+
+	if (formConfig.IDs)
+	{
+		if (variables.programIDs)
+		{
+			sendFormRequest("pool", formConfig.IDs);
+			showForm("pool");
+		}
+		else if (variables.roomTypeIDs)
+		{
+			sendFormRequest("room", formConfig.IDs);
+			showForm("room");
+		}
+		else
+		{
+			sendLessonRequest(formConfig.category, formConfig.IDs, title);
+		}
+		if (variables.poolIDs || variables.roomIDs || variables.teacherIDs)
+		{
+			disableTabs("tab-schedule-form");
+		}
+		if (variables.subjectIDs)
+		{
+			disableTabs(["tab-schedule-form", "tab-selected-schedules"]);
+		}
+	}
+	else
+	{
+		sendFormRequest(formConfig.inputToShowFirst);
+		showForm("category-" + formConfig.inputToShowFirst);
 	}
 }
 
 /**
- * gets the users schedule, write it into a HTML table and add it to schedules selection
+ * Sends a request for the given input ID and shows the belonging fields
+ *
+ * @param inputID string
  */
-function createUserSchedule()
+function showForm(inputID)
 {
-	var schedule = new Schedule("user");
-	schedule.create();
+	var element, inputIndex, field, fieldLength = window.inputFields.length,
+		order = {
+			"category-program": ["program-input"],
+			"program": ["program-input", "pool-input"],
+			"pool": ["pool-input"],
+			"category-roomtype": ["roomtype-input"],
+			"roomtype": ["roomtype-input", "room-input"],
+			"room": ["room-input"],
+			"category-teacher": ["teacher-input"]
+		};
+
+	// no pre set department, so it is needed for every form
+	if (variables.departmentID === "0")
+	{
+		for (element in order)
+		{
+			if (order.hasOwnProperty(element))
+			{
+				order[element].push("department-input");
+			}
+		}
+	}
+
+	for (inputIndex = 0; inputIndex < fieldLength; ++inputIndex)
+	{
+		field = window.inputFields[inputIndex];
+		if (order[inputID].indexOf(field.id) !== -1)
+		{
+			field.classList.remove("hide");
+		}
+		else
+		{
+			field.classList.add("hide");
+		}
+	}
 }
 
 /**
  * starts an Ajax request to fill form fields with values
  *
  * @param resource  string
+ * @param ids       string|int to insert them in request instead of form selection values
  */
-function sendFormRequest(resource)
+function sendFormRequest(resource, ids)
 {
-	var task = "&departmentIDs=" + variables.departmentID;
+	var task = "&departmentIDs=" + (variables.departmentID === "0" ? getSelectedValues("department") : variables.departmentID);
 
 	switch (resource)
 	{
@@ -1779,19 +1824,22 @@ function sendFormRequest(resource)
 			task += "&task=getPrograms";
 			break;
 		case "pool":
-			task += "&task=getPools" + "&programIDs=" + getSelectedValues("program");
+			task += "&task=getPools" + "&programIDs=" + (ids ? ids : getSelectedValues("program"));
 			break;
 		case "roomtype":
 			task += "&task=getRoomTypes";
 			break;
 		case "room":
-			task += "&task=getRooms" + "&typeID=" + getSelectedValues("roomtype");
+			task += "&task=getRooms" + "&typeID=" + (ids ? ids : getSelectedValues("roomtype"));
 			break;
 		case "teacher":
 			task += "&task=getTeachers";
 			break;
+		case "subject":
+			return sendLessonRequest(resource, ids);
 		default:
 			console.log("searching default category...");
+			return;
 	}
 
 	// Global variable for catching responds in other functions
@@ -1806,25 +1854,25 @@ function sendFormRequest(resource)
  */
 function updateForm()
 {
-	var values, fieldID, formField, option, optionCount, drop;
+	var value, values, fieldID, fieldElement, option, optionCount;
 
 	if (ajaxSelection.readyState === 4 && ajaxSelection.status === 200)
 	{
-		values = JSON.parse(ajaxSelection.responseText);
 		fieldID = ajaxSelection.responseURL.match(/&task=get(\w+)s/)[1].toLowerCase();
-		formField = document.getElementById(fieldID);
-		removeChildren(formField);
-		optionCount = Object.keys(values).length;
+		fieldElement = document.getElementById(fieldID);
+		removeChildren(fieldElement);
 
 		if (window.placeholder[fieldID])
 		{
 			option = document.createElement("option");
 			option.setAttribute("value", "");
 			option.innerHTML = window.placeholder[fieldID];
-			formField.appendChild(option);
+			fieldElement.appendChild(option);
 		}
 
-		for (var value in values)
+		values = JSON.parse(ajaxSelection.responseText);
+		optionCount = Object.keys(values).length;
+		for (value in values)
 		{
 			if (values.hasOwnProperty(value))
 			{
@@ -1832,41 +1880,68 @@ function updateForm()
 				option.setAttribute("value", value.name ? values[value].id : values[value]);
 				option.innerHTML = value.name ? values[value].name : value;
 				option.selected = optionCount === 1;
-				formField.appendChild(option);
+				fieldElement.appendChild(option);
 			}
 		}
 
-		formField.removeAttribute("disabled");
+		fieldElement.removeAttribute("disabled");
 		jQuery("#" + fieldID).chosen("destroy").chosen();
-
-		// Select on click, even on already selected(!) options (unlike chosens "change" event)
-		if (fieldID === "pool" || fieldID === "teacher" || fieldID === "room")
-		{
-			if (!variables.isMobile)
-			{
-				drop = document.getElementById(fieldID + "-input").getElementsByClassName("chzn-drop")[0];
-
-				drop.addEventListener("click", function (event)
-				{
-					if (event.target.dataset.optionArrayIndex)
-					{
-						sendLessonRequest(fieldID);
-					}
-				});
-			}
-			else
-			{
-				formField.addEventListener("change", function ()
-				{
-					sendLessonRequest(fieldID);
-				});
-			}
-		}
+		addSelectionEvent(fieldID);
 
 		if (optionCount === 1)
 		{
 			sendLessonRequest(fieldID);
 		}
+	}
+}
+
+/**
+ * Adds an event handler for schedule form selection elements
+ *
+ * @param id string the elements ID which needs this event handler
+ */
+function addSelectionEvent(id)
+{
+	var input = document.getElementById(id + "-input"), drop = input.getElementsByClassName("chzn-drop")[0];
+
+	if (variables.isMobile)
+	{
+		// no Chosen-library available
+		document.getElementById(id).addEventListener("change", handleFormSelection);
+	}
+	// Select on click, even on already selected(!) options (unlike Chosens "change" event)
+	if (input.dataset.next)
+	{
+		jQuery("#" + id).chosen().change(handleFormSelection);
+	}
+	else
+	{
+		drop.addEventListener("click", function (event)
+		{
+			if (event.target.dataset.optionArrayIndex !== "0")
+			{
+				handleFormSelection(id);
+			}
+		});
+	}
+}
+
+/**
+ * Event handler for changing/selecting a schedule form input to load the next data or loads lessons
+ *
+ * @param id string the form inputs id (optional).
+ */
+function handleFormSelection(id)
+{
+	var element = (typeof id === "string") ? document.getElementById(id) : id.target;
+	if (element.dataset.next)
+	{
+		sendFormRequest(element.dataset.next);
+		showForm(element.id);
+	}
+	else
+	{
+		sendLessonRequest(element.id);
 	}
 }
 
@@ -1922,36 +1997,6 @@ function sendLessonRequest(resource, optionalID, optionalTitle)
 	}
 
 	switchToScheduleListTab();
-}
-
-/**
- * Processes Ajax responses and updates the related schedules
- */
-function insertLessonResponse()
-{
-	var ajaxRequest, response, schedule;
-
-	for (var ajaxIndex = 0; ajaxIndex < window.scheduleRequests.length; ++ajaxIndex)
-	{
-		ajaxRequest = window.scheduleRequests[ajaxIndex];
-		if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
-		{
-			response = JSON.parse(ajaxRequest.responseText);
-			schedule = window.scheduleObjects.getScheduleByResponse(ajaxRequest.responseURL);
-			schedule.setLessons(response);
-
-			if ((response.pastDate || response.futureDate) && schedule.id === getSelectedScheduleID())
-			{
-				openNextDateQuestion(response);
-			}
-			else if (response.pastDate === null && response.futureDate === null
-				&& schedule.id === getSelectedScheduleID())
-			{
-				window.noLessons.style.display = "block";
-			}
-			window.scheduleRequests.splice(ajaxIndex, 1);
-		}
-	}
 }
 
 /**
@@ -2166,52 +2211,6 @@ function removeScheduleFromSelection(clickedButton, schedule)
 }
 
 /**
- * every div with the class 'input-wrapper' gets hidden, when it is not named as param.
- *
- * @param fieldIDsToShow string|Array
- * @param disable boolean default = true
- */
-function onlyShowFormInput(fieldIDsToShow, disable)
-{
-	var disabled = typeof disable === "undefined" ? true : disable, field, fieldElement, fieldToShow,
-		form = document.getElementById("schedule-form"), fields = form.getElementsByClassName("input-wrapper");
-
-	for (var fieldIndex = 0; fieldIndex < fields.length; ++fieldIndex)
-	{
-		field = fields[fieldIndex];
-
-		if (fieldIDsToShow instanceof Array)
-		{
-			if (fieldIDsToShow.indexOf(field.id) === -1)
-			{
-				jQuery(field).addClass("hide");
-			}
-			else
-			{
-				jQuery(field).removeClass("hide");
-				fieldToShow = field;
-			}
-		}
-		else
-		{
-			if (field.id !== fieldIDsToShow)
-			{
-				jQuery(field).addClass("hide");
-			}
-			else
-			{
-				jQuery(field).removeClass("hide");
-				fieldToShow = field;
-			}
-		}
-	}
-
-	fieldElement = fieldToShow.getElementsByTagName("select")[0];
-	fieldElement.disabled = disabled;
-	jQuery("#" + fieldElement.id).chosen("destroy").chosen();
-}
-
-/**
  * removes all children elements of one given parent element
  *
  * @param element object parent element
@@ -2407,7 +2406,6 @@ function changePositionOfDateInput()
 		{
 			jQuery(".date-input").insertAfter(".menu-bar");
 		}
-
 		else
 		{
 			jQuery(".date-input").appendTo(".date-input-list-item");
@@ -2416,20 +2414,40 @@ function changePositionOfDateInput()
 }
 
 /**
- * disable tabs, when only the default-schedule-table is shown
+ * Disable tabs, when only the default-schedule-table is shown
+ *
+ * @param tabIDs string|array  optional to disable only specific tabs
  */
-function disableTabs()
+function disableTabs(tabIDs)
 {
-	var i, disableTabs = [jQuery("#tab-selected-schedules"), jQuery("#tab-time-selection"), jQuery("#tab-exports")];
+	var i, allTabs = jQuery(".tabs-toggle"), scheduleInput = jQuery(".schedule-input"),
+	disableTabs = [
+		jQuery("#tab-selected-schedules"),
+		jQuery("#tab-time-selection"),
+		jQuery("#tab-exports")
+	];
 
-	if (jQuery(".schedule-input").length == 1 && jQuery(".schedule-input").is("#default-input"))
+	if (tabIDs)
+	{
+		for (i = 0; i < allTabs.length; i++)
+		{
+			if (tabIDs.indexOf(allTabs[i].id) !== -1)
+			{
+				allTabs[i].dataset.toggle = "";
+				allTabs[i].parentElement.classList.add("disabled-tab");
+			}
+		}
+	}
+	// No schedule selected - disable all but schedule form
+	else if (scheduleInput.length == 1 && scheduleInput.is("#default-input"))
 	{
 		for (i = 0; i < disableTabs.length; i++)
 		{
 			disableTabs[i].attr("data-toggle", "");
-			disableTabs[i].parent('li').addClass("disabled-tab");
+			disableTabs[i].parent("li").addClass("disabled-tab");
 		}
 	}
+	// Activates all tabs
 	else
 	{
 		for (i = 0; i < disableTabs.length; i++)

@@ -16,11 +16,51 @@
                    type="genericlist"
                    localized="true"
                    valuecolumn="id"
-                   textcolumn="name"
+                   textcolumn="short_name"
                    table="thm_organizer_departments"
                    label="COM_THM_ORGANIZER_DEPARTMENT"
-                   description="COM_THM_ORGANIZER_DEPARTMENT_DESC">
+                   description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
+                   required="true">
                 <option value="0">JALL</option>
+            </field>
+            <field name="programIDs"
+                   type="genericlist"
+                   valuecolumn="id"
+                   textcolumn="name"
+                   table="thm_organizer_plan_programs"
+                   label="COM_THM_ORGANIZER_PROGRAMS"
+                   description="COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC">
+                <option value="">COM_THM_ORGANIZER_FILTER_ALL_PROGRAMS</option>
+            </field>
+            <field name="poolIDs"
+                   type="genericlist"
+                   valuecolumn="id"
+                   textcolumn="name"
+                   table="thm_organizer_plan_pools"
+                   label="COM_THM_ORGANIZER_POOLS"
+                   description="COM_THM_ORGANIZER_POOLS_EXPORT_DESC"
+                   multiple="true">
+                <option value="">COM_THM_ORGANIZER_FILTER_ALL_POOLS</option>
+            </field>
+            <field name="roomIDs"
+                   type="genericlist"
+                   valuecolumn="id"
+                   textcolumn="name"
+                   table="thm_organizer_rooms"
+                   label="COM_THM_ORGANIZER_ROOMS"
+                   description="COM_THM_ORGANIZER_ROOMS_DESC"
+                   multiple="true">
+                <option value="">COM_THM_ORGANIZER_FILTER_ALL_ROOMS</option>
+            </field>
+            <field name="teacherIDs"
+                   type="genericlist"
+                   valuecolumn="id"
+                   textcolumn="surname"
+                   table="thm_organizer_teachers"
+                   label="COM_THM_ORGANIZER_TEACHER"
+                   description="COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC"
+                   multiple="true">
+                <option value="">COM_THM_ORGANIZER_FILTER_ALL_TEACHERS</option>
             </field>
             <field name="deltaDays"
                    type="integer"
@@ -31,6 +71,33 @@
                    last="100"
                    step="1"
                    default="14">
+            </field>
+            <field name="showPrograms"
+                   type="radio"
+                   class="inputbox"
+                   label="COM_THM_ORGANIZER_SHOW_PROGRAMS_TITLE"
+                   description="COM_THM_ORGANIZER_SHOW_PROGRAMS_DESC"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="showTeachers"
+                   type="radio"
+                   class="inputbox"
+                   label="COM_THM_ORGANIZER_SHOW_TEACHERS_TITLE"
+                   description="COM_THM_ORGANIZER_SHOW_TEACHERS_DESC"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="showRooms"
+                   type="radio"
+                   class="inputbox"
+                   label="COM_THM_ORGANIZER_SHOW_ROOMS_TITLE"
+                   description="COM_THM_ORGANIZER_SHOW_ROOMS_DESC"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
             </field>
         </fieldset>
     </fields>

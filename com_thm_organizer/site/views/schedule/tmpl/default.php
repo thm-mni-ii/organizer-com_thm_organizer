@@ -151,13 +151,26 @@ $displayName = empty($this->model->displayName) ?
 						<option value="placeholder" disabled>
 							<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
 						</option>
-						<option value="program" selected><?php echo JText::_("COM_THM_ORGANIZER_PROGRAMS"); ?></option>
-						<option value="roomtype"><?php echo JText::_("COM_THM_ORGANIZER_ROOM_PLANS"); ?></option>
-						<option value="teacher"><?php echo JText::_("COM_THM_ORGANIZER_TEACHERPLAN"); ?></option>
+						<?php
+						if (!empty($this->model->params['showPrograms']))
+						{
+							echo '<option value="program" selected>' . JText::_("COM_THM_ORGANIZER_PROGRAMS") . '</option>';
+						}
+
+						if (!empty($this->model->params['showRooms']))
+						{
+							echo '<option value="roomtype">' . JText::_("COM_THM_ORGANIZER_ROOM_PLANS") . '</option>';
+						}
+
+						if (!empty($this->model->params['showTeachers']))
+						{
+							echo '<option value="teacher">' . JText::_("COM_THM_ORGANIZER_TEACHERPLAN") . '</option>';
+						}
+						?>
 					</select>
 				</div>
-				<div id="program-input" class="input-wrapper ">
-					<select id="program">
+				<div id="program-input" class="input-wrapper">
+					<select id="program" data-next="pool">
 						<!-- filled by ajax -->
 					</select>
 				</div>
@@ -166,8 +179,8 @@ $displayName = empty($this->model->displayName) ?
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="room-type-input" class="input-wrapper hide">
-					<select id="roomtype">
+				<div id="roomtype-input" class="input-wrapper hide">
+					<select id="roomtype" data-next="room">
 						<!-- filled by ajax -->
 					</select>
 				</div>

@@ -184,13 +184,14 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$parameters  = array();
 		foreach ($inputKeys as $key)
 		{
-			if ($key == 'poolIDs' || $key == 'teacherIDs' || $key == 'roomIDs')
+			if ($key == 'subjectIDs' || $key == 'poolIDs' || $key == 'teacherIDs' || $key == 'roomIDs')
 			{
 				$parameters[$key] = explode(',', $inputParams[$key]);
 			}
 		}
 
 		$parameters['userID']          = JFactory::getUser()->id;
+		$parameters['mySchedule']      = $input->getBool('mySchedule', false);
 		$oneDay                        = $input->getBool('oneDay', false);
 		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
 		$parameters['date']            = $input->getString('date');
@@ -424,33 +425,5 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 
 		return !$success ? '[]' : json_encode($matchingCcmIDs);
-	}
-
-	/**
-	 * gets schedule of now logged in user
-	 *
-	 * @return string lessons in JSON format
-	 */
-	public function getUserSchedule()
-	{
-		if (JFactory::getUser()->guest)
-		{
-			return '[]';
-		}
-
-		$input                         = JFactory::getApplication()->input;
-		$parameters                    = array();
-		$parameters['date']            = $input->getString('date');
-		$oneDay                        = $input->getString('oneDay', false);
-		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
-		$parameters['format']          = '';
-		$parameters['mySchedule']      = true;
-		$parameters['userID']          = JFactory::getUser()->id;
-		$deltaDays                     = $input->getString('deltaDays', '14');
-		$parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime("-" . $deltaDays . " days"));
-
-		$userLessons = THM_OrganizerHelperSchedule::getLessons($parameters);
-
-		return empty($userLessons) ? '[]' : json_encode($userLessons);
 	}
 }

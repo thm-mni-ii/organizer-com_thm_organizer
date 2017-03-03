@@ -169,12 +169,12 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 		// No explicit resource selection was made check if departments were requested
 		$this->params['departmentID']  = $input->getInt('departmentID', $params->get('departmentID', 0));
-		$this->params['showPrograms']  = $params->get('showPrograms', 1);
-		$this->params['showPools']     = $params->get('showPools', 1);
-		$this->params['showRooms']     = $params->get('showRooms', 1);
-		$this->params['showRoomTypes'] = $params->get('showRoomTypes', 1);
-		$this->params['showTeachers']  = $params->get('showTeachers', 1);
-		$this->params['deltaDays']     = $params->get('deltaDays', 14);
+		$this->params['showPrograms']  = $input->getInt('showPrograms', $params->get('showPrograms', 1));
+		$this->params['showPools']     = $input->getInt('showPools', $params->get('showPools', 1));
+		$this->params['showRooms']     = $input->getInt('showRooms', $params->get('showRooms', 1));
+		$this->params['showRoomTypes'] = $input->getInt('showRoomTypes', $params->get('showRoomTypes', 1));
+		$this->params['showTeachers']  = $input->getInt('showTeachers', $params->get('showTeachers', 1));
+		$this->params['deltaDays']     = $input->getInt('deltaDays', $params->get('deltaDays', 14));
 
 		// Menu title requested
 		if (!empty($params->get('show_page_heading')))
@@ -201,6 +201,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
 				$this->displayName .= THM_OrganizerHelperPrograms::getName($this->params['programIDs'][0], 'plan');
+				$this->params['displayName'] = $this->displayName;
 			}
 
 			return;
@@ -213,16 +214,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 		if (!empty($this->params['poolIDs']))
 		{
-			$this->params['showPrograms'] = 0;
-			$this->params['showRooms']    = 0;
+			$this->params['showPrograms']  = 0;
+			$this->params['showRooms']     = 0;
 			$this->params['showRoomTypes'] = 0;
-			$this->params['showTeachers'] = 0;
+			$this->params['showTeachers']  = 0;
 
 			if (count($this->params['poolIDs']) === 1 AND $setTitle)
 			{
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 				$this->displayName .= THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
 			}
 
 			return;
@@ -245,6 +247,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
 				$this->displayName .= JText::_('COM_THM_ORGANIZER_ROOM') . ' ';
 				$this->displayName .= THM_OrganizerHelperRooms::getName($this->params['roomIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
 			}
 
 			return;
@@ -267,6 +270,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/room_types.php';
 				$this->displayName .= JText::_('COM_THM_ORGANIZER_ROOM_TYPE') . ' ';
 				$this->displayName .= THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
 			}
 
 			return;
@@ -279,9 +283,9 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 		if (!empty($this->params['teacherIDs']))
 		{
-			$this->params['showPools']    = 0;
-			$this->params['showPrograms'] = 0;
-			$this->params['showRooms']    = 0;
+			$this->params['showPools']     = 0;
+			$this->params['showPrograms']  = 0;
+			$this->params['showRooms']     = 0;
 			$this->params['showRoomTypes'] = 0;
 
 			if (count($this->params['teacherIDs']) === 1 AND $setTitle)
@@ -289,6 +293,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 				$this->displayName .= THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
 			}
 
 			return;
@@ -299,18 +304,19 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 		if (!empty($this->params['subjectIDs']))
 		{
-			$this->params['showPools']    = 0;
-			$this->params['showPrograms'] = 0;
-			$this->params['showRooms']    = 0;
+			$this->params['showPools']     = 0;
+			$this->params['showPrograms']  = 0;
+			$this->params['showRooms']     = 0;
 			$this->params['showRoomTypes'] = 0;
-			$this->params['showTeachers'] = 0;
+			$this->params['showTeachers']  = 0;
 
 			// There can be only one.
 			$this->params['subjectIDs'] = array_shift($this->params['subjectIDs']);
 
 			/** @noinspection PhpIncludeInspection */
 			require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-			$this->displayName .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'][0], 'plan');
+			$this->displayName .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'], 'plan');
+			$this->params['displayName'] = $this->displayName;
 
 			return;
 		}
