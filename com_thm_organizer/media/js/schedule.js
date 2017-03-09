@@ -1513,6 +1513,7 @@ jQuery(document).ready(function ()
 	window.dateField = document.getElementById("date");
 	window.dateField.value = new Date().getPresentationFormat();
 	window.futureDateButton = document.getElementById("future-date");
+	window.futureDateButton.addEventListener("click", nextDateEventHandler);
 	window.inputFields = document.getElementById("schedule-form").getElementsByClassName("input-wrapper");
 	window.nextDateSelection = document.getElementById("next-date-selection");
 	window.nextDateSelection.getElementsByClassName("close")[0].addEventListener("click", function ()
