@@ -217,6 +217,8 @@ class THM_OrganizerHelperSchedule
 		$select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
 		$select .= "lc.configuration, pp.id AS planProgramID";
 
+		$parameters['delta'] = 0;
+
 		if (!empty($parameters['delta']))
 		{
 			$select .= ", lp.delta AS poolDelta, lp.modified AS poolModified";

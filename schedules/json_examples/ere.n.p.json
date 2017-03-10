@@ -1,0 +1,834 @@
+{
+  "2017-04-24": {
+    "0800-0930": {
+      "25622": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Nachrichtentechnik": {
+            "subjectNo": "E2G201",
+            "name": "Nachrichtentechnik",
+            "shortName": "Nachrichtentech.",
+            "abbr": "NAT",
+            "teachers": {
+              "243": "Bonath, W."
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "1727": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "243": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "443543",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25677": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Regenerative Energien": {
+            "subjectNo": "",
+            "name": "Regenerative Energien",
+            "shortName": "REN",
+            "abbr": "REN",
+            "teachers": {
+              "1111": "Stetz, T."
+            },
+            "rooms": {
+              "23": "A10.5.04"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1111": ""
+            },
+            "roomDeltas": {
+              "23": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444684",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25677": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Regenerative Energien": {
+            "subjectNo": "",
+            "name": "Regenerative Energien",
+            "shortName": "REN",
+            "abbr": "REN",
+            "teachers": {
+              "1111": "Stetz, T."
+            },
+            "rooms": {
+              "23": "A10.5.04"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1111": ""
+            },
+            "roomDeltas": {
+              "23": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444683",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-25": {
+    "0800-0930": {
+      "25675": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Elektrische Energieversorgung": {
+            "subjectNo": "E2G609",
+            "name": "Elektrische Energieversorgung",
+            "shortName": "El. Energievers.",
+            "abbr": "EEV",
+            "teachers": {
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "26": "A10.5.20"
+            },
+            "programs": {
+              "1707": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1024": ""
+            },
+            "roomDeltas": {
+              "26": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444583",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25675": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Elektrische Energieversorgung": {
+            "subjectNo": "E2G609",
+            "name": "Elektrische Energieversorgung",
+            "shortName": "El. Energievers.",
+            "abbr": "EEV",
+            "teachers": {
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "26": "A10.5.20"
+            },
+            "programs": {
+              "1707": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1024": ""
+            },
+            "roomDeltas": {
+              "26": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444584",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25674": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Aktuelle Themen der Energietechnik": {
+            "subjectNo": "E2G632",
+            "name": "Aktuelle Themen der Energietechnik",
+            "shortName": "TET",
+            "abbr": "TET",
+            "teachers": {
+              "1111": "Stetz, T."
+            },
+            "rooms": {
+              "26": "A10.5.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1111": ""
+            },
+            "roomDeltas": {
+              "26": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444554",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25676": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Elektrische Energieversorgung": {
+            "subjectNo": "E2G609",
+            "name": "Elektrische Energieversorgung",
+            "shortName": "El. Energievers.",
+            "abbr": "EEV",
+            "teachers": {
+              "1002": "Friedrich, J.",
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "135": "A21.2.08",
+              "22": "A10.5.03"
+            },
+            "programs": {
+              "1707": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1002": "",
+              "1024": ""
+            },
+            "roomDeltas": {
+              "135": "",
+              "22": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444635",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "25676": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Elektrische Energieversorgung": {
+            "subjectNo": "E2G609",
+            "name": "Elektrische Energieversorgung",
+            "shortName": "El. Energievers.",
+            "abbr": "EEV",
+            "teachers": {
+              "1002": "Friedrich, J.",
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "135": "A21.2.08",
+              "22": "A10.5.03"
+            },
+            "programs": {
+              "1707": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1002": "",
+              "1024": ""
+            },
+            "roomDeltas": {
+              "135": "",
+              "22": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444636",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-26": {
+    "1130-1300": {
+      "25680": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Leittechnik": {
+            "subjectNo": "E2G408P",
+            "name": "Leittechnik",
+            "shortName": "Leittechnik +",
+            "abbr": "LET+",
+            "teachers": {
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "2": "A10.2.03"
+            },
+            "programs": {
+              "1686": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1024": ""
+            },
+            "roomDeltas": {
+              "2": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444778",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25680": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Leittechnik": {
+            "subjectNo": "E2G408P",
+            "name": "Leittechnik",
+            "shortName": "Leittechnik +",
+            "abbr": "LET+",
+            "teachers": {
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "2": "A10.2.03"
+            },
+            "programs": {
+              "1686": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1024": ""
+            },
+            "roomDeltas": {
+              "2": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444777",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-27": {
+    "0800-0930": {
+      "25623": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Nachrichtentechnik": {
+            "subjectNo": "E2G201",
+            "name": "Nachrichtentechnik",
+            "shortName": "Nachrichtentech.",
+            "abbr": "NAT",
+            "teachers": {
+              "243": "Bonath, W."
+            },
+            "rooms": {
+              "3": "A10.2.05"
+            },
+            "programs": {
+              "1727": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "243": ""
+            },
+            "roomDeltas": {
+              "3": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "443564",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25678": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Regenerative Energien": {
+            "subjectNo": "",
+            "name": "Regenerative Energien",
+            "shortName": "REN",
+            "abbr": "REN",
+            "teachers": {
+              "1111": "Stetz, T."
+            },
+            "rooms": {
+              "138": "A21.2.14"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1111": ""
+            },
+            "roomDeltas": {
+              "138": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444730",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25681": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Leittechnik": {
+            "subjectNo": "E2G408P",
+            "name": "Leittechnik",
+            "shortName": "Leittechnik +",
+            "abbr": "LET+",
+            "teachers": {
+              "1002": "Friedrich, J.",
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "138": "A21.2.14"
+            },
+            "programs": {
+              "1686": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1002": "",
+              "1024": ""
+            },
+            "roomDeltas": {
+              "138": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444803",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "25681": {
+        "method": "PRK",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Leittechnik": {
+            "subjectNo": "E2G408P",
+            "name": "Leittechnik",
+            "shortName": "Leittechnik +",
+            "abbr": "LET+",
+            "teachers": {
+              "1002": "Friedrich, J.",
+              "1024": "Schr\u00f6der, C."
+            },
+            "rooms": {
+              "138": "A21.2.14"
+            },
+            "programs": {
+              "1686": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1002": "",
+              "1024": ""
+            },
+            "roomDeltas": {
+              "138": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444804",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-28": {
+    "0800-0930": {
+      "25622": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Nachrichtentechnik": {
+            "subjectNo": "E2G201",
+            "name": "Nachrichtentechnik",
+            "shortName": "Nachrichtentech.",
+            "abbr": "NAT",
+            "teachers": {
+              "243": "Bonath, W."
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "1727": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "243": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "443553",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25679": {
+        "method": "SEM",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Englisch f\u00fcr Ingenieurstudierende": {
+            "subjectNo": "E2G257",
+            "name": "Englisch f\u00fcr Ingenieurstudierende",
+            "shortName": "Englisch",
+            "abbr": "S-ENG",
+            "teachers": {
+              "1259": "Bates",
+              "657": "Park, S."
+            },
+            "rooms": {
+              "2": "A10.2.03"
+            },
+            "programs": {
+              "1759": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1259": "",
+              "657": ""
+            },
+            "roomDeltas": {
+              "2": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444755",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25679": {
+        "method": "SEM",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Englisch f\u00fcr Ingenieurstudierende": {
+            "subjectNo": "E2G257",
+            "name": "Englisch f\u00fcr Ingenieurstudierende",
+            "shortName": "Englisch",
+            "abbr": "S-ENG",
+            "teachers": {
+              "1259": "Bates",
+              "657": "Park, S."
+            },
+            "rooms": {
+              "2": "A10.2.03"
+            },
+            "programs": {
+              "1759": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "1259": "",
+              "657": ""
+            },
+            "roomDeltas": {
+              "2": ""
+            },
+            "pools": {
+              "637": {
+                "gpuntisID": "ERE.N.P",
+                "name": "SP Netze, Pflichtmodule",
+                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
+              }
+            }
+          }
+        },
+        "ccmID": "444756",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-29": []
+}
