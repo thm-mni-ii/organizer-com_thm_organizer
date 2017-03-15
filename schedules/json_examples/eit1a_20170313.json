@@ -1,0 +1,1396 @@
+{
+  "2017-04-03": {
+    "0800-0930": {
+      "25721": {
+        "method": "",
+        "comment": "9:00 Kongresshalle: Zentrale Begr\u00fc\u00dfung",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "416": "THM Dozent"
+            },
+            "rooms": [],
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "416": ""
+            },
+            "roomDeltas": [],
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455619",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25714": {
+        "method": "",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "995": "EI Dozenten"
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "995": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455623",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      },
+      "25715": {
+        "method": "",
+        "comment": "10:30-11:45 Begr\u00fc\u00dfung und Vorstellung des Fachbereichs",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "217": "Frey, J.",
+              "234": "Obermann, K."
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "217": "",
+              "234": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455615",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25714": {
+        "method": "",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "995": "EI Dozenten"
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "995": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455622",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      },
+      "25716": {
+        "method": "",
+        "comment": "12:00-13:15 GettING Started: Vorstellung u. Kompetenzanalyse",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "1402": "Pekar, K.",
+              "217": "Frey, J."
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1402": "",
+              "217": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455614",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25714": {
+        "method": "",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "995": "EI Dozenten"
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "995": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455621",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      },
+      "25717": {
+        "method": "",
+        "comment": "13:15-15:45 F\u00fchrung durch STEP-Mentoren u. MiPa",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "1016": "EI Dozent"
+            },
+            "rooms": [],
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1016": ""
+            },
+            "roomDeltas": [],
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455613",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "25714": {
+        "method": "",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "995": "EI Dozenten"
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "995": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455620",
+        "calendarDelta": "removed",
+        "lessonDelta": "removed",
+        "poolDelta": ""
+      },
+      "25722": {
+        "method": "",
+        "comment": "15:45 BIB und IST",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "416": "THM Dozent"
+            },
+            "rooms": {
+              "596": "Roxy"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "416": ""
+            },
+            "roomDeltas": {
+              "596": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "454542",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-04": {
+    "0800-0930": {
+      "25644": {
+        "method": "VRL\/\u00dcBG",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Elektrotechnik 1": {
+            "subjectNo": "E2B101",
+            "name": "Elektrotechnik 1",
+            "shortName": "Elektrotechnik 1",
+            "abbr": "ELT1",
+            "teachers": {
+              "215": "Birkel, U."
+            },
+            "rooms": {
+              "3": "A10.2.05"
+            },
+            "programs": {
+              "1662": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1641": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "215": ""
+            },
+            "roomDeltas": {
+              "3": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "454985",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25644": {
+        "method": "VRL\/\u00dcBG",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Elektrotechnik 1": {
+            "subjectNo": "E2B101",
+            "name": "Elektrotechnik 1",
+            "shortName": "Elektrotechnik 1",
+            "abbr": "ELT1",
+            "teachers": {
+              "215": "Birkel, U."
+            },
+            "rooms": {
+              "3": "A10.2.05"
+            },
+            "programs": {
+              "1662": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1641": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "215": ""
+            },
+            "roomDeltas": {
+              "3": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "454986",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25718": {
+        "method": "",
+        "comment": "Einf\u00fchrung Studienablauf mit Moodle",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "217": "Frey, J."
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "217": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455616",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25647": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "GET-LAB": {
+            "subjectNo": "",
+            "name": "GET-LAB",
+            "shortName": "GET-LAB",
+            "abbr": "GET-LAB",
+            "teachers": {
+              "1395": "Pechan, K.",
+              "1002": "Friedrich, J."
+            },
+            "rooms": {
+              "39": "A10.6.22"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1395": "new",
+              "1002": "new"
+            },
+            "roomDeltas": {
+              "39": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "455021",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "25647": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "GET-LAB": {
+            "subjectNo": "",
+            "name": "GET-LAB",
+            "shortName": "GET-LAB",
+            "abbr": "GET-LAB",
+            "teachers": {
+              "1395": "Pechan, K.",
+              "1002": "Friedrich, J."
+            },
+            "rooms": {
+              "39": "A10.6.22"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1395": "new",
+              "1002": "new"
+            },
+            "roomDeltas": {
+              "39": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "455022",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-05": {
+    "0800-0930": {
+      "25719": {
+        "method": "",
+        "comment": "Einf\u00fchrung Studienablauf mit Moodle",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "217": "Frey, J."
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "217": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455617",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25638": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Mathematik 1": {
+            "subjectNo": "E2B104",
+            "name": "Mathematik 1",
+            "shortName": "Mathematik 1",
+            "abbr": "MAT1",
+            "teachers": {
+              "490": "Weyers"
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "1664": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1643": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "490": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "454898",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      },
+      "25720": {
+        "method": "",
+        "comment": "Studienfinanzierung",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Studieneinf\u00fchrungsprogramm": {
+            "subjectNo": "",
+            "name": "Studieneinf\u00fchrungsprogramm",
+            "shortName": "STEP",
+            "abbr": "STEP",
+            "teachers": {
+              "416": "THM Dozent"
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "416": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455618",
+        "calendarDelta": "new",
+        "lessonDelta": "new",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25638": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Mathematik 1": {
+            "subjectNo": "E2B104",
+            "name": "Mathematik 1",
+            "shortName": "Mathematik 1",
+            "abbr": "MAT1",
+            "teachers": {
+              "490": "Weyers"
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "1664": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1643": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "490": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "454899",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25649": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Physik": {
+            "subjectNo": "E2B107",
+            "name": "Physik",
+            "shortName": "PHY",
+            "abbr": "PHY",
+            "teachers": {
+              "488": "Welzel, T."
+            },
+            "rooms": {
+              "58": "A10.8.15"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "488": ""
+            },
+            "roomDeltas": {
+              "58": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "444042",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "25643": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Physik": {
+            "subjectNo": "E2B107",
+            "name": "Physik",
+            "shortName": "PHY",
+            "abbr": "PHY",
+            "teachers": {
+              "488": "Welzel, T."
+            },
+            "rooms": {
+              "2": "A10.2.03"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "488": ""
+            },
+            "roomDeltas": {
+              "2": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "443928",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-06": {
+    "0800-0930": {
+      "25641": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Informatik f\u00fcr Ingenieure 1": {
+            "subjectNo": "E2B109",
+            "name": "Informatik f\u00fcr Ingenieure 1",
+            "shortName": "Informatik 1",
+            "abbr": "IFI1",
+            "teachers": {
+              "216": "Endl, B."
+            },
+            "rooms": {
+              "138": "A21.2.14"
+            },
+            "programs": {
+              "1666": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1645": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "216": ""
+            },
+            "roomDeltas": {
+              "138": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "454953",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25639": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Mathematik 1": {
+            "subjectNo": "E2B104",
+            "name": "Mathematik 1",
+            "shortName": "Mathematik 1",
+            "abbr": "MAT1",
+            "teachers": {
+              "490": "Weyers"
+            },
+            "rooms": {
+              "16": "A10.4.06"
+            },
+            "programs": {
+              "1664": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1643": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "490": ""
+            },
+            "roomDeltas": {
+              "16": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "454924",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25647": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "GET-LAB": {
+            "subjectNo": "",
+            "name": "GET-LAB",
+            "shortName": "GET-LAB",
+            "abbr": "GET-LAB",
+            "teachers": {
+              "1395": "Pechan, K.",
+              "1002": "Friedrich, J."
+            },
+            "rooms": {
+              "39": "A10.6.22"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "1395": "new",
+              "1002": "new"
+            },
+            "roomDeltas": {
+              "39": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "455056",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25649": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Physik": {
+            "subjectNo": "E2B107",
+            "name": "Physik",
+            "shortName": "PHY",
+            "abbr": "PHY",
+            "teachers": {
+              "488": "Welzel, T."
+            },
+            "rooms": {
+              "58": "A10.8.15"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "488": ""
+            },
+            "roomDeltas": {
+              "58": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "455076",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1545-1715": {
+      "25642": {
+        "method": "\u00dcBG",
+        "comment": "",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Physik": {
+            "subjectNo": "E2B107",
+            "name": "Physik",
+            "shortName": "PHY",
+            "abbr": "PHY",
+            "teachers": {
+              "488": "Welzel, T."
+            },
+            "rooms": {
+              "58": "A10.8.15"
+            },
+            "programs": {
+              "": []
+            },
+            "teacherDeltas": {
+              "488": ""
+            },
+            "roomDeltas": {
+              "58": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            }
+          }
+        },
+        "ccmID": "454974",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-07": {
+    "0800-0930": {
+      "25641": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Informatik f\u00fcr Ingenieure 1": {
+            "subjectNo": "E2B109",
+            "name": "Informatik f\u00fcr Ingenieure 1",
+            "shortName": "Informatik 1",
+            "abbr": "IFI1",
+            "teachers": {
+              "216": "Endl, B."
+            },
+            "rooms": {
+              "138": "A21.2.14"
+            },
+            "programs": {
+              "1666": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1645": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "216": ""
+            },
+            "roomDeltas": {
+              "138": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "454964",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "0950-1120": {
+      "25641": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Informatik f\u00fcr Ingenieure 1": {
+            "subjectNo": "E2B109",
+            "name": "Informatik f\u00fcr Ingenieure 1",
+            "shortName": "Informatik 1",
+            "abbr": "IFI1",
+            "teachers": {
+              "216": "Endl, B."
+            },
+            "rooms": {
+              "138": "A21.2.14"
+            },
+            "programs": {
+              "1666": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1645": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "216": ""
+            },
+            "roomDeltas": {
+              "138": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "443898",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1130-1300": {
+      "25645": {
+        "method": "VRL\/\u00dcBG",
+        "comment": "",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Elektrotechnik 1": {
+            "subjectNo": "E2B101",
+            "name": "Elektrotechnik 1",
+            "shortName": "Elektrotechnik 1",
+            "abbr": "ELT1",
+            "teachers": {
+              "215": "Birkel, U."
+            },
+            "rooms": {
+              "37": "A10.6.20"
+            },
+            "programs": {
+              "1662": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1641": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "215": ""
+            },
+            "roomDeltas": {
+              "37": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "443967",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    },
+    "1400-1530": {
+      "25646": {
+        "method": "VRL\/\u00dcBG",
+        "comment": "",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Elektrotechnik 1": {
+            "subjectNo": "E2B101",
+            "name": "Elektrotechnik 1",
+            "shortName": "Elektrotechnik 1",
+            "abbr": "ELT1",
+            "teachers": {
+              "215": "Birkel, U."
+            },
+            "rooms": {
+              "22": "A10.5.03"
+            },
+            "programs": {
+              "1662": {
+                "36": {
+                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
+                  "id": "36",
+                  "lft": "4485",
+                  "rgt": "5882"
+                }
+              },
+              "1641": {
+                "35": {
+                  "name": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng. 2015)",
+                  "id": "35",
+                  "lft": "4433",
+                  "rgt": "4484",
+                  "planProgramID": "190"
+                }
+              }
+            },
+            "teacherDeltas": {
+              "215": ""
+            },
+            "roomDeltas": {
+              "22": ""
+            },
+            "pools": {
+              "444": {
+                "gpuntisID": "ELI.S1.A",
+                "name": "1. Semester, Zug A",
+                "fullName": "Elektro- und Informationstechnik (B.Eng.), 1. Semester, Zug A"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "455011",
+        "calendarDelta": "",
+        "lessonDelta": "",
+        "poolDelta": ""
+      }
+    }
+  },
+  "2017-04-08": []
+}
