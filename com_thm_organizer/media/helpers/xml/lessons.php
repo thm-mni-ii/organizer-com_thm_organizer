@@ -126,15 +126,16 @@ class THM_OrganizerHelperXMLLessons
 		$config->teachers                     = new stdClass;
 		$config->teachers->{$this->teacherID} = '';
 		$config->rooms                        = $roomIDs;
+		$existingIndex                        = null;
 
-		$existingIndex = null;
 		if (!empty($this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations))
 		{
 			$compConfig = null;
 			foreach ($this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex)
 			{
 				$tempConfig = json_decode($this->scheduleModel->newSchedule->configurations[$configIndex]);
-				if ($tempConfig->subjectID = $this->subjectID)
+
+				if ($tempConfig->subjectID == $this->subjectID)
 				{
 					$compConfig    = $tempConfig;
 					$existingIndex = $configIndex;

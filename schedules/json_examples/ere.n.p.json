@@ -1,6 +1,6 @@
 {
-  "2017-04-03": [],
-  "2017-04-04": {
+  "2017-04-17": [],
+  "2017-04-18": {
     "0800-0930": {
       "25675": {
         "method": "VRL",
@@ -44,7 +44,7 @@
             }
           }
         },
-        "ccmID": "444577",
+        "ccmID": "444581",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -93,7 +93,7 @@
             }
           }
         },
-        "ccmID": "444578",
+        "ccmID": "444582",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -135,7 +135,7 @@
             }
           }
         },
-        "ccmID": "444551",
+        "ccmID": "444553",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -188,7 +188,7 @@
             }
           }
         },
-        "ccmID": "444629",
+        "ccmID": "444633",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -241,14 +241,14 @@
             }
           }
         },
-        "ccmID": "444630",
+        "ccmID": "444634",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
       }
     }
   },
-  "2017-04-05": {
+  "2017-04-19": {
     "1130-1300": {
       "25680": {
         "method": "VRL",
@@ -292,7 +292,7 @@
             }
           }
         },
-        "ccmID": "444772",
+        "ccmID": "444776",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -341,14 +341,14 @@
             }
           }
         },
-        "ccmID": "444771",
+        "ccmID": "444775",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
       }
     }
   },
-  "2017-04-06": {
+  "2017-04-20": {
     "0800-0930": {
       "25623": {
         "method": "VRL",
@@ -392,7 +392,7 @@
             }
           }
         },
-        "ccmID": "443561",
+        "ccmID": "443563",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -434,7 +434,7 @@
             }
           }
         },
-        "ccmID": "444727",
+        "ccmID": "444729",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -485,7 +485,7 @@
             }
           }
         },
-        "ccmID": "444797",
+        "ccmID": "444801",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -536,14 +536,14 @@
             }
           }
         },
-        "ccmID": "444798",
+        "ccmID": "444802",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
       }
     }
   },
-  "2017-04-07": {
+  "2017-04-21": {
     "0800-0930": {
       "25622": {
         "method": "VRL",
@@ -587,7 +587,7 @@
             }
           }
         },
-        "ccmID": "443551",
+        "ccmID": "443552",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -600,41 +600,6 @@
         "startTime": "09:50:00",
         "endTime": "11:20:00",
         "subjects": {
-          "Einf\u00fchrung in die Betriebswirtschaftslehre": {
-            "subjectNo": "E2G251",
-            "name": "Einf\u00fchrung in die Betriebswirtschaftslehre",
-            "shortName": "Einf. in BWL",
-            "abbr": "S-BWL",
-            "teachers": {
-              "657": "Park, S."
-            },
-            "rooms": {
-              "2": "A10.2.03"
-            },
-            "programs": {
-              "1754": {
-                "36": {
-                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
-                  "id": "36",
-                  "lft": "4485",
-                  "rgt": "5882"
-                }
-              }
-            },
-            "teacherDeltas": {
-              "657": "new"
-            },
-            "roomDeltas": {
-              "2": "new"
-            },
-            "pools": {
-              "637": {
-                "gpuntisID": "ERE.N.P",
-                "name": "SP Netze, Pflichtmodule",
-                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
-              }
-            }
-          },
           "Englisch f\u00fcr Ingenieurstudierende": {
             "subjectNo": "E2G257",
             "name": "Englisch f\u00fcr Ingenieurstudierende",
@@ -659,7 +624,7 @@
             },
             "teacherDeltas": {
               "1259": "",
-              "657": "removed"
+              "657": ""
             },
             "roomDeltas": {
               "2": ""
@@ -670,11 +635,10 @@
                 "name": "SP Netze, Pflichtmodule",
                 "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
               }
-            },
-            "subjectDelta": ""
+            }
           }
         },
-        "ccmID": "450005",
+        "ccmID": "444753",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
@@ -687,41 +651,6 @@
         "startTime": "11:30:00",
         "endTime": "13:00:00",
         "subjects": {
-          "Einf\u00fchrung in die Betriebswirtschaftslehre": {
-            "subjectNo": "E2G251",
-            "name": "Einf\u00fchrung in die Betriebswirtschaftslehre",
-            "shortName": "Einf. in BWL",
-            "abbr": "S-BWL",
-            "teachers": {
-              "657": "Park, S."
-            },
-            "rooms": {
-              "2": "A10.2.03"
-            },
-            "programs": {
-              "1754": {
-                "36": {
-                  "name": "Elektro- und Informationstechnik (B.Eng. 2014)",
-                  "id": "36",
-                  "lft": "4485",
-                  "rgt": "5882"
-                }
-              }
-            },
-            "teacherDeltas": {
-              "657": "new"
-            },
-            "roomDeltas": {
-              "2": "new"
-            },
-            "pools": {
-              "637": {
-                "gpuntisID": "ERE.N.P",
-                "name": "SP Netze, Pflichtmodule",
-                "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
-              }
-            }
-          },
           "Englisch f\u00fcr Ingenieurstudierende": {
             "subjectNo": "E2G257",
             "name": "Englisch f\u00fcr Ingenieurstudierende",
@@ -746,7 +675,7 @@
             },
             "teacherDeltas": {
               "1259": "",
-              "657": "removed"
+              "657": ""
             },
             "roomDeltas": {
               "2": ""
@@ -757,16 +686,15 @@
                 "name": "SP Netze, Pflichtmodule",
                 "fullName": "Elektrische Energietechnik f\u00fcr Regenerative Energiesysteme (B.Eng.), SP Netze, Pflichtmodule"
               }
-            },
-            "subjectDelta": ""
+            }
           }
         },
-        "ccmID": "450007",
+        "ccmID": "444754",
         "calendarDelta": "",
         "lessonDelta": "",
         "poolDelta": ""
       }
     }
   },
-  "2017-04-08": []
+  "2017-04-22": []
 }
