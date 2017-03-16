@@ -345,7 +345,7 @@ class THM_OrganizerHelperXMLLessons
 			return;
 		}
 
-		$rawInstances       = trim((string) $lessonNode->occurence);
+		$rawInstances = trim((string) $lessonNode->occurence);
 
 		// Adjusted dates are used because effective dts are not always accurate for the time frame
 		$potentialInstances = $this->truncateInstances($rawInstances, $startDT, $endDT);

@@ -1050,15 +1050,15 @@ ScheduleTable = function (schedule)
 	 */
 	this.addDataElements = function (resource, outerElement, data, delta, className)
 	{
-		var id, span, nameElement, showX = "show" + resource.slice(0, 1).toUpperCase() + resource.slice(1) + "s";
+		var id, span, nameElement, showX = "show" + resource.slice(0, 1).toUpperCase() + resource.slice(1) + "s", deltaClass;
 
 		for (id in data)
 		{
 			if (data.hasOwnProperty(id))
 			{
 				span = document.createElement("span");
-				delta = delta[id] ? delta[id] : (typeof delta === "string" ? delta : "");
-				span.className = (className ? className : resource) + (delta ? " " + delta : "");
+				deltaClass = delta[id] ? delta[id] : (typeof delta === "string" ? delta : "");
+				span.className = (className ? className : resource) + " " + deltaClass;
 				nameElement = variables[showX] !== "0" ? document.createElement("a") : document.createElement("span");
 				nameElement.innerHTML = data[id].gpuntisID ? data[id].gpuntisID : data[id];
 
@@ -2421,7 +2421,8 @@ function changePositionOfDateInput()
  */
 function disableTabs(tabIDs)
 {
-	var i, allTabs = jQuery(".tabs-toggle"), scheduleInput = jQuery(".schedule-input"),
+	var i, allTabs = jQuery(".tabs-toggle"), scheduleInput = jQuery(".schedule-input"), disableTabs;
+
 	disableTabs = [
 		jQuery("#tab-selected-schedules"),
 		jQuery("#tab-time-selection"),

@@ -288,15 +288,6 @@ input[type=radio] {
   .lesson a {
     cursor: pointer; }
 
-.calendar-removed {
-  opacity: 0.5;
-  text-decoration: line-through; }
-
-.calendar-added {
-  border-color: #80ba24; }
-  .calendar-added a, .calendar-added span {
-    color: #80ba24; }
-
 .name {
   font-weight: bold;
   word-wrap: break-word;
@@ -447,6 +438,14 @@ input[type=radio] {
 
 .own-time {
   display: block; }
+
+.calendar-removed, .removed {
+  opacity: 0.5;
+  text-decoration: line-through; }
+
+.calendar-new, .lesson .person.new a, .lesson .location.new a, .lesson .pool.new a {
+  border-color: #80ba24;
+  color: #80ba24; }
 
 .organizer.mobile .date-input .controls:nth-last-of-type(n+2) {
   margin-right: 0.5rem; }

@@ -215,9 +215,7 @@ class THM_OrganizerHelperSchedule
 		$select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, s.abbreviation_$tag AS subjectAbbr, ";
 		$select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ";
 		$select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
-		$select .= "lc.configuration, pp.id AS planProgramID";
-
-		$parameters['delta'] = 0;
+		$select .= "lc.configuration, lc.modified AS configModified, pp.id AS planProgramID";
 
 		if (!empty($parameters['delta']))
 		{
@@ -225,7 +223,6 @@ class THM_OrganizerHelperSchedule
 			$select .= ", ls.delta AS subjectsDelta, ls.modified AS subjectsModified";
 			$select .= ", l.delta AS lessonDelta, l.modified AS lessonModified";
 			$select .= ", c.delta AS calendarDelta, c.modified AS calendarModified";
-			$select .= ", lc.modified AS configModified";
 			$select .= ", lt.delta AS teacherDelta, lt.modified AS teacherModified";
 		}
 
@@ -369,12 +366,12 @@ class THM_OrganizerHelperSchedule
 	 */
 	private static function resolveConfiguration(&$configuration, $delta)
 	{
-		$deltaDate                      = empty($delta) ? date('Y-m-d H:i:s', strtotime('now')) : $delta;
+		$deltaDate                      = empty($delta) ? date('Y-m-d H:i:s', strtotime('now')) : date('Y-m-d H:i:s', strtotime($delta));
 		$configuration['teacherDeltas'] = array();
 
 		foreach ($configuration['teachers'] AS $teacherID => $teacherDelta)
 		{
-			if ($teacherDelta == 'removed' AND $configuration['modified'] > $deltaDate)
+			if ($teacherDelta == 'removed' AND $configuration['modified'] < $deltaDate)
 			{
 				unset($configuration['teachers'][$teacherID]);
 				continue;
@@ -388,7 +385,7 @@ class THM_OrganizerHelperSchedule
 
 		foreach ($configuration['rooms'] AS $roomID => $roomDelta)
 		{
-			if ($roomDelta == 'removed' AND $configuration['modified'] > $deltaDate)
+			if ($roomDelta == 'removed' AND $configuration['modified'] < $deltaDate)
 			{
 				unset($configuration['rooms'][$roomID]);
 				continue;

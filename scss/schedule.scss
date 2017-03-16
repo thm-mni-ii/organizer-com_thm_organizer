@@ -382,20 +382,6 @@ input[type=radio] {
   }
 }
 
-.calendar-removed {
-  opacity: 0.5;
-  text-decoration: line-through;
-}
-
-//don't know correct class name
-.calendar-added {
-  border-color: $thm;
-
-  a, span {
-    color: $thm;
-  }
-}
-
 .name {
   font-weight: bold;
   word-wrap: break-word;
@@ -621,6 +607,16 @@ input[type=radio] {
 
 .own-time {
   display: block;
+}
+
+.calendar-removed, .removed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.calendar-new, .lesson .person.new a, .lesson .location.new a, .lesson .pool.new a {
+  border-color: $thm;
+  color: $thm;
 }
 
 // Mobile ************************************************************************************************************//

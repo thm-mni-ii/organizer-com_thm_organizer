@@ -121,6 +121,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		$timeKey   = $startTime . '-' . $endTime;
 
 		$configurations = array();
+
 		if (empty($this->schedule->calendar->$date->$timeKey->$lessonID))
 		{
 			return $configurations;
@@ -216,13 +217,43 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				$instanceConfigs = $this->getInstanceConfigurations($lessonGPUntisID, $calendarEntry, $lessonSubjects);
 
+				$configIDs = array();
+
 				foreach ($instanceConfigs as $configID)
 				{
 					$mapData  = array('calendarID' => $calendarID, 'configurationID' => $configID);
 					$mapTable = JTable::getInstance('calendar_configuration_map', 'thm_organizerTable');
 					$mapTable->load($mapData);
 					$success = $mapTable->save($mapData);
+
 					if (!$success)
+					{
+						return false;
+					}
+
+					$configIDs[$configID] = $configID;
+				}
+
+				if (!empty($configIDs))
+				{
+					$deprecatedQuery = $this->_db->getQuery(true);
+					$deprecatedQuery->delete('#__thm_organizer_calendar_configuration_map')
+						->where("calendarID = '$calendarID'")
+						->where("configurationID NOT IN ('" . implode("', '", $configIDs) . "')");
+					$this->_db->setQuery($deprecatedQuery);
+
+					try
+					{
+						$success = $this->_db->execute();
+					}
+					catch (Exception $exc)
+					{
+						JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+						return false;
+					}
+
+					if (empty($success))
 					{
 						return false;
 					}
@@ -650,6 +681,41 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	}
 
 	/**
+	 * Removes calendar entries with the same base data
+	 *
+	 * @param array $calData    the data used to find matching calendar entries
+	 * @param int   $calendarID the valid calendar entry id
+	 *
+	 * @return bool true on success, otherwise false
+	 */
+	private function removeCalendarDuplicates($calData, $calendarID)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->delete('#__thm_organizer_calendar')
+			->where("schedule_date = '{$calData['schedule_date']}'")
+			->where("startTime = '{$calData['startTime']}'")
+			->where("endTime = '{$calData['endTime']}'")
+			->where("lessonID = '{$calData['lessonID']}'")
+			->where("id != '$calendarID'");
+
+		$this->_db->setQuery($query);
+
+
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Resolves the resource delta
 	 *
 	 * @param mixed $resource the resource being checked (object) or the value of a dynamic field typically string
@@ -967,7 +1033,15 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 					$calendarTable->load($calData);
 					$calData['delta'] = $instanceData->delta;
 					$success          = $calendarTable->save($calData);
+
 					if (!$success)
+					{
+						return false;
+					}
+
+					$duplicatesRemoved = $this->removeCalendarDuplicates($calData, $calendarTable->id);
+
+					if (!$duplicatesRemoved)
 					{
 						return false;
 					}
