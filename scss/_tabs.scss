@@ -99,3 +99,8 @@ li.active:not(.inactive) {
     display: none !important;
   }
 }
+
+select {
+  // Needed to prevent zoom-in in mobile view safari on apple
+  font-size: 16px !important;
+}

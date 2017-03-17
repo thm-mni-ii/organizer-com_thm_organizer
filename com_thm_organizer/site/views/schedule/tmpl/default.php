@@ -23,7 +23,9 @@ $displayName = empty($this->model->displayName) ?
 </script>
 <div class="organizer <?php echo $mobile; ?>">
 
-	<h1><?php echo $displayName; ?></h1>
+	<div class="page-header">
+		<h2><?php echo $displayName; ?></h2>
+	</div>
 
 	<div class="menu-bar">
 		<ul class="tabs" role="tablist">
@@ -373,7 +375,10 @@ $displayName = empty($this->model->displayName) ?
 	</div>
 
 	<div id="no-lessons" class="message-pop-up">
-		<p class="icon-notification""><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></p>
+		<p>
+			<span class="icon-notification"></span>
+			<span><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></span>
+		</p>
 		<button class="close icon-cancel"></button>
 	</div>
 </div>

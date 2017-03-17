@@ -113,18 +113,25 @@ input[type=radio] {
   }
 }
 
-.selection > div:first-child,
+#department-input {
+  display: block;
+
+  @media screen and (min-width: 951px) {
+    margin-bottom: 0.5rem;
+  }
+
+  input.default {
+    padding: 6px !important;
+  }
+}
+
+#category-input,
 .input-wrapper {
   display: inline-block;
   vertical-align: top;
 
   @media screen and (max-width: 950px) {
     display: block;
-  }
-}
-
-.input-wrapper {
-  @media screen and (max-width: 950px) {
     margin-top: 0.5rem;
   }
 }
@@ -240,14 +247,8 @@ input[type=radio] {
     }
   }
 
-  > button {
-    @-moz-document url-prefix() {
-      width: 0.8rem;
-    }
-
-    &:last-child {
-      margin-right: 0.2rem;
-    }
+  > button:last-child {
+    margin-right: 0.2rem;
   }
 
   span {
@@ -259,7 +260,7 @@ input[type=radio] {
   }
 
   #date {
-    width: 5rem !important;
+    width: 5.2rem !important;
     padding: 0 0 0 0.3rem !important;
     vertical-align: sub;
     margin-bottom: 0;
@@ -267,6 +268,10 @@ input[type=radio] {
 
   #calendar-icon {
     position: relative;
+
+    span::before {
+      font-size: 1rem;
+    }
   }
 
   //calendar
@@ -609,12 +614,16 @@ input[type=radio] {
   display: block;
 }
 
-.calendar-removed, .removed {
+.calendar-removed,
+.removed {
   opacity: 0.5;
   text-decoration: line-through;
 }
 
-.calendar-new, .lesson .person.new a, .lesson .location.new a, .lesson .pool.new a {
+.calendar-new,
+.lesson .person.new a,
+.lesson .location.new a,
+.lesson .pool.new a {
   border-color: $thm;
   color: $thm;
 }
@@ -626,6 +635,11 @@ input[type=radio] {
 
     .controls:nth-last-of-type(n+2) {
       margin-right: 0.5rem;
+    }
+
+    input#date {
+      font-size: 16px !important; //prevent ios safari to zoom-in
+      padding-left: 0.1rem !important;
     }
   }
 
