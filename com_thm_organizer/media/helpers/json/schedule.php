@@ -700,7 +700,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		$this->_db->setQuery($query);
 
-
 		try
 		{
 			$this->_db->execute();
@@ -1177,12 +1176,12 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		$lessonIDs = array_keys((array) $this->schedule->lessons);
 
-		$deprecatedQuery = $this->_db->getQuery(true);
-		$deprecatedQuery->update('#__thm_organizer_lessons')->set("delta = 'removed'")
+		$query = $this->_db->getQuery(true);
+		$query->update('#__thm_organizer_lessons')->set("delta = 'removed'")
 			->where("departmentID = '$departmentID'")->where("planningPeriodID = '$planningPeriodID'")
 			->where("gpuntisID NOT IN ('" . implode("', '", $lessonIDs) . "')")
 			->where("delta != 'removed'");
-		$this->_db->setQuery($deprecatedQuery);
+		$this->_db->setQuery($query);
 		$deprecatedSuccess = $this->_db->execute();
 
 		return empty($deprecatedSuccess) ? false : true;

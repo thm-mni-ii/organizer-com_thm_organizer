@@ -73,7 +73,8 @@ class THM_OrganizerHelperSchedule
 				$aggregatedLessons[$date][$times][$lessonID]['poolDelta']     = empty($lesson['poolDelta']) ? '' : $lesson['poolDelta'];
 			}
 
-			$subjectName = self::getSubjectName($lesson);
+			$subjectData = self::getSubjectData($lesson);
+			$subjectName = $subjectData['name'];
 
 			$configuration             = json_decode($lesson['configuration'], true);
 			$configuration['modified'] = empty($lesson['configModified']) ? '' : $lesson['configModified'];
@@ -81,17 +82,7 @@ class THM_OrganizerHelperSchedule
 
 			if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]))
 			{
-				$subjectAbbr      = self::getSubjectAbbr($lesson);
-				$subjectNo        = empty($lesson['subjectNo']) ? '' : $lesson['subjectNo'];
-				$subjectShortName = empty($lesson['subjectShortName']) ? $subjectAbbr : $lesson['subjectShortName'];
-
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName] = array(
-					'subjectNo' => $subjectNo,
-					'name'      => $subjectName,
-					'shortName' => $subjectShortName,
-					'abbr'      => $subjectAbbr
-				);
-
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName] = $subjectData;
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] = $configuration['teachers'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']    = $configuration['rooms'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'] = array();
@@ -111,11 +102,13 @@ class THM_OrganizerHelperSchedule
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
 				= array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
 
-			$subjectID = $lesson['subjectID'];
-			$programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
-			self::addPlanPrograms($programs);
+			if (!empty($subjectData['id']))
+			{
+				$programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['id']);
+				self::addPlanPrograms($programs);
 
-			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectID] = $programs;
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['id']] = $programs;
+			}
 		}
 
 		ksort($aggregatedLessons);
@@ -212,7 +205,6 @@ class THM_OrganizerHelperSchedule
 
 		$select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
 		$select .= "ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ";
-		$select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, s.abbreviation_$tag AS subjectAbbr, ";
 		$select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ";
 		$select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
 		$select .= "lc.configuration, lc.modified AS configModified, pp.id AS planProgramID";
@@ -234,8 +226,6 @@ class THM_OrganizerHelperSchedule
 		$query->innerJoin('#__thm_organizer_teachers AS teacher ON lt.teacherID = teacher.id');
 
 		$query->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
-		$query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
-		$query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
 
 		if (empty($parameters['delta']))
 		{
@@ -289,20 +279,104 @@ class THM_OrganizerHelperSchedule
 	}
 
 	/**
-	 * Returns the best subject name of the many available
+	 * Retrieves the subject data as appropriate
 	 *
-	 * @param array $lesson the lesson instance being iterated
+	 * @param array $lesson the lesson information
 	 *
-	 * @return string  the lesson instance's display name
+	 * @return array an array of subject information
 	 */
-	private static function getSubjectAbbr($lesson)
+	private static function getSubjectData($lesson)
 	{
-		if (!empty($lesson['subjectAbbr']))
+		$return = array(
+			'subjectID' => null,
+			'subjectNo' => $lesson['subjectNo'],
+			'name'      => $lesson['psName'],
+			'shortName' => $lesson['psUntisID'],
+			'abbr'      => $lesson['psUntisID']
+		);
+
+		$tag   = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo   = JFactory::getDbo();
+		$programQuery = $dbo->getQuery(true);
+
+		$select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, s.abbreviation_$tag AS abbr";
+		$programQuery->select($select)
+			->from('#__thm_organizer_subjects AS s')
+			->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.subjectID = s.id')
+			->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
+			->where("sm.plan_subjectID ='{$lesson['psID']}'");
+		$dbo->setQuery($programQuery);
+
+		try
 		{
-			return $lesson['subjectAbbr'];
+			$mappedSubjects = $dbo->loadAssocList();
+		}
+		catch (Exception $exc)
+		{
+			return $return;
 		}
 
-		return $lesson['psUntisID'];
+		if (empty($mappedSubjects))
+		{
+			return $return;
+		}
+
+		$tempMappings = $mappedSubjects;
+		$subject = array_shift($tempMappings);
+		$return['subjectID'] = $subject['subjectID'];
+		$return['name'] = $subject['name'];
+		$return['shortName'] = empty($subject['shortName'])? $return['shortName'] : $subject['shortName'];
+		$return['abbr'] = empty($subject['abbr'])? $return['abbr'] : $subject['abbr'];
+
+		if (count($mappedSubjects) === 1)
+		{
+			return $return;
+		}
+
+		$programQuery = $dbo->getQuery(true);
+
+		$select = "rgt, lft";
+		$programQuery->select($select)
+			->from('#__thm_organizer_mappings AS m')
+			->innerJoin('#__thm_organizer_programs AS p ON p.id = m.programID')
+			->innerJoin('#__thm_organizer_plan_programs AS ppr ON ppr.programID = p.id')
+			->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id')
+			->where("ppo.id ='{$lesson['poolID']}'");
+		$dbo->setQuery($programQuery);
+
+		try
+		{
+			$programMapping = $dbo->loadAssoc();
+		}
+		catch (Exception $exc)
+		{
+			return $return;
+		}
+
+		if (empty($programMapping))
+		{
+			return $return;
+		}
+
+		$left = $programMapping['lft'];
+		$right = $programMapping['rgt'];
+
+		foreach ($mappedSubjects as $subject)
+		{
+			$found = ($subject['lft'] > $left AND $subject['rgt'] > $right);
+
+			if ($found)
+			{
+				$return['subjectID'] = $subject['subjectID'];
+				$return['name'] = $subject['name'];
+				$return['shortName'] = empty($subject['shortName'])? $return['shortName'] : $subject['shortName'];
+				$return['abbr'] = empty($subject['abbr'])? $return['abbr'] : $subject['abbr'];
+
+				break;
+			}
+		}
+
+		return $return;
 	}
 
 	/**

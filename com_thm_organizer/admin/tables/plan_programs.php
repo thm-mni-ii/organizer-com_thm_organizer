@@ -38,7 +38,10 @@ class THM_OrganizerTablePlan_Programs extends JTable
 	 */
 	public function check()
 	{
-		$this->programID = null;
+		if (empty($this->programID))
+		{
+			$this->programID = null;
+		}
 
 		return true;
 	}

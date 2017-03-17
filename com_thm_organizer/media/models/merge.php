@@ -514,6 +514,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		// No need to update associations. New entries have no associations. Existing entries keep their ids.
 
 		$success = $table->save($data);
+
 		if ($success)
 		{
 			$this->_db->transactionCommit();
