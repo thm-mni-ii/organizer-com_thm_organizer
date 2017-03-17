@@ -466,10 +466,14 @@ input[type=radio] {
       text-decoration: underline;
     }
 
-    &::before {
-      font-size: 1.1rem;
-      display: inline-block;
-      vertical-align: bottom;
+    span {
+      margin-right: 0.3rem;
+
+      &::before {
+        font-size: 1.1rem;
+        display: inline-block;
+        vertical-align: bottom;
+      }
     }
 
     @media screen and (min-width: 678px) {
@@ -478,6 +482,7 @@ input[type=radio] {
 
     &:not(.icon-cancel) {
       margin-top: 0.5rem;
+      margin-left: 0.1rem;
     }
   }
 
@@ -485,11 +490,6 @@ input[type=radio] {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    opacity: 1;
-
-    &::before {
-      text-shadow: none;
-    }
   }
 
   .icon-arrow-left-2 {

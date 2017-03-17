@@ -533,7 +533,11 @@ input[type=radio] {
     text-decoration: underline;
 }
 
-.message-pop-up button::before {
+.message-pop-up button span {
+    margin-right: 0.3rem;
+}
+
+.message-pop-up button span::before {
     font-size: 1.1rem;
     display: inline-block;
     vertical-align: bottom;
@@ -547,17 +551,13 @@ input[type=radio] {
 
 .message-pop-up button:not(.icon-cancel) {
     margin-top: 0.5rem;
+    margin-left: 0.1rem;
 }
 
 .message-pop-up .icon-cancel {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    opacity: 1;
-}
-
-.message-pop-up .icon-cancel::before {
-    text-shadow: none;
 }
 
 @media screen and (min-width: 678px) {
