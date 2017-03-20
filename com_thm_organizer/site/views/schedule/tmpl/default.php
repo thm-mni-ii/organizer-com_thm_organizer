@@ -56,14 +56,17 @@ $displayName = empty($this->model->displayName) ?
 			</li>
 			<li class="date-input-list-item">
 				<div class="date-input">
-					<button id="previous-month" class="controls" type="button">
+					<button id="previous-month" class="controls" type="button"
+					        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'month');">
 						<span class="icon-arrow-left-22"></span>
 					</button>
-					<button id="previous-week" class="controls" type="button">
+					<button id="previous-week" class="controls" type="button"
+					        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
 						<span class="icon-arrow-left"></span>
 					</button>
-					<input id="date" type="text" required />
-					<button id="calendar-icon" type="button" class="controls">
+					<input id="date" type="text" required onchange="scheduleApp.updateSchedule();" />
+					<button id="calendar-icon" type="button" class="controls"
+					        onclick="scheduleApp.getCalendar().showCalendar();">
 						<span class="icon-calendar"></span>
 					</button>
 					<div id="calendar">
@@ -71,7 +74,8 @@ $displayName = empty($this->model->displayName) ?
 							<thead>
 							<tr>
 								<td colspan="1">
-									<button id="calendar-previous-month" type="button">
+									<button id="calendar-previous-month" type="button"
+									        onclick="scheduleApp.getCalendar().changeCalendarMonth(false)">
 										<span class="icon-arrow-left"></span>
 									</button>
 								</td>
@@ -79,7 +83,8 @@ $displayName = empty($this->model->displayName) ?
 									<span id="display-month"></span> <span id="display-year"></span>
 								</td>
 								<td colspan="1">
-									<button id="calendar-next-month" type="button">
+									<button id="calendar-next-month" type="button"
+									        onclick="scheduleApp.getCalendar().changeCalendarMonth(true)">
 										<span class="icon-arrow-right"></span>
 									</button>
 								</td>
@@ -110,10 +115,12 @@ $displayName = empty($this->model->displayName) ?
 							</tfoot>
 						</table>
 					</div>
-					<button id="next-week" class="controls" type="button">
+					<button id="next-week" class="controls" type="button"
+					        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
 						<span class="icon-arrow-right"></span>
 					</button>
-					<button id="next-month" class="controls" type="button">
+					<button id="next-month" class="controls" type="button"
+					        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'month');">
 						<span class="icon-arrow-right-22"></span>
 					</button>
 				</div>
@@ -136,7 +143,7 @@ $displayName = empty($this->model->displayName) ?
 				if (empty($this->model->params['departmentID']))
 				{
 					?>
-					<div id="department-input" class="input-wrapper">
+					<div id="department-input" class="input-wrapper" data-input-kind="flexible">
 						<select id="department" multiple
 						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
 							<?php
@@ -148,7 +155,7 @@ $displayName = empty($this->model->displayName) ?
 						</select>
 					</div>
 				<?php } ?>
-				<div id="category-input">
+				<div id="category-input" class="input-wrapper">
 					<select id="category" required>
 						<option value="placeholder" disabled>
 							<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
@@ -171,27 +178,27 @@ $displayName = empty($this->model->displayName) ?
 						?>
 					</select>
 				</div>
-				<div id="program-input" class="input-wrapper">
+				<div id="program-input" class="input-wrapper" data-input-kind="flexible">
 					<select id="program" data-next="pool">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="pool-input" class="input-wrapper hide">
+				<div id="pool-input" class="input-wrapper hide" data-input-kind="flexible">
 					<select id="pool">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="roomtype-input" class="input-wrapper hide">
+				<div id="roomtype-input" class="input-wrapper hide" data-input-kind="flexible">
 					<select id="roomtype" data-next="room">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="room-input" class="input-wrapper hide">
+				<div id="room-input" class="input-wrapper hide" data-input-kind="flexible">
 					<select id="room">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="teacher-input" class="input-wrapper hide">
+				<div id="teacher-input" class="input-wrapper hide" data-input-kind="flexible">
 					<select id="teacher"
 					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER"); ?>">
 						<!-- filled by ajax -->
@@ -205,7 +212,7 @@ $displayName = empty($this->model->displayName) ?
 
 			<div class="tab-panel" id="time-selection" role="tabpanel"
 			     aria-labelledby="tab-time" aria-hidden="false">
-				<select id="grid" required>
+				<select id="grid" required onchange="scheduleApp.updateSchedule(event);">
 					<?php
 					foreach ($this->getModel()->grids as $key => $grid)
 					{
@@ -219,19 +226,19 @@ $displayName = empty($this->model->displayName) ?
 			<div class="tab-panel" id="exports"
 			     role="tabpanel" aria-labelledby="tab-exports-menu" aria-hidden="false">
 				<div class="link-item">
-					<a onclick="handleExport('pdf.a4');">
+					<a onclick="scheduleApp.handleExport('pdf.a4');">
 						<span class="icon-file-pdf"></span>
 						<?php echo JText::_('COM_THM_ORGANIZER_PDF_DOCUMENT'); ?>
 					</a>
 				</div>
 				<div class="link-item">
-					<a onclick="handleExport('xls.si');">
+					<a onclick="scheduleApp.handleExport('xls.si');">
 						<span class="icon-file-xls"></span>
 						<?php echo JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'); ?>
 					</a>
 				</div>
 				<div class="link-item">
-					<a onclick="handleExport('ics');">
+					<a onclick="scheduleApp.handleExport('ics');">
 						<span class="icon-info-calender"></span>
 						<?php echo JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'); ?>
 					</a>
@@ -328,7 +335,7 @@ $displayName = empty($this->model->displayName) ?
 	</div>
 
 	<div class="lesson-menu">
-		<button class="icon-cancel"></button>
+		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
 		<div class="lesson-data">
 			<div class="subjectNameNr">
 				<span class="subject"></span>
@@ -365,12 +372,12 @@ $displayName = empty($this->model->displayName) ?
 
 	<div id="next-date-selection" class="message-pop-up">
 		<p><?php echo JText::_("COM_THM_ORGANIZER_JUMP_DATE"); ?></p>
-		<button class="close icon-cancel"></button>
-		<button id="past-date">
+		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
+		<button id="past-date" onclick="scheduleApp.nextDateEventHandler(event);">
 			<span class="icon-arrow-left-2"></span>
 			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
 		</button>
-		<button id="future-date">
+		<button id="future-date" onclick="scheduleApp.nextDateEventHandler(event);">
 			<span class="icon-arrow-right-2"></span>
 			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
 		</button>
@@ -381,6 +388,6 @@ $displayName = empty($this->model->displayName) ?
 			<span class="icon-notification"></span>
 			<span><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></span>
 		</p>
-		<button class="close icon-cancel"></button>
+		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
 	</div>
 </div>

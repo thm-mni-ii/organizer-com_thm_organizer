@@ -184,7 +184,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$parameters  = array();
 		foreach ($inputKeys as $key)
 		{
-			if ($key == 'subjectIDs' || $key == 'poolIDs' || $key == 'teacherIDs' || $key == 'roomIDs')
+			if (preg_match('/\w+IDs/', $key))
 			{
 				$parameters[$key] = explode(',', $inputParams[$key]);
 			}
