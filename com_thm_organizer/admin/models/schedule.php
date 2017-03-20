@@ -392,15 +392,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$new->store();
 
 		$reference = $this->getScheduleRow(false, $new->departmentID, $new->planningPeriodID);
+		$jsonModel = new THM_OrganizerModelJSONSchedule;
 
 		if (empty($reference) OR empty($reference->id))
 		{
 			$new->set('active', 1);
 			$new->store();
 
-			return true;
+			return $jsonModel->save($this->newSchedule);
 		}
 
+		// Performs the delta calculations on the old schedule json format
 		$oldJsonModel  = new THM_OrganizerModelOldJSONSchedule;
 		$oldRefSuccess = $oldJsonModel->setReference($reference, $new);
 
@@ -411,8 +413,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 		// Free up memory
 		unset($oldJsonModel);
-
-		$jsonModel = new THM_OrganizerModelJSONSchedule;
 
 		return $jsonModel->setReference($reference, $new);
 	}
