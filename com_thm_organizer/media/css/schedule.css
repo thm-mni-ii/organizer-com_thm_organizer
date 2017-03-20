@@ -467,6 +467,10 @@ input[type=radio] {
     content: ") ";
 }
 
+.comment-container {
+  font-size: 90%;
+  font-style: italic; }
+
 .pools {
     padding: 0.2rem 0;
 }
