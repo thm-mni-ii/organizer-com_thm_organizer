@@ -302,8 +302,8 @@ class THM_OrganizerHelperXMLLessons
 
 		// Set before completion so that the error message is built correctly
 		$this->lessonName = $lessonName;
-
 		$methodID = $this->validateMethod($lessonNode);
+
 		if (!empty($methodID))
 		{
 			$lessonName .= " - $methodID";
@@ -314,6 +314,7 @@ class THM_OrganizerHelperXMLLessons
 		$subjectIndex = $department . "_" . $subjectGPUntisID;
 		$teacherID    = str_replace('TR_', '', trim((string) $lessonNode->lesson_teacher[0]['id']));
 		$teacherValid = $this->validateTeacher($teacherID, $subjectIndex);
+
 		if (!$teacherValid)
 		{
 			return;
@@ -330,12 +331,19 @@ class THM_OrganizerHelperXMLLessons
 			return;
 		}
 
-
 		$effBeginDT  = strtotime(trim((string) $lessonNode->effectivebegindate));
 		$termBeginDT = strtotime($this->scheduleModel->newSchedule->startDate);
-		$startDT     = $effBeginDT < $termBeginDT ? $termBeginDT : $effBeginDT;
 		$effEndDT    = strtotime(trim((string) $lessonNode->effectiveenddate));
 		$termEndDT   = strtotime($this->scheduleModel->newSchedule->endDate);
+
+		// Lesson is not relevant for the uploaded schedule (starts after term ends or ends before term begins)
+		if ($effBeginDT > $termEndDT OR $effEndDT < $termBeginDT)
+		{
+			unset($this->scheduleModel->schedule->lessons->$lessonIndex);
+			return;
+		}
+
+		$startDT     = $effBeginDT < $termBeginDT ? $termBeginDT : $effBeginDT;
 		$endDT       = $termEndDT < $effEndDT ? $termEndDT : $effEndDT;
 
 		// Effective dts are used to avoid unnecessary validation errors

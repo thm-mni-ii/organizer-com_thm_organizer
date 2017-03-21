@@ -65,13 +65,6 @@ class THM_OrganizerViewSubject_Manager extends THM_OrganizerViewList
 			'COM_THM_ORGANIZER_ACTION_IMPORT',
 			true
 		);
-		JToolbarHelper::custom(
-			'subject.updateAll',
-			'import-all',
-			'',
-			'COM_THM_ORGANIZER_ACTION_IMPORT_ALL',
-			false
-		);
 		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'subject.delete');
 
 		if ($this->getModel()->actions->{'core.admin'})

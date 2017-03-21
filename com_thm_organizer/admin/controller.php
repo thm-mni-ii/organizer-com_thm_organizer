@@ -462,19 +462,6 @@ class THM_OrganizerController extends JControllerLegacy
 	}
 
 	/**
-	 * Peforms an update(import) of all existing subjects.
-	 *
-	 * @return void
-	 */
-	public function updateAll()
-	{
-		$model = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
-		$model->updateAll();
-		$this->setRedirect(JRoute::_('index.php?option=com_thm_organizer&view=subject_manager', false));
-		$this->getTask();
-	}
-
-	/**
 	 * Performs access checks and uses the model's upload function to validate
 	 * and save the file to the database should validation be successful
 	 *
