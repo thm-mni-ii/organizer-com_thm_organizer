@@ -531,10 +531,11 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			return true;
 		}
 
+		// These have to be in order of potential string length in case the shorter attribute is a real subset of a longer one.
 		$checkedAttributes = array(
 			'externalID',
-			'abbreviation_de', 'short_name_de', 'name_de',
-			'abbreviation_en', 'short_name_en', 'name_en'
+			'name_de', 'short_name_de', 'abbreviation_de',
+			'name_en', 'short_name_en', 'abbreviation_en'
 		);
 
 		// Flag to be set should one of the attribute texts consist only of module information. => Text should be empty.
@@ -555,6 +556,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			{
 				$prerequisites  = $prerequisites + $mappedDependencies;
 				$emptyAttribute = $this->checkContents($originalText, $checkedAttributes, $mappedDependencies);
+
 				if ($emptyAttribute)
 				{
 					$subjectTable->$attribute = '';
