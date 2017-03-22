@@ -168,6 +168,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	{
 		// Gets rid of bullshit encoding from copy and paste from word
 		$text = str_replace(chr(160), " ", $text);
+		$text = str_replace(chr(194) . chr(167), "&sect;", $text);
 		$text = str_replace(chr(194), " ", $text);
 		$text = str_replace(chr(195) . chr(159), " ", $text);
 
@@ -332,6 +333,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	private function parseAttributes(&$subject, &$dataObject)
 	{
 		$teachersSet = $this->setTeachers($subject->id, $dataObject);
+
 		if (!$teachersSet)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL'), 'error');
