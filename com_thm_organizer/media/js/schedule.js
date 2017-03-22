@@ -1236,9 +1236,9 @@ var ScheduleApp = function ()
 				{
 					var numberOfColumns = variables.isMobile ? 2
 							: jQuery(table).find('tr:first').find('th').filter(function ()
-							{
-								return jQuery(this).css('display') !== 'none';
-							}).length,
+						{
+							return jQuery(this).css('display') !== 'none';
+						}).length,
 						tableTbodyRow = jQuery(table).find('tbody').find('tr'),
 						addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
 						addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';
@@ -1384,7 +1384,17 @@ var ScheduleApp = function ()
 					resetElements();
 
 					subjectSpan.innerHTML = data.name;
-					moduleSpan.innerHTML = data.subjectNo;
+
+					if (data.subjectNo === "")
+					{
+						moduleSpan.style.display = 'none';
+					}
+					else
+					{
+						moduleSpan.style.display = 'inline-block';
+						moduleSpan.innerHTML = data.subjectNo;
+					}
+
 					descriptionSpan.innerHTML = ""; // TODO: description Link
 
 					for (teacherID in data.teachers)
@@ -1650,11 +1660,11 @@ var ScheduleApp = function ()
 						{
 							return variables.subjectIDs ? "subject"
 								: variables.programIDs ? "program"
-									: variables.poolIDs ? "pool"
-										: variables.teacherIDs ? "teacher"
-											: variables.roomTypeIDs ? "roomtype"
-												: variables.roomIDs ? "room"
-													: null;
+								: variables.poolIDs ? "pool"
+								: variables.teacherIDs ? "teacher"
+								: variables.roomTypeIDs ? "roomtype"
+								: variables.roomIDs ? "room"
+								: null;
 						})();
 
 					return {

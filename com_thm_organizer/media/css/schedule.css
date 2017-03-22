@@ -453,6 +453,7 @@ input[type=radio] {
 }
 
 .name {
+    display: inline-block;
     font-weight: bold;
     word-wrap: break-word;
     word-break: break-all;
@@ -468,8 +469,9 @@ input[type=radio] {
 }
 
 .comment-container {
-  font-size: 90%;
-  font-style: italic; }
+    font-size: 90%;
+    font-style: italic;
+}
 
 .pools {
     padding: 0.2rem 0;
@@ -682,6 +684,10 @@ input[type=radio] {
 .removed {
     opacity: 0.5;
     text-decoration: line-through;
+}
+
+.calendar-removed .add-lesson, .calendar-removed .delete-lesson {
+    display: none;
 }
 
 .calendar-new,
