@@ -1395,7 +1395,15 @@ var ScheduleApp = function ()
 						moduleSpan.innerHTML = data.subjectNo;
 					}
 
-					descriptionSpan.innerHTML = ""; // TODO: description Link
+					if(lessonMenuElement.parentNode.getElementsByClassName('comment-container')[0] !== undefined)
+					{
+						descriptionSpan.innerHTML =
+							lessonMenuElement.parentNode.getElementsByClassName('comment-container')[0].innerText;
+					}
+					else
+					{
+						descriptionSpan.innerHTML = "";
+					}
 
 					for (teacherID in data.teachers)
 					{
