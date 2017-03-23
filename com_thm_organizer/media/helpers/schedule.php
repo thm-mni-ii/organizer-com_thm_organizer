@@ -32,19 +32,21 @@ class THM_OrganizerHelperSchedule
 	/**
 	 * Aggregates the distinct lesson configurations to distinct instances
 	 *
-	 * @param mixed  $lessons the lessons which should get aggregated
-	 * @param string $delta   representing date in which deltas gets accepted
+	 * @param mixed  $lessons   the lessons which should get aggregated
+	 * @param string $deltaDate representing date in which deltas gets accepted
 	 *
 	 * @return array
 	 */
-	private static function aggregateInstances($lessons, $delta)
+	private static function aggregateInstances($lessons, $deltaDate)
 	{
 		$aggregatedLessons = array();
+		$delta             = empty($deltaDate) ? date('Y-m-d H:i:s', strtotime('now')) : date('Y-m-d H:i:s', strtotime($deltaDate));
+
 		foreach ($lessons as $lesson)
 		{
 			$date         = $lesson['date'];
 			$lessonID     = $lesson['lessonID'];
-			$subjectDelta = empty($lesson['subjectDelta']) ? '' : $lesson['subjectDelta'];
+			$subjectDelta = (empty($lesson['subjectDelta']) OR $lesson['subjectsModified'] < $delta) ? '' : $lesson['subjectDelta'];
 			$startTime    = substr(str_replace(':', '', $lesson['startTime']), 0, 4);
 			$endTime      = substr(str_replace(':', '', $lesson['endTime']), 0, 4);
 			$times        = "$startTime-$endTime";
@@ -61,16 +63,22 @@ class THM_OrganizerHelperSchedule
 
 			if (empty($aggregatedLessons[$date][$times][$lessonID]))
 			{
-				$aggregatedLessons[$date][$times][$lessonID]                  = array();
-				$aggregatedLessons[$date][$times][$lessonID]['method']        = empty($lesson['method']) ? '' : $lesson['method'];
-				$aggregatedLessons[$date][$times][$lessonID]['comment']       = empty($lesson['comment']) ? '' : $lesson['comment'];
-				$aggregatedLessons[$date][$times][$lessonID]['startTime']     = $lesson['startTime'];
-				$aggregatedLessons[$date][$times][$lessonID]['endTime']       = $lesson['endTime'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects']      = array();
-				$aggregatedLessons[$date][$times][$lessonID]['ccmID']         = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
-				$aggregatedLessons[$date][$times][$lessonID]['calendarDelta'] = empty($lesson['calendarDelta']) ? '' : $lesson['calendarDelta'];
-				$aggregatedLessons[$date][$times][$lessonID]['lessonDelta']   = empty($lesson['lessonDelta']) ? '' : $lesson['lessonDelta'];
-				$aggregatedLessons[$date][$times][$lessonID]['poolDelta']     = empty($lesson['poolDelta']) ? '' : $lesson['poolDelta'];
+				$aggregatedLessons[$date][$times][$lessonID]              = array();
+				$aggregatedLessons[$date][$times][$lessonID]['method']    = empty($lesson['method']) ? '' : $lesson['method'];
+				$aggregatedLessons[$date][$times][$lessonID]['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
+				$aggregatedLessons[$date][$times][$lessonID]['startTime'] = $lesson['startTime'];
+				$aggregatedLessons[$date][$times][$lessonID]['endTime']   = $lesson['endTime'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects']  = array();
+				$aggregatedLessons[$date][$times][$lessonID]['ccmID']     = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
+
+				$aggregatedLessons[$date][$times][$lessonID]['lessonDelta'] =
+					(empty($lesson['lessonDelta']) OR $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
+
+				$aggregatedLessons[$date][$times][$lessonID]['calendarDelta'] =
+					(empty($lesson['calendarDelta']) OR $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
+
+				$aggregatedLessons[$date][$times][$lessonID]['poolDelta'] =
+					(empty($lesson['poolDelta']) OR $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
 			}
 
 			$subjectData = self::getSubjectData($lesson);
@@ -82,7 +90,7 @@ class THM_OrganizerHelperSchedule
 
 			if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]))
 			{
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName] = $subjectData;
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]             = $subjectData;
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] = $configuration['teachers'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']    = $configuration['rooms'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'] = array();
@@ -92,19 +100,24 @@ class THM_OrganizerHelperSchedule
 				$previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'];
 				$previousRooms    = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'];
 
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']     = $previousTeachers + $configuration['teachers'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']        = $previousRooms + $configuration['rooms'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] =
+					$previousTeachers + $configuration['teachers'];
+
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'] = $previousRooms + $configuration['rooms'];
+
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['subjectDelta'] = $subjectDelta;
 			}
 
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teacherDeltas'] = $configuration['teacherDeltas'];
-			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['roomDeltas']    = $configuration['roomDeltas'];
-			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
-				= array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
+
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['roomDeltas'] = $configuration['roomDeltas'];
+
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']] =
+				array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
 
 			if (!empty($subjectData['id']))
 			{
-				$programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['id']);
+				$programs = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['id']);
 				self::addPlanPrograms($programs);
 
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['id']] = $programs;
@@ -295,11 +308,13 @@ class THM_OrganizerHelperSchedule
 			'abbr'      => $lesson['psUntisID']
 		);
 
-		$tag   = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo   = JFactory::getDbo();
+		$tag          = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo          = JFactory::getDbo();
 		$programQuery = $dbo->getQuery(true);
 
-		$select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, s.abbreviation_$tag AS abbr";
+		$select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, ";
+		$select .= "s.abbreviation_$tag AS abbr";
+
 		$programQuery->select($select)
 			->from('#__thm_organizer_subjects AS s')
 			->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.subjectID = s.id')
@@ -321,12 +336,12 @@ class THM_OrganizerHelperSchedule
 			return $return;
 		}
 
-		$tempMappings = $mappedSubjects;
-		$subject = array_shift($tempMappings);
+		$tempMappings        = $mappedSubjects;
+		$subject             = array_shift($tempMappings);
 		$return['subjectID'] = $subject['subjectID'];
-		$return['name'] = $subject['name'];
-		$return['shortName'] = empty($subject['shortName'])? $return['shortName'] : $subject['shortName'];
-		$return['abbr'] = empty($subject['abbr'])? $return['abbr'] : $subject['abbr'];
+		$return['name']      = $subject['name'];
+		$return['shortName'] = empty($subject['shortName']) ? $return['shortName'] : $subject['shortName'];
+		$return['abbr']      = empty($subject['abbr']) ? $return['abbr'] : $subject['abbr'];
 
 		if (count($mappedSubjects) === 1)
 		{
@@ -358,7 +373,7 @@ class THM_OrganizerHelperSchedule
 			return $return;
 		}
 
-		$left = $programMapping['lft'];
+		$left  = $programMapping['lft'];
 		$right = $programMapping['rgt'];
 
 		foreach ($mappedSubjects as $subject)
@@ -368,9 +383,9 @@ class THM_OrganizerHelperSchedule
 			if ($found)
 			{
 				$return['subjectID'] = $subject['subjectID'];
-				$return['name'] = $subject['name'];
-				$return['shortName'] = empty($subject['shortName'])? $return['shortName'] : $subject['shortName'];
-				$return['abbr'] = empty($subject['abbr'])? $return['abbr'] : $subject['abbr'];
+				$return['name']      = $subject['name'];
+				$return['shortName'] = empty($subject['shortName']) ? $return['shortName'] : $subject['shortName'];
+				$return['abbr']      = empty($subject['abbr']) ? $return['abbr'] : $subject['abbr'];
 
 				break;
 			}
@@ -440,12 +455,11 @@ class THM_OrganizerHelperSchedule
 	 */
 	private static function resolveConfiguration(&$configuration, $delta)
 	{
-		$deltaDate                      = empty($delta) ? date('Y-m-d H:i:s', strtotime('now')) : date('Y-m-d H:i:s', strtotime($delta));
 		$configuration['teacherDeltas'] = array();
 
 		foreach ($configuration['teachers'] AS $teacherID => $teacherDelta)
 		{
-			if ($teacherDelta == 'removed' AND $configuration['modified'] < $deltaDate)
+			if ($teacherDelta == 'removed' AND $configuration['modified'] < $delta)
 			{
 				unset($configuration['teachers'][$teacherID]);
 				continue;
@@ -459,7 +473,7 @@ class THM_OrganizerHelperSchedule
 
 		foreach ($configuration['rooms'] AS $roomID => $roomDelta)
 		{
-			if ($roomDelta == 'removed' AND $configuration['modified'] < $deltaDate)
+			if ($roomDelta == 'removed' AND $configuration['modified'] < $delta)
 			{
 				unset($configuration['rooms'][$roomID]);
 				continue;

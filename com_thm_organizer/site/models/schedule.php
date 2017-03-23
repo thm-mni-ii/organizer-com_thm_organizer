@@ -174,7 +174,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$this->params['showRooms']     = $input->getInt('showRooms', $params->get('showRooms', 1));
 		$this->params['showRoomTypes'] = $input->getInt('showRoomTypes', $params->get('showRoomTypes', 1));
 		$this->params['showTeachers']  = $input->getInt('showTeachers', $params->get('showTeachers', 1));
-		$this->params['deltaDays']     = $input->getInt('deltaDays', $params->get('deltaDays', 14));
+		$this->params['deltaDays']     = $input->getInt('deltaDays', $params->get('deltaDays', 5));
 
 		// Menu title requested
 		if (!empty($params->get('show_page_heading')))

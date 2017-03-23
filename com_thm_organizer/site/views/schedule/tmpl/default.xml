@@ -70,7 +70,7 @@
                    first="0"
                    last="100"
                    step="1"
-                   default="14">
+                   default="5">
             </field>
             <field name="showPrograms"
                    type="radio"
