@@ -143,15 +143,6 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
 			$this->_db->transactionStart();
 
-			$removed = $this->removeFromSchedules($resourceID, $table->gpuntisID);
-			if (!$removed)
-			{
-				$this->_db->transactionRollback();
-				continue;
-			}
-
-			// No need to update associations, handled by foreign keys.
-
 			try
 			{
 				$table->delete($resourceID);
@@ -281,35 +272,6 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	}
 
 	/**
-	 * Retrieves the (old format) schedule for the given id.
-	 *
-	 * @param int $scheduleID the id of the schedule
-	 *
-	 * @return  mixed  object on success, otherwise null
-	 */
-	protected function getOldScheduleObject($scheduleID)
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select('schedule');
-		$query->from('#__thm_organizer_schedules');
-		$query->where("id = '$scheduleID'");
-		$this->_db->setQuery((string) $query);
-
-		try
-		{
-			$schedule = $this->_db->loadResult();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-			return null;
-		}
-
-		return empty($schedule) ? null : json_decode($schedule);
-	}
-
-	/**
 	 * Retrieves the schedule for the given id.
 	 *
 	 * @param int $scheduleID the id of the schedule
@@ -405,55 +367,6 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		}
 
 		$this->_db->transactionCommit();
-
-		return true;
-	}
-
-	/**
-	 * Removes the resource from the schedule
-	 *
-	 * @param object &$schedule  the schedule from which the resource will be removed
-	 * @param int    $resourceID the id of the resource in the db
-	 * @param string $gpuntisID  the gpuntis ID for the given resource
-	 *
-	 * @return  void  modifies the schedule
-	 */
-	protected abstract function removeFromSchedule(&$schedule, $resourceID, $gpuntisID);
-
-	/**
-	 * Removes the resource from the schedule
-	 *
-	 * @param int    $resourceID the id of the resource in the db
-	 * @param string $gpuntisID  the gpuntis ID for the given resource
-	 *
-	 * @return  bool  true on success, otherwise false
-	 */
-	protected function removeFromSchedules($resourceID, $gpuntisID)
-	{
-		$scheduleIDs = $this->getAllSchedulesIDs();
-		if (empty($scheduleIDs))
-		{
-			return true;
-		}
-
-		$scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
-		foreach ($scheduleIDs as $scheduleID)
-		{
-			$scheduleObject = $this->getOldScheduleObject($scheduleID);
-			if (empty($scheduleObject))
-			{
-				continue;
-			}
-
-			$this->removeFromSchedule($scheduleObject, $resourceID, $gpuntisID);
-			$tableData['id']       = $scheduleID;
-			$tableData['schedule'] = json_encode($scheduleObject);
-			$success               = $scheduleTable->save($tableData);
-			if (!$success)
-			{
-				return false;
-			}
-		}
 
 		return true;
 	}
@@ -769,20 +682,6 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 *
 	 * @return  void
 	 */
-	protected abstract function updateOldSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
-
-	/**
-	 * Processes the data for an individual schedule
-	 *
-	 * @param object &$schedule     the schedule being processed
-	 * @param array  &$data         the data for the schedule db entry
-	 * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-	 * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param array  $allDBIDs      all db IDs for the resources to be merged
-	 *
-	 * @return  void
-	 */
 	protected abstract function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
 
 	/**
@@ -807,24 +706,17 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
 		foreach ($scheduleIDs as $scheduleID)
 		{
-			$oldScheduleObject = $this->getOldScheduleObject($scheduleID);
-			if (empty($oldScheduleObject))
+			$scheduleObject = $this->getScheduleObject($scheduleID);
+			if (empty($scheduleObject))
 			{
 				continue;
 			}
 
-			$this->updateOldSchedule($oldScheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
-
 			$tableData             = array();
 			$tableData['id']       = $scheduleID;
-			$tableData['schedule'] = json_encode($oldScheduleObject);
 
-			$scheduleObject = $this->getScheduleObject($scheduleID);
-			if (!empty($scheduleObject))
-			{
-				$this->updateSchedule($scheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
-				$tableData['newSchedule'] = json_encode($scheduleObject);
-			}
+			$this->updateSchedule($scheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
+			$tableData['newSchedule'] = json_encode($scheduleObject);
 
 			$success = $scheduleTable->save($tableData);
 			if (!$success)

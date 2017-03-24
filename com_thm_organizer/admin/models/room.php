@@ -49,31 +49,6 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 	}
 
 	/**
-	 * Removes the resource from the schedule
-	 *
-	 * @param object &$schedule  the schedule from which the resource will be removed
-	 * @param int    $resourceID the id of the resource in the db
-	 * @param string $gpuntisID  the gpuntis ID for the given resource
-	 *
-	 * @return  void  modifies the schedule
-	 */
-	protected function removeFromSchedule(&$schedule, $resourceID, $gpuntisID)
-	{
-		// Room not used in schedule
-		if (empty($schedule->rooms->$gpuntisID))
-		{
-			return;
-		}
-
-		unset($schedule->rooms->$gpuntisID);
-
-		foreach ($schedule->calendar as $date => $blocks)
-		{
-			$this->iterateDateReferences($schedule, $date, $blocks, array($gpuntisID));
-		}
-	}
-
-	/**
 	 * Updates key references to the entry being merged.
 	 *
 	 * @param int   $newDBID  the id onto which the room entries merge
@@ -96,56 +71,6 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 		}
 
 		return $this->updateAssociation('room', $newDBID, $oldDBIDs, 'room_features_map');
-	}
-
-	/**
-	 * Processes the data for an individual schedule
-	 *
-	 * @param object &$schedule     the schedule being processed
-	 * @param array  &$data         the data for the schedule db entry
-	 * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-	 * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param array  $allDBIDs      all db IDs for the resources to be merged
-	 *
-	 * @return  void
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	protected function updateOldSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
-	{
-		if (!empty($data['typeID']))
-		{
-			$typeDBID      = $data['typeID'];
-			$typeGPUntisID = $this->getDescriptionGPUntisID('room_types', $data['typeID']);
-		}
-		else
-		{
-			$typeDBID = $typeGPUntisID = '';
-		}
-
-		foreach ($schedule->rooms as $gpuntisID => $room)
-		{
-			if (in_array($gpuntisID, $allGPUntisIDs))
-			{
-				// Whether old or new high probability of having to overwrite an attribute this enables standard handling.
-				unset($schedule->rooms->$gpuntisID);
-
-				$schedule->rooms->$newGPUntisID              = new stdClass;
-				$schedule->rooms->$newGPUntisID->id          = $newDBID;
-				$schedule->rooms->$newGPUntisID->gpuntisID   = $newGPUntisID;
-				$schedule->rooms->$newGPUntisID->name        = $data['name'];
-				$schedule->rooms->$newGPUntisID->longname    = $data['longname'];
-				$schedule->rooms->$newGPUntisID->typeID      = $typeDBID;
-				$schedule->rooms->$newGPUntisID->description = $typeGPUntisID;
-				$schedule->rooms->$newGPUntisID->capacity    = $data['capacity'];
-			}
-		}
-
-		foreach ($schedule->calendar as $date => $blocks)
-		{
-			$this->iterateDateReferences($schedule, $date, $blocks, $allGPUntisIDs, $newGPUntisID);
-		}
 	}
 
 	/**

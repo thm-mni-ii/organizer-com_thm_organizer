@@ -24,6 +24,22 @@ jimport('joomla.filesystem.file');
 class Com_THM_OrganizerInstallerScript
 {
 	/**
+	 * Creates the directory for images used by the component
+	 *
+	 * @return  boolean true if the directory exists, otherwise false
+	 */
+	private function createImageDirectory()
+	{
+		$exists = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
+		if ($exists)
+		{
+			return true;
+		}
+
+		return JFolder::create(JPATH_SITE . '/images/thm_organizer');
+	}
+
+	/**
 	 * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
 	 * All text constants have been replaced by hard coded English texts. :(
 	 *
@@ -130,32 +146,6 @@ class Com_THM_OrganizerInstallerScript
             </div>
         </fieldset>
 		<?php
-	}
-
-	/**
-	 * Method returning the administrative compontent path
-	 *
-	 * @return  string  path to the component's sql directory
-	 */
-	private function SQLPath()
-	{
-		return JPATH_SITE . '/administrator/components/com_thm_organizer/sql';
-	}
-
-	/**
-	 * Creates the directory for images used by the component
-	 *
-	 * @return  boolean true if the directory exists, otherwise false
-	 */
-	private function createImageDirectory()
-	{
-		$exists = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
-		if ($exists)
-		{
-			return true;
-		}
-
-		return JFolder::create(JPATH_SITE . '/images/thm_organizer');
 	}
 
 	/**

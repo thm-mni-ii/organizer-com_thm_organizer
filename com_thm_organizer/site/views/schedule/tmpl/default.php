@@ -35,7 +35,7 @@ $displayName = empty($this->model->displayName) ?
 				   aria-selected="true">
 					<span class="icon-schedules"></span>
 					<span
-						class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULER_OPTIONS_SELECTION_TITLE"); ?></span>
+						class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULES"); ?></span>
 				</a>
 			</li>
 			<li class="tabs-tab" role="presentation">

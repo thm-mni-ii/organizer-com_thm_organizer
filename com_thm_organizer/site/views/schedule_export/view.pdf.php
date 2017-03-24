@@ -65,7 +65,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		if (!$this->compiler)
 		{
-			JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_FPDF_LIBRARY_NOT_INSTALLED');
+			JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_TCPDF_LIBRARY_NOT_INSTALLED');
 
 			return false;
 		}

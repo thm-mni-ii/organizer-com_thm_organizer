@@ -264,43 +264,6 @@ class THM_OrganizerController extends JControllerLegacy
 	}
 
 	/**
-	 * Performs access checks and uses the model's upload function to validate
-	 * and save the file to the database should validation be successful
-	 *
-	 * @return void
-	 */
-	public function migrate()
-	{
-		$model = $this->getModel($this->resource);
-
-		$type              = 'error';
-		$functionAvailable = method_exists($model, 'migrate');
-		$view              = 'manager';
-
-		if ($functionAvailable)
-		{
-			$success = $model->migrate();
-			$msg     = $success ?
-				JText::_('COM_THM_ORGANIZER_MESSAGE_MIGRATE_SUCCESS') : JText::_('COM_THM_ORGANIZER_MESSAGE_MIGRATE_FAIL');
-			$type    = 'message';
-		}
-		else
-		{
-			$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE');
-		}
-
-		$app = JFactory::getApplication();
-
-		if (!empty($msg))
-		{
-			$app->enqueueMessage($msg, $type);
-		}
-
-		$app->input->set('view', "{$this->resource}_{$view}");
-		parent::display();
-	}
-
-	/**
 	 * Makes call to the models's save function, and redirects to the manager view.
 	 *
 	 * @return  void
@@ -435,7 +398,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$model = $this->getModel($this->resource);
 
 		$type              = 'error';
-		$functionAvailable = method_exists($model, 'autoMerge');
+		$functionAvailable = method_exists($model, 'toggle');
 
 		if ($functionAvailable)
 		{

@@ -1,4 +1,4 @@
-.icon-organizer::before, .icon-48-organizer::before,
+.icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
   font-family: icomoon;
@@ -46,8 +46,7 @@ a[href$="option=com_thm_organizer"]::before {
   content: "\31"; }
 
 .icon-organizer_schedules::before,
-.icon-mni::before,
-.icon-48-mni::before {
+.icon-mni::before {
   font-family: icomoon;
   content: "\e600"; }
 

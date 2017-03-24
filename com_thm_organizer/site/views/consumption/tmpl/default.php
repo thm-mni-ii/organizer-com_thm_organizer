@@ -35,7 +35,7 @@ $title       = $this->params->get('page_title', '');
                 <button onclick="jQuery('#reset').val('1')"><i
                             class="icon-remove"></i> <?php echo JText::_('COM_THM_ORGANIZER_ACTION_RESET'); ?></button>
                 <button id="export"><i
-                            class="icon-file-excel"></i> <?php echo JText::_("COM_THM_ORGANIZER_ACTION_EXPORT_EXCEL"); ?>
+                            class="icon-file-excel"></i> <?php echo JText::_("COM_THM_ORGANIZER_XLS_EXPORT"); ?>
                 </button>
                 <input type="hidden" id="reset" name="reset" value="0"/>
             </div>

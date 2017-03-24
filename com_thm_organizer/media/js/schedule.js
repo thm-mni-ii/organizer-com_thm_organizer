@@ -2432,6 +2432,7 @@ var ScheduleApp = function ()
 		if (schedule === 'user')
 		{
 			url += "&myschedule=1";
+
 			if (formats[0] === 'ics')
 			{
 				url += "&username=" + variables.username + "&auth=" + variables.auth;
@@ -2450,8 +2451,6 @@ var ScheduleApp = function ()
 				return;
 			}
 
-			url += "&date=" + getDateFieldString();
-
 			if (schedule.search(/pool/) === 0)
 			{
 				url += "&poolIDs=" + resourceID;
@@ -2469,6 +2468,8 @@ var ScheduleApp = function ()
 				return;
 			}
 		}
+
+		url += "&date=" + getDateFieldString();
 
 		window.open(url);
 		exportSelection.val('placeholder');

@@ -137,30 +137,4 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 
 		return $headers;
 	}
-
-	/**
-	 * Generates a toggle for the attribute in question
-	 *
-	 * @param int $id the id of the database entry
-	 *
-	 * @return  string  a HTML string
-	 */
-	protected function getMigrate($id, $value)
-	{
-		if (!empty($value))
-		{
-			return '<div class="button-grp"><i class="icon-publish"></i></div>';
-		}
-
-		$icon = '<i class="icon-unpublish"></i>';
-
-		$attributes          = array();
-		$attributes['title'] = JTEXT::_('COM_THM_ORGANIZER_ACTION_MIGRATE');
-		$attributes['class'] = 'btn btn-micro hasTooltip inactive';
-
-		$url  = "index.php?option=com_thm_organizer&task=schedule.migrate&id=" . $id;
-		$link = JHtml::_('link', $url, $icon, $attributes);
-
-		return '<div class="button-grp">' . $link . '</div>';
-	}
 }

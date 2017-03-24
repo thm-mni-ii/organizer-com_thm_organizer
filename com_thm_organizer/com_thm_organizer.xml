@@ -3,11 +3,11 @@
     <name>COM_THM_ORGANIZER</name>
     <author>James Antrim</author>
     <authorEmail>james.antrim@nm.thm.de</authorEmail>
-    <author>Wolf Rost</author>
-    <authorEmail>wolf.rost@mni.thm.de</authorEmail>
-    <author>Alexander Boll</author>
-    <authorEmail>alexander.boll@mni.thm.de</authorEmail>
-    <authorUrl>www.mni.thm.de</authorUrl>
+    <author>Lavinia Popa-Rössel</author>
+    <authorEmail>lavinia.popa-roessel@mni.thm.de</authorEmail>
+    <author>Franciska Perisa</author>
+    <authorEmail>franciska.perisa@mni.thm.de</authorEmail>
+    <authorUrl>www.thm.de</authorUrl>
     <creationDate>March 2017</creationDate>
     <copyright>TH Mittelhessen 2017</copyright>
     <licence>GNU GPL v.2</licence>
@@ -52,8 +52,6 @@
         <filename>controller.php</filename>
         <filename>LICENSE.txt</filename>
         <filename>buggedrouter.php</filename>
-        <folder>assets</folder>
-        <folder>controllers</folder>
         <folder>helpers</folder>
         <folder>models</folder>
         <folder>tables</folder>
