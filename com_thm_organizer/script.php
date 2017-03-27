@@ -149,6 +149,63 @@ class Com_THM_OrganizerInstallerScript
 	}
 
 	/**
+	 * Removes folder contents before update to ensure removal of deprecated files
+	 *
+	 * @param string $type the type of action being performed with the component.
+	 * @param object $parent the "parent" running this script
+	 *
+	 * @return void
+	 */
+	public function preflight($type, $parent)
+	{
+		// Remove all old files to ensure no access to deprecated code. Current files will later be installed to these folders.
+		if ($type == 'update')
+		{
+			$adminFiles = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
+
+			foreach ($adminFiles as $adminFile)
+			{
+				JFile::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFile);
+			}
+
+			$adminFolders = JFolder::folders(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
+
+			foreach ($adminFolders as $adminFolder)
+			{
+				JFolder::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFolder);
+			}
+
+			$siteFiles = JFolder::files(JPATH_SITE . '/components/com_thm_organizer');
+
+			foreach ($siteFiles as $siteFile)
+			{
+				JFile::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFile);
+			}
+
+			$siteFolders = JFolder::folders(JPATH_SITE . '/components/com_thm_organizer');
+
+			foreach ($siteFolders as $siteFolder)
+			{
+				JFolder::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFolder);
+			}
+
+			$mediaFiles = JFolder::files(JPATH_SITE . '/media/com_thm_organizer');
+
+			foreach ($mediaFiles as $mediaFile)
+			{
+				JFile::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
+			}
+
+			$mediaFolders = JFolder::folders(JPATH_SITE . '/media/com_thm_organizer');
+
+			foreach ($mediaFolders as $mediaFolder)
+			{
+				JFolder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
+			}
+		}
+	}
+
+	/**
 	 * Method to uninstall the component
 	 *
 	 * @param object $parent the class calling this method
