@@ -40,7 +40,7 @@ class THM_OrganizerHelperXMLRooms
 			return;
 		}
 
-		$scheduleModel->schedule->rooms = new stdClass;
+		$scheduleModel->newSchedule->rooms = new stdClass;
 
 		foreach ($xmlObject->rooms->children() as $resourceNode)
 		{
@@ -60,8 +60,6 @@ class THM_OrganizerHelperXMLRooms
 			unset($scheduleModel->scheduleWarnings['ROOM-TYPE']);
 			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TYPE_MISSING', $warningCount);
 		}
-
-		$scheduleModel->newSchedule->rooms = $scheduleModel->schedule->rooms;
 	}
 
 	/**
@@ -83,7 +81,7 @@ class THM_OrganizerHelperXMLRooms
 			return false;
 		}
 
-		$scheduleModel->schedule->rooms->$roomID->longname = $displayName;
+		$scheduleModel->newSchedule->rooms->$roomID->longname = $displayName;
 
 		return $displayName;
 	}
@@ -106,29 +104,29 @@ class THM_OrganizerHelperXMLRooms
 		}
 
 		$gpuntisID                                             = str_replace('RM_', '', $gpuntisID);
-		$scheduleModel->schedule->rooms->$gpuntisID            = new stdClass;
-		$scheduleModel->schedule->rooms->$gpuntisID->name      = $gpuntisID;
-		$scheduleModel->schedule->rooms->$gpuntisID->gpuntisID = $gpuntisID;
-		$scheduleModel->schedule->rooms->$gpuntisID->localUntisID
+		$scheduleModel->newSchedule->rooms->$gpuntisID            = new stdClass;
+		$scheduleModel->newSchedule->rooms->$gpuntisID->name      = $gpuntisID;
+		$scheduleModel->newSchedule->rooms->$gpuntisID->gpuntisID = $gpuntisID;
+		$scheduleModel->newSchedule->rooms->$gpuntisID->localUntisID
 		                                                       = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
 
 		$displayName = self::validateDisplayName($scheduleModel, $roomNode, $gpuntisID);
 		if (!$displayName)
 		{
-			unset($scheduleModel->schedule->rooms->$gpuntisID);
+			unset($scheduleModel->newSchedule->rooms->$gpuntisID);
 
 			return;
 		}
 
 		$capacity                                             = trim((int) $roomNode->capacity);
-		$scheduleModel->schedule->rooms->$gpuntisID->capacity = (empty($capacity)) ? '' : $capacity;
+		$scheduleModel->newSchedule->rooms->$gpuntisID->capacity = (empty($capacity)) ? '' : $capacity;
 
 		self::validateType($scheduleModel, $roomNode, $gpuntisID);
-		$roomID = THM_OrganizerHelperRooms::getID($gpuntisID, $scheduleModel->schedule->rooms->$gpuntisID);
+		$roomID = THM_OrganizerHelperRooms::getID($gpuntisID, $scheduleModel->newSchedule->rooms->$gpuntisID);
 
 		if (!empty($roomID))
 		{
-			$scheduleModel->schedule->rooms->$gpuntisID->id = $roomID;
+			$scheduleModel->newSchedule->rooms->$gpuntisID->id = $roomID;
 			THM_OrganizerHelperDepartments::setDepartmentResource($roomID, 'roomID');
 		}
 	}
@@ -150,13 +148,13 @@ class THM_OrganizerHelperXMLRooms
 		{
 			$scheduleModel->scheduleWarnings['ROOM-TYPE']         = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
 				1 : $scheduleModel->scheduleWarnings['ROOM-TYPE'] + 1;
-			$scheduleModel->schedule->rooms->$roomID->description = '';
+			$scheduleModel->newSchedule->rooms->$roomID->description = '';
 
 			return;
 		}
 
-		$scheduleModel->schedule->rooms->$roomID->description = $descriptionID;
-		$scheduleModel->schedule->rooms->$roomID->typeID      = $scheduleModel->schedule->room_types->$descriptionID->id;
+		$scheduleModel->newSchedule->rooms->$roomID->description = $descriptionID;
+		$scheduleModel->newSchedule->rooms->$roomID->typeID      = $scheduleModel->schedule->room_types->$descriptionID->id;
 	}
 
 	/**

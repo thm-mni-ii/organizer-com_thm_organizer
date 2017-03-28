@@ -40,7 +40,7 @@ class THM_OrganizerHelperXMLTeachers
 			return;
 		}
 
-		$scheduleModel->schedule->teachers = new stdClass;
+		$scheduleModel->newSchedule->teachers = new stdClass;
 
 		foreach ($xmlObject->teachers->children() as $teacherNode)
 		{
@@ -81,8 +81,6 @@ class THM_OrganizerHelperXMLTeachers
 			unset($scheduleModel->scheduleWarnings['TEACHER-USERNAME']);
 			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_USERNAME_MISSING', $warningCount);
 		}
-
-		$scheduleModel->newSchedule->teachers = $scheduleModel->schedule->teachers;
 	}
 
 	/**
@@ -98,21 +96,24 @@ class THM_OrganizerHelperXMLTeachers
 	{
 
 		$gpuntisID = self::validateUntisID($scheduleModel, $teacherNode);
+
 		if (!$gpuntisID)
 		{
 			return;
 		}
 
-		$gpuntisID                                                = str_replace('TR_', '', $gpuntisID);
-		$scheduleModel->schedule->teachers->$gpuntisID            = new stdClass;
-		$scheduleModel->schedule->teachers->$gpuntisID->gpuntisID = $gpuntisID;
-		$scheduleModel->schedule->teachers->$gpuntisID->localUntisID
-		                                                          = str_replace('TR_', '', trim((string) $teacherNode[0]['id']));
+		$gpuntisID                                                   = str_replace('TR_', '', $gpuntisID);
+		$scheduleModel->newSchedule->teachers->$gpuntisID            = new stdClass;
+		$scheduleModel->newSchedule->teachers->$gpuntisID->gpuntisID = $gpuntisID;
+
+		$scheduleModel->newSchedule->teachers->$gpuntisID->localUntisID
+			= str_replace('TR_', '', trim((string) $teacherNode[0]['id']));
 
 		$surname = self::validateSurname($scheduleModel, $teacherNode, $gpuntisID);
+
 		if (!$surname)
 		{
-			unset($scheduleModel->schedule->teachers->$gpuntisID);
+			unset($scheduleModel->newSchedule->teachers->$gpuntisID);
 
 			return;
 		}
@@ -123,11 +124,11 @@ class THM_OrganizerHelperXMLTeachers
 		self::validateUserName($scheduleModel, $teacherNode, $gpuntisID);
 
 
-		$teacherID = THM_OrganizerHelperTeachers::getID($gpuntisID, $scheduleModel->schedule->teachers->$gpuntisID);
+		$teacherID = THM_OrganizerHelperTeachers::getID($gpuntisID, $scheduleModel->newSchedule->teachers->$gpuntisID);
 
 		if (!empty($teacherID))
 		{
-			$scheduleModel->schedule->teachers->$gpuntisID->id = $teacherID;
+			$scheduleModel->newSchedule->teachers->$gpuntisID->id = $teacherID;
 			THM_OrganizerHelperDepartments::setDepartmentResource($teacherID, 'teacherID');
 		}
 	}
@@ -150,14 +151,14 @@ class THM_OrganizerHelperXMLTeachers
 			$scheduleModel->scheduleWarnings['TEACHER-FIELD']
 				                                                        = empty($scheduleModel->scheduleWarnings['TEACHER-FIELD']) ?
 				1 : $scheduleModel->scheduleWarnings['TEACHER-FIELD'] + 1;
-			$scheduleModel->schedule->teachers->$teacherID->description = '';
-			$scheduleModel->schedule->teachers->$teacherID->fieldID     = '';
+			$scheduleModel->newSchedule->teachers->$teacherID->description = '';
+			$scheduleModel->newSchedule->teachers->$teacherID->fieldID     = '';
 
 			return;
 		}
 
-		$scheduleModel->schedule->teachers->$teacherID->description = $fieldID;
-		$scheduleModel->schedule->teachers->$teacherID->fieldID     = $scheduleModel->schedule->fields->$fieldID->id;
+		$scheduleModel->newSchedule->teachers->$teacherID->description = $fieldID;
+		$scheduleModel->newSchedule->teachers->$teacherID->fieldID     = $scheduleModel->schedule->fields->$fieldID->id;
 	}
 
 	/**
@@ -179,7 +180,7 @@ class THM_OrganizerHelperXMLTeachers
 				1 : $scheduleModel->scheduleWarnings['TEACHER-FORENAME'] + 1;
 		}
 
-		$scheduleModel->schedule->teachers->$teacherID->forename = empty($forename) ? '' : $forename;
+		$scheduleModel->newSchedule->teachers->$teacherID->forename = empty($forename) ? '' : $forename;
 	}
 
 	/**
@@ -201,7 +202,7 @@ class THM_OrganizerHelperXMLTeachers
 			return false;
 		}
 
-		$scheduleModel->schedule->teachers->$teacherID->surname = $surname;
+		$scheduleModel->newSchedule->teachers->$teacherID->surname = $surname;
 
 		return $surname;
 	}
@@ -225,7 +226,7 @@ class THM_OrganizerHelperXMLTeachers
 				1 : $scheduleModel->scheduleWarnings['TEACHER-TITLE'] + 1;
 		}
 
-		$scheduleModel->schedule->teachers->$teacherID->title = empty($title) ? '' : $title;
+		$scheduleModel->newSchedule->teachers->$teacherID->title = empty($title) ? '' : $title;
 	}
 
 	/**
@@ -283,6 +284,6 @@ class THM_OrganizerHelperXMLTeachers
 				1 : $scheduleModel->scheduleWarnings['TEACHER-USERNAME'] + 1;
 		}
 
-		$scheduleModel->schedule->teachers->$teacherID->username = empty($userName) ? '' : $userName;
+		$scheduleModel->newSchedule->teachers->$teacherID->username = empty($userName) ? '' : $userName;
 	}
 }

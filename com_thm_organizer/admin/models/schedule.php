@@ -253,19 +253,18 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			return false;
 		}
 
-		$this->schedule    = $xmlModel->schedule;
 		$this->newSchedule = $xmlModel->newSchedule;
 
 		$new = JTable::getInstance('schedules', 'thm_organizerTable');
-		$new->set('departmentID', $this->schedule->departmentID);
-		$new->set('departmentname', $this->schedule->departmentname);
-		$new->set('planningPeriodID', $this->schedule->planningPeriodID);
-		$new->set('semestername', $this->schedule->semestername);
-		$new->set('creationDate', $this->schedule->creationDate);
-		$new->set('creationTime', $this->schedule->creationTime);
-		$new->set('startDate', $this->schedule->startDate);
-		$new->set('endDate', $this->schedule->endDate);
-		$new->set('schedule', json_encode($this->schedule));
+		$new->set('departmentID', $this->newSchedule->departmentID);
+		$new->set('departmentname', $this->newSchedule->departmentname);
+		$new->set('planningPeriodID', $this->newSchedule->planningPeriodID);
+		$new->set('semestername', $this->newSchedule->semestername);
+		$new->set('creationDate', $this->newSchedule->creationDate);
+		$new->set('creationTime', $this->newSchedule->creationTime);
+		$new->set('startDate', $this->newSchedule->startDate);
+		$new->set('endDate', $this->newSchedule->endDate);
+		$new->set('schedule', json_encode($this->newSchedule));
 		$new->set('newSchedule', json_encode($this->newSchedule));
 		$new->store();
 

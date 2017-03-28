@@ -1,0 +1,2671 @@
+{
+  "2017-04-03": {
+    "0800-0930": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507086",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "0950-1120": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507087",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1130-1300": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507091",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1400-1530": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507090",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1545-1715": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507088",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1730-1900": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "17:30:00",
+        "endTime": "19:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507089",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    }
+  },
+  "2017-04-04": {
+    "0800-0930": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507097",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "0950-1120": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507096",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1130-1300": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507094",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1400-1530": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507095",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1545-1715": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507092",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1730-1900": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "17:30:00",
+        "endTime": "19:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507093",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    }
+  },
+  "2017-04-05": {
+    "0800-0930": {
+      "26293": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Strategisches Management": {
+            "subjectID": "1430",
+            "subjectNo": "",
+            "name": "Strategisches Management",
+            "shortName": "Strat. Management",
+            "abbr": "Management",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "32": "A10.6.04"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "646": "",
+              "187": "",
+              "189": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "32": ""
+            },
+            "pools": {
+              "646": {
+                "gpuntisID": "PM",
+                "name": "alle Module",
+                "fullName": "Personalmanagement (M.A., 2016), alle Module"
+              },
+              "187": {
+                "gpuntisID": "UF",
+                "name": "alle Module",
+                "fullName": "Unternehmensf\u00fchrung (M.A.), alle Module"
+              },
+              "189": {
+                "gpuntisID": "US",
+                "name": "alle Module",
+                "fullName": "Unternehmenssteuerung (M.A.), alle Module"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "462924",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      },
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507104",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "0950-1120": {
+      "26293": {
+        "method": "VRL",
+        "comment": "",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Strategisches Management": {
+            "subjectID": "1430",
+            "subjectNo": "",
+            "name": "Strategisches Management",
+            "shortName": "Strat. Management",
+            "abbr": "Management",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "32": "A10.6.04"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "646": "",
+              "187": "",
+              "189": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "32": ""
+            },
+            "pools": {
+              "646": {
+                "gpuntisID": "PM",
+                "name": "alle Module",
+                "fullName": "Personalmanagement (M.A., 2016), alle Module"
+              },
+              "187": {
+                "gpuntisID": "UF",
+                "name": "alle Module",
+                "fullName": "Unternehmensf\u00fchrung (M.A.), alle Module"
+              },
+              "189": {
+                "gpuntisID": "US",
+                "name": "alle Module",
+                "fullName": "Unternehmenssteuerung (M.A.), alle Module"
+              }
+            },
+            "subjectDelta": ""
+          }
+        },
+        "ccmID": "462925",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      },
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507105",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1130-1300": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507106",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1400-1530": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507107",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1545-1715": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507108",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1730-1900": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "17:30:00",
+        "endTime": "19:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507109",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    }
+  },
+  "2017-04-06": {
+    "0800-0930": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507085",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "0950-1120": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507083",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1130-1300": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507084",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1400-1530": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507080",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1545-1715": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507082",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1730-1900": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "17:30:00",
+        "endTime": "19:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507081",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    }
+  },
+  "2017-04-07": {
+    "0800-0930": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507098",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "0950-1120": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "09:50:00",
+        "endTime": "11:20:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507099",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1130-1300": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "11:30:00",
+        "endTime": "13:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507101",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1400-1530": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "14:00:00",
+        "endTime": "15:30:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507100",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1545-1715": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "15:45:00",
+        "endTime": "17:15:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507102",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    },
+    "1730-1900": {
+      "26358": {
+        "method": "VRL",
+        "comment": "Blockveranstaltung",
+        "startTime": "17:30:00",
+        "endTime": "19:00:00",
+        "subjects": {
+          "Digital Marketing Seminar": {
+            "subjectID": "1794",
+            "subjectNo": "2104",
+            "name": "Digital Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "180": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "180": {
+                "gpuntisID": "INM10",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2010), alle Module"
+              }
+            }
+          },
+          "Internationales Marketing Seminar": {
+            "subjectID": "1433",
+            "subjectNo": "2104",
+            "name": "Internationales Marketing Seminar",
+            "shortName": "Int. Marketing Seminar",
+            "abbr": "Seminar",
+            "teachers": {
+              "89": "Freidank, J."
+            },
+            "rooms": {
+              "409": "C50.2.09",
+              "408": "C50.2.08",
+              "407": "C50.2.07",
+              "410": "C50.2.10"
+            },
+            "programs": [],
+            "poolDeltas": {
+              "182": ""
+            },
+            "teacherDeltas": {
+              "89": ""
+            },
+            "roomDeltas": {
+              "409": "",
+              "408": "",
+              "407": "",
+              "410": ""
+            },
+            "pools": {
+              "182": {
+                "gpuntisID": "INM16",
+                "name": "alle Module",
+                "fullName": "International Marketing (M.A., 2016), alle Module"
+              }
+            }
+          }
+        },
+        "ccmID": "507103",
+        "lessonDelta": "",
+        "calendarDelta": ""
+      }
+    }
+  },
+  "2017-04-08": []
+}

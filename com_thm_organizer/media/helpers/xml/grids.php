@@ -127,15 +127,13 @@ class THM_OrganizerHelperXMLGrids
 			return;
 		}
 
-		$scheduleModel->schedule->periods = new stdClass;
-		$grids                            = new stdClass;
+		$scheduleModel->newSchedule->periods = new stdClass;
+		$grids                               = new stdClass;
 
 		foreach ($xmlObject->timeperiods->children() as $timePeriodNode)
 		{
 			self::validateIndividual($scheduleModel, $timePeriodNode, $grids);
 		}
-
-		$scheduleModel->newSchedule->periods = $scheduleModel->schedule->periods;
 
 		foreach ($grids as $gpuntisID => $grid)
 		{
@@ -177,14 +175,14 @@ class THM_OrganizerHelperXMLGrids
 		}
 
 		// Set the grid if not already existent
-		if (empty($scheduleModel->schedule->periods->$gpuntisID))
+		if (empty($scheduleModel->newSchedule->periods->$gpuntisID))
 		{
-			$scheduleModel->schedule->periods->$gpuntisID = new stdClass;
+			$scheduleModel->newSchedule->periods->$gpuntisID = new stdClass;
 		}
 
-		$scheduleModel->schedule->periods->$gpuntisID->$period            = new stdClass;
-		$scheduleModel->schedule->periods->$gpuntisID->$period->startTime = $startTime;
-		$scheduleModel->schedule->periods->$gpuntisID->$period->endTime   = $endTime;
+		$scheduleModel->newSchedule->periods->$gpuntisID->$period            = new stdClass;
+		$scheduleModel->newSchedule->periods->$gpuntisID->$period->startTime = $startTime;
+		$scheduleModel->newSchedule->periods->$gpuntisID->$period->endTime   = $endTime;
 
 		self::setGridEntry($grids, $gpuntisID, $day, $period, $startTime, $endTime);
 	}

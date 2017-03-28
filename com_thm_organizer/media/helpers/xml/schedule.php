@@ -46,57 +46,11 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	public $scheduleWarnings = null;
 
 	/**
-	 * Object containing information from the actual schedule (old format)
-	 *
-	 * @var object
-	 */
-	public $schedule = null;
-
-	/**
 	 * Object containing information from the actual schedule
 	 *
 	 * @var object
 	 */
 	public $newSchedule = null;
-
-	/**
-	 * Creates an array with dates as indexes for the days of the given planning period
-	 *
-	 * @param int $startDate the datetime upon which the school year begins
-	 * @param int $endDate   the datetime upon which the school year ends
-	 *
-	 * @return void
-	 */
-	private function initializeCalendar($startDate, $endDate)
-	{
-		$calendar = new stdClass;
-		$grids    = $this->schedule->periods;
-
-		// Get the maximum number of daily periods required
-		$maxPeriods = 0;
-		foreach ($grids AS $grid)
-		{
-			$gridIndexes = array_keys((array) $grid);
-			if (count($gridIndexes) > $maxPeriods)
-			{
-				$maxPeriods = count($gridIndexes);
-			}
-		}
-
-		for ($currentDT = $startDate; $currentDT <= $endDate; $currentDT = strtotime('+1 day', $currentDT))
-		{
-			// Create an index for the date
-			$currentDate            = date('Y-m-d', $currentDT);
-			$calendar->$currentDate = new stdClass;
-
-			for ($index = 1; $index <= $maxPeriods; $index++)
-			{
-				$calendar->$currentDate->$index = new stdClass;
-			}
-		}
-
-		$this->schedule->calendar = $calendar;
-	}
 
 	/**
 	 * Creates a status report based upon object error and warning messages
@@ -133,7 +87,6 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		$file        = $formFiles['file'];
 		$xmlSchedule = simplexml_load_file($file['tmp_name']);
 
-		$this->schedule         = new stdClass;
 		$this->newSchedule      = new stdClass;
 		$this->scheduleErrors   = array();
 		$this->scheduleWarnings = array();
@@ -157,7 +110,6 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		$validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
 		$form                            = $input->get('jform', array(), 'array');
-		$this->schedule->departmentID    = $form['departmentID'];
 		$this->newSchedule->departmentID = $form['departmentID'];
 
 		// Planning period start & end dates
@@ -181,7 +133,6 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		elseif ($validSemesterName)
 		{
 			$planningPeriodID                    = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
-			$this->schedule->planningPeriodID    = $planningPeriodID;
 			$this->newSchedule->planningPeriodID = $planningPeriodID;
 		}
 
@@ -195,12 +146,10 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 
 		unset($this->schedule->fields);
 
-		$this->initializeCalendar($startTimeStamp, $endTimeStamp);
 		$this->newSchedule->calendar = new stdClass;
 
 		$lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
 		$lessonsHelper->validate();
-
 		$this->printStatusReport();
 
 		if (count($this->scheduleErrors))
@@ -257,7 +206,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 				$this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
 			}
 		}
-		$this->schedule->$name    = date('Y-m-d', strtotime($value));
+
 		$this->newSchedule->$name = date('Y-m-d', strtotime($value));
 
 		return;
@@ -305,7 +254,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 				$this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
 			}
 		}
-		$this->schedule->$name    = $value;
+
 		$this->newSchedule->$name = $value;
 
 		return true;

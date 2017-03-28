@@ -40,14 +40,12 @@ class THM_OrganizerHelperXMLPrograms
 			return;
 		}
 
-		$scheduleModel->schedule->degrees = new stdClass;
+		$scheduleModel->newSchedule->degrees = new stdClass;
 
 		foreach ($xmlObject->departments->children() as $degreeNode)
 		{
 			self::validateIndividual($scheduleModel, $degreeNode);
 		}
-
-		$scheduleModel->newSchedule->degrees = $scheduleModel->schedule->degrees;
 	}
 
 	/**
@@ -71,9 +69,9 @@ class THM_OrganizerHelperXMLPrograms
 			return;
 		}
 
-		$degreeID                                               = str_replace('DP_', '', $gpuntisID);
-		$scheduleModel->schedule->degrees->$degreeID            = new stdClass;
-		$scheduleModel->schedule->degrees->$degreeID->gpuntisID = $degreeID;
+		$degreeID                                                  = str_replace('DP_', '', $gpuntisID);
+		$scheduleModel->newSchedule->degrees->$degreeID            = new stdClass;
+		$scheduleModel->newSchedule->degrees->$degreeID->gpuntisID = $degreeID;
 
 		$degreeName = (string) $programNode->longname;
 		if (!isset($degreeName))
@@ -83,11 +81,13 @@ class THM_OrganizerHelperXMLPrograms
 			return;
 		}
 
-		$scheduleModel->schedule->degrees->$degreeID->name = $degreeName;
-		$planResourceID                                    = THM_OrganizerHelperPrograms::getPlanResourceID($scheduleModel->schedule->degrees->$degreeID);
+		$scheduleModel->newSchedule->degrees->$degreeID->name = $degreeName;
+
+		$planResourceID = THM_OrganizerHelperPrograms::getPlanResourceID($scheduleModel->newSchedule->degrees->$degreeID);
+
 		if (!empty($planResourceID))
 		{
-			$scheduleModel->schedule->degrees->$degreeID->id = $planResourceID;
+			$scheduleModel->newSchedule->degrees->$degreeID->id = $planResourceID;
 			THM_OrganizerHelperDepartments::setDepartmentResource($planResourceID, 'programID');
 		}
 	}

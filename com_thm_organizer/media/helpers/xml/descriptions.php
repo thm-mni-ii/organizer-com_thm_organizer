@@ -75,13 +75,14 @@ class THM_OrganizerHelperXMLDescriptions
 			return;
 		}
 
-		$scheduleModel->schedule->fields     = new stdClass;
-		$scheduleModel->schedule->methods    = new stdClass;
-		$scheduleModel->schedule->room_types = new stdClass;
+		$scheduleModel->newSchedule->fields     = new stdClass;
+		$scheduleModel->newSchedule->methods    = new stdClass;
+		$scheduleModel->newSchedule->room_types = new stdClass;
 
 		foreach ($xmlObject->descriptions->children() as $descriptionNode)
 		{
 			$gpuntisID = trim((string) $descriptionNode[0]['id']);
+
 			if (empty($gpuntisID))
 			{
 				if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING"), $scheduleModel->scheduleErrors))
@@ -93,8 +94,8 @@ class THM_OrganizerHelperXMLDescriptions
 			}
 
 			$descriptionID = str_replace('DS_', '', $gpuntisID);
+			$longName      = trim((string) $descriptionNode->longname);
 
-			$longName = trim((string) $descriptionNode->longname);
 			if (empty($longName))
 			{
 				$scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING", $descriptionID);
@@ -103,6 +104,7 @@ class THM_OrganizerHelperXMLDescriptions
 			}
 
 			$typeFlag = trim((string) $descriptionNode->flags);
+
 			if (empty($typeFlag))
 			{
 				$scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING", $longName, $descriptionID);
@@ -133,15 +135,11 @@ class THM_OrganizerHelperXMLDescriptions
 			$validType = (!empty($type) AND !empty($typeID));
 			if ($validType)
 			{
-				$scheduleModel->schedule->$type->$descriptionID            = new stdClass;
-				$scheduleModel->schedule->$type->$descriptionID->gpuntisID = $gpuntisID;
-				$scheduleModel->schedule->$type->$descriptionID->name      = $longName;
-				$scheduleModel->schedule->$type->$descriptionID->id        = $typeID;
+				$scheduleModel->newSchedule->$type->$descriptionID            = new stdClass;
+				$scheduleModel->newSchedule->$type->$descriptionID->gpuntisID = $gpuntisID;
+				$scheduleModel->newSchedule->$type->$descriptionID->name      = $longName;
+				$scheduleModel->newSchedule->$type->$descriptionID->id        = $typeID;
 			}
 		}
-
-		$scheduleModel->newSchedule->fields     = $scheduleModel->schedule->fields;
-		$scheduleModel->newSchedule->methods    = $scheduleModel->schedule->methods;
-		$scheduleModel->newSchedule->room_types = $scheduleModel->schedule->room_types;
 	}
 }

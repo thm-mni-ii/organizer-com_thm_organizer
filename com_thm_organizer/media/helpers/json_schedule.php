@@ -1045,7 +1045,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Saves the lessons from the schedule object to the database and triggers functions for saving lesson associations.
 	 *
-	 * @return void saves lessons to the database
+	 * @return boolean true if the save process was successful, otherwise false
 	 */
 	private function saveLessons()
 	{
@@ -1072,12 +1072,18 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$data['comment'] = empty($lesson->comment) ? '' : $lesson->comment;
 
 			$success = $table->save($data);
+
 			if (!$success)
 			{
 				return false;
 			}
 
-			$this->saveLessonSubjects($table->id, $lesson->subjects);
+			$subjectsSaved = $this->saveLessonSubjects($table->id, $lesson->subjects);
+
+			if (!$subjectsSaved)
+			{
+				return false;
+			}
 		}
 
 		$lessonIDs = array_keys((array) $this->schedule->lessons);
@@ -1100,10 +1106,12 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 * @param object $pools           the pools associated with the subject
 	 * @param string $subjectNo       the subject's id in documentation
 	 *
-	 * @return void saves lessons to the database
+	 * @return boolean true if the save process was successful, otherwise false
 	 */
 	private function saveLessonPools($lessonSubjectID, $pools, $subjectID, $subjectNo)
 	{
+		$processedIDs = array();
+
 		foreach ($pools as $poolID => $delta)
 		{
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
@@ -1114,21 +1122,34 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$data['poolID']    = $poolID;
 			$table->load($data);
 
-			// Delta will be 'calculated' later but explicitly overwritten now irregardless
-			$data['delta'] = '';
+			$data['delta'] = $delta;
 
 			$success = $table->save($data);
+
 			if (!$success)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 				continue;
 			}
 
+			$processedIDs[] = $table->id;
+
 			if (!empty($subjectNo))
 			{
 				$this->savePlanSubjectMapping($subjectID, $poolID, $subjectNo);
 			}
 		}
+
+		$query = $this->_db->getQuery(true);
+		$query->update('#__thm_organizer_lesson_pools')
+			->set("delta = 'removed'")
+			->where("id NOT IN ('" . implode("', '", $processedIDs) . "')")
+			->where("subjectID = '$lessonSubjectID'")
+			->where("delta != 'removed'");
+		$this->_db->setQuery($query);
+		$deprecatedSuccess = $this->_db->execute();
+
+		return empty($deprecatedSuccess) ? false : true;
 	}
 
 	/**
@@ -1138,10 +1159,12 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 * @param string $lessonID the db id of the lesson subject association
 	 * @param object $subjects the subjects associated with the lesson
 	 *
-	 * @return void saves lessons to the database
+	 * @return boolean true if the save process was successful, otherwise false
 	 */
 	private function saveLessonSubjects($lessonID, $subjects)
 	{
+		$processedIDs = array();
+
 		foreach ($subjects as $subjectID => $subjectData)
 		{
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
@@ -1152,20 +1175,44 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$data['subjectID'] = $subjectID;
 			$table->load($data);
 
-			// Delta will be 'calculated' later but explicitly overwritten now irregardless
 			$data['delta'] = $subjectData->delta;
 
 			$success = $table->save($data);
+
 			if (!$success)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 				continue;
 			}
 
+			$processedIDs[] = $table->id;
 			$subjectNo = empty($subjectData->subjectNo) ? null : $subjectData->subjectNo;
-			$this->saveLessonPools($table->id, $subjectData->pools, $subjectID, $subjectNo);
-			$this->saveLessonTeachers($table->id, $subjectData->teachers);
+
+			$poolsSaved = $this->saveLessonPools($table->id, $subjectData->pools, $subjectID, $subjectNo);
+
+			if (!$poolsSaved)
+			{
+				return false;
+			}
+
+			$teachersSaved = $this->saveLessonTeachers($table->id, $subjectData->teachers);
+
+			if (!$teachersSaved)
+			{
+				return false;
+			}
 		}
+
+		$query = $this->_db->getQuery(true);
+		$query->update('#__thm_organizer_lesson_subjects')
+			->set("delta = 'removed'")
+			->where("id NOT IN ('" . implode("', '", $processedIDs) . "')")
+			->where("lessonID = '$lessonID'")
+			->where("delta != 'removed'");
+		$this->_db->setQuery($query);
+		$deprecatedSuccess = $this->_db->execute();
+
+		return empty($deprecatedSuccess) ? false : true;
 	}
 
 	/**
@@ -1174,10 +1221,12 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 * @param string $subjectID the db id of the lesson subject association
 	 * @param object $teachers  the teachers associated with the subject
 	 *
-	 * @return void saves lessons to the database
+	 * @return boolean true if the save process was successful, otherwise false
 	 */
 	private function saveLessonTeachers($subjectID, $teachers)
 	{
+		$processedIDs = array();
+
 		foreach ($teachers as $teacherID => $delta)
 		{
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
@@ -1192,12 +1241,26 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$data['delta'] = '';
 
 			$success = $table->save($data);
+
 			if (!$success)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 				continue;
 			}
+
+			$processedIDs[] = $table->id;
 		}
+
+		$query = $this->_db->getQuery(true);
+		$query->update('#__thm_organizer_lesson_teachers')
+			->set("delta = 'removed'")
+			->where("id NOT IN ('" . implode("', '", $processedIDs) . "')")
+			->where("subjectID = '$subjectID'")
+			->where("delta != 'removed'");
+		$this->_db->setQuery($query);
+		$deprecatedSuccess = $this->_db->execute();
+
+		return empty($deprecatedSuccess) ? false : true;
 	}
 
 	/**

@@ -20,61 +20,23 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLLessons
 {
-	/**
-	 * The uploaded XML Object
-	 *
-	 * @var string
-	 */
-	private $xmlObject = null;
+	private $configurations = array();
 
-	/**
-	 * The name of the lessonm, containing the subject names (or abbreviations) and the abbreviation for the method of
-	 * instruction.
-	 *
-	 * @var string
-	 */
-	private $lessonName = '';
+	private $lessonID;
 
-	/**
-	 * The lesson's id.
-	 *
-	 * @var string
-	 */
-	private $lessonID = '';
+	private $lessonName;
 
-	/**
-	 * The subject's id.
-	 *
-	 * @var string
-	 */
-	private $subjectID = '';
+	private $pools;
 
-	/**
-	 * The teacher's id.
-	 *
-	 * @var string
-	 */
-	private $teacherID = '';
-
-	/**
-	 * A unique identifier for the lesson across schedules. (dpt., sem., id). Only used in json schedules
-	 *
-	 * @var string
-	 */
-	private $lessonIndex = '';
-
-	/**
-	 * The schedule model.
-	 *
-	 * @var object
-	 */
 	private $scheduleModel = null;
 
-	/**
-	 * The configurations
-	 * @var array
-	 */
-	private $configurations = array();
+	private $subjectID;
+
+	private $subjectUntisID;
+
+	private $teacherID;
+
+	private $xmlObject = null;
 
 	/**
 	 * Creates the lesson model
@@ -204,7 +166,7 @@ class THM_OrganizerHelperXMLLessons
 	 */
 	private function createMissingRoomMessage($currentDT, $period)
 	{
-		$pools        = implode(', ', array_keys(get_object_vars($this->scheduleModel->schedule->lessons->{$this->lessonIndex}->pools)));
+		$pools        = implode(', ', $this->pools);
 		$dow          = strtoupper(date('l', $currentDT));
 		$localizedDoW = JText::_($dow);
 		$error        = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_ROOM_MISSING',
@@ -235,7 +197,6 @@ class THM_OrganizerHelperXMLLessons
 			return;
 		}
 
-		$this->scheduleModel->schedule->lessons           = new stdClass;
 		$this->scheduleModel->newSchedule->configurations = array();
 		$this->scheduleModel->newSchedule->lessons        = new stdClass;
 
@@ -253,8 +214,7 @@ class THM_OrganizerHelperXMLLessons
 	}
 
 	/**
-	 * Checks whether lesson nodes have the expected structure and required
-	 * information
+	 * Checks whether lesson nodes have the expected structure and required information
 	 *
 	 * @param object &$lessonNode a SimpleXML object modeling the lesson node to be validated
 	 *
@@ -262,75 +222,6 @@ class THM_OrganizerHelperXMLLessons
 	 */
 	private function validateIndividual(&$lessonNode)
 	{
-		// Reset variables passed through the object
-		$this->lessonID    = '';
-		$this->lessonIndex = '';
-		$this->lessonName  = '';
-		$this->subjectID   = '';
-		$this->teacherID   = '';
-
-		$lessonID       = $this->validateUntisID(trim((string) $lessonNode[0]['id']));
-		$this->lessonID = $lessonID;
-		if (empty($this->lessonID))
-		{
-			return;
-		}
-
-		$department        = $this->scheduleModel->schedule->departmentname;
-		$semester          = $this->scheduleModel->schedule->semestername;
-		$lessonIndex       = $department . $semester . "_" . $lessonID;
-		$this->lessonIndex = $lessonIndex;
-
-		if (!isset($this->scheduleModel->schedule->lessons->$lessonIndex))
-		{
-			$this->scheduleModel->schedule->lessons->$lessonIndex = new stdClass;
-		}
-
-		if (!isset($this->scheduleModel->newSchedule->lessons->$lessonID))
-		{
-			$this->scheduleModel->newSchedule->lessons->$lessonID = new stdClass;
-		}
-
-		$this->scheduleModel->schedule->lessons->$lessonIndex->gpuntisID = $lessonID;
-
-		$subjectGPUntisID = str_replace('SU_', '', trim((string) $lessonNode->lesson_subject[0]['id']));
-		$lessonName       = $this->validateSubjects($subjectGPUntisID, $department);
-		if (!$lessonName)
-		{
-			return;
-		}
-
-		// Set before completion so that the error message is built correctly
-		$this->lessonName = $lessonName;
-		$methodID = $this->validateMethod($lessonNode);
-
-		if (!empty($methodID))
-		{
-			$lessonName .= " - $methodID";
-		}
-
-		$this->scheduleModel->schedule->lessons->$lessonIndex->name = $lessonName;
-
-		$subjectIndex = $department . "_" . $subjectGPUntisID;
-		$teacherID    = str_replace('TR_', '', trim((string) $lessonNode->lesson_teacher[0]['id']));
-		$teacherValid = $this->validateTeacher($teacherID, $subjectIndex);
-
-		if (!$teacherValid)
-		{
-			return;
-		}
-
-		$gridName = empty((string) $lessonNode->timegrid) ? 'Haupt-Zeitraster' : (string) $lessonNode->timegrid;
-
-		$this->scheduleModel->schedule->lessons->$lessonIndex->grid = $gridName;
-
-		$poolIDs    = (string) $lessonNode->lesson_classes[0]['id'];
-		$poolsValid = $this->validatePools($poolIDs);
-		if (!$poolsValid)
-		{
-			return;
-		}
-
 		$effBeginDT  = strtotime(trim((string) $lessonNode->effectivebegindate));
 		$termBeginDT = strtotime($this->scheduleModel->newSchedule->startDate);
 		$effEndDT    = strtotime(trim((string) $lessonNode->effectiveenddate));
@@ -339,41 +230,65 @@ class THM_OrganizerHelperXMLLessons
 		// Lesson is not relevant for the uploaded schedule (starts after term ends or ends before term begins)
 		if ($effBeginDT > $termEndDT OR $effEndDT < $termBeginDT)
 		{
-			unset($this->scheduleModel->schedule->lessons->$lessonIndex);
 			return;
 		}
 
-		$startDT     = $effBeginDT < $termBeginDT ? $termBeginDT : $effBeginDT;
-		$endDT       = $termEndDT < $effEndDT ? $termEndDT : $effEndDT;
+		// Reset variables passed through the object
+		$this->lessonID  = $this->validateUntisID(trim((string) $lessonNode[0]['id']));
+		$this->subjectID = '';
+		$this->teacherID = '';
 
-		// Effective dts are used to avoid unnecessary validation errors
-		$datesValid = $this->validateDates($effBeginDT, $effEndDT);
-
-		if (!$datesValid)
+		if (empty($this->lessonID))
 		{
 			return;
 		}
 
-		$rawInstances = trim((string) $lessonNode->occurence);
+		if (!isset($this->scheduleModel->newSchedule->lessons->{$this->lessonID}))
+		{
+			$this->scheduleModel->newSchedule->lessons->{$this->lessonID} = new stdClass;
+		}
 
-		// Adjusted dates are used because effective dts are not always accurate for the time frame
-		$potentialInstances = $this->truncateInstances($rawInstances, $startDT, $endDT);
+		if (!$this->validateSubject($lessonNode))
+		{
+			return;
+		}
+
+		$this->validateMethod($lessonNode);
+
+		if (!$this->validatePools($lessonNode))
+		{
+			return;
+		}
+
+		if (!$this->validateTeacher($lessonNode))
+		{
+			return;
+		}
+
+		if (!$this->validateDates($effBeginDT, $effEndDT))
+		{
+			return;
+		}
 
 		$comment = trim((string) $lessonNode->text);
 
-		/**
-		 * Ensures that the comment is set and empty. '.' has sometimes been used to ensure that a comment is correctly
-		 * associated with the correct lesson in Untis print views.
-		 */
 		if (empty($comment) OR $comment == '.')
 		{
 			$comment = '';
 		}
 
-		$this->scheduleModel->schedule->lessons->$lessonIndex->comment = $comment;
-		$this->scheduleModel->newSchedule->lessons->$lessonID->comment = $comment;
+		$this->scheduleModel->newSchedule->lessons->{$this->lessonID}->comment = $comment;
+
+		$rawInstances = trim((string) $lessonNode->occurence);
+		$startDT      = $effBeginDT < $termBeginDT ? $termBeginDT : $effBeginDT;
+		$endDT        = $termEndDT < $effEndDT ? $termEndDT : $effEndDT;
+
+		// Adjusted dates are used because effective dts are not always accurate for the time frame
+		$potentialInstances = $this->truncateInstances($rawInstances, $startDT, $endDT);
 
 		$times = $lessonNode->xpath("times/time");
+
+		$gridName = empty((string) $lessonNode->timegrid) ? 'Haupt-Zeitraster' : (string) $lessonNode->timegrid;
 
 		// Cannot produce blocking errors
 		$this->validateInstances($potentialInstances, $startDT, $times, $gridName);
@@ -390,6 +305,7 @@ class THM_OrganizerHelperXMLLessons
 	{
 		$withoutPrefix = str_replace("LS_", '', $rawUntisID);
 		$untisID       = substr($withoutPrefix, 0, strlen($withoutPrefix) - 2);
+
 		if (empty($untisID))
 		{
 			if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_LESSON_ID_MISSING"), $this->scheduleModel->scheduleErrors))
@@ -406,15 +322,16 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the subjectID and builds dependant structural elements
 	 *
-	 * @param string $gpuntisID  the id of the subject
-	 * @param string $department the name of the department
+	 * @param object &$lessonNode the lesson node
 	 *
 	 * @return  mixed  string the name of the lesson (subjects) on success,
 	 *                 otherwise boolean false
 	 */
-	private function validateSubjects($gpuntisID, $department)
+	private function validateSubject(&$lessonNode)
 	{
-		if (empty($gpuntisID))
+		$untisID = str_replace('SU_', '', trim((string) $lessonNode->lesson_subject[0]['id']));
+
+		if (empty($untisID))
 		{
 			$this->scheduleModel->scheduleErrors[]
 				= JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_MISSING", $this->lessonID);
@@ -422,52 +339,40 @@ class THM_OrganizerHelperXMLLessons
 			return false;
 		}
 
-		$subjectIndex = $department . "_" . $gpuntisID;
+		$this->subjectUntisID = $untisID;
+		$subjectIndex         = $this->scheduleModel->newSchedule->departmentname . "_" . $untisID;
 
-		if (empty($this->scheduleModel->schedule->subjects->$subjectIndex))
+		if (empty($this->scheduleModel->newSchedule->subjects->$subjectIndex))
 		{
 			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING", $this->lessonID, $gpuntisID);
+				= JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING", $this->lessonID, $this->subjectUntisID);
 
 			return false;
 		}
 
-		$lessonIndex = $this->lessonIndex;
+		// Used for error reporting
+		$this->lessonName = $this->subjectUntisID;
 
-		if (!isset($this->scheduleModel->schedule->lessons->$lessonIndex->subjects))
+		if (!isset($this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects))
 		{
-			$this->scheduleModel->schedule->lessons->$lessonIndex->subjects = new stdClass;
+			$this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects = new stdClass;
 		}
 
-		$lessonID = $this->lessonID;
+		// Used in configurations, teachers and pools
+		$this->subjectID = $this->scheduleModel->newSchedule->subjects->$subjectIndex->id;
 
-		if (!isset($this->scheduleModel->newSchedule->lessons->$lessonID->subjects))
+		if (!isset($this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}))
 		{
-			$this->scheduleModel->newSchedule->lessons->$lessonID->subjects = new stdClass;
+			$newSubject            = new stdClass;
+			$newSubject->delta     = '';
+			$newSubject->subjectNo = $this->scheduleModel->newSchedule->subjects->$subjectIndex->subjectNo;
+			$newSubject->pools     = new stdClass;
+			$newSubject->teachers  = new stdClass;
+
+			$this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID} = $newSubject;
 		}
 
-		if (!isset($this->scheduleModel->schedule->lessons->$lessonIndex->subjects->$subjectIndex))
-		{
-			$this->scheduleModel->schedule->lessons->$lessonIndex->subjects->$subjectIndex = '';
-		}
-
-		$subjectID       = $this->scheduleModel->schedule->subjects->$subjectIndex->id;
-		$this->subjectID = $subjectID;
-		$subjectNo       = $this->scheduleModel->schedule->subjects->$subjectIndex->subjectNo;
-
-		if (!isset($this->scheduleModel->newSchedule->lessons->$lessonID->subjects->$subjectID))
-		{
-			$this->scheduleModel->newSchedule->lessons->$lessonID->subjects->$subjectID            = new stdClass;
-			$this->scheduleModel->newSchedule->lessons->$lessonID->subjects->$subjectID->delta     = '';
-			$this->scheduleModel->newSchedule->lessons->$lessonID->subjects->$subjectID->subjectNo = $subjectNo;
-			$this->scheduleModel->newSchedule->lessons->$lessonID->subjects->$subjectID->pools     = new stdClass;
-			$this->scheduleModel->newSchedule->lessons->$lessonID->subjects->$subjectID->teachers  = new stdClass;
-		}
-
-		$subjectIndexes = array_keys((array) $this->scheduleModel->schedule->lessons->$lessonIndex->subjects);
-		$lessonName     = implode(' / ', $subjectIndexes);
-
-		return str_replace($department . '_', '', $lessonName);
+		return true;
 	}
 
 	/**
@@ -475,62 +380,66 @@ class THM_OrganizerHelperXMLLessons
 	 *
 	 * @param object &$lessonNode the lesson node
 	 *
-	 * @return  boolean  string the methodID on success, otherwise false
+	 * @return  boolean  true if valid, otherwise false
 	 */
 	private function validateMethod(&$lessonNode)
 	{
-		$gpuntisID = str_replace('DS_', '', trim((string) $lessonNode->lesson_description));
+		$untisID       = str_replace('DS_', '', trim((string) $lessonNode->lesson_description));
+		$invalidMethod = (empty($untisID) OR empty($this->scheduleModel->newSchedule->methods->$untisID));
 
-		$invalidMethod = (empty($gpuntisID) OR empty($this->scheduleModel->schedule->methods->$gpuntisID));
 		if ($invalidMethod)
 		{
-			$this->scheduleModel->scheduleWarnings['LESSON-METHOD']
-				= empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
+			$this->scheduleModel->scheduleWarnings['LESSON-METHOD'] = empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
 				1 : $this->scheduleModel->scheduleWarnings['LESSON-METHOD'] + 1;
 
-			return '';
+			return;
 		}
 
-		$this->scheduleModel->schedule->lessons->{$this->lessonIndex}->description = $gpuntisID;
+		$this->lessonName .= " - $untisID";
 
-		$methodID                                                               = $this->scheduleModel->schedule->methods->$gpuntisID->id;
-		$this->scheduleModel->schedule->lessons->{$this->lessonIndex}->methodID = $methodID;
-		$this->scheduleModel->newSchedule->lessons->{$this->lessonID}->methodID = $methodID;
+		$this->scheduleModel->newSchedule->lessons->{$this->lessonID}->methodID
+			= $this->scheduleModel->newSchedule->methods->$untisID->id;
 
-		return $gpuntisID;
+		return;
 	}
 
 	/**
 	 * Validates the teacher attribute and sets corresponding schedule elements
 	 *
-	 * @param string $gpuntisID    the teacher id
-	 * @param string $subjectIndex the unique organizational subject id
+	 * @param object &$lessonNode the lesson node
 	 *
 	 * @return  boolean  true if valid, otherwise false
 	 */
-	private function validateTeacher($gpuntisID, $subjectIndex)
+	private function validateTeacher(&$lessonNode)
 	{
-		$lessonID     = $this->lessonID;
-		$lessonIndex  = $this->lessonIndex;
-		$lessonName   = $this->lessonName;
-		$teacherFound = false;
+		$untisID = str_replace('TR_', '', trim((string) $lessonNode->lesson_teacher[0]['id']));
 
-		if (empty($gpuntisID))
+		if (empty($untisID))
 		{
 			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_MISSING', $lessonName, $lessonID);
+				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_MISSING', $this->lessonName, $this->lessonID);
 
 			return false;
 		}
 
-		$teacherID = null;
-		foreach ($this->scheduleModel->schedule->teachers as $teacherKey => $teacher)
+		$teacherFound = false;
+		$teacherID    = null;
+
+		foreach ($this->scheduleModel->newSchedule->teachers as $teacherKey => $teacher)
 		{
-			if ($teacher->localUntisID == $gpuntisID)
+			if ($teacher->localUntisID == $untisID)
 			{
-				$teacherFound    = true;
-				$gpuntisID       = $teacherKey;
+				// Existent but invalid teacher
+				if (empty($teacher->id))
+				{
+					break;
+				}
+
+				$teacherFound = true;
+
+				// Used for configurations
 				$this->teacherID = $teacher->id;
+
 				break;
 			}
 		}
@@ -538,24 +447,14 @@ class THM_OrganizerHelperXMLLessons
 		if (!$teacherFound)
 		{
 			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_LACKING', $lessonName, $lessonID, $gpuntisID);
+				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_LACKING', $this->lessonName, $this->lessonID, $untisID);
 
 			return false;
 		}
 
-		if (!isset($this->scheduleModel->schedule->lessons->$lessonIndex->teachers))
-		{
-			$this->scheduleModel->schedule->lessons->$lessonIndex->teachers = new stdClass;
-		}
-
-		if (!isset($this->scheduleModel->schedule->lessons->$lessonIndex->teachers->$gpuntisID))
-		{
-			$this->scheduleModel->schedule->lessons->$lessonIndex->teachers->$gpuntisID = '';
-		}
-
 		if (!empty($this->subjectID))
 		{
-			$this->scheduleModel->newSchedule->lessons->$lessonID->subjects->{$this->subjectID}->teachers->{$this->teacherID} = '';
+			$this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->teachers->{$this->teacherID} = '';
 		}
 
 		return true;
@@ -564,13 +463,15 @@ class THM_OrganizerHelperXMLLessons
 	/**
 	 * Validates the pools attribute and sets corresponding schedule elements
 	 *
-	 * @param string $gpuntisIDs the ids of the associated pools as string
+	 * @param object &$lessonNode the lesson node
 	 *
 	 * @return  boolean  true if valid, otherwise false
 	 */
-	private function validatePools($gpuntisIDs)
+	private function validatePools(&$lessonNode)
 	{
-		if (empty($gpuntisIDs))
+		$rawUntisIDs = str_replace('CL_', '', (string) $lessonNode->lesson_classes[0]['id']);
+
+		if (empty($rawUntisIDs))
 		{
 			$this->scheduleModel->scheduleErrors[]
 				= JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_POOL_MISSING", $this->lessonName, $this->lessonID);
@@ -578,32 +479,26 @@ class THM_OrganizerHelperXMLLessons
 			return false;
 		}
 
-		// This is set for the new format in validate subject
-		if (!isset($this->scheduleModel->schedule->lessons->{$this->lessonIndex}->pools))
-		{
-			$this->scheduleModel->schedule->lessons->{$this->lessonIndex}->pools = new stdClass;
-		}
+		$untisIDs    = explode(" ", $rawUntisIDs);
+		$this->pools = array();
 
-		$gpuntisIDs = explode(" ", $gpuntisIDs);
-		foreach ($gpuntisIDs as $gpuntisID)
+		foreach ($untisIDs as $untisID)
 		{
-			$gpuntisID = str_replace('CL_', '', $gpuntisID);
-			$poolID    = null;
 			$poolFound = false;
-			foreach ($this->scheduleModel->schedule->pools as $poolKey => $pool)
-			{
-				if ($pool->localUntisID == $gpuntisID)
-				{
-					$poolFound = true;
-					$gpuntisID = $poolKey;
+			$poolID    = null;
 
-					// The pool was invalid and was not saved to the database.
+			foreach ($this->scheduleModel->newSchedule->pools as $poolKey => $pool)
+			{
+				if ($pool->localUntisID == $untisID)
+				{
+					// The pool is existent but invalid
 					if (empty($pool->id))
 					{
-						return false;
+						break;
 					}
 
-					$poolID = $pool->id;
+					$poolFound = true;
+					$poolID    = $pool->id;
 
 					break;
 				}
@@ -612,13 +507,14 @@ class THM_OrganizerHelperXMLLessons
 			if (!$poolFound)
 			{
 				$this->scheduleModel->scheduleErrors[]
-					= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_POOL_LACKING', $this->lessonName, $this->lessonID, $gpuntisID);
+					= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_POOL_LACKING', $this->lessonName, $this->lessonID, $untisID);
 
 				return false;
 			}
 
-			$this->scheduleModel->schedule->lessons->{$this->lessonIndex}->pools->$gpuntisID                            = '';
 			$this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->pools->$poolID = '';
+
+			$this->pools[$untisID] = $untisID;
 		}
 
 		return true;
@@ -643,8 +539,8 @@ class THM_OrganizerHelperXMLLessons
 			return false;
 		}
 
-		$syStartTime     = strtotime($this->scheduleModel->schedule->syStartDate);
-		$syEndTime       = strtotime($this->scheduleModel->schedule->syEndDate);
+		$syStartTime     = strtotime($this->scheduleModel->newSchedule->syStartDate);
+		$syEndTime       = strtotime($this->scheduleModel->newSchedule->syEndDate);
 		$lessonStartDate = date('Y-m-d', $startDT);
 
 		$validStartDate = ($startDT >= $syStartTime AND $startDT <= $syEndTime);
@@ -707,7 +603,7 @@ class THM_OrganizerHelperXMLLessons
 		$end = strtotime('+1 day', $end);
 
 		// 86400 is the number of seconds in a day 24 * 60 * 60
-		$offset = floor(($start - strtotime($this->scheduleModel->schedule->syStartDate)) / 86400);
+		$offset = floor(($start - strtotime($this->scheduleModel->newSchedule->syStartDate)) / 86400);
 		$length = floor(($end - $start) / 86400);
 
 		// Change occurrences from a string to an array of the appropriate length for iteration
@@ -735,6 +631,7 @@ class THM_OrganizerHelperXMLLessons
 		{
 			// Untis uses F for vacation days and 0 for any other date restriction
 			$notAllowed = ($potentialInstance == '0' OR $potentialInstance == 'F');
+
 			if ($notAllowed)
 			{
 				$currentDT = strtotime('+1 day', $currentDT);
@@ -743,12 +640,12 @@ class THM_OrganizerHelperXMLLessons
 
 			foreach ($instances as $instance)
 			{
-				$valid = $this->validateInstance($instance, $currentDT, $grid);
-				if (!$valid)
+				if (!$this->validateInstance($instance, $currentDT, $grid))
 				{
 					return;
 				}
 			}
+
 			$currentDT = strtotime('+1 day', $currentDT);
 		}
 
@@ -766,20 +663,18 @@ class THM_OrganizerHelperXMLLessons
 	 */
 	private function validateInstance(&$instance, $currentDT, $grid)
 	{
-		$currentDate = date('Y-m-d', $currentDT);
-
 		$assigned_day = trim((string) $instance->assigned_day);
 		$dow          = date('w', $currentDT);
-		$wrongWeekday = $assigned_day != $dow;
-		if ($wrongWeekday)
+
+		if ($assigned_day != $dow)
 		{
 			return true;
 		}
 
-		// Sporadic lessons occur on specific dates
+		// Sporadic events have specific dates assigned to them.
 		$assigned_date = strtotime(trim((string) $instance->assigned_date));
 
-		// The lesson is sporadic and does not occur on the date being currently iterated
+		// The event is sporadic and does not occur on the date being currently iterated
 		if (!empty($assigned_date) AND $assigned_date != $currentDT)
 		{
 			return true;
@@ -787,18 +682,22 @@ class THM_OrganizerHelperXMLLessons
 
 		$periodNo      = trim((string) $instance->assigned_period);
 		$roomAttribute = trim((string) $instance->assigned_room[0]['id']);
+
 		if (empty($roomAttribute))
 		{
 			$this->createMissingRoomMessage($currentDT, $periodNo);
+			return false;
 		}
 
 		$roomsIDs = $this->validateRooms($roomAttribute, $currentDT, $periodNo);
+
 		if ($roomsIDs === false)
 		{
 			return false;
 		}
 
-		$period = $this->scheduleModel->schedule->periods->$grid->$periodNo;
+		$currentDate = date('Y-m-d', $currentDT);
+		$period = $this->scheduleModel->newSchedule->periods->$grid->$periodNo;
 		$this->processInstance($currentDate, $period, $roomsIDs);
 
 		return true;
@@ -815,24 +714,22 @@ class THM_OrganizerHelperXMLLessons
 	 */
 	private function validateRooms($roomAttribute, $currentDT, $period)
 	{
-		$currentDate = date('Y-m-d', $currentDT);
-
 		$roomIDs = new stdClass;
+		$roomUntisIDs = explode(' ', str_replace('RM_', '', $roomAttribute));
 
-		if (empty($roomAttribute))
-		{
-			return $roomIDs;
-		}
-
-		$roomGPUntisIDs = explode(' ', str_replace('RM_', '', $roomAttribute));
-
-		foreach ($roomGPUntisIDs as $roomID)
+		foreach ($roomUntisIDs as $roomID)
 		{
 			$roomFound = false;
-			foreach ($this->scheduleModel->schedule->rooms as $roomKey => $room)
+			foreach ($this->scheduleModel->newSchedule->rooms as $roomKey => $room)
 			{
 				if ($room->localUntisID == $roomID)
 				{
+					// Existent but invalid
+					if (empty($room->id))
+					{
+						break;
+					}
+
 					$roomFound            = true;
 					$roomID               = $roomKey;
 					$roomIDs->{$room->id} = '';
@@ -842,7 +739,7 @@ class THM_OrganizerHelperXMLLessons
 
 			if (!$roomFound)
 			{
-				$pools        = implode(', ', array_keys((array) $this->scheduleModel->schedule->lessons->{$this->lessonIndex}->pools));
+				$pools        = implode(', ', $this->pools);
 				$dow          = strtoupper(date('l', $currentDT));
 				$localizedDoW = JText::_($dow);
 				$error        = JText::sprintf(
@@ -856,20 +753,6 @@ class THM_OrganizerHelperXMLLessons
 				}
 
 				return false;
-			}
-
-			if (isset($this->scheduleModel->schedule->calendar->$currentDate))
-			{
-				if (!isset($this->scheduleModel->schedule->calendar->$currentDate->$period->{$this->lessonIndex}))
-				{
-					$this->scheduleModel->schedule->calendar->$currentDate->$period->{$this->lessonIndex} = new stdClass;
-				}
-
-				$lessonIndexes = get_object_vars($this->scheduleModel->schedule->calendar->$currentDate->$period->{$this->lessonIndex});
-				if (!empty($roomID) AND !in_array($roomID, $lessonIndexes))
-				{
-					$this->scheduleModel->schedule->calendar->$currentDate->$period->{$this->lessonIndex}->$roomID = '';
-				}
 			}
 		}
 

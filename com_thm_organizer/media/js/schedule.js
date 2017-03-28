@@ -817,7 +817,8 @@ var ScheduleApp = function ()
 				 */
 				createLesson = function (data, ownTime)
 				{
-					var added = false, commentDiv, lessonElement, lessons, ownTimeSpan, poolsOuterDiv, roomsOuterDiv,
+					var added = false, commentDiv, irrelevantPool, lessonElement, lessons, ownTimeSpan, poolsOuterDiv,
+						roomsOuterDiv, scheduleID = schedule.getId(), scheduleResource = schedule.getResource(),
 						subject, subjectOuterDiv, subjectData, teachersOuterDiv;
 
 					if (!data || !data.hasOwnProperty("subjects"))
@@ -843,15 +844,19 @@ var ScheduleApp = function ()
 						// Data attributes instead of classes for finding the lesson later
 						lessonElement.dataset.ccmID = data.ccmID;
 
+						irrelevantPool = scheduleResource === "pool" && subjectData.poolDeltas[scheduleID.replace('pool', '')] === 'removed';
+
+						if (irrelevantPool || (data.lessonDelta && data.lessonDelta === 'removed') || (data.calendarDelta && data.calendarDelta === 'removed'))
+						{
+							lessonElement.classList.add("calendar-removed");
+						}
+
 						// Delta = "removed" or "new" or "changed" ? add class like "lesson-new"
-						if (data.lessonDelta)
+						else if ((data.lessonDelta && data.lessonDelta === 'new') || (data.calendarDelta && data.calendarDelta === 'new'))
 						{
-							lessonElement.classList.add("lesson-" + data.lessonDelta);
+							lessonElement.classList.add("calendar-new");
 						}
-						if (data.calendarDelta)
-						{
-							lessonElement.classList.add("calendar-" + data.calendarDelta);
-						}
+
 						if (ownTime && data.startTime && data.endTime)
 						{
 							ownTimeSpan = document.createElement("span");
@@ -880,15 +885,15 @@ var ScheduleApp = function ()
 							lessonElement.appendChild(commentDiv);
 						}
 
-						if (schedule.getResource() !== "pool" && subjectData.pools && schedule.getId() !== "user")
+						if (scheduleResource !== "pool" && subjectData.pools && scheduleID !== "user")
 						{
 							poolsOuterDiv = document.createElement("div");
 							poolsOuterDiv.className = "pools";
-							addDataElements("pool", poolsOuterDiv, subjectData.pools, data.poolDelta);
+							addDataElements("pool", poolsOuterDiv, subjectData.pools, subjectData.poolDeltas);
 							lessonElement.appendChild(poolsOuterDiv);
 						}
 
-						if (schedule.getResource() !== "teacher" && subjectData.teachers)
+						if (scheduleResource !== "teacher" && subjectData.teachers)
 						{
 							teachersOuterDiv = document.createElement("div");
 							teachersOuterDiv.className = "persons";
@@ -896,7 +901,7 @@ var ScheduleApp = function ()
 							lessonElement.appendChild(teachersOuterDiv);
 						}
 
-						if (schedule.getResource() !== "room" && subjectData.rooms)
+						if (scheduleResource !== "room" && subjectData.rooms)
 						{
 							roomsOuterDiv = document.createElement("div");
 							roomsOuterDiv.className = "locations";

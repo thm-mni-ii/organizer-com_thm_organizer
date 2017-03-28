@@ -40,7 +40,7 @@ class THM_OrganizerHelperXMLSubjects
 			return;
 		}
 
-		$scheduleModel->schedule->subjects = new stdClass;
+		$scheduleModel->newSchedule->subjects = new stdClass;
 
 		foreach ($xmlObject->subjects->children() as $subjectNode)
 		{
@@ -60,8 +60,6 @@ class THM_OrganizerHelperXMLSubjects
 			unset($scheduleModel->scheduleWarnings['SUBJECT-FIELD']);
 			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING', $warningCount);
 		}
-
-		$scheduleModel->newSchedule->subjects = $scheduleModel->schedule->subjects;
 	}
 
 	/**
@@ -86,33 +84,37 @@ class THM_OrganizerHelperXMLSubjects
 			return;
 		}
 
-		$department                                                  = $scheduleModel->schedule->departmentname;
-		$gpuntisID                                                   = str_replace('SU_', '', $gpuntisID);
-		$subjectIndex                                                = $department . "_" . $gpuntisID;
-		$scheduleModel->schedule->subjects->$subjectIndex            = new stdClass;
-		$scheduleModel->schedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
-		$scheduleModel->schedule->subjects->$subjectIndex->name      = $gpuntisID;
+		$department                                                     = $scheduleModel->newSchedule->departmentname;
+		$gpuntisID                                                      = str_replace('SU_', '', $gpuntisID);
+		$subjectIndex                                                   = $department . "_" . $gpuntisID;
+		$scheduleModel->newSchedule->subjects->$subjectIndex            = new stdClass;
+		$scheduleModel->newSchedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
+		$scheduleModel->newSchedule->subjects->$subjectIndex->name      = $gpuntisID;
 
 		$longName = self::validateLongName($scheduleModel, $subjectNode, $subjectIndex, $gpuntisID);
+
 		if (!$longName)
 		{
-			unset($scheduleModel->schedule->subjects->$subjectIndex);
+			unset($scheduleModel->newSchedule->subjects->$subjectIndex);
 
 			return;
 		}
 
 		self::validateSubjectNo($scheduleModel, $subjectNode, $subjectIndex);
 		self::validateField($scheduleModel, $subjectNode, $subjectIndex);
+
 		if (!empty($warningString))
 		{
-			$warning                           = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longName, $gpuntisID, $warningString);
+			$warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longName, $gpuntisID, $warningString);
+
 			$scheduleModel->scheduleWarnings[] = $warning;
 		}
 
-		$planResourceID = THM_OrganizerHelperSubjects::getPlanResourceID($subjectIndex, $scheduleModel->schedule->subjects->$subjectIndex);
+		$planResourceID = THM_OrganizerHelperSubjects::getPlanResourceID($subjectIndex, $scheduleModel->newSchedule->subjects->$subjectIndex);
+
 		if (!empty($planResourceID))
 		{
-			$scheduleModel->schedule->subjects->$subjectIndex->id = $planResourceID;
+			$scheduleModel->newSchedule->subjects->$subjectIndex->id = $planResourceID;
 			THM_OrganizerHelperDepartments::setDepartmentResource($planResourceID, 'subjectID');
 		}
 	}
@@ -137,7 +139,7 @@ class THM_OrganizerHelperXMLSubjects
 			return false;
 		}
 
-		$scheduleModel->schedule->subjects->$subjectIndex->longname = $longName;
+		$scheduleModel->newSchedule->subjects->$subjectIndex->longname = $longName;
 
 		return $longName;
 	}
@@ -159,12 +161,12 @@ class THM_OrganizerHelperXMLSubjects
 			$scheduleModel->scheduleWarnings['SUBJECT-NO']
 				                                                         = empty($scheduleModel->scheduleWarnings['SUBJECT-NO']) ?
 				1 : $scheduleModel->scheduleWarnings['SUBJECT-NO'] + 1;
-			$scheduleModel->schedule->subjects->$subjectIndex->subjectNo = '';
+			$scheduleModel->newSchedule->subjects->$subjectIndex->subjectNo = '';
 
 			return;
 		}
 
-		$scheduleModel->schedule->subjects->$subjectIndex->subjectNo = $subjectNo;
+		$scheduleModel->newSchedule->subjects->$subjectIndex->subjectNo = $subjectNo;
 	}
 
 	/**
@@ -178,19 +180,19 @@ class THM_OrganizerHelperXMLSubjects
 	 */
 	private static function validateField(&$scheduleModel, &$subjectNode, $subjectIndex)
 	{
-		$fieldID      = str_replace('DS_', '', trim($subjectNode->subject_description[0]['id']));
-		$invalidField = (empty($fieldID) OR empty($scheduleModel->schedule->fields->$fieldID));
+		$untisID      = str_replace('DS_', '', trim($subjectNode->subject_description[0]['id']));
+		$invalidField = (empty($fieldID) OR empty($scheduleModel->newSchedule->fields->$untisID));
+
 		if ($invalidField)
 		{
-			$scheduleModel->scheduleWarnings['SUBJECT-FIELD']
-				                                                           = empty($scheduleModel->scheduleWarnings['SUBJECT-FIELD']) ?
+			$scheduleModel->scheduleWarnings['SUBJECT-FIELD']                 = empty($scheduleModel->scheduleWarnings['SUBJECT-FIELD']) ?
 				1 : $scheduleModel->scheduleWarnings['SUBJECT-FIELD'] + 1;
-			$scheduleModel->schedule->subjects->$subjectIndex->description = '';
+			$scheduleModel->newSchedule->subjects->$subjectIndex->description = '';
 
 			return;
 		}
 
-		$scheduleModel->schedule->subjects->$subjectIndex->description = $fieldID;
-		$scheduleModel->schedule->subjects->$subjectIndex->fieldID     = $scheduleModel->schedule->fields->$fieldID->id;
+		$scheduleModel->newSchedule->subjects->$subjectIndex->description = $untisID;
+		$scheduleModel->newSchedule->subjects->$subjectIndex->fieldID     = $scheduleModel->newSchedule->fields->$fieldID->id;
 	}
 }

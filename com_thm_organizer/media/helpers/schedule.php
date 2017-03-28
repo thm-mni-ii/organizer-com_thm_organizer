@@ -76,9 +76,6 @@ class THM_OrganizerHelperSchedule
 
 				$aggregatedLessons[$date][$times][$lessonID]['calendarDelta'] =
 					(empty($lesson['calendarDelta']) OR $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
-
-				$aggregatedLessons[$date][$times][$lessonID]['poolDelta'] =
-					(empty($lesson['poolDelta']) OR $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
 			}
 
 			$subjectData = self::getSubjectData($lesson);
@@ -94,6 +91,7 @@ class THM_OrganizerHelperSchedule
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] = $configuration['teachers'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']    = $configuration['rooms'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'] = array();
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'] = array();
 			}
 			else
 			{
@@ -107,6 +105,9 @@ class THM_OrganizerHelperSchedule
 
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['subjectDelta'] = $subjectDelta;
 			}
+
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'][$lesson['poolID']] =
+				(empty($lesson['poolDelta']) OR $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
 
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teacherDeltas'] = $configuration['teacherDeltas'];
 
