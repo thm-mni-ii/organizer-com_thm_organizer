@@ -220,6 +220,15 @@ if (!empty($this->item->name))
 		}
 		echo '</div></div>';
 	}
+	if (!empty($this->item->duration))
+	{
+		echo '<div class="subject-item">';
+		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_DURATION') . '</div>';
+		echo '<div class="subject-content">';
+		echo $this->item->duration;
+		echo '</div>';
+		echo '</div>';
+	}
 	if (!empty($this->item->instructionLanguage))
 	{
 		echo '<div class="subject-item">';

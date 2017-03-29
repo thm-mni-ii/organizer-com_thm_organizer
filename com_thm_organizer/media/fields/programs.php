@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -43,6 +45,14 @@ class JFormFieldPrograms extends JFormField
 		$selectedPrograms = !empty($ranges) ?
 			THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : array();
 		$allPrograms      = THM_OrganizerHelperMapping::getAllPrograms();
+
+		foreach ($allPrograms as $key => $programData)
+		{
+			if (!THM_OrganizerHelperComponent::allowResourceManage('program', $programData['value'], 'manage'))
+			{
+				unset($allPrograms[$key]);
+			}
+		}
 
 		$defaultOptions = array(array('value' => '-1', 'text' => JText::_('JNONE')));
 		$programs       = array_merge($defaultOptions, $allPrograms);

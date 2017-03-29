@@ -37,7 +37,8 @@ class JFormFieldDepartmentID extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments();
+		$allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('manage');
+
 		if (empty($allowedIDs))
 		{
 			return parent::getOptions();

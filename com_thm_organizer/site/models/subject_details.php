@@ -51,7 +51,8 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 		$select .= "present, independent, proof_$langTag AS proof, frequency_$langTag AS frequency, ";
 		$select .= "method_$langTag AS method, recommended_prerequisites_$langTag as recommended_prerequisites, ";
 		$select .= "prerequisites_$langTag AS prerequisites, aids_$langTag AS aids, used_for_$langTag AS prerequisiteOf, ";
-		$select .= "evaluation_$langTag AS evaluation, sws, expertise, method_competence, self_competence, social_competence";
+		$select .= "evaluation_$langTag AS evaluation, sws, expertise, method_competence, self_competence, ";
+		$select .= "social_competence, duration";
 
 		$query->select($select);
 		$query->from('#__thm_organizer_subjects AS s');

@@ -352,6 +352,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$this->setAttribute($subject, 'instructionLanguage', (string) $dataObject->sprache, 'D');
 		$this->setAttribute($subject, 'frequencyID', (string) $dataObject->turnus);
 
+		preg_match('/\d+/', (string) $dataObject->dauer, $duration);
+		$this->setAttribute($subject, 'duration', $duration[0], '1');
+
 		// Ensure reset before iterative processing
 		$this->crp = 0;
 
@@ -359,6 +362,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$this->processSpecialFields($dataObject, $subject);
 
 		$blobs = $dataObject->xpath('//blobs/blob');
+
 		foreach ($blobs AS $objectNode)
 		{
 			$this->setObjectProperty($subject, $objectNode);

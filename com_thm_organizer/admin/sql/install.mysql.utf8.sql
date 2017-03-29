@@ -534,6 +534,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `recommended_prerequisites_en` TEXT             NOT NULL DEFAULT '',
   `used_for_de`                  TEXT             NOT NULL DEFAULT '',
   `used_for_en`                  TEXT             NOT NULL DEFAULT '',
+  `duration`                     INT(2) UNSIGNED           DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `frequencyID` (`frequencyID`),
   KEY `fieldID` (`fieldID`),
