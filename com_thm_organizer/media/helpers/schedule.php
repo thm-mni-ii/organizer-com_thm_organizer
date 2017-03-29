@@ -311,17 +311,17 @@ class THM_OrganizerHelperSchedule
 
 		$tag          = THM_OrganizerHelperLanguage::getShortTag();
 		$dbo          = JFactory::getDbo();
-		$programQuery = $dbo->getQuery(true);
+		$subjectsQuery = $dbo->getQuery(true);
 
 		$select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, ";
 		$select .= "s.abbreviation_$tag AS abbr";
 
-		$programQuery->select($select)
+		$subjectsQuery->select($select)
 			->from('#__thm_organizer_subjects AS s')
 			->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.subjectID = s.id')
 			->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
 			->where("sm.plan_subjectID ='{$lesson['psID']}'");
-		$dbo->setQuery($programQuery);
+		$dbo->setQuery($subjectsQuery);
 
 		try
 		{
@@ -379,7 +379,7 @@ class THM_OrganizerHelperSchedule
 
 		foreach ($mappedSubjects as $subject)
 		{
-			$found = ($subject['lft'] > $left AND $subject['rgt'] > $right);
+			$found = ($subject['lft'] > $left AND $subject['rgt'] < $right);
 
 			if ($found)
 			{
