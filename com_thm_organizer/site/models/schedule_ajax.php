@@ -207,101 +207,75 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	/**
 	 * saves lessons in the personal schedule of the logged in user
 	 *
-	 * @return string JSON coded lessonID
+	 * @return string JSON coded and saved ccmIDs
 	 */
 	public function saveLesson()
 	{
-		$input    = JFactory::getApplication()->input;
-		$mode     = $input->getInt('mode', PERIOD_MODE);
-		$ccmID    = $input->getString('ccmID');
-		$userID   = JFactory::getUser()->id;
-		$lessonID = $this->getLessonIDByCcmID($ccmID);
+		$input       = JFactory::getApplication()->input;
+		$mode        = $input->getInt('mode', PERIOD_MODE);
+		$ccmID       = $input->getString('ccmID');
+		$userID      = JFactory::getUser()->id;
+		$savedCcmIDs = array();
 
-		if (JFactory::getUser()->guest)
+		if (JFactory::getUser()->guest OR empty($ccmID))
 		{
 			return '[]';
 		}
 
-		/** get configurations of selected lesson */
-		$newCcmIDs = $this->getMatchingCcmIDs($mode, $ccmID);
-		if (empty($newCcmIDs))
+		$mappings = $this->getMatchingLessons($mode, $ccmID);
+		foreach ($mappings as $lessonID => $ccmIDs)
 		{
-			return '[]';
-		}
-
-		try
-		{
-			$userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
-			$hasUserLesson   = $userLessonTable->load(array('userID' => $userID, 'lessonID' => $lessonID));
-		}
-		catch (Exception $e)
-		{
-			return '[]';
-		}
-
-		$conditions = array(
-			'userID'    => $userID,
-			'lessonID'  => $lessonID,
-			'user_date' => date('Y-m-d H:i:s')
-		);
-
-		if ($hasUserLesson)
-		{
-			$conditions['id'] = $userLessonTable->id;
-			$newCcmIDs        = array_merge($newCcmIDs, json_decode($userLessonTable->configuration));
-		}
-
-		$conditions['configuration'] = $newCcmIDs;
-
-		return (!$userLessonTable->bind($conditions) OR !$userLessonTable->store()) ? '[]' : json_encode($newCcmIDs);
-	}
-
-	/**
-	 * Gets the lessonID of a ccmID
-	 *
-	 * @param int $ccmID primary key of calendar_configuration_map
-	 *
-	 * @return int | boolean
-	 */
-	private function getLessonIDByCcmID($ccmID)
-	{
-		try
-		{
-			$ccmTable = JTable::getInstance('calendar_configuration_map', 'thm_organizerTable');
-			$hasCcm   = $ccmTable->load($ccmID);
-
-			if (!$hasCcm)
+			try
 			{
-				return false;
+				$userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
+				$hasUserLesson   = $userLessonTable->load(array('userID' => $userID, 'lessonID' => $lessonID));
+			}
+			catch (Exception $e)
+			{
+				return '[]';
 			}
 
-			$calendarTable = JTable::getInstance('calendar', 'thm_organizerTable');
-			$hasCalendar   = $calendarTable->load($ccmTable->calendarID);
-		}
-		catch (Exception $e)
-		{
-			return false;
+			$conditions = array(
+				'userID'    => $userID,
+				'lessonID'  => $lessonID,
+				'user_date' => date('Y-m-d H:i:s')
+			);
+
+			if ($hasUserLesson)
+			{
+				$conditions['id'] = $userLessonTable->id;
+				$oldCcmIds        = json_decode($userLessonTable->configuration);
+				$ccmIDs           = array_merge($ccmIDs, array_diff($oldCcmIds, $ccmIDs));
+			}
+
+			$conditions['configuration'] = $ccmIDs;
+
+			if ($userLessonTable->bind($conditions) AND $userLessonTable->store())
+			{
+				$savedCcmIDs = array_merge($savedCcmIDs, $ccmIDs);
+			}
 		}
 
-		return (!$hasCalendar) ? false : $calendarTable->lessonID;
+		return json_encode($savedCcmIDs);
 	}
 
 	/**
-	 * loads matching calendar_configuration_map IDs of a lesson
+	 * Get startTime, endTime, schedule_date, day of week and subjectID from calendar_configuration_map table
 	 *
-	 * @param int    $mode  global param like SEMESTER_MODE
-	 * @param string $ccmID calendar_configuration_map ID
+	 * @param int $ccmID primary key of ccm
 	 *
-	 * @return array
+	 * @return object|boolean
 	 */
-	private function getMatchingCcmIDs($mode, $ccmID)
+	private function getCalendarData($ccmID)
 	{
 		$query = $this->_db->getQuery(true);
-		$query->select('lessonID, startTime, endTime, schedule_date, DAYOFWEEK(cal.schedule_date) AS weekday')
+		$query->select('cal.lessonID, startTime, endTime, schedule_date, DAYOFWEEK(schedule_date) AS weekday, subjectID')
 			->from('#__thm_organizer_calendar_configuration_map AS map')
 			->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
+			->innerJoin('#__thm_organizer_lessons AS l ON l.id = cal.lessonID')
+			->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id')
 			->where("map.id = '$ccmID'")
-			->where("delta != 'removed'");
+			->where("cal.delta != 'removed'");
 
 		$query->order('map.id');
 		$this->_db->setQuery($query);
@@ -312,118 +286,163 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 		catch (RuntimeException $e)
 		{
-			return array();
+			return false;
 		}
 
-		if (empty($calReference))
+		return empty($calReference) ? false : $calReference;
+	}
+
+	/**
+	 * Get an array with matching ccmIDs, sorted by lessonIDs
+	 *
+	 * @param int $mode  global param like SEMESTER_MODE
+	 * @param int $ccmID primary key of ccm
+	 *
+	 * @return array (lessonID => array(ccmIDs))
+	 */
+	private function getMatchingLessons($mode, $ccmID)
+	{
+		$calReference = $this->getCalendarData($ccmID);
+		if (!$calReference)
 		{
 			return array();
 		}
 
-		/** get other matching configurations, depending on given save mode */
+		// Only lessonID for one ccmID
+		if ($mode == INSTANCE_MODE)
+		{
+			return array($calReference->lessonID => array($ccmID));
+		}
+
+		// Get lessonIDs
 		$query = $this->_db->getQuery(true);
-		$query->select('map.id')
-			->from('#__thm_organizer_calendar_configuration_map AS map')
-			->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
-			->where("cal.lessonID = '$calReference->lessonID'")
-			->where("delta != 'removed'");
+		$query->select('ls.lessonID')
+			->from('#__thm_organizer_lesson_subjects AS ls')
+			->innerJoin('#__thm_organizer_lessons AS l ON l.id = ls.lessonID')
+			->innerJoin('#__thm_organizer_planning_periods AS p ON p.id = l.planningPeriodID')
+			->where("p.startDate <= '$calReference->schedule_date'")
+			->where("p.endDate >= '$calReference->schedule_date'")
+			->where("subjectID = '$calReference->subjectID'")
+			->order('lessonID');
 
-		if ($mode !== SEMESTER_MODE)
-		{
-			/** lessons for same day of the week and same time */
-			$query->where("cal.startTime = '$calReference->startTime'");
-			$query->where("cal.endTime = '$calReference->endTime'");
-			$query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
-
-			/** only the selected instance of lesson */
-			if ($mode == INSTANCE_MODE)
-			{
-				$query->where("cal.schedule_date = '$calReference->schedule_date'");
-			}
-		}
-
-		$query->order('map.id');
 		$this->_db->setQuery($query);
 
 		try
 		{
-			$configurationMappings = $this->_db->loadColumn(0);
+			$lessonIDs = $this->_db->loadColumn();
 		}
 		catch (RuntimeException $e)
 		{
 			return array();
 		}
 
-		return $configurationMappings;
+		$result = array();
+		foreach ($lessonIDs as $lessonID)
+		{
+			$query = $this->_db->getQuery(true);
+			$query->select('map.id')
+				->from('#__thm_organizer_calendar_configuration_map AS map')
+				->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
+				->where("cal.lessonID = '$lessonID'")
+				->where("delta != 'removed'");
+
+			// Lessons for same day of the week and same time
+			if ($mode == PERIOD_MODE)
+			{
+				$query->where("cal.startTime = '$calReference->startTime'");
+				$query->where("cal.endTime = '$calReference->endTime'");
+				$query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
+			}
+
+			$query->order('map.id');
+			$this->_db->setQuery($query);
+			try
+			{
+				$ccmIDs = $this->_db->loadColumn(0);
+				if (!empty($ccmIDs))
+				{
+					$result[$lessonID] = $ccmIDs;
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				return array();
+			}
+		}
+
+		return $result;
 	}
 
 	/**
 	 * deletes lessons in the personal schedule of a logged in user
 	 *
-	 * @return string JSON coded array with lessonID and configurations or empty in case of errors
+	 * @return string JSON coded and deleted ccmIDs
 	 */
 	public function deleteLesson()
 	{
-		$input    = JFactory::getApplication()->input;
-		$mode     = $input->getInt('mode', PERIOD_MODE);
-		$ccmID    = $input->getString('ccmID');
-		$lessonID = $this->getLessonIDByCcmID($ccmID);
-		$userID   = JFactory::getUser()->id;
+		$input  = JFactory::getApplication()->input;
+		$mode   = $input->getInt('mode', PERIOD_MODE);
+		$ccmID  = $input->getString('ccmID');
+		$userID = JFactory::getUser()->id;
 
-		if (JFactory::getUser()->guest || empty($ccmID))
+		if (JFactory::getUser()->guest OR empty($ccmID))
 		{
 			return '[]';
 		}
 
-		try
+		$mappings      = $this->getMatchingLessons($mode, $ccmID);
+		$deletedCcmIDs = array();
+		foreach ($mappings as $lessonID => $ccmIDs)
 		{
-			$userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
-			$hasUserLesson   = $userLessonTable->load(array('userID' => $userID, 'lessonID' => $lessonID));
-		}
-		catch (Exception $e)
-		{
-			return '[]';
-		}
-
-		$matchingCcmIDs = $this->getMatchingCcmIDs($mode, $ccmID);
-		if (!$hasUserLesson OR empty($matchingCcmIDs))
-		{
-			return '[]';
-		}
-
-		/** delete a lesson completely? delete whole row in database */
-		if ($mode == SEMESTER_MODE)
-		{
-			$success = $userLessonTable->delete($userLessonTable->id);
-		}
-		else
-		{
-			$configurations = array_flip(json_decode($userLessonTable->configuration));
-			foreach ($matchingCcmIDs as $ccmID)
+			try
 			{
-				unset($configurations[$ccmID]);
+				$userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
+				if (!$userLessonTable->load(array('userID' => $userID, 'lessonID' => $lessonID)))
+				{
+					continue;
+				}
+			}
+			catch (Exception $e)
+			{
+				return '[]';
 			}
 
-			$configurations = array_flip($configurations);
-			if (empty($configurations))
+			$deletedCcmIDs = array_merge($deletedCcmIDs, $ccmIDs);
+
+			// Delete a lesson completely? delete whole row in database
+			if ($mode == SEMESTER_MODE)
 			{
-				$handled = $userLessonTable->delete($userLessonTable->id);
+				$userLessonTable->delete($userLessonTable->id);
 			}
 			else
 			{
-				$conditions = array(
-					'id'            => $userLessonTable->id,
-					'userID'        => $userID,
-					'lessonID'      => $userLessonTable->lessonID,
-					'configuration' => array_values($configurations),
-					'user_date'     => date('Y-m-d H:i:s')
-				);
-				$handled    = $userLessonTable->bind($conditions);
-			}
+				$configurations = array_flip(json_decode($userLessonTable->configuration));
+				foreach ($ccmIDs as $ccmID)
+				{
+					unset($configurations[$ccmID]);
+				}
 
-			$success = $handled ? $userLessonTable->store() : false;
+				$configurations = array_flip($configurations);
+				if (empty($configurations))
+				{
+					$userLessonTable->delete($userLessonTable->id);
+				}
+				else
+				{
+					$conditions = array(
+						'id'            => $userLessonTable->id,
+						'userID'        => $userID,
+						'lessonID'      => $userLessonTable->lessonID,
+						'configuration' => array_values($configurations),
+						'user_date'     => date('Y-m-d H:i:s')
+					);
+					$userLessonTable->bind($conditions);
+				}
+
+				$userLessonTable->store();
+			}
 		}
 
-		return !$success ? '[]' : json_encode($matchingCcmIDs);
+		return json_encode($deletedCcmIDs);
 	}
 }

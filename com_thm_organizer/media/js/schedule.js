@@ -75,10 +75,10 @@ var ScheduleApp = function ()
 		Calendar = function ()
 		{
 			var that = this, // Helper for inner functions
-				calendarDiv = document.getElementById('calendar'),
+				calendarDiv = document.getElementById("calendar"),
 				calendarIsVisible = false,
 				activeDate = new Date(),
-				month = document.getElementById('display-month'),
+				month = document.getElementById("display-month"),
 				months = [
 					text.JANUARY,
 					text.FEBRUARY,
@@ -93,19 +93,19 @@ var ScheduleApp = function ()
 					text.NOVEMBER,
 					text.DECEMBER
 				],
-				table = document.getElementById('calendar-table'),
-				year = document.getElementById('display-year'),
+				table = document.getElementById("calendar-table"),
+				year = document.getElementById("display-year"),
 
 				/**
 				 * Display calendar controls like changing to previous month.
 				 */
 				showControls = function ()
 				{
-					var dateControls = document.getElementsByClassName('date-input')[0].getElementsByClassName('controls');
+					var dateControls = document.getElementsByClassName("date-input")[0].getElementsByClassName("controls");
 
 					for (var controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
 					{
-						dateControls[controlIndex].style.display = 'inline';
+						dateControls[controlIndex].style.display = "inline";
 					}
 				},
 
@@ -123,12 +123,12 @@ var ScheduleApp = function ()
 				 */
 				resetTable = function ()
 				{
-					var tableBody = table.getElementsByTagName('tbody')[0],
-						rowLength = table.getElementsByTagName('tr').length;
+					var tableBody = table.getElementsByTagName("tbody")[0],
+						rowLength = table.getElementsByTagName("tr").length;
 
 					for (var rowIndex = 0; rowIndex < rowLength; ++rowIndex)
 					{
-						// '-1' represents the last row
+						// "-1" represents the last row
 						tableBody.deleteRow(-1);
 					}
 				},
@@ -139,7 +139,7 @@ var ScheduleApp = function ()
 				fillCalendar = function ()
 				{
 					// Inspired by https://wiki.selfhtml.org/wiki/JavaScript/Anwendung_und_Praxis/Monatskalender
-					var tableBody = table.getElementsByTagName('tbody')[0],
+					var tableBody = table.getElementsByTagName("tbody")[0],
 						rows, rowIndex, row, cell, cellIndex, months30days = [4, 6, 9, 11], days = 31, day = 1,
 						generalMonth = new Date(activeDate.getFullYear(), activeDate.getMonth(), 1),
 						weekdayStart = generalMonth.getDay() === 0 ? 7 : generalMonth.getDay(),
@@ -168,18 +168,18 @@ var ScheduleApp = function ()
 							cell = row.insertCell(cellIndex);
 							if ((rowIndex === 0 && cellIndex < weekdayStart - 1) || day > days)
 							{
-								cell.innerHTML = ' ';
+								cell.innerHTML = " ";
 							}
 							else
 							{
 								// Closure function needed, to give individual params to eventListeners inside of a for-loop
 								(function (day)
 								{
-									var button = document.createElement('button');
-									button.type = 'button';
-									button.className = 'day';
+									var button = document.createElement("button");
+									button.type = "button";
+									button.className = "day";
 									button.innerHTML = day.toString();
-									button.addEventListener('click', function ()
+									button.addEventListener("click", function ()
 									{
 										that.insertDate(new Date(year, month - 1, day));
 									}, false);
@@ -227,6 +227,8 @@ var ScheduleApp = function ()
 				{
 					this.setUpCalendar();
 				}
+
+				window.sessionStorage.setItem("scheduleDate", getDateFieldsDateObject().toJSON());
 			};
 
 			/**
@@ -234,7 +236,7 @@ var ScheduleApp = function ()
 			 */
 			this.showCalendar = function ()
 			{
-				calendarDiv.style.visibility = (calendarIsVisible) ? 'hidden' : 'visible';
+				calendarDiv.style.visibility = (calendarIsVisible) ? "hidden" : "visible";
 				calendarIsVisible = !calendarIsVisible;
 
 				if (calendarIsVisible)
@@ -248,7 +250,7 @@ var ScheduleApp = function ()
 			 */
 			this.hideCalendar = function ()
 			{
-				calendarDiv.style.visibility = 'hidden';
+				calendarDiv.style.visibility = "hidden";
 				calendarIsVisible = false;
 			};
 
@@ -259,7 +261,7 @@ var ScheduleApp = function ()
 			 */
 			this.insertDate = function (date)
 			{
-				activeDate = (typeof date === 'undefined') ? new Date() : date;
+				activeDate = (typeof date === "undefined") ? new Date() : date;
 				app.dateField.value = activeDate.getPresentationFormat();
 
 				this.hideCalendar();
@@ -294,8 +296,8 @@ var ScheduleApp = function ()
 				that.activeDate = getDateFieldsDateObject();
 				showControls();
 
-				app.dateField.addEventListener('change', that.setUpCalendar);
-				document.getElementById('today').addEventListener('click', function ()
+				app.dateField.addEventListener("change", that.setUpCalendar);
+				document.getElementById("today").addEventListener("click", function ()
 				{
 					that.insertDate();
 					that.setUpCalendar();
@@ -326,13 +328,15 @@ var ScheduleApp = function ()
 				 */
 				task = (function ()
 				{
-					var task = "&departmentIDs=" + (variables.departmentID ? variables.departmentID : getSelectedValues("department"));
-					task += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : '';
+					var task = "&departmentIDs=" + (variables.departmentID !== "0" ? variables.departmentID :
+							getSelectedValues("department") ? getSelectedValues("department") : "0");
+
+					task += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : "";
 					task += "&task=getLessons";
 					task += "&date=" + getDateFieldString() + (variables.isMobile ? "&oneDay=true" : "");
 					task += "&mySchedule=" + (resource === "user" ? "1" : "0");
 
-					if (that.resource !== "user")
+					if (source !== "user")
 					{
 						task += "&" + resource + "IDs=" + resourceIDs;
 					}
@@ -362,27 +366,35 @@ var ScheduleApp = function ()
 					// Get pre-selected value like "Informatik Master"
 					if (resource === "pool" && programField.selectedIndex !== -1)
 					{
-						options = programField.options;
-						for (index = 0; index < options.length; ++index)
+						(function ()
 						{
-							if (options[index].selected)
+							options = programField.options;
+							for (index = 0; index < options.length; ++index)
 							{
-								selection.push(options[index].text);
+								if (options[index].selected)
+								{
+									selection.push(options[index].text);
+									return;
+								}
 							}
-						}
+						})();
 					}
 
 					// Get resource selection like "1. Semester" or "A20.1.1"
 					if (resourceField && resourceField.selectedIndex !== -1)
 					{
-						options = resourceField.options;
-						for (index = 0; index < options.length; ++index)
+						(function ()
 						{
-							if (options[index].selected)
+							options = resourceField.options;
+							for (index = 0; index < options.length; ++index)
 							{
-								selection.push(options[index].text);
+								if (options[index].selected)
+								{
+									selection.push(options[index].text);
+									return;
+								}
 							}
-						}
+						})();
 					}
 
 					title += selection.join(" - ");
@@ -594,7 +606,7 @@ var ScheduleApp = function ()
 								startTime = startTime.replace(/(\d{2})(\d{2})/, "$1:$2");
 								endTime = timeGrid.periods[period].endTime;
 								endTime = endTime.replace(/(\d{2})(\d{2})/, "$1:$2");
-								timeCell.style.display = '';
+								timeCell.style.display = "";
 								timeCell.innerHTML = startTime + "<br> - <br>" + endTime;
 
 								++period;
@@ -628,7 +640,7 @@ var ScheduleApp = function ()
 					}
 
 					// Show TIME header on the left side ?
-					headItems[0].style.display = timeGrid.hasOwnProperty("periods") ? '' : "none";
+					headItems[0].style.display = timeGrid.hasOwnProperty("periods") ? "" : "none";
 
 					// Fill tHead with days of week
 					for (thElement = 1; thElement < headItems.length; ++thElement)
@@ -642,7 +654,7 @@ var ScheduleApp = function ()
 						}
 						else
 						{
-							headItems[thElement].innerHTML = '';
+							headItems[thElement].innerHTML = "";
 						}
 					}
 				},
@@ -844,15 +856,15 @@ var ScheduleApp = function ()
 						// Data attributes instead of classes for finding the lesson later
 						lessonElement.dataset.ccmID = data.ccmID;
 
-						irrelevantPool = scheduleResource === "pool" && subjectData.poolDeltas[scheduleID.replace('pool', '')] === 'removed';
+						irrelevantPool = scheduleResource === "pool" && subjectData.poolDeltas[scheduleID.replace("pool", "")] === "removed";
 
-						if (irrelevantPool || (data.lessonDelta && data.lessonDelta === 'removed') || (data.calendarDelta && data.calendarDelta === 'removed'))
+						if (irrelevantPool || (data.lessonDelta && data.lessonDelta === "removed") || (data.calendarDelta && data.calendarDelta === "removed"))
 						{
 							lessonElement.classList.add("calendar-removed");
 						}
 
 						// Delta = "removed" or "new" or "changed" ? add class like "lesson-new"
-						else if ((data.lessonDelta && data.lessonDelta === 'new') || (data.calendarDelta && data.calendarDelta === 'new'))
+						else if ((data.lessonDelta && data.lessonDelta === "new") || (data.calendarDelta && data.calendarDelta === "new"))
 						{
 							lessonElement.classList.add("calendar-new");
 						}
@@ -1240,27 +1252,27 @@ var ScheduleApp = function ()
 				handleBreakRows = function ()
 				{
 					var numberOfColumns = variables.isMobile ? 2
-							: jQuery(table).find('tr:first').find('th').filter(function ()
+							: jQuery(table).find("tr:first").find("th").filter(function ()
 						{
-							return jQuery(this).css('display') !== 'none';
+							return jQuery(this).css("display") !== "none";
 						}).length,
-						tableTbodyRow = jQuery(table).find('tbody').find('tr'),
+						tableTbodyRow = jQuery(table).find("tbody").find("tr"),
 						addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
 						addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';
 
-					if (!timeGrid.hasOwnProperty('periods'))
+					if (!timeGrid.hasOwnProperty("periods"))
 					{
-						jQuery(".break").closest('tr').remove();
-						tableTbodyRow.not(':eq(0)').addClass("hide");
+						jQuery(".break").closest("tr").remove();
+						tableTbodyRow.not(":eq(0)").addClass("hide");
 					}
 					else if (timeGrid.periods[1].endTime === timeGrid.periods[2].startTime)
 					{
-						jQuery(".break").closest('tr').remove();
-						tableTbodyRow.not(':eq(0)').removeClass("hide");
+						jQuery(".break").closest("tr").remove();
+						tableTbodyRow.not(":eq(0)").removeClass("hide");
 					}
 					else if (!(tableTbodyRow.hasClass("break-row")))
 					{
-						tableTbodyRow.not(':eq(0)').removeClass("hide");
+						tableTbodyRow.not(":eq(0)").removeClass("hide");
 						for (var periods in timeGrid.periods)
 						{
 							if (periods === 1 || periods === 2 || periods === 4 || periods === 5)
@@ -1351,21 +1363,21 @@ var ScheduleApp = function ()
 		LessonMenu = function ()
 		{
 			var currentCcmID = 0,
-				lessonMenuElement = document.getElementsByClassName('lesson-menu')[0],
-				subjectSpan = lessonMenuElement.getElementsByClassName('subject')[0],
-				moduleSpan = lessonMenuElement.getElementsByClassName('module')[0],
-				personsDiv = lessonMenuElement.getElementsByClassName('persons')[0],
-				roomsDiv = lessonMenuElement.getElementsByClassName('rooms')[0],
-				poolsDiv = lessonMenuElement.getElementsByClassName('pools')[0],
-				descriptionSpan = lessonMenuElement.getElementsByClassName('description')[0],
-				saveMenu = lessonMenuElement.getElementsByClassName('save')[0],
-				saveSemesterMode = document.getElementById('save-mode-semester'),
-				savePeriodMode = document.getElementById('save-mode-period'),
-				saveInstanceMode = document.getElementById('save-mode-instance'),
-				deleteMenu = lessonMenuElement.getElementsByClassName('delete')[0],
-				deleteSemesterMode = document.getElementById('delete-mode-semester'),
-				deletePeriodMode = document.getElementById('delete-mode-period'),
-				deleteInstanceMode = document.getElementById('delete-mode-instance'),
+				lessonMenuElement = document.getElementsByClassName("lesson-menu")[0],
+				subjectSpan = lessonMenuElement.getElementsByClassName("subject")[0],
+				moduleSpan = lessonMenuElement.getElementsByClassName("module")[0],
+				personsDiv = lessonMenuElement.getElementsByClassName("persons")[0],
+				roomsDiv = lessonMenuElement.getElementsByClassName("rooms")[0],
+				poolsDiv = lessonMenuElement.getElementsByClassName("pools")[0],
+				descriptionSpan = lessonMenuElement.getElementsByClassName("description")[0],
+				saveMenu = lessonMenuElement.getElementsByClassName("save")[0],
+				saveSemesterMode = document.getElementById("save-mode-semester"),
+				savePeriodMode = document.getElementById("save-mode-period"),
+				saveInstanceMode = document.getElementById("save-mode-instance"),
+				deleteMenu = lessonMenuElement.getElementsByClassName("delete")[0],
+				deleteSemesterMode = document.getElementById("delete-mode-semester"),
+				deletePeriodMode = document.getElementById("delete-mode-period"),
+				deleteInstanceMode = document.getElementById("delete-mode-instance"),
 
 				/**
 				 * Resets HTMLDivElements
@@ -1392,18 +1404,18 @@ var ScheduleApp = function ()
 
 					if (data.subjectNo === "")
 					{
-						moduleSpan.style.display = 'none';
+						moduleSpan.style.display = "none";
 					}
 					else
 					{
-						moduleSpan.style.display = 'inline-block';
+						moduleSpan.style.display = "inline-block";
 						moduleSpan.innerHTML = data.subjectNo;
 					}
 
-					if(lessonMenuElement.parentNode.getElementsByClassName('comment-container')[0] !== undefined)
+					if (lessonMenuElement.parentNode.getElementsByClassName("comment-container")[0] !== undefined)
 					{
 						descriptionSpan.innerHTML =
-							lessonMenuElement.parentNode.getElementsByClassName('comment-container')[0].innerText;
+							lessonMenuElement.parentNode.getElementsByClassName("comment-container")[0].innerText;
 					}
 					else
 					{
@@ -1589,19 +1601,6 @@ var ScheduleApp = function ()
 
 				return false;
 			};
-
-			/**
-			 * gets the Schedule object which belongs to the given response url from an Ajax request
-			 * @param {string} responseUrl
-			 * @return {Schedule|boolean}
-			 */
-			this.getScheduleByResponse = function (responseUrl)
-			{
-				var matches = responseUrl.match(/&departmentIDs=\d+.*&(\w+)IDs=((\d+[,]?)*)&|$/),
-					id = (!matches[0]) ? "user" : matches[1] + matches[2].replace(/,/g, "-");
-
-				return this.getScheduleById(id);
-			};
 		},
 
 		/**
@@ -1609,9 +1608,7 @@ var ScheduleApp = function ()
 		 */
 		loadSessionSchedules = function ()
 		{
-			var schedules = JSON.parse(window.sessionStorage.getItem('schedules')),
-				formSelection = JSON.parse(window.sessionStorage.getItem('scheduleFormSelection')),
-				id;
+			var id, schedules = JSON.parse(window.sessionStorage.getItem("schedules"));
 
 			if (schedules && Object.keys(schedules).length > 0)
 			{
@@ -1627,6 +1624,8 @@ var ScheduleApp = function ()
 				{
 					switchToScheduleListTab();
 				}
+
+				showSchedule(jQuery("#selected-schedules").find(".selected-schedule").last().attr("id"));
 			}
 		},
 
@@ -1635,7 +1634,7 @@ var ScheduleApp = function ()
 		 */
 		selectSessionGrid = function ()
 		{
-			var grid = window.sessionStorage.getItem('scheduleGrid');
+			var grid = window.sessionStorage.getItem("scheduleGrid");
 
 			if (grid)
 			{
@@ -1684,7 +1683,8 @@ var ScheduleApp = function ()
 						max: (program ? 1 : 0) + (room ? 1 : 0) + (teacher ? 1 : 0),
 						inputToShowFirst: program ? "program" : room ? "roomtype" : "teacher",
 						IDs: paramIDs,
-						category: categoryName
+						category: categoryName,
+						session: JSON.parse(window.sessionStorage.getItem("scheduleCategory"))
 					};
 				})();
 
@@ -1719,10 +1719,32 @@ var ScheduleApp = function ()
 					disableTabs(["tab-schedule-form", "tab-selected-schedules"]);
 				}
 			}
+			else if (formConfig.session)
+			{
+				sendFormRequest(formConfig.session.category, NaN, formConfig.session.id);
+				showForm(formConfig.session.category);
+				selectCategory(formConfig.session.category);
+			}
 			else
 			{
 				sendFormRequest(formConfig.inputToShowFirst);
 				showForm("category-" + formConfig.inputToShowFirst);
+			}
+		},
+
+		/**
+		 * Selects given category in category-input of schedule form
+		 *
+		 * @param {string} category - name of selected category
+		 */
+		selectCategory = function (category)
+		{
+			var options = document.getElementById("category").options, index, option;
+
+			for (index = 0; index < options.length; ++index)
+			{
+				option = options[index];
+				option.selected = option.value === category;
 			}
 		},
 
@@ -1741,7 +1763,8 @@ var ScheduleApp = function ()
 					"category-roomtype": ["roomtype-input"],
 					"roomtype": ["roomtype-input", "room-input"],
 					"room": ["room-input"],
-					"category-teacher": ["teacher-input"]
+					"category-teacher": ["teacher-input"],
+					"teacher": ["teacher-input"]
 				};
 
 			// no pre set department, so it is needed for every form
@@ -1775,10 +1798,12 @@ var ScheduleApp = function ()
 		 *
 		 * @param {string} resource
 		 * @param {string|number} [ids] - to insert them in request instead of form selection values
+		 * @param {number} [selectedId]  - select value immediately and show next form input
 		 */
-		sendFormRequest = function (resource, ids)
+		sendFormRequest = function (resource, ids, selectedId)
 		{
-			var task = "&departmentIDs=" + (variables.departmentID === "0" ? getSelectedValues("department") : variables.departmentID);
+			var task = "&departmentIDs=" + (variables.departmentID !== "0" ? variables.departmentID :
+					getSelectedValues("department") ? getSelectedValues("department") : "0");
 
 			switch (resource)
 			{
@@ -1808,7 +1833,8 @@ var ScheduleApp = function ()
 			ajaxSelection.open("GET", variables.ajaxbase + task, true);
 			ajaxSelection.onreadystatechange = function ()
 			{
-				var value, values, fieldElement, option, optionCount;
+				var value, values, fieldElement, option, optionCount, optionValue,
+					nextResource = document.getElementById(resource).dataset.next;
 
 				if (ajaxSelection.readyState === 4 && ajaxSelection.status === 200)
 				{
@@ -1830,10 +1856,23 @@ var ScheduleApp = function ()
 						if (values.hasOwnProperty(value))
 						{
 							option = document.createElement("option");
-							option.setAttribute("value", value.name ? values[value].id : values[value]);
+							optionValue = value.name ? values[value].id : values[value];
+							option.setAttribute("value", optionValue);
 							option.innerHTML = value.name ? values[value].name : value;
-							option.selected = optionCount === 1;
 							fieldElement.appendChild(option);
+
+							if (optionValue === selectedId || optionCount === 1)
+							{
+								option.selected = true;
+								if (nextResource)
+								{
+									sendFormRequest(nextResource, selectedId);
+								}
+								else
+								{
+									sendLessonRequest(resource, selectedId);
+								}
+							}
 						}
 					}
 
@@ -1858,7 +1897,7 @@ var ScheduleApp = function ()
 		 */
 		addSelectionEvent = function (id)
 		{
-			var input = document.getElementById(id + "-input"), drop = input.getElementsByClassName("chzn-drop")[0];
+			var input = document.getElementById(id + "-input"), drop = input.getElementsByClassName("chzn-results")[0];
 
 			if (variables.isMobile)
 			{
@@ -1889,9 +1928,15 @@ var ScheduleApp = function ()
 		 */
 		handleFormSelection = function (id)
 		{
-			var element = (typeof id === "string") ? document.getElementById(id) : id.target;
+			var element = (typeof id === "string") ? document.getElementById(id) : id.target,
+				sessionCategory = {
+					"category": element.id,
+					"id": getSelectedValues(element.id)
+				};
+
 			if (element.dataset.next)
 			{
+				window.sessionStorage.setItem("scheduleCategory", JSON.stringify(sessionCategory));
 				sendFormRequest(element.dataset.next);
 				showForm(element.id);
 			}
@@ -1905,7 +1950,7 @@ var ScheduleApp = function ()
 		 * starts an Ajax request to get lessons for the selected resource
 		 *
 		 * @param {string} resource
-		 * @param {string} [optionalID] - specific id instead of resource form selection
+		 * @param {string|number} [optionalID] - specific id instead of resource form selection
 		 * @param {string} [optionalTitle] - the same with optionalID
 		 */
 		sendLessonRequest = function (resource, optionalID, optionalTitle)
@@ -1938,8 +1983,7 @@ var ScheduleApp = function ()
 
 			if (pastDate)
 			{
-				pastDateButton.innerHTML =
-					pastDateButton.innerHTML.replace(datePattern, pastDate.getPresentationFormat());
+				pastDateButton.innerHTML = pastDateButton.innerHTML.replace(datePattern, pastDate.getPresentationFormat());
 				pastDateButton.dataset.date = dates.pastDate;
 				jQuery(pastDateButton).show();
 			}
@@ -1949,8 +1993,7 @@ var ScheduleApp = function ()
 			}
 			if (futureDate)
 			{
-				futureDateButton.innerHTML =
-					futureDateButton.innerHTML.replace(datePattern, futureDate.getPresentationFormat());
+				futureDateButton.innerHTML = futureDateButton.innerHTML.replace(datePattern, futureDate.getPresentationFormat());
 				futureDateButton.dataset.date = dates.futureDate;
 				jQuery(futureDateButton).show();
 			}
@@ -1968,13 +2011,13 @@ var ScheduleApp = function ()
 		 *
 		 * @param {number} [taskNumber=1]
 		 * @param {number} ccmID - calendar_configuration_map ID
-		 * @param {boolean} save - indicate to save or to delete the lesson
+		 * @param {boolean} [save=true] - indicate to save or to delete the lesson
 		 */
 		handleLesson = function (taskNumber, ccmID, save)
 		{
 			var mode = (typeof taskNumber === "undefined") ? "1" : taskNumber,
 				saving = (typeof save === "undefined") ? true : save,
-				task = "&task= " + (saving ? "&task=saveLesson" : "&task=deleteLesson");
+				task = "&task=" + (saving ? "saveLesson" : "deleteLesson");
 
 			if (!ccmID)
 			{
@@ -1983,47 +2026,40 @@ var ScheduleApp = function ()
 
 			task += "&mode=" + mode + "&ccmID=" + ccmID;
 			ajaxSave.open("GET", variables.ajaxbase + task, true);
-			ajaxSave.onreadystatechange = lessonHandled;
-			ajaxSave.send(null);
-		},
-
-		/**
-		 * replaces the save button of a saved lesson with a delete button and reverse
-		 */
-		lessonHandled = function ()
-		{
-			var handledLessons, lessonElements;
-
-			if (ajaxSave.readyState === 4 && ajaxSave.status === 200)
+			ajaxSave.onreadystatechange = function ()
 			{
-				handledLessons = JSON.parse(ajaxSave.responseText);
+				var handledLessons, lessonIndex, lessonElements, lessonElement;
 
-				scheduleObjects.schedules.forEach(
-					function (schedule)
-					{
-						lessonElements = schedule.getTable().getLessons();
-						for (var lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
+				if (ajaxSave.readyState === 4 && ajaxSave.status === 200)
+				{
+					handledLessons = JSON.parse(ajaxSave.responseText);
+
+					scheduleObjects.schedules.forEach(function (schedule)
 						{
-							if (handledLessons.includes(lessonElements[lessonIndex].dataset.ccmID))
+							lessonElements = schedule.getTable().getLessons();
+							for (lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
 							{
-								if (lessonElements[lessonIndex].classList.contains("lesson"))
+								lessonElement = lessonElements[lessonIndex];
+
+								if (handledLessons.includes(lessonElement.dataset.ccmID))
 								{
-									if (lessonElements[lessonIndex].classList.contains("added"))
+									if (saving)
 									{
-										lessonElements[lessonIndex].classList.remove("added");
+										lessonElement.classList.add("added");
 									}
 									else
 									{
-										lessonElements[lessonIndex].classList.add("added");
+										lessonElement.classList.remove("added");
 									}
 								}
 							}
 						}
-					}
-				);
+					);
 
-				app.updateSchedule("user");
-			}
+					app.updateSchedule();
+				}
+			};
+			ajaxSave.send(null);
 		},
 
 		/**
@@ -2147,12 +2183,17 @@ var ScheduleApp = function ()
 		 *
 		 * @param {string} fieldID
 		 * @param {string} [separator=","]
-		 * @returns {string}
+		 * @returns {string|boolean}
 		 */
 		getSelectedValues = function (fieldID, separator)
 		{
-			var sep = separator ? separator : ",", field = document.getElementById(fieldID), options = field.options,
-				result = [];
+			var sep = separator ? separator : ",", field = document.getElementById(fieldID),
+				options = field ? field.options : undefined, result = [];
+
+			if (!field)
+			{
+				return false;
+			}
 
 			if (field.selectedIndex > -1)
 			{
@@ -2270,9 +2311,11 @@ var ScheduleApp = function ()
 		 */
 		switchToScheduleListTab = function ()
 		{
-			if (!jQuery("#tab-selected-schedules").parent("li").hasClass("disabled-tab"))
+			var selectedSchedulesTab = jQuery("#tab-selected-schedules");
+
+			if (!selectedSchedulesTab.parent("li").hasClass("disabled-tab"))
 			{
-				jQuery("#tab-selected-schedules").parent("li").addClass("active");
+				selectedSchedulesTab.parent("li").addClass("active");
 				jQuery("#selected-schedules").addClass("active");
 			}
 			jQuery("#tab-schedule-form").parent("li").removeClass("active");
@@ -2284,9 +2327,11 @@ var ScheduleApp = function ()
 		 */
 		switchToFormTab = function ()
 		{
-			if (!jQuery("#tab-schedule-form").parent("li").hasClass("disabled-tab"))
+			var formTab = jQuery("#tab-schedule-form");
+
+			if (!formTab.parent("li").hasClass("disabled-tab"))
 			{
-				jQuery("#tab-schedule-form").parent("li").addClass("active");
+				formTab.parent("li").addClass("active");
 				jQuery("#schedule-form").addClass("active");
 			}
 			jQuery("#tab-selected-schedules").parent("li").removeClass("active");
@@ -2357,7 +2402,7 @@ var ScheduleApp = function ()
 				for (i = 0; i < tabsToDisable.length; i++)
 				{
 					tabsToDisable[i].attr("data-toggle", "tab");
-					tabsToDisable[i].parent('li').removeClass("disabled-tab");
+					tabsToDisable[i].parent("li").removeClass("disabled-tab");
 				}
 			}
 		};
@@ -2396,6 +2441,11 @@ var ScheduleApp = function ()
 					}
 				}
 			);
+
+			if (id && id.target && id.target.id === "date")
+			{
+				window.sessionStorage.setItem("scheduleDate", getDateFieldsDateObject().toJSON());
+			}
 		}
 	};
 
@@ -2418,13 +2468,13 @@ var ScheduleApp = function ()
 	this.handleExport = function (format)
 	{
 		var schedule = getSelectedScheduleID(), url = variables.exportbase,
-			formats, resourceID, exportSelection = jQuery('#export-selection'),
+			formats, resourceID, exportSelection = jQuery("#export-selection"),
 			gridID = variables.grids[getSelectedValues("grid")].id;
 
-		formats = format.split('.');
+		formats = format.split(".");
 		url += "&format=" + formats[0];
 
-		if (formats[0] === 'pdf')
+		if (formats[0] === "pdf")
 		{
 			url += "&gridID=" + gridID;
 		}
@@ -2434,15 +2484,15 @@ var ScheduleApp = function ()
 			url += "&documentFormat=" + formats[1];
 		}
 
-		if (schedule === 'user')
+		if (schedule === "user")
 		{
 			url += "&myschedule=1";
 
-			if (formats[0] === 'ics')
+			if (formats[0] === "ics")
 			{
 				url += "&username=" + variables.username + "&auth=" + variables.auth;
 				window.prompt(text.copy, url);
-				exportSelection.val('placeholder');
+				exportSelection.val("placeholder");
 				exportSelection.trigger("chosen:updated");
 				return;
 			}
@@ -2477,7 +2527,7 @@ var ScheduleApp = function ()
 		url += "&date=" + getDateFieldString();
 
 		window.open(url);
-		exportSelection.val('placeholder');
+		exportSelection.val("placeholder");
 		exportSelection.trigger("chosen:updated");
 	};
 
@@ -2496,24 +2546,25 @@ var ScheduleApp = function ()
 	 */
 	(function ()
 	{
-		var startX, startY;
+		var sessionDate = window.sessionStorage.getItem("scheduleDate"), startX, startY,
+			date = sessionDate ? new Date(sessionDate) : new Date();
 
 		calendar = new Calendar();
 		lessonMenu = new LessonMenu();
 		scheduleObjects = new Schedules();
-		app.dateField.value = new Date().getPresentationFormat();
-
-		changePositionOfDateInput();
-		disableTabs();
-		selectSessionGrid();
-		setUpForm();
-		loadSessionSchedules();
+		app.dateField.value = date.getPresentationFormat();
 
 		if (variables.registered && !scheduleObjects.getScheduleById("user"))
 		{
 			new Schedule("user");
 			switchToScheduleListTab();
 		}
+
+		changePositionOfDateInput();
+		disableTabs();
+		selectSessionGrid();
+		setUpForm();
+		loadSessionSchedules();
 
 		/**
 		 * swipe touch event handler changing the shown day and date
@@ -2526,7 +2577,6 @@ var ScheduleApp = function ()
 			startX = parseInt(touch.pageX);
 			startY = parseInt(touch.pageY);
 		});
-
 		scheduleWrapper.addEventListener("touchend", function (event)
 		{
 			var touch = event.changedTouches[0], minDist = 50,
@@ -2549,9 +2599,9 @@ var ScheduleApp = function ()
 				}
 			}
 		});
-
 		jQuery("#category").chosen().change(function ()
 		{
+			window.sessionStorage.setItem("scheduleCategory", JSON.stringify({"category": this.value, "id": null}));
 			sendFormRequest(this.value);
 			showForm("category-" + this.value);
 		});
@@ -2560,7 +2610,6 @@ var ScheduleApp = function ()
 			showForm("category-" + getSelectedValues("category"));
 			sendFormRequest(getSelectedValues("category"));
 		});
-
 		jQuery("#schedules").chosen().change(function ()
 		{
 			var scheduleInput = document.getElementById(jQuery("#schedules").val());
@@ -2596,7 +2645,7 @@ var ScheduleApp = function ()
 			messagePopup.hide(0);
 		}
 
-		if (jQuery('.controls').css('display') !== 'none')
+		if (jQuery(".controls").css("display") !== "none")
 		{
 			if (calendar.isVisible())
 			{

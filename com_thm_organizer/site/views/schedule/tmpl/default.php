@@ -64,7 +64,7 @@ $displayName = empty($this->model->displayName) ?
 					        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
 						<span class="icon-arrow-left"></span>
 					</button>
-					<input id="date" type="text" required onchange="scheduleApp.updateSchedule();" />
+					<input id="date" type="text" required onchange="scheduleApp.updateSchedule(event);" />
 					<button id="calendar-icon" type="button" class="controls"
 					        onclick="scheduleApp.getCalendar().showCalendar();">
 						<span class="icon-calendar"></span>
