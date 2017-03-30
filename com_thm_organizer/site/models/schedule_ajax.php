@@ -307,70 +307,37 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			return array();
 		}
-
-		// Only lessonID for one ccmID
-		if ($mode == INSTANCE_MODE)
+		elseif ($mode == INSTANCE_MODE)
 		{
 			return array($calReference->lessonID => array($ccmID));
 		}
 
-		// Get lessonIDs
 		$query = $this->_db->getQuery(true);
-		$query->select('ls.lessonID')
-			->from('#__thm_organizer_lesson_subjects AS ls')
-			->innerJoin('#__thm_organizer_lessons AS l ON l.id = ls.lessonID')
-			->innerJoin('#__thm_organizer_planning_periods AS p ON p.id = l.planningPeriodID')
-			->where("p.startDate <= '$calReference->schedule_date'")
-			->where("p.endDate >= '$calReference->schedule_date'")
-			->where("subjectID = '$calReference->subjectID'")
-			->order('lessonID');
+		$query->select('map.id')
+			->from('#__thm_organizer_calendar_configuration_map AS map')
+			->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
+			->where("cal.lessonID = '$calReference->lessonID'")
+			->where("delta != 'removed'");
 
+		// Lessons for same day of the week and same time
+		if ($mode == PERIOD_MODE)
+		{
+			$query->where("cal.startTime = '$calReference->startTime'");
+			$query->where("cal.endTime = '$calReference->endTime'");
+			$query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
+		}
+
+		$query->order('map.id');
 		$this->_db->setQuery($query);
-
 		try
 		{
-			$lessonIDs = $this->_db->loadColumn();
+			$ccmIDs = $this->_db->loadColumn(0);
+			return empty($ccmIDs) ? array() : array($calReference->lessonID => $ccmIDs);
 		}
 		catch (RuntimeException $e)
 		{
 			return array();
 		}
-
-		$result = array();
-		foreach ($lessonIDs as $lessonID)
-		{
-			$query = $this->_db->getQuery(true);
-			$query->select('map.id')
-				->from('#__thm_organizer_calendar_configuration_map AS map')
-				->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
-				->where("cal.lessonID = '$lessonID'")
-				->where("delta != 'removed'");
-
-			// Lessons for same day of the week and same time
-			if ($mode == PERIOD_MODE)
-			{
-				$query->where("cal.startTime = '$calReference->startTime'");
-				$query->where("cal.endTime = '$calReference->endTime'");
-				$query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
-			}
-
-			$query->order('map.id');
-			$this->_db->setQuery($query);
-			try
-			{
-				$ccmIDs = $this->_db->loadColumn(0);
-				if (!empty($ccmIDs))
-				{
-					$result[$lessonID] = $ccmIDs;
-				}
-			}
-			catch (RuntimeException $e)
-			{
-				return array();
-			}
-		}
-
-		return $result;
 	}
 
 	/**
