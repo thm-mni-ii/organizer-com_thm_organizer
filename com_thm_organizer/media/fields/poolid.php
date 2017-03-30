@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
@@ -63,17 +65,25 @@ class JFormFieldPoolID extends JFormFieldList
 		try
 		{
 			$pools   = $dbo->loadAssocList();
-			$options = array();
-			foreach ($pools as $pool)
-			{
-				$options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
-			}
-
-			return array_merge(parent::getOptions(), $options);
 		}
 		catch (Exception $exc)
 		{
 			return parent::getOptions();
 		}
+
+
+		// Whether or not the program display should be prefiltered according to user resource access
+		$access  = $this->getAttribute('access', false);
+		$options = array();
+
+		foreach ($pools as $pool)
+		{
+			if (!$access OR THM_OrganizerHelperComponent::allowResourceManage('pool', $pool['value'], 'manage'))
+			{
+				$options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
+			}
+		}
+
+		return array_merge(parent::getOptions(), $options);
 	}
 }

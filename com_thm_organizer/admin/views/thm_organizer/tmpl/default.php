@@ -47,11 +47,6 @@ $actions = $this->getModel()->actions;
 					    <?php echo JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'); ?>
 					</a>
 				</div>
-				<div class="action-item">
-					<a href="index.php?option=com_thm_organizer&view=plan_subject_manager">
-					    <?php echo JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE'); ?>
-					</a>
-				</div>
 		    <?php endif; ?>
 		</div>
 	    <?php endif; ?>
@@ -105,7 +100,7 @@ $actions = $this->getModel()->actions;
 				    <?php echo JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE'); ?>
 				</a>
 			</div>
-			<div class="action-item">
+			<!-- <div class="action-item">
 				<a href="index.php?option=com_thm_organizer&view=equipment_manager">
 				    <?php echo JText::_('COM_THM_ORGANIZER_EQUIPMENT_MANAGER_TITLE'); ?>
 				</a>

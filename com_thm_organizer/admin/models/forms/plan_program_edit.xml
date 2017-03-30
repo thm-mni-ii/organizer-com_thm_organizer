@@ -18,6 +18,7 @@
                required="true"/>
         <field name="programID"
                type="programID"
+               access="true"
                label="COM_THM_ORGANIZER_PROGRAM">
             <option value="">JNONE</option>
         </field>

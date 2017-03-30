@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 JFormHelper::loadFieldClass('list');
 
@@ -52,17 +54,24 @@ class JFormFieldProgramID extends JFormFieldList
 		try
 		{
 			$programs = $dbo->loadAssocList();
-			$options  = array();
-			foreach ($programs as $program)
-			{
-				$options[] = JHtml::_('select.option', $program['value'], $program['text']);
-			}
-
-			return array_merge(parent::getOptions(), $options);
 		}
 		catch (Exception $exc)
 		{
 			return parent::getOptions();
 		}
+
+		// Whether or not the program display should be prefiltered according to user resource access
+		$access  = $this->getAttribute('access', false);
+		$options  = array();
+
+		foreach ($programs as $program)
+		{
+			if (!$access OR THM_OrganizerHelperComponent::allowResourceManage('program', $program['value'], 'manage'))
+			{
+				$options[] = JHtml::_('select.option', $program['value'], $program['text']);
+			}
+		}
+
+		return array_merge(parent::getOptions(), $options);
 	}
 }

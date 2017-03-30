@@ -31,6 +31,7 @@
     <fields name="list" addfieldpath="/media/com_thm_organizer/fields">
         <field name="programID"
                type="programID"
+               access="false"
                label="COM_THM_ORGANIZER_PROGRAM"
                onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
@@ -38,6 +39,7 @@
         </field>
         <field name="poolID"
                type="poolID"
+               access="true"
                label="COM_THM_ORGANIZER_POOL"
                onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>

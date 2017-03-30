@@ -18,6 +18,7 @@
         </field>
         <field name="programID"
                type="programID"
+               access="false"
                label="COM_THM_ORGANIZER_PROGRAM"
                onchange="this.form.submit();">
             <option value="">JALL</option>

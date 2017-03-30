@@ -15,6 +15,7 @@
             <field
                     name="programID"
                     type="programID"
+                    access="false"
                     class="inputbox"
                     label="COM_THM_ORGANIZER_PROGRAM"
                     description="COM_THM_ORGANIZER_PROGRAM_DESC"
