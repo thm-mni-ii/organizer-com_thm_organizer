@@ -64,7 +64,7 @@ $displayName = empty($this->model->displayName) ?
 					        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
 						<span class="icon-arrow-left"></span>
 					</button>
-					<input id="date" type="text" required onchange="scheduleApp.updateSchedule(event);" />
+					<input id="date" type="text" required onchange="scheduleApp.updateSchedule('date');" />
 					<button id="calendar-icon" type="button" class="controls"
 					        onclick="scheduleApp.getCalendar().showCalendar();">
 						<span class="icon-calendar"></span>
@@ -212,7 +212,7 @@ $displayName = empty($this->model->displayName) ?
 
 			<div class="tab-panel" id="time-selection" role="tabpanel"
 			     aria-labelledby="tab-time" aria-hidden="false">
-				<select id="grid" required onchange="scheduleApp.updateSchedule(event);">
+				<select id="grid" required onchange="scheduleApp.updateSchedule('grid');">
 					<?php
 					foreach ($this->getModel()->grids as $key => $grid)
 					{
@@ -315,7 +315,13 @@ $displayName = empty($this->model->displayName) ?
 						echo "<br> - <br>";
 						echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
 						echo "</td>";
-						echo '<td class="activeColumn"></td>';
+
+						for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday)
+						{
+							$class = ($activeDay == $weekday + 1) ? ' class="activeColumn"' : '';
+							echo '<td' . $class . '></td>';
+						}
+
 						echo "</tr>";
 
 						if ($period == 1 OR $period == 2 OR $period == 4 OR $period == 5)

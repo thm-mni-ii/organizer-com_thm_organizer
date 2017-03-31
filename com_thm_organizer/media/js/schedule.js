@@ -506,6 +506,7 @@ var ScheduleApp = function ()
 				that.requestUpdate();
 				addScheduleToSelection(that);
 				scheduleObjects.addSchedule(that);
+				handleBreakRows();
 			})();
 		},
 
@@ -1244,47 +1245,6 @@ var ScheduleApp = function ()
 							}
 						}
 					}
-				},
-
-				/**
-				 * Add or remove rows for breaks depending on time grid
-				 */
-				handleBreakRows = function ()
-				{
-					var numberOfColumns = variables.isMobile ? 2
-							: jQuery(table).find("tr:first").find("th").filter(function ()
-						{
-							return jQuery(this).css("display") !== "none";
-						}).length,
-						tableTbodyRow = jQuery(table).find("tbody").find("tr"),
-						addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
-						addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';
-
-					if (!timeGrid.hasOwnProperty("periods"))
-					{
-						jQuery(".break").closest("tr").remove();
-						tableTbodyRow.not(":eq(0)").addClass("hide");
-					}
-					else if (timeGrid.periods[1].endTime === timeGrid.periods[2].startTime)
-					{
-						jQuery(".break").closest("tr").remove();
-						tableTbodyRow.not(":eq(0)").removeClass("hide");
-					}
-					else if (!(tableTbodyRow.hasClass("break-row")))
-					{
-						tableTbodyRow.not(":eq(0)").removeClass("hide");
-						for (var periods in timeGrid.periods)
-						{
-							if (periods === 1 || periods === 2 || periods === 4 || periods === 5)
-							{
-								jQuery(addBreakRow).insertAfter(tableTbodyRow.eq(periods - 1));
-							}
-							if (periods === 3)
-							{
-								jQuery(addLunchBreakRow).insertAfter(tableTbodyRow.eq(periods - 1));
-							}
-						}
-					}
 				};
 
 			/**
@@ -1304,7 +1264,6 @@ var ScheduleApp = function ()
 
 				resetTable();
 				setGridDays();
-				handleBreakRows();
 
 				if (!(lessons.pastDate || lessons.futureDate))
 				{
@@ -1979,7 +1938,7 @@ var ScheduleApp = function ()
 			var pastDate = dates.pastDate ? new Date(dates.pastDate) : null,
 				futureDate = dates.futureDate ? new Date(dates.futureDate) : null;
 
-			nextDateSelection.style.display = "block";
+				nextDateSelection.style.display = "block";
 
 			if (pastDate)
 			{
@@ -2405,6 +2364,55 @@ var ScheduleApp = function ()
 					tabsToDisable[i].parent("li").removeClass("disabled-tab");
 				}
 			}
+		},
+
+		/**
+		 * Add or remove rows for breaks depending on time grid
+		 */
+		handleBreakRows = function ()
+		{
+			var tables = jQuery(".schedule-table"),
+				numberOfColumns = variables.isMobile ? 2 : tables.find("tr:first").find("th").filter(
+					function ()
+					{
+						return jQuery(this).css("display") !== "none";
+					}
+				).length,
+				timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid),
+				addBreakRow, addLunchBreakRow, periods, table, rows;
+
+			tables.each(function(index, table)
+			{
+				rows = jQuery(table).find("tbody").find("tr");
+				if (!timeGrid.hasOwnProperty("periods"))
+				{
+					jQuery(".break").closest("tr").remove();
+					rows.not(":eq(0)").addClass("hide");
+				}
+				else if (timeGrid.periods[1].endTime === timeGrid.periods[2].startTime)
+				{
+					jQuery(".break").closest("tr").remove();
+					rows.not(":eq(0)").removeClass("hide");
+				}
+				else if (!(rows.hasClass("break-row")))
+				{
+					rows.not(":eq(0)").removeClass("hide");
+					for (periods in timeGrid.periods)
+					{
+						if (periods === "1" || periods === "2" || periods === "4" || periods === "5")
+						{
+							addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>';
+							jQuery(addBreakRow).insertAfter(rows.eq(periods - 1));
+						}
+						if (periods === "3")
+						{
+							addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>'
+								+ text.LUNCHTIME + '</td></tr>';
+							jQuery(addLunchBreakRow).insertAfter(rows.eq(periods - 1));
+						}
+					}
+				}
+			});
 		};
 
 	/**
@@ -2420,9 +2428,10 @@ var ScheduleApp = function ()
 	 */
 	this.updateSchedule = function (id)
 	{
-		if (typeof id === "string")
+		var schedule = scheduleObjects.getScheduleById(id);
+		if (schedule)
 		{
-			scheduleObjects.getScheduleById(id).requestUpdate();
+			schedule.requestUpdate();
 		}
 		else
 		{
@@ -2430,10 +2439,11 @@ var ScheduleApp = function ()
 				function (schedule)
 				{
 					// Function called by grids eventListener
-					if (id && id.target && id.target.id === "grid")
+					if (id === "grid")
 					{
 						window.sessionStorage.setItem("scheduleGrid", getSelectedValues("grid"));
 						schedule.updateTable();
+						handleBreakRows();
 					}
 					else
 					{
@@ -2442,7 +2452,7 @@ var ScheduleApp = function ()
 				}
 			);
 
-			if (id && id.target && id.target.id === "date")
+			if (id === "date")
 			{
 				window.sessionStorage.setItem("scheduleDate", getDateFieldsDateObject().toJSON());
 			}
