@@ -5,12 +5,12 @@
 }
 
 .header-container {
-  font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+  font-family: $font-family-header;
   font-size: 32px;
   font-weight: 400;
   height: 28px;
   margin-bottom: 20px;
-  padding: 18px 15px;
+  padding: 18px 0;
 }
 
 .form-container {
@@ -34,9 +34,7 @@
         display: block;
         font-family: $font-family;
         font-size: 14px;
-        font-weight: bold;
         line-height: 24px;
-        text-transform: uppercase;
         width: 100%;
       }
 
@@ -74,7 +72,7 @@
           width: 100%;
 
           .search-choice {
-            background: $background-navigation none;
+            background: $background-navigation-color none;
             border: $border;
             border-radius: 0;
             color: $font-color;
@@ -187,10 +185,10 @@
     }
 
     .submit-button {
-      background-color: $background-grey;
+      background-color: $background-navigation-color;
       border-radius: 0;
-      border: $border;
-      color: $foreground;
+      border: $border-thick;
+      color: $font-color;
       cursor: pointer;
       display: inline-block;
       font-family: 'THM-Medium';
@@ -207,7 +205,7 @@
       width: 130px;
 
       &:hover {
-        background-color: $foreground;
+        background-color: $foreground-color;
         color: $background-grey;
       }
 
@@ -231,7 +229,7 @@
 
     table {
 
-      border-bottom: $border;
+      border-bottom: $border-light;
       margin-bottom: 0;
       width: 100%;
 
@@ -249,9 +247,9 @@
       }
 
       th {
-        background-color: $background-grey;
+        background-color: $background-navigation-color;
         border: none;
-        color: $foreground;
+        color: $font-color;
 
         &.day-width {
           width: 147px;
@@ -262,7 +260,7 @@
         }
 
         &.day-row {
-          border-right: $border;
+          border-right: $border-white;
           text-align: center;
         }
 
@@ -272,7 +270,7 @@
 
         &.block-row {
           text-align: center;
-          border-right: $border;
+          border-right: $border-white;
         }
 
         &.room-row {
@@ -280,21 +278,15 @@
         }
 
         &.room-column {
-          border-bottom: $border;
+          border-bottom: $border-white;
           min-width: 90px;
           max-width: 90px;
           padding-right: 10px;
           overflow: hidden;
         }
 
-        &.day-row.room-column {
-          background-color: $foreground;
-          border-bottom: none;
-          border-right: none;
-        }
-
-        &.block-row.room-column {
-          background-color: $foreground;
+        &.day-row.room-column, &.block-row.room-column {
+          background-color: $foreground-color;
           border-bottom: none;
           border-right: none;
         }
@@ -302,8 +294,8 @@
 
       td {
         text-align: center;
-        border-right: $border;
-        border-bottom: $border;
+        border-right: $border-light;
+        border-bottom: $border-light;
 
         &.day-width {
           min-width: 147px;
@@ -342,7 +334,7 @@ div.tip-wrap {
   color: $font-color;
 
   div.tip {
-    background-color: $background-navigation;
+    background-color: $background-navigation-color;
     border: $border;
     font-size: 12px;
     font-weight: normal;
@@ -351,18 +343,20 @@ div.tip-wrap {
     .tip-title {
 
       div {
-        background-color: $foreground;
-        border: $border;
-        margin-top: 10px;
-        padding: 6px;
+        border-bottom: $border;
+        font-weight: normal;
+        padding: 1rem;
       }
 
       div:first-child {
-        background-color: $background-navigation;
-        border: none;
-        padding: 0;
+        font-weight: bold;
         text-align: center;
-        margin-top: 0;
+        padding-top: .5rem;
+      }
+
+      div:last-child {
+        border: none;
+        padding-bottom: .5rem;
       }
     }
 
@@ -385,7 +379,7 @@ div.loading-background {
 }
 
 div.postloader {
-  background: $foreground url(../images/thm.gif) no-repeat center 10px;
+  background: $foreground-color url(../images/thm.gif) no-repeat center 10px;
   font-family: 'THM-Medium';
   font-size: 16px;
   height: 20px;

@@ -22,12 +22,12 @@
   }
 
   & > li > a:hover {
-    background-color: $background;
+    background-color: $background-color;
   }
 
   & > li.active > a {
     background: $background-grey;
-    color: $foreground;
+    color: $foreground-color;
 
     &:hover {
       background: $background-grey;

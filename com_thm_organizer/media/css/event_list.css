@@ -32,33 +32,30 @@
 }
 
 .component-container .componentheading {
-    padding-left: 2.5%;
-    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
     font-size: 228.57143%;
     margin-bottom: 10px;
 }
 
 .component-container table thead {
-    background-color: #405e9a;
-    font-family: 'THM-Medium';
-    text-transform: uppercase;
+    background-color: #dfe5e6;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
 }
 
 .component-container table thead tr th {
     border: none;
-    color: white;
     font-weight: normal;
 }
 
 .event-date {
     background-color: white;
-    box-shadow: 0 5px 3px #888888;
     margin-bottom: 10px;
 }
 
 .event-date-head {
-    background-color: #405e9a;
-    color: white;
+    background-color: #dfe5e6;
+    color: #394a59;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
     font-size: 1.6rem;
     padding-top: 6px;
     text-align: center;
@@ -87,6 +84,11 @@
     color: #4a5c66;
     /************** header *********************************************/
     /******************** content **********************************/
+}
+
+.display-events .event-date-head, .display-events table thead tr th {
+    background-color: #405e9a;
+    color: white;
 }
 
 .display-events .head {

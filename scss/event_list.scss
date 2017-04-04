@@ -36,37 +36,31 @@
 .component-container {
 
   .componentheading {
-    padding-left: 2.5%;
-    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
+    font-family: $font-family-header;
     font-size: 228.57143%;
     margin-bottom: 10px;
   }
 
-  table {
-    thead {
-      background-color: $blue-75;
-      font-family: 'THM-Medium';
-      text-transform: uppercase;
-      tr {
-        th {
-          border: none;
-          color: white;
-          font-weight: normal;
-        }
-      }
+  table thead {
+    background-color: $background-navigation-color;
+    font-family: $font-family-header;
+
+    tr th {
+      border: none;
+      font-weight: normal;
     }
   }
 }
 
 .event-date {
   background-color: white;
-  box-shadow: 0 5px 3px #888888;
   margin-bottom: 10px;
 }
 
 .event-date-head {
-  background-color: $blue-75;
-  color: white;
+  background-color: $background-navigation-color;
+  color: $font-color;
+  font-family: $font-family-header;
   font-size: 1.6rem;
   padding-top: 6px;
   text-align: center;
@@ -88,13 +82,17 @@
 /******************************************************************************/
 /* Styles for Monitor                                                         */
 /******************************************************************************/
-@import 'variables';
 
 .display-events {
   font-family: 'THM-Medium', Verdana, Arial;
   margin: auto 0;
   line-height: normal;
   color: $background-grey;
+
+  .event-date-head, table thead tr th {
+    background-color: $blue-75;
+    color: $foreground-color;
+  }
 
   /************** header *********************************************/
   .head {
@@ -159,7 +157,7 @@
     }
 
     .row1 {
-      background-color: $background;
+      background-color: $background-color;
     }
 
     .event-times, .event-main {

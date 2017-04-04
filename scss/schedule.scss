@@ -276,7 +276,7 @@ input[type=radio] {
 
   //calendar
   div {
-    background-color: $background;
+    background-color: $background-color;
     border: 1px solid #d2d6d9;
     box-shadow: 0 0 5px #888;
     padding: 0.3rem 1rem;
@@ -356,6 +356,10 @@ input[type=radio] {
 
   table {
     border-top: 0.15rem solid #394a59;
+
+    tr.break-row td, tr.break-row + tr td{
+      border: none;
+    }
   }
 
   td, th {
@@ -373,12 +377,12 @@ input[type=radio] {
 }
 
 .occupied {
-  background-color: $background-navigation;
+  background-color: $background-navigation-color;
 }
 
 .lesson {
   border: 0.1rem solid $grey-100;
-  background-color: $background;
+  background-color: $background-color;
   margin: 0 auto 0.5rem;
   padding: 0 0.2rem;
 
@@ -612,7 +616,7 @@ input[type=radio] {
 }
 
 .break {
-  background-color: $green-50;
+  background-color: $green-25;
   padding: 0.2rem;
 }
 

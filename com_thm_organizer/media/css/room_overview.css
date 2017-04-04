@@ -8,7 +8,7 @@
     font-weight: 400;
     height: 28px;
     margin-bottom: 20px;
-    padding: 18px 15px;
+    padding: 18px 0;
 }
 
 .form-container {
@@ -31,9 +31,7 @@
     display: block;
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
     font-size: 14px;
-    font-weight: bold;
     line-height: 24px;
-    text-transform: uppercase;
     width: 100%;
 }
 
@@ -176,10 +174,10 @@
 }
 
 .form-container #adminForm .submit-button {
-    background-color: #4a5c66;
+    background-color: #dfe5e6;
     border-radius: 0;
-    border: 1px solid #77858c;
-    color: white;
+    border: 2px solid #4a5c66;
+    color: #394a59;
     cursor: pointer;
     display: inline-block;
     font-family: 'THM-Medium';
@@ -216,7 +214,7 @@
 }
 
 .overview-container-container .overview-container table {
-    border-bottom: 1px solid #77858c;
+    border-bottom: 1px solid #f2f5f6;
     margin-bottom: 0;
     width: 100%;
 }
@@ -235,9 +233,9 @@
 }
 
 .overview-container-container .overview-container table th {
-    background-color: #4a5c66;
+    background-color: #dfe5e6;
     border: none;
-    color: white;
+    color: #394a59;
 }
 
 .overview-container-container .overview-container table th.day-width {
@@ -249,7 +247,7 @@
 }
 
 .overview-container-container .overview-container table th.day-row {
-    border-right: 1px solid #77858c;
+    border-right: 1px solid white;
     text-align: center;
 }
 
@@ -259,7 +257,7 @@
 
 .overview-container-container .overview-container table th.block-row {
     text-align: center;
-    border-right: 1px solid #77858c;
+    border-right: 1px solid white;
 }
 
 .overview-container-container .overview-container table th.room-row {
@@ -267,20 +265,14 @@
 }
 
 .overview-container-container .overview-container table th.room-column {
-    border-bottom: 1px solid #77858c;
+    border-bottom: 1px solid white;
     min-width: 90px;
     max-width: 90px;
     padding-right: 10px;
     overflow: hidden;
 }
 
-.overview-container-container .overview-container table th.day-row.room-column {
-    background-color: white;
-    border-bottom: none;
-    border-right: none;
-}
-
-.overview-container-container .overview-container table th.block-row.room-column {
+.overview-container-container .overview-container table th.day-row.room-column, .overview-container-container .overview-container table th.block-row.room-column {
     background-color: white;
     border-bottom: none;
     border-right: none;
@@ -288,8 +280,8 @@
 
 .overview-container-container .overview-container table td {
     text-align: center;
-    border-right: 1px solid #77858c;
-    border-bottom: 1px solid #77858c;
+    border-right: 1px solid #f2f5f6;
+    border-bottom: 1px solid #f2f5f6;
 }
 
 .overview-container-container .overview-container table td.day-width {
@@ -333,18 +325,20 @@ div.tip-wrap div.tip {
 }
 
 div.tip-wrap div.tip .tip-title div {
-    background-color: white;
-    border: 1px solid #77858c;
-    margin-top: 10px;
-    padding: 6px;
+    border-bottom: 1px solid #77858c;
+    font-weight: normal;
+    padding: 1rem;
 }
 
 div.tip-wrap div.tip .tip-title div:first-child {
-    background-color: #dfe5e6;
-    border: none;
-    padding: 0;
+    font-weight: bold;
     text-align: center;
-    margin-top: 0;
+    padding-top: .5rem;
+}
+
+div.tip-wrap div.tip .tip-title div:last-child {
+    border: none;
+    padding-bottom: .5rem;
 }
 
 div.tip-wrap div.tip .tip-text {

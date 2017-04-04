@@ -10,11 +10,11 @@ div#main div#j-main-container{
 
   fieldset {
 
-    background-color: $foreground;
+    background-color: $foreground-color;
     position: relative;
 
     &:first-of-type {
-      background-color: $background;
+      background-color: $background-color;
     }
 
     legend {
@@ -74,7 +74,7 @@ button {
 }
 
 .btn-reset, .btn-reset:hover {
-  background-color: $foreground;
+  background-color: $foreground-color;
   color: $font-color;
   margin-left: 8px;
 }
@@ -144,7 +144,7 @@ fieldset:nth-of-type(2) {
   }
 
   & > .tooltip-inner {
-    background-color: $background;
+    background-color: $background-color;
     color: $font-color;
     border: $border;
     border-radius: 0;

@@ -1,90 +1,115 @@
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
-  font-family: icomoon;
-  content: "\e60b"; }
+    font-family: icomoon;
+    content: "\e60b";
+}
 
 .icon-organizer_degrees::before {
-  font-family: icomoon;
-  content: "\e606"; }
+    font-family: icomoon;
+    content: "\e606";
+}
 
 .icon-organizer_monitors::before {
-  font-family: icomoon;
-  content: "\e01c"; }
+    font-family: icomoon;
+    content: "\e01c";
+}
 
 .icon-organizer_teachers::before {
-  font-family: icomoon;
-  content: "\e604"; }
+    font-family: icomoon;
+    content: "\e604";
+}
 
 .icon-organizer_room_types::before,
 .icon-organizer_departments::before {
-  font-family: icomoon;
-  content: "\e243"; }
+    font-family: icomoon;
+    content: "\e243";
+}
 
 .icon-organizer_subjects::before {
-  font-family: icomoon;
-  content: "\e603"; }
+    font-family: icomoon;
+    content: "\e603";
+}
 
 .icon-organizer_fields::before {
-  font-family: icomoon;
-  content: "\74"; }
+    font-family: icomoon;
+    content: "\74";
+}
 
 .icon-organizer_colors::before {
-  font-family: icomoon;
-  content: "\e014"; }
+    font-family: icomoon;
+    content: "\e014";
+}
 
 .icon-organizer_subject_pools::before {
-  font-family: icomoon;
-  content: "\44"; }
+    font-family: icomoon;
+    content: "\44";
+}
 
 .icon-organizer_rooms::before {
-  font-family: icomoon;
-  content: "\e60a"; }
+    font-family: icomoon;
+    content: "\e60a";
+}
 
 .icon-organizer_degree_programs::before {
-  font-family: icomoon;
-  content: "\31"; }
+    font-family: icomoon;
+    content: "\31";
+}
 
 .icon-organizer_schedules::before,
 .icon-mni::before {
-  font-family: icomoon;
-  content: "\e600"; }
+    font-family: icomoon;
+    content: "\e600";
+}
 
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-  font-weight: bold; }
+    font-weight: bold;
+}
 
 .icon-add-Space {
-  font-size: 14px; }
+    font-size: 14px;
+}
 
 a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-  color: #80ba24; }
+    color: #80ba24;
+}
 
 a[href*="option=com_thm_organizer&view="]::before {
-  padding-right: 8px; }
+    padding-right: 8px;
+}
 
 .thm_organizer_mon_table {
-  width: auto; }
+    width: auto;
+}
 
 .thm_organizer_mon_table tbody tr td {
-  text-align: center; }
+    text-align: center;
+}
 
 .thm_organizer_mon_col_checkbox {
-  width: 10px; }
+    width: 10px;
+}
 
 .thm_organizer_mon_col_room {
-  width: 65px; }
+    width: 65px;
+}
 
 .thm_organizer_mon_col_ip {
-  width: 50px; }
+    width: 50px;
+}
 
 .thm_organizer_mon_col_use_defaults {
-  width: 50px; }
+    width: 50px;
+}
 
 .thm_organizer_mon_col_display {
-  width: 150px; }
+    width: 150px;
+}
 
 .thm_organizer_mon_col_interval {
-  width: 70px; }
+    width: 70px;
+}
 
 .thm_organizer_mon_col_content {
-  width: 200px; }
+    width: 200px;
+}

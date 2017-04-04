@@ -22,12 +22,12 @@ ul.tabs {
 }
 
 .tabs-toggle {
-    padding: 0.5rem 0.5rem 0.1rem 0.4rem;
+    padding: 0.5rem 0.5rem 0.3rem 0.4rem;
 }
 
 .tabs-toggle:hover {
     text-decoration: none;
-    background-color: #f2f4f5;
+    background-color: #f2f5f6;
 }
 
 .tabs-toggle [class^="icon-"] {
@@ -54,7 +54,7 @@ ul.tabs {
 
 li.active:not(.inactive) .tabs-toggle {
     cursor: pointer;
-    background-color: #DFE5E6;
+    background-color: #dfe5e6;
     position: relative;
 }
 
@@ -75,8 +75,9 @@ li.active:not(.inactive) [class^="icon-"]::before {
 }
 
 .tab-content {
-    background: #DFE5E6;
+    background: #dfe5e6;
     overflow: visible;
+    margin-top: 0.25rem;
 }
 
 .tab-content .active {
@@ -424,6 +425,10 @@ input[type=radio] {
     border-top: 0.15rem solid #394a59;
 }
 
+.schedule-table table tr.break-row td, .schedule-table table tr.break-row + tr td {
+    border: none;
+}
+
 .schedule-table td, .schedule-table th {
     width: 16%;
     text-align: center;
@@ -672,7 +677,7 @@ input[type=radio] {
 }
 
 .break {
-    background-color: #bfdc91;
+    background-color: #dfeec8;
     padding: 0.2rem;
 }
 

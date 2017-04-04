@@ -15,7 +15,7 @@
 }
 
 .menu-spacer {
-  background-color: $background-navigation;
+  background-color: $background-navigation-color;
   display: block;
   font-size: 1.1rem;
   margin: .3rem -2rem 0 -2rem;
@@ -30,7 +30,7 @@
 
 .action-group {
   h1, h2, h3, h4, h5, h6 {
-    background-color: $background-navigation;
+    background-color: $background-navigation-color;
     font-color: $font-color;
     font-size: 1.3rem;
     margin: .5rem 0;

@@ -46,7 +46,7 @@ button {
 }
 
 .search input[type="text"] {
-  background-color: $background-navigation;
+  background-color: $background-navigation-color;
   border: none;
   box-shadow: none;
   margin-right: -22px;
@@ -67,13 +67,13 @@ button {
 }
 
 .btn-reset {
-  background-color: $foreground;
+  background-color: $foreground-color;
   color: $font-color;
   margin-left: 8px;
 }
 
 .btn-reset:hover { //keine Veränderung
-  background-color: $foreground;
+  background-color: $foreground-color;
   color: $font-color;
   margin-left: 8px;
 }
@@ -105,12 +105,12 @@ button {
   }
 
   & > li > a:hover {
-    background-color: $background;
+    background-color: $background-color;
   }
 
   & > li.active > a {
     background: $background-grey;
-    color: $foreground;
+    color: $foreground-color;
 
     &:hover {
       background: $background-grey;
@@ -128,7 +128,7 @@ button {
 }
 
 .subject-list-container h5 {
-  background-color: $background-navigation;
+  background-color: $background-navigation-color;
   cursor: default;
   margin-bottom: 0;
   margin-top: 10px;
@@ -160,7 +160,7 @@ a.pool-anchor {
   }
 
   li:nth-child(even) {
-    background-color: $background;
+    background-color: $background-color;
   }
 
   a {

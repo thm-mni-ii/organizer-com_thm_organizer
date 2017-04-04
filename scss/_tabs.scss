@@ -1,3 +1,5 @@
+@import 'variables';
+
 ul.tabs {
   margin-bottom: 0;
 }
@@ -16,11 +18,11 @@ ul.tabs {
 }
 
 .tabs-toggle {
-  padding: 0.5rem 0.5rem 0.1rem 0.4rem;
+  padding: 0.5rem 0.5rem 0.3rem 0.4rem;
 
   &:hover {
     text-decoration: none;
-    background-color: #f2f4f5;
+    background-color: $background-color;
   }
 
   [class^="icon-"] {
@@ -48,7 +50,7 @@ li.active:not(.inactive) {
 
   .tabs-toggle {
     cursor: pointer;
-    background-color: #DFE5E6;
+    background-color: $background-navigation-color;
     position: relative;
   }
 
@@ -77,8 +79,9 @@ li.active:not(.inactive) {
 }
 
 .tab-content {
-  background: #DFE5E6;
+  background: $background-navigation-color;
   overflow: visible;
+  margin-top: 0.25rem;
 
   .active {
     display: block;

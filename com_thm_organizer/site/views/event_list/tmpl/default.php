@@ -19,7 +19,7 @@ $title       = $this->model->params->get('page_title', '');
 echo '<div id="event-list" class="component-container">';
 if (!empty($showHeading))
 {
-	echo '<h2 class="blacomponentheading">' . $title . '</h2>';
+	echo '<h2 class="componentheading">' . $title . '</h2>';
 }
 foreach ($this->model->events as $date => $times)
 {
