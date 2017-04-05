@@ -170,7 +170,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$text = str_replace(chr(160), " ", $text);
 		$text = str_replace(chr(194) . chr(167), "&sect;", $text);
 		$text = str_replace(chr(194), " ", $text);
-		$text = str_replace(chr(195) . chr(159), " ", $text);
+		$text = str_replace(chr(195) . chr(159), "&szlig;", $text);
 
 		// Remove the formatted text tag
 		$text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
@@ -710,8 +710,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 		else
 		{
-			$germanXML     = $objectNode->de->txt->FormattedText->asXML();
-			$rawGermanText = (string) $germanXML;
+			$rawGermanText = (string) $objectNode->de->txt->FormattedText->asXML();
 			$germanText    = $this->cleanText($rawGermanText);
 
 			if (empty($objectNode->en->txt))
@@ -720,8 +719,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			}
 			else
 			{
-				$englishXML     = $objectNode->en->txt->FormattedText->asXML();
-				$rawEnglishText = (string) $englishXML;
+				$rawEnglishText = (string) $objectNode->en->txt->FormattedText->asXML();
 				$englishText    = $this->cleanText($rawEnglishText);
 			}
 		}
