@@ -352,8 +352,9 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$this->setAttribute($subject, 'instructionLanguage', (string) $dataObject->sprache, 'D');
 		$this->setAttribute($subject, 'frequencyID', (string) $dataObject->turnus);
 
-		preg_match('/\d+/', (string) $dataObject->dauer, $duration);
-		$this->setAttribute($subject, 'duration', $duration[0], '1');
+		$durationExists = preg_match('/\d+/', (string) $dataObject->dauer, $duration);
+		$durationValue = empty($durationExists)? 1 : $duration[0];
+		$this->setAttribute($subject, 'duration', $durationValue, '1');
 
 		// Ensure reset before iterative processing
 		$this->crp = 0;
