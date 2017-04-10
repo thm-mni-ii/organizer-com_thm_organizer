@@ -194,8 +194,16 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 			default:
 
-				$teacherResponsibility[1] = JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
-				$teacherResponsibility[2] = JText::_('COM_THM_ORGANIZER_TEACHER');
+				if ($isResponsible)
+				{
+					$teacherResponsibility[1] = JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
+				}
+
+				if ($isTeacher)
+				{
+					$teacherResponsibility[2] = JText::_('COM_THM_ORGANIZER_TEACHER');
+				}
+
 				break;
 		}
 

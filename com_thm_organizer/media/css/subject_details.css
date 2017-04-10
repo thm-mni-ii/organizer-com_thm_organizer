@@ -46,10 +46,6 @@ div.legal-disclaimer li {
     border-bottom: 1px solid rgba(164, 176, 187, 0.5);
 }
 
-.subject-item ul {
-    margin-bottom: 0;
-}
-
 .subject-label {
     color: #3d494f;
     float: left;

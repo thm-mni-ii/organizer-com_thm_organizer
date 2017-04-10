@@ -118,7 +118,13 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			return '[]';
 		}
 
-		return empty($result) ? '[]' : json_encode($result);
+		if (empty($result))
+		{
+			return '[]';
+		}
+
+		$default = array(JText::_('JALL') => '-1');
+		return json_encode(array_merge($default, $result));
 	}
 
 	/**
@@ -142,7 +148,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			$query->where("dr.departmentID = $departmentID");
 		}
 
-		$query->where("roo.typeID = $typeID");
+		if ($typeID != '-1')
+		{
+			$query->where("roo.typeID = $typeID");
+		}
+
 		$query->order('name');
 		$this->_db->setQuery($query);
 

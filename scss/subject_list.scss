@@ -2,32 +2,8 @@
 @import '_language_switch';
 @import '_legal_disclaimer';
 
-// float the div boxes
-div.subject-name, div.subject-responsible, div.subject-crp {
-  display: inline-block;
-}
-
-// style definitions of module list
-div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
-  color: $font-color;
-  font-family: $font-family;
-  font-size: $font-size;
-  font-weight: normal;
-}
-
-// credit points column
-div.subject-crp {
-  width: 10%;
-}
-
-// accordion of the module catalogue
-div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
-  float: left;
-  width: 100%;
-}
-
 //********************************************************************************************************************//
-//Toolbar
+// Language Switch and Search Bar                                                                                     //
 //********************************************************************************************************************//
 .toolbar {
   float: right;
@@ -37,12 +13,9 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
   display: inline-block;
 
   a, button {
+    border: none;
     cursor: pointer;
   }
-}
-
-button {
-  border: none;
 }
 
 .search input[type="text"] {
@@ -55,7 +28,6 @@ button {
 }
 
 .btn-search {
-  // background-color: $background-navigation;
   background-color: inherit;
   bottom: -2px;
   left: -2px;
@@ -66,152 +38,117 @@ button {
   color: $font-color;
 }
 
-.btn-reset {
-  background-color: $foreground-color;
-  color: $font-color;
-  margin-left: 8px;
-}
-
-.btn-reset:hover { //keine Veränderung
+.btn-reset, .btn-reset:hover {
   background-color: $foreground-color;
   color: $font-color;
   margin-left: 8px;
 }
 
 //********************************************************************************************************************//
-//Navigationskopf vor Content
+// Tabbed navigation                                                                                                  //
 //********************************************************************************************************************//
 .nav.nav-tabs {
   border-bottom: $border-thick;
   margin-top: 15px;
   margin-bottom: 0;
 
-  & > li {
+  li {
     margin-bottom: 0;
     margin-left: 2px;
-  }
 
-  & > li:first-child {
-    margin-left: 10px;
-  }
+    &:first-child {
+      margin-left: 10px;
+    }
 
-  & > li > a, & > li.active > a {
-    border-top: $border-thick;
-    border-right: $border-thick;
-    border-bottom: none;
-    border-left: $border-thick;
-    border-radius: 0;
-    padding-left: 12px;
-  }
+    a, &.active a {
+      border: $border-thick;
+      border-bottom: none;
+      border-radius: 0;
+      padding-left: 12px;
+    }
 
-  & > li > a:hover {
-    background-color: $background-color;
-  }
+    a:hover {
+      background-color: $background-color;
+    }
 
-  & > li.active > a {
-    background: $background-grey;
-    color: $foreground-color;
-
-    &:hover {
+    &.active a {
       background: $background-grey;
+      color: $foreground-color;
+
+      &:hover {
+        background: $background-grey;
+      }
     }
   }
 }
 
 //********************************************************************************************************************//
-//Content
+// Content
 //********************************************************************************************************************//
-.tab-content {
-  padding: 0;
-  border-top: none;
-  background-color: white;
-}
+form#adminForm fieldset[class$="-group"] {
 
-.subject-list-container h5 {
-  background-color: $background-navigation-color;
-  cursor: default;
+  background-color: $foreground-color;
+  margin-top: .5rem;
   margin-bottom: 0;
-  margin-top: 10px;
-  padding: 6px 12px;
 
-  a { //gibts nicht mehr
-    color: $font-color;
-  }
-}
+  legend {
 
-.active :first-child h5 {
-  margin-top: 6px;
-}
+    border-bottom: $border-thick;
+    border-top: $border-thick;
+    float: left;
+    font-family: $font-family-header;
+    margin-bottom: 0;
 
-a.pool-anchor {
-  display: block;
-  position: relative;
-  top: -60px;
-  visibility: hidden;
-}
-
-.subject-list-container .subject-list {
-  margin-left: 0;
-
-  li {
-    list-style: none;
-    padding: 6px 20px 6px 19px;
-    margin-left: 0;
-  }
-
-  li:nth-child(even) {
-    background-color: $background-color;
-  }
-
-  a {
-    color: $font-color;
-  }
-}
-
-.subject-name {
-  display: inline-block;
-  width: 600px;
-}
-
-.module-id {
-  padding-left: 5px;
-}
-
-.subject-teacher {
-  display: inline-block;
-}
-
-.subject-crp {
-  display: inline-block;
-  float: right;
-  width: 10%;
-}
-
-#pool, #teacher, #field {
-  & > .subject-list-container {
-    margin-bottom: 4px; // kein Effekt
-    .subject-list {
-      margin: 0;
+    .pool-title, .teacher-title {
+      font-size: 1.3rem;
+      margin-left: .5rem;
     }
-    &:last-child {
-      margin-bottom: 0;
+
+    .pool-crp {
+      float: right;
+      font-size: 1rem;
+      margin-right: 1.5rem;
     }
   }
+
 }
 
-.shown {
-  border: 1px solid #eeeeee;
-  border-top: none;
+form#adminForm fieldset.pool-group:nth-child(2), form#adminForm fieldset.teacher-group:first-child{
+
+  margin-top: 0;
+
+  legend {
+    border-top: none;
+  }
 }
 
-/* gibts nicht mehr
-.breadcrumb {
-  float: inherit;
-  width: 680px;
-}
-*/
 
-//Überschreiben von bootstrap.css
-.tab-content {
-  overflow: visible;
+table {
+
+  color: $font-color;
+  font-family: $font-family;
+  margin-bottom: 0;
+
+  tr {
+
+    &:nth-child(even) {
+      background-color: $background-color;
+    }
+
+    td[class^="subject-"] {
+      border: none;
+    }
+
+    td.subject-crp {
+      width: 7%;
+    }
+
+    td.subject-name {
+      width: 50%;
+    }
+
+    td.subject-teacher {
+      width: 40%;
+    }
+  }
 }
