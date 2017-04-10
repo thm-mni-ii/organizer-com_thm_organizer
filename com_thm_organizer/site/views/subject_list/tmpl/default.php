@@ -8,13 +8,16 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once 'ungrouped_list.php';
-require_once 'grouped_list.php';
-$subjectsText    = JText::_('COM_THM_ORGANIZER_SUBJECTS');
+require_once 'basic_list.php';
+require_once 'field_list.php';
+require_once 'pool_list.php';
+require_once 'teacher_list.php';
+
 $query           = $this->escape($this->state->get('search'));
 $resetVisibility = ' style="visibility: ';
 $resetVisibility .= strlen($query) ? 'visibible' : 'hidden';
 $resetVisibility .= ';"';
+$groupByArray  = array(0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 => 'field');
 ?>
 <div id="j-main-container" class="span10">
     <form action="<?php JUri::current(); ?>" id="adminForm" method="post"
@@ -52,25 +55,42 @@ $resetVisibility .= ';"';
 		<?php echo JHtml::_('form.token'); ?>
         <h1 class="componentheading"><?php echo $this->programName; ?></h1>
 		<?php
-		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $this->groupBy));
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'list', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
-		THM_OrganizerTemplateUngroupedList::render($this, 'name');
-		echo JHtml::_('bootstrap.endTab');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'subjectNo', $this->lang->_('COM_THM_ORGANIZER_BY_SUBJECTNO'));
-		THM_OrganizerTemplateUngroupedList::render($this, 'number');
-		echo JHtml::_('bootstrap.endTab');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('COM_THM_ORGANIZER_BY_GROUP'));
-		$poolParams = array('order' => 'lft', 'name' => 'pool', 'id' => 'poolID', 'bgColor' => 'poolColor');
-		THM_OrganizerTemplateGroupedList::render($this, $poolParams, 'pool');
-		echo JHtml::_('bootstrap.endTab');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'teacher', $this->lang->_('COM_THM_ORGANIZER_BY_TEACHER'));
-		$teacherParams = array('order' => 'teacherName', 'name' => 'teacherName', 'id' => 'teacherID', 'bgColor' => 'teacherColor');
-		THM_OrganizerTemplateGroupedList::render($this, $teacherParams, 'teacher');
-		echo JHtml::_('bootstrap.endTab');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'field', $this->lang->_('COM_THM_ORGANIZER_BY_FIELD'));
-		$fieldParams = array('order' => 'field', 'name' => 'field', 'id' => 'fieldID', 'bgColor' => 'subjectColor');
-		THM_OrganizerTemplateGroupedList::render($this, $fieldParams, 'field');
-		echo JHtml::_('bootstrap.endTab');
+		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $groupByArray[$this->state->get('groupBy', 0)]));
+
+		if ($this->params->get('showByName', 1))
+		{
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'alpha', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
+			THM_OrganizerTemplateBasicList::render($this, 'name');
+			echo JHtml::_('bootstrap.endTab');
+		}
+
+		if ($this->params->get('showByModuleNumber', 1))
+		{
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'number', $this->lang->_('COM_THM_ORGANIZER_BY_SUBJECTNO'));
+			THM_OrganizerTemplateBasicList::render($this, 'number');
+			echo JHtml::_('bootstrap.endTab');
+		}
+
+		if ($this->params->get('showByPool', 1))
+		{
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('COM_THM_ORGANIZER_BY_GROUP'));
+			THM_OrganizerTemplatePoolList::render($this);
+			echo JHtml::_('bootstrap.endTab');
+		}
+
+		if ($this->params->get('showByTeacher', 1))
+		{
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'teacher', $this->lang->_('COM_THM_ORGANIZER_BY_TEACHER'));
+			THM_OrganizerTemplateTeacherList::render($this);
+			echo JHtml::_('bootstrap.endTab');
+		}
+
+		if ($this->params->get('showByField', 0))
+		{
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'field', $this->lang->_('COM_THM_ORGANIZER_BY_FIELD'));
+			THM_OrganizerTemplateFieldList::render($this);
+			echo JHtml::_('bootstrap.endTab');
+		}
 		echo JHtml::_('bootstrap.endTabSet');
 		?>
     </form>

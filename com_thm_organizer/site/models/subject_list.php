@@ -15,11 +15,6 @@ require_once JPATH_COMPONENT . '/helpers/teacher.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 
-define('NONE', 0);
-define('POOL', 1);
-define('TEACHER', 2);
-define('FIELD', 3);
-
 /**
  * Class creates a model
  *
@@ -29,6 +24,101 @@ define('FIELD', 3);
  */
 class THM_OrganizerModelSubject_List extends JModelList
 {
+	public $fields = array();
+
+	public $pools = array();
+
+	public $subjects;
+
+	public $teachers = array();
+
+	/**
+	 * Removes
+	 * @return void
+	 */
+	private function aggregateSubjects()
+	{
+		$subjectIDMap = array();
+
+		foreach ($this->subjects as $key => $subject)
+		{
+			if (empty($subjectIDMap[$subject->id]))
+			{
+				$subjectIDMap[$subject->id]       = $key;
+				$this->subjects[$key]->mappings   = array();
+				$this->subjects[$key]->mappings[] = array('left' => $subject->lft, 'right' => $subject->rgt);
+				continue;
+			}
+
+			$subjectKey                              = $subjectIDMap[$subject->id];
+			$this->subjects[$subjectKey]->mappings[] = array('left' => $subject->lft, 'right' => $subject->rgt);
+
+			unset($this->subjects[$key]);
+		}
+	}
+
+	/**
+	 * Retrieves the pool's children and used the existing sorting while associating them with the pool.
+	 *
+	 * @return void
+	 */
+	private function getChildren()
+	{
+		foreach ($this->pools as $key => $pool)
+		{
+			$query = $this->_db->getQuery(true);
+			$query->select('DISTINCT poolID, subjectID')->from('#__thm_organizer_mappings')->where("parentID = '{$pool['mapID']}'");
+			$this->_db->setQuery($query);
+
+			try
+			{
+				$children = $this->_db->loadAssocList();
+			}
+			catch (Exception $exc)
+			{
+				return;
+			}
+
+			$this->pools[$key]['pools'] = array();
+			$this->pools[$key]['subjects'] = array();
+
+			foreach ($children as $child)
+			{
+				if (!empty($child['subjectID']))
+				{
+					$subjectKey = $this->getSubjectKey($child['subjectID']);
+
+					if ($subjectKey)
+					{
+						$this->pools[$key]['subjects'][$subjectKey] = $child['subjectID'];
+					}
+				}
+
+				if (!empty($child['poolID']))
+				{
+					$poolKey = $this->getPoolKey($child['poolID']);
+
+					if ($poolKey)
+					{
+						$this->pools[$key]['pools'][$poolKey] = $child['poolID'];
+					}
+				}
+			}
+
+			uasort($this->pools[$key]['pools'], function ($a, $b)
+			{
+				$aKey = $this->getPoolKey($a);
+				$aName = $this->pools[$aKey]['name'];
+				$bKey = $this->getPoolKey($b);
+				$bName = $this->pools[$bKey]['name'];
+
+				return $aName > $bName;
+			});
+
+			ksort($this->pools[$key]['subjects']);
+		}
+	}
+
 	/**
 	 * Method to get an array of data items.
 	 *
@@ -36,23 +126,63 @@ class THM_OrganizerModelSubject_List extends JModelList
 	 */
 	public function getItems()
 	{
-		$subjects = parent::getItems();
-		foreach ($subjects AS $index => $subject)
+		$this->subjects = parent::getItems();
+		$this->aggregateSubjects();
+
+		foreach ($this->subjects AS $index => $subject)
 		{
 			if (!empty($subject->subjectColor))
 			{
-				$subjects[$index]->subjectTextColor = THM_OrganizerHelperComponent::getTextColor($subject->subjectColor);
+				$this->subjects[$index]->textColor = THM_OrganizerHelperComponent::getTextColor($subject->subjectColor);
 			}
 
-			if (!empty($subject->teacherColor))
+			if (empty($subject->fieldID))
 			{
-				$subjects[$index]->teacherTextColor = THM_OrganizerHelperComponent::getTextColor($subject->teacherColor);
+				$this->fields[0] = array();
+			}
+			else
+			{
+				$this->fields[$subject->fieldID] = array();
 			}
 
-			$subjects[$index]->teacherName = empty($subject->forename) ? $subject->surname : "$subject->surname, $subject->forename";
+			$this->getTeachers($index);
+			$this->getPools($index);
 		}
 
-		return $subjects;
+		uasort($this->teachers, function ($a, $b)
+		{
+			if ($a['surname'] == $b['surname'])
+			{
+				return $a['forename'] > $b['forename'];
+			}
+
+			return $a['surname'] > $b['surname'];
+		});
+
+		uasort($this->pools, function ($a, $b)
+		{
+			$isAChild = $this->isChildPool($a);
+			$isBChild = $this->isChildPool($b);
+
+			// Child pools should come after normal pools
+			if ($isAChild AND !$isBChild)
+			{
+				return true;
+			}
+			if ($isBChild AND !$isAChild)
+			{
+				return false;
+			}
+
+			$moveBack = $a['lft'] > $b['lft'];
+
+			return $moveBack;
+		});
+
+		$this->getChildren();
+		$this->populateFields();
+
+		return $this->subjects;
 	}
 
 	/**
@@ -76,32 +206,17 @@ class THM_OrganizerModelSubject_List extends JModelList
 
 		$query = $this->_db->getQuery(true);
 
-		$select = "s.id, s.name_$languageTag AS subject, s.creditpoints, s.externalID, s.fieldID, ";
-		$select .= "sf.field_$languageTag AS field, sc.color as subjectColor, m2.poolID, p.name_$languageTag AS pool, ";
-		$select .= "m2.lft, m2.rgt, pf.field_$languageTag as poolField, pc.color as poolColor, st.teacherID, ";
-		$select .= "t.surname, t.forename, tc.color AS teacherColor, st.teacherResp, tf.field_$languageTag as teacherField, ";
-		$parts = array("$subjectLink", "s.id");
+		$select = "DISTINCT s.id, s.name_$languageTag AS name, s.creditpoints, s.externalID, s.fieldID, m.lft, m.rgt, ";
+		$parts  = array("$subjectLink", "s.id");
 		$select .= $query->concatenate($parts, "") . " AS subjectLink";
-		$query->select($select);
-
-		$query->from('#__thm_organizer_subjects AS s');
-		$query->leftJoin('#__thm_organizer_fields AS sf ON s.fieldID = sf.id');
-		$query->leftJoin('#__thm_organizer_colors AS sc ON sc.id = sf.colorID');
-		$query->innerJoin('#__thm_organizer_mappings AS m1 ON m1.subjectID = s.id');
-		$query->innerJoin('#__thm_organizer_mappings AS m2 ON m1.parentID = m2.id');
-		$query->innerJoin('#__thm_organizer_pools AS p ON m2.poolID = p.id');
-		$query->leftJoin('#__thm_organizer_fields AS pf ON p.fieldID = pf.id');
-		$query->leftJoin('#__thm_organizer_colors AS pc ON pc.id = pf.colorID');
-		$query->leftJoin('#__thm_organizer_subject_teachers AS st ON s.id = st.subjectID');
-		$query->leftJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
-		$query->leftJoin('#__thm_organizer_fields AS tf ON t.fieldID = tf.id');
-		$query->leftJoin('#__thm_organizer_colors AS tc ON tc.id = tf.colorID');
-
-		$query->where("m1.lft > '{$programInformation['lft']}' AND  m1.rgt < '{$programInformation['rgt']}'");
+		$query->select($select)
+			->from('#__thm_organizer_subjects AS s')
+			->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
+			->where("m.lft > '{$programInformation['lft']}' AND  m.rgt < '{$programInformation['rgt']}'");
 
 		$this->setSearch($query);
 
-		$query->order('subject ASC');
+		$query->order('name ASC');
 
 		return $query;
 	}
@@ -138,6 +253,278 @@ class THM_OrganizerModelSubject_List extends JModelList
 		}
 
 		return $programData;
+	}
+
+	/**
+	 * Resolves the pool id to the corresponding pool key
+	 *
+	 * @param int $poolID the id of the pool
+	 *
+	 * @return mixed int if the id could be resolved to a key, otherwise false
+	 */
+	private function getPoolKey($poolID)
+	{
+		foreach ($this->pools as $key => $pool)
+		{
+			if ($pool['id'] == $poolID)
+			{
+				return $key;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Looks up the pools associated with the subject, adds the associations to the subjects, sets object pools
+	 * and adds pool fields.
+	 *
+	 * @param int $index the index of the subject (item) being currently indexed
+	 *
+	 * @return void
+	 */
+	private function getPools($index)
+	{
+		$languageTag = $this->state->get('languageTag');
+		$poolEntriesContainer = array();
+
+		foreach ($this->subjects[$index]->mappings as $mapping)
+		{
+			$query = $this->_db->getQuery(true);
+			$query->select("p.id, p.name_$languageTag AS name, p.minCrP, p.maxCrP, p.fieldID, m.id AS mapID, m.rgt, m.lft, m.level")
+				->from('#__thm_organizer_pools AS p')
+				->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id')
+				->where("(m.lft < '{$mapping['left']}' AND m.rgt > '{$mapping['right']}')")
+				->order('m.lft');
+			$this->_db->setQuery($query);
+
+			try
+			{
+				$poolEntries = $this->_db->loadAssocList();
+			}
+			catch (Exception $exc)
+			{
+				return;
+			}
+
+			$poolEntriesContainer = array_merge($poolEntriesContainer, $poolEntries);
+		}
+
+		if (empty($poolEntriesContainer))
+		{
+			return;
+		}
+
+		foreach ($poolEntriesContainer as $poolEntry)
+		{
+			if (empty($this->pools[$poolEntry['id']]))
+			{
+				$pool            = array();
+				$pool['id']      = $poolEntry['id'];
+				$pool['name']    = $poolEntry['name'];
+				$pool['minCrP']  = empty($poolEntry['minCrP']) ? '' : $poolEntry['minCrP'];
+				$pool['maxCrP']  = empty($poolEntry['maxCrP']) ? '' : $poolEntry['maxCrP'];
+				$pool['fieldID'] = empty($poolEntry['fieldID']) ? null : $poolEntry['fieldID'];
+				$pool['mapID']   = $poolEntry['mapID'];
+				$pool['lft']     = $poolEntry['lft'];
+				$pool['rgt']     = $poolEntry['rgt'];
+
+				$this->pools[$poolEntry['id']] = $pool;
+			}
+			elseif ($poolEntry['lft'] > $this->pools[$poolEntry['id']]['lft'])
+			{
+				$this->pools[$poolEntry['id']]['mapID']   = $poolEntry['mapID'];
+				$this->pools[$poolEntry['id']]['lft']    = $poolEntry['lft'];
+				$this->pools[$poolEntry['id']]['rgt']   = $poolEntry['rgt'];
+			}
+
+			if (empty($pool['fieldID']))
+			{
+				$this->fields[0] = array();
+			}
+			else
+			{
+				$this->fields[$pool['fieldID']] = array();
+			}
+		}
+	}
+
+	/**
+	 * Resolves the subject id to the corresponding subject key
+	 *
+	 * @param int $subjectID the id of the subject
+	 *
+	 * @return mixed int if the id could be resolved to a key, otherwise false
+	 */
+	private function getSubjectKey($subjectID)
+	{
+		foreach ($this->subjects as $key => $subject)
+		{
+			if ($subject->id == $subjectID)
+			{
+				return $key;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Looks up the teachers associated with the subject, adds the associations to the subjects, sets object teachers
+	 * and adds teacher fields.
+	 *
+	 * @param int $index the index of the subject (item) being currently indexed
+	 *
+	 * @return void
+	 */
+	private function getTeachers($index)
+	{
+		$subjectID = $this->subjects[$index]->id;
+
+		$query = $this->_db->getQuery(true);
+		$query->select("t.id, t.surname, t.forename, t.fieldID, t.title, st.teacherResp")
+			->from('#__thm_organizer_teachers AS t')
+			->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id')
+			->where("st.subjectID = '$subjectID'");
+		$this->_db->setQuery($query);
+
+		try
+		{
+			$teachers = $this->_db->loadAssocList();
+		}
+		catch (Exception $exc)
+		{
+			return;
+		}
+
+		if (empty($teachers))
+		{
+			return;
+		}
+
+		foreach ($teachers as $teacherEntry)
+		{
+			if (empty($this->teachers[$teacherEntry['id']]))
+			{
+				$teacher             = array();
+				$teacher['id']       = $teacherEntry['id'];
+				$teacher['surname']  = $teacherEntry['surname'];
+				$teacher['forename'] = empty($teacherEntry['forename']) ? '' : $teacherEntry['forename'];
+				$teacher['title']    = empty($teacherEntry['title']) ? '' : $teacherEntry['title'];
+				$teacher['fieldID']  = empty($teacherEntry['fieldID']) ? null : $teacherEntry['fieldID'];
+
+				$this->teachers[$teacherEntry['id']] = $teacher;
+			}
+
+			if (empty($this->subjects[$index]->teachers))
+			{
+				$this->subjects[$index]->teachers = array();
+			}
+
+			if (empty($this->subjects[$index]->teachers[$teacherEntry['teacherResp']]))
+			{
+				$this->subjects[$index]->teachers[$teacherEntry['teacherResp']] = array();
+			}
+
+			$this->subjects[$index]->teachers[$teacherEntry['teacherResp']][$teacherEntry['id']] = $teacherEntry['id'];
+
+			if (empty($teacherEntry['fieldID']))
+			{
+				$this->fields[0] = array();
+			}
+			else
+			{
+				$this->fields[$teacherEntry['fieldID']] = array();
+			}
+		}
+	}
+
+	/**
+	 * Checks whether the pool being iterated is a child
+	 *
+	 * @param array $pool
+	 *
+	 * @return bool true if the pool is a child pool, otherwise false
+	 */
+	private function isChildPool($pool)
+	{
+		foreach ($this->pools as $check)
+		{
+			if ($check['lft'] < $pool['lft'] AND $check['rgt'] > $pool['rgt'])
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return void
+	 */
+	private function populateFields()
+	{
+		$languageTag = $this->state->get('languageTag');
+		$fieldIDs    = "('" . implode("','", array_keys($this->fields)) . "')";
+
+		$query = $this->_db->getQuery(true);
+		$query->select("f.id, f.field_$languageTag AS name, c.color AS backgroundColor")
+			->from('#__thm_organizer_fields AS f')
+			->leftJoin('#__thm_organizer_colors AS c ON c.id = f.colorID')
+			->where("f.id IN $fieldIDs");
+		$this->_db->setQuery($query);
+
+		try
+		{
+			$fields = $this->_db->loadAssocList('id');
+		}
+		catch (Exception $exc)
+		{
+			return;
+		}
+
+		if (empty($fields))
+		{
+			return;
+		}
+
+		$params = JComponentHelper::getParams('com_thm_organizer');
+
+		foreach ($fields as $fieldEntry)
+		{
+			if (empty($this->fields[$fieldEntry['id']]))
+			{
+				$field         = array();
+				$field['name'] = $fieldEntry['name'];
+
+				if (empty($fieldEntry['backgroundColor']))
+				{
+					$field['backgroundColor'] = $params['backgroundColor'];
+					$field['textColor']       = $params['darkTextColor'];
+				}
+				else
+				{
+					$field['backgroundColor'] = $fieldEntry['backgroundColor'];
+					$field['textColor']       = THM_OrganizerHelperComponent::getTextColor($field['backgroundColor']);
+				}
+				$this->fields[$fieldEntry['id']] = $field;
+			}
+		}
+
+		// One or more items is not associated with a field
+		if (isset($this->fields[0]))
+		{
+			$defaultField                    = array();
+			$defaultField['name']            = JText::_('COM_THM_ORGANIZER_UNASSOCIATED');
+			$defaultField['backgroundColor'] = $params['backgroundColor'];
+			$defaultField['textColor']       = $params['darkTextColor'];
+			$this->fields[0]                 = $defaultField;
+		}
+
+		uasort($this->fields, function ($a, $b)
+		{
+			return $a['name'] > $b['name'];
+		});
 	}
 
 	/**
@@ -196,8 +583,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		$where = "(s.name_de LIKE '$search' OR s.name_en LIKE '$search' OR ";
 		$where .= "s.short_name_de LIKE '$search' OR s.short_name_en LIKE '$search' OR ";
 		$where .= "s.abbreviation_de LIKE '$search' OR s.abbreviation_en LIKE '$search' OR ";
-		$where .= "s.externalID LIKE '$search' OR ";
-		$where .= "t.surname LIKE '$search' OR t.forename LIKE '$search')";
+		$where .= "s.externalID LIKE '$search')";
 		$query->where($where);
 	}
 }

@@ -96,7 +96,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	{
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$query    = $this->_db->getQuery(true);
-		$query->select("id, name_$shortTag as name, defaultGrid")->from('#__thm_organizer_grids');
+		$query->select("id, name_$shortTag AS name, defaultGrid")->from('#__thm_organizer_grids');
 		$this->_db->setQuery($query);
 
 		$options = array();
@@ -190,7 +190,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 					return $titles;
 				}
 
-				$titles['docTitle'] .= $gpuntisID . '_';
+				$titles['docTitle']  .= $gpuntisID . '_';
 				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $table->gpuntisID : ", {$table->gpuntisID}";
 			}
 		}
@@ -325,7 +325,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 					return $titles;
 				}
 
-				$titles['docTitle'] .= $gpuntisID . '_';
+				$titles['docTitle']  .= $gpuntisID . '_';
 				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $table->name : ", {$table->name}";
 			}
 		}
@@ -352,7 +352,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		$tag         = THM_OrganizerHelperLanguage::getShortTag();
 
 		$query = $this->_db->getQuery(true);
-		$query->select("ps.name AS psName, ps.gpuntisID as gpuntisID, s.short_name_$tag AS shortName, s.name_$tag AS name");
+		$query->select("ps.name AS psName, ps.gpuntisID AS gpuntisID, s.short_name_$tag AS shortName, s.name_$tag AS name");
 		$query->from('#__thm_organizer_plan_subjects AS ps');
 		$query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
 		$query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
@@ -402,7 +402,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 					return $titles;
 				}
 
-				$titles['docTitle'] .= $gpuntisID . '_';
+				$titles['docTitle']  .= $gpuntisID . '_';
 				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $gpuntisID : ", {$gpuntisID}";
 			}
 
@@ -474,9 +474,9 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 					return $titles;
 				}
 
-				$displayName = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
-				$gpuntisID   = JApplicationHelper::stringURLSafe($table->gpuntisID);
-				$titles['docTitle'] .= $gpuntisID . '_';
+				$displayName         = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
+				$gpuntisID           = JApplicationHelper::stringURLSafe($table->gpuntisID);
+				$titles['docTitle']  .= $gpuntisID . '_';
 				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
 			}
 		}
@@ -623,29 +623,29 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		{
 			if ($usePools)
 			{
-				$titles = $this->getPoolTitles();
-				$docTitle .= $titles['docTitle'];
+				$titles    = $this->getPoolTitles();
+				$docTitle  .= $titles['docTitle'];
 				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 
 			if ($useTeachers)
 			{
-				$titles = $this->getTeacherTitles();
-				$docTitle .= $titles['docTitle'];
+				$titles    = $this->getTeacherTitles();
+				$docTitle  .= $titles['docTitle'];
 				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 
 			if ($useRooms)
 			{
-				$titles = $this->getRoomTitles();
-				$docTitle .= $titles['docTitle'];
+				$titles    = $this->getRoomTitles();
+				$docTitle  .= $titles['docTitle'];
 				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 
 			if ($useSubjects)
 			{
-				$titles = $this->getSubjectTitles();
-				$docTitle .= $titles['docTitle'];
+				$titles    = $this->getSubjectTitles();
+				$docTitle  .= $titles['docTitle'];
 				$pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
 			}
 		}

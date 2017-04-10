@@ -3,14 +3,13 @@
  * @category    Joomla component
  * @package     THM_Organizer
  * @subpackage  com_thm_organiezr.site
- * @name        THM_OrganizerTemplateUngroupedList
+ * @name        THM_OrganizerTemplateBasicList
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2017 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-require_once 'item.php';
 
 /**
  * Displays event information
@@ -19,7 +18,7 @@ require_once 'item.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerTemplateUngroupedList
+class THM_OrganizerTemplateBasicList
 {
 	/**
 	 * Renders subject information
@@ -33,23 +32,22 @@ class THM_OrganizerTemplateUngroupedList
 		echo '<div class="subject-list-container">';
 		if (count($view->items))
 		{
-			echo '<ul class="subject-list">';
-			$displayItems = array();
-			foreach ($view->items AS $item)
-			{
-				if (!empty($displayItems[$item->id]) AND $item->teacherResp == 2)
-				{
-					continue;
-				}
-				$index                       = $sort == 'number' ? 'externalID' : 'id';
-				$displayItems[$item->$index] = THM_OrganizerTemplateItem::render($item);
-			}
+			$displayItems = $view->items;
+
 			if ($sort == 'number')
 			{
-				ksort($displayItems);
+				usort($displayItems, function ($a, $b)
+				{
+					return $a->externalID > $b->externalID;
+				});
 			}
-			echo implode($displayItems);
-			echo '</ul>';
+
+			echo '<table class="subject-list">';
+			foreach ($displayItems AS $item)
+			{
+				echo $view->getItemRow($item, $sort);
+			}
+			echo '</table>';
 		}
 		echo '</div>';
 	}

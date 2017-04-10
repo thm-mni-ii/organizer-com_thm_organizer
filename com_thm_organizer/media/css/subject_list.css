@@ -20,26 +20,6 @@ div.legal-disclaimer li {
     font-style: italic;
 }
 
-div.subject-name, div.subject-responsible, div.subject-crp {
-    display: inline-block;
-}
-
-div.subject-name, div.subject-responsible, div.subject-name a, div.subject-responsible a {
-    color: #394a59;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    font-weight: normal;
-}
-
-div.subject-crp {
-    width: 10%;
-}
-
-div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
-    float: left;
-    width: 100%;
-}
-
 .toolbar {
     float: right;
 }
@@ -49,11 +29,8 @@ div.module_catalogue.ui-accordion.ui-widget.ui-helper-reset {
 }
 
 .tool-wrapper a, .tool-wrapper button {
-    cursor: pointer;
-}
-
-button {
     border: none;
+    cursor: pointer;
 }
 
 .search input[type="text"] {
@@ -76,13 +53,7 @@ button {
     color: #394a59;
 }
 
-.btn-reset {
-    background-color: white;
-    color: #394a59;
-    margin-left: 8px;
-}
-
-.btn-reset:hover {
+.btn-reset, .btn-reset:hover {
     background-color: white;
     color: #394a59;
     margin-left: 8px;
@@ -94,126 +65,90 @@ button {
     margin-bottom: 0;
 }
 
-.nav.nav-tabs > li {
+.nav.nav-tabs li {
     margin-bottom: 0;
     margin-left: 2px;
 }
 
-.nav.nav-tabs > li:first-child {
+.nav.nav-tabs li:first-child {
     margin-left: 10px;
 }
 
-.nav.nav-tabs > li > a, .nav.nav-tabs > li.active > a {
-    border-top: 2px solid #4a5c66;
-    border-right: 2px solid #4a5c66;
+.nav.nav-tabs li a, .nav.nav-tabs li.active a {
+    border: 2px solid #4a5c66;
     border-bottom: none;
-    border-left: 2px solid #4a5c66;
     border-radius: 0;
     padding-left: 12px;
 }
 
-.nav.nav-tabs > li > a:hover {
+.nav.nav-tabs li a:hover {
     background-color: #f2f5f6;
 }
 
-.nav.nav-tabs > li.active > a {
+.nav.nav-tabs li.active a {
     background: #4a5c66;
     color: white;
 }
 
-.nav.nav-tabs > li.active > a:hover {
+.nav.nav-tabs li.active a:hover {
     background: #4a5c66;
 }
 
-.tab-content {
-    padding: 0;
-    border-top: none;
+form#adminForm fieldset[class$="-group"] {
     background-color: white;
-}
-
-.subject-list-container h5 {
-    background-color: #dfe5e6;
-    cursor: default;
+    margin-top: .5rem;
     margin-bottom: 0;
-    margin-top: 10px;
-    padding: 6px 12px;
 }
 
-.subject-list-container h5 a {
+form#adminForm fieldset[class$="-group"] legend {
+    border-bottom: 2px solid #4a5c66;
+    border-top: 2px solid #4a5c66;
+    float: left;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+    margin-bottom: 0;
+}
+
+form#adminForm fieldset[class$="-group"] legend .pool-title, form#adminForm fieldset[class$="-group"] legend .teacher-title {
+    font-size: 1.3rem;
+    margin-left: .5rem;
+}
+
+form#adminForm fieldset[class$="-group"] legend .pool-crp {
+    float: right;
+    font-size: 1rem;
+    margin-right: 1.5rem;
+}
+
+form#adminForm fieldset.pool-group:nth-child(2), form#adminForm fieldset.teacher-group:first-child {
+    margin-top: 0;
+}
+
+form#adminForm fieldset.pool-group:nth-child(2) legend, form#adminForm fieldset.teacher-group:first-child legend {
+    border-top: none;
+}
+
+table {
     color: #394a59;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    margin-bottom: 0;
 }
 
-.active :first-child h5 {
-    margin-top: 6px;
-}
-
-a.pool-anchor {
-    display: block;
-    position: relative;
-    top: -60px;
-    visibility: hidden;
-}
-
-.subject-list-container .subject-list {
-    margin-left: 0;
-}
-
-.subject-list-container .subject-list li {
-    list-style: none;
-    padding: 6px 20px 6px 19px;
-    margin-left: 0;
-}
-
-.subject-list-container .subject-list li:nth-child(even) {
+table tr:nth-child(even) {
     background-color: #f2f5f6;
 }
 
-.subject-list-container .subject-list a {
-    color: #394a59;
+table tr td[class^="subject-"] {
+    border: none;
 }
 
-.subject-name {
-    display: inline-block;
-    width: 600px;
+table tr td.subject-crp {
+    width: 7%;
 }
 
-.module-id {
-    padding-left: 5px;
+table tr td.subject-name {
+    width: 50%;
 }
 
-.subject-teacher {
-    display: inline-block;
-}
-
-.subject-crp {
-    display: inline-block;
-    float: right;
-    width: 10%;
-}
-
-#pool > .subject-list-container, #teacher > .subject-list-container, #field > .subject-list-container {
-    margin-bottom: 4px;
-}
-
-#pool > .subject-list-container .subject-list, #teacher > .subject-list-container .subject-list, #field > .subject-list-container .subject-list {
-    margin: 0;
-}
-
-#pool > .subject-list-container:last-child, #teacher > .subject-list-container:last-child, #field > .subject-list-container:last-child {
-    margin-bottom: 0;
-}
-
-.shown {
-    border: 1px solid #eeeeee;
-    border-top: none;
-}
-
-/* gibts nicht mehr
-.breadcrumb {
-  float: inherit;
-  width: 680px;
-}
-*/
-.tab-content {
-    overflow: visible;
+table tr td.subject-teacher {
+    width: 40%;
 }
