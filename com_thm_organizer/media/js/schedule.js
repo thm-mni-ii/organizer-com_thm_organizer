@@ -2501,10 +2501,6 @@ var ScheduleApp = function ()
 			if (formats[0] === "ics")
 			{
 				url += "&username=" + variables.username + "&auth=" + variables.auth;
-				window.prompt(text.copy, url);
-				exportSelection.val("placeholder");
-				exportSelection.trigger("chosen:updated");
-				return;
 			}
 		}
 		else
@@ -2532,6 +2528,14 @@ var ScheduleApp = function ()
 			{
 				return;
 			}
+		}
+
+		if (formats[0] === "ics")
+		{
+			window.prompt(text.copy, url);
+			exportSelection.val("placeholder");
+			exportSelection.trigger("chosen:updated");
+			return;
 		}
 
 		url += "&date=" + getDateFieldString();
