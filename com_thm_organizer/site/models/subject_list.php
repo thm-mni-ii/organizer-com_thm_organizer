@@ -88,7 +88,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 				{
 					$subjectKey = $this->getSubjectKey($child['subjectID']);
 
-					if ($subjectKey)
+					if ($subjectKey !== false)
 					{
 						$this->pools[$key]['subjects'][$subjectKey] = $child['subjectID'];
 					}
@@ -108,9 +108,11 @@ class THM_OrganizerModelSubject_List extends JModelList
 			uasort($this->pools[$key]['pools'], function ($a, $b)
 			{
 				$aKey = $this->getPoolKey($a);
-				$aName = $this->pools[$aKey]['name'];
 				$bKey = $this->getPoolKey($b);
-				$bName = $this->pools[$bKey]['name'];
+
+				// Php sorts letters with umlauts to the end of the alphabet, this replaces them with their equivalent
+				$aName = iconv("utf-8","ascii//TRANSLIT",$this->pools[$aKey]['name']);
+				$bName = iconv("utf-8","ascii//TRANSLIT",$this->pools[$bKey]['name']);
 
 				return $aName > $bName;
 			});

@@ -43,7 +43,7 @@ class THM_OrganizerTemplatePoolList
 				continue;
 			}
 
-			$crpText = self::getCreditPointText($pool);
+			$crpText = $view->getCreditPointText($pool);
 
 ?>
 		<a name="pool<?php echo $pool['id']; ?>" class="pool-anchor"></a>
@@ -66,26 +66,6 @@ foreach (array_keys($pool['pools']) as $poolKey)
 			</table>
 		</fieldset>
 <?php
-		}
-	}
-
-	public static function getCreditPointText($pool)
-	{
-		if (empty($pool['minCrP']) AND empty($pool['maxCrP']))
-		{
-			return '';
-		}
-		elseif (empty($pool['minCrP']))
-		{
-			return JText::sprintf('COM_THM_ORGANIZER_CRP_UPTO', $pool['maxCrP']);
-		}
-		elseif (empty($pool['maxCrP']) OR $pool['minCrP'] == $pool['maxCrP'])
-		{
-			return "{$pool['minCrP']} CrP";
-		}
-		else
-		{
-			return JText::sprintf('COM_THM_ORGANIZER_CRP_BETWEEN', $pool['minCrP'], $pool['maxCrP']);
 		}
 	}
 }

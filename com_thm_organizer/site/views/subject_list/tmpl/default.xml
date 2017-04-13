@@ -62,6 +62,15 @@
                 <option value="0">JNO</option>
             </field>
             <field
+                    name="inlinePoolCrP"
+                    type="list"
+                    default="1"
+                    label="COM_THM_ORGANIZER_SHOW_INLINE_CRP"
+                    description="COM_THM_ORGANIZER_SHOW_INLINE_CRP_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
                     name="showByName"
                     type="list"
                     default="1"

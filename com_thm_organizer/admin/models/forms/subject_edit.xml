@@ -331,7 +331,7 @@
                description="COM_THM_ORGANIZER_AIDS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="COM_THM_ORGANIZER_ATTRIBUTES_SUBJECT_ADVANCED">
-        <field name="prerequisites"
+        <!--<field name="prerequisites"
                type="subjects"
                direction="pre"
                class="inputbox"
@@ -345,7 +345,7 @@
                description="COM_THM_ORGANIZER_POSTREQUISITES_DESC"/>
         <field name="spacer3"
                type="spacer"
-               hr="true"/>
+               hr="true"/> -->
         <field name="responsible"
                type="subjectTeacher"
                responsibility="1"

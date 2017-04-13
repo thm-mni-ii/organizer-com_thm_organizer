@@ -867,6 +867,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	{
 		$responsible = $dataObject->xpath('//verantwortliche');
 		$teaching    = $dataObject->xpath('//dozent');
+
 		if (empty($responsible) AND empty($teaching))
 		{
 			return true;
@@ -901,6 +902,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	{
 		$subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
 		$removed      = $subjectModel->removeTeachers($subjectID, $responsibility);
+
 		if (!$removed)
 		{
 			return false;

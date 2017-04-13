@@ -106,6 +106,33 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	}
 
 	/**
+	 * Generates the creditpoint text for the given pool
+	 *
+	 * @param array $pool the pool whose credit point information is required
+	 *
+	 * @return string the credit point text to display
+	 */
+	public function getCreditPointText($pool)
+	{
+		if (empty($pool['minCrP']) AND empty($pool['maxCrP']))
+		{
+			return '';
+		}
+		elseif (empty($pool['minCrP']))
+		{
+			return JText::sprintf('COM_THM_ORGANIZER_CRP_UPTO', $pool['maxCrP']);
+		}
+		elseif (empty($pool['maxCrP']) OR $pool['minCrP'] == $pool['maxCrP'])
+		{
+			return "{$pool['minCrP']} CrP";
+		}
+		else
+		{
+			return JText::sprintf('COM_THM_ORGANIZER_CRP_BETWEEN', $pool['minCrP'], $pool['maxCrP']);
+		}
+	}
+
+	/**
 	 * Renders subject information
 	 *
 	 * @param mixed  &$item object if the the item to be displayed is a subject otherwise array
@@ -120,14 +147,14 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 			$link      = $item->subjectLink;
 			$name      = $item->name;
 			$subjectNo = empty($item->externalID) ? '' : $item->externalID;
-			$crp       = empty($item->creditpoints) ? '' : $item->creditpoints;
+			$crp       = empty($item->creditpoints) ? '' : $item->creditpoints. ' CrP';
 		}
 		else
 		{
 			$link      = "#pool{$item['id']}";
 			$name      = $item['name'] . ' <span class="icon-forward-2"></span>';
 			$subjectNo = '';
-			$crp       = '';
+			$crp       = empty($this->params->get('inlinePoolCrP', 1))? '' : $this->getCreditPointText($item);
 		}
 		$displayItem = '<tr>';
 
@@ -163,7 +190,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 		}
 		else
 		{
-			$displayItem .= '<td class="subject-crp">' . $crp . ' CrP</td>';
+			$displayItem .= '<td class="subject-crp">' . $crp . '</td>';
 		}
 
 		$displayItem .= '</tr>';
@@ -207,7 +234,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 				break;
 		}
 
-		return implode('<br>', $teacherResponsibility);
+		return implode(' & ', $teacherResponsibility);
 	}
 
 	/**
