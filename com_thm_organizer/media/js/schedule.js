@@ -1863,12 +1863,11 @@ var ScheduleApp = function ()
 				// no Chosen-library available
 				document.getElementById(id).addEventListener("change", handleFormSelection);
 			}
+
 			// Select on click, even on already selected(!) options (unlike Chosens "change" event)
-			if (input.dataset.next)
-			{
-				jQuery("#" + id).chosen().change(handleFormSelection);
-			}
-			else
+			jQuery("#" + id).chosen().change(handleFormSelection);
+
+			if (!input.dataset.next)
 			{
 				drop.addEventListener("click", function (event)
 				{
@@ -2379,17 +2378,28 @@ var ScheduleApp = function ()
 					}
 				).length,
 				timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid),
+				endFirst, startSecond,
 				addBreakRow, addLunchBreakRow, periods, table, rows;
 
 			tables.each(function(index, table)
 			{
 				rows = jQuery(table).find("tbody").find("tr");
+
 				if (!timeGrid.hasOwnProperty("periods"))
 				{
 					jQuery(".break").closest("tr").remove();
 					rows.not(":eq(0)").addClass("hide");
+					return true;
 				}
-				else if (timeGrid.periods[1].endTime === timeGrid.periods[2].startTime)
+
+				endFirst = "Mon Apr 24 2017 " + timeGrid.periods[1].endTime.replace(/(\d{2})(\d{2})/, "$1:$2");
+				endFirst = new Date(endFirst);
+				endFirst = endFirst.getTime();
+				startSecond = "Mon Apr 24 2017 " + timeGrid.periods[2].startTime.replace(/(\d{2})(\d{2})/, "$1:$2");
+				startSecond = new Date(startSecond);
+				startSecond = startSecond.setSeconds(startSecond.getSeconds() - 60);
+
+				if (endFirst === startSecond)
 				{
 					jQuery(".break").closest("tr").remove();
 					rows.not(":eq(0)").removeClass("hide");

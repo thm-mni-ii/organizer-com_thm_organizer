@@ -950,7 +950,7 @@ INSERT INTO `#__thm_organizer_grids` (`name_de`, `name_en`, `grid`, `defaultGrid
    '{"periods":{"1":{"startTime":"0800","endTime":"0930"},"2":{"startTime":"0950","endTime":"1120"},"3":{"startTime":"1130","endTime":"1300"},"4":{"startTime":"1400","endTime":"1530"},"5":{"startTime":"1545","endTime":"1715"},"6":{"startTime":"1730","endTime":"1900"}},"startDay":1,"endDay":6}',
    1, 'Haupt-Zeitraster'),
   ('Klausurwochen', 'Klausurwochen',
-   '{"periods":{"1":{"startTime":"0800","endTime":"1000"},"2":{"startTime":"1000","endTime":"1200"},"3":{"startTime":"1200","endTime":"1400"},"4":{"startTime":"1400","endTime":"1600"},"5":{"startTime":"1600","endTime":"1800"},"6":{"startTime":"1800","endTime":"2000"}},"startDay":1,"endDay":6}',
+   '{"periods":{"1":{"startTime":"0800","endTime":"0959"},"2":{"startTime":"1000","endTime":"1159"},"3":{"startTime":"1200","endTime":"1359"},"4":{"startTime":"1400","endTime":"1559"},"5":{"startTime":"1600","endTime":"1759"},"6":{"startTime":"1800","endTime":"1959"}},"startDay":1,"endDay":6}',
    0, 'Klausurwochen'),
   ('keine', 'none', '{"startDay":1,"endDay":6}', 0, 'keine');
 
