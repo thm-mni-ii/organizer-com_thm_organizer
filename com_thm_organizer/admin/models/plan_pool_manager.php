@@ -43,20 +43,30 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	 */
 	protected function getListQuery()
 	{
+		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 		$query = $this->_db->getQuery(true);
 
-		$select    = "ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ";
+		if (empty($allowedDepartments))
+		{
+			return $query;
+		}
+
+		$select    = "DISTINCT ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ";
 		$linkParts = array("'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", "ppl.id");
 		$select .= $query->concatenate($linkParts, "") . " AS link";
 
 		$query->from('#__thm_organizer_plan_pools AS ppl');
+		$query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.poolID = ppl.id");
 
 		$departmentID = $this->state->get('list.departmentID');
 
-		if ($departmentID)
+		if ($departmentID AND in_array($departmentID, $allowedDepartments))
 		{
-			$query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.poolID = ppl.id");
 			$query->where("dr.departmentID = '$departmentID'");
+		}
+		else
+		{
+			$query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
 		}
 
 		$programID = $this->state->get('list.programID');

@@ -39,7 +39,7 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
 	{
 		$actions = $this->getModel()->actions;
 
-		if (!$actions->{'core.admin'})
+		if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.schedule'})
 		{
 			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

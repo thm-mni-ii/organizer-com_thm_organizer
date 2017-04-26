@@ -57,13 +57,13 @@ class THM_OrganizerHelperComponent
 				'index.php?option=com_thm_organizer&amp;view=schedule_manager',
 				$viewName == 'schedule_manager'
 			);
+			JHtmlSidebar::addEntry(
+				JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
+				'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
+				$viewName == 'plan_pool_manager'
+			);
 			if ($actions->{'core.admin'})
 			{
-				JHtmlSidebar::addEntry(
-					JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
-					'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
-					$viewName == 'plan_pool_manager'
-				);
 				JHtmlSidebar::addEntry(
 					JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
 					'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
@@ -284,7 +284,7 @@ class THM_OrganizerHelperComponent
 			return $model->actions->{'organizer.hr'};
 		}
 
-		$departmentEditViews = array(
+		$departmentAssetViews = array(
 			'department_edit',
 			'pool_edit',
 			'program_edit',
@@ -292,7 +292,7 @@ class THM_OrganizerHelperComponent
 			'subject_edit'
 		);
 
-		if (in_array($name, $departmentEditViews))
+		if (in_array($name, $departmentAssetViews))
 		{
 			$resource = str_replace('_edit', '', $name);;
 
@@ -306,13 +306,52 @@ class THM_OrganizerHelperComponent
 				}
 
 				$action = $resource == 'department' ? 'department' : $resource == 'schedule' ? 'schedule' : 'manage';
+
 				return self::allowResourceManage($resource, $itemID, $action);
 			}
 
 			return self::allowDeptResourceCreate($resource);
 		}
 
+		if ($name == 'plan_pool_edit')
+		{
+			return self::allowPlanPoolEdit($itemID);
+		}
+
 		return false;
+	}
+
+	/**
+	 * Checks whether the given plan pool is associated with an allowed department
+	 *
+	 * @param int $ppID the id of the plan pool being checked
+	 *
+	 * @return  bool  true if the plan pool is associated with an allowed department, otherwise false
+	 */
+	public static function allowPlanPoolEdit($ppID)
+	{
+		$allowedDepartments = self::getAccessibleDepartments('schedule');
+		$dbo                = JFactory::getDbo();
+		$query              = $dbo->getQuery(true);
+		$query->select('id')
+			->from('#__thm_organizer_department_resources')
+			->where("poolID = '$ppID'")
+			->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
+		$dbo->setQuery((string) $query);
+
+		try
+		{
+			$entryID = $dbo->loadResult();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+
+		return empty($entryID) ? false : true;
+
 	}
 
 	/**

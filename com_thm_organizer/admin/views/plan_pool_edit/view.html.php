@@ -45,4 +45,17 @@ class THM_OrganizerViewPlan_Pool_Edit extends THM_OrganizerViewEdit
 		JToolbarHelper::save('plan_pool.save');
 		JToolbarHelper::cancel('plan_pool.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 	}
+
+	/**
+	 * Adds styles and scripts to the document
+	 *
+	 * @return  void  modifies the document
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+
+		$document = JFactory::getDocument();
+		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/plan_pool_edit.css");
+	}
 }

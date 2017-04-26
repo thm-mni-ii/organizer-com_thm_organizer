@@ -23,6 +23,43 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 {
 	/**
+	 * Attempts to save a resource entry, updating schedule data as necessary.
+	 *
+	 * @param string $resource the name of the resource type being merged
+	 *
+	 * @return  mixed  integer on success, otherwise false
+	 */
+	public function save()
+	{
+		$poolID = parent::save();
+
+		if (empty($poolID))
+		{
+			return false;
+		}
+
+		$formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+
+		if (!empty($formData['publishing']))
+		{
+			foreach ($formData['publishing'] as $periodID => $publish)
+			{
+				$table = JTable::getInstance("plan_pool_publishing", 'thm_organizerTable');
+				$data = array('planPoolID' => $poolID, 'planningPeriodID' => $periodID);
+				$table->load($data);
+				$data['published'] = $publish;
+
+				if (empty($table->save($data)))
+				{
+					return false;
+				}
+			}
+		}
+
+		return $poolID;
+	}
+
+	/**
 	 * Updates key references to the entry being merged.
 	 *
 	 * @param int   $newDBID  the id onto which the room entries merge
@@ -33,12 +70,20 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 	protected function updateAssociations($newDBID, $oldDBIDs)
 	{
 		$drUpdated = $this->updateDRAssociation('pool', $newDBID, $oldDBIDs);
+
 		if (!$drUpdated)
 		{
 			return false;
 		}
 
-		return $this->updateAssociation('pool', $newDBID, $oldDBIDs, 'lesson_pools');
+		$lpUpdated =  $this->updateAssociation('pool', $newDBID, $oldDBIDs, 'lesson_pools');
+
+		if (!$lpUpdated)
+		{
+			return false;
+		}
+
+		return  $this->updateAssociation('planPool', $newDBID, $oldDBIDs, 'plan_pool_publishing');
 	}
 
 	/**

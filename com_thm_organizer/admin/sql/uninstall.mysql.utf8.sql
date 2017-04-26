@@ -19,6 +19,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_mappings`;
 DROP TABLE IF EXISTS `#__thm_organizer_methods`;
 DROP TABLE IF EXISTS `#__thm_organizer_monitors`;
 DROP TABLE IF EXISTS `#__thm_organizer_planning_periods`;
+DROP TABLE IF EXISTS `#__thm_organizer_plan_pool_publishing`;
 DROP TABLE IF EXISTS `#__thm_organizer_plan_pools`;
 DROP TABLE IF EXISTS `#__thm_organizer_plan_programs`;
 DROP TABLE IF EXISTS `#__thm_organizer_plan_subjects`;
