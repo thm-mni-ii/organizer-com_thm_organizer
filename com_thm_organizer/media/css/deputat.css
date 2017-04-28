@@ -1,214 +1,204 @@
 .deputat {
-    font-family: 'THM-Regular', Arial, Helvetica, sans-serif;
-    color: #394a59;
+  font-family: 'THM-Regular', Arial, Helvetica, sans-serif;
+  color: #394a59;
 }
 
 .deputat div.componentheading {
-    padding-left: 2.5%;
-    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
-    font-size: 228.57143%;
-    margin-bottom: 10px;
+  padding-left: 2.5%;
+  font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
+  font-size: 228.57143%;
+  margin-bottom: 10px;
 }
 
 .deputat div.button-panel {
-    float: right;
-    margin-top: 9px;
-    margin-bottom: 9px;
+  float: right;
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 
 .deputat div.button-group {
-    padding-left: 36%;
+  padding-left: 36%;
 }
 
 .deputat div.button-panel button, .deputat div.button-group button {
-    background: #ffffff;
-    color: #4a5d66;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    line-height: 21px;
-    margin-bottom: 0;
-    text-align: center;
-    text-shadow: none;
-    box-shadow: none;
-    border-radius: 0;
-    border: 2px solid #4a5d66;
-    vertical-align: text-top;
-    padding: .2em .8em .05em .6em;
+  background: #ffffff;
+  color: #4a5d66;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 21px;
+  margin-bottom: 0;
+  text-align: center;
+  text-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+  border: 2px solid #4a5d66;
+  vertical-align: text-top;
+  padding: .2em .8em .05em .6em;
 }
 
 .deputat div.filter-bar {
-    background-color: #f2f5f6;
-    border: 1px solid #77858c;
-    color: #394a59;
-    font-size: 13px;
-    padding: 8px 4px 4px 4px;
-    z-index: 12;
-    margin-bottom: 4px;
-    -webkit-box-shadow: 2px 2px 4px #a4adb2;
-    -moz-box-shadow: 2px 2px 4px #a4adb2;
-    -ms-box-shadow: 2px 2px 4px #a4adb2;
-    -o-box-shadow: 2px 2px 4px #a4adb2;
-    box-shadow: 2px 2px 4px #a4adb2;
+  background-color: #f2f5f6;
+  border: 1px solid #77858c;
+  color: #394a59;
+  font-size: 13px;
+  padding: 8px 4px 4px 4px;
+  z-index: 12;
+  margin-bottom: 4px;
+  -webkit-box-shadow: 2px 2px 4px #a4adb2;
+  -moz-box-shadow: 2px 2px 4px #a4adb2;
+  -ms-box-shadow: 2px 2px 4px #a4adb2;
+  -o-box-shadow: 2px 2px 4px #a4adb2;
+  box-shadow: 2px 2px 4px #a4adb2;
 }
 
 .deputat div.filter-bar ::after {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .deputat div.filter-bar .filter-header {
-    margin-bottom: .4em;
+  margin-bottom: .4em;
 }
 
 @media (min-width: 768px) {
-    .deputat div.filter-bar .filter-header {
-        margin: 4px 25px;
-    }
-
-    .deputat div.filter-bar .filter-header .deputat-settings {
-        float: left;
-        width: 45%;
-    }
-
-    .deputat div.filter-bar .filter-header .deputat-settings .deputat-settings-description {
-        font-size: large;
-        margin-bottom: 14px;
-    }
-
-    .deputat div.filter-bar .filter-header .selection-settings {
-        float: right;
-        width: 45%;
-    }
-
-    .deputat div.filter-bar .filter-header .control-group {
-        display: block;
-        width: 100%;
-    }
-
-    .deputat div.filter-bar .filter-header .control-group .control-label, .deputat div.filter-bar .filter-header .control-group .controls {
-        display: inline-block;
-    }
-
-    .deputat div.filter-bar .filter-header .control-group .control-label {
-        font-size: 14px;
-        width: 35%;
-    }
-
-    .deputat div.filter-bar .filter-header .control-group .controls div#scheduleID_chzn {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-    }
-
-    .deputat div.filter-bar .filter-header .control-group .controls div#teachers_chzn {
-        height: auto;
-        border: 2px solid #4a5d66;
-        width: 276px !important;
-        padding: 0;
-        background: white;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-    }
-
-    .deputat div.filter-bar .filter-header .control-group .controls li.search-choice {
-        background: #eeeeee;
-        border-radius: 0;
-    }
+  .deputat div.filter-bar .filter-header {
+    margin: 4px 25px;
+  }
+  .deputat div.filter-bar .filter-header .deputat-settings {
+    float: left;
+    width: 45%;
+  }
+  .deputat div.filter-bar .filter-header .deputat-settings .deputat-settings-description {
+    font-size: large;
+    margin-bottom: 14px;
+  }
+  .deputat div.filter-bar .filter-header .selection-settings {
+    float: right;
+    width: 45%;
+  }
+  .deputat div.filter-bar .filter-header .control-group {
+    display: block;
+    width: 100%;
+  }
+  .deputat div.filter-bar .filter-header .control-group .control-label, .deputat div.filter-bar .filter-header .control-group .controls {
+    display: inline-block;
+  }
+  .deputat div.filter-bar .filter-header .control-group .control-label {
+    font-size: 14px;
+    width: 35%;
+  }
+  .deputat div.filter-bar .filter-header .control-group .controls div#scheduleID_chzn {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .deputat div.filter-bar .filter-header .control-group .controls div#teachers_chzn {
+    height: auto;
+    border: 2px solid #4a5d66;
+    width: 276px !important;
+    padding: 0;
+    background: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .deputat div.filter-bar .filter-header .control-group .controls li.search-choice {
+    background: #eeeeee;
+    border-radius: 0;
+  }
 }
 
 .deputat div.filter-bar .filter-header .input-append {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .deputat div.filter-bar .filter-header .input-append input {
-    max-width: 100px;
-    height: 15px;
+  max-width: 100px;
+  height: 15px;
 }
 
 table.deputat-table {
-    background-image: none;
-    border: 1px solid #77858c;
-    color: #394a59;
-    display: table;
-    font-size: 13px;
-    margin-bottom: .4em;
-    margin-top: .4em;
-    max-height: 45em;
-    width: 100%;
-    -webkit-box-shadow: 2px 2px 4px #a4adb2;
-    -moz-box-shadow: 2px 2px 4px #a4adb2;
-    -ms-box-shadow: 2px 2px 4px #a4adb2;
-    -o-box-shadow: 2px 2px 4px #a4adb2;
-    box-shadow: 2px 2px 4px #a4adb2;
+  background-image: none;
+  border: 1px solid #77858c;
+  color: #394a59;
+  display: table;
+  font-size: 13px;
+  margin-bottom: .4em;
+  margin-top: .4em;
+  max-height: 45em;
+  width: 100%;
+  -webkit-box-shadow: 2px 2px 4px #a4adb2;
+  -moz-box-shadow: 2px 2px 4px #a4adb2;
+  -ms-box-shadow: 2px 2px 4px #a4adb2;
+  -o-box-shadow: 2px 2px 4px #a4adb2;
+  box-shadow: 2px 2px 4px #a4adb2;
 }
 
 table.deputat-table th {
-    background-color: #ffffff;
-    height: 1.4em;
-    text-align: center;
+  background-color: #ffffff;
+  height: 1.4em;
+  text-align: center;
 }
 
 table.deputat-table thead tr.teacher-header th {
-    font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
-    font-size: large;
-    border-bottom: none;
+  font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
+  font-size: large;
+  border-bottom: none;
 }
 
 table.deputat-table tbody tr td {
-    background-color: #ffffff;
-    font-size: 13px;
-    height: 1.4em;
-    text-align: center;
+  background-color: #ffffff;
+  font-size: 13px;
+  height: 1.4em;
+  text-align: center;
 }
 
 table.deputat-table tbody tr.sum-header th {
-    border-top: none;
-    border-right: none;
-    border-bottom: 1px solid #77858c;
-    border-left: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: 1px solid #77858c;
+  border-left: none;
 }
 
 table.deputat-table tbody tr[class^="data-row"] td {
-    vertical-align: middle;
-    border: 1px solid #bbb;
+  vertical-align: middle;
+  border: 1px solid #bbb;
 }
 
 table.deputat-table tbody tr[class^="data-row"] td a {
-    display: block;
-    float: right;
-    margin-right: 10px;
+  display: block;
+  float: right;
+  margin-right: 10px;
 }
 
 table.deputat-table tbody tr[class^="data-row"] td a i {
-    color: #4a5c66;
-    font-size: smaller;
+  color: #4a5c66;
+  font-size: smaller;
 }
 
 table.deputat-table tbody tr[class^="sum-row"] td {
-    border: 1px solid #bbb;
+  border: 1px solid #bbb;
 }
 
 table.deputat-table tbody tr[class^="sum-row"] td.empty-cell {
-    background: transparent;
-    border: none;
+  background: transparent;
+  border: none;
 }
 
 @media print {
-    .deputat table.deputat-table {
-        overflow: visible;
-        margin-bottom: 4em;
-    }
-
-    .deputat table.deputat-table tr td {
-        background-color: white;
-    }
+  .deputat table.deputat-table {
+    overflow: visible;
+    margin-bottom: 4em;
+  }
+  .deputat table.deputat-table tr td {
+    background-color: white;
+  }
 }
 
 .whiteSpace {
-    height: 92px;
-    width: 105px;
-    background-color: white;
-    border-top: 1px solid #bbbbbb;
-    border-left: 1px solid #bbbbbb;
+  height: 92px;
+  width: 105px;
+  background-color: white;
+  border-top: 1px solid #bbbbbb;
+  border-left: 1px solid #bbbbbb;
 }

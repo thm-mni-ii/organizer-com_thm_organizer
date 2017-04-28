@@ -1,103 +1,114 @@
+[class^="icon-"], [class*=" icon-"] {
+  font-family: icomoon;
+}
+
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
-    font-family: icomoon;
-    content: "\e60b";
-}
-
-.icon-organizer_degrees::before {
-    font-family: icomoon;
-    content: "\e606";
-}
-
-.icon-organizer_monitors::before {
-    font-family: icomoon;
-    content: "\e01c";
-}
-
-.icon-organizer_teachers::before {
-    font-family: icomoon;
-    content: "\e604";
-}
-
-.icon-organizer_room_types::before,
-.icon-organizer_departments::before {
-    font-family: icomoon;
-    content: "\e243";
-}
-
-.icon-organizer_subjects::before {
-    font-family: icomoon;
-    content: "\e603";
-}
-
-.icon-organizer_fields::before {
-    font-family: icomoon;
-    content: "\74";
+  font-family: icomoon;
+  content: "\e60b";
+  color: #80ba24;
 }
 
 .icon-organizer_colors::before {
-    font-family: icomoon;
-    content: "\e014";
+  content: "\e014";
 }
 
+.icon-organizer_degrees::before {
+  content: "\e606";
+}
+
+.icon-organizer_degree_programs::before,
+.icon-organizer_plan_programs::before {
+  content: "\31";
+}
+
+.icon-organizer_departments::before {
+  content: "\e244";
+}
+
+.icon-organizer_fields::before {
+  content: "\74";
+}
+
+.icon-organizer_grids::before {
+  content: "\59";
+  font-size: 1.1rem;
+}
+
+.icon-organizer_methods::before {
+  content: "\e271";
+}
+
+.icon-mni::before {
+  content: "\e600";
+}
+
+.icon-organizer_monitors::before {
+  content: "\e01c";
+}
+
+.icon-organizer_plan_pools::before,
 .icon-organizer_subject_pools::before {
-    font-family: icomoon;
-    content: "\44";
+  content: "\44";
 }
 
 .icon-organizer_rooms::before {
-    font-family: icomoon;
-    content: "\e60a";
+  content: "\e250";
 }
 
-.icon-organizer_degree_programs::before {
-    font-family: icomoon;
-    content: "\31";
+.icon-organizer_room_types::before {
+  content: "\e250";
 }
 
-.icon-organizer_schedules::before,
-.icon-mni::before {
-    font-family: icomoon;
-    content: "\e600";
+.icon-organizer_schedules::before {
+  content: "\e931";
+}
+
+.icon-organizer_subjects::before {
+  content: "\e603";
+}
+
+.icon-organizer_subject_pools::before {
+  content: "\44";
+}
+
+.icon-organizer_teachers::before {
+  content: "\e604";
 }
 
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .icon-add-Space {
-    font-size: 14px;
-}
-
-a[href$="view=thm_organizer"]::before, a[href$="option=com_thm_organizer"]::before {
-    color: #80ba24;
+  font-size: 14px;
 }
 
 a[href*="option=com_thm_organizer&view="]::before {
-    padding-right: 8px;
+  padding-right: 8px;
 }
 
 .thm_organizer_children {
-    float: left;
-    padding-top: 5px;
+  float: left;
+  padding-top: 5px;
 }
 
 .child-order input.text-area-order {
-    width: 2em;
+  width: 2em;
 }
 
 #childList .btn, #childList input[type="text"] {
-    margin-right: 4px;
+  margin-right: 4px;
 }
 
 .modal-body {
-    overflow-y: hidden;
-    min-height: 450px;
+  overflow-y: hidden;
+  min-height: 450px;
 }
 
 .modal-body iframe.iframe {
-    height: auto;
-    min-height: 450px;
-    width: 100%;
+  height: auto;
+  min-height: 450px;
+  width: 100%;
 }

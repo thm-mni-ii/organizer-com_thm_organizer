@@ -10,3 +10,11 @@
 .period-label, .period-input {
   display: inline-block;
 }
+
+.period-input {
+  // to align with select boxes over these:
+  .chzn-container{
+    // !important needed for overwriting inline-style
+    width: 124px !important;
+  }
+}

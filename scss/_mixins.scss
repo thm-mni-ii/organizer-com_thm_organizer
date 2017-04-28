@@ -12,43 +12,13 @@
 //********************************************************************************************************************//
 // shadow definitions
 //********************************************************************************************************************//
-//:null bedeutet optionale Parameter; beispielsweise kann so auch "none" übergeben werden
+//:null means optional parameter; for example "none" can be rendered as parameter
 @mixin box-shadow($x:null, $y:null, $spread:null, $color:null) {
   -webkit-box-shadow: $x $y $spread $color;
   -moz-box-shadow: $x $y $spread $color;
   -ms-box-shadow: $x $y $spread $color;
   -o-box-shadow: $x $y $spread $color;
   box-shadow: $x $y $spread $color;
-}
-
-@mixin box-shadow-fieldset($x, $y, $spread, $color, $inset) {
-  -webkit-box-shadow: $x $y $spread $color $inset;
-  -moz-box-shadow: $x $y $spread $color $inset;
-  -ms-box-shadow: $x $y $spread $color $inset;
-  -o-box-shadow: $x $y $spread $color $inset;
-  box-shadow: $x $y $spread $color $inset;
-}
-
-//********************************************************************************************************************//
-// color definitions
-//********************************************************************************************************************//
-@mixin colors($color1, $color2) {
-  background-color: $color1;
-  color: $color2;
-}
-
-//********************************************************************************************************************//
-//colorgradient//
-//********************************************************************************************************************//
-@mixin linearGradient($top, $bottom) {
-  background: $top; // Old browsers
-  background: -moz-linear-gradient(top, $top 0%, $bottom 100%); // FF3.6+
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top), color-stop(100%, $bottom)); // Chrome,Safari4+
-  background: -webkit-linear-gradient(top, $top 0%, $bottom 100%); // Chrome10+,Safari5.1+
-  background: -o-linear-gradient(top, $top 0%, $bottom 100%); // Opera 11.10+
-  background: -ms-linear-gradient(top, $top 0%, $bottom 100%); // IE10+
-  background: linear-gradient(to bottom, $top 0%, $bottom 100%); // W3C
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#394a59', GradientType=0); // IE6-9
 }
 
 //********************************************************************************************************************//

@@ -15,7 +15,7 @@
 }
 
 // Allgemein *********************************************************************************************************//
-a {
+.schedule a {
   color: $font-color;
 
   &:visited {
@@ -36,6 +36,10 @@ button {
   &:focus {
     outline: none;
   }
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  color: $font-color;
 }
 
 input[type=radio] {

@@ -1,196 +1,191 @@
 @media (max-width: 480px) {
-    .component-container {
-        width: 100%;
-    }
-
-    .component-container tbody th, .component-container tbody td, .component-container thead th, .component-container thead td {
-        font-size: .9rem;
-        padding: 2px;
-    }
-
-    .component-container tbody th.teachers-column, .component-container tbody td.teachers-column,
-    .component-container tbody th.name-column, .component-container tbody td.name-column, .component-container thead th.teachers-column, .component-container thead td.teachers-column,
-    .component-container thead th.name-column, .component-container thead td.name-column {
-        display: none;
-    }
-
-    .component-container tbody th.time-column, .component-container tbody td.time-column,
-    .component-container tbody th.org-column, .component-container tbody td.org-column, .component-container thead th.time-column, .component-container thead td.time-column,
-    .component-container thead th.org-column, .component-container thead td.org-column {
-        vertical-align: middle;
-        width: 50px;
-    }
-
-    .component-container tbody th.rooms-column, .component-container tbody td.rooms-column, .component-container thead th.rooms-column, .component-container thead td.rooms-column {
-        text-align: center;
-        width: 100px;
-    }
-
-    .event-date-head {
-        font-size: 1rem;
-    }
+  .component-container {
+    width: 100%;
+  }
+  .component-container tbody th, .component-container tbody td, .component-container thead th, .component-container thead td {
+    font-size: .9rem;
+    padding: 2px;
+  }
+  .component-container tbody th.teachers-column, .component-container tbody td.teachers-column,
+  .component-container tbody th.name-column, .component-container tbody td.name-column, .component-container thead th.teachers-column, .component-container thead td.teachers-column,
+  .component-container thead th.name-column, .component-container thead td.name-column {
+    display: none;
+  }
+  .component-container tbody th.time-column, .component-container tbody td.time-column,
+  .component-container tbody th.org-column, .component-container tbody td.org-column, .component-container thead th.time-column, .component-container thead td.time-column,
+  .component-container thead th.org-column, .component-container thead td.org-column {
+    vertical-align: middle;
+    width: 50px;
+  }
+  .component-container tbody th.rooms-column, .component-container tbody td.rooms-column, .component-container thead th.rooms-column, .component-container thead td.rooms-column {
+    text-align: center;
+    width: 100px;
+  }
+  .event-date-head {
+    font-size: 1rem;
+  }
 }
 
 .component-container .componentheading {
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-    font-size: 228.57143%;
-    margin-bottom: 10px;
+  font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+  font-size: 228.57143%;
+  margin-bottom: 10px;
 }
 
 .component-container table thead {
-    background-color: #dfe5e6;
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+  background-color: #dfe5e6;
+  font-family: "THM-Medium", Arial, Helvetica, sans-serif;
 }
 
 .component-container table thead tr th {
-    border: none;
-    font-weight: normal;
+  border: none;
+  font-weight: normal;
 }
 
 .event-date {
-    background-color: white;
-    margin-bottom: 10px;
+  background-color: white;
+  margin-bottom: 10px;
 }
 
 .event-date-head {
-    background-color: #dfe5e6;
-    color: #394a59;
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-    font-size: 1.6rem;
-    padding-top: 6px;
-    text-align: center;
-    width: 100%;
+  background-color: #dfe5e6;
+  color: #394a59;
+  font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+  font-size: 1.6rem;
+  padding-top: 6px;
+  text-align: center;
+  width: 100%;
 }
 
 .time-column {
-    width: 8rem;
+  width: 8rem;
 }
 
 .org-column {
-    width: 5rem;
+  width: 5rem;
 }
 
 .rooms-column, .teachers-column, .name-column {
-    min-width: 15rem;
+  min-width: 15rem;
 }
 
 /******************************************************************************/
 /* Styles for Monitor                                                         */
 /******************************************************************************/
 .display-events {
-    font-family: 'THM-Medium', Verdana, Arial;
-    margin: auto 0;
-    line-height: normal;
-    color: #4a5c66;
-    /************** header *********************************************/
-    /******************** content **********************************/
+  font-family: 'THM-Medium', Verdana, Arial;
+  margin: auto 0;
+  line-height: normal;
+  color: #4a5c66;
+  /************** header *********************************************/
+  /******************** content **********************************/
 }
 
 .display-events .event-date-head, .display-events table thead tr th {
-    background-color: #405e9a;
-    color: white;
+  background-color: #405e9a;
+  color: white;
 }
 
 .display-events .head {
-    padding: 3em 48px;
-    border-bottom: 1px solid #ECECEC;
-    box-shadow: 0 5px 3px #888888;
-    margin-bottom: 10px;
-    position: relative;
+  padding: 3em 48px;
+  border-bottom: 1px solid #ECECEC;
+  box-shadow: 0 5px 3px #888888;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 .display-events .thm-logo {
-    padding-top: 5px;
-    width: 210px;
-    float: left;
+  padding-top: 5px;
+  width: 210px;
+  float: left;
 }
 
 .display-events .thm-logo img {
-    width: 210px;
-    height: 69px;
+  width: 210px;
+  height: 69px;
 }
 
 .display-events .room-name {
-    text-align: center;
-    font-size: 95px;
-    font-weight: bold;
-    line-height: 72px;
-    margin: 0 205px 0 210px;
+  text-align: center;
+  font-size: 95px;
+  font-weight: bold;
+  line-height: 72px;
+  margin: 0 205px 0 210px;
 }
 
 .display-events .date-info {
-    text-align: right;
-    color: #80ba24;
-    font-weight: bold;
-    font-size: 250%;
-    position: absolute;
-    bottom: 39px;
-    right: 48px;
+  text-align: right;
+  color: #80ba24;
+  font-weight: bold;
+  font-size: 250%;
+  position: absolute;
+  bottom: 39px;
+  right: 48px;
 }
 
 .display-events .display-area {
-    margin: 0 48px;
-    text-align: center;
+  margin: 0 48px;
+  text-align: center;
 }
 
 .display-events .display-area .exp-text {
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 10px 0;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 10px 0;
 }
 
 .display-events .display-area .event-date-head {
-    border: 1px solid #405e9a;
-    font-size: 2rem;
-    position: relative;
-    left: -1px;
+  border: 1px solid #405e9a;
+  font-size: 2rem;
+  position: relative;
+  left: -1px;
 }
 
 .display-events .display-area .event-date-head span {
-    margin-left: 7rem;
-    width: calc(100% - 7rem);
+  margin-left: 7rem;
+  width: calc(100% - 7rem);
 }
 
 .display-events .display-area .row1 {
-    background-color: #f2f5f6;
+  background-color: #f2f5f6;
 }
 
 .display-events .display-area .event-times, .display-events .display-area .event-main {
-    display: inline-block;
-    float: left;
-    height: 100%;
-    text-align: center;
-    vertical-align: middle;
+  display: inline-block;
+  float: left;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .display-events .display-area .event-times {
-    font-size: 2.1rem;
-    padding: 1rem 0;
-    width: 7rem;
+  font-size: 2.1rem;
+  padding: 1rem 0;
+  width: 7rem;
 }
 
 .display-events .display-area .event-main {
-    width: calc(100% - 7rem);
+  width: calc(100% - 7rem);
 }
 
 .display-events .display-area .event-names, .display-events .display-area .event-teachers, .display-events .display-area .event-comment {
-    padding-top: .5rem;
+  padding-top: .5rem;
 }
 
 .display-events .display-area .event-names {
-    font-size: 2.6rem;
-    font-weight: bold;
+  font-size: 2.6rem;
+  font-weight: bold;
 }
 
 .display-events .display-area .event-names.fluffy {
-    padding-top: 1.2rem;
+  padding-top: 1.2rem;
 }
 
 .display-events .display-area .event-teachers {
-    font-size: 2.1rem;
+  font-size: 2.1rem;
 }
 
 .display-events .display-area .event-comment {
-    font-size: 1.5rem;
-    padding-bottom: .5rem;
+  font-size: 1.5rem;
+  padding-bottom: .5rem;
 }

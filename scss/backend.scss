@@ -1,17 +1,13 @@
-//Hier unterteilte Hauptabschnitte: Navigation, Hauptbereich, Toolbar -> Neu/Bearbeiten
+//Here divided main sections: navigation, content, toolbar -> new/edit
 @import 'variables';
 @import 'mixins';
 @import 'icons';
 
 //********************************************************************************************************************//
-// Navigation anpassen
+// adjusting navigation
 //********************************************************************************************************************//
-.nav-list li.active a, .dropdown-submenu:hover > a[href*="option=com_thm_organizer"], #menu-com-thm-organizer a:hover {
-  @include linearGradient($gr-color-top-item, $gr-color-bottom-item);
-}
-
 .sidebar-nav {
-  font-color: $font-color;
+  color: $font-color;
 }
 
 .menu-spacer {
@@ -31,15 +27,14 @@
 .action-group {
   h1, h2, h3, h4, h5, h6 {
     background-color: $background-navigation-color;
-    font-color: $font-color;
+    color: $font-color;
     font-size: 1.3rem;
     margin: .5rem 0;
     padding: .5rem;
   }
 }
 
-
-.action-item{
+.action-item {
 
   font-size: 1.1rem;
   margin: 0 0 .5rem .5rem;
@@ -54,60 +49,64 @@
 }
 
 //********************************************************************************************************************//
-// Hauptbereich anpassen
+// adjusting content
 //********************************************************************************************************************//
 
-// Filterüberschrift im Tabellenkopf und Filter im Search-Bereich anpassen
+// adjusting filter-header in table head and filters in search-area
 //********************************************************************************************************************//
 .searchArea a, thead a {
   color: $background-grey;
+
   &:hover {
     color: $thm;
   }
 }
 
-// Filterbreite anpassen, ohne: von chosen festgelegt
+.js-stools-container-bar {
+  margin-bottom: 0.3rem;
+}
+
+// adjusting width of filters, overwriting styles of chosen
 .js-stools-field-filter, .js-stools-field-list {
+  display: inline-block;
   max-width: 200px;
+
   select {
     width: auto;
   }
 
-
   span {
-    overflow: hidden !important; // sonst von jquery.searchtools.css überschrieben
+    // needed to overwrite styles from jquery.searchtools.css
+    overflow: hidden !important;
   }
 }
 
-// Tabelle anpassen
+.chzn-container {
+  max-width: inherit;
+}
+
+// adjusting tables
 //********************************************************************************************************************//
 .table-striped {
   margin-top: 7px;
   border-collapse: separate;
   border-top: 1px solid #bbb;
   @include border-radius(3px 3px 0 0);
+
+  // needed here to overwrite template
+  th:not(:first-child) {
+    padding-left: 0.2rem;
+  }
 }
 
-// Tabellenkopf (thead) anpassen *************************************************************************************//
+// adjusting table-head **********************************************************************************************//
 thead {
   color: $background-grey;
 }
 
-tr:nth-child(1) th {
-  @include linearGradient($gr-color-bottom-bg, $gr-color-top-bg);
-  padding-top: 5px;
-  padding-bottom: 2px;
-  padding-left: 1px;
-  &:first-child {
-    @include border-radius(3px 0 0 0);
-  }
+th {
+  background: $bg-table-head;
 
-  &:last-child {
-    @include border-radius(0 3px 0 0);
-  }
-}
-
-tr:nth-child(n+1) th {
   &:first-child {
     border-left: 1px solid #bbb;
   }
@@ -117,32 +116,41 @@ tr:nth-child(n+1) th {
   }
 }
 
-tr:nth-last-child(1) th {
-  @include linearGradient($gr-color-top-bg, $gr-color-bottom-bg);
-  padding-top: 0;
-  padding-left: 0;
-  border: none;
+tr:nth-child(1):not(:only-child) th {
+  padding-bottom: 0;
+
+  &:first-child {
+    span {
+      margin-left: 0.2rem;
+    }
+  }
+}
+
+tr:nth-last-child(1):not(:first-child) th {
+  border-top: none;
   border-bottom: 1px solid #bbb;
+  padding-top: 0.1rem;
+}
+
+tr:nth-last-child(1) th {
   &:first-child {
     border-bottom-left-radius: 3px;
-    padding-left: 8px;
   }
-
   &:last-child {
     border-bottom-right-radius: 3px;
   }
 }
 
-// Tabellenkörper (tbody) anpassen  **********************************************************************************//
+// adjusting table body **********************************************************************************************//
 tbody tr:first-child td {
   border-top-style: none;
 }
 
 //********************************************************************************************************************//
-// Toolbar -> Neu/Bearbeiten
+// toolbar -> new/edit
 //********************************************************************************************************************//
 
-// Style fuer Datei-Upload anpassen , nur in Chrome notwendig (Vergleich mit Firefox,IE)
+// adjusting style for file upload. Just needed for Chrome (Comparing with Firefox,IE)
 // beispielsweise in Stundenpläne -> Neu
 //********************************************************************************************************************//
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -152,8 +160,13 @@ tbody tr:first-child td {
   }
 }
 
-// Mapping anpassen
-// Modulpool bearbeiten -> Studiengänge & Modulpools
+// view=**_edit
+.chzn-container-multi .chzn-choices li {
+  float: none;
+}
+
+// adjusting mapping
+// -> edit Subject Pools(Modulpool) -> Degree Programs and Module Pools (Studiengänge & Modulpools)
 //********************************************************************************************************************//
 #mapping, #mappings {
   @media (min-width: 768px) {
@@ -176,28 +189,6 @@ tbody tr:first-child td {
     .control-group:nth-of-type(3) {
       clear: both;
     }
-  }
-
-  .chzn-container-multi .chzn-choices li {
-    float: none;
-    margin-right: 5px;
-    margin-top: 5px;
-  }
-
-  .search-choice {
-    border: 1px solid #bbb;
-    @include linearGradient(#ffffff, #f4f4f4);
-    line-height: 14px;
-  }
-
-  .chzn-choices {
-    @include linearGradient($gr-color-top-bg, $gr-color-bottom-bg);
-    border: 1px solid #bbb;
-    @include border-radius(3px);
-  }
-
-  .highlighted {
-    @include linearGradient($gr-color-top-item, $gr-color-bottom-item);
   }
 
   table {
@@ -235,7 +226,7 @@ tbody tr:first-child td {
 }
 
 //********************************************************************************************************************//
-// Media Queries for Tables in Backend
+// Media Queries for tables in Backend
 //********************************************************************************************************************//
 
 // for phone
@@ -265,5 +256,12 @@ tbody tr:first-child td {
   // for all tables. Hide the last columns from the fifth column, so four columns are displayed
   .table-striped {
     @include hideColumns(5);
+  }
+}
+
+// just for monitor-edit
+.view-monitor_edit {
+  .form-horizontal .controls {
+    margin-left: 190px;
   }
 }

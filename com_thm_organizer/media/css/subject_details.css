@@ -1,61 +1,61 @@
 div.language-switches a {
-    color: #394a59;
+  color: #394a59;
 }
 
 div.language-switches a :hover {
-    color: #394a59;
+  color: #394a59;
 }
 
 div.language-switches a img {
-    margin-bottom: -2px;
-    margin-right: 5px;
+  margin-bottom: -2px;
+  margin-right: 5px;
 }
 
 div.legal-disclaimer {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 div.legal-disclaimer li {
-    font-size: .8rem;
-    font-style: italic;
+  font-size: .8rem;
+  font-style: italic;
 }
 
 .toolbar {
-    position: relative;
-    float: right;
+  position: relative;
+  float: right;
 }
 
 .tool-wrapper {
-    display: inline-block;
-    margin-right: 5px;
+  display: inline-block;
+  margin-right: 5px;
 }
 
 .tool-wrapper a, .tool-wrapper button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .tool-wrapper img {
-    padding-top: 2px;
+  padding-top: 2px;
 }
 
 .subject-item {
-    clear: both;
-    overflow: auto;
-    padding: 10px 10px;
-    margin: 2px 0;
-    border-bottom: 1px solid rgba(164, 176, 187, 0.5);
+  clear: both;
+  overflow: auto;
+  padding: 10px 10px;
+  margin: 2px 0;
+  border-bottom: 1px solid rgba(164, 176, 187, 0.5);
 }
 
 .subject-label {
-    color: #3d494f;
-    float: left;
-    font-weight: bold;
-    padding-right: 20px;
-    width: 18%;
+  color: #3d494f;
+  float: left;
+  font-weight: bold;
+  padding-right: 20px;
+  width: 18%;
 }
 
 .subject-content {
-    margin-left: 10px;
-    float: left;
-    width: 79%;
+  margin-left: 10px;
+  float: left;
+  width: 79%;
 }
