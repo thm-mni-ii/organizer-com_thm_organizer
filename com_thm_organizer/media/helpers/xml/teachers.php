@@ -148,9 +148,6 @@ class THM_OrganizerHelperXMLTeachers
 		$invalidFieldID = (empty($fieldID) OR empty($scheduleModel->schedule->fields->$fieldID));
 		if ($invalidFieldID)
 		{
-			$scheduleModel->scheduleWarnings['TEACHER-FIELD']
-				                                                        = empty($scheduleModel->scheduleWarnings['TEACHER-FIELD']) ?
-				1 : $scheduleModel->scheduleWarnings['TEACHER-FIELD'] + 1;
 			$scheduleModel->newSchedule->teachers->$teacherID->description = '';
 			$scheduleModel->newSchedule->teachers->$teacherID->fieldID     = '';
 

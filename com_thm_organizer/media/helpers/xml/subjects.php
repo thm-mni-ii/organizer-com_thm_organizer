@@ -185,8 +185,6 @@ class THM_OrganizerHelperXMLSubjects
 
 		if ($invalidField)
 		{
-			$scheduleModel->scheduleWarnings['SUBJECT-FIELD']                 = empty($scheduleModel->scheduleWarnings['SUBJECT-FIELD']) ?
-				1 : $scheduleModel->scheduleWarnings['SUBJECT-FIELD'] + 1;
 			$scheduleModel->newSchedule->subjects->$subjectIndex->description = '';
 
 			return;
