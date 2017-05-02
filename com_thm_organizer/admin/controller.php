@@ -442,15 +442,25 @@ class THM_OrganizerController extends JControllerLegacy
 			$form      = JFactory::getApplication()->input->files->get('jform', array(), 'array');
 			$file      = $form['file'];
 			$validType = (!empty($file['type']) AND $file['type'] == 'text/xml');
+
 			if ($validType)
 			{
-				$success = $model->upload();
-				$view    = $success ? 'manager' : 'edit';
+				if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8')
+				{
+					$success = $model->upload();
+					$view    = $success ? 'manager' : 'edit';
+				}
+				else
+				{
+					$view = 'edit';
+					$msg  = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING");
+				}
+
 			}
 			else
 			{
 				$view = 'edit';
-				$msg  = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILETYPE");
+				$msg  = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE");
 			}
 		}
 		else
