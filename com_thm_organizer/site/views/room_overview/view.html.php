@@ -77,8 +77,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 
 		$format                = JFactory::getApplication()->getParams()->get('dateFormat');
 		$jsFormat              = preg_replace('/[a-zA-Z]/', '%$0', $format);
-		$rawCalendar           = JHtml::calendar($this->state->get('date'), 'jform[date]', 'date', $jsFormat);
-		$this->filters['date'] = strip_tags($rawCalendar, '<input><button><span>');
+		$this->filters['date'] = JHtml::calendar($this->state->get('date'), 'jform[date]', 'date', $jsFormat);
 
 		$attribs        = array(
 			'class'    => 'room-select',
