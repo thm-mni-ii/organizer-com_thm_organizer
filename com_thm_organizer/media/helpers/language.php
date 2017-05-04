@@ -94,6 +94,7 @@ class THM_OrganizerHelperLanguage
 		if (!empty($menu))
 		{
 			$initialLanguage = $menu->params->get('initialLanguage', 'de');
+
 			if (!empty($initialLanguage))
 			{
 				return $initialLanguage;
@@ -105,7 +106,6 @@ class THM_OrganizerHelperLanguage
 
 		return $tagParts[0];
 	}
-
 
 	/**
 	 * Sets the language to the one requested. This can only be called after getLanguage().
@@ -129,57 +129,22 @@ class THM_OrganizerHelperLanguage
 
 		$languageSwitches   = array();
 		$current            = empty($requested) ? self::getShortTag() : $requested;
-		$supportedLanguages = array('en', 'de');
-		$submit             = !empty($params['form']);
-		foreach ($supportedLanguages AS $supported)
+		$supportedLanguages = array('en' => 'COM_THM_ORGANIZER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_GERMAN');
+
+		foreach ($supportedLanguages AS $tag => $constant)
 		{
-			if ($current != $supported)
+			if ($current != $tag)
 			{
-				$params['languageTag'] = $supported;
-				$url                   = 'index.php?' . JUri::buildQuery($params);
-				$languageSwitches[]    = $submit ? self::languageSwitch($supported) : self::languageLink($url, $supported);
+				$params['languageTag'] = $tag;
+
+				$js = 'onclick="$(\'#languageTag\').val(\'' . $tag . '\');$(\'#adminForm\').submit();"';
+				$url = 'href="index.php?' . JUri::buildQuery($params) . '"';
+				$mechanism = !empty($params['form']) ? $js : $url;
+				$switch    = '<a ' . $mechanism . '"><span class="icon-world"></span> ' . self::getLanguage()->_($constant) . '</a>';
+				$languageSwitches[]    = $switch;
 			}
 		}
 
 		return $languageSwitches;
-	}
-
-	/**
-	 * Method to link another language
-	 *
-	 * @param string $newLanguage the target language for the switch
-	 *
-	 * @return  string  a HTML anchor tag with the appropriate information
-	 */
-	private static function languageSwitch($newLanguage)
-	{
-		$constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
-		$imgPath   = JUri::root() . "/templates/thm/images/assets/icon_earth.jpg";
-		$switch    = '<a onclick="$(\'#languageTag\').val(\'' . $newLanguage . '\');$(\'#adminForm\').submit();">';
-		$switch .= '<img class="flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
-		$switch .= JText::_($constants[$newLanguage]);
-		$switch .= '</a>';
-
-		return $switch;
-	}
-
-	/**
-	 * Method to link another language
-	 *
-	 * @param string $url         the base url
-	 * @param string $newLanguage the target language for the switch
-	 *
-	 * @return  string  a HTML anchor tag with the appropriate information
-	 */
-	private static function languageLink($url, $newLanguage)
-	{
-		$constants = array('en' => 'COM_THM_ORGANIZER_FILTER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_FILTER_GERMAN');
-		$imgPath   = JUri::root() . "/templates/thm/images/assets/icon_earth.jpg";
-		$switch    = '<a href="' . JRoute::_($url) . '">';
-		$switch .= '<img class="flag ' . $newLanguage . '" alt="' . $newLanguage . '" src="' . $imgPath . '" />';
-		$switch .= JText::_($constants[$newLanguage]);
-		$switch .= '</a>';
-
-		return $switch;
 	}
 }

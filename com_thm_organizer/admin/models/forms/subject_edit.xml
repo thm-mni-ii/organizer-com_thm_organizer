@@ -38,8 +38,8 @@
                label="COM_THM_ORGANIZER_INSTRUCTION_LANGUAGE"
                description="COM_THM_ORGANIZER_INSTRUCTION_LANGUAGE_DESC"
                default="D">
-            <option value="D">COM_THM_ORGANIZER_FILTER_GERMAN</option>
-            <option value="E">COM_THM_ORGANIZER_FILTER_ENGLISH</option>
+            <option value="D">COM_THM_ORGANIZER_GERMAN</option>
+            <option value="E">COM_THM_ORGANIZER_ENGLISH</option>
         </field>
         <field name="frequencyID"
                type="list"
