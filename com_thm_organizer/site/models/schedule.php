@@ -185,28 +185,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$setTitle = empty($this->displayName);
 
 		// Explicit setting of resources is done in the priority of resource type and is mutually exclusive
-		if ($this->params['showPrograms'])
-		{
-			$this->setResourceArray('program');
-		}
-
-		if (!empty($this->params['programIDs']))
-		{
-			$this->params['showRooms']     = 0;
-			$this->params['showRoomTypes'] = 0;
-			$this->params['showTeachers']  = 0;
-
-			if (count($this->params['programIDs']) === 1 AND $setTitle)
-			{
-				/** @noinspection PhpIncludeInspection */
-				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
-				$this->displayName .= THM_OrganizerHelperPrograms::getName($this->params['programIDs'][0], 'plan');
-				$this->params['displayName'] = $this->displayName;
-			}
-
-			return;
-		}
-
 		if ($this->params['showPools'])
 		{
 			$this->setResourceArray('pool');
@@ -224,6 +202,29 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 				$this->displayName .= THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
+			}
+
+			return;
+		}
+
+		if ($this->params['showTeachers'])
+		{
+			$this->setResourceArray('teacher');
+		}
+
+		if (!empty($this->params['teacherIDs']))
+		{
+			$this->params['showPools']     = 0;
+			$this->params['showPrograms']  = 0;
+			$this->params['showRooms']     = 0;
+			$this->params['showRoomTypes'] = 0;
+
+			if (count($this->params['teacherIDs']) === 1 AND $setTitle)
+			{
+				/** @noinspection PhpIncludeInspection */
+				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
+				$this->displayName .= THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
 				$this->params['displayName'] = $this->displayName;
 			}
 
@@ -276,23 +277,23 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			return;
 		}
 
-		if ($this->params['showTeachers'])
+		// program as the last setting, because the others lead directly to a schedule and program is just a form value
+		if ($this->params['showPrograms'])
 		{
-			$this->setResourceArray('teacher');
+			$this->setResourceArray('program');
 		}
 
-		if (!empty($this->params['teacherIDs']))
+		if (!empty($this->params['programIDs']))
 		{
-			$this->params['showPools']     = 0;
-			$this->params['showPrograms']  = 0;
 			$this->params['showRooms']     = 0;
 			$this->params['showRoomTypes'] = 0;
+			$this->params['showTeachers']  = 0;
 
-			if (count($this->params['teacherIDs']) === 1 AND $setTitle)
+			if (count($this->params['programIDs']) === 1 AND $setTitle)
 			{
 				/** @noinspection PhpIncludeInspection */
-				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
-				$this->displayName .= THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
+				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
+				$this->displayName .= THM_OrganizerHelperPrograms::getName($this->params['programIDs'][0], 'plan');
 				$this->params['displayName'] = $this->displayName;
 			}
 

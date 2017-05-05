@@ -13,24 +13,19 @@
     <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic">
             <field name="departmentID"
-                   type="genericlist"
-                   localized="true"
-                   valuecolumn="id"
-                   textcolumn="short_name"
-                   table="thm_organizer_departments"
+                   type="departmentlist"
                    label="COM_THM_ORGANIZER_DEPARTMENT"
-                   description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-                   required="true">
+                   description="COM_THM_ORGANIZER_DEPARTMENT_DESC">
                 <option value="0">JALL</option>
             </field>
-            <field name="programIDs"
+            <field name="programID"
                    type="genericlist"
                    valuecolumn="id"
                    textcolumn="name"
                    table="thm_organizer_plan_programs"
                    label="COM_THM_ORGANIZER_PROGRAMS"
                    description="COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC">
-                <option value="">COM_THM_ORGANIZER_FILTER_ALL_PROGRAMS</option>
+                <option value="">JALL</option>
             </field>
             <field name="poolIDs"
                    type="genericlist"
@@ -40,7 +35,7 @@
                    label="COM_THM_ORGANIZER_POOLS"
                    description="COM_THM_ORGANIZER_POOLS_EXPORT_DESC"
                    multiple="true">
-                <option value="">COM_THM_ORGANIZER_FILTER_ALL_POOLS</option>
+                <option value="">JALL</option>
             </field>
             <field name="roomIDs"
                    type="genericlist"
@@ -50,7 +45,7 @@
                    label="COM_THM_ORGANIZER_ROOMS"
                    description="COM_THM_ORGANIZER_ROOMS_DESC"
                    multiple="true">
-                <option value="">COM_THM_ORGANIZER_FILTER_ALL_ROOMS</option>
+                <option value="">JALL</option>
             </field>
             <field name="teacherIDs"
                    type="genericlist"
@@ -60,7 +55,7 @@
                    label="COM_THM_ORGANIZER_TEACHER"
                    description="COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC"
                    multiple="true">
-                <option value="">COM_THM_ORGANIZER_FILTER_ALL_TEACHERS</option>
+                <option value="">JALL</option>
             </field>
             <field name="deltaDays"
                    type="integer"
