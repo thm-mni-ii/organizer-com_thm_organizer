@@ -1,0 +1,9094 @@
+{
+  "creationDate": "2017-05-24",
+  "creationTime": "135403",
+  "departmentname": "MUK",
+  "semestername": "SS",
+  "departmentID": "8",
+  "startDate": "2017-04-03",
+  "endDate": "2017-10-01",
+  "planningPeriodID": "5",
+  "calendar": {
+    "2017-04-28": {
+      "1730-1900": {
+        "41": {
+          "delta": "",
+          "configurations": [
+            0
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-05-12": {
+      "1730-1900": {
+        "41": {
+          "delta": "",
+          "configurations": [
+            0
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "415": {
+          "delta": "",
+          "configurations": [
+            84
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "415": {
+          "delta": "",
+          "configurations": [
+            84
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "415": {
+          "delta": "",
+          "configurations": [
+            84
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "415": {
+          "delta": "",
+          "configurations": [
+            84
+          ]
+        }
+      }
+    },
+    "2017-05-26": {
+      "1730-1900": {
+        "41": {
+          "delta": "",
+          "configurations": [
+            0
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-06-23": {
+      "1730-1900": {
+        "41": {
+          "delta": "",
+          "configurations": [
+            0
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-07-07": {
+      "1730-1900": {
+        "41": {
+          "delta": "",
+          "configurations": [
+            0
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-04-10": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-04-24": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-05-08": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-05-15": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-05-22": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        },
+        "418": {
+          "delta": "",
+          "configurations": [
+            87
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        },
+        "418": {
+          "delta": "",
+          "configurations": [
+            87
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "418": {
+          "delta": "",
+          "configurations": [
+            87
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "1730-1900": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        }
+      }
+    },
+    "2017-06-12": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-06-19": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-06-26": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-07-03": {
+      "1400-1530": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1545-1715": {
+        "57": {
+          "delta": "",
+          "configurations": [
+            5
+          ]
+        },
+        "323": {
+          "delta": "",
+          "configurations": [
+            39
+          ]
+        },
+        "331": {
+          "delta": "",
+          "configurations": [
+            45
+          ]
+        }
+      },
+      "1130-1300": {
+        "142": {
+          "delta": "",
+          "configurations": [
+            13
+          ]
+        },
+        "151": {
+          "delta": "",
+          "configurations": [
+            20
+          ]
+        },
+        "152": {
+          "delta": "",
+          "configurations": [
+            23
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      },
+      "0800-0930": {
+        "149": {
+          "delta": "",
+          "configurations": [
+            18
+          ]
+        },
+        "315": {
+          "delta": "",
+          "configurations": [
+            36
+          ]
+        }
+      },
+      "0950-1120": {
+        "314": {
+          "delta": "",
+          "configurations": [
+            35
+          ]
+        },
+        "429": {
+          "delta": "",
+          "configurations": [
+            97
+          ]
+        }
+      }
+    },
+    "2017-04-18": {
+      "1545-1715": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        }
+      },
+      "1730-1900": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "0800-0930": {
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      }
+    },
+    "2017-04-25": {
+      "1545-1715": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        }
+      },
+      "1730-1900": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      }
+    },
+    "2017-05-02": {
+      "1545-1715": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        },
+        "383": {
+          "delta": "",
+          "configurations": [
+            64
+          ]
+        }
+      },
+      "1730-1900": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        },
+        "383": {
+          "delta": "",
+          "configurations": [
+            64
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      }
+    },
+    "2017-05-09": {
+      "1545-1715": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        },
+        "380": {
+          "delta": "",
+          "configurations": [
+            61
+          ]
+        },
+        "381": {
+          "delta": "",
+          "configurations": [
+            62
+          ]
+        }
+      },
+      "1730-1900": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        },
+        "381": {
+          "delta": "",
+          "configurations": [
+            62
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        },
+        "380": {
+          "delta": "",
+          "configurations": [
+            61
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      }
+    },
+    "2017-05-16": {
+      "1545-1715": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        },
+        "413": {
+          "delta": "",
+          "configurations": [
+            83
+          ]
+        }
+      },
+      "1730-1900": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        },
+        "413": {
+          "delta": "",
+          "configurations": [
+            83
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      }
+    },
+    "2017-06-06": {
+      "1545-1715": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        }
+      },
+      "1730-1900": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      }
+    },
+    "2017-06-13": {
+      "1545-1715": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        },
+        "413": {
+          "delta": "",
+          "configurations": [
+            83
+          ]
+        }
+      },
+      "1730-1900": {
+        "156": {
+          "delta": "",
+          "configurations": [
+            6
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        },
+        "413": {
+          "delta": "",
+          "configurations": [
+            83
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "0800-0930": {
+        "389": {
+          "delta": "",
+          "configurations": [
+            68
+          ]
+        }
+      }
+    },
+    "2017-04-22": {
+      "0800-0930": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "375": {
+          "delta": "",
+          "configurations": [
+            60
+          ]
+        }
+      },
+      "0950-1120": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "375": {
+          "delta": "",
+          "configurations": [
+            60
+          ]
+        }
+      },
+      "1130-1300": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "375": {
+          "delta": "",
+          "configurations": [
+            60
+          ]
+        }
+      },
+      "1400-1530": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "375": {
+          "delta": "",
+          "configurations": [
+            60
+          ]
+        }
+      },
+      "1545-1715": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "375": {
+          "delta": "",
+          "configurations": [
+            60
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "375": {
+          "delta": "",
+          "configurations": [
+            60
+          ]
+        }
+      }
+    },
+    "2017-05-13": {
+      "0800-0930": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-06-10": {
+      "0800-0930": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "411": {
+          "delta": "",
+          "configurations": [
+            81
+          ]
+        }
+      },
+      "0950-1120": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "411": {
+          "delta": "",
+          "configurations": [
+            81
+          ]
+        }
+      },
+      "1130-1300": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "411": {
+          "delta": "",
+          "configurations": [
+            81
+          ]
+        }
+      },
+      "1400-1530": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "411": {
+          "delta": "",
+          "configurations": [
+            81
+          ]
+        }
+      },
+      "1545-1715": {
+        "73": {
+          "delta": "",
+          "configurations": [
+            7
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "411": {
+          "delta": "",
+          "configurations": [
+            81
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-04-07": {
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        }
+      },
+      "0800-0930": {
+        "355": {
+          "delta": "",
+          "configurations": [
+            55
+          ]
+        }
+      }
+    },
+    "2017-04-21": {
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-05-05": {
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-05-19": {
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "417": {
+          "delta": "",
+          "configurations": [
+            86
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "417": {
+          "delta": "",
+          "configurations": [
+            86
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "417": {
+          "delta": "",
+          "configurations": [
+            86
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-06-09": {
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-06-16": {
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-06-30": {
+      "1130-1300": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "136": {
+          "delta": "",
+          "configurations": [
+            8
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "139": {
+          "delta": "",
+          "configurations": [
+            11
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0800-0930": {
+        "143": {
+          "delta": "",
+          "configurations": [
+            14
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-04-11": {
+      "1545-1715": {
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        },
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      },
+      "1730-1900": {
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      },
+      "0800-0930": {
+        "347": {
+          "delta": "",
+          "configurations": [
+            51
+          ]
+        }
+      }
+    },
+    "2017-05-23": {
+      "1545-1715": {
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        },
+        "413": {
+          "delta": "",
+          "configurations": [
+            83
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "413": {
+          "delta": "",
+          "configurations": [
+            83
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "0800-0930": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        }
+      },
+      "1730-1900": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      }
+    },
+    "2017-06-20": {
+      "1545-1715": {
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1730-1900": {
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      }
+    },
+    "2017-06-27": {
+      "1545-1715": {
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1730-1900": {
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      }
+    },
+    "2017-07-04": {
+      "1545-1715": {
+        "137": {
+          "delta": "",
+          "configurations": [
+            9
+          ]
+        },
+        "344": {
+          "delta": "",
+          "configurations": [
+            48
+          ]
+        },
+        "353": {
+          "delta": "",
+          "configurations": [
+            53
+          ]
+        }
+      },
+      "1400-1530": {
+        "144": {
+          "delta": "",
+          "configurations": [
+            15
+          ]
+        },
+        "155": {
+          "delta": "",
+          "configurations": [
+            22
+          ]
+        },
+        "165": {
+          "delta": "",
+          "configurations": [
+            24
+          ]
+        }
+      },
+      "0950-1120": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1130-1300": {
+        "147": {
+          "delta": "",
+          "configurations": [
+            17
+          ]
+        },
+        "324": {
+          "delta": "",
+          "configurations": [
+            40
+          ]
+        },
+        "330": {
+          "delta": "",
+          "configurations": [
+            44
+          ]
+        }
+      },
+      "1730-1900": {
+        "345": {
+          "delta": "",
+          "configurations": [
+            49
+          ]
+        }
+      }
+    },
+    "2017-04-12": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      }
+    },
+    "2017-04-19": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        },
+        "377": {
+          "delta": "",
+          "configurations": [
+            65
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      },
+      "1730-1900": {
+        "377": {
+          "delta": "",
+          "configurations": [
+            65
+          ]
+        }
+      }
+    },
+    "2017-04-26": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "378": {
+          "delta": "",
+          "configurations": [
+            66
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      },
+      "1730-1900": {
+        "378": {
+          "delta": "",
+          "configurations": [
+            66
+          ]
+        }
+      }
+    },
+    "2017-05-03": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        },
+        "383": {
+          "delta": "",
+          "configurations": [
+            64
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        },
+        "382": {
+          "delta": "",
+          "configurations": [
+            63
+          ]
+        },
+        "383": {
+          "delta": "",
+          "configurations": [
+            64
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        },
+        "383": {
+          "delta": "",
+          "configurations": [
+            64
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "328": {
+          "delta": "",
+          "configurations": [
+            42
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "382": {
+          "delta": "",
+          "configurations": [
+            63
+          ]
+        },
+        "383": {
+          "delta": "",
+          "configurations": [
+            64
+          ]
+        }
+      }
+    },
+    "2017-05-10": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      }
+    },
+    "2017-05-17": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "416": {
+          "delta": "",
+          "configurations": [
+            85
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        },
+        "417": {
+          "delta": "",
+          "configurations": [
+            86
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        },
+        "417": {
+          "delta": "",
+          "configurations": [
+            86
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "416": {
+          "delta": "",
+          "configurations": [
+            85
+          ]
+        }
+      }
+    },
+    "2017-05-24": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "356": {
+          "delta": "",
+          "configurations": [
+            56
+          ]
+        }
+      },
+      "1130-1300": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      },
+      "1730-1900": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        }
+      }
+    },
+    "2017-06-07": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      }
+    },
+    "2017-06-14": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        },
+        "422": {
+          "delta": "",
+          "configurations": [
+            91
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "410": {
+          "delta": "",
+          "configurations": [
+            80
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "410": {
+          "delta": "",
+          "configurations": [
+            80
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      }
+    },
+    "2017-06-21": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        },
+        "422": {
+          "delta": "",
+          "configurations": [
+            91
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "422": {
+          "delta": "",
+          "configurations": [
+            92
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "422": {
+          "delta": "",
+          "configurations": [
+            92
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      }
+    },
+    "2017-06-28": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      }
+    },
+    "2017-07-05": {
+      "0950-1120": {
+        "138": {
+          "delta": "",
+          "configurations": [
+            10
+          ]
+        },
+        "141": {
+          "delta": "",
+          "configurations": [
+            12
+          ]
+        },
+        "153": {
+          "delta": "",
+          "configurations": [
+            21
+          ]
+        },
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        }
+      },
+      "0800-0930": {
+        "145": {
+          "delta": "",
+          "configurations": [
+            16
+          ]
+        },
+        "150": {
+          "delta": "",
+          "configurations": [
+            19
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        },
+        "422": {
+          "delta": "",
+          "configurations": [
+            92
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "422": {
+          "delta": "",
+          "configurations": [
+            92
+          ]
+        }
+      },
+      "1130-1300": {
+        "322": {
+          "delta": "",
+          "configurations": [
+            38
+          ]
+        },
+        "354": {
+          "delta": "",
+          "configurations": [
+            54
+          ]
+        }
+      }
+    },
+    "2017-07-06": {
+      "0800-0930": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        }
+      },
+      "0950-1120": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1400-1530": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "172": {
+          "delta": "",
+          "configurations": [
+            25
+          ]
+        },
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      }
+    },
+    "2017-09-25": {
+      "1000-1159": {
+        "183": {
+          "delta": "",
+          "configurations": [
+            26
+          ]
+        }
+      }
+    },
+    "2017-09-20": {
+      "1000-1159": {
+        "184": {
+          "delta": "",
+          "configurations": [
+            27
+          ]
+        }
+      },
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-09-22": {
+      "1400-1559": {
+        "185": {
+          "delta": "",
+          "configurations": [
+            28
+          ]
+        }
+      },
+      "1000-1159": {
+        "307": {
+          "delta": "",
+          "configurations": [
+            34
+          ]
+        }
+      }
+    },
+    "2017-09-21": {
+      "1000-1159": {
+        "188": {
+          "delta": "",
+          "configurations": [
+            29
+          ]
+        }
+      },
+      "1400-1559": {
+        "406": {
+          "delta": "",
+          "configurations": [
+            77
+          ]
+        }
+      }
+    },
+    "2017-04-05": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-05-31": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "408": {
+          "delta": "",
+          "configurations": [
+            79
+          ]
+        },
+        "427": {
+          "delta": "",
+          "configurations": [
+            96
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        },
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "408": {
+          "delta": "",
+          "configurations": [
+            79
+          ]
+        },
+        "427": {
+          "delta": "",
+          "configurations": [
+            96
+          ]
+        }
+      },
+      "1730-1900": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "427": {
+          "delta": "",
+          "configurations": [
+            96
+          ]
+        }
+      },
+      "0800-0930": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "420": {
+          "delta": "",
+          "configurations": [
+            89
+          ]
+        },
+        "426": {
+          "delta": "",
+          "configurations": [
+            95
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "0950-1120": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "420": {
+          "delta": "",
+          "configurations": [
+            89
+          ]
+        },
+        "426": {
+          "delta": "",
+          "configurations": [
+            95
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1130-1300": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "421": {
+          "delta": "",
+          "configurations": [
+            90
+          ]
+        },
+        "426": {
+          "delta": "",
+          "configurations": [
+            95
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      }
+    },
+    "2017-07-12": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-07-19": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-07-26": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-08-02": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-08-09": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-08-16": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-08-23": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-08-30": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-09-06": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-09-13": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      }
+    },
+    "2017-09-27": {
+      "1400-1530": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1545-1715": {
+        "191": {
+          "delta": "",
+          "configurations": [
+            30
+          ]
+        }
+      },
+      "1000-1159": {
+        "405": {
+          "delta": "",
+          "configurations": [
+            76
+          ]
+        }
+      }
+    },
+    "2017-05-20": {
+      "0800-0930": {
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "252": {
+          "delta": "",
+          "configurations": [
+            31
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-09-26": {
+      "1000-1159": {
+        "272": {
+          "delta": "",
+          "configurations": [
+            32
+          ]
+        }
+      }
+    },
+    "2017-05-27": {
+      "0800-0930": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "288": {
+          "delta": "",
+          "configurations": [
+            33
+          ]
+        },
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-04-13": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "395": {
+          "delta": "",
+          "configurations": [
+            70
+          ]
+        }
+      },
+      "1545-1715": {
+        "395": {
+          "delta": "",
+          "configurations": [
+            70
+          ]
+        }
+      }
+    },
+    "2017-04-20": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "395": {
+          "delta": "",
+          "configurations": [
+            70
+          ]
+        }
+      },
+      "1400-1530": {
+        "366": {
+          "delta": "",
+          "configurations": [
+            58
+          ]
+        }
+      },
+      "1545-1715": {
+        "395": {
+          "delta": "",
+          "configurations": [
+            71
+          ]
+        }
+      }
+    },
+    "2017-04-27": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      },
+      "1400-1530": {
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        },
+        "365": {
+          "delta": "",
+          "configurations": [
+            57
+          ]
+        }
+      }
+    },
+    "2017-05-04": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      },
+      "1400-1530": {
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        },
+        "365": {
+          "delta": "",
+          "configurations": [
+            57
+          ]
+        }
+      }
+    },
+    "2017-05-11": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      },
+      "1400-1530": {
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      }
+    },
+    "2017-05-18": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      },
+      "1400-1530": {
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        },
+        "365": {
+          "delta": "",
+          "configurations": [
+            57
+          ]
+        }
+      }
+    },
+    "2017-06-08": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      },
+      "1400-1530": {
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      }
+    },
+    "2017-06-22": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      },
+      "1400-1530": {
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      }
+    },
+    "2017-06-29": {
+      "0950-1120": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "343": {
+          "delta": "",
+          "configurations": [
+            47
+          ]
+        }
+      },
+      "1130-1300": {
+        "321": {
+          "delta": "",
+          "configurations": [
+            37
+          ]
+        },
+        "329": {
+          "delta": "",
+          "configurations": [
+            43
+          ]
+        },
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      },
+      "1545-1715": {
+        "326": {
+          "delta": "",
+          "configurations": [
+            41
+          ]
+        },
+        "332": {
+          "delta": "",
+          "configurations": [
+            46
+          ]
+        }
+      },
+      "1400-1530": {
+        "351": {
+          "delta": "",
+          "configurations": [
+            52
+          ]
+        }
+      }
+    },
+    "2017-04-29": {
+      "0800-0930": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-05-06": {
+      "0800-0930": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-06-17": {
+      "0800-0930": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "0950-1120": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1130-1300": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1400-1530": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-06-24": {
+      "0800-0930": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "0950-1120": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1130-1300": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1400-1530": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        },
+        "412": {
+          "delta": "",
+          "configurations": [
+            82
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-07-01": {
+      "0800-0930": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-07-08": {
+      "0800-0930": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "0950-1120": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1130-1300": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1400-1530": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1545-1715": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      },
+      "1730-1900": {
+        "346": {
+          "delta": "",
+          "configurations": [
+            50
+          ]
+        }
+      }
+    },
+    "2017-04-06": {
+      "1400-1530": {
+        "355": {
+          "delta": "",
+          "configurations": [
+            55
+          ]
+        }
+      }
+    },
+    "2017-05-29": {
+      "0800-0930": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "425": {
+          "delta": "",
+          "configurations": [
+            94
+          ]
+        }
+      },
+      "0950-1120": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        },
+        "425": {
+          "delta": "",
+          "configurations": [
+            94
+          ]
+        }
+      },
+      "1130-1300": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        },
+        "425": {
+          "delta": "",
+          "configurations": [
+            94
+          ]
+        }
+      },
+      "1400-1530": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        }
+      },
+      "1545-1715": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        }
+      },
+      "1730-1900": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        }
+      }
+    },
+    "2017-05-30": {
+      "0800-0930": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "0950-1120": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1130-1300": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1400-1530": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1545-1715": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "388": {
+          "delta": "",
+          "configurations": [
+            67
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        }
+      },
+      "1730-1900": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "419": {
+          "delta": "",
+          "configurations": [
+            88
+          ]
+        }
+      }
+    },
+    "2017-06-01": {
+      "0800-0930": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "0950-1120": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1130-1300": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1400-1530": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        },
+        "430": {
+          "delta": "",
+          "configurations": [
+            98
+          ]
+        }
+      },
+      "1545-1715": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      },
+      "1730-1900": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      }
+    },
+    "2017-06-02": {
+      "0800-0930": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      },
+      "0950-1120": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      },
+      "1130-1300": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      },
+      "1400-1530": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      },
+      "1545-1715": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      },
+      "1730-1900": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        },
+        "390": {
+          "delta": "",
+          "configurations": [
+            69
+          ]
+        }
+      }
+    },
+    "2017-06-03": {
+      "0800-0930": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        }
+      },
+      "0950-1120": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        }
+      },
+      "1130-1300": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        }
+      },
+      "1400-1530": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        }
+      },
+      "1545-1715": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        }
+      },
+      "1730-1900": {
+        "367": {
+          "delta": "",
+          "configurations": [
+            59
+          ]
+        }
+      }
+    },
+    "2017-07-18": {
+      "1600-1759": {
+        "401": {
+          "delta": "",
+          "configurations": [
+            72
+          ]
+        }
+      }
+    },
+    "2017-07-14": {
+      "1000-1159": {
+        "402": {
+          "delta": "",
+          "configurations": [
+            73
+          ]
+        }
+      }
+    },
+    "2017-07-17": {
+      "1000-1159": {
+        "403": {
+          "delta": "",
+          "configurations": [
+            74
+          ]
+        }
+      }
+    },
+    "2017-07-11": {
+      "1000-1159": {
+        "404": {
+          "delta": "",
+          "configurations": [
+            75
+          ]
+        }
+      }
+    },
+    "2017-09-28": {
+      "1000-1159": {
+        "407": {
+          "delta": "",
+          "configurations": [
+            78
+          ]
+        }
+      }
+    },
+    "2017-07-20": {
+      "0950-1120": {
+        "424": {
+          "delta": "",
+          "configurations": [
+            93
+          ]
+        }
+      },
+      "1130-1300": {
+        "424": {
+          "delta": "",
+          "configurations": [
+            93
+          ]
+        }
+      }
+    }
+  },
+  "configurations": [
+    "{\"lessonID\":\"41\",\"subjectID\":\"1905\",\"teachers\":{\"202\":\"\"},\"rooms\":{\"126\":\"\"}}",
+    "{\"lessonID\":\"41\",\"subjectID\":\"1905\",\"teachers\":{\"202\":\"\"},\"rooms\":{\"126\":\"\"}}",
+    "{\"lessonID\":\"41\",\"subjectID\":\"1905\",\"teachers\":{\"202\":\"\"},\"rooms\":{\"126\":\"\"}}",
+    "{\"lessonID\":\"41\",\"subjectID\":\"1905\",\"teachers\":{\"202\":\"\"},\"rooms\":{\"126\":\"\"}}",
+    "{\"lessonID\":\"41\",\"subjectID\":\"1905\",\"teachers\":{\"202\":\"\"},\"rooms\":{\"126\":\"\"}}",
+    "{\"lessonID\":\"57\",\"subjectID\":\"1886\",\"teachers\":{\"1425\":\"\"},\"rooms\":{\"229\":\"\"}}",
+    "{\"lessonID\":\"156\",\"subjectID\":\"1900\",\"teachers\":{\"34\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"73\",\"subjectID\":\"1917\",\"teachers\":{\"552\":\"\"},\"rooms\":{\"167\":\"\"}}",
+    "{\"lessonID\":\"136\",\"subjectID\":\"1912\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"115\":\"\"}}",
+    "{\"lessonID\":\"137\",\"subjectID\":\"1912\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"23\":\"\"}}",
+    "{\"lessonID\":\"138\",\"subjectID\":\"1912\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"59\":\"\"}}",
+    "{\"lessonID\":\"139\",\"subjectID\":\"1884\",\"teachers\":{\"766\":\"\"},\"rooms\":{\"85\":\"\"}}",
+    "{\"lessonID\":\"141\",\"subjectID\":\"1884\",\"teachers\":{\"1027\":\"\"},\"rooms\":{\"80\":\"\"}}",
+    "{\"lessonID\":\"142\",\"subjectID\":\"1884\",\"teachers\":{\"1027\":\"\"},\"rooms\":{\"229\":\"\"}}",
+    "{\"lessonID\":\"143\",\"subjectID\":\"1884\",\"teachers\":{\"1369\":\"\"},\"rooms\":{\"85\":\"\"}}",
+    "{\"lessonID\":\"144\",\"subjectID\":\"1933\",\"teachers\":{\"1369\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"145\",\"subjectID\":\"1933\",\"teachers\":{\"1369\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"147\",\"subjectID\":\"1893\",\"teachers\":{\"291\":\"\"},\"rooms\":{\"143\":\"\"}}",
+    "{\"lessonID\":\"149\",\"subjectID\":\"1911\",\"teachers\":{\"690\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"150\",\"subjectID\":\"1911\",\"teachers\":{\"690\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"151\",\"subjectID\":\"1911\",\"teachers\":{\"690\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"153\",\"subjectID\":\"1911\",\"teachers\":{\"673\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"155\",\"subjectID\":\"1911\",\"teachers\":{\"673\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"152\",\"subjectID\":\"1911\",\"teachers\":{\"673\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"165\",\"subjectID\":\"1912\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"23\":\"\"}}",
+    "{\"lessonID\":\"172\",\"subjectID\":\"1894\",\"teachers\":{\"291\":\"\"},\"rooms\":{\"409\":\"\"}}",
+    "{\"lessonID\":\"183\",\"subjectID\":\"1883\",\"teachers\":{\"291\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"184\",\"subjectID\":\"1926\",\"teachers\":{\"577\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"185\",\"subjectID\":\"1873\",\"teachers\":{\"673\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"188\",\"subjectID\":\"2207\",\"teachers\":{\"657\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"191\",\"subjectID\":\"1912\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"85\":\"\"}}",
+    "{\"lessonID\":\"252\",\"subjectID\":\"2298\",\"teachers\":{\"202\":\"\"},\"rooms\":{\"239\":\"\"}}",
+    "{\"lessonID\":\"272\",\"subjectID\":\"2206\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"288\",\"subjectID\":\"1896\",\"teachers\":{\"696\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"307\",\"subjectID\":\"1925\",\"teachers\":{\"488\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"314\",\"subjectID\":\"1933\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"143\":\"\"}}",
+    "{\"lessonID\":\"315\",\"subjectID\":\"1933\",\"teachers\":{\"1369\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"321\",\"subjectID\":\"2393\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"322\",\"subjectID\":\"2393\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"323\",\"subjectID\":\"2395\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"324\",\"subjectID\":\"2395\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"326\",\"subjectID\":\"2394\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"1\":\"\"}}",
+    "{\"lessonID\":\"328\",\"subjectID\":\"2390\",\"teachers\":{\"690\":\"\"},\"rooms\":{\"237\":\"\"}}",
+    "{\"lessonID\":\"329\",\"subjectID\":\"2390\",\"teachers\":{\"690\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"330\",\"subjectID\":\"2392\",\"teachers\":{\"673\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"331\",\"subjectID\":\"2392\",\"teachers\":{\"673\":\"\"},\"rooms\":{\"13\":\"\"}}",
+    "{\"lessonID\":\"332\",\"subjectID\":\"2394\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"343\",\"subjectID\":\"1925\",\"teachers\":{\"325\":\"\"},\"rooms\":{\"229\":\"\"}}",
+    "{\"lessonID\":\"344\",\"subjectID\":\"1896\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"345\",\"subjectID\":\"1896\",\"teachers\":{\"696\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"346\",\"subjectID\":\"1876\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"347\",\"subjectID\":\"2307\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"392\":\"\"}}",
+    "{\"lessonID\":\"351\",\"subjectID\":\"2456\",\"teachers\":{\"577\":\"\"},\"rooms\":{\"6\":\"\"}}",
+    "{\"lessonID\":\"353\",\"subjectID\":\"1925\",\"teachers\":{\"488\":\"\"},\"rooms\":{\"6\":\"\"}}",
+    "{\"lessonID\":\"354\",\"subjectID\":\"1885\",\"teachers\":{\"657\":\"\"},\"rooms\":{\"13\":\"\",\"16\":\"\"}}",
+    "{\"lessonID\":\"355\",\"subjectID\":\"1896\",\"teachers\":{\"690\":\"\"},\"rooms\":{\"85\":\"\"}}",
+    "{\"lessonID\":\"356\",\"subjectID\":\"1859\",\"teachers\":{\"34\":\"\"},\"rooms\":{\"37\":\"\"}}",
+    "{\"lessonID\":\"365\",\"subjectID\":\"2394\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"85\":\"\"}}",
+    "{\"lessonID\":\"366\",\"subjectID\":\"2394\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"367\",\"subjectID\":\"2395\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"375\",\"subjectID\":\"2394\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"380\",\"subjectID\":\"2472\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"218\":\"\"}}",
+    "{\"lessonID\":\"381\",\"subjectID\":\"2472\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"392\":\"\"}}",
+    "{\"lessonID\":\"382\",\"subjectID\":\"2472\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"366\":\"\"}}",
+    "{\"lessonID\":\"383\",\"subjectID\":\"2472\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"392\":\"\"}}",
+    "{\"lessonID\":\"377\",\"subjectID\":\"1933\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"127\":\"\"}}",
+    "{\"lessonID\":\"378\",\"subjectID\":\"1933\",\"teachers\":{\"1369\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"388\",\"subjectID\":\"1886\",\"teachers\":{\"1425\":\"\"},\"rooms\":{\"229\":\"\"}}",
+    "{\"lessonID\":\"389\",\"subjectID\":\"2483\",\"teachers\":{\"291\":\"\"},\"rooms\":{\"392\":\"\"}}",
+    "{\"lessonID\":\"390\",\"subjectID\":\"1885\",\"teachers\":{\"657\":\"\"},\"rooms\":{\"453\":\"\"}}",
+    "{\"lessonID\":\"395\",\"subjectID\":\"2456\",\"teachers\":{\"577\":\"\"},\"rooms\":{\"6\":\"\"}}",
+    "{\"lessonID\":\"395\",\"subjectID\":\"2456\",\"teachers\":{\"577\":\"\"},\"rooms\":{\"2\":\"\"}}",
+    "{\"lessonID\":\"401\",\"subjectID\":\"1893\",\"teachers\":{\"291\":\"\"},\"rooms\":{\"405\":\"\"}}",
+    "{\"lessonID\":\"402\",\"subjectID\":\"1884\",\"teachers\":{\"766\":\"\"},\"rooms\":{\"359\":\"\"}}",
+    "{\"lessonID\":\"403\",\"subjectID\":\"1912\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"359\":\"\"}}",
+    "{\"lessonID\":\"404\",\"subjectID\":\"2394\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"405\":\"\"}}",
+    "{\"lessonID\":\"405\",\"subjectID\":\"2215\",\"teachers\":{\"1197\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"406\",\"subjectID\":\"2222\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"366\":\"\"}}",
+    "{\"lessonID\":\"407\",\"subjectID\":\"1938\",\"teachers\":{\"1431\":\"\"},\"rooms\":{\"366\":\"\"}}",
+    "{\"lessonID\":\"408\",\"subjectID\":\"1859\",\"teachers\":{\"34\":\"\"},\"rooms\":{\"37\":\"\"}}",
+    "{\"lessonID\":\"410\",\"subjectID\":\"1921\",\"teachers\":{\"34\":\"\"},\"rooms\":{\"37\":\"\"}}",
+    "{\"lessonID\":\"411\",\"subjectID\":\"1921\",\"teachers\":{\"706\":\"\"},\"rooms\":{\"239\":\"\"}}",
+    "{\"lessonID\":\"412\",\"subjectID\":\"1921\",\"teachers\":{\"34\":\"\"},\"rooms\":{\"366\":\"\"}}",
+    "{\"lessonID\":\"413\",\"subjectID\":\"2392\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"254\":\"\"}}",
+    "{\"lessonID\":\"415\",\"subjectID\":\"2393\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"416\",\"subjectID\":\"2393\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"417\",\"subjectID\":\"2393\",\"teachers\":{\"415\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"418\",\"subjectID\":\"2307\",\"teachers\":{\"696\":\"\"},\"rooms\":{\"392\":\"\"}}",
+    "{\"lessonID\":\"419\",\"subjectID\":\"1933\",\"teachers\":{\"1369\":\"\"},\"rooms\":{\"601\":\"\"}}",
+    "{\"lessonID\":\"420\",\"subjectID\":\"1912\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"85\":\"\"}}",
+    "{\"lessonID\":\"421\",\"subjectID\":\"1912\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"84\":\"\"}}",
+    "{\"lessonID\":\"422\",\"subjectID\":\"2394\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"15\":\"\"}}",
+    "{\"lessonID\":\"422\",\"subjectID\":\"2394\",\"teachers\":{\"179\":\"\"},\"rooms\":{\"115\":\"\"}}",
+    "{\"lessonID\":\"424\",\"subjectID\":\"1928\",\"teachers\":{\"657\":\"\"},\"rooms\":{\"430\":\"\"}}",
+    "{\"lessonID\":\"425\",\"subjectID\":\"2395\",\"teachers\":{\"696\":\"\"},\"rooms\":{\"142\":\"\"}}",
+    "{\"lessonID\":\"426\",\"subjectID\":\"2395\",\"teachers\":{\"696\":\"\"},\"rooms\":{\"143\":\"\"}}",
+    "{\"lessonID\":\"427\",\"subjectID\":\"2307\",\"teachers\":{\"291\":\"\"},\"rooms\":{\"366\":\"\"}}",
+    "{\"lessonID\":\"429\",\"subjectID\":\"2391\",\"teachers\":{\"291\":\"\"},\"rooms\":{\"142\":\"\"}}",
+    "{\"lessonID\":\"430\",\"subjectID\":\"1896\",\"teachers\":{\"696\":\"\"},\"rooms\":{\"371\":\"\"}}"
+  ],
+  "lessons": {
+    "41": {
+      "subjects": {
+        "1905": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": "",
+            "115": ""
+          },
+          "teachers": {
+            "202": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "57": {
+      "subjects": {
+        "1886": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "1425": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "156": {
+      "subjects": {
+        "1900": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "34": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "73": {
+      "subjects": {
+        "1917": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "552": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "136": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "137": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 1)"
+    },
+    "138": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 3)"
+    },
+    "139": {
+      "subjects": {
+        "1884": {
+          "delta": "",
+          "subjectNo": "TEC04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "766": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "141": {
+      "subjects": {
+        "1884": {
+          "delta": "",
+          "subjectNo": "TEC04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1027": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 1)"
+    },
+    "142": {
+      "subjects": {
+        "1884": {
+          "delta": "",
+          "subjectNo": "TEC04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1027": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 2)"
+    },
+    "143": {
+      "subjects": {
+        "1884": {
+          "delta": "",
+          "subjectNo": "TEC04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1369": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 3)"
+    },
+    "144": {
+      "subjects": {
+        "1933": {
+          "delta": "",
+          "subjectNo": "TEC07",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1369": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 1)"
+    },
+    "145": {
+      "subjects": {
+        "1933": {
+          "delta": "",
+          "subjectNo": "TEC07",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1369": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 3)"
+    },
+    "147": {
+      "subjects": {
+        "1893": {
+          "delta": "",
+          "subjectNo": "EM05",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "291": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "149": {
+      "subjects": {
+        "1911": {
+          "delta": "",
+          "subjectNo": "EM04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Wiss. Arbeiten (\u00dc1)"
+    },
+    "150": {
+      "subjects": {
+        "1911": {
+          "delta": "",
+          "subjectNo": "EM04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Wiss. Arbeiten (\u00dc2)"
+    },
+    "151": {
+      "subjects": {
+        "1911": {
+          "delta": "",
+          "subjectNo": "EM04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Wiss. Arbeiten (\u00dc3)"
+    },
+    "153": {
+      "subjects": {
+        "1911": {
+          "delta": "",
+          "subjectNo": "EM04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "673": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Berufl. Schreiben (\u00dc2)"
+    },
+    "155": {
+      "subjects": {
+        "1911": {
+          "delta": "",
+          "subjectNo": "EM04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "673": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Berufl. Schreiben (\u00dc3)"
+    },
+    "152": {
+      "subjects": {
+        "1911": {
+          "delta": "",
+          "subjectNo": "EM04",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "673": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Berufl. Schreiben (\u00dc1)"
+    },
+    "161": {
+      "subjects": {
+        "1921": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "34": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "165": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 2)"
+    },
+    "172": {
+      "subjects": {
+        "1894": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "115": ""
+          },
+          "teachers": {
+            "291": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "180": {
+      "subjects": {
+        "1927": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "657": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "183": {
+      "subjects": {
+        "1883": {
+          "delta": "",
+          "subjectNo": "EM03",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "291": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "25.09.2017"
+    },
+    "184": {
+      "subjects": {
+        "1926": {
+          "delta": "",
+          "subjectNo": "TEC01",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "577": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "20.09.17"
+    },
+    "185": {
+      "subjects": {
+        "1873": {
+          "delta": "",
+          "subjectNo": "EM02",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "673": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": ""
+    },
+    "188": {
+      "subjects": {
+        "2207": {
+          "delta": "",
+          "subjectNo": "EM01",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "657": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "21.09.2017"
+    },
+    "191": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "193": {
+      "subjects": {
+        "1885": {
+          "delta": "",
+          "subjectNo": "EM06",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "657": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "195": {
+      "subjects": {
+        "1866": {
+          "delta": "",
+          "subjectNo": "TEC06",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "233": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "comment": "Gruppe 1"
+    },
+    "234": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "comment": "Gruppe 2"
+    },
+    "235": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "comment": "Gruppe 3"
+    },
+    "236": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "comment": "Gruppe 4"
+    },
+    "237": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "comment": "Gruppe 5"
+    },
+    "243": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "methodID": "18",
+      "comment": "Rau\/Gerlach"
+    },
+    "245": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "comment": "Brettschneider"
+    },
+    "246": {
+      "subjects": {
+        "2277": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": ""
+    },
+    "247": {
+      "subjects": {
+        "1925": {
+          "delta": "",
+          "subjectNo": "TEC02",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "488": ""
+          }
+        }
+      },
+      "comment": "Schultests"
+    },
+    "248": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "methodID": "18",
+      "comment": "Berger\/Will"
+    },
+    "249": {
+      "subjects": {
+        "2231": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "1304": ""
+          }
+        }
+      },
+      "methodID": "18",
+      "comment": "Mini Pitch"
+    },
+    "250": {
+      "subjects": {
+        "2232": {
+          "delta": "",
+          "subjectNo": "TEC03",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "methodID": "18",
+      "comment": "Pr\u00e4sentation"
+    },
+    "252": {
+      "subjects": {
+        "2298": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "202": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "256": {
+      "subjects": {
+        "2207": {
+          "delta": "",
+          "subjectNo": "EM01",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "657": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": ""
+    },
+    "267": {
+      "subjects": {
+        "2232": {
+          "delta": "",
+          "subjectNo": "TEC03",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "690": "",
+            "673": "",
+            "1197": ""
+          }
+        }
+      },
+      "comment": ""
+    },
+    "272": {
+      "subjects": {
+        "2206": {
+          "delta": "",
+          "subjectNo": "TEC08",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": ""
+    },
+    "287": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "252": ""
+          }
+        }
+      },
+      "comment": "Workshop"
+    },
+    "288": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "696": ""
+          }
+        }
+      },
+      "comment": "Projektewoche"
+    },
+    "302": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "207": ""
+          }
+        }
+      },
+      "comment": "DL Besprechung W"
+    },
+    "307": {
+      "subjects": {
+        "1925": {
+          "delta": "",
+          "subjectNo": "TEC02",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "488": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "22.09.2017"
+    },
+    "314": {
+      "subjects": {
+        "1933": {
+          "delta": "",
+          "subjectNo": "TEC07",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "315": {
+      "subjects": {
+        "1933": {
+          "delta": "",
+          "subjectNo": "TEC07",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1369": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 2)"
+    },
+    "321": {
+      "subjects": {
+        "2393": {
+          "delta": "",
+          "subjectNo": "TEC10",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Paket 1"
+    },
+    "322": {
+      "subjects": {
+        "2393": {
+          "delta": "",
+          "subjectNo": "TEC10",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Paket 2"
+    },
+    "323": {
+      "subjects": {
+        "2395": {
+          "delta": "",
+          "subjectNo": "TEC11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Paket 1"
+    },
+    "324": {
+      "subjects": {
+        "2395": {
+          "delta": "",
+          "subjectNo": "TEC11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Paket 2"
+    },
+    "326": {
+      "subjects": {
+        "2394": {
+          "delta": "",
+          "subjectNo": "TEC13",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Paket 2"
+    },
+    "328": {
+      "subjects": {
+        "2390": {
+          "delta": "",
+          "subjectNo": "TEC12",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Paket 1"
+    },
+    "329": {
+      "subjects": {
+        "2390": {
+          "delta": "",
+          "subjectNo": "TEC12",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Paket 2"
+    },
+    "330": {
+      "subjects": {
+        "2392": {
+          "delta": "",
+          "subjectNo": "EM11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "673": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Paket 1"
+    },
+    "331": {
+      "subjects": {
+        "2392": {
+          "delta": "",
+          "subjectNo": "EM11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "673": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Paket 2"
+    },
+    "332": {
+      "subjects": {
+        "2394": {
+          "delta": "",
+          "subjectNo": "TEC13",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Paket 1"
+    },
+    "343": {
+      "subjects": {
+        "1925": {
+          "delta": "",
+          "subjectNo": "TEC02",
+          "pools": {
+            "315": "",
+            "649": ""
+          },
+          "teachers": {
+            "325": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Repititorium"
+    },
+    "344": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "Vorbereitung Di-Reihe"
+    },
+    "345": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "696": ""
+          }
+        }
+      },
+      "comment": "Dienstagsreihe"
+    },
+    "346": {
+      "subjects": {
+        "1876": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "Projektarb.; Freiw. Veranst."
+    },
+    "347": {
+      "subjects": {
+        "2307": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "MEDIAN Vorstellungsgespr\u00e4ch"
+    },
+    "351": {
+      "subjects": {
+        "2456": {
+          "delta": "",
+          "subjectNo": "TEC01",
+          "pools": {
+            "315": "",
+            "649": ""
+          },
+          "teachers": {
+            "577": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": ""
+    },
+    "353": {
+      "subjects": {
+        "1925": {
+          "delta": "",
+          "subjectNo": "TEC02",
+          "pools": {
+            "315": "",
+            "649": ""
+          },
+          "teachers": {
+            "488": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": "Repititorium"
+    },
+    "354": {
+      "subjects": {
+        "1885": {
+          "delta": "",
+          "subjectNo": "EM06",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "657": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "355": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "690": ""
+          }
+        }
+      },
+      "comment": "Bibliothek Fr. Waigant"
+    },
+    "356": {
+      "subjects": {
+        "1859": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "34": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "365": {
+      "subjects": {
+        "2394": {
+          "delta": "",
+          "subjectNo": "TEC13",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "366": {
+      "subjects": {
+        "2394": {
+          "delta": "",
+          "subjectNo": "TEC13",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": ""
+    },
+    "367": {
+      "subjects": {
+        "2395": {
+          "delta": "",
+          "subjectNo": "TEC11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "comment": "Projekte"
+    },
+    "370": {
+      "subjects": {
+        "2472": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "B16\/006"
+    },
+    "375": {
+      "subjects": {
+        "2394": {
+          "delta": "",
+          "subjectNo": "TEC13",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "57",
+      "comment": "Arbeitssicherheit Zanini"
+    },
+    "380": {
+      "subjects": {
+        "2472": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "B16\/007"
+    },
+    "381": {
+      "subjects": {
+        "2472": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "B16\/007\/Gespr"
+    },
+    "382": {
+      "subjects": {
+        "2472": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "B16\/006"
+    },
+    "383": {
+      "subjects": {
+        "2472": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "B16\/006\/Gespr"
+    },
+    "377": {
+      "subjects": {
+        "1933": {
+          "delta": "",
+          "subjectNo": "TEC07",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": "Ersatztermin"
+    },
+    "378": {
+      "subjects": {
+        "1933": {
+          "delta": "",
+          "subjectNo": "TEC07",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1369": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "(\u00dc 2) Ersatztermin"
+    },
+    "388": {
+      "subjects": {
+        "1886": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "1425": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "389": {
+      "subjects": {
+        "2483": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "291": ""
+          }
+        }
+      },
+      "comment": "PA-Sitzung"
+    },
+    "390": {
+      "subjects": {
+        "1885": {
+          "delta": "",
+          "subjectNo": "EM06",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "657": ""
+          }
+        }
+      },
+      "comment": "M.Speth PLANSPIEL"
+    },
+    "394": {
+      "subjects": {
+        "1876": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "EMT Projektwoche"
+    },
+    "395": {
+      "subjects": {
+        "2456": {
+          "delta": "",
+          "subjectNo": "TEC01",
+          "pools": {
+            "315": "",
+            "649": ""
+          },
+          "teachers": {
+            "577": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": ""
+    },
+    "401": {
+      "subjects": {
+        "1893": {
+          "delta": "",
+          "subjectNo": "EM05",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "291": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "18.07.2017"
+    },
+    "402": {
+      "subjects": {
+        "1884": {
+          "delta": "",
+          "subjectNo": "TEC04",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "766": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "14.07.2016"
+    },
+    "403": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "17.07.2017"
+    },
+    "404": {
+      "subjects": {
+        "2394": {
+          "delta": "",
+          "subjectNo": "TEC13",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "11.7.17"
+    },
+    "405": {
+      "subjects": {
+        "2215": {
+          "delta": "",
+          "subjectNo": "TEC09",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "1197": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "27.09.2017"
+    },
+    "406": {
+      "subjects": {
+        "2222": {
+          "delta": "",
+          "subjectNo": "EM07",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "21.09.2017 K\u00f6ppen"
+    },
+    "407": {
+      "subjects": {
+        "1938": {
+          "delta": "",
+          "subjectNo": "EM09",
+          "pools": {
+            "317": ""
+          },
+          "teachers": {
+            "1431": ""
+          }
+        }
+      },
+      "methodID": "5",
+      "comment": "28.09.2017"
+    },
+    "408": {
+      "subjects": {
+        "1859": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "34": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "409": {
+      "subjects": {
+        "1859": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "34": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": "Klausur AE1-2"
+    },
+    "410": {
+      "subjects": {
+        "1921": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "34": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "411": {
+      "subjects": {
+        "1921": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "706": ""
+          }
+        }
+      },
+      "methodID": "57",
+      "comment": ""
+    },
+    "412": {
+      "subjects": {
+        "1921": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "312": ""
+          },
+          "teachers": {
+            "34": ""
+          }
+        }
+      },
+      "methodID": "17",
+      "comment": ""
+    },
+    "413": {
+      "subjects": {
+        "2392": {
+          "delta": "",
+          "subjectNo": "EM11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "Etikette Fr. Keiner"
+    },
+    "415": {
+      "subjects": {
+        "2393": {
+          "delta": "",
+          "subjectNo": "TEC10",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "Chr. Eichenberger Partyrent"
+    },
+    "416": {
+      "subjects": {
+        "2393": {
+          "delta": "",
+          "subjectNo": "TEC10",
+          "pools": {
+            "316": "",
+            "607": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "Raum2 Eichenberger Partyrent"
+    },
+    "417": {
+      "subjects": {
+        "2393": {
+          "delta": "",
+          "subjectNo": "TEC10",
+          "pools": {
+            "316": "",
+            "607": ""
+          },
+          "teachers": {
+            "415": ""
+          }
+        }
+      },
+      "comment": "Raum1 Eichenberger, Partyrent"
+    },
+    "418": {
+      "subjects": {
+        "2307": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "696": ""
+          }
+        }
+      },
+      "comment": "EMT"
+    },
+    "419": {
+      "subjects": {
+        "1933": {
+          "delta": "",
+          "subjectNo": "TEC07",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "1369": ""
+          }
+        }
+      },
+      "comment": "HICO Wetzlar"
+    },
+    "420": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": "Ersatztermin f. Ausfall"
+    },
+    "421": {
+      "subjects": {
+        "1912": {
+          "delta": "",
+          "subjectNo": "TEC05",
+          "pools": {
+            "315": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "19",
+      "comment": "Ersatztermin f. Ausfall"
+    },
+    "422": {
+      "subjects": {
+        "2394": {
+          "delta": "",
+          "subjectNo": "TEC13",
+          "pools": {
+            "654": "",
+            "607": ""
+          },
+          "teachers": {
+            "179": ""
+          }
+        }
+      },
+      "methodID": "21",
+      "comment": "Ersatztermin f. Ausfall"
+    },
+    "424": {
+      "subjects": {
+        "1928": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "175": "",
+            "313": "",
+            "316": ""
+          },
+          "teachers": {
+            "657": ""
+          }
+        }
+      },
+      "methodID": "15",
+      "comment": "Blockseminar EI und ME"
+    },
+    "425": {
+      "subjects": {
+        "2395": {
+          "delta": "",
+          "subjectNo": "TEC11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "696": ""
+          }
+        }
+      },
+      "comment": "Prod. Urbas Gr.1 u.2"
+    },
+    "426": {
+      "subjects": {
+        "2395": {
+          "delta": "",
+          "subjectNo": "TEC11",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "696": ""
+          }
+        }
+      },
+      "comment": "Produktion Urbas"
+    },
+    "427": {
+      "subjects": {
+        "2307": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "316": ""
+          },
+          "teachers": {
+            "291": ""
+          }
+        }
+      },
+      "comment": "Jour fixe"
+    },
+    "429": {
+      "subjects": {
+        "2391": {
+          "delta": "",
+          "subjectNo": "EM10",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "291": ""
+          }
+        }
+      },
+      "comment": ""
+    },
+    "430": {
+      "subjects": {
+        "1896": {
+          "delta": "",
+          "subjectNo": "",
+          "pools": {
+            "607": ""
+          },
+          "teachers": {
+            "696": ""
+          }
+        }
+      },
+      "comment": "C21 M\u00f6bs"
+    }
+  }
+}

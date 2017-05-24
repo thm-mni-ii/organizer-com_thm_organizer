@@ -264,9 +264,9 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$new->set('creationTime', $this->newSchedule->creationTime);
 		$new->set('startDate', $this->newSchedule->startDate);
 		$new->set('endDate', $this->newSchedule->endDate);
-		$new->set('schedule', json_encode($this->newSchedule));
-		$new->set('newSchedule', json_encode($this->newSchedule));
-		$new->store();
+		$jsonSchedule = json_encode($this->newSchedule);
+		$new->set('schedule', $jsonSchedule);
+		$new->set('newSchedule', $jsonSchedule);
 
 		$reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
 		$jsonModel = new THM_OrganizerModelJSONSchedule;
