@@ -35,6 +35,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_subjects`;
 DROP TABLE IF EXISTS `#__thm_organizer_subject_mappings`;
 DROP TABLE IF EXISTS `#__thm_organizer_subject_teachers`;
 DROP TABLE IF EXISTS `#__thm_organizer_teachers`;
+DROP TABLE IF EXISTS `#__thm_organizer_user_data`;
 DROP TABLE IF EXISTS `#__thm_organizer_user_lessons`;
 DROP TABLE IF EXISTS `#__thm_organizer_user_schedules`;
 

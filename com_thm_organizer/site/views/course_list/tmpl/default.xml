@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <name>THM_ORGANIZER</name>
+    <author>Florian Fenzl</author>
+    <creationDate>July 2017</creationDate>
+    <copyright>TH Mittelhessen 2017</copyright>
+    <licence>GNU GPL v.2</licence>
+    <authorEMail>florian.fenzl@mni.thm.de</authorEMail>
+    <authorUrl>www.thm.de</authorUrl>
+    <layout title="COM_THM_ORGANIZER_COURSE_LIST_TITLE">
+        <message>COM_THM_ORGANIZER_COURSE_LIST_DESC</message>
+    </layout>
+</metadata>

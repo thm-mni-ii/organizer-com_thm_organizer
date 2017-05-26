@@ -41,6 +41,20 @@
             <option value="D">COM_THM_ORGANIZER_GERMAN</option>
             <option value="E">COM_THM_ORGANIZER_ENGLISH</option>
         </field>
+		<field name="is_prep_course"
+               type="list"
+               class="chzn-color-state"
+               label="COM_THM_ORGANIZER_PREP_COURSES"
+               description="COM_THM_ORGANIZER_PREP_COURSE_DESC"
+               default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="max_participants"
+               type="number"
+               size="70"
+               label="COM_THM_ORGANIZER_MAX_PARTICIPANTS"
+               description="COM_THM_ORGANIZER_MAX_PARTICIPANTS_DESC"/>
         <field name="frequencyID"
                type="list"
                label="COM_THM_ORGANIZER_AVAILABILITY"
@@ -65,6 +79,10 @@
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>
+        <field name="planSubjectIDs"
+               type="subjectmapping"
+               responsibility="1"
+               label="COM_THM_ORGANIZER_PLAN_SUBJECT" />
         <field type="spacer"
                name="spacer1"
                hr="true"/>

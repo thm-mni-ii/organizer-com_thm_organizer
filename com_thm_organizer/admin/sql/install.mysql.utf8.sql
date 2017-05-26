@@ -380,6 +380,22 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_data` (
+  `id`           INT(11)          NOT NULL AUTO_INCREMENT,
+  `userID`       INT(11)          NOT NULL,
+  `forename`     VARCHAR(255)      NOT NULL DEFAULT '',
+  `surname`      VARCHAR(255)      NOT NULL DEFAULT '',
+  `city`         VARCHAR(60)      NOT NULL DEFAULT '',
+  `address`      VARCHAR(60)      NOT NULL DEFAULT '',
+  `zip_code`     INT(11)          NOT NULL DEFAULT 0,
+  `programID`    INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userID` (`userID`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
   `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `subjectID`    INT(11) UNSIGNED NOT NULL,
@@ -547,6 +563,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `used_for_de`                  TEXT             NOT NULL DEFAULT '',
   `used_for_en`                  TEXT             NOT NULL DEFAULT '',
   `duration`                     INT(2) UNSIGNED           DEFAULT 1,
+  `is_prep_course`               INT(1) UNSIGNED  NOT NULL DEFAULT 1,
+  `max_participants`             INT(11) UNSIGNED          DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `frequencyID` (`frequencyID`),
   KEY `fieldID` (`fieldID`),
@@ -769,6 +787,14 @@ ALTER TABLE `#__thm_organizer_pools`
   ON UPDATE CASCADE,
   ADD CONSTRAINT `pools_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
   ON DELETE SET NULL
+  ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_user_data`
+  ADD CONSTRAINT `user_data_userid_fk` FOREIGN KEY (`userID`) REFERENCES `#__users` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_data_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
+  ON DELETE CASCADE
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_prerequisites`

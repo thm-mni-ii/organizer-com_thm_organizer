@@ -118,6 +118,13 @@ class THM_OrganizerModelSubject extends JModelLegacy
 			return false;
 		}
 
+		if (!$this->processFormSubjectMappings($data))
+		{
+			$this->_db->transactionRollback();
+
+			return false;
+		}
+
 		if (!$this->processFormPrerequisites($data))
 		{
 			$this->_db->transactionRollback();
@@ -248,6 +255,92 @@ class THM_OrganizerModelSubject extends JModelLegacy
 		$query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
 		$query->values("'$subjectID', '$teacherID', '$responsibility'");
 		$this->_db->setQuery((string) $query);
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Processes the subject mappings selected for the subject
+	 *
+	 * @param array &$data the post data
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	private function processFormSubjectMappings(&$data)
+	{
+		$subjectID = $data['id'];
+
+		if (!$this->removeSubjectMappings($subjectID))
+		{
+			return false;
+		}
+		if (!empty($data['planSubjectIDs']))
+		{
+			$respAdded = $this->addSubjectMappings($subjectID, $data['planSubjectIDs']);
+			if (!$respAdded)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Removes planSubject associations for the given subject
+	 *
+	 * @param int $subjectID the subject id
+	 *
+	 * @return boolean
+	 */
+	public function removeSubjectMappings($subjectID)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->delete('#__thm_organizer_subject_mappings')->where("subjectID = '$subjectID'");
+		$this->_db->setQuery($query);
+
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Adds a Subject Plan_Subject association
+	 *
+	 * @param int   $subjectID      the id of the subject
+	 * @param array $planSubjectID  the id of the planSubject
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	public function addSubjectMappings($subjectID, $planSubjectIDs)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->insert('#__thm_organizer_subject_mappings')->columns('subjectID, plan_subjectID');
+		foreach ($planSubjectIDs as $planSubjectID)
+		{
+			$query->values("'$subjectID', '$planSubjectID'");
+		}
+
+		$this->_db->setQuery($query);
 		try
 		{
 			$this->_db->execute();

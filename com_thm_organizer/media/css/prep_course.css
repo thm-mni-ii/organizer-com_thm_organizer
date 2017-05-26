@@ -1,0 +1,76 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a :hover {
+    color: #394a59;
+}
+
+div.language-switches a img {
+    margin-bottom: -2px;
+    margin-right: 5px;
+}
+
+th > a:link, th > a:active, th > a:visited, th > a:hover, th > a:focus {
+    color: #fff;
+}
+
+.toolbar {
+    position: relative;
+    float: right;
+}
+
+.alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 18px;
+    color: #394a59;
+}
+
+.alert.alert-success,
+#system-message > .alert.alert-success [class*="alert-"],
+#system-message .alert.alert-success {
+    border-style: none;
+    background-color: #dfeec8;
+}
+
+.alert.alert-error,
+#system-message > .alert.alert-error [class*="alert-"],
+#system-message .alert.alert-error {
+    border-style: none;
+    background-color: #e6c4cb;
+}
+
+.alert.alert-message,
+#system-message > .alert.alert-message [class*="alert-"],
+#system-message .alert.alert-message {
+    border-style: none;
+    background-color: #bfc9dd;
+}
+
+.alert.alert-warning,
+#system-message > .alert.alert-warning [class*="alert-"],
+#system-message .alert.alert-warning {
+    border-style: none;
+    background-color: #fceabf;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.btn-mini {
+    float: right;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.btn-max {
+    float: right;
+    margin: 5px;
+}
+
+.filter-item {
+    float: left;
+    margin-right: 5px;
+}

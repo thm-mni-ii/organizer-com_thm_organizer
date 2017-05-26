@@ -27,8 +27,7 @@ class THM_OrganizerHelperLanguage
 	 */
 	public static function getLanguage()
 	{
-		$app                = JFactory::getApplication();
-		$requested          = $app->input->get('languageTag', self::getShortTag());
+		$requested          = self::getShortTag();
 		$supportedLanguages = array('en', 'de');
 
 		if (in_array($requested, $supportedLanguages))
@@ -61,25 +60,7 @@ class THM_OrganizerHelperLanguage
 	 */
 	public static function getLongTag()
 	{
-		$menu = JFactory::getApplication()->getMenu()->getActive();
-
-		if (!empty($menu))
-		{
-			$initialLanguage = $menu->params->get('initialLanguage', 'de');
-			switch ($initialLanguage)
-			{
-				case 'en':
-					$tag = 'en-GB';
-					break;
-				case 'de':
-				default:
-					$tag = 'de-DE';
-			}
-
-			return $tag;
-		}
-
-		return JFactory::getLanguage()->getTag();
+		return self::resolveShortTag(self::getShortTag());
 	}
 
 	/**
@@ -93,18 +74,17 @@ class THM_OrganizerHelperLanguage
 
 		if (!empty($menu))
 		{
-			$initialLanguage = $menu->params->get('initialLanguage', 'de');
+			$initialTag = $menu->params->get('initialLanguage', 'de');
+			$shortTag = JFactory::getApplication()->input->get('languageTag', $initialTag);
 
-			if (!empty($initialLanguage))
-			{
-				return $initialLanguage;
-			}
+			return $shortTag;
 		}
 
 		$fullTag  = JFactory::getLanguage()->getTag();
 		$tagParts = explode('-', $fullTag);
+		$shortTag = JFactory::getApplication()->input->get('languageTag', $tagParts[0]);
 
-		return $tagParts[0];
+		return $shortTag;
 	}
 
 	/**
@@ -146,5 +126,63 @@ class THM_OrganizerHelperLanguage
 		}
 
 		return $languageSwitches;
+	}
+
+	/**
+	 * Extends the tag to the regular language constant.
+	 *
+	 * @param string $shortTag the short tag for the language
+	 *
+	 * @return string the longTag
+	 */
+	private static function resolveShortTag($shortTag = 'de')
+	{
+		switch ($shortTag)
+		{
+			case 'en':
+				$tag = 'en-GB';
+				break;
+			case 'de':
+			default:
+				$tag = 'de-DE';
+		}
+
+		return $tag;
+	}
+
+	/**
+	 * Implementation of JText sprintf for language helper
+	 *
+	 * @param string $string The format string.
+	 *
+	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
+	 */
+	public static function sprintf($string)
+	{
+		$lang = self::getLanguage();
+		$args = func_get_args();
+		$count = count($args);
+
+		if ($count < 1)
+		{
+			return '';
+		}
+
+		if (is_array($args[$count - 1]))
+		{
+			$args[0] = $lang->_(
+				$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
+				array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
+			);
+		}
+		else
+		{
+			$args[0] = $lang->_($string);
+		}
+
+		// Replace custom named placeholders with sprintf style placeholders
+		$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
+
+		return call_user_func_array('sprintf', $args);
 	}
 }

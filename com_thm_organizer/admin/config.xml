@@ -100,7 +100,7 @@
                description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
         </field>
     </fieldset>
-    <fieldset name="Monitors"
+    <fieldset name="monitors"
               label="COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE"
               description="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
         <field
@@ -143,6 +143,62 @@
                 description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC"
                 directory="images/thm_organizer/"
                 exclude=""/>
+    </fieldset>
+    <fieldset name="prepCourse"
+              label="COM_THM_ORGANIZER_PREP_COURSES"
+              description="COM_THM_ORGANIZER_PREP_COURSE_SETTINGS_DESC"
+              addfieldpath="/media/com_thm_organizer/fields">
+        <field
+                name="representativeName"
+                type="text"
+                label="COM_THM_ORGANIZER_REPRESENTATIVE"
+                description="COM_THM_ORGANIZER_REPRESENTATIVE_DESC"
+                size="60"
+                default="Prof. Dr. Matthias Willems"/>
+        <field
+                name="signatureFile"
+                type="imagelist"
+                hide_none="true"
+                directory="media/com_thm_organizer/images"
+                label="COM_THM_ORGANIZER_SIGNATURE_FILE"
+                description="COM_THM_ORGANIZER_SIGNATURE_FILE_DESC"
+                size="60"
+                default="unterschrift-willems.png"/>
+        <field
+                name="address"
+                type="text"
+                label="COM_THM_ORGANIZER_ADDRESS"
+                description="COM_THM_ORGANIZER_CONTACT_ADDRESS_DESC"
+                size="100"
+                default="Technische Hochschule Mittelhessen – Wiesenstraße 14 – 35390 Gießen"/>
+        <field
+                name="contact"
+                type="text"
+                label="COM_THM_ORGANIZER_CONTACT"
+                description="COM_THM_ORGANIZER_CONTACT_DESC"
+                size="100"
+                default="Tel.: 0641/309 0 – Fax: 0641/309 2901 – www.thm.de"/>
+        <field
+                name="mailSender"
+                type="user"
+                label="COM_THM_ORGANIZER_SENDER"
+                description="COM_THM_ORGANIZER_SENDER_DESC"
+                default=""/>
+        <field
+                name="department"
+                type="departmentlist"
+                label="COM_THM_ORGANIZER_DEPARTMENT"
+                description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
+                default="12" />
+        <field
+                name="deadline"
+                type="number"
+                min="1"
+                max="360"
+                label="COM_THM_ORGANIZER_DEADLINE"
+                description="COM_THM_ORGANIZER_DEADLINE_DESC"
+                default="5"/>
+
     </fieldset>
     <fieldset name="permissions"
               label="JCONFIG_PERMISSIONS_LABEL"

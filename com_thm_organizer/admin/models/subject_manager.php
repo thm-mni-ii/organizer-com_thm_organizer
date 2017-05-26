@@ -86,6 +86,11 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 		THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'subject');
 		$poolID = $this->state->get('list.poolID', '');
 		THM_OrganizerHelperMapping::setResourceIDFilter($query, $poolID, 'pool', 'subject');
+		$isPrepCourse = $this->state->get('list.is_prep_course', '');
+		if ($isPrepCourse !== "")
+		{
+			$query->where("is_prep_course =" . $isPrepCourse);
+		}
 
 		$this->setOrdering($query);
 

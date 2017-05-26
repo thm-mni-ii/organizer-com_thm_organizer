@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <field name="id"
+           type="hidden"
+           default="0"/>
+
+    <field name="userID"
+           type="hidden"
+           default="0"/>
+
+    <field name="cid"
+           type="hidden"
+           default="0"/>
+
+    <field name="forename"
+           type="text"
+           id="forename"
+		   required="true"
+           label="COM_THM_ORGANIZER_FORENAME" />
+
+    <field name="surname"
+           type="text"
+           id="surname"
+		   required="true"
+           label="COM_THM_ORGANIZER_SURNAME" />
+
+    <field name="address"
+           type="text"
+           id="address"
+           required="true"
+           label="COM_THM_ORGANIZER_ADDRESS"
+           description="COM_THM_ORGANIZER_ADDRESS_DESC" />
+
+    <field name="zip_code"
+           type="text"
+           id="zip_code"
+           required="true"
+           label="COM_THM_ORGANIZER_ZIP_CODE"
+           description="COM_THM_ORGANIZER_ZIP_CODE_DESC" />
+
+    <field name="city"
+           type="text"
+           id="city"
+           required="true"
+           label="COM_THM_ORGANIZER_RESIDENCE"
+           description="COM_THM_ORGANIZER_RESIDENCE_DESC" />
+
+    <field  name="programID"
+            type="sql"
+            default=""
+            id="programID"
+            required="true"
+            label="COM_THM_ORGANIZER_PROGRAM"
+            description="COM_THM_ORGANIZER_PROGRAM_DESC"
+            query="SELECT programID AS value, name AS programID FROM #__thm_organizer_plan_programs where programID is not null order by programID"
+    ><option value="">-</option>
+    </field>
+</form>
