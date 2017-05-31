@@ -222,9 +222,13 @@ class THM_OrganizerHelperXMLLessons
 	 */
 	private function validateIndividual(&$lessonNode)
 	{
-		$effBeginDT  = strtotime(trim((string) $lessonNode->effectivebegindate));
+		$effBeginDT  = isset($lessonNode->begindate)?
+            strtotime(trim((string) $lessonNode->begindate)) :
+            strtotime(trim((string) $lessonNode->effectivebegindate));
 		$termBeginDT = strtotime($this->scheduleModel->newSchedule->startDate);
-		$effEndDT    = strtotime(trim((string) $lessonNode->effectiveenddate));
+		$effEndDT    = isset($lessonNode->enddate)?
+            strtotime(trim((string) $lessonNode->enddate)) :
+            strtotime(trim((string) $lessonNode->effectiveenddate));
 		$termEndDT   = strtotime($this->scheduleModel->newSchedule->endDate);
 
 		// Lesson is not relevant for the uploaded schedule (starts after term ends or ends before term begins)
