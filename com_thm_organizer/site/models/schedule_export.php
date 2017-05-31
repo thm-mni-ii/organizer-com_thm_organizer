@@ -546,24 +546,22 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			$this->setResourceArray('teacher', $parameters);
 			$this->setResourceArray('room', $parameters);
 		}
-		else
-		{
-			$userName       = $input->getString('username', '');
-			$authentication = urldecode($input->getString('auth', ''));
-			if (!empty($userName) and !empty($authentication))
-			{
-				$user          = JFactory::getUser($userName);
-				$authenticates = password_verify($user->email . $user->registerDate, $authentication);
-				if ($authenticates)
-				{
-					$parameters['userID'] = $user->id;
-				}
-			}
-			elseif (JFactory::getUser()->id != 0)
-			{
-				$parameters['userID'] = JFactory::getUser()->id;
-			}
-		}
+
+        $userName       = $input->getString('username', '');
+        $authentication = urldecode($input->getString('auth', ''));
+        if (!empty($userName) and !empty($authentication))
+        {
+            $user          = JFactory::getUser($userName);
+            $authenticates = password_verify($user->email . $user->registerDate, $authentication);
+            if ($authenticates)
+            {
+                $parameters['userID'] = $user->id;
+            }
+        }
+        elseif (JFactory::getUser()->id != 0)
+        {
+            $parameters['userID'] = JFactory::getUser()->id;
+        }
 
 		$allowedLengths                = array('day', 'week', 'month', 'semester', 'custom');
 		$rawLength                     = $input->getString('dateRestriction', 'week');

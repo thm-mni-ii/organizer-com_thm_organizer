@@ -2504,14 +2504,11 @@ var ScheduleApp = function ()
 			url += "&documentFormat=" + formats[1];
 		}
 
+		url += "&username=" + variables.username + "&auth=" + variables.auth;
+
 		if (schedule === "user")
 		{
 			url += "&myschedule=1";
-
-			if (formats[0] === "ics")
-			{
-				url += "&username=" + variables.username + "&auth=" + variables.auth;
-			}
 		}
 		else
 		{
@@ -2542,6 +2539,7 @@ var ScheduleApp = function ()
 
 		if (formats[0] === "ics")
 		{
+			url += "&username=" + variables.username + "&auth=" + variables.auth;
 			window.prompt(text.copy, url);
 			exportSelection.val("placeholder");
 			exportSelection.trigger("chosen:updated");
