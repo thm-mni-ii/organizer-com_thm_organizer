@@ -39,9 +39,7 @@ class JFormFieldDepartmentList extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$doc  = JFactory::getDocument();
-		$root = JUri::root(true);
-		$doc->addScript("$root/media/com_thm_organizer/js/departmentlist.js");
+		JFactory::getDocument()->addScript(JUri::root() . "/media/com_thm_organizer/js/departmentlist.js");
 
 		return parent::getInput();
 	}
@@ -55,6 +53,7 @@ class JFormFieldDepartmentList extends JFormFieldList
 	{
 		$options     = array();
 		$departments = THM_OrganizerHelperDepartments::getPlanDepartments();
+
 		foreach ($departments as $key => $department)
 		{
 			$options[] = JHtml::_('select.option', $key, $department);
