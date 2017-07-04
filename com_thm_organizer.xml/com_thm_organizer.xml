@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" version="3.*" method="upgrade">
+    <name>COM_THM_ORGANIZER</name>
+    <author>James Antrim</author>
+    <authorEmail>james.antrim@nm.thm.de</authorEmail>
+    <author>Lavinia Popa-Rössel</author>
+    <authorEmail>lavinia.popa-roessel@mni.thm.de</authorEmail>
+    <author>Franciska Perisa</author>
+    <authorEmail>franciska.perisa@mni.thm.de</authorEmail>
+    <authorUrl>www.thm.de</authorUrl>
+    <creationDate>May 2017</creationDate>
+    <copyright>TH Mittelhessen 2017</copyright>
+    <licence>GNU GPL v.2</licence>
+    <version>3.11.12</version>
+    <scriptfile>script.php</scriptfile>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+            <schemapath type="mysqli">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
+    <media destination="com_thm_organizer" folder="media">
+        <folder>css</folder>
+        <folder>fields</folder>
+        <folder>fonts</folder>
+        <folder>helpers</folder>
+        <folder>icalcreator</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>layouts</folder>
+        <folder>models</folder>
+        <folder>tables</folder>
+        <folder>templates</folder>
+        <folder>views</folder>
+        <filename>index.html</filename>
+    </media>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <filename>thm_organizer.php</filename>
+        <filename>controller.php</filename>
+        <filename>LICENSE.txt</filename>
+        <filename>buggedrouter.php</filename>
+        <folder>helpers</folder>
+        <folder>models</folder>
+        <folder>tables</folder>
+        <folder>views</folder>
+    </files>
+    <languages>
+        <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>
+        <language tag="de-DE" client="site">language/de-DE/de-DE.com_thm_organizer.ini</language>
+    </languages>
+    <administration>
+        <menu>COM_THM_ORGANIZER</menu>
+        <files folder="admin">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>index.html</filename>
+            <filename>thm_organizer.php</filename>
+            <filename>controller.php</filename>
+            <filename>LICENSE.txt</filename>
+            <folder>views</folder>
+            <folder>models</folder>
+            <folder>assets</folder>
+            <folder>tables</folder>
+            <folder>sql</folder>
+        </files>
+        <languages>
+            <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>
+            <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.sys.ini</language>
+            <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.ini</language>
+            <language tag="de-DE">language/de-DE/de-DE.com_thm_organizer.sys.ini</language>
+        </languages>
+    </administration>
+    <packages>
+        <package name="pkg_thm_organizer" git="git://scm.thm.de/icampus/pkg_thm_organizer.git"/>
+    </packages>
+    <updateservers>
+        <server type="extension" priority="1" name="THM Organizer Component Update Site">
+            http://jenkins-ci.mni.thm.de/view/THM%20Control/job/Releases/lastSuccessfulBuild/artifact/updates/com_thm_organizer.xml
+        </server>
+    </updateservers>
+</extension>
