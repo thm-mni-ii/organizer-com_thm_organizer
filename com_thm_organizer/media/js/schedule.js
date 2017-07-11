@@ -9,34 +9,31 @@
  * @link        www.mni.thm.de
  */
 
-"use strict";
-
 jQuery(document).ready(function ()
 {
-	window.scheduleApp = new ScheduleApp();
+	"use strict";
+	window.scheduleApp = new ScheduleApp(window.text, window.variables);
 });
 
-var ScheduleApp = function ()
+/**
+ * Object that builds schedule tables, an interactive calendar and a form which defines loaded schedules
+ * @param {object} text - contains strings for names like weekdays, placeholders etc.
+ * @param {object} variables - contains website configurations
+ */
+var ScheduleApp = function (text, variables)
 {
+	"use strict";
+
 	/**
 	 * @private
 	 */
 	var app = this,
 		ajaxSave = new XMLHttpRequest(),
-		ajaxSelection = new XMLHttpRequest(),
-		calendar, lessonMenu, scheduleObjects, // Get initialised in constructor
+		calendar, form, lessonMenu, scheduleObjects, // Get initialised in constructor
 		futureDateButton = document.getElementById("future-date"),
-		inputFields = document.querySelectorAll("[data-input-kind='flexible']"),
 		nextDateSelection = document.getElementById("next-date-selection"),
 		noLessons = document.getElementById("no-lessons"),
 		pastDateButton = document.getElementById("past-date"),
-		placeholder = {
-			"pool": text.POOL_PLACEHOLDER,
-			"program": text.PROGRAM_PLACEHOLDER,
-			"room": text.ROOM_PLACEHOLDER,
-			"roomtype": text.ROOMTYPE_PLACEHOLDER,
-			"teacher": text.TEACHER_PLACEHOLDER
-		},
 		scheduleWrapper = document.getElementById("scheduleWrapper"),
 		weekdays = [
 			text.MONDAY_SHORT,
@@ -172,24 +169,29 @@ var ScheduleApp = function ()
 							}
 							else
 							{
-								// Closure function needed, to give individual params to eventListeners inside of a for-loop
-								(function (day)
-								{
-									var button = document.createElement("button");
-									button.type = "button";
-									button.className = "day";
-									button.innerHTML = day.toString();
-									button.addEventListener("click", function ()
-									{
-										that.insertDate(new Date(year, month - 1, day));
-									}, false);
-									cell.appendChild(button);
-								}(day));
-
+								addInsertDateButton(new Date(year, month - 1, day), cell);
 								day++;
 							}
 						}
 					}
+				},
+
+				/**
+				 * Appends one button to a table cell which inserts given date
+				 * @param {Date} date
+				 * @param {HTMLTableCellElement} cell
+				 */
+				addInsertDateButton = function (date, cell)
+				{
+					var button = document.createElement("button");
+					button.type = "button";
+					button.className = "day";
+					button.innerHTML = date.getDate().toString();
+					button.addEventListener("click", function ()
+					{
+						that.insertDate(date);
+					}, false);
+					cell.appendChild(button);
 				};
 
 			/**
@@ -295,7 +297,7 @@ var ScheduleApp = function ()
 			{
 				that.activeDate = getDateFieldsDateObject();
 				showControls();
-
+				// TODO: in session ablegen, nicht nur bei Klick auf die Pfeile
 				app.dateField.addEventListener("change", that.setUpCalendar);
 				document.getElementById("today").addEventListener("click", function ()
 				{
@@ -326,22 +328,20 @@ var ScheduleApp = function ()
 				/**
 				 * Sets Ajax url for updating lessons
 				 */
-				task = (function ()
+				ajaxUrl = (function ()
 				{
-					var task = "&departmentIDs=" + (variables.departmentID !== "0" ? variables.departmentID :
-							getSelectedValues("department") ? getSelectedValues("department") : "0");
+					var url = getAjaxUrl();
 
-					task += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : "";
-					task += "&task=getLessons";
-					task += "&date=" + getDateFieldString() + (variables.isMobile ? "&oneDay=true" : "");
-					task += "&mySchedule=" + (resource === "user" ? "1" : "0");
+					url += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : "";
+					url += "&date=" + getDateFieldString() + (variables.isMobile ? "&oneDay=true" : "");
+					url += "&mySchedule=" + (resource === "user" ? "1" : "0");
 
 					if (source !== "user")
 					{
-						task += "&" + resource + "IDs=" + resourceIDs;
+						url += "&" + resource + "IDs=" + resourceIDs;
 					}
 
-					return task;
+					return url;
 				})(),
 
 				/**
@@ -349,7 +349,7 @@ var ScheduleApp = function ()
 				 */
 				title = (function ()
 				{
-					var title = variables.displayName ? variables.displayName : "",
+					var title = variables.displayName || "",
 						resourceField = document.getElementById(resource),
 						programField = document.getElementById("program"), index, options, selection = [];
 
@@ -397,7 +397,10 @@ var ScheduleApp = function ()
 						})();
 					}
 
-					title += selection.join(" - ");
+					if (selection.length > 0)
+					{
+						title = selection.join(" - ");
+					}
 
 					return title;
 				}());
@@ -407,8 +410,8 @@ var ScheduleApp = function ()
 			 */
 			this.requestUpdate = function ()
 			{
-				task = task.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + getDateFieldString());
-				ajaxRequest.open("GET", variables.ajaxbase + task, true);
+				ajaxUrl = ajaxUrl.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + getDateFieldString());
+				ajaxRequest.open("GET", ajaxUrl, true);
 
 				ajaxRequest.onreadystatechange = function ()
 				{
@@ -432,7 +435,7 @@ var ScheduleApp = function ()
 					}
 				};
 
-				ajaxRequest.send(null);
+				ajaxRequest.send();
 			};
 
 			/**
@@ -555,10 +558,13 @@ var ScheduleApp = function ()
 					initGrid = timeGrid.hasOwnProperty("periods") ? timeGrid : variables.defaultGrid;
 					for (period in initGrid.periods)
 					{
-						row = body.insertRow(-1);
-						for (firstDay = 0; firstDay < weekEnd; ++firstDay)
+						if (initGrid.periods.hasOwnProperty(period))
 						{
-							row.insertCell(-1);
+							row = body.insertRow(-1);
+							for (firstDay = 0; firstDay < weekEnd; ++firstDay)
+							{
+								row.insertCell(-1);
+							}
 						}
 					}
 				},
@@ -667,10 +673,10 @@ var ScheduleApp = function ()
 				 */
 				insertLessons = function (lessons)
 				{
-					var colNumber = variables.isMobile ? visibleDay : 1,
-						rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"), rowIndex,
-						block, lesson, tableStartTime, tableEndTime, blockTimes, lessonElements, gridIndex, blockStart, blockEnd,
-						cell, nextCell, nextBlock, nextRow, showOwnTime;
+					var block, blockEnd, blockStart, blockTimes, cell, colNumber = variables.isMobile ? visibleDay : 1,
+						elementIndex, gridIndex, lesson, lessonElements, nextBlock, nextCell, nextRow, showOwnTime,
+						rowIndex, rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
+						tableStartTime, tableEndTime;
 
 					if (timeGrid.periods)
 					{
@@ -742,10 +748,10 @@ var ScheduleApp = function ()
 
 									showOwnTime = tableStartTime !== blockStart || tableEndTime !== blockEnd;
 									lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
-									lessonElements.forEach(function (element)
+									for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 									{
-										cell.appendChild(element);
-									});
+										cell.appendChild(lessonElements(elementIndex));
+									}
 									jQuery(cell).addClass("lessons");
 
 									// Lesson fits into next cell too? Add a copy to this
@@ -760,10 +766,10 @@ var ScheduleApp = function ()
 										nextCell = nextRow.getElementsByTagName("td")[colNumber];
 										jQuery(nextCell).addClass("lessons");
 										lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
-										lessonElements.forEach(function (element)
+										for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 										{
-											nextCell.appendChild(element);
-										});
+											nextCell.appendChild(lessonElements(elementIndex));
+										}
 									}
 								}
 								++gridIndex;
@@ -789,28 +795,29 @@ var ScheduleApp = function ()
 				 */
 				insertLessonsWithoutPeriod = function (lessons)
 				{
-					var colNumber = variables.isMobile ? visibleDay : 1,
-						rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
-						date, block, lesson, lessonElements, cell;
+					var block, cell, colNumber = variables.isMobile ? visibleDay : 1, date, elementIndex, lesson, lessonElements,
+						rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
 					for (date in lessons)
 					{
-						if (lessons.hasOwnProperty(date))
+						if (!lessons.hasOwnProperty(date))
 						{
-							for (block in lessons[date])
+							continue;
+						}
+
+						for (block in lessons[date])
+						{
+							if (lessons[date].hasOwnProperty(block))
 							{
-								if (lessons[date].hasOwnProperty(block))
+								for (lesson in lessons[date][block])
 								{
-									for (lesson in lessons[date][block])
+									if (lessons[date][block].hasOwnProperty(lesson))
 									{
-										if (lessons[date][block].hasOwnProperty(lesson))
+										lessonElements = createLesson(lessons[date][block][lesson], true);
+										for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 										{
-											lessonElements = createLesson(lessons[date][block][lesson], true);
-											lessonElements.forEach(function (element)
-											{
-												cell = rows[0].getElementsByTagName("td")[colNumber];
-												cell.appendChild(element);
-											});
+											cell = rows[0].getElementsByTagName("td")[colNumber];
+											cell.appendChild(lessonElements[elementIndex]);
 										}
 									}
 								}
@@ -830,7 +837,7 @@ var ScheduleApp = function ()
 				 */
 				createLesson = function (data, ownTime)
 				{
-					var added = false, commentDiv, irrelevantPool, lessonElement, lessons, ownTimeSpan, poolsOuterDiv,
+					var commentDiv, irrelevantPool, lessonElement, lessons, ownTimeSpan, poolsOuterDiv,
 						roomsOuterDiv, scheduleID = schedule.getId(), scheduleResource = schedule.getResource(),
 						subject, subjectOuterDiv, subjectData, teachersOuterDiv;
 
@@ -846,7 +853,7 @@ var ScheduleApp = function ()
 					{
 						if (!data.subjects.hasOwnProperty(subject))
 						{
-							return false;
+							continue;
 						}
 						subjectData = data.subjects[subject];
 						subjectData.method = (data.method ? data.method : "");
@@ -859,13 +866,14 @@ var ScheduleApp = function ()
 
 						irrelevantPool = scheduleResource === "pool" && subjectData.poolDeltas[scheduleID.replace("pool", "")] === "removed";
 
-						if (irrelevantPool || (data.lessonDelta && data.lessonDelta === "removed") || (data.calendarDelta && data.calendarDelta === "removed"))
+						if (irrelevantPool || (data.lessonDelta && data.lessonDelta === "removed") ||
+							(data.calendarDelta && data.calendarDelta === "removed"))
 						{
 							lessonElement.classList.add("calendar-removed");
 						}
-
 						// Delta = "removed" or "new" or "changed" ? add class like "lesson-new"
-						else if ((data.lessonDelta && data.lessonDelta === "new") || (data.calendarDelta && data.calendarDelta === "new"))
+						else if ((data.lessonDelta && data.lessonDelta === "new") ||
+							(data.calendarDelta && data.calendarDelta === "new"))
 						{
 							lessonElement.classList.add("calendar-new");
 						}
@@ -1023,6 +1031,7 @@ var ScheduleApp = function ()
 				},
 
 				/**
+				 * TODO: program-links funktionieren nicht mehr (keine programs in lesson data)
 				 * Adds DOM-elements with eventListener directing to subject details, when there are some, to given outer element
 				 *
 				 * @param {HTMLDivElement} outerElement
@@ -1030,13 +1039,13 @@ var ScheduleApp = function ()
 				 */
 				addSubjectElements = function (outerElement, data)
 				{
-					var subjectLinkID, openSubjectDetailsLink, planProgramID, programID,
+					var subjectLinkID, openSubjectDetailsLink, programID,
 						subjectNameElement, name, numIndex, subjectNumbers, subjectNumberElement;
 
 					// Find the right subjectID for subject details depending on schedule plan program
 					subjectLinkID = (function ()
 					{
-						var subjectID, planProgramID;
+						var subjectID;
 
 						for (subjectID in data.programs)
 						{
@@ -1050,7 +1059,7 @@ var ScheduleApp = function ()
 								{
 									continue;
 								}
-								if (data.programs[subjectID][programID]["planProgramID"] === scheduleObject.getProgramID())
+								if (data.programs[subjectID][programID].planProgramID === scheduleObject.getProgramID())
 								{
 									return subjectID;
 								}
@@ -1135,20 +1144,29 @@ var ScheduleApp = function ()
 
 							if (variables[showX] !== "0")
 							{
-								// closure because of for-loop
-								(function (id)
-								{
-									nameElement.addEventListener("click", function ()
-									{
-										sendLessonRequest(resource, id, data[id].fullName ? data[id].fullName : data[id]);
-									});
-								})(id);
+								// outsourced to avoid closure in for-loop
+								addLessonEvent(nameElement, resource, id, data[id].fullName ? data[id].fullName : data[id]);
 							}
 
 							span.appendChild(nameElement);
 							outerElement.appendChild(span);
 						}
 					}
+				},
+
+				/**
+				 * Adds an eventListener to the given element, which triggers a lessonRequest with further params
+				 * @param {HTMLElement} element
+				 * @param {string} resource
+				 * @param {string|int} id
+				 * @param {string} title
+				 */
+				addLessonEvent = function (element, resource, id, title)
+				{
+					element.addEventListener("click", function ()
+					{
+						sendLessonRequest(resource, id, title);
+					});
 				},
 
 				/**
@@ -1563,6 +1581,451 @@ var ScheduleApp = function ()
 		},
 
 		/**
+		 * Form of selecting a schedule
+		 */
+		ScheduleForm = function ()
+		{
+			var fieldsToShow = {},
+				config = {
+					"name": "",
+					"values": []
+				},
+				fields = {
+					"category": document.getElementById("category"),
+					"department": document.getElementById("department"),
+					"pool": document.getElementById("pool"),
+					"program": document.getElementById("program"),
+					"roomtype": document.getElementById("roomtype"),
+					"room": document.getElementById("room"),
+					"teacher": document.getElementById("teacher")
+				},
+				placeholder = {
+					"pool": text.POOL_PLACEHOLDER,
+					"program": text.PROGRAM_PLACEHOLDER,
+					"roomtype": text.ROOMTYPE_PLACEHOLDER,
+					"room": text.ROOM_PLACEHOLDER,
+					"teacher": text.TEACHER_PLACEHOLDER
+				},
+				wrappers = {
+					"category": document.getElementById("category-input"),
+					"department": document.getElementById("department-input"),
+					"pool": document.getElementById("pool-input"),
+					"program": document.getElementById("program-input"),
+					"roomtype": document.getElementById("roomtype-input"),
+					"room": document.getElementById("room-input"),
+					"teacher": document.getElementById("teacher-input")
+				},
+				sessionFields = JSON.parse(window.sessionStorage.getItem("scheduleForm")) || {},
+				sessionDepartments = JSON.parse(window.sessionStorage.getItem("scheduleDepartment")) || {},
+
+				/**
+				 * Get ajax url for selecting a form field
+				 * @param {HTMLSelectElement} field - selected field
+				 * @param {string} [values] - optional values to specify task
+				 */
+				getFormTask = function (field, values)
+				{
+					var task = getAjaxUrl("get" + (field.dataset.input === "static" ? jQuery(field).val() : field.id) + "s"),
+						previousField = document.querySelector("[data-next=" + field.id + "]");
+
+					if (previousField)
+					{
+						task += "&" + previousField.id + "IDs=" + (values ? values : getSelectedValues(previousField.id));
+					}
+
+					return task;
+				},
+
+				/**
+				 * Set an option with placeholder text after removing all options
+				 * @param {HTMLSelectElement} field
+				 */
+				setPlaceholder = function (field)
+				{
+					var option;
+
+					removeChildren(field);
+
+					if (placeholder[field.id])
+					{
+						option = document.createElement("option");
+						option.setAttribute("value", "");
+						option.setAttribute("disabled", "disabled");
+						option.setAttribute("selected", "selected");
+						option.innerHTML = placeholder[field.id];
+						field.appendChild(option);
+					}
+				},
+
+				/**
+				 * Add an event handler for all schedule form selection elements
+				 * @param {HTMLSelectElement} field
+				 */
+				addSelectEventListener = function (field)
+				{
+					if (variables.isMobile) // no Chosen-library available
+					{
+						fields[field.id].addEventListener("change", handleField);
+					}
+					else
+					{
+						jQuery(field).chosen().change(handleField);
+
+						if (field.dataset.next === "lesson")
+						{
+							// Select on click, even on already selected(!) options (unlike Chosens "change" event)
+							wrappers[field.id].getElementsByClassName("chzn-results")[0].addEventListener("click",
+								function ()
+								{
+									handleField(field.id);
+								}
+							);
+						}
+					}
+				},
+
+				/**
+				 * Show given field and its 'parents' (like roomtype to room) and hide rest
+				 * @param {string} name - id of field
+				 */
+				showField = function (name)
+				{
+					var field, id, selectedValue = "";
+
+					if (fields[name].dataset.input === "static")
+					{
+						selectedValue = getSelectedValues(name);
+					}
+
+					// Go through all ScheduleForm fields and show/hide them, when they are related to given field
+					for (id in fields)
+					{
+						if (fields.hasOwnProperty(id))
+						{
+							field = fields[id];
+
+							if (fieldsToShow[id] && (
+									id === name || // Show the as param given field
+									field.dataset.next === name || // Show previous field
+									field.dataset.input === "static" || // Show static fields like category
+									id === selectedValue // Show static fields and their selection
+								)
+							)
+							{
+								jQuery(wrappers[id]).show();
+							}
+							else
+							{
+								jQuery(wrappers[id]).hide();
+							}
+						}
+					}
+				},
+
+				/**
+				 * Set session data to save form state, provided that the field does not fire a new schedule (lessons)
+				 * @param {HTMLSelectElement} field - will be set into session storage
+				 */
+				setSession = function (field)
+				{
+					var session = {};
+
+					if (field.dataset.next !== "lesson")
+					{
+						session.name = field.id;
+						session.value = getSelectedValues(field.id);
+
+						if (field.id === "department")
+						{
+							sessionDepartments[variables.menuID] = session;
+							window.sessionStorage.setItem("scheduleDepartment", JSON.stringify(sessionDepartments));
+						}
+						else
+						{
+							sessionFields[variables.menuID] = session;
+							window.sessionStorage.setItem("scheduleForm", JSON.stringify(sessionFields));
+						}
+					}
+				},
+
+				/**
+				 * Loads field which is set in session
+				 * @return boolean - success indicator
+				 */
+				loadSession = function ()
+				{
+					var department = sessionDepartments[variables.menuID], session = sessionFields[variables.menuID];
+
+					if (department)
+					{
+						jQuery("#department")
+							.val(department.value)
+							.chosen("destroy").chosen();
+					}
+
+					if (session)
+					{
+						if (session.name === config.name) // Prevent overwriting configuration values
+						{
+							sendFormRequest(session.name, session.value, config.values);
+						}
+						else if (fields[session.name].dataset.input === "static")
+						{
+							jQuery(fields[session.name])
+								.val(session.value)
+								.chosen("destroy").chosen();
+
+							if (fields[session.value]) // update static selected field like program
+							{
+								sendFormRequest(session.value);
+							}
+						}
+						else
+						{
+							sendFormRequest(session.name, session.value);
+						}
+						return true;
+					}
+					return false;
+				},
+
+				/**
+				 * Sends Ajax request for given field and handles the incoming values
+				 * @param {string} name - name/id of field to fill with options
+				 * @param {int|string} [selectedValue] - value to select immediately
+				 * @param {Array} [onlyValues] - array with values that are designated to add
+				 */
+				sendFormRequest = function (name, selectedValue, onlyValues)
+				{
+					var ajax = new XMLHttpRequest(), field = fields[name], task = getFormTask(field, selectedValue);
+
+					ajax.open("GET", task, true);
+					ajax.onreadystatechange = function ()
+					{
+						var option, optionCount, response, value;
+
+						if (ajax.readyState === 4 && ajax.status === 200)
+						{
+							response = JSON.parse(ajax.responseText);
+							optionCount = onlyValues ? onlyValues.length : Object.keys(response).length;
+							setPlaceholder(field);
+
+							for (value in response)
+							{
+								if (response.hasOwnProperty(value) && (!onlyValues || onlyValues.includes(response[value])))
+								{
+									option = document.createElement("option");
+									option.value = value.id ? value.id : response[value];
+									option.innerHTML = value.name ? value.name : value;
+									option.selected = (optionCount === 1 || option.value === selectedValue);
+									field.appendChild(option);
+								}
+							}
+
+							if (optionCount === 1 || selectedValue)
+							{
+								if (field.dataset.next === "lesson")
+								{
+									sendLessonRequest(field.id);
+								}
+								else
+								{
+									sendFormRequest(field.dataset.next);
+								}
+							}
+
+							jQuery(field).chosen("destroy").chosen();
+							// Because of Chosen update, options loose their eventListener after changes
+							addSelectEventListener(field);
+							showField(field.id);
+						}
+					};
+					ajax.send();
+				},
+
+				/**
+				 * Request for lessons or the next field will be send, depending on fields data-set
+				 * @param {Event|string} event - can be id too
+				 */
+				handleField = function (event)
+				{
+					var field = fields[event] || fields[event.target.id];
+
+					// Do not target placeholder
+					if (field.selectedIndex !== 0)
+					{
+						if (field.dataset.next === "lesson")
+						{
+							sendLessonRequest(field.id);
+							return;
+						}
+
+						if (field.dataset.input === "static")
+						{
+							sendFormRequest(getSelectedValues(field.id));
+						}
+						else
+						{
+							sendFormRequest(field.dataset.next);
+						}
+						setSession(field);
+					}
+				},
+
+				/**
+				 * Forms first field gets handled, inclusive setting session params and displaying fields
+				 */
+				handleFirstField = function ()
+				{
+					var firstField = fields[config.name] || fields.category, name = firstField.id;
+
+					if (config.name)
+					{
+						if (firstField.dataset.next === "lesson")
+						{
+							config.values.forEach(function (value)
+							{
+								var ajaxRequest = new XMLHttpRequest(),
+									titleTask = getAjaxUrl("getTitle") + "&resource=" + name + "&value=" + value;
+
+								// Gets title per Ajax for each schedule before it gets created
+								ajaxRequest.open("GET", titleTask, true);
+								ajaxRequest.onreadystatechange = function ()
+								{
+									if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
+									{
+										sendLessonRequest(name, value, ajaxRequest.responseText);
+									}
+								};
+								ajaxRequest.send();
+							});
+
+							disableTabs("tab-schedule-form");
+						}
+						else
+						{
+							sendFormRequest(name, undefined, config.values);
+						}
+					}
+					else // First field is static (category)
+					{
+						sendFormRequest(getSelectedValues(name));
+						showField(name);
+					}
+				},
+
+				/**
+				 * Reloads the next visible and flexible field of the form (for updating departmentID)
+				 */
+				updateNextVisibleField = function ()
+				{
+					var field, name, toUpdate = {"next": "", "lesson": ""}, wrapper;
+
+					for (name in fields)
+					{
+						if (fields.hasOwnProperty(name))
+						{
+							field = fields[name];
+							wrapper = jQuery(wrappers[name]);
+
+							if (wrapper.css("display") !== "none" && field.dataset.input !== "static")
+							{
+								if (field.dataset.next === "lesson")
+								{
+									toUpdate.lesson = field.id;
+								}
+								else
+								{
+									toUpdate.next = field.id;
+								}
+							}
+						}
+					}
+					// non lesson-fields have priority, but in some cases there are only lesson-fields (teacher)
+					sendFormRequest(toUpdate.next || toUpdate.lesson);
+				};
+
+			/**
+			 * Build the form by collecting configurations and handles the first field of schedule form
+			 */
+			(function ()
+			{
+				var fieldName, idMatch, showMatch, values, valueIndex, variable;
+
+				// Collect form configuration from backend (file variables.js.php)
+				for (variable in variables)
+				{
+					if (!variables.hasOwnProperty(variable))
+					{
+						continue;
+					}
+
+					idMatch = /^(\w+)*IDs$/.exec(variable);
+					if (idMatch)
+					{
+						config.name = idMatch[1].toLowerCase();
+						values = variables[variable];
+
+						// Convert values to strings, to compare them later with Ajax response
+						if (jQuery.isArray(values))
+						{
+							for (valueIndex = 0; valueIndex < values.length; ++valueIndex)
+							{
+								config.values.push("" + values[valueIndex]);
+							}
+						}
+						else
+						{
+							config.values.push("" + values);
+						}
+					}
+
+					showMatch = /^show(\w+)s$/i.exec(variable);
+					if (showMatch)
+					{
+						fieldName = showMatch[1].toLowerCase();
+						fieldsToShow[fieldName] = variables[variable] === "1";
+					}
+				}
+
+				// No configured field => category have to be visible
+				fieldsToShow.category = !config.name;
+				fieldsToShow.department = variables.departmentID === "0";
+
+				jQuery("#category").chosen().change(function ()
+				{
+					sendFormRequest(getSelectedValues(this.id));
+					setSession(this);
+				});
+				jQuery("#department").chosen().change(function ()
+				{
+					updateNextVisibleField();
+					setSession(this);
+				});
+
+				if (!loadSession())
+				{
+					handleFirstField();
+				}
+			})();
+		},
+
+		/**
+		 * Get the general ajax url
+		 * @param {string} [task = "getLesson"]
+		 * @returns {string}
+		 */
+		getAjaxUrl = function (task)
+		{
+			var selectedDepartments = getSelectedValues("department") || 0, url = "&departmentIDs=";
+
+			url += variables.departmentID === "0" ? selectedDepartments : variables.departmentID;
+			url += "&task=" + (task ? task : "getLessons");
+
+			return variables.ajaxbase + url;
+		},
+
+		/**
 		 * Loads schedules from session storage
 		 */
 		loadSessionSchedules = function ()
@@ -1575,7 +2038,7 @@ var ScheduleApp = function ()
 				{
 					if (schedules.hasOwnProperty(id) && !scheduleObjects.getScheduleById(id))
 					{
-						new Schedule(schedules[id]["resource"], schedules[id]["IDs"], schedules[id]["title"]);
+						new Schedule(schedules[id].resource, schedules[id].IDs, schedules[id].title);
 					}
 				}
 
@@ -1602,318 +2065,15 @@ var ScheduleApp = function ()
 		},
 
 		/**
-		 * Configures and build form depending on (url-) parameters
-		 */
-		setUpForm = function ()
-		{
-			var title = variables.displayName,
-				formConfig = (function ()
-				{
-					var program = variables.showPrograms !== "0", // (string) "0" = true
-						room = variables.showRooms !== "0",
-						teacher = variables.showTeachers !== "0",
-						paramIDs = (function ()
-						{
-							var params = variables.subjectIDs || variables.programIDs || variables.poolIDs || variables.roomIDs
-								|| variables.roomTypeIDs || variables.teacherIDs;
-
-							if (typeof params === "number")
-							{
-								return params.toString();
-							}
-							else if (typeof params === "object")
-							{
-								return params.join(",");
-							}
-							return null;
-						})(),
-						categoryName = (function ()
-						{
-							return variables.subjectIDs ? "subject"
-								: variables.programIDs ? "program"
-								: variables.poolIDs ? "pool"
-								: variables.teacherIDs ? "teacher"
-								: variables.roomTypeIDs ? "roomtype"
-								: variables.roomIDs ? "room"
-								: null;
-						})();
-
-					return {
-						max: (program ? 1 : 0) + (room ? 1 : 0) + (teacher ? 1 : 0),
-						inputToShowFirst: program ? "program" : room ? "roomtype" : "teacher",
-						IDs: paramIDs,
-						category: categoryName,
-						session: JSON.parse(window.sessionStorage.getItem("scheduleCategory"))
-					};
-				})();
-
-			// Hide category input when there is only one category activated or no category needed
-			if (formConfig.max === 1 || formConfig.IDs)
-			{
-				document.getElementById("category-input").classList.add("hide");
-			}
-
-			if (formConfig.IDs)
-			{
-				if (variables.programIDs)
-				{
-					sendFormRequest("pool", formConfig.IDs);
-					showForm("pool");
-				}
-				else if (variables.roomTypeIDs)
-				{
-					sendFormRequest("room", formConfig.IDs);
-					showForm("room");
-				}
-				else
-				{
-					sendLessonRequest(formConfig.category, formConfig.IDs, title);
-				}
-				if (variables.poolIDs || variables.roomIDs || variables.teacherIDs)
-				{
-					disableTabs("tab-schedule-form");
-				}
-				if (variables.subjectIDs)
-				{
-					disableTabs(["tab-schedule-form", "tab-selected-schedules"]);
-				}
-			}
-			else if (formConfig.session)
-			{
-				sendFormRequest(formConfig.session.category, NaN, formConfig.session.id);
-				showForm(formConfig.session.category);
-				selectCategory(formConfig.session.category);
-			}
-			else
-			{
-				sendFormRequest(formConfig.inputToShowFirst);
-				showForm("category-" + formConfig.inputToShowFirst);
-			}
-		},
-
-		/**
-		 * Selects given category in category-input of schedule form
-		 *
-		 * @param {string} category - name of selected category
-		 */
-		selectCategory = function (category)
-		{
-			var options = document.getElementById("category").options, index, option;
-
-			for (index = 0; index < options.length; ++index)
-			{
-				option = options[index];
-				option.selected = option.value === category;
-			}
-		},
-
-		/**
-		 * Sends a request for the given input ID and shows the belonging fields
-		 *
-		 * @param {string} inputID
-		 */
-		showForm = function (inputID)
-		{
-			var element, inputIndex, field, fieldLength = inputFields.length,
-				order = {
-					"category-program": ["program-input"],
-					"program": ["program-input", "pool-input"],
-					"pool": ["pool-input"],
-					"category-roomtype": ["roomtype-input"],
-					"roomtype": ["roomtype-input", "room-input"],
-					"room": ["room-input"],
-					"category-teacher": ["teacher-input"],
-					"teacher": ["teacher-input"]
-				};
-
-			// no pre set department, so it is needed for every form
-			if (variables.departmentID === "0")
-			{
-				for (element in order)
-				{
-					if (order.hasOwnProperty(element))
-					{
-						order[element].push("department-input");
-					}
-				}
-			}
-
-			for (inputIndex = 0; inputIndex < fieldLength; ++inputIndex)
-			{
-				field = inputFields[inputIndex];
-				if (order[inputID].indexOf(field.id) !== -1)
-				{
-					field.classList.remove("hide");
-				}
-				else
-				{
-					field.classList.add("hide");
-				}
-			}
-		},
-
-		/**
-		 * starts an Ajax request to fill form fields with values
-		 *
-		 * @param {string} resource
-		 * @param {string|number} [ids] - to insert them in request instead of form selection values
-		 * @param {number} [selectedId]  - select value immediately and show next form input
-		 */
-		sendFormRequest = function (resource, ids, selectedId)
-		{
-			var task = "&departmentIDs=" + (variables.departmentID !== "0" ? variables.departmentID :
-					getSelectedValues("department") ? getSelectedValues("department") : "0");
-
-			switch (resource)
-			{
-				case "program":
-					task += "&task=getPrograms";
-					break;
-				case "pool":
-					task += "&task=getPools" + "&programIDs=" + (ids ? ids : getSelectedValues("program"));
-					break;
-				case "roomtype":
-					task += "&task=getRoomTypes";
-					break;
-				case "room":
-					task += "&task=getRooms" + "&typeID=" + (ids ? ids : getSelectedValues("roomtype"));
-					break;
-				case "teacher":
-					task += "&task=getTeachers";
-					break;
-				case "subject":
-					return sendLessonRequest(resource, ids);
-				default:
-					console.log("searching default category...");
-					return;
-			}
-
-			// Global variable for catching responds in other functions
-			ajaxSelection.open("GET", variables.ajaxbase + task, true);
-			ajaxSelection.onreadystatechange = function ()
-			{
-				var value, values, fieldElement, option, optionCount, optionValue,
-					nextResource = document.getElementById(resource).dataset.next;
-
-				if (ajaxSelection.readyState === 4 && ajaxSelection.status === 200)
-				{
-					fieldElement = document.getElementById(resource);
-					removeChildren(fieldElement);
-
-					if (placeholder[resource])
-					{
-						option = document.createElement("option");
-						option.setAttribute("value", "");
-						option.innerHTML = placeholder[resource];
-						fieldElement.appendChild(option);
-					}
-
-					values = JSON.parse(ajaxSelection.responseText);
-					optionCount = Object.keys(values).length;
-					for (value in values)
-					{
-						if (values.hasOwnProperty(value))
-						{
-							option = document.createElement("option");
-							optionValue = value.name ? values[value].id : values[value];
-							option.setAttribute("value", optionValue);
-							option.innerHTML = value.name ? values[value].name : value;
-							fieldElement.appendChild(option);
-
-							if (optionValue === selectedId || optionCount === 1)
-							{
-								option.selected = true;
-								if (nextResource)
-								{
-									sendFormRequest(nextResource, selectedId);
-								}
-								else
-								{
-									sendLessonRequest(resource, selectedId);
-								}
-							}
-						}
-					}
-
-					fieldElement.removeAttribute("disabled");
-					jQuery("#" + resource).chosen("destroy").chosen();
-					addSelectionEvent(resource);
-
-					if (optionCount === 1)
-					{
-						sendLessonRequest(resource);
-					}
-				}
-			};
-
-			ajaxSelection.send(null);
-		},
-
-		/**
-		 * Adds an event handler for schedule form selection elements
-		 *
-		 * @param {string} id - the elements ID which needs this event handler
-		 */
-		addSelectionEvent = function (id)
-		{
-			var input = document.getElementById(id + "-input"), drop = input.getElementsByClassName("chzn-results")[0];
-
-			if (variables.isMobile)
-			{
-				// no Chosen-library available
-				document.getElementById(id).addEventListener("change", handleFormSelection);
-			}
-
-			// Select on click, even on already selected(!) options (unlike Chosens "change" event)
-			jQuery("#" + id).chosen().change(handleFormSelection);
-
-			if (!input.dataset.next)
-			{
-				drop.addEventListener("click", function (event)
-				{
-					if (event.target.dataset.optionArrayIndex !== "0")
-					{
-						handleFormSelection(id);
-					}
-				});
-			}
-		},
-
-		/**
-		 * Event handler for changing/selecting a schedule form input to load the next data or loads lessons
-		 *
-		 * @param {string} id - the form inputs id (optional).
-		 */
-		handleFormSelection = function (id)
-		{
-			var element = (typeof id === "string") ? document.getElementById(id) : id.target,
-				sessionCategory = {
-					"category": element.id,
-					"id": getSelectedValues(element.id)
-				};
-
-			if (element.dataset.next)
-			{
-				window.sessionStorage.setItem("scheduleCategory", JSON.stringify(sessionCategory));
-				sendFormRequest(element.dataset.next);
-				showForm(element.id);
-			}
-			else
-			{
-				sendLessonRequest(element.id);
-			}
-		},
-
-		/**
 		 * starts an Ajax request to get lessons for the selected resource
 		 *
 		 * @param {string} resource
-		 * @param {string|number} [optionalID] - specific id instead of resource form selection
-		 * @param {string} [optionalTitle] - the same with optionalID
+		 * @param {string|number} [id]
+		 * @param {string} [title]
 		 */
-		sendLessonRequest = function (resource, optionalID, optionalTitle)
+		sendLessonRequest = function (resource, id, title)
 		{
-			var IDs = optionalID || getSelectedValues(resource, "-"), schedule = scheduleObjects.getScheduleById(resource + IDs);
+			var IDs = id || getSelectedValues(resource, "-"), schedule = scheduleObjects.getScheduleById(resource + IDs);
 
 			if (schedule)
 			{
@@ -1921,10 +2081,11 @@ var ScheduleApp = function ()
 			}
 			else
 			{
-				new Schedule(resource, IDs, optionalTitle);
+				schedule = new Schedule(resource, IDs, title);
 			}
 
 			switchToScheduleListTab();
+			showSchedule(schedule.getId());
 		},
 
 		/**
@@ -1937,7 +2098,7 @@ var ScheduleApp = function ()
 			var pastDate = dates.pastDate ? new Date(dates.pastDate) : null,
 				futureDate = dates.futureDate ? new Date(dates.futureDate) : null;
 
-				nextDateSelection.style.display = "block";
+			nextDateSelection.style.display = "block";
 
 			if (pastDate)
 			{
@@ -1975,7 +2136,7 @@ var ScheduleApp = function ()
 		{
 			var mode = (typeof taskNumber === "undefined") ? "1" : taskNumber,
 				saving = (typeof save === "undefined") ? true : save,
-				task = "&task=" + (saving ? "saveLesson" : "deleteLesson");
+				task = getAjaxUrl(saving ? "saveLesson" : "deleteLesson");
 
 			if (!ccmID)
 			{
@@ -1983,7 +2144,7 @@ var ScheduleApp = function ()
 			}
 
 			task += "&mode=" + mode + "&ccmID=" + ccmID;
-			ajaxSave.open("GET", variables.ajaxbase + task, true);
+			ajaxSave.open("GET", task, true);
 			ajaxSave.onreadystatechange = function ()
 			{
 				var handledLessons, lessonIndex, lessonElements, lessonElement;
@@ -1992,32 +2153,32 @@ var ScheduleApp = function ()
 				{
 					handledLessons = JSON.parse(ajaxSave.responseText);
 
+					// TODO: "occupied" cells in schedule object ablegen und abfragen, statt auf Elemente zu warten, die von asynchronen requests abhängen
 					scheduleObjects.schedules.forEach(function (schedule)
+					{
+						lessonElements = schedule.getTable().getLessons();
+						for (lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
 						{
-							lessonElements = schedule.getTable().getLessons();
-							for (lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
-							{
-								lessonElement = lessonElements[lessonIndex];
+							lessonElement = lessonElements[lessonIndex];
 
-								if (handledLessons.includes(lessonElement.dataset.ccmID))
+							if (handledLessons.includes(lessonElement.dataset.ccmID))
+							{
+								if (saving)
 								{
-									if (saving)
-									{
-										lessonElement.classList.add("added");
-									}
-									else
-									{
-										lessonElement.classList.remove("added");
-									}
+									lessonElement.classList.add("added");
+								}
+								else
+								{
+									lessonElement.classList.remove("added");
 								}
 							}
 						}
-					);
+					});
 
 					app.updateSchedule();
 				}
 			};
-			ajaxSave.send(null);
+			ajaxSave.send();
 		},
 
 		/**
@@ -2145,26 +2306,22 @@ var ScheduleApp = function ()
 		 */
 		getSelectedValues = function (fieldID, separator)
 		{
-			var sep = separator ? separator : ",", field = document.getElementById(fieldID),
-				options = field ? field.options : undefined, result = [];
+			var sep = separator || ",", field = document.getElementById(fieldID),
+				options = field ? field.options : undefined, result = [], index;
 
-			if (!field)
+			if (field && field.selectedIndex > -1)
 			{
-				return false;
-			}
-
-			if (field.selectedIndex > -1)
-			{
-				for (var index = 0; index < options.length; ++index)
+				for (index = 0; index < options.length; ++index)
 				{
 					if (options[index].selected)
 					{
 						result.push(options[index].value);
 					}
 				}
+				return result.join(sep);
 			}
 
-			return result.join(sep);
+			return false;
 		},
 
 		/**
@@ -2378,10 +2535,9 @@ var ScheduleApp = function ()
 					}
 				).length,
 				timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid),
-				endFirst, startSecond,
-				addBreakRow, addLunchBreakRow, periods, table, rows;
+				endFirst, startSecond, addBreakRow, addLunchBreakRow, periods, rows;
 
-			tables.each(function(index, table)
+			tables.each(function (index, table)
 			{
 				rows = jQuery(table).find("tbody").find("tr");
 
@@ -2409,6 +2565,10 @@ var ScheduleApp = function ()
 					rows.not(":eq(0)").removeClass("hide");
 					for (periods in timeGrid.periods)
 					{
+						if (!timeGrid.periods.hasOwnProperty(periods))
+						{
+							continue;
+						}
 						if (periods === "1" || periods === "2" || periods === "4" || periods === "5")
 						{
 							addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>';
@@ -2416,8 +2576,8 @@ var ScheduleApp = function ()
 						}
 						if (periods === "3")
 						{
-							addLunchBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '>'
-								+ text.LUNCHTIME + '</td></tr>';
+							addLunchBreakRow = '<tr class="break-row">' +
+								'<td class="break" colspan=' + numberOfColumns + '>' + text.LUNCHTIME + '</td></tr>';
 							jQuery(addLunchBreakRow).insertAfter(rows.eq(periods - 1));
 						}
 					}
@@ -2563,6 +2723,44 @@ var ScheduleApp = function ()
 	};
 
 	/**
+	 * get date string in the components specified format.
+	 * @see http://stackoverflow.com/a/3067896/6355472
+	 *
+	 * @param {boolean} [shortYear=true]
+	 * @returns {string}
+	 */
+	Date.prototype.getPresentationFormat = function (shortYear)
+	{
+		var date = variables.dateFormat,
+			day = this.getDate(),
+			dayLong = day < 10 ? "0" + day : day,
+			month = this.getMonth() + 1, // getMonth() is zero-based
+			monthLong = month < 10 ? "0" + month : month,
+			yearLong = this.getFullYear(),
+			year = yearLong.toString().substr(2, 2);
+
+		// Insert day
+		date = date.replace(/j/, day.toString());
+		date = date.replace(/d/, dayLong);
+		// Insert month
+		date = date.replace(/n/, month.toString());
+		date = date.replace(/m/, monthLong);
+
+		// Insert year
+		if (typeof shortYear === "undefined" ? false : shortYear)
+		{
+			date = date.replace(/y|Y/, year.toString());
+		}
+		else
+		{
+			date = date.replace(/Y/, yearLong.toString());
+			date = date.replace(/y/, year.toString());
+		}
+
+		return date;
+	};
+
+	/**
 	 * "Constructor"
 	 * Adds EventListener and initialise menus, schedules, tabs, calendar and form
 	 */
@@ -2571,10 +2769,11 @@ var ScheduleApp = function ()
 		var sessionDate = window.sessionStorage.getItem("scheduleDate"), startX, startY,
 			date = sessionDate ? new Date(sessionDate) : new Date();
 
+		app.dateField.value = date.getPresentationFormat();
 		calendar = new Calendar();
 		lessonMenu = new LessonMenu();
 		scheduleObjects = new Schedules();
-		app.dateField.value = date.getPresentationFormat();
+		form = new ScheduleForm();
 
 		if (variables.registered && !scheduleObjects.getScheduleById("user"))
 		{
@@ -2585,7 +2784,6 @@ var ScheduleApp = function ()
 		changePositionOfDateInput();
 		disableTabs();
 		selectSessionGrid();
-		setUpForm();
 		loadSessionSchedules();
 
 		/**
@@ -2596,14 +2794,14 @@ var ScheduleApp = function ()
 		scheduleWrapper.addEventListener("touchstart", function (event)
 		{
 			var touch = event.changedTouches[0];
-			startX = parseInt(touch.pageX);
-			startY = parseInt(touch.pageY);
+			startX = parseInt(touch.pageX, 10);
+			startY = parseInt(touch.pageY, 10);
 		});
 		scheduleWrapper.addEventListener("touchend", function (event)
 		{
 			var touch = event.changedTouches[0], minDist = 50,
-				distX = parseInt(touch.pageX) - startX,
-				distY = parseInt(touch.pageY) - startY;
+				distX = parseInt(touch.pageX, 10) - startX,
+				distY = parseInt(touch.pageY, 10) - startY;
 
 			if (Math.abs(distX) > Math.abs(distY))
 			{
@@ -2621,17 +2819,6 @@ var ScheduleApp = function ()
 				}
 			}
 		});
-		jQuery("#category").chosen().change(function ()
-		{
-			window.sessionStorage.setItem("scheduleCategory", JSON.stringify({"category": this.value, "id": null}));
-			sendFormRequest(this.value);
-			showForm("category-" + this.value);
-		});
-		jQuery("#department").chosen().change(function ()
-		{
-			showForm("category-" + getSelectedValues("category"));
-			sendFormRequest(getSelectedValues("category"));
-		});
 		jQuery("#schedules").chosen().change(function ()
 		{
 			var scheduleInput = document.getElementById(jQuery("#schedules").val());
@@ -2639,7 +2826,6 @@ var ScheduleApp = function ()
 			// To show the schedule after this input field (by css)
 			scheduleInput.checked = "checked";
 		});
-
 		// Change Tab-Behaviour of menu-bar, so all tabs can be closed
 		jQuery(".tabs-toggle").on("click", function (event)
 		{
@@ -2678,42 +2864,4 @@ var ScheduleApp = function ()
 			}
 		}
 	});
-};
-
-/**
- * get date string in the components specified format.
- * @see http://stackoverflow.com/a/3067896/6355472
- *
- * @param {boolean} [shortYear=true]
- * @returns {string}
- */
-Date.prototype.getPresentationFormat = function (shortYear)
-{
-	var date = variables.dateFormat,
-		day = this.getDate(),
-		dayLong = day < 10 ? "0" + day : day,
-		month = this.getMonth() + 1, // getMonth() is zero-based
-		monthLong = month < 10 ? "0" + month : month,
-		yearLong = this.getFullYear(),
-		year = yearLong.toString().substr(2, 2);
-
-	// Insert day
-	date = date.replace(/j/, day.toString());
-	date = date.replace(/d/, dayLong);
-	// Insert month
-	date = date.replace(/n/, month.toString());
-	date = date.replace(/m/, monthLong);
-
-	// Insert year
-	if (typeof shortYear === "undefined" ? false : shortYear)
-	{
-		date = date.replace(/y|Y/, year.toString());
-	}
-	else
-	{
-		date = date.replace(/Y/, yearLong.toString());
-		date = date.replace(/y/, year.toString());
-	}
-
-	return date;
 };

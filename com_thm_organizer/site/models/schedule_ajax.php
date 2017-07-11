@@ -124,6 +124,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 
 		$default = array(JText::_('JALL') => '-1');
+
 		return json_encode(array_merge($default, $result));
 	}
 
@@ -136,7 +137,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function getRooms()
 	{
 		$departmentID = JFactory::getApplication()->input->getInt('departmentIDs');
-		$typeID       = JFactory::getApplication()->input->getInt('typeID');
+		$typeID       = JFactory::getApplication()->input->getInt('roomtypeIDs');
 
 		$query = $this->_db->getQuery(true);
 		$query->select("roo.id, roo.longname AS name")
@@ -342,6 +343,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		try
 		{
 			$ccmIDs = $this->_db->loadColumn(0);
+
 			return empty($ccmIDs) ? array() : array($calReference->lessonID => $ccmIDs);
 		}
 		catch (RuntimeException $e)
@@ -421,5 +423,39 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 
 		return json_encode($deletedCcmIDs);
+	}
+
+	/**
+	 * Returns title of given resource
+	 *
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		$resource = JFactory::getApplication()->input->getString('resource');
+		$value    = JFactory::getApplication()->input->getInt('value');
+
+		switch ($resource)
+		{
+			case "room" :
+				/** @noinspection PhpIncludeInspection */
+				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
+				$title = JText::_('COM_THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
+				break;
+			case "pool" :
+				/** @noinspection PhpIncludeInspection */
+				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
+				$title = THM_OrganizerHelperPools::getFullName($value);
+				break;
+			case "teacher" :
+				/** @noinspection PhpIncludeInspection */
+				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
+				$title = JText::_('COM_THM_ORGANIZER_TEACHER') . ' ' . THM_OrganizerHelperTeachers::getDefaultName($value);
+				break;
+			default:
+				$title = '';
+		}
+
+		return $title;
 	}
 }

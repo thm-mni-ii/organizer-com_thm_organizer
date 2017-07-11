@@ -9,13 +9,13 @@
  * @link        www.mni.thm.de
  */
 
-"use strict";
-
 // Gets programs, rooms and teachers depending on selected department/program and inserts them into options
 jQuery(document).ready(function ()
 {
+	"use strict";
+
 	var department = jQuery('#jform_params_departmentID'),
-		program = jQuery('#jform_params_programID'),
+		program = jQuery('#jform_params_programIDs'),
 		pool = jQuery('#jform_params_poolIDs'),
 		room = jQuery('#jform_params_roomIDs'),
 		teacher = jQuery('#jform_params_teacherIDs');

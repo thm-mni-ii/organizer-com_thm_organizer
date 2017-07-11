@@ -17,10 +17,9 @@ $displayName = empty($this->model->displayName) ?
 	: JText::_('COM_THM_ORGANIZER_SCHEDULE') . ' - ' . $this->model->displayName;
 ?>
 
-<script type="text/javascript" charset="utf-8">
-	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/text.js.php"; ?>
-	<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/variables.js.php"; ?>
-</script>
+<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/text.html.php"; ?>
+<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/variables.html.php"; ?>
+
 <div class="organizer <?php echo $mobile; ?>">
 
 	<div class="page-header">
@@ -34,8 +33,7 @@ $displayName = empty($this->model->displayName) ?
 				   data-toggle="tab" data-id="schedule-form" role="tab" aria-controls="schedule-form"
 				   aria-selected="true">
 					<span class="icon-schedules"></span>
-					<span
-						class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULES"); ?></span>
+					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULES"); ?></span>
 				</a>
 			</li>
 			<li class="tabs-tab" role="presentation">
@@ -64,7 +62,7 @@ $displayName = empty($this->model->displayName) ?
 					        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
 						<span class="icon-arrow-left"></span>
 					</button>
-					<input id="date" type="text" required onchange="scheduleApp.updateSchedule('date');" />
+					<input id="date" type="text" required onchange="scheduleApp.updateSchedule('date');"/>
 					<button id="calendar-icon" type="button" class="controls"
 					        onclick="scheduleApp.getCalendar().showCalendar();">
 						<span class="icon-calendar"></span>
@@ -107,7 +105,8 @@ $displayName = empty($this->model->displayName) ?
 							<tfoot>
 							<tr>
 								<td colspan="7">
-									<button id="today" type="button" class="today">
+									<button id="today" type="button" class="today"
+									        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
 										<?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
 									</button>
 								</td>
@@ -143,8 +142,8 @@ $displayName = empty($this->model->displayName) ?
 				if (empty($this->model->params['departmentID']))
 				{
 					?>
-					<div id="department-input" class="input-wrapper" data-input-kind="flexible">
-						<select id="department" multiple
+					<div id="department-input" class="input-wrapper">
+						<select id="department" multiple data-input="static"
 						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
 							<?php
 							foreach ($this->getModel()->departments as $id => $department)
@@ -156,7 +155,7 @@ $displayName = empty($this->model->displayName) ?
 					</div>
 				<?php } ?>
 				<div id="category-input" class="input-wrapper">
-					<select id="category" required>
+					<select id="category" required data-input="static">
 						<option value="placeholder" disabled>
 							<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
 						</option>
@@ -178,28 +177,28 @@ $displayName = empty($this->model->displayName) ?
 						?>
 					</select>
 				</div>
-				<div id="program-input" class="input-wrapper" data-input-kind="flexible">
+				<div id="program-input" class="input-wrapper">
 					<select id="program" data-next="pool">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="pool-input" class="input-wrapper hide" data-input-kind="flexible">
-					<select id="pool">
+				<div id="pool-input" class="input-wrapper">
+					<select id="pool" data-next="lesson">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="roomtype-input" class="input-wrapper hide" data-input-kind="flexible">
+				<div id="roomtype-input" class="input-wrapper">
 					<select id="roomtype" data-next="room">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="room-input" class="input-wrapper hide" data-input-kind="flexible">
-					<select id="room">
+				<div id="room-input" class="input-wrapper">
+					<select id="room" data-next="lesson">
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="teacher-input" class="input-wrapper hide" data-input-kind="flexible">
-					<select id="teacher"
+				<div id="teacher-input" class="input-wrapper">
+					<select id="teacher" data-next="lesson"
 					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER"); ?>">
 						<!-- filled by ajax -->
 					</select>

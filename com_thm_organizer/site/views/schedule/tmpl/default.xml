@@ -18,7 +18,7 @@
                    description="COM_THM_ORGANIZER_DEPARTMENT_DESC">
                 <option value="0">JALL</option>
             </field>
-            <field name="programID"
+            <field name="programIDs"
                    type="genericlist"
                    valuecolumn="id"
                    textcolumn="name"

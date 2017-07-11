@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * @subpackage  com_thm_admin
  * @name        JFormFieldDepartmentList
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
  * @copyright   2017 TH Mittelhessen
@@ -16,10 +16,10 @@ JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 
 /**
- * Class loads a list of of entries for selection
+ * Class loads a list of department entries for selection and implements javascript for updating other fields in form
  *
- * @category    Joomla.Component
- * @package     THM_Organizer
+ * @category    Joomla.Component.Admin
+ * @package     thm_organizer
  * @subpackage  com_thm_organizer.media
  */
 class JFormFieldDepartmentList extends JFormFieldList
