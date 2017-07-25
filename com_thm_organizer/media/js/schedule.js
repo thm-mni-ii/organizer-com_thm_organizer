@@ -1,14 +1,3 @@
-/**
- * @category    JavaScript library
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        schedule.js
- * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
- */
-
 jQuery(document).ready(function ()
 {
 	"use strict";
@@ -520,7 +509,9 @@ var ScheduleApp = function (text, variables)
 		 */
 		ScheduleTable = function (schedule)
 		{
-			var lessonElements = [], // HTMLDivElements
+			var defaultGridID = null,
+				lessonElements = [], // HTMLDivElements
+				lessonData = {},
 				scheduleObject = schedule,
 				table = document.createElement("table"), // HTMLTableElement
 				timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid),
@@ -599,10 +590,10 @@ var ScheduleApp = function (text, variables)
 				 */
 				setGridTime = function ()
 				{
-					var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
+					var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"), row,
 						hasPeriods = timeGrid.hasOwnProperty("periods"), period = 1, timeCell, startTime, endTime;
 
-					for (var row = 0; row < rows.length; ++row)
+					for (row = 0; row < rows.length; ++row)
 					{
 						if (!rows[row].className.match(/break-row/))
 						{
@@ -750,7 +741,7 @@ var ScheduleApp = function (text, variables)
 									lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
 									for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 									{
-										cell.appendChild(lessonElements(elementIndex));
+										cell.appendChild(lessonElements[elementIndex]);
 									}
 									jQuery(cell).addClass("lessons");
 
@@ -768,7 +759,7 @@ var ScheduleApp = function (text, variables)
 										lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
 										for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 										{
-											nextCell.appendChild(lessonElements(elementIndex));
+											nextCell.appendChild(lessonElements[elementIndex]);
 										}
 									}
 								}
@@ -1263,6 +1254,51 @@ var ScheduleApp = function (text, variables)
 							}
 						}
 					}
+				},
+
+				/**
+				 * Sets default gridID of schedule and select it in grid form field
+				 */
+				setOwnGrid = function ()
+				{
+					if (!defaultGridID)
+					{
+						// Function returns first found gridID
+						defaultGridID = (function ()
+						{
+							var day, time, lesson;
+
+							for (day in lessonData)
+							{
+								if (!lessonData.hasOwnProperty(day))
+								{
+									continue;
+								}
+								for (time in lessonData[day])
+								{
+									if (!lessonData[day].hasOwnProperty(time))
+									{
+										continue;
+									}
+									for (lesson in lessonData[day][time])
+									{
+										if (lessonData[day][time].hasOwnProperty(lesson) &&
+											lessonData[day][time][lesson].gridID)
+										{
+											return lessonData[day][time][lesson].gridID;
+										}
+									}
+								}
+							}
+						})();
+					}
+
+					if (defaultGridID)
+					{
+						setGrid(defaultGridID);
+						timeGrid = JSON.parse(variables.grids[defaultGridID].grid);
+						setGridTime();
+					}
 				};
 
 			/**
@@ -1273,11 +1309,16 @@ var ScheduleApp = function (text, variables)
 			 */
 			this.update = function (lessons, newTimeGrid)
 			{
+				lessonData = lessons;
 				visibleDay = getDateFieldsDateObject().getDay();
 				if (newTimeGrid)
 				{
 					timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid);
 					setGridTime();
+				}
+				else
+				{
+					setOwnGrid();
 				}
 
 				resetTable();
@@ -2060,8 +2101,18 @@ var ScheduleApp = function (text, variables)
 
 			if (grid)
 			{
-				document.querySelector("#grid [value='" + grid + "']").selected = true;
+				setGrid(grid);
 			}
+		},
+
+		/**
+		 * Selects the given grid id in grid form field
+		 *
+		 * @param {int} id - grid id to set as selected
+		 */
+		setGrid = function (id)
+		{
+			jQuery("#grid").val(id).chosen("destroy").chosen();
 		},
 
 		/**

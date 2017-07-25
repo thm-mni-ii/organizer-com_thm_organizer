@@ -63,3 +63,9 @@ INSERT INTO `#__thm_organizer_subject_mappings` (`subjectID`, `plan_subjectID`) 
   ((SELECT `id` FROM `#__thm_organizer_subjects` WHERE abbreviation_de = 'BRKM'), 96),
   ((SELECT `id` FROM `#__thm_organizer_subjects` WHERE abbreviation_de = 'BRKM'), 375),
   ((SELECT `id` FROM `#__thm_organizer_subjects` WHERE abbreviation_de = 'BRKBF'), 1276);
+
+ALTER TABLE `#__thm_organizer_plan_pools`
+  ADD COLUMN `gridID` INT(11) UNSIGNED DEFAULT 1,
+  ADD CONSTRAINT `plan_pools_gridid_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE;

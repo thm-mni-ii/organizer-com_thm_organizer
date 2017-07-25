@@ -15,8 +15,8 @@
 	variables.displayName = "<?php echo $this->model->params['displayName']; ?>";
 	<?php endif; ?>
 	variables.grids = [];
-	<?php foreach ($this->model->grids as $key => $grid): ?>
-	variables.grids[<?php echo $key; ?>] = {
+	<?php foreach ($this->model->grids AS $grid): ?>
+	variables.grids[<?php echo $grid->id; ?>] = {
 		"id": "<?php echo $grid->id; ?>",
 		"grid": '<?php echo $grid->grid; ?>'
 	};

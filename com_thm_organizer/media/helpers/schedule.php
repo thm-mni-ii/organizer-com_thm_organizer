@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * @subpackage  com_thm_organizer.general
  * @name        THM_OrganizerHelperSchedule
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -23,7 +23,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class offering static schedule functions
  *
- * @category    Joomla.Component.Media
+ * @category    Joomla.Component.General
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.media
  */
@@ -68,14 +68,15 @@ class THM_OrganizerHelperSchedule
 				$aggregatedLessons[$date][$times][$lessonID]['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
 				$aggregatedLessons[$date][$times][$lessonID]['startTime'] = $lesson['startTime'];
 				$aggregatedLessons[$date][$times][$lessonID]['endTime']   = $lesson['endTime'];
+				$aggregatedLessons[$date][$times][$lessonID]['gridID']    = $lesson['gridID'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects']  = array();
 				$aggregatedLessons[$date][$times][$lessonID]['ccmID']     = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
 
-				$aggregatedLessons[$date][$times][$lessonID]['lessonDelta'] =
-					(empty($lesson['lessonDelta']) OR $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
+				$aggregatedLessons[$date][$times][$lessonID]['lessonDelta']
+					= (empty($lesson['lessonDelta']) OR $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
 
-				$aggregatedLessons[$date][$times][$lessonID]['calendarDelta'] =
-					(empty($lesson['calendarDelta']) OR $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
+				$aggregatedLessons[$date][$times][$lessonID]['calendarDelta']
+					= (empty($lesson['calendarDelta']) OR $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
 			}
 
 			$subjectData = self::getSubjectData($lesson);
@@ -87,10 +88,10 @@ class THM_OrganizerHelperSchedule
 
 			if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]))
 			{
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]             = $subjectData;
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] = $configuration['teachers'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']    = $configuration['rooms'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'] = array();
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]               = $subjectData;
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']   = $configuration['teachers'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']      = $configuration['rooms'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs']   = array();
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'] = array();
 			}
 			else
@@ -98,23 +99,23 @@ class THM_OrganizerHelperSchedule
 				$previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'];
 				$previousRooms    = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'];
 
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'] =
-					$previousTeachers + $configuration['teachers'];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']
+					= $previousTeachers + $configuration['teachers'];
 
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'] = $previousRooms + $configuration['rooms'];
 
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['subjectDelta'] = $subjectDelta;
 			}
 
-			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'][$lesson['poolID']] =
-				(empty($lesson['poolDelta']) OR $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'][$lesson['poolID']]
+				= (empty($lesson['poolDelta']) OR $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
 
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teacherDeltas'] = $configuration['teacherDeltas'];
 
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['roomDeltas'] = $configuration['roomDeltas'];
 
-			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']] =
-				array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
+			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
+				= array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
 
 			if (!empty($subjectData['id']))
 			{
@@ -219,7 +220,7 @@ class THM_OrganizerHelperSchedule
 
 		$select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
 		$select .= "ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ";
-		$select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ";
+		$select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, pool.gridID, ";
 		$select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
 		$select .= "lc.configuration, lc.modified AS configModified, pp.id AS planProgramID";
 
@@ -309,8 +310,8 @@ class THM_OrganizerHelperSchedule
 			'abbr'      => $lesson['psUntisID']
 		);
 
-		$tag          = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo          = JFactory::getDbo();
+		$tag           = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo           = JFactory::getDbo();
 		$subjectsQuery = $dbo->getQuery(true);
 
 		$select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, ";

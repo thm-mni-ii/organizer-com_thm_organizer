@@ -302,6 +302,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_pools` (
   `poolID`    INT(11) UNSIGNED          DEFAULT NULL,
   `programID` INT(11) UNSIGNED          DEFAULT NULL,
   `fieldID`   INT(11) UNSIGNED          DEFAULT NULL,
+  `gridID`    INT(11) UNSIGNED          DEFAULT 1,
   `name`      VARCHAR(100)     NOT NULL,
   `full_name` VARCHAR(100)     NOT NULL
   COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
@@ -762,6 +763,9 @@ REFERENCES `#__thm_organizer_planning_periods` (`id`)
 
 ALTER TABLE `#__thm_organizer_plan_pools`
   ADD CONSTRAINT `plan_pools_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `plan_pools_gridid_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
   ON DELETE SET NULL
   ON UPDATE CASCADE,
   ADD CONSTRAINT `plan_pools_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`)

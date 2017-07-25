@@ -30,13 +30,12 @@
                label="COM_THM_ORGANIZER_GRID"
                description="COM_THM_ORGANIZER_GRID_DESC"
                required="true"/>
-        <field
-                type="list"
-                name="default"
-                label="COM_THM_ORGANIZER_DEFAULT"
-                description="COM_THM_ORGANIZER_GRID_DEFAULT_DESC"
-                class="inputbox"
-                default="1">
+        <field name="defaultGrid"
+               type="list"
+               label="COM_THM_ORGANIZER_DEFAULT"
+               description="COM_THM_ORGANIZER_GRID_DEFAULT_DESC"
+               class="inputbox"
+               default="1">
             <option value='1'>JYES</option>
             <option value='0'>JNO</option>
         </field>

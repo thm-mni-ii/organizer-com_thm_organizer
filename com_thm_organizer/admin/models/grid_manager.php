@@ -38,7 +38,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 		$query    = $this->getDbo()->getQuery(true);
 
 		// `default` in apostrophes because otherwise it's a keyword in sql
-		$select = "id, name_$shortTag AS name, grid, `default`, ";
+		$select = "id, name_$shortTag AS name, grid, defaultGrid, ";
 		$parts  = array("'index.php?option=com_thm_organizer&view=grid_edit&id='", "id");
 		$select .= $query->concatenate($parts, "") . " AS link";
 		$query->select($select);
@@ -79,7 +79,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 				$lastPeriod  = end($periods);
 
 				$startDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->startDay} days")));
-				$endDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days")));
+				$endDayConstant   = strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days")));
 
 				// 'l' (lowercase L) in date function for full textual day of the week.
 				$return[$index]['startDay']  = JText::_($startDayConstant);
@@ -95,8 +95,8 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 				$return[$index]['endTime']   = '';
 			}
 
-			$tip                       = JText::_('COM_THM_ORGANIZER_GRID_DEFAULT_DESC');
-			$return[$index]['default'] = $this->getToggle($item->id, $item->default, 'grid', $tip);
+			$tip                           = JText::_('COM_THM_ORGANIZER_GRID_DEFAULT_DESC');
+			$return[$index]['defaultGrid'] = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
 			$index++;
 		}
 
@@ -110,14 +110,14 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$headers              = array();
-		$headers['checkbox']  = '';
-		$headers['name']      = JText::_('COM_THM_ORGANIZER_NAME');
-		$headers['startDay']  = JText::_('COM_THM_ORGANIZER_START_DAY');
-		$headers['endDay']    = JText::_('COM_THM_ORGANIZER_END_DAY');
-		$headers['startTime'] = JText::_('COM_THM_ORGANIZER_START_TIME');
-		$headers['endTime']   = JText::_('COM_THM_ORGANIZER_END_TIME');
-		$headers['default']   = JText::_('COM_THM_ORGANIZER_DEFAULT');
+		$headers                = array();
+		$headers['checkbox']    = '';
+		$headers['name']        = JText::_('COM_THM_ORGANIZER_NAME');
+		$headers['startDay']    = JText::_('COM_THM_ORGANIZER_START_DAY');
+		$headers['endDay']      = JText::_('COM_THM_ORGANIZER_END_DAY');
+		$headers['startTime']   = JText::_('COM_THM_ORGANIZER_START_TIME');
+		$headers['endTime']     = JText::_('COM_THM_ORGANIZER_END_TIME');
+		$headers['defaultGrid'] = JText::_('COM_THM_ORGANIZER_DEFAULT');
 
 		return $headers;
 	}

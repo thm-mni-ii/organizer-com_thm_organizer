@@ -153,7 +153,9 @@ $displayName = empty($this->model->displayName) ?
 							?>
 						</select>
 					</div>
-				<?php } ?>
+					<?php
+				}
+				?>
 				<div id="category-input" class="input-wrapper">
 					<select id="category" required data-input="static">
 						<option value="placeholder" disabled>
@@ -213,10 +215,10 @@ $displayName = empty($this->model->displayName) ?
 			     aria-labelledby="tab-time" aria-hidden="false">
 				<select id="grid" required onchange="scheduleApp.updateSchedule('grid');">
 					<?php
-					foreach ($this->getModel()->grids as $key => $grid)
+					foreach ($this->getModel()->grids AS $grid)
 					{
 						$checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
-						echo "<option value='" . $key . "' $checked >$grid->name</option>";
+						echo "<option value='" . $grid->id . "' $checked >$grid->name</option>";
 					}
 					?>
 				</select>
