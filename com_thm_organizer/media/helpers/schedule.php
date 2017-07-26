@@ -117,12 +117,10 @@ class THM_OrganizerHelperSchedule
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
 				= array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
 
-			if (!empty($subjectData['id']))
+			if (!empty($subjectData['subjectID']))
 			{
-				$programs = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['id']);
-				self::addPlanPrograms($programs);
-
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['id']] = $programs;
+				$programs = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['subjectID']);
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['subjectID']] = $programs;
 			}
 		}
 
@@ -397,28 +395,6 @@ class THM_OrganizerHelperSchedule
 	}
 
 	/**
-	 * Returns the best subject name of the many available
-	 *
-	 * @param array $lesson the lesson instance being iterated
-	 *
-	 * @return string  the lesson instance's display name
-	 */
-	private static function getSubjectName($lesson)
-	{
-		if (!empty($lesson['subjectName']))
-		{
-			return $lesson['subjectName'];
-		}
-
-		if (!empty($lesson['subjectShortName']))
-		{
-			return $lesson['subjectShortName'];
-		}
-
-		return $lesson['psName'];
-	}
-
-	/**
 	 * Saves the planning period to the corresponding table if not already existent.
 	 *
 	 * @param string $ppName    the abbreviation for the planning period
@@ -651,50 +627,6 @@ class THM_OrganizerHelperSchedule
 		else
 		{
 			self::addResourceClauses($parameters, $query);
-		}
-	}
-
-	/**
-	 * Returns plan programs that belongs to given programs
-	 *
-	 * @param array &$programs objects with program data
-	 *
-	 * @return void
-	 */
-	private static function addPlanPrograms(&$programs)
-	{
-		$programClauses = array();
-		foreach ($programs as $program)
-		{
-			$programClauses[] = "programID = " . $program['id'];
-		}
-
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select("id, programID")
-			->from('#__thm_organizer_plan_programs')
-			->where($programClauses, "OR");
-
-		$dbo->setQuery($query);
-
-		try
-		{
-			$results = $dbo->loadAssocList('programID', 'id');
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-
-		if (!empty($results))
-		{
-			foreach ($programs as &$program)
-			{
-				if (isset($results[$program['id']]))
-				{
-					$program['planProgramID'] = $results[$program['id']];
-				}
-			}
 		}
 	}
 

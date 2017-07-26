@@ -17,9 +17,6 @@ $displayName = empty($this->model->displayName) ?
 	: JText::_('COM_THM_ORGANIZER_SCHEDULE') . ' - ' . $this->model->displayName;
 ?>
 
-<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/text.html.php"; ?>
-<?php require_once "components/com_thm_organizer/views/schedule/tmpl/js/variables.html.php"; ?>
-
 <div class="organizer <?php echo $mobile; ?>">
 
 	<div class="page-header">
@@ -169,7 +166,7 @@ $displayName = empty($this->model->displayName) ?
 
 						if (!empty($this->model->params['showRooms']))
 						{
-							echo '<option value="roomtype">' . JText::_("COM_THM_ORGANIZER_ROOM_PLANS") . '</option>';
+							echo '<option value="roomType">' . JText::_("COM_THM_ORGANIZER_ROOM_PLANS") . '</option>';
 						}
 
 						if (!empty($this->model->params['showTeachers']))
@@ -189,8 +186,8 @@ $displayName = empty($this->model->displayName) ?
 						<!-- filled by ajax -->
 					</select>
 				</div>
-				<div id="roomtype-input" class="input-wrapper">
-					<select id="roomtype" data-next="room">
+				<div id="roomType-input" class="input-wrapper">
+					<select id="roomType" data-next="room">
 						<!-- filled by ajax -->
 					</select>
 				</div>

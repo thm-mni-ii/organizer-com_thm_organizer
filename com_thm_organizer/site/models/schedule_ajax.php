@@ -137,7 +137,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function getRooms()
 	{
 		$departmentID = JFactory::getApplication()->input->getInt('departmentIDs');
-		$typeID       = JFactory::getApplication()->input->getInt('roomtypeIDs');
+		$typeID       = JFactory::getApplication()->input->getInt('roomTypeIDs');
 
 		$query = $this->_db->getQuery(true);
 		$query->select("roo.id, roo.longname AS name")

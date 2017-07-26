@@ -69,6 +69,13 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	protected $languageTag = "de-DE";
 
 	/**
+	 * Model to this view
+	 *
+	 * @var THM_OrganizerModelSchedule
+	 */
+	protected $model;
+
+	/**
 	 * Method to display the template
 	 *
 	 * @param null $tpl template
@@ -77,12 +84,12 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->isMobile     = THM_OrganizerHelperComponent::isSmartphone();
-		$this->languageTag  = THM_OrganizerHelperLanguage::getShortTag();
-		$this->model = $this->getModel();
-		$this->defaultGrid  = $this->model->getDefaultGrid();
-		$compParams         = JComponentHelper::getParams('com_thm_organizer');
-		$this->dateFormat   = $compParams->get('dateFormat', 'd.m.Y');
+		$this->isMobile    = THM_OrganizerHelperComponent::isSmartphone();
+		$this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
+		$this->model       = $this->getModel();
+		$this->defaultGrid = $this->model->getDefaultGrid();
+		$compParams        = JComponentHelper::getParams('com_thm_organizer');
+		$this->dateFormat  = $compParams->get('dateFormat', 'd.m.Y');
 		$this->modifyDocument();
 		parent::display($tpl);
 	}
@@ -97,10 +104,142 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 		$doc = JFactory::getDocument();
 
 		JHtml::_('formbehavior.chosen', 'select');
+		$this->addScriptOptions();
 		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
 
 		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/fonts/iconfont-frontend.css");
 		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
 		$doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");
+	}
+
+	/**
+	 * Generates required params for Javascript and adds them to the document
+	 *
+	 * @return  void
+	 */
+	private function addScriptOptions()
+	{
+		$user = JFactory::getUser();
+		$root = JUri::root();
+
+		$variables = [
+			'SEMESTER_MODE'     => 1,
+			'PERIOD_MODE'       => 2,
+			'INSTANCE_MODE'     => 3,
+			'ajaxbase'          => $root . 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw',
+			'auth'              => !empty($user->id) ?
+									urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT))
+									: '',
+			'dateFormat'        => $this->dateFormat,
+			'defaultGrid'       => $this->defaultGrid->grid,
+			'deltaDays'         => $this->model->params['deltaDays'],
+			'departmentID'      => $this->model->params['departmentID'],
+			'exportbase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
+			'isMobile'          => $this->isMobile,
+			'menuID'            => JFactory::getApplication()->input->get('Itemid', 0),
+			'registered'        => !empty($user->id),
+			'showPools'         => $this->model->params['showPools'],
+			'showPrograms'      => $this->model->params['showPrograms'],
+			'showRooms'         => $this->model->params['showRooms'],
+			'showRoomTypes'     => $this->model->params['showRoomTypes'],
+			'showTeachers'      => $this->model->params['showTeachers'],
+			'subjectDetailbase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
+			'username'          => !empty($user->id) ? $user->username : ''
+		];
+
+		$grids = [];
+		foreach ($this->model->grids AS $grid)
+		{
+			$grids[$grid->id] = [
+				"id"   => $grid->id,
+				"grid" => $grid->grid
+			];
+		}
+		$variables['grids'] = $grids;
+
+		if (!empty($this->model->params['displayName']))
+		{
+			$variables['displayName'] = $this->model->params['displayName'];
+		}
+		if (!empty($this->model->params['poolIDs']))
+		{
+			$variables['poolIDs'] = $this->model->params['poolIDs'];
+		}
+		if (!empty($this->model->params['programIDs']))
+		{
+			$variables['programIDs'] = $this->model->params['programIDs'];
+		}
+		if (!empty($this->model->params['roomIDs']))
+		{
+			$variables['roomIDs'] = $this->model->params['roomIDs'];
+		}
+		if (!empty($this->model->params['roomTypeIDs']))
+		{
+			$variables['roomTypeIDs'] = $this->model->params['roomTypeIDs'];
+		}
+		if (!empty($this->model->params['subjectIDs']))
+		{
+			$variables['subjectIDs'] = $this->model->params['subjectIDs'];
+		}
+		if (!empty($this->model->params['teacherIDs']))
+		{
+			$variables['teacherIDs'] = $this->model->params['teacherIDs'];
+		}
+
+		$text = [
+			'APRIL'                 => JText::_('APRIL'),
+			'AUGUST'                => JText::_('AUGUST'),
+			'COPY'                  => JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK'),
+			'DECEMBER'              => JText::_('DECEMBER'),
+			'DELETE_INSTANCE'       => JText::_('COM_THM_ORGANIZER_DELETE_LESSON_INSTANCE'),
+			'DELETE_PERIOD'         => JText::_('COM_THM_ORGANIZER_DELETE_LESSON_PERIOD'),
+			'DELETE_SEMESTER'       => JText::_('COM_THM_ORGANIZER_DELETE_LESSON_SEMESTER'),
+			'FEBRUARY'              => JText::_('FEBRUARY'),
+			'FRIDAY'                => JText::_('FRIDAY'),
+			'FRIDAY_SHORT'          => JText::_('FRI'),
+			'JANUARY'               => JText::_('JANUARY'),
+			'JULY'                  => JText::_('JULY'),
+			'JUNE'                  => JText::_('JUNE'),
+			'LUNCHTIME'             => JText::_('COM_THM_ORGANIZER_LUNCHTIME'),
+			'MARCH'                 => JText::_('MARCH'),
+			'MAY'                   => JText::_('MAY'),
+			'MONDAY'                => JText::_('MONDAY'),
+			'MONDAY_SHORT'          => JText::_('MON'),
+			'MY_SCHEDULE'           => JText::_('COM_THM_ORGANIZER_MY_SCHEDULE'),
+			'NOVEMBER'              => JText::_('NOVEMBER'),
+			'OCTOBER'               => JText::_('OCTOBER'),
+			'POOL'                  => JText::_('COM_THM_ORGANIZER_POOL'),
+			'POOL_PLACEHOLDER'      => JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER'),
+			'PROGRAM_PLACEHOLDER'   => JText::_('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER'),
+			'PROGRAMS'              => JText::_('COM_THM_ORGANIZER_PROGRAMS'),
+			'ROOM_PLACEHOLDER'      => JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER'),
+			'ROOM_PLANS'            => JText::_('COM_THM_ORGANIZER_ROOM_PLANS'),
+			'ROOM_TYPE_PLACEHOLDER' => JText::_('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER'),
+			'ROOMS'                 => JText::_('COM_THM_ORGANIZER_ROOMS'),
+			'SATURDAY'              => JText::_('SATURDAY'),
+			'SATURDAY_SHORT'        => JText::_('SAT'),
+			'SAVE_INSTANCE'         => JText::_('COM_THM_ORGANIZER_SAVE_LESSON_INSTANCE'),
+			'SAVE_PERIOD'           => JText::_('COM_THM_ORGANIZER_SAVE_LESSON_PERIOD'),
+			'SAVE_SEMESTER'         => JText::_('COM_THM_ORGANIZER_SAVE_LESSON_SEMESTER'),
+			'SEMESTER'              => JText::_('COM_THM_ORGANIZER_SEMESTER'),
+			'SEPTEMBER'             => JText::_('SEPTEMBER'),
+			'SUNDAY'                => JText::_('SUNDAY'),
+			'SUNDAY_SHORT'          => JText::_('SUN'),
+			'TEACHER'               => JText::_('COM_THM_ORGANIZER_TEACHER'),
+			'TEACHER_PLACEHOLDER'   => JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER'),
+			'TEACHERPLAN'           => JText::_('COM_THM_ORGANIZER_TEACHERPLAN'),
+			'TEACHERS'              => JText::_('COM_THM_ORGANIZER_TEACHERS'),
+			'THURSDAY'              => JText::_('THURSDAY'),
+			'THURSDAY_SHORT'        => JText::_('THU'),
+			'TIME'                  => JText::_('COM_THM_ORGANIZER_TIME'),
+			'TUESDAY'               => JText::_('TUESDAY'),
+			'TUESDAY_SHORT'         => JText::_('TUE'),
+			'WEDNESDAY'             => JText::_('WEDNESDAY'),
+			'WEDNESDAY_SHORT'       => JText::_('WED')
+		];
+
+		$doc = JFactory::getDocument();
+		$doc->addScriptOptions('variables', $variables);
+		$doc->addScriptOptions('text', $text);
 	}
 }

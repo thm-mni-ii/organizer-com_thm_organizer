@@ -1,7 +1,7 @@
 jQuery(document).ready(function ()
 {
 	"use strict";
-	window.scheduleApp = new ScheduleApp(window.text, window.variables);
+	window.scheduleApp = new ScheduleApp(Joomla.getOptions('text', {}), Joomla.getOptions('variables', {}));
 });
 
 /**
@@ -445,15 +445,6 @@ var ScheduleApp = function (text, variables)
 			};
 
 			/**
-			 * Getter for the IDs of the resource
-			 * @returns {string}
-			 */
-			this.getProgramID = function ()
-			{
-				return resource === "pool" ? getSelectedValues("program") : null;
-			};
-
-			/**
 			 * Getter for resource of schedule
 			 * @returns {string}
 			 */
@@ -512,7 +503,6 @@ var ScheduleApp = function (text, variables)
 			var defaultGridID = null,
 				lessonElements = [], // HTMLDivElements
 				lessonData = {},
-				scheduleObject = schedule,
 				table = document.createElement("table"), // HTMLTableElement
 				timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid),
 				userSchedule = schedule.getId() === "user",
@@ -1022,51 +1012,23 @@ var ScheduleApp = function (text, variables)
 				},
 
 				/**
-				 * TODO: program-links funktionieren nicht mehr (keine programs in lesson data)
-				 * Adds DOM-elements with eventListener directing to subject details, when there are some, to given outer element
+				 * Adds DOM-elements with subject name and eventListener directing to subject details
 				 *
 				 * @param {HTMLDivElement} outerElement
 				 * @param {Object} data - lessonData with subjects
 				 */
 				addSubjectElements = function (outerElement, data)
 				{
-					var subjectLinkID, openSubjectDetailsLink, programID,
-						subjectNameElement, name, numIndex, subjectNumbers, subjectNumberElement;
-
-					// Find the right subjectID for subject details depending on schedule plan program
-					subjectLinkID = (function ()
-					{
-						var subjectID;
-
-						for (subjectID in data.programs)
-						{
-							if (!data.programs.hasOwnProperty(subjectID))
-							{
-								continue;
-							}
-							for (programID in data.programs[subjectID])
-							{
-								if (!data.programs[subjectID].hasOwnProperty(programID))
-								{
-									continue;
-								}
-								if (data.programs[subjectID][programID].planProgramID === scheduleObject.getProgramID())
-								{
-									return subjectID;
-								}
-							}
-						}
-					}());
+					var numIndex, openSubjectDetailsLink, subjectNameElement, subjectNumberElement, subjectNumbers;
 
 					openSubjectDetailsLink = function ()
 					{
-						window.open(variables.subjectDetailbase.replace(/&id=\d+/, "&id=" + subjectLinkID), "_blank");
+						window.open(variables.subjectDetailbase.replace(/&id=\d+/, "&id=" + data.subjectID), "_blank");
 					};
 
-					// Add subject name and module name as DOM-elements to given outer element
 					if (data.name && data.shortName)
 					{
-						if (subjectLinkID && variables.showPools !== "0")
+						if (data.subjectID && variables.showPools !== "0")
 						{
 							subjectNameElement = document.createElement("a");
 							subjectNameElement.addEventListener("click", openSubjectDetailsLink);
@@ -1075,26 +1037,21 @@ var ScheduleApp = function (text, variables)
 						{
 							subjectNameElement = document.createElement("span");
 						}
-						if (variables.isMobile)
-						{
-							subjectNameElement.innerHTML = data.shortName + (data.method ? " - " + data.method : "");
-						}
-						else
-						{
-							// Append whitespace to slashs for better word break
-							name = data.name.match(/\S\/\S/g) ? data.name.replace(/(\S)\/(\S)/g, "$1 / $2") : data.name;
-							subjectNameElement.innerHTML = name + (data.method ? " - " + data.method : "");
-						}
+
+						subjectNameElement.innerHTML = variables.isMobile ? data.shortName : data.name;
+						subjectNameElement.innerHTML += data.method ? " - " + data.method : "";
+						// Append whitespace to slashs for better word break
+						subjectNameElement.innerHTML = subjectNameElement.innerHTML.replace(/(\S)\/(\S)/g, "$1 / $2");
 						subjectNameElement.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
 						outerElement.appendChild(subjectNameElement);
 					}
 					if (data.subjectNo)
 					{
-						// multiple spans in case of semicolon separated module number for the design
+						// Multiple spans in case of semicolon separated module number for the design
 						subjectNumbers = data.subjectNo.split(";");
 						for (numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
 						{
-							if (subjectLinkID)
+							if (data.subjectID)
 							{
 								subjectNumberElement = document.createElement("a");
 								subjectNumberElement.addEventListener("click", openSubjectDetailsLink);
@@ -1636,14 +1593,14 @@ var ScheduleApp = function (text, variables)
 					"department": document.getElementById("department"),
 					"pool": document.getElementById("pool"),
 					"program": document.getElementById("program"),
-					"roomtype": document.getElementById("roomtype"),
+					"roomType": document.getElementById("roomType"),
 					"room": document.getElementById("room"),
 					"teacher": document.getElementById("teacher")
 				},
 				placeholder = {
 					"pool": text.POOL_PLACEHOLDER,
 					"program": text.PROGRAM_PLACEHOLDER,
-					"roomtype": text.ROOMTYPE_PLACEHOLDER,
+					"roomType": text.ROOM_TYPE_PLACEHOLDER,
 					"room": text.ROOM_PLACEHOLDER,
 					"teacher": text.TEACHER_PLACEHOLDER
 				},
@@ -1652,7 +1609,7 @@ var ScheduleApp = function (text, variables)
 					"department": document.getElementById("department-input"),
 					"pool": document.getElementById("pool-input"),
 					"program": document.getElementById("program-input"),
-					"roomtype": document.getElementById("roomtype-input"),
+					"roomType": document.getElementById("roomType-input"),
 					"room": document.getElementById("room-input"),
 					"teacher": document.getElementById("teacher-input")
 				},
@@ -1745,7 +1702,7 @@ var ScheduleApp = function (text, variables)
 						{
 							field = fields[id];
 
-							if (fieldsToShow[id] && (
+							if (fieldsToShow[id.toLowerCase()] && (
 									id === name || // Show the as param given field
 									field.dataset.next === name || // Show previous field
 									field.dataset.input === "static" || // Show static fields like category
@@ -1799,9 +1756,7 @@ var ScheduleApp = function (text, variables)
 
 					if (department)
 					{
-						jQuery("#department")
-							.val(department.value)
-							.chosen("destroy").chosen();
+						jQuery("#department").val(department.value).chosen("destroy").chosen();
 					}
 
 					if (session)
@@ -1812,9 +1767,7 @@ var ScheduleApp = function (text, variables)
 						}
 						else if (fields[session.name].dataset.input === "static")
 						{
-							jQuery(fields[session.name])
-								.val(session.value)
-								.chosen("destroy").chosen();
+							jQuery(fields[session.name]).val(session.value).chosen("destroy").chosen();
 
 							if (fields[session.value]) // update static selected field like program
 							{
@@ -1993,7 +1946,7 @@ var ScheduleApp = function (text, variables)
 			{
 				var fieldName, idMatch, showMatch, values, valueIndex, variable;
 
-				// Collect form configuration from backend (file variables.js.php)
+				// Collect form configuration from backend
 				for (variable in variables)
 				{
 					if (!variables.hasOwnProperty(variable))
@@ -2025,7 +1978,7 @@ var ScheduleApp = function (text, variables)
 					if (showMatch)
 					{
 						fieldName = showMatch[1].toLowerCase();
-						fieldsToShow[fieldName] = variables[variable] === "1";
+						fieldsToShow[fieldName] = variables[variable];
 					}
 				}
 
@@ -2751,7 +2704,7 @@ var ScheduleApp = function (text, variables)
 		if (formats[0] === "ics")
 		{
 			url += "&username=" + variables.username + "&auth=" + variables.auth;
-			window.prompt(text.copy, url);
+			window.prompt(text.COPY, url);
 			exportSelection.val("placeholder");
 			exportSelection.trigger("chosen:updated");
 			return;
