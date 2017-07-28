@@ -305,8 +305,7 @@ var ScheduleApp = function (text, variables)
 		 */
 		Schedule = function (source, IDs, optionalTitle)
 		{
-			// for inner helper functions
-			var that = this,
+			var that = this, // for inner helper functions
 				ajaxRequest = new XMLHttpRequest(),
 				id = source === "user" ? source : IDs ? source + IDs : source + getSelectedValues(source, "-"),
 				lessons = [],
@@ -409,6 +408,7 @@ var ScheduleApp = function (text, variables)
 						var response = JSON.parse(ajaxRequest.responseText);
 						lessons = response;
 						table.update(response);
+						that.popUp();
 
 						if (id === getSelectedScheduleID())
 						{
@@ -433,6 +433,61 @@ var ScheduleApp = function (text, variables)
 			this.updateTable = function ()
 			{
 				table.update(lessons, true);
+				that.popUp();
+			};
+
+			/**
+			 * Creates a pop-up like div with a copy of schedule table, which is movable by user
+			 *
+			 * @param {boolean} [create = false] - create new pop-up when true
+			 */
+			this.popUp = function (create)
+			{
+				var cancelBtn, floatDiv = document.getElementById(id + "-pop-up"), titleElement;
+
+				if (floatDiv)
+				{
+					floatDiv.removeChild(floatDiv.lastChild);
+					jQuery(table.getTableElement()).clone(true).appendTo(jQuery(floatDiv));
+				}
+				else if (create)
+				{
+					floatDiv = document.createElement("div");
+					floatDiv.id = id + "-pop-up";
+					floatDiv.className = "pop-up schedule-table";
+					floatDiv.style.zIndex = getHighestZIndexForClass(".pop-up.schedule-table");
+					floatDiv.draggable = true;
+					floatDiv.addEventListener("dragstart", function (event)
+					{
+						var data = {"id": event.target.id, "x": event.pageX, "y": event.pageY};
+						event.dataTransfer.setData("text/plain", JSON.stringify(data));
+						event.dropEffect = "move";
+					});
+					floatDiv.addEventListener("click", function ()
+					{
+						this.style.zIndex = getHighestZIndexForClass(".pop-up.schedule-table");
+					});
+
+					cancelBtn = document.createElement("button");
+					cancelBtn.className = "icon-cancel";
+					cancelBtn.addEventListener("click", function ()
+					{
+						this.parentElement.style.display = "none";
+					});
+					floatDiv.appendChild(cancelBtn);
+
+					titleElement = document.createElement("h3");
+					titleElement.innerHTML = title;
+					floatDiv.appendChild(titleElement);
+
+					document.getElementsByClassName("organizer")[0].appendChild(floatDiv);
+					jQuery(table.getTableElement()).clone(true).appendTo(jQuery(floatDiv));
+				}
+
+				if (create)
+				{
+					floatDiv.style.display = "block";
+				}
 			};
 
 			/**
@@ -2192,7 +2247,7 @@ var ScheduleApp = function (text, variables)
 		 */
 		addScheduleToSelection = function (schedule)
 		{
-			var selectedItem, selectedTitle, showButton, removeButton;
+			var popUpButton, selectedItem, selectedTitle, showButton, removeButton;
 
 			selectedItem = document.createElement("div");
 			selectedItem.id = schedule.getId();
@@ -2216,6 +2271,18 @@ var ScheduleApp = function (text, variables)
 				showSchedule(schedule.getId());
 			});
 			selectedItem.appendChild(showButton);
+
+			if (!variables.isMobile)
+			{
+				popUpButton = document.createElement("button");
+				popUpButton.className = "pop-up-schedule";
+				popUpButton.innerHTML = "<span class='icon-move'></span>";
+				popUpButton.addEventListener("click", function ()
+				{
+					schedule.popUp(true);
+				});
+				selectedItem.appendChild(popUpButton);
+			}
 
 			if (schedule.getId() !== "user")
 			{
@@ -2587,6 +2654,62 @@ var ScheduleApp = function (text, variables)
 					}
 				}
 			});
+		},
+
+		/**
+		 * EventHandler for moving schedule pop-ups over the page
+		 *
+		 * @param {Event} event
+		 */
+		handleDragOver = function (event)
+		{
+			event.preventDefault();
+			event.dataTransfer.dropEffect = "move";
+		},
+
+		/**
+		 * EventHandler for dropping schedule pop-ups
+		 *
+		 * @param {Event} event
+		 */
+		handleDrops = function (event)
+		{
+			var data = JSON.parse(event.dataTransfer.getData("text/plain")),
+				element = document.getElementById(data.id),
+				left = window.getComputedStyle(element).getPropertyValue("left"),
+				top = window.getComputedStyle(element).getPropertyValue("top"),
+				matchLeft, matchTop, oldLeft, oldTop;
+
+			event.preventDefault();
+
+			// Get the old style values without unit (e.g. "px")
+			matchLeft = left.match(/^(-?\d+)\w*$/);
+			oldLeft = matchLeft ? matchLeft[1] : 0;
+			matchTop = top.match(/^(-?\d+)\w*$/);
+			oldTop = matchTop ? matchTop[1] : 0;
+
+			element.style.left = parseInt(oldLeft, 10) + parseInt(event.pageX - data.x, 10) + "px";
+			element.style.top = parseInt(oldTop, 10) + parseInt(event.pageY - data.y, 10) + "px";
+
+			// Last dragged schedule gets the highest z-index
+			element.style.zIndex = getHighestZIndexForClass(".pop-up.schedule-table");
+		},
+
+		/**
+		 * Returns the highest z-index of the given class elements
+		 *
+		 * @param {string} className
+		 * @returns {number}
+		 */
+		getHighestZIndexForClass = function (className)
+		{
+			var elements = document.querySelectorAll(className), index, zIndex, maxZIndex = 1;
+			for (index = 0; index < elements.length; ++index)
+			{
+				zIndex = window.getComputedStyle(elements[index]).getPropertyValue("z-index");
+				maxZIndex = Math.max(zIndex, maxZIndex);
+			}
+			return ++maxZIndex;
 		};
 
 	/**
@@ -2800,7 +2923,7 @@ var ScheduleApp = function (text, variables)
 			var touch = event.changedTouches[0];
 			startX = parseInt(touch.pageX, 10);
 			startY = parseInt(touch.pageY, 10);
-		});
+		}, {passive: true}); // To say the browser, that we not 'prevent default' (and suppress warnings)
 		scheduleWrapper.addEventListener("touchend", function (event)
 		{
 			var touch = event.changedTouches[0], minDist = 50,
@@ -2838,6 +2961,10 @@ var ScheduleApp = function (text, variables)
 			//prevent loading of tabs-url:
 			event.preventDefault();
 		});
+
+		// Drag'n'drop effect for schedule pop-ups
+		document.getElementById("main").addEventListener("drop", handleDrops);
+		document.getElementById("main").addEventListener("dragover", handleDragOver);
 	})();
 
 	/**
@@ -2845,7 +2972,7 @@ var ScheduleApp = function (text, variables)
 	 */
 	jQuery(document).mouseup(function (e)
 	{
-		var popup = jQuery(".lesson-menu"), calendarPopup = jQuery("#calendar"), messagePopup = jQuery(".message-pop-up");
+		var popup = jQuery(".lesson-menu"), calendarPopup = jQuery("#calendar"), messagePopup = jQuery(".message.pop-up");
 
 		if (!popup.is(e.target) && popup.has(e.target).length === 0)
 		{

@@ -1,15 +1,6 @@
 /**
- * @category    JavaScript
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        departmentlist.js
- * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
- * @license     GNU GPL v.2
- * @link        www.mni.thm.de
+ * Gets programs, rooms and teachers depending on selected department/program and inserts them into options
  */
-
-// Gets programs, rooms and teachers depending on selected department/program and inserts them into options
 jQuery(document).ready(function ()
 {
 	"use strict";

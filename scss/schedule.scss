@@ -1,4 +1,5 @@
 /*  ------------------------------------
+**  Author:     Lavinia Popa-Roessel
 **  Author:     Franciska Perisa
 **  File:       schedule.css
 **  Styles for: Frontend
@@ -187,12 +188,13 @@ input[type=radio] {
 
   .title {
     text-align: left;
-    width: calc(100% - 3rem);
+    width: calc(100% - 4rem);
   }
 
-  .show-schedule {
+  .show-schedule,
+  .pop-up-schedule {
     width: 1rem;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
   }
 
   .remove-schedule {
@@ -361,7 +363,7 @@ input[type=radio] {
   table {
     border-top: 0.15rem solid #394a59;
 
-    tr.break-row td, tr.break-row + tr td{
+    tr.break-row td, tr.break-row + tr td {
       border: none;
     }
   }
@@ -448,16 +450,12 @@ input[type=radio] {
   }
 }
 
-.message-pop-up {
-  background-color: $background-green;
+.pop-up {
   box-shadow: 0 0 5px #888;
   color: $font-color;
   display: none;
-  left: calc(50% - 12rem);
-  padding: 0.5rem;
   position: absolute;
   top: 28rem;
-  width: 24rem;
   z-index: 2;
 
   .icon-notification, p {
@@ -506,16 +504,51 @@ input[type=radio] {
     right: 0.5rem;
   }
 
-  .icon-arrow-left-2 {
+  &.message {
+    left: calc(50% - 12rem);
+    width: 24rem;
+    padding: 0.5rem;
+    background-color: $background-green;
 
-    @media screen and (min-width: 678px) {
-      + .icon-arrow-right-2 {
-        margin-left: 2.5rem;
+    .icon-arrow-left-2 {
+
+      @media screen and (min-width: 678px) {
+        + .icon-arrow-right-2 {
+          margin-left: 2.5rem;
+        }
+      }
+
+      @media screen and (max-width: 677px) {
+        margin-bottom: 0.5rem;
       }
     }
+  }
 
-    @media screen and (max-width: 677px) {
-      margin-bottom: 0.5rem;
+  &.schedule-table {
+    left: 200px;
+    width: 50rem;
+    display: block;
+    padding: 1rem;
+    font-size: 80%;
+    background-color: $foreground-color;
+    border: $border;
+
+    &:hover {
+      // For browsers without 'grab'
+      cursor: move;
+      cursor: -webkit-grab;
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: $font-color;
+      cursor: move;
+      cursor: -webkit-grab;
+    }
+
+    .icon-cancel {
+      width: 2rem;
+      height: 2rem;
     }
   }
 }
@@ -673,6 +706,15 @@ input[type=radio] {
 
   .selected-schedule {
     width: 90%;
+
+    .title {
+      width: calc(100% - 3rem);
+    }
+
+    .show-schedule {
+      width: 1rem;
+      margin-right: 1rem;
+    }
   }
 
   #calendar-table {
@@ -725,7 +767,7 @@ input[type=radio] {
     content: " / ";
   }
 
-  .message-pop-up {
+  .message.pop-up {
     left: auto;
     right: auto;
     width: 90%;
