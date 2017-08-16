@@ -45,16 +45,16 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$this->setParams();
 		$this->grids = $this->getGrids();
 
-		if (empty($this->params['departmentID']) AND empty($this->params['resourcesRequested']))
+		if (empty($this->params['departmentID']) AND !isset($this->params['resourcesRequested']))
 		{
-			$this->departments = $this->getDepartments();
+			$this->departments = THM_OrganizerHelperDepartments::getPlanDepartments(true);
 		}
 	}
 
 	/**
 	 * Getter method for all grids in database
 	 *
-	 * @return mixed  array | empty in case of errors or no results
+	 * @return array
 	 */
 	public function getGrids()
 	{
@@ -106,16 +106,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		{
 			return $defaultGrids[0];
 		}
-	}
-
-	/**
-	 * Gets all available department names and IDs
-	 *
-	 * @return array
-	 */
-	public function getDepartments()
-	{
-		return THM_OrganizerHelperDepartments::getPlanDepartments(true);
 	}
 
 	/**
@@ -277,7 +267,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			return;
 		}
 
-		// program as the last setting, because the others lead directly to a schedule and program is just a form value
+		// Program as the last setting, because the others lead directly to a schedule and program is just a form value
 		if ($this->params['showPrograms'])
 		{
 			$this->setResourceArray('program');
@@ -341,40 +331,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 */
 	private function setResourceArray($resourceName)
 	{
-		$input          = JFactory::getApplication()->input;
-		$rawResourceIDs = $input->get("{$resourceName}IDs", array(), 'raw');
+		$rawResourceIDs = JFactory::getApplication()->input->get("{$resourceName}IDs", array(), 'raw');
 
-		if (!empty($rawResourceIDs))
+		if (empty($rawResourceIDs))
 		{
-			if (is_array($rawResourceIDs))
-			{
-				$filteredArray = Joomla\Utilities\ArrayHelper::toInteger(array_filter($rawResourceIDs));
-				if (!empty($filteredArray))
-				{
-					$this->params["{$resourceName}IDs"] = $filteredArray;
-				}
-
-				return;
-			}
-
-			if (is_int($rawResourceIDs))
-			{
-				$this->params["{$resourceName}IDs"] = Joomla\Utilities\ArrayHelper::toInteger(array($rawResourceIDs));
-
-				return;
-			}
-
-			if (is_string($rawResourceIDs))
-			{
-				$this->params["{$resourceName}IDs"] = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $rawResourceIDs));
-
-				return;
-			}
+			$rawResourceIDs = JFactory::getApplication()->getParams()->get("{$resourceName}IDs");
 		}
 
-		$params         = JFactory::getApplication()->getParams();
-		$rawResourceIDs = $params->get("{$resourceName}IDs");
-
 		if (!empty($rawResourceIDs))
 		{
 			if (is_array($rawResourceIDs))
@@ -384,23 +347,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				{
 					$this->params["{$resourceName}IDs"] = $filteredArray;
 				}
-
-				return;
 			}
-
-			if (is_int($rawResourceIDs))
+			elseif (is_int($rawResourceIDs))
 			{
 				$this->params["{$resourceName}IDs"] = Joomla\Utilities\ArrayHelper::toInteger(array($rawResourceIDs));
-
-				return;
 			}
-
-			if (is_string($rawResourceIDs))
+			elseif (is_string($rawResourceIDs))
 			{
 				$this->params["{$resourceName}IDs"] = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $rawResourceIDs));
-
-				return;
 			}
+
+			$this->params['resourcesRequested'] = $resourceName;
 		}
 	}
 }

@@ -218,8 +218,6 @@ var ScheduleApp = function (text, variables)
 				{
 					this.setUpCalendar();
 				}
-
-				window.sessionStorage.setItem("scheduleDate", getDateFieldsDateObject().toJSON());
 			};
 
 			/**
@@ -254,7 +252,7 @@ var ScheduleApp = function (text, variables)
 			{
 				activeDate = (typeof date === "undefined") ? new Date() : date;
 				app.dateField.value = activeDate.getPresentationFormat();
-
+				window.sessionStorage.setItem("scheduleDate", activeDate.toJSON());
 				this.hideCalendar();
 				app.updateSchedule();
 			};
@@ -286,7 +284,6 @@ var ScheduleApp = function (text, variables)
 			{
 				that.activeDate = getDateFieldsDateObject();
 				showControls();
-				// TODO: in session ablegen, nicht nur bei Klick auf die Pfeile
 				app.dateField.addEventListener("change", that.setUpCalendar);
 				document.getElementById("today").addEventListener("click", function ()
 				{
@@ -2039,7 +2036,7 @@ var ScheduleApp = function (text, variables)
 
 				// No configured field => category have to be visible
 				fieldsToShow.category = !config.name;
-				fieldsToShow.department = variables.departmentID === "0";
+				fieldsToShow.department = variables.departmentID === 0;
 
 				jQuery("#category").chosen().change(function ()
 				{
@@ -2068,7 +2065,7 @@ var ScheduleApp = function (text, variables)
 		{
 			var selectedDepartments = getSelectedValues("department") || 0, url = "&departmentIDs=";
 
-			url += variables.departmentID === "0" ? selectedDepartments : variables.departmentID;
+			url += variables.departmentID === 0 ? selectedDepartments : variables.departmentID;
 			url += "&task=" + (task ? task : "getLessons");
 
 			return variables.ajaxbase + url;
@@ -2444,6 +2441,7 @@ var ScheduleApp = function (text, variables)
 			}
 
 			app.dateField.value = newDate.getPresentationFormat();
+			window.sessionStorage.setItem("scheduleDate", newDate.toJSON());
 		},
 
 		/**
@@ -2748,11 +2746,6 @@ var ScheduleApp = function (text, variables)
 					}
 				}
 			);
-
-			if (id === "date")
-			{
-				window.sessionStorage.setItem("scheduleDate", getDateFieldsDateObject().toJSON());
-			}
 		}
 	};
 
@@ -2762,7 +2755,9 @@ var ScheduleApp = function (text, variables)
 	 */
 	this.nextDateEventHandler = function (event)
 	{
-		this.dateField.value = new Date(event.target.dataset.date).getPresentationFormat();
+		var date = new Date(event.target.dataset.date);
+		this.dateField.value = date.getPresentationFormat();
+		window.sessionStorage.setItem("scheduleDate", date.toJSON());
 		nextDateSelection.style.display = "none";
 		this.updateSchedule();
 	};

@@ -143,7 +143,7 @@ $displayName = empty($this->model->displayName) ?
 						<select id="department" multiple data-input="static"
 						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
 							<?php
-							foreach ($this->getModel()->departments as $id => $department)
+							foreach ($this->getModel()->departments AS $id => $department)
 							{
 								echo "<option value='" . $id . "'>$department</option>";
 							}
@@ -374,7 +374,7 @@ $displayName = empty($this->model->displayName) ?
 		</div>
 	</div>
 
-	<div id="next-date-selection" class="message-pop-up">
+	<div id="next-date-selection" class="message pop-up">
 		<p><?php echo JText::_("COM_THM_ORGANIZER_JUMP_DATE"); ?></p>
 		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
 		<button id="past-date" onclick="scheduleApp.nextDateEventHandler(event);">
@@ -387,7 +387,7 @@ $displayName = empty($this->model->displayName) ?
 		</button>
 	</div>
 
-	<div id="no-lessons" class="message-pop-up">
+	<div id="no-lessons" class="message pop-up">
 		<p>
 			<span class="icon-notification"></span>
 			<span><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></span>
