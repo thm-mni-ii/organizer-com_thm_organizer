@@ -59,7 +59,7 @@ abstract class THM_OrganizerViewEdit extends JViewLegacy
     {
         JHtml::_('bootstrap.framework');
         JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.formvalidation');
+        JHtml::_('behavior.formvalidator');
         JHtml::_('formbehavior.chosen', 'select');
 
         $document = JFactory::getDocument();

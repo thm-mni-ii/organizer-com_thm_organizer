@@ -107,6 +107,7 @@ class THM_OrganizerHelperTeacher
 		$query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
 		$query->leftJoin('#__users AS u ON t.username = u.username');
 		$query->where("st.subjectID = '$subjectID' ");
+
 		if (!empty($responsibility))
 		{
 			$query->where("st.teacherResp = '$responsibility'");
@@ -114,6 +115,7 @@ class THM_OrganizerHelperTeacher
 
 		$query->order('surname ASC');
 		$dbo->setQuery((string) $query);
+
 		if ($multiple)
 		{
 			try

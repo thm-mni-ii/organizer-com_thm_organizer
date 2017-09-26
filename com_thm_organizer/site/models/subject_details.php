@@ -184,6 +184,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	private function setTeachers(&$subject)
 	{
 		$teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, null, true, false);
+
 		if (empty($teacherData))
 		{
 			return;

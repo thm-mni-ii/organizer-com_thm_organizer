@@ -61,10 +61,10 @@ if (!empty($this->item->name))
 	if (!empty($this->item->executors))
 	{
 		echo '<div class="subject-item">';
-		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_MODULE_EXECUTORS') . '</div>';
-		echo '<div class="subject-content">';
 		if (count($this->item->executors) > 1)
 		{
+			echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_MODULE_COORDINATORS') . '</div>';
+			echo '<div class="subject-content">';
 			echo '<ul>';
 			foreach ($this->item->executors as $executor)
 			{
@@ -76,6 +76,8 @@ if (!empty($this->item->name))
 		}
 		else
 		{
+			echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_MODULE_COORDINATOR') . '</div>';
+			echo '<div class="subject-content">';
 			$executor = array_values($this->item->executors)[0];
 			$this->getTeacherOutput($executor);
 		}

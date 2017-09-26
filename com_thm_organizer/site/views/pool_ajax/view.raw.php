@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewAjax_Handler
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -10,15 +10,13 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-jimport('joomla.application.plugin.helper');
 
 /**
  * Class loading persistent data into the view context
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.site
  */
 class THM_OrganizerViewPool_Ajax extends JViewLegacy
 {
