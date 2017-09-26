@@ -31,9 +31,9 @@ class JFormFieldDepartments extends JFormField
 	 */
 	public function getInput()
 	{
-		$langTag       = THM_OrganizerHelperLanguage::getShortTag();
+		$langTag = THM_OrganizerHelperLanguage::getShortTag();
 
-		$dbo           = JFactory::getDbo();
+		$dbo              = JFactory::getDbo();
 		$departmentsQuery = $dbo->getQuery(true);
 		$departmentsQuery->select("id AS value, name_$langTag AS text");
 		$departmentsQuery->from('#__thm_organizer_departments');
@@ -50,7 +50,7 @@ class JFormFieldDepartments extends JFormField
 			return $this->getDefault();
 		}
 
-		$resourceID = JFactory::getApplication()->input->getInt('id', 0);
+		$resourceID   = JFactory::getApplication()->input->getInt('id', 0);
 		$resourceType = $this->getAttribute('resource');
 
 		$selectedQuery = $dbo->getQuery(true);
@@ -70,7 +70,7 @@ class JFormFieldDepartments extends JFormField
 			return $this->getDefault();
 		}
 
-		$attributes       = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '12');
+		$attributes          = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '12');
 		$selectedDepartments = empty($selected) ? array() : $selected;
 
 		return JHtml::_("select.genericlist", $allDepartments, "jform[departments][]", $attributes, "value", "text", $selectedDepartments);
@@ -85,7 +85,7 @@ class JFormFieldDepartments extends JFormField
 	{
 		$allDepartments   = array();
 		$allDepartments[] = array('value' => '-1', 'name' => JText::_('JNONE'));
-		$attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
+		$attributes       = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
 
 		return JHtml::_("select.genericlist", $allDepartments, "jform[departments][]", $attributes, "value", "text");
 	}

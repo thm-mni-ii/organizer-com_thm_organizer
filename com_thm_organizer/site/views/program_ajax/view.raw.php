@@ -2,7 +2,7 @@
 /**
  * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.site
  * @name        THM_OrganizerViewProgram_Ajax
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2016 TH Mittelhessen
@@ -15,9 +15,9 @@ jimport('joomla.application.component.view');
 /**
  * Class loading persistent data into the view context
  *
- * @category    Joomla.Component.Admin
+ * @category    Joomla.Component.Site
  * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @subpackage  com_thm_organizer.site
  */
 class THM_OrganizerViewProgram_Ajax extends JViewLegacy
 {

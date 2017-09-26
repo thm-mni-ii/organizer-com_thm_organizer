@@ -20,8 +20,7 @@ $resetVisibility .= ';"';
 $groupByArray  = array(0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 => 'field');
 ?>
 <div id="j-main-container" class="span10">
-    <form action="<?php JUri::current(); ?>" id="adminForm" method="post"
-          name="adminForm" xmlns="http://www.w3.org/1999/html">
+    <form action="<?php JUri::current(); ?>" id="adminForm" method="post" name="adminForm">
         <div class="toolbar">
             <div class="tool-wrapper language-switches">
 				<?php

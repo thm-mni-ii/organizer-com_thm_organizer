@@ -44,9 +44,12 @@ class THM_OrganizerHelperXMLPools
 		}
 		else
 		{
-			$grid                                          = 'Haupt-Zeitraster';
+			$grid = 'Haupt-Zeitraster';
+
 			$scheduleModel->newSchedule->pools->$poolID->grid = $grid;
-			$gridID                                        = THM_OrganizerHelperXMLGrids::getID($grid);
+
+			$gridID = THM_OrganizerHelperXMLGrids::getID($grid);
+
 			if (!empty($gridID))
 			{
 				$scheduleModel->newSchedule->pools->$poolID->gridID = $gridID;
@@ -96,7 +99,7 @@ class THM_OrganizerHelperXMLPools
 			return;
 		}
 
-		$poolID                                                = str_replace('CL_', '', $gpuntisID);
+		$poolID                                                   = str_replace('CL_', '', $gpuntisID);
 		$scheduleModel->newSchedule->pools->$poolID               = new stdClass;
 		$scheduleModel->newSchedule->pools->$poolID->gpuntisID    = $poolID;
 		$scheduleModel->newSchedule->pools->$poolID->name         = $poolID;

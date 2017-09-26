@@ -37,8 +37,7 @@ class THM_OrganizerTemplateList
 		$filters = $view->filterForm->getGroup('filter');
 		?>
         <div id="j-main-container" class="span10">
-            <form action="index.php?" id="adminForm" method="post"
-                  name="adminForm" xmlns="http://www.w3.org/1999/html">
+            <form action="index.php?" id="adminForm" method="post" name="adminForm">
                 <div class="searchArea">
                     <div class="js-stools clearfix">
                         <div class="clearfix">
@@ -65,8 +64,7 @@ class THM_OrganizerTemplateList
                 </table>
                 <input type="hidden" name="task" value=""/>
                 <input type="hidden" name="boxchecked" value="0"/>
-                <input type="hidden" name="option"
-                       value="<?php echo JFactory::getApplication()->input->get('option'); ?>"/>
+                <input type="hidden" name="option" value="com_thm_organizer"/>
                 <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
 				<?php self::renderHiddenFields($view) ?>
 				<?php echo JHtml::_('form.token'); ?>

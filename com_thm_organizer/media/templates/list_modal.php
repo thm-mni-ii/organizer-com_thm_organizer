@@ -33,8 +33,7 @@ class THM_OrganizerTemplateList_Modal
 		$filters = $view->filterForm->getGroup('filter');
 		?>
         <div id="j-main-container">
-            <form action="index.php?" id="adminForm" method="post"
-                  name="adminForm" xmlns="http://www.w3.org/1999/html">
+            <form action="index.php?" id="adminForm" method="post" name="adminForm">
                 <div class="js-stools clearfix">
                     <div class="clearfix">
                         <div class="js-stools-container-bar">
