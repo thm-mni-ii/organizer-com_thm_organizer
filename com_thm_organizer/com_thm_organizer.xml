@@ -43,11 +43,9 @@
         <folder>tables</folder>
         <folder>templates</folder>
         <folder>views</folder>
-        <filename>index.html</filename>
     </media>
 
     <files folder="site">
-        <filename>index.html</filename>
         <filename>thm_organizer.php</filename>
         <filename>controller.php</filename>
         <filename>LICENSE.txt</filename>
@@ -66,7 +64,6 @@
         <files folder="admin">
             <filename>access.xml</filename>
             <filename>config.xml</filename>
-            <filename>index.html</filename>
             <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
             <filename>LICENSE.txt</filename>
