@@ -40,7 +40,7 @@ class JFormFieldParentPool extends JFormField
 	{
 		$options = $this->getOptions();
 		$select  = '<select id="jformparentID" name="jform[parentID][]" multiple="multiple" size="10">';
-		$select .= implode('', $options) . '</select>';
+		$select  .= implode('', $options) . '</select>';
 
 		return $select;
 	}
@@ -57,17 +57,17 @@ class JFormFieldParentPool extends JFormField
 		$contextParts = explode('.', $this->form->getName());
 		$resourceType = str_replace('_edit', '', $contextParts[1]);
 
-		$mappings   = array();
-		$mappingIDs = array();
-		$parentIDs  = array();
+		$mappings   = [];
+		$mappingIDs = [];
+		$parentIDs  = [];
 		THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 
-		$options   = array();
+		$options   = [];
 		$options[] = '<option value="-1">' . JText::_('JNONE') . '</option>';
 
 		if (!empty($mappings))
 		{
-			$unwantedMappings = array();
+			$unwantedMappings = [];
 			$programEntries   = THM_OrganizerHelperMapping::getProgramEntries($mappings);
 			$programMappings  = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
 

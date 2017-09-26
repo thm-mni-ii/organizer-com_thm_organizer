@@ -50,7 +50,7 @@ class THM_OrganizerTableRooms extends JTable
 	 */
 	public function check()
 	{
-		$nullColumns = array('typeID');
+		$nullColumns = ['typeID'];
 		foreach ($nullColumns as $nullColumn)
 		{
 			if (!strlen($this->$nullColumn))

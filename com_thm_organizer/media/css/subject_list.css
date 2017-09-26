@@ -1,154 +1,154 @@
 div.language-switches a {
-  color: #394a59;
+    color: #394a59;
 }
 
 div.language-switches a :hover {
-  color: #394a59;
+    color: #394a59;
 }
 
 div.language-switches a img {
-  margin-bottom: -2px;
-  margin-right: 5px;
+    margin-bottom: -2px;
+    margin-right: 5px;
 }
 
 div.legal-disclaimer {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 div.legal-disclaimer li {
-  font-size: .8rem;
-  font-style: italic;
+    font-size: .8rem;
+    font-style: italic;
 }
 
 .toolbar {
-  float: right;
+    float: right;
 }
 
 .tool-wrapper {
-  display: inline-block;
+    display: inline-block;
 }
 
 .tool-wrapper a, .tool-wrapper button {
-  border: none;
-  cursor: pointer;
+    border: none;
+    cursor: pointer;
 }
 
 .search input[type="text"] {
-  background-color: #dfe5e6;
-  border: none;
-  box-shadow: none;
-  margin-right: -22px;
-  padding: 4px 6px;
-  width: 159px;
+    background-color: #dfe5e6;
+    border: none;
+    box-shadow: none;
+    margin-right: -22px;
+    padding: 4px 6px;
+    width: 159px;
 }
 
 .btn-search {
-  background-color: inherit;
-  bottom: -2px;
-  left: -2px;
-  position: relative;
+    background-color: inherit;
+    bottom: -2px;
+    left: -2px;
+    position: relative;
 }
 
 .icon-search {
-  color: #394a59;
+    color: #394a59;
 }
 
 .btn-reset, .btn-reset:hover {
-  background-color: white;
-  color: #394a59;
-  margin-left: 8px;
+    background-color: white;
+    color: #394a59;
+    margin-left: 8px;
 }
 
 .nav.nav-tabs {
-  border-bottom: 2px solid #4a5c66;
-  margin-top: 15px;
-  margin-bottom: 0;
+    border-bottom: 2px solid #4a5c66;
+    margin-top: 15px;
+    margin-bottom: 0;
 }
 
 .nav.nav-tabs li {
-  margin-bottom: 0;
-  margin-left: 2px;
+    margin-bottom: 0;
+    margin-left: 2px;
 }
 
 .nav.nav-tabs li:first-child {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 .nav.nav-tabs li a, .nav.nav-tabs li.active a {
-  border: 2px solid #4a5c66;
-  border-bottom: none;
-  border-radius: 0;
-  padding-left: 12px;
+    border: 2px solid #4a5c66;
+    border-bottom: none;
+    border-radius: 0;
+    padding-left: 12px;
 }
 
 .nav.nav-tabs li a:hover {
-  background-color: #f2f5f6;
+    background-color: #f2f5f6;
 }
 
 .nav.nav-tabs li.active a {
-  background: #4a5c66;
-  color: white;
+    background: #4a5c66;
+    color: white;
 }
 
 .nav.nav-tabs li.active a:hover {
-  background: #4a5c66;
+    background: #4a5c66;
 }
 
 form#adminForm fieldset[class$="-group"] {
-  background-color: white;
-  margin-top: .5rem;
-  margin-bottom: 0;
+    background-color: white;
+    margin-top: .5rem;
+    margin-bottom: 0;
 }
 
 form#adminForm fieldset[class$="-group"] legend {
-  border-bottom: 2px solid #4a5c66;
-  border-top: 2px solid #4a5c66;
-  float: left;
-  font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-  margin-bottom: 0;
+    border-bottom: 2px solid #4a5c66;
+    border-top: 2px solid #4a5c66;
+    float: left;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+    margin-bottom: 0;
 }
 
 form#adminForm fieldset[class$="-group"] legend .pool-title, form#adminForm fieldset[class$="-group"] legend .teacher-title {
-  font-size: 1.3rem;
-  margin-left: .5rem;
+    font-size: 1.3rem;
+    margin-left: .5rem;
 }
 
 form#adminForm fieldset[class$="-group"] legend .pool-crp {
-  float: right;
-  font-size: 1rem;
-  margin-right: 1.5rem;
+    float: right;
+    font-size: 1rem;
+    margin-right: 1.5rem;
 }
 
 form#adminForm fieldset.pool-group:nth-child(2), form#adminForm fieldset.teacher-group:first-child {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 form#adminForm fieldset.pool-group:nth-child(2) legend, form#adminForm fieldset.teacher-group:first-child legend {
-  border-top: none;
+    border-top: none;
 }
 
 table {
-  color: #394a59;
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
-  margin-bottom: 0;
+    color: #394a59;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    margin-bottom: 0;
 }
 
 table tr:nth-child(even) {
-  background-color: #f2f5f6;
+    background-color: #f2f5f6;
 }
 
 table tr td[class^="subject-"] {
-  border: none;
+    border: none;
 }
 
 table tr td.subject-crp {
-  width: 7%;
+    width: 7%;
 }
 
 table tr td.subject-name {
-  width: 50%;
+    width: 50%;
 }
 
 table tr td.subject-teacher {
-  width: 40%;
+    width: 40%;
 }

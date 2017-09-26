@@ -1,16 +1,16 @@
 .period-container {
-  margin-bottom: .5rem;
+    margin-bottom: .5rem;
 }
 
 .period-label {
-  margin-right: 1rem;
-  min-width: 5rem;
+    margin-right: 1rem;
+    min-width: 5rem;
 }
 
 .period-label, .period-input {
-  display: inline-block;
+    display: inline-block;
 }
 
 .period-input .chzn-container {
-  width: 124px !important;
+    width: 124px !important;
 }

@@ -36,8 +36,7 @@ class THM_OrganizerTemplateBasicList
 
 			if ($sort == 'number')
 			{
-				usort($displayItems, function ($a, $b)
-				{
+				usort($displayItems, function ($a, $b) {
 					return $a->externalID > $b->externalID;
 				});
 			}

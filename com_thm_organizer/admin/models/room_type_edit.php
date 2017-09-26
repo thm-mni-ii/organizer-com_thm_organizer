@@ -29,7 +29,7 @@ class THM_OrganizerModelRoom_Type_Edit extends THM_OrganizerModelEdit
 	 *
 	 * @param array $config An optional associative array of configuration settings.
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
 	}

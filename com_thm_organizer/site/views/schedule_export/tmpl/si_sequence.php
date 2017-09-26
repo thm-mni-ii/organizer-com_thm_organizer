@@ -94,9 +94,9 @@ class THM_OrganizerTemplateExport_XLS
 		$name .= empty($lessonInstance['method']) ? '' : " - {$lessonInstance['method']}";
 		$this->spreadSheet->getActiveSheet()->setCellValue("D$row", $name);
 
-		$pools    = array();
-		$rooms    = array();
-		$teachers = array();
+		$pools    = [];
+		$rooms    = [];
+		$teachers = [];
 
 		foreach ($lessonInstance['subjects'] as $subjectConfig)
 		{

@@ -24,13 +24,13 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	private function aggregateRequestedResources()
 	{
-		$resources = array();
+		$resources = [];
 
 		if (!empty($this->parameters['poolIDs']))
 		{
 			foreach ($this->parameters['poolIDs'] as $poolID)
 			{
-				$resources[] = array('id' => $poolID, 'index' => 'pools');
+				$resources[] = ['id' => $poolID, 'index' => 'pools'];
 			}
 		}
 
@@ -38,7 +38,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 		{
 			foreach ($this->parameters['teacherIDs'] as $teacherID)
 			{
-				$resources[] = array('id' => $teacherID, 'index' => 'teachers');
+				$resources[] = ['id' => $teacherID, 'index' => 'teachers'];
 			}
 		}
 
@@ -46,7 +46,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 		{
 			foreach ($this->parameters['roomIDs'] as $roomID)
 			{
-				$resources[] = array('id' => $roomID, 'index' => 'rooms');
+				$resources[] = ['id' => $roomID, 'index' => 'rooms'];
 			}
 		}
 
@@ -111,10 +111,10 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	private function getCellBorder()
 	{
-		return array(
-			'R' => array('width' => '.1', 'color' => array(223, 229, 230)),
-			'B' => array('width' => '.1', 'color' => array(223, 229, 230))
-		);
+		return [
+			'R' => ['width' => '.1', 'color' => [223, 229, 230]],
+			'B' => ['width' => '.1', 'color' => [223, 229, 230]]
+		];
 	}
 
 	/**
@@ -148,10 +148,10 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	private function getLastCellBorder()
 	{
-		return array(
-			'R' => array('width' => '.1', 'color' => array(223, 229, 230)),
-			'B' => array('width' => '.5', 'color' => array(74, 92, 102))
-		);
+		return [
+			'R' => ['width' => '.1', 'color' => [223, 229, 230]],
+			'B' => ['width' => '.5', 'color' => [74, 92, 102]]
+		];
 	}
 
 	/**
@@ -161,10 +161,10 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	private function getLastRowHeadCellBorder()
 	{
-		return array(
-			'R' => array('width' => '.5', 'color' => array(74, 92, 102)),
-			'B' => array('width' => '.5', 'color' => array(74, 92, 102))
-		);
+		return [
+			'R' => ['width' => '.5', 'color' => [74, 92, 102]],
+			'B' => ['width' => '.5', 'color' => [74, 92, 102]]
+		];
 	}
 
 	/**
@@ -173,19 +173,19 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 * @param array $instance the instance information
 	 * @param array $resource the resource information id & type
 	 *
-	 * @return void
+	 * @return array instance texts
 	 */
 	private function getResourceInstanceText($instance, $resource)
 	{
-		$return        = array();
+		$return        = [];
 		$resourceID    = $resource['id'];
 		$resourceIndex = $resource['index'];
 
-		$subjectNames = array();
-		$subjectNos   = array();
-		$pools        = array();
-		$teachers     = array();
-		$rooms        = array();
+		$subjectNames = [];
+		$subjectNos   = [];
+		$pools        = [];
+		$teachers     = [];
+		$rooms        = [];
 		$method       = empty($instance['method']) ? '' : $instance['method'];
 		$comment      = empty($instance['comment']) ? '' : $instance['comment'];
 
@@ -260,7 +260,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
 		$text = "$subjectName\n";
 
-		$output = array();
+		$output = [];
 
 		if (!empty($pools))
 		{
@@ -300,7 +300,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	protected function getRowCells($columnHeaders, $rowHeader = null)
 	{
-		$rowCells = array();
+		$rowCells = [];
 
 		foreach ($columnHeaders as $columnHeader)
 		{
@@ -324,7 +324,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 					{
 						if (empty($rowCells[$indexCount]))
 						{
-							$rowCells[$indexCount] = array();
+							$rowCells[$indexCount] = [];
 						}
 
 						$rowCells[$indexCount][$date] = $this->getInstanceText($instance, $timeIndex, $rowHeader);
@@ -346,7 +346,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
 							if (empty($rowCells[$resourceName]))
 							{
-								$rowCells[$resourceName] = array();
+								$rowCells[$resourceName] = [];
 							}
 							else
 							{
@@ -369,7 +369,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
 							if (empty($rowCells[$resourceName][$rowNumber]))
 							{
-								$rowCells[$resourceName][$rowNumber] = array();
+								$rowCells[$resourceName][$rowNumber] = [];
 							}
 
 							$rowCells[$resourceName][$rowNumber][$date] = $results['instanceText'];
@@ -395,15 +395,14 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 			{
 				$lineCount                     = max(
 					array_map(
-						function ($instance)
-						{
+						function ($instance) {
 							return $this->document->getNumLines($instance, $this->parameters['dataWidth']);
 						},
 						$dates
 					)
 				);
 				$rowCells[$index]['lineCount'] = $lineCount;
-				$totalLineCount += $lineCount;
+				$totalLineCount                += $lineCount;
 			}
 		}
 		else
@@ -415,15 +414,14 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 				{
 					$lineCount                                    = max(
 						array_map(
-							function ($instance)
-							{
+							function ($instance) {
 								return $this->document->getNumLines($instance, $this->parameters['dataWidth']);
 							},
 							$dates
 						)
 					);
 					$rowCells[$resourceName][$index]['lineCount'] = $lineCount;
-					$totalLineCount += $lineCount;
+					$totalLineCount                               += $lineCount;
 					$rowCount++;
 				}
 			}
@@ -443,9 +441,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	private function getRowHeadCellBorder()
 	{
-		return array(
-			'R' => array('width' => '.5', 'color' => array(74, 92, 102))
-		);
+		return [
+			'R' => ['width' => '.5', 'color' => [74, 92, 102]]
+		];
 	}
 
 	/**
@@ -555,7 +553,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 		$this->document->AddPage();
 
 		$this->document->SetFont('helvetica', '', 10, '', 'default', true);
-		$this->document->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(74, 92, 102)));
+		$this->document->SetLineStyle(['width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => [74, 92, 102]]);
 
 		if ($outputTimeGrid)
 		{
@@ -774,8 +772,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
 			if (!empty($rowHeader))
 			{
-				$timeText   = $outputTime ? $rowHeader['text'] : '';
-				$border     = $rowNumber == $lastRowNumber ? $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
+				$timeText = $outputTime ? $rowHeader['text'] : '';
+				$border   = $rowNumber == $lastRowNumber ? $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
 				$this->outputTimeCell($cellHeight, $timeText, $border);
 				$outputTime = false;
 				$rowNumber++;

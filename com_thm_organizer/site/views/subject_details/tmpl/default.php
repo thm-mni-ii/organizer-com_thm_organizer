@@ -24,21 +24,21 @@ $postrequisites = $this->getDependencies('post');
 
 ?>
 <div class="toolbar">
-    <div class="tool-wrapper language-switches">
+	<div class="tool-wrapper language-switches">
 		<?php
 		foreach ($this->languageSwitches AS $switch)
 		{
 			echo $switch;
 		}
 		?>
-    </div>
+	</div>
 </div>
 <div class="clearfix"></div>
 <?php
 if (!empty($this->item->name))
 {
 	?>
-    <h1 class="componentheading"><?php echo $this->item->name; ?></h1>
+	<h1 class="componentheading"><?php echo $this->item->name; ?></h1>
 	<?php
 }
 ?>
@@ -357,6 +357,5 @@ if (!empty($this->item->name))
 		echo '</div></div>';
 	}
 	?>
-    </dl>
 	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
 </div>

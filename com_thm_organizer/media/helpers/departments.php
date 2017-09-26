@@ -66,7 +66,7 @@ class THM_OrganizerHelperDepartments
 	{
 		if (empty($departmentID))
 		{
-			$formData             = JFactory::getApplication()->input->get('jform', array(), 'array');
+			$formData             = JFactory::getApplication()->input->get('jform', [], 'array');
 			$data['departmentID'] = $formData['departmentID'];
 		}
 		else
@@ -117,7 +117,7 @@ class THM_OrganizerHelperDepartments
 
 		$dbo->setQuery($query);
 
-		$default = array();
+		$default = [];
 		try
 		{
 			$results = $dbo->loadAssocList();
@@ -134,7 +134,7 @@ class THM_OrganizerHelperDepartments
 			return $default;
 		}
 
-		$departments = array();
+		$departments = [];
 		foreach ($results as $department)
 		{
 			$departments[$department['id']] = $short ? $department['shortName'] : $department['name'];

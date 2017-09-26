@@ -15,6 +15,7 @@ DEFINE('REGISTER', 1);
 DEFINE('DEREGISTER', 2);
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+
 /**
  * Site main controller
  *
@@ -28,14 +29,14 @@ class THM_OrganizerController extends JControllerLegacy
 	 * Method to display
 	 *
 	 * @param bool  $cachable  If true, the view output will be cached
-	 * @param array $urlparams An array of safe url parameters and their variable types, for valid values
+	 * @param array $urlParams An array of safe url parameters and their variable types, for valid values
 	 *                         see {@link JFilterInput::clean()}.
 	 *
 	 * @return    void
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlParams = false)
 	{
-		parent::display($cachable, $urlparams);
+		parent::display($cachable, $urlParams);
 	}
 
 	/**
@@ -46,21 +47,21 @@ class THM_OrganizerController extends JControllerLegacy
 	public function circular()
 	{
 		$lang = THM_OrganizerHelperLanguage::getLanguage();
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data            = JFactory::getApplication()->input->get('jform', [], 'array');
 		$includeWaitList = $data["includeWaitList"] === "1" ? true : false;
 
 		$success = $this->getModel('participant')->circular($data, $includeWaitList);
 
 		if (empty($success))
 		{
-			$msgText  = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL');
+			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL');
 			$msgType = 'error';
 		}
 		else
 		{
-			$msgText  = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS');
+			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS');
 			$msgType = 'success';
 		}
 
@@ -77,9 +78,9 @@ class THM_OrganizerController extends JControllerLegacy
 	 */
 	public function clear()
 	{
-		$lang  = THM_OrganizerHelperLanguage::getLanguage();
+		$lang = THM_OrganizerHelperLanguage::getLanguage();
 
-		$input = JFactory::getApplication()->input;
+		$input    = JFactory::getApplication()->input;
 		$lessonID = $input->getString('lessonID', 0);
 
 		$success = false;
@@ -114,8 +115,8 @@ class THM_OrganizerController extends JControllerLegacy
 	}
 
 	/**
-	 * Check if user information is present if thats the case only sign user in or out of course
-	 * then redirect to course list view otherwise redirect to user registration view
+	 * Check if user information is present. If so, only sign user in or out of course, then redirect to course list
+	 * view. Otherwise, redirect to user registration view.
 	 *
 	 * @return void
 	 */
@@ -123,8 +124,8 @@ class THM_OrganizerController extends JControllerLegacy
 	{
 		$lang = THM_OrganizerHelperLanguage::getLanguage();
 
-		$app = JFactory::getApplication();
-		$data =  parent::getModel('participant_edit')->getItem();
+		$app  = JFactory::getApplication();
+		$data = parent::getModel('participant_edit')->getItem();
 
 		$lessonID = JFactory::getApplication()->input->getString('lessonID', '');
 
@@ -141,6 +142,7 @@ class THM_OrganizerController extends JControllerLegacy
 			}
 
 			parent::display();
+
 			return;
 		}
 
@@ -158,7 +160,7 @@ class THM_OrganizerController extends JControllerLegacy
 			}
 
 			$langTag = THM_OrganizerHelperLanguage::getShortTag();
-			$return = $model->applySignAction((array) $data, $action, $lessonID);
+			$return  = $model->applySignAction((array) $data, $action, $lessonID);
 			$app->input->set("languageTag", $langTag);
 
 			if ($return)
@@ -169,7 +171,7 @@ class THM_OrganizerController extends JControllerLegacy
 				}
 				else
 				{
-					$status = THM_OrganizerHelperPrep_Course::getRegistrationState()["status"] ?
+					$status  = THM_OrganizerHelperPrep_Course::getRegistrationState()["status"] ?
 						"COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED" :
 						"COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST";
 					$msgText = THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_REGISTRATION_SUCCESS", $lang->_($status));
@@ -203,7 +205,7 @@ class THM_OrganizerController extends JControllerLegacy
 	public function changeStatus()
 	{
 		$lang = THM_OrganizerHelperLanguage::getLanguage();
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 
 		$langTag = THM_OrganizerHelperLanguage::getShortTag();
 		$success = $this->getModel('participant')->changeStatus();
@@ -211,12 +213,12 @@ class THM_OrganizerController extends JControllerLegacy
 
 		if (empty($success))
 		{
-			$msgText  = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
 			$msgType = 'error';
 		}
 		else
 		{
-			$msgText  = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 			$msgType = 'success';
 		}
 
@@ -237,9 +239,9 @@ class THM_OrganizerController extends JControllerLegacy
 	{
 		$resource = explode('.', JFactory::getApplication()->input->get('task', ''))[0];
 
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
 		$lang = THM_OrganizerHelperLanguage::getLanguage();
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 
 		$model = $this->getModel($resource);
 

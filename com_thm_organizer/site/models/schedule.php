@@ -92,8 +92,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	{
 		$defaultGrids = array_filter(
 			$this->grids,
-			function ($var)
-			{
+			function ($var) {
 				return $var->defaultGrid;
 			}
 		);
@@ -155,7 +154,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	{
 		$input        = JFactory::getApplication()->input;
 		$params       = JFactory::getApplication()->getParams();
-		$this->params = array();
+		$this->params = [];
 
 		// No explicit resource selection was made check if departments were requested
 		$this->params['departmentID']  = $input->getInt('departmentID', $params->get('departmentID', 0));
@@ -191,7 +190,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			{
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
-				$this->displayName .= THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
+				$this->displayName           .= THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
 				$this->params['displayName'] = $this->displayName;
 			}
 
@@ -214,7 +213,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			{
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
-				$this->displayName .= THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
+				$this->displayName           .= THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
 				$this->params['displayName'] = $this->displayName;
 			}
 
@@ -236,8 +235,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			{
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
-				$this->displayName .= JText::_('COM_THM_ORGANIZER_ROOM') . ' ';
-				$this->displayName .= THM_OrganizerHelperRooms::getName($this->params['roomIDs'][0]);
+				$this->displayName           .= JText::_('COM_THM_ORGANIZER_ROOM') . ' ';
+				$this->displayName           .= THM_OrganizerHelperRooms::getName($this->params['roomIDs'][0]);
 				$this->params['displayName'] = $this->displayName;
 			}
 
@@ -259,8 +258,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			{
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/room_types.php';
-				$this->displayName .= JText::_('COM_THM_ORGANIZER_ROOM_TYPE') . ' ';
-				$this->displayName .= THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
+				$this->displayName           .= JText::_('COM_THM_ORGANIZER_ROOM_TYPE') . ' ';
+				$this->displayName           .= THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
 				$this->params['displayName'] = $this->displayName;
 			}
 
@@ -283,7 +282,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			{
 				/** @noinspection PhpIncludeInspection */
 				require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
-				$this->displayName .= THM_OrganizerHelperPrograms::getName($this->params['programIDs'][0], 'plan');
+				$this->displayName           .= THM_OrganizerHelperPrograms::getName($this->params['programIDs'][0], 'plan');
 				$this->params['displayName'] = $this->displayName;
 			}
 
@@ -306,7 +305,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
 			/** @noinspection PhpIncludeInspection */
 			require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-			$this->displayName .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'], 'plan');
+			$this->displayName           .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'], 'plan');
 			$this->params['displayName'] = $this->displayName;
 
 			return;
@@ -331,7 +330,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 */
 	private function setResourceArray($resourceName)
 	{
-		$rawResourceIDs = JFactory::getApplication()->input->get("{$resourceName}IDs", array(), 'raw');
+		$rawResourceIDs = JFactory::getApplication()->input->get("{$resourceName}IDs", [], 'raw');
 
 		if (empty($rawResourceIDs))
 		{
@@ -350,7 +349,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			}
 			elseif (is_int($rawResourceIDs))
 			{
-				$this->params["{$resourceName}IDs"] = Joomla\Utilities\ArrayHelper::toInteger(array($rawResourceIDs));
+				$this->params["{$resourceName}IDs"] = Joomla\Utilities\ArrayHelper::toInteger([$rawResourceIDs]);
 			}
 			elseif (is_string($rawResourceIDs))
 			{

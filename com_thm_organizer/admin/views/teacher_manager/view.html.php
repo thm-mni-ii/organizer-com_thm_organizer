@@ -60,8 +60,6 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
 		JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
 		JToolbarHelper::deleteList('', 'teacher.delete');
 
-		$actions = $this->getModel()->actions;
-
 		if ($this->getModel()->actions->{'core.admin'})
 		{
 			JToolbarHelper::divider();

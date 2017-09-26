@@ -41,7 +41,7 @@ class JFormFieldProgramID extends JFormFieldList
 		$dbo      = JFactory::getDbo();
 		$query    = $dbo->getQuery(true);
 
-		$nameParts  = array("dp.name_$shortTag", 'd.abbreviation', 'dp.version');
+		$nameParts  = ["dp.name_$shortTag", 'd.abbreviation', 'dp.version'];
 		$nameSelect = $query->concatenate($nameParts, ', ') . " AS text";
 
 		$query->select("dp.id AS value, $nameSelect");
@@ -62,7 +62,7 @@ class JFormFieldProgramID extends JFormFieldList
 
 		// Whether or not the program display should be prefiltered according to user resource access
 		$access  = $this->getAttribute('access', false);
-		$options  = array();
+		$options = [];
 
 		foreach ($programs as $program)
 		{

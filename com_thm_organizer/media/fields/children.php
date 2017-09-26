@@ -75,12 +75,12 @@ class JFormFieldChildren extends JFormField
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		if (empty($parentID))
 		{
-			return array();
+			return [];
 		}
 
 		$childMappingQuery = $dbo->getQuery(true);
@@ -98,12 +98,12 @@ class JFormFieldChildren extends JFormField
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		if (empty($children))
 		{
-			return array();
+			return [];
 		}
 
 		$this->setTypeData($children);
@@ -210,34 +210,34 @@ class JFormFieldChildren extends JFormField
 
 				$icon = empty($children[$ordering]['subjectID']) ? 'list' : 'book';
 
-				$html .= '<tr id="childRow' . $ordering . '" class="' . $rowClass . '">';
-				$html .= '<td class="child-name">';
-				$html .= '<a id="child' . $ordering . 'link" href="' . $link . '">';
-				$html .= '<span id="child' . $ordering . 'icon" class="icon-' . $icon . '"></span>';
-				$html .= '<span id="child' . $ordering . 'name">' . $name . '</span>';
-				$html .= '</a>';
-				$html .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" value="' . $childID . '" />';
-				$html .= '</td>';
-				$html .= '<td class="child-order">';
-				$html .= '<button class="btn btn-small" onclick="moveUp(\'' . $ordering . '\');" title="' . $moveUp . '">';
-				$html .= '<span class="icon-previous"></span>';
-				$html .= '</button>';
-				$html .= '<input type="text" title="Ordering" name="child' . $ordering . 'order" id="child' . $ordering . 'order" ';
-				$html .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="orderWithNumber(' . $ordering . ');"/>';
-				$html .= '<button class="btn btn-small" onclick="setEmptyElement(\'' . $ordering . '\');" title="' . $addSpace . '">';
-				$html .= '<span class="icon-add-Space"></span>';
-				$html .= '</button>';
-				$html .= '<button class="btn btn-small" onClick="removeRow(' . $ordering . ');" title="' . JText::_('JTOOLBAR_DELETE') . '" >';
-				$html .= '<span class="icon-trash"></span>';
-				$html .= '</button>';
-				$html .= '<button class="btn btn-small" onclick="moveDown(\'' . $ordering . '\');" title="' . $moveDown . '">';
-				$html .= '<span class="icon-next"></span>';
-				$html .= '</button>';
-				$html .= '<button class="btn btn-small" onclick="setElementOnLastPosition(\'' . $ordering . '\');" title="' . $makeLast . '">';
-				$html .= '<span class="icon-last"></span>';
-				$html .= '</button>';
-				$html .= '</td>';
-				$html .= '</tr>';
+				$html     .= '<tr id="childRow' . $ordering . '" class="' . $rowClass . '">';
+				$html     .= '<td class="child-name">';
+				$html     .= '<a id="child' . $ordering . 'link" href="' . $link . '">';
+				$html     .= '<span id="child' . $ordering . 'icon" class="icon-' . $icon . '"></span>';
+				$html     .= '<span id="child' . $ordering . 'name">' . $name . '</span>';
+				$html     .= '</a>';
+				$html     .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" value="' . $childID . '" />';
+				$html     .= '</td>';
+				$html     .= '<td class="child-order">';
+				$html     .= '<button class="btn btn-small" onclick="moveUp(\'' . $ordering . '\');" title="' . $moveUp . '">';
+				$html     .= '<span class="icon-previous"></span>';
+				$html     .= '</button>';
+				$html     .= '<input type="text" title="Ordering" name="child' . $ordering . 'order" id="child' . $ordering . 'order" ';
+				$html     .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="orderWithNumber(' . $ordering . ');"/>';
+				$html     .= '<button class="btn btn-small" onclick="setEmptyElement(\'' . $ordering . '\');" title="' . $addSpace . '">';
+				$html     .= '<span class="icon-add-Space"></span>';
+				$html     .= '</button>';
+				$html     .= '<button class="btn btn-small" onClick="removeRow(' . $ordering . ');" title="' . JText::_('JTOOLBAR_DELETE') . '" >';
+				$html     .= '<span class="icon-trash"></span>';
+				$html     .= '</button>';
+				$html     .= '<button class="btn btn-small" onclick="moveDown(\'' . $ordering . '\');" title="' . $moveDown . '">';
+				$html     .= '<span class="icon-next"></span>';
+				$html     .= '</button>';
+				$html     .= '<button class="btn btn-small" onclick="setElementOnLastPosition(\'' . $ordering . '\');" title="' . $makeLast . '">';
+				$html     .= '<span class="icon-last"></span>';
+				$html     .= '</button>';
+				$html     .= '</td>';
+				$html     .= '</tr>';
 				$rowClass = $rowClass == 'row0' ? 'row1' : 'row0';
 			}
 		}

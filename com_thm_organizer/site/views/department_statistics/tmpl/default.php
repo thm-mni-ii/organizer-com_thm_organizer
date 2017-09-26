@@ -14,32 +14,31 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
-$initialHidden = array('date');
+$initialHidden = ['date'];
 ?>
 <script type="text/javascript">
-    var rootURI = '<?php echo JUri::root(); ?>', allText = '<?php echo JText::_('JALL');?>',
-        selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
-        downloadText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
-        generateText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
-        copyText = '<?php echo JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
+	var rootURI = '<?php echo JUri::root(); ?>', allText = '<?php echo JText::_('JALL');?>',
+		selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
+		downloadText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
+		generateText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
+		copyText = '<?php echo JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
 </script>
 <div id="j-main-container">
-    <form action="index.php?option=com_thm_organizer&view=department_statistics&format=xls"
-          method="post" name="adminForm" id="adminForm" target="_blank"
-    ">
-    <div id="header-container" class="header-container">
-        <div class="header-title">
+	<form action="index.php?option=com_thm_organizer&view=department_statistics&format=xls"
+		  method="post" name="adminForm" id="adminForm" target="_blank">
+	<div id="header-container" class="header-container">
+		<div class="header-title">
 			<?php echo JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_TITLE'); ?>
-        </div>
-        <div class="toolbar">
-            <button id="action-btn" class="btn" type="submit">
+		</div>
+		<div class="toolbar">
+			<button id="action-btn" class="btn" type="submit">
 				<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD') ?>
-                <span class="icon-file-xls"></span>
-            </button>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <fieldset>
+				<span class="icon-file-xls"></span>
+			</button>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<fieldset>
 		<?php
 		foreach ($this->fields['baseSettings'] as $settingID => $setting)
 		{
@@ -57,12 +56,12 @@ $initialHidden = array('date');
 			echo '</div>';
 		}
 		?>
-    </fieldset>
-    <fieldset>
-        <legend>
+	</fieldset>
+	<fieldset>
+		<legend>
 			<?php echo $this->lang->_('COM_THM_ORGANIZER_FILTERS'); ?>
-            <span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_OPTIONAL'); ?></span>
-        </legend>
+			<span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_OPTIONAL'); ?></span>
+		</legend>
 		<?php
 		foreach ($this->fields['filterFields'] as $filterID => $filter)
 		{
@@ -80,7 +79,7 @@ $initialHidden = array('date');
 			echo '</div>';
 		}
 		?>
-    </fieldset>
-    <input name="use" type="hidden" value="planningPeriodIDs"/>
-    </form>
+	</fieldset>
+	<input name="use" type="hidden" value="planningPeriodIDs"/>
+	</form>
 </div>

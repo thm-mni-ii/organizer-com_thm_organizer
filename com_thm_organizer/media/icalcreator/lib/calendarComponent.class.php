@@ -65,8 +65,8 @@ class calendarComponent extends iCalBase
 	{
 		$this->objName = (isset($this->timezonetype)) ?
 			strtolower($this->timezonetype) : get_class($this);
-		$this->uid     = array();
-		$this->dtstamp = array();
+		$this->uid     = [];
+		$this->dtstamp = [];
 
 		$this->language   = null;
 		$this->nl         = null;
@@ -74,7 +74,7 @@ class calendarComponent extends iCalBase
 		$this->format     = null;
 		$this->dtzid      = null;
 		$this->allowEmpty = true;
-		$this->xcaldecl   = array();
+		$this->xcaldecl   = [];
 
 		$this->_createFormat();
 		$this->_makeDtstamp();
@@ -138,7 +138,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->action = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->action = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -179,7 +179,7 @@ class calendarComponent extends iCalBase
 					$str        = 'ATTACH' . $attributes . $this->valueInit . $attachPart['value'];
 					$output     = substr($str, 0, 75) . $this->nl;
 					$str        = substr($str, 75);
-					$output .= ' ' . chunk_split($str, 74, $this->nl . ' ');
+					$output     .= ' ' . chunk_split($str, 74, $this->nl . ' ');
 					if (' ' == substr($output, -1))
 					{
 						$output = rtrim($output);
@@ -275,7 +275,7 @@ class calendarComponent extends iCalBase
 				}
 				elseif (('params' == $paramlabel) && (is_array($paramvalue)))
 				{ // start elseif
-					$mParams = array('MEMBER', 'DELEGATED-TO', 'DELEGATED-FROM');
+					$mParams = ['MEMBER', 'DELEGATED-TO', 'DELEGATED-FROM'];
 					foreach ($paramvalue as $pKey => $pValue)
 					{                 // fix (opt) quotes
 						if (is_array($pValue) || in_array($pKey, $mParams))
@@ -341,14 +341,14 @@ class calendarComponent extends iCalBase
 					}
 					if (isset($paramvalue['DIR']))
 					{
-						$delim = (false === strpos($paramvalue['DIR'], '"')) ? '"' : '';
+						$delim     = (false === strpos($paramvalue['DIR'], '"')) ? '"' : '';
 						$attendee1 .= $this->intAttrDelimiter . 'DIR=' . $delim . $paramvalue['DIR'] . $delim;
 					}
 					if (isset($paramvalue['LANGUAGE']))
 					{
 						$attendee1 .= $this->intAttrDelimiter . 'LANGUAGE=' . $paramvalue['LANGUAGE'];
 					}
-					$xparams = array();
+					$xparams = [];
 					foreach ($paramvalue as $optparamlabel => $optparamvalue)
 					{ // start foreach 3
 						if (ctype_digit((string) $optparamlabel))
@@ -356,7 +356,7 @@ class calendarComponent extends iCalBase
 							$xparams[] = $optparamvalue;
 							continue;
 						}
-						if (!in_array($optparamlabel, array('CUTYPE', 'MEMBER', 'ROLE', 'PARTSTAT', 'RSVP', 'DELEGATED-TO', 'DELEGATED-FROM', 'SENT-BY', 'CN', 'DIR', 'LANGUAGE')))
+						if (!in_array($optparamlabel, ['CUTYPE', 'MEMBER', 'ROLE', 'PARTSTAT', 'RSVP', 'DELEGATED-TO', 'DELEGATED-FROM', 'SENT-BY', 'CN', 'DIR', 'LANGUAGE']))
 						{
 							$xparams[$optparamlabel] = $optparamvalue;
 						}
@@ -377,6 +377,7 @@ class calendarComponent extends iCalBase
 			}          // end foreach 2
 			$output .= $this->_createElement('ATTENDEE', $attendee1, $attendee2);
 		}              // end foreach 1
+
 		return $output;
 	}
 
@@ -422,10 +423,10 @@ class calendarComponent extends iCalBase
 			}
 			$value = str_replace('mailto:', 'MAILTO:', $value);
 		}
-		$params2 = array();
+		$params2 = [];
 		if (is_array($params))
 		{
-			$optarrays = array();
+			$optarrays = [];
 			$params    = array_change_key_case($params, CASE_UPPER);
 			foreach ($params as $optparamlabel => $optparamvalue)
 			{
@@ -440,7 +441,7 @@ class calendarComponent extends iCalBase
 					case 'DELEGATED-FROM':
 						if (!is_array($optparamvalue))
 						{
-							$optparamvalue = array($optparamvalue);
+							$optparamvalue = [$optparamvalue];
 						}
 						foreach ($optparamvalue as $part)
 						{
@@ -541,7 +542,7 @@ class calendarComponent extends iCalBase
 				}
 				continue;
 			}
-			$attributes = $this->_createParams($category['params'], array('LANGUAGE'));
+			$attributes = $this->_createParams($category['params'], ['LANGUAGE']);
 			if (is_array($category['value']))
 			{
 				foreach ($category['value'] as $cix => $categoryPart)
@@ -649,7 +650,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->class = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->class = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -688,9 +689,9 @@ class calendarComponent extends iCalBase
 				}
 				continue;
 			}
-			$attributes = $this->_createParams($commentPart['params'], array('ALTREP', 'LANGUAGE'));
+			$attributes = $this->_createParams($commentPart['params'], ['ALTREP', 'LANGUAGE']);
 			$content    = iCalUtilityFunctions::_strrep($commentPart['value'], $this->format, $this->nl);
-			$output .= $this->_createElement('COMMENT', $attributes, $content);
+			$output     .= $this->_createElement('COMMENT', $attributes, $content);
 		}
 
 		return $output;
@@ -799,7 +800,7 @@ class calendarComponent extends iCalBase
 		{
 			if ($this->getConfig('allowEmpty'))
 			{
-				$this->completed = array('value' => '', 'params' => iCalUtilityFunctions::_setParams($params));
+				$this->completed = ['value' => '', 'params' => iCalUtilityFunctions::_setParams($params)];
 
 				return true;
 			}
@@ -839,9 +840,9 @@ class calendarComponent extends iCalBase
 		{
 			if (!empty($contact['value']))
 			{
-				$attributes = $this->_createParams($contact['params'], array('ALTREP', 'LANGUAGE'));
+				$attributes = $this->_createParams($contact['params'], ['ALTREP', 'LANGUAGE']);
 				$content    = iCalUtilityFunctions::_strrep($contact['value'], $this->format, $this->nl);
-				$output .= $this->_createElement('CONTACT', $attributes, $content);
+				$output     .= $this->_createElement('CONTACT', $attributes, $content);
 			}
 			elseif ($this->getConfig('allowEmpty'))
 			{
@@ -966,9 +967,9 @@ class calendarComponent extends iCalBase
 		{
 			if (!empty($description['value']))
 			{
-				$attributes = $this->_createParams($description['params'], array('ALTREP', 'LANGUAGE'));
+				$attributes = $this->_createParams($description['params'], ['ALTREP', 'LANGUAGE']);
 				$content    = iCalUtilityFunctions::_strrep($description['value'], $this->format, $this->nl);
-				$output .= $this->_createElement('DESCRIPTION', $attributes, $content);
+				$output     .= $this->_createElement('DESCRIPTION', $attributes, $content);
 			}
 			elseif ($this->getConfig('allowEmpty'))
 			{
@@ -1089,7 +1090,7 @@ class calendarComponent extends iCalBase
 		{
 			if ($this->getConfig('allowEmpty'))
 			{
-				$this->dtend = array('value' => '', 'params' => iCalUtilityFunctions::_setParams($params));
+				$this->dtend = ['value' => '', 'params' => iCalUtilityFunctions::_setParams($params)];
 
 				return true;
 			}
@@ -1149,7 +1150,7 @@ class calendarComponent extends iCalBase
 	{
 		$d                       = gmdate(iCalUtilityFunctions::$fmt['YmdHis3'], time());
 		$date                    = explode('-', $d);
-		$this->dtstamp['value']  = array('year' => $date[0], 'month' => $date[1], 'day' => $date[2], 'hour' => $date[3], 'min' => $date[4], 'sec' => $date[5], 'tz' => 'Z');
+		$this->dtstamp['value']  = ['year' => $date[0], 'month' => $date[1], 'day' => $date[2], 'hour' => $date[3], 'min' => $date[4], 'sec' => $date[5], 'tz' => 'Z'];
 		$this->dtstamp['params'] = null;
 	}
 
@@ -1262,7 +1263,7 @@ class calendarComponent extends iCalBase
 		{
 			if ($this->getConfig('allowEmpty'))
 			{
-				$this->dtstart = array('value' => '', 'params' => iCalUtilityFunctions::_setParams($params));
+				$this->dtstart = ['value' => '', 'params' => iCalUtilityFunctions::_setParams($params)];
 
 				return true;
 			}
@@ -1348,7 +1349,7 @@ class calendarComponent extends iCalBase
 		{
 			if ($this->getConfig('allowEmpty'))
 			{
-				$this->due = array('value' => '', 'params' => iCalUtilityFunctions::_setParams($params));
+				$this->due = ['value' => '', 'params' => iCalUtilityFunctions::_setParams($params)];
 
 				return true;
 			}
@@ -1440,7 +1441,7 @@ class calendarComponent extends iCalBase
 		}
 		if (is_array($week) && (1 <= count($week)))
 		{
-			$this->duration = array('value' => iCalUtilityFunctions::_duration2arr($week), 'params' => iCalUtilityFunctions::_setParams($day));
+			$this->duration = ['value' => iCalUtilityFunctions::_duration2arr($week), 'params' => iCalUtilityFunctions::_setParams($day)];
 		}
 		elseif (is_string($week) && (3 <= strlen(trim($week))))
 		{
@@ -1449,7 +1450,7 @@ class calendarComponent extends iCalBase
 			{
 				$week = substr($week, 1);
 			}
-			$this->duration = array('value' => iCalUtilityFunctions::_durationStr2arr($week), 'params' => iCalUtilityFunctions::_setParams($day));
+			$this->duration = ['value' => iCalUtilityFunctions::_durationStr2arr($week), 'params' => iCalUtilityFunctions::_setParams($day)];
 		}
 		else
 		{
@@ -1484,7 +1485,7 @@ class calendarComponent extends iCalBase
 			return false;
 		}
 		$output  = null;
-		$exdates = array();
+		$exdates = [];
 		foreach ($this->exdate as $theExdate)
 		{
 			if (empty($theExdate['value']))
@@ -1497,13 +1498,13 @@ class calendarComponent extends iCalBase
 			}
 			if (1 < count($theExdate['value']))
 			{
-				usort($theExdate['value'], array('iCalUtilityFunctions', '_sortExdate1'));
+				usort($theExdate['value'], ['iCalUtilityFunctions', '_sortExdate1']);
 			}
 			$exdates[] = $theExdate;
 		}
 		if (1 < count($exdates))
 		{
-			usort($exdates, array('iCalUtilityFunctions', '_sortExdate2'));
+			usort($exdates, ['iCalUtilityFunctions', '_sortExdate2']);
 		}
 		foreach ($exdates as $theExdate)
 		{
@@ -1542,8 +1543,9 @@ class calendarComponent extends iCalBase
 				$content .= (0 < $eix) ? ',' . $formatted : $formatted;
 			} // end foreach( $theExdate['value'] as $eix => $exdatePart )
 			$attributes .= $this->_createParams($theExdate['params']);
-			$output .= $this->_createElement('EXDATE', $attributes, $content);
+			$output     .= $this->_createElement('EXDATE', $attributes, $content);
 		} // end foreach( $exdates as $theExdate )
+
 		return $output;
 	}
 
@@ -1587,7 +1589,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$input = array('params' => iCalUtilityFunctions::_setParams($params, array('VALUE' => 'DATE-TIME')));
+		$input = ['params' => iCalUtilityFunctions::_setParams($params, array('VALUE' => 'DATE-TIME'))];
 		$toZ   = (isset($input['params']['TZID']) && in_array(strtoupper($input['params']['TZID']), array('GMT', 'UTC', 'Z'))) ? true : false;
 		/* ev. check 1:st date and save ev. timezone **/
 		iCalUtilityFunctions::_chkdatecfg(reset($exdates), $parno, $input['params']);
@@ -1772,18 +1774,18 @@ class calendarComponent extends iCalBase
 				$attributes .= $this->intAttrDelimiter . 'FBTYPE=BUSY';
 			}
 			$attributes .= $this->_createParams($freebusyPart['params']);
-			$fno = 1;
-			$cnt = count($freebusyPart['value']);
+			$fno        = 1;
+			$cnt        = count($freebusyPart['value']);
 			if (1 < $cnt)
 			{
-				usort($freebusyPart['value'], array('iCalUtilityFunctions', '_sortRdate1'));
+				usort($freebusyPart['value'], ['iCalUtilityFunctions', '_sortRdate1']);
 			}
 			foreach ($freebusyPart['value'] as $periodix => $freebusyPeriod)
 			{
 				$formatted = iCalUtilityFunctions::_date2strdate($freebusyPeriod[0]);
-				$content .= $formatted;
-				$content .= '/';
-				$cnt2 = count($freebusyPeriod[1]);
+				$content   .= $formatted;
+				$content   .= '/';
+				$cnt2      = count($freebusyPeriod[1]);
 				if (array_key_exists('year', $freebusyPeriod[1]))      // date-time
 				{
 					$cnt2 = 7;
@@ -1861,17 +1863,17 @@ class calendarComponent extends iCalBase
 		{
 			$fbType = 'BUSY';
 		}
-		$input = array('fbtype' => $fbType);
+		$input = ['fbtype' => $fbType];
 		foreach ($fbValues as $fbPeriod)
 		{   // periods => period
 			if (empty($fbPeriod))
 			{
 				continue;
 			}
-			$freebusyPeriod = array();
+			$freebusyPeriod = [];
 			foreach ($fbPeriod as $fbMember)
 			{ // pairs => singlepart
-				$freebusyPairMember = array();
+				$freebusyPairMember = [];
 				if (is_array($fbMember))
 				{
 					if (iCalUtilityFunctions::_isArrayDate($fbMember))
@@ -1968,7 +1970,7 @@ class calendarComponent extends iCalBase
 		{
 			if (!is_array($this->geo))
 			{
-				$this->geo = array();
+				$this->geo = [];
 			}
 			$this->geo['value']['latitude']  = floatval($latitude);
 			$this->geo['value']['longitude'] = floatval($longitude);
@@ -1976,7 +1978,7 @@ class calendarComponent extends iCalBase
 		}
 		elseif ($this->getConfig('allowEmpty'))
 		{
-			$this->geo = array('value' => '', 'params' => iCalUtilityFunctions::_setParams($params));
+			$this->geo = ['value' => '', 'params' => iCalUtilityFunctions::_setParams($params)];
 		}
 		else
 		{
@@ -2066,7 +2068,7 @@ class calendarComponent extends iCalBase
 		{
 			return ($this->getConfig('allowEmpty')) ? $this->_createElement('LOCATION') : false;
 		}
-		$attributes = $this->_createParams($this->location['params'], array('ALTREP', 'LANGUAGE'));
+		$attributes = $this->_createParams($this->location['params'], ['ALTREP', 'LANGUAGE']);
 		$content    = iCalUtilityFunctions::_strrep($this->location['value'], $this->format, $this->nl);
 
 		return $this->_createElement('LOCATION', $attributes, $content);
@@ -2099,7 +2101,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->location = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->location = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -2129,7 +2131,7 @@ class calendarComponent extends iCalBase
 			return ($this->getConfig('allowEmpty')) ? $this->_createElement('ORGANIZER') : false;
 		}
 		$attributes = $this->_createParams($this->organizer['params']
-			, array('CN', 'DIR', 'SENT-BY', 'LANGUAGE'));
+			, ['CN', 'DIR', 'SENT-BY', 'LANGUAGE']);
 
 		return $this->_createElement('ORGANIZER', $attributes, $this->organizer['value']);
 	}
@@ -2173,7 +2175,7 @@ class calendarComponent extends iCalBase
 			}
 			$value = str_replace('mailto:', 'MAILTO:', $value);
 		}
-		$this->organizer = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->organizer = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 		if (isset($this->organizer['params']['SENT-BY']))
 		{
 			if ('mailto:' !== strtolower(substr($this->organizer['params']['SENT-BY'], 0, 7)))
@@ -2245,7 +2247,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->percentcomplete = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->percentcomplete = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -2306,7 +2308,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->priority = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->priority = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -2337,7 +2339,7 @@ class calendarComponent extends iCalBase
 		}
 		$utctime = (in_array($this->objName, array('vtimezone', 'standard', 'daylight'))) ? true : false;
 		$output  = null;
-		$rdates  = array();
+		$rdates  = [];
 		foreach ($this->rdate as $rpix => $theRdate)
 		{
 			if (empty($theRdate['value']))
@@ -2354,13 +2356,13 @@ class calendarComponent extends iCalBase
 			}
 			if (1 < count($theRdate['value']))
 			{
-				usort($theRdate['value'], array('iCalUtilityFunctions', '_sortRdate1'));
+				usort($theRdate['value'], ['iCalUtilityFunctions', '_sortRdate1']);
 			}
 			$rdates[] = $theRdate;
 		}
 		if (1 < count($rdates))
 		{
-			usort($rdates, array('iCalUtilityFunctions', '_sortRdate2'));
+			usort($rdates, ['iCalUtilityFunctions', '_sortRdate2']);
 		}
 		foreach ($rdates as $rpix => $theRdate)
 		{
@@ -2386,7 +2388,7 @@ class calendarComponent extends iCalBase
 					}
 					$contentPart .= $formatted;
 					$contentPart .= '/';
-					$cnt2 = count($rdatePart[1]);
+					$cnt2        = count($rdatePart[1]);
 					if (array_key_exists('year', $rdatePart[1]))
 					{
 						if (array_key_exists('hour', $rdatePart[1]))
@@ -2495,13 +2497,13 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$input = array('params' => iCalUtilityFunctions::_setParams($params, array('VALUE' => 'DATE-TIME')));
+		$input = ['params' => iCalUtilityFunctions::_setParams($params, array('VALUE' => 'DATE-TIME'))];
 		if (in_array($this->objName, array('vtimezone', 'standard', 'daylight')))
 		{
 			unset($input['params']['TZID']);
 			$input['params']['VALUE'] = 'DATE-TIME';
 		}
-		$zArr = array('GMT', 'UTC', 'Z');
+		$zArr = ['GMT', 'UTC', 'Z'];
 		$toZ  = (isset($params['TZID']) && in_array(strtoupper($params['TZID']), $zArr)) ? true : false;
 		/*  check if PERIOD, if not set */
 		if ((!isset($input['params']['VALUE']) || !in_array($input['params']['VALUE'], array('DATE', 'PERIOD'))) &&
@@ -2751,7 +2753,7 @@ class calendarComponent extends iCalBase
 		{
 			if ($this->getConfig('allowEmpty'))
 			{
-				$this->recurrenceid = array('value' => '', 'params' => null);
+				$this->recurrenceid = ['value' => '', 'params' => null];
 
 				return true;
 			}
@@ -2892,7 +2894,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->repeat = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->repeat = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -2928,9 +2930,9 @@ class calendarComponent extends iCalBase
 				}
 				continue;
 			}
-			$attributes = $this->_createParams($rstat['params'], array('LANGUAGE'));
+			$attributes = $this->_createParams($rstat['params'], ['LANGUAGE']);
 			$content    = number_format((float) $rstat['value']['statcode'], 2, '.', '');
-			$content .= ';' . iCalUtilityFunctions::_strrep($rstat['value']['text'], $this->format, $this->nl);
+			$content    .= ';' . iCalUtilityFunctions::_strrep($rstat['value']['text'], $this->format, $this->nl);
 			if (isset($rstat['value']['extdata']))
 			{
 				$content .= ';' . iCalUtilityFunctions::_strrep($rstat['value']['extdata'], $this->format, $this->nl);
@@ -2971,7 +2973,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$input = array('statcode' => $statcode, 'text' => $text);
+		$input = ['statcode' => $statcode, 'text' => $text];
 		if ($extdata)
 		{
 			$input['extdata'] = $extdata;
@@ -3013,7 +3015,7 @@ class calendarComponent extends iCalBase
 				}
 				continue;
 			}
-			$attributes = $this->_createParams($resource['params'], array('ALTREP', 'LANGUAGE'));
+			$attributes = $this->_createParams($resource['params'], ['ALTREP', 'LANGUAGE']);
 			if (is_array($resource['value']))
 			{
 				foreach ($resource['value'] as $rix => $resourcePart)
@@ -3168,7 +3170,7 @@ class calendarComponent extends iCalBase
 		{
 			$value = (isset($this->sequence['value']) && (-1 < $this->sequence['value'])) ? $this->sequence['value'] + 1 : '0';
 		}
-		$this->sequence = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->sequence = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3229,7 +3231,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->status = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->status = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3259,7 +3261,7 @@ class calendarComponent extends iCalBase
 		{
 			return ($this->getConfig('allowEmpty')) ? $this->_createElement('SUMMARY') : false;
 		}
-		$attributes = $this->_createParams($this->summary['params'], array('ALTREP', 'LANGUAGE'));
+		$attributes = $this->_createParams($this->summary['params'], ['ALTREP', 'LANGUAGE']);
 		$content    = iCalUtilityFunctions::_strrep($this->summary['value'], $this->format, $this->nl);
 
 		return $this->_createElement('SUMMARY', $attributes, $content);
@@ -3291,7 +3293,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->summary = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->summary = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3352,7 +3354,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->transp = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->transp = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3441,7 +3443,7 @@ class calendarComponent extends iCalBase
 		{
 			if ($this->getConfig('allowEmpty'))
 			{
-				$this->trigger = array('value' => '', 'params' => iCalUtilityFunctions::_setParams($month));
+				$this->trigger = ['value' => '', 'params' => iCalUtilityFunctions::_setParams($month)];
 
 				return true;
 			}
@@ -3526,7 +3528,7 @@ class calendarComponent extends iCalBase
 			$hour                   = ($hour) ? $hour : 0;
 			$min                    = ($min) ? $min : 0;
 			$sec                    = ($sec) ? $sec : 0;
-			$this->trigger          = array('params' => $params);
+			$this->trigger          = ['params' => $params];
 			$this->trigger['value'] = array('year'    => $year
 			                                , 'month' => $month
 			                                , 'day'   => $day
@@ -3547,8 +3549,8 @@ class calendarComponent extends iCalBase
 		{
 			unset($params['RELATED']); // set at output creation (END only)
 			unset($params['VALUE']);   // 'DURATION' default
-			$this->trigger          = array('params' => $params);
-			$this->trigger['value'] = array();
+			$this->trigger          = ['params' => $params];
+			$this->trigger['value'] = [];
 			if (!empty($week))
 			{
 				$this->trigger['value']['week'] = $week;
@@ -3648,7 +3650,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->tzid = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->tzid = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3682,8 +3684,8 @@ class calendarComponent extends iCalBase
 		{
 			if (!empty($theName['value']))
 			{
-				$attributes = $this->_createParams($theName['params'], array('LANGUAGE'));
-				$output .= $this->_createElement('TZNAME', $attributes, iCalUtilityFunctions::_strrep($theName['value'], $this->format, $this->nl));
+				$attributes = $this->_createParams($theName['params'], ['LANGUAGE']);
+				$output     .= $this->_createElement('TZNAME', $attributes, iCalUtilityFunctions::_strrep($theName['value'], $this->format, $this->nl));
 			}
 			elseif ($this->getConfig('allowEmpty'))
 			{
@@ -3783,7 +3785,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->tzoffsetfrom = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->tzoffsetfrom = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3844,7 +3846,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->tzoffsetto = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->tzoffsetto = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3906,7 +3908,7 @@ class calendarComponent extends iCalBase
 				return false;
 			}
 		}
-		$this->tzurl = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->tzurl = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -3958,7 +3960,7 @@ class calendarComponent extends iCalBase
 		{
 			$unique .= $base{mt_rand($start, $end)};
 		}
-		$this->uid          = array('params' => null);
+		$this->uid          = ['params' => null];
 		$this->uid['value'] = $date . '-' . $unique . '@' . $this->getConfig('unique_id');
 	}
 
@@ -3981,7 +3983,7 @@ class calendarComponent extends iCalBase
 		{
 			return false;
 		} // no allowEmpty check here !!!!
-		$this->uid = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->uid = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -4046,7 +4048,7 @@ class calendarComponent extends iCalBase
 		{
 			return false;
 		}
-		$this->url = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params));
+		$this->url = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params)];
 
 		return true;
 	}
@@ -4118,7 +4120,7 @@ class calendarComponent extends iCalBase
 					}
 					case 'UNTIL':
 					{
-						$parno = (isset($rulevalue['hour'])) ? 7 : 3;
+						$parno    = (isset($rulevalue['hour'])) ? 7 : 3;
 						$content2 .= ';UNTIL=' . iCalUtilityFunctions::_date2strdate($rulevalue, $parno);
 						break;
 					}
@@ -4155,7 +4157,7 @@ class calendarComponent extends iCalBase
 					}
 					case 'BYDAY':
 					{
-						$byday = array('');
+						$byday = [''];
 						$bx    = 0;
 						foreach ($rulevalue as $bix => $bydayPart)
 						{
@@ -4177,7 +4179,7 @@ class calendarComponent extends iCalBase
 						} // end foreach( $rulevalue as $bix => $bydayPart )
 						if (1 < count($byday))
 						{
-							usort($byday, array('iCalUtilityFunctions', '_recurBydaySort'));
+							usort($byday, ['iCalUtilityFunctions', '_recurBydaySort']);
 						}
 						$content2 .= ';BYDAY=' . implode(',', $byday);
 						break;
@@ -4336,7 +4338,7 @@ class calendarComponent extends iCalBase
 	{
 		if (!$config)
 		{
-			$return               = array();
+			$return               = [];
 			$return['ALLOWEMPTY'] = $this->getConfig('ALLOWEMPTY');
 			$return['FORMAT']     = $this->getConfig('FORMAT');
 			if (false !== ($lang = $this->getConfig('LANGUAGE')))
@@ -4356,7 +4358,7 @@ class calendarComponent extends iCalBase
 				break;
 			case 'COMPSINFO':
 				unset($this->compix);
-				$info = array();
+				$info = [];
 				if (isset($this->components))
 				{
 					foreach ($this->components as $cix => $component)
@@ -4387,7 +4389,7 @@ class calendarComponent extends iCalBase
 				return $this->nl;
 				break;
 			case 'PROPINFO':
-				$output = array();
+				$output = [];
 				if (!in_array($this->objName, iCalUtilityFunctions::$miscComps))
 				{
 					if (empty($this->uid))
@@ -4647,14 +4649,14 @@ class calendarComponent extends iCalBase
 		{
 			case 'ALLOWEMPTY':
 				$this->allowEmpty = $value;
-				$subcfg           = array('ALLOWEMPTY' => $value);
+				$subcfg           = ['ALLOWEMPTY' => $value];
 				$res              = true;
 				break;
 			case 'FORMAT':
 				$value        = trim(strtolower($value));
 				$this->format = $value;
 				$this->_createFormat();
-				$subcfg = array('FORMAT' => $value);
+				$subcfg = ['FORMAT' => $value];
 				$res    = true;
 				break;
 			case 'LANGUAGE':
@@ -4664,25 +4666,25 @@ class calendarComponent extends iCalBase
 				{
 					$this->language = $value;
 				}
-				$subcfg = array('LANGUAGE' => $value);
+				$subcfg = ['LANGUAGE' => $value];
 				$res    = true;
 				break;
 			case 'NL':
 			case 'NEWLINECHAR':
 				$this->nl = $value;
 				$this->_createFormat();
-				$subcfg = array('NL' => $value);
+				$subcfg = ['NL' => $value];
 				$res    = true;
 				break;
 			case 'TZID':
 				$this->dtzid = $value;
-				$subcfg      = array('TZID' => $value);
+				$subcfg      = ['TZID' => $value];
 				$res         = true;
 				break;
 			case 'UNIQUE_ID':
 				$value           = trim($value);
 				$this->unique_id = $value;
-				$subcfg          = array('UNIQUE_ID' => $value);
+				$subcfg          = ['UNIQUE_ID' => $value];
 				$res             = true;
 				break;
 			default:  // any unvalid config key.. .
@@ -5222,7 +5224,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'ATTACH':
-				$ak = (is_array($this->attach)) ? array_keys($this->attach) : array();
+				$ak = (is_array($this->attach)) ? array_keys($this->attach) : [];
 				while (is_array($this->attach) && !isset($this->attach[$propix]) && (0 < count($this->attach)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5238,7 +5240,7 @@ class calendarComponent extends iCalBase
 				return ($inclParam) ? $this->attach[$propix] : $this->attach[$propix]['value'];
 				break;
 			case 'ATTENDEE':
-				$ak = (is_array($this->attendee)) ? array_keys($this->attendee) : array();
+				$ak = (is_array($this->attendee)) ? array_keys($this->attendee) : [];
 				while (is_array($this->attendee) && !isset($this->attendee[$propix]) && (0 < count($this->attendee)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5254,7 +5256,7 @@ class calendarComponent extends iCalBase
 				return ($inclParam) ? $this->attendee[$propix] : $this->attendee[$propix]['value'];
 				break;
 			case 'CATEGORIES':
-				$ak = (is_array($this->categories)) ? array_keys($this->categories) : array();
+				$ak = (is_array($this->categories)) ? array_keys($this->categories) : [];
 				while (is_array($this->categories) && !isset($this->categories[$propix]) && (0 < count($this->categories)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5276,7 +5278,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'COMMENT':
-				$ak = (is_array($this->comment)) ? array_keys($this->comment) : array();
+				$ak = (is_array($this->comment)) ? array_keys($this->comment) : [];
 				while (is_array($this->comment) && !isset($this->comment[$propix]) && (0 < count($this->comment)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5298,7 +5300,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'CONTACT':
-				$ak = (is_array($this->contact)) ? array_keys($this->contact) : array();
+				$ak = (is_array($this->contact)) ? array_keys($this->contact) : [];
 				while (is_array($this->contact) && !isset($this->contact[$propix]) && (0 < count($this->contact)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5320,7 +5322,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'DESCRIPTION':
-				$ak = (is_array($this->description)) ? array_keys($this->description) : array();
+				$ak = (is_array($this->description)) ? array_keys($this->description) : [];
 				while (is_array($this->description) && !isset($this->description[$propix]) && (0 < count($this->description)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5376,7 +5378,7 @@ class calendarComponent extends iCalBase
 				return ($inclParam) ? array('value' => $value, 'params' => $params) : $value;
 				break;
 			case 'EXDATE':
-				$ak = (is_array($this->exdate)) ? array_keys($this->exdate) : array();
+				$ak = (is_array($this->exdate)) ? array_keys($this->exdate) : [];
 				while (is_array($this->exdate) && !isset($this->exdate[$propix]) && (0 < count($this->exdate)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5392,7 +5394,7 @@ class calendarComponent extends iCalBase
 				return ($inclParam) ? $this->exdate[$propix] : $this->exdate[$propix]['value'];
 				break;
 			case 'EXRULE':
-				$ak = (is_array($this->exrule)) ? array_keys($this->exrule) : array();
+				$ak = (is_array($this->exrule)) ? array_keys($this->exrule) : [];
 				while (is_array($this->exrule) && !isset($this->exrule[$propix]) && (0 < count($this->exrule)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5408,7 +5410,7 @@ class calendarComponent extends iCalBase
 				return ($inclParam) ? $this->exrule[$propix] : $this->exrule[$propix]['value'];
 				break;
 			case 'FREEBUSY':
-				$ak = (is_array($this->freebusy)) ? array_keys($this->freebusy) : array();
+				$ak = (is_array($this->freebusy)) ? array_keys($this->freebusy) : [];
 				while (is_array($this->freebusy) && !isset($this->freebusy[$propix]) && (0 < count($this->freebusy)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5460,7 +5462,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'RDATE':
-				$ak = (is_array($this->rdate)) ? array_keys($this->rdate) : array();
+				$ak = (is_array($this->rdate)) ? array_keys($this->rdate) : [];
 				while (is_array($this->rdate) && !isset($this->rdate[$propix]) && (0 < count($this->rdate)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5482,7 +5484,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'RELATED-TO':
-				$ak = (is_array($this->relatedto)) ? array_keys($this->relatedto) : array();
+				$ak = (is_array($this->relatedto)) ? array_keys($this->relatedto) : [];
 				while (is_array($this->relatedto) && !isset($this->relatedto[$propix]) && (0 < count($this->relatedto)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5504,7 +5506,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'REQUEST-STATUS':
-				$ak = (is_array($this->requeststatus)) ? array_keys($this->requeststatus) : array();
+				$ak = (is_array($this->requeststatus)) ? array_keys($this->requeststatus) : [];
 				while (is_array($this->requeststatus) && !isset($this->requeststatus[$propix]) && (0 < count($this->requeststatus)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5520,7 +5522,7 @@ class calendarComponent extends iCalBase
 				return ($inclParam) ? $this->requeststatus[$propix] : $this->requeststatus[$propix]['value'];
 				break;
 			case 'RESOURCES':
-				$ak = (is_array($this->resources)) ? array_keys($this->resources) : array();
+				$ak = (is_array($this->resources)) ? array_keys($this->resources) : [];
 				while (is_array($this->resources) && !isset($this->resources[$propix]) && (0 < count($this->resources)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5536,7 +5538,7 @@ class calendarComponent extends iCalBase
 				return ($inclParam) ? $this->resources[$propix] : $this->resources[$propix]['value'];
 				break;
 			case 'RRULE':
-				$ak = (is_array($this->rrule)) ? array_keys($this->rrule) : array();
+				$ak = (is_array($this->rrule)) ? array_keys($this->rrule) : [];
 				while (is_array($this->rrule) && !isset($this->rrule[$propix]) && (0 < count($this->rrule)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5588,7 +5590,7 @@ class calendarComponent extends iCalBase
 				}
 				break;
 			case 'TZNAME':
-				$ak = (is_array($this->tzname)) ? array_keys($this->tzname) : array();
+				$ak = (is_array($this->tzname)) ? array_keys($this->tzname) : [];
 				while (is_array($this->tzname) && !isset($this->tzname[$propix]) && (0 < count($this->tzname)) && ($propix < end($ak)))
 				{
 					$propix++;
@@ -5648,7 +5650,7 @@ class calendarComponent extends iCalBase
 					}
 
 					return ($inclParam) ? array($propName, $this->xprop[$propName])
-						: array($propName, $this->xprop[$propName]['value']);
+						: [$propName, $this->xprop[$propName]['value']];
 				}
 				else
 				{
@@ -5662,7 +5664,7 @@ class calendarComponent extends iCalBase
 						if ($propix == $xpropno)
 						{
 							return ($inclParam) ? array($xpropkey, $this->xprop[$xpropkey])
-								: array($xpropkey, $this->xprop[$xpropkey]['value']);
+								: [$xpropkey, $this->xprop[$xpropkey]['value']];
 						}
 						else
 						{
@@ -5694,7 +5696,7 @@ class calendarComponent extends iCalBase
 	{
 		if (empty($output))
 		{
-			$output = array();
+			$output = [];
 		}
 		if (!in_array(strtoupper($propName), iCalUtilityFunctions::$mProps1))
 		{
@@ -5991,7 +5993,7 @@ class calendarComponent extends iCalBase
 		}
 		elseif (!isset($this->unparsed))
 		{
-			$unparsedtext = array();
+			$unparsedtext = [];
 		}
 		else
 		{
@@ -6011,7 +6013,7 @@ class calendarComponent extends iCalBase
 				unset($unparsedtext[$lix]);
 			}
 		}
-		$this->unparsed = array();
+		$this->unparsed = [];
 		$comp           = &$this;
 		$config         = $this->getConfig();
 		$compsync       = $subsync = 0;
@@ -6096,7 +6098,7 @@ class calendarComponent extends iCalBase
 		                   , 'request-status', 'resources', 'rrule', 'sequence', 'status'
 		                   , 'summary', 'transp', 'trigger', 'tzid', 'tzname', 'tzoffsetfrom'
 		                   , 'tzoffsetto', 'tzurl', 'uid', 'url', 'x-');
-		$proprows  = array();
+		$proprows  = [];
 		for ($i = 0; $i < count($this->unparsed); $i++)
 		{ // concatenate lines
 			$line = rtrim($this->unparsed[$i], $nl);
@@ -6163,7 +6165,7 @@ class calendarComponent extends iCalBase
 				case 'RESOURCES':
 					if (false !== strpos($line, ','))
 					{
-						$content = array(0 => '');
+						$content = [0 => ''];
 						$cix     = $lix = 0;
 						while (false !== substr($line, $lix, 1))
 						{
@@ -6260,7 +6262,7 @@ class calendarComponent extends iCalBase
 				case 'EXRULE':
 				case 'RRULE':
 					$values = explode(';', $line);
-					$recur  = array();
+					$recur  = [];
 					foreach ($values as $value2)
 					{
 						if (empty($value2))
@@ -6278,7 +6280,7 @@ class calendarComponent extends iCalBase
 								{
 									foreach ($value4 as $v5ix => $value5)
 									{
-										$value6 = array();
+										$value6 = [];
 										$dayno  = $dayname = null;
 										$value5 = trim((string) $value5);
 										if ((ctype_alpha(substr($value5, -1))) &&
@@ -6304,7 +6306,7 @@ class calendarComponent extends iCalBase
 								}
 								else
 								{
-									$value4 = array();
+									$value4 = [];
 									$dayno  = $dayname = null;
 									$value5 = trim((string) $value3[1]);
 									if ((ctype_alpha(substr($value5, -1))) &&
@@ -6712,7 +6714,7 @@ class calendarComponent extends iCalBase
 		$output = null;
 		if ('vtimezone' == $this->objName)
 		{ // sort subComponents, first standard, then daylight, in dtstart order
-			$stdarr = $dlarr = array();
+			$stdarr = $dlarr = [];
 			foreach ($this->components as $component)
 			{
 				if (empty($component))
@@ -6738,7 +6740,7 @@ class calendarComponent extends iCalBase
 					$dlarr[$key] = $component->copy();
 				}
 			} // end foreach( $this->components as $component )
-			$this->components = array();
+			$this->components = [];
 			ksort($stdarr, SORT_NUMERIC);
 			foreach ($stdarr as $std)
 			{

@@ -80,7 +80,7 @@ class vfreebusy extends calendarComponent
 	 * @uses   vjournal::$xprop
 	 * @uses   calendarComponent::setConfig()
 	 */
-	function __construct($config = array())
+	function __construct($config = [])
 	{
 		parent::__construct();
 		$this->attendee      = '';
@@ -150,20 +150,20 @@ class vfreebusy extends calendarComponent
 	{
 		$objectname = $this->_createFormat();
 		$component  = $this->componentStart1 . $objectname . $this->componentStart2 . $this->nl;
-		$component .= $this->createUid();
-		$component .= $this->createDtstamp();
-		$component .= $this->createAttendee();
-		$component .= $this->createComment();
-		$component .= $this->createContact();
-		$component .= $this->createDtstart();
-		$component .= $this->createDtend();
-		$component .= $this->createDuration();
-		$component .= $this->createFreebusy();
-		$component .= $this->createOrganizer();
-		$component .= $this->createRequestStatus();
-		$component .= $this->createUrl();
-		$component .= $this->createXprop();
-		$component .= $this->componentEnd1 . $objectname . $this->componentEnd2;
+		$component  .= $this->createUid();
+		$component  .= $this->createDtstamp();
+		$component  .= $this->createAttendee();
+		$component  .= $this->createComment();
+		$component  .= $this->createContact();
+		$component  .= $this->createDtstart();
+		$component  .= $this->createDtend();
+		$component  .= $this->createDuration();
+		$component  .= $this->createFreebusy();
+		$component  .= $this->createOrganizer();
+		$component  .= $this->createRequestStatus();
+		$component  .= $this->createUrl();
+		$component  .= $this->createXprop();
+		$component  .= $this->componentEnd1 . $objectname . $this->componentEnd2;
 		if (is_array($this->xcaldecl) && (0 < count($this->xcaldecl)))
 		{
 			foreach ($this->xcaldecl as $localxcaldecl)

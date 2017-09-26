@@ -48,6 +48,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 	public $isAdmin;
 
 	public $dateText = "";
+
 	/**
 	 * Method to get display
 	 *
@@ -70,8 +71,8 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 
 		if (!empty($user->id))
 		{
-			$this->items = $this->get('Items');
-			$this->form = $this->get('Form');
+			$this->items  = $this->get('Items');
+			$this->form   = $this->get('Form');
 			$this->course = THM_OrganizerHelperPrep_Course::getCourse();
 
 			$dates = THM_OrganizerHelperPrep_Course::getDates();
@@ -79,8 +80,8 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 			if (!empty($dates))
 			{
 				$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-				$start = JHtml::_('date', $dates[0]["schedule_date"],   $dateFormat);
-				$end   = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
+				$start      = JHtml::_('date', $dates[0]["schedule_date"], $dateFormat);
+				$end        = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
 
 				$this->dateText = "$start - $end";
 			}
@@ -88,27 +89,28 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 			$state = $this->get('State');
 
 			$this->sortDirection = $state->get('list.direction');
-			$this->sortColumn = $state->get('list.ordering');
+			$this->sortColumn    = $state->get('list.ordering');
 
 			if (!empty($this->course))
 			{
 				$this->courseAuth = THM_OrganizerHelperPrep_Course::authSubjectTeacher($this->course["subjectID"]);
-				$this->curCap = THM_OrganizerHelperPrep_Course::getRegisteredStudents($this->course["id"]);
+				$this->curCap     = THM_OrganizerHelperPrep_Course::getRegisteredStudents($this->course["id"]);
 			}
 
-			$params = array('view' => 'course_manager',
-				'id' => empty($this->course) ? 0 : $this->course["id"]);
+			$params = ['view' => 'course_manager', 'id' => empty($this->course) ? 0 : $this->course["id"]];
+
 			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 
 			$this->capacity = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
 		}
 
 		$this->isAdmin = $user->authorise('core.admin');
-		$authorized = ($this->isAdmin OR $this->courseAuth);
+		$authorized    = ($this->isAdmin OR $this->courseAuth);
 
 		if (!$authorized)
 		{
 			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
+
 			return;
 		}
 

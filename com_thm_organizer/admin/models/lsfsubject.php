@@ -72,7 +72,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 * Checks for subjects with the given possible module number mapped to the same programs
 	 *
 	 * @param array $possibleModuleNumbers the possible module numbers used in the attribute text
-	 * @param array $programs              the programs to which the subject is mapped array(id, name, lft, rgt)
+	 * @param array $programs              the programs to which the subject is mapped [id, name, lft, rgt)
 	 *
 	 * @return array the subject details for subjects with dependencies
 	 */
@@ -85,7 +85,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$query = $this->_db->getQuery(true);
 		$query->from('#__thm_organizer_subjects AS s')->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
 
-		$subjects = array();
+		$subjects = [];
 		foreach ($possibleModuleNumbers as $possibleModuleNumber)
 		{
 			$possibleModuleNumber = strtoupper($possibleModuleNumber);
@@ -238,7 +238,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -249,7 +249,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 */
 	public function importBatch()
 	{
-		$subjectIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$subjectIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		$this->_db->transactionStart();
 
 		foreach ($subjectIDs as $subjectID)
@@ -308,7 +308,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			$client->getModuleByModulid($subject->lsfID) : $client->getModuleByNrMni($subject->externalID);
 
 		// The system administrator does not wish to display entries with this value
-		$blocked = strtolower((string) $lsfData->modul->sperrmh) == 'x';
+		$blocked      = strtolower((string) $lsfData->modul->sperrmh) == 'x';
 		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($lsfData, true);
 
 		if ($blocked OR $invalidTitle)
@@ -353,7 +353,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$this->setAttribute($subject, 'frequencyID', (string) $dataObject->turnus);
 
 		$durationExists = preg_match('/\d+/', (string) $dataObject->dauer, $duration);
-		$durationValue = empty($durationExists)? 1 : $duration[0];
+		$durationValue  = empty($durationExists) ? 1 : $duration[0];
 		$this->setAttribute($subject, 'duration', $durationValue, '1');
 
 		// Ensure reset before iterative processing
@@ -472,13 +472,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		$table = JTable::getInstance('subjects', 'thm_organizerTable');
 
 		// Attempt to load using the departmentID
-		$data = array('lsfID' => $lsfID, 'departmentID' => $departmentID);
+		$data = ['lsfID' => $lsfID, 'departmentID' => $departmentID];
 		$table->load($data);
 
 		if (empty($table->id))
 		{
 			// Check for a non-migrated row
-			$table->load(array('lsfID' => $lsfID));
+			$table->load(['lsfID' => $lsfID]);
 		}
 
 		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($stub);
@@ -537,17 +537,17 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 
 		// These have to be in order of potential string length in case the shorter attribute is a real subset of a longer one.
-		$checkedAttributes = array(
+		$checkedAttributes = [
 			'externalID',
 			'name_de', 'short_name_de', 'abbreviation_de',
 			'name_en', 'short_name_en', 'abbreviation_en'
-		);
+		];
 
 		// Flag to be set should one of the attribute texts consist only of module information. => Text should be empty.
 		$attributeChanged = false;
 
-		$prerequisiteAttributes = array('prerequisites_de', 'prerequisites_en');
-		$prerequisites          = array();
+		$prerequisiteAttributes = ['prerequisites_de', 'prerequisites_en'];
+		$prerequisites          = [];
 
 		foreach ($prerequisiteAttributes as $attribute)
 		{
@@ -577,8 +577,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 			return false;
 		}
 
-		$postRequisiteAttributes = array('used_for_de', 'used_for_en');
-		$postrequisites          = array();
+		$postRequisiteAttributes = ['used_for_de', 'used_for_en'];
+		$postrequisites          = [];
 
 		foreach ($postRequisiteAttributes as $attribute)
 		{
@@ -636,7 +636,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		{
 			$subjectMappings = $this->getProgramMappings($program, $subjectID);
 
-			$dependencyMappings = array();
+			$dependencyMappings = [];
 			foreach ($dependencies as $moduleNumber => $mappings)
 			{
 				foreach ($mappings as $mappingID => $subjectData)
@@ -825,20 +825,20 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 * Sets attributes dealing with required student expenditure
 	 *
 	 * @param object &$subject the subject data
-	 * @param array  $text     the expenditure text
+	 * @param string $text     the expenditure text
 	 *
 	 * @return  void
 	 */
 	private function setExpenditures(&$subject, $text)
 	{
-		$CrPMatch = array();
+		$CrPMatch = [];
 		preg_match('/(\d) CrP/', (string) $text, $CrPMatch);
 		if (!empty($CrPMatch[1]))
 		{
 			$this->setAttribute($subject, 'creditpoints', $CrPMatch[1]);
 		}
 
-		$hoursMatches = array();
+		$hoursMatches = [];
 		preg_match_all('/(\d+)+ Stunden/', (string) $text, $hoursMatches);
 		if (!empty($hoursMatches[1]))
 		{
@@ -918,7 +918,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
 		foreach ($teachers as $teacher)
 		{
-			$teacherData             = array();
+			$teacherData             = [];
 			$teacherData['surname']  = trim((string) $teacher->personinfo->$surnameAttribute);
 			$teacherData['username'] = trim((string) $teacher->hgnr);
 
@@ -927,13 +927,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				continue;
 			}
 
-			$loadCriteria            = array();
-			$loadCriteria[]          = array('username' => $teacherData['username']);
+			$loadCriteria            = [];
+			$loadCriteria[]          = ['username' => $teacherData['username']];
 			$teacherData['forename'] = (string) $teacher->personinfo->$forenameAttribute;
 
 			if (!empty($teacherData['forename']))
 			{
-				$loadCriteria[] = array('surname' => $teacherData['surname'], 'forename' => $teacherData['forename']);
+				$loadCriteria[] = ['surname' => $teacherData['surname'], 'forename' => $teacherData['forename']];
 			}
 
 			$teacherTable = JTable::getInstance('teachers', 'thm_organizerTable');
@@ -949,7 +949,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-					return;
+					return false;
 				}
 
 				if ($success)

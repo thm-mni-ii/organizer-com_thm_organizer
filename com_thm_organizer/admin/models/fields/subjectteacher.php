@@ -73,8 +73,8 @@ class JFormFieldSubjectTeacher extends JFormField
 			$teachers[$key]['text'] = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
 		}
 
-		$attributes       = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10');
-		$selectedTeachers = empty($selected) ? array() : $selected;
+		$attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
+		$selectedTeachers = empty($selected) ? [] : $selected;
 
 		return JHtml::_("select.genericlist", $teachers, "jform[$fieldName][]", $attributes, "value", "text", $selectedTeachers);
 	}
@@ -86,10 +86,10 @@ class JFormFieldSubjectTeacher extends JFormField
 	 */
 	private function getDefault()
 	{
-		$teachers   = array();
-		$teachers[] = array('value' => '-1', 'name' => JText::_('JNONE'));
+		$teachers   = [];
+		$teachers[] = ['value' => '-1', 'name' => JText::_('JNONE')];
 		$fieldName  = $this->getAttribute('name');
-		$attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
+		$attributes = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
 		return JHtml::_("select.genericlist", $teachers, "jform[$fieldName][]", $attributes, "value", "text");
 	}

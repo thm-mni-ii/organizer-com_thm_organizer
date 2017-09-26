@@ -29,15 +29,15 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
  */
 class THM_OrganizerModelEvent_List extends JModelLegacy
 {
-	public $params = array();
+	public $params = [];
 
-	public $events = array();
+	public $events = [];
 
-	public $rooms = array();
+	public $rooms = [];
 
-	private $days = array();
+	private $days = [];
 
-	private $dates = array();
+	private $dates = [];
 
 	/**
 	 * Constructor
@@ -78,7 +78,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	 */
 	private function aggregateConcurrent($events)
 	{
-		$aggregatedEvents = array();
+		$aggregatedEvents = [];
 
 		foreach ($events as $event)
 		{
@@ -90,13 +90,13 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
 			if (empty($aggregatedEvents[$times]))
 			{
-				$aggregatedEvents[$times] = array();
+				$aggregatedEvents[$times] = [];
 			}
 
 			if (empty($aggregatedEvents[$times][$lessonID]))
 			{
-				$aggregatedEvents[$times][$lessonID]              = array();
-				$aggregatedEvents[$times][$lessonID]['titles']    = array($title);
+				$aggregatedEvents[$times][$lessonID]              = [];
+				$aggregatedEvents[$times][$lessonID]['titles']    = [$title];
 				$aggregatedEvents[$times][$lessonID]['method']    = empty($event['method']) ? '' : $event['method'];
 				$aggregatedEvents[$times][$lessonID]['comment']   = empty($event['comment']) ? '' : $event['comment'];
 				$aggregatedEvents[$times][$lessonID]['rooms']     = $event['rooms'];
@@ -182,7 +182,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
 				if (empty($blockEvents[$newTimes]))
 				{
-					$blockEvents[$newTimes] = array();
+					$blockEvents[$newTimes] = [];
 				}
 
 				$blockEvents[$newTimes][$lessonID] = $outerLesson;
@@ -242,7 +242,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	 */
 	private function getEventRooms(&$instanceRooms)
 	{
-		$rooms = array();
+		$rooms = [];
 		foreach ($instanceRooms as $roomID => $delta)
 		{
 			if ($delta == 'removed' OR empty($this->rooms[$roomID]))
@@ -331,11 +331,12 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	 *
 	 * @param array $instanceTeachers the teachers associated with the instance
 	 *
-	 * @return void
+	 * @return array an array of teachers in the form id => 'forename(s) surname(s)'
 	 */
 	private function getEventTeachers(&$instanceTeachers)
-	{#
-		$teachers = array();
+	{
+		$teachers = [];
+
 		foreach ($instanceTeachers as $teacherID => $delta)
 		{
 			if ($delta == 'removed')
@@ -359,7 +360,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 	 */
 	private function isRegistered()
 	{
-		$ipData       = array('ip' => JFactory::getApplication()->input->server->getString('REMOTE_ADDR', ''));
+		$ipData       = ['ip' => JFactory::getApplication()->input->server->getString('REMOTE_ADDR', '')];
 		$monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
 		$registered   = $monitorEntry->load($ipData);
 		if (!$registered)
@@ -386,8 +387,8 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 			$app->redirect($base . $query);
 		}
 
-		$this->rooms = array($roomID);
-		$this->days  = array(1, 2, 3, 4, 5, 6);
+		$this->rooms = [$roomID];
+		$this->days  = [1, 2, 3, 4, 5, 6];
 
 		return true;
 	}
@@ -417,7 +418,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 			$difference = ($secondTime - $firstTime) / 60;
 			$relevant   = $difference <= $tolerance;
 
-			return $relevant ? array('startTime' => $startInner, 'endTime' => $endOuter) : false;
+			return $relevant ? ['startTime' => $startInner, 'endTime' => $endOuter] : false;
 		}
 
 		// Outer lesson ended before inner began
@@ -431,14 +432,14 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 			$difference = ($secondTime - $firstTime) / 60;
 			$relevant   = $difference <= $tolerance;
 
-			return $relevant ? array('startTime' => $startOuter, 'endTime' => $endInner) : false;
+			return $relevant ? ['startTime' => $startOuter, 'endTime' => $endInner] : false;
 		}
 
 		// Overlapping lessons
 		$startTime = $startOuter < $startInner ? $startOuter : $startInner;
 		$endTime   = $endOuter > $endInner ? $endOuter : $endInner;
 
-		return array('startTime' => $startTime, 'endTime' => $endTime);
+		return ['startTime' => $startTime, 'endTime' => $endTime];
 	}
 
 	/**
@@ -453,7 +454,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 		$everythingSelected = (count($this->params['days']) === 1 AND empty($this->params['days'][0]));
 		if ($isRegistered OR $nothingSelected OR $everythingSelected)
 		{
-			$days = array(1, 2, 3, 4, 5, 6);
+			$days = [1, 2, 3, 4, 5, 6];
 		}
 		else
 		{
@@ -522,7 +523,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 			}
 		}
 
-		$rooms      = array();
+		$rooms      = [];
 		$roomsTable = JTable::getInstance('rooms', 'thm_organizerTable');
 
 		// The current values are meaningless and will be overwritten here

@@ -50,7 +50,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	{
 		parent::__construct($config);
 		$format        = JFactory::getApplication()->input->getString('format');
-		$lessonFormats = array('pdf', 'ics', 'xls');
+		$lessonFormats = ['pdf', 'ics', 'xls'];
 
 		// Don't bother setting these variables for html and raw formats
 		if (in_array($format, $lessonFormats))
@@ -75,7 +75,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	public function getDepartmentOptions()
 	{
 		$departments = THM_OrganizerHelperDepartments::getPlanDepartments(false);
-		$options     = array();
+		$options     = [];
 
 		foreach ($departments as $departmentID => $departmentName)
 		{
@@ -99,7 +99,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		$query->select("id, name_$shortTag AS name, defaultGrid")->from('#__thm_organizer_grids');
 		$this->_db->setQuery($query);
 
-		$options = array();
+		$options = [];
 
 		try
 		{
@@ -135,7 +135,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	public function getPoolOptions()
 	{
 		$pools   = THM_OrganizerHelperPools::getPlanPools(false);
-		$options = array();
+		$options = [];
 
 		foreach ($pools as $poolName => $poolID)
 		{
@@ -154,7 +154,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getPoolTitles()
 	{
-		$titles  = array('docTitle' => '', 'pageTitle' => '');
+		$titles  = ['docTitle' => '', 'pageTitle' => ''];
 		$poolIDs = array_values($this->parameters['poolIDs']);
 
 		if (empty($poolIDs))
@@ -175,7 +175,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-				return array();
+				return [];
 			}
 
 			if ($success)
@@ -206,7 +206,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	public function getProgramOptions()
 	{
 		$programs = THM_OrganizerHelperPrograms::getPlanPrograms();
-		$options  = array();
+		$options  = [];
 
 		foreach ($programs as $program)
 		{
@@ -224,12 +224,12 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 * @param string $resourceName the name of the resource type
 	 * @param array  &$parameters  the parameters array for the model
 	 *
-	 * @return array the array of values
+	 * @return void sets indexes in $parameters
 	 */
 	private function setResourceArray($resourceName, &$parameters)
 	{
 		$input          = JFactory::getApplication()->input;
-		$rawResourceIDs = $input->get("{$resourceName}IDs", array(), 'raw');
+		$rawResourceIDs = $input->get("{$resourceName}IDs", [], 'raw');
 
 		if (!empty($rawResourceIDs))
 		{
@@ -246,7 +246,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
 			if (is_int($rawResourceIDs))
 			{
-				$parameters["{$resourceName}IDs"] = array($rawResourceIDs);
+				$parameters["{$resourceName}IDs"] = [$rawResourceIDs];
 
 				return;
 			}
@@ -270,7 +270,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		$rooms = THM_OrganizerHelperRooms::getPlanRooms();
 		asort($rooms);
 
-		$options = array();
+		$options = [];
 
 		foreach ($rooms as $roomName => $roomData)
 		{
@@ -289,7 +289,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getRoomTitles()
 	{
-		$titles  = array('docTitle' => '', 'pageTitle' => '');
+		$titles  = ['docTitle' => '', 'pageTitle' => ''];
 		$roomIDs = array_values($this->parameters['roomIDs']);
 
 		if (empty($roomIDs))
@@ -310,7 +310,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-				return array();
+				return [];
 			}
 
 			if ($success)
@@ -341,7 +341,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	private function getSubjectTitles()
 	{
 		$subjectIDs = array_values($this->parameters['subjectIDs']);
-		$titles     = array('docTitle' => '', 'pageTitle' => '');
+		$titles     = ['docTitle' => '', 'pageTitle' => ''];
 
 		if (empty($subjectIDs))
 		{
@@ -420,7 +420,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	{
 		$teachers = THM_OrganizerHelperTeachers::getPlanTeachers(false);
 
-		$options = array();
+		$options = [];
 
 		foreach ($teachers as $teacherName => $teacherID)
 		{
@@ -439,7 +439,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	 */
 	private function getTeacherTitles()
 	{
-		$titles     = array('docTitle' => '', 'pageTitle' => '');
+		$titles     = ['docTitle' => '', 'pageTitle' => ''];
 		$teacherIDs = array_values($this->parameters['teacherIDs']);
 
 		if (empty($teacherIDs))
@@ -460,7 +460,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-				return array();
+				return [];
 			}
 
 			if ($success)
@@ -536,7 +536,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 	{
 		$input = JFactory::getApplication()->input;
 
-		$parameters               = array();
+		$parameters               = [];
 		$parameters['format']     = $input->getString('format', 'pdf');
 		$parameters['mySchedule'] = $input->getBool('myschedule', false);
 
@@ -547,23 +547,23 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 			$this->setResourceArray('room', $parameters);
 		}
 
-        $userName       = $input->getString('username', '');
-        $authentication = urldecode($input->getString('auth', ''));
-        if (!empty($userName) and !empty($authentication))
-        {
-            $user          = JFactory::getUser($userName);
-            $authenticates = password_verify($user->email . $user->registerDate, $authentication);
-            if ($authenticates)
-            {
-                $parameters['userID'] = $user->id;
-            }
-        }
-        elseif (JFactory::getUser()->id != 0)
-        {
-            $parameters['userID'] = JFactory::getUser()->id;
-        }
+		$userName       = $input->getString('username', '');
+		$authentication = urldecode($input->getString('auth', ''));
+		if (!empty($userName) and !empty($authentication))
+		{
+			$user          = JFactory::getUser($userName);
+			$authenticates = password_verify($user->email . $user->registerDate, $authentication);
+			if ($authenticates)
+			{
+				$parameters['userID'] = $user->id;
+			}
+		}
+		elseif (JFactory::getUser()->id != 0)
+		{
+			$parameters['userID'] = JFactory::getUser()->id;
+		}
 
-		$allowedLengths                = array('day', 'week', 'month', 'semester', 'custom');
+		$allowedLengths                = ['day', 'week', 'month', 'semester', 'custom'];
 		$rawLength                     = $input->getString('dateRestriction', 'week');
 		$parameters['dateRestriction'] = in_array($rawLength, $allowedLengths) ? $rawLength : 'week';
 

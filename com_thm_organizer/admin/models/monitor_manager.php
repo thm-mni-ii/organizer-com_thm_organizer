@@ -31,18 +31,18 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 
 	protected $defaultDirection = 'asc';
 
-	public $displayBehaviour = array();
+	public $displayBehaviour = [];
 
 	/**
 	 * constructor
 	 *
 	 * @param array $config configurations parameter
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('r.longname', 'm.ip', 'm.useDefaults', 'm.display', 'm.content');
+			$config['filter_fields'] = ['r.longname', 'm.ip', 'm.useDefaults', 'm.display', 'm.content'];
 		}
 
 		$this->displayBehaviour[DAILY]       = JText::_('COM_THM_ORGANIZER_DAILY_PLAN');
@@ -62,14 +62,14 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 		$query = $this->_db->getQuery(true);
 
 		$select = "m.id, r.longname, m.ip, m.useDefaults, m.display, m.content, ";
-		$parts  = array("'index.php?option=com_thm_organizer&view=monitor_edit&id='", "m.id");
+		$parts  = ["'index.php?option=com_thm_organizer&view=monitor_edit&id='", "m.id"];
 		$select .= $query->concatenate($parts, "") . " AS link ";
 		$query->select($this->state->get("list.select", $select));
 		$query->from("#__thm_organizer_monitors AS m");
 		$query->leftJoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
 
-		$this->setSearchFilter($query, array('r.longname', 'm.ip'));
-		$this->setValueFilters($query, array('longname', 'ip', 'useDefaults'));
+		$this->setSearchFilter($query, ['r.longname', 'm.ip']);
+		$this->setValueFilters($query, ['longname', 'ip', 'useDefaults']);
 		$this->addDisplayFilter($query);
 		$this->addContentFilter($query);
 
@@ -149,7 +149,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -170,7 +170,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 				$item->content = $contentParam;
 			}
 
-			$return[$index]                = array();
+			$return[$index]                = [];
 			$return[$index]['checkbox']    = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['longname']    = JHtml::_('link', $item->link, $item->longname);
 			$return[$index]['ip']          = JHtml::_('link', $item->link, $item->ip);
@@ -193,7 +193,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 	{
 		$ordering               = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction              = $this->state->get('list.direction', $this->defaultDirection);
-		$headers                = array();
+		$headers                = [];
 		$headers['checkbox']    = '';
 		$headers['longname']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction, $ordering);
 		$headers['ip']          = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);

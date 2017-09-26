@@ -32,7 +32,7 @@ class THM_OrganizerModelForm extends JModelForm
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function getForm($data = array(), $loadData = false)
+	public function getForm($data = [], $loadData = false)
 	{
 		$path = JPATH_ROOT . "/media/com_thm_organizer/helpers/componentHelper.php";
 		/** @noinspection PhpIncludeInspection */
@@ -46,7 +46,7 @@ class THM_OrganizerModelForm extends JModelForm
 		}
 
 		$name = $this->get('name');
-		$form = $this->loadForm("com_thm_organizer.$name", $name, array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm("com_thm_organizer.$name", $name, ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{

@@ -52,16 +52,16 @@ $displayName = empty($this->model->displayName) ?
 			<li class="date-input-list-item">
 				<div class="date-input">
 					<button id="previous-month" class="controls" type="button"
-					        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'month');">
+							onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'month');">
 						<span class="icon-arrow-left-22"></span>
 					</button>
 					<button id="previous-week" class="controls" type="button"
-					        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
+							onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
 						<span class="icon-arrow-left"></span>
 					</button>
 					<input id="date" type="text" required onchange="scheduleApp.updateSchedule('date');"/>
 					<button id="calendar-icon" type="button" class="controls"
-					        onclick="scheduleApp.getCalendar().showCalendar();">
+							onclick="scheduleApp.getCalendar().showCalendar();">
 						<span class="icon-calendar"></span>
 					</button>
 					<div id="calendar">
@@ -70,7 +70,7 @@ $displayName = empty($this->model->displayName) ?
 							<tr>
 								<td colspan="1">
 									<button id="calendar-previous-month" type="button"
-									        onclick="scheduleApp.getCalendar().changeCalendarMonth(false)">
+											onclick="scheduleApp.getCalendar().changeCalendarMonth(false)">
 										<span class="icon-arrow-left"></span>
 									</button>
 								</td>
@@ -79,7 +79,7 @@ $displayName = empty($this->model->displayName) ?
 								</td>
 								<td colspan="1">
 									<button id="calendar-next-month" type="button"
-									        onclick="scheduleApp.getCalendar().changeCalendarMonth(true)">
+											onclick="scheduleApp.getCalendar().changeCalendarMonth(true)">
 										<span class="icon-arrow-right"></span>
 									</button>
 								</td>
@@ -103,7 +103,7 @@ $displayName = empty($this->model->displayName) ?
 							<tr>
 								<td colspan="7">
 									<button id="today" type="button" class="today"
-									        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
+											onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
 										<?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
 									</button>
 								</td>
@@ -112,11 +112,11 @@ $displayName = empty($this->model->displayName) ?
 						</table>
 					</div>
 					<button id="next-week" class="controls" type="button"
-					        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
+							onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
 						<span class="icon-arrow-right"></span>
 					</button>
 					<button id="next-month" class="controls" type="button"
-					        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'month');">
+							onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'month');">
 						<span class="icon-arrow-right-22"></span>
 					</button>
 				</div>
@@ -134,14 +134,14 @@ $displayName = empty($this->model->displayName) ?
 		<div class="tab-content">
 
 			<div class="tab-panel selection active" id="schedule-form" role="tabpanel"
-			     aria-labelledby="tab-schedule-form" aria-hidden="false">
+				 aria-labelledby="tab-schedule-form" aria-hidden="false">
 				<?php
 				if (empty($this->model->params['departmentID']))
 				{
 					?>
 					<div id="department-input" class="input-wrapper">
 						<select id="department" multiple data-input="static"
-						        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
+								data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
 							<?php
 							foreach ($this->getModel()->departments AS $id => $department)
 							{
@@ -198,18 +198,18 @@ $displayName = empty($this->model->displayName) ?
 				</div>
 				<div id="teacher-input" class="input-wrapper">
 					<select id="teacher" data-next="lesson"
-					        data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER"); ?>">
+							data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER"); ?>">
 						<!-- filled by ajax -->
 					</select>
 				</div>
 			</div>
 
 			<div class="tab-panel" id="selected-schedules" role="tabpanel"
-			     aria-labelledby="tab-selected-schedules" aria-hidden="false">
+				 aria-labelledby="tab-selected-schedules" aria-hidden="false">
 			</div>
 
 			<div class="tab-panel" id="time-selection" role="tabpanel"
-			     aria-labelledby="tab-time" aria-hidden="false">
+				 aria-labelledby="tab-time" aria-hidden="false">
 				<select id="grid" required onchange="scheduleApp.updateSchedule('grid');">
 					<?php
 					foreach ($this->getModel()->grids AS $grid)
@@ -222,7 +222,7 @@ $displayName = empty($this->model->displayName) ?
 			</div>
 
 			<div class="tab-panel" id="exports"
-			     role="tabpanel" aria-labelledby="tab-exports-menu" aria-hidden="false">
+				 role="tabpanel" aria-labelledby="tab-exports-menu" aria-hidden="false">
 				<div class="link-item">
 					<a onclick="scheduleApp.handleExport('pdf.a4');">
 						<span class="icon-file-pdf"></span>
@@ -252,11 +252,11 @@ $displayName = empty($this->model->displayName) ?
 	</div>
 
 	<?php
-	$daysOfTheWeek  = array(
+	$daysOfTheWeek  = [
 		JText::_('MON'), JText::_('TUE'), JText::_('WED'), JText::_('THU'),
 		JText::_('FRI'), JText::_('SAT'), JText::_('SUN')
-	);
-	$datesOfTheWeek = array(
+	];
+	$datesOfTheWeek = [
 		THM_OrganizerHelperComponent::formatDate('monday this week'),
 		THM_OrganizerHelperComponent::formatDate('tuesday this week'),
 		THM_OrganizerHelperComponent::formatDate('wednesday this week'),
@@ -264,7 +264,7 @@ $displayName = empty($this->model->displayName) ?
 		THM_OrganizerHelperComponent::formatDate('friday this week'),
 		THM_OrganizerHelperComponent::formatDate('saturday this week'),
 		THM_OrganizerHelperComponent::formatDate('sunday this week')
-	);
+	];
 	$grid           = json_decode($this->defaultGrid->grid);
 	$periods        = get_object_vars($grid->periods);
 	$activeDay      = date("w");

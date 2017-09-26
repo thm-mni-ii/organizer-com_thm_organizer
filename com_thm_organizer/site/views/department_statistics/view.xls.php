@@ -27,11 +27,11 @@ jimport('phpexcel.library.PHPExcel');
 class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
 {
 	/**
-	 * Method to get extra
+	 * Sets context variables and renders the view.
 	 *
 	 * @param string $tpl template
 	 *
-	 * @return  mixed  false on error, otherwise void
+	 * @return  void renders the department statistics worksheet
 	 */
 	public function display($tpl = null)
 	{

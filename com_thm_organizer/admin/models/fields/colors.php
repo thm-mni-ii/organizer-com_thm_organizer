@@ -72,7 +72,7 @@ class JFormFieldColors extends JFormField
 			$textColor = THM_OrganizerHelperComponent::getTextColor($color->color);
 			$style     = 'style="background-color: ' . $color->color . '; color:' . $textColor . ';"';
 			$value     = 'value="' . $color->id . '"';
-			$html .= "<option $style $selected $value >" . $color->$property . "</option>";
+			$html      .= "<option $style $selected $value >" . $color->$property . "</option>";
 		}
 
 		$html .= "</select>";

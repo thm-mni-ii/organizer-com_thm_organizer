@@ -49,7 +49,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	{
 		$programs = THM_OrganizerHelperPrograms::getPlanPrograms();
 
-		$results = array();
+		$results = [];
 		foreach ($programs as $program)
 		{
 			$name           = empty($program['name']) ? $program['ppName'] : $program['name'];
@@ -87,7 +87,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
 		$rooms = THM_OrganizerHelperRooms::getPlanRooms();
 
-		$relevantIDs = array();
+		$relevantIDs = [];
 		foreach ($rooms as $room)
 		{
 			if (!empty($room['typeID']))
@@ -123,7 +123,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			return '[]';
 		}
 
-		$default = array(JText::_('JALL') => '-1');
+		$default = [JText::_('JALL') => '-1'];
 
 		return json_encode(array_merge($default, $result));
 	}
@@ -192,7 +192,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$input       = JFactory::getApplication()->input;
 		$inputParams = $input->getArray();
 		$inputKeys   = array_keys($inputParams);
-		$parameters  = array();
+		$parameters  = [];
 		foreach ($inputKeys as $key)
 		{
 			if (preg_match('/\w+IDs/', $key))
@@ -226,7 +226,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		$mode        = $input->getInt('mode', PERIOD_MODE);
 		$ccmID       = $input->getString('ccmID');
 		$userID      = JFactory::getUser()->id;
-		$savedCcmIDs = array();
+		$savedCcmIDs = [];
 
 		if (JFactory::getUser()->guest OR empty($ccmID))
 		{
@@ -239,18 +239,18 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			try
 			{
 				$userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
-				$hasUserLesson   = $userLessonTable->load(array('userID' => $userID, 'lessonID' => $lessonID));
+				$hasUserLesson   = $userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]);
 			}
 			catch (Exception $e)
 			{
 				return '[]';
 			}
 
-			$conditions = array(
+			$conditions = [
 				'userID'    => $userID,
 				'lessonID'  => $lessonID,
 				'user_date' => date('Y-m-d H:i:s')
-			);
+			];
 
 			if ($hasUserLesson)
 			{
@@ -309,18 +309,18 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	 * @param int $mode  global param like SEMESTER_MODE
 	 * @param int $ccmID primary key of ccm
 	 *
-	 * @return array (lessonID => array(ccmIDs))
+	 * @return array (lessonID => [ccmIDs])
 	 */
 	private function getMatchingLessons($mode, $ccmID)
 	{
 		$calReference = $this->getCalendarData($ccmID);
 		if (!$calReference)
 		{
-			return array();
+			return [];
 		}
 		elseif ($mode == INSTANCE_MODE)
 		{
-			return array($calReference->lessonID => array($ccmID));
+			return [$calReference->lessonID => [$ccmID]];
 		}
 
 		$query = $this->_db->getQuery(true);
@@ -344,11 +344,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		{
 			$ccmIDs = $this->_db->loadColumn(0);
 
-			return empty($ccmIDs) ? array() : array($calReference->lessonID => $ccmIDs);
+			return empty($ccmIDs) ? [] : [$calReference->lessonID => $ccmIDs];
 		}
 		catch (RuntimeException $e)
 		{
-			return array();
+			return [];
 		}
 	}
 
@@ -370,13 +370,13 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 		}
 
 		$mappings      = $this->getMatchingLessons($mode, $ccmID);
-		$deletedCcmIDs = array();
+		$deletedCcmIDs = [];
 		foreach ($mappings as $lessonID => $ccmIDs)
 		{
 			try
 			{
 				$userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
-				if (!$userLessonTable->load(array('userID' => $userID, 'lessonID' => $lessonID)))
+				if (!$userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]))
 				{
 					continue;
 				}
@@ -408,13 +408,13 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 				}
 				else
 				{
-					$conditions = array(
+					$conditions = [
 						'id'            => $userLessonTable->id,
 						'userID'        => $userID,
 						'lessonID'      => $userLessonTable->lessonID,
 						'configuration' => array_values($configurations),
 						'user_date'     => date('Y-m-d H:i:s')
-					);
+					];
 					$userLessonTable->bind($conditions);
 				}
 

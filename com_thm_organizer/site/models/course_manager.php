@@ -8,6 +8,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 /**
  * Class provides methods to get the neccessary data to display options for a course
  *
@@ -22,14 +23,14 @@ class THM_OrganizerModelCourse_Manager extends JModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
-		$config['filter_fields'] = array(
+		$config['filter_fields'] = [
 			'name',
 			'email',
 			'status_date',
 			'status'
-		);
+		];
 		parent::__construct($config);
 	}
 
@@ -73,7 +74,7 @@ class THM_OrganizerModelCourse_Manager extends JModelList
 		$form = $this->loadForm(
 			"com_thm_organizer.course_manager",
 			"course_manager",
-			array('control' => 'jform', 'load_data' => true)
+			['control' => 'jform', 'load_data' => true]
 		);
 
 		return !empty($form) ? $form : false;

@@ -31,14 +31,14 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	{
 		$entries = $this->getEntries("{$resource}s");
 
-		$keyProperties = array('gpuntisID');
+		$keyProperties = ['gpuntisID'];
 		if ($resource == 'teacher')
 		{
 			$keyProperties[] = 'username';
 		}
 
-		$data     = array();
-		$otherIDs = array();
+		$data     = [];
+		$otherIDs = [];
 
 		foreach ($entries as $entry)
 		{
@@ -117,7 +117,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 */
 	public function delete($resource)
 	{
-		$cids = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cids = JFactory::getApplication()->input->get('cid', [], 'array');
 
 		// Should not occur
 		if (empty($cids))
@@ -225,7 +225,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
 		if ($onlySelected)
 		{
-			$requestIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+			$requestIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 			$normedIDs  = Joomla\Utilities\ArrayHelper::toInteger($requestIDs);
 			$selected   = "'" . implode("', '", $normedIDs) . "'";
 			$query->where("id IN ( $selected )");
@@ -310,7 +310,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 */
 	public function merge($resource, $data = null)
 	{
-		$data = empty($data) ? JFactory::getApplication()->input->get('jform', array(), 'array') : $data;
+		$data = empty($data) ? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
 
 		$invalidForm = (empty($data['id']) OR empty($data['gpuntisID']));
 		if ($invalidForm)
@@ -331,7 +331,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 			return false;
 		}
 
-		$allDBIDs      = array_merge(array($newDBID), $oldDBIDs);
+		$allDBIDs      = array_merge([$newDBID], $oldDBIDs);
 		$newGPUntisID  = $data['gpuntisID'];
 		$tableName     = "{$resource}s";
 		$allGPUntisIDs = $this->getAllGPUntisIDs($tableName, $allDBIDs);
@@ -381,7 +381,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	public function save()
 	{
 		$input = JFactory::getApplication()->input;
-		$data  = $input->get('jform', array(), 'array');
+		$data  = $input->get('jform', [], 'array');
 
 		if (empty($data['gpuntisID']))
 		{
@@ -399,11 +399,11 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		{
 			$table->load($data['id']);
 
-			$gpuntisIDs                     = array();
+			$gpuntisIDs                     = [];
 			$gpuntisIDs[$data['gpuntisID']] = $data['gpuntisID'];
 			$gpuntisIDs[$table->gpuntisID]  = $table->gpuntisID;
 
-			$schedulesUpdated = $this->updateSchedules($data['id'], $data['gpuntisID'], $gpuntisIDs, array($data['id']), $data);
+			$schedulesUpdated = $this->updateSchedules($data['id'], $data['gpuntisID'], $gpuntisIDs, [$data['id']], $data);
 			if (!$schedulesUpdated)
 			{
 				$this->_db->transactionRollback();
@@ -444,7 +444,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 *
 	 * @param string $resource  the name of the resource type being merged
 	 * @param int    $newDBID   the id onto which the room entries merge
-	 * @param string $oldDBIDs  a string containing the ids to be replaced
+	 * @param array  $oldDBIDs  the ids to be replaced
 	 * @param string $tableName the unique part of the table name
 	 *
 	 * @return  boolean  true on success, otherwise false
@@ -570,7 +570,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 *
 	 * @param string $resource the name of the resource type being merged
 	 * @param int    $newDBID  the id onto which the room entries merge
-	 * @param string $oldDBIDs a string containing the ids to be replaced
+	 * @param array  $oldDBIDs the ids to be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
@@ -695,7 +695,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	 *
 	 * @return bool  true on success, otherwise false
 	 */
-	public function updateSchedules($newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs, $data = array())
+	public function updateSchedules($newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs, $data = [])
 	{
 		$scheduleIDs = $this->getAllSchedulesIDs();
 		if (empty($scheduleIDs))
@@ -712,8 +712,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 				continue;
 			}
 
-			$tableData             = array();
-			$tableData['id']       = $scheduleID;
+			$tableData       = [];
+			$tableData['id'] = $scheduleID;
 
 			$this->updateSchedule($scheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
 			$tableData['newSchedule'] = json_encode($scheduleObject);

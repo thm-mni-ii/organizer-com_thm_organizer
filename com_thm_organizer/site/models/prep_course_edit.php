@@ -32,14 +32,15 @@ class THM_OrganizerModelPrep_Course_Edit extends THM_OrganizerModelEdit
 	 *
 	 * @return  JTable  A JTable object
 	 */
-	public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = array())
+	public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = [])
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
+
 		return JTable::getInstance("subjects", $prefix, $options);
 	}
 
 	/**
-	 *	Saves course data to database
+	 *    Saves course data to database
 	 *
 	 * @param array $data     form data
 	 * @param int   $lessonID id id for lesson to handle participants

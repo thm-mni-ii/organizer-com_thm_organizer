@@ -25,7 +25,7 @@ class THM_OrganizerTemplateFieldList
 	/**
 	 * Renders subject information
 	 *
-	 * @param array  &$view  the view context
+	 * @param array &$view the view context
 	 *
 	 * @return  void
 	 */
@@ -38,7 +38,7 @@ class THM_OrganizerTemplateFieldList
 
 		foreach ($view->fields AS $fieldID => $field)
 		{
-			$rows = array();
+			$rows = [];
 
 			foreach ($view->items as $subject)
 			{
@@ -51,21 +51,21 @@ class THM_OrganizerTemplateFieldList
 
 			if (!empty($rows))
 			{
-?>
+				?>
 				<fieldset class="teacher-group">
 					<legend>
 						<span class="pool-title"><?php echo $field['name']; ?></span>
 					</legend>
 					<table>
-<?php
+						<?php
 						foreach ($rows as $row)
 						{
 							echo $row;
 						}
-?>
+						?>
 					</table>
 				</fieldset>
-<?php
+				<?php
 			}
 		}
 	}

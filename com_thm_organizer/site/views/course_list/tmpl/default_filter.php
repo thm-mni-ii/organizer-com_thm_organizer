@@ -15,7 +15,8 @@
 	<form action="<?php echo JRoute::_("index.php?option=com_thm_organizer&view=course_list"); ?>"
 		  method="post" name="adminForm" id="adminForm">
 
-		<input type="hidden" name="languageTag" value="<?php echo JFactory::getApplication()->input->get('languageTag', 'de'); ?>"/>
+		<input type="hidden" name="languageTag"
+			   value="<?php echo JFactory::getApplication()->input->get('languageTag', 'de'); ?>"/>
 
 		<div class="filter-item short-item">
 			<?php echo $this->filters['filter_subject']; ?>

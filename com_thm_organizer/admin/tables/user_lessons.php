@@ -23,10 +23,10 @@ class THM_OrganizerTableUser_Lessons extends JTable
 {
 	/**
 	 * fields get encoded by binding, when values are arrays
-	 * 
+	 *
 	 * @var array
 	 */
-	protected $_jsonEncode = array('configuration');
+	protected $_jsonEncode = ['configuration'];
 
 	/**
 	 * Constructor for the user_lesson table, makes 'id' the primary key.

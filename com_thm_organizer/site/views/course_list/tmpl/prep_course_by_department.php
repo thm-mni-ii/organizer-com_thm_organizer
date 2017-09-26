@@ -31,7 +31,7 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 	 */
 	private function getDepartmentsOfCourse()
 	{
-		$departments = array();
+		$departments = [];
 
 		foreach ($this->courseData["participants"] as $data)
 		{
@@ -44,6 +44,7 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 		}
 
 		$departments = array_unique($departments);
+
 		return $departments;
 	}
 
@@ -56,8 +57,8 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 	 */
 	private function evaluateCoursesOfStudy($dp)
 	{
-		$departmentData = array();
-		$departments    = array();
+		$departmentData = [];
+		$departments    = [];
 
 		foreach ($this->courseData["participants"] as $data)
 		{
@@ -72,30 +73,29 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 			}
 
 			array_push($departments, $data["departmentName"]);
-			array_push($departmentData, array($data["departmentName"], $data["programName"]));
+			array_push($departmentData, [$data["departmentName"], $data["programName"]]);
 		}
 
 		$courseOfStudy = array_count_values(
 			array_map(
-				function ($item)
-				{
+				function ($item) {
 					return $item['1'];
 				}, $departmentData
 			)
 		);
 
-		$results = array();
+		$results = [];
 		foreach ($departmentData as $fb)
 		{
-			array_push($results, array($fb[0], $fb[1], $courseOfStudy[$fb[1]]));
+			array_push($results, [$fb[0], $fb[1], $courseOfStudy[$fb[1]]]);
 		}
 
-		$last = array();
+		$last = [];
 		foreach ($results as $erg)
 		{
 			if ($erg[0] === $dp)
 			{
-				$last[$erg[1]] = array($erg[1], $erg[2]);
+				$last[$erg[1]] = [$erg[1], $erg[2]];
 			}
 		}
 
@@ -109,10 +109,11 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 	 */
 	private function createDepartmentTable()
 	{
-		$header = array(
+		$header = [
 			$this->lang->_("COM_THM_ORGANIZER_DEPARTMENT") . ' - ' . $this->lang->_("COM_THM_ORGANIZER_PROGRAM"),
-			$this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") );
-		$widths = array(155, 25);
+			$this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS")
+		];
+		$widths = [155, 25];
 
 		$departments = $this->getDepartmentsOfCourse();
 
@@ -134,21 +135,21 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 		foreach ($departments as $id => $dep)
 		{
 			$coursesOfStudy = $this->evaluateCoursesOfStudy($dep);
-			$count = 0;
+			$count          = 0;
 			foreach ($coursesOfStudy as $cos)
 			{
 				$count += $cos[1];
 			}
 
 			$id++;
-			$maxNoCells = 0;
+			$maxNoCells   = 0;
 			$maxCellCount = 0;
-			$maxArray = array();
+			$maxArray     = [];
 
 			$startX = $this->document->GetX();
 			$startY = $this->document->GetY();
 
-			$cells = array($dep, $count);
+			$cells = [$dep, $count];
 			for ($i = 0; $i < count($cells); ++$i)
 			{
 				$cellCount = $this->document->MultiCell($widths[$i], 5, $cells[$i], 'T', 'L', 1, 0);
@@ -175,14 +176,14 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 			foreach ($coursesOfStudy as $cos)
 			{
 				$id++;
-				$maxNoCells = 0;
+				$maxNoCells   = 0;
 				$maxCellCount = 0;
-				$maxArray = array();
+				$maxArray     = [];
 
 				$startX = $this->document->GetX();
 				$startY = $this->document->GetY();
 
-				$cells = array('     ' . $cos[0], $cos[1]);
+				$cells = ['     ' . $cos[0], $cos[1]];
 				for ($i = 0; $i < count($cells); ++$i)
 				{
 					$cellCount = $this->document->MultiCell($widths[$i], 5, $cells[$i], 'T', 'L', 0, 0);

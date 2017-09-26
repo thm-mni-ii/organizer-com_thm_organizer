@@ -75,15 +75,15 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	protected function getRowCells($columnHeaders, $rowHeader = null)
 	{
-		$rowCells = array();
+		$rowCells = [];
 
 		foreach ($columnHeaders as $columnHeader)
 		{
 			$date         = $columnHeader['value'];
 			$indexLessons = $this->lessons[$date];
-			$allIndexes  = array_keys($indexLessons);
-			$timeIndexes = $this->filterIndexes($allIndexes, $rowHeader);
-			$indexCount  = 0;
+			$allIndexes   = array_keys($indexLessons);
+			$timeIndexes  = $this->filterIndexes($allIndexes, $rowHeader);
+			$indexCount   = 0;
 
 			// No lesson instances on the given day
 			if (empty($timeIndexes))
@@ -97,7 +97,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 				{
 					if (empty($rowCells[$indexCount]))
 					{
-						$rowCells[$indexCount] = array();
+						$rowCells[$indexCount] = [];
 					}
 
 					$rowCells[$indexCount][$date] = $this->getInstanceText($instance, $timeIndex, $rowHeader);
@@ -116,7 +116,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
 		foreach ($rowCells as $index => $instances)
 		{
-			$counts = array();
+			$counts = [];
 			foreach ($instances as $instance)
 			{
 				$counts[] = $this->document->getNumLines($instance, $this->parameters['dataWidth']);
@@ -124,7 +124,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 			$lineCount = max($counts);
 
 			$rowCells[$index]['lineCount'] = $lineCount;
-			$totalLineCount += $lineCount;
+			$totalLineCount                += $lineCount;
 		}
 
 		$rowCells['lineCount'] = $totalLineCount;
@@ -163,9 +163,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 		{
 			$this->document->Ln();
 			$this->outputHeader($columnHeaders, $startDate, $breakDate, true);
-
-			// New page, new Y
-			$originalY = $this->document->getY();
 		}
 
 		$this->document->SetFont('helvetica', '', 8, '', 'default', true);
@@ -179,7 +176,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 				continue;
 			}
 
-			$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(57, 74, 89)));
+			$this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [57, 74, 89]]);
 
 			$originalY = $this->document->getY();
 			$newY      = $originalY + $rowHeight + $this->parameters['padding'];
@@ -239,7 +236,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 		$this->document->AddPage();
 
 		$this->document->SetFont('helvetica', '', 10, '', 'default', true);
-		$this->document->SetLineStyle(array('width' => 0.5, 'dash' => 0, 'color' => array(74, 92, 102)));
+		$this->document->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [74, 92, 102]]);
 
 		if ($outputTimeGrid)
 		{
@@ -270,7 +267,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 		$originalY = $this->document->getY();
 		$this->document->setY($originalY - 4);
 
-		$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(119, 133, 140)));
+		$this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [119, 133, 140]]);
 		$this->document->cell(0, 0, '', 'B', 1, 0, 0);
 	}
 
@@ -366,7 +363,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 					continue;
 				}
 
-				$this->document->SetLineStyle(array('width' => 0.1, 'dash' => 0, 'color' => array(57, 74, 89)));
+				$this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [57, 74, 89]]);
 
 				$originalY = $this->document->getY();
 				$newY      = $originalY + $rowHeight + $this->parameters['padding'];

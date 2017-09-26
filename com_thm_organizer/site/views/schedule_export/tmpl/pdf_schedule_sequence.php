@@ -53,7 +53,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 		$rowStart = $rowHeader['startTime'];
 		$rowEnd   = $rowHeader['endTime'];
 
-		$filteredIndexes = array();
+		$filteredIndexes = [];
 		foreach ($lessonIndexes as $index)
 		{
 			list($indexStart, $indexEnd) = explode('-', $index);
@@ -80,11 +80,11 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 	{
 		$dates = array_keys($this->lessons);
 
-		$columns = array();
+		$columns = [];
 
 		foreach ($dates as $date)
 		{
-			$columns[$date]          = array();
+			$columns[$date]          = [];
 			$columns[$date]['value'] = $date;
 			$columns[$date]['text']  = THM_OrganizerHelperComponent::formatDateShort($date, true);
 		}
@@ -119,14 +119,14 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 		{
 			$formattedStart = THM_OrganizerHelperComponent::formatTime($startTime);
 			$formattedEnd   = THM_OrganizerHelperComponent::formatTime($endTime);
-			$text .= "$formattedStart - $formattedEnd\n";
+			$text           .= "$formattedStart - $formattedEnd\n";
 		}
 
-		$subjectNames = array();
-		$subjectNos   = array();
-		$pools        = array();
-		$teachers     = array();
-		$rooms        = array();
+		$subjectNames = [];
+		$subjectNos   = [];
+		$pools        = [];
+		$teachers     = [];
+		$rooms        = [];
 		$method       = empty($instance['method']) ? '' : $instance['method'];
 		$comment      = empty($instance['comment']) ? '' : $instance['comment'];
 
@@ -180,7 +180,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 
 		$text .= "$subjectName\n";
 
-		$output = array();
+		$output = [];
 
 		if (!empty($pools))
 		{
@@ -225,7 +225,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 	 */
 	protected function getRowHeaders()
 	{
-		$rows = array();
+		$rows = [];
 
 		if (empty($this->grid))
 		{
@@ -236,7 +236,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 
 		foreach ($this->grid as $times)
 		{
-			$rows[$rowIndex]              = array();
+			$rows[$rowIndex]              = [];
 			$rows[$rowIndex]['startTime'] = $times['startTime'];
 			$rows[$rowIndex]['endTime']   = $times['endTime'];
 			$formattedStartTime           = THM_OrganizerHelperComponent::formatTime($times['startTime']);
@@ -295,7 +295,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 			$endDateText   = THM_OrganizerHelperComponent::formatDate($endDate);
 			$breakDate     = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
 			$headerString  = JText::_($timeConstant) . "$startDateText - $endDateText";
-			$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, array(57, 74, 89));
+			$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, [57, 74, 89]);
 
 			$this->outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid);
 

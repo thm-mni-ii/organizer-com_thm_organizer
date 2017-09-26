@@ -159,7 +159,7 @@ class THM_OrganizerHelperXMLSubjects
 		if (empty($subjectNo))
 		{
 			$scheduleModel->scheduleWarnings['SUBJECT-NO']
-				                                                         = empty($scheduleModel->scheduleWarnings['SUBJECT-NO']) ?
+				                                                            = empty($scheduleModel->scheduleWarnings['SUBJECT-NO']) ?
 				1 : $scheduleModel->scheduleWarnings['SUBJECT-NO'] + 1;
 			$scheduleModel->newSchedule->subjects->$subjectIndex->subjectNo = '';
 

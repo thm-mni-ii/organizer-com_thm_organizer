@@ -117,7 +117,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
 			return;
 		}
 
-		$element->children = array();
+		$element->children = [];
 		foreach ($children as $child)
 		{
 			$order = (int) $child->ordering;
@@ -203,8 +203,8 @@ class THM_OrganizerModelCurriculum extends JModelItem
 		$menuID      = JFactory::getApplication()->input->getInt('Itemid', 0);
 		$menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
 		$subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";
-		$parts       = array("$subjectLink", "s.id");
-		$select .= $query->concatenate($parts, "") . " AS link";
+		$parts       = ["$subjectLink", "s.id"];
+		$select      .= $query->concatenate($parts, "") . " AS link";
 
 		$query->select($select);
 		$query->from('#__thm_organizer_subjects AS s');

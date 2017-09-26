@@ -29,7 +29,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
 	 */
 	public function save()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
 
 		if (empty($data['roomID']))
 		{
@@ -75,7 +75,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
 	public function delete()
 	{
 		$success    = true;
-		$monitorIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$monitorIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		$table      = JTable::getInstance('monitors', 'thm_organizerTable');
 
 		if (isset($monitorIDs) and count($monitorIDs) > 0)

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 			<?php foreach ($this->languageSwitches AS $switch)
 			{
 				echo $switch;
-			}?>
+			} ?>
 		</div>
 	</div>
 
@@ -36,21 +36,21 @@ defined('_JEXEC') or die;
 			<?php echo $this->lang->_('JSAVE'); ?>
 		</button>
 
-		<a  href="<?php echo JRoute::_(
-				(empty($this->lessonID) ?
-					('index.php?option=com_thm_organizer&view=course_list') :
-					("index.php?option=com_thm_organizer&view=course_manager&lessonID={$this->lessonID}") )
+		<a href="<?php echo JRoute::_(
+			(empty($this->lessonID) ?
+				('index.php?option=com_thm_organizer&view=course_list') :
+				("index.php?option=com_thm_organizer&view=course_manager&lessonID={$this->lessonID}"))
 		); ?>"
-			class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
+		   class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
 
 		<hr>
 
-		<h1><?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT");?></h1>
+		<h1><?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT"); ?></h1>
 
 		<div class="form-horizontal">
 
 			<?php
-			echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details'));
+			echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
 			$sets = $this->form->getFieldSets();
 			foreach ($sets as $set)
 			{

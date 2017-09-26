@@ -41,12 +41,12 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
 		$query    = $this->_db->getQuery(true);
 
 		$select = "id, abbreviation_$shortTag AS abbreviation, name_$shortTag AS name, ";
-		$parts  = array("'index.php?option=com_thm_organizer&view=method_edit&id='", "id");
+		$parts  = ["'index.php?option=com_thm_organizer&view=method_edit&id='", "id"];
 		$select .= $query->concatenate($parts, "") . " AS link";
 		$query->select($select);
 		$query->from('#__thm_organizer_methods');
 
-		$this->setSearchFilter($query, array('name_de', 'name_en', 'abbreviation_de', 'abbreviation_en'));
+		$this->setSearchFilter($query, ['name_de', 'name_en', 'abbreviation_de', 'abbreviation_en']);
 
 		$this->setOrdering($query);
 
@@ -61,7 +61,7 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -72,7 +72,7 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]                 = array();
+			$return[$index]                 = [];
 			$return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['abbreviation'] = JHtml::_('link', $item->link, $item->abbreviation);
 			$return[$index]['name']         = JHtml::_('link', $item->link, $item->name);
@@ -91,7 +91,7 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
 	{
 		$ordering                = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction               = $this->state->get('list.direction', $this->defaultDirection);
-		$headers                 = array();
+		$headers                 = [];
 		$headers['checkbox']     = '';
 		$headers['abbreviation'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ABBREVIATION', 'abbreviation', $direction, $ordering);
 		$headers['name']         = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);

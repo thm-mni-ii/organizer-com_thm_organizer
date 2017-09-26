@@ -22,7 +22,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
-	public $languageSwitches = array();
+	public $languageSwitches = [];
 
 	public $lang;
 
@@ -45,12 +45,12 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 		if (!empty($this->item->id))
 		{
-			$params                 = array('view' => 'subject_details', 'id' => $this->item->id);
+			$params                 = ['view' => 'subject_details', 'id' => $this->item->id];
 			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 		}
 
 		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
-		$this->disclaimerData = array('language' => $this->lang);
+		$this->disclaimerData = ['language' => $this->lang];
 
 		parent::display($tpl);
 	}
@@ -72,7 +72,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 		if (is_numeric($value))
 		{
 			$value         = (int) $value;
-			$allowedValues = array(0, 1, 2, 3);
+			$allowedValues = [0, 1, 2, 3];
 			if (in_array($value, $allowedValues))
 			{
 				return true;
@@ -89,7 +89,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 				return false;
 			}
 
-			$allowedValues = array('0', '1', '2', '3');
+			$allowedValues = ['0', '1', '2', '3'];
 
 			if (in_array($value, $allowedValues))
 			{
@@ -125,7 +125,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 	 */
 	public function getDependencies($type)
 	{
-		$dependencies = array();
+		$dependencies = [];
 		switch ($type)
 		{
 			case 'pre':
@@ -168,7 +168,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 			foreach ($programData['subjects'] AS $subjectID => $subjectName)
 			{
 				$subjectLink = JHtml::_('link', $link . $subjectID, $subjectName);
-				$html .= "<li>$subjectLink</li>";
+				$html        .= "<li>$subjectLink</li>";
 			}
 			$html .= "</ul></li>";
 		}

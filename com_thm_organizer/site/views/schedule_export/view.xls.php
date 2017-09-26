@@ -31,11 +31,11 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	private $lessons;
 
 	/**
-	 * Method to get extra
+	 * Sets context variables and renders the view.
 	 *
 	 * @param string $tpl template
 	 *
-	 * @return  mixed  false on error, otherwise void
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{

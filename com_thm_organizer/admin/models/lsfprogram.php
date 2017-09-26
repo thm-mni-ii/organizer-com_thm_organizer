@@ -46,10 +46,10 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
-		return empty($lsfData) ? array() : $lsfData;
+		return empty($lsfData) ? [] : $lsfData;
 	}
 
 	/**
@@ -79,7 +79,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -91,7 +91,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 	public function importBatch()
 	{
 		$this->_db->transactionStart();
-		$programIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$programIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 
 		foreach ($programIDs as $programID)
 		{

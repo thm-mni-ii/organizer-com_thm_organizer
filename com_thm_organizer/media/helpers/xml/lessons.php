@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLLessons
 {
-	private $configurations = array();
+	private $configurations = [];
 
 	private $lessonID;
 
@@ -79,7 +79,7 @@ class THM_OrganizerHelperXMLLessons
 		{
 			$this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID                 = new stdClass;
 			$this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->delta          = '';
-			$this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations = array();
+			$this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations = [];
 		}
 
 		$config                               = new stdClass;
@@ -162,7 +162,7 @@ class THM_OrganizerHelperXMLLessons
 	 * @param string $currentDT the timestamp of the date being iterated
 	 * @param string $period    the value of the period attribute
 	 *
-	 * @return  boolean  true if blocking and not set elsewhere, otherwise false
+	 * @return  void adds a message to the scheduleModel scheduleWarnings array
 	 */
 	private function createMissingRoomMessage($currentDT, $period)
 	{
@@ -197,7 +197,7 @@ class THM_OrganizerHelperXMLLessons
 			return;
 		}
 
-		$this->scheduleModel->newSchedule->configurations = array();
+		$this->scheduleModel->newSchedule->configurations = [];
 		$this->scheduleModel->newSchedule->lessons        = new stdClass;
 
 		foreach ($this->xmlObject->lessons->children() as $lessonNode)
@@ -222,13 +222,13 @@ class THM_OrganizerHelperXMLLessons
 	 */
 	private function validateIndividual(&$lessonNode)
 	{
-		$effBeginDT  = isset($lessonNode->begindate)?
-            strtotime(trim((string) $lessonNode->begindate)) :
-            strtotime(trim((string) $lessonNode->effectivebegindate));
+		$effBeginDT  = isset($lessonNode->begindate) ?
+			strtotime(trim((string) $lessonNode->begindate)) :
+			strtotime(trim((string) $lessonNode->effectivebegindate));
 		$termBeginDT = strtotime($this->scheduleModel->newSchedule->startDate);
-		$effEndDT    = isset($lessonNode->enddate)?
-            strtotime(trim((string) $lessonNode->enddate)) :
-            strtotime(trim((string) $lessonNode->effectiveenddate));
+		$effEndDT    = isset($lessonNode->enddate) ?
+			strtotime(trim((string) $lessonNode->enddate)) :
+			strtotime(trim((string) $lessonNode->effectiveenddate));
 		$termEndDT   = strtotime($this->scheduleModel->newSchedule->endDate);
 
 		// Lesson is not relevant for the uploaded schedule (starts after term ends or ends before term begins)
@@ -484,7 +484,7 @@ class THM_OrganizerHelperXMLLessons
 		}
 
 		$untisIDs    = explode(" ", $rawUntisIDs);
-		$this->pools = array();
+		$this->pools = [];
 
 		foreach ($untisIDs as $untisID)
 		{
@@ -690,6 +690,7 @@ class THM_OrganizerHelperXMLLessons
 		if (empty($roomAttribute))
 		{
 			$this->createMissingRoomMessage($currentDT, $periodNo);
+
 			return false;
 		}
 
@@ -701,7 +702,7 @@ class THM_OrganizerHelperXMLLessons
 		}
 
 		$currentDate = date('Y-m-d', $currentDT);
-		$period = $this->scheduleModel->newSchedule->periods->$grid->$periodNo;
+		$period      = $this->scheduleModel->newSchedule->periods->$grid->$periodNo;
 		$this->processInstance($currentDate, $period, $roomsIDs);
 
 		return true;
@@ -718,7 +719,7 @@ class THM_OrganizerHelperXMLLessons
 	 */
 	private function validateRooms($roomAttribute, $currentDT, $period)
 	{
-		$roomIDs = new stdClass;
+		$roomIDs      = new stdClass;
 		$roomUntisIDs = explode(' ', str_replace('RM_', '', $roomAttribute));
 
 		foreach ($roomUntisIDs as $roomID)

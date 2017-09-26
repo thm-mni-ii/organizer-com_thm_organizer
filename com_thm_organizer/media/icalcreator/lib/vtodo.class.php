@@ -142,7 +142,7 @@ class vtodo extends calendarComponent
 	 * @uses   vtodo::$components
 	 * @uses   calendarComponent::setConfig()
 	 */
-	function __construct($config = array())
+	function __construct($config = [])
 	{
 		parent::__construct();
 		$this->attach          = '';
@@ -176,7 +176,7 @@ class vtodo extends calendarComponent
 		$this->summary         = '';
 		$this->url             = '';
 		$this->xprop           = '';
-		$this->components      = array();
+		$this->components      = [];
 		if (defined('ICAL_LANG') && !isset($config['language']))
 		{
 			$config['language'] = ICAL_LANG;
@@ -253,41 +253,41 @@ class vtodo extends calendarComponent
 	{
 		$objectname = $this->_createFormat();
 		$component  = $this->componentStart1 . $objectname . $this->componentStart2 . $this->nl;
-		$component .= $this->createUid();
-		$component .= $this->createDtstamp();
-		$component .= $this->createAttach();
-		$component .= $this->createAttendee();
-		$component .= $this->createCategories();
-		$component .= $this->createClass();
-		$component .= $this->createComment();
-		$component .= $this->createCompleted();
-		$component .= $this->createContact();
-		$component .= $this->createCreated();
-		$component .= $this->createDescription();
-		$component .= $this->createDtstart();
-		$component .= $this->createDue();
-		$component .= $this->createDuration();
-		$component .= $this->createExdate();
-		$component .= $this->createExrule();
-		$component .= $this->createGeo();
-		$component .= $this->createLastModified();
-		$component .= $this->createLocation();
-		$component .= $this->createOrganizer();
-		$component .= $this->createPercentComplete();
-		$component .= $this->createPriority();
-		$component .= $this->createRdate();
-		$component .= $this->createRelatedTo();
-		$component .= $this->createRequestStatus();
-		$component .= $this->createRecurrenceid();
-		$component .= $this->createResources();
-		$component .= $this->createRrule();
-		$component .= $this->createSequence();
-		$component .= $this->createStatus();
-		$component .= $this->createSummary();
-		$component .= $this->createUrl();
-		$component .= $this->createXprop();
-		$component .= $this->createSubComponent();
-		$component .= $this->componentEnd1 . $objectname . $this->componentEnd2;
+		$component  .= $this->createUid();
+		$component  .= $this->createDtstamp();
+		$component  .= $this->createAttach();
+		$component  .= $this->createAttendee();
+		$component  .= $this->createCategories();
+		$component  .= $this->createClass();
+		$component  .= $this->createComment();
+		$component  .= $this->createCompleted();
+		$component  .= $this->createContact();
+		$component  .= $this->createCreated();
+		$component  .= $this->createDescription();
+		$component  .= $this->createDtstart();
+		$component  .= $this->createDue();
+		$component  .= $this->createDuration();
+		$component  .= $this->createExdate();
+		$component  .= $this->createExrule();
+		$component  .= $this->createGeo();
+		$component  .= $this->createLastModified();
+		$component  .= $this->createLocation();
+		$component  .= $this->createOrganizer();
+		$component  .= $this->createPercentComplete();
+		$component  .= $this->createPriority();
+		$component  .= $this->createRdate();
+		$component  .= $this->createRelatedTo();
+		$component  .= $this->createRequestStatus();
+		$component  .= $this->createRecurrenceid();
+		$component  .= $this->createResources();
+		$component  .= $this->createRrule();
+		$component  .= $this->createSequence();
+		$component  .= $this->createStatus();
+		$component  .= $this->createSummary();
+		$component  .= $this->createUrl();
+		$component  .= $this->createXprop();
+		$component  .= $this->createSubComponent();
+		$component  .= $this->componentEnd1 . $objectname . $this->componentEnd2;
 		if (is_array($this->xcaldecl) && (0 < count($this->xcaldecl)))
 		{
 			foreach ($this->xcaldecl as $localxcaldecl)

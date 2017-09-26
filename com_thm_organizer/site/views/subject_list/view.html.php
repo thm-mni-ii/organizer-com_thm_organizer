@@ -23,7 +23,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSubject_List extends JViewLegacy
 {
-	public $languageSwitches = array();
+	public $languageSwitches = [];
 
 	public $lang;
 
@@ -46,12 +46,12 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 		$this->params = JFactory::getApplication()->getMenu()->getActive()->params;
 		$this->fixGroupBy();
-		$this->lang   = THM_OrganizerHelperLanguage::getLanguage($this->params->get('initialLanguage', 'de'));
+		$this->lang = THM_OrganizerHelperLanguage::getLanguage($this->params->get('initialLanguage', 'de'));
 
 		$this->state = $this->get('State');
 		$this->items = $this->get('items');
 
-		$switchParams           = array('view' => 'subject_list', 'form' => true);
+		$switchParams           = ['view' => 'subject_list', 'form' => true];
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($switchParams);
 
 		$model             = $this->getModel();
@@ -61,7 +61,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 		$this->programName = $model->programName;
 
 		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
-		$this->disclaimerData = array('language' => $this->lang);
+		$this->disclaimerData = ['language' => $this->lang];
 
 		parent::display($tpl);
 	}
@@ -73,8 +73,8 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	 */
 	private function fixGroupBy()
 	{
-		$defaultDisplayOrder = array(0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4);
-		$defaultTab = $this->params->get('groupBy', 0);
+		$defaultDisplayOrder = [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4];
+		$defaultTab          = $this->params->get('groupBy', 0);
 
 		if (!$this->params->get('showByName'))
 		{
@@ -101,7 +101,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 			unset($defaultDisplayOrder[4]);
 		}
 
-		$usedTab = in_array($defaultTab, $defaultDisplayOrder)? $defaultTab : array_shift($defaultDisplayOrder);
+		$usedTab = in_array($defaultTab, $defaultDisplayOrder) ? $defaultTab : array_shift($defaultDisplayOrder);
 		$this->params->set('groupBy', $usedTab);
 	}
 
@@ -135,26 +135,27 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	/**
 	 * Renders subject information
 	 *
-	 * @param mixed  &$item object if the the item to be displayed is a subject otherwise array
-	 * @param string $type  the type of group/sort
+	 * @param mixed  &$item      object if the the item to be displayed is a subject otherwise array
+	 * @param string $type       the type of group/sort
+	 * @param string $resourceID the id of the resource in the item row
 	 *
 	 * @return  string  the HTML for the item to be displayed
 	 */
-	public function getItemRow(&$item, $type = '', $resourceKey = '')
+	public function getItemRow(&$item, $type = '', $resourceID = '')
 	{
 		if ($type != 'pool')
 		{
 			$link      = $item->subjectLink;
 			$name      = $item->name;
 			$subjectNo = empty($item->externalID) ? '' : $item->externalID;
-			$crp       = empty($item->creditpoints) ? '' : $item->creditpoints. ' CrP';
+			$crp       = empty($item->creditpoints) ? '' : $item->creditpoints . ' CrP';
 		}
 		else
 		{
 			$link      = "#pool{$item['id']}";
 			$name      = $item['name'] . ' <span class="icon-forward-2"></span>';
 			$subjectNo = '';
-			$crp       = empty($this->params->get('inlinePoolCrP', 1))? '' : $this->getCreditPointText($item);
+			$crp       = empty($this->params->get('inlinePoolCrP', 1)) ? '' : $this->getCreditPointText($item);
 		}
 		$displayItem = '<tr>';
 
@@ -173,11 +174,11 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 		if ($type == 'teacher')
 		{
-			$displayItem .= '<td class="subject-teacher">' . $this->getResponsibleDisplay($item, $resourceKey) . '</td>';
+			$displayItem .= '<td class="subject-teacher">' . $this->getResponsibleDisplay($item, $resourceID) . '</td>';
 		}
 		elseif ($type != 'pool')
 		{
-			$displayItem .= '<td class="subject-teacher">' . $this->getTeacherDisplay($item, $type) . '</td>';
+			$displayItem .= '<td class="subject-teacher">' . $this->getTeacherDisplay($item) . '</td>';
 		}
 		else
 		{
@@ -208,7 +209,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	 */
 	public function getResponsibleDisplay($subject, $teacherID)
 	{
-		$teacherResponsibility = array();
+		$teacherResponsibility = [];
 
 		$isResponsible = (isset($subject->teachers[1]) AND array_key_exists($teacherID, $subject->teachers[1]));
 		$isTeacher     = (isset($subject->teachers[2]) AND array_key_exists($teacherID, $subject->teachers[2]));
@@ -246,15 +247,15 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	 */
 	public function getTeacherDisplay($subject)
 	{
-		$displayTeachers = array();
-		$responsibility = $this->params->get('teacherResp', 0);
+		$displayTeachers = [];
+		$responsibility  = $this->params->get('teacherResp', 0);
 
 		if (isset($subject->teachers[1]) AND $responsibility != 2)
 		{
 			foreach ($subject->teachers[1] as $responsibleID)
 			{
 				$name                           = $this->getTeacherText($responsibleID);
-				$displayTeachers[$name]         = array();
+				$displayTeachers[$name]         = [];
 				$displayTeachers[$name]['id']   = $responsibleID;
 				$displayTeachers[$name]['resp'] = '';
 
@@ -273,15 +274,15 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 				if (empty($displayTeachers[$name]))
 				{
-					$displayTeachers[$name]         = array();
+					$displayTeachers[$name]         = [];
 					$displayTeachers[$name]['id']   = $teacherID;
 					$displayTeachers[$name]['resp'] = '';
 				}
 
 				if ($responsibility == 0)
 				{
-					$displayTeachers[$name]['resp'] .= empty($displayTeachers[$name]['resp'])?
-					 JText::_('COM_THM_ORGANIZER_TEACHER_ABBR') : ', ' . JText::_('COM_THM_ORGANIZER_TEACHER_ABBR');
+					$displayTeachers[$name]['resp'] .= empty($displayTeachers[$name]['resp']) ?
+						JText::_('COM_THM_ORGANIZER_TEACHER_ABBR') : ', ' . JText::_('COM_THM_ORGANIZER_TEACHER_ABBR');
 				}
 			}
 		}

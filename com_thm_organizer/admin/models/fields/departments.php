@@ -27,7 +27,7 @@ class JFormFieldDepartments extends JFormField
 	/**
 	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
 	 *
-	 * @return Select box
+	 * @return string the HTML which forms the select box
 	 */
 	public function getInput()
 	{
@@ -70,8 +70,8 @@ class JFormFieldDepartments extends JFormField
 			return $this->getDefault();
 		}
 
-		$attributes          = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '12');
-		$selectedDepartments = empty($selected) ? array() : $selected;
+		$attributes          = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '12'];
+		$selectedDepartments = empty($selected) ? [] : $selected;
 
 		return JHtml::_("select.genericlist", $allDepartments, "jform[departments][]", $attributes, "value", "text", $selectedDepartments);
 	}
@@ -83,9 +83,9 @@ class JFormFieldDepartments extends JFormField
 	 */
 	private function getDefault()
 	{
-		$allDepartments   = array();
-		$allDepartments[] = array('value' => '-1', 'name' => JText::_('JNONE'));
-		$attributes       = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
+		$allDepartments   = [];
+		$allDepartments[] = ['value' => '-1', 'name' => JText::_('JNONE')];
+		$attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
 		return JHtml::_("select.genericlist", $allDepartments, "jform[departments][]", $attributes, "value", "text");
 	}

@@ -44,21 +44,23 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 
 		$this->document->AddPage('L', '', false, false);
 
-		$xPos = array(10, 15, 35, 57, 70, 68, 65, 40, 78);
+		$xPos = [10, 15, 35, 57, 70, 68, 65, 40, 78];
 
-		$circle = array(
+		$circle = [
 			'width' => 0.1,
 			'cap'   => 'butt',
 			'join'  => 'miter',
 			'dash'  => '5,2.5',
 			'phase' => 10,
-			'color' => array(0, 0, 0));
-		$rect = array(
+			'color' => [0, 0, 0]
+		];
+		$rect   = [
 			'width' => 0.1,
 			'cap'   => 'butt',
 			'join'  => 'miter',
 			'dash'  => 0,
-			'color' => array(0, 0, 0));
+			'color' => [0, 0, 0]
+		];
 
 		$count = 0;
 
@@ -81,12 +83,7 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 				$id = $i + $l;
 				if ($id >= count($this->courseData["participants"]))
 				{
-					$participant = array(
-						"name" => "",
-						"zip_code" => "",
-						"city" => "",
-						"address" => ""
-					);
+					$participant = ["name"     => "", "zip_code" => "", "city"     => "", "address"  => ""];
 				}
 				else
 				{
@@ -95,8 +92,8 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 
 				$this->document->SETXY($xPos[1], 28 + ($l * 82));
 				$headerLine = $this->lang->_("COM_THM_ORGANIZER_PREP_COURSES") . " " .
-						$this->courseData["planPeriod"] . " " .
-						$this->courseData["start"][0];
+					$this->courseData["planPeriod"] . " " .
+					$this->courseData["start"][0];
 				$this->document->Cell(80, 5, $headerLine, 0, 0, 'C');
 				$this->document->Ln();
 				$this->document->SetFont('', 'B', 20);
@@ -110,8 +107,8 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 				$this->document->SetFont('', '', 10);
 				$this->document->SETXY($xPos[1], 53 + ($l * 82));
 				$dateLine = $this->courseData["c_start"] . " - " .
-							$this->courseData["c_end"] . " in " .
-							$this->courseData["place"];
+					$this->courseData["c_end"] . " in " .
+					$this->courseData["place"];
 				$this->document->Cell(80, 5, $dateLine, 0, 0, 'C');
 				$this->document->Ln();
 				$this->document->Ln();
@@ -149,7 +146,7 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 			{
 				$this->document->AddPage('L', '', false, false);
 
-				$xPos = array(14, 19, 39, 61, 74, 72, 69, 44, 82);
+				$xPos = [14, 19, 39, 61, 74, 72, 69, 44, 82];
 
 				for ($j = 0; $j < $count; ++$j)
 				{
@@ -206,7 +203,7 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 			{
 				$this->document->AddPage('L', '', false, false);
 
-				$xPos = array(10, 15, 35, 57, 70, 68, 65, 40, 78);
+				$xPos  = [10, 15, 35, 57, 70, 68, 65, 40, 78];
 				$count = 0;
 			}
 		}

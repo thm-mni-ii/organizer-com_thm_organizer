@@ -8,6 +8,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 /**
  * Class provides methods for handling the prep course list
  *
@@ -25,7 +26,7 @@ class THM_OrganizerModelCourse_List extends JModelList
 	 * @since   12.2
 	 * @throws  Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct();
 		$this->populateState();
@@ -41,7 +42,7 @@ class THM_OrganizerModelCourse_List extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$formData = JFactory::getApplication()->input->get('jform', [], 'array');
 
 		if (empty($formData["filter_subject"]))
 		{
@@ -65,12 +66,12 @@ class THM_OrganizerModelCourse_List extends JModelList
 	protected function getListQuery()
 	{
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$state = self::getState();
+		$state    = self::getState();
 
-		$query = $this->_db->getQuery(true);
+		$query    = $this->_db->getQuery(true);
 		$subQuery = $this->_db->getQuery(true);
 
-		$subQuerySelect  = "lessonID";
+		$subQuerySelect = "lessonID";
 		$subQuerySelect .= ", MIN(schedule_date) as start, MAX(schedule_date) as end";
 		$subQuerySelect .= ", (MAX(schedule_date) < CURRENT_DATE()) as expired";
 

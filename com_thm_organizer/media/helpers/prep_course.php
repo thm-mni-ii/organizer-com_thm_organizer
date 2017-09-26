@@ -32,12 +32,12 @@ class THM_OrganizerHelperPrep_Course
 		$lessonID = empty($lessonID) ? JFactory::getApplication()->input->getInt('lessonID', 0) : $lessonID;
 		if (empty($lessonID))
 		{
-			return array();
+			return [];
 		}
 
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
 		$select = 'pp.name as planningPeriodName';
@@ -65,10 +65,10 @@ class THM_OrganizerHelperPrep_Course
 		{
 			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
-			return array();
+			return [];
 		}
 
-		return empty($courseData) ? array() : $courseData;
+		return empty($courseData) ? [] : $courseData;
 	}
 
 	/**
@@ -82,15 +82,15 @@ class THM_OrganizerHelperPrep_Course
 	{
 		if (empty($lessonID))
 		{
-			return array();
+			return [];
 		}
 
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$select  = 'CONCAT(ud.surname, ", ", ud.forename) AS name , ud.address, ud.zip_code, ud.city';
+		$select = 'CONCAT(ud.surname, ", ", ud.forename) AS name , ud.address, ud.zip_code, ud.city';
 		$select .= ",p.name_$shortTag as programName, d.short_name_$shortTag as departmentName";
 		$select .= ',u.id, u.email';
 
@@ -118,10 +118,10 @@ class THM_OrganizerHelperPrep_Course
 		{
 			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
-			return array();
+			return [];
 		}
 
-		return empty($participantData) ? array() : $participantData;
+		return empty($participantData) ? [] : $participantData;
 	}
 
 	/**
@@ -139,7 +139,7 @@ class THM_OrganizerHelperPrep_Course
 			return false;
 		}
 
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
 		$query->select('*');
@@ -167,20 +167,20 @@ class THM_OrganizerHelperPrep_Course
 	 * Figure out if student is signed into course
 	 *
 	 * @param int $lessonID of lesson
-	 * @param int $userID id of the student
+	 * @param int $userID   id of the student
 	 *
 	 * @return array containing the user specific information or empty on error
 	 */
 	public static function getRegistrationState($lessonID = 0, $userID = 0)
 	{
-		$userID = empty($userID) ? JFactory::getUser()->id : $userID;
+		$userID   = empty($userID) ? JFactory::getUser()->id : $userID;
 		$lessonID = empty($lessonID) ? JFactory::getApplication()->input->getInt('lessonID', 0) : $lessonID;
 		if (empty($lessonID) || empty($userID))
 		{
-			return array();
+			return [];
 		}
 
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
 		$query->select("*");
@@ -197,14 +197,14 @@ class THM_OrganizerHelperPrep_Course
 		{
 			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
-			return array();
+			return [];
 		}
 
-		return empty($regState) ? array() : $regState;
+		return empty($regState) ? [] : $regState;
 	}
 
 	/**
-	 * Get list of registered stundets in specific course
+	 * Get list of registered students in specific course
 	 *
 	 * @param int $lessonID identifier of course
 	 * @param int $status   status of Students (1 registered, 0 waiting, 2 all)
@@ -215,10 +215,10 @@ class THM_OrganizerHelperPrep_Course
 	{
 		if (empty($lessonID))
 		{
-			return array();
+			return [];
 		}
 
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
 		$query->select('*');
@@ -240,10 +240,10 @@ class THM_OrganizerHelperPrep_Course
 		{
 			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
-			return array();
+			return [];
 		}
 
-		return empty($regStudents) ? array() : $regStudents;
+		return empty($regStudents) ? [] : $regStudents;
 	}
 
 	/**
@@ -258,10 +258,10 @@ class THM_OrganizerHelperPrep_Course
 		$lessonID = empty($lessonID) ? JFactory::getApplication()->input->getInt('lessonID', 0) : $lessonID;
 		if (empty($lessonID))
 		{
-			return array();
+			return [];
 		}
 
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
 		$query->select('*');
@@ -280,10 +280,10 @@ class THM_OrganizerHelperPrep_Course
 		{
 			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
-			return array();
+			return [];
 		}
 
-		return empty($dates) ? array() : $dates;
+		return empty($dates) ? [] : $dates;
 	}
 
 	/**
@@ -295,10 +295,11 @@ class THM_OrganizerHelperPrep_Course
 	 */
 	public static function isRegistrationOpen($lessonID = 0)
 	{
-		$dates = self::getDates($lessonID);
-		$now = new DateTime;
+		$dates    = self::getDates($lessonID);
+		$now      = new DateTime;
 		$deadline = JComponentHelper::getParams('com_thm_organizer')->get('deadline', '5');
 		$now->add(new DateInterval("P{$deadline}D"));
+
 		return sizeof($dates) > 0 && new DateTime($dates[0]["schedule_date"]) > $now;
 	}
 
@@ -311,13 +312,13 @@ class THM_OrganizerHelperPrep_Course
 	 */
 	public static function isCourseFull($lessonID)
 	{
-		$course = self::getCourse($lessonID);
+		$course      = self::getCourse($lessonID);
 		$regStudents = false;
-		$maxPart = 0;
+		$maxPart     = 0;
 
 		if (!empty($course))
 		{
-			$maxPart = empty($course["lessonP"]) ? $course["subjectP"] : $course["lessonP"];
+			$maxPart     = empty($course["lessonP"]) ? $course["subjectP"] : $course["lessonP"];
 			$regStudents = self::getRegisteredStudents($lessonID);
 		}
 
@@ -325,7 +326,7 @@ class THM_OrganizerHelperPrep_Course
 	}
 
 	/**
-	 * Get formattet array with all prep courses in format id => name
+	 * Get formatted array with all prep courses in format id => name
 	 *
 	 * @return  array  assoc array with all prep courses with id => name
 	 */
@@ -333,7 +334,7 @@ class THM_OrganizerHelperPrep_Course
 	{
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-		$dbo = JFactory::getDbo();
+		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
 		$query->select("id, name_$shortTag AS name");
@@ -349,15 +350,16 @@ class THM_OrganizerHelperPrep_Course
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-			return array();
+
+			return [];
 		}
 
 		if (empty($courses))
 		{
-			return array();
+			return [];
 		}
 
-		$return = array();
+		$return = [];
 		foreach ($courses as $course)
 		{
 			$return[$course["id"]] = $course["name"];

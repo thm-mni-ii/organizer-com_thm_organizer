@@ -37,11 +37,11 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('dp.name', 'abbreviation', 'version', 'departmentID');
+			$config['filter_fields'] = ['dp.name', 'abbreviation', 'version', 'departmentID'];
 		}
 
 		parent::__construct($config);
@@ -55,12 +55,12 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 	protected function getListQuery()
 	{
 		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('manage');
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+		$shortTag           = THM_OrganizerHelperLanguage::getShortTag();
 
-		$query    = $this->_db->getQuery(true);
-		$select   = "dp.name_$shortTag AS name, version, ";
+		$query  = $this->_db->getQuery(true);
+		$select = "dp.name_$shortTag AS name, version, ";
 		$select .= "dp.id AS id, d.abbreviation AS abbreviation, dpt.short_name_$shortTag AS departmentname, ";
-		$parts = array("'index.php?option=com_thm_organizer&view=program_edit&id='", "dp.id");
+		$parts  = ["'index.php?option=com_thm_organizer&view=program_edit&id='", "dp.id"];
 		$select .= $query->concatenate($parts, "") . "AS link ";
 		$query->select($select);
 
@@ -70,10 +70,10 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 		$query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
 		$query->where("(dp.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR dp.departmentID IS NULL)");
 
-		$searchColumns = array('dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en');
+		$searchColumns = ['dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en'];
 		$this->setSearchFilter($query, $searchColumns);
-		$this->setValueFilters($query, array('degreeID', 'version', 'departmentID'));
-		$this->setLocalizedFilters($query, array('dp.name'));
+		$this->setValueFilters($query, ['degreeID', 'version', 'departmentID']);
+		$this->setLocalizedFilters($query, ['dp.name']);
 
 		$this->setOrdering($query);
 
@@ -88,7 +88,7 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -120,7 +120,7 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
 		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction = $this->state->get('list.direction', $this->defaultDirection);
 
-		$headers                 = array();
+		$headers                 = [];
 		$headers['checkbox']     = '';
 		$headers['dp.name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 		$headers['degreeID']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE', 'abbreviation', $direction, $ordering);

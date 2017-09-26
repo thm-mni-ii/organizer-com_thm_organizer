@@ -25,7 +25,7 @@ class THM_OrganizerHelperPlanning_Periods
 	/**
 	 * Gets the id of the planning period whose dates encompass the current date
 	 *
-	 * @return void
+	 * @return int the id of the planning period for the dates used on success, otherwise 0
 	 */
 	public static function getCurrentID()
 	{
@@ -39,14 +39,16 @@ class THM_OrganizerHelperPlanning_Periods
 
 		try
 		{
-			return $dbo->loadResult();
+			$result = $dbo->loadResult();
 		}
 		catch (RuntimeException $exc)
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return null;
+			return 0;
 		}
+
+		return empty($result) ? 0 : $result;
 	}
 
 	/**
@@ -59,7 +61,7 @@ class THM_OrganizerHelperPlanning_Periods
 	public static function getID($data)
 	{
 		$ppTable      = JTable::getInstance('planning_periods', 'thm_organizerTable');
-		$loadCriteria = array('startDate' => $data['startDate'], 'endDate' => $data['endDate']);
+		$loadCriteria = ['startDate' => $data['startDate'], 'endDate' => $data['endDate']];
 
 		try
 		{
@@ -123,7 +125,7 @@ class THM_OrganizerHelperPlanning_Periods
 	public static function getPlanningPeriods()
 	{
 		$dbo                 = JFactory::getDbo();
-		$default             = array();
+		$default             = [];
 		$input               = JFactory::getApplication()->input;
 		$selectedDepartments = $input->getString('departmentIDs');
 		$selectedPrograms    = $input->getString('programIDs');

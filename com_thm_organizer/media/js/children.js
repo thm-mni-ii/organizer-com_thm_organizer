@@ -3,15 +3,15 @@
  */
 function moveButton()
 {
-    var poolButton = jQuery('#toolbar-popup-list').detach(),
-        subjectButton = jQuery('#toolbar-popup-book').detach(),
-        childToolbar = jQuery('#children-toolbar');
+	var poolButton = jQuery('#toolbar-popup-list').detach(),
+		subjectButton = jQuery('#toolbar-popup-book').detach(),
+		childToolbar = jQuery('#children-toolbar');
 
-    poolButton.appendTo(childToolbar);
-    if (subjectButton.length)
-    {
-        subjectButton.appendTo(childToolbar);
-    }
+	poolButton.appendTo(childToolbar);
+	if (subjectButton.length)
+	{
+		subjectButton.appendTo(childToolbar);
+	}
 
 }
 
@@ -23,15 +23,14 @@ function moveButton()
  */
 function getCheckedItems(divID, type)
 {
-    var iframe = jQuery('iframe');
-    jQuery(divID + ' input:checked', iframe.contents()).each(function ()
-    {
-        var id = jQuery(this).val() + type;
-        var name = jQuery(jQuery(this).parent().parent().children()[1]).html();
-        var currentOrder = window.parent.getCurrentOrder();
-        var length = parseInt(currentOrder.length, 10);
-        createNewRow(length, 'childList', id, name, type);
-    });
+	var iframe = jQuery('iframe');
+	jQuery(divID + ' input:checked', iframe.contents()).each(function () {
+		var id = jQuery(this).val() + type;
+		var name = jQuery(jQuery(this).parent().parent().children()[1]).html();
+		var currentOrder = window.parent.getCurrentOrder();
+		var length = parseInt(currentOrder.length, 10);
+		createNewRow(length, 'childList', id, name, type);
+	});
 }
 
 /**
@@ -42,63 +41,63 @@ function getCheckedItems(divID, type)
  */
 function closeIframeWindow(divID, type)
 {
-    getCheckedItems(divID, type);
-    jQuery("button.close").trigger("click");
+	getCheckedItems(divID, type);
+	jQuery("button.close").trigger("click");
 }
 
 /**
  * Moves the values of the calling row up one row in the children table
  *
- * @param {type} oldOrder
+ * @param {int} oldOrder
  *
  * @returns {void}
  */
 function moveUp(oldOrder)
 {
-    "use strict";
+	"use strict";
 
-    var currentOrder, reorderObjects;
+	var currentOrder, reorderObjects;
 
-    currentOrder = getCurrentOrder();
-    if (oldOrder <= 1 || (currentOrder.length === Number(oldOrder) && currentOrder[oldOrder - 2].name === ""))
-    {
-        return;
-    }
+	currentOrder = getCurrentOrder();
+	if (oldOrder <= 1 || (currentOrder.length === Number(oldOrder) && currentOrder[oldOrder - 2].name === ""))
+	{
+		return;
+	}
 
-    // Gets the two rows needing reordering
-    reorderObjects = currentOrder.splice(oldOrder - 2, 2);
+	// Gets the two rows needing reordering
+	reorderObjects = currentOrder.splice(oldOrder - 2, 2);
 
-    // Set calling row to one row lower
-    overrideElement((oldOrder - 1), reorderObjects[1]);
+	// Set calling row to one row lower
+	overrideElement((oldOrder - 1), reorderObjects[1]);
 
-    // Set previous lower row to calling positon
-    overrideElement(oldOrder, reorderObjects[0]);
+	// Set previous lower row to calling positon
+	overrideElement(oldOrder, reorderObjects[0]);
 
 }
 
 /**
  * Moves the values of the calling row down one row in the children table
  *
- * @param {type} oldOrder
+ * @param {int} oldOrder
  *
  * @returns {void}
  */
 function moveDown(oldOrder)
 {
-    "use strict";
-    var currentOrder = getCurrentOrder();
-    if (oldOrder >= currentOrder.length || (currentOrder.length === Number(oldOrder) + 1 && currentOrder[oldOrder - 1].name === ""))
-    {
-        return;
-    }
-    var reorderObjects = currentOrder.splice(oldOrder - 1, 2);
+	"use strict";
+	var currentOrder = getCurrentOrder();
+	if (oldOrder >= currentOrder.length || (currentOrder.length === Number(oldOrder) + 1 && currentOrder[oldOrder - 1].name === ""))
+	{
+		return;
+	}
+	var reorderObjects = currentOrder.splice(oldOrder - 1, 2);
 
-    // Set current to lower
-    overrideElement(oldOrder, reorderObjects[1]);
+	// Set current to lower
+	overrideElement(oldOrder, reorderObjects[1]);
 
-    // Set current with lower
-    var newOrder = parseInt(oldOrder, 10) + 1;
-    overrideElement(newOrder, reorderObjects[0]);
+	// Set current with lower
+	var newOrder = parseInt(oldOrder, 10) + 1;
+	overrideElement(newOrder, reorderObjects[0]);
 
 }
 
@@ -111,25 +110,25 @@ function moveDown(oldOrder)
  */
 function setEmptyElement(position)
 {
-    "use strict";
+	"use strict";
 
-    var currentOrder = getCurrentOrder(),
-        length = parseInt(currentOrder.length, 10),
-        newOrder,
-        oldIndex;
+	var currentOrder = getCurrentOrder(),
+		length = parseInt(currentOrder.length, 10),
+		newOrder,
+		oldIndex;
 
-    createNewRow(length, 'childList');
+	createNewRow(length, 'childList');
 
-    while (position <= length)
-    {
-        newOrder = length + 1;
-        oldIndex = length - 1;
+	while (position <= length)
+	{
+		newOrder = length + 1;
+		oldIndex = length - 1;
 
-        overrideElement(newOrder, currentOrder[oldIndex]);
-        length--;
-    }
+		overrideElement(newOrder, currentOrder[oldIndex]);
+		length--;
+	}
 
-    overrideElementWithDummy(position);
+	overrideElementWithDummy(position);
 }
 
 /**
@@ -141,18 +140,18 @@ function setEmptyElement(position)
  */
 function setElementOnLastPosition(position)
 {
-    "use strict";
+	"use strict";
 
-    var currentOrder = getCurrentOrder();
-    var length = parseInt(currentOrder.length, 10);
-    var tmpElement = currentOrder[position - 1];
+	var currentOrder = getCurrentOrder();
+	var length = parseInt(currentOrder.length, 10);
+	var tmpElement = currentOrder[position - 1];
 
-    if (tmpElement.name !== "")
-    {
-        pushAllUp(position, length, currentOrder);
+	if (tmpElement.name !== "")
+	{
+		pushAllUp(position, length, currentOrder);
 
-        overrideElement(length, tmpElement);
-    }
+		overrideElement(length, tmpElement);
+	}
 }
 
 /**
@@ -165,29 +164,29 @@ function setElementOnLastPosition(position)
  */
 function orderWithNumber(firstPos)
 {
-    "use strict";
+	"use strict";
 
-    var currentOrder = getCurrentOrder(), length = currentOrder.length, tmpElement = currentOrder[firstPos - 1],
-        secondPosOrder = jQuery('#child' + firstPos + 'order'), secondPos = secondPosOrder.val();
+	var currentOrder = getCurrentOrder(), length = currentOrder.length, tmpElement = currentOrder[firstPos - 1],
+		secondPosOrder = jQuery('#child' + firstPos + 'order'), secondPos = secondPosOrder.val();
 
-    secondPos = parseInt(secondPos);
+	secondPos = parseInt(secondPos);
 
-    if (isNaN(secondPos) === true || secondPos > length || (Number(secondPos) === length && tmpElement.name === ""))
-    {
-        secondPosOrder.val(firstPos);
-        return;
-    }
+	if (isNaN(secondPos) === true || secondPos > length || (Number(secondPos) === length && tmpElement.name === ""))
+	{
+		secondPosOrder.val(firstPos);
+		return;
+	}
 
-    if (firstPos < secondPos)
-    {
-        pushAllUp(firstPos, secondPos, currentOrder);
-    }
-    else
-    {
-        pushAllDown(firstPos, secondPos, currentOrder);
-    }
+	if (firstPos < secondPos)
+	{
+		pushAllUp(firstPos, secondPos, currentOrder);
+	}
+	else
+	{
+		pushAllDown(firstPos, secondPos, currentOrder);
+	}
 
-    overrideElement(secondPos, tmpElement);
+	overrideElement(secondPos, tmpElement);
 }
 
 /**
@@ -199,14 +198,14 @@ function orderWithNumber(firstPos)
  */
 function removeRow(rowNumber)
 {
-    "use strict";
+	"use strict";
 
-    var currentOrder = getCurrentOrder();
-    var length = currentOrder.length;
+	var currentOrder = getCurrentOrder();
+	var length = currentOrder.length;
 
-    pushAllUp(rowNumber, length, currentOrder);
+	pushAllUp(rowNumber, length, currentOrder);
 
-    jQuery('#childRow' + length).remove();
+	jQuery('#childRow' + length).remove();
 }
 
 /**
@@ -219,13 +218,13 @@ function removeRow(rowNumber)
  */
 function pushAllUp(position, length, elementArray)
 {
-    "use strict";
+	"use strict";
 
-    while (position < length)
-    {
-        overrideElement(position, elementArray[position]);
-        position++;
-    }
+	while (position < length)
+	{
+		overrideElement(position, elementArray[position]);
+		position++;
+	}
 }
 
 /**
@@ -238,41 +237,41 @@ function pushAllUp(position, length, elementArray)
  */
 function pushAllDown(position, length, elementArray)
 {
-    "use strict";
+	"use strict";
 
-    while (position > length)
-    {
-        var newOrder = position;
-        var oldIndex = position - 2;
+	while (position > length)
+	{
+		var newOrder = position;
+		var oldIndex = position - 2;
 
-        overrideElement(newOrder, elementArray[oldIndex]);
-        position--;
-    }
+		overrideElement(newOrder, elementArray[oldIndex]);
+		position--;
+	}
 }
 
 /**
  * Retreives an array of objects mapping form values
  *
- * @returns {Array}
+ * @returns {array}
  */
 function getCurrentOrder()
 {
-    "use strict";
-    var currentOrder = [];
+	"use strict";
+	var currentOrder = [];
 
-    // The header row needs to be removed from the count
-    var rowCount = jQuery('#childList').find('tr').length - 1;
-    for (var i = 0; i < rowCount; i++)
-    {
-        var order = i + 1;
-        currentOrder[i] = {};
-        currentOrder[i].class = jQuery('#child' + order + 'icon').attr('class').trim();
-        currentOrder[i].name = jQuery('#child' + order + 'name').text().trim();
-        currentOrder[i].id = jQuery('#child' + order).val();
-        currentOrder[i].link = jQuery('#child' + order + 'link').attr('href');
-        currentOrder[i].order = jQuery('#child' + order + 'order').val();
-    }
-    return currentOrder;
+	// The header row needs to be removed from the count
+	var rowCount = jQuery('#childList').find('tr').length - 1;
+	for (var i = 0; i < rowCount; i++)
+	{
+		var order = i + 1;
+		currentOrder[i] = {};
+		currentOrder[i].class = jQuery('#child' + order + 'icon').attr('class').trim();
+		currentOrder[i].name = jQuery('#child' + order + 'name').text().trim();
+		currentOrder[i].id = jQuery('#child' + order).val();
+		currentOrder[i].link = jQuery('#child' + order + 'link').attr('href');
+		currentOrder[i].order = jQuery('#child' + order + 'order').val();
+	}
+	return currentOrder;
 }
 
 /**
@@ -284,13 +283,13 @@ function getCurrentOrder()
  */
 function overrideElement(newOrder, oldElement)
 {
-    "use strict";
+	"use strict";
 
-    jQuery('#child' + newOrder + 'icon').attr('class', (oldElement.class));
-    jQuery('#child' + newOrder + 'name').text(oldElement.name);
-    jQuery('#child' + newOrder).val(oldElement.id);
-    jQuery('#child' + newOrder + 'link').attr('href', oldElement.link);
-    jQuery('#child' + newOrder + 'order').val(newOrder);
+	jQuery('#child' + newOrder + 'icon').attr('class', (oldElement.class));
+	jQuery('#child' + newOrder + 'name').text(oldElement.name);
+	jQuery('#child' + newOrder).val(oldElement.id);
+	jQuery('#child' + newOrder + 'link').attr('href', oldElement.link);
+	jQuery('#child' + newOrder + 'order').val(newOrder);
 }
 
 /**
@@ -301,13 +300,13 @@ function overrideElement(newOrder, oldElement)
  */
 function overrideElementWithDummy(position)
 {
-    "use strict";
+	"use strict";
 
-    jQuery('#child' + position + 'icon').attr('class', '');
-    jQuery('#child' + position + 'name').text('');
-    jQuery('#child' + position).val('');
-    jQuery('#child' + position + 'link').attr('href', "");
-    jQuery('#child' + position + 'order').val(position);
+	jQuery('#child' + position + 'icon').attr('class', '');
+	jQuery('#child' + position + 'name').text('');
+	jQuery('#child' + position).val('');
+	jQuery('#child' + position + 'link').attr('href', "");
+	jQuery('#child' + position + 'order').val(position);
 }
 
 /**
@@ -315,119 +314,118 @@ function overrideElementWithDummy(position)
  *
  * @param {int} lastPosition
  * @param {string} tableID
- * @param {int} resourceID
+ * @param {string} resourceID
  * @param {string} resourceName
  * @param {string} resourceType
  *
  * @returns {void}  adds a new row to the end of the table
  */
-function createNewRow(lastPosition, tableID, resourceID, resourceName, resourceType)
+function createNewRow(lastPosition, tableID, resourceID = '', resourceName = '', resourceType = '')
 {
-    "use strict";
-    var mID = 0, name = '', icon = '', rawID, link, nextRowClass, nextRowNumber, html, resourceHTML, orderingHTML;
+	"use strict";
+	var mID = 0, name = '', icon = '', rawID, link, nextRowClass, nextRowNumber, html, resourceHTML, orderingHTML;
 
-    if (typeof resourceID !== 'undefined')
-    {
-        mID = resourceID;
-    }
-    if (typeof resourceName !== 'undefined')
-    {
-        name = resourceName;
-    }
+	if (resourceID !== '')
+	{
+		mID = resourceID;
+	}
+	if (resourceName !== '')
+	{
+		name = resourceName;
+	}
 
-    rawID = resourceID.substring(0, resourceID.length - 1);
-    if (typeof resourceType !== 'undefined')
-    {
-        switch (resourceType)
-        {
-            case 'p':
-                link = 'index.php?option=com_thm_organizer&view=pool_edit&id=' + rawID;
-                icon = 'icon-list';
-                break;
-            case 's':
-                link = 'index.php?option=com_thm_organizer&view=subject_edit&id=' + rawID;
-                icon = 'icon-book';
-                break;
-        }
-    }
+	rawID = resourceID.substring(0, resourceID.length - 1);
 
-    nextRowClass = getNextRowClass(lastPosition);
-    nextRowNumber = parseInt(lastPosition, 10) + 1;
+	if (resourceType !== '')
+	{
+		switch (resourceType)
+		{
+			case 'p':
+				link = 'index.php?option=com_thm_organizer&view=pool_edit&id=' + rawID;
+				icon = 'icon-list';
+				break;
+			case 's':
+				link = 'index.php?option=com_thm_organizer&view=subject_edit&id=' + rawID;
+				icon = 'icon-book';
+				break;
+		}
+	}
 
-    html = '<tr id="childRow' + nextRowNumber + '" class="' + nextRowClass + '">';
+	nextRowClass = getNextRowClass(lastPosition);
+	nextRowNumber = parseInt(lastPosition, 10) + 1;
 
-    resourceHTML = '<td class="child-name">';
-    resourceHTML += '<a id="child' + nextRowNumber + 'link" href="' + link + '">';
-    resourceHTML += '<span id="child' + nextRowNumber + 'icon" class="' + icon + '"></span>';
-    resourceHTML += '<span id="child' + nextRowNumber + 'name">' + name + '</span>';
-    resourceHTML += '</a>';
-    resourceHTML += '<input id="child' + nextRowNumber + '" type="hidden" value="' + mID + '" name="child' + nextRowNumber + '">';
-    resourceHTML += '</td>';
+	html = '<tr id="childRow' + nextRowNumber + '" class="' + nextRowClass + '">';
 
-    orderingHTML = '<td class="child-order">';
-    orderingHTML += '<button class="btn btn-small" onclick="moveUp(\'' + nextRowNumber + '\');" title="Move Up">';
-    orderingHTML += '<span class="icon-previous"></span>';
-    orderingHTML += '</button>';
-    orderingHTML += '<input type="text" title="Ordering" name="child' + nextRowNumber + 'order" ';
-    orderingHTML += 'id="child' + nextRowNumber + 'order" size="2" value="' + nextRowNumber + '" class="text-area-order" ';
-    orderingHTML += 'onchange="orderWithNumber(' + nextRowNumber + ');">';
-    orderingHTML += '<button class="btn btn-small" onclick="setEmptyElement(\'' + nextRowNumber + '\');" title="Add Space">';
-    orderingHTML += '<span class="icon-add-Space"></span>';
-    orderingHTML += '</button>';
-    orderingHTML += '<button class="btn btn-small" onclick="removeRow(\'' + nextRowNumber + '\');" title="Delete">';
-    orderingHTML += '<span class="icon-trash"></span>';
-    orderingHTML += '</button>';
-    orderingHTML += '<button class="btn btn-small" onclick="moveDown(\'' + nextRowNumber + '\');" title="Move Down">';
-    orderingHTML += '<span class="icon-next"></span>';
-    orderingHTML += '</button>';
-    orderingHTML += '<button class="btn btn-small" onclick="setElementOnLastPosition(\'' + nextRowNumber + '\');" title="Make Last">';
-    orderingHTML += '<span class="icon-last"></span>';
-    orderingHTML += '</button>';
-    orderingHTML += '</td>';
+	resourceHTML = '<td class="child-name">';
+	resourceHTML += '<a id="child' + nextRowNumber + 'link" href="' + link + '">';
+	resourceHTML += '<span id="child' + nextRowNumber + 'icon" class="' + icon + '"></span>';
+	resourceHTML += '<span id="child' + nextRowNumber + 'name">' + name + '</span>';
+	resourceHTML += '</a>';
+	resourceHTML += '<input id="child' + nextRowNumber + '" type="hidden" value="' + mID + '" name="child' + nextRowNumber + '">';
+	resourceHTML += '</td>';
 
-    html += resourceHTML + orderingHTML + '</tr>';
-    jQuery(html).appendTo(document.getElementById(tableID).tBodies[0]);
+	orderingHTML = '<td class="child-order">';
+	orderingHTML += '<button class="btn btn-small" onclick="moveUp(' + nextRowNumber + ');" title="Move Up">';
+	orderingHTML += '<span class="icon-previous"></span>';
+	orderingHTML += '</button>';
+	orderingHTML += '<input type="text" title="Ordering" name="child' + nextRowNumber + 'order" ';
+	orderingHTML += 'id="child' + nextRowNumber + 'order" size="2" value="' + nextRowNumber + '" class="text-area-order" ';
+	orderingHTML += 'onchange="orderWithNumber(' + nextRowNumber + ');">';
+	orderingHTML += '<button class="btn btn-small" onclick="setEmptyElement(' + nextRowNumber + ');" title="Add Space">';
+	orderingHTML += '<span class="icon-add-Space"></span>';
+	orderingHTML += '</button>';
+	orderingHTML += '<button class="btn btn-small" onclick="removeRow(' + nextRowNumber + ');" title="Delete">';
+	orderingHTML += '<span class="icon-trash"></span>';
+	orderingHTML += '</button>';
+	orderingHTML += '<button class="btn btn-small" onclick="moveDown(' + nextRowNumber + ');" title="Move Down">';
+	orderingHTML += '<span class="icon-next"></span>';
+	orderingHTML += '</button>';
+	orderingHTML += '<button class="btn btn-small" onclick="setElementOnLastPosition(' + nextRowNumber + ');" title="Make Last">';
+	orderingHTML += '<span class="icon-last"></span>';
+	orderingHTML += '</button>';
+	orderingHTML += '</td>';
+
+	html += resourceHTML + orderingHTML + '</tr>';
+	jQuery(html).appendTo(document.getElementById(tableID).tBodies[0]);
 }
 
 function getNextRowClass(lastPosition)
 {
-    var nextRowClass, lastRowClass;
-    var row = document.getElementById('childRow' + lastPosition);
-    if (row)
-    {
-        lastRowClass = row.className;
-        if (lastRowClass === null)
-        {
-            nextRowClass = 'row1';
-        }
-        else if (lastRowClass === 'row0')
-        {
-            nextRowClass = 'row1';
-        }
-        else
-        {
-            nextRowClass = 'row0';
-        }
-    }
-    else
-    {
-        nextRowClass = 'row0';
-    }
+	var nextRowClass, lastRowClass;
+	var row = document.getElementById('childRow' + lastPosition);
+	if (row)
+	{
+		lastRowClass = row.className;
+		if (lastRowClass === null)
+		{
+			nextRowClass = 'row1';
+		}
+		else if (lastRowClass === 'row0')
+		{
+			nextRowClass = 'row1';
+		}
+		else
+		{
+			nextRowClass = 'row0';
+		}
+	}
+	else
+	{
+		nextRowClass = 'row0';
+	}
 }
 
 /**
  *  deactivated forms for choosen
  */
-window.onload = function ()
-{
-    var forms = document.getElementsByTagName("form"),
-        controlGroups, childrenCG;
-    for (var i = 0; i < forms.length; i++)
-    {
-        forms[i].onsubmit = function ()
-        {
-            return false
-        };
-    }
-    moveButton();
+window.onload = function () {
+	var forms = document.getElementsByTagName("form"),
+		controlGroups, childrenCG;
+	for (var i = 0; i < forms.length; i++)
+	{
+		forms[i].onsubmit = function () {
+			return false
+		};
+	}
+	moveButton();
 };

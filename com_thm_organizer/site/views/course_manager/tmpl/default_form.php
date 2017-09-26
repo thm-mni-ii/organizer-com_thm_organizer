@@ -22,7 +22,8 @@
 		<option value="0"><?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_WAIT_LIST') ?></option>
 		<option value="1"><?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_ACCEPT') ?></option>
 		<?php
-		if ($this->isAdmin) {
+		if ($this->isAdmin)
+		{
 			echo "<option value='2'>{$this->lang->_('COM_THM_ORGANIZER_ACTION_DELETE')}</option>";
 		}
 		?>
@@ -47,7 +48,8 @@
 		</thead>
 		<tbody>
 		<?php
-		foreach ($this->items as $item) {
+		foreach ($this->items as $item)
+		{
 			$status = ($item->status ? 'COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED' : 'COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST');
 
 			echo '<tr>';

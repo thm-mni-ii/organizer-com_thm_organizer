@@ -35,7 +35,7 @@ class THM_OrganizerHelperPrograms
 		$table = JTable::getInstance('plan_programs', 'thm_organizerTable');
 
 		$gpuntisID = is_string($program) ? $program : $program->gpuntisID;
-		$pullData  = array('gpuntisID' => $gpuntisID);
+		$pullData  = ['gpuntisID' => $gpuntisID];
 		$exists    = $table->load($pullData);
 
 		if ($exists)
@@ -47,7 +47,7 @@ class THM_OrganizerHelperPrograms
 			return null;
 		}
 
-		$pullData = array('name' => $program->name);
+		$pullData = ['name' => $program->name];
 		$exists   = $table->load($pullData);
 
 		if ($exists)
@@ -61,18 +61,18 @@ class THM_OrganizerHelperPrograms
 	/**
 	 * Retrieves the (plan) program name
 	 *
-	 * @param int $programID the table id for the program
-	 * @param string $type the type of the id (real or plan)
+	 * @param int    $programID the table id for the program
+	 * @param string $type      the type of the id (real or plan)
 	 *
 	 * @return string the name of the (plan) program, otherwise empty
 	 */
 	public static function getName($programID, $type)
 	{
-		$dbo           = JFactory::getDbo();
-		$languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo         = JFactory::getDbo();
+		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
 		$query     = $dbo->getQuery(true);
-		$nameParts = array("p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'");
+		$nameParts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
 		$query->select('ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
 		$query->from('#__thm_organizer_plan_programs AS ppr');
 
@@ -102,7 +102,7 @@ class THM_OrganizerHelperPrograms
 			return '';
 		}
 
-		return empty($names)? '' : empty($names['name'])? $names['ppName'] : $names['name'];
+		return empty($names) ? '' : empty($names['name']) ? $names['ppName'] : $names['name'];
 	}
 
 	/**
@@ -116,10 +116,10 @@ class THM_OrganizerHelperPrograms
 	{
 		$dbo           = JFactory::getDbo();
 		$languageTag   = THM_OrganizerHelperLanguage::getShortTag();
-		$departmentIDs = JFactory::getApplication()->input->get('departmentIDs', array(), 'raw');
+		$departmentIDs = JFactory::getApplication()->input->get('departmentIDs', [], 'raw');
 
 		$query     = $dbo->getQuery(true);
-		$nameParts = array("p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'");
+		$nameParts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
 		$query->select('DISTINCT ppr.id, ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
 		$query->from('#__thm_organizer_plan_programs AS ppr');
 		$query->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id');
@@ -135,7 +135,7 @@ class THM_OrganizerHelperPrograms
 		$query->order('ppName');
 		$dbo->setQuery($query);
 
-		$default = array();
+		$default = [];
 		try
 		{
 			$results = $dbo->loadAssocList();
@@ -165,7 +165,7 @@ class THM_OrganizerHelperPrograms
 			return $programID;
 		}
 
-		$data              = array();
+		$data              = [];
 		$data['gpuntisID'] = $program->gpuntisID;
 		$data['name']      = $program->name;
 		$plausibleData     = self::getPlausibleData($program->gpuntisID);
@@ -187,7 +187,7 @@ class THM_OrganizerHelperPrograms
 	 */
 	private static function getPlausibleData($gpuntisID)
 	{
-		$container       = array();
+		$container       = [];
 		$programPieces   = explode('.', $gpuntisID);
 		$plausibleNumber = count($programPieces) === 3;
 		if ($plausibleNumber)
@@ -198,7 +198,7 @@ class THM_OrganizerHelperPrograms
 			if ($plausibleDegree)
 			{
 				$degreeTable    = JTable::getInstance('degrees', 'thm_organizerTable');
-				$degreePullData = array('code' => $programPieces[1]);
+				$degreePullData = ['code' => $programPieces[1]];
 				$exists         = $degreeTable->load($degreePullData);
 				$degreeID       = $exists ? $degreeTable->id : null;
 			}
@@ -230,7 +230,7 @@ class THM_OrganizerHelperPrograms
 			return $programTable->id;
 		}
 
-		$formData                    = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$formData                    = JFactory::getApplication()->input->get('jform', [], 'array');
 		$programData['departmentID'] = $formData['departmentID'];
 		$programData['name_de']      = $tempName;
 		$programData['name_en']      = $tempName;

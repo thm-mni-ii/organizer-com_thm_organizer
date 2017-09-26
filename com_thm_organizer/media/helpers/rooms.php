@@ -33,7 +33,7 @@ class THM_OrganizerHelperRooms
 	public static function getID($gpuntisID, $data)
 	{
 		$roomTable    = JTable::getInstance('rooms', 'thm_organizerTable');
-		$loadCriteria = array('gpuntisID' => $gpuntisID);
+		$loadCriteria = ['gpuntisID' => $gpuntisID];
 
 		try
 		{
@@ -97,10 +97,10 @@ class THM_OrganizerHelperRooms
 	public static function getPlanRooms()
 	{
 		$dbo           = JFactory::getDbo();
-		$default       = array();
+		$default       = [];
 		$input         = JFactory::getApplication()->input;
-		$selectedRooms = $input->get('roomIDs', array(), 'array');
-		$selectedTypes = $input->get('typeIDs', array(), 'array');
+		$selectedRooms = $input->get('roomIDs', [], 'array');
+		$selectedTypes = $input->get('typeIDs', [], 'array');
 
 		$allRoomQuery = $dbo->getQuery(true);
 		$allRoomQuery->select('DISTINCT r.id, r.name, r.typeID')->from('#__thm_organizer_rooms AS r');
@@ -138,7 +138,7 @@ class THM_OrganizerHelperRooms
 
 		$selectedDepartments = $input->getString('departmentIDs');
 		$selectedPrograms    = $input->getString('programIDs');
-		$relevantRooms       = array();
+		$relevantRooms       = [];
 
 		foreach ($allRooms as $room)
 		{
@@ -183,7 +183,7 @@ class THM_OrganizerHelperRooms
 
 			if (!empty($count))
 			{
-				$relevantRooms[$room['name']] = array('id' => $room['id'], 'typeID' => $room['typeID']);
+				$relevantRooms[$room['name']] = ['id' => $room['id'], 'typeID' => $room['typeID']];
 			}
 		}
 

@@ -21,8 +21,8 @@ class JFormFieldSubjectMapping extends JFormField
 	 */
 	public function getInput()
 	{
-		$fieldName      = $this->getAttribute('name');
-		$subjectID      = JFactory::getApplication()->input->getInt('id', 0);
+		$fieldName = $this->getAttribute('name');
+		$subjectID = JFactory::getApplication()->input->getInt('id', 0);
 
 		$dbo           = JFactory::getDbo();
 		$selectedQuery = $dbo->getQuery(true);
@@ -64,8 +64,8 @@ class JFormFieldSubjectMapping extends JFormField
 			$planSubjects[$key]['text'] = $planSubject['name'];
 		}
 
-		$attributes       = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10');
-		$selectedMappings = empty($selected) ? array() : $selected;
+		$attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
+		$selectedMappings = empty($selected) ? [] : $selected;
 
 		return JHtml::_("select.genericlist", $planSubjects, "jform[$fieldName][]", $attributes, "value", "text", $selectedMappings);
 	}
@@ -77,10 +77,10 @@ class JFormFieldSubjectMapping extends JFormField
 	 */
 	private function getDefault()
 	{
-		$planSubjects   = array();
-		$planSubjects[] = array('value' => '-1', 'name' => JText::_('JNONE'));
-		$fieldName  = $this->getAttribute('name');
-		$attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
+		$planSubjects   = [];
+		$planSubjects[] = ['value' => '-1', 'name' => JText::_('JNONE')];
+		$fieldName      = $this->getAttribute('name');
+		$attributes     = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
 		return JHtml::_("select.genericlist", $planSubjects, "jform[$fieldName][]", $attributes, "value", "text");
 	}

@@ -75,7 +75,10 @@ class THM_OrganizerTableSchedules extends JTable
 	}
 
 	/**
-	 * Sets the parent as the component root
+	 * Sets the parent as the component root.
+	 *
+	 * @param   JTable  $table A JTable object for the asset parent.
+	 * @param   integer $id    Id to look up
 	 *
 	 * @return  int  the asset id of the component root
 	 *

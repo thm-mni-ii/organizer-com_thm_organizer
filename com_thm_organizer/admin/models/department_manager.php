@@ -34,11 +34,11 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('short_name', 'name');
+			$config['filter_fields'] = ['short_name', 'name'];
 		}
 
 		parent::__construct($config);
@@ -57,15 +57,15 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 		// Create the query
 		$query  = $this->_db->getQuery(true);
 		$select = "d.id, d.short_name_$shortTag AS short_name, d.name_$shortTag AS name, a.rules, ";
-		$parts  = array("'index.php?option=com_thm_organizer&view=department_edit&id='", "d.id");
+		$parts  = ["'index.php?option=com_thm_organizer&view=department_edit&id='", "d.id"];
 		$select .= $query->concatenate($parts, "") . "AS link ";
 		$query->select($select);
 		$query->from('#__thm_organizer_departments AS d');
 		$query->innerJoin('#__assets AS a ON d.asset_id = a.id');
 		$query->where("d.id IN ('" . implode("', '", $allowedDepartments) . "')");
 
-		$this->setSearchFilter($query, array('short_name_de', 'name_de', 'short_name_en', 'name_en'));
-		$this->setLocalizedFilters($query, array('short_name', 'name'));
+		$this->setSearchFilter($query, ['short_name_de', 'name_de', 'short_name_en', 'name_en']);
+		$this->setLocalizedFilters($query, ['short_name', 'name']);
 
 		$this->setOrdering($query);
 
@@ -80,7 +80,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -91,7 +91,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]               = array();
+			$return[$index]               = [];
 			$return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['short_name'] = JHtml::_('link', $item->link, $item->short_name);
 			$return[$index]['name']       = JHtml::_('link', $item->link, $item->name);
@@ -110,7 +110,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 	{
 		$ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction             = $this->state->get('list.direction', $this->defaultDirection);
-		$headers               = array();
+		$headers               = [];
 		$headers['checkbox']   = '';
 		$headers['short_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'f.field', $direction, $ordering);
 		$headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);

@@ -40,7 +40,7 @@ class THM_OrganizerHelperTeachers
 			$title    = empty($teacher->title) ? '' : "{$teacher->title} ";
 			$forename = empty($teacher->forename) ? '' : "{$teacher->forename} ";
 			$surname  = $teacher->surname;
-			$return .= $title . $forename . $surname;
+			$return   .= $title . $forename . $surname;
 		}
 
 		return $return;
@@ -81,21 +81,21 @@ class THM_OrganizerHelperTeachers
 	 * @param object &$scheduleModel the validating schedule model
 	 * @param string $gpuntisID      the teacher's gpuntis ID
 	 *
-	 * @return  void  sets the id if the teacher could be resolved/added
+	 * @return  int the id of the teacher on success, otherwise 0
 	 */
 	public static function getID($gpuntisID, $data)
 	{
 		$teacherTable   = JTable::getInstance('teachers', 'thm_organizerTable');
-		$loadCriteria   = array();
-		$loadCriteria[] = array('gpuntisID' => $gpuntisID);
+		$loadCriteria   = [];
+		$loadCriteria[] = ['gpuntisID' => $gpuntisID];
 
 		if (!empty($data->username))
 		{
-			$loadCriteria[] = array('username' => $data->username);
+			$loadCriteria[] = ['username' => $data->username];
 		}
 		if (!empty($data->forename))
 		{
-			$loadCriteria[] = array('surname' => $data->surname, 'forename' => $data->forename);
+			$loadCriteria[] = ['surname' => $data->surname, 'forename' => $data->forename];
 		}
 
 		foreach ($loadCriteria as $criteria)
@@ -108,7 +108,7 @@ class THM_OrganizerHelperTeachers
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-				return;
+				return 0;
 			}
 
 			if ($success)
@@ -120,7 +120,7 @@ class THM_OrganizerHelperTeachers
 		// Entry not found
 		$success = $teacherTable->save($data);
 
-		return $success ? $teacherTable->id : null;
+		return $success ? $teacherTable->id : 0;
 	}
 
 	/**
@@ -163,7 +163,7 @@ class THM_OrganizerHelperTeachers
 
 		$dbo->setQuery((string) $query);
 
-		$default = array();
+		$default = [];
 		try
 		{
 			$teacherIDs = $dbo->loadColumn();
@@ -180,7 +180,7 @@ class THM_OrganizerHelperTeachers
 			return $default;
 		}
 
-		$teachers = array();
+		$teachers = [];
 		foreach ($teacherIDs as $teacherID)
 		{
 			$name            = THM_OrganizerHelperTeachers::getLNFName($teacherID, $short);

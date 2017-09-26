@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Class fills the id and otherid values for a merge form
+ * Class fills the id and other id values for a merge form
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
@@ -29,7 +29,7 @@ class JFormFieldMergeID extends JFormField
 	 */
 	public function getInput()
 	{
-		$selectedIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$selectedIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		asort($selectedIDs);
 		$first  = array_shift($selectedIDs);
 		$others = implode(',', $selectedIDs);

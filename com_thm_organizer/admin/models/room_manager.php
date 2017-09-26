@@ -34,11 +34,11 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('r.longname', 'roomtype', 'r.name');
+			$config['filter_fields'] = ['r.longname', 'roomtype', 'r.name'];
 		}
 
 		parent::__construct($config);
@@ -55,15 +55,15 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 		$query    = $this->_db->getQuery(true);
 
 		$select    = "r.id, r.gpuntisID, r.name, r.longname, t.id AS typeID, t.name_$shortTag AS type , ";
-		$linkParts = array("'index.php?option=com_thm_organizer&view=room_edit&id='", "r.id");
-		$select .= $query->concatenate($linkParts, "") . " AS link";
+		$linkParts = ["'index.php?option=com_thm_organizer&view=room_edit&id='", "r.id"];
+		$select    .= $query->concatenate($linkParts, "") . " AS link";
 		$query->select($select);
 
 		$query->from('#__thm_organizer_rooms AS r');
 		$query->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id');
 
-		$this->setSearchFilter($query, array('name', 'longname'));
-		$this->setValueFilters($query, array('name', 'longname', 'typeID'));
+		$this->setSearchFilter($query, ['name', 'longname']);
+		$this->setValueFilters($query, ['name', 'longname', 'typeID']);
 
 		$this->setOrdering($query);
 
@@ -78,7 +78,7 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -89,7 +89,7 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]             = array();
+			$return[$index]             = [];
 			$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
 			$return[$index]['longname'] = JHtml::_('link', $item->link, $item->longname);
@@ -109,7 +109,7 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 	{
 		$ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction           = $this->state->get('list.direction', $this->defaultDirection);
-		$headers             = array();
+		$headers             = [];
 		$headers['checkbox'] = '';
 		$headers['name']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'r.name', $direction, $ordering);
 		$headers['longname'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname', $direction, $ordering);

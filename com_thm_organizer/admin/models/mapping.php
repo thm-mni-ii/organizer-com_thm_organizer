@@ -34,7 +34,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	public function addLSFMappings($programID, &$lsfData)
 	{
 		$mappingsTable        = JTable::getInstance('mappings', 'THM_OrganizerTable');
-		$programMappingLoaded = $mappingsTable->load(array('programID' => $programID));
+		$programMappingLoaded = $mappingsTable->load(['programID' => $programID]);
 		if (!$programMappingLoaded)
 		{
 			return false;
@@ -73,12 +73,12 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 */
 	private function addLSFPool(&$pool, $parentMappingID)
 	{
-		$lsfID        = empty($pool->pordid) ? (string) $pool->modulid : (string) $pool->pordid;
-		$blocked      = !empty($pool->sperrmh) AND strtolower((string) $pool->sperrmh) == 'x';
+		$lsfID = empty($pool->pordid) ? (string) $pool->modulid : (string) $pool->pordid;
+		$blocked = !empty($pool->sperrmh) AND strtolower((string) $pool->sperrmh) == 'x';
 		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($pool);
 		$noChildren   = !isset($pool->modulliste->modul);
 		$poolsTable   = JTable::getInstance('pools', 'THM_OrganizerTable');
-		$poolExists   = $poolsTable->load(array('lsfID' => $lsfID));
+		$poolExists   = $poolsTable->load(['lsfID' => $lsfID]);
 
 		if ($poolExists)
 		{
@@ -90,11 +90,11 @@ class THM_OrganizerModelMapping extends JModelLegacy
 			}
 
 			$mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
-			$mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
+			$mappingExists = $mappingsTable->load(['parentID' => $parentMappingID, 'poolID' => $poolsTable->id]);
 
 			if (!$mappingExists)
 			{
-				$poolMapping              = array();
+				$poolMapping              = [];
 				$poolMapping['parentID']  = $parentMappingID;
 				$poolMapping['poolID']    = $poolsTable->id;
 				$poolMapping['subjectID'] = null;
@@ -107,7 +107,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 					return false;
 				}
 
-				$mappingsTable->load(array('parentID' => $parentMappingID, 'poolID' => $poolsTable->id));
+				$mappingsTable->load(['parentID' => $parentMappingID, 'poolID' => $poolsTable->id]);
 			}
 
 			foreach ($pool->modulliste->modul as $sub)
@@ -159,12 +159,12 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$invalidTitle = THM_OrganizerLSFClient::invalidTitle($subject);
 
 		$subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
-		$subjectExists = $subjectsTable->load(array('lsfID' => $lsfID));
+		$subjectExists = $subjectsTable->load(['lsfID' => $lsfID]);
 
 		if ($subjectExists)
 		{
 			$mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
-			$mappingExists = $mappingsTable->load(array('parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id));
+			$mappingExists = $mappingsTable->load(['parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id]);
 
 			if ($mappingExists)
 			{
@@ -176,7 +176,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 				return true;
 			}
 
-			$subjectMapping              = array();
+			$subjectMapping              = [];
 			$subjectMapping['parentID']  = $parentMappingID;
 			$subjectMapping['poolID']    = null;
 			$subjectMapping['subjectID'] = $subjectsTable->id;
@@ -614,7 +614,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	public function getChildren($resourceID, $type = 'pool', $deep = true)
 	{
 		$dbo      = JFactory::getDbo();
-		$children = array();
+		$children = [];
 
 		/**
 		 * Subordinate structures are the same for every parent mapping,
@@ -633,7 +633,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		if (!empty($firstID))
@@ -653,7 +653,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-				return array();
+				return [];
 			}
 
 			if (!empty($results))
@@ -684,7 +684,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 */
 	private function getChildrenFromForm()
 	{
-		$children = array();
+		$children = [];
 		JFactory::getApplication()->input->post;
 		$childKeys = preg_grep('/^child[0-9]+$/', array_keys($_POST));
 		foreach ($childKeys as $childKey)
@@ -798,7 +798,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		return $mappings;
@@ -813,7 +813,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 *
 	 * @return  JTable
 	 */
-	public function getTable($name = 'mappings', $prefix = 'THM_OrganizerTable', $options = array())
+	public function getTable($name = 'mappings', $prefix = 'THM_OrganizerTable', $options = [])
 	{
 		return JTable::getInstance($name, $prefix, $options);
 	}
@@ -827,7 +827,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 */
 	public function savePool(&$data)
 	{
-		$poolData                   = array();
+		$poolData                   = [];
 		$poolData['programID']      = null;
 		$poolData['poolID']         = $data['id'];
 		$poolData['subjectID']      = null;
@@ -838,7 +838,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$poolData['children']       = $this->getChildrenFromForm();
 
 		$parentIDs = $data['parentID'];
-		$orderings = array();
+		$orderings = [];
 		foreach ($parentIDs as $parentID)
 		{
 			$orderings[$parentID] = $this->getOrdering($parentID, $poolData['poolID']);
@@ -912,7 +912,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 				return false;
 			}
 
-			$data              = array();
+			$data              = [];
 			$data['programID'] = $programID;
 			$data['poolID']    = null;
 			$data['subjectID'] = null;
@@ -970,7 +970,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 	 */
 	public function saveSubject(&$data)
 	{
-		$subjectTemplate              = array();
+		$subjectTemplate              = [];
 		$subjectTemplate['programID'] = null;
 		$subjectTemplate['poolID']    = null;
 		$subjectTemplate['subjectID'] = $data['id'];

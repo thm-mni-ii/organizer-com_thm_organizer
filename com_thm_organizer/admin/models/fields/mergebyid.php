@@ -29,12 +29,12 @@ class JFormFieldMergeByID extends JFormFieldList
 	/**
 	 * Returns a select box where resource attributes can be selected
 	 *
-	 * @return  string  the HTML select box
+	 * @return  array the options for the select box
 	 */
 	public function getOptions()
 	{
 		$input       = JFactory::getApplication()->input;
-		$selectedIDs = $input->get('cid', array(), 'array');
+		$selectedIDs = $input->get('cid', [], 'array');
 		$valueColumn = $this->getAttribute('name');
 		$tables      = explode(',', $this->getAttribute('tables'));
 		$tableAlias  = '';
@@ -48,7 +48,7 @@ class JFormFieldMergeByID extends JFormFieldList
 
 		if ($count > 1)
 		{
-			$baseParts = explode(' AS ', $tables[0]);
+			$baseParts  = explode(' AS ', $tables[0]);
 			$tableAlias .= $baseParts[1] . '.';
 			for ($index = 1; $index < $count; $index++)
 			{
@@ -63,7 +63,7 @@ class JFormFieldMergeByID extends JFormFieldList
 		try
 		{
 			$values  = $dbo->loadAssocList();
-			$options = array();
+			$options = [];
 			foreach ($values as $value)
 			{
 				if (!empty($value['value']))

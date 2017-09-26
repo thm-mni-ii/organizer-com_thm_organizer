@@ -33,7 +33,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
 	}
@@ -49,8 +49,8 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 		$query    = $this->_db->getQuery(true);
 
 		$select    = "ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
-		$linkParts = array("'index.php?option=com_thm_organizer&view=plan_program_edit&id='", "ppr.id");
-		$select .= $query->concatenate($linkParts, "") . " AS link";
+		$linkParts = ["'index.php?option=com_thm_organizer&view=plan_program_edit&id='", "ppr.id"];
+		$select    .= $query->concatenate($linkParts, "") . " AS link";
 		$query->select($select);
 
 		$query->from('#__thm_organizer_plan_programs AS ppr');
@@ -65,7 +65,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 			$query->where("dr.departmentID = '$departmentID'");
 		}
 
-		$searchColumns = array('ppr.name', 'ppr.gpuntisID');
+		$searchColumns = ['ppr.name', 'ppr.gpuntisID'];
 		$this->setSearchFilter($query, $searchColumns);
 
 		$this->setOrdering($query);
@@ -81,7 +81,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -92,7 +92,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]              = array();
+			$return[$index]              = [];
 			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
 			$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
@@ -111,7 +111,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 	{
 		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction            = $this->state->get('list.direction', $this->defaultDirection);
-		$headers              = array();
+		$headers              = [];
 		$headers['checkbox']  = '';
 		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
 		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'ppr.name', $direction, $ordering);

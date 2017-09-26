@@ -75,7 +75,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 */
 	public function checkIfActive()
 	{
-		$scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$scheduleIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		if (!empty($scheduleIDs))
 		{
 			$scheduleID = $scheduleIDs[0];
@@ -97,7 +97,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	public function delete()
 	{
 		$this->_db->transactionStart();
-		$scheduleIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$scheduleIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		foreach ($scheduleIDs as $scheduleID)
 		{
 			try
@@ -156,7 +156,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$input = JFactory::getApplication()->input;
 
 			// called from activate or set reference => table id in request
-			$listIDs = $input->get('cid', array(), 'array');
+			$listIDs = $input->get('cid', [], 'array');
 
 			// implicitly called by the toggle function
 			$toggleID = $input->getInt('id', 0);
@@ -172,11 +172,11 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		}
 		else
 		{
-			$pullData = array(
+			$pullData = [
 				'departmentID'     => $departmentID,
 				'planningPeriodID' => $planningPeriodID,
 				'active'           => 1
-			);
+			];
 		}
 
 		$exists = $scheduleRow->load($pullData);
@@ -239,9 +239,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	/**
 	 * saves a schedule in the database for later use
 	 *
-	 * @return   array  $statusReport  ['scheduleID']  true on save, false on db error
-	 *                                 ['errors']      critical data inconsistencies
-	 *                                 ['warnings']    minor data inconsistencies
+	 * @return   boolean true on success, otherwise false
 	 */
 	public function upload()
 	{

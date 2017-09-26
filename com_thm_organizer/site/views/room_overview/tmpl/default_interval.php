@@ -18,9 +18,9 @@ $dates      = $this->model->data;
 $dayCount   = count($dates);
 ?>
 <table>
-    <thead>
-    <tr>
-        <th class="room-column day-row"></th>
+	<thead>
+	<tr>
+		<th class="room-column day-row"></th>
 		<?php
 		foreach ($dates as $date => $blocks)
 		{
@@ -30,9 +30,9 @@ $dayCount   = count($dates);
 			echo '</th>';
 		}
 		?>
-    </tr>
-    <tr>
-        <th class="room-column block-row"></th>
+	</tr>
+	<tr>
+		<th class="room-column block-row"></th>
 		<?php
 		foreach ($dates as $date => $blocks)
 		{
@@ -42,9 +42,9 @@ $dayCount   = count($dates);
 			}
 		}
 		?>
-    </tr>
-    </thead>
-    <tbody>
+	</tr>
+	</thead>
+	<tbody>
 	<?php
 	foreach ($this->model->selectedRooms as $roomID => $room)
 	{
@@ -63,7 +63,7 @@ $dayCount   = count($dates);
 				else
 				{
 					$iconClass = count($rooms[$roomID]) > 1 ? 'grid' : 'square';
-					$blockTip .= $this->getEventTips($rooms[$roomID]);
+					$blockTip  .= $this->getEventTips($rooms[$roomID]);
 					echo '<td class="block-column room-row block-width hasTip" title="' . $blockTip . '">';
 					echo '<span class="icon-' . $iconClass . '"></span>';
 					echo '</td>';
@@ -73,5 +73,5 @@ $dayCount   = count($dates);
 		echo '</tr>';
 	}
 	?>
-    </tbody>
+	</tbody>
 </table>

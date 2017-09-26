@@ -12,6 +12,7 @@
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+
 /**
  * Class provides methods for getting information about course participants
  *
@@ -28,7 +29,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 	 */
 	public function getItem()
 	{
-		$query = $this->_db->getQuery(true);
+		$query  = $this->_db->getQuery(true);
 		$userID = JFactory::getUser()->id;
 
 		$query->select('u.id as userID ,ud.id, ud.address, ud.zip_code, ud.city, ud.programID, ud.forename, ud.surname');
@@ -45,6 +46,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(THM_OrganizerHelperLanguage::getLanguage()->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
 			return new stdClass;
 		}
 
@@ -59,12 +61,12 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		$form = $this->loadForm(
 			"com_thm_organizer.participant_edit",
 			"participant_edit",
-			array('control' => 'jform', 'load_data' => $loadData)
+			['control' => 'jform', 'load_data' => $loadData]
 		);
 
 		return !empty($form) ? $form : false;

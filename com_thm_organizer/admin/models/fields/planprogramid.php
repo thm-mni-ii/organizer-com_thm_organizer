@@ -29,7 +29,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
 	/**
 	 * Returns a select box where resource attributes can be selected
 	 *
-	 * @return  string  the HTML select box
+	 * @return  array the options for the select box
 	 */
 	public function getOptions()
 	{
@@ -39,7 +39,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
 		$query->from("#__thm_organizer_plan_programs AS ppr");
 		$query->innerJoin("#__thm_organizer_plan_pools AS ppl ON ppl.programID = ppr.id");
 
-		$selectedIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$selectedIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		$query->where("ppl.id IN ( '" . implode("', '", $selectedIDs) . "' )");
 		$query->order('text ASC');
 		$dbo->setQuery((string) $query);
@@ -47,7 +47,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
 		try
 		{
 			$values  = $dbo->loadAssocList();
-			$options = array();
+			$options = [];
 			foreach ($values as $value)
 			{
 				if (!empty($value['value']))

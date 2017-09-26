@@ -74,7 +74,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 			$initial = true;
 			foreach ($boundarySet as $boundaries)
 			{
-				$where .= $initial ?
+				$where   .= $initial ?
 					"((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
 					: " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
 				$initial = false;

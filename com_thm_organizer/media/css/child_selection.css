@@ -1,135 +1,135 @@
 [class^="icon-"], [class*=" icon-"] {
-  font-family: icomoon;
+    font-family: icomoon;
 }
 
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before,
 a[href$="option=com_thm_organizer"]::before {
-  font-family: icomoon;
-  content: "\e60b";
-  color: #80ba24;
+    font-family: icomoon;
+    content: "\e60b";
+    color: #80ba24;
 }
 
 .icon-organizer_colors::before {
-  content: "\e014";
+    content: "\e014";
 }
 
 .icon-organizer_degrees::before {
-  content: "\e606";
+    content: "\e606";
 }
 
 .icon-organizer_degree_programs::before,
 .icon-organizer_plan_programs::before {
-  content: "\31";
+    content: "\31";
 }
 
 .icon-organizer_departments::before {
-  content: "\e244";
+    content: "\e244";
 }
 
 .icon-organizer_fields::before {
-  content: "\74";
+    content: "\74";
 }
 
 .icon-organizer_grids::before {
-  content: "\59";
-  font-size: 1.1rem;
+    content: "\59";
+    font-size: 1.1rem;
 }
 
 .icon-organizer_methods::before {
-  content: "\e271";
+    content: "\e271";
 }
 
 .icon-mni::before {
-  content: "\e600";
+    content: "\e600";
 }
 
 .icon-organizer_monitors::before {
-  content: "\e01c";
+    content: "\e01c";
 }
 
 .icon-organizer_plan_pools::before,
 .icon-organizer_subject_pools::before {
-  content: "\44";
+    content: "\44";
 }
 
 .icon-organizer_rooms::before {
-  content: "\e250";
+    content: "\e250";
 }
 
 .icon-organizer_room_types::before {
-  content: "\e250";
+    content: "\e250";
 }
 
 .icon-organizer_schedules::before {
-  content: "\e931";
+    content: "\e931";
 }
 
 .icon-organizer_subjects::before {
-  content: "\e603";
+    content: "\e603";
 }
 
 .icon-organizer_subject_pools::before {
-  content: "\44";
+    content: "\44";
 }
 
 .icon-organizer_teachers::before {
-  content: "\e604";
+    content: "\e604";
 }
 
 .icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .icon-add-Space {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 a[href*="option=com_thm_organizer&view="]::before {
-  padding-right: 8px;
+    padding-right: 8px;
 }
 
 .contentpane.component #j-main-container.j-toggle-main {
-  float: none;
-  margin-left: 0;
-  width: 98%;
+    float: none;
+    margin-left: 0;
+    width: 98%;
 }
 
 #adminForm {
-  width: 100%;
+    width: 100%;
 }
 
 #adminForm .js-stools-container-bar {
-  width: 100%;
+    width: 100%;
 }
 
 #adminForm .js-stools-container-bar .js-stools-field-list {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #adminForm .js-stools-container-bar .js-stools-field-list .chzn-single {
-  padding: 1px;
+    padding: 1px;
 }
 
 #adminForm .js-stools-container-bar .js-stools-field-list .chzn-single > span {
-  margin-left: 4px;
-  margin-right: 22px;
+    margin-left: 4px;
+    margin-right: 22px;
 }
 
 .btn-wrapper, .ordering-select {
-  display: inline-block;
-  float: left;
-  margin-right: 4px;
+    display: inline-block;
+    float: left;
+    margin-right: 4px;
 }
 
 .btn-wrapper.input-append {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .ordering-select select {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #toolbar-new {
-  float: right;
+    float: right;
 }

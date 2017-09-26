@@ -35,6 +35,7 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
 	public $dates;
 
 	public $signedIn;
+
 	/**
 	 * Method to get display
 	 *
@@ -66,8 +67,8 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
 			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
 		}
 
-		$params = array('view' => 'participant_edit',
-			'id' => empty($this->course) ? 0 : $this->course["id"] );
+		$params = ['view' => 'participant_edit', 'id' => empty($this->course) ? 0 : $this->course["id"]];
+
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 
 

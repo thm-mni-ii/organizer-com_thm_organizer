@@ -29,11 +29,11 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	public $document;
 
 	/**
-	 * Method to get extra
+	 * Sets context variables and renders the view.
 	 *
 	 * @param string $tpl template
 	 *
-	 * @return  mixed  false on error, otherwise void
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -41,12 +41,12 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
 		if (!$libraryInstalled)
 		{
-			return false;
+			return;
 		}
 
 		$model      = $this->getModel();
 		$parameters = $model->parameters;
-		$grid       = empty($model->grid)? null : $model->grid;
+		$grid       = empty($model->grid) ? null : $model->grid;
 		$lessons    = $model->lessons;
 
 		$fileName = $parameters['documentFormat'] . '_' . $parameters['displayFormat'] . '_' . $parameters['pdfWeekFormat'];
@@ -57,7 +57,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	/**
 	 * Imports libraries and sets library variables
 	 *
-	 * @return  void
+	 * @return  bool true if the tcpdf library is installed, otherwise false
 	 */
 	private function checkLibraries()
 	{

@@ -39,7 +39,7 @@ class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
 	 */
 	public function check()
 	{
-		$nullColumns = array('lsfID', 'hisID', 'frequencyID', 'fieldID', 'expertise', 'self_competence', 'method_competence', 'social_competence');
+		$nullColumns = ['lsfID', 'hisID', 'frequencyID', 'fieldID', 'expertise', 'self_competence', 'method_competence', 'social_competence'];
 		foreach ($nullColumns as $nullColumn)
 		{
 			if (!strlen($this->$nullColumn))

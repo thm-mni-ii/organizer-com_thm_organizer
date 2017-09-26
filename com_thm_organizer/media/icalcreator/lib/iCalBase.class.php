@@ -126,7 +126,7 @@ abstract class iCalBase
 				}
 				continue;
 			}
-			$attributes = $this->_createParams($xpropPart['params'], array('LANGUAGE'));
+			$attributes = $this->_createParams($xpropPart['params'], ['LANGUAGE']);
 			if (is_array($xpropPart['value']))
 			{
 				foreach ($xpropPart['value'] as $pix => $theXpart)
@@ -182,11 +182,11 @@ abstract class iCalBase
 				return false;
 			}
 		}
-		$xprop           = array('value' => $value);
+		$xprop           = ['value' => $value];
 		$xprop['params'] = iCalUtilityFunctions::_setParams($params);
 		if (!is_array($this->xprop))
 		{
-			$this->xprop = array();
+			$this->xprop = [];
 		}
 		$this->xprop[$label] = $xprop;
 
@@ -287,9 +287,9 @@ abstract class iCalBase
 		$attachfmttype      = null;
 		if (('xcal' == $this->format) && ('x-' == substr($label, 0, 2)))
 		{
-			$this->xcaldecl[] = array('xmldecl' => 'ELEMENT'
-			                          , 'ref'   => $label
-			                          , 'type2' => '(#PCDATA)');
+			$this->xcaldecl[] = ['xmldecl' => 'ELEMENT'
+			                     , 'ref'   => $label
+			                     , 'type2' => '(#PCDATA)'];
 		}
 		if (!empty($attributes))
 		{
@@ -321,7 +321,7 @@ abstract class iCalBase
 						unset($attrKVarr[0]);
 						$attrValue = implode('=', $attrKVarr);
 					}
-					if (('attach' == $label) && (in_array($attrKey, array('fmttype', 'encoding', 'value'))))
+					if (('attach' == $label) && (in_array($attrKey, ['fmttype', 'encoding', 'value'])))
 					{
 						$attachInlineBinary = true;
 						if ('fmttype' == $attrKey)
@@ -353,20 +353,20 @@ abstract class iCalBase
 			}
 		}
 		if (('xcal' == $this->format) &&
-			((('attach' == $label) && !$attachInlineBinary) || (in_array($label, array('tzurl', 'url'))))
+			((('attach' == $label) && !$attachInlineBinary) || (in_array($label, ['tzurl', 'url'])))
 		)
 		{
 			$pos              = strrpos($content, "/");
 			$docname          = ($pos !== false) ? substr($content, (1 - strlen($content) + $pos)) : $content;
-			$this->xcaldecl[] = array('xmldecl'    => 'ENTITY'
-			                          , 'uri'      => $docname
-			                          , 'ref'      => 'SYSTEM'
-			                          , 'external' => $content
-			                          , 'type'     => 'NDATA'
-			                          , 'type2'    => 'BINERY');
-			$attributes .= (empty($attributes)) ? ' ' : $this->attributeDelimiter . ' ';
-			$attributes .= 'uri="' . $docname . '"';
-			$content = null;
+			$this->xcaldecl[] = ['xmldecl'    => 'ENTITY'
+			                     , 'uri'      => $docname
+			                     , 'ref'      => 'SYSTEM'
+			                     , 'external' => $content
+			                     , 'type'     => 'NDATA'
+			                     , 'type2'    => 'BINERY'];
+			$attributes       .= (empty($attributes)) ? ' ' : $this->attributeDelimiter . ' ';
+			$attributes       .= 'uri="' . $docname . '"';
+			$content          = null;
 			if ('attach' == $label)
 			{
 				$attributes = str_replace($this->attributeDelimiter, $this->intAttrDelimiter, $attributes);
@@ -424,17 +424,17 @@ abstract class iCalBase
 	 * @access protected
 	 * @return string
 	 */
-	protected function _createParams($params = array(), $ctrKeys = array())
+	protected function _createParams($params = [], $ctrKeys = [])
 	{
 		if (!is_array($params) || empty($params))
 		{
-			$params = array();
+			$params = [];
 		}
 		$attrLANG    = $attr1 = $attr2 = $lang = null;
 		$CNattrKey   = (in_array('CN', $ctrKeys)) ? true : false;
 		$LANGattrKey = (in_array('LANGUAGE', $ctrKeys)) ? true : false;
 		$CNattrExist = $LANGattrExist = false;
-		$xparams     = array();
+		$xparams     = [];
 		$params      = array_change_key_case($params, CASE_UPPER);
 		foreach ($params as $paramKey => $paramValue)
 		{
@@ -450,7 +450,7 @@ abstract class iCalBase
 				$xparams[] = $paramValue;
 				continue;
 			}
-			if (!in_array($paramKey, array('ALTREP', 'CN', 'DIR', 'ENCODING', 'FMTTYPE', 'LANGUAGE', 'RANGE', 'RELTYPE', 'SENT-BY', 'TZID', 'VALUE')))
+			if (!in_array($paramKey, ['ALTREP', 'CN', 'DIR', 'ENCODING', 'FMTTYPE', 'LANGUAGE', 'RANGE', 'RELTYPE', 'SENT-BY', 'TZID', 'VALUE']))
 			{
 				$xparams[$paramKey] = $paramValue;
 			}
@@ -522,7 +522,7 @@ abstract class iCalBase
 		}
 		if (isset($params['LANGUAGE']) && $LANGattrKey)
 		{
-			$attrLANG .= $this->intAttrDelimiter . 'LANGUAGE=' . $params['LANGUAGE'];
+			$attrLANG      .= $this->intAttrDelimiter . 'LANGUAGE=' . $params['LANGUAGE'];
 			$LANGattrExist = true;
 		}
 		if (!$LANGattrExist)

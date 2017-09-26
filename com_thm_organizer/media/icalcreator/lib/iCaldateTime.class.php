@@ -40,7 +40,7 @@ class iCaldateTime extends dateTime
 	/** @var string default object instance date[-time] 'key' */
 	public $key = null;
 	/** @var array date[-time] origin */
-	public $SCbools = array();
+	public $SCbools = [];
 
 	/**
 	 * return time (His) array

@@ -46,13 +46,13 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 		$query->select($select);
 		$query->from('#__thm_organizer_subjects AS s');
 
-		$searchFields = array('name_de', 'short_name_de', 'abbreviation_de', 'name_en', 'short_name_en',
-		                      'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
-		                      'description_en', 'objective_en', 'content_en'
-		);
+		$searchFields = ['name_de', 'short_name_de', 'abbreviation_de', 'name_en', 'short_name_en',
+		                 'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
+		                 'description_en', 'objective_en', 'content_en'
+		];
 		$this->setSearchFilter($query, $searchFields);
-		$this->setValueFilters($query, array('externalID', 'fieldID'));
-		$this->setLocalizedFilters($query, array('name'));
+		$this->setValueFilters($query, ['externalID', 'fieldID']);
+		$this->setLocalizedFilters($query, ['name']);
 
 		$programID = $this->state->get('list.programID', '');
 		THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'subject');
@@ -72,7 +72,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 		if (empty($items))
 		{
 			return $return;
@@ -81,7 +81,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 		$index = 0;
 		foreach ($items as $item)
 		{
-			$return[$index]               = array();
+			$return[$index]               = [];
 			$return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['name']       = $item->name;
 			$return[$index]['externalID'] = $item->externalID;
@@ -101,7 +101,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 		$ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction = $this->state->get('list.direction', $this->defaultDirection);
 
-		$headers               = array();
+		$headers               = [];
 		$headers['checkbox']   = '';
 		$headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 		$headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction, $ordering);

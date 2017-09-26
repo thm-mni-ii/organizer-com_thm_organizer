@@ -46,7 +46,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 		$hisID = empty($stub->nrhis) ? (string) $stub->modulnrhis : (string) $stub->nrhis;
 
 		$pool = JTable::getInstance('pools', 'thm_organizerTable');
-		$pool->load(array('lsfID' => $lsfID, 'hisID' => $hisID));
+		$pool->load(['lsfID' => $lsfID, 'hisID' => $hisID]);
 
 		if (!empty($pool->id) AND ($blocked OR $invalidTitle))
 		{
@@ -80,7 +80,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
 	 *
 	 * @param object &$pool   the array where subject data is being stored
 	 * @param string $key     the key where the value should be put
-	 * @param array  $value   the xpath value where the attribute value
+	 * @param string $value   the xpath value where the attribute value
 	 *                        should be
 	 * @param string $default the default value
 	 *

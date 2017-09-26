@@ -29,7 +29,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	 */
 	public function delete()
 	{
-		$subjectIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$subjectIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		if (!empty($subjectIDs))
 		{
 			$this->_db->transactionStart();
@@ -83,7 +83,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	 */
 	public function save()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
 
 		$this->_db->transactionStart();
 
@@ -93,7 +93,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 			$data['fieldID'] = null;
 		}
 
-		$starProperties = array('expertise', 'self_competence', 'method_competence', 'social_competence');
+		$starProperties = ['expertise', 'self_competence', 'method_competence', 'social_competence'];
 		foreach ($starProperties as $property)
 		{
 			$this->cleanStarProperty($data, $property);
@@ -327,7 +327,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	 * Adds a Subject Plan_Subject association
 	 *
 	 * @param int   $subjectID      the id of the subject
-	 * @param array $planSubjectID  the id of the planSubject
+	 * @param array $planSubjectIDs the id of the planSubject
 	 *
 	 * @return  bool  true on success, otherwise false
 	 */

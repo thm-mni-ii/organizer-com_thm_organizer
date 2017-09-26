@@ -55,7 +55,7 @@ class JFormFieldLocalizedList extends JFormFieldList
 		try
 		{
 			$resources = $dbo->loadAssocList();
-			$options   = array();
+			$options   = [];
 			foreach ($resources as $resource)
 			{
 				$options[] = JHtml::_('select.option', $resource['value'], $resource['text']);
@@ -76,7 +76,7 @@ class JFormFieldLocalizedList extends JFormFieldList
 	 *
 	 * @param object &$query the query object
 	 *
-	 * @return  string  the string to use for text selection
+	 * @return  void modifies the query object
 	 */
 	private function setFrom(&$query)
 	{

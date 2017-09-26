@@ -30,24 +30,24 @@ abstract class THM_OrganizerTemplatePC_Export
 	{
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
-		$course         = THM_OrganizerHelperPrep_Course::getCourse($lessonID);
-		$dates          = THM_OrganizerHelperPrep_Course::getDates($lessonID);
-		$max_part		= empty($course->lessonP) ? $course["subjectP"] : $course["lessonP"];
-		$start          = explode("-", $dates[0]["schedule_date"]);
-		$finish         = explode("-", end($dates)["schedule_date"]);
-		$participants   = THM_OrganizerHelperPrep_Course::getFullParticipantData($lessonID);
+		$course       = THM_OrganizerHelperPrep_Course::getCourse($lessonID);
+		$dates        = THM_OrganizerHelperPrep_Course::getDates($lessonID);
+		$max_part     = empty($course->lessonP) ? $course["subjectP"] : $course["lessonP"];
+		$start        = explode("-", $dates[0]["schedule_date"]);
+		$finish       = explode("-", end($dates)["schedule_date"]);
+		$participants = THM_OrganizerHelperPrep_Course::getFullParticipantData($lessonID);
 
-		$this->courseData = array(
-			"name"          => $course["name"],
-			"place"         => "Gießen",
-			"start"         => $start,
-			"finish"        => $finish,
-			"c_start"       => $start[2] . "." . $start[1] . "." . $start[0],
-			"c_end"         => $finish[2] . "." . $finish[1] . "." . $finish[0],
-			"capacity"      => $max_part,
-			"planPeriod"    => $course["planningPeriodName"],
-			"participants"  => $participants
-		);
+		$this->courseData = [
+			"name"         => $course["name"],
+			"place"        => "Gießen",
+			"start"        => $start,
+			"finish"       => $finish,
+			"c_start"      => $start[2] . "." . $start[1] . "." . $start[0],
+			"c_end"        => $finish[2] . "." . $finish[1] . "." . $finish[0],
+			"capacity"     => $max_part,
+			"planPeriod"   => $course["planningPeriodName"],
+			"participants" => $participants
+		];
 
 		$this->document = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 		$this->document->SetAuthor(JFactory::getUser()->name);
@@ -61,9 +61,9 @@ abstract class THM_OrganizerTemplatePC_Export
 	 */
 	protected function setHeader()
 	{
-		$timestamp      = time();
-		$date           = date(JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y'), $timestamp);
-		$time           = date(JComponentHelper::getParams('com_thm_organizer')->get('timeFormat', 'H.i'), $timestamp);
+		$timestamp = time();
+		$date      = date(JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y'), $timestamp);
+		$time      = date(JComponentHelper::getParams('com_thm_organizer')->get('timeFormat', 'H.i'), $timestamp);
 
 		$this->document->SetHeaderData(
 			"thm_logo.png", '50',

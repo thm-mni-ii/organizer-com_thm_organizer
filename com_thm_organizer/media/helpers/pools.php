@@ -33,8 +33,9 @@ class THM_OrganizerHelperPools
 	public static function getID($gpuntisID)
 	{
 		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
-		$data   = array('gpuntisID' => $gpuntisID);
+		$data   = ['gpuntisID' => $gpuntisID];
 		$exists = $table->load($data);
+
 		return $exists ? $table->id : 0;
 	}
 
@@ -49,6 +50,7 @@ class THM_OrganizerHelperPools
 	{
 		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
 		$exists = $table->load($poolID);
+
 		return $exists ? $table->full_name : '';
 	}
 
@@ -63,6 +65,7 @@ class THM_OrganizerHelperPools
 	{
 		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
 		$exists = $table->load($poolID);
+
 		return $exists ? $table->name : '';
 	}
 
@@ -102,7 +105,7 @@ class THM_OrganizerHelperPools
 
 		$dbo->setQuery($query);
 
-		$default = array();
+		$default = [];
 		try
 		{
 			$results = $dbo->loadAssocList();
@@ -119,7 +122,7 @@ class THM_OrganizerHelperPools
 			return $default;
 		}
 
-		$pools = array();
+		$pools = [];
 		foreach ($results as $pool)
 		{
 			$name         = $short ? $pool['name'] : $pool['full_name'];
@@ -146,7 +149,7 @@ class THM_OrganizerHelperPools
 			return $poolID;
 		}
 
-		$data              = array();
+		$data              = [];
 		$data['gpuntisID'] = $gpuntisID;
 
 		$programID = THM_OrganizerHelperPrograms::getID($pool->degree);

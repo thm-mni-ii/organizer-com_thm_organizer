@@ -31,12 +31,14 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
 	 */
 	private function createParticipantTable()
 	{
-		$header = array('#', 'Name',
+		$header          = [
+			'#', 'Name',
 			$this->lang->_("COM_THM_ORGANIZER_DEPARTMENT"),
 			$this->lang->_("COM_THM_ORGANIZER_PROGRAM"),
 			$this->lang->_("COM_THM_ORGANIZER_ROOM"),
-			$this->lang->_("COM_THM_ORGANIZER_PAID"));
-		$widths = array(10, 60, 30, 35, 25, 20);
+			$this->lang->_("COM_THM_ORGANIZER_PAID")
+		];
+		$widths          = [10, 60, 30, 35, 25, 20];
 		$participantData = $this->courseData["participants"];
 
 		$this->document->SetFillColor(210);
@@ -52,14 +54,14 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
 		$this->document->SetFont('');
 		foreach ($participantData as $id => $participant)
 		{
-			$cells = array($id + 1, $participant["name"], $participant["departmentName"], $participant["programName"], '', '');
+			$cells = [$id + 1, $participant["name"], $participant["departmentName"], $participant["programName"], '', ''];
 
 			$startX = $this->document->GetX();
 			$startY = $this->document->GetY();
 
-			$maxNoCells = 0;
+			$maxNoCells   = 0;
 			$maxCellCount = 0;
-			$maxArray = array();
+			$maxArray     = [];
 
 			for ($i = 0; $i < count($cells); ++$i)
 			{
@@ -91,7 +93,7 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
 		$emptyCells = (intval((sizeof($participantData) * 1.25) / 6) + 1) * 6;
 		for ($id = sizeof($participantData); $id < $emptyCells; ++$id)
 		{
-			$cells = array($id + 1, '', '', '', '', '');
+			$cells = [$id + 1, '', '', '', '', ''];
 
 			$startX = $this->document->GetX();
 			$startY = $this->document->GetY();

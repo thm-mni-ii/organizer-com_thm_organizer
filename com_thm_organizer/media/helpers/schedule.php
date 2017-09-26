@@ -39,7 +39,7 @@ class THM_OrganizerHelperSchedule
 	 */
 	private static function aggregateInstances($lessons, $deltaDate)
 	{
-		$aggregatedLessons = array();
+		$aggregatedLessons = [];
 		$delta             = empty($deltaDate) ? date('Y-m-d H:i:s', strtotime('now')) : date('Y-m-d H:i:s', strtotime($deltaDate));
 
 		foreach ($lessons as $lesson)
@@ -53,23 +53,23 @@ class THM_OrganizerHelperSchedule
 
 			if (empty($aggregatedLessons[$date]))
 			{
-				$aggregatedLessons[$date] = array();
+				$aggregatedLessons[$date] = [];
 			}
 
 			if (empty($aggregatedLessons[$date][$times]))
 			{
-				$aggregatedLessons[$date][$times] = array();
+				$aggregatedLessons[$date][$times] = [];
 			}
 
 			if (empty($aggregatedLessons[$date][$times][$lessonID]))
 			{
-				$aggregatedLessons[$date][$times][$lessonID]              = array();
+				$aggregatedLessons[$date][$times][$lessonID]              = [];
 				$aggregatedLessons[$date][$times][$lessonID]['method']    = empty($lesson['method']) ? '' : $lesson['method'];
 				$aggregatedLessons[$date][$times][$lessonID]['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
 				$aggregatedLessons[$date][$times][$lessonID]['startTime'] = $lesson['startTime'];
 				$aggregatedLessons[$date][$times][$lessonID]['endTime']   = $lesson['endTime'];
 				$aggregatedLessons[$date][$times][$lessonID]['gridID']    = $lesson['gridID'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects']  = array();
+				$aggregatedLessons[$date][$times][$lessonID]['subjects']  = [];
 				$aggregatedLessons[$date][$times][$lessonID]['ccmID']     = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
 
 				$aggregatedLessons[$date][$times][$lessonID]['lessonDelta']
@@ -91,8 +91,8 @@ class THM_OrganizerHelperSchedule
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]               = $subjectData;
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']   = $configuration['teachers'];
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']      = $configuration['rooms'];
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs']   = array();
-				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'] = array();
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs']   = [];
+				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'] = [];
 			}
 			else
 			{
@@ -115,11 +115,11 @@ class THM_OrganizerHelperSchedule
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['roomDeltas'] = $configuration['roomDeltas'];
 
 			$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
-				= array('gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']);
+				= ['gpuntisID' => $lesson['poolGPUntisID'], 'name' => $lesson['poolName'], 'fullName' => $lesson['poolFullName']];
 
 			if (!empty($subjectData['subjectID']))
 			{
-				$programs = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['subjectID']);
+				$programs                                                                                                     = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['subjectID']);
 				$aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['subjectID']] = $programs;
 			}
 		}
@@ -154,7 +154,7 @@ class THM_OrganizerHelperSchedule
 	 */
 	private static function addResourceClauses($parameters, &$query)
 	{
-		$wherray = array();
+		$wherray = [];
 
 		if (!empty($parameters['poolIDs']))
 		{
@@ -259,7 +259,7 @@ class THM_OrganizerHelperSchedule
 		}
 		catch (Exception $exc)
 		{
-			return array();
+			return [];
 		}
 
 		if (empty($rawLessons))
@@ -277,7 +277,7 @@ class THM_OrganizerHelperSchedule
 			$index = date('Y-m-d', $currentDT);
 			if (!isset($aggregatedLessons[$index]))
 			{
-				$aggregatedLessons[$index] = array();
+				$aggregatedLessons[$index] = [];
 			}
 		}
 
@@ -300,13 +300,13 @@ class THM_OrganizerHelperSchedule
 	 */
 	private static function getSubjectData($lesson)
 	{
-		$return = array(
+		$return = [
 			'subjectID' => null,
 			'subjectNo' => $lesson['subjectNo'],
 			'name'      => $lesson['psName'],
 			'shortName' => $lesson['psUntisID'],
 			'abbr'      => $lesson['psUntisID']
-		);
+		];
 
 		$tag           = THM_OrganizerHelperLanguage::getShortTag();
 		$dbo           = JFactory::getDbo();
@@ -405,7 +405,7 @@ class THM_OrganizerHelperSchedule
 	 */
 	public static function getPlanningPeriodID($ppName, $startDate, $endDate)
 	{
-		$data              = array();
+		$data              = [];
 		$data['startDate'] = date('Y-m-d', $startDate);
 		$data['endDate']   = date('Y-m-d', $endDate);
 
@@ -433,7 +433,7 @@ class THM_OrganizerHelperSchedule
 	 */
 	private static function resolveConfiguration(&$configuration, $delta)
 	{
-		$configuration['teacherDeltas'] = array();
+		$configuration['teacherDeltas'] = [];
 
 		foreach ($configuration['teachers'] AS $teacherID => $teacherDelta)
 		{
@@ -447,7 +447,7 @@ class THM_OrganizerHelperSchedule
 			$configuration['teachers'][$teacherID]      = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
 		}
 
-		$configuration['roomDeltas'] = array();
+		$configuration['roomDeltas'] = [];
 
 		foreach ($configuration['rooms'] AS $roomID => $roomDelta)
 		{
@@ -484,14 +484,14 @@ class THM_OrganizerHelperSchedule
 		{
 			case 'day':
 
-				$dates = array('startDate' => $date, 'endDate' => $date);
+				$dates = ['startDate' => $date, 'endDate' => $date];
 				break;
 
 			case 'week':
 
 				$startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
 				$endDate   = date('Y-m-d', strtotime("$endDayName this week", strtotime($date)));
-				$dates     = array('startDate' => $startDate, 'endDate' => $endDate);
+				$dates     = ['startDate' => $startDate, 'endDate' => $endDate];
 				break;
 
 			case 'month':
@@ -500,7 +500,7 @@ class THM_OrganizerHelperSchedule
 				$startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
 				$monthEnd   = date('Y-m-d', strtotime('last day of this month', strtotime($date)));
 				$endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($monthEnd)));
-				$dates      = array('startDate' => $startDate, 'endDate' => $endDate);
+				$dates      = ['startDate' => $startDate, 'endDate' => $endDate];
 				break;
 
 			case 'semester':
@@ -520,7 +520,7 @@ class THM_OrganizerHelperSchedule
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-					return array();
+					return [];
 				}
 
 				break;
@@ -531,7 +531,7 @@ class THM_OrganizerHelperSchedule
 				$startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
 				$previewEnd = date('Y-m-d', strtotime('+6 month', strtotime($date)));
 				$endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($previewEnd)));
-				$dates      = array('startDate' => $startDate, 'endDate' => $endDate);
+				$dates      = ['startDate' => $startDate, 'endDate' => $endDate];
 				break;
 		}
 
@@ -561,7 +561,7 @@ class THM_OrganizerHelperSchedule
 		}
 		catch (Exception $exc)
 		{
-			return array();
+			return [];
 		}
 
 		$query = $dbo->getQuery(true);
@@ -576,10 +576,10 @@ class THM_OrganizerHelperSchedule
 		}
 		catch (Exception $exc)
 		{
-			return array();
+			return [];
 		}
 
-		return array("pastDate" => $pastDate, "futureDate" => $futureDate);
+		return ["pastDate" => $pastDate, "futureDate" => $futureDate];
 	}
 
 	/**
@@ -656,15 +656,15 @@ class THM_OrganizerHelperSchedule
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return array();
+			return [];
 		}
 
 		if (empty($results))
 		{
-			return array();
+			return [];
 		}
 
-		$configurations = array();
+		$configurations = [];
 		foreach ($results as $index => $result)
 		{
 			$configurations[$index] = json_decode($result['configuration']);

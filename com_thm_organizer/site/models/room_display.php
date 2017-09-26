@@ -31,13 +31,13 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
  */
 class THM_OrganizerModelRoom_Display extends JModelLegacy
 {
-	public $params = array();
+	public $params = [];
 
 	public $monitorID = null;
 
 	public $roomID = null;
 
-	public $blocks = array();
+	public $blocks = [];
 
 	/**
 	 * Constructor
@@ -47,7 +47,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	 * @since   12.2
 	 * @throws  Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct();
 		$this->setRoomData();
@@ -140,10 +140,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_(), 'error');
 
-			return array();
+			return [];
 		}
 
-		$events = array();
+		$events = [];
 		foreach ($results as $result)
 		{
 
@@ -160,16 +160,16 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 
 			if (empty($events[$times]))
 			{
-				$events[$times] = array();
+				$events[$times] = [];
 			}
 
 			$lessonID = $result['lessonID'];
 
 			if (empty($events[$startTime][$lessonID]))
 			{
-				$events[$times][$lessonID]              = array();
-				$events[$times][$lessonID]['titles']    = array();
-				$events[$times][$lessonID]['teachers']  = array();
+				$events[$times][$lessonID]              = [];
+				$events[$times][$lessonID]['titles']    = [];
+				$events[$times][$lessonID]['teachers']  = [];
 				$events[$times][$lessonID]['method']    = empty($result['method']) ? '' : " - {$result['method']}";
 				$events[$times][$lessonID]['startTime'] = $startTime;
 				$events[$times][$lessonID]['endTime']   = $endTime;
@@ -202,11 +202,12 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	 *
 	 * @param array $instanceTeachers the teachers associated with the instance
 	 *
-	 * @return void
+	 * @return array an array of teachers in the form id => 'surname(s), forename(s)'
 	 */
 	private function getEventTeachers(&$instanceTeachers)
 	{#
-		$teachers = array();
+		$teachers = [];
+
 		foreach ($instanceTeachers as $teacherID => $delta)
 		{
 			if ($delta == 'removed')
@@ -346,19 +347,21 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	/**
 	 * Checks whether the accessing agent is a registered monitor
 	 *
-	 * @return  mixed  int roomID on success, otherwise boolean false
+	 * @return  void sets instance variables
 	 */
 	private function setRoomData()
 	{
 		$input        = JFactory::getApplication()->input;
-		$ipData       = array('ip' => $input->server->getString('REMOTE_ADDR', ''));
+		$ipData       = ['ip' => $input->server->getString('REMOTE_ADDR', '')];
 		$monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
 		$roomEntry    = JTable::getInstance('rooms', 'thm_organizerTable');
 		$registered   = $monitorEntry->load($ipData);
+
 		if ($registered AND !empty($monitorEntry->roomID))
 		{
 			$this->monitorID = $monitorEntry->id;
 			$exists          = $roomEntry->load($monitorEntry->roomID);
+
 			if ($exists)
 			{
 				$this->roomID   = $roomEntry->id;
@@ -369,9 +372,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 		}
 
 		$name = $input->getString('name');
+
 		if (!empty($name))
 		{
-			$roomData = array('name' => $name);
+			$roomData = ['name' => $name];
 			$exists   = $roomEntry->load($roomData);
 			if ($exists)
 			{
@@ -395,15 +399,15 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 	 */
 	private function processBlocks($events)
 	{
-		$blocks = array();
+		$blocks = [];
 		foreach ($this->grid['periods'] AS $blockNo => $block)
 		{
-			$blocks[$blockNo]              = array();
+			$blocks[$blockNo]              = [];
 			$blockStartTime                = THM_OrganizerHelperComponent::formatTime($block['startTime']);
 			$blockEndTime                  = THM_OrganizerHelperComponent::formatTime($block['endTime']);
 			$blocks[$blockNo]['startTime'] = $blockStartTime;
 			$blocks[$blockNo]['endTime']   = $blockEndTime;
-			$blocks[$blockNo]['lessons']   = array();
+			$blocks[$blockNo]['lessons']   = [];
 
 			foreach ($events as $times => $eventInstances)
 			{
@@ -426,7 +430,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 				{
 					$startTime = THM_OrganizerHelperComponent::formatTime($eventStartTime);
 					$endTime   = THM_OrganizerHelperComponent::formatTime($eventEndTime);
-					$divTime .= " ($startTime -  $endTime)";
+					$divTime   .= " ($startTime -  $endTime)";
 				}
 
 				foreach ($eventInstances as $lessonID => $eventInstance)
@@ -434,7 +438,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
 					$instanceTeachers = $eventInstance['teachers'];
 					if (empty($blocks[$blockNo]['lessons'][$lessonID]))
 					{
-						$blocks[$blockNo]['lessons'][$lessonID]             = array();
+						$blocks[$blockNo]['lessons'][$lessonID]             = [];
 						$blocks[$blockNo]['lessons'][$lessonID]['teachers'] = $instanceTeachers;
 						$blocks[$blockNo]['lessons'][$lessonID]['titles']   = $eventInstance['titles'];
 						$blocks[$blockNo]['lessons'][$lessonID]['method']   = $eventInstance['method'];

@@ -35,7 +35,7 @@
         </field>
 
         <field name="is_prep_course"
-               type="hidden" />
+               type="hidden"/>
     </fieldset>
     <fieldset name="de_texts" label="COM_THM_ORGANIZER_ATTRIBUTES_DE">
         <field name="name_de"

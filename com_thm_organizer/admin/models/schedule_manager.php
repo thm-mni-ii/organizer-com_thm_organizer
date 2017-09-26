@@ -35,11 +35,11 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config the configuration parameters
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('departmentname', 'semestername', 'creationDate', 'active');
+			$config['filter_fields'] = ['departmentname', 'semestername', 'creationDate', 'active'];
 		}
 
 		parent::__construct($config);
@@ -57,11 +57,11 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$dbo                = $this->getDbo();
 		$query              = $dbo->getQuery(true);
 
-		$select = "s.id, s.active, s.creationDate, s.creationTime, ";
-		$select .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
-		$select .= "pp.id as planningPeriodID, pp.name AS planningPeriodName, ";
-		$createdParts = array("s.creationDate", "s.creationTime");
-		$select .= $query->concatenate($createdParts, " ") . " AS created ";
+		$select       = "s.id, s.active, s.creationDate, s.creationTime, ";
+		$select       .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
+		$select       .= "pp.id as planningPeriodID, pp.name AS planningPeriodName, ";
+		$createdParts = ["s.creationDate", "s.creationTime"];
+		$select       .= $query->concatenate($createdParts, " ") . " AS created ";
 
 		$query->select($select);
 		$query->from("#__thm_organizer_schedules AS s");
@@ -69,7 +69,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 		$query->innerJoin("#__thm_organizer_planning_periods AS pp ON s.planningPeriodID = pp.id");
 		$query->where("d.id IN ('" . implode("', '", $allowedDepartments) . "')");
 
-		$this->setValueFilters($query, array('departmentID', 'planningPeriodID', 'active'));
+		$this->setValueFilters($query, ['departmentID', 'planningPeriodID', 'active']);
 
 		$this->setOrdering($query);
 
@@ -84,7 +84,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -95,7 +95,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index] = array();
+			$return[$index] = [];
 
 			$return[$index]['checkbox']         = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['departmentID']     = $item->departmentName;
@@ -104,8 +104,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 			$return[$index]['active']
 				= $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
 
-			$created = THM_OrganizerHelperComponent::formatDate($item->creationDate);
-			$created .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationTime);
+			$created                   = THM_OrganizerHelperComponent::formatDate($item->creationDate);
+			$created                   .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationTime);
 			$return[$index]['created'] = $created;
 
 			$index++;
@@ -123,7 +123,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 	{
 		$ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction           = $this->state->get('list.direction', $this->defaultDirection);
-		$headers             = array();
+		$headers             = [];
 		$headers['checkbox'] = '';
 
 		$headers['departmentID']

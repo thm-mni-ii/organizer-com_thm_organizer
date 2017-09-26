@@ -66,7 +66,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 
 				$this->setPlanningPeriods($year);
 
-				$this->calendarData = array();
+				$this->calendarData = [];
 
 				// the rooms property is restructured here for quicker access superfluous rooms are removed altogether
 				foreach ($this->rooms AS $roomName => $roomData)
@@ -113,13 +113,13 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 	 */
 	private function createUseData()
 	{
-		$this->useData          = array();
-		$this->useData['total'] = array();
+		$this->useData          = [];
+		$this->useData['total'] = [];
 
 		foreach ($this->planningPeriods as $pp)
 		{
 			$ppName                 = $pp['name'];
-			$this->useData[$ppName] = array();
+			$this->useData[$ppName] = [];
 
 			$currentDate = $pp['startDate'] < $this->startDate ? $this->startDate : $pp['startDate'];
 			$endDate     = $this->endDate < $pp['endDate'] ? $this->endDate : $pp['endDate'];
@@ -182,17 +182,17 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 
 				if (empty($this->calendarData[$date]))
 				{
-					$this->calendarData[$date] = array();
+					$this->calendarData[$date] = [];
 				}
 
 				if (empty($this->calendarData[$date][$times]))
 				{
-					$this->calendarData[$date][$times] = array();
+					$this->calendarData[$date][$times] = [];
 				}
 
 				if (empty($this->calendarData[$date][$times][$roomID]))
 				{
-					$this->calendarData[$date][$times][$roomID] = array();
+					$this->calendarData[$date][$times][$roomID] = [];
 				}
 
 				$this->calendarData[$date][$times][$roomID][$rawInstance['departmentID']] = $rawInstance['department'];
@@ -251,7 +251,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 	{
 		$rooms = $this->rooms;
 
-		$options = array();
+		$options = [];
 
 		foreach ($rooms as $roomName => $roomData)
 		{
@@ -271,7 +271,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 	public function getRoomTypeOptions()
 	{
 
-		$options = array();
+		$options = [];
 
 		foreach ($this->roomTypes as $typeID => $typeData)
 		{
@@ -290,7 +290,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 	 */
 	public function getYearOptions()
 	{
-		$options = array();
+		$options = [];
 
 		$query = $this->_db->getQuery(true);
 		$query->select('DISTINCT YEAR(schedule_date) AS year')->from('#__thm_organizer_calendar')->order('year');
@@ -387,7 +387,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 	private function setRooms()
 	{
 		$rooms       = THM_OrganizerHelperRooms::getPlanRooms();
-		$roomTypeMap = array();
+		$roomTypeMap = [];
 
 		foreach ($rooms as $room)
 		{
@@ -415,7 +415,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 
 		$dbo->setQuery($query);
 
-		$default = array();
+		$default = [];
 
 		try
 		{
@@ -455,7 +455,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-			$this->planningPeriods = array();
+			$this->planningPeriods = [];
 
 			return false;
 		}
@@ -477,7 +477,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 	{
 		if (empty($this->useData[$ppName][$deptName]))
 		{
-			$this->useData[$ppName][$deptName] = array();
+			$this->useData[$ppName][$deptName] = [];
 		}
 
 		$existingValue                              = empty($this->useData[$ppName][$deptName][$roomID]) ? 0 : $this->useData[$ppName][$deptName][$roomID];

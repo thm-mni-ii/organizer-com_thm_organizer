@@ -11,6 +11,7 @@
  */
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+
 /**
  * Class provides methods sending mails
  *
@@ -35,8 +36,8 @@ class THM_OrganizerModelMailer extends JModelLegacy
 			return false;
 		}
 
-		$input = JFactory::getApplication()->input;
-		$lessonID = $input->get("lessonID", 0);
+		$input     = JFactory::getApplication()->input;
+		$lessonID  = $input->get("lessonID", 0);
 		$subjectID = $input->get("subjectID", 0);
 
 		$userAuth = (THM_OrganizerHelperPrep_Course::authSubjectTeacher($subjectID) OR JFactory::getUser()->authorise('core.admin'));
@@ -54,10 +55,7 @@ class THM_OrganizerModelMailer extends JModelLegacy
 			return false;
 		}
 
-		$senderInfo = array(
-			$sender->email,
-			$sender->name
-		);
+		$senderInfo = [$sender->email, $sender->name];
 
 		$mailer->setSender($senderInfo);
 		$mailer->setSubject($data["subject"]);
@@ -81,6 +79,7 @@ class THM_OrganizerModelMailer extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(
 				THM_OrganizerHelperLanguage::getLanguage()->_("COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS"), 'error');
+
 			return false;
 		}
 
@@ -100,8 +99,8 @@ class THM_OrganizerModelMailer extends JModelLegacy
 	 */
 	public function notifyParticipant($userID, $status, $lessonID = 0)
 	{
-		$input = JFactory::getApplication()->input;
-		$user = JFactory::getUser($userID);
+		$input      = JFactory::getApplication()->input;
+		$user       = JFactory::getUser($userID);
 		$userParams = json_decode($user->params, true);
 
 		if (!empty($userParams["language"]))
@@ -126,17 +125,17 @@ class THM_OrganizerModelMailer extends JModelLegacy
 		}
 
 		$course = THM_OrganizerHelperPrep_Course::getCourse($lessonID);
-		$dates = THM_OrganizerHelperPrep_Course::getDates($lessonID);
+		$dates  = THM_OrganizerHelperPrep_Course::getDates($lessonID);
 
 		if (empty($course) OR empty($dates))
 		{
 			return false;
 		}
 
-		$lang = THM_OrganizerHelperLanguage::getLanguage();
+		$lang   = THM_OrganizerHelperLanguage::getLanguage();
 		$mailer = JFactory::getMailer();
 
-		$sender = JFactory::getUser(JComponentHelper::getParams('com_thm_organizer')->get('mailSender'));
+		$sender     = JFactory::getUser(JComponentHelper::getParams('com_thm_organizer')->get('mailSender'));
 		$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
 
 		if (empty($sender->id))
@@ -144,16 +143,13 @@ class THM_OrganizerModelMailer extends JModelLegacy
 			return false;
 		}
 
-		$senderInfo = array(
-			$sender->email,
-			$sender->name
-		);
+		$senderInfo = [$sender->email, $sender->name];
 
 		$mailer->setSender($senderInfo);
 		$mailer->addRecipient($user->email);
 		$mailer->setSubject($course["name"]);
 
-		$start = JHtml::_('date', $dates[0]["schedule_date"],  $dateFormat);
+		$start = JHtml::_('date', $dates[0]["schedule_date"], $dateFormat);
 		$end   = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
 
 		$body = sprintf($lang->_("COM_THM_ORGANIZER_PREP_COURSE_MAIL_BODY") . "\n", $course["name"], $start, $end);
@@ -179,6 +175,7 @@ class THM_OrganizerModelMailer extends JModelLegacy
 		if (!$send)
 		{
 			JFactory::getApplication()->enqueueMessage("Beim Senden einer Email an {$user->email} ist ein Fehler aufgetreten.", 'error');
+
 			return false;
 		}
 

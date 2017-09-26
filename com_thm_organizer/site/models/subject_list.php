@@ -24,13 +24,13 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerModelSubject_List extends JModelList
 {
-	public $fields = array();
+	public $fields = [];
 
-	public $pools = array();
+	public $pools = [];
 
 	public $subjects;
 
-	public $teachers = array();
+	public $teachers = [];
 
 	/**
 	 * Removes
@@ -38,20 +38,20 @@ class THM_OrganizerModelSubject_List extends JModelList
 	 */
 	private function aggregateSubjects()
 	{
-		$subjectIDMap = array();
+		$subjectIDMap = [];
 
 		foreach ($this->subjects as $key => $subject)
 		{
 			if (empty($subjectIDMap[$subject->id]))
 			{
 				$subjectIDMap[$subject->id]       = $key;
-				$this->subjects[$key]->mappings   = array();
-				$this->subjects[$key]->mappings[] = array('left' => $subject->lft, 'right' => $subject->rgt);
+				$this->subjects[$key]->mappings   = [];
+				$this->subjects[$key]->mappings[] = ['left' => $subject->lft, 'right' => $subject->rgt];
 				continue;
 			}
 
 			$subjectKey                              = $subjectIDMap[$subject->id];
-			$this->subjects[$subjectKey]->mappings[] = array('left' => $subject->lft, 'right' => $subject->rgt);
+			$this->subjects[$subjectKey]->mappings[] = ['left' => $subject->lft, 'right' => $subject->rgt];
 
 			unset($this->subjects[$key]);
 		}
@@ -79,8 +79,8 @@ class THM_OrganizerModelSubject_List extends JModelList
 				return;
 			}
 
-			$this->pools[$key]['pools'] = array();
-			$this->pools[$key]['subjects'] = array();
+			$this->pools[$key]['pools']    = [];
+			$this->pools[$key]['subjects'] = [];
 
 			foreach ($children as $child)
 			{
@@ -105,14 +105,13 @@ class THM_OrganizerModelSubject_List extends JModelList
 				}
 			}
 
-			uasort($this->pools[$key]['pools'], function ($a, $b)
-			{
+			uasort($this->pools[$key]['pools'], function ($a, $b) {
 				$aKey = $this->getPoolKey($a);
 				$bKey = $this->getPoolKey($b);
 
 				// Php sorts letters with umlauts to the end of the alphabet, this replaces them with their equivalent
-				$aName = iconv("utf-8","ascii//TRANSLIT",$this->pools[$aKey]['name']);
-				$bName = iconv("utf-8","ascii//TRANSLIT",$this->pools[$bKey]['name']);
+				$aName = iconv("utf-8", "ascii//TRANSLIT", $this->pools[$aKey]['name']);
+				$bName = iconv("utf-8", "ascii//TRANSLIT", $this->pools[$bKey]['name']);
 
 				return $aName > $bName;
 			});
@@ -140,19 +139,18 @@ class THM_OrganizerModelSubject_List extends JModelList
 
 			if (empty($subject->fieldID))
 			{
-				$this->fields[0] = array();
+				$this->fields[0] = [];
 			}
 			else
 			{
-				$this->fields[$subject->fieldID] = array();
+				$this->fields[$subject->fieldID] = [];
 			}
 
 			$this->getTeachers($index);
 			$this->getPools($index);
 		}
 
-		uasort($this->teachers, function ($a, $b)
-		{
+		uasort($this->teachers, function ($a, $b) {
 			if ($a['surname'] == $b['surname'])
 			{
 				return $a['forename'] > $b['forename'];
@@ -161,8 +159,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 			return $a['surname'] > $b['surname'];
 		});
 
-		uasort($this->pools, function ($a, $b)
-		{
+		uasort($this->pools, function ($a, $b) {
 			$isAChild = $this->isChildPool($a);
 			$isBChild = $this->isChildPool($b);
 
@@ -209,7 +206,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		$query = $this->_db->getQuery(true);
 
 		$select = "DISTINCT s.id, s.name_$languageTag AS name, s.creditpoints, s.externalID, s.fieldID, m.lft, m.rgt, ";
-		$parts  = array("$subjectLink", "s.id");
+		$parts  = ["$subjectLink", "s.id"];
 		$select .= $query->concatenate($parts, "") . " AS subjectLink";
 		$query->select($select)
 			->from('#__thm_organizer_subjects AS s')
@@ -234,7 +231,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		$languageTag = $this->state->get('languageTag');
 
 		$query = $this->_db->getQuery(true);
-		$parts = array("p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'");
+		$parts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
 		$query->select($query->concatenate($parts, "") . " AS name, lft, rgt");
 		$query->from('#__thm_organizer_programs AS p');
 		$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
@@ -251,7 +248,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		return $programData;
@@ -287,8 +284,8 @@ class THM_OrganizerModelSubject_List extends JModelList
 	 */
 	private function getPools($index)
 	{
-		$languageTag = $this->state->get('languageTag');
-		$poolEntriesContainer = array();
+		$languageTag          = $this->state->get('languageTag');
+		$poolEntriesContainer = [];
 
 		foreach ($this->subjects[$index]->mappings as $mapping)
 		{
@@ -321,7 +318,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		{
 			if (empty($this->pools[$poolEntry['id']]))
 			{
-				$pool            = array();
+				$pool            = [];
 				$pool['id']      = $poolEntry['id'];
 				$pool['name']    = $poolEntry['name'];
 				$pool['minCrP']  = empty($poolEntry['minCrP']) ? '' : $poolEntry['minCrP'];
@@ -335,18 +332,18 @@ class THM_OrganizerModelSubject_List extends JModelList
 			}
 			elseif ($poolEntry['lft'] > $this->pools[$poolEntry['id']]['lft'])
 			{
-				$this->pools[$poolEntry['id']]['mapID']   = $poolEntry['mapID'];
-				$this->pools[$poolEntry['id']]['lft']    = $poolEntry['lft'];
+				$this->pools[$poolEntry['id']]['mapID'] = $poolEntry['mapID'];
+				$this->pools[$poolEntry['id']]['lft']   = $poolEntry['lft'];
 				$this->pools[$poolEntry['id']]['rgt']   = $poolEntry['rgt'];
 			}
 
 			if (empty($pool['fieldID']))
 			{
-				$this->fields[0] = array();
+				$this->fields[0] = [];
 			}
 			else
 			{
-				$this->fields[$pool['fieldID']] = array();
+				$this->fields[$pool['fieldID']] = [];
 			}
 		}
 	}
@@ -408,7 +405,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		{
 			if (empty($this->teachers[$teacherEntry['id']]))
 			{
-				$teacher             = array();
+				$teacher             = [];
 				$teacher['id']       = $teacherEntry['id'];
 				$teacher['surname']  = $teacherEntry['surname'];
 				$teacher['forename'] = empty($teacherEntry['forename']) ? '' : $teacherEntry['forename'];
@@ -420,23 +417,23 @@ class THM_OrganizerModelSubject_List extends JModelList
 
 			if (empty($this->subjects[$index]->teachers))
 			{
-				$this->subjects[$index]->teachers = array();
+				$this->subjects[$index]->teachers = [];
 			}
 
 			if (empty($this->subjects[$index]->teachers[$teacherEntry['teacherResp']]))
 			{
-				$this->subjects[$index]->teachers[$teacherEntry['teacherResp']] = array();
+				$this->subjects[$index]->teachers[$teacherEntry['teacherResp']] = [];
 			}
 
 			$this->subjects[$index]->teachers[$teacherEntry['teacherResp']][$teacherEntry['id']] = $teacherEntry['id'];
 
 			if (empty($teacherEntry['fieldID']))
 			{
-				$this->fields[0] = array();
+				$this->fields[0] = [];
 			}
 			else
 			{
-				$this->fields[$teacherEntry['fieldID']] = array();
+				$this->fields[$teacherEntry['fieldID']] = [];
 			}
 		}
 	}
@@ -496,7 +493,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		{
 			if (empty($this->fields[$fieldEntry['id']]))
 			{
-				$field         = array();
+				$field         = [];
 				$field['name'] = $fieldEntry['name'];
 
 				if (empty($fieldEntry['backgroundColor']))
@@ -516,15 +513,14 @@ class THM_OrganizerModelSubject_List extends JModelList
 		// One or more items is not associated with a field
 		if (isset($this->fields[0]))
 		{
-			$defaultField                    = array();
+			$defaultField                    = [];
 			$defaultField['name']            = JText::_('COM_THM_ORGANIZER_UNASSOCIATED');
 			$defaultField['backgroundColor'] = $params['backgroundColor'];
 			$defaultField['textColor']       = $params['darkTextColor'];
 			$this->fields[0]                 = $defaultField;
 		}
 
-		uasort($this->fields, function ($a, $b)
-		{
+		uasort($this->fields, function ($a, $b) {
 			return $a['name'] > $b['name'];
 		});
 	}
@@ -572,11 +568,12 @@ class THM_OrganizerModelSubject_List extends JModelList
 	 *
 	 * @param object &$query the query object upon which search conditions will be set
 	 *
-	 * @return  string
+	 * @return  void modifies the query
 	 */
 	private function setSearch(&$query)
 	{
 		$search = '%' . $this->_db->escape($this->state->get('search', ''), true) . '%';
+
 		if ($search == '%%')
 		{
 			return;

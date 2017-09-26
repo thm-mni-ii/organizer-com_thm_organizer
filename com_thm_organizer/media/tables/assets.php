@@ -36,7 +36,7 @@ class THM_OrganizerTableAssets extends JTable
 		$keys = $this->_tbl_keys;
 
 		// Implement JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeStore', array($updateNulls, $keys));
+		$this->_observers->update('onBeforeStore', [$updateNulls, $keys]);
 
 		$currentAssetId = 0;
 
@@ -76,7 +76,7 @@ class THM_OrganizerTableAssets extends JTable
 			$name     = $this->_getAssetName();
 			$title    = $this->_getAssetTitle();
 
-			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+			$asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 			$asset->loadByName($name);
 
 			// Re-inject the asset id.
@@ -134,7 +134,7 @@ class THM_OrganizerTableAssets extends JTable
 		}
 
 		// Implement JObservableInterface: Post-processing by observers
-		$this->_observers->update('onAfterStore', array(&$result));
+		$this->_observers->update('onAfterStore', [&$result]);
 
 		return $result;
 	}

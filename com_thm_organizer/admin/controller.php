@@ -27,13 +27,13 @@ class THM_OrganizerController extends JControllerLegacy
 	/**
 	 * Class constructor
 	 *
-	 * @param array $config An optional associative array of configuration settings.
+	 * @param [] $config An optional associative [] of configuration settings.
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
-		$task            = JFactory::getApplication()->input->get('task', '');
-		$taskParts       = explode('.', $task);
+		$task           = JFactory::getApplication()->input->get('task', '');
+		$taskParts      = explode('.', $task);
 		$this->resource = $taskParts[0];
 	}
 
@@ -168,7 +168,7 @@ class THM_OrganizerController extends JControllerLegacy
 	 */
 	public function edit()
 	{
-		$cid        = $this->input->get('cid', array(), 'array');
+		$cid        = $this->input->get('cid', [], '[]');
 		$resourceID = count($cid) > 0 ? $cid[0] : 0;
 
 		$this->input->set('view', "{$this->resource}_edit");
@@ -239,7 +239,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$url = "index.php?option=com_thm_organizer&view={$this->resource}_manager";
 
 		$input    = JFactory::getApplication()->input;
-		$selected = $input->get('cid', array(), 'array');
+		$selected = $input->get('cid', [], '[]');
 		if (count($selected) == 1)
 		{
 			$msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
@@ -439,7 +439,7 @@ class THM_OrganizerController extends JControllerLegacy
 
 		if ($functionAvailable)
 		{
-			$form      = JFactory::getApplication()->input->files->get('jform', array(), 'array');
+			$form      = JFactory::getApplication()->input->files->get('jform', [], '[]');
 			$file      = $form['file'];
 			$validType = (!empty($file['type']) AND $file['type'] == 'text/xml');
 

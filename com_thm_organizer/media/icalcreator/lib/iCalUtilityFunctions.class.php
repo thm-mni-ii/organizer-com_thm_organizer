@@ -38,38 +38,38 @@ class iCalUtilityFunctions
 	/** @var string  tmp line delimiter, used in convEolChar (parse) */
 	private static $baseDelim = null;
 	/** @var array protocol prefix, used in _splitContent() */
-	private static $parValPrefix = array('MStz'     => array('utc-', 'utc+', 'gmt-', 'gmt+')
-	                                     , 'Proto3' => array('fax:', 'cid:', 'sms:', 'tel:', 'urn:')
-	                                     , 'Proto4' => array('crid:', 'news:', 'pres:')
-	                                     , 'Proto6' => array('mailto:'));
+	private static $parValPrefix = ['MStz'     => ['utc-', 'utc+', 'gmt-', 'gmt+']
+	                                , 'Proto3' => ['fax:', 'cid:', 'sms:', 'tel:', 'urn:']
+	                                , 'Proto4' => ['crid:', 'news:', 'pres:']
+	                                , 'Proto6' => ['mailto:']];
 	/** @var string  output format for geo latitude and longitude (before rtrim) */
 	public static $geoLatFmt = '%09.6f';
 	public static $geoLongFmt = '%8.6f';
 	/** @var array  date/datetime formats */
-	public static $fmt = array('Ymd'       => '%04d%02d%02d',
-	                           'His'       => '%02d%02d%02d',
-	                           'dayOfDays' => 'day %d of %d',
-	                           'durDHis'   => '%a days, %h hours, %i min, %s sec',
-	                           'Ymd2'      => 'Y-m-d',
-	                           'YmdHis2'   => 'Y-m-d H:i:s',
-	                           'YmdHis2e'  => 'Y-m-d H:i:s e',
-	                           'YmdHis3'   => 'Y-m-d-H-i-s',
-	                           'YmdHise'   => '%04d-%02d-%02d %02d:%02d:%02d %s',
-	                           'YmdTHisO'  => 'Y-m-d\TH:i:s O',
-	                           'dateKey'   => '%04d%02d%02d%02d%02d%02d000',
-	);
+	public static $fmt = ['Ymd'       => '%04d%02d%02d',
+	                      'His'       => '%02d%02d%02d',
+	                      'dayOfDays' => 'day %d of %d',
+	                      'durDHis'   => '%a days, %h hours, %i min, %s sec',
+	                      'Ymd2'      => 'Y-m-d',
+	                      'YmdHis2'   => 'Y-m-d H:i:s',
+	                      'YmdHis2e'  => 'Y-m-d H:i:s e',
+	                      'YmdHis3'   => 'Y-m-d-H-i-s',
+	                      'YmdHise'   => '%04d-%02d-%02d %02d:%02d:%02d %s',
+	                      'YmdTHisO'  => 'Y-m-d\TH:i:s O',
+	                      'dateKey'   => '%04d%02d%02d%02d%02d%02d000',
+	];
 	/** @var array  component property UID value */
-	public static $vComps = array('vevent', 'vtodo', 'vjournal', 'vfreebusy');
-	public static $mComps = array('vevent', 'vtodo', 'vjournal', 'vfreebusy', 'valarm', 'vtimezone');
-	public static $miscComps = array('valarm', 'vtimezone', 'standard', 'daylight');
-	public static $tzComps = array('vtimezone', 'standard', 'daylight');
-	public static $allComps = array('vtimezone', 'standard', 'daylight', 'vevent', 'vtodo', 'vjournal', 'vfreebusy', 'valarm');
+	public static $vComps = ['vevent', 'vtodo', 'vjournal', 'vfreebusy'];
+	public static $mComps = ['vevent', 'vtodo', 'vjournal', 'vfreebusy', 'valarm', 'vtimezone'];
+	public static $miscComps = ['valarm', 'vtimezone', 'standard', 'daylight'];
+	public static $tzComps = ['vtimezone', 'standard', 'daylight'];
+	public static $allComps = ['vtimezone', 'standard', 'daylight', 'vevent', 'vtodo', 'vjournal', 'vfreebusy', 'valarm'];
 	/** @var array  component property collections */
-	public static $mProps1 = array('ATTENDEE', 'CATEGORIES', 'CONTACT', 'RELATED-TO', 'RESOURCES');
-	public static $mProps2 = array('ATTACH', 'ATTENDEE', 'CATEGORIES', 'COMMENT', 'CONTACT', 'DESCRIPTION', 'EXDATE', 'EXRULE',
-	                               'FREEBUSY', 'RDATE', 'RELATED-TO', 'RESOURCES', 'RRULE', 'REQUEST-STATUS', 'TZNAME', 'X-PROP');
-	public static $dateProps = array('DTSTART', 'DTEND', 'DUE', 'CREATED', 'COMPLETED', 'DTSTAMP', 'LAST-MODIFIED', 'RECURRENCE-ID');
-	public static $otherProps = array('ATTENDEE', 'CATEGORIES', 'CONTACT', 'LOCATION', 'ORGANIZER', 'PRIORITY', 'RELATED-TO', 'RESOURCES', 'STATUS', 'SUMMARY', 'UID', 'URL');
+	public static $mProps1 = ['ATTENDEE', 'CATEGORIES', 'CONTACT', 'RELATED-TO', 'RESOURCES'];
+	public static $mProps2 = ['ATTACH', 'ATTENDEE', 'CATEGORIES', 'COMMENT', 'CONTACT', 'DESCRIPTION', 'EXDATE', 'EXRULE',
+	                          'FREEBUSY', 'RDATE', 'RELATED-TO', 'RESOURCES', 'RRULE', 'REQUEST-STATUS', 'TZNAME', 'X-PROP'];
+	public static $dateProps = ['DTSTART', 'DTEND', 'DUE', 'CREATED', 'COMPLETED', 'DTSTAMP', 'LAST-MODIFIED', 'RECURRENCE-ID'];
+	public static $otherProps = ['ATTENDEE', 'CATEGORIES', 'CONTACT', 'LOCATION', 'ORGANIZER', 'PRIORITY', 'RELATED-TO', 'RESOURCES', 'STATUS', 'SUMMARY', 'UID', 'URL'];
 	/** @var object Store the single instance of iCalUtilityFunctions */
 	private static $m_pInstance;
 
@@ -111,7 +111,7 @@ class iCalUtilityFunctions
 	 */
 	public static function _chkDateArr($datetime, $parno = false)
 	{
-		$output = array();
+		$output = [];
 		if ((!$parno || (6 <= $parno)) && isset($datetime[3]) && !isset($datetime[4]))
 		{ // Y-m-d with tz
 			$temp        = $datetime[3];
@@ -254,7 +254,7 @@ class iCalUtilityFunctions
 					$parno = 7;
 				} // UTC DATE-TIME
 				elseif (((8 == strlen($date) && ctype_digit($date)) || (11 >= strlen($date))) &&
-					(!isset($params['VALUE']) || !in_array($params['VALUE'], array('DATE-TIME', 'PERIOD')))
+					(!isset($params['VALUE']) || !in_array($params['VALUE'], ['DATE-TIME', 'PERIOD']))
 				)
 				{
 					$parno = 3;
@@ -322,7 +322,7 @@ class iCalUtilityFunctions
 		{
 			return 1;
 		}
-		$sortkeys = array('year', 'month', 'day', 'hour', 'min', 'sec');
+		$sortkeys = ['year', 'month', 'day', 'hour', 'min', 'sec'];
 		for ($k = 0; $k < 4; $k++)
 		{
 			if (empty($a->srtk[$k]))
@@ -421,12 +421,12 @@ class iCalUtilityFunctions
 			}
 		}
 		/* fix eol chars */
-		$text = str_replace(array("\r\n", "\n\r", "\n", "\r"), iCalUtilityFunctions::$baseDelim, $text);
+		$text = str_replace(["\r\n", "\n\r", "\n", "\r"], iCalUtilityFunctions::$baseDelim, $text);
 		/* fix empty lines */
 		$text = str_replace(iCalUtilityFunctions::$baseDelim . iCalUtilityFunctions::$baseDelim, iCalUtilityFunctions::$baseDelim . str_pad('', 75) . iCalUtilityFunctions::$baseDelim, $text);
 		/* fix line folding */
 		$text = str_replace(iCalUtilityFunctions::$baseDelim, $nl, $text);
-		$text = str_replace(array($nl . ' ', $nl . "\t"), '', $text);
+		$text = str_replace([$nl . ' ', $nl . "\t"], '', $text);
 		/* split in component/property lines */
 		$text = explode($nl, $text);
 
@@ -472,7 +472,7 @@ class iCalUtilityFunctions
 	 * @uses   iCalUtilityFunctions::offsetSec2His()
 	 * @return bool
 	 */
-	public static function createTimezone(& $calendar, $timezone, $xProp = array(), $from = null, $to = null)
+	public static function createTimezone(& $calendar, $timezone, $xProp = [], $from = null, $to = null)
 	{
 		if (empty($timezone))
 		{
@@ -501,7 +501,7 @@ class iCalUtilityFunctions
 			$dates = array_keys($calendar->getProperty('dtstart'));
 			if (empty($dates))
 			{
-				$dates = array(date('Ymd'));
+				$dates = [date('Ymd')];
 			}
 		}
 		if (!empty($from))
@@ -530,7 +530,7 @@ class iCalUtilityFunctions
 		}
 		$dateToYmd = $dateTo->format(iCalUtilityFunctions::$fmt['Ymd2']);
 		unset($dtz);
-		$transTemp      = array();
+		$transTemp      = [];
 		$prevOffsetfrom = 0;
 		$stdIx          = $dlghtIx = null;
 		$prevTrans      = false;
@@ -555,7 +555,7 @@ class iCalUtilityFunctions
 				$date->modify($trans['offsetfrom'] . 'seconds');         // convert utc date to local date
 				$d             = $date->format(iCalUtilityFunctions::$fmt['YmdHis3']);
 				$d             = explode('-', $d);                   // set date to array to ease up dtstart and (opt) rdate setting
-				$trans['time'] = array('year' => (int) $d[0], 'month' => (int) $d[1], 'day' => (int) $d[2], 'hour' => (int) $d[3], 'min' => (int) $d[4], 'sec' => (int) $d[5]);
+				$trans['time'] = ['year' => (int) $d[0], 'month' => (int) $d[1], 'day' => (int) $d[2], 'hour' => (int) $d[3], 'min' => (int) $d[4], 'sec' => (int) $d[5]];
 			}
 			$prevOffsetfrom = $trans['offset'];
 			if (true !== $trans['isdst'])
@@ -606,16 +606,16 @@ class iCalUtilityFunctions
 				$date->modify($prevTrans['offsetfrom'] . 'seconds');     // convert utc date to local date
 				$d                 = $date->format(iCalUtilityFunctions::$fmt['YmdHis3']);
 				$d                 = explode('-', $d);                   // set date to array to ease up dtstart setting
-				$prevTrans['time'] = array('year' => (int) $d[0], 'month' => (int) $d[1], 'day' => (int) $d[2], 'hour' => (int) $d[3], 'min' => (int) $d[4], 'sec' => (int) $d[5]);
+				$prevTrans['time'] = ['year' => (int) $d[0], 'month' => (int) $d[1], 'day' => (int) $d[2], 'hour' => (int) $d[3], 'min' => (int) $d[4], 'sec' => (int) $d[5]];
 				$transTemp[0]      = $prevTrans;
 			}
 			else
 			{                        // or we use the timezone identifier to BUILD the standard tz info (?)
 				$date         = new DateTime('now', new DateTimeZone($timezone));
-				$transTemp[0] = array('time'       => $date->format(iCalUtilityFunctions::$fmt['YmdTHisO']),
-				                      'offset'     => $date->format('Z'),
-				                      'offsetfrom' => $date->format('Z'),
-				                      'isdst'      => false);
+				$transTemp[0] = ['time'       => $date->format(iCalUtilityFunctions::$fmt['YmdTHisO']),
+				                 'offset'     => $date->format('Z'),
+				                 'offsetfrom' => $date->format('Z'),
+				                 'isdst'      => false];
 			}
 		}
 		unset($transitions, $date, $prevTrans);
@@ -772,7 +772,7 @@ class iCalUtilityFunctions
 					break;
 			}
 		}
-		$output         = array();
+		$output         = [];
 		$output['week'] = (int) floor($seconds / (60 * 60 * 24 * 7));
 		if ((0 < $output['week']) && (0 == ($seconds % (60 * 60 * 24 * 7))))
 		{
@@ -839,7 +839,7 @@ class iCalUtilityFunctions
 		$date   = date(iCalUtilityFunctions::$fmt['YmdHis3'],
 			mktime((int) $startdate['hour'], (int) $startdate['min'], (int) ($startdate['sec'] + $dtend), (int) $startdate['month'], (int) $startdate['day'], (int) $startdate['year']));
 		$d      = explode('-', $date);
-		$dtend2 = array('year' => $d[0], 'month' => $d[1], 'day' => $d[2], 'hour' => $d[3], 'min' => $d[4], 'sec' => $d[5]);
+		$dtend2 = ['year' => $d[0], 'month' => $d[1], 'day' => $d[2], 'hour' => $d[3], 'min' => $d[4], 'sec' => $d[5]];
 		if (isset($startdate['tz']))
 		{
 			$dtend2['tz'] = $startdate['tz'];
@@ -880,7 +880,7 @@ class iCalUtilityFunctions
 		$duration = substr($duration, 1); // skip P
 		$duration = str_replace('t', 'T', $duration);
 		$duration = str_replace('T', '', $duration);
-		$output   = array();
+		$output   = [];
 		$val      = null;
 		for ($ix = 0; $ix < strlen($duration); $ix++)
 		{
@@ -927,7 +927,7 @@ class iCalUtilityFunctions
 	 * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
 	 * @since  2.15.8 - 2012-10-30
 	 *
-	 * @param array $duration , array( week, day, hour, min, sec )
+	 * @param array $duration , [week, day, hour, min, sec]
 	 *
 	 * @return string
 	 */
@@ -1144,14 +1144,14 @@ class iCalUtilityFunctions
 			return true;
 		}
 		elseif ((5 <= strlen($input)) &&
-			(in_array(substr($input, -5, 1), array('+', '-'))) &&
+			(in_array(substr($input, -5, 1), ['+', '-'])) &&
 			('0000' <= substr($input, -4)) && ('9999' >= substr($input, -4))
 		)
 		{
 			return true;
 		}
 		elseif ((7 <= strlen($input)) &&
-			(in_array(substr($input, -7, 1), array('+', '-'))) &&
+			(in_array(substr($input, -7, 1), ['+', '-'])) &&
 			('000000' <= substr($input, -6)) && ('999999' >= substr($input, -6))
 		)
 		{
@@ -1199,7 +1199,7 @@ class iCalUtilityFunctions
 		$searchText             = trim(str_replace(array('(', ')', '&', ',', '  '), ' ', substr($search, ($pos + 1))));
 		$searchWords            = explode(' ', $searchText);
 		$timezone_abbreviations = DateTimeZone::listAbbreviations();
-		$hits                   = array();
+		$hits                   = [];
 		foreach ($timezone_abbreviations as $name => $transitions)
 		{
 			foreach ($transitions as $cnt => $transition)
@@ -1231,7 +1231,7 @@ class iCalUtilityFunctions
 						if (strtolower($cWord) == strtolower($sWord))
 						{
 							$hitCnt += 1;
-							$rank += ($cPrio + $sPrio);
+							$rank   += ($cPrio + $sPrio);
 						}
 						else
 						{
@@ -1327,7 +1327,7 @@ class iCalUtilityFunctions
 	 * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
 	 * @since  2.21.11 - 2015-03-10
 	 *
-	 * @param array $result   array to update, array([Y-m-d] => bool)
+	 * @param array $result   array to update, [[Y-m-d] => bool]
 	 * @param array $recur    pattern for recurrency (only value part, params ignored)
 	 * @param mixed $wdate    component start date, string / array / (datetime) obj
 	 * @param mixed $fcnStart start date, string / array / (datetime) obj
@@ -1390,7 +1390,7 @@ class iCalUtilityFunctions
 		}
 		if (!$fcnEnd)
 		{
-			$fcnEnd = $fcnStart;
+			$fcnEnd         = $fcnStart;
 			$fcnEnd['year'] += 1;
 		}
 		foreach ($fcnEnd as $k => $v)
@@ -1402,7 +1402,7 @@ class iCalUtilityFunctions
 		}
 		$fcnEndYMD = sprintf(iCalUtilityFunctions::$fmt['Ymd'], $fcnEnd['year'], $fcnEnd['month'], $fcnEnd['day']);
 // echo "<b>recur _in_ comp</b> start ".implode('-',$wdate)." period start ".implode('-',$fcnStart)." period end ".implode('-',$fcnEnd)."<br>\n";
-// echo 'recur='.str_replace( array( PHP_EOL, ' ' ), '', var_export( $recur, TRUE ))."<br> \n"; // test ###
+// echo 'recur='.str_replace( [ PHP_EOL, ' ' ], '', var_export( $recur, TRUE ))."<br> \n"; // test ###
 		if (!isset($recur['COUNT']) && !isset($recur['UNTIL']))
 		{
 			$recur['UNTIL'] = $fcnEnd;
@@ -1430,13 +1430,13 @@ class iCalUtilityFunctions
 			{
 				$untilHis = sprintf(iCalUtilityFunctions::$fmt['His'], 23, 59, 59);
 			}
-// echo 'recurUNTIL='.str_replace( array( PHP_EOL, ' ' ), '', var_export( $recur['UNTIL'], TRUE )).", untilHis={$untilHis}<br> \n"; // test ###
+// echo 'recurUNTIL='.str_replace( [ PHP_EOL, ' ' ], '', var_export( $recur['UNTIL'], TRUE )).", untilHis={$untilHis}<br> \n"; // test ###
 		}
 // echo 'fcnEnd:'.$fcnEndYMD.$untilHis."<br>\n";//test
 		if ($wdateYMD > $fcnEndYMD)
 		{
 // echo 'recur out of date, '.implode('-',$wdate).', end='.implode('-',$fcnEnd)."<br>\n";//test
-			return array(); // nothing to do.. .
+			return []; // nothing to do.. .
 		}
 		if (!isset($recur['FREQ'])) // "MUST be specified.. ."
 		{
@@ -1449,7 +1449,7 @@ class iCalUtilityFunctions
 		}
 		$countcnt = (!isset($recur['BYSETPOS'])) ? 1 : 0; // DTSTART counts as the first occurrence
 		/* find out how to step up dates and set index for interval count */
-		$step = array();
+		$step = [];
 		if ('YEARLY' == $recur['FREQ'])
 		{
 			$step['year'] = 1;
@@ -1468,25 +1468,25 @@ class iCalUtilityFunctions
 		}
 		if (isset($step['year']) && isset($recur['BYMONTH']))
 		{
-			$step = array('month' => 1);
+			$step = ['month' => 1];
 		}
 		if (empty($step) && isset($recur['BYWEEKNO'])) // ??
 		{
-			$step = array('day' => 7);
+			$step = ['day' => 7];
 		}
 		if (isset($recur['BYYEARDAY']) || isset($recur['BYMONTHDAY']) || isset($recur['BYDAY']))
 		{
-			$step = array('day' => 1);
+			$step = ['day' => 1];
 		}
-		$intervalarr = array();
+		$intervalarr = [];
 		if (1 < $recur['INTERVAL'])
 		{
 			$intervalix  = iCalUtilityFunctions::_recurIntervalIx($recur['FREQ'], $wdate, $wkst);
-			$intervalarr = array($intervalix => 0);
+			$intervalarr = [$intervalix => 0];
 		}
 		if (isset($recur['BYSETPOS']))
 		{ // save start date + weekno
-			$bysetposymd1 = $bysetposymd2 = $bysetposw1 = $bysetposw2 = array();
+			$bysetposymd1 = $bysetposymd2 = $bysetposw1 = $bysetposw2 = [];
 // echo "bysetposXold_start=$bysetposYold $bysetposMold $bysetposDold<br>\n"; // test ###
 			if (is_array($recur['BYSETPOS']))
 			{
@@ -1497,19 +1497,19 @@ class iCalUtilityFunctions
 			}
 			else
 			{
-				$recur['BYSETPOS'] = array((int) $recur['BYSETPOS']);
+				$recur['BYSETPOS'] = [(int) $recur['BYSETPOS']];
 			}
 			if ('YEARLY' == $recur['FREQ'])
 			{
 				$wdate['month'] = $wdate['day'] = 1; // start from beginning of year
 				$wdateYMD       = sprintf(iCalUtilityFunctions::$fmt['Ymd'], $wdate['year'], $wdate['month'], $wdate['day']);
-				iCalUtilityFunctions::_stepdate($fcnEnd, $fcnEndYMD, array('year' => 1)); // make sure to count whole last year
+				iCalUtilityFunctions::_stepdate($fcnEnd, $fcnEndYMD, ['year' => 1]); // make sure to count whole last year
 			}
 			elseif ('MONTHLY' == $recur['FREQ'])
 			{
 				$wdate['day'] = 1; // start from beginning of month
 				$wdateYMD     = sprintf(iCalUtilityFunctions::$fmt['Ymd'], $wdate['year'], $wdate['month'], $wdate['day']);
-				iCalUtilityFunctions::_stepdate($fcnEnd, $fcnEndYMD, array('month' => 1)); // make sure to count whole last month
+				iCalUtilityFunctions::_stepdate($fcnEnd, $fcnEndYMD, ['month' => 1]); // make sure to count whole last month
 			}
 			else
 			{
@@ -1526,7 +1526,7 @@ class iCalUtilityFunctions
 			iCalUtilityFunctions::_stepdate($wdate, $wdateYMD, $step);
 		}
 		$year_old = null;
-		static $daynames = array('SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA');
+		static $daynames = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 		/* MAIN LOOP */
 // echo "recur start:$wdateYMD, end:$fcnEndYMD<br>\n";//test
 		while (true)
@@ -1543,17 +1543,17 @@ class iCalUtilityFunctions
 			if ($year_old != $wdate['year'])
 			{
 				$year_old   = $wdate['year'];
-				$daycnts    = array();
+				$daycnts    = [];
 				$yeardays   = $weekno = 0;
-				$yeardaycnt = array();
+				$yeardaycnt = [];
 				foreach ($daynames as $dn)
 				{
 					$yeardaycnt[$dn] = 0;
 				}
 				for ($m = 1; $m <= 12; $m++)
 				{ // count up and update up-counters
-					$daycnts[$m] = array();
-					$weekdaycnt  = array();
+					$daycnts[$m] = [];
+					$weekdaycnt  = [];
 					foreach ($daynames as $dn)
 					{
 						$weekdaycnt[$dn] = 0;
@@ -1561,7 +1561,7 @@ class iCalUtilityFunctions
 					$mcnt = date('t', mktime(0, 0, 0, $m, 1, $wdate['year']));
 					for ($d = 1; $d <= $mcnt; $d++)
 					{
-						$daycnts[$m][$d] = array();
+						$daycnts[$m][$d] = [];
 						if (isset($recur['BYYEARDAY']))
 						{
 							$yeardays++;
@@ -1584,7 +1584,7 @@ class iCalUtilityFunctions
 					} // end for( $d   = 1; $d <= $mcnt; $d++ )
 				} // end for( $m = 1; $m <= 12; $m++ )
 				$daycnt     = 0;
-				$yeardaycnt = array();
+				$yeardaycnt = [];
 				if (isset($recur['BYWEEKNO']) || ($recur['FREQ'] == 'WEEKLY'))
 				{
 					$weekno = null;
@@ -1603,7 +1603,7 @@ class iCalUtilityFunctions
 				}
 				for ($m = 12; $m > 0; $m--)
 				{ // count down and update down-counters
-					$weekdaycnt = array();
+					$weekdaycnt = [];
 					foreach ($daynames as $dn)
 					{
 						$yeardaycnt[$dn] = $weekdaycnt[$dn] = 0;
@@ -1614,21 +1614,21 @@ class iCalUtilityFunctions
 					{
 						if (isset($recur['BYYEARDAY']))
 						{
-							$daycnt -= 1;
+							$daycnt                          -= 1;
 							$daycnts[$m][$d]['yearcnt_down'] = $daycnt;
 						}
 						if (isset($recur['BYMONTHDAY']))
 						{
-							$monthcnt -= 1;
+							$monthcnt                         -= 1;
 							$daycnts[$m][$d]['monthcnt_down'] = $monthcnt;
 						}
 						if (isset($recur['BYDAY']))
 						{
-							$day = $daycnts[$m][$d]['DAY'];
-							$weekdaycnt[$day] -= 1;
+							$day                                = $daycnts[$m][$d]['DAY'];
+							$weekdaycnt[$day]                   -= 1;
 							$daycnts[$m][$d]['monthdayno_down'] = $weekdaycnt[$day];
-							$yeardaycnt[$day] -= 1;
-							$daycnts[$m][$d]['yeardayno_down'] = $yeardaycnt[$day];
+							$yeardaycnt[$day]                   -= 1;
+							$daycnts[$m][$d]['yeardayno_down']  = $yeardaycnt[$day];
 						}
 						if (isset($recur['BYWEEKNO']) || ($recur['FREQ'] == 'WEEKLY'))
 						{
@@ -1647,7 +1647,7 @@ class iCalUtilityFunctions
 				$currentKey = end($currentKey); // get last index
 				if ($currentKey != $intervalix)
 				{
-					$intervalarr = array($intervalix => ($intervalarr[$currentKey] + 1));
+					$intervalarr = [$intervalix => ($intervalarr[$currentKey] + 1)];
 				}
 				if (($recur['INTERVAL'] != $intervalarr[$intervalix]) &&
 					(0 != $intervalarr[$intervalix])
@@ -1903,11 +1903,11 @@ class iCalUtilityFunctions
 					}
 // echo "<br>\n"; // test ###
 					$bysetposarr1 = $bysetposarr2;
-					$bysetposarr2 = array();
+					$bysetposarr2 = [];
 				} // end if( $bysetpos )
 			} // end if( $updateOK && isset( $recur['BYSETPOS'] ))
 		} // end while( TRUE )
-// echo 'output='.str_replace( array( PHP_EOL, ' ' ), '', var_export( $result, TRUE ))."<br> \n"; // test ###
+// echo 'output='.str_replace( [ PHP_EOL, ' ' ], '', var_export( $result, TRUE ))."<br> \n"; // test ###
 	}
 
 	/**
@@ -1988,7 +1988,7 @@ class iCalUtilityFunctions
 	 */
 	public static function _recurBydaySort($bydaya, $bydayb)
 	{
-		static $days = array('SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 4, 'FR' => 5, 'SA' => 6);
+		static $days = ['SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 4, 'FR' => 5, 'SA' => 6];
 
 		return ($days[substr($bydaya, -2)] < $days[substr($bydayb, -2)]) ? -1 : 1;
 	}
@@ -2012,7 +2012,7 @@ class iCalUtilityFunctions
 	 */
 	public static function _setRexrule($rexrule)
 	{
-		$input = array();
+		$input = [];
 		if (empty($rexrule))
 		{
 			return $input;
@@ -2058,7 +2058,7 @@ class iCalUtilityFunctions
 			}
 		}
 		/* set recurrence rule specification in rfc2445 order */
-		$input2 = array();
+		$input2 = [];
 		if (isset($input['FREQ']))
 		{
 			$input2['FREQ'] = $input['FREQ'];
@@ -2210,7 +2210,7 @@ class iCalUtilityFunctions
 				$input['value']['tz'] = $month['TZID'];
 				unset($month['TZID']);
 			}
-			$input['params'] = iCalUtilityFunctions::_setParams($month, array('VALUE' => 'DATE-TIME'));
+			$input['params'] = iCalUtilityFunctions::_setParams($month, ['VALUE' => 'DATE-TIME']);
 			$hitval          = (isset($input['value']['tz'])) ? 7 : 6;
 			$parno           = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE-TIME', $hitval);
 			$parno           = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE', 3, count($input['value']), $parno);
@@ -2237,7 +2237,7 @@ class iCalUtilityFunctions
 			{
 				unset ($month['VALUE'], $month['TZID']);
 			}
-			$input['params'] = iCalUtilityFunctions::_setParams($month, array('VALUE' => 'DATE-TIME'));
+			$input['params'] = iCalUtilityFunctions::_setParams($month, ['VALUE' => 'DATE-TIME']);
 			$parno           = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE', 3);
 			$hitval          = 7;
 			$parno           = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE-TIME', $hitval, $parno);
@@ -2303,7 +2303,7 @@ class iCalUtilityFunctions
 			{
 				$month['TZID'] = $tzid;
 			}
-			$input['params'] = iCalUtilityFunctions::_setParams($month, array('VALUE' => 'DATE-TIME'));
+			$input['params'] = iCalUtilityFunctions::_setParams($month, ['VALUE' => 'DATE-TIME']);
 			$parno           = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE-TIME', 7, $parno);
 			$parno           = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE', 3, $parno, $parno);
 			$input['value']  = iCalUtilityFunctions::_strdate2date($year, $parno);
@@ -2339,16 +2339,16 @@ class iCalUtilityFunctions
 		{
 			if (is_array($params))
 			{
-				$input['params'] = iCalUtilityFunctions::_setParams($params, array('VALUE' => 'DATE-TIME'));
+				$input['params'] = iCalUtilityFunctions::_setParams($params, ['VALUE' => 'DATE-TIME']);
 			}
 			elseif (is_array($tz))
 			{
-				$input['params'] = iCalUtilityFunctions::_setParams($tz, array('VALUE' => 'DATE-TIME'));
+				$input['params'] = iCalUtilityFunctions::_setParams($tz, ['VALUE' => 'DATE-TIME']);
 				$tz              = false;
 			}
 			elseif (is_array($hour))
 			{
-				$input['params'] = iCalUtilityFunctions::_setParams($hour, array('VALUE' => 'DATE-TIME'));
+				$input['params'] = iCalUtilityFunctions::_setParams($hour, ['VALUE' => 'DATE-TIME']);
 				$hour            = $min = $sec = $tz = false;
 			}
 			if ($localtime)
@@ -2371,7 +2371,7 @@ class iCalUtilityFunctions
 			$parno          = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE', 3);
 			$hitval         = (iCalUtilityFunctions::_isOffset($tz)) ? 7 : 6;
 			$parno          = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE-TIME', $hitval, $parno, $parno);
-			$input['value'] = array('year' => $year, 'month' => $month, 'day' => $day);
+			$input['value'] = ['year' => $year, 'month' => $month, 'day' => $day];
 			if (3 != $parno)
 			{
 				$input['value']['hour'] = ($hour) ? $hour : '0';
@@ -2491,7 +2491,7 @@ class iCalUtilityFunctions
 			{
 				$input['value']['year'] += 2000;
 			}
-			$input['params'] = iCalUtilityFunctions::_setParams($month, array('VALUE' => 'DATE-TIME'));
+			$input['params'] = iCalUtilityFunctions::_setParams($month, ['VALUE' => 'DATE-TIME']);
 			unset($input['params']['VALUE']);
 			if (isset($input['value']['tz']) && iCalUtilityFunctions::_isOffset($input['value']['tz']))
 			{
@@ -2529,14 +2529,14 @@ class iCalUtilityFunctions
 				$year['tz'] = 'UTC';
 			}
 			$input['value']  = iCalUtilityFunctions::_timestamp2date($year, 7);
-			$input['params'] = iCalUtilityFunctions::_setParams($month, array('VALUE' => 'DATE-TIME'));
+			$input['params'] = iCalUtilityFunctions::_setParams($month, ['VALUE' => 'DATE-TIME']);
 			unset($input['params']['VALUE'], $input['params']['TZID']);
 		}
 		elseif (8 <= strlen(trim((string) $year)))
 		{ // ex. 2006-08-03 10:12:18
 			$input['value'] = iCalUtilityFunctions::_strdate2date($year, 7);
 			unset($input['value']['unparsedtext']);
-			$input['params'] = iCalUtilityFunctions::_setParams($month, array('VALUE' => 'DATE-TIME'));
+			$input['params'] = iCalUtilityFunctions::_setParams($month, ['VALUE' => 'DATE-TIME']);
 			if ((!isset($input['value']['tz']) || empty($input['value']['tz'])) && isset($input['params']['TZID']) && iCalUtilityFunctions::_isOffset($input['params']['TZID']))
 			{
 				$d              = $input['value'];
@@ -2571,7 +2571,7 @@ class iCalUtilityFunctions
 				$input['value'] = iCalUtilityFunctions::_strdate2date($strdate, 7);
 				unset($input['value']['unparsedtext']);
 			}
-			$input['params'] = iCalUtilityFunctions::_setParams($params, array('VALUE' => 'DATE-TIME'));
+			$input['params'] = iCalUtilityFunctions::_setParams($params, ['VALUE' => 'DATE-TIME']);
 			unset($input['params']['VALUE']);
 		}
 		$parno = iCalUtilityFunctions::_existRem($input['params'], 'VALUE', 'DATE-TIME', 7); // remove default
@@ -2611,7 +2611,7 @@ class iCalUtilityFunctions
 	{
 		if (!is_array($valArr))
 		{
-			$valArr = array();
+			$valArr = [];
 		}
 		if ($index)
 		{
@@ -2626,7 +2626,7 @@ class iCalUtilityFunctions
 		{
 			$index = 0;
 		}
-		$valArr[$index] = array('value' => $value, 'params' => iCalUtilityFunctions::_setParams($params, $defaults));
+		$valArr[$index] = ['value' => $value, 'params' => iCalUtilityFunctions::_setParams($params, $defaults)];
 		ksort($valArr);
 	}
 
@@ -2647,9 +2647,9 @@ class iCalUtilityFunctions
 	{
 		if (!is_array($params))
 		{
-			$params = array();
+			$params = [];
 		}
-		$input  = array();
+		$input  = [];
 		$params = array_change_key_case($params, CASE_UPPER);
 		foreach ($params as $paramKey => $paramValue)
 		{
@@ -2710,7 +2710,7 @@ class iCalUtilityFunctions
 	 */
 	public static function _setSortArgs($c, $sortArg = false)
 	{
-		$c->srtk = array('0', '0', '0', '0');
+		$c->srtk = ['0', '0', '0', '0'];
 		if ('vtimezone' == $c->objName)
 		{
 			if (false === ($c->srtk[0] = $c->getProperty('tzid')))
@@ -2724,7 +2724,7 @@ class iCalUtilityFunctions
 		{
 			if (in_array($sortArg, iCalUtilityFunctions::$mProps1))
 			{
-				$propValues = array();
+				$propValues = [];
 				$c->_getProperties($sortArg, $propValues);
 				if (!empty($propValues))
 				{
@@ -2843,7 +2843,7 @@ class iCalUtilityFunctions
 			elseif ((74 <= $cCnt) && ('\\' == $tmp[$x]) && ('n' == $tmp[$x + 1]))
 			{
 				$string .= $nl . ' \n';                     // don't break lines inside '\n'
-				$x += 2;
+				$x      += 2;
 				if (!isset($tmp[$x]))
 				{
 					$string .= $nl;
@@ -2854,9 +2854,9 @@ class iCalUtilityFunctions
 			elseif (75 <= $cCnt)
 			{
 				$string .= $nl . ' ';
-				$cCnt = 1;
+				$cCnt   = 1;
 			}
-			$byte = ord($tmp[$x]);
+			$byte   = ord($tmp[$x]);
 			$string .= $tmp[$x];
 			switch (true)
 			{ // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -2866,47 +2866,48 @@ class iCalUtilityFunctions
 				case(($byte & 0xE0) == 0xC0):               // characters U-00000080 - U-000007FF, mask 110XXXXX
 					if (isset($tmp[$x + 1]))
 					{
-						$cCnt += 1;
+						$cCnt   += 1;
 						$string .= $tmp[$x + 1];
-						$x += 1;                            // add a two bytes character
+						$x      += 1;                            // add a two bytes character
 					}
 					break;
 				case(($byte & 0xF0) == 0xE0):              // characters U-00000800 - U-0000FFFF, mask 1110XXXX
 					if (isset($tmp[$x + 2]))
 					{
-						$cCnt += 1;
+						$cCnt   += 1;
 						$string .= $tmp[$x + 1] . $tmp[$x + 2];
-						$x += 2;                             // add a three bytes character
+						$x      += 2;                             // add a three bytes character
 					}
 					break;
 				case(($byte & 0xF8) == 0xF0):              // characters U-00010000 - U-001FFFFF, mask 11110XXX
 					if (isset($tmp[$x + 3]))
 					{
-						$cCnt += 1;
+						$cCnt   += 1;
 						$string .= $tmp[$x + 1] . $tmp[$x + 2] . $tmp[$x + 3];
-						$x += 3;                             // add a four bytes character
+						$x      += 3;                             // add a four bytes character
 					}
 					break;
 				case(($byte & 0xFC) == 0xF8):              // characters U-00200000 - U-03FFFFFF, mask 111110XX
 					if (isset($tmp[$x + 4]))
 					{
-						$cCnt += 1;
+						$cCnt   += 1;
 						$string .= $tmp[$x + 1] . $tmp[$x + 2] . $tmp[$x + 3] . $tmp[$x + 4];
-						$x += 4;                             // add a five bytes character
+						$x      += 4;                             // add a five bytes character
 					}
 					break;
 				case(($byte & 0xFE) == 0xFC):              // characters U-04000000 - U-7FFFFFFF, mask 1111110X
 					if (isset($tmp[$x + 5]))
 					{
-						$cCnt += 1;
+						$cCnt   += 1;
 						$string .= $tmp[$x + 1] . $tmp[$x + 2] . $tmp[$x + 3] . $tmp[$x + 4] . $tmp[$x + 5];
-						$x += 5;                             // add a six bytes character
+						$x      += 5;                             // add a six bytes character
 					}
 				default:                                      // add any other byte without counting up $cCnt
 					break;
 			} // end switch( TRUE )
 			$x += 1;                                // next 'byte' to test
 		} // end while( TRUE ) {
+
 		return $string;
 	}
 
@@ -2948,10 +2949,10 @@ class iCalUtilityFunctions
 	{
 		$val = reset($a['value']);
 		$as  = sprintf(iCalUtilityFunctions::$fmt['Ymd'], (int) $val['year'], (int) $val['month'], (int) $val['day']);
-		$as .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
+		$as  .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
 		$val = reset($b['value']);
 		$bs  = sprintf(iCalUtilityFunctions::$fmt['Ymd'], (int) $val['year'], (int) $val['month'], (int) $val['day']);
-		$bs .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
+		$bs  .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
 
 		return strcmp($as, $bs);
 	}
@@ -2972,10 +2973,10 @@ class iCalUtilityFunctions
 	{
 		$val = isset($a['year']) ? $a : $a[0];
 		$as  = sprintf(iCalUtilityFunctions::$fmt['Ymd'], (int) $val['year'], (int) $val['month'], (int) $val['day']);
-		$as .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
+		$as  .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
 		$val = isset($b['year']) ? $b : $b[0];
 		$bs  = sprintf(iCalUtilityFunctions::$fmt['Ymd'], (int) $val['year'], (int) $val['month'], (int) $val['day']);
-		$bs .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
+		$bs  .= (isset($val['hour'])) ? sprintf(iCalUtilityFunctions::$fmt['His'], (int) $val['hour'], (int) $val['min'], (int) $val['sec']) : '';
 
 		return strcmp($as, $bs);
 	}
@@ -3032,7 +3033,7 @@ class iCalUtilityFunctions
 	 */
 	public static function _splitContent(& $line, & $propAttr = null)
 	{
-		$attr         = array();
+		$attr         = [];
 		$attrix       = -1;
 		$clen         = strlen($line);
 		$WithinQuotes = false;
@@ -3083,7 +3084,7 @@ class iCalUtilityFunctions
 			$cix++;
 		}
 		/* make attributes in array format */
-		$propAttr = array();
+		$propAttr = [];
 		foreach ($attr as $attribute)
 		{
 			$attrsplit = explode('=', $attribute, 2);
@@ -3133,7 +3134,7 @@ class iCalUtilityFunctions
 		{
 			if (12 < $date['month'])
 			{
-				$date['year'] += 1;
+				$date['year']  += 1;
 				$date['month'] -= 12;
 			}
 		}
@@ -3141,11 +3142,11 @@ class iCalUtilityFunctions
 		{
 			if ($mcnt < $date['day'])
 			{
-				$date['day'] -= $mcnt;
+				$date['day']   -= $mcnt;
 				$date['month'] += 1;
 				if (12 < $date['month'])
 				{
-					$date['year'] += 1;
+					$date['year']  += 1;
 					$date['month'] -= 12;
 				}
 			}
@@ -3385,7 +3386,7 @@ class iCalUtilityFunctions
 			$tz = 'Z';
 		}
 		$d      = explode('-', $datestring);
-		$output = array('year' => $d[0], 'month' => $d[1], 'day' => $d[2]);
+		$output = ['year' => $d[0], 'month' => $d[1], 'day' => $d[2]];
 		if (!$parno || (3 != $parno))
 		{ // parno is set to 6 or 7
 			$output['hour'] = $d[3];
@@ -3425,7 +3426,7 @@ class iCalUtilityFunctions
 				break;
 			default:
 				$pos       = 0;
-				$specChars = array('n', 'N', 'r', ',', ';');
+				$specChars = ['n', 'N', 'r', ',', ';'];
 				while (isset($string[$pos]))
 				{
 					if (false === ($pos = strpos($string, "\\", $pos)))
@@ -3435,7 +3436,7 @@ class iCalUtilityFunctions
 					if (!in_array(substr($string, $pos, 1), $specChars))
 					{
 						$string = substr($string, 0, $pos) . "\\" . substr($string, ($pos + 1));
-						$pos += 1;
+						$pos    += 1;
 					}
 					$pos += 1;
 				}
@@ -3546,7 +3547,7 @@ class iCalUtilityFunctions
 			$date = date(iCalUtilityFunctions::$fmt['YmdHis3'], $timestamp);
 		}
 		$date   = explode('-', $date);
-		$output = array('year' => $date[0], 'month' => $date[1], 'day' => $date[2]);
+		$output = ['year' => $date[0], 'month' => $date[1], 'day' => $date[2]];
 		if (3 != $parno)
 		{
 			$output['hour'] = $date[3];

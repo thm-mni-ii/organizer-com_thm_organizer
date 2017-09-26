@@ -3,8 +3,10 @@
     <section name="component">
         <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC"/>
         <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC"/>
-        <action name="organizer.fm" title="COM_THM_ORGANIZER_FACILITY_MANAGEMENT" description="COM_THM_ORGANIZER_FACILITY_MANAGEMENT_DESC"/>
-        <action name="organizer.hr" title="COM_THM_ORGANIZER_HUMAN_RESOURCES" description="COM_THM_ORGANIZER_HUMAN_RESOURCES_DESC"/>
+        <action name="organizer.fm" title="COM_THM_ORGANIZER_FACILITY_MANAGEMENT"
+                description="COM_THM_ORGANIZER_FACILITY_MANAGEMENT_DESC"/>
+        <action name="organizer.hr" title="COM_THM_ORGANIZER_HUMAN_RESOURCES"
+                description="COM_THM_ORGANIZER_HUMAN_RESOURCES_DESC"/>
     </section>
     <section name="department">
         <action name="organizer.department"

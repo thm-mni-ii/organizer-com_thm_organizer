@@ -64,7 +64,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 			$initial = true;
 			foreach ($boundarySet as $boundaries)
 			{
-				$where .= $initial ?
+				$where   .= $initial ?
 					"((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
 					: " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
 				$initial = false;
@@ -117,12 +117,12 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 
 		if (empty($programBoundaries))
 		{
-			return array();
+			return [];
 		}
 
 		$poolID         = $input->getString('poolID');
 		$poolBoundaries = ($poolID != '-1' AND $poolID != 'null') ?
-			THM_OrganizerHelperMapping::getBoundaries('pool', $poolID) : array();
+			THM_OrganizerHelperMapping::getBoundaries('pool', $poolID) : [];
 
 		$validPool = (!empty($poolBoundaries) AND $this->poolInProgram($poolBoundaries, $programBoundaries));
 		if ($validPool)

@@ -25,8 +25,8 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
 	/**
 	 * Updates key references to the entry being merged.
 	 *
-	 * @param int    $newDBID  the id onto which the room entries merge
-	 * @param string $oldDBIDs a string containing the ids to be replaced
+	 * @param int   $newDBID  the id onto which the room entries merge
+	 * @param array $oldDBIDs the ids to be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */

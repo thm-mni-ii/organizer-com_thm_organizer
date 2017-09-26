@@ -86,7 +86,7 @@ class vtimezone extends calendarComponent
 	 * @uses   vtimezone::$components
 	 * @uses   calendarComponent::setConfig()
 	 */
-	function __construct($timezonetype = false, $config = array())
+	function __construct($timezonetype = false, $config = [])
 	{
 		if (is_array($timezonetype))
 		{
@@ -113,7 +113,7 @@ class vtimezone extends calendarComponent
 		$this->tzoffsetto   = '';
 		$this->tzurl        = '';
 		$this->xprop        = '';
-		$this->components   = array();
+		$this->components   = [];
 		if (defined('ICAL_LANG') && !isset($config['language']))
 		{
 			$config['language'] = ICAL_LANG;
@@ -171,19 +171,19 @@ class vtimezone extends calendarComponent
 	{
 		$objectname = $this->_createFormat();
 		$component  = $this->componentStart1 . $objectname . $this->componentStart2 . $this->nl;
-		$component .= $this->createTzid();
-		$component .= $this->createLastModified();
-		$component .= $this->createTzurl();
-		$component .= $this->createDtstart();
-		$component .= $this->createTzoffsetfrom();
-		$component .= $this->createTzoffsetto();
-		$component .= $this->createComment();
-		$component .= $this->createRdate();
-		$component .= $this->createRrule();
-		$component .= $this->createTzname();
-		$component .= $this->createXprop();
-		$component .= $this->createSubComponent();
-		$component .= $this->componentEnd1 . $objectname . $this->componentEnd2;
+		$component  .= $this->createTzid();
+		$component  .= $this->createLastModified();
+		$component  .= $this->createTzurl();
+		$component  .= $this->createDtstart();
+		$component  .= $this->createTzoffsetfrom();
+		$component  .= $this->createTzoffsetto();
+		$component  .= $this->createComment();
+		$component  .= $this->createRdate();
+		$component  .= $this->createRrule();
+		$component  .= $this->createTzname();
+		$component  .= $this->createXprop();
+		$component  .= $this->createSubComponent();
+		$component  .= $this->componentEnd1 . $objectname . $this->componentEnd2;
 		if (is_array($this->xcaldecl) && (0 < count($this->xcaldecl)))
 		{
 			foreach ($this->xcaldecl as $localxcaldecl)

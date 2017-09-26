@@ -40,7 +40,7 @@ class THM_OrganizerTablePrograms extends THM_OrganizerTableAssets
 	 */
 	public function check()
 	{
-		$nullColumns = array('fieldID');
+		$nullColumns = ['fieldID'];
 		foreach ($nullColumns as $nullColumn)
 		{
 			if (!strlen($this->$nullColumn))

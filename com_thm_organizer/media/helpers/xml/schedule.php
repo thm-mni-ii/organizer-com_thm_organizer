@@ -83,13 +83,13 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	public function validate()
 	{
 		$input       = JFactory::getApplication()->input;
-		$formFiles   = $input->files->get('jform', array(), 'array');
+		$formFiles   = $input->files->get('jform', [], 'array');
 		$file        = $formFiles['file'];
 		$xmlSchedule = simplexml_load_file($file['tmp_name']);
 
 		$this->newSchedule      = new stdClass;
-		$this->scheduleErrors   = array();
-		$this->scheduleWarnings = array();
+		$this->scheduleErrors   = [];
+		$this->scheduleWarnings = [];
 
 		// Creation Date & Time
 		$creationDate = trim((string) $xmlSchedule[0]['date']);
@@ -109,7 +109,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 		$semesterName      = trim((string) $xmlSchedule->general->footer);
 		$validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
-		$form                            = $input->get('jform', array(), 'array');
+		$form                            = $input->get('jform', [], 'array');
 		$this->newSchedule->departmentID = $form['departmentID'];
 
 		// Planning period start & end dates
@@ -221,7 +221,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 	 * @param string $severity the severity of the item being inspected
 	 * @param string $regex    the regex to check the text against
 	 *
-	 * @return  void
+	 * @return  bool false if blocking errors were found, otherwise true
 	 */
 	private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
 	{

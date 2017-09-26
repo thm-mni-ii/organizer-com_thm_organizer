@@ -2,8 +2,7 @@
  * Created by James Antrim on 11/15/2016.
  */
 
-$(document).ready(function ()
-{
+$(document).ready(function () {
 	$('label').tooltip({delay: 200, placement: 'right'});
 });
 
@@ -20,8 +19,7 @@ function addPools(pools)
 
 	poolSelection.children().remove();
 
-	$.each(pools, function (name, id)
-	{
+	$.each(pools, function (name, id) {
 		selected = $.inArray(id, selectedPools) > -1 ? 'selected' : '';
 		poolSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
 	});
@@ -46,8 +44,7 @@ function addPrograms(programs)
 
 	programSelection.children().remove();
 
-	$.each(programs, function (key, value)
-	{
+	$.each(programs, function (key, value) {
 		var name = value.name == null ? value.ppName : value.name;
 		selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
 		programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
@@ -73,8 +70,7 @@ function addRooms(rooms)
 
 	roomSelection.children().remove();
 
-	$.each(rooms, function (name, id)
-	{
+	$.each(rooms, function (name, id) {
 		selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
 		roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
 	});
@@ -99,8 +95,7 @@ function addTeachers(teachers)
 
 	teacherSelection.children().remove();
 
-	$.each(teachers, function (name, id)
-	{
+	$.each(teachers, function (name, id) {
 		selected = $.inArray(id, selectedTeachers) > -1 ? 'selected' : '';
 		teacherSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
 	});
@@ -223,12 +218,10 @@ function repopulateResources()
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters + '&view=pool_ajax',
 		dataType: 'json',
-		success: function (data)
-		{
+		success: function (data) {
 			addPools(data);
 		},
-		error: function (xhr, textStatus, errorThrown)
-		{
+		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
 				$.ajax(repopulateResources());
@@ -240,12 +233,10 @@ function repopulateResources()
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters + '&view=teacher_ajax',
 		dataType: 'json',
-		success: function (data)
-		{
+		success: function (data) {
 			addTeachers(data);
 		},
-		error: function (xhr, textStatus, errorThrown)
-		{
+		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
 				$.ajax(repopulateResources());
@@ -257,12 +248,10 @@ function repopulateResources()
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters + '&view=room_ajax',
 		dataType: 'json',
-		success: function (data)
-		{
+		success: function (data) {
 			addRooms(data);
 		},
-		error: function (xhr, textStatus, errorThrown)
-		{
+		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
 				$.ajax(repopulateResources());
@@ -292,12 +281,10 @@ function repopulatePrograms()
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters,
 		dataType: 'json',
-		success: function (data)
-		{
+		success: function (data) {
 			addPrograms(data);
 		},
-		error: function (xhr, textStatus, errorThrown)
-		{
+		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
 				$.ajax(repopulatePrograms());
@@ -310,45 +297,48 @@ function setFormat()
 {
 	var formatValue = $('#format').find(":selected").val(), formatArray = formatValue.split('.'),
 		format = formatArray[0], documentFormat = formatArray[1], actionButton = $("#action-btn"),
-		linkContainer = $('#link-container'), linkTarget = $('#link-target');
+		linkContainer = $('#link-container'), linkTarget = $('#link-target'), formatInput = $("input[name=format]"),
+		displayFormatContainer = $("#displayFormat-container"), dateContainer = $("#date-container"),
+		dateRestrictionContainer = $("#dateRestriction-container"), pdfFormatContainer = $("#pdfWeekFormat-container"),
+		xlsFormatContainer = $("#xlsWeekFormat-container"), documentFormatContainer = $("input[name=documentFormat]");
 
 	switch (format)
 	{
 		case 'ics':
-			$("input[name=format]").val(format);
+			formatInput.val(format);
 			actionButton.text(generateText + ' ').append('<span class="icon-feed"></span>');
-			$("#displayFormat-container").hide();
-			$("#date-container").hide();
-			$("#dateRestriction-container").hide();
-			$("#pdfWeekFormat-container").hide();
-			$("#xlsWeekFormat-container").hide();
+			displayFormatContainer.hide();
+			dateContainer.hide();
+			dateRestrictionContainer.hide();
+			pdfFormatContainer.hide();
+			xlsFormatContainer.hide();
 			break;
 		case 'xls':
-			$("input[name=format]").val(format);
+			formatInput.val(format);
 			documentFormat = documentFormat === undefined ? 'si' : documentFormat;
-			$("input[name=documentFormat]").val(documentFormat);
+			documentFormatContainer.val(documentFormat);
 			actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
 			linkContainer.hide();
 			linkTarget.text('');
-			$("#displayFormat-container").hide();
-			$("#pdfWeekFormat-container").hide();
-			$("#date-container").show();
-			$("#dateRestriction-container").show();
-			$("#xlsWeekFormat-container").show();
+			displayFormatContainer.hide();
+			pdfFormatContainer.hide();
+			dateContainer.show();
+			dateRestrictionContainer.show();
+			xlsFormatContainer.show();
 			break;
 		case 'pdf':
 		default:
-			$("input[name=format]").val(format);
+			formatInput.val(format);
 			documentFormat = documentFormat === undefined ? 'a4' : documentFormat;
-			$("input[name=documentFormat]").val(documentFormat);
+			documentFormatContainer.val(documentFormat);
 			actionButton.text(downloadText + ' ').append('<span class="icon-file-pdf"></span>');
 			linkContainer.hide();
 			linkTarget.text('');
-			$("#displayFormat-container").show();
-			$("#date-container").show();
-			$("#dateRestriction-container").show();
-			$("#pdfWeekFormat-container").show();
-			$("#xlsWeekFormat-container").hide();
+			displayFormatContainer.show();
+			dateContainer.show();
+			dateRestrictionContainer.show();
+			pdfFormatContainer.show();
+			xlsFormatContainer.hide();
 			break;
 	}
 }

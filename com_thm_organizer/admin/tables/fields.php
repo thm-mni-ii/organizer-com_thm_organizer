@@ -51,7 +51,7 @@ class THM_OrganizerTableFields extends JTable
 	 */
 	public function check()
 	{
-		$nullColumns = array('colorID');
+		$nullColumns = ['colorID'];
 		foreach ($nullColumns as $nullColumn)
 		{
 			if (!strlen($this->$nullColumn))

@@ -11,7 +11,7 @@
 
 ?>
 
-<div class="modal fade" id="modal" >
+<div class="modal fade" id="modal">
 
 	<div class="modal-dialog">
 
@@ -23,9 +23,9 @@
 				<div class="modal-header">
 
 					<h3 style="float: left;"><?php echo $this->lang->_("COM_THM_ORGANIZER_CIRCULAR") ?></h3>
-					<button type="button" class="btn btn-mini" data-dismiss="modal" >
+					<button type="button" class="btn btn-mini" data-dismiss="modal">
 						<span class="icon-cancel"></span></button>
-					<button id="submitBtn" type="submit" class="validate btn btn-mini" >
+					<button id="submitBtn" type="submit" class="validate btn btn-mini">
 						<span class="icon-mail"></span> <?php echo $this->lang->_("JSUBMIT") ?></button>
 
 					<br>
@@ -35,20 +35,20 @@
 
 				<div class="modal-body" style="overflow-y: auto;">
 
-						<input type="hidden" name="filter_order" value="<?php echo $this->sortColumn; ?>"/>
-						<input type="hidden" name="filter_order_Dir" value="<?php echo $this->sortDirection; ?>"/>
-						<input type="hidden" name="lessonID" value="<?php echo $this->course["id"]; ?>"/>
-						<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
+					<input type="hidden" name="filter_order" value="<?php echo $this->sortColumn; ?>"/>
+					<input type="hidden" name="filter_order_Dir" value="<?php echo $this->sortDirection; ?>"/>
+					<input type="hidden" name="lessonID" value="<?php echo $this->course["id"]; ?>"/>
+					<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
 
-						<?php
-						foreach ($this->form->getFieldset() as $field)
-						{
-							echo "<div class='control-group'>";
-							echo "<div class='control-label'>" . $field->label . "</div>";
-							echo "<div class='controls'>" . $field->input . "</div>";
-							echo "</div>";
-						}
-						?>
+					<?php
+					foreach ($this->form->getFieldset() as $field)
+					{
+						echo "<div class='control-group'>";
+						echo "<div class='control-label'>" . $field->label . "</div>";
+						echo "<div class='controls'>" . $field->input . "</div>";
+						echo "</div>";
+					}
+					?>
 
 				</div>
 

@@ -63,7 +63,7 @@ class JFormFieldPoolID extends JFormFieldList
 		try
 		{
 			$pools   = $dbo->loadAssocList();
-			$options = array();
+			$options = [];
 			foreach ($pools as $pool)
 			{
 				$options[] = JHtml::_('select.option', $pool['value'], $pool['text']);

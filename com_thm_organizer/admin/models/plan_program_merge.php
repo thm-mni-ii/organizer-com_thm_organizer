@@ -27,7 +27,7 @@ class THM_OrganizerModelPlan_Program_Merge extends THM_OrganizerModelForm
 	 *
 	 * @param array $config An optional associative array of configuration settings.
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
 	}

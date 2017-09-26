@@ -39,7 +39,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 
 		// `default` in apostrophes because otherwise it's a keyword in sql
 		$select = "id, name_$shortTag AS name, grid, defaultGrid, ";
-		$parts  = array("'index.php?option=com_thm_organizer&view=grid_edit&id='", "id");
+		$parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", "id"];
 		$select .= $query->concatenate($parts, "") . " AS link";
 		$query->select($select);
 		$query->from('#__thm_organizer_grids');
@@ -56,7 +56,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -67,7 +67,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]             = array();
+			$return[$index]             = [];
 			$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
 			$grid                       = json_decode($item->grid);
@@ -110,7 +110,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 	 */
 	public function getHeaders()
 	{
-		$headers                = array();
+		$headers                = [];
 		$headers['checkbox']    = '';
 		$headers['name']        = JText::_('COM_THM_ORGANIZER_NAME');
 		$headers['startDay']    = JText::_('COM_THM_ORGANIZER_START_DAY');

@@ -42,7 +42,7 @@ class THM_OrganizerViewSubject_Selection extends THM_OrganizerViewList
 	{
 		parent::modifyDocument();
 		JHtml::_('jquery.framework');
-		JHtml::_('searchtools.form', '#adminForm', array());
+		JHtml::_('searchtools.form', '#adminForm', []);
 
 		$document = JFactory::getDocument();
 		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/child_selection.css");

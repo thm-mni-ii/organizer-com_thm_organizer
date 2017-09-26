@@ -36,7 +36,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 		$resourceType   = $input->getString('type', '');
 		$programIDs     = explode(',', $input->getString('programIDs', ''));
 		$programEntries = $this->getProgramEntries($programIDs);
-		$options        = array();
+		$options        = [];
 		$options[]      = '<option value="-1">' . JText::_('JNONE') . '</option>';
 
 		$invalidRequest = (empty($resourceID) OR empty($resourceType));
@@ -53,7 +53,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 			return $options[0];
 		}
 
-		$mappings = $mappingIDs = $parentIDs = array();
+		$mappings = $mappingIDs = $parentIDs = [];
 		THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 		$unSelectableMappings = $this->getUnselectableMappings($mappings, $mappingIDs, $resourceType);
 		$this->fillOptions($options, $programMappings, $unSelectableMappings, $parentIDs, $resourceType);
@@ -97,7 +97,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 		}
 		catch (Exception $exc)
 		{
-			return array();
+			return [];
 		}
 	}
 
@@ -115,40 +115,12 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 	{
 		if ($resourceType == 'subject')
 		{
-			return array();
+			return [];
 		}
 
 		$children = THM_OrganizerHelperMapping::getChildren($mappings);
 
 		return array_merge($mappingIDs, $children);
-	}
-
-	/**
-	 * Determines whether association options should be offered
-	 *
-	 * @param array   &$programMappings     the program mappings retrieved
-	 * @param array   &$programIDArray      the requested program ids
-	 * @param boolean $isSubject            whether or not the request was sent
-	 *                                      from the subject edit view
-	 *
-	 * @return  boolean  true if association options should be offered, otherwise
-	 *                   false
-	 */
-	private function offerOptions(&$programMappings, &$programIDArray, $isSubject)
-	{
-		// No valid mappings
-		if (empty($programMappings))
-		{
-			return false;
-		}
-
-		// If there are only program mappings, subjects cannot be mapped
-		if (count($programIDArray) == count($programMappings) AND $isSubject)
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

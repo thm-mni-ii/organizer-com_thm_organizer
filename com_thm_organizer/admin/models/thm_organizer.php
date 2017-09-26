@@ -27,7 +27,7 @@ class THM_OrganizerModelTHM_Organizer extends JModelLegacy
 	 *
 	 * @param array $config configurations parameter
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
 		THM_OrganizerHelperComponent::addActions($this);

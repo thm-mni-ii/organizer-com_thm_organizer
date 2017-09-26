@@ -81,7 +81,7 @@ class THM_OrganizerHelperTeacher
 		{
 			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return array();
+			return [];
 		}
 
 		return $teacherData;
@@ -126,7 +126,7 @@ class THM_OrganizerHelperTeacher
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-				return array();
+				return [];
 			}
 
 			if ($unique)
@@ -145,7 +145,7 @@ class THM_OrganizerHelperTeacher
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -158,7 +158,7 @@ class THM_OrganizerHelperTeacher
 	 */
 	private static function ensureUnique(&$list)
 	{
-		$keysToIds = array();
+		$keysToIds = [];
 		foreach ($list as $key => $item)
 		{
 			$keysToIds[$key] = $item['id'];
@@ -208,20 +208,6 @@ class THM_OrganizerHelperTeacher
 		$surname     = $teacherData['surname'];
 
 		return $surname . $forename;
-	}
-
-	/**
-	 * Method to determine the name of a given module
-	 *
-	 * @param int $userID the user id of the teacher
-	 *
-	 * @return  string title, first, and last names of the teacher as existent
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	public static function getNameFromTHMGroups($userID)
-	{
-		return '';
 	}
 
 	/**

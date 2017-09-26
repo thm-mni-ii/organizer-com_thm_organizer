@@ -37,11 +37,11 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
 	public $deputat = null;
 
-	public $selected = array();
+	public $selected = [];
 
-	public $teachers = array();
+	public $teachers = [];
 
-	public $irrelevant = array();
+	public $irrelevant = [];
 
 	public $departmentName = '';
 
@@ -50,7 +50,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	 *
 	 * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
 		$this->setObjectProperties();
@@ -80,12 +80,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
 		$input                        = JFactory::getApplication()->input;
 		$this->reset                  = $input->getBool('reset', false);
-		$this->selected               = array();
-		$this->teachers               = array();
-		$this->irrelevant['methods']  = array('KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG');
-		$this->irrelevant['teachers'] = array('NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW');
-		$this->irrelevant['pools']    = array('TERMINE.');
-		$this->irrelevant['subjects'] = array('NN.');
+		$this->selected               = [];
+		$this->teachers               = [];
+		$this->irrelevant['methods']  = ['KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG'];
+		$this->irrelevant['teachers'] = ['NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW'];
+		$this->irrelevant['pools']    = ['TERMINE.'];
+		$this->irrelevant['subjects'] = ['NN.'];
 		$this->setSchedule();
 	}
 
@@ -127,8 +127,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	public function getDepartmentSchedules()
 	{
 		$query   = $this->_db->getQuery(true);
-		$columns = array('departmentname', 'semestername');
-		$name    = array($query->concatenate($columns, ' - '), ' SUBSTRING(endDate, 3, 2)');
+		$columns = ['departmentname', 'semestername'];
+		$name    = [$query->concatenate($columns, ' - '), ' SUBSTRING(endDate, 3, 2)'];
 		$select  = 'id, ' . $query->concatenate($name) . ' AS name';
 		$query->select($select);
 		$query->from("#__thm_organizer_schedules");
@@ -151,12 +151,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		if (empty($results))
 		{
-			return array();
+			return [];
 		}
 
 		foreach ($results as $key => $value)
@@ -174,7 +174,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Method to set a schedule by its id from the database
 	 *
-	 * @return  object  an schedule object on success, otherwise an empty object
+	 * @return  void sets the instance's schedule variable
 	 */
 	public function setSchedule()
 	{
@@ -184,6 +184,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$query->from("#__thm_organizer_schedules");
 		$query->where("id = '$this->scheduleID'");
 		$this->_db->setQuery((string) $query);
+
 		try
 		{
 			$result         = $this->_db->loadResult();
@@ -199,11 +200,11 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	/**
 	 * Calculates resource consumption from a schedule
 	 *
-	 * @return  object  an object modeling resource consumption
+	 * @return  void sets the instance's lesson values variable
 	 */
 	public function calculateDeputat()
 	{
-		$this->lessonValues = array();
+		$this->lessonValues = [];
 
 		$startDate = (!empty($this->schedule->startDate)) ? $this->schedule->startDate : $this->schedule->syStartDate;
 		$endDate   = (!empty($this->schedule->endDate)) ? $this->schedule->endDate : $this->schedule->syEndDate;
@@ -332,7 +333,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
 		if (empty($this->lessonValues[$lessonID]))
 		{
-			$this->lessonValues[$lessonID] = array();
+			$this->lessonValues[$lessonID] = [];
 		}
 
 		$this->setLessonTeacher($schedule, $lessonID, $teacherID);
@@ -359,7 +360,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$this->lessonValues[$lessonID][$teacherID]['pools']      = $pools;
 		if (!isset($this->lessonValues[$lessonID][$teacherID]['periods']))
 		{
-			$this->lessonValues[$lessonID][$teacherID]['periods'] = array();
+			$this->lessonValues[$lessonID][$teacherID]['periods'] = [];
 		}
 
 		if (!isset($this->lessonValues[$lessonID][$teacherID]['startDate']))
@@ -372,7 +373,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$plannedBlock = "$weekday-$blockNumber";
 		if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID][$teacherID]['periods']))
 		{
-			$this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = array();
+			$this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = [];
 		}
 
 		if (!array_key_exists($day, $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock]))
@@ -455,7 +456,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		// Check for existing association
 		if (empty($this->lessonValues[$lessonID][$teacherID]))
 		{
-			$this->lessonValues[$lessonID][$teacherID] = array();
+			$this->lessonValues[$lessonID][$teacherID] = [];
 			$this->lessonValues[$lessonID][$teacherID]['teacherName']
 			                                           = THM_OrganizerHelperTeacher::getLNFName($schedule->teachers->$teacherID);
 			$this->lessonValues[$lessonID][$teacherID]['subjectName']
@@ -515,7 +516,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	private function getPools(&$schedule, $lessonID, $teacherID)
 	{
 		$previousPoolIDs = empty($this->lessonValues[$lessonID][$teacherID]['pools']) ?
-			array() : $this->lessonValues[$lessonID][$teacherID]['pools'];
+			[] : $this->lessonValues[$lessonID][$teacherID]['pools'];
 
 		$newPools = (array) $schedule->lessons->$lessonID->pools;
 		foreach ($newPools AS $pool => $delta)
@@ -569,11 +570,11 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	 */
 	private function convertLessonValues()
 	{
-		$this->deputat = array();
+		$this->deputat = [];
 
 		// Ensures unique ids for block lessons
 		$blockCounter = 1;
-		$skipValues   = array();
+		$skipValues   = [];
 
 		foreach ($this->lessonValues as $lessonID => $teacherIDs)
 		{
@@ -586,7 +587,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
 				if (empty($this->deputat[$teacherID]))
 				{
-					$this->deputat[$teacherID]         = array();
+					$this->deputat[$teacherID]         = [];
 					$this->deputat[$teacherID]['name'] = $lessonValues['teacherName'];
 				}
 
@@ -668,13 +669,13 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	{
 		if (empty($this->deputat[$teacherID]['tally']))
 		{
-			$this->deputat[$teacherID]['tally'] = array();
+			$this->deputat[$teacherID]['tally'] = [];
 		}
 
 		$subjectName = $lessonValues['subjectName'];
 		if (empty($this->deputat[$teacherID]['tally'][$subjectName]))
 		{
-			$this->deputat[$teacherID]['tally'][$subjectName] = array();
+			$this->deputat[$teacherID]['tally'][$subjectName] = [];
 		}
 
 		$this->deputat[$teacherID]['tally'][$subjectName]['rate'] = $this->getRate($subjectName);
@@ -731,10 +732,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	{
 		if (empty($this->deputat[$teacherID]['summary']))
 		{
-			$this->deputat[$teacherID]['summary'] = array();
+			$this->deputat[$teacherID]['summary'] = [];
 		}
 
-		$this->deputat[$teacherID]['summary'][$index]              = array();
+		$this->deputat[$teacherID]['summary'][$index]              = [];
 		$this->deputat[$teacherID]['summary'][$index]['name']      = $lessonValues['subjectName'];
 		$this->deputat[$teacherID]['summary'][$index]['type']      = $lessonValues['lessonType'];
 		$this->deputat[$teacherID]['summary'][$index]['pools']     = $lessonValues['pools'];
@@ -893,7 +894,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	 */
 	public function getTeacherNames()
 	{
-		$teachers = array();
+		$teachers = [];
 		foreach ($this->deputat AS $teacherID => $deputat)
 		{
 			$displaySummary = !empty($deputat['summary']);
@@ -920,7 +921,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 	 */
 	private function setSelected()
 	{
-		$default  = array('*');
+		$default  = ['*'];
 		$selected = JFactory::getApplication()->input->get('teachers', $default, 'array');
 
 		// Returns a hard false if value is not in array

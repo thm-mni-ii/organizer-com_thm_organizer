@@ -138,7 +138,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 			$poolData->color = JComponentHelper::getParams('com_thm_organizer')->get('backgroundColor', '#ffffff');
 		}
 
-		$poolData->children = array();
+		$poolData->children = [];
 
 		return $poolData;
 	}
@@ -157,9 +157,9 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$languageTag = JFactory::getApplication()->input->getString('languageTag', 'de');
 		$dbo         = JFactory::getDbo();
 		$query       = $dbo->getQuery(true);
-		$parts       = array("p.name_{$languageTag}", "' ('", "d.abbreviation", "' '", "p.version", "')'");
+		$parts       = ["p.name_{$languageTag}", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
 		$select      = $query->concatenate($parts, "") . " AS name, ";
-		$select .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$languageTag} AS description";
+		$select      .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$languageTag} AS description";
 		$query->select($select);
 		$query->from('#__thm_organizer_programs AS p');
 		$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
@@ -195,10 +195,10 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$dbo           = JFactory::getDbo();
 		$query         = $dbo->getQuery(true);
 		$select        = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
-		$concateSelect = array(
+		$concateSelect = [
 			"'index.php?option=com_thm_organizer&view=subject_details&languageTag='",
 			"'$langTag'", "'&id='", "s.id", "'&Itemid='", "'$itemID'"
-		);
+		];
 		$select .= $query->concatenate($concateSelect, "");
 		$select .= " AS link";
 		$query->select($select);
@@ -259,7 +259,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	public function getChildren($lft, $rgt, $langTag = 'de')
 	{
 		$dbo      = JFactory::getDbo();
-		$children = array();
+		$children = [];
 
 		$mappingsQuery = $dbo->getQuery(true);
 		$mappingsQuery->select('*')->from('#__thm_organizer_mappings');
@@ -282,7 +282,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 			return $children;
 		}
 
-		$nodes = array();
+		$nodes = [];
 		foreach ($mappings AS $mapping)
 		{
 			$parent = $children;
@@ -378,7 +378,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 					$this->_scheduleID   = $currentSchedule['id'];
 					$this->_scheduleLink = "index.php?option=com_thm_organizer&view=scheduler";
 					$this->_scheduleLink .= "&scheduleID={$currentSchedule['id']}";
-					$this->_schedule = $schedule;
+					$this->_schedule     = $schedule;
 
 					return;
 				}
@@ -403,20 +403,15 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		}
 
 		$defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
+
 		if (!empty($teacherData['userID']))
 		{
 			$subjectData->teacherID = $teacherData['userID'];
-			$teacherName            = THM_OrganizerHelperTeacher::getNameFromTHMGroups($teacherData['userID']);
-			if (empty($teacherName))
-			{
-				$subjectData->teacherName = $defaultName;
+			$subjectData->teacherName = $defaultName;
 
-				return;
-			}
+			// TODO: Retrieve this information from a Joomla! instance with THm Groups.
 
-			$subjectData->teacherPicture     = THM_OrganizerHelperTeacher::getPicture($teacherData['userID']);
-			$subjectData->teacherName        = $teacherName;
-			$subjectData->teacherProfileLink = THM_OrganizerHelperTeacher::getLink($teacherData['userID'], $teacherData['surname'], $itemID);
+			return;
 		}
 		else
 		{

@@ -103,12 +103,12 @@ class THM_OrganizerHelperXMLRooms
 			return;
 		}
 
-		$gpuntisID                                             = str_replace('RM_', '', $gpuntisID);
+		$gpuntisID                                                = str_replace('RM_', '', $gpuntisID);
 		$scheduleModel->newSchedule->rooms->$gpuntisID            = new stdClass;
 		$scheduleModel->newSchedule->rooms->$gpuntisID->name      = $gpuntisID;
 		$scheduleModel->newSchedule->rooms->$gpuntisID->gpuntisID = $gpuntisID;
 		$scheduleModel->newSchedule->rooms->$gpuntisID->localUntisID
-		                                                       = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
+		                                                          = str_replace('RM_', '', trim((string) $roomNode[0]['id']));
 
 		$displayName = self::validateDisplayName($scheduleModel, $roomNode, $gpuntisID);
 		if (!$displayName)
@@ -118,7 +118,7 @@ class THM_OrganizerHelperXMLRooms
 			return;
 		}
 
-		$capacity                                             = trim((int) $roomNode->capacity);
+		$capacity                                                = trim((int) $roomNode->capacity);
 		$scheduleModel->newSchedule->rooms->$gpuntisID->capacity = (empty($capacity)) ? '' : $capacity;
 
 		self::validateType($scheduleModel, $roomNode, $gpuntisID);
@@ -146,7 +146,7 @@ class THM_OrganizerHelperXMLRooms
 		$invalidDescription = (empty($descriptionID) OR empty($scheduleModel->newSchedule->room_types->$descriptionID));
 		if ($invalidDescription)
 		{
-			$scheduleModel->scheduleWarnings['ROOM-TYPE']         = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
+			$scheduleModel->scheduleWarnings['ROOM-TYPE']            = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
 				1 : $scheduleModel->scheduleWarnings['ROOM-TYPE'] + 1;
 			$scheduleModel->newSchedule->rooms->$roomID->description = '';
 

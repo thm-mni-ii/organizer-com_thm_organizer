@@ -29,7 +29,7 @@ class THM_OrganizerModelDegree extends JModelLegacy
 	 */
 	public function save()
 	{
-		$data  = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data  = JFactory::getApplication()->input->get('jform', [], 'array');
 		$table = JTable::getInstance('degrees', 'thm_organizerTable');
 
 		return $table->save($data);

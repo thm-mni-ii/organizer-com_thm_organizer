@@ -65,7 +65,7 @@ function iCal2vCard($email, $version = '2.1', $directory = false, $ext = 'vcf')
 	$name  = $person = substr($email, 0, $pos);
 	if (ctype_upper($name) || ctype_lower($name))
 	{
-		$name = array($name);
+		$name = [$name];
 	}
 	else
 	{
@@ -80,14 +80,14 @@ function iCal2vCard($email, $version = '2.1', $directory = false, $ext = 'vcf')
 		else
 		{ // split camelCase
 			$chars = $name;
-			$name  = array($chars[0]);
+			$name  = [$chars[0]];
 			$k     = 0;
 			$x     = 1;
 			while (false !== ($char = substr($chars, $x, 1)))
 			{
 				if (ctype_upper($char))
 				{
-					$k += 1;
+					$k        += 1;
 					$name[$k] = '';
 				}
 				$name[$k] .= $char;
@@ -110,10 +110,10 @@ function iCal2vCard($email, $version = '2.1', $directory = false, $ext = 'vcf')
 	}
 	while (('4.0' == $version) && (4 > $scCnt))
 	{
-		$N .= ';';
+		$N     .= ';';
 		$scCnt += 1;
 	}
-	$N .= $nl;
+	$N     .= $nl;
 	$EMAIL = 'EMAIL:' . $email . $nl;
 	/* create vCard */
 	$vCard = 'BEGIN:VCARD' . $nl;
@@ -165,8 +165,8 @@ function iCal2vCard($email, $version = '2.1', $directory = false, $ext = 'vcf')
  */
 function iCal2vCards(& $calendar, $version = '2.1', $directory = false, $ext = 'vcf')
 {
-	$hits   = array();
-	$vCardP = array('ATTENDEE', 'CONTACT', 'ORGANIZER');
+	$hits   = [];
+	$vCardP = ['ATTENDEE', 'CONTACT', 'ORGANIZER'];
 	foreach ($vCardP as $prop)
 	{
 		$hits2 = $calendar->getProperty($prop);

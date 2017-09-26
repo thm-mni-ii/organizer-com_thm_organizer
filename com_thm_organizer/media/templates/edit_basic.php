@@ -30,20 +30,20 @@ class THM_OrganizerTemplateEdit_Basic
 	public static function render(&$view)
 	{
 		?>
-        <form action="index.php?option=com_thm_organizer"
-              enctype="multipart/form-data"
-              method="post"
-              name="adminForm"
-              id="item-form"
-              class="form-horizontal">
-            <fieldset class="adminform"
-            ">
+		<form action="index.php?option=com_thm_organizer"
+			  enctype="multipart/form-data"
+			  method="post"
+			  name="adminForm"
+			  id="item-form"
+			  class="form-horizontal">
+			<fieldset class="adminform"
+			">
 			<?php echo $view->form->renderFieldset('details'); ?>
-            </fieldset>
+			</fieldset>
 			<?php echo $view->form->getInput('id'); ?>
 			<?php echo JHtml::_('form.token'); ?>
-            <input type="hidden" name="task" value=""/>
-        </form>
+			<input type="hidden" name="task" value=""/>
+		</form>
 		<?php
 	}
 

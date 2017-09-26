@@ -189,7 +189,7 @@
                 type="departmentlist"
                 label="COM_THM_ORGANIZER_DEPARTMENT"
                 description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-                default="12" />
+                default="12"/>
         <field
                 name="deadline"
                 type="number"

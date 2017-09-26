@@ -31,7 +31,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
 	}
@@ -44,7 +44,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	protected function getListQuery()
 	{
 		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
-		$query = $this->_db->getQuery(true);
+		$query              = $this->_db->getQuery(true);
 
 		if (empty($allowedDepartments))
 		{
@@ -52,8 +52,8 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 		}
 
 		$select    = "DISTINCT ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ";
-		$linkParts = array("'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", "ppl.id");
-		$select .= $query->concatenate($linkParts, "") . " AS link";
+		$linkParts = ["'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", "ppl.id"];
+		$select    .= $query->concatenate($linkParts, "") . " AS link";
 
 		$query->from('#__thm_organizer_plan_pools AS ppl');
 		$query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.poolID = ppl.id");
@@ -80,7 +80,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 
 		$query->select($select);
 
-		$searchColumns = array('ppl.full_name', 'ppl.name', 'ppl.gpuntisID');
+		$searchColumns = ['ppl.full_name', 'ppl.name', 'ppl.gpuntisID'];
 		$this->setSearchFilter($query, $searchColumns);
 
 		$this->setOrdering($query);
@@ -96,7 +96,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -107,7 +107,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]              = array();
+			$return[$index]              = [];
 			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['full_name'] = JHtml::_('link', $item->link, $item->full_name);
 			$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
@@ -127,7 +127,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 	{
 		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction            = $this->state->get('list.direction', $this->defaultDirection);
-		$headers              = array();
+		$headers              = [];
 		$headers['checkbox']  = '';
 		$headers['full_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ppl.full_name', $direction, $ordering);
 		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction, $ordering);

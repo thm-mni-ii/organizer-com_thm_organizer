@@ -35,7 +35,7 @@ class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
 	public function getOptions()
 	{
 		$planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
-		$options         = array();
+		$options         = [];
 
 		foreach ($planningPeriods as $planningPeriodID => $planningPeriod)
 		{

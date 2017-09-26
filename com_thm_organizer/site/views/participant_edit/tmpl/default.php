@@ -34,8 +34,8 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 	if (!empty($this->dates))
 	{
 		$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-		$start_f = JHtml::_('date', $this->dates[0]["schedule_date"],   $dateFormat);
-		$end_f   = JHtml::_('date', end($this->dates)["schedule_date"], $dateFormat);
+		$start_f    = JHtml::_('date', $this->dates[0]["schedule_date"], $dateFormat);
+		$end_f      = JHtml::_('date', end($this->dates)["schedule_date"], $dateFormat);
 		echo "<div>$start_f - $end_f</div>";
 	}
 
@@ -44,18 +44,18 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 		if ($this->signedIn["status"] == 1)
 		{
 			$status = 'success';
-			$msg = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED';
+			$msg    = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED';
 		}
 		else
 		{
 			$status = 'warning';
-			$msg = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST';
+			$msg    = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST';
 		}
 	}
 	else
 	{
 		$status = 'error';
-		$msg = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_NOT_REGISTERED';
+		$msg    = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_NOT_REGISTERED';
 	}
 
 	if (!empty($this->course))
@@ -71,7 +71,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 		  class="form-horizontal">
 
 
-
 		<?php
 		if (!empty($this->course))
 		{
@@ -84,13 +83,13 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 		<div class="form-horizontal">
 
 			<?php
-				foreach ($this->form->getFieldset() as $field)
-				{
-					echo "<div class='control-group'>";
-					echo "<div class='control-label'>" . $field->label . "</div>";
-					echo "<div class='controls'>" . $field->input . "</div>";
-					echo "</div>";
-				}
+			foreach ($this->form->getFieldset() as $field)
+			{
+				echo "<div class='control-group'>";
+				echo "<div class='control-label'>" . $field->label . "</div>";
+				echo "<div class='controls'>" . $field->input . "</div>";
+				echo "</div>";
+			}
 			?>
 
 		</div>
@@ -99,13 +98,13 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 		<div class="control-group">
 			<div class="controls">
 				<button type="submit" class="validate btn btn-primary">
-					<?php echo (empty($this->course) ?
-							$this->lang->_('JSAVE') :
-							($this->signedIn ?
-								$this->lang->_('JLOGOUT') :
-								$this->lang->_('JLOGIN'))); ?>
+					<?php echo(empty($this->course) ?
+						$this->lang->_('JSAVE') :
+						($this->signedIn ?
+							$this->lang->_('JLOGOUT') :
+							$this->lang->_('JLOGIN'))); ?>
 				</button>
-				<a  href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
+				<a href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
 				   class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
 			</div>
 		</div>

@@ -27,7 +27,7 @@ class JFormFieldSubjects extends JFormField
 	/**
 	 * Returns a selectionbox where stored coursepool can be chosen as a parent node
 	 *
-	 * @return Select box
+	 * @return string the HTML for the select box
 	 */
 	public function getInput()
 	{
@@ -93,8 +93,8 @@ class JFormFieldSubjects extends JFormField
 		}
 
 		$fieldName        = $this->getAttribute('name');
-		$attributes       = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10');
-		$selectedSubjects = empty($selected) ? array() : $selected;
+		$attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
+		$selectedSubjects = empty($selected) ? [] : $selected;
 
 		return JHtml::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text", $selectedSubjects);
 	}
@@ -106,10 +106,10 @@ class JFormFieldSubjects extends JFormField
 	 */
 	private function getDefault()
 	{
-		$subjects   = array();
-		$subjects[] = array('value' => '-1', 'name' => JText::_('JNONE'));
+		$subjects   = [];
+		$subjects[] = ['value' => '-1', 'name' => JText::_('JNONE')];
 		$fieldName  = $this->getAttribute('name');
-		$attributes = array('multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1');
+		$attributes = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
 		return JHtml::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text");
 	}

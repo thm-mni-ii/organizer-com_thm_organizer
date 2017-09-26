@@ -50,7 +50,7 @@ class THM_OrganizerTableTeachers extends JTable
 	 */
 	public function check()
 	{
-		$nullColumns = array('fieldID');
+		$nullColumns = ['fieldID'];
 		foreach ($nullColumns as $nullColumn)
 		{
 			if (!strlen($this->$nullColumn))

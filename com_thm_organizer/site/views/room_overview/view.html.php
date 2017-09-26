@@ -28,7 +28,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 
 	public $state = null;
 
-	public $filters = array();
+	public $filters = [];
 
 	/**
 	 * Loads persistent data into the view context
@@ -71,21 +71,21 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 	private function setFilters()
 	{
 		$helper                    = 'THM_OrganizerHelperComponent';
-		$templateOptions           = array(DAY  => JText::_('COM_THM_ORGANIZER_FILTER_DAY_TEMPLATE'),
-		                                   WEEK => JText::_('COM_THM_ORGANIZER_FILTER_WEEK_TEMPLATE'));
+		$templateOptions           = [DAY  => JText::_('COM_THM_ORGANIZER_FILTER_DAY_TEMPLATE'),
+		                              WEEK => JText::_('COM_THM_ORGANIZER_FILTER_WEEK_TEMPLATE')];
 		$this->filters['template'] = $helper::selectBox($templateOptions, 'template', null, $this->state->template);
 
 		$format                = JFactory::getApplication()->getParams()->get('dateFormat');
 		$jsFormat              = preg_replace('/[a-zA-Z]/', '%$0', $format);
 		$this->filters['date'] = JHtml::calendar($this->state->get('date'), 'jform[date]', 'date', $jsFormat);
 
-		$attribs        = array(
+		$attribs        = [
 			'class'    => 'room-select',
 			'multiple' => 'multiple',
 			'onChange' => 'cleanSelection(this.id, \'selectedRooms\');',
 			'size'     => '10'
-		);
-		$defaultOptions = array('-1' => JText::_('JALL'));
+		];
+		$defaultOptions = ['-1' => JText::_('JALL')];
 
 		$this->filters['rooms'] = $helper::selectBox(
 			$this->model->rooms, 'rooms', $attribs, $this->state->rooms, $defaultOptions
@@ -130,10 +130,10 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
 	 */
 	public function getEventTips($events)
 	{
-		$tips = array();
+		$tips = [];
 		foreach ($events as $eventNo => $event)
 		{
-			$eventTip   = array();
+			$eventTip   = [];
 			$eventTip[] = '<div>';
 			$eventTip[] = JText::_('COM_THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
 			$eventTip[] = JText::_('COM_THM_ORGANIZER_EVENT') . ": {$event['title']}<br/>";

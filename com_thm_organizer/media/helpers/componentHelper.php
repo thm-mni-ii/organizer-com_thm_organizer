@@ -20,7 +20,7 @@
 class THM_OrganizerHelperComponent
 {
 	/**
-	 * Configure the Linkbar.
+	 * Configure the submenu.
 	 *
 	 * @param object &$view the view context calling the function
 	 *
@@ -226,7 +226,7 @@ class THM_OrganizerHelperComponent
 			{
 				foreach ($allowedDepartments as $departmentID)
 				{
-					// The or allows for any odd cases of cross department responsiblities
+					// The or allows for any odd cases of cross department responsibilities
 					$department = ($department OR $user->authorise('organizer.department', "com_thm_organizer.department.$departmentID"));
 					$manage     = ($manage OR $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID"));
 					$schedules  = ($schedules OR $user->authorise('organizer.schedule', "com_thm_organizer.department.$departmentID"));
@@ -261,7 +261,7 @@ class THM_OrganizerHelperComponent
 
 		$name = $model->get('name');
 
-		$facilityManagementViews = array(
+		$facilityManagementViews = [
 			'campus_edit',
 			'building_edit',
 			'equipment_edit',
@@ -269,7 +269,7 @@ class THM_OrganizerHelperComponent
 			'room_edit',
 			'room_merge',
 			'room_type_edit'
-		);
+		];
 
 		if (in_array($name, $facilityManagementViews))
 		{
@@ -277,20 +277,20 @@ class THM_OrganizerHelperComponent
 		}
 
 		// Views accessible with component create/edit access
-		$humanResourceViews = array('teacher_edit', 'teacher_merge');
+		$humanResourceViews = ['teacher_edit', 'teacher_merge'];
 
 		if (in_array($name, $humanResourceViews))
 		{
 			return $model->actions->{'organizer.hr'};
 		}
 
-		$departmentAssetViews = array(
+		$departmentAssetViews = [
 			'department_edit',
 			'pool_edit',
 			'program_edit',
 			'schedule_edit',
 			'subject_edit'
-		);
+		];
 
 		if (in_array($name, $departmentAssetViews))
 		{
@@ -470,7 +470,7 @@ class THM_OrganizerHelperComponent
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		// Don't bother checking departments if the user is an administrator
@@ -480,7 +480,7 @@ class THM_OrganizerHelperComponent
 			return $departmentIDs;
 		}
 
-		$allowedDepartmentIDs = array();
+		$allowedDepartmentIDs = [];
 
 		foreach ($departmentIDs as $departmentID)
 		{
@@ -641,7 +641,7 @@ class THM_OrganizerHelperComponent
 	 */
 	public static function selectBox($entries, $name, $attributes = null, $selected = null, $defaultOptions = null)
 	{
-		$options = array();
+		$options = [];
 
 		$defaultValid = (!empty($defaultOptions) AND is_array($defaultOptions));
 		if ($defaultValid)
@@ -671,7 +671,7 @@ class THM_OrganizerHelperComponent
 			OR (!is_object($attributes) AND !is_array($attributes) AND !is_string($attributes)));
 		if ($attribsInvalid)
 		{
-			$attributes = array();
+			$attributes = [];
 		}
 		elseif (is_object($attributes))
 		{
@@ -683,18 +683,18 @@ class THM_OrganizerHelperComponent
 			if ($validString)
 			{
 				$singleAttribs = explode(',', $attributes);
-				$attributes    = array();
+				$attributes    = [];
 				array_walk($singleAttribs, 'walk', $attributes);
 
-				function walk($val, $key, &$attributes)
+				function walk($attribute, $key, &$attributes)
 				{
-					list($attibKey, $attribValue) = explode(' => ', $val);
-					$attributes[$attibKey] = $attribValue;
+					list($property, $value) = explode(' => ', $attribute);
+					$attributes[$property] = $value;
 				}
 			}
 			else
 			{
-				$attributes = array();
+				$attributes = [];
 			}
 		}
 

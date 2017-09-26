@@ -92,6 +92,6 @@ abstract class THM_OrganizerViewList extends JViewLegacy
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('behavior.multiselect');
 		JHtml::_('formbehavior.chosen', 'select');
-		JHtml::_('searchtools.form', '#adminForm', array());
+		JHtml::_('searchtools.form', '#adminForm', []);
 	}
 }

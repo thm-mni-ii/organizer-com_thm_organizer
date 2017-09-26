@@ -28,7 +28,7 @@ class THM_OrganizerHelperLanguage
 	public static function getLanguage()
 	{
 		$requested          = self::getShortTag();
-		$supportedLanguages = array('en', 'de');
+		$supportedLanguages = ['en', 'de'];
 
 		if (in_array($requested, $supportedLanguages))
 		{
@@ -75,7 +75,7 @@ class THM_OrganizerHelperLanguage
 		if (!empty($menu))
 		{
 			$initialTag = $menu->params->get('initialLanguage', 'de');
-			$shortTag = JFactory::getApplication()->input->get('languageTag', $initialTag);
+			$shortTag   = JFactory::getApplication()->input->get('languageTag', $initialTag);
 
 			return $shortTag;
 		}
@@ -107,9 +107,9 @@ class THM_OrganizerHelperLanguage
 
 		$requested = $input->getString('languageTag', '');
 
-		$languageSwitches   = array();
+		$languageSwitches   = [];
 		$current            = empty($requested) ? self::getShortTag() : $requested;
-		$supportedLanguages = array('en' => 'COM_THM_ORGANIZER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_GERMAN');
+		$supportedLanguages = ['en' => 'COM_THM_ORGANIZER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_GERMAN'];
 
 		foreach ($supportedLanguages AS $tag => $constant)
 		{
@@ -117,11 +117,11 @@ class THM_OrganizerHelperLanguage
 			{
 				$params['languageTag'] = $tag;
 
-				$js = 'onclick="$(\'#languageTag\').val(\'' . $tag . '\');$(\'#adminForm\').submit();"';
-				$url = 'href="index.php?' . JUri::buildQuery($params) . '"';
-				$mechanism = !empty($params['form']) ? $js : $url;
-				$switch    = '<a ' . $mechanism . '"><span class="icon-world"></span> ' . self::getLanguage()->_($constant) . '</a>';
-				$languageSwitches[]    = $switch;
+				$js                 = 'onclick="$(\'#languageTag\').val(\'' . $tag . '\');$(\'#adminForm\').submit();"';
+				$url                = 'href="index.php?' . JUri::buildQuery($params) . '"';
+				$mechanism          = !empty($params['form']) ? $js : $url;
+				$switch             = '<a ' . $mechanism . '"><span class="icon-world"></span> ' . self::getLanguage()->_($constant) . '</a>';
+				$languageSwitches[] = $switch;
 			}
 		}
 
@@ -159,8 +159,8 @@ class THM_OrganizerHelperLanguage
 	 */
 	public static function sprintf($string)
 	{
-		$lang = self::getLanguage();
-		$args = func_get_args();
+		$lang  = self::getLanguage();
+		$args  = func_get_args();
 		$count = count($args);
 
 		if ($count < 1)

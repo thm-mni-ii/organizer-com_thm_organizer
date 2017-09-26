@@ -1,5 +1,4 @@
-jQuery(document).ready(function ()
-{
+jQuery(document).ready(function () {
 	"use strict";
 	window.scheduleApp = new ScheduleApp(Joomla.getOptions('text', {}), Joomla.getOptions('variables', {}));
 });
@@ -9,8 +8,7 @@ jQuery(document).ready(function ()
  * @param {object} text - contains strings for names like weekdays, placeholders etc.
  * @param {object} variables - contains website configurations
  */
-var ScheduleApp = function (text, variables)
-{
+var ScheduleApp = function (text, variables) {
 	"use strict";
 
 	/**
@@ -37,8 +35,7 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * RegExp for date format, specified by website configuration
 		 */
-		datePattern = (function ()
-		{
+		datePattern = (function () {
 			var pattern = variables.dateFormat;
 
 			pattern = pattern.replace(/d/, "\\d{2}");
@@ -58,8 +55,7 @@ var ScheduleApp = function (text, variables)
 		 * Calendar class for a date input field with HTMLTableElement as calendar.
 		 * By choosing a date, schedules are updated.
 		 */
-		Calendar = function ()
-		{
+		Calendar = function () {
 			var that = this, // Helper for inner functions
 				calendarDiv = document.getElementById("calendar"),
 				calendarIsVisible = false,
@@ -85,8 +81,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Display calendar controls like changing to previous month.
 				 */
-				showControls = function ()
-				{
+				showControls = function () {
 					var dateControls = document.getElementsByClassName("date-input")[0].getElementsByClassName("controls");
 
 					for (var controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
@@ -98,8 +93,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Displays month and year in calendar table head
 				 */
-				setUpCalendarHead = function ()
-				{
+				setUpCalendarHead = function () {
 					month.innerHTML = months[activeDate.getMonth()];
 					year.innerHTML = activeDate.getFullYear().toString();
 				},
@@ -107,8 +101,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Deletes the rows of the calendar table for refreshing.
 				 */
-				resetTable = function ()
-				{
+				resetTable = function () {
 					var tableBody = table.getElementsByTagName("tbody")[0],
 						rowLength = table.getElementsByTagName("tr").length;
 
@@ -122,8 +115,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Calendar table gets filled with days of the month, chosen by the given date
 				 */
-				fillCalendar = function ()
-				{
+				fillCalendar = function () {
 					// Inspired by https://wiki.selfhtml.org/wiki/JavaScript/Anwendung_und_Praxis/Monatskalender
 					var tableBody = table.getElementsByTagName("tbody")[0],
 						rows, rowIndex, row, cell, cellIndex, months30days = [4, 6, 9, 11], days = 31, day = 1,
@@ -170,14 +162,12 @@ var ScheduleApp = function (text, variables)
 				 * @param {Date} date
 				 * @param {HTMLTableCellElement} cell
 				 */
-				addInsertDateButton = function (date, cell)
-				{
+				addInsertDateButton = function (date, cell) {
 					var button = document.createElement("button");
 					button.type = "button";
 					button.className = "day";
 					button.innerHTML = date.getDate().toString();
-					button.addEventListener("click", function ()
-					{
+					button.addEventListener("click", function () {
 						that.insertDate(date);
 					}, false);
 					cell.appendChild(button);
@@ -188,8 +178,7 @@ var ScheduleApp = function (text, variables)
 			 *
 			 * @param {boolean} [increaseMonth=true]
 			 */
-			this.changeCalendarMonth = function (increaseMonth)
-			{
+			this.changeCalendarMonth = function (increaseMonth) {
 				if (increaseMonth)
 				{
 					// day 1 for preventing get Feb 31
@@ -209,8 +198,7 @@ var ScheduleApp = function (text, variables)
 			 * @param {boolean} increase - increase or decrease
 			 * @param {string} step - how big the change step is ("day"|"week"|"month")
 			 */
-			this.changeSelectedDate = function (increase, step)
-			{
+			this.changeSelectedDate = function (increase, step) {
 				changeDate(increase, step);
 				app.updateSchedule();
 
@@ -223,8 +211,7 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * Hides or shows the calendar, depending on its previous status.
 			 */
-			this.showCalendar = function ()
-			{
+			this.showCalendar = function () {
 				calendarDiv.style.visibility = (calendarIsVisible) ? "hidden" : "visible";
 				calendarIsVisible = !calendarIsVisible;
 
@@ -237,8 +224,7 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * Hides the calendar.
 			 */
-			this.hideCalendar = function ()
-			{
+			this.hideCalendar = function () {
 				calendarDiv.style.visibility = "hidden";
 				calendarIsVisible = false;
 			};
@@ -248,8 +234,7 @@ var ScheduleApp = function (text, variables)
 			 *
 			 * @param {Date} date
 			 */
-			this.insertDate = function (date)
-			{
+			this.insertDate = function (date) {
 				activeDate = (typeof date === "undefined") ? new Date() : date;
 				app.dateField.value = activeDate.getPresentationFormat();
 				window.sessionStorage.setItem("scheduleDate", activeDate.toJSON());
@@ -260,8 +245,7 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * Builds the calendar (table), depending on a given date or the date field.
 			 */
-			this.setUpCalendar = function ()
-			{
+			this.setUpCalendar = function () {
 				resetTable();
 				setUpCalendarHead();
 				fillCalendar();
@@ -271,8 +255,7 @@ var ScheduleApp = function (text, variables)
 			 * Getter for visibility of this calendar
 			 * @returns {boolean}
 			 */
-			this.isVisible = function ()
-			{
+			this.isVisible = function () {
 				return calendarIsVisible;
 			};
 
@@ -280,13 +263,11 @@ var ScheduleApp = function (text, variables)
 			 * This function is called immediately after creating a new Calendar.
 			 * Sets eventListeners for HTML-elements and variables.
 			 */
-			(function ()
-			{
+			(function () {
 				that.activeDate = getDateFieldsDateObject();
 				showControls();
 				app.dateField.addEventListener("change", that.setUpCalendar);
-				document.getElementById("today").addEventListener("click", function ()
-				{
+				document.getElementById("today").addEventListener("click", function () {
 					that.insertDate();
 					that.setUpCalendar();
 				});
@@ -300,8 +281,7 @@ var ScheduleApp = function (text, variables)
 		 * @param {string} [IDs] - makes together with source the schedule ID and defines the task
 		 * @param {string} [optionalTitle] - optional title for directly linked schedules (e.g. teacher or room)
 		 */
-		Schedule = function (source, IDs, optionalTitle)
-		{
+		Schedule = function (source, IDs, optionalTitle) {
 			var that = this, // for inner helper functions
 				ajaxRequest = new XMLHttpRequest(),
 				id = source === "user" ? source : IDs ? source + IDs : source + getSelectedValues(source, "-"),
@@ -313,8 +293,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Sets Ajax url for updating lessons
 				 */
-				ajaxUrl = (function ()
-				{
+				ajaxUrl = (function () {
 					var url = getAjaxUrl();
 
 					url += variables.deltaDays ? "&deltaDays=" + variables.deltaDays : "";
@@ -332,8 +311,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Sets title that depends on the selected schedule
 				 */
-				title = (function ()
-				{
+				title = (function () {
 					var title = variables.displayName || "",
 						resourceField = document.getElementById(resource),
 						programField = document.getElementById("program"), index, options, selection = [];
@@ -351,8 +329,7 @@ var ScheduleApp = function (text, variables)
 					// Get pre-selected value like "Informatik Master"
 					if (resource === "pool" && programField.selectedIndex !== -1)
 					{
-						(function ()
-						{
+						(function () {
 							options = programField.options;
 							for (index = 0; index < options.length; ++index)
 							{
@@ -368,8 +345,7 @@ var ScheduleApp = function (text, variables)
 					// Get resource selection like "1. Semester" or "A20.1.1"
 					if (resourceField && resourceField.selectedIndex !== -1)
 					{
-						(function ()
-						{
+						(function () {
 							options = resourceField.options;
 							for (index = 0; index < options.length; ++index)
 							{
@@ -393,13 +369,11 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * Sends an Ajax request with the actual date to update the schedule
 			 */
-			this.requestUpdate = function ()
-			{
-				ajaxUrl = ajaxUrl.replace(/(date=)\d{4}\-\d{2}\-\d{2}/, "$1" + getDateFieldString());
+			this.requestUpdate = function () {
+				ajaxUrl = ajaxUrl.replace(/(date=)\d{4}-\d{2}-\d{2}/, "$1" + getDateFieldString());
 				ajaxRequest.open("GET", ajaxUrl, true);
 
-				ajaxRequest.onreadystatechange = function ()
-				{
+				ajaxRequest.onreadystatechange = function () {
 					if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
 					{
 						var response = JSON.parse(ajaxRequest.responseText);
@@ -427,8 +401,7 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * updates table with already given lessons, e.g. for changing time grids
 			 */
-			this.updateTable = function ()
-			{
+			this.updateTable = function () {
 				table.update(lessons, true);
 				that.popUp();
 			};
@@ -438,8 +411,7 @@ var ScheduleApp = function (text, variables)
 			 *
 			 * @param {boolean} [create = false] - create new pop-up when true
 			 */
-			this.popUp = function (create)
-			{
+			this.popUp = function (create) {
 				var cancelBtn, floatDiv = document.getElementById(id + "-pop-up"), titleElement;
 
 				if (floatDiv)
@@ -454,21 +426,18 @@ var ScheduleApp = function (text, variables)
 					floatDiv.className = "pop-up schedule-table";
 					floatDiv.style.zIndex = getHighestZIndexForClass(".pop-up.schedule-table");
 					floatDiv.draggable = true;
-					floatDiv.addEventListener("dragstart", function (event)
-					{
+					floatDiv.addEventListener("dragstart", function (event) {
 						var data = {"id": event.target.id, "x": event.pageX, "y": event.pageY};
 						event.dataTransfer.setData("text/plain", JSON.stringify(data));
 						event.dropEffect = "move";
 					});
-					floatDiv.addEventListener("click", function ()
-					{
+					floatDiv.addEventListener("click", function () {
 						this.style.zIndex = getHighestZIndexForClass(".pop-up.schedule-table");
 					});
 
 					cancelBtn = document.createElement("button");
 					cancelBtn.className = "icon-cancel";
-					cancelBtn.addEventListener("click", function ()
-					{
+					cancelBtn.addEventListener("click", function () {
 						this.parentElement.style.display = "none";
 					});
 					floatDiv.appendChild(cancelBtn);
@@ -491,8 +460,7 @@ var ScheduleApp = function (text, variables)
 			 * Getter for id of schedule
 			 * @returns {string}
 			 */
-			this.getId = function ()
-			{
+			this.getId = function () {
 				return id;
 			};
 
@@ -500,8 +468,7 @@ var ScheduleApp = function (text, variables)
 			 * Getter for resource of schedule
 			 * @returns {string}
 			 */
-			this.getResource = function ()
-			{
+			this.getResource = function () {
 				return resource;
 			};
 
@@ -509,8 +476,7 @@ var ScheduleApp = function (text, variables)
 			 * Getter for the IDs of the resource
 			 * @returns {string}
 			 */
-			this.getResourceIDs = function ()
-			{
+			this.getResourceIDs = function () {
 				return resourceIDs;
 			};
 
@@ -518,8 +484,7 @@ var ScheduleApp = function (text, variables)
 			 * Getter for title of schedule
 			 * @returns {string}
 			 */
-			this.getTitle = function ()
-			{
+			this.getTitle = function () {
 				return title;
 			};
 
@@ -527,16 +492,14 @@ var ScheduleApp = function (text, variables)
 			 * Getter for the ScheduleTable related with this schedule
 			 * @returns {ScheduleTable}
 			 */
-			this.getTable = function ()
-			{
+			this.getTable = function () {
 				return table;
 			};
 
 			/**
 			 * constructor-like function
 			 */
-			(function ()
-			{
+			(function () {
 				table = new ScheduleTable(that);
 				that.requestUpdate();
 				addScheduleToSelection(that);
@@ -550,8 +513,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {Schedule} schedule
 		 */
-		ScheduleTable = function (schedule)
-		{
+		ScheduleTable = function (schedule) {
 			var defaultGridID = null,
 				lessonElements = [], // HTMLDivElements
 				lessonData = {},
@@ -564,8 +526,7 @@ var ScheduleApp = function (text, variables)
 				 * Creates a table DOM-element with an input and label for selecting it and a caption with the given title.
 				 * It gets appended to the scheduleWrapper.
 				 */
-				createScheduleElement = function ()
-				{
+				createScheduleElement = function () {
 					var input, div, body, row, initGrid, period, firstDay, weekEnd = 7;
 
 					// Create input field for selecting this schedule
@@ -605,8 +566,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Insert table head and side cells with time data
 				 */
-				insertTableHead = function ()
-				{
+				insertTableHead = function () {
 					var tHead = table.createTHead(), tr = tHead.insertRow(0), weekend = 7, th, thText,
 						headerDate = getDateFieldsDateObject(), headIndex;
 
@@ -630,8 +590,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * sets the chosen times of the grid in the schedules tables
 				 */
-				setGridTime = function ()
-				{
+				setGridTime = function () {
 					var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"), row,
 						hasPeriods = timeGrid.hasOwnProperty("periods"), period = 1, timeCell, startTime, endTime;
 
@@ -662,8 +621,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * here the table head changes to the grids specified weekdays with start day and end day
 				 */
-				setGridDays = function ()
-				{
+				setGridDays = function () {
 					var currentDay = timeGrid.startDay, endDay = timeGrid.endDay,
 						headerDate = getDateFieldsDateObject(), day = headerDate.getDay(), thElement,
 						head = table.getElementsByTagName("thead")[0], headItems = head.getElementsByTagName("th");
@@ -704,8 +662,7 @@ var ScheduleApp = function (text, variables)
 				 *
 				 * @param {Object} lessons
 				 */
-				insertLessons = function (lessons)
-				{
+				insertLessons = function (lessons) {
 					var block, blockEnd, blockStart, blockTimes, cell, colNumber = variables.isMobile ? visibleDay : 1,
 						elementIndex, gridIndex, lesson, lessonElements, nextBlock, nextCell, nextRow, showOwnTime,
 						rowIndex, rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
@@ -738,7 +695,8 @@ var ScheduleApp = function (text, variables)
 									if (tableEndTime && block.match(/^(\d{4})-(\d{4})$/)[1] <= tableEndTime)
 									{
 										--gridIndex;
-										do {
+										do
+										{
 											--rowIndex;
 										}
 										while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
@@ -754,7 +712,8 @@ var ScheduleApp = function (text, variables)
 								// Block does not fit? go to next block
 								while (tableEndTime <= blockStart)
 								{
-									do {
+									do
+									{
 										++rowIndex;
 									}
 									while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
@@ -807,7 +766,8 @@ var ScheduleApp = function (text, variables)
 								}
 								++gridIndex;
 								// Jump over break
-								do {
+								do
+								{
 									++rowIndex;
 								}
 								while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
@@ -826,9 +786,9 @@ var ScheduleApp = function (text, variables)
 				 *
 				 * @param {Object} lessons
 				 */
-				insertLessonsWithoutPeriod = function (lessons)
-				{
-					var block, cell, colNumber = variables.isMobile ? visibleDay : 1, date, elementIndex, lesson, lessonElements,
+				insertLessonsWithoutPeriod = function (lessons) {
+					var block, cell, colNumber = variables.isMobile ? visibleDay : 1, date, elementIndex, lesson,
+						lessonElements,
 						rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
 					for (date in lessons)
@@ -868,8 +828,7 @@ var ScheduleApp = function (text, variables)
 				 *
 				 * @returns {Array|boolean} HTMLDivElements in an array or false in case of wrong input
 				 */
-				createLesson = function (data, ownTime)
-				{
+				createLesson = function (data, ownTime) {
 					var commentDiv, irrelevantPool, lessonElement, lessons, ownTimeSpan, poolsOuterDiv,
 						roomsOuterDiv, scheduleID = schedule.getId(), scheduleResource = schedule.getResource(),
 						subject, subjectOuterDiv, subjectData, teachersOuterDiv;
@@ -993,12 +952,10 @@ var ScheduleApp = function (text, variables)
 				 * @param {HTMLDivElement} lessonElement - the html element which needs a context menu
 				 * @param {Array} data - the lesson/subject data
 				 */
-				addContextMenu = function (lessonElement, data)
-				{
+				addContextMenu = function (lessonElement, data) {
 					var lesson = lessonElement;
 
-					lesson.addEventListener("contextmenu", function (event)
-					{
+					lesson.addEventListener("contextmenu", function (event) {
 						if (!lesson.classList.contains("calendar-removed") && !lesson.classList.contains("lesson-removed"))
 						{
 							event.preventDefault();
@@ -1019,21 +976,18 @@ var ScheduleApp = function (text, variables)
 				 * @param {HTMLDivElement} lessonElement
 				 * @param {Object} data
 				 */
-				addActionButtons = function (lessonElement, data)
-				{
+				addActionButtons = function (lessonElement, data) {
 					var saveDiv, saveActionButton, questionActionButton, deleteDiv, deleteActionButton;
 
 					// Saving a lesson
 					saveActionButton = document.createElement("button");
 					saveActionButton.className = "icon-plus";
-					saveActionButton.addEventListener("click", function ()
-					{
+					saveActionButton.addEventListener("click", function () {
 						handleLesson(variables.PERIOD_MODE, lessonElement.dataset.ccmID, true);
 					});
 					questionActionButton = document.createElement("button");
 					questionActionButton.className = "icon-question";
-					questionActionButton.addEventListener("click", function ()
-					{
+					questionActionButton.addEventListener("click", function () {
 						lessonMenu.getSaveMenu(lessonElement, data);
 					});
 					saveDiv = document.createElement("div");
@@ -1045,14 +999,12 @@ var ScheduleApp = function (text, variables)
 					// Deleting a lesson
 					deleteActionButton = document.createElement("button");
 					deleteActionButton.className = "icon-delete";
-					deleteActionButton.addEventListener("click", function ()
-					{
+					deleteActionButton.addEventListener("click", function () {
 						handleLesson(variables.PERIOD_MODE, lessonElement.dataset.ccmID, false);
 					});
 					questionActionButton = document.createElement("button");
 					questionActionButton.className = "icon-question";
-					questionActionButton.addEventListener("click", function ()
-					{
+					questionActionButton.addEventListener("click", function () {
 						lessonMenu.getDeleteMenu(lessonElement, data);
 					});
 					deleteDiv = document.createElement("div");
@@ -1069,13 +1021,11 @@ var ScheduleApp = function (text, variables)
 				 * @param {HTMLDivElement} outerElement
 				 * @param {Object} data - lessonData with subjects
 				 */
-				addSubjectElements = function (outerElement, data)
-				{
+				addSubjectElements = function (outerElement, data) {
 					var numIndex, openSubjectDetailsLink, subjectNameElement, subjectNumberElement, subjectNumbers;
 
-					openSubjectDetailsLink = function ()
-					{
-						window.open(variables.subjectDetailbase.replace(/&id=\d+/, "&id=" + data.subjectID), "_blank");
+					openSubjectDetailsLink = function () {
+						window.open(variables.subjectDetailBase.replace(/&id=\d+/, "&id=" + data.subjectID), "_blank");
 					};
 
 					if (data.name && data.shortName)
@@ -1128,9 +1078,9 @@ var ScheduleApp = function (text, variables)
 				 * @param {Object|string} [delta] - optional, delta like "new" or "remove"
 				 * @param {string} [className] - optional, class to style the elements
 				 */
-				addDataElements = function (resource, outerElement, data, delta, className)
-				{
-					var id, span, nameElement, showX = "show" + resource.slice(0, 1).toUpperCase() + resource.slice(1) + "s", deltaClass;
+				addDataElements = function (resource, outerElement, data, delta, className) {
+					var id, span, nameElement,
+						showX = "show" + resource.slice(0, 1).toUpperCase() + resource.slice(1) + "s", deltaClass;
 
 					for (id in data)
 					{
@@ -1161,10 +1111,8 @@ var ScheduleApp = function (text, variables)
 				 * @param {string|int} id
 				 * @param {string} title
 				 */
-				addLessonEvent = function (element, resource, id, title)
-				{
-					element.addEventListener("click", function ()
-					{
+				addLessonEvent = function (element, resource, id, title) {
+					element.addEventListener("click", function () {
 						sendLessonRequest(resource, id, title);
 					});
 				},
@@ -1175,8 +1123,7 @@ var ScheduleApp = function (text, variables)
 				 * @param {HTMLElement} lesson
 				 * @return {boolean}
 				 */
-				isSavedByUser = function (lesson)
-				{
+				isSavedByUser = function (lesson) {
 					var userSchedule = scheduleObjects.getScheduleById("user"), lessons;
 
 					if (!lesson || !userSchedule)
@@ -1203,8 +1150,7 @@ var ScheduleApp = function (text, variables)
 				 * @param {number} colIndex
 				 * @return {boolean}
 				 */
-				isOccupiedByUserLesson = function (rowIndex, colIndex)
-				{
+				isOccupiedByUserLesson = function (rowIndex, colIndex) {
 					var userScheduleTable = scheduleObjects.getScheduleById("user").getTable().getTableElement(),
 						rows = userScheduleTable.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
 						row = rows[rowIndex],
@@ -1216,8 +1162,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Removes all lessons
 				 */
-				resetTable = function ()
-				{
+				resetTable = function () {
 					var lessons = lessonElements;
 
 					for (var index = lessons.length - 1; index >= 0; --index)
@@ -1232,8 +1177,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Sets only the selected day column visible for mobile devices
 				 */
-				setActiveColumn = function ()
-				{
+				setActiveColumn = function () {
 					var heads, cells, rows = table.getElementsByTagName("tr");
 
 					for (var row = 0; row < rows.length; ++row)
@@ -1268,13 +1212,11 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Sets default gridID of schedule and select it in grid form field
 				 */
-				setOwnGrid = function ()
-				{
+				setOwnGrid = function () {
 					if (!defaultGridID)
 					{
 						// Function returns first found gridID
-						defaultGridID = (function ()
-						{
+						defaultGridID = (function () {
 							var day, time, lesson;
 
 							for (day in lessonData)
@@ -1316,8 +1258,7 @@ var ScheduleApp = function (text, variables)
 			 * @param {Object} lessons
 			 * @param {boolean} newTimeGrid
 			 */
-			this.update = function (lessons, newTimeGrid)
-			{
+			this.update = function (lessons, newTimeGrid) {
 				lessonData = lessons;
 				visibleDay = getDateFieldsDateObject().getDay();
 				if (newTimeGrid)
@@ -1347,8 +1288,7 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * Removes the HTMLTableElement itself and the related HTMLInputElement
 			 */
-			this.remove = function ()
-			{
+			this.remove = function () {
 				// input element
 				scheduleWrapper.removeChild(document.getElementById(schedule.getId() + "-input"));
 				// table element
@@ -1359,8 +1299,7 @@ var ScheduleApp = function (text, variables)
 			 * Getter for HTMLDivElements which represents the lessons of this table
 			 * @returns {Array}
 			 */
-			this.getLessons = function ()
-			{
+			this.getLessons = function () {
 				return lessonElements;
 			};
 
@@ -1368,16 +1307,14 @@ var ScheduleApp = function (text, variables)
 			 * Getter for the HTMLTableElement
 			 * @returns {Element}
 			 */
-			this.getTableElement = function ()
-			{
+			this.getTableElement = function () {
 				return table;
 			};
 
 			/**
 			 * constructor-like function to build the HTMLTableElement
 			 */
-			(function ()
-			{
+			(function () {
 				createScheduleElement();
 				insertTableHead();
 				setGridTime();
@@ -1387,8 +1324,7 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * Creates a lesson menu for saving and deleting a lesson, which opens by right clicking on it
 		 */
-		LessonMenu = function ()
-		{
+		LessonMenu = function () {
 			var currentCcmID = 0,
 				lessonMenuElement = document.getElementsByClassName("lesson-menu")[0],
 				subjectSpan = lessonMenuElement.getElementsByClassName("subject")[0],
@@ -1409,8 +1345,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Resets HTMLDivElements
 				 */
-				resetElements = function ()
-				{
+				resetElements = function () {
 					removeChildren(personsDiv);
 					removeChildren(roomsDiv);
 					removeChildren(poolsDiv);
@@ -1421,8 +1356,7 @@ var ScheduleApp = function (text, variables)
 				 *
 				 * @param {Object} data - lesson data like subject name, persons, locations...
 				 */
-				setLessonData = function (data)
-				{
+				setLessonData = function (data) {
 					var teacherID, personSpan, roomID, roomSpan, poolID, poolSpan;
 
 					resetElements();
@@ -1481,35 +1415,28 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * Adds eventListeners to html elements
 			 */
-			(function ()
-			{
-				saveSemesterMode.addEventListener("click", function ()
-				{
+			(function () {
+				saveSemesterMode.addEventListener("click", function () {
 					handleLesson(variables.SEMESTER_MODE, currentCcmID, true);
 					saveMenu.parentNode.style.display = "none";
 				});
-				savePeriodMode.addEventListener("click", function ()
-				{
+				savePeriodMode.addEventListener("click", function () {
 					handleLesson(variables.PERIOD_MODE, currentCcmID, true);
 					saveMenu.parentNode.style.display = "none";
 				});
-				saveInstanceMode.addEventListener("click", function ()
-				{
+				saveInstanceMode.addEventListener("click", function () {
 					handleLesson(variables.INSTANCE_MODE, currentCcmID, true);
 					saveMenu.parentNode.style.display = "none";
 				});
-				deleteSemesterMode.addEventListener("click", function ()
-				{
+				deleteSemesterMode.addEventListener("click", function () {
 					handleLesson(variables.SEMESTER_MODE, currentCcmID, false);
 					deleteMenu.parentNode.style.display = "none";
 				});
-				deletePeriodMode.addEventListener("click", function ()
-				{
+				deletePeriodMode.addEventListener("click", function () {
 					handleLesson(variables.PERIOD_MODE, currentCcmID, false);
 					deleteMenu.parentNode.style.display = "none";
 				});
-				deleteInstanceMode.addEventListener("click", function ()
-				{
+				deleteInstanceMode.addEventListener("click", function () {
 					handleLesson(variables.INSTANCE_MODE, currentCcmID, false);
 					deleteMenu.parentNode.style.display = "none";
 				});
@@ -1521,8 +1448,7 @@ var ScheduleApp = function (text, variables)
 			 * @param {HTMLDivElement} lessonElement
 			 * @param {Object} data - lesson data like subject name, persons, locations...
 			 */
-			this.getSaveMenu = function (lessonElement, data)
-			{
+			this.getSaveMenu = function (lessonElement, data) {
 				currentCcmID = lessonElement.dataset.ccmID;
 				saveMenu.style.display = "block";
 				deleteMenu.style.display = "none";
@@ -1537,8 +1463,7 @@ var ScheduleApp = function (text, variables)
 			 * @param {HTMLDivElement} lessonElement
 			 * @param {Object} data - lesson data like subject name, persons, locations...
 			 */
-			this.getDeleteMenu = function (lessonElement, data)
-			{
+			this.getDeleteMenu = function (lessonElement, data) {
 				currentCcmID = lessonElement.dataset.ccmID;
 				saveMenu.style.display = "none";
 				deleteMenu.style.display = "block";
@@ -1552,16 +1477,14 @@ var ScheduleApp = function (text, variables)
 		 * Container for all schedule objects
 		 * including functions to get the right schedule by id or response url.
 		 */
-		Schedules = function ()
-		{
+		Schedules = function () {
 			this.schedules = []; // Schedule objects
 
 			/**
 			 * Adds a schedule to the list and set it into session storage
 			 * @param {Schedule} schedule
 			 */
-			this.addSchedule = function (schedule)
-			{
+			this.addSchedule = function (schedule) {
 				var scheduleObject = {
 					title: schedule.getTitle(),
 					resource: schedule.getResource(),
@@ -1587,8 +1510,7 @@ var ScheduleApp = function (text, variables)
 			 * Removes a schedule and all related HTML elements
 			 * @param {Schedule|string} schedule - the object or id of schedule
 			 */
-			this.removeSchedule = function (schedule)
-			{
+			this.removeSchedule = function (schedule) {
 				var schedules = JSON.parse(window.sessionStorage.getItem("schedules"));
 
 				delete schedules[schedule.getId()];
@@ -1597,8 +1519,7 @@ var ScheduleApp = function (text, variables)
 				if (typeof schedule === "string")
 				{
 					schedule = this.schedules.find(
-						function (obj)
-						{
+						function (obj) {
 							return obj.id === schedule;
 						}
 					);
@@ -1616,8 +1537,7 @@ var ScheduleApp = function (text, variables)
 			 * @param {string} id
 			 * @return {Schedule|boolean}
 			 */
-			this.getScheduleById = function (id)
-			{
+			this.getScheduleById = function (id) {
 				for (var scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
 				{
 					if (this.schedules[scheduleIndex].getId() === id)
@@ -1633,8 +1553,7 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * Form of selecting a schedule
 		 */
-		ScheduleForm = function ()
-		{
+		ScheduleForm = function () {
 			var fieldsToShow = {},
 				config = {
 					"name": "",
@@ -1673,8 +1592,7 @@ var ScheduleApp = function (text, variables)
 				 * @param {HTMLSelectElement} field - selected field
 				 * @param {string} [values] - optional values to specify task
 				 */
-				getFormTask = function (field, values)
-				{
+				getFormTask = function (field, values) {
 					var task = getAjaxUrl("get" + (field.dataset.input === "static" ? jQuery(field).val() : field.id) + "s"),
 						previousField = document.querySelector("[data-next=" + field.id + "]");
 
@@ -1690,8 +1608,7 @@ var ScheduleApp = function (text, variables)
 				 * Set an option with placeholder text after removing all options
 				 * @param {HTMLSelectElement} field
 				 */
-				setPlaceholder = function (field)
-				{
+				setPlaceholder = function (field) {
 					var option;
 
 					removeChildren(field);
@@ -1711,8 +1628,7 @@ var ScheduleApp = function (text, variables)
 				 * Add an event handler for all schedule form selection elements
 				 * @param {HTMLSelectElement} field
 				 */
-				addSelectEventListener = function (field)
-				{
+				addSelectEventListener = function (field) {
 					if (variables.isMobile) // no Chosen-library available
 					{
 						fields[field.id].addEventListener("change", handleField);
@@ -1725,8 +1641,7 @@ var ScheduleApp = function (text, variables)
 						{
 							// Select on click, even on already selected(!) options (unlike Chosens "change" event)
 							wrappers[field.id].getElementsByClassName("chzn-results")[0].addEventListener("click",
-								function ()
-								{
+								function () {
 									handleField(field.id);
 								}
 							);
@@ -1738,8 +1653,7 @@ var ScheduleApp = function (text, variables)
 				 * Show given field and its 'parents' (like roomtype to room) and hide rest
 				 * @param {string} name - id of field
 				 */
-				showField = function (name)
-				{
+				showField = function (name) {
 					var field, id, selectedValue = "";
 
 					if (fields[name].dataset.input === "static")
@@ -1776,8 +1690,7 @@ var ScheduleApp = function (text, variables)
 				 * Set session data to save form state, provided that the field does not fire a new schedule (lessons)
 				 * @param {HTMLSelectElement} field - will be set into session storage
 				 */
-				setSession = function (field)
-				{
+				setSession = function (field) {
 					var session = {};
 
 					if (field.dataset.next !== "lesson")
@@ -1802,8 +1715,7 @@ var ScheduleApp = function (text, variables)
 				 * Loads field which is set in session
 				 * @return boolean - success indicator
 				 */
-				loadSession = function ()
-				{
+				loadSession = function () {
 					var department = sessionDepartments[variables.menuID], session = sessionFields[variables.menuID];
 
 					if (department)
@@ -1841,13 +1753,11 @@ var ScheduleApp = function (text, variables)
 				 * @param {int|string} [selectedValue] - value to select immediately
 				 * @param {Array} [onlyValues] - array with values that are designated to add
 				 */
-				sendFormRequest = function (name, selectedValue, onlyValues)
-				{
+				sendFormRequest = function (name, selectedValue, onlyValues) {
 					var ajax = new XMLHttpRequest(), field = fields[name], task = getFormTask(field, selectedValue);
 
 					ajax.open("GET", task, true);
-					ajax.onreadystatechange = function ()
-					{
+					ajax.onreadystatechange = function () {
 						var option, optionCount, response, value;
 
 						if (ajax.readyState === 4 && ajax.status === 200)
@@ -1893,8 +1803,7 @@ var ScheduleApp = function (text, variables)
 				 * Request for lessons or the next field will be send, depending on fields data-set
 				 * @param {Event|string} event - can be id too
 				 */
-				handleField = function (event)
-				{
+				handleField = function (event) {
 					var field = fields[event] || fields[event.target.id];
 
 					// Do not target placeholder
@@ -1921,23 +1830,20 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Forms first field gets handled, inclusive setting session params and displaying fields
 				 */
-				handleFirstField = function ()
-				{
+				handleFirstField = function () {
 					var firstField = fields[config.name] || fields.category, name = firstField.id;
 
 					if (config.name)
 					{
 						if (firstField.dataset.next === "lesson")
 						{
-							config.values.forEach(function (value)
-							{
+							config.values.forEach(function (value) {
 								var ajaxRequest = new XMLHttpRequest(),
 									titleTask = getAjaxUrl("getTitle") + "&resource=" + name + "&value=" + value;
 
 								// Gets title per Ajax for each schedule before it gets created
 								ajaxRequest.open("GET", titleTask, true);
-								ajaxRequest.onreadystatechange = function ()
-								{
+								ajaxRequest.onreadystatechange = function () {
 									if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
 									{
 										sendLessonRequest(name, value, ajaxRequest.responseText);
@@ -1963,8 +1869,7 @@ var ScheduleApp = function (text, variables)
 				/**
 				 * Reloads the next visible and flexible field of the form (for updating departmentID)
 				 */
-				updateNextVisibleField = function ()
-				{
+				updateNextVisibleField = function () {
 					var field, name, toUpdate = {"next": "", "lesson": ""}, wrapper;
 
 					for (name in fields)
@@ -1994,8 +1899,7 @@ var ScheduleApp = function (text, variables)
 			/**
 			 * Build the form by collecting configurations and handles the first field of schedule form
 			 */
-			(function ()
-			{
+			(function () {
 				var fieldName, idMatch, showMatch, values, valueIndex, variable;
 
 				// Collect form configuration from backend
@@ -2038,13 +1942,11 @@ var ScheduleApp = function (text, variables)
 				fieldsToShow.category = !config.name;
 				fieldsToShow.department = variables.departmentID === 0;
 
-				jQuery("#category").chosen().change(function ()
-				{
+				jQuery("#category").chosen().change(function () {
 					sendFormRequest(getSelectedValues(this.id));
 					setSession(this);
 				});
-				jQuery("#department").chosen().change(function ()
-				{
+				jQuery("#department").chosen().change(function () {
 					updateNextVisibleField();
 					setSession(this);
 				});
@@ -2061,21 +1963,19 @@ var ScheduleApp = function (text, variables)
 		 * @param {string} [task = "getLesson"]
 		 * @returns {string}
 		 */
-		getAjaxUrl = function (task)
-		{
+		getAjaxUrl = function (task) {
 			var selectedDepartments = getSelectedValues("department") || 0, url = "&departmentIDs=";
 
 			url += variables.departmentID === 0 ? selectedDepartments : variables.departmentID;
 			url += "&task=" + (task ? task : "getLessons");
 
-			return variables.ajaxbase + url;
+			return variables.ajaxBase + url;
 		},
 
 		/**
 		 * Loads schedules from session storage
 		 */
-		loadSessionSchedules = function ()
-		{
+		loadSessionSchedules = function () {
 			var id, schedules = JSON.parse(window.sessionStorage.getItem("schedules"));
 
 			if (schedules && Object.keys(schedules).length > 0)
@@ -2100,8 +2000,7 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * Select the grid of session storage
 		 */
-		selectSessionGrid = function ()
-		{
+		selectSessionGrid = function () {
 			var grid = window.sessionStorage.getItem("scheduleGrid");
 
 			if (grid)
@@ -2115,8 +2014,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {int} id - grid id to set as selected
 		 */
-		setGrid = function (id)
-		{
+		setGrid = function (id) {
 			jQuery("#grid").val(id).chosen("destroy").chosen();
 		},
 
@@ -2127,9 +2025,9 @@ var ScheduleApp = function (text, variables)
 		 * @param {string|number} [id]
 		 * @param {string} [title]
 		 */
-		sendLessonRequest = function (resource, id, title)
-		{
-			var IDs = id || getSelectedValues(resource, "-"), schedule = scheduleObjects.getScheduleById(resource + IDs);
+		sendLessonRequest = function (resource, id, title) {
+			var IDs = id || getSelectedValues(resource, "-"),
+				schedule = scheduleObjects.getScheduleById(resource + IDs);
 
 			if (schedule)
 			{
@@ -2149,8 +2047,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {Array} dates - with pastDate and/or futureDate value
 		 */
-		openNextDateQuestion = function (dates)
-		{
+		openNextDateQuestion = function (dates) {
 			var pastDate = dates.pastDate ? new Date(dates.pastDate) : null,
 				futureDate = dates.futureDate ? new Date(dates.futureDate) : null;
 
@@ -2188,8 +2085,7 @@ var ScheduleApp = function (text, variables)
 		 * @param {number} ccmID - calendar_configuration_map ID
 		 * @param {boolean} [save=true] - indicate to save or to delete the lesson
 		 */
-		handleLesson = function (taskNumber, ccmID, save)
-		{
+		handleLesson = function (taskNumber, ccmID, save) {
 			var mode = (typeof taskNumber === "undefined") ? "1" : taskNumber,
 				saving = (typeof save === "undefined") ? true : save,
 				task = getAjaxUrl(saving ? "saveLesson" : "deleteLesson");
@@ -2201,8 +2097,7 @@ var ScheduleApp = function (text, variables)
 
 			task += "&mode=" + mode + "&ccmID=" + ccmID;
 			ajaxSave.open("GET", task, true);
-			ajaxSave.onreadystatechange = function ()
-			{
+			ajaxSave.onreadystatechange = function () {
 				var handledLessons, lessonIndex, lessonElements, lessonElement;
 
 				if (ajaxSave.readyState === 4 && ajaxSave.status === 200)
@@ -2210,8 +2105,7 @@ var ScheduleApp = function (text, variables)
 					handledLessons = JSON.parse(ajaxSave.responseText);
 
 					// TODO: "occupied" cells in schedule object ablegen und abfragen, statt auf Elemente zu warten, die von asynchronen requests abhängen
-					scheduleObjects.schedules.forEach(function (schedule)
-					{
+					scheduleObjects.schedules.forEach(function (schedule) {
 						lessonElements = schedule.getTable().getLessons();
 						for (lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
 						{
@@ -2242,8 +2136,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {Schedule} schedule
 		 */
-		addScheduleToSelection = function (schedule)
-		{
+		addScheduleToSelection = function (schedule) {
 			var popUpButton, selectedItem, selectedTitle, showButton, removeButton;
 
 			selectedItem = document.createElement("div");
@@ -2254,8 +2147,7 @@ var ScheduleApp = function (text, variables)
 			selectedTitle = document.createElement("button");
 			selectedTitle.className = "title";
 			selectedTitle.innerHTML = schedule.getTitle();
-			selectedTitle.addEventListener("click", function ()
-			{
+			selectedTitle.addEventListener("click", function () {
 				showSchedule(schedule.getId());
 			});
 			selectedItem.appendChild(selectedTitle);
@@ -2263,8 +2155,7 @@ var ScheduleApp = function (text, variables)
 			showButton = document.createElement("button");
 			showButton.className = "show-schedule";
 			showButton.innerHTML = "<span class='icon-eye-close'></span>";
-			showButton.addEventListener("click", function ()
-			{
+			showButton.addEventListener("click", function () {
 				showSchedule(schedule.getId());
 			});
 			selectedItem.appendChild(showButton);
@@ -2274,8 +2165,7 @@ var ScheduleApp = function (text, variables)
 				popUpButton = document.createElement("button");
 				popUpButton.className = "pop-up-schedule";
 				popUpButton.innerHTML = "<span class='icon-move'></span>";
-				popUpButton.addEventListener("click", function ()
-				{
+				popUpButton.addEventListener("click", function () {
 					schedule.popUp(true);
 				});
 				selectedItem.appendChild(popUpButton);
@@ -2286,8 +2176,7 @@ var ScheduleApp = function (text, variables)
 				removeButton = document.createElement("button");
 				removeButton.className = "remove-schedule";
 				removeButton.innerHTML = "<span class='icon-remove'></span>";
-				removeButton.addEventListener("click", function ()
-				{
+				removeButton.addEventListener("click", function () {
 					removeScheduleFromSelection(selectedItem, schedule);
 				});
 				selectedItem.appendChild(removeButton);
@@ -2300,8 +2189,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {string} scheduleID
 		 */
-		showSchedule = function (scheduleID)
-		{
+		showSchedule = function (scheduleID) {
 			var scheduleElements = jQuery(".schedule-input"), schedulesIndex;
 
 			for (schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
@@ -2322,8 +2210,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @returns {string|boolean}
 		 */
-		getSelectedScheduleID = function ()
-		{
+		getSelectedScheduleID = function () {
 			var selectedSchedule = document.getElementById("selected-schedules").getElementsByClassName("shown")[0];
 
 			return selectedSchedule ? selectedSchedule.id : false;
@@ -2334,8 +2221,7 @@ var ScheduleApp = function (text, variables)
 		 * @param {HTMLDivElement} scheduleSelectionElement - remove this element
 		 * @param {Schedule} schedule - remove this object
 		 */
-		removeScheduleFromSelection = function (scheduleSelectionElement, schedule)
-		{
+		removeScheduleFromSelection = function (scheduleSelectionElement, schedule) {
 			scheduleSelectionElement.parentNode.removeChild(scheduleSelectionElement);
 			scheduleObjects.removeSchedule(schedule);
 
@@ -2355,8 +2241,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {Object} element - parent element
 		 */
-		removeChildren = function (element)
-		{
+		removeChildren = function (element) {
 			var children = element.children, maxIndex = children.length - 1;
 
 			for (var index = maxIndex; index >= 0; --index)
@@ -2372,8 +2257,7 @@ var ScheduleApp = function (text, variables)
 		 * @param {string} [separator=","]
 		 * @returns {string|boolean}
 		 */
-		getSelectedValues = function (fieldID, separator)
-		{
+		getSelectedValues = function (fieldID, separator) {
 			var sep = separator || ",", field = document.getElementById(fieldID),
 				options = field ? field.options : undefined, result = [], index;
 
@@ -2398,8 +2282,7 @@ var ScheduleApp = function (text, variables)
 		 * @param {boolean} increase - goes forward by default, backward with false
 		 * @param {string} step - defines how big the step is as "day", "week" or "month"
 		 */
-		changeDate = function (increase, step)
-		{
+		changeDate = function (increase, step) {
 			var stepString = step ? step : "week",
 				stepInt = stepString === "week" ? 7 : 1,
 				newDate = getDateFieldsDateObject();
@@ -2449,8 +2332,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @returns {string}
 		 */
-		getDateFieldString = function ()
-		{
+		getDateFieldString = function () {
 			return app.dateField.value.replace(/(\d{2})\.(\d{2})\.(\d{4})/, "$3" + "-" + "$2" + "-" + "$1");
 		},
 
@@ -2459,8 +2341,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @returns {Date}
 		 */
-		getDateFieldsDateObject = function ()
-		{
+		getDateFieldsDateObject = function () {
 			var parts = app.dateField.value.split(".", 3);
 			if (parts)
 			{
@@ -2474,8 +2355,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {Object} clickedTab
 		 */
-		changeTabBehaviour = function (clickedTab)
-		{
+		changeTabBehaviour = function (clickedTab) {
 			var tabId = clickedTab.attr("data-id");
 
 			if (clickedTab.parent("li").hasClass("active"))
@@ -2493,8 +2373,7 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * Activates tab with a list of selected schedules
 		 */
-		switchToScheduleListTab = function ()
-		{
+		switchToScheduleListTab = function () {
 			var selectedSchedulesTab = jQuery("#tab-selected-schedules");
 
 			if (!selectedSchedulesTab.parent("li").hasClass("disabled-tab"))
@@ -2509,8 +2388,7 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * Activates tab with a form for selecting a new schedule
 		 */
-		switchToFormTab = function ()
-		{
+		switchToFormTab = function () {
 			var formTab = jQuery("#tab-schedule-form");
 
 			if (!formTab.parent("li").hasClass("disabled-tab"))
@@ -2525,16 +2403,14 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * change position of the date-input, depending of screen-width
 		 */
-		changePositionOfDateInput = function ()
-		{
+		changePositionOfDateInput = function () {
 			var mq = window.matchMedia("(max-width: 677px)");
 			if (variables.isMobile)
 			{
 				jQuery(".date-input").insertAfter(".menu-bar");
 			}
 
-			mq.addListener(function ()
-			{
+			mq.addListener(function () {
 				if (mq.matches)
 				{
 					jQuery(".date-input").insertAfter(".menu-bar");
@@ -2551,8 +2427,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {string|Array} [tabIDs] - optional to disable only specific tabs
 		 */
-		disableTabs = function (tabIDs)
-		{
+		disableTabs = function (tabIDs) {
 			var i, allTabs = jQuery(".tabs-toggle"), scheduleInput = jQuery(".schedule-input"),
 				tabsToDisable = [
 					jQuery("#tab-selected-schedules"),
@@ -2594,20 +2469,17 @@ var ScheduleApp = function (text, variables)
 		/**
 		 * Add or remove rows for breaks depending on time grid
 		 */
-		handleBreakRows = function ()
-		{
+		handleBreakRows = function () {
 			var tables = jQuery(".schedule-table"),
 				numberOfColumns = variables.isMobile ? 2 : tables.find("tr:first").find("th").filter(
-					function ()
-					{
+					function () {
 						return jQuery(this).css("display") !== "none";
 					}
 				).length,
 				timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid),
 				endFirst, startSecond, addBreakRow, addLunchBreakRow, periods, rows;
 
-			tables.each(function (index, table)
-			{
+			tables.each(function (index, table) {
 				rows = jQuery(table).find("tbody").find("tr");
 
 				if (!timeGrid.hasOwnProperty("periods"))
@@ -2659,8 +2531,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {Event} event
 		 */
-		handleDragOver = function (event)
-		{
+		handleDragOver = function (event) {
 			event.preventDefault();
 			event.dataTransfer.dropEffect = "move";
 		},
@@ -2670,8 +2541,7 @@ var ScheduleApp = function (text, variables)
 		 *
 		 * @param {Event} event
 		 */
-		handleDrops = function (event)
-		{
+		handleDrops = function (event) {
 			var data = JSON.parse(event.dataTransfer.getData("text/plain")),
 				element = document.getElementById(data.id),
 				left = window.getComputedStyle(element).getPropertyValue("left"),
@@ -2699,8 +2569,7 @@ var ScheduleApp = function (text, variables)
 		 * @param {string} className
 		 * @returns {number}
 		 */
-		getHighestZIndexForClass = function (className)
-		{
+		getHighestZIndexForClass = function (className) {
 			var elements = document.querySelectorAll(className), index, zIndex, maxZIndex = 1;
 			for (index = 0; index < elements.length; ++index)
 			{
@@ -2721,8 +2590,7 @@ var ScheduleApp = function (text, variables)
 	 *
 	 * @param {string} id
 	 */
-	this.updateSchedule = function (id)
-	{
+	this.updateSchedule = function (id) {
 		var schedule = scheduleObjects.getScheduleById(id);
 		if (schedule)
 		{
@@ -2731,8 +2599,7 @@ var ScheduleApp = function (text, variables)
 		else
 		{
 			scheduleObjects.schedules.forEach(
-				function (schedule)
-				{
+				function (schedule) {
 					// Function called by grids eventListener
 					if (id === "grid")
 					{
@@ -2753,8 +2620,7 @@ var ScheduleApp = function (text, variables)
 	 * The date field gets the selected date, schedules get updates and the selection-div-element is hidden again
 	 * @param {Object} event - Event that triggers this function
 	 */
-	this.nextDateEventHandler = function (event)
-	{
+	this.nextDateEventHandler = function (event) {
 		var date = new Date(event.target.dataset.date);
 		this.dateField.value = date.getPresentationFormat();
 		window.sessionStorage.setItem("scheduleDate", date.toJSON());
@@ -2767,9 +2633,8 @@ var ScheduleApp = function (text, variables)
 	 *
 	 * @param {string} format
 	 */
-	this.handleExport = function (format)
-	{
-		var schedule = getSelectedScheduleID(), url = variables.exportbase,
+	this.handleExport = function (format) {
+		var schedule = getSelectedScheduleID(), url = variables.exportBase,
 			formats, resourceID, exportSelection = jQuery("#export-selection"),
 			gridID = variables.grids[getSelectedValues("grid")].id;
 
@@ -2839,8 +2704,7 @@ var ScheduleApp = function (text, variables)
 	 * Getter for calendar
 	 * @return {Object} calendar
 	 */
-	this.getCalendar = function ()
-	{
+	this.getCalendar = function () {
 		return calendar;
 	};
 
@@ -2851,8 +2715,7 @@ var ScheduleApp = function (text, variables)
 	 * @param {boolean} [shortYear=true]
 	 * @returns {string}
 	 */
-	Date.prototype.getPresentationFormat = function (shortYear)
-	{
+	Date.prototype.getPresentationFormat = function (shortYear) {
 		var date = variables.dateFormat,
 			day = this.getDate(),
 			dayLong = day < 10 ? "0" + day : day,
@@ -2886,8 +2749,7 @@ var ScheduleApp = function (text, variables)
 	 * "Constructor"
 	 * Adds EventListener and initialise menus, schedules, tabs, calendar and form
 	 */
-	(function ()
-	{
+	(function () {
 		var sessionDate = window.sessionStorage.getItem("scheduleDate"), startX, startY,
 			date = sessionDate ? new Date(sessionDate) : new Date();
 
@@ -2913,14 +2775,12 @@ var ScheduleApp = function (text, variables)
 		 * @see http://www.javascriptkit.com/javatutors/touchevents.shtml
 		 * @see http://www.html5rocks.com/de/mobile/touch/
 		 */
-		scheduleWrapper.addEventListener("touchstart", function (event)
-		{
+		scheduleWrapper.addEventListener("touchstart", function (event) {
 			var touch = event.changedTouches[0];
 			startX = parseInt(touch.pageX, 10);
 			startY = parseInt(touch.pageY, 10);
 		}, {passive: true}); // To say the browser, that we not 'prevent default' (and suppress warnings)
-		scheduleWrapper.addEventListener("touchend", function (event)
-		{
+		scheduleWrapper.addEventListener("touchend", function (event) {
 			var touch = event.changedTouches[0], minDist = 50,
 				distX = parseInt(touch.pageX, 10) - startX,
 				distY = parseInt(touch.pageY, 10) - startY;
@@ -2941,16 +2801,14 @@ var ScheduleApp = function (text, variables)
 				}
 			}
 		});
-		jQuery("#schedules").chosen().change(function ()
-		{
+		jQuery("#schedules").chosen().change(function () {
 			var scheduleInput = document.getElementById(jQuery("#schedules").val());
 
 			// To show the schedule after this input field (by css)
 			scheduleInput.checked = "checked";
 		});
 		// Change Tab-Behaviour of menu-bar, so all tabs can be closed
-		jQuery(".tabs-toggle").on("click", function (event)
-		{
+		jQuery(".tabs-toggle").on("click", function (event) {
 			changeTabBehaviour(jQuery(this));
 
 			//prevent loading of tabs-url:
@@ -2965,9 +2823,9 @@ var ScheduleApp = function (text, variables)
 	/**
 	 * context-menu-popup, calendar-popup and message-popup will be closed when clicking outside this
 	 */
-	jQuery(document).mouseup(function (e)
-	{
-		var popup = jQuery(".lesson-menu"), calendarPopup = jQuery("#calendar"), messagePopup = jQuery(".message.pop-up");
+	jQuery(document).mouseup(function (e) {
+		var popup = jQuery(".lesson-menu"), calendarPopup = jQuery("#calendar"),
+			messagePopup = jQuery(".message.pop-up");
 
 		if (!popup.is(e.target) && popup.has(e.target).length === 0)
 		{

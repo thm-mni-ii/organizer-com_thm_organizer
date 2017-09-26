@@ -69,7 +69,7 @@ class JFormFieldDepartmentID extends JFormFieldList
 			return parent::getOptions();
 		}
 
-		$options = array();
+		$options = [];
 		foreach ($departments as $department)
 		{
 			$options[] = JHtml::_('select.option', $department['value'], $department['text']);

@@ -13,11 +13,11 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
-$linkPrefix = "index.php?option=com_thm_organizer&view=course_list&format=pdf&type=%s&lessonID=%s&languageTag=%s";
-$shortTag = JFactory::getApplication()->input->get('languageTag', 'de');
+$linkPrefix           = "index.php?option=com_thm_organizer&view=course_list&format=pdf&type=%s&lessonID=%s&languageTag=%s";
+$shortTag             = JFactory::getApplication()->input->get('languageTag', 'de');
 $participantListRoute = JRoute::_(sprintf($linkPrefix, 0, $this->course["id"], $shortTag), false, 2);
-$departmentListRoute = JRoute::_(sprintf($linkPrefix, 1, $this->course["id"], $shortTag), false, 2);
-$badgesRoute = JRoute::_(sprintf($linkPrefix, 2, $this->course["id"], $shortTag), false, 2);
+$departmentListRoute  = JRoute::_(sprintf($linkPrefix, 1, $this->course["id"], $shortTag), false, 2);
+$badgesRoute          = JRoute::_(sprintf($linkPrefix, 2, $this->course["id"], $shortTag), false, 2);
 ?>
 
 <div>
@@ -65,19 +65,20 @@ $badgesRoute = JRoute::_(sprintf($linkPrefix, 2, $this->course["id"], $shortTag)
 	<?php endif;
 	if ($this->isAdmin): ?>
 		<script>
-            function deleteStudents(s) {
-                if (window.confirm(s))
-                {
-                    window.location.href = "<?php echo JRoute::_(
+			function deleteStudents(s)
+			{
+				if (window.confirm(s))
+				{
+					window.location.href = "<?php echo JRoute::_(
 						'index.php?option=com_thm_organizer&task=participant.clear' .
 						'&lessonID=' . $this->course["id"], false, 2
 					); ?>";
-                }
-            }
+				}
+			}
 		</script>
 
-		<a onclick="deleteStudents('<?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_CLEAR_COURSE_VERIFY")?>')"
-		   class="btn btn-mini" type="button" > <span class="icon-warning"></span>
+		<a onclick="deleteStudents('<?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_CLEAR_COURSE_VERIFY") ?>')"
+		   class="btn btn-mini" type="button"> <span class="icon-warning"></span>
 			<?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_CLEAR_COURSE") ?>
 		</a>
 

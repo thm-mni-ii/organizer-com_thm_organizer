@@ -1,8 +1,7 @@
 /**
  * Gets programs, rooms and teachers depending on selected department/program and inserts them into options
  */
-jQuery(document).ready(function ()
-{
+jQuery(document).ready(function () {
 	"use strict";
 
 	var department = jQuery('#jform_params_departmentID'),
@@ -35,27 +34,23 @@ jQuery(document).ready(function ()
 		if (!event || (event && event.target.id !== program.attr('id')))
 		{
 			jQuery.ajax(ajaxBaseUrl + '&task=getPrograms' + ajaxParams)
-				.done(function (request)
-				{
+				.done(function (request) {
 					insertOptions(program, request, keepValue);
 				});
 		}
 		// Update pools
 		jQuery.ajax(ajaxBaseUrl + '&task=getPools' + ajaxParams)
-			.done(function (request)
-			{
+			.done(function (request) {
 				insertOptions(pool, request, keepValue);
 			});
 		// Update rooms
 		jQuery.ajax(ajaxBaseUrl + '&task=getRooms&roomtypeIDs=-1' + ajaxParams)
-			.done(function (request)
-			{
+			.done(function (request) {
 				insertOptions(room, request, keepValue);
 			});
 		// Update teachers
 		jQuery.ajax(ajaxBaseUrl + '&task=getTeachers' + ajaxParams)
-			.done(function (request)
-			{
+			.done(function (request) {
 				insertOptions(teacher, request, keepValue);
 			});
 	}
@@ -71,8 +66,7 @@ jQuery(document).ready(function ()
 		var values = JSON.parse(request), oldValue = field.val();
 
 		field.find('option:not(:first)').remove();
-		jQuery.each(values, function (name, id)
-		{
+		jQuery.each(values, function (name, id) {
 			var option = jQuery('<option></option>').val(id).html(name);
 			if (keepValue && (jQuery.inArray(id, oldValue) !== -1 || id === oldValue))
 			{

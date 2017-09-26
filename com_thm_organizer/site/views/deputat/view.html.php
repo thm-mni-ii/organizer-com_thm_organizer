@@ -88,14 +88,14 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 		$scheduleID = $this->model->scheduleID;
 		$schedules  = $this->model->getDepartmentSchedules();
 
-		$options   = array();
+		$options   = [];
 		$options[] = JHtml::_('select.option', 0, JText::_("COM_THM_ORGANIZER_FILTER_SCHEDULE"));
 		foreach ($schedules as $schedule)
 		{
 			$options[] = JHtml::_('select.option', $schedule['id'], $schedule['name']);
 		}
 
-		$attribs             = array();
+		$attribs             = [];
 		$attribs['onChange'] = "jQuery('#reset').val('1');this.form.submit();";
 
 		$this->scheduleSelectBox = JHtml::_('select.genericlist', $options, 'scheduleID', $attribs, 'value', 'text', $scheduleID);
@@ -110,14 +110,14 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 	{
 		$teachers = $this->model->teachers;
 
-		$options   = array();
+		$options   = [];
 		$options[] = JHtml::_('select.option', '*', JText::_('JALL'));
 		foreach ($teachers as $teacherID => $teacherName)
 		{
 			$options[] = JHtml::_('select.option', $teacherID, $teacherName);
 		}
 
-		$attribs          = array('multiple' => 'multiple', 'size' => '10');
+		$attribs          = ['multiple' => 'multiple', 'size' => '10'];
 		$selectedTeachers = $this->model->selected;
 		$this->teachers   = JHtml::_('select.genericlist', $options, 'teachers[]', $attribs, 'value', 'text', $selectedTeachers);
 	}
@@ -129,7 +129,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 	 */
 	public function getDeputatTables()
 	{
-		$tables = array();
+		$tables = [];
 		foreach ($this->model->deputat as $teacherID => $deputat)
 		{
 			$displaySummary = !empty($deputat['summary']);
@@ -153,19 +153,19 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 			}
 			if ($displayTally)
 			{
-				$table .= '<tbody class="deputat-table-body" id="deputat-table-body-tally-' . $teacherID . '">';
+				$table      .= '<tbody class="deputat-table-body" id="deputat-table-body-tally-' . $teacherID . '">';
 				$extraClass = $displaySummary ? 'second-group' : '';
-				$table .= '<tr class="tally-header ' . $extraClass . '">';
-				$table .= '<th>Rechtsgrundlage<br/>gemäß LVVO</th>';
-				$table .= '<th>Art der Abschlussarbeit<br/>(nur bei Betreuung als Referent/in)</th>';
-				$table .= '<th>Umfang der Anrechnung in SWS je Arbeit<br />(insgesamt max. 2 SWS)</th>';
-				$table .= '<th>Anzahl der Arbeiten</th>';
-				$table .= '<th>Gemeldetes Deputat (SWS)</th>';
-				$table .= '</tr>';
-				$table .= $this->getTallyRows($teacherID, $deputat);
-				$table .= '</tbody>';
+				$table      .= '<tr class="tally-header ' . $extraClass . '">';
+				$table      .= '<th>Rechtsgrundlage<br/>gemäß LVVO</th>';
+				$table      .= '<th>Art der Abschlussarbeit<br/>(nur bei Betreuung als Referent/in)</th>';
+				$table      .= '<th>Umfang der Anrechnung in SWS je Arbeit<br />(insgesamt max. 2 SWS)</th>';
+				$table      .= '<th>Anzahl der Arbeiten</th>';
+				$table      .= '<th>Gemeldetes Deputat (SWS)</th>';
+				$table      .= '</tr>';
+				$table      .= $this->getTallyRows($teacherID, $deputat);
+				$table      .= '</tbody>';
 			}
-			$table .= '</table>';
+			$table    .= '</table>';
 			$tables[] = $table;
 		}
 
@@ -182,32 +182,32 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 	 */
 	private function getSummaryRows($teacherID, &$deputat)
 	{
-		$rows      = array();
+		$rows      = [];
 		$swsSum    = 0;
 		$realSum   = 0;
 		$weeks     = $this->params->get('deputat_weeks', 13);
 		$rowNumber = 0;
 		foreach ($deputat['summary'] as $summary)
 		{
-			$remove = '<a id="remove-data-row-' . $teacherID . '-' . $rowNumber . '" onclick="removeRow(this)">';
-			$remove .= '<i class="icon-remove"></i>';
-			$remove .= '</a>';
+			$remove      = '<a id="remove-data-row-' . $teacherID . '-' . $rowNumber . '" onclick="removeRow(this)">';
+			$remove      .= '<i class="icon-remove"></i>';
+			$remove      .= '</a>';
 			$periodsText = (count($summary['periods']) > 10) ?
 				"{$summary['startDate']} bis {$summary['endDate']}" : implode(', ', array_keys($summary['periods']));
 			$row         = '<tr class="data-row" id="data-row-' . $teacherID . '-' . $rowNumber . '">';
-			$row .= '<td>' . $summary['name'] . '</td>';
-			$row .= '<td>' . $summary['type'] . '</td>';
-			$row .= '<td>' . implode(',', $summary['pools']) . '</td>';
-			$row .= '<td>' . $periodsText . '</td>';
-			$sws = ceil((int) $summary['hours'] / $weeks);
-			$row .= '<td>';
-			$row .= '<span class="row-sws" id="row-sws-' . $teacherID . '-' . $rowNumber . '">' . $sws . '</span>';
-			$row .= ' (<span class="row-sws" id="row-total-' . $teacherID . '-' . $rowNumber . '">' . $summary['hours'] . '</span>)';
-			$row .= $remove . '</td>';
-			$swsSum += $sws;
-			$realSum += $summary['hours'];
-			$row .= '</tr>';
-			$rows[] = $row;
+			$row         .= '<td>' . $summary['name'] . '</td>';
+			$row         .= '<td>' . $summary['type'] . '</td>';
+			$row         .= '<td>' . implode(',', $summary['pools']) . '</td>';
+			$row         .= '<td>' . $periodsText . '</td>';
+			$sws         = ceil((int) $summary['hours'] / $weeks);
+			$row         .= '<td>';
+			$row         .= '<span class="row-sws" id="row-sws-' . $teacherID . '-' . $rowNumber . '">' . $sws . '</span>';
+			$row         .= ' (<span class="row-sws" id="row-total-' . $teacherID . '-' . $rowNumber . '">' . $summary['hours'] . '</span>)';
+			$row         .= $remove . '</td>';
+			$swsSum      += $sws;
+			$realSum     += $summary['hours'];
+			$row         .= '</tr>';
+			$rows[]      = $row;
 			$rowNumber++;
 		}
 		$sumRow = '<tr class="sum-row-' . $teacherID . '">';
@@ -236,19 +236,19 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 	 */
 	private function getTallyRows($teacherID, &$deputat)
 	{
-		$rows   = array();
+		$rows   = [];
 		$swsSum = 0;
 		foreach ($deputat['tally'] as $name => $data)
 		{
-			$sws = $data['rate'] * $data['count'];
+			$sws    = $data['rate'] * $data['count'];
 			$swsSum += $sws;
-			$row = '<tr class="data-row-' . $teacherID . '">';
-			$row .= '<td>LVVO § 2 (5)</td>';
-			$row .= '<td>' . $name . '</td>';
-			$row .= '<td>' . $data['rate'] . '</td>';
-			$row .= '<td>' . $data['count'] . '</td>';
-			$row .= '<td>' . $sws . '</td>';
-			$row .= '</tr>';
+			$row    = '<tr class="data-row-' . $teacherID . '">';
+			$row    .= '<td>LVVO § 2 (5)</td>';
+			$row    .= '<td>' . $name . '</td>';
+			$row    .= '<td>' . $data['rate'] . '</td>';
+			$row    .= '<td>' . $data['count'] . '</td>';
+			$row    .= '<td>' . $sws . '</td>';
+			$row    .= '</tr>';
 			$rows[] = $row;
 		}
 		$sumRow = '<tr class="sum-row-' . $teacherID . '">';

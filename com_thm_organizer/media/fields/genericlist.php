@@ -36,20 +36,20 @@ class JFormFieldGenericList extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$html = array();
+		$html = [];
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
+		$attr        .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr        .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr        .= $this->multiple ? ' multiple' : '';
+		$attr        .= $this->required ? ' required aria-required="true"' : '';
+		$attr        .= $this->autofocus ? ' autofocus' : '';
 		$placeHolder = $this->getAttribute('placeholder', '');
-		$attr .= empty($placeHolder)? '' : ' placeholder="' . JText::_($placeHolder) . '"';
+		$attr        .= empty($placeHolder) ? '' : ' placeholder="' . JText::_($placeHolder) . '"';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1' || (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
@@ -118,7 +118,7 @@ class JFormFieldGenericList extends JFormFieldList
 		try
 		{
 			$resources = $dbo->loadAssocList();
-			$options   = array();
+			$options   = [];
 			foreach ($resources as $resource)
 			{
 				// Removes glue from the end of entries

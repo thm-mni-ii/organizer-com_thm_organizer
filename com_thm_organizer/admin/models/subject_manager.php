@@ -41,11 +41,11 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('name', 'externalID', 'field');
+			$config['filter_fields'] = ['name', 'externalID', 'field'];
 		}
 
 		parent::__construct($config);
@@ -54,7 +54,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	/**
 	 * Method to select all existent assets from the database
 	 *
-	 * @return  Object  A query object
+	 * @return  JDatabaseQuery  the query object
 	 */
 	protected function getListQuery()
 	{
@@ -65,7 +65,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 		// Create the sql query
 		$query  = $dbo->getQuery(true);
 		$select = "DISTINCT s.id, externalID, s.name_$shortTag AS name, field_$shortTag AS field, color, ";
-		$parts  = array("'index.php?option=com_thm_organizer&view=subject_edit&id='", "s.id");
+		$parts  = ["'index.php?option=com_thm_organizer&view=subject_edit&id='", "s.id"];
 		$select .= $query->concatenate($parts, "") . " AS link ";
 		$query->select($select);
 		$query->from('#__thm_organizer_subjects AS s');
@@ -73,14 +73,14 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 		$query->where("(s.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR s.departmentID IS NULL)");
 
-		$searchFields = array('s.name_de', 'short_name_de', 'abbreviation_de', 's.name_en', 'short_name_en',
-		                      'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
-		                      'description_en', 'objective_en', 'content_en', 'lsfID'
-		);
+		$searchFields = ['s.name_de', 'short_name_de', 'abbreviation_de', 's.name_en', 'short_name_en',
+		                 'abbreviation_en', 'externalID', 'description_de', 'objective_de', 'content_de',
+		                 'description_en', 'objective_en', 'content_en', 'lsfID'
+		];
 
 		$this->setSearchFilter($query, $searchFields);
-		$this->setValueFilters($query, array('externalID'));
-		$this->setLocalizedFilters($query, array('name', 'field'));
+		$this->setValueFilters($query, ['externalID']);
+		$this->setLocalizedFilters($query, ['name', 'field']);
 
 		$programID = $this->state->get('list.programID', '');
 		THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'subject');
@@ -105,7 +105,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -116,7 +116,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]               = array();
+			$return[$index]               = [];
 			$return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['name']       = JHtml::_('link', $item->link, $item->name);
 			$return[$index]['externalID'] = JHtml::_('link', $item->link, $item->externalID);
@@ -151,7 +151,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 	{
 		$ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction             = $this->state->get('list.direction', $this->defaultDirection);
-		$headers               = array();
+		$headers               = [];
 		$headers['checkbox']   = '';
 		$headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 		$headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction, $ordering);

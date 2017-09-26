@@ -44,8 +44,8 @@ class THM_OrganizerHelperRoomTypes
 			return '';
 		}
 
-		$languageTag   = THM_OrganizerHelperLanguage::getShortTag();
-		$attribute = "name_$languageTag";
+		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
+		$attribute   = "name_$languageTag";
 
 		return $success ? $roomTypesTable->$attribute : '';
 	}

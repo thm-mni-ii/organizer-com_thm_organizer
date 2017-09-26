@@ -48,15 +48,15 @@
 function iCal2XML($calendar)
 {
 	/** fix an SimpleXMLElement instance and create root element */
-	$xmlstr = '<?xml version="1.0" encoding="utf-8"?><icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">';
-	$xmlstr .= '<!-- created ' . gmdate('Ymd\THis\Z');
-	$xmlstr .= ' using kigkonsult.se ' . ICALCREATOR_VERSION . ' iCal2XMl (rfc6321) -->';
-	$xmlstr .= '</icalendar>';
+	$xmlstr    = '<?xml version="1.0" encoding="utf-8"?><icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">';
+	$xmlstr    .= '<!-- created ' . gmdate('Ymd\THis\Z');
+	$xmlstr    .= ' using kigkonsult.se ' . ICALCREATOR_VERSION . ' iCal2XMl (rfc6321) -->';
+	$xmlstr    .= '</icalendar>';
 	$xml       = new SimpleXMLElement($xmlstr);
 	$vcalendar = $xml->addChild('vcalendar');
 	/** fix calendar properties */
 	$properties = $vcalendar->addChild('properties');
-	$calProps   = array('version', 'prodid', 'calscale', 'method');
+	$calProps   = ['version', 'prodid', 'calscale', 'method'];
 	foreach ($calProps as $calProp)
 	{
 		if (false !== ($content = $calendar->getProperty($calProp)))
@@ -444,6 +444,7 @@ function iCal2XML($calendar)
 			} // end foreach( $subCompProps as $prop )
 		} // end while( FALSE !== ( $subcomp = $component->getComponent()))
 	} // end while( FALSE !== ( $component = $calendar->getComponent()))
+
 	return $xml->asXML();
 }
 
@@ -465,7 +466,7 @@ function iCal2XML($calendar)
  * @uses   iCalUtilityFunctions::$geoLongFmt
  * @return void
  */
-function _addXMLchild(& $parent, $name, $type, $content, $params = array())
+function _addXMLchild(& $parent, $name, $type, $content, $params = [])
 {
 	static $fmtYmd = '%04d-%02d-%02d';
 	static $fmtYmdHis = '%04d-%02d-%02dT%02d:%02d:%02d';
@@ -541,7 +542,7 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = array())
 		case 'date':
 			if (array_key_exists('year', $content))
 			{
-				$content = array($content);
+				$content = [$content];
 			}
 			foreach ($content as $date)
 			{
@@ -552,7 +553,7 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = array())
 		case 'date-time':
 			if (array_key_exists('year', $content))
 			{
-				$content = array($content);
+				$content = [$content];
 			}
 			foreach ($content as $dt)
 			{
@@ -664,7 +665,7 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = array())
 						{
 							$str = (isset($rulevalue[0])) ? $rulevalue[0] : '';
 							$str .= $rulevalue['DAY'];
-							$p = $child->addChild($rulelabel, $str);
+							$p   = $child->addChild($rulelabel, $str);
 						}
 						else
 						{
@@ -674,7 +675,7 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = array())
 								{
 									$str = (isset($valuePart[0])) ? $valuePart[0] : '';
 									$str .= $valuePart['DAY'];
-									$p = $child->addChild($rulelabel, $str);
+									$p   = $child->addChild($rulelabel, $str);
 								}
 								else
 								{
@@ -705,7 +706,7 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = array())
 		case 'text':
 			if (!is_array($content))
 			{
-				$content = array($content);
+				$content = [$content];
 			}
 			foreach ($content as $part)
 			{
@@ -718,7 +719,7 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = array())
 			$v = $child->addChild($type, $content);
 			break;
 		case 'utc-offset':
-			if (in_array(substr($content, 0, 1), array('-', '+')))
+			if (in_array(substr($content, 0, 1), ['-', '+']))
 			{
 				$str     = substr($content, 0, 1);
 				$content = substr($content, 1);
@@ -756,7 +757,7 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = array())
  *
  * @return mixediCalcreator instance or FALSE on error
  */
-function XMLfile2iCal($xmlfile, $iCalcfg = array())
+function XMLfile2iCal($xmlfile, $iCalcfg = [])
 {
 	if (false === ($xmlstr = file_get_contents($xmlfile)))
 	{
@@ -777,7 +778,7 @@ function XMLfile2iCal($xmlfile, $iCalcfg = array())
  *
  * @return mixed  iCalcreator instance or FALSE on error
  */
-function XMLstr2iCal($xmlstr, $iCalcfg = array())
+function XMLstr2iCal($xmlstr, $iCalcfg = [])
 {
 	return XML2iCal($xmlstr, $iCalcfg);
 }
@@ -795,7 +796,7 @@ function XMLstr2iCal($xmlstr, $iCalcfg = array())
  * @uses   XMLgetComps()
  * @return mixed  iCalcreator instance or FALSE on error
  */
-function XML2iCal($xmlstr, $iCalcfg = array())
+function XML2iCal($xmlstr, $iCalcfg = [])
 {
 	$xmlstr = str_replace(array("\r\n", "\n\r", "\n", "\r"), '', $xmlstr);
 	$xml    = XMLgetTagContent1($xmlstr, 'vcalendar', $endIx);
@@ -890,7 +891,7 @@ function XMLgetProps($iCal, $xml)
 			$xml = substr($xml, $endIx);
 			continue;
 		}
-		$params = array();
+		$params = [];
 		if ('<parameters/>' == substr($xml2, 0, 13))
 		{
 			$xml2 = substr($xml2, 13);
@@ -903,14 +904,14 @@ function XMLgetProps($iCal, $xml)
 				$xml4     = XMLgetTagContent2($xml3, $paramKey, $endIx3);
 				$pType    = false; // skip parameter valueType
 				$paramKey = strtoupper($paramKey);
-				static $mParams = array('DELEGATED-FROM', 'DELEGATED-TO', 'MEMBER');
+				static $mParams = ['DELEGATED-FROM', 'DELEGATED-TO', 'MEMBER'];
 				if (in_array($paramKey, $mParams))
 				{
 					while (!empty($xml4))
 					{
 						if (!isset($params[$paramKey]))
 						{
-							$params[$paramKey] = array(XMLgetTagContent1($xml4, 'cal-address', $endIx4));
+							$params[$paramKey] = [XMLgetTagContent1($xml4, 'cal-address', $endIx4)];
 						}
 						else
 						{
@@ -940,7 +941,7 @@ function XMLgetProps($iCal, $xml)
 		{
 			case 'CATEGORIES':
 			case 'RESOURCES':
-				$tValue = array();
+				$tValue = [];
 				while (!empty($xml2))
 				{
 					$tValue[] = html_entity_decode(XMLgetTagContent2($xml2, $valueType, $endIx4));
@@ -956,7 +957,7 @@ function XMLgetProps($iCal, $xml)
 					{
 						$params['VALUE'] = 'DATE';
 					}
-					$t = array();
+					$t = [];
 					while (!empty($xml2) && ('<date' == substr($xml2, 0, 5)))
 					{
 						$t[]  = XMLgetTagContent2($xml2, $pType, $endIx4);
@@ -970,11 +971,11 @@ function XMLgetProps($iCal, $xml)
 				{
 					$params['VALUE'] = 'PERIOD';
 				}
-				$value = array();
+				$value = [];
 				while (!empty($xml2) && ('<period>' == substr($xml2, 0, 8)))
 				{
 					$xml3 = XMLgetTagContent1($xml2, 'period', $endIx4); // period
-					$t    = array();
+					$t    = [];
 					while (!empty($xml3))
 					{
 						$t[]  = XMLgetTagContent2($xml3, $pType, $endIx5); // start - end/duration
@@ -989,13 +990,13 @@ function XMLgetProps($iCal, $xml)
 				$value = str_replace(':', '', $value);
 				break;
 			case 'GEO':
-				$tValue              = array('latitude' => $value);
+				$tValue              = ['latitude' => $value];
 				$tValue['longitude'] = XMLgetTagContent1(substr($xml2, $endIx3), 'longitude', $endIx3);
 				$value               = $tValue;
 				break;
 			case 'EXRULE':
 			case 'RRULE':
-				$tValue    = array($valueType => $value);
+				$tValue    = [$valueType => $value];
 				$xml2      = substr($xml2, $endIx3);
 				$valueType = false;
 				while (!empty($xml2))
@@ -1013,13 +1014,13 @@ function XMLgetProps($iCal, $xml)
 						case 'byday':
 							if (2 == strlen($t))
 							{
-								$tValue[$valueType][] = array('DAY' => $t);
+								$tValue[$valueType][] = ['DAY' => $t];
 							}
 							else
 							{
 								$day                  = substr($t, -2);
 								$key                  = substr($t, 0, (strlen($t) - 2));
-								$tValue[$valueType][] = array($key, 'DAY' => $day);
+								$tValue[$valueType][] = [$key, 'DAY' => $day];
 							}
 							break;
 						default:
@@ -1030,7 +1031,7 @@ function XMLgetProps($iCal, $xml)
 				$value = $tValue;
 				break;
 			case 'REQUEST-STATUS':
-				$tValue = array();
+				$tValue = [];
 				while (!empty($xml2))
 				{
 					$t                  = html_entity_decode(XMLgetTagContent2($xml2, $valueType, $endIx4));
@@ -1043,7 +1044,7 @@ function XMLgetProps($iCal, $xml)
 				}
 				else
 				{
-					$value = array('code' => null, 'description' => null);
+					$value = ['code' => null, 'description' => null];
 				}
 				break;
 			default:

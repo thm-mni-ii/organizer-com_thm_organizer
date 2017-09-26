@@ -27,7 +27,7 @@ class THM_OrganizerModelPool extends JModelLegacy
 	 */
 	public function delete()
 	{
-		$poolIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$poolIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		if (!empty($poolIDs))
 		{
 			$this->_db->transactionStart();
@@ -79,12 +79,14 @@ class THM_OrganizerModelPool extends JModelLegacy
 	/**
 	 * Saves
 	 *
+	 * @param bool $new whether or not the pool is a new item
+	 *
 	 * @return  mixed  integer on successful pool creation, otherwise boolean
 	 *                 true/false on success/failure
 	 */
 	public function save($new = false)
 	{
-		$data  = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data  = JFactory::getApplication()->input->get('jform', [], 'array');
 		$table = JTable::getInstance('pools', 'thm_organizerTable');
 
 		$this->_db->transactionStart();
@@ -122,7 +124,7 @@ class THM_OrganizerModelPool extends JModelLegacy
 		// Process mapping information
 		else
 		{
-			$model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+			$model      = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
 			$data['id'] = $table->id;
 
 			// No mappings desired

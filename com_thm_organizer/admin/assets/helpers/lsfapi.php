@@ -32,13 +32,13 @@ class THM_OrganizerLSFClient
 	 */
 	public function __construct()
 	{
-		$this->username  = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
+		$this->username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
 		$this->password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
 
-		$options             = array();
+		$options             = [];
 		$options['uri']      = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
 		$options['location'] = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
-		$this->client       = new SoapClient(null, $options);
+		$this->client        = new SoapClient(null, $options);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class THM_OrganizerLSFClient
 			return 'subject';
 		}
 
-		return (isset($resource->modulliste->modul) AND $type == 'K')? 'pool' : 'invalid';
+		return (isset($resource->modulliste->modul) AND $type == 'K') ? 'pool' : 'invalid';
 	}
 
 	/**
@@ -70,7 +70,8 @@ class THM_OrganizerLSFClient
 	private function getDataXML($query)
 	{
 		$app    = JFactory::getApplication();
-		$result = $this->client->__soapCall('getDataXML', array('xmlParams' => $query));
+		$result = $this->client->__soapCall('getDataXML', ['xmlParams' => $query]);
+
 		if (!$result)
 		{
 			$app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');
@@ -181,9 +182,9 @@ class THM_OrganizerLSFClient
 	 */
 	public static function invalidTitle(&$resource, $isSubject = false)
 	{
-		$titleDE = $isSubject? trim((string) $resource->modul->titelde) : trim((string) $resource->titelde);
-		$titleEN = $isSubject? trim((string) $resource->modul->titelen) : trim((string) $resource->titelen);
-		$title = empty($titleDE)? $titleEN : $titleDE;
+		$titleDE = $isSubject ? trim((string) $resource->modul->titelde) : trim((string) $resource->titelde);
+		$titleEN = $isSubject ? trim((string) $resource->modul->titelen) : trim((string) $resource->titelen);
+		$title   = empty($titleDE) ? $titleEN : $titleDE;
 
 		if (empty($title))
 		{

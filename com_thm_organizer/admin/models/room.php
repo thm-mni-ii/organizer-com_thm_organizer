@@ -23,32 +23,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 {
 	/**
-	 * Processes the references for a single date
-	 *
-	 * @param object &$schedule     the schedule being processed
-	 * @param string $date          the date being currently iterated
-	 * @param object $blocks        the block being currently iterated
-	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param string $gpuntisID     the gpuntis ID to use for the resource in the schedule, empty during deletion
-	 *
-	 * @return  void
-	 */
-	private function iterateDateReferences(&$schedule, $date, $blocks, $allGPUntisIDs, $gpuntisID = null)
-	{
-		if (is_object($blocks))
-		{
-			foreach ($blocks as $block => $lessons)
-			{
-				$lessonIDs = array_keys((array) $lessons);
-				foreach ($lessonIDs as $lessonID)
-				{
-					$this->updateRoomReference($schedule, $date, $block, $lessonID, $allGPUntisIDs, $gpuntisID);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Updates key references to the entry being merged.
 	 *
 	 * @param int   $newDBID  the id onto which the room entries merge
@@ -108,37 +82,6 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 			if ($inConfig)
 			{
 				$schedule->configurations[$index] = json_encode($configuration);
-			}
-		}
-	}
-
-	/**
-	 * Updates lesson references to rooms. If gpuntisID is empty the reference will be deleted.
-	 *
-	 * @param object &$schedule     the schedule being processed
-	 * @param string $date          the date being currently iterated
-	 * @param int    $block         the block being currently iterated
-	 * @param int    $lessonID      the id of the lesson being currently iterated
-	 * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-	 * @param string $gpuntisID     the gpuntis ID to use for the resource in the schedule, empty during deletion
-	 *
-	 * @return  void
-	 */
-	private function updateRoomReference(&$schedule, $date, $block, $lessonID, $allGPUntisIDs, $gpuntisID = null)
-	{
-		foreach ($schedule->calendar->$date->$block->$lessonID as $roomID => $delta)
-		{
-			if ($roomID == 'delta')
-			{
-				continue;
-			}
-			if (in_array($roomID, $allGPUntisIDs))
-			{
-				unset($schedule->calendar->$date->$block->$lessonID->$roomID);
-			}
-			if (!empty($gpuntisID))
-			{
-				$schedule->calendar->$date->$block->$lessonID->$gpuntisID = $delta;
 			}
 		}
 	}

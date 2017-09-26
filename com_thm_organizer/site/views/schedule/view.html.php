@@ -80,7 +80,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 	 *
 	 * @param null $tpl template
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function display($tpl = null)
 	{
@@ -126,15 +126,15 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 			'SEMESTER_MODE'     => 1,
 			'PERIOD_MODE'       => 2,
 			'INSTANCE_MODE'     => 3,
-			'ajaxbase'          => $root . 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw',
+			'ajaxBase'          => $root . 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw',
 			'auth'              => !empty($user->id) ?
-									urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT))
-									: '',
+				urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT))
+				: '',
 			'dateFormat'        => $this->dateFormat,
 			'defaultGrid'       => $this->defaultGrid->grid,
 			'deltaDays'         => $this->model->params['deltaDays'],
 			'departmentID'      => $this->model->params['departmentID'],
-			'exportbase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
+			'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
 			'isMobile'          => $this->isMobile,
 			'menuID'            => JFactory::getApplication()->input->get('Itemid', 0),
 			'registered'        => !empty($user->id),
@@ -143,7 +143,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 			'showRooms'         => $this->model->params['showRooms'],
 			'showRoomTypes'     => $this->model->params['showRoomTypes'],
 			'showTeachers'      => $this->model->params['showTeachers'],
-			'subjectDetailbase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
+			'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
 			'username'          => !empty($user->id) ? $user->username : ''
 		];
 

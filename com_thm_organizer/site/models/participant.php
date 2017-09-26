@@ -10,6 +10,7 @@
  */
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+
 /**
  * Class provides methods for handling and saving information about participants of preparatory courses
  *
@@ -20,14 +21,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
 class THM_OrganizerModelParticipant extends JModelLegacy
 {
 	/**
-	 *	Saves data for participants when administrator changes state in manager
+	 *    Saves data for participants when administrator changes state in manager
 	 *
 	 * @return bool true on success, false on error
 	 */
 	public function changeStatus()
 	{
-		$user = JFactory::getUser();
-		$subjectID = JFactory::getApplication()->input->get("subjectID");
+		$user       = JFactory::getUser();
+		$subjectID  = JFactory::getApplication()->input->get("subjectID");
 		$authorized = (THM_OrganizerHelperPrep_Course::authSubjectTeacher($subjectID) OR JFactory::getUser()->authorise('core.admin'));
 
 		if (empty($user->id) OR !$authorized)
@@ -75,6 +76,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 		}
 
 		$table->load($data["id"]);
+
 		return $table->save($data);
 	}
 
@@ -87,16 +89,16 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	 *
 	 * @return boolean true on success, false on error
 	 */
-	public function applySignAction($data = array(), $action = '', $lessonID = 0)
+	public function applySignAction($data = [], $action = '', $lessonID = 0)
 	{
 		if (empty($data) OR empty($action) OR empty($lessonID))
 		{
 			return false;
 		}
 
-		$lang = THM_OrganizerHelperLanguage::getLanguage();
+		$lang       = THM_OrganizerHelperLanguage::getLanguage();
 		$courseFull = THM_OrganizerHelperPrep_Course::isCourseFull($lessonID) ? 0 : 1;
-		$query = $this->_db->getQuery(true);
+		$query      = $this->_db->getQuery(true);
 
 		switch ($action)
 		{
@@ -104,18 +106,18 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 
 				$status = $courseFull;
 
-				$data = array(
-					"lessonID" => $lessonID,
-					"userID" => $data["userID"],
-					"status" => $status,
-					"user_date" => date('Y-m-d H:i:s'),
+				$data = [
+					"lessonID"    => $lessonID,
+					"userID"      => $data["userID"],
+					"status"      => $status,
+					"user_date"   => date('Y-m-d H:i:s'),
 					"status_date" => date('Y-m-d H:i:s')
-				);
+				];
 
 				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 				$table = JTable::getInstance('user_lessons', 'THM_OrganizerTable');
 
-				$return = $table->save($data, '', array('order', 'configuration'));
+				$return = $table->save($data, '', ['order', 'configuration']);
 
 				break;
 			case DEREGISTER:
@@ -134,6 +136,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 				catch (Exception $exc)
 				{
 					JFactory::getApplication()->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
 					return false;
 				}
 
@@ -145,6 +148,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 		if (!empty($return))
 		{
 			JModelLegacy::getInstance("mailer", "THM_OrganizerModel")->notifyParticipant($data['userID'], $status, $lessonID);
+
 			return true;
 		}
 
@@ -162,7 +166,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	public function moveUpWaitingUsers($lessonID)
 	{
 		$courseFull = THM_OrganizerHelperPrep_Course::isCourseFull($lessonID);
-		$lang = THM_OrganizerHelperLanguage::getLanguage();
+		$lang       = THM_OrganizerHelperLanguage::getLanguage();
 
 		if (!$courseFull)
 		{
@@ -182,6 +186,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 			catch (Exception $exc)
 			{
 				JFactory::getApplication()->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
 				return;
 			}
 
@@ -209,7 +214,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 			return false;
 		}
 
-		$lang = THM_OrganizerHelperLanguage::getLanguage();
+		$lang  = THM_OrganizerHelperLanguage::getLanguage();
 		$query = $this->_db->getQuery(true);
 
 		switch ($status)
@@ -244,6 +249,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
 			return false;
 		}
 
@@ -271,21 +277,21 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	 */
 	public function clearParticipants($lessonID)
 	{
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
 		$admin = $user->authorise('core.admin');
 
-		if(!$admin)
+		if (!$admin)
 		{
 			return false;
 		}
 
 		$participants = THM_OrganizerHelperPrep_Course::getRegisteredStudents($lessonID, 2);
-		$return = true;
+		$return       = true;
 
 		foreach ($participants as $participant)
 		{
 			$success = $this->changeRegistrationState($participant["userID"], $lessonID, 2, false);
-			$return = ($return AND $success);
+			$return  = ($return AND $success);
 		}
 
 		return $return;

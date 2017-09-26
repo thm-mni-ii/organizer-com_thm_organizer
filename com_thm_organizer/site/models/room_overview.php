@@ -27,19 +27,19 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
  */
 class THM_OrganizerModelRoom_Overview extends JModelLegacy
 {
-	public $startDate = array();
+	public $startDate = [];
 
-	public $endDate = array();
+	public $endDate = [];
 
-	public $grid = array();
+	public $grid = [];
 
-	public $data = array();
+	public $data = [];
 
-	public $rooms = array();
+	public $rooms = [];
 
-	public $types = array();
+	public $types = [];
 
-	public $selectedRooms = array();
+	public $selectedRooms = [];
 
 	/**
 	 * Constructor
@@ -49,7 +49,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 * @since   12.2
 	 * @throws  Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct();
 		$this->populateState();
@@ -74,7 +74,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		$menuID = $input->getInt('Itemid');
 		$this->state->set('menuID', $menuID);
 
-		$formData = $input->get('jform', array(), 'array');
+		$formData = $input->get('jform', [], 'array');
 		$this->cleanFormData($formData);
 		$this->state->set('template', $formData['template']);
 		$this->state->set('date', $formData['date']);
@@ -98,13 +98,13 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		{
 			$data['template'] = 1;
 			$data['date']     = $defaultDate;
-			$data['types']    = array('-1');
-			$data['rooms']    = array('-1');
+			$data['types']    = ['-1'];
+			$data['rooms']    = ['-1'];
 
 			return;
 		}
 
-		$validTemplates   = array(1, 2, 3);
+		$validTemplates   = [1, 2, 3];
 		$reqTemplate      = empty($data['template']) ? 1 : $data['template'];
 		$validTemplate    = (is_numeric($reqTemplate) AND in_array($reqTemplate, $validTemplates));
 		$data['template'] = $validTemplate ? $reqTemplate : 1;
@@ -115,12 +115,12 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
 		if (empty($data['types']))
 		{
-			$data['types'] = array('-1');
+			$data['types'] = ['-1'];
 		}
 
 		if (empty($data['rooms']))
 		{
-			$data['rooms'] = array('-1');
+			$data['rooms'] = ['-1'];
 		}
 	}
 
@@ -277,10 +277,10 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_(), 'error');
 
-			return array();
+			return [];
 		}
 
-		$events = array();
+		$events = [];
 		foreach ($results as $result)
 		{
 			$startTime = substr(str_replace(':', '', $result['startTime']), 0, 4);
@@ -289,18 +289,18 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
 			if (empty($events[$times]))
 			{
-				$events[$times] = array();
+				$events[$times] = [];
 			}
 
 			$lessonID = $result['lessonID'];
 
 			if (empty($events[$startTime][$lessonID]))
 			{
-				$events[$times][$lessonID]                = array();
-				$events[$times][$lessonID]['departments'] = array();
-				$events[$times][$lessonID]['titles']      = array();
-				$events[$times][$lessonID]['teachers']    = array();
-				$events[$times][$lessonID]['rooms']       = array();
+				$events[$times][$lessonID]                = [];
+				$events[$times][$lessonID]['departments'] = [];
+				$events[$times][$lessonID]['titles']      = [];
+				$events[$times][$lessonID]['teachers']    = [];
+				$events[$times][$lessonID]['rooms']       = [];
 				$events[$times][$lessonID]['method']      = empty($result['method']) ? '' : " - {$result['method']}";
 				$events[$times][$lessonID]['startTime']   = $startTime;
 				$events[$times][$lessonID]['endTime']     = substr($result['endTime'], 0, 5);
@@ -353,10 +353,10 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 	 */
 	private function processBlocks($events)
 	{
-		$blocks = array();
+		$blocks = [];
 		foreach ($this->grid['periods'] AS $blockNo => $block)
 		{
-			$blocks[$blockNo]              = array();
+			$blocks[$blockNo]              = [];
 			$blockStartTime                = $block['startTime'];
 			$blockEndTime                  = $block['endTime'];
 			$blocks[$blockNo]['startTime'] = $blockStartTime;
@@ -386,13 +386,13 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 
 				foreach ($eventInstances as $eventID => $eventInstance)
 				{
-					$instance               = array();
+					$instance               = [];
 					$instance['department'] = implode(' / ', $eventInstance['departments']);
 					$instance['teachers']   = implode(' / ', $eventInstance['teachers']);
 					$instance['title']      = implode(' / ', $eventInstance['titles']);
-					$instance['title'] .= $eventInstance['method'];
-					$instance['comment'] = $eventInstance['comment'];
-					$instance['divTime'] = $divTime;
+					$instance['title']      .= $eventInstance['method'];
+					$instance['comment']    = $eventInstance['comment'];
+					$instance['divTime']    = $divTime;
 
 					foreach ($eventInstance['rooms'] as $roomID => $roomName)
 					{
@@ -427,8 +427,8 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$this->rooms = array();
-			$this->types = array();
+			$this->rooms = [];
+			$this->types = [];
 
 			return;
 		}
@@ -437,7 +437,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		$filterTypes = (!$allTypes AND count($this->state->types) > 0) ? $this->state->types : false;
 		$allRooms    = in_array('-1', $this->state->rooms);
 		$filterRooms = (!$allRooms AND count($this->state->rooms) > 0) ? $this->state->rooms : false;
-		$rooms       = $types = array();
+		$rooms       = $types = [];
 
 		foreach ($results as $room)
 		{

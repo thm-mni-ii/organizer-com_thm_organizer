@@ -34,11 +34,11 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config the configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('name', 'abbreviation', 'code');
+			$config['filter_fields'] = ['name', 'abbreviation', 'code'];
 		}
 
 		parent::__construct($config);
@@ -55,11 +55,11 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 		// Perform the database request
 		$query  = $this->_db->getQuery(true);
 		$select = "id, name, abbreviation, code, ";
-		$parts  = array("'index.php?option=com_thm_organizer&view=degree_edit&id='", "id");
+		$parts  = ["'index.php?option=com_thm_organizer&view=degree_edit&id='", "id"];
 		$select .= $query->concatenate($parts) . " AS link";
 		$query->select($select);
 		$query->from('#__thm_organizer_degrees');
-		$columns = array('name', 'abbreviation', 'code');
+		$columns = ['name', 'abbreviation', 'code'];
 		$this->setSearchFilter($query, $columns);
 		$this->setIDFilter($query, 'id', $columns);
 		$this->setOrdering($query);
@@ -75,7 +75,7 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -86,7 +86,7 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]                 = array();
+			$return[$index]                 = [];
 			$return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['name']         = JHtml::_('link', $item->link, $item->name);
 			$return[$index]['abbreviation'] = JHtml::_('link', $item->link, $item->abbreviation);
@@ -106,7 +106,7 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 	{
 		$ordering                = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction               = $this->state->get('list.direction', $this->defaultDirection);
-		$headers                 = array();
+		$headers                 = [];
 		$headers['checkbox']     = '';
 		$headers['name']         = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 		$headers['abbreviation'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ABBREVIATION', 'abbreviation', $direction, $ordering);

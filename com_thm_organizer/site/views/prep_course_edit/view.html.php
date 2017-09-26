@@ -17,6 +17,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
+
 /**
  * Class which loads data into the view output context
  *
@@ -35,6 +36,7 @@ class THM_OrganizerViewPrep_Course_Edit extends JViewLegacy
 	public $lang;
 
 	public $languageSwitches;
+
 	/**
 	 * Method to get display
 	 *
@@ -59,13 +61,15 @@ class THM_OrganizerViewPrep_Course_Edit extends JViewLegacy
 		if (!$authorized)
 		{
 			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
+
 			return;
 		}
 
-		$params = array(
-			'view'      => 'prep_course_edit',
-			'id'        => empty($this->form->getValue("id")) ? 0 : $this->form->getValue("id"),
-			'lessonID'  => $this->lessonID);
+		$params                 = [
+			'view'     => 'prep_course_edit',
+			'id'       => empty($this->form->getValue("id")) ? 0 : $this->form->getValue("id"),
+			'lessonID' => $this->lessonID
+		];
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 
 		parent::display($tpl);

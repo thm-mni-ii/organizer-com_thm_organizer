@@ -75,7 +75,7 @@ class valarm extends calendarComponent
 	 * @uses   valarm::$xprop
 	 * @uses   calendarComponent::setConfig()
 	 */
-	function __construct($config = array())
+	function __construct($config = [])
 	{
 		parent::__construct();
 		$this->action      = '';
@@ -140,16 +140,16 @@ class valarm extends calendarComponent
 	{
 		$objectname = $this->_createFormat();
 		$component  = $this->componentStart1 . $objectname . $this->componentStart2 . $this->nl;
-		$component .= $this->createAction();
-		$component .= $this->createAttach();
-		$component .= $this->createAttendee();
-		$component .= $this->createDescription();
-		$component .= $this->createDuration();
-		$component .= $this->createRepeat();
-		$component .= $this->createSummary();
-		$component .= $this->createTrigger();
-		$component .= $this->createXprop();
-		$component .= $this->componentEnd1 . $objectname . $this->componentEnd2;
+		$component  .= $this->createAction();
+		$component  .= $this->createAttach();
+		$component  .= $this->createAttendee();
+		$component  .= $this->createDescription();
+		$component  .= $this->createDuration();
+		$component  .= $this->createRepeat();
+		$component  .= $this->createSummary();
+		$component  .= $this->createTrigger();
+		$component  .= $this->createXprop();
+		$component  .= $this->componentEnd1 . $objectname . $this->componentEnd2;
 		if (is_array($this->xcaldecl) && (0 < count($this->xcaldecl)))
 		{
 			foreach ($this->xcaldecl as $localxcaldecl)

@@ -25,7 +25,7 @@ class THM_OrganizerTemplatePoolList
 	/**
 	 * Renders subject information
 	 *
-	 * @param array  &$view  the view context
+	 * @param array &$view the view context
 	 *
 	 * @return  void
 	 */
@@ -45,27 +45,27 @@ class THM_OrganizerTemplatePoolList
 
 			$crpText = $view->getCreditPointText($pool);
 
-?>
-		<a name="pool<?php echo $pool['id']; ?>" class="pool-anchor"></a>
-		<fieldset class="pool-group">
-			<legend>
-				<span class="pool-title"><?php echo $pool['name']; ?></span>
-				<span class="pool-crp"><?php echo $crpText; ?></span>
-			</legend>
-			<table>
-<?php
-foreach (array_keys($pool['subjects']) as $subjectKey)
-{
-	echo $view->getItemRow($view->items[$subjectKey]);
-}
-foreach (array_keys($pool['pools']) as $poolKey)
-{
-	echo $view->getItemRow($view->pools[$poolKey], 'pool');
-}
-?>
-			</table>
-		</fieldset>
-<?php
+			?>
+			<a name="pool<?php echo $pool['id']; ?>" class="pool-anchor"></a>
+			<fieldset class="pool-group">
+				<legend>
+					<span class="pool-title"><?php echo $pool['name']; ?></span>
+					<span class="pool-crp"><?php echo $crpText; ?></span>
+				</legend>
+				<table>
+					<?php
+					foreach (array_keys($pool['subjects']) as $subjectKey)
+					{
+						echo $view->getItemRow($view->items[$subjectKey]);
+					}
+					foreach (array_keys($pool['pools']) as $poolKey)
+					{
+						echo $view->getItemRow($view->pools[$poolKey], 'pool');
+					}
+					?>
+				</table>
+			</fieldset>
+			<?php
 		}
 	}
 }

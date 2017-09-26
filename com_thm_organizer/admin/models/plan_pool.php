@@ -25,8 +25,6 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 	/**
 	 * Attempts to save a resource entry, updating schedule data as necessary.
 	 *
-	 * @param string $resource the name of the resource type being merged
-	 *
 	 * @return  mixed  integer on success, otherwise false
 	 */
 	public function save()
@@ -38,14 +36,14 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 			return false;
 		}
 
-		$formData = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$formData = JFactory::getApplication()->input->get('jform', [], 'array');
 
 		if (!empty($formData['publishing']))
 		{
 			foreach ($formData['publishing'] as $periodID => $publish)
 			{
 				$table = JTable::getInstance("plan_pool_publishing", 'thm_organizerTable');
-				$data = array('planPoolID' => $poolID, 'planningPeriodID' => $periodID);
+				$data  = ['planPoolID' => $poolID, 'planningPeriodID' => $periodID];
 				$table->load($data);
 				$data['published'] = $publish;
 
@@ -76,14 +74,14 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 			return false;
 		}
 
-		$lpUpdated =  $this->updateAssociation('pool', $newDBID, $oldDBIDs, 'lesson_pools');
+		$lpUpdated = $this->updateAssociation('pool', $newDBID, $oldDBIDs, 'lesson_pools');
 
 		if (!$lpUpdated)
 		{
 			return false;
 		}
 
-		return  $this->updateAssociation('planPool', $newDBID, $oldDBIDs, 'plan_pool_publishing');
+		return $this->updateAssociation('planPool', $newDBID, $oldDBIDs, 'plan_pool_publishing');
 	}
 
 	/**

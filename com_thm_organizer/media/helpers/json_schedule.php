@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Class enapsulating data abstraction and business logic for json schedules.
+ * Class encapsulating data abstraction and business logic for json schedules.
  *
  * @category    Joomla.Component.Admin
  * @package     thm_organizer
@@ -43,7 +43,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	public function __construct(&$schedule = null)
 	{
-		$config = array();
+		$config = [];
 		parent::__construct($config);
 
 		if (!empty($schedule))
@@ -78,7 +78,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	}
 
 	/**
-	 * Ensures that depracated configurations are no longer referenced from the calendar.
+	 * Ensures that deprecated configurations are no longer referenced from the calendar.
 	 *
 	 * @param array &$instanceConfigs the configuration indexes referenced by the lesson instance
 	 *
@@ -120,7 +120,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		$endTime   = date('Hi', strtotime($calendarEntry['endTime']));
 		$timeKey   = $startTime . '-' . $endTime;
 
-		$configurations = array();
+		$configurations = [];
 
 		if (empty($this->schedule->calendar->$date->$timeKey->$lessonID))
 		{
@@ -150,7 +150,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$pullConfig      = $configuration;
 			unset($pullConfig->lessonID, $pullConfig->subjectID);
 			$pullConfig   = json_encode($pullConfig);
-			$configData   = array('lessonID' => $lessonSubjectID, 'configuration' => $pullConfig);
+			$configData   = ['lessonID' => $lessonSubjectID, 'configuration' => $pullConfig];
 			$configsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
 			$exists       = $configsTable->load($configData);
 
@@ -172,7 +172,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	{
 		foreach ($this->schedule->lessons as $lessonGPUntisID => $lesson)
 		{
-			$lessonsData                     = array();
+			$lessonsData                     = [];
 			$lessonsData['gpuntisID']        = $lessonGPUntisID;
 			$lessonsData['departmentID']     = $this->schedule->departmentID;
 			$lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
@@ -217,11 +217,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			{
 				$instanceConfigs = $this->getInstanceConfigurations($lessonGPUntisID, $calendarEntry, $lessonSubjects);
 
-				$configIDs = array();
+				$configIDs = [];
 
 				foreach ($instanceConfigs as $configID)
 				{
-					$mapData  = array('calendarID' => $calendarID, 'configurationID' => $configID);
+					$mapData  = ['calendarID' => $calendarID, 'configurationID' => $configID];
 					$mapTable = JTable::getInstance('calendar_configuration_map', 'thm_organizerTable');
 					$mapTable->load($mapData);
 					$success = $mapTable->save($mapData);
@@ -273,7 +273,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function mapSubjectNos($subjects)
 	{
-		$return = array();
+		$return = [];
 		if (empty($subjects))
 		{
 			return $return;
@@ -300,46 +300,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	}
 
 	/**
-	 * Migrates the deprecated format calendar/lessons nodes to the new format calendar/configurations/lessons nodes
-	 *
-	 * @return void alters the calendar/configurations/lessons nodes of the object's schedule
-	 */
-	private function migrateCalendar()
-	{
-		foreach ($this->refSchedule->calendar as $date => $blocks)
-		{
-			if (empty($this->schedule->calendar->$date))
-			{
-				$this->schedule->calendar->$date = new stdClass;
-			}
-
-			foreach ($blocks as $blockNo => $blockLessons)
-			{
-				foreach ($blockLessons as $lessonCode => $instanceRooms)
-				{
-					$gridName = $this->refSchedule->lessons->$lessonCode->grid;
-					$times    = $this->refSchedule->periods->$gridName->$blockNo;
-					$time     = $times->startTime . '-' . $times->endTime;
-
-					if (empty($this->schedule->calendar->$date->$time))
-					{
-						$this->schedule->calendar->$date->$time = new stdClass;
-					}
-
-					$lessonID                                          = $this->refSchedule->lessons->$lessonCode->gpuntisID;
-					$this->schedule->calendar->$date->$time->$lessonID = new stdClass;
-
-					$this->schedule->calendar->$date->$time->$lessonID->delta
-						            = empty($instanceRooms->delta) ? '' : $this->resolveDelta($instanceRooms->delta);
-					$configurations = $this->migrateConfigurations($lessonCode, $instanceRooms);
-
-					$this->schedule->calendar->$date->$time->$lessonID->configurations = $configurations;
-				}
-			}
-		}
-	}
-
-	/**
 	 * Creates complete instance configurations with lessonID, subjectID, teacher and room IDs => deltas
 	 *
 	 * @param string $lessonCode    the reference string used in the deprecated schedules
@@ -349,7 +309,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function migrateConfigurations($lessonCode, $instanceRooms)
 	{
-		$rooms = array();
+		$rooms = [];
 		foreach ($instanceRooms as $gpuntisID => $delta)
 		{
 			$invalidRoom = ($gpuntisID == 'delta' OR empty($this->refSchedule->rooms->$gpuntisID));
@@ -360,7 +320,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			$rooms[$this->refSchedule->rooms->$gpuntisID->id] = $this->resolveDelta($delta);
 		}
 
-		$configurations = array();
+		$configurations = [];
 
 		if (!empty($this->refSchedule->lessons->$lessonCode->configurations))
 		{
@@ -388,202 +348,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		}
 
 		return $configurations;
-	}
-
-	/**
-	 * Migrates the deprecated format calendar/lessons nodes to the new format calendar/configurations/lessons nodes
-	 *
-	 * @return void alters the calendar/configurations/lessons nodes of the object's schedule
-	 */
-	private function migrateLessons()
-	{
-		foreach ($this->refSchedule->lessons as $lessonCode => $lesson)
-		{
-			$lessonID                                  = $lesson->gpuntisID;
-			$this->schedule->lessons[$lessonID]        = new stdClass;
-			$this->schedule->lessons[$lessonID]->delta = $this->resolveDelta($lesson);
-
-			if (!empty($lesson->methodID))
-			{
-				$this->schedule->lessons[$lessonID]->methodID = $lesson->methodID;
-			}
-
-			$this->schedule->lessons[$lessonID]->comment = $lesson->comment;
-
-			$pools                                        = $this->resolveCollection($lesson->pools, 'pools');
-			$subjectDeltas                                = $this->resolveCollection($lesson->subjects, 'subjects');
-			$subjectNos                                   = $this->mapSubjectNos($lesson->subjects);
-			$this->schedule->lessons[$lessonID]->subjects = array();
-			foreach ($subjectDeltas as $subjectID => $delta)
-			{
-				$this->schedule->lessons[$lessonID]->subjects[$subjectID]            = new stdClass;
-				$this->schedule->lessons[$lessonID]->subjects[$subjectID]->delta     = $delta;
-				$this->schedule->lessons[$lessonID]->subjects[$subjectID]->subjectNo = $subjectNos[$subjectID];
-				$this->schedule->lessons[$lessonID]->subjects[$subjectID]->pools     = $pools;
-
-				$teachers                                                           = $this->resolveCollection($lesson->teachers, 'teachers');
-				$this->schedule->lessons[$lessonID]->subjects[$subjectID]->teachers = $teachers;
-
-				// Save this to the comp schedule for easier cross referencing in migrateCalendar
-				if (empty($this->refSchedule->lessons->$lessonCode->configurations))
-				{
-					$this->refSchedule->lessons->$lessonCode->configurations = array();
-				}
-
-				$baseConfig           = new stdClass;
-				$baseConfig->lessonID = $lessonID;
-
-				// Cast to string because of compatibility issues in json encoding
-				$baseConfig->subjectID = (string) $subjectID;
-				$baseConfig->teachers  = $teachers;
-				$jsonConfig            = json_encode($baseConfig);
-
-				if (!in_array($jsonConfig, $this->refSchedule->lessons->$lessonCode->configurations))
-				{
-					$this->refSchedule->lessons->$lessonCode->configurations[] = $jsonConfig;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Migrates the deprecated format pools node to the new format pools node
-	 *
-	 * @return void alters the pools node of the object's schedule
-	 */
-	private function migratePools()
-	{
-		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
-
-		foreach ($this->refSchedule->pools as $gpuntisID => $pool)
-		{
-			// Newer format schedule has associated plan programs
-			if (!empty($pool->id) AND !in_array($pool->id, $this->schedule->pools))
-			{
-				$this->schedule->pools[] = $pool->id;
-				continue;
-			}
-
-			$poolID = THM_OrganizerHelperPools::getPlanResourceID($gpuntisID, $pool);
-			if (!empty($poolID))
-			{
-				$this->refSchedule->pools->$gpuntisID->id = $poolID;
-				$this->schedule->pools[]                  = $poolID;
-				THM_OrganizerHelperDepartments::setDepartmentResource($poolID, 'poolID', $this->schedule->departmentID);
-			}
-		}
-	}
-
-	/**
-	 * Migrates the deprecated format degrees node to the new format programs node
-	 *
-	 * @return void alters the programs node of the object's schedule
-	 */
-	private function migratePrograms()
-	{
-		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
-
-		foreach ($this->refSchedule->degrees as $gpuntisID => $program)
-		{
-			// Newer format schedule has associated plan programs
-			if (!empty($program->id) AND !in_array($program->id, $this->schedule->programs))
-			{
-				$this->schedule->programs[] = $program->id;
-				continue;
-			}
-
-			$programID = THM_OrganizerHelperPrograms::getPlanResourceID($program);
-			if (!empty($programID))
-			{
-				$this->refSchedule->degrees->$gpuntisID->id = $programID;
-				$this->schedule->programs[]                 = $programID;
-				THM_OrganizerHelperDepartments::setDepartmentResource($programID, 'programID', $this->schedule->departmentID);
-			}
-		}
-	}
-
-	/**
-	 * Migrates the deprecated format rooms node to the new format rooms node
-	 *
-	 * @return void alters the rooms node of the object's schedule
-	 */
-	private function migrateRooms()
-	{
-		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
-
-		foreach ($this->refSchedule->rooms as $gpuntisID => $room)
-		{
-			// Newer format schedule has the room id available in the object
-			if (!empty($room->id) AND !in_array($room->id, $this->schedule->rooms))
-			{
-				$this->schedule->rooms[] = $room->id;
-				continue;
-			}
-
-			$roomID = THM_OrganizerHelperRooms::getID($gpuntisID, $room);
-			if (!empty($roomID))
-			{
-				$this->refSchedule->rooms->$gpuntisID->id = $roomID;
-				$this->schedule->rooms[]                  = $roomID;
-				THM_OrganizerHelperDepartments::setDepartmentResource($roomID, 'roomID', $this->schedule->departmentID);
-			}
-		}
-	}
-
-	/**
-	 * Migrates the deprecated format subjects node to the new format subjects node
-	 *
-	 * @return void alters the subjects node of the object's schedule
-	 */
-	private function migrateSubjects()
-	{
-		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-
-		foreach ($this->refSchedule->subjects as $gpuntisID => $subject)
-		{
-			// Newer format schedule has associated plan programs
-			if (!empty($subject->id) AND !in_array($subject->id, $this->schedule->subjects))
-			{
-				$this->schedule->subjects[] = $subject->id;
-				continue;
-			};
-
-			$subjectID = THM_OrganizerHelperSubjects::getPlanResourceID($gpuntisID, $subject);
-			if (!empty($subjectID))
-			{
-				$this->refSchedule->subjects->$gpuntisID->id = $subjectID;
-				$this->schedule->subjects[]                  = $subjectID;
-				THM_OrganizerHelperDepartments::setDepartmentResource($subjectID, 'subjectID', $this->schedule->departmentID);
-			}
-		}
-	}
-
-	/**
-	 * Migrates the deprecated format teachers node to the new format teachers node
-	 *
-	 * @return void alters the teachers node of the object's schedule
-	 */
-	private function migrateTeachers()
-	{
-		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
-
-		foreach ($this->refSchedule->teachers as $gpuntisID => $teacher)
-		{
-			// Newer format schedule has the room id available in the object
-			if (!empty($teacher->id) AND !in_array($teacher->id, $this->schedule->teachers))
-			{
-				$this->schedule->teachers[] = $teacher->id;
-				continue;
-			}
-
-			$teacherID = THM_OrganizerHelperTeachers::getID($gpuntisID, $teacher);
-			if (!empty($teacherID))
-			{
-				$this->refSchedule->teachers->$gpuntisID->id = $teacherID;
-				$this->schedule->teachers[]                  = $teacherID;
-				THM_OrganizerHelperDepartments::setDepartmentResource($teacherID, 'teacherID', $this->schedule->departmentID);
-			}
-		}
 	}
 
 	/**
@@ -651,7 +415,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function resolveCollection($collection, $collectionName)
 	{
-		$return = array();
+		$return = [];
 		if (empty($collection))
 		{
 			return $return;
@@ -854,7 +618,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 *
 	 * @param object &$schedule the schedule being processed
 	 *
-	 * @return void saves lessons to the database
+	 * @return boolean true on success, otherwise false
 	 */
 	public function save(&$schedule = null)
 	{
@@ -865,7 +629,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 		if (empty($this->schedule))
 		{
-			return;
+			return false;
 		}
 
 		$this->_db->transactionStart();
@@ -905,10 +669,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function saveCalendar()
 	{
-		$lessonEntries = array();
+		$lessonEntries = [];
 		foreach ($this->schedule->calendar as $date => $times)
 		{
-			$calData                  = array();
+			$calData                  = [];
 			$calData['schedule_date'] = $date;
 
 			foreach ($times as $startEnd => $lessons)
@@ -919,7 +683,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 				foreach ($lessons as $lessonID => $instanceData)
 				{
-					$lessonsData                     = array();
+					$lessonsData                     = [];
 					$lessonsData['gpuntisID']        = $lessonID;
 					$lessonsData['departmentID']     = $this->schedule->departmentID;
 					$lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
@@ -953,7 +717,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
 					if (empty($lessonEntries[$lessonID]))
 					{
-						$lessonEntries[$lessonID] = array();
+						$lessonEntries[$lessonID] = [];
 					}
 
 					$lessonEntries[$lessonsTable->id][$calendarTable->id] = $calendarTable->id;
@@ -1001,7 +765,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 		{
 			$config = json_decode($json);
 
-			$lessonsData                     = array();
+			$lessonsData                     = [];
 			$lessonsData['gpuntisID']        = $config->lessonID;
 			$lessonsData['departmentID']     = $this->schedule->departmentID;
 			$lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
@@ -1014,7 +778,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 				return false;
 			}
 
-			$lSubjectsData              = array();
+			$lSubjectsData              = [];
 			$lSubjectsData['lessonID']  = $lessonsTable->id;
 			$lSubjectsData['subjectID'] = $config->subjectID;
 
@@ -1029,7 +793,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			// Information would be redundant in the db
 			unset($config->lessonID, $config->subjectID);
 
-			$configData    = array('lessonID' => $lSubjectsTable->id, 'configuration' => json_encode($config));
+			$configData    = ['lessonID' => $lSubjectsTable->id, 'configuration' => json_encode($config)];
 			$lConfigsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
 			$lConfigsTable->load($configData);
 			$success = $lConfigsTable->save($configData);
@@ -1056,7 +820,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
 			$table = JTable::getInstance('lessons', 'thm_organizerTable');
 
-			$data                     = array();
+			$data                     = [];
 			$data['gpuntisID']        = $gpuntisID;
 			$data['departmentID']     = $departmentID;
 			$data['planningPeriodID'] = $planningPeriodID;
@@ -1110,14 +874,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function saveLessonPools($lessonSubjectID, $pools, $subjectID, $subjectNo)
 	{
-		$processedIDs = array();
+		$processedIDs = [];
 
 		foreach ($pools as $poolID => $delta)
 		{
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
 			$table = JTable::getInstance('lesson_pools', 'thm_organizerTable');
 
-			$data              = array();
+			$data              = [];
 			$data['subjectID'] = $lessonSubjectID;
 			$data['poolID']    = $poolID;
 			$table->load($data);
@@ -1163,14 +927,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function saveLessonSubjects($lessonID, $subjects)
 	{
-		$processedIDs = array();
+		$processedIDs = [];
 
 		foreach ($subjects as $subjectID => $subjectData)
 		{
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
 			$table = JTable::getInstance('lesson_subjects', 'thm_organizerTable');
 
-			$data              = array();
+			$data              = [];
 			$data['lessonID']  = $lessonID;
 			$data['subjectID'] = $subjectID;
 			$table->load($data);
@@ -1186,7 +950,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			}
 
 			$processedIDs[] = $table->id;
-			$subjectNo = empty($subjectData->subjectNo) ? null : $subjectData->subjectNo;
+			$subjectNo      = empty($subjectData->subjectNo) ? null : $subjectData->subjectNo;
 
 			$poolsSaved = $this->saveLessonPools($table->id, $subjectData->pools, $subjectID, $subjectNo);
 
@@ -1225,14 +989,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function saveLessonTeachers($subjectID, $teachers)
 	{
-		$processedIDs = array();
+		$processedIDs = [];
 
 		foreach ($teachers as $teacherID => $delta)
 		{
 			// If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
 			$table = JTable::getInstance('lesson_teachers', 'thm_organizerTable');
 
-			$data              = array();
+			$data              = [];
 			$data['subjectID'] = $subjectID;
 			$data['teacherID'] = $teacherID;
 			$table->load($data);
@@ -1326,7 +1090,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			return;
 		}
 
-		$data  = array('subjectID' => $subjectID, 'plan_subjectID' => $planSubjectID);
+		$data  = ['subjectID' => $subjectID, 'plan_subjectID' => $planSubjectID];
 		$table = JTable::getInstance('subject_mappings', 'thm_organizerTable');
 		$table->load($data);
 		$table->save($data);
@@ -1398,7 +1162,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	private function setCalendarReference()
 	{
 		// This will later overwrite the current active schedule configurations
-		$configurations = array();
+		$configurations = [];
 
 		$refCalendarDates    = array_keys((array) $this->refSchedule->calendar);
 		$activeCalendarDates = array_keys((array) $this->schedule->calendar);
@@ -1469,7 +1233,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function setConfigurations(&$instance, &$configurations, $source)
 	{
-		$instanceConfigurations = array();
+		$instanceConfigurations = [];
 		foreach ($instance->configurations as $instanceIndex => $globalIndex)
 		{
 			$instanceConfigurations[] = $this->$source->configurations[$globalIndex];
@@ -1493,7 +1257,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 */
 	private function setConfigurationReferences($referenceInstance, &$activeInstance, &$configurations)
 	{
-		$referenceConfigurations = array();
+		$referenceConfigurations = [];
 		foreach ($referenceInstance->configurations as $refConfigurationIndex)
 		{
 			if (!empty($this->refSchedule->configurations[$refConfigurationIndex]))
@@ -1502,14 +1266,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			}
 		}
 
-		$activeConfigurations = array();
+		$activeConfigurations = [];
 		foreach ($activeInstance->configurations as $activeConfigurationIndex)
 		{
 			$activeConfigurations[] = $this->schedule->configurations[$activeConfigurationIndex];
 		}
 
 		// These will be renumbered in the following
-		$activeInstance->configurations = array();
+		$activeInstance->configurations = [];
 
 		$unchangedConfigurations = array_intersect($referenceConfigurations, $activeConfigurations);
 
@@ -1685,7 +1449,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	/**
 	 * Transfers instances which need no configuration reference processing. (The instance itself is new or removed.)
 	 *
-	 * @param array  $lessonIDs      the lessonIDs for the instances to be transfered
+	 * @param array  $lessonIDs      the lessonIDs for the instances to be transferred
 	 * @param string $status         the batch instance status [new|removed]
 	 * @param string $date           the date when the instance occurs
 	 * @param string $time           the time interval object when the instance occurs
@@ -1717,7 +1481,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 	 *
 	 * @param string $status         the batch instance status [new|removed]
 	 * @param string $date           the date when the times occur
-	 * @param array  $times          the time intervals to be transfered
+	 * @param array  $times          the time intervals to be transferred
 	 * @param array  $configurations the array holding the configurations
 	 *
 	 * @return void modifies the schedule date object

@@ -30,7 +30,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
 	 */
 	public function save()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
 
 		$this->_db->transactionStart();
 		$department = JTable::getInstance('departments', 'thm_organizerTable');
@@ -63,7 +63,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
 	 */
 	public function save2copy()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
 		if (isset($data['id']))
 		{
 			unset($data['id']);

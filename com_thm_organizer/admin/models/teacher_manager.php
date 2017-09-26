@@ -36,11 +36,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('t.surname', 't.forename', 't.username', 't.untisID', 'f.field');
+			$config['filter_fields'] = ['t.surname', 't.forename', 't.username', 't.untisID', 'f.field'];
 		}
 
 		parent::__construct($config);
@@ -57,16 +57,16 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$query    = $this->_db->getQuery(true);
 		$select   = "t.id, t.surname, t.forename, t.username, t.gpuntisID, f.field_$shortTag AS field, c.color, ";
-		$parts    = array("'index.php?option=com_thm_organizer&view=teacher_edit&id='", "t.id");
-		$select .= $query->concatenate($parts, "") . " AS link ";
+		$parts    = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", "t.id"];
+		$select   .= $query->concatenate($parts, "") . " AS link ";
 		$query->select($select);
 		$query->from('#__thm_organizer_teachers AS t');
 		$query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-		$this->setSearchFilter($query, array('surname', 'forename', 'username', 't.gpuntisID', 'field_de', 'field_en'));
-		$this->setValueFilters($query, array('surname', 'forename', 'username', 't.gpuntisID'));
-		$this->setLocalizedFilters($query, array('field'));
+		$this->setSearchFilter($query, ['surname', 'forename', 'username', 't.gpuntisID', 'field_de', 'field_en']);
+		$this->setValueFilters($query, ['surname', 'forename', 'username', 't.gpuntisID']);
+		$this->setLocalizedFilters($query, ['field']);
 
 		$this->setOrdering($query);
 
@@ -81,7 +81,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -96,7 +96,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 			$itemUsername  = empty($item->username) ? '' : $item->username;
 			$itemGPUntisID = empty($item->gpuntisID) ? '' : $item->gpuntisID;
 
-			$return[$index]                = array();
+			$return[$index]                = [];
 			$return[$index]['checkbox']    = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['surname']     = JHtml::_('link', $item->link, $item->surname);
 			$return[$index]['forename']    = JHtml::_('link', $item->link, $itemForename);
@@ -128,7 +128,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 	{
 		$ordering               = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction              = $this->state->get('list.direction', $this->defaultDirection);
-		$headers                = array();
+		$headers                = [];
 		$headers['checkbox']    = '';
 		$headers['surname']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction, $ordering);
 		$headers['forename']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction, $ordering);

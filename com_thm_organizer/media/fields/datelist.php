@@ -52,7 +52,7 @@ class JFormFieldDateList extends JFormFieldList
 		try
 		{
 			$resources = $dbo->loadAssocList();
-			$options   = array();
+			$options   = [];
 			$params    = JComponentHelper::getParams('com_thm_organizer');
 			$type      = $this->getAttribute('format');
 			$format    = $type == 'time' ? $params->get('timeFormat', 'H:i') : $params->get('dateFormat', 'd.m.Y');
@@ -75,7 +75,7 @@ class JFormFieldDateList extends JFormFieldList
 	 *
 	 * @param object &$query the query object
 	 *
-	 * @return  string  the string to use for text selection
+	 * @return  void modifies the query object
 	 */
 	private function setFrom(&$query)
 	{

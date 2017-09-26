@@ -30,12 +30,10 @@ class THM_OrganizerHelperXMLGrids
 	public static function getID($gpuntisID)
 	{
 		$table  = JTable::getInstance('grids', 'thm_organizerTable');
-		$data   = array('gpuntisID' => $gpuntisID);
+		$data   = ['gpuntisID' => $gpuntisID];
 		$exists = $table->load($data);
-		if ($exists)
-		{
-			return $exists ? $table->id : null;
-		}
+
+		return empty ($exists) ? null : $table->id;
 	}
 
 	/**

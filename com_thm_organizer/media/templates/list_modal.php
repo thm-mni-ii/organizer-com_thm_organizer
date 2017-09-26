@@ -29,22 +29,22 @@ class THM_OrganizerTemplateList_Modal
 	 */
 	public static function render(&$view)
 	{
-		$data    = array('view' => $view, 'options' => array());
+		$data    = ['view' => $view, 'options' => []];
 		$filters = $view->filterForm->getGroup('filter');
 		?>
-        <div id="j-main-container">
-            <form action="index.php?" id="adminForm" method="post" name="adminForm">
-                <div class="js-stools clearfix">
-                    <div class="clearfix">
-                        <div class="js-stools-container-bar">
+		<div id="j-main-container">
+			<form action="index.php?" id="adminForm" method="post" name="adminForm">
+				<div class="js-stools clearfix">
+					<div class="clearfix">
+						<div class="js-stools-container-bar">
 							<?php self::renderSearch($filters); ?>
 							<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
 							<?php self::renderButtons(); ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="clr"></div>
-                <table class="table table-striped" id="<?php echo $view->get('name'); ?>-list">
+						</div>
+					</div>
+				</div>
+				<div class="clr"></div>
+				<table class="table table-striped" id="<?php echo $view->get('name'); ?>-list">
 					<?php
 					echo '<thead>';
 					self::renderHeader($view->headers);
@@ -53,17 +53,17 @@ class THM_OrganizerTemplateList_Modal
 					self::renderBody($view->items);
 					self::renderFooter($view);
 					?>
-                </table>
-                <input type="hidden" name="task" value=""/>
-                <input type="hidden" name="boxchecked" value="0"/>
-                <input type="hidden" name="option"
-                       value="<?php echo JFactory::getApplication()->input->get('option'); ?>"/>
-                <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
-                <input type="hidden" name="tmpl" value="component"/>
+				</table>
+				<input type="hidden" name="task" value=""/>
+				<input type="hidden" name="boxchecked" value="0"/>
+				<input type="hidden" name="option"
+					   value="<?php echo JFactory::getApplication()->input->get('option'); ?>"/>
+				<input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
+				<input type="hidden" name="tmpl" value="component"/>
 				<?php self::renderHiddenFields($view) ?>
 				<?php echo JHtml::_('form.token'); ?>
-            </form>
-        </div>
+			</form>
+		</div>
 		<?php
 	}
 
@@ -82,23 +82,23 @@ class THM_OrganizerTemplateList_Modal
 			return;
 		}
 		?>
-        <label for="filter_search" class="element-invisible">
+		<label for="filter_search" class="element-invisible">
 			<?php echo JText::_('JSEARCH_FILTER'); ?>
-        </label>
-        <div class="btn-wrapper input-append">
+		</label>
+		<div class="btn-wrapper input-append">
 			<?php echo $filters['filter_search']->input; ?>
-            <button type="submit" class="btn hasTooltip"
-                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-                <i class="icon-search"></i>
-            </button>
-        </div>
-        <div class="btn-wrapper">
-            <button type="button" class="btn hasTooltip js-stools-btn-clear"
-                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
-                <i class="icon-refresh"></i>
+			<button type="submit" class="btn hasTooltip"
+					title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+				<i class="icon-search"></i>
+			</button>
+		</div>
+		<div class="btn-wrapper">
+			<button type="button" class="btn hasTooltip js-stools-btn-clear"
+					title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
+				<i class="icon-refresh"></i>
 				<?php echo JText::_('JSEARCH_RESET'); ?>
-            </button>
-        </div>
+			</button>
+		</div>
 		<?php
 	}
 

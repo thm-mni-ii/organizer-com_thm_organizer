@@ -35,11 +35,11 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	 *
 	 * @param array $config configurations parameter
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('name', 'field');
+			$config['filter_fields'] = ['name', 'field'];
 		}
 
 		parent::__construct($config);
@@ -57,8 +57,8 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$select   = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag AS field, color, ";
-		$parts    = array("'index.php?option=com_thm_organizer&view=pool_edit&id='", "p.id");
-		$select .= $query->concatenate($parts, "") . "AS link ";
+		$parts    = ["'index.php?option=com_thm_organizer&view=pool_edit&id='", "p.id"];
+		$select   .= $query->concatenate($parts, "") . "AS link ";
 		$query->select($select);
 
 		$query->from('#__thm_organizer_pools AS p');
@@ -66,12 +66,12 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 		$query->where("(p.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR p.departmentID IS NULL)");
 
-		$searchColumns = array('p.name_de', 'short_name_de', 'abbreviation_de', 'description_de',
-								'p.name_en', 'short_name_en', 'abbreviation_en', 'description_en'
-		);
+		$searchColumns = ['p.name_de', 'short_name_de', 'abbreviation_de', 'description_de',
+		                  'p.name_en', 'short_name_en', 'abbreviation_en', 'description_en'
+		];
 		$this->setSearchFilter($query, $searchColumns);
-		$this->setLocalizedFilters($query, array('p.name'));
-		$this->setValueFilters($query, array('fieldID'));
+		$this->setLocalizedFilters($query, ['p.name']);
+		$this->setValueFilters($query, ['fieldID']);
 
 		$programID = $this->state->get('filter.programID', '');
 		THM_OrganizerHelperMapping::setResourceIDFilter($query, $programID, 'program', 'pool');
@@ -89,7 +89,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$return = array();
+		$return = [];
 
 		if (empty($items))
 		{
@@ -100,7 +100,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 
 		foreach ($items as $item)
 		{
-			$return[$index]              = array();
+			$return[$index]              = [];
 			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
 			$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
 			$programName                 = THM_OrganizerHelperMapping::getProgramName('pool', $item->id);
@@ -136,7 +136,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	{
 		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
 		$direction            = $this->state->get('list.direction', $this->defaultDirection);
-		$headers              = array();
+		$headers              = [];
 		$headers['checkbox']  = '';
 		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 		$headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
@@ -201,7 +201,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 	{
 		parent::populateState($ordering, $direction);
 
-		$filter = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+		$filter = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
 		if (!empty($filter['name']))
 		{
 			$this->setState('filter.p.name', $filter['name']);

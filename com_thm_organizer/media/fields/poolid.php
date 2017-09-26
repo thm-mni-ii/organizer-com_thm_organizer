@@ -64,7 +64,7 @@ class JFormFieldPoolID extends JFormFieldList
 
 		try
 		{
-			$pools   = $dbo->loadAssocList();
+			$pools = $dbo->loadAssocList();
 		}
 		catch (Exception $exc)
 		{
@@ -74,7 +74,7 @@ class JFormFieldPoolID extends JFormFieldList
 
 		// Whether or not the program display should be prefiltered according to user resource access
 		$access  = $this->getAttribute('access', false);
-		$options = array();
+		$options = [];
 
 		foreach ($pools as $pool)
 		{

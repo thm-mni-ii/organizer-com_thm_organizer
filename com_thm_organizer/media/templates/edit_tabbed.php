@@ -32,15 +32,15 @@ class THM_OrganizerTemplateEdit_Tabbed
 	{
 		?>
 
-        <form action="index.php?option=com_thm_organizer"
-              enctype="multipart/form-data"
-              method="post"
-              name="adminForm"
-              id="item-form"
-              class="form-horizontal">
-            <div class="form-horizontal">
+		<form action="index.php?option=com_thm_organizer"
+			  enctype="multipart/form-data"
+			  method="post"
+			  name="adminForm"
+			  id="item-form"
+			  class="form-horizontal">
+			<div class="form-horizontal">
 				<?php
-				echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details'));
+				echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
 				$sets = $view->form->getFieldSets();
 				foreach ($sets as $set)
 				{
@@ -55,11 +55,11 @@ class THM_OrganizerTemplateEdit_Tabbed
 				}
 				echo JHtml::_('bootstrap.endTabSet');
 				?>
-            </div>
+			</div>
 			<?php echo $view->form->getInput('id'); ?>
 			<?php echo JHtml::_('form.token'); ?>
-            <input type="hidden" name="task" value=""/>
-        </form>
+			<input type="hidden" name="task" value=""/>
+		</form>
 		<?php
 	}
 

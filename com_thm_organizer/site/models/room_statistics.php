@@ -135,7 +135,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 			$date     = $instance['date'];
 			$lessonID = $instance['lessonID'];
 			$method   = $instance['method'];
-			$lsIDs    = array($instance['lsID'] => $instance['lsID']);
+			$lsIDs    = [$instance['lsID'] => $instance['lsID']];
 
 			foreach ($rawConfig['rooms'] as $roomID => $delta)
 			{
@@ -155,17 +155,17 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 				{
 					if (empty($this->calendarData[$date][$blockNo][$roomID]))
 					{
-						$this->calendarData[$date][$blockNo][$roomID] = array();
+						$this->calendarData[$date][$blockNo][$roomID] = [];
 					}
 
 					if (empty($this->calendarData[$date][$blockNo][$roomID][$lessonID]))
 					{
-						$this->calendarData[$date][$blockNo][$roomID][$lessonID]           = array();
+						$this->calendarData[$date][$blockNo][$roomID][$lessonID]           = [];
 						$this->calendarData[$date][$blockNo][$roomID][$lessonID]['method'] = $method;
 					}
 
 					$existingLSIDs = empty($this->calendarData[$date][$blockNo][$roomID][$lessonID]['lsIDs']) ?
-						array() : $this->calendarData[$date][$blockNo][$roomID][$lessonID]['lsIDs'];
+						[] : $this->calendarData[$date][$blockNo][$roomID][$lessonID]['lsIDs'];
 
 					$this->calendarData[$date][$blockNo][$roomID][$lessonID]['lsIDs'] = $existingLSIDs + $lsIDs;
 				}
@@ -181,7 +181,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	public function getDepartmentOptions()
 	{
 		$departments = THM_OrganizerHelperDepartments::getPlanDepartments(false);
-		$options     = array();
+		$options     = [];
 
 		foreach ($departments as $departmentID => $departmentName)
 		{
@@ -201,7 +201,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	public function getPlanningPeriodOptions()
 	{
 		$planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
-		$options         = array();
+		$options         = [];
 
 		foreach ($planningPeriods as $planningPeriodID => $planningPeriod)
 		{
@@ -217,16 +217,6 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	}
 
 	/**
-	 * Retrieves the id of the current planning period
-	 *
-	 * @return mixed
-	 */
-	public function getPlanningPeriodDefault()
-	{
-		return THM_OrganizerHelperPlanning_Periods::getCurrentID();
-	}
-
-	/**
 	 * Retrieves program options
 	 *
 	 * @return array an array of program options
@@ -234,7 +224,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	public function getProgramOptions()
 	{
 		$programs = THM_OrganizerHelperPrograms::getPlanPrograms();
-		$options  = array();
+		$options  = [];
 
 		foreach ($programs as $program)
 		{
@@ -256,7 +246,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	 */
 	private function getRelevantBlocks($startTime, $endTime)
 	{
-		$relevantBlocks = array();
+		$relevantBlocks = [];
 
 		foreach ($this->grid as $blockNo => $times)
 		{
@@ -283,7 +273,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	{
 		$rooms = $this->rooms;
 
-		$options = array();
+		$options = [];
 
 		foreach ($rooms as $roomName => $roomData)
 		{
@@ -303,7 +293,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	public function getRoomTypeOptions()
 	{
 
-		$options = array();
+		$options = [];
 
 		foreach ($this->roomTypes as $typeID => $typeData)
 		{
@@ -322,7 +312,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	 */
 	private function initializeCalendar()
 	{
-		$calendar = array();
+		$calendar = [];
 		$startDT  = strtotime($this->startDate);
 		$endDT    = strtotime($this->endDate);
 
@@ -418,7 +408,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	{
 		$input     = JFactory::getApplication()->input;
 		$use       = $input->getString('use');
-		$ppIDs     = $input->get('planningPeriodIDs', array(), 'array');
+		$ppIDs     = $input->get('planningPeriodIDs', [], 'array');
 		$validPPID = (!empty($ppIDs) AND !empty($ppIDs[0])) ? true : false;
 
 		if ($use == 'planningPeriodIDs' AND $validPPID)
@@ -494,11 +484,11 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
 		$gridSettings = json_decode($rawGrid, true);
 
-		$grid = array();
+		$grid = [];
 
 		foreach ($gridSettings['periods'] as $number => $times)
 		{
-			$grid[$number]              = array();
+			$grid[$number]              = [];
 			$grid[$number]['startTime'] = date('H:i:s', strtotime($times['startTime']));
 			$grid[$number]['endTime']   = date('H:i:s', strtotime($times['endTime']));
 		}
@@ -582,7 +572,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	private function setRooms()
 	{
 		$rooms       = THM_OrganizerHelperRooms::getPlanRooms();
-		$roomTypeMap = array();
+		$roomTypeMap = [];
 
 		foreach ($rooms as $room)
 		{
@@ -610,7 +600,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
 		$dbo->setQuery($query);
 
-		$default = array();
+		$default = [];
 
 		try
 		{
@@ -635,25 +625,25 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	 */
 	private function createMetaData()
 	{
-		$this->metaData         = array();
-		$this->metaData['days'] = array();
+		$this->metaData         = [];
+		$this->metaData['days'] = [];
 		$dailyBlocks            = count($this->grid);
 
 		foreach (array_keys($this->calendarData) as $date)
 		{
-			$this->metaData['days'][$date]          = array();
+			$this->metaData['days'][$date]          = [];
 			$this->metaData['days'][$date]['total'] = 0;
 			$this->metaData['days'][$date]['use']   = 0;
 
 			foreach ($this->rooms as $roomName => $roomData)
 			{
 				$this->metaData['days'][$date]['total'] += $dailyBlocks;
-				$roomUse = empty($this->roomData[$roomData['id']]['days'][$date]) ? 0 : $this->roomData[$roomData['id']]['days'][$date];
-				$this->metaData['days'][$date]['use'] += $roomUse;
+				$roomUse                                = empty($this->roomData[$roomData['id']]['days'][$date]) ? 0 : $this->roomData[$roomData['id']]['days'][$date];
+				$this->metaData['days'][$date]['use']   += $roomUse;
 			}
 		}
 
-		$this->metaData['weeks'] = array();
+		$this->metaData['weeks'] = [];
 		$weekNo                  = 1;
 
 		for ($weekStartDate = $this->startDate; $weekStartDate <= $this->endDate; $weekStartDate = date('Y-m-d', strtotime("$weekStartDate + 7 days")))
@@ -670,13 +660,13 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 			for ($currentDate = $weekStartDate; $currentDate <= $weekEndDate; $currentDate = date('Y-m-d', strtotime("$currentDate + 1 days")))
 			{
 				$week['total'] += $this->metaData['days'][$currentDate]['total'];
-				$week['use'] += $this->metaData['days'][$currentDate]['use'];
-				$dailyAverage = $this->metaData['days'][$currentDate]['use'] / $this->metaData['days'][$date]['total'];
+				$week['use']   += $this->metaData['days'][$currentDate]['use'];
+				$dailyAverage  = $this->metaData['days'][$currentDate]['use'] / $this->metaData['days'][$date]['total'];
 
 				if ($dailyAverage > $this->threshhold)
 				{
 					$week['adjustedTotal'] += $this->metaData['days'][$currentDate]['total'];
-					$week['adjustedUse'] += $this->metaData['days'][$currentDate]['use'];
+					$week['adjustedUse']   += $this->metaData['days'][$currentDate]['use'];
 				}
 
 
@@ -684,12 +674,12 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 				{
 					if (empty($this->roomData[$roomData['id']]['weeks']))
 					{
-						$this->roomData[$roomData['id']]['weeks'] = array();
+						$this->roomData[$roomData['id']]['weeks'] = [];
 					}
 
 					if (empty($this->roomData[$roomData['id']]['weeks'][$weekNo]))
 					{
-						$this->roomData[$roomData['id']]['weeks'][$weekNo]                  = array();
+						$this->roomData[$roomData['id']]['weeks'][$weekNo]                  = [];
 						$this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedTotal'] = 0;
 						$this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedUse']   = 0;
 						$this->roomData[$roomData['id']]['weeks'][$weekNo]['total']         = 0;
@@ -698,13 +688,13 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
 					$this->roomData[$roomData['id']]['weeks'][$weekNo]['total'] += $dailyBlocks;
 					$this->roomData[$roomData['id']]['weeks'][$weekNo]['use']
-						+= $this->roomData[$roomData['id']]['days'][$currentDate];
+					                                                            += $this->roomData[$roomData['id']]['days'][$currentDate];
 
 					if ($dailyAverage > $this->threshhold)
 					{
 						$this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedTotal'] += $dailyBlocks;
 						$this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedUse']
-							+= $this->roomData[$roomData['id']]['days'][$currentDate];
+						                                                                    += $this->roomData[$roomData['id']]['days'][$currentDate];
 					}
 				}
 			}
@@ -721,7 +711,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 		foreach ($this->metaData['weeks'] as $weekNo => $weekData)
 		{
 			$this->metaData['total'] += $weekData['total'];
-			$this->metaData['use'] += $weekData['use'];
+			$this->metaData['use']   += $weekData['use'];
 
 			if (empty($weekData['adjustedTotal']))
 			{
@@ -734,7 +724,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 			if ($weeklyAverage > $this->threshhold)
 			{
 				$this->metaData['adjustedTotal'] += $weekData['adjustedTotal'];
-				$this->metaData['adjustedUse'] += $weekData['adjustedUse'];
+				$this->metaData['adjustedUse']   += $weekData['adjustedUse'];
 			}
 		}
 	}
@@ -745,7 +735,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 	 */
 	private function createUseData()
 	{
-		$this->roomData = array();
+		$this->roomData = [];
 
 		foreach ($this->calendarData as $date => $blocks)
 		{
@@ -758,8 +748,8 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 				{
 					if (empty($this->roomData[$roomData['id']]))
 					{
-						$this->roomData[$roomData['id']]         = array();
-						$this->roomData[$roomData['id']]['days'] = array();
+						$this->roomData[$roomData['id']]         = [];
+						$this->roomData[$roomData['id']]['days'] = [];
 					}
 
 					$newValue = empty($this->roomData[$roomData['id']]['days'][$date]) ?

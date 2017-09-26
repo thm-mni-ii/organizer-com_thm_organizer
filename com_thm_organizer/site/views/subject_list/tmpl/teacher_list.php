@@ -25,7 +25,7 @@ class THM_OrganizerTemplateTeacherList
 	/**
 	 * Renders subject information
 	 *
-	 * @param array  &$view  the view context
+	 * @param array &$view the view context
 	 *
 	 * @return  void
 	 */
@@ -38,12 +38,12 @@ class THM_OrganizerTemplateTeacherList
 
 		foreach ($view->teachers AS $teacherID => $teacher)
 		{
-			$rows = array();
+			$rows = [];
 
 			foreach ($view->items as $subjectKey => $subject)
 			{
 				$isResponsible = (isset($subject->teachers[1]) AND array_key_exists($teacherID, $subject->teachers[1]));
-				$isTeacher = (isset($subject->teachers[2]) AND array_key_exists($teacherID, $subject->teachers[2]));
+				$isTeacher     = (isset($subject->teachers[2]) AND array_key_exists($teacherID, $subject->teachers[2]));
 
 				switch ($view->params->get('teacherResp', 0))
 				{
@@ -71,21 +71,21 @@ class THM_OrganizerTemplateTeacherList
 
 			if (!empty($rows))
 			{
-?>
+				?>
 				<fieldset class="teacher-group">
 					<legend>
 						<span class="teacher-title"><?php echo $view->getTeacherText($teacherID); ?></span>
 					</legend>
 					<table>
-<?php
+						<?php
 						foreach ($rows as $row)
 						{
 							echo $row;
 						}
-?>
+						?>
 					</table>
 				</fieldset>
-<?php
+				<?php
 			}
 		}
 	}

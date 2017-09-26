@@ -29,7 +29,7 @@ abstract class THM_OrganizerModelList extends JModelList
 
 	protected $defaultStart = '0';
 
-	protected $defaultFilters = array();
+	protected $defaultFilters = [];
 
 	public $actions = null;
 
@@ -38,7 +38,7 @@ abstract class THM_OrganizerModelList extends JModelList
 	 *
 	 * @param array $config Configuration  (default: array)
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		parent::__construct($config);
 
@@ -62,13 +62,13 @@ abstract class THM_OrganizerModelList extends JModelList
 		// Pre-create the list options
 		if (!property_exists($data, 'list'))
 		{
-			$data->list = array();
+			$data->list = [];
 
 		}
 
 		if (!property_exists($data, 'filter'))
 		{
-			$data->filter = array();
+			$data->filter = [];
 		}
 
 		// Joomla doesn't fill these correctly but requires some of them
@@ -149,7 +149,7 @@ abstract class THM_OrganizerModelList extends JModelList
 		$app = JFactory::getApplication();
 
 		// Receive & set filters
-		$filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+		$filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
 		if (!empty($filters))
 		{
 			foreach ($filters as $name => $value)
@@ -165,7 +165,7 @@ abstract class THM_OrganizerModelList extends JModelList
 			}
 		}
 
-		$list = $app->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array');
+		$list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array');
 		$this->setListState($list);
 
 		$validLimit = (isset($list['limit']) && is_numeric($list['limit']));
@@ -189,7 +189,7 @@ abstract class THM_OrganizerModelList extends JModelList
 		$validReqOrdering = (!empty($list['ordering']) AND strpos('null', $list['ordering']) !== null);
 		$ordering         = $validReqOrdering ? $list['ordering'] : $this->defaultOrdering;
 
-		$validReqDirection = (!empty($list['direction']) AND in_array(strtoupper($list['direction']), array('ASC', 'DESC', '')));
+		$validReqDirection = (!empty($list['direction']) AND in_array(strtoupper($list['direction']), ['ASC', 'DESC', '']));
 		$direction         = $validReqDirection ? $list['direction'] : $this->defaultDirection;
 
 		$session = JFactory::getSession();
@@ -203,7 +203,7 @@ abstract class THM_OrganizerModelList extends JModelList
 		$this->setState('list.ordering', $ordering);
 		$this->setState('list.direction', $direction);
 
-		$alreadyProcessed = array('ordering, direction, fullordering');
+		$alreadyProcessed = ['ordering, direction, fullordering'];
 		foreach ($list as $item => $value)
 		{
 			if (!in_array($item, $alreadyProcessed))
@@ -234,7 +234,7 @@ abstract class THM_OrganizerModelList extends JModelList
 		if (count($orderingParts) == 2)
 		{
 			$plausibleOrdering = $orderingParts[0] != 'null';
-			$validDirection    = in_array(strtoupper($orderingParts[1]), array('ASC', 'DESC', ''));
+			$validDirection    = in_array(strtoupper($orderingParts[1]), ['ASC', 'DESC', '']);
 			if ($plausibleOrdering AND $validDirection)
 			{
 				$ordering  = $orderingParts[0];
@@ -259,7 +259,7 @@ abstract class THM_OrganizerModelList extends JModelList
 		$iconClass = empty($value) ? 'unpublish' : 'publish';
 		$icon      = '<i class="icon-' . $iconClass . '"></i>';
 
-		$attributes          = array();
+		$attributes          = [];
 		$attributes['title'] = $tip;
 		$attributes['class'] = 'btn btn-micro hasTooltip';
 		$attributes['class'] .= empty($value) ? ' inactive' : '';
@@ -313,7 +313,7 @@ abstract class THM_OrganizerModelList extends JModelList
 			return;
 		}
 		$search  = '%' . $this->_db->escape($userInput, true) . '%';
-		$wherray = array();
+		$wherray = [];
 		foreach ($columnNames as $name)
 		{
 			$wherray[] = "$name LIKE '$search'";

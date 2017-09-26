@@ -41,7 +41,7 @@
             <option value="D">COM_THM_ORGANIZER_GERMAN</option>
             <option value="E">COM_THM_ORGANIZER_ENGLISH</option>
         </field>
-		<field name="is_prep_course"
+        <field name="is_prep_course"
                type="list"
                class="chzn-color-state"
                label="COM_THM_ORGANIZER_PREP_COURSES"
@@ -82,7 +82,7 @@
         <field name="planSubjectIDs"
                type="subjectmapping"
                responsibility="1"
-               label="COM_THM_ORGANIZER_PLAN_SUBJECT" />
+               label="COM_THM_ORGANIZER_PLAN_SUBJECT"/>
         <field type="spacer"
                name="spacer1"
                hr="true"/>

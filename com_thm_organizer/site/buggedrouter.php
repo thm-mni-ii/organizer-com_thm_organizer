@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  */
 function THM_organizerBuildRoute(&$query)
 {
-	$segments = array();
+	$segments = [];
 	$menu     = JFactory::getApplication()->getMenu();
 	$item     = empty($query['Itemid']) ?
 		$menu->getActive() : $menu->getItem($query['Itemid']);
@@ -40,10 +40,6 @@ function THM_organizerBuildRoute(&$query)
 		case 'subject_list':
 			setSubjectListSegments($query, $segments, $item);
 			break;
-		case 'ajaxhandler':
-			setAjaxHandlerSegment($query, $segments);
-			break;
-		case 'scheduler':
 		case 'event_manager':
 		default:
 			break;
@@ -123,7 +119,7 @@ function setSubjectListSegments(&$query, &$segments, &$item)
 
 	$dbo          = JFactory::getDbo();
 	$programQuery = $dbo->getQuery(true);
-	$select       = array("p.subject", "' ('", "d.abbreviation", "' '", "p.version", "')'");
+	$select       = ["p.subject", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
 	$programQuery->select($programQuery->concatenate($select, ""));
 	$programQuery->from('#__thm_organizer_programs AS p')->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 	$programQuery->where("p.id = '$programID'");
@@ -142,7 +138,6 @@ function setSubjectListSegments(&$query, &$segments, &$item)
 
 	$segments[] = 'subject_list:' . JFilterOutput::stringURLSafe($name);
 	$segments[] = getLanguageTag($query);
-	setGroupBySegment($query, $segments);
 	setItemidSegment($query, $segments);
 }
 
@@ -163,65 +158,6 @@ function getLanguageTag(&$query)
 	}
 
 	return $tag;
-}
-
-/**
- * Sets the segments necessary for the ajaxhandler view
- *
- * @param array &$query    the url query as array
- * @param array &$segments the sequential parameters
- *
- * @return  void
- */
-function setGroupBySegment(&$query, &$segments)
-{
-	if (!isset($query['groupBy']))
-	{
-		$segments[] = 'alphabetical';
-
-		return;
-	}
-	switch ($query['groupBy'])
-	{
-		case '0':
-			$segments[] = 'alphabetical';
-			break;
-		case '1':
-			$segments[] = 'bypool';
-			break;
-		case '2':
-			$segments[] = 'byteacher';
-			break;
-		case '3':
-			$segments[] = 'byfield';
-			break;
-	}
-	unset($query['groupBy']);
-
-	return;
-}
-
-/**
- * Creates a human readable groupby segment
- *
- * @param array &$query    the url query as array
- * @param array &$segments the sequential parameters
- *
- * @return  void
- */
-function setAjaxHandlerSegment(&$query, &$segments)
-{
-	if (empty($query['format']))
-	{
-		return;
-	}
-
-	$segments[] = $query['view'];
-	unset($query['view']);
-	$segments[] = $query['format'];
-	unset($query['format']);
-
-	setItemidSegment($query, $segments);
 }
 
 /**
@@ -253,7 +189,7 @@ function setItemidSegment(&$query, &$segments)
  */
 function THM_organizerParseRoute($segments)
 {
-	$vars = array();
+	$vars = [];
 	if (empty($segments))
 	{
 		return $vars;
@@ -295,11 +231,6 @@ function THM_organizerParseRoute($segments)
 				$vars['Itemid'] = $segments[3];
 			}
 			break;
-		case 'ajaxhandler':
-			$vars['format'] = $segments[1];
-			$vars['Itemid'] = $segments[2];
-			break;
-		case 'scheduler':
 		default:
 			break;
 	}

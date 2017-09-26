@@ -14,6 +14,7 @@ jimport('tcpdf.tcpdf');
 
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+
 /**
  * Class which loads data into the view output context
  *
@@ -34,11 +35,11 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 	{
 		$input = JFactory::getApplication()->input;
 
-		$lessonID = $input->get("lessonID", 0);
-		$type = $input->get("type", 0);
+		$lessonID  = $input->get("lessonID", 0);
+		$type      = $input->get("type", 0);
 		$subjectID = THM_OrganizerHelperPrep_Course::getCourse($lessonID)["subjectID"];
 
-		$user = JFactory::getUser();
+		$user    = JFactory::getUser();
 		$isAdmin = $user->authorise('core.admin');
 
 		if ($isAdmin OR THM_OrganizerHelperPrep_Course::authSubjectTeacher($subjectID))

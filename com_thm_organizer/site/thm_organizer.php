@@ -12,21 +12,6 @@
 
 defined('_JEXEC') or die;
 
-// Include the JLog class.
-jimport('joomla.log.log');
-
-$componentName = "com_thm_organizer";
-
-// Get the date.
-$date = JFactory::getDate()->format('Y-m');
-JLog::addLogger(
-	array(
-		'text_file' => $componentName . '_site' . DIRECTORY_SEPARATOR . $componentName . '_' . $date . '.php'
-	),
-	JLog::ALL & ~JLog::DEBUG,
-	array($componentName)
-);
-
 try
 {
 	/** @noinspection PhpIncludeInspection */
@@ -35,6 +20,6 @@ try
 }
 catch (Exception $exc)
 {
-	JLog::add($exc->__toString(), JLog::ERROR, $componentName);
+	JLog::add($exc->__toString(), JLog::ERROR, "com_thm_organizer");
 	throw $exc;
 }

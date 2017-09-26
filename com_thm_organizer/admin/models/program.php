@@ -29,7 +29,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
 	 */
 	public function delete()
 	{
-		$resourceIDs = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$resourceIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		if (!empty($resourceIDs))
 		{
 			$this->_db->transactionStart();
@@ -62,13 +62,11 @@ class THM_OrganizerModelProgram extends JModelLegacy
 	/**
 	 * Method to save degree programs
 	 *
-	 * @param array $data program data if not called from a program edit form
-	 *
 	 * @return  Boolean
 	 */
 	public function save()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
 		$this->_db->transactionStart();
 		$table     = JTable::getInstance('programs', 'thm_organizerTable');
 		$dpSuccess = $table->save($data);
@@ -95,7 +93,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
 	 */
 	public function save2copy()
 	{
-		$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
 		if (isset($data['id']))
 		{
 			unset($data['id']);

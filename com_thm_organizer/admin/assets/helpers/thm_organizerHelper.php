@@ -67,7 +67,7 @@ class THM_OrganizerHelper
 	 */
 	public static function delete($table)
 	{
-		$cids         = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cids         = JFactory::getApplication()->input->get('cid', [], '[]');
 		$formattedIDs = "'" . implode("', '", $cids) . "'";
 
 		$dbo   = JFactory::getDbo();

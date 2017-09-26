@@ -58,7 +58,7 @@ function getTzOffsetForDate($timezonesarray, $tzid, $timestamp)
 			$timestamp['year']
 		);
 	}
-	$tzoffset = array();
+	$tzoffset = [];
 	// something to return if all goes wrong (such as if $tzid doesn't find us an array of dates)
 	$tzoffset['offsetHis'] = '+0000';
 	$tzoffset['offsetSec'] = 0;
@@ -117,11 +117,11 @@ function getTzOffsetForDate($timezonesarray, $tzid, $timestamp)
  */
 function getTimezonesAsDateArrays($vcalendar)
 {
-	$timezonedata = array();
+	$timezonedata = [];
 	while ($vtz = $vcalendar->getComponent('vtimezone'))
 	{
 		$tzid       = $vtz->getProperty('tzid');
-		$alltzdates = array();
+		$alltzdates = [];
 		while ($vtzc = $vtz->getComponent('standard'))
 		{
 			$newtzdates = expandTimezoneDates($vtzc);
@@ -149,16 +149,16 @@ function getTimezonesAsDateArrays($vcalendar)
  */
 function expandTimezoneDates($vtzc)
 {
-	$tzdates = array();
+	$tzdates = [];
 	// prepare time zone "description" to attach to each change
-	$tzbefore              = array();
+	$tzbefore              = [];
 	$tzbefore['offsetHis'] = $vtzc->getProperty('tzoffsetfrom');
 	$tzbefore['offsetSec'] = iCalUtilityFunctions::_tz2offset($tzbefore['offsetHis']);
 	if (('-' != substr((string) $tzbefore['offsetSec'], 0, 1)) && ('+' != substr((string) $tzbefore['offsetSec'], 0, 1)))
 	{
 		$tzbefore['offsetSec'] = '+' . $tzbefore['offsetSec'];
 	}
-	$tzafter              = array();
+	$tzafter              = [];
 	$tzafter['offsetHis'] = $vtzc->getProperty('tzoffsetto');
 	$tzafter['offsetSec'] = iCalUtilityFunctions::_tz2offset($tzafter['offsetHis']);
 	if (('-' != substr((string) $tzafter['offsetSec'], 0, 1)) && ('+' != substr((string) $tzafter['offsetSec'], 0, 1)))
@@ -194,7 +194,7 @@ function expandTimezoneDates($vtzc)
 		$dtstarttimestamp = strtotime($origdtstartsplit[1], $dtstarttimestamp);
 	}
 	// the date (in dtstart and opt RDATE/RRULE) is ALWAYS LOCAL (not utc!!), adjust from 'utc' to 'local' timestamp
-	$diff = -1 * $tzbefore['offsetSec'];
+	$diff             = -1 * $tzbefore['offsetSec'];
 	$dtstarttimestamp += $diff;
 	// add this (start) change to the array of changes
 	$tzdates[] = array(
@@ -305,7 +305,7 @@ function expandTimezoneDates($vtzc)
 				);
 				// update counters (timestamp and count)
 				$offsetchangetimestamp = strtotime("+" . ((isset($rrule['INTERVAL']) && ($rrule['INTERVAL'] != 0)) ? $rrule['INTERVAL'] : 1) . " year", $offsetchangetimestamp);
-				$count += 1;
+				$count                 += 1;
 			}
 		}
 	}

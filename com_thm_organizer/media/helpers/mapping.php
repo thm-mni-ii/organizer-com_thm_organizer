@@ -34,7 +34,7 @@ class THM_OrganizerHelperMapping
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$dbo      = JFactory::getDbo();
 		$query    = $dbo->getQuery(true);
-		$parts    = array("dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'");
+		$parts    = ["dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'"];
 		$text     = $query->concatenate($parts, "") . " As text";
 		$query->select("dp.id AS value, $text");
 		$query->from('#__thm_organizer_programs AS dp');
@@ -51,7 +51,7 @@ class THM_OrganizerHelperMapping
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -88,7 +88,7 @@ class THM_OrganizerHelperMapping
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		if ($resourceType == 'program' OR $resourceType == 'subject' OR !$excludeChildPools)
@@ -96,7 +96,7 @@ class THM_OrganizerHelperMapping
 			return $ufBoundarySet;
 		}
 
-		$filteredBoundarySet = array();
+		$filteredBoundarySet = [];
 
 		foreach ($ufBoundarySet as $ufBoundaries)
 		{
@@ -117,7 +117,7 @@ class THM_OrganizerHelperMapping
 	public static function getChildren(&$mappings)
 	{
 		$dbo      = JFactory::getDbo();
-		$children = array();
+		$children = [];
 
 		// The children should be the same regardless of which mapping is used, so we just take the last one
 		$mapping = array_pop($mappings);
@@ -125,7 +125,7 @@ class THM_OrganizerHelperMapping
 		// If mappings was empty mapping can be null
 		if (empty($mapping))
 		{
-			return array();
+			return [];
 		}
 
 		$childrenQuery = $dbo->getQuery(true);
@@ -142,7 +142,7 @@ class THM_OrganizerHelperMapping
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -253,7 +253,7 @@ class THM_OrganizerHelperMapping
 		$query->select('id, programID, lft, rgt');
 		$query->from('#__thm_organizer_mappings');
 
-		$programs = array();
+		$programs = [];
 		foreach ($mappings AS $mapping)
 		{
 			$query->clear('where');
@@ -270,7 +270,7 @@ class THM_OrganizerHelperMapping
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-				return array();
+				return [];
 			}
 
 			if (!in_array($program, $programs))
@@ -298,7 +298,7 @@ class THM_OrganizerHelperMapping
 		$query->select('*');
 		$query->from('#__thm_organizer_mappings');
 
-		$programMappings = array();
+		$programMappings = [];
 		foreach ($programEntries as $programEntry)
 		{
 			$query->clear('where');
@@ -315,10 +315,10 @@ class THM_OrganizerHelperMapping
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-				return array();
+				return [];
 			}
 
-			$programMappings = array_merge($programMappings, empty($results) ? array() : $results);
+			$programMappings = array_merge($programMappings, empty($results) ? [] : $results);
 		}
 
 		return $programMappings;
@@ -373,7 +373,7 @@ class THM_OrganizerHelperMapping
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$dbo      = JFactory::getDbo();
 		$query    = $dbo->getQuery(true);
-		$parts    = array("dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'");
+		$parts    = ["dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'"];
 		$text     = $query->concatenate($parts, "") . " As text";
 		$query->select($text);
 		$query->from('#__thm_organizer_programs AS dp');
@@ -414,7 +414,7 @@ class THM_OrganizerHelperMapping
 	 */
 	public static function getResourcePrograms($resourceRanges, $getIDs = false)
 	{
-		$rangeClauses = array();
+		$rangeClauses = [];
 		foreach ($resourceRanges AS $borders)
 		{
 			$rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
@@ -423,7 +423,7 @@ class THM_OrganizerHelperMapping
 		$dbo      = JFactory::getDbo();
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$query    = $dbo->getQuery(true);
-		$parts    = array("dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'");
+		$parts    = ["dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'"];
 		$select   = "DISTINCT " . $query->concatenate($parts, "") . " As name, dp.id AS id";
 		$query->select($select);
 		$query->from('#__thm_organizer_programs AS dp');
@@ -491,7 +491,7 @@ class THM_OrganizerHelperMapping
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -509,14 +509,14 @@ class THM_OrganizerHelperMapping
 		// Subject does not yet have any mappings. Improbable, but possible
 		if (empty($subjectBoundaries))
 		{
-			return array();
+			return [];
 		}
 
 		$programs = self::getResourcePrograms($subjectBoundaries, true);
 
 		if (empty($programs))
 		{
-			return array();
+			return [];
 		}
 
 		foreach ($programs as $programID => $program)
@@ -555,7 +555,7 @@ class THM_OrganizerHelperMapping
 		$nameQuery->from('#__thm_organizer_pools AS p');
 		$nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
 
-		$pools = array();
+		$pools = [];
 
 		// Each range is a unique pool association
 		foreach ($ranges AS $borders)
@@ -580,14 +580,14 @@ class THM_OrganizerHelperMapping
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-					return array();
+					return [];
 				}
 			}
 			catch (Exception $exc)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-				return array();
+				return [];
 			}
 		}
 
@@ -606,7 +606,7 @@ class THM_OrganizerHelperMapping
 	public static function getSelectedPrograms($ranges)
 	{
 		$dbo             = JFactory::getDbo();
-		$rangeConditions = array();
+		$rangeConditions = [];
 		foreach ($ranges as $range)
 		{
 			$rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
@@ -630,7 +630,7 @@ class THM_OrganizerHelperMapping
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -652,7 +652,7 @@ class THM_OrganizerHelperMapping
 
 		$dbo                  = JFactory::getDbo();
 		$query                = $dbo->getQuery(true);
-		$concateMappingClause = array("'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt');
+		$concateMappingClause = ["'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt'];
 		$mappingClause        = $query->concatenate($concateMappingClause);
 		$query->select("DISTINCT $mappingClause");
 		$query->from('#__thm_organizer_subject_teachers AS st');
@@ -668,7 +668,7 @@ class THM_OrganizerHelperMapping
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 	}
 
@@ -699,15 +699,15 @@ class THM_OrganizerHelperMapping
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return array();
+			return [];
 		}
 
 		if (empty($exclusions))
 		{
-			return array($boundaries);
+			return [$boundaries];
 		}
 
-		$boundarySet = array();
+		$boundarySet = [];
 		foreach ($exclusions as $exclusion)
 		{
 			// Child has no children => has no impact on output
@@ -720,7 +720,7 @@ class THM_OrganizerHelperMapping
 			if ($exclusion['lft'] != $boundaries['lft'] + 1)
 			{
 				// Create a new boundary from the current left to the exclusion
-				$boundary = array('lft' => $boundaries['lft'], 'rgt' => $exclusion['lft']);
+				$boundary = ['lft' => $boundaries['lft'], 'rgt' => $exclusion['lft']];
 
 				// Change the new left to the other side of the exclusion
 				$boundaries['lft'] = $exclusion['rgt'];
@@ -777,7 +777,7 @@ class THM_OrganizerHelperMapping
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$mappings = $mappingIDs = $parentIDs = array();
+			$mappings = $mappingIDs = $parentIDs = [];
 
 			return;
 		}
@@ -789,7 +789,7 @@ class THM_OrganizerHelperMapping
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$mappingIDs = $parentIDs = array();
+			$mappingIDs = $parentIDs = [];
 
 			return;
 		}
@@ -801,7 +801,7 @@ class THM_OrganizerHelperMapping
 		catch (Exception $exc)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$mappingIDs = array();
+			$mappingIDs = [];
 
 			return;
 		}
@@ -838,7 +838,7 @@ class THM_OrganizerHelperMapping
 		if ($resourceID == '-1')
 		{
 			// Mapping exists but erroneous
-			$erray = array();
+			$erray = [];
 
 			foreach ($ranges as $range)
 			{

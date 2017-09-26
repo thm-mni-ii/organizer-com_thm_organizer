@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<field name="includeWaitList"
-		   type="list"
-		   class="chzn-color-state"
-		   label=""
-		   default="0">
-		<option value="1">COM_THM_ORGANIZER_FILTER_WAIT_LIST_NO</option>
-		<option value="0">COM_THM_ORGANIZER_FILTER_WAIT_LIST_YES</option>
-	</field>
-	<field name="subject"
-		   type="text"
-		   size="60"
-		   label="COM_THM_ORGANIZER_MAIL_SUBJECT"
-	       required="true" />
-	<field name="text"
-		   type="editor"
-		   class="inputbox"
-		   label="COM_THM_ORGANIZER_TEXT"
-		   required="true"/>
+    <field name="includeWaitList"
+           type="list"
+           class="chzn-color-state"
+           label=""
+           default="0">
+        <option value="1">COM_THM_ORGANIZER_FILTER_WAIT_LIST_NO</option>
+        <option value="0">COM_THM_ORGANIZER_FILTER_WAIT_LIST_YES</option>
+    </field>
+    <field name="subject"
+           type="text"
+           size="60"
+           label="COM_THM_ORGANIZER_MAIL_SUBJECT"
+           required="true"/>
+    <field name="text"
+           type="editor"
+           class="inputbox"
+           label="COM_THM_ORGANIZER_TEXT"
+           required="true"/>
 </form>

@@ -32,7 +32,7 @@ class THM_OrganizerHelperSubjects
 	public static function getID($subjectIndex)
 	{
 		$table  = JTable::getInstance('plan_subjects', 'thm_organizerTable');
-		$data   = array('subjectIndex' => $subjectIndex);
+		$data   = ['subjectIndex' => $subjectIndex];
 		$exists = $table->load($data);
 		if ($exists)
 		{
@@ -52,10 +52,10 @@ class THM_OrganizerHelperSubjects
 	 */
 	public static function getName($subjectID, $type)
 	{
-		$dbo           = JFactory::getDbo();
-		$languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+		$dbo         = JFactory::getDbo();
+		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
-		$query     = $dbo->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select("ps.name as psName, s.name_$languageTag as name");
 		$query->from('#__thm_organizer_plan_subjects AS ps');
 
@@ -85,7 +85,7 @@ class THM_OrganizerHelperSubjects
 			return '';
 		}
 
-		return empty($names)? '' : empty($names['name'])? $names['psName'] : $names['name'];
+		return empty($names) ? '' : empty($names['name']) ? $names['psName'] : $names['name'];
 	}
 
 	/**
@@ -106,7 +106,7 @@ class THM_OrganizerHelperSubjects
 			$table->load($subjectID);
 		}
 
-		$data                 = array();
+		$data                 = [];
 		$data['subjectIndex'] = $subjectIndex;
 		$data['gpuntisID']    = $subject->gpuntisID;
 
