@@ -41,8 +41,8 @@ class JFormFieldDateList extends JFormFieldList
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$valueColumn = $this->getAttribute('valueColumn');
-		$textColumn  = $this->getAttribute('textColumn');
+		$valueColumn = $this->getAttribute('valuecolumn');
+		$textColumn  = $this->getAttribute('textcolumn');
 
 		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
 		$this->setFrom($query);
