@@ -37,7 +37,7 @@ class THM_OrganizerTemplateEdit_Tabbed
 			  method="post"
 			  name="adminForm"
 			  id="item-form"
-			  class="form-horizontal">
+			  class="form-horizontal form-validate">
 			<div class="form-horizontal">
 				<?php
 				echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);

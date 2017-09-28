@@ -26,19 +26,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 class THM_OrganizerViewSchedule_Edit extends THM_OrganizerViewEdit
 {
 	/**
-	 * loads persistent data into view context and intitiates functions for the
-	 * creation of html elements
-	 *
-	 * @param object $tpl the template object
-	 *
-	 * @return void
-	 */
-	public function display($tpl = null)
-	{
-		parent::display($tpl);
-	}
-
-	/**
 	 * creates the joomla adminstrative toolbar
 	 *
 	 * @return void

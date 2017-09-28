@@ -35,9 +35,8 @@ class THM_OrganizerTemplateEdit_Basic
 			  method="post"
 			  name="adminForm"
 			  id="item-form"
-			  class="form-horizontal">
-			<fieldset class="adminform"
-			">
+			  class="form-horizontal form-validate">
+			<fieldset class="adminform">
 			<?php echo $view->form->renderFieldset('details'); ?>
 			</fieldset>
 			<?php echo $view->form->getInput('id'); ?>

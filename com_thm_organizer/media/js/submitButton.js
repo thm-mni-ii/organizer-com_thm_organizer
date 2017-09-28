@@ -1,11 +1,12 @@
 jQuery(document).ready(function () {
 	Joomla.submitbutton = function (task) {
-		var match = task.match(/\.cancel$/), form;
-		if (match !== null || document.formvalidator.isValid(document.id('item-form')))
+		var match = task.match(/\.cancel$/),
+			itemForm = document.getElementById('item-form');
+
+		if (match !== null || document.formvalidator.isValid(itemForm))
 		{
-			form = document.getElementById('item-form');
-			form.task.value = task;
-			form.submit();
+			itemForm.task.value = task;
+			itemForm.submit();
 		}
 	}
 });
