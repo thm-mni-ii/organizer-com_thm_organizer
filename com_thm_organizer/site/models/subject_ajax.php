@@ -89,7 +89,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 		$query->order('name');
 		$query->group('s.id');
 
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 		try
 		{
 			$subjects = $dbo->loadObjectList();

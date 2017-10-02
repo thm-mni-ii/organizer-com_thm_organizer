@@ -49,7 +49,7 @@ class JFormFieldProgramID extends JFormFieldList
 		$query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
 		$query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
 		$query->order('text ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

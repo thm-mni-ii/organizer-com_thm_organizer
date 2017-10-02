@@ -92,7 +92,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 
 		try
 		{
-			return $this->_db->setQuery((string) $query)->loadAssocList();
+			return $this->_db->setQuery($query)->loadAssocList();
 		}
 		catch (RuntimeException $exc)
 		{
@@ -122,7 +122,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 		$query->where("p.id = '$poolID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -165,7 +165,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 		$query->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.programID');
 		$query->where("p.id = '$programID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -206,7 +206,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 		$query->where("s.id = '$subjectID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -266,7 +266,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$mappingsQuery->where("lft > '$lft'");
 		$mappingsQuery->where("rgt < '$rgt'");
 		$mappingsQuery->order('lft');
-		$dbo->setQuery((string) $mappingsQuery);
+		$dbo->setQuery($mappingsQuery);
 
 		try
 		{
@@ -327,7 +327,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -357,7 +357,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 		$query = $dbo->getQuery(true);
 		$query->select('id, schedule')->from('#__thm_organizer_schedules');
 		$query->where("startDate <= '$date'")->where("endDate >= '$date'")->where("active = '1'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

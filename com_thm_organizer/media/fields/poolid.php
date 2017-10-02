@@ -60,7 +60,7 @@ class JFormFieldPoolID extends JFormFieldList
 		$query->where("lft > '{$programRanges[0]['lft']}'");
 		$query->where("rgt < '{$programRanges[0]['rgt']}'");
 		$query->order('text ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

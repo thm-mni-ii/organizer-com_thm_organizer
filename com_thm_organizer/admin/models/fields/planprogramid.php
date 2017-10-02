@@ -42,7 +42,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
 		$selectedIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 		$query->where("ppl.id IN ( '" . implode("', '", $selectedIDs) . "' )");
 		$query->order('text ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

@@ -123,7 +123,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 		$query->clear('order');
 		$query->select('COUNT(DISTINCT s.id)');
 		$dbo = JFactory::getDbo();
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

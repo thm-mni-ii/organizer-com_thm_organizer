@@ -43,7 +43,7 @@ class JFormFieldMergeByValue extends JFormFieldList
 		$query->select("DISTINCT $column AS value, $column AS text")->from("#__thm_organizer_$resource");
 		$query->where("id IN ( '" . implode("', '", $selectedIDs) . "' )");
 		$query->order('text ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

@@ -38,7 +38,7 @@ class JFormFieldSubjectTeacher extends JFormField
 		$selectedQuery->select('teacherID');
 		$selectedQuery->from('#__thm_organizer_subject_teachers');
 		$selectedQuery->where("subjectID = '$subjectID' AND teacherResp = '$responsibility'");
-		$dbo->setQuery((string) $selectedQuery);
+		$dbo->setQuery($selectedQuery);
 
 		try
 		{
@@ -55,7 +55,7 @@ class JFormFieldSubjectTeacher extends JFormField
 		$teachersQuery->select("id AS value, surname, forename");
 		$teachersQuery->from('#__thm_organizer_teachers');
 		$teachersQuery->order('surname, forename');
-		$dbo->setQuery((string) $teachersQuery);
+		$dbo->setQuery($teachersQuery);
 
 		try
 		{

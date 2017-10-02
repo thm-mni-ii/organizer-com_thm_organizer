@@ -58,7 +58,7 @@ class JFormFieldMergeByID extends JFormFieldList
 
 		$query->where("{$tableAlias}id IN ( '" . implode("', '", $selectedIDs) . "' )");
 		$query->order('text ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

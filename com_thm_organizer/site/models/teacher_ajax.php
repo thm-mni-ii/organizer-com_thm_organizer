@@ -84,7 +84,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 		}
 
 		$query->order('t.surname');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

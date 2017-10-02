@@ -174,7 +174,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$idString = "'" . implode("', '", $allDBIDs) . "'";
 		$query    = $this->_db->getQuery(true);
 		$query->select('gpuntisID')->from("#__thm_organizer_{$resource}")->where("id in ( $idString )");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			return $this->_db->loadColumn();
@@ -197,7 +197,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 	{
 		$query = $this->_db->getQuery(true);
 		$query->select('gpuntisID')->from("#__thm_organizer_{$tableName}")->where("id = '$dbID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -233,7 +233,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
 		$query->order('id ASC');
 
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -257,7 +257,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$query = $this->_db->getQuery(true);
 		$query->select('id');
 		$query->from('#__thm_organizer_schedules');
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -284,7 +284,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$query->select('newSchedule');
 		$query->from('#__thm_organizer_schedules');
 		$query->where("id = '$scheduleID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -457,7 +457,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$query->update("#__thm_organizer_{$tableName}");
 		$query->set("{$resource}ID = '$newDBID'");
 		$query->where("{$resource}ID IN ( $oldDBIDString )");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$this->_db->execute();
@@ -583,7 +583,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		$departmentQuery->select("DISTINCT departmentID");
 		$departmentQuery->from("#__thm_organizer_department_resources");
 		$departmentQuery->where("{$resource}ID IN ( $allIDString )");
-		$this->_db->setQuery((string) $departmentQuery);
+		$this->_db->setQuery($departmentQuery);
 
 		try
 		{
@@ -620,7 +620,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 		}
 
 		// Rerun the dept query to find the departments that remain
-		$this->_db->setQuery((string) $departmentQuery);
+		$this->_db->setQuery($departmentQuery);
 
 		try
 		{

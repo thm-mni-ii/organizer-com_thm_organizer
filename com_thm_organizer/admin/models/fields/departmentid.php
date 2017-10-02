@@ -58,7 +58,7 @@ class JFormFieldDepartmentID extends JFormFieldList
 		$query->from('#__thm_organizer_departments');
 		$query->where("id IN ( '" . implode("', '", $allowedIDs) . "' )");
 		$query->order('text ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

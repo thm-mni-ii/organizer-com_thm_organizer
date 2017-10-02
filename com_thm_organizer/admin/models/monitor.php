@@ -121,7 +121,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
 		$query->update('#__thm_organizer_monitors');
 		$query->set("useDefaults = '$value'");
 		$query->where("id = '$monitorID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			return (bool) $this->_db->execute();

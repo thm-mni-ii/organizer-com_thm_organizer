@@ -337,7 +337,7 @@ class THM_OrganizerHelperComponent
 			->from('#__thm_organizer_department_resources')
 			->where("poolID = '$ppID'")
 			->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -367,7 +367,7 @@ class THM_OrganizerHelperComponent
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('asset_id')->from("#__thm_organizer_{$resourceName}s")->where("id = '$itemID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -460,7 +460,7 @@ class THM_OrganizerHelperComponent
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('id')->from('#__thm_organizer_departments');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

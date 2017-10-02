@@ -72,7 +72,7 @@ function setSubjectDetailsSegments(&$query, &$segments)
 	$dbo       = JFactory::getDbo();
 	$nameQuery = $dbo->getQuery(true);
 	$nameQuery->select("name_$tag")->from('#__thm_organizer_subjects')->where("id = '{$query['id']}'");
-	$dbo->setQuery((string) $nameQuery);
+	$dbo->setQuery($nameQuery);
 
 	try
 	{
@@ -123,7 +123,7 @@ function setSubjectListSegments(&$query, &$segments, &$item)
 	$programQuery->select($programQuery->concatenate($select, ""));
 	$programQuery->from('#__thm_organizer_programs AS p')->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 	$programQuery->where("p.id = '$programID'");
-	$dbo->setQuery((string) $programQuery);
+	$dbo->setQuery($programQuery);
 
 	try
 	{

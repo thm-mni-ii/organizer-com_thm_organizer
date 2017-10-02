@@ -50,7 +50,7 @@ class JFormFieldLocalizedList extends JFormFieldList
 		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
 		$this->setFrom($query);
 		$query->order("text ASC");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

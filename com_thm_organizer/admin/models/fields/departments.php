@@ -37,7 +37,7 @@ class JFormFieldDepartments extends JFormField
 		$departmentsQuery = $dbo->getQuery(true);
 		$departmentsQuery->select("id AS value, name_$langTag AS text");
 		$departmentsQuery->from('#__thm_organizer_departments');
-		$dbo->setQuery((string) $departmentsQuery);
+		$dbo->setQuery($departmentsQuery);
 
 		try
 		{

@@ -65,7 +65,7 @@ class JFormFieldChildren extends JFormField
 		 * Subordinate structures are the same for every parent mapping,
 		 * therefore only the first mapping needs to be found
 		 */
-		$dbo->setQuery((string) $idQuery, 0, 1);
+		$dbo->setQuery($idQuery, 0, 1);
 
 		try
 		{
@@ -88,7 +88,7 @@ class JFormFieldChildren extends JFormField
 		$childMappingQuery->from('#__thm_organizer_mappings');
 		$childMappingQuery->where("parentID = '$parentID'");
 		$childMappingQuery->order('lft ASC');
-		$dbo->setQuery((string) $childMappingQuery);
+		$dbo->setQuery($childMappingQuery);
 
 		try
 		{
@@ -156,7 +156,7 @@ class JFormFieldChildren extends JFormField
 		$query->select("name_{$language[0]}");
 		$query->from("#__thm_organizer_{$resourceType}s");
 		$query->where("id = '$resourceID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

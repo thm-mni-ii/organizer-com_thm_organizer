@@ -228,7 +228,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('id')->from('#__thm_organizer_rooms');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		return $dbo->loadColumn();
 	}

@@ -113,7 +113,7 @@ class JFormFieldGenericList extends JFormFieldList
 		$this->setWhere($query);
 		$order = $this->getAttribute('order', "text ASC");
 		$query->order($order);
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

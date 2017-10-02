@@ -102,7 +102,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				$query->clear('where');
 				$query->where("lft > '{$program['lft']}' AND rgt < '{$program['rgt']}'");
 				$query->where("s.externalID = '$possibleModuleNumber'");
-				$this->_db->setQuery((string) $query);
+				$this->_db->setQuery($query);
 
 				try
 				{
@@ -997,7 +997,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 				$checkQuery->from('#__thm_organizer_prerequisites')
 					->where("prerequisite = '$prerequisiteID'")
 					->where("subjectID = '$subjectID'");
-				$this->_db->setQuery((string) $checkQuery);
+				$this->_db->setQuery($checkQuery);
 
 				try
 				{
@@ -1016,7 +1016,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 					$insertQuery->insert('#__thm_organizer_prerequisites');
 					$insertQuery->columns('prerequisite, subjectID');
 					$insertQuery->values("'$prerequisiteID', '$subjectID'");
-					$this->_db->setQuery((string) $insertQuery);
+					$this->_db->setQuery($insertQuery);
 					try
 					{
 						$this->_db->execute();

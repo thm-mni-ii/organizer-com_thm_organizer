@@ -224,7 +224,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 			$query->where("teacherResp = '$responsibility'");
 		}
 
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$this->_db->execute();
@@ -254,7 +254,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 		$query = $this->_db->getQuery(true);
 		$query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
 		$query->values("'$subjectID', '$teacherID', '$responsibility'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$this->_db->execute();
@@ -409,7 +409,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 	{
 		$query = $this->_db->getQuery(true);
 		$query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$this->_db->execute();
@@ -437,7 +437,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
 		$query = $this->_db->getQuery(true);
 		$query->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite');
 		$query->values("'$subjectID', '$prerequisite'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$this->_db->execute();

@@ -41,7 +41,7 @@ class THM_OrganizerHelperMapping
 		$query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
 		$query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
 		$query->order('text ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -78,7 +78,7 @@ class THM_OrganizerHelperMapping
 		$query = $dbo->getQuery(true);
 		$query->select("{$resourceType}ID, lft, rgt")->from('#__thm_organizer_mappings');
 		$query->where("{$resourceType}ID = '$resourceID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -132,7 +132,7 @@ class THM_OrganizerHelperMapping
 		$childrenQuery->select('id')->from('#__thm_organizer_mappings');
 		$childrenQuery->where("lft > '{$mapping['lft']}'");
 		$childrenQuery->where("rgt < '{$mapping['rgt']}'");
-		$dbo->setQuery((string) $childrenQuery);
+		$dbo->setQuery($childrenQuery);
 		try
 		{
 			// This ensures that an array is returned even if no entries were found
@@ -260,7 +260,7 @@ class THM_OrganizerHelperMapping
 			$query->where("lft < '{$mapping['lft']}'");
 			$query->where("rgt > '{$mapping['rgt']}'");
 			$query->where("parentID IS NULL");
-			$dbo->setQuery((string) $query);
+			$dbo->setQuery($query);
 
 			try
 			{
@@ -305,7 +305,7 @@ class THM_OrganizerHelperMapping
 			$query->where("lft >= '{$programEntry['lft']}'");
 			$query->where("rgt <= '{$programEntry['rgt']}'");
 			$query->order('lft ASC');
-			$dbo->setQuery((string) $query);
+			$dbo->setQuery($query);
 
 			try
 			{
@@ -379,7 +379,7 @@ class THM_OrganizerHelperMapping
 		$query->from('#__thm_organizer_programs AS dp');
 		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
 		$query->where("dp.id = '{$mapping['programID']}'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 		try
 		{
 			$name = $dbo->loadResult();
@@ -431,7 +431,7 @@ class THM_OrganizerHelperMapping
 		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
 		$query->where($rangeClauses, 'OR');
 		$query->order('name');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -479,7 +479,7 @@ class THM_OrganizerHelperMapping
 			$query->where("{$resourceType}ID = '$resourceID'");
 		}
 
-		JFactory::getDbo()->setQuery((string) $query);
+		JFactory::getDbo()->setQuery($query);
 
 		try
 		{
@@ -563,14 +563,14 @@ class THM_OrganizerHelperMapping
 			$lftQuery->clear('where');
 			$lftQuery->where("poolID IS NOT NULL");
 			$lftQuery->where("( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')");
-			$dbo->setQuery((string) $lftQuery);
+			$dbo->setQuery($lftQuery);
 
 			try
 			{
 				$poolLFT = $dbo->loadResult();
 				$nameQuery->clear('where');
 				$nameQuery->where("lft = '$poolLFT'");
-				$dbo->setQuery((string) $nameQuery);
+				$dbo->setQuery($nameQuery);
 
 				try
 				{
@@ -620,7 +620,7 @@ class THM_OrganizerHelperMapping
 		$query->innerJoin('#__thm_organizer_programs AS dp ON m.programID = dp.id');
 		$query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
 		$query->where($rangesClause);
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -658,7 +658,7 @@ class THM_OrganizerHelperMapping
 		$query->from('#__thm_organizer_subject_teachers AS st');
 		$query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
 		$query->where("st.teacherID = '$teacherID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -689,7 +689,7 @@ class THM_OrganizerHelperMapping
 		$query->where("poolID IS NOT NULL");
 		$query->where("lft > '{$boundaries['lft']}' AND rgt < '{$boundaries['rgt']}'");
 		$query->order('lft');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -768,7 +768,7 @@ class THM_OrganizerHelperMapping
 		$query->select('parentID, id, lft, rgt');
 		$query->from('#__thm_organizer_mappings');
 		$query->where("{$resourceType}ID = '$resourceID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

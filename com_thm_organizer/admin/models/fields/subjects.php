@@ -50,7 +50,7 @@ class JFormFieldSubjects extends JFormField
 		$selectedQuery->select($select);
 		$selectedQuery->from('#__thm_organizer_prerequisites');
 		$selectedQuery->where("$column = '$subjectID'");
-		$dbo->setQuery((string) $selectedQuery);
+		$dbo->setQuery($selectedQuery);
 
 		try
 		{
@@ -68,7 +68,7 @@ class JFormFieldSubjects extends JFormField
 		$subjectsQuery->select("DISTINCT id AS value, name_$langTag AS name, externalID");
 		$subjectsQuery->from('#__thm_organizer_subjects');
 		$subjectsQuery->order('name');
-		$dbo->setQuery((string) $subjectsQuery);
+		$dbo->setQuery($subjectsQuery);
 
 		try
 		{

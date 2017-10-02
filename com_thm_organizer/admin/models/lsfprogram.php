@@ -36,7 +36,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 		$query->from('#__thm_organizer_programs AS p');
 		$query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 		$query->where("p.id = '$programID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{

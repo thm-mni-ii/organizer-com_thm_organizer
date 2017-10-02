@@ -35,7 +35,7 @@ class THM_OrganizerHelperXMLDescriptions
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

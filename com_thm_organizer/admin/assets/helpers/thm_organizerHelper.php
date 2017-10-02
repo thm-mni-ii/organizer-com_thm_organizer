@@ -74,7 +74,7 @@ class THM_OrganizerHelper
 		$query = $dbo->getQuery(true);
 		$query->delete("#__thm_organizer_$table");
 		$query->where("id IN ( $formattedIDs )");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 		try
 		{
 			$dbo->execute();

@@ -61,7 +61,7 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
 		}
 
 		$query->order('name');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

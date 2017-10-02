@@ -334,7 +334,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -382,7 +382,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 				break;
 		}
 
-		$dbo->setQuery((string) $mappingIDsQuery);
+		$dbo->setQuery($mappingIDsQuery);
 
 		try
 		{
@@ -423,7 +423,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 
 		$mappingIDsQuery = $dbo->getQuery(true);
 		$mappingIDsQuery->select('id')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
-		$dbo->setQuery((string) $mappingIDsQuery);
+		$dbo->setQuery($mappingIDsQuery);
 
 		try
 		{
@@ -465,7 +465,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		// Retrieves information about the current mapping including its total width
 		$mappingQuery = $dbo->getQuery(true);
 		$mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
-		$dbo->setQuery((string) $mappingQuery);
+		$dbo->setQuery($mappingQuery);
 
 		try
 		{
@@ -481,7 +481,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		// Deletes the mapping
 		$deleteQuery = $dbo->getQuery(true);
 		$deleteQuery->delete('#__thm_organizer_mappings')->where("id = '{$mapping['id']}'");
-		$dbo->setQuery((string) $deleteQuery);
+		$dbo->setQuery($deleteQuery);
 		try
 		{
 			$dbo->execute();
@@ -499,7 +499,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$siblingsQuery->set('ordering = ordering - 1');
 		$siblingsQuery->where("parentID = '{$mapping['parentID']}'");
 		$siblingsQuery->where("ordering > '{$mapping['ordering']}'");
-		$dbo->setQuery((string) $siblingsQuery);
+		$dbo->setQuery($siblingsQuery);
 		try
 		{
 			$dbo->execute();
@@ -519,7 +519,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$updateLeftQuery->update('#__thm_organizer_mappings');
 		$updateLeftQuery->set("lft = lft - {$mapping['width']}");
 		$updateLeftQuery->where("lft > '{$mapping['lft']}'");
-		$dbo->setQuery((string) $updateLeftQuery);
+		$dbo->setQuery($updateLeftQuery);
 		try
 		{
 			$dbo->execute();
@@ -539,7 +539,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$updateRightQuery->update('#__thm_organizer_mappings');
 		$updateRightQuery->set("rgt = rgt - {$mapping['width']}");
 		$updateRightQuery->where("rgt > '{$mapping['lft']}'");
-		$dbo->setQuery((string) $updateRightQuery);
+		$dbo->setQuery($updateRightQuery);
 		try
 		{
 			$dbo->execute();
@@ -571,7 +571,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$rgtQuery = $dbo->getQuery(true);
 		$rgtQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
 		$rgtQuery->where("parentID = '$parentID'")->where("ordering < '$ordering'");
-		$dbo->setQuery((string) $rgtQuery);
+		$dbo->setQuery($rgtQuery);
 		try
 		{
 			$rgt = $dbo->loadResult();
@@ -588,7 +588,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$lftQuery = $dbo->getQuery(true);
 		$lftQuery->select('lft')->from('#__thm_organizer_mappings');
 		$lftQuery->where("id = '$parentID'");
-		$dbo->setQuery((string) $lftQuery);
+		$dbo->setQuery($lftQuery);
 		try
 		{
 			$lft = $dbo->loadResult();
@@ -623,7 +623,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$existingQuery = $dbo->getQuery(true);
 		$existingQuery->select('id')->from('#__thm_organizer_mappings');
 		$existingQuery->where("{$type}ID = '$resourceID'");
-		$dbo->setQuery((string) $existingQuery, 0, 1);
+		$dbo->setQuery($existingQuery, 0, 1);
 
 		try
 		{
@@ -643,7 +643,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 			$childrenQuery->from('#__thm_organizer_mappings');
 			$childrenQuery->where("parentID = '$firstID'");
 			$childrenQuery->order('lft ASC');
-			$dbo->setQuery((string) $childrenQuery);
+			$dbo->setQuery($childrenQuery);
 
 			try
 			{
@@ -740,7 +740,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 			$existingOrderQuery->where("poolID = '$resourceID'");
 		}
 
-		$dbo->setQuery((string) $existingOrderQuery);
+		$dbo->setQuery($existingOrderQuery);
 
 		try
 		{
@@ -762,7 +762,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		 */
 		$maxOrderQuery = $dbo->getQuery(true);
 		$maxOrderQuery->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$parentID'");
-		$dbo->setQuery((string) $maxOrderQuery);
+		$dbo->setQuery($maxOrderQuery);
 
 		try
 		{
@@ -788,7 +788,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$dbo         = JFactory::getDbo();
 		$parentQuery = $dbo->getQuery(true);
 		$parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
-		$dbo->setQuery((string) $parentQuery);
+		$dbo->setQuery($parentQuery);
 
 		try
 		{
@@ -882,7 +882,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$dbo       = JFactory::getDbo();
 		$findQuery = $dbo->getQuery(true);
 		$findQuery->select('*')->from('#__thm_organizer_mappings')->where('parentID IS NULL')->where("programID = '$programID'");
-		$dbo->setQuery((string) $findQuery);
+		$dbo->setQuery($findQuery);
 
 		try
 		{
@@ -899,7 +899,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		{
 			$leftQuery = $dbo->getQuery(true);
 			$leftQuery->select("MAX(rgt)")->from('#__thm_organizer_mappings');
-			$dbo->setQuery((string) $leftQuery);
+			$dbo->setQuery($leftQuery);
 
 			try
 			{
@@ -1015,7 +1015,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 
 		try
 		{
-			$mappings = $this->_db->setQuery((string) $query)->loadAssocList();
+			$mappings = $this->_db->setQuery($query)->loadAssocList();
 		}
 		catch (Exception $exc)
 		{
@@ -1074,7 +1074,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$query = $dbo->getQuery(true);
 		$query->update('#__thm_organizer_mappings')->set('ordering = ordering + 1');
 		$query->where("ordering >= '$insertOrder'")->where("parentID = '$parentID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 		try
 		{
 			$dbo->execute();
@@ -1100,7 +1100,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 		$dbo      = JFactory::getDbo();
 		$lftQuery = $dbo->getQuery(true);
 		$lftQuery->update('#__thm_organizer_mappings')->set('lft = lft + 2')->where("lft >= '$value'");
-		$dbo->setQuery((string) $lftQuery);
+		$dbo->setQuery($lftQuery);
 		try
 		{
 			$dbo->execute();
@@ -1112,7 +1112,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 
 		$rgtQuery = $dbo->getQuery(true);
 		$rgtQuery->update('#__thm_organizer_mappings')->set('rgt = rgt + 2')->where("rgt >= '$value'");
-		$dbo->setQuery((string) $rgtQuery);
+		$dbo->setQuery($rgtQuery);
 		try
 		{
 			$dbo->execute();

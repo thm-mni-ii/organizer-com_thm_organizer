@@ -38,7 +38,7 @@ class THM_OrganizerHelperDepartments
 		$query->select("name_$languageTag as name")->from('#__thm_organizer_departments')
 			->where("id = '$departmentID'");
 
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

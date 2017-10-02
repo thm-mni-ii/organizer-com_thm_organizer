@@ -48,7 +48,7 @@ class JFormFieldColors extends JFormField
 
 		$query->select("*");
 		$query->from(' #__thm_organizer_colors as colors');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

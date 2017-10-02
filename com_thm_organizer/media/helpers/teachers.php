@@ -161,7 +161,7 @@ class THM_OrganizerHelperTeachers
 			$query->where("ppo.programID in ($programIDs)");
 		}
 
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		$default = [];
 		try

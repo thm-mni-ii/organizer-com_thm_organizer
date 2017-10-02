@@ -115,7 +115,7 @@ abstract class THM_OrganizerModelList extends JModelList
 		$query = $this->getListQuery();
 		$query->clear('select')->clear('limit')->clear('offset')->clear('order');
 		$query->select("COUNT(DISTINCT ($idColumn))");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{

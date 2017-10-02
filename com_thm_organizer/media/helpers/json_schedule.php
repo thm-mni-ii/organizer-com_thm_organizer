@@ -1046,7 +1046,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			->innerJoin('#__thm_organizer_plan_programs as p_prg on prg.id = p_prg.programID')
 			->innerJoin('#__thm_organizer_plan_pools as p_pool on p_prg.id = p_pool.programID')
 			->where("p_pool.id = '$poolID'");
-		$this->_db->setQuery((string) $boundariesQuery);
+		$this->_db->setQuery($boundariesQuery);
 
 		try
 		{
@@ -1072,7 +1072,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 			->where("m.lft > '{$boundaries['lft']}'")
 			->where("m.rgt < '{$boundaries['rgt']}'")
 			->where("s.externalID = '$subjectNo'");
-		$this->_db->setQuery((string) $subjectQuery);
+		$this->_db->setQuery($subjectQuery);
 
 		try
 		{

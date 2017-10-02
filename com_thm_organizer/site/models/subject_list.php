@@ -237,7 +237,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 		$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 		$query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
 		$query->where("p.id = '$programID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{

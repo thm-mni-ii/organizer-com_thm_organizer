@@ -89,7 +89,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 		$query->from('#__thm_organizer_mappings');
 		$query->where("programID IN ( '" . implode("', '", $programIDs) . "' )");
 		$query->order('lft ASC');
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -198,7 +198,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
 		}
 
 		$query->order('lft');
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$pools = $this->_db->loadObjectList();

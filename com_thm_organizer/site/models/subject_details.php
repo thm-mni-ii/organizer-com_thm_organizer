@@ -58,7 +58,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 		$query->from('#__thm_organizer_subjects AS s');
 		$query->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id');
 		$query->where("s.id = '$subjectID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -99,7 +99,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 			// Ensure that the requested ID is existent in the table
 			$query = $this->_db->getQuery(true);
 			$query->select('id')->from('#__thm_organizer_subjects')->where("id = '$requestID'");
-			$this->_db->setQuery((string) $query);
+			$this->_db->setQuery($query);
 
 			try
 			{
@@ -121,7 +121,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 
 		$query = $this->_db->getQuery(true);
 		$query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{

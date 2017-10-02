@@ -74,7 +74,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
 		$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 		$query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
 		$query->where("p.id = '$program->id'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$programData = $this->_db->loadAssoc();
@@ -105,7 +105,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
 		$query->from('#__thm_organizer_mappings');
 		$query->where("parentID = '$element->mapping'");
 		$query->order("ordering ASC");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$children = $this->_db->loadObjectList();
@@ -163,7 +163,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
 		$query->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID');
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 		$query->where("p.id = '$poolID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -211,7 +211,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
 		$query->leftJoin('#__thm_organizer_fields AS f ON f.id = s.fieldID');
 		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 		$query->where("s.id = '$subjectID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{

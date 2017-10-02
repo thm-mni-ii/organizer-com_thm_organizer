@@ -32,7 +32,7 @@ class THM_OrganizerHelperTeacher
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select("value")->from('#__thm_groups_picture')->where("userid = '$userID'")->order('structid DESC');
-		$dbo->setQuery((string) $query, 0, 1);
+		$dbo->setQuery($query, 0, 1);
 
 		try
 		{
@@ -71,7 +71,7 @@ class THM_OrganizerHelperTeacher
 		$query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
 		$query->leftJoin('#__users AS u ON t.username = u.username');
 		$query->where("t.id= '$teacherID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{
@@ -114,7 +114,7 @@ class THM_OrganizerHelperTeacher
 		}
 
 		$query->order('surname ASC');
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		if ($multiple)
 		{
@@ -240,7 +240,7 @@ class THM_OrganizerHelperTeacher
 		$query = $dbo->getQuery(true);
 		$query->select('u.id')->from('#__users AS u')->innerJoin('#__thm_organizer_teachers AS t ON t.username = u.username');
 		$query->where("t.gpuntisID = '$gpuntisID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 
 		try
 		{

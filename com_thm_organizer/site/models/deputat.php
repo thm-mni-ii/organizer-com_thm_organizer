@@ -103,7 +103,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
-		$dbo->setQuery((string) $query);
+		$dbo->setQuery($query);
 		try
 		{
 			$departmentName       = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
@@ -142,7 +142,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 
 		$query->order('name');
 
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$results = $this->_db->loadAssocList();
@@ -183,7 +183,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$query->select('schedule');
 		$query->from("#__thm_organizer_schedules");
 		$query->where("id = '$this->scheduleID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
@@ -1011,7 +1011,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$query->where("startDate = '$startDate'");
 		$query->where("endDate = '$endDate'");
 		$query->where("active = '1'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			return $this->_db->loadColumn();
@@ -1037,7 +1037,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		$query->select('schedule');
 		$query->from("#__thm_organizer_schedules");
 		$query->where("id = '$scheduleID'");
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 		try
 		{
 			$result = $this->_db->loadResult();

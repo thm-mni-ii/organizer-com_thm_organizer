@@ -418,7 +418,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 		$query->from('#__thm_organizer_room_types AS t');
 		$query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
 		$query->order('longname ASC');
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{

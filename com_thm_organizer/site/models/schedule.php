@@ -62,7 +62,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$query       = $this->_db->getQuery(true);
 		$query->select("id, name_$languageTag AS name, grid, defaultGrid")
 			->from('#__thm_organizer_grids');
-		$this->_db->setQuery((string) $query);
+		$this->_db->setQuery($query);
 
 		try
 		{
