@@ -17,6 +17,8 @@ require_once JPATH_COMPONENT . '/helper/teacher.php';
 /**
  * Class provides methods for building a model of the curriculum in JSON format
  *
+ * @TODO Where is this used??
+ *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -28,14 +30,6 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	private $_scheduleLink;
 
 	private $_schedule;
-
-	/**
-	 * Constructor to set up the class variables and call the parent constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Method to select the Tree of the current major
