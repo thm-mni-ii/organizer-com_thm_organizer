@@ -12,6 +12,8 @@
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Provides persistence handling for degree programs
@@ -226,6 +228,50 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 				return false;
 			}
 		}
+
+		return true;
+	}
+
+	/**
+	 * Method to update subject data associated with degree programs from LSF
+	 *
+	 * @return  bool  true on success, otherwise false
+	 */
+	public function updateBatch()
+	{
+		$programIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+
+		if (empty($programIDs))
+		{
+			return false;
+		}
+
+		$this->_db->transactionStart();
+		$subjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+
+		foreach ($programIDs as $programID)
+		{
+			$subjectIDs = $this->getSubjectIDs($programID);
+
+			if (empty($subjectIDs))
+			{
+				continue;
+			}
+
+			foreach ($subjectIDs AS $subjectID)
+			{
+				$success = $subjectModel->importSingle($subjectID);
+
+				if (!$success)
+				{
+					$this->_db->transactionRollback();
+
+					return false;
+				}
+			}
+		}
+
+		$this->_db->transactionCommit();
 
 		return true;
 	}

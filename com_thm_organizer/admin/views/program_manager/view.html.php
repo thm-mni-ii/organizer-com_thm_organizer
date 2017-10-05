@@ -65,6 +65,13 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
 			'COM_THM_ORGANIZER_ACTION_IMPORT',
 			true
 		);
+		JToolbarHelper::custom(
+			'program.updateLSFData',
+			'loop',
+			'',
+			'COM_THM_ORGANIZER_ACTION_UPDATE_SUBJECTS',
+			true
+		);
 		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
 
 		if ($this->getModel()->actions->{'core.admin'})

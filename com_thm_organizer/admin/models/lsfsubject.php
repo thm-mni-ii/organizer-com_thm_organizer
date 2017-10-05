@@ -285,7 +285,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	 *
 	 * @return  boolean  true on success, otherwise false
 	 */
-	private function importSingle($subjectID)
+	public function importSingle($subjectID)
 	{
 		$subject = JTable::getInstance('subjects', 'thm_organizerTable');
 

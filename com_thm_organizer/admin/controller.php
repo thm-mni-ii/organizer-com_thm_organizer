@@ -425,6 +425,33 @@ class THM_OrganizerController extends JControllerLegacy
 	}
 
 	/**
+	 * Makes call to the models's updateLSFData function, and redirects to the manager view.
+	 *
+	 * @return  void
+	 */
+	public function updateLSFData()
+	{
+		$modelName = "LSF" . ucfirst($this->resource);
+		$success   = $this->getModel($modelName)->updateBatch();
+
+		if ($success)
+		{
+			$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
+			$type = 'message';
+		}
+		else
+		{
+			$msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE_FAIL');
+			$type = 'error';
+		}
+
+		$app = JFactory::getApplication();
+		$app->enqueueMessage($msg, $type);
+		$app->input->set('view', "{$this->resource}_manager");
+		parent::display();
+	}
+
+	/**
 	 * Performs access checks and uses the model's upload function to validate
 	 * and save the file to the database should validation be successful
 	 *
