@@ -35,6 +35,7 @@ $postrequisites = $this->getDependencies('post');
 </div>
 <div class="clearfix"></div>
 <?php
+
 if (!empty($this->item->name))
 {
 	?>
@@ -44,6 +45,7 @@ if (!empty($this->item->name))
 ?>
 <div class="subject-list">
 	<?php
+
 	if (!empty($this->item->externalID))
 	{
 		echo '<div class="subject-item">';
@@ -51,6 +53,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->externalID . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->short_name))
 	{
 		echo '<div class="subject-item">';
@@ -58,9 +61,11 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->short_name . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->executors))
 	{
 		echo '<div class="subject-item">';
+
 		if (count($this->item->executors) > 1)
 		{
 			echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_MODULE_COORDINATORS') . '</div>';
@@ -84,13 +89,15 @@ if (!empty($this->item->name))
 		echo '</div>';
 		echo '</div>';
 	}
+
+	echo '<div class="subject-item">';
 	if (!empty($this->item->teachers))
 	{
-		echo '<div class="subject-item">';
-		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_TEACHERS') . '</div>';
-		echo '<div class="subject-content">';
+
 		if (count($this->item->teachers) > 1)
 		{
+			echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_TEACHERS') . '</div>';
+			echo '<div class="subject-content">';
 			echo '<ul>';
 			foreach ($this->item->teachers as $teacher)
 			{
@@ -102,12 +109,22 @@ if (!empty($this->item->name))
 		}
 		else
 		{
+			echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_TEACHER') . '</div>';
+			echo '<div class="subject-content">';
 			$teacher = array_values($this->item->teachers)[0];
 			$this->getTeacherOutput($teacher);
 		}
-		echo '</div>';
-		echo '</div>';
 	}
+	else
+	{
+		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_TEACHERS') . '</div>';
+		echo '<div class="subject-content">';
+		echo $this->lang->_('COM_THM_ORGANIZER_TEACHERS_PLACEHOLDER');
+
+	}
+	echo '</div>';
+	echo '</div>';
+
 	if (!empty($this->item->description))
 	{
 		echo '<div class="subject-item">';
@@ -115,6 +132,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->description . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->objective))
 	{
 		echo '<div class="subject-item">';
@@ -122,6 +140,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->objective . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->content))
 	{
 		echo '<div class="subject-item">';
@@ -129,11 +148,13 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->content . '</div>';
 		echo '</div>';
 	}
+
 	if ($displayExpertise)
 	{
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_EXPERTISE') . '</div>';
 		echo '<div class="subject-content">';
+
 		if ($this->item->expertise == '3')
 		{
 			echo $threeStars;
@@ -152,6 +173,7 @@ if (!empty($this->item->name))
 		}
 		echo '</div></div>';
 	}
+
 	if ($displayMethodComp)
 	{
 		echo '<div class="subject-item">';
@@ -175,11 +197,13 @@ if (!empty($this->item->name))
 		}
 		echo '</div></div>';
 	}
+
 	if ($displaySocialComp)
 	{
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SOCIAL_COMPETENCE') . '</div>';
 		echo '<div class="subject-content">';
+
 		if ($this->item->social_competence == 3)
 		{
 			echo $threeStars;
@@ -204,6 +228,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-item">';
 		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_SELF_COMPETENCE') . '</div>';
 		echo '<div class="subject-content">';
+
 		if ($this->item->self_competence == '3')
 		{
 			echo $threeStars;
@@ -222,6 +247,7 @@ if (!empty($this->item->name))
 		}
 		echo '</div></div>';
 	}
+
 	if (!empty($this->item->duration))
 	{
 		echo '<div class="subject-item">';
@@ -231,6 +257,7 @@ if (!empty($this->item->name))
 		echo '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->instructionLanguage))
 	{
 		echo '<div class="subject-item">';
@@ -240,6 +267,7 @@ if (!empty($this->item->name))
 		echo '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->expenditureOutput))
 	{
 		echo '<div class="subject-item">';
@@ -247,6 +275,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->expenditureOutput . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->sws))
 	{
 		echo '<div class="subject-item">';
@@ -254,6 +283,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->sws . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->method))
 	{
 		echo '<div class="subject-item">';
@@ -261,6 +291,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->method . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->preliminary_work))
 	{
 		echo '<div class="subject-item">';
@@ -268,6 +299,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->preliminary_work . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->proof))
 	{
 		$method = empty($this->item->pform) ? '' : ' ( ' . $this->item->pform . ' )';
@@ -276,6 +308,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->proof . $method . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->evaluation))
 	{
 		echo '<div class="subject-item">';
@@ -283,6 +316,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->evaluation . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->frequency))
 	{
 		echo '<div class="subject-item">';
@@ -290,6 +324,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->frequency . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->literature))
 	{
 		echo '<div class="subject-item">';
@@ -297,6 +332,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content" id="litverz">' . $this->item->literature . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->aids))
 	{
 		echo '<div class="subject-item">';
@@ -304,6 +340,7 @@ if (!empty($this->item->name))
 		echo '<div class="subject-content">' . $this->item->aids . '</div>';
 		echo '</div>';
 	}
+
 	if (!empty($this->item->prerequisites))
 	{
 		echo '<div class="subject-item">';
@@ -312,6 +349,7 @@ if (!empty($this->item->name))
 		echo $this->item->prerequisites;
 		echo '</div></div>';
 	}
+
 	if (!empty($prerequisites))
 	{
 		echo '<div class="subject-item">';
@@ -320,6 +358,7 @@ if (!empty($this->item->name))
 		echo $prerequisites;
 		echo '</div></div>';
 	}
+
 	if (!empty($this->item->recommended_prerequisites))
 	{
 		echo '<div class="subject-item">';
@@ -328,6 +367,7 @@ if (!empty($this->item->name))
 		echo $this->item->recommended_prerequisites;
 		echo '</div></div>';
 	}
+
 	if (!empty($this->item->prerequisiteOf))
 	{
 		echo '<div class="subject-item">';
@@ -336,6 +376,7 @@ if (!empty($this->item->name))
 		echo $this->item->prerequisiteOf;
 		echo '</div></div>';
 	}
+
 	if (!empty($postrequisites))
 	{
 		echo '<div class="subject-item">';
@@ -344,7 +385,9 @@ if (!empty($this->item->name))
 		echo $postrequisites;
 		echo '</div></div>';
 	}
+
 	$displayeCollab = JComponentHelper::getParams('com_thm_organizer')->get('displayeCollabLink');
+
 	if (!empty($this->item->externalID) AND !empty($displayeCollab))
 	{
 		$ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
@@ -356,6 +399,7 @@ if (!empty($this->item->name))
 		echo "<img class='eCollabImage' src='$ecollabIcon' title='eCollabLink'></a>";
 		echo '</div></div>';
 	}
+
 	?>
 	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
 </div>
