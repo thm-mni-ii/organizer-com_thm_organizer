@@ -145,15 +145,17 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 	private function checkProofAndMethod(&$subject)
 	{
 		$unusableProofValue = (empty($subject->proof_en) OR strlen($subject->proof_en) < 4);
+
 		if ($unusableProofValue AND !empty($subject->proof_de))
 		{
 			$subject->proof_en = $subject->proof_de;
 		}
 
 		$unusableMethodValue = (empty($subject->method_en) OR strlen($subject->method_en) < 4);
+
 		if ($unusableMethodValue AND !empty($subject->method_de))
 		{
-			$subject->proof_en = $subject->proof_de;
+			$subject->method_en = $subject->method_de;
 		}
 	}
 
@@ -370,14 +372,10 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 		}
 
 		$this->checkProofAndMethod($subject);
+
 		$success = $subject->store();
 
-		if (!$success)
-		{
-			return false;
-		}
-
-		return true;
+		return empty($success) ? false : true;
 	}
 
 	/**
