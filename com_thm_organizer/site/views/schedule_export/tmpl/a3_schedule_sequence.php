@@ -197,9 +197,11 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 				continue;
 			}
 
-			if (!in_array($subject['shortName'], $subjectNames))
+			$name = $this->getName($subject);
+
+			if (!in_array($name, $subjectNames))
 			{
-				$subjectNames[] = $subject['shortName'];
+				$subjectNames[] = $name;
 			}
 
 			if (!empty($subject['subjectNo']) AND !in_array($subject['subjectNo'], $subjectNos))
@@ -453,6 +455,12 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 	 */
 	private function countRequestedResources()
 	{
+		// No grouping => the count plays no role
+		if (empty($this->parameters['grouping']))
+		{
+			return 1;
+		}
+
 		$countPools    = empty($this->parameters['poolIDs']) ? 0 : count($this->parameters['poolIDs']);
 		$countTeachers = empty($this->parameters['teacherIDs']) ? 0 : count($this->parameters['teacherIDs']);
 		$countRooms    = empty($this->parameters['roomIDs']) ? 0 : count($this->parameters['roomIDs']);

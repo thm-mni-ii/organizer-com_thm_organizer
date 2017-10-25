@@ -130,11 +130,13 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 		$method       = empty($instance['method']) ? '' : $instance['method'];
 		$comment      = empty($instance['comment']) ? '' : $instance['comment'];
 
-		foreach ($instance['subjects'] as $subjectName => $subject)
+		foreach ($instance['subjects'] as $index => $subject)
 		{
-			if (!in_array($subjectName, $subjectNames))
+			$name = $this->getName($subject);
+
+			if (!in_array($name, $subjectNames))
 			{
-				$subjectNames[] = $subjectName;
+				$subjectNames[] = $name;
 			}
 
 			if (!empty($subject['subjectNo']) AND !in_array($subject['subjectNo'], $subjectNos))
@@ -208,6 +210,36 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 	}
 
 	/**
+	 * Returns the name according to the export settings
+	 *
+	 * @param array $subject the subject data
+	 *
+	 * @return string the display name
+	 */
+	protected function getName($subject)
+	{
+		switch ($this->parameters['titles'])
+		{
+			case 3:
+				if (!empty($subject['abbr']))
+				{
+					return $subject['abbr'];
+				}
+				elseif (!empty($subject['shortName']))
+				{
+					return $subject['shortName'];
+				}
+			case 2:
+				if (!empty($subject['shortName']))
+				{
+					return $subject['shortName'];
+				}
+		}
+
+		return $subject['name'];
+	}
+
+	/**
 	 * Gets the text to be displayed in the row cells
 	 *
 	 * @param array $columnHeaders the column header information: value => the date (Y-m-d), text => the text to display
@@ -273,6 +305,32 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 	protected abstract function outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid);
 
 	/**
+	 * Determines whether the given segment, typically a work week, should be output. IE are there lessons
+	 * in the given time frame.
+	 *
+	 * @param string $startDate the start date of the segment
+	 * @param string $endDate   the end date of the segment
+	 *
+	 * @return bool true if at least one segment day has lessons
+	 */
+	protected function outputSegment($startDate, $endDate)
+	{
+		$currentDate = $startDate;
+
+		while ($currentDate != $endDate)
+		{
+			if (!empty($this->lessons[$currentDate]))
+			{
+				return true;
+			}
+
+			$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
+		}
+
+		return false;
+	}
+
+	/**
 	 * Outputs the schedule table to the document
 	 *
 	 * @return void Outputs lesson instance data to the document.
@@ -294,18 +352,24 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 			$endDate       = date('Y-m-d', strtotime("+6 day", strtotime($startDate)));
 			$endDateText   = THM_OrganizerHelperComponent::formatDate($endDate);
 			$breakDate     = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
-			$headerString  = JText::_($timeConstant) . "$startDateText - $endDateText";
-			$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, [57, 74, 89]);
 
-			$this->outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid);
+			$showSegment = $this->outputSegment($startDate, $endDate);
 
-			if ($outputTimeGrid)
+			if ($showSegment)
 			{
-				$this->outputTimeGrid($rowHeaders, $columnHeaders, $dimensions, $startDate, $breakDate);
-			}
-			else
-			{
-				$this->outputGrid($columnHeaders, $dimensions, $startDate, $breakDate);
+				$headerString  = JText::_($timeConstant) . "$startDateText - $endDateText";
+				$this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString, [57, 74, 89]);
+
+				$this->outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid);
+
+				if ($outputTimeGrid)
+				{
+					$this->outputTimeGrid($rowHeaders, $columnHeaders, $dimensions, $startDate, $breakDate);
+				}
+				else
+				{
+					$this->outputGrid($columnHeaders, $dimensions, $startDate, $breakDate);
+				}
 			}
 
 			$startDate = $breakDate;

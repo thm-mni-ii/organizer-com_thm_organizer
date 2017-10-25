@@ -25,23 +25,25 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
-	public $fields = [];
+	public $compiler;
 
 	public $date;
 
-	public $timePeriods;
+	public $departments;
+
+	public $fields = [];
 
 	public $planningPeriods;
 
-	public $departments;
+	public $pools;
 
 	public $programs;
 
-	public $pools;
+	public $rooms;
 
 	public $teachers;
 
-	public $rooms;
+	public $timePeriods;
 
 
 	/**
@@ -53,43 +55,19 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$libraryInstalled = $this->checkLibraries();
-
-		if (!$libraryInstalled)
-		{
-			return;
-		}
-
 		$this->modifyDocument();
 
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
-		$this->model = $this->getModel();
-
-		$this->setResourceFields();
-		$this->setFilterFields();
-		$this->setFormatFields();
-
-		parent::display($tpl);
-	}
-
-	/**
-	 * Imports libraries and sets library variables
-	 *
-	 * @return  bool true if the tcpdf library is installed, otherwise false
-	 */
-	private function checkLibraries()
-	{
+		$this->model    = $this->getModel();
 		$this->compiler = jimport('tcpdf.tcpdf');
 
-		if (!$this->compiler)
-		{
-			JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_TCPDF_LIBRARY_NOT_INSTALLED');
+		$this->setAdminFields();
+		$this->setFilterFields();
+		$this->setFormatFields();
+		$this->setResourceFields();
 
-			return false;
-		}
-
-		return true;
+		parent::display($tpl);
 	}
 
 	/**
@@ -117,6 +95,25 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$document = JFactory::getDocument();
 		$document->addScript(JUri::root() . '/media/com_thm_organizer/js/schedule_export.js');
 		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/schedule_export.css');
+	}
+
+	/**
+	 * Creates format settings fields for the form
+	 *
+	 * @return void sets indexes in $this->fields['formatSettings'] with html content
+	 */
+	private function setAdminFields()
+	{
+		$allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments();
+
+		if (!empty($allowedIDs))
+		{
+			$this->fields['adminFields']['showUnpublished'] = [
+				'label'       => JText::_('COM_THM_ORGANIZER_SHOW_UNPUBLISHED'),
+				'description' => JText::_('COM_THM_ORGANIZER_SHOW_UNPUBLISHED_DESC'),
+				'input'       => '<input type="checkbox" id="showUnpublished" name="showUnpublished">'
+			];
+		}
 	}
 
 	/**
@@ -170,15 +167,45 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 		$fileFormats               = [];
 		$fileFormats[]             = ['text' => JText::_('COM_THM_ORGANIZER_XLS_CALENDAR_BLIND'), 'value' => 'xls.si'];
 		$fileFormats[]             = ['text' => JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'), 'value' => 'ics'];
-		$fileFormats[]             = ['text' => JText::_('COM_THM_ORGANIZER_PDF_A3_DOCUMENT'), 'value' => 'pdf.a3'];
-		$fileFormats[]             = ['text' => JText::_('COM_THM_ORGANIZER_PDF_A4_DOCUMENT'), 'value' => 'pdf.a4'];
-		$defaultFileFormat         = $seeingImpaired ? 'xls.si' : 'pdf.a4';
-		$fileFormatSelect          = JHtml::_('select.genericlist', $fileFormats, 'format', $formatAttribs, 'value', 'text', $defaultFileFormat);
+
+		if (!empty($this->compiler))
+		{
+			$fileFormats[] = ['text' => JText::_('COM_THM_ORGANIZER_PDF_A3_DOCUMENT'), 'value' => 'pdf.a3'];
+			$fileFormats[] = ['text' => JText::_('COM_THM_ORGANIZER_PDF_A4_DOCUMENT'), 'value' => 'pdf.a4'];
+		}
+
+		$defaultFileFormat = $seeingImpaired ? 'xls.si' : 'pdf.a4';
+		$fileFormatSelect  = JHtml::_('select.genericlist', $fileFormats, 'format', $formatAttribs, 'value', 'text', $defaultFileFormat);
 
 		$this->fields['formatSettings']['format'] = [
 			'label'       => JText::_('COM_THM_ORGANIZER_FILE_FORMAT'),
 			'description' => JText::_('COM_THM_ORGANIZER_FILE_FORMAT_DESC'),
 			'input'       => $fileFormatSelect
+		];
+
+		$titlesOptions   = [];
+		$titlesOptions[] = ['text' => JText::_('COM_THM_ORGANIZER_FULL_TITLE'), 'value' => '1'];
+		$titlesOptions[] = ['text' => JText::_('COM_THM_ORGANIZER_SHORT_TITLE'), 'value' => '2'];
+		$titlesOptions[] = ['text' => JText::_('COM_THM_ORGANIZER_ABBREVIATION'), 'value' => '3'];
+		$titlesSelect    =
+			JHtml::_('select.genericlist', $titlesOptions, 'titles', $attribs, 'value', 'text', '1');
+
+		$this->fields['formatSettings']['titles'] = [
+			'label'       => JText::_('COM_THM_ORGANIZER_TITLES'),
+			'description' => JText::_('COM_THM_ORGANIZER_TITLES_FORMAT_DESC'),
+			'input'       => $titlesSelect
+		];
+
+		$groupingOptions   = [];
+		$groupingOptions[] = ['text' => JText::_('JNONE'), 'value' => '0'];
+		$groupingOptions[] = ['text' => JText::_('COM_THM_ORGANIZER_BY_RESOURCE'), 'value' => '1'];
+		$groupingSelect    =
+			JHtml::_('select.genericlist', $groupingOptions, 'grouping', $attribs, 'value', 'text', '1');
+
+		$this->fields['formatSettings']['grouping'] = [
+			'label'       => JText::_('COM_THM_ORGANIZER_GROUPING'),
+			'description' => JText::_('COM_THM_ORGANIZER_GROUPING_DESC'),
+			'input'       => $groupingSelect
 		];
 
 		$grids       = $this->model->getGridOptions();
@@ -223,12 +250,11 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 			'input'       => $dateSelect
 		];
 
-		$dateRestrictions   = [];
-		$dateRestrictions[] = ['text' => JText::_('COM_THM_ORGANIZER_DAY'), 'value' => 'day'];
-		$dateRestrictions[] = ['text' => JText::_('COM_THM_ORGANIZER_WEEK'), 'value' => 'week'];
-		$dateRestrictions[] = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
-		$dateRestrictions[] = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
-		//$dateRestrictions[] = ['text' => JText::_('COM_THM_ORGANIZER_CUSTOM_PLAN'), 'value' => 'custom'];
+		$dateRestrictions       = [];
+		$dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_DAY'), 'value' => 'day'];
+		$dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_WEEK'), 'value' => 'week'];
+		$dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
+		$dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
 		$defaultDateRestriction = 'week';
 		$dateRestrictionSelect  = JHtml::_('select.genericlist', $dateRestrictions, 'dateRestriction', $attribs, 'value', 'text', $defaultDateRestriction);
 

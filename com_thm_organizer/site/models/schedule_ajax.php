@@ -203,6 +203,12 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
 		$parameters['userID']          = JFactory::getUser()->id;
 		$parameters['mySchedule']      = $input->getBool('mySchedule', false);
+
+		// Server side check against url manipulation
+		$allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments();
+		$parameters['showUnpublished'] = empty($allowedIDs) ?
+			false : $input->getBool('showUnpublished', false);
+
 		$oneDay                        = $input->getBool('oneDay', false);
 		$parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
 		$parameters['date']            = $input->getString('date');

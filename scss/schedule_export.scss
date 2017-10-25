@@ -4,10 +4,19 @@
 div#main div#j-main-container{
 
   .chzn-container {
+
+    font-family: $font-family;
     height: auto;
     min-height: 1.8rem;
 
-    font-family: $font-family;
+    // Chrome demands input to not be overwritten by it's own stylesheet
+    .chzn-choices, .chzn-choices input {
+      cursor: pointer;
+    }
+
+    &.chzn-container-single .chzn-single div {
+      width: 2rem;
+    }
   }
 
   fieldset {
@@ -133,7 +142,16 @@ button {
     font-size: 1.3rem;
 
     & > button.btn {
-      margin-top: .15rem;
+
+      margin-top: .2rem;
+      margin-left: -2.25rem;
+
+      // Fix for MS Edge where half of the button is cut off.
+      overflow: visible;
+
+      &:hover {
+        color: $font-color;
+      }
 
       &:focus, &:active {
         outline: none;

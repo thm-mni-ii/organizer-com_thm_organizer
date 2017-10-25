@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
-$initialHidden = ['xlsWeekFormat'];
+$initialHidden = ['xlsWeekFormat', 'grouping'];
 $user          = JFactory::getUser();
 ?>
 <script type="text/javascript">
@@ -114,6 +114,32 @@ $user          = JFactory::getUser();
 		}
 		?>
 	</fieldset>
+	<?php
+	if (!empty($this->fields['adminFields']))
+	{
+		?>
+		<fieldset>
+			<legend><?php echo $this->lang->_('COM_THM_ORGANIZER_ADMINISTRATION_SETTINGS'); ?></legend>
+			<?php
+			foreach ($this->fields['adminFields'] as $adminFieldID => $adminField)
+			{
+				echo '<div id="' . $adminFieldID . '-container" class="control-item">';
+				echo '<div class="control-label">';
+				echo '<label title="' . $adminField['description'] . '" for="' . $adminFieldID . '">';
+				echo '<span class="label-text">' . $adminField['label'] . '</span>' . $infoSpan;
+				echo '</label>';
+				echo '</div>';
+				echo '<div class="controls">';
+				echo $adminField['input'];
+				echo '</div>';
+				echo '<div class="clear"></div>';
+				echo '</div>';
+			}
+			?>
+		</fieldset>
+		<?php
+	}
+	?>
 	<input type="hidden" name="option" value="com_thm_organizer"/>
 	<input type="hidden" name="view" value="schedule_export"/>
 	<input type="hidden" name="format" value="pdf"/>

@@ -2,8 +2,8 @@
  * Created by James Antrim on 11/15/2016.
  */
 
-$(document).ready(function () {
-	$('label').tooltip({delay: 200, placement: 'right'});
+jQuery(document).ready(function () {
+	jQuery('label').tooltip({delay: 200, placement: 'right'});
 });
 
 /**
@@ -15,12 +15,12 @@ function addPools(pools)
 {
 	"use strict";
 
-	var poolSelection = $('#poolIDs'), selectedPools = poolSelection.val(), selected;
+	var poolSelection = jQuery('#poolIDs'), selectedPools = poolSelection.val(), selected;
 
 	poolSelection.children().remove();
 
-	$.each(pools, function (name, id) {
-		selected = $.inArray(id, selectedPools) > -1 ? 'selected' : '';
+	jQuery.each(pools, function (name, id) {
+		selected = jQuery.inArray(id, selectedPools) > -1 ? 'selected' : '';
 		poolSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
 	});
 
@@ -40,13 +40,13 @@ function addPrograms(programs)
 {
 	"use strict";
 
-	var programSelection = $('#programIDs'), selectedPrograms = programSelection.val(), selected;
+	var programSelection = jQuery('#programIDs'), selectedPrograms = programSelection.val(), selected;
 
 	programSelection.children().remove();
 
-	$.each(programs, function (key, value) {
+	jQuery.each(programs, function (key, value) {
 		var name = value.name == null ? value.ppName : value.name;
-		selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
+		selected = jQuery.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
 		programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
 	});
 
@@ -66,12 +66,12 @@ function addRooms(rooms)
 {
 	"use strict";
 
-	var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
+	var roomSelection = jQuery('#roomIDs'), selectedRooms = roomSelection.val(), selected;
 
 	roomSelection.children().remove();
 
-	$.each(rooms, function (name, id) {
-		selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
+	jQuery.each(rooms, function (name, id) {
+		selected = jQuery.inArray(id, selectedRooms) > -1 ? 'selected' : '';
 		roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
 	});
 
@@ -91,12 +91,12 @@ function addTeachers(teachers)
 {
 	"use strict";
 
-	var teacherSelection = $('#teacherIDs'), selectedTeachers = teacherSelection.val(), selected;
+	var teacherSelection = jQuery('#teacherIDs'), selectedTeachers = teacherSelection.val(), selected;
 
 	teacherSelection.children().remove();
 
-	$.each(teachers, function (name, id) {
-		selected = $.inArray(id, selectedTeachers) > -1 ? 'selected' : '';
+	jQuery.each(teachers, function (name, id) {
+		selected = jQuery.inArray(id, selectedTeachers) > -1 ? 'selected' : '';
 		teacherSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
 	});
 
@@ -116,7 +116,7 @@ function copyLink()
 {
 	var format, url, myschedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
 
-	format = $("input[name=format]").val();
+	format = jQuery("input[name=format]").val();
 
 	if (format !== 'ics')
 	{
@@ -125,7 +125,7 @@ function copyLink()
 
 	url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
 
-	myschedule = $('#myschedule:checked').val();
+	myschedule = jQuery('#myschedule:checked').val();
 
 	if (myschedule === 'on' && username !== undefined && auth !== undefined)
 	{
@@ -133,7 +133,7 @@ function copyLink()
 	}
 	else
 	{
-		selectedPools = $('#poolIDs').val();
+		selectedPools = jQuery('#poolIDs').val();
 		emptyPools = selectedPools == undefined || selectedPools == null || selectedPools.length === 0;
 
 		if (!emptyPools)
@@ -141,7 +141,7 @@ function copyLink()
 			url += '&poolIDs=' + selectedPools;
 		}
 
-		selectedRooms = $('#roomIDs').val();
+		selectedRooms = jQuery('#roomIDs').val();
 		emptyRooms = selectedRooms == undefined || selectedRooms == null || selectedRooms.length === 0;
 
 		if (!emptyRooms)
@@ -149,7 +149,7 @@ function copyLink()
 			url += '&roomIDs=' + selectedRooms;
 		}
 
-		selectedTeachers = $('#teacherIDs').val();
+		selectedTeachers = jQuery('#teacherIDs').val();
 		emptyTeachers = selectedTeachers == undefined || selectedTeachers == null || selectedTeachers.length === 0;
 
 		if (!emptyTeachers)
@@ -165,7 +165,7 @@ function copyLink()
 
 function handleSubmit()
 {
-	var validSelection = validateSelection(), formatValue = $("input[name=format]").val();
+	var validSelection = validateSelection(), formatValue = jQuery("input[name=format]").val();
 
 	if (!validSelection)
 	{
@@ -178,7 +178,7 @@ function handleSubmit()
 		return true;
 	}
 
-	$("#adminForm").submit();
+	jQuery("#adminForm").submit();
 
 	return true;
 }
@@ -190,7 +190,7 @@ function repopulateResources()
 {
 	"use strict";
 
-	var selectedDepartments = $('#departmentIDs').val(), selectedPrograms = $('#programIDs').val(),
+	var selectedDepartments = jQuery('#departmentIDs').val(), selectedPrograms = jQuery('#programIDs').val(),
 		invalidDepartments, invalidPrograms, allIndex, componentParameters, selectionParameters = '';
 
 	invalidDepartments = selectedDepartments == null || selectedDepartments.length === 0;
@@ -214,7 +214,7 @@ function repopulateResources()
 		selectionParameters += '&programIDs=' + selectedPrograms;
 	}
 
-	$.ajax({
+	jQuery.ajax({
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters + '&view=pool_ajax',
 		dataType: 'json',
@@ -224,12 +224,12 @@ function repopulateResources()
 		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
-				$.ajax(repopulateResources());
+				jQuery.ajax(repopulateResources());
 			}
 		}
 	});
 
-	$.ajax({
+	jQuery.ajax({
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters + '&view=teacher_ajax',
 		dataType: 'json',
@@ -239,12 +239,12 @@ function repopulateResources()
 		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
-				$.ajax(repopulateResources());
+				jQuery.ajax(repopulateResources());
 			}
 		}
 	});
 
-	$.ajax({
+	jQuery.ajax({
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters + '&view=room_ajax',
 		dataType: 'json',
@@ -254,7 +254,7 @@ function repopulateResources()
 		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
-				$.ajax(repopulateResources());
+				jQuery.ajax(repopulateResources());
 			}
 		}
 	});
@@ -267,7 +267,7 @@ function repopulatePrograms()
 {
 	"use strict";
 
-	var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
+	var componentParameters, selectedDepartments = jQuery('#departmentIDs').val(), allIndex, selectionParameters;
 	componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
 
 	if (selectedDepartments == null)
@@ -277,7 +277,7 @@ function repopulatePrograms()
 
 	selectionParameters = '&departmentIDs=' + selectedDepartments;
 
-	$.ajax({
+	jQuery.ajax({
 		type: 'GET',
 		url: rootURI + componentParameters + selectionParameters,
 		dataType: 'json',
@@ -287,7 +287,7 @@ function repopulatePrograms()
 		error: function (xhr, textStatus, errorThrown) {
 			if (xhr.status === 404 || xhr.status === 500)
 			{
-				$.ajax(repopulatePrograms());
+				jQuery.ajax(repopulatePrograms());
 			}
 		}
 	});
@@ -295,12 +295,22 @@ function repopulatePrograms()
 
 function setFormat()
 {
-	var formatValue = $('#format').find(":selected").val(), formatArray = formatValue.split('.'),
-		format = formatArray[0], documentFormat = formatArray[1], actionButton = $("#action-btn"),
-		linkContainer = $('#link-container'), linkTarget = $('#link-target'), formatInput = $("input[name=format]"),
-		displayFormatContainer = $("#displayFormat-container"), dateContainer = $("#date-container"),
-		dateRestrictionContainer = $("#dateRestriction-container"), pdfFormatContainer = $("#pdfWeekFormat-container"),
-		xlsFormatContainer = $("#xlsWeekFormat-container"), documentFormatContainer = $("input[name=documentFormat]");
+	var actionButton = jQuery("#action-btn"),
+		dateContainer = jQuery("#date-container"),
+		formatValue = jQuery('#format').find(":selected").val(),
+		formatArray = formatValue.split('.'),
+		format = formatArray[0],
+		documentFormat = formatArray[1],
+		dateRestrictionContainer = jQuery("#dateRestriction-container"),
+		displayFormatContainer = jQuery("#displayFormat-container"),
+		documentFormatContainer = jQuery("input[name=documentFormat]"),
+		formatInput = jQuery("input[name=format]"),
+		groupingContainer = jQuery("#grouping-container"),
+		linkContainer = jQuery('#link-container'),
+		linkTarget = jQuery('#link-target'),
+		titlesContainer = jQuery("#titles-container"),
+		pdfFormatContainer = jQuery("#pdfWeekFormat-container"),
+		xlsFormatContainer = jQuery("#xlsWeekFormat-container");
 
 	switch (format)
 	{
@@ -310,7 +320,9 @@ function setFormat()
 			displayFormatContainer.hide();
 			dateContainer.hide();
 			dateRestrictionContainer.hide();
+			groupingContainer.hide();
 			pdfFormatContainer.hide();
+			titlesContainer.hide();
 			xlsFormatContainer.hide();
 			break;
 		case 'xls':
@@ -318,12 +330,14 @@ function setFormat()
 			documentFormat = documentFormat === undefined ? 'si' : documentFormat;
 			documentFormatContainer.val(documentFormat);
 			actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
-			linkContainer.hide();
-			linkTarget.text('');
-			displayFormatContainer.hide();
-			pdfFormatContainer.hide();
 			dateContainer.show();
 			dateRestrictionContainer.show();
+			displayFormatContainer.hide();
+			groupingContainer.hide();
+			linkContainer.hide();
+			linkTarget.text('');
+			pdfFormatContainer.hide();
+			titlesContainer.hide();
 			xlsFormatContainer.show();
 			break;
 		case 'pdf':
@@ -334,10 +348,19 @@ function setFormat()
 			actionButton.text(downloadText + ' ').append('<span class="icon-file-pdf"></span>');
 			linkContainer.hide();
 			linkTarget.text('');
+			if (documentFormat === 'a4')
+			{
+				groupingContainer.hide();
+			}
+			else
+			{
+				groupingContainer.show();
+			}
 			displayFormatContainer.show();
 			dateContainer.show();
 			dateRestrictionContainer.show();
 			pdfFormatContainer.show();
+			titlesContainer.show();
 			xlsFormatContainer.hide();
 			break;
 	}
@@ -348,33 +371,33 @@ function setFormat()
  */
 function toggleMySchedule()
 {
-	var myschedule = $('#myschedule:checked').val();
+	var myschedule = jQuery('#myschedule:checked').val();
 
 	if (myschedule === 'on')
 	{
-		$("#filterFields").hide();
-		$("#poolIDs-container").hide();
-		$("#roomIDs-container").hide();
-		$("#teacherIDs-container").hide();
-		$("input[name=myschedule]").val(1);
+		jQuery("#filterFields").hide();
+		jQuery("#poolIDs-container").hide();
+		jQuery("#roomIDs-container").hide();
+		jQuery("#teacherIDs-container").hide();
+		jQuery("input[name=myschedule]").val(1);
 	}
 	else
 	{
-		$("#filterFields").show();
-		$("#poolIDs-container").show();
-		$("#roomIDs-container").show();
-		$("#teacherIDs-container").show();
-		$("input[name=myschedule]").val(0);
+		jQuery("#filterFields").show();
+		jQuery("#poolIDs-container").show();
+		jQuery("#roomIDs-container").show();
+		jQuery("#teacherIDs-container").show();
+		jQuery("input[name=myschedule]").val(0);
 	}
 
 }
 
 function validateSelection()
 {
-	var myschedule = $('#myschedule:checked').val(),
-		selectedPools = $('#poolIDs').val(), emptyPools,
-		selectedRooms = $('#roomIDs').val(), emptyRooms,
-		selectedTeachers = $('#teacherIDs').val(), emptyTeachers;
+	var myschedule = jQuery('#myschedule:checked').val(),
+		selectedPools = jQuery('#poolIDs').val(), emptyPools,
+		selectedRooms = jQuery('#roomIDs').val(), emptyRooms,
+		selectedTeachers = jQuery('#teacherIDs').val(), emptyTeachers;
 
 	if (myschedule === 'on')
 	{

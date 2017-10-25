@@ -540,6 +540,11 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 		$parameters['format']     = $input->getString('format', 'pdf');
 		$parameters['mySchedule'] = $input->getBool('myschedule', false);
 
+		// Server side check against url manipulation
+		$allowedIDs                    = THM_OrganizerHelperComponent::getAccessibleDepartments();
+		$parameters['showUnpublished'] = empty($allowedIDs) ?
+			false : $input->getBool('showUnpublished', false);
+
 		if (empty($parameters['mySchedule']))
 		{
 			$this->setResourceArray('pool', $parameters);
@@ -549,6 +554,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
 		$userName       = $input->getString('username', '');
 		$authentication = urldecode($input->getString('auth', ''));
+
 		if (!empty($userName) and !empty($authentication))
 		{
 			$user          = JFactory::getUser($userName);
@@ -583,7 +589,9 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 				$parameters['documentFormat'] = $input->getString('documentFormat', 'a4');
 				$parameters['displayFormat']  = $input->getString('displayFormat', 'schedule');
 				$parameters['gridID']         = $input->getInt('gridID', 0);
+				$parameters['grouping']       = $input->getInt('grouping', 1);
 				$parameters['pdfWeekFormat']  = $input->getString('pdfWeekFormat', 'sequence');
+				$parameters['titles']         = $input->getInt('titles', 1);
 				break;
 			case 'xls':
 				$parameters['documentFormat'] = $input->getString('documentFormat', 'si');

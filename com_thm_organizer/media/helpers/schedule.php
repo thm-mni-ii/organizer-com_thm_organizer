@@ -602,7 +602,10 @@ class THM_OrganizerHelperSchedule
 		$query->innerJoin('#__thm_organizer_plan_pools AS pool ON pool.id = lp.poolID');
 		$query->leftJoin('#__thm_organizer_plan_pool_publishing AS ppp ON pool.id = ppp.planPoolID AND l.planningPeriodID = ppp.planningPeriodID');
 
-		$query->where("(ppp.published IS NULL OR ppp.published = '1')");
+		if (empty($parameters['showUnpublished']))
+		{
+			$query->where("(ppp.published IS NULL OR ppp.published = '1')");
+		}
 
 		if (empty($parameters['delta']))
 		{

@@ -36,9 +36,17 @@
 }
 
 div#main div#j-main-container .chzn-container {
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
     height: auto;
     min-height: 1.8rem;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+}
+
+div#main div#j-main-container .chzn-container .chzn-choices, div#main div#j-main-container .chzn-container .chzn-choices input {
+    cursor: pointer;
+}
+
+div#main div#j-main-container .chzn-container.chzn-container-single .chzn-single div {
+    width: 2rem;
 }
 
 div#main div#j-main-container fieldset {
@@ -150,7 +158,13 @@ button {
 }
 
 .controls .input-append > button.btn {
-    margin-top: .15rem;
+    margin-top: .2rem;
+    margin-left: -2.25rem;
+    overflow: visible;
+}
+
+.controls .input-append > button.btn:hover {
+    color: #394a59;
 }
 
 .controls .input-append > button.btn:focus, .controls .input-append > button.btn:active {

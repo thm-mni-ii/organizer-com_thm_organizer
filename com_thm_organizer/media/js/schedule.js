@@ -1968,6 +1968,8 @@ var ScheduleApp = function (text, variables) {
 
 			url += variables.departmentID === 0 ? selectedDepartments : variables.departmentID;
 			url += "&task=" + (task ? task : "getLessons");
+			url += typeof variables.showUnpublished === 'undefined' ?
+				'' : "&showUnpublished=" + variables.showUnpublished;
 
 			return variables.ajaxBase + url;
 		},
@@ -2645,6 +2647,9 @@ var ScheduleApp = function (text, variables) {
 		{
 			url += "&gridID=" + gridID;
 		}
+
+		url += typeof variables.showUnpublished === 'undefined' ?
+			'' : "&showUnpublished=" + variables.showUnpublished;
 
 		if (formats[1] !== undefined)
 		{

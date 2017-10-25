@@ -147,6 +147,11 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 			'username'          => !empty($user->id) ? $user->username : ''
 		];
 
+		if (!empty($this->model->params['showUnpublished']))
+		{
+			$variables['showUnpublished'] = $this->model->params['showUnpublished'];
+		}
+
 		$grids = [];
 		foreach ($this->model->grids AS $grid)
 		{

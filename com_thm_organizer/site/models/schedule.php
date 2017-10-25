@@ -154,7 +154,16 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	{
 		$input        = JFactory::getApplication()->input;
 		$params       = JFactory::getApplication()->getParams();
+
 		$this->params = [];
+
+		$allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments();
+
+		// Don't even set the variable if the action is implausible
+		if (!empty($allowedIDs))
+		{
+			$this->params['showUnpublished'] = $params->get('showUnpublished', 0);
+		}
 
 		// No explicit resource selection was made check if departments were requested
 		$this->params['departmentID']  = $input->getInt('departmentID', $params->get('departmentID', 0));
