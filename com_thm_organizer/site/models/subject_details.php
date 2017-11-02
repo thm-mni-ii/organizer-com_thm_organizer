@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/helpers/teacher.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class THM_OrganizerModeldetails for component com_thm_organizer
@@ -185,7 +185,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 	 */
 	private function setTeachers(&$subject)
 	{
-		$teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, null, true, false);
+		$teacherData = THM_OrganizerHelperTeachers::getDataBySubject($subject->id, null, true, false);
 
 		if (empty($teacherData))
 		{
@@ -194,9 +194,10 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 
 		$executors = [];
 		$teachers  = [];
+
 		foreach ($teacherData as $teacher)
 		{
-			$teacher['name'] = THM_OrganizerHelperTeacher::getDefaultName($teacher);
+			$teacher['name'] = THM_OrganizerHelperTeachers::getDefaultName($teacher['id']);
 
 			if ($teacher['teacherResp'] == '1')
 			{

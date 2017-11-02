@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/helpers/teacher.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class creates a model
@@ -232,10 +232,11 @@ class THM_OrganizerModelCurriculum extends JModelItem
 		$subject->mapping = $mappingID;
 		$subject->type    = 'subject';
 
-		$teacher = THM_OrganizerHelperTeacher::getDataBySubject($subject->id, 1);
+		$teacher = THM_OrganizerHelperTeachers::getDataBySubject($subject->id, 1);
+
 		if (!empty($teacher))
 		{
-			$subject->teacherName = THM_OrganizerHelperTeacher::getDefaultName($teacher);
+			$subject->teacherName = THM_OrganizerHelperTeachers::getDefaultName($teacher['id']);
 			$subject->teacherID   = $teacher['id'];
 		}
 

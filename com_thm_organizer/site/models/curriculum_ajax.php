@@ -10,15 +10,12 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/helper/teacher.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class provides methods for building a model of the curriculum in JSON format
- *
- * @TODO Where is this used??
- *
+ * *
  * @category    Joomla.Component.Site
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
@@ -390,13 +387,14 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 	private function setTeacherProperties(&$subjectData)
 	{
 		$itemID      = JFactory::getApplication()->input->get('Itemid');
-		$teacherData = THM_OrganizerHelperTeacher::getDataBySubject($subjectData->id, 1);
+		$teacherData = THM_OrganizerHelperTeachers::getDataBySubject($subjectData->id, 1);
+
 		if (empty($teacherData))
 		{
 			return;
 		}
 
-		$defaultName = THM_OrganizerHelperTeacher::getDefaultName($teacherData);
+		$defaultName = THM_OrganizerHelperTeachers::getDefaultName($teacherData['id']);
 
 		if (!empty($teacherData['userID']))
 		{

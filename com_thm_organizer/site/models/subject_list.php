@@ -11,8 +11,6 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/helpers/teacher.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**

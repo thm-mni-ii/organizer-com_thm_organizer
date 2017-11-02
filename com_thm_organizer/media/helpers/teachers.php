@@ -23,6 +23,94 @@ require_once 'departments.php';
 class THM_OrganizerHelperTeachers
 {
 	/**
+	 * Checks for multiple teacher entries (responsibilities) for a subject and removes the lesser
+	 *
+	 * @param array &$list the list of teachers responsilbe for a subject
+	 *
+	 * @return  void  removes duplicate list entries dependent on responsibility
+	 */
+	private static function ensureUnique(&$list)
+	{
+		$keysToIds = [];
+		foreach ($list as $key => $item)
+		{
+			$keysToIds[$key] = $item['id'];
+		}
+
+		$valueCount = array_count_values($keysToIds);
+		foreach ($list as $key => $item)
+		{
+			$unset = ($valueCount[$item['id']] > 1 AND $item['teacherResp'] > 1);
+			if ($unset)
+			{
+				unset($list[$key]);
+			}
+		}
+	}
+
+	/**
+	 * Retrieves the teacher responsible for the subject's development
+	 *
+	 * @param int  $subjectID      the subject's id
+	 * @param int  $responsibility represents the teacher's level of
+	 *                             responsibility for the subject
+	 * @param bool $multiple       whether or not multiple results are desired
+	 * @param bool $unique         whether or not unique results are desired
+	 *
+	 * @return  array  an array of teacher data
+	 */
+	public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false, $unique = true)
+	{
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, gpuntisID");
+		$query->from('#__thm_organizer_teachers AS t');
+		$query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
+		$query->leftJoin('#__users AS u ON t.username = u.username');
+		$query->where("st.subjectID = '$subjectID' ");
+
+		if (!empty($responsibility))
+		{
+			$query->where("st.teacherResp = '$responsibility'");
+		}
+
+		$query->order('surname ASC');
+		$dbo->setQuery($query);
+
+		if ($multiple)
+		{
+			try
+			{
+				$teacherList = $dbo->loadAssocList();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+				return [];
+			}
+
+			if ($unique)
+			{
+				self::ensureUnique($teacherList);
+			}
+
+			return $teacherList;
+		}
+
+		try
+		{
+			return $dbo->loadAssoc();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return [];
+		}
+	}
+
+	/**
 	 * Generates a default teacher text based upon organizer's internal data
 	 *
 	 * @param int $teacherID the teacher's id

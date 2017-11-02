@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/helpers/teacher.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class THM_OrganizerModelConsumption for component com_thm_organizer
@@ -458,9 +458,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
 		{
 			$this->lessonValues[$lessonID][$teacherID] = [];
 			$this->lessonValues[$lessonID][$teacherID]['teacherName']
-			                                           = THM_OrganizerHelperTeacher::getLNFName($schedule->teachers->$teacherID);
+				= THM_OrganizerHelperTeachers::getLNFName($schedule->teachers->$teacherID);
+
 			$this->lessonValues[$lessonID][$teacherID]['subjectName']
-			                                           = $this->getSubjectName($schedule, $lessonID);
+				= $this->getSubjectName($schedule, $lessonID);
 		}
 	}
 
