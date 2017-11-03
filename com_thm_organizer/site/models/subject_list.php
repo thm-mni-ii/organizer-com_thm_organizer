@@ -12,6 +12,8 @@
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class creates a model
@@ -22,9 +24,13 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerModelSubject_List extends JModelList
 {
+	public $displayName;
+
 	public $fields = [];
 
 	public $pools = [];
+
+	public $programs = [];
 
 	public $subjects;
 
@@ -45,6 +51,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 				$subjectIDMap[$subject->id]       = $key;
 				$this->subjects[$key]->mappings   = [];
 				$this->subjects[$key]->mappings[] = ['left' => $subject->lft, 'right' => $subject->rgt];
+
 				continue;
 			}
 
@@ -144,8 +151,15 @@ class THM_OrganizerModelSubject_List extends JModelList
 				$this->fields[$subject->fieldID] = [];
 			}
 
-			$this->getTeachers($index);
-			$this->getPools($index);
+			if (!empty($this->state->get('programID')))
+			{
+				$this->getTeachers($index);
+				$this->getPools($index);
+			}
+			else
+			{
+				$this->getPrograms($index);
+			}
 		}
 
 		uasort($this->teachers, function ($a, $b) {
@@ -191,8 +205,22 @@ class THM_OrganizerModelSubject_List extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$programInformation = $this->getProgramInformation();
-		if (empty($programInformation))
+		if (!empty($this->state->get('programID')))
+		{
+			$poolData = $this->getProgramInformation();
+		}
+
+		if (!empty($this->state->get('poolID')))
+		{
+			$poolData = $this->getPoolInformation();
+		}
+
+		if (!empty($this->state->get('teacherID')))
+		{
+			$teacherData = $this->getTeacherInformation();
+		}
+
+		if (empty($poolData) AND empty($teacherData))
 		{
 			return $this->_db->getQuery(true);
 		}
@@ -208,14 +236,80 @@ class THM_OrganizerModelSubject_List extends JModelList
 		$select .= $query->concatenate($parts, "") . " AS subjectLink";
 		$query->select($select)
 			->from('#__thm_organizer_subjects AS s')
-			->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
-			->where("m.lft > '{$programInformation['lft']}' AND  m.rgt < '{$programInformation['rgt']}'");
+			->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
+
+		if (!empty($poolData))
+		{
+			$query->where("m.lft > '{$poolData['lft']}' AND  m.rgt < '{$poolData['rgt']}'");
+		}
+
+		if (!empty($teacherData))
+		{
+			$query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
+				->where("st.teacherID = '{$teacherData['id']}'");
+		}
 
 		$this->setSearch($query);
 
 		$query->order('name ASC');
 
 		return $query;
+	}
+
+	/**
+	 * Retrieves pool information (name and nesting values)
+	 *
+	 * @return  mixed  array on success, otherwise false
+	 */
+	private function getPoolInformation()
+	{
+		$poolID      = $this->state->get('poolID');
+		$languageTag = $this->state->get('languageTag');
+
+		$query = $this->_db->getQuery(true);
+		$query->select("p.name_$languageTag AS name, lft, rgt")
+			->from('#__thm_organizer_pools AS p')
+			->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id')
+			->where("p.id = '$poolID'");
+		$this->_db->setQuery($query);
+
+		try
+		{
+			$poolData = $this->_db->loadAssoc();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+			return [];
+		}
+
+		$query = $this->_db->getQuery(true);
+		$parts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
+		$query->select($query->concatenate($parts, "") . " AS programName")
+			->from('#__thm_organizer_programs AS p')
+			->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
+			->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id')
+			->where("m.lft < '{$poolData['lft']}'")
+			->where("m.rgt > '{$poolData['rgt']}'");
+		$this->_db->setQuery($query);
+
+		try
+		{
+			$programName = $this->_db->loadResult();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+			return [];
+		}
+
+		$poolData['name'] = "$programName, {$poolData['name']}";
+
+		$this->displayName = $poolData['name'];
+
+		return $poolData;
 	}
 
 	/**
@@ -240,16 +334,31 @@ class THM_OrganizerModelSubject_List extends JModelList
 		try
 		{
 			$programData       = $this->_db->loadAssoc();
-			$this->programName = $programData['name'];
+			$this->displayName = $programData['name'];
 		}
 		catch (Exception $exc)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
 			return [];
 		}
 
 		return $programData;
+	}
+
+	/**
+	 * Retrieves teacher information
+	 *
+	 * @return  array with teacher information
+	 */
+	private function getTeacherInformation()
+	{
+		$teacherID   = $this->state->get('teacherID');
+		$displayName = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
+
+		$this->displayName = $displayName;
+
+		return ['id' => $teacherID, 'name' => $displayName];
 	}
 
 	/**
@@ -343,6 +452,44 @@ class THM_OrganizerModelSubject_List extends JModelList
 			{
 				$this->fields[$pool['fieldID']] = [];
 			}
+		}
+	}
+
+	/**
+	 * Looks up the programs associated with the subject, adds the associations to the subjects.
+	 *
+	 * @param int $index the index of the subject (item) being currently indexed
+	 *
+	 * @return void
+	 */
+	private function getPrograms($index)
+	{
+		$languageTag = $this->state->get('languageTag');
+
+		foreach ($this->subjects[$index]->mappings as $mapping)
+		{
+			$query = $this->_db->getQuery(true);
+			$parts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
+			$query->select($query->concatenate($parts, "") . " AS name, p.id");
+			$query->from('#__thm_organizer_programs AS p');
+			$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+			$query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
+			$query->where("m.lft < '{$mapping['left']}'");
+			$query->where("m.rgt > '{$mapping['right']}'");
+			$this->_db->setQuery($query);
+
+			try
+			{
+				$programData = $this->_db->loadAssoc();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+				return;
+			}
+
+			$this->subjects[$index]->programs[$programData['id']] = $programData['name'];
 		}
 	}
 
@@ -533,26 +680,85 @@ class THM_OrganizerModelSubject_List extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		parent::populateState($ordering, $direction);
-
 		$app = JFactory::getApplication();
 
-		$menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
-		$this->state->set('menuID', $menuID);
 
-		$params = $app->getMenu()->getItem($menuID)->params;
+		if (!empty($app->getMenu()->getActive()->id))
+		{
+			$params = $app->getMenu()->getActive()->params;
 
-		$programID = $params->get('programID');
-		$this->state->set('programID', $programID);
+			$programID = $params->get('programID');
+			$this->state->set('programID', $programID);
+
+			$menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
+			$this->state->set('menuID', $menuID);
+		}
+		else
+		{
+			$params = new Joomla\Registry\Registry;
+
+			$requestProgramIDs = $app->input->getString('programIDs');
+			$requestPoolIDs = $app->input->getString('poolIDs');
+			$requestTeacherIDs = $app->input->getString('teacherIDs');
+
+			$initial = (!empty($requestProgramIDs) OR !empty($requestPoolIDs) OR !empty($requestTeacherIDs));
+
+			if ($initial)
+			{
+				if (!empty($requestProgramIDs))
+				{
+					$programID = explode(',', $requestProgramIDs)[0];
+					$this->state->set('programID', $programID);
+					unset($this->state->poolID, $this->state->teacherID);
+				}
+
+				if (!empty($requestPoolIDs))
+				{
+					$poolID = explode(',', $requestPoolIDs)[0];
+					$this->state->set('poolID', $poolID);
+					unset($this->state->programID, $this->state->teacherID);
+				}
+
+				if (!empty($requestTeacherIDs))
+				{
+					$teacherID = explode(',', $requestTeacherIDs)[0];
+					$this->state->set('teacherID', $teacherID);
+					unset($this->state->poolID, $this->state->programID);
+				}
+			}
+			else
+			{
+				$programID    = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
+
+				if (!empty($programID))
+				{
+					$this->state->set('programID', $programID);
+				}
+
+				$poolID    = $app->getUserStateFromRequest($this->context . '.poolID', 'poolID');
+
+				if (!empty($poolID))
+				{
+					$this->state->set('poolID', $poolID);
+				}
+
+				$teacherID    = $app->getUserStateFromRequest($this->context . '.teacherIDs', 'teacherIDs');
+
+				if (!empty($teacherID))
+				{
+					$this->state->set('teacherID', $teacherID);
+				}
+			}
+
+		}
 
 		$search = $app->input->get('search', '');
 		$this->state->set('search', $search);
 
 		$app->set('list_limit', '0');
-		$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', '0');
-		$this->state->set('list.limit', $limit);
+		$this->state->set('list.limit', 0);
 
-		$menuLanguage = $params->get('initialLanguage', 'de');
+		$menuLanguage = $params->get('initialLanguage', THM_OrganizerHelperLanguage::getShortTag());
 		$languageTag  = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag', $menuLanguage);
 		$this->state->set('languageTag', $languageTag);
 

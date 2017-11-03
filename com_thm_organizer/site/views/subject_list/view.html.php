@@ -33,6 +33,10 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
 	public $disclaimerData;
 
+	public $displayName;
+
+	public $params;
+
 	/**
 	 * Method to get display
 	 *
@@ -44,11 +48,26 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	{
 		$this->modifyDocument();
 
-		$this->params = JFactory::getApplication()->getMenu()->getActive()->params;
+		if (empty(JFactory::getApplication()->getMenu()->getActive()->id))
+		{
+			$this->params = new Joomla\Registry\Registry;
+		}
+		else
+		{
+			$this->params = JFactory::getApplication()->getMenu()->getActive()->params;
+		}
+
 		$this->fixGroupBy();
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage($this->params->get('initialLanguage', 'de'));
 
 		$this->state = $this->get('State');
+
+		if (empty($this->state->get('programID')))
+		{
+			$this->params->set('showByPool', false);
+			$this->params->set('showByTeacher', false);
+		}
+
 		$this->items = $this->get('items');
 
 		$switchParams           = ['view' => 'subject_list', 'form' => true];
@@ -58,7 +77,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 		$this->fields      = $model->fields;
 		$this->teachers    = $model->teachers;
 		$this->pools       = $model->pools;
-		$this->programName = $model->programName;
+		$this->displayName = $model->displayName;
 
 		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
 		$this->disclaimerData = ['language' => $this->lang];
@@ -143,46 +162,71 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 	 */
 	public function getItemRow(&$item, $type = '', $resourceID = '')
 	{
+		$attribs = ['target' => '_blank'];
+
 		if ($type != 'pool')
 		{
-			$link      = $item->subjectLink;
+			$href      = $item->subjectLink;
 			$name      = $item->name;
 			$subjectNo = empty($item->externalID) ? '' : $item->externalID;
 			$crp       = empty($item->creditpoints) ? '' : $item->creditpoints . ' CrP';
 		}
 		else
 		{
-			$link      = "#pool{$item['id']}";
+			$href      = "#pool{$item['id']}";
 			$name      = $item['name'] . ' <span class="icon-forward-2"></span>';
 			$subjectNo = '';
 			$crp       = empty($this->params->get('inlinePoolCrP', 1)) ? '' : $this->getCreditPointText($item);
 		}
+
 		$displayItem = '<tr>';
 
 		if ($type != 'number' AND !empty($subjectNo))
 		{
-			$displayItem .= '<td class="subject-name"><a href="' . $link . '">' . $name . ' (' . $subjectNo . ')</a></td>';
+			$text = "$name ($subjectNo)";
 		}
 		elseif (empty($subjectNo))
 		{
-			$displayItem .= '<td class="subject-name"><a href="' . $link . '">' . $name . '</a></td>';
+			$text = $name;
 		}
 		else
 		{
-			$displayItem .= '<td class="subject-name"><a href="' . $link . '">' . $subjectNo . ' - ' . $name . '</a></td>';
+			$text = "$subjectNo - $name";
 		}
 
-		if ($type == 'teacher')
+		$displayItem .= '<td class="subject-name">' . JHtml::link($href, $text, $attribs) . '</td>';
+
+		if(empty($this->state->get('programID')))
 		{
-			$displayItem .= '<td class="subject-teacher">' . $this->getResponsibleDisplay($item, $resourceID) . '</td>';
-		}
-		elseif ($type != 'pool')
-		{
-			$displayItem .= '<td class="subject-teacher">' . $this->getTeacherDisplay($item) . '</td>';
+			$initial = true;
+			$displayItem .= '<td class="subject-program">';
+
+			foreach ($item->programs AS $programID => $programName)
+			{
+				if (!$initial)
+				{
+					$displayItem .= '<br>';
+				}
+				$href = "?option=com_thm_organizer&view=subject_list&programIDs=$programID";
+				$displayItem .=  JHtml::link($href, $programName, $attribs);
+			}
+
+			$displayItem .=  '</td>';
 		}
 		else
 		{
-			$displayItem .= '<td class="subject-teacher"></td>';
+			if ($type == 'teacher')
+			{
+				$displayItem .= '<td class="subject-teacher">' . $this->getResponsibleDisplay($item, $resourceID) . '</td>';
+			}
+			elseif ($type != 'pool')
+			{
+				$displayItem .= '<td class="subject-teacher">' . $this->getTeacherDisplay($item) . '</td>';
+			}
+			else
+			{
+				$displayItem .= '<td class="subject-teacher"></td>';
+			}
 		}
 
 		if (empty($crp))

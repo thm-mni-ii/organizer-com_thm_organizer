@@ -52,7 +52,7 @@ $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 
 		<input type="hidden" id="languageTag" name="languageTag"
 			   value="<?php echo $this->state->get('languageTag'); ?>"/>
 		<?php echo JHtml::_('form.token'); ?>
-		<h1 class="componentheading"><?php echo $this->programName; ?></h1>
+		<h1 class="componentheading"><?php echo $this->displayName; ?></h1>
 		<?php
 		echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => $groupByArray[$this->state->get('groupBy', 0)]]);
 
