@@ -142,6 +142,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 			'showPrograms'      => $this->model->params['showPrograms'],
 			'showRooms'         => $this->model->params['showRooms'],
 			'showRoomTypes'     => $this->model->params['showRoomTypes'],
+			'showSubjects'      => $this->model->params['showSubjects'],
 			'showTeachers'      => $this->model->params['showTeachers'],
 			'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
 			'username'          => !empty($user->id) ? $user->username : ''

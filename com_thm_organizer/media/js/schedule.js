@@ -1754,8 +1754,9 @@ var ScheduleApp = function (text, variables) {
 				 * @param {Array} [onlyValues] - array with values that are designated to add
 				 */
 				sendFormRequest = function (name, selectedValue, onlyValues) {
-					var ajax = new XMLHttpRequest(), field = fields[name], task = getFormTask(field, selectedValue);
+					var ajax = new XMLHttpRequest(), field = fields[name], task;
 
+					task = getFormTask(field, selectedValue);
 					ajax.open("GET", task, true);
 					ajax.onreadystatechange = function () {
 						var option, optionCount, response, value;
@@ -1831,7 +1832,18 @@ var ScheduleApp = function (text, variables) {
 				 * Forms first field gets handled, inclusive setting session params and displaying fields
 				 */
 				handleFirstField = function () {
-					var firstField = fields[config.name] || fields.category, name = firstField.id;
+					var firstField, name;
+
+					// Subjects do not have a select field, so the necessary information is simulated here
+					if (config.name === 'subject')
+					{
+						firstField = {"id": "subject", "dataset": {"next": "lesson"}};
+					}
+					else
+					{
+						firstField = fields[config.name] || fields.category;
+					}
+					name = firstField.id;
 
 					if (config.name)
 					{

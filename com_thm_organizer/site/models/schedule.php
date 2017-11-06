@@ -152,8 +152,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 	 */
 	private function setParams()
 	{
-		$input        = JFactory::getApplication()->input;
-		$params       = JFactory::getApplication()->getParams();
+		$input  = JFactory::getApplication()->input;
+		$params = JFactory::getApplication()->getParams();
 
 		$this->params = [];
 
@@ -171,6 +171,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		$this->params['showPools']     = $input->getInt('showPools', $params->get('showPools', 1));
 		$this->params['showRooms']     = $input->getInt('showRooms', $params->get('showRooms', 1));
 		$this->params['showRoomTypes'] = $input->getInt('showRoomTypes', $params->get('showRoomTypes', 1));
+		$this->params['showSubjects']  = $input->getInt('showRoomTypes', $params->get('showSubjects', 1));
 		$this->params['showTeachers']  = $input->getInt('showTeachers', $params->get('showTeachers', 1));
 		$this->params['deltaDays']     = $input->getInt('deltaDays', $params->get('deltaDays', 5));
 
@@ -194,6 +195,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$this->params['showRooms']     = 0;
 			$this->params['showRoomTypes'] = 0;
 			$this->params['showTeachers']  = 0;
+			$this->params['showSubjects']  = 0;
 
 			if (count($this->params['poolIDs']) === 1 AND $setTitle)
 			{
@@ -217,6 +219,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$this->params['showPrograms']  = 0;
 			$this->params['showRooms']     = 0;
 			$this->params['showRoomTypes'] = 0;
+			$this->params['showSubjects']  = 0;
 
 			if (count($this->params['teacherIDs']) === 1 AND $setTitle)
 			{
@@ -239,6 +242,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$this->params['showPools']    = 0;
 			$this->params['showPrograms'] = 0;
 			$this->params['showTeachers'] = 0;
+			$this->params['showSubjects'] = 0;
 
 			if (count($this->params['roomIDs']) === 1 AND $setTitle)
 			{
@@ -262,6 +266,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			$this->params['showPools']    = 0;
 			$this->params['showPrograms'] = 0;
 			$this->params['showTeachers'] = 0;
+			$this->params['showSubjects'] = 0;
 
 			if (count($this->params['roomTypeIDs']) === 1 AND $setTitle)
 			{
@@ -271,6 +276,31 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				$this->displayName           .= THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
 				$this->params['displayName'] = $this->displayName;
 			}
+
+			return;
+		}
+
+		if ($this->params['showSubjects'])
+		{
+			$this->setResourceArray('subject');
+		}
+
+		if (!empty($this->params['subjectIDs']))
+		{
+			$this->params['showPools']     = 0;
+			$this->params['showPrograms']  = 0;
+			$this->params['showRooms']     = 0;
+			$this->params['showRoomTypes'] = 0;
+			$this->params['showTeachers']  = 0;
+
+			// There can be only one.
+			$singleValue                = array_shift($this->params['subjectIDs']);
+			$this->params['subjectIDs'] = [$singleValue];
+
+			/** @noinspection PhpIncludeInspection */
+			require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
+			$this->displayName           .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'][0], 'plan');
+			$this->params['displayName'] = $this->displayName;
 
 			return;
 		}
@@ -294,28 +324,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 				$this->displayName           .= THM_OrganizerHelperPrograms::getName($this->params['programIDs'][0], 'plan');
 				$this->params['displayName'] = $this->displayName;
 			}
-
-			return;
-		}
-
-		// This will only be requested by URL so there is no need to check params or $setTitle
-		$this->setResourceArray('subject');
-
-		if (!empty($this->params['subjectIDs']))
-		{
-			$this->params['showPools']     = 0;
-			$this->params['showPrograms']  = 0;
-			$this->params['showRooms']     = 0;
-			$this->params['showRoomTypes'] = 0;
-			$this->params['showTeachers']  = 0;
-
-			// There can be only one.
-			$this->params['subjectIDs'] = array_shift($this->params['subjectIDs']);
-
-			/** @noinspection PhpIncludeInspection */
-			require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-			$this->displayName           .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'], 'plan');
-			$this->params['displayName'] = $this->displayName;
 
 			return;
 		}
@@ -351,6 +359,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 			if (is_array($rawResourceIDs))
 			{
 				$filteredArray = Joomla\Utilities\ArrayHelper::toInteger(array_filter($rawResourceIDs));
+
 				if (!empty($filteredArray))
 				{
 					$this->params["{$resourceName}IDs"] = $filteredArray;
