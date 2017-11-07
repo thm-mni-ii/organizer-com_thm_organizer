@@ -46,7 +46,8 @@ class THM_OrganizerModelSubject_List extends JModelList
 
 		foreach ($this->subjects as $key => $subject)
 		{
-			if (empty($subjectIDMap[$subject->id]))
+
+			if (!isset($subjectIDMap[$subject->id]))
 			{
 				$subjectIDMap[$subject->id]       = $key;
 				$this->subjects[$key]->mappings   = [];
@@ -55,7 +56,8 @@ class THM_OrganizerModelSubject_List extends JModelList
 				continue;
 			}
 
-			$subjectKey                              = $subjectIDMap[$subject->id];
+			$subjectKey = $subjectIDMap[$subject->id];
+
 			$this->subjects[$subjectKey]->mappings[] = ['left' => $subject->lft, 'right' => $subject->rgt];
 
 			unset($this->subjects[$key]);
@@ -698,7 +700,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 			$params = new Joomla\Registry\Registry;
 
 			$requestProgramIDs = $app->input->getString('programIDs');
-			$requestPoolIDs = $app->input->getString('poolIDs');
+			$requestPoolIDs    = $app->input->getString('poolIDs');
 			$requestTeacherIDs = $app->input->getString('teacherIDs');
 
 			$initial = (!empty($requestProgramIDs) OR !empty($requestPoolIDs) OR !empty($requestTeacherIDs));
@@ -728,21 +730,21 @@ class THM_OrganizerModelSubject_List extends JModelList
 			}
 			else
 			{
-				$programID    = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
+				$programID = $app->getUserStateFromRequest($this->context . '.programID', 'programID');
 
 				if (!empty($programID))
 				{
 					$this->state->set('programID', $programID);
 				}
 
-				$poolID    = $app->getUserStateFromRequest($this->context . '.poolID', 'poolID');
+				$poolID = $app->getUserStateFromRequest($this->context . '.poolID', 'poolID');
 
 				if (!empty($poolID))
 				{
 					$this->state->set('poolID', $poolID);
 				}
 
-				$teacherID    = $app->getUserStateFromRequest($this->context . '.teacherIDs', 'teacherIDs');
+				$teacherID = $app->getUserStateFromRequest($this->context . '.teacherIDs', 'teacherIDs');
 
 				if (!empty($teacherID))
 				{
