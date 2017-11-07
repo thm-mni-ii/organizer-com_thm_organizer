@@ -1,14 +1,14 @@
 @import 'variables';
 
 div.language-switches {
+
   a {
+
     color: $font-color;
-    :hover {
+
+    &:hover {
       color: $font-color;
-    }
-    img {
-      margin-bottom: -2px;
-      margin-right: 5px;
+      cursor: pointer;
     }
   }
 }

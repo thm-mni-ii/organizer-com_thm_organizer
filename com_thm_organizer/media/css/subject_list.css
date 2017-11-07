@@ -2,13 +2,9 @@ div.language-switches a {
     color: #394a59;
 }
 
-div.language-switches a :hover {
+div.language-switches a:hover {
     color: #394a59;
-}
-
-div.language-switches a img {
-    margin-bottom: -2px;
-    margin-right: 5px;
+    cursor: pointer;
 }
 
 div.legal-disclaimer {
