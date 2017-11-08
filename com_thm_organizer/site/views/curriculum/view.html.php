@@ -36,13 +36,6 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
 	public $item;
 
 	/**
-	 * The maximum number of items to be displayed per line
-	 *
-	 * @var integer
-	 */
-	public $maxItems;
-
-	/**
 	 * The link to the ecollaboration platform
 	 *
 	 * @var string
@@ -66,11 +59,22 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
 	{
 		$this->modifyDocument();
 
-		$menu              = JFactory::getApplication()->getMenu()->getActive();
-		$this->maxItems    = $menu->params->get('maxItems', 5);
-		$this->ecollabLink = $menu->params->get('eCollabLink', '');
+		$menu = JFactory::getApplication()->getMenu()->getActive();
 
-		$this->lang             = THM_OrganizerHelperLanguage::getLanguage($menu->params->get('initialLanguage', ''));
+		if (!is_object($menu))
+		{
+			$this->ecollabLink = '';
+
+			$this->lang = THM_OrganizerHelperLanguage::getLanguage();
+		}
+		else
+		{
+			$this->ecollabLink = $menu->params->get('eCollabLink', '');
+
+			$this->lang = THM_OrganizerHelperLanguage::getLanguage($menu->params->get('initialLanguage', ''));
+		}
+
+
 		$this->item             = $this->get('Item');
 		$lsParams               = ['view' => 'curriculum', 'id' => $this->item->id];
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($lsParams);

@@ -89,8 +89,6 @@ class THM_OrganizerTemplateCurriculumPanel
 	{
 		$displayBody = ($type == 'main') ? 'hidden' : 'shown';
 		$mainID      = ($type == 'main') ? 'id="main-panel-items-' . $pool->mapping . '"' : '';
-		$maxItems    = (int) JFactory::getApplication()->getMenu()->getActive()->params->get('maxItems', 5);
-		$itemWidth   = 100 / $maxItems - 2;
 		$childIndex  = $childNumber = 1;
 		$childCount  = count($pool->children);
 
@@ -103,8 +101,8 @@ class THM_OrganizerTemplateCurriculumPanel
 				echo '<div class="panel-row">';
 			}
 			$itemPanel = new THM_OrganizerTemplateCurriculumItemPanel;
-			$itemPanel->render($element, $itemWidth);
-			$isRowEnd = $childIndex === $maxItems;
+			$itemPanel->render($element);
+			$isRowEnd = $childIndex === 5;
 			$endRow   = ($isRowEnd OR $childNumber === $childCount);
 			if ($endRow)
 			{

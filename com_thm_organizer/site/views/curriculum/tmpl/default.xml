@@ -38,33 +38,6 @@
                     description="COM_THM_ORGANIZER_SUFFIX_DESC"
                     size="15"/>
             <field
-                    name="itemWidth"
-                    type="text"
-                    class="inputbox"
-                    required="true"
-                    label="COM_THM_ORGANIZER_ITEM_PANEL_WIDTH"
-                    description="COM_THM_ORGANIZER_ITEM_PANEL_WIDTH_DESC"
-                    default="120"/>
-            <field
-                    name="itemHeight"
-                    type="text"
-                    class="inputbox"
-                    required="true"
-                    label="COM_THM_ORGANIZER_ITEM_PANEL_HEIGHT"
-                    description="COM_THM_ORGANIZER_ITEM_PANEL_HEIGHT_DESC"
-                    default="120"/>
-            <field
-                    name="maxItems"
-                    type="integer"
-                    class="inputbox"
-                    required="true"
-                    label="COM_THM_ORGANIZER_MAX_ITEMS"
-                    description="COM_THM_ORGANIZER_MAX_ITEMS_DESC"
-                    first="1"
-                    last="10"
-                    step="1"
-                    default="5"/>
-            <field
                     name="displayECollabLink"
                     type="list"
                     default="0"

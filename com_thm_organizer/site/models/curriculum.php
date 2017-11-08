@@ -37,8 +37,23 @@ class THM_OrganizerModelCurriculum extends JModelItem
 		$params  = $app->getParams();
 		$program = new stdClass;
 
-		$programID = $params->get('programID', 0);
-		if (empty($programID))
+		$programIDs = $app->input->get('programIDs');
+		$poolIDs = $app->input->get('poolIDs');
+
+		if (!empty($programIDs))
+		{
+			$programID = explode(',', $programIDs)[0];
+		}
+		elseif (!empty($poolIDs))
+		{
+			$poolID = explode(',', $poolIDs)[0];
+		}
+		else
+		{
+			$programID = $params->get('programID', 0);
+		}
+
+		if (empty($programID) AND empty($poolID))
 		{
 			return $program;
 		}

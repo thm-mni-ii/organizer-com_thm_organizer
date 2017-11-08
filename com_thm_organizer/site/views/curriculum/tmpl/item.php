@@ -30,7 +30,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
 	 *
 	 * @return  void  generates HTML output
 	 */
-	public function render(&$element, $width = 20)
+	public function render(&$element, $width = 18)
 	{
 		$headStyle    = '';
 		$moduleNumber = empty($element->externalID) ? '' : $element->externalID;

@@ -34,7 +34,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/pool.php';
 	<?php
 	foreach ($this->item->children AS $pool)
 	{
-		THM_OrganizerTemplateCurriculumPanel::render($pool, 'main', $this->maxItems);
+		THM_OrganizerTemplateCurriculumPanel::render($pool, 'main');
 	}
 	?>
 	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
