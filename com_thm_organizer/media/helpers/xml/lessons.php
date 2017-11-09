@@ -93,6 +93,7 @@ class THM_OrganizerHelperXMLLessons
 		if (!empty($this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations))
 		{
 			$compConfig = null;
+
 			foreach ($this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex)
 			{
 				$tempConfig = json_decode($this->scheduleModel->newSchedule->configurations[$configIndex]);
@@ -146,13 +147,10 @@ class THM_OrganizerHelperXMLLessons
 			return;
 		}
 
-		$configIndex = array_search($jsonConfig, $this->scheduleModel->newSchedule->configurations);
-		if (empty($configIndex))
-		{
-			$this->scheduleModel->newSchedule->configurations[] = $jsonConfig;
+		$this->scheduleModel->newSchedule->configurations[] = $jsonConfig;
+		$configKeys                                         = array_keys($this->scheduleModel->newSchedule->configurations);
+		$configIndex                                        = end($configKeys);
 
-			$configIndex = array_search($jsonConfig, $this->scheduleModel->newSchedule->configurations);
-		}
 		$this->scheduleModel->newSchedule->calendar->$date->$times->{$this->lessonID}->configurations[] = $configIndex;
 	}
 
