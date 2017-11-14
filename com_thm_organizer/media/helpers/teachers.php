@@ -279,4 +279,38 @@ class THM_OrganizerHelperTeachers
 
 		return $teachers;
 	}
+
+	/**
+	 * Checks whether the teacher is associated with lessons
+	 *
+	 * @param string $table     the dynamic part of the table name
+	 * @param int    $teacherID the id of the teacher being checked
+	 *
+	 * @return bool true if the teacher is assigned to a lesson
+	 */
+	public static function teaches($table, $teacherID)
+	{
+		if (empty($table))
+		{
+			return false;
+		}
+
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("COUNT(*)")->from("#__thm_organizer_{$table}_teachers")->where("teacherID = '$teacherID'");
+		$dbo->setQuery($query);
+
+		try
+		{
+			$number = $dbo->loadResult();
+		}
+		catch (Exception $exception)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
+			return false;
+		}
+
+		return empty($number) ? false : true;
+	}
 }

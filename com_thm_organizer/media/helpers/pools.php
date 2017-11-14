@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
+require_once 'language.php';
 require_once 'programs.php';
 
 /**
@@ -57,16 +58,42 @@ class THM_OrganizerHelperPools
 	/**
 	 * Retrieves the pool's full name if existent.
 	 *
-	 * @param int $poolID the table's pool id
+	 * @param int   $poolID the table's pool id
+	 * @param sting $type   the pool's type (real|plan)
 	 *
 	 * @return string the full name, otherwise an empty string
 	 */
-	public static function getName($poolID)
+	public static function getName($poolID, $type = 'plan')
 	{
-		$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+		if($type == 'plan')
+		{
+			$table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+			$exists = $table->load($poolID);
+
+			return $exists ? $table->name : '';
+		}
+
+		$table  = JTable::getInstance('pools', 'thm_organizerTable');
 		$exists = $table->load($poolID);
 
-		return $exists ? $table->name : '';
+		if (!$exists)
+		{
+			return '';
+		}
+
+		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
+
+		if (!empty($table->{'name_' . $languageTag}))
+		{
+			return $table->{'name_' . $languageTag};
+		}
+		elseif (!empty($table->{'short_name_' . $languageTag}))
+		{
+			return $table->{'short_name_' . $languageTag};
+		}
+
+		return !empty($table->{'abbreviation_' . $languageTag}) ? $table->{'abbreviation_' . $languageTag} : '';
+
 	}
 
 	/**

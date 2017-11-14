@@ -1,0 +1,66 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a:hover {
+    color: #394a59;
+    cursor: pointer;
+}
+
+.organizer-search-container h3 {
+    margin: 1.5rem 0 0 0;
+}
+
+.organizer-search-container ul {
+    margin: .6rem 0 0 0;
+}
+
+.organizer-search-container li {
+    margin-bottom: .2rem;
+    padding: .1rem 0;
+}
+
+.organizer-search-container .language-switches {
+    float: right;
+}
+
+.organizer-search-container a, .organizer-search-container span {
+    margin-right: .4rem;
+}
+
+.organizer-search-container .tool-wrapper #search {
+    margin: 0;
+    padding: .1rem 1.5rem .1rem .2rem;
+}
+
+.organizer-search-container .tool-wrapper a, .organizer-search-container .tool-wrapper button {
+    border: none;
+    cursor: pointer;
+}
+
+.organizer-search-container .tool-wrapper .btn-search {
+    margin-left: -1.5rem;
+}
+
+.organizer-search-container .tool-wrapper .btn-reset, .organizer-search-container .tool-wrapper .btn-reset:hover {
+    background-color: white;
+    margin-left: .4rem;
+}
+
+.organizer-search-container .results-container {
+    border-bottom: 2px solid #4a5c66;
+    border-top: 2px solid #4a5c66;
+    margin-top: 1rem;
+    max-height: 40rem;
+    overflow-y: scroll;
+}
+
+.organizer-search-container .resource-item, .organizer-search-container .resource-links {
+    display: inline-block;
+    font-size: 1rem;
+    margin-right: .5rem;
+}
+
+.organizer-search-container .resource-description {
+    font-style: italic;
+}

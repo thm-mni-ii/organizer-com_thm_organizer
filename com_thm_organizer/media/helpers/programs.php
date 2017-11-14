@@ -74,16 +74,17 @@ class THM_OrganizerHelperPrograms
 		$query     = $dbo->getQuery(true);
 		$nameParts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
 		$query->select('ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
-		$query->from('#__thm_organizer_plan_programs AS ppr');
 
 		if ($type == 'real')
 		{
-			$query->innerJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
+			$query->from('#__thm_organizer_programs AS p');
 			$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+			$query->leftJoin('#__thm_organizer_plan_programs AS ppr ON ppr.programID = p.id');
 			$query->where("p.id = '$programID'");
 		}
 		else
 		{
+			$query->from('#__thm_organizer_plan_programs AS ppr');
 			$query->leftJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
 			$query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 			$query->where("ppr.id = '$programID'");
@@ -95,9 +96,9 @@ class THM_OrganizerHelperPrograms
 		{
 			$names = $dbo->loadAssoc();
 		}
-		catch (RuntimeException $exc)
+		catch (RuntimeException $exception)
 		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
 			return '';
 		}

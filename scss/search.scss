@@ -1,0 +1,67 @@
+@import 'variables';
+@import '_language_switch';
+
+.organizer-search-container {
+
+  h3 {
+    margin: 1.5rem 0 0 0;
+  }
+
+  ul {
+    margin: .6rem 0 0 0;
+  }
+
+  li {
+    margin-bottom: .2rem;
+    padding: .1rem 0;
+  }
+
+  .language-switches {
+    float: right;
+  }
+
+  a, span {
+    margin-right: .4rem;
+  }
+
+  .tool-wrapper {
+
+    // ID necessary to overwrite styles that also use ID
+    #search {
+      margin: 0;
+      padding: .1rem 1.5rem .1rem .2rem;
+    }
+
+    a, button {
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-search {
+      margin-left: -1.5rem;
+    }
+
+    .btn-reset, .btn-reset:hover {
+      background-color: $foreground-color;
+      margin-left: .4rem;
+    }
+  }
+
+  .results-container {
+    border-bottom: $border-thick;
+    border-top: $border-thick;
+    margin-top: 1rem;
+    max-height: 40rem;
+    overflow-y: scroll;
+  }
+
+  .resource-item, .resource-links {
+    display: inline-block;
+    font-size: 1rem;
+    margin-right: .5rem;
+  }
+
+  .resource-description {
+    font-style: italic;
+  }
+}
