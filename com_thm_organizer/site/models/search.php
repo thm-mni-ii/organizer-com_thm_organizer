@@ -1074,6 +1074,19 @@ class THM_OrganizerModelSearch extends JModelLegacy
 	private function searchSubjects()
 	{
 		$terms = $this->terms;
+		$initialTerm = array_shift($terms);
+
+		foreach ($terms as $index => $term)
+		{
+			$short = strlen($term) < 3;
+			$isRoman = preg_match("/^([ix|iv|v]{1}|[i]+)$/", $term, $matches);
+			$isNumeric = is_numeric($term);
+
+			if ($short AND !($isRoman OR $isNumeric))
+			{
+				unset($terms[$index]);
+			}
+		}
 
 		$termCount = count($terms);
 
@@ -1096,21 +1109,17 @@ class THM_OrganizerModelSearch extends JModelLegacy
 			->leftJoin('#__thm_organizer_lessons AS l on ls.lessonID = l.id');
 
 		// EXACT => exact (case independent) match for the search term
-		$term = current($terms);
 
-		$psClause = "(ps.name LIKE '$term' OR ps.subjectNo LIKE '$term'";
+		$psClause = "(ps.name LIKE '$initialTerm' OR ps.subjectNo LIKE '$initialTerm'";
 
-		$sClause = "(s.externalID LIKE '$term' OR s.name_de LIKE '$term' OR s.name_en LIKE '$term' OR ";
-		$sClause .= "s.short_name_de LIKE '$term' OR s.short_name_en LIKE '$term' OR ";
-		$sClause .= "s.abbreviation_de LIKE '$term' OR s.abbreviation_en LIKE '$term'";
+		$sClause = "(s.externalID LIKE '$initialTerm' OR s.name_de LIKE '$initialTerm' OR s.name_en LIKE '$initialTerm' OR ";
+		$sClause .= "s.short_name_de LIKE '$initialTerm' OR s.short_name_en LIKE '$initialTerm' OR ";
+		$sClause .= "s.abbreviation_de LIKE '$initialTerm' OR s.abbreviation_en LIKE '$initialTerm'";
 
-		if ($termCount > 1)
+		foreach ($terms as $term)
 		{
-			foreach ($terms as $term)
-			{
-				$psClause .= " OR ps.subjectNo LIKE '$term'";
-				$sClause  .= "OR s.externalID LIKE '$term'";
-			}
+			$psClause .= " OR ps.subjectNo LIKE '$term'";
+			$sClause  .= "OR s.externalID LIKE '$term'";
 		}
 
 		$psClause .= ')';
@@ -1138,6 +1147,11 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
 		$this->results['exact']['subjects'] = $this->processSubjects($subjects, $planSubjects);
 
+		if (empty($terms))
+		{
+			return;
+		}
+
 		// STRONG => exact match on at least one term
 		$psQuery->clear('where');
 		$sQuery->clear('where');
@@ -1146,11 +1160,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
 		foreach ($terms as $index => $term)
 		{
-			if ($termCount > 1 AND $index === 0)
-			{
-				continue;
-			}
-
 			$asNumber = false;
 
 			preg_match("/^([ix|iv|v]{1}|[i]+)$/", $term, $matches);
@@ -1208,12 +1217,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
 		foreach ($terms as $index => $term)
 		{
-			// Numeric values deliver true for everything
-			if ((count($this->terms) > 1 AND $index === 0))
-			{
-				continue;
-			}
-
 			$asNumber = false;
 
 			preg_match("/^([ix|iv|v]{1}|[i]+)$/", $term, $matches);
@@ -1341,10 +1344,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
 			->innerJoin('#__thm_organizer_teachers AS t on st.teacherID = t.id');
 
 
-		if ($termCount == 1)
+		if (empty($terms))
 		{
-			$psQuery->where("t.surname LIKE '%$term%'");
-			$sQuery->where("t.surname LIKE '%$term%'");
+			$psQuery->where("t.surname LIKE '%$initialTerm%'");
+			$sQuery->where("t.surname LIKE '%$initialTerm%'");
 		}
 		else
 		{
@@ -1395,6 +1398,23 @@ class THM_OrganizerModelSearch extends JModelLegacy
 	 */
 	private function searchTeachers()
 	{
+		$terms = $this->terms;
+
+		foreach ($terms as $index => $term)
+		{
+			if (strlen($term) < 2)
+			{
+				unset($terms[$index]);
+			}
+		}
+
+		$termCount = count($terms);
+
+		if ($termCount == 0)
+		{
+			return;
+		}
+
 		$query = $this->_db->getQuery(true);
 		$query->select('id , surname, forename, title')
 			->from('#__thm_organizer_teachers')
@@ -1402,12 +1422,12 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
 		// EXACT => requires a forename and surname match
 
-		if (count($this->terms) >= 2)
+		if ($termCount >= 2)
 		{
 			$wherray    = [];
-			$innerTerms = $this->terms;
+			$innerTerms = $terms;
 
-			foreach ($this->terms AS $oKey => $outerTerm)
+			foreach ($terms AS $oKey => $outerTerm)
 			{
 				foreach ($innerTerms AS $iKey => $innerTerm)
 				{
@@ -1445,7 +1465,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 		$query->clear('where');
 		$wherray = [];
 
-		foreach ($this->terms AS $term)
+		foreach ($terms AS $term)
 		{
 			// lnf/fnf
 			$wherray[] = "surname LIKE '$term'";
@@ -1472,7 +1492,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 		$query->clear('where');
 		$wherray = [];
 
-		foreach ($this->terms AS $term)
+		foreach ($terms AS $term)
 		{
 			// lnf/fnf
 			$wherray[] = "surname LIKE '%$term%' OR forename LIKE '%$term%'";
