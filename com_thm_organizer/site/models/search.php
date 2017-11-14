@@ -678,7 +678,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
 	 */
 	private function searchDepartments()
 	{
-		$results  = [];
 		$eWherray = [];
 		$sWherray = [];
 
@@ -690,6 +689,13 @@ class THM_OrganizerModelSearch extends JModelLegacy
 				$clause     .= "OR short_name_de LIKE '$term %' OR short_name_en LIKE '$term %'";
 				$eWherray[] = $clause;
 				$sWherray[] = $clause;
+			}
+			elseif (strlen($term ) < 4)
+			{
+				$eClause    = "short_name_de LIKE '%$term' OR short_name_en LIKE '%$term'";
+				$eWherray[] = $eClause;
+				$sClause    = "short_name_de LIKE '%$term%' OR short_name_en LIKE '%$term%'";
+				$sWherray[] = $sClause;
 			}
 			else
 			{
@@ -839,7 +845,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 					$this->processPools($pools, $pPoolIDs, 'plan');
 				}
 
-				if (!empty($program['programID']))
+				if (!empty($program['lft']) AND !empty($program['rgt']))
 				{
 					$pQuery->select("DISTINCT pl.id, '{$program['name']}' AS program");
 
