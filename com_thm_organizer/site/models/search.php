@@ -1074,7 +1074,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
 	private function searchSubjects()
 	{
 		$terms = $this->terms;
-		$initialTerm = array_shift($terms);
 
 		foreach ($terms as $index => $term)
 		{
@@ -1109,6 +1108,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 			->leftJoin('#__thm_organizer_lessons AS l on ls.lessonID = l.id');
 
 		// EXACT => exact (case independent) match for the search term
+		$initialTerm = current($terms);
 
 		$psClause = "(ps.name LIKE '$initialTerm' OR ps.subjectNo LIKE '$initialTerm'";
 
@@ -1343,8 +1343,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 		$sQuery->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
 			->innerJoin('#__thm_organizer_teachers AS t on st.teacherID = t.id');
 
-
-		if (empty($terms))
+		if ($termCount == 1)
 		{
 			$psQuery->where("t.surname LIKE '%$initialTerm%'");
 			$sQuery->where("t.surname LIKE '%$initialTerm%'");

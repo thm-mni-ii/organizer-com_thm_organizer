@@ -34,8 +34,6 @@ define('TEACHERS', 6);
  */
 class THM_OrganizerViewSearch extends JViewLegacy
 {
-	public $defaultPeriod;
-
 	public $languageSwitches = [];
 
 	public $languageTag;
@@ -55,14 +53,12 @@ class THM_OrganizerViewSearch extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$input                  = JFactory::getApplication()->input;
 		$this->lang             = THM_OrganizerHelperLanguage::getLanguage();
 		$this->languageTag      = THM_OrganizerHelperLanguage::getShortTag();
 		$switchParams           = ['view' => 'search', 'form' => true];
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($switchParams);
 		$this->query            = JFactory::getApplication()->input->getString('search', '');
 		$this->results          = $this->getModel()->getResults();
-		$this->defaultPeriod    = THM_OrganizerHelperPlanning_Periods::getCurrentID();
 
 		$this->modifyDocument();
 		parent::display($tpl);
