@@ -72,15 +72,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return '[]';
+			return [];
 		}
 
-		if (empty($grids))
-		{
-			return '[]';
-		}
-
-		return $grids;
+		return empty($grids) ? [] : $grids;
 	}
 
 	/**
@@ -162,18 +157,18 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 		// Don't even set the variable if the action is implausible
 		if (!empty($allowedIDs))
 		{
-			$this->params['showUnpublished'] = $params->get('showUnpublished', 0);
+			$this->params['showUnpublished'] = (int) $params->get('showUnpublished', 0);
 		}
 
 		// No explicit resource selection was made check if departments were requested
-		$this->params['departmentID']  = $input->getInt('departmentID', $params->get('departmentID', 0));
-		$this->params['showPrograms']  = $input->getInt('showPrograms', $params->get('showPrograms', 1));
-		$this->params['showPools']     = $input->getInt('showPools', $params->get('showPools', 1));
-		$this->params['showRooms']     = $input->getInt('showRooms', $params->get('showRooms', 1));
-		$this->params['showRoomTypes'] = $input->getInt('showRoomTypes', $params->get('showRoomTypes', 1));
-		$this->params['showSubjects']  = $input->getInt('showRoomTypes', $params->get('showSubjects', 1));
-		$this->params['showTeachers']  = $input->getInt('showTeachers', $params->get('showTeachers', 1));
-		$this->params['deltaDays']     = $input->getInt('deltaDays', $params->get('deltaDays', 5));
+		$this->params['departmentID']  = $input->getInt('departmentID', (int) $params->get('departmentID', 0));
+		$this->params['showPrograms']  = $input->getInt('showPrograms', (int) $params->get('showPrograms', 1));
+		$this->params['showPools']     = $input->getInt('showPools', (int) $params->get('showPools', 1));
+		$this->params['showRooms']     = $input->getInt('showRooms', (int) $params->get('showRooms', 1));
+		$this->params['showRoomTypes'] = $input->getInt('showRoomTypes', (int) $params->get('showRoomTypes', 1));
+		$this->params['showSubjects']  = $input->getInt('showRoomTypes', (int) $params->get('showSubjects', 1));
+		$this->params['showTeachers']  = $input->getInt('showTeachers', (int) $params->get('showTeachers', 1));
+		$this->params['deltaDays']     = $input->getInt('deltaDays', (int) $params->get('deltaDays', 5));
 
 		// Menu title requested
 		if (!empty($params->get('show_page_heading')))
