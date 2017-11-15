@@ -31,13 +31,6 @@
                 <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
             </field>
             <field
-                    name="suffix"
-                    type="text"
-                    class="inputbox"
-                    label="COM_THM_ORGANIZER_SUFFIX"
-                    description="COM_THM_ORGANIZER_SUFFIX_DESC"
-                    size="15"/>
-            <field
                     name="displayECollabLink"
                     type="list"
                     default="0"
