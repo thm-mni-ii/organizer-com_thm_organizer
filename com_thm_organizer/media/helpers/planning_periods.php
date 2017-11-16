@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 
 /**
- * Provides validation methods for xml room objects
+ * Provides methods for handling planning period resources.
  *
  * @category    Joomla.Component.Media
  * @package     thm_organizer

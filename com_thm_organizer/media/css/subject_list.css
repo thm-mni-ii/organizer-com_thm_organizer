@@ -22,6 +22,8 @@ div.legal-disclaimer li {
 
 .tool-wrapper {
     display: inline-block;
+    margin-left: .2rem;
+    position: relative;
 }
 
 .tool-wrapper a, .tool-wrapper button {
@@ -31,18 +33,14 @@ div.legal-disclaimer li {
 
 .search input[type="text"] {
     background-color: #dfe5e6;
-    border: none;
     box-shadow: none;
-    margin-right: -22px;
-    padding: 4px 6px;
-    width: 159px;
 }
 
 .btn-search {
     background-color: inherit;
-    bottom: -2px;
-    left: -2px;
-    position: relative;
+    left: 16rem;
+    position: absolute;
+    top: .25rem;
 }
 
 .icon-search {

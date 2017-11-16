@@ -11,6 +11,8 @@
 
 .tool-wrapper {
   display: inline-block;
+  margin-left: .2rem;
+  position: relative;
 
   a, button {
     border: none;
@@ -20,18 +22,14 @@
 
 .search input[type="text"] {
   background-color: $background-navigation-color;
-  border: none;
   box-shadow: none;
-  margin-right: -22px;
-  padding: 4px 6px;
-  width: 159px;
 }
 
 .btn-search {
   background-color: inherit;
-  bottom: -2px;
-  left: -2px;
-  position: relative;
+  left: 16rem;
+  position: absolute;
+  top: .25rem;
 }
 
 .icon-search {

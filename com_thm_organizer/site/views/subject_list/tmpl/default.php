@@ -14,22 +14,14 @@ require_once 'pool_list.php';
 require_once 'teacher_list.php';
 
 $query           = $this->escape($this->state->get('search'));
-$resetVisibility = ' style="visibility: ';
-$resetVisibility .= strlen($query) ? 'visibible' : 'hidden';
+$resetVisibility = ' style="display: ';
+$resetVisibility .= strlen($query) ? 'inline-block' : 'none';
 $resetVisibility .= ';"';
 $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 => 'field'];
 ?>
 <div id="j-main-container" class="span10">
 	<form action="<?php JUri::current(); ?>" id="adminForm" method="post" name="adminForm">
 		<div class="toolbar">
-			<div class="tool-wrapper language-switches">
-				<?php
-				foreach ($this->languageSwitches AS $switch)
-				{
-					echo $switch;
-				}
-				?>
-			</div>
 			<div class="tool-wrapper search">
 				<input type="text" name="search" id="filter_search"
 					   value="<?php echo $query; ?>"
@@ -44,6 +36,14 @@ $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 
 						onclick="document.getElementById('filter_search').value='';this.form.submit();">
 					<i class="icon-delete"></i>
 				</button>
+			</div>
+			<div class="tool-wrapper language-switches">
+				<?php
+				foreach ($this->languageSwitches AS $switch)
+				{
+					echo $switch;
+				}
+				?>
 			</div>
 		</div>
 		<div class="clearfix"></div>
