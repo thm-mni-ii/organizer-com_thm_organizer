@@ -31,6 +31,7 @@ class Com_THM_OrganizerInstallerScript
 	private function createImageDirectory()
 	{
 		$exists = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
+
 		if ($exists)
 		{
 			return true;
@@ -52,6 +53,7 @@ class Com_THM_OrganizerInstallerScript
 	public function install($parent)
 	{
 		$dirCreated = $this->createImageDirectory();
+
 		if ($dirCreated)
 		{
 			$dirColor   = 'green';
