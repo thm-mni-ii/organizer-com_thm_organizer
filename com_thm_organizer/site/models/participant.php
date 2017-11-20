@@ -9,7 +9,7 @@
  * @link        www.thm.de
  */
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 
 /**
  * Class provides methods for handling and saving information about participants of preparatory courses
@@ -29,7 +29,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	{
 		$user       = JFactory::getUser();
 		$subjectID  = JFactory::getApplication()->input->get("subjectID");
-		$authorized = (THM_OrganizerHelperPrep_Course::authSubjectTeacher($subjectID) OR JFactory::getUser()->authorise('core.admin'));
+		$authorized = (THM_OrganizerHelperCourse::teachesCourse($subjectID) OR JFactory::getUser()->authorise('core.admin'));
 
 		if (empty($user->id) OR !$authorized)
 		{
@@ -79,7 +79,6 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 
 		return $table->save($data);
 	}
-
 	/**
 	 * Signs User in or out of a specific course
 	 *
@@ -89,7 +88,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	 *
 	 * @return boolean true on success, false on error
 	 */
-	public function applySignAction($data = [], $action = '', $lessonID = 0)
+	public function register($data = [], $action = '', $lessonID = 0)
 	{
 		if (empty($data) OR empty($action) OR empty($lessonID))
 		{
@@ -97,7 +96,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 		}
 
 		$lang       = THM_OrganizerHelperLanguage::getLanguage();
-		$courseFull = THM_OrganizerHelperPrep_Course::isCourseFull($lessonID) ? 0 : 1;
+		$courseFull = THM_OrganizerHelperCourse::isCourseFull($lessonID) ? 0 : 1;
 		$query      = $this->_db->getQuery(true);
 
 		switch ($action)
@@ -155,7 +154,6 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 		return false;
 	}
 
-
 	/**
 	 * Might move users from state waiting to registered
 	 *
@@ -165,7 +163,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	 */
 	public function moveUpWaitingUsers($lessonID)
 	{
-		$courseFull = THM_OrganizerHelperPrep_Course::isCourseFull($lessonID);
+		$courseFull = THM_OrganizerHelperCourse::isCourseFull($lessonID);
 		$lang       = THM_OrganizerHelperLanguage::getLanguage();
 
 		if (!$courseFull)
@@ -285,7 +283,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 			return false;
 		}
 
-		$participants = THM_OrganizerHelperPrep_Course::getRegisteredStudents($lessonID, 2);
+		$participants = THM_OrganizerHelperCourse::getRegisteredStudents($lessonID, 2);
 		$return       = true;
 
 		foreach ($participants as $participant)

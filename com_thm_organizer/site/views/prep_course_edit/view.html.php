@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 
@@ -55,7 +55,7 @@ class THM_OrganizerViewPrep_Course_Edit extends JViewLegacy
 
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
-		$courseAuth = THM_OrganizerHelperPrep_Course::authSubjectTeacher($this->form->getValue("id"));
+		$courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->form->getValue("id"));
 		$authorized = (JFactory::getUser()->authorise('core.admin') OR $courseAuth);
 
 		if (!$authorized)

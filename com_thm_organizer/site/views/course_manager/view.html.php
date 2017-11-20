@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 
 /**
  * Class which loads data into the view output context
@@ -73,9 +73,9 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 		{
 			$this->items  = $this->get('Items');
 			$this->form   = $this->get('Form');
-			$this->course = THM_OrganizerHelperPrep_Course::getCourse();
+			$this->course = THM_OrganizerHelperCourse::getCourse();
 
-			$dates = THM_OrganizerHelperPrep_Course::getDates();
+			$dates = THM_OrganizerHelperCourse::getDates();
 
 			if (!empty($dates))
 			{
@@ -93,8 +93,8 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 
 			if (!empty($this->course))
 			{
-				$this->courseAuth = THM_OrganizerHelperPrep_Course::authSubjectTeacher($this->course["subjectID"]);
-				$this->curCap     = THM_OrganizerHelperPrep_Course::getRegisteredStudents($this->course["id"]);
+				$this->courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->course["subjectID"]);
+				$this->curCap     = THM_OrganizerHelperCourse::getRegisteredStudents($this->course["id"]);
 			}
 
 			$params = ['view' => 'course_manager', 'id' => empty($this->course) ? 0 : $this->course["id"]];

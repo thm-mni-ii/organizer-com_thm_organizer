@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 
 /**
  * Class provides methods sending mails
@@ -40,7 +40,7 @@ class THM_OrganizerModelMailer extends JModelLegacy
 		$lessonID  = $input->get("lessonID", 0);
 		$subjectID = $input->get("subjectID", 0);
 
-		$userAuth = (THM_OrganizerHelperPrep_Course::authSubjectTeacher($subjectID) OR JFactory::getUser()->authorise('core.admin'));
+		$userAuth = (THM_OrganizerHelperCourse::teachesCourse($subjectID) OR JFactory::getUser()->authorise('core.admin'));
 
 		if (empty($lessonID) OR empty($userAuth))
 		{
@@ -60,7 +60,7 @@ class THM_OrganizerModelMailer extends JModelLegacy
 		$mailer->setSender($senderInfo);
 		$mailer->setSubject($data["subject"]);
 
-		$recipients = THM_OrganizerHelperPrep_Course::getFullParticipantData($lessonID, $includeWaitList);
+		$recipients = THM_OrganizerHelperCourse::getFullParticipantData($lessonID, $includeWaitList);
 
 		if (empty($recipients))
 		{
@@ -109,7 +109,7 @@ class THM_OrganizerModelMailer extends JModelLegacy
 		}
 		else
 		{
-			switch (THM_OrganizerHelperPrep_Course::getCourse($lessonID)["instructionLanguage"])
+			switch (THM_OrganizerHelperCourse::getCourse($lessonID)["instructionLanguage"])
 			{
 				case "D":
 					$tag = 'de';
@@ -124,8 +124,8 @@ class THM_OrganizerModelMailer extends JModelLegacy
 			$input->set('languageTag', $tag);
 		}
 
-		$course = THM_OrganizerHelperPrep_Course::getCourse($lessonID);
-		$dates  = THM_OrganizerHelperPrep_Course::getDates($lessonID);
+		$course = THM_OrganizerHelperCourse::getCourse($lessonID);
+		$dates  = THM_OrganizerHelperCourse::getDates($lessonID);
 
 		if (empty($course) OR empty($dates))
 		{
@@ -152,7 +152,7 @@ class THM_OrganizerModelMailer extends JModelLegacy
 		$start = JHtml::_('date', $dates[0]["schedule_date"], $dateFormat);
 		$end   = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
 
-		$body = sprintf($lang->_("COM_THM_ORGANIZER_PREP_COURSE_MAIL_BODY") . "\n", $course["name"], $start, $end);
+		$body = sprintf($lang->_("COM_THM_ORGANIZER_CIRCULAR_BODY") . "\n", $course["name"], $start, $end);
 
 		switch ($status)
 		{

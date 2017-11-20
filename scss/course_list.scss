@@ -1,0 +1,52 @@
+@import 'variables';
+@import '_language_switch';
+
+.toolbar {
+  position: relative;
+  float: right;
+}
+
+.course-list-view {
+
+  .tbox-yellow {
+
+    margin-bottom: 1.2rem;
+
+    ul {
+      margin-bottom: 0;
+
+      [class^="icon-"], [class*=" icon-"] {
+        margin-left: .2rem;
+      }
+    }
+  }
+
+  .toolbar .btn {
+    margin-bottom: .6rem;
+  }
+
+  .filter-item {
+    display: inline-block;
+  }
+
+  [class^="icon-"], [class*=" icon-"] {
+    margin-right: .2rem;
+  }
+
+  th {
+    text-align: left;
+  }
+
+  .course-state, .user-state, .register {
+    text-align: center;
+  }
+
+  .registration {
+    white-space: nowrap;
+    width: 1%;
+  }
+
+  .disabled {
+    opacity: .6;
+  }
+}

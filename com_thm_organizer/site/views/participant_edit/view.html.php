@@ -11,7 +11,7 @@
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 
 /**
  * Class which loads data into the view output context
@@ -51,15 +51,15 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
 
 		$this->item     = $this->get('Item');
 		$this->form     = $this->get('Form');
-		$this->course   = THM_OrganizerHelperPrep_Course::getCourse();
-		$this->dates    = THM_OrganizerHelperPrep_Course::getDates();
-		$this->signedIn = THM_OrganizerHelperPrep_Course::getRegistrationState();
+		$this->course   = THM_OrganizerHelperCourse::getCourse();
+		$this->dates    = THM_OrganizerHelperCourse::getDates();
+		$this->signedIn = THM_OrganizerHelperCourse::getRegistrationState();
 
-		$courseOpen = THM_OrganizerHelperPrep_Course::isRegistrationOpen();
+		$courseOpen = THM_OrganizerHelperCourse::isRegistrationOpen();
 
 		if (!empty($this->course) AND !$courseOpen)
 		{
-			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_PREP_COURSE_NOTIFICATION_DEADLINE_EXCEEDED'));
+			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTRATION_EXPIRED'));
 		}
 
 		if (empty($this->item) OR empty(JFactory::getUser()->id))

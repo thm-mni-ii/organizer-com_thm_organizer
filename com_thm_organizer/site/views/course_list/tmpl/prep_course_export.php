@@ -11,7 +11,7 @@
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/prep_course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 
 abstract class THM_OrganizerTemplatePC_Export
 {
@@ -30,12 +30,12 @@ abstract class THM_OrganizerTemplatePC_Export
 	{
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
-		$course       = THM_OrganizerHelperPrep_Course::getCourse($lessonID);
-		$dates        = THM_OrganizerHelperPrep_Course::getDates($lessonID);
+		$course       = THM_OrganizerHelperCourse::getCourse($lessonID);
+		$dates        = THM_OrganizerHelperCourse::getDates($lessonID);
 		$max_part     = empty($course->lessonP) ? $course["subjectP"] : $course["lessonP"];
 		$start        = explode("-", $dates[0]["schedule_date"]);
 		$finish       = explode("-", end($dates)["schedule_date"]);
-		$participants = THM_OrganizerHelperPrep_Course::getFullParticipantData($lessonID);
+		$participants = THM_OrganizerHelperCourse::getFullParticipantData($lessonID);
 
 		$this->courseData = [
 			"name"         => $course["name"],

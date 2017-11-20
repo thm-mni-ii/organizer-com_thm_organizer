@@ -8,64 +8,118 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-$regState   = THM_OrganizerHelperPrep_Course::getRegistrationState($this->item->lessonID);
-$courseAuth = THM_OrganizerHelperPrep_Course::authSubjectTeacher($this->item->subjectID);
-$regOpen    = THM_OrganizerHelperPrep_Course::isRegistrationOpen($this->item->lessonID);
 
-$pathPrefix = "index.php?option=com_thm_organizer";
+// Course Status
+$current = $this->lang->_('COM_THM_ORGANIZER_CURRENT');
+$expired = $this->lang->_('COM_THM_ORGANIZER_EXPIRED');
 
-$subjectRoute  = JRoute::_("{$pathPrefix}&view=subject_details&id={$this->item->subjectID}&languageTag={$this->shortTag}");
-$registerRoute = JRoute::_("{$pathPrefix}&task=participant.register&lessonID={$this->item->lessonID}&languageTag={$this->shortTag}");
-$optionsRoute  = JRoute::_("{$pathPrefix}&view=course_manager&lessonID={$this->item->lessonID}&languageTag={$this->shortTag}");
+// Personal Status
+$none          = '-';
+$notLoggedIn   = '<span class="icon-warning"></span>' . $this->lang->_('COM_THM_ORGANIZER_NOT_LOGGED_IN');
+$notRegistered = '<span class="icon-checkbox-unchecked"></span>' . $this->lang->_('COM_THM_ORGANIZER_COURSE_NOT_REGISTERED');
+$waitList      = '<span class="icon-checkbox-partial"></span>' . $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
+$registered    = '<span class="icon-checkbox-checked"></span>' . $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
+$manage        = '<span class="icon-cogs"></span>' . $this->lang->_("COM_THM_ORGANIZER_MANAGE");
 
-$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
+$menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
 
-if (!empty($regState))
+$pathPrefix      = "index.php?option=com_thm_organizer";
+$subjectURL      = "{$pathPrefix}&view=subject_details&languageTag={$this->shortTag}";
+$subjectURL      .= empty($menuID) ? '' : "&Itemid=$menuID";
+$managerURL      = "{$pathPrefix}&view=course_manager&languageTag={$this->shortTag}";
+$managerURL      .= empty($menuID) ? '' : "&Itemid=$menuID";
+$registrationURL = "{$pathPrefix}&task=participant.register&languageTag={$this->shortTag}";
+$registrationURL .= empty($menuID) ? '' : "&Itemid=$menuID";
+
+foreach ($this->items as $item)
 {
-	if ($regState["status"] == 1)
-	{
-		$statusMessage = "success";
-		$statusText    = $this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED");
-	}
-	else
-	{
-		$statusMessage = "warning";
-		$statusText    = $this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST");
-	}
-}
-else
-{
-	$statusMessage = "error";
-	$statusText    = $this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_STATE_NOT_REGISTERED");
-}
+	$subjectRoute = JRoute::_($subjectURL . "&id={$item->subjectID}");
 
-$status = sprintf("<div class='alert alert-%s'>%s</div>", $statusMessage, $statusText);
-
-$registrationOpen = THM_OrganizerHelperPrep_Course::isRegistrationOpen($this->item->lessonID);
-
-if (empty($this->item->expired) OR $courseAuth OR $this->authorized)
-{
-	echo "<tr class='row'>"
-		. "<td> <a href='$subjectRoute'> {$this->item->name} </a> </td>"
-		. "<td>" . JHtml::_('date', $this->item->start, $dateFormat) . "</td> "
-		. "<td>" . JHtml::_('date', $this->item->end, $dateFormat) . "</td> ";
+	$startDate   = THM_OrganizerHelperComponent::formatDate($item->start);
+	$endDate     = THM_OrganizerHelperComponent::formatDate($item->end);
+	$displayDate = $startDate == $endDate ? $endDate : "$startDate - $endDate";
 
 	if (!empty(JFactory::getUser()->id))
 	{
-		$isDisabled = !$registrationOpen ? "disabled" : "";
-		$btnText    = $this->lang->_(!empty($regState) ? "JLOGOUT" : "JLOGIN");
-		echo "<td> $status </td> "
-			. "<td><a href='$registerRoute' class='btn btn-mini $isDisabled' type='button'>$btnText</a></td>";
+		$lessonURL = "&lessonID={$item->lessonID}";
 
-		if ($this->authorized OR $courseAuth)
+		if ($item->admin)
 		{
-			echo "<td><a href='$optionsRoute' class='btn' type='button'>{$this->lang->_("COM_THM_ORGANIZER_MANAGE")}</a></td>";
+			$managerRoute = JRoute::_($managerURL . $lessonURL);
+			$userStatus   = "<a href='$managerRoute'>$manage</a>";
+			$register     = '';
 		}
-		elseif ($this->oneAuth)
+		else
 		{
-			echo "<td></td>";
+			$regState = THM_OrganizerHelperCourse::getRegistrationState($item->lessonID);
+
+			if ($item->expired)
+			{
+				if (!empty($regState))
+				{
+					if ($regState["status"] == 1)
+					{
+						$userStatus = '<span class="disabled">' . $registered . '</span>';
+					}
+					else
+					{
+						$userStatus = '<span class="disabled">' . $waitList . '</span>';
+					}
+				}
+				else
+				{
+					$userStatus = '<span class="disabled">' . $none . '</span>';
+				}
+
+				$register = '';
+			}
+			else
+			{
+				$registerRoute = JRoute::_($registrationURL . $lessonURL);
+				$disabled      = THM_OrganizerHelperCourse::isRegistrationOpen($item->lessonID) ? '' : 'disabled';
+
+				if (!empty($regState))
+				{
+					$registerText = '<span class="icon-out-2"></span>' . $this->lang->_('JLOGOUT');
+
+					if ($regState["status"] == 1)
+					{
+						$userStatus = $registered;
+					}
+					else
+					{
+						$userStatus = $waitList;
+					}
+				}
+				else
+				{
+					$userStatus   = $item->expired ? $none : $notRegistered;
+					$registerText = '<span class="icon-apply"></span>' . $this->lang->_('JLOGIN');
+				}
+
+				$register = "<a href='$registerRoute' class='$disabled' type='button'>$registerText</a>";
+			}
 		}
 	}
+	else
+	{
+		$userStatus = $item->expired ? $none : '<span class="disabled">' . $notLoggedIn . '</span>';
+		$register   = '';
+	}
 
-	echo "</tr>";
+	$courseStatus = $item->expired ? '<span class="disabled">' . $expired . '</span>' : $current;
+
+	?>
+	<tr class='row'>
+		<td>
+			<a href='<?php echo $subjectRoute; ?>'>
+				<?php echo $item->name; ?>
+			</a>
+		</td>
+		<td><?php echo $displayDate; ?></td>
+		<td class="course-state"><?php echo $courseStatus ?></td>
+		<td class="user-state"><?php echo $userStatus ?></td>
+		<td class="registration"><?php echo $register ?></td>
+	</tr>
+	<?php
 }

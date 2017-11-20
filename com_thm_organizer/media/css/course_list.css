@@ -1,0 +1,54 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a:hover {
+    color: #394a59;
+    cursor: pointer;
+}
+
+.toolbar {
+    position: relative;
+    float: right;
+}
+
+.course-list-view .tbox-yellow {
+    margin-bottom: 1.2rem;
+}
+
+.course-list-view .tbox-yellow ul {
+    margin-bottom: 0;
+}
+
+.course-list-view .tbox-yellow ul [class^="icon-"], .course-list-view .tbox-yellow ul [class*=" icon-"] {
+    margin-left: .2rem;
+}
+
+.course-list-view .toolbar .btn {
+    margin-bottom: .6rem;
+}
+
+.course-list-view .filter-item {
+    display: inline-block;
+}
+
+.course-list-view [class^="icon-"], .course-list-view [class*=" icon-"] {
+    margin-right: .2rem;
+}
+
+.course-list-view th {
+    text-align: left;
+}
+
+.course-list-view .course-state, .course-list-view .user-state, .course-list-view .register {
+    text-align: center;
+}
+
+.course-list-view .registration {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.course-list-view .disabled {
+    opacity: .6;
+}

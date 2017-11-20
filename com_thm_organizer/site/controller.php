@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
+
 DEFINE('REGISTER', 1);
 DEFINE('DEREGISTER', 2);
 /** @noinspection PhpIncludeInspection */
@@ -25,20 +25,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerController extends JControllerLegacy
 {
-	/**
-	 * Method to display
-	 *
-	 * @param bool  $cachable  If true, the view output will be cached
-	 * @param array $urlParams An array of safe url parameters and their variable types, for valid values
-	 *                         see {@link JFilterInput::clean()}.
-	 *
-	 * @return    void
-	 */
-	public function display($cachable = false, $urlParams = false)
-	{
-		parent::display($cachable, $urlParams);
-	}
-
 	/**
 	 * Sends an circular email to all course participants
 	 *
@@ -146,9 +132,9 @@ class THM_OrganizerController extends JControllerLegacy
 			return;
 		}
 
-		if (THM_OrganizerHelperPrep_Course::isRegistrationOpen())
+		if (THM_OrganizerHelperCourse::isRegistrationOpen())
 		{
-			$regState = THM_OrganizerHelperPrep_Course::getRegistrationState();
+			$regState = THM_OrganizerHelperCourse::getRegistrationState();
 
 			$action = $regState ? DEREGISTER : REGISTER;
 
@@ -160,7 +146,7 @@ class THM_OrganizerController extends JControllerLegacy
 			}
 
 			$langTag = THM_OrganizerHelperLanguage::getShortTag();
-			$return  = $model->applySignAction((array) $data, $action, $lessonID);
+			$return  = $model->register((array) $data, $action, $lessonID);
 			$app->input->set("languageTag", $langTag);
 
 			if ($return)
@@ -171,9 +157,9 @@ class THM_OrganizerController extends JControllerLegacy
 				}
 				else
 				{
-					$status  = THM_OrganizerHelperPrep_Course::getRegistrationState()["status"] ?
-						"COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED" :
-						"COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST";
+					$status  = THM_OrganizerHelperCourse::getRegistrationState()["status"] ?
+						"COM_THM_ORGANIZER_COURSE_REGISTERED" :
+						"COM_THM_ORGANIZER_WAIT_LIST";
 					$msgText = THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_REGISTRATION_SUCCESS", $lang->_($status));
 				}
 
@@ -187,7 +173,7 @@ class THM_OrganizerController extends JControllerLegacy
 		}
 		else
 		{
-			$msgText = $lang->_("COM_THM_ORGANIZER_PREP_COURSE_NOTIFICATION_DEADLINE_EXCEEDED");
+			$msgText = $lang->_("COM_THM_ORGANIZER_COURSE_REGISTRATION_EXPIRED");
 			$msgType = 'error';
 		}
 

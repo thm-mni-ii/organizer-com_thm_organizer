@@ -50,7 +50,7 @@
 		<?php
 		foreach ($this->items as $item)
 		{
-			$status = ($item->status ? 'COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED' : 'COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST');
+			$status = ($item->status ? 'COM_THM_ORGANIZER_COURSE_REGISTERED' : 'COM_THM_ORGANIZER_WAIT_LIST');
 
 			echo '<tr>';
 

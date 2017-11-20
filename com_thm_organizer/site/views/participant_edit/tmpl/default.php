@@ -44,18 +44,18 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 		if ($this->signedIn["status"] == 1)
 		{
 			$status = 'success';
-			$msg    = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_REGISTERED';
+			$msg    = 'COM_THM_ORGANIZER_COURSE_REGISTERED';
 		}
 		else
 		{
 			$status = 'warning';
-			$msg    = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_WAIT_LIST';
+			$msg    = 'COM_THM_ORGANIZER_WAIT_LIST';
 		}
 	}
 	else
 	{
 		$status = 'error';
-		$msg    = 'COM_THM_ORGANIZER_PREP_COURSE_STATE_NOT_REGISTERED';
+		$msg    = 'COM_THM_ORGANIZER_COURSE_NOT_REGISTERED';
 	}
 
 	if (!empty($this->course))

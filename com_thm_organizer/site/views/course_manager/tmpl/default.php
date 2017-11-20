@@ -32,7 +32,7 @@ $badgesRoute          = JRoute::_(sprintf($linkPrefix, 2, $this->course["id"], $
 		</div>
 	</div>
 
-	<h1> <?php echo "{$this->lang->_('COM_THM_ORGANIZER_MANAGE')}: {$this->course["name"]}"; ?> </h1>
+	<h1> <?php echo "{$this->lang->_('COM_THM_ORGANIZER_COURSE_MANAGEMENT')}: {$this->course["name"]}"; ?> </h1>
 
 	<h3> <?php echo $this->dateText ?> </h3>
 
@@ -40,15 +40,32 @@ $badgesRoute          = JRoute::_(sprintf($linkPrefix, 2, $this->course["id"], $
 		<?php echo $this->lang->_("COM_THM_ORGANIZER_CAPACITY") . ": " . sizeof($this->curCap) . "\\" . $this->capacity; ?>
 	</h3>
 
-	<a href="<?php echo $participantListRoute; ?>"
-	   class="btn btn-mini" type="button"><span class="icon-file-pdf"></span>
-		<?php echo $this->lang->_("COM_THM_ORGANIZER_EXPORT_PARTICIPANTS") ?></a>
-	<a href="<?php echo $departmentListRoute; ?>"
-	   class="btn btn-mini" type="button"><span class="icon-file-pdf"></span>
-		<?php echo $this->lang->_("COM_THM_ORGANIZER_EXPORT_DEPARTMENTS") ?></a>
-	<a href="<?php echo $badgesRoute; ?>"
-	   class="btn btn-mini" type="button"><span class="icon-file-pdf"></span>
-		<?php echo $this->lang->_("COM_THM_ORGANIZER_EXPORT_BADGES") ?></a>
+
+	<div class="btn-group">
+		<a class="btn dropdown-toggle stateid" data-toggle="dropdown" href="#">
+			<span class="icon-print"></span>
+			<?php echo $this->lang->_('COM_THM_ORGANIZER_PRINT_OPTIONS'); ?>
+			<span class="icon-arrow-down-3 pull-right"></span>
+		</a>
+		<ul id="category" class="dropdown-menu">
+			<li>
+				<a href="<?php echo $participantListRoute; ?>" target="_blank">
+					<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_PARTICIPANTS'); ?>
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $departmentListRoute; ?>" target="_blank">
+					<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_DEPARTMENTS'); ?>
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $badgesRoute; ?>" target="_blank">
+					<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_BADGES'); ?>
+				</a>
+			</li>
+		</ul>
+	</div>
+
 
 	<?php
 	$editAuth = THM_OrganizerHelperComponent::allowResourceManage('subject', $this->course["subjectID"]);

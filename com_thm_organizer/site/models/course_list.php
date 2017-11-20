@@ -29,7 +29,90 @@ class THM_OrganizerModelCourse_List extends JModelList
 	public function __construct($config = [])
 	{
 		parent::__construct();
-		$this->populateState();
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   1.6
+	 */
+	public function getItems()
+	{
+		$courses = parent::getItems();
+
+		if ($this->state->filter_status != 'current')
+		{
+			return $courses;
+		}
+
+		$maxValues = [];
+
+		foreach ($courses AS $index => $course)
+		{
+			if (isset($maxValues[$course->subjectID]))
+			{
+				if ($maxValues[$course->subjectID]['start'] > $course->start)
+				{
+					unset($courses[$index]);
+					continue;
+				}
+				else
+				{
+					$oldIndex = $maxValues[$course->subjectID]['index'];
+					unset($courses[$oldIndex]);
+				}
+			}
+
+			$maxValues[$course->subjectID] = ['start' => $course->start, 'index' => $index];
+		}
+
+		return $courses;
+	}
+
+	/**
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+	 */
+	protected function getListQuery()
+	{
+		$tag = THM_OrganizerHelperLanguage::getShortTag();
+
+		$courseQuery = $this->_db->getQuery(true);
+
+		$subQuery = $this->_db->getQuery(true);
+
+		$subQuery->select('lessonID, MIN(schedule_date) as start, MAX(schedule_date) as end')
+			->select('(MAX(schedule_date) < CURRENT_DATE()) as expired')
+			->from('#__thm_organizer_calendar')
+			->group('lessonID');
+
+		$courseQuery->select("s.id as subjectID, ls.lessonID, s.name_$tag as name, sq.start, sq.end, sq.expired");
+		$courseQuery->from('#__thm_organizer_subjects as s');
+		$courseQuery->leftJoin('#__thm_organizer_subject_mappings as sm on sm.subjectID = s.id');
+		$courseQuery->leftJoin('#__thm_organizer_lesson_subjects as ls on ls.subjectID = sm.plan_subjectID');
+		$courseQuery->leftJoin("($subQuery) as sq on sq.lessonID = ls.lessonID");
+		$courseQuery->where("is_prep_course = '1' and ls.subjectID is not null and sq.start is not null");
+		$courseQuery->order("end DESC, name ASC");
+
+		switch ($this->state->filter_status)
+		{
+			case "pending":
+				$courseQuery->where("sq.expired = '0'");
+				break;
+			case "expired":
+				$courseQuery->where("sq.expired = '1'");
+				break;
+		}
+
+		if (!empty($this->state->filter_subject))
+		{
+			$courseQuery->where("s.id = '{$this->state->filter_subject}'");
+		}
+
+		return $courseQuery;
 	}
 
 	/**
@@ -43,69 +126,10 @@ class THM_OrganizerModelCourse_List extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$formData = JFactory::getApplication()->input->get('jform', [], 'array');
+		$status   = empty($formData["filter_status"]) ? 'current' : $formData["filter_status"];
+		$this->state->set('filter_status', $status);
+		$subject = empty($formData["filter_subject"]) ? 0 : (int) $formData["filter_subject"];
+		$this->state->set('filter_subject', $subject);
 
-		if (empty($formData["filter_subject"]))
-		{
-			$formData["filter_subject"] = "0";
-		}
-
-		if (empty($formData["filter_active"]))
-		{
-			$formData["filter_active"] = "0";
-		}
-
-		$this->state->set('filter_active', $formData['filter_active']);
-		$this->state->set('filter_subject', $formData['filter_subject']);
-	}
-
-	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
-	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
-	 */
-	protected function getListQuery()
-	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$state    = self::getState();
-
-		$query    = $this->_db->getQuery(true);
-		$subQuery = $this->_db->getQuery(true);
-
-		$subQuerySelect = "lessonID";
-		$subQuerySelect .= ", MIN(schedule_date) as start, MAX(schedule_date) as end";
-		$subQuerySelect .= ", (MAX(schedule_date) < CURRENT_DATE()) as expired";
-
-		$subQuery->select($subQuerySelect);
-		$subQuery->from('#__thm_organizer_calendar');
-		$subQuery->group("lessonID");
-
-		$select = 's.*, s.id as subjectID, ls.lessonID';
-		$select .= ",s.name_$shortTag as name";
-		$select .= ", c.start, c.end, c.expired";
-
-		$query->select($select);
-		$query->from('#__thm_organizer_subjects as s');
-		$query->leftJoin('#__thm_organizer_subject_mappings as sm on sm.subjectID = s.id');
-		$query->leftJoin('#__thm_organizer_lesson_subjects as ls on ls.subjectID = sm.plan_subjectID');
-		$query->leftJoin("($subQuery) as c on c.lessonID = ls.lessonID");
-		$query->where("is_prep_course = '1' and ls.subjectID is not null and c.start is not null");
-		$query->order("end DESC, name ASC");
-
-		switch ($state->filter_active)
-		{
-			case "0":
-				$query->where("c.expired = '0'");
-				break;
-			case "2":
-				$query->where("c.expired = '1'");
-				break;
-		}
-
-		if (($state->filter_subject !== "0"))
-		{
-			$query->where("s.id = '{$state->filter_subject}'");
-		}
-
-		return $query;
 	}
 }
