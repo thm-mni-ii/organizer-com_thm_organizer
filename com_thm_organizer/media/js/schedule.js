@@ -128,7 +128,7 @@ const ScheduleApp = function (text, variables) {
 		function showControls() {
 			const dateControls = document.getElementsByClassName("date-input")[0].getElementsByClassName("controls");
 
-			for (let controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
+			for (var controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
 			{
 				dateControls[controlIndex].style.display = "inline";
 			}
@@ -149,7 +149,7 @@ const ScheduleApp = function (text, variables) {
 			const tableBody = table.getElementsByTagName("tbody")[0],
 				rowLength = table.getElementsByTagName("tr").length;
 
-			for (let rowIndex = 0; rowIndex < rowLength; ++rowIndex)
+			for (var rowIndex = 0; rowIndex < rowLength; ++rowIndex)
 			{
 				// "-1" represents the last row
 				tableBody.deleteRow(-1);
@@ -183,11 +183,11 @@ const ScheduleApp = function (text, variables) {
 			// Append rows to table
 			rowCount = Math.min(Math.ceil((days + generalMonth.getDay() - 1) / 7), 6);
 
-			for (let rowIndex = 0; rowIndex <= rowCount; rowIndex++)
+			for (var rowIndex = 0; rowIndex <= rowCount; rowIndex++)
 			{
 				const row = tableBody.insertRow(rowIndex);
 
-				for (let cellIndex = 0; cellIndex <= 6; cellIndex++)
+				for (var cellIndex = 0; cellIndex <= 6; cellIndex++)
 				{
 					const cell = row.insertCell(cellIndex);
 
@@ -374,7 +374,7 @@ const ScheduleApp = function (text, variables) {
 				{
 					(function () {
 						const options = programField.options;
-						for (let index = 0; index < options.length; ++index)
+						for (var index = 0; index < options.length; ++index)
 						{
 							if (options[index].selected)
 							{
@@ -390,7 +390,7 @@ const ScheduleApp = function (text, variables) {
 				{
 					(function () {
 						const options = resourceField.options;
-						for (let index = 0; index < options.length; ++index)
+						for (var index = 0; index < options.length; ++index)
 						{
 							if (options[index].selected)
 							{
@@ -604,11 +604,11 @@ const ScheduleApp = function (text, variables) {
 
 			table.appendChild(body);
 
-			for (let rowIndex = 0; rowIndex < rowCount; ++rowIndex)
+			for (var rowIndex = 0; rowIndex < rowCount; ++rowIndex)
 			{
 				// Filled with rows and cells (with -1 for last position)
 				const row = body.insertRow(-1);
-				for (let firstDay = 0; firstDay < weekend; ++firstDay)
+				for (var firstDay = 0; firstDay < weekend; ++firstDay)
 				{
 					row.insertCell(-1);
 				}
@@ -624,7 +624,7 @@ const ScheduleApp = function (text, variables) {
 			// Set date to monday
 			headerDate.setDate(headerDate.getDate() - headerDate.getDay());
 
-			for (let headIndex = 0; headIndex < weekend; ++headIndex)
+			for (var headIndex = 0; headIndex < weekend; ++headIndex)
 			{
 				const th = document.createElement("th");
 
@@ -648,7 +648,7 @@ const ScheduleApp = function (text, variables) {
 				rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 			let period = 1;
 
-			for (let row = 0; row < rows.length; ++row)
+			for (var row = 0; row < rows.length; ++row)
 			{
 				if (!rows[row].className.match(/break-row/))
 				{
@@ -695,7 +695,7 @@ const ScheduleApp = function (text, variables) {
 			headItems[0].style.display = timeGrid.hasOwnProperty("periods") ? "" : "none";
 
 			// Fill tHead with days of week
-			for (let thElement = 1; thElement < headItems.length; ++thElement)
+			for (var thElement = 1; thElement < headItems.length; ++thElement)
 			{
 				if (thElement === currentDay && currentDay <= timeGrid.endDay)
 				{
@@ -722,7 +722,7 @@ const ScheduleApp = function (text, variables) {
 
 			if (timeGrid.periods)
 			{
-				for (const date in lessons)
+				for (var date in lessons)
 				{
 					if (!lessons.hasOwnProperty(date))
 					{
@@ -732,7 +732,7 @@ const ScheduleApp = function (text, variables) {
 					// gridIndex for grid, rowIndex for rows without break
 					let gridIndex = 1, rowIndex = 0;
 
-					for (const block in lessons[date])
+					for (var block in lessons[date])
 					{
 						if (!lessons[date].hasOwnProperty(block))
 						{
@@ -783,7 +783,7 @@ const ScheduleApp = function (text, variables) {
 							jQuery(cell).addClass("occupied");
 						}
 
-						for (const lesson in lessons[date][block])
+						for (var lesson in lessons[date][block])
 						{
 							if (!lessons[date][block].hasOwnProperty(lesson))
 							{
@@ -792,7 +792,7 @@ const ScheduleApp = function (text, variables) {
 
 							showOwnTime = tableStartTime !== blockStart || tableEndTime !== blockEnd;
 							lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
-							for (let elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+							for (var elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 							{
 								cell.appendChild(lessonElements[elementIndex]);
 							}
@@ -810,7 +810,7 @@ const ScheduleApp = function (text, variables) {
 								nextCell = nextRow.getElementsByTagName("td")[colNumber];
 								jQuery(nextCell).addClass("lessons");
 								lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
-								for (let elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+								for (var elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 								{
 									nextCell.appendChild(lessonElements[elementIndex]);
 								}
@@ -841,23 +841,23 @@ const ScheduleApp = function (text, variables) {
 			const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 			let colNumber = variables.isMobile ? visibleDay : 1;
 
-			for (const date in lessons)
+			for (var date in lessons)
 			{
 				if (!lessons.hasOwnProperty(date))
 				{
 					continue;
 				}
 
-				for (const block in lessons[date])
+				for (var block in lessons[date])
 				{
 					if (lessons[date].hasOwnProperty(block))
 					{
-						for (const lesson in lessons[date][block])
+						for (var lesson in lessons[date][block])
 						{
 							if (lessons[date][block].hasOwnProperty(lesson))
 							{
 								const lessonElements = createLesson(lessons[date][block][lesson], true);
-								for (let elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+								for (var elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 								{
 									const cell = rows[0].getElementsByTagName("td")[colNumber];
 									cell.appendChild(lessonElements[elementIndex]);
@@ -888,7 +888,7 @@ const ScheduleApp = function (text, variables) {
 			const lessons = [], scheduleID = schedule.getId(), scheduleResource = schedule.getResource();
 			ownTime = typeof ownTime === "undefined" ? false : ownTime;
 
-			for (const subject in data.subjects)
+			for (var subject in data.subjects)
 			{
 				if (!data.subjects.hasOwnProperty(subject))
 				{
@@ -1095,7 +1095,7 @@ const ScheduleApp = function (text, variables) {
 
 				// Multiple spans in case of semicolon separated module number for the design
 				const subjectNumbers = data.subjectNo.split(";");
-				for (let numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
+				for (var numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
 				{
 					if (data.subjectID)
 					{
@@ -1125,7 +1125,7 @@ const ScheduleApp = function (text, variables) {
 		function addDataElements(resource, outerElement, data, delta, className) {
 			const showX = "show" + resource.slice(0, 1).toUpperCase() + resource.slice(1) + "s";
 
-			for (const id in data)
+			for (var id in data)
 			{
 				if (data.hasOwnProperty(id))
 				{
@@ -1164,7 +1164,7 @@ const ScheduleApp = function (text, variables) {
 			}
 
 			lessons = userSchedule.getTable().getLessons();
-			for (let lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
+			for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
 			{
 				if (lessons[lessonIndex].dataset.ccmID === lesson.dataset.ccmID)
 				{
@@ -1194,7 +1194,7 @@ const ScheduleApp = function (text, variables) {
 		 * Removes all lessons
 		 */
 		function resetTable() {
-			for (let index = lessonElements.length - 1; index >= 0; --index)
+			for (var index = lessonElements.length - 1; index >= 0; --index)
 			{
 				lessonElements[index].parentNode.className = "";
 				lessonElements[index].parentNode.removeChild(lessonElements[index]);
@@ -1247,19 +1247,19 @@ const ScheduleApp = function (text, variables) {
 			{
 				// Function returns first found gridID
 				defaultGridID = (function () {
-					for (const day in lessonData)
+					for (var day in lessonData)
 					{
 						if (!lessonData.hasOwnProperty(day))
 						{
 							continue;
 						}
-						for (const time in lessonData[day])
+						for (var time in lessonData[day])
 						{
 							if (!lessonData[day].hasOwnProperty(time))
 							{
 								continue;
 							}
-							for (const lesson in lessonData[day][time])
+							for (var lesson in lessonData[day][time])
 							{
 								if (lessonData[day][time].hasOwnProperty(lesson) && lessonData[day][time][lesson].gridID)
 								{
@@ -1407,7 +1407,7 @@ const ScheduleApp = function (text, variables) {
 			descriptionSpan.innerHTML =	lessonMenuElement.parentNode.getElementsByClassName("comment-container")[0] ?
 				lessonMenuElement.parentNode.getElementsByClassName("comment-container")[0].innerText : "";
 
-			for (const teacherID in data.teachers)
+			for (var teacherID in data.teachers)
 			{
 				if (data.teachers.hasOwnProperty(teacherID) && data.teacherDeltas[teacherID] !== "removed")
 				{
@@ -1416,7 +1416,7 @@ const ScheduleApp = function (text, variables) {
 					personsDiv.appendChild(personSpan);
 				}
 			}
-			for (const roomID in data.rooms)
+			for (var roomID in data.rooms)
 			{
 				if (data.rooms.hasOwnProperty(roomID) && data.roomDeltas[roomID] !== "removed")
 				{
@@ -1425,7 +1425,7 @@ const ScheduleApp = function (text, variables) {
 					roomsDiv.appendChild(roomSpan);
 				}
 			}
-			for (const poolID in data.pools)
+			for (var poolID in data.pools)
 			{
 				if (data.pools.hasOwnProperty(poolID))
 				{
@@ -1552,7 +1552,7 @@ const ScheduleApp = function (text, variables) {
 		 * @return {Schedule|boolean}
 		 */
 		this.getScheduleById = function (id) {
-			for (let scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
+			for (var scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
 			{
 				if (this.schedules[scheduleIndex].getId() === id)
 				{
@@ -1669,7 +1669,7 @@ const ScheduleApp = function (text, variables) {
 			const selectedValue = fields[name].dataset.input === "static" ? getSelectedValues(name) : "";
 
 			// Go through all ScheduleForm fields and show/hide them, when they are related to given field
-			for (const id in fields)
+			for (var id in fields)
 			{
 				if (fields.hasOwnProperty(id))
 				{
@@ -1889,7 +1889,7 @@ const ScheduleApp = function (text, variables) {
 		function updateNextVisibleField() {
 			const toUpdate = {"next": "", "lesson": ""};
 
-			for (const name in fields)
+			for (var name in fields)
 			{
 				if (fields.hasOwnProperty(name))
 				{
@@ -1917,7 +1917,7 @@ const ScheduleApp = function (text, variables) {
 		 * Build the form by collecting backend configurations and handles the first field of schedule form
 		 */
 		(function () {
-			for (const variable in variables)
+			for (var variable in variables)
 			{
 				if (!variables.hasOwnProperty(variable))
 				{
@@ -1935,7 +1935,7 @@ const ScheduleApp = function (text, variables) {
 					// Convert values to strings, to compare them later with Ajax response
 					if (jQuery.isArray(values))
 					{
-						for (let valueIndex = 0; valueIndex < values.length; ++valueIndex)
+						for (var valueIndex = 0; valueIndex < values.length; ++valueIndex)
 						{
 							config.values.push("" + values[valueIndex]);
 						}
@@ -1995,7 +1995,7 @@ const ScheduleApp = function (text, variables) {
 
 		if (schedules && Object.keys(schedules).length > 0)
 		{
-			for (const id in schedules)
+			for (var id in schedules)
 			{
 				if (schedules.hasOwnProperty(id) && !scheduleObjects.getScheduleById(id))
 				{
@@ -2113,7 +2113,7 @@ const ScheduleApp = function (text, variables) {
 				scheduleObjects.schedules.forEach(function (schedule) {
 					const lessonElements = schedule.getTable().getLessons();
 
-					for (let lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
+					for (var lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
 					{
 						const lessonElement = lessonElements[lessonIndex];
 
@@ -2195,7 +2195,7 @@ const ScheduleApp = function (text, variables) {
 	function showSchedule(scheduleID) {
 		const scheduleElements = jQuery(".schedule-input");
 
-		for (let schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
+		for (var schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
 		{
 			if (scheduleElements[schedulesIndex].id === scheduleID + "-input")
 			{
@@ -2245,7 +2245,7 @@ const ScheduleApp = function (text, variables) {
 	function removeChildren(element) {
 		const children = element.children, maxIndex = children.length - 1;
 
-		for (let index = maxIndex; index >= 0; --index)
+		for (var index = maxIndex; index >= 0; --index)
 		{
 			element.removeChild(children[index]);
 		}
@@ -2264,7 +2264,7 @@ const ScheduleApp = function (text, variables) {
 
 		if (field && field.selectedIndex > -1)
 		{
-			for (let index = 0; index < options.length; ++index)
+			for (var index = 0; index < options.length; ++index)
 			{
 				if (options[index].selected)
 				{
@@ -2508,7 +2508,7 @@ const ScheduleApp = function (text, variables) {
 			else if (!(rows.hasClass("break-row")))
 			{
 				rows.not(":eq(0)").removeClass("hide");
-				for (const periods in timeGrid.periods)
+				for (var periods in timeGrid.periods)
 				{
 					if (!timeGrid.periods.hasOwnProperty(periods))
 					{
@@ -2574,7 +2574,7 @@ const ScheduleApp = function (text, variables) {
 		let maxZIndex = 1;
 		const elements = document.querySelectorAll(className);
 
-		for (let index = 0; index < elements.length; ++index)
+		for (var index = 0; index < elements.length; ++index)
 		{
 			const zIndex = parseInt(window.getComputedStyle(elements[index]).getPropertyValue("z-index"));
 			maxZIndex = Math.max(zIndex, maxZIndex);
