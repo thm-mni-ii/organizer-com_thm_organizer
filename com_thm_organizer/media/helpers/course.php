@@ -29,7 +29,7 @@ class THM_OrganizerHelperCourse
 	 */
 	public static function getCourse($lessonID = 0)
 	{
-		$lessonID = empty($lessonID) ? JFactory::getApplication()->input->getInt('lessonID', 0) : $lessonID;
+		$lessonID = JFactory::getApplication()->input->getInt('lessonID', $lessonID);
 
 		if (empty($lessonID))
 		{
@@ -41,13 +41,10 @@ class THM_OrganizerHelperCourse
 		$dbo   = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$select = 'pp.name as planningPeriodName';
-		$select .= ',l.id,s.id as subjectID';
-		$select .= ",s.name_$shortTag as name";
-		$select .= ',s.instructionLanguage';
-		$select .= ',s.max_participants as subjectP, l.max_participants as lessonP';
+		$query->select('pp.name as planningPeriodName')
+			->select('l.id, l.max_participants as lessonP')
+			->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP");
 
-		$query->select($select);
 		$query->from('#__thm_organizer_lessons AS l');
 		$query->leftJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
 		$query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ls.subjectID');

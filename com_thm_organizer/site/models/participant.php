@@ -46,7 +46,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 		$return = true;
 		foreach ($data["checked"] as $userID)
 		{
-			$status = $this->changeRegistrationState($userID, $data["lessonID"], $data["actions"]);
+			$status = $this->changeRegistrationState($userID, $data["lessonID"], $data["participantState"]);
 			$return = ($return AND $status);
 		}
 

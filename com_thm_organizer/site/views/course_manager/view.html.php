@@ -58,51 +58,44 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->modifyDocument();
-
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
+		$user       = JFactory::getUser();
+		$lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
 
-		$user = JFactory::getUser();
-
-		if (empty(JFactory::getApplication()->input->get("lessonID")))
+		if (empty($user->id) OR empty($lessonID))
 		{
 			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
 		}
 
-		if (!empty($user->id))
+		$this->items  = $this->get('Items');
+		$this->form   = $this->get('Form');
+		$this->course = THM_OrganizerHelperCourse::getCourse();
+
+		$dates = THM_OrganizerHelperCourse::getDates();
+
+		if (!empty($dates))
 		{
-			$this->items  = $this->get('Items');
-			$this->form   = $this->get('Form');
-			$this->course = THM_OrganizerHelperCourse::getCourse();
+			$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
+			$start      = JHtml::_('date', $dates[0]["schedule_date"], $dateFormat);
+			$end        = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
 
-			$dates = THM_OrganizerHelperCourse::getDates();
-
-			if (!empty($dates))
-			{
-				$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-				$start      = JHtml::_('date', $dates[0]["schedule_date"], $dateFormat);
-				$end        = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
-
-				$this->dateText = "$start - $end";
-			}
-
-			$state = $this->get('State');
-
-			$this->sortDirection = $state->get('list.direction');
-			$this->sortColumn    = $state->get('list.ordering');
-
-			if (!empty($this->course))
-			{
-				$this->courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->course["subjectID"]);
-				$this->curCap     = THM_OrganizerHelperCourse::getRegisteredStudents($this->course["id"]);
-			}
-
-			$params = ['view' => 'course_manager', 'id' => empty($this->course) ? 0 : $this->course["id"]];
-
-			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
-
-			$this->capacity = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
+			$this->dateText = "$start - $end";
 		}
+
+		$state = $this->get('State');
+
+		$this->sortDirection = $state->get('list.direction');
+		$this->sortColumn    = $state->get('list.ordering');
+
+		if (!empty($this->course))
+		{
+			$this->courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->course["subjectID"]);
+			$this->curCap     = THM_OrganizerHelperCourse::getRegisteredStudents($this->course["id"]);
+		}
+
+
+		$this->capacity = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
+
 
 		$this->isAdmin = $user->authorise('core.admin');
 		$authorized    = ($this->isAdmin OR $this->courseAuth);
@@ -113,6 +106,10 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 
 			return;
 		}
+
+		$params = ['view' => 'course_manager', 'id' => empty($this->course) ? 0 : $this->course["id"]];
+		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+		$this->modifyDocument();
 
 		parent::display($tpl);
 	}
@@ -125,8 +122,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 	private function modifyDocument()
 	{
 		JHtml::_('bootstrap.tooltip');
-		JHtml::_('behavior.framework', true);
 
-		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/prep_course.css');
+		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
 	}
 }

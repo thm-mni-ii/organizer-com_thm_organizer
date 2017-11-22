@@ -25,7 +25,7 @@
 					<h3 style="float: left;"><?php echo $this->lang->_("COM_THM_ORGANIZER_CIRCULAR") ?></h3>
 					<button type="button" class="btn btn-mini" data-dismiss="modal">
 						<span class="icon-cancel"></span></button>
-					<button id="submitBtn" type="submit" class="validate btn btn-mini">
+					<button type="submit" class="validate btn btn-mini">
 						<span class="icon-mail"></span> <?php echo $this->lang->_("JSUBMIT") ?></button>
 
 					<br>
@@ -59,6 +59,3 @@
 	</div>
 
 </div>
-
-<a href="#" class="btn btn-mini callback-modal" type="button" data-toggle="modal" data-target="#modal">
-	<span class="icon-mail"></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_CIRCULAR") ?></a>

@@ -1,0 +1,118 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a:hover {
+    color: #394a59;
+    cursor: pointer;
+}
+
+.toolbar {
+    position: relative;
+    float: right;
+}
+
+.course-manager-view .clear {
+    clear: both;
+}
+
+.course-manager-view .left, .course-manager-view .right {
+    display: inline-block;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+}
+
+.course-manager-view .left {
+    float: left;
+}
+
+.course-manager-view .right {
+    float: right;
+}
+
+.course-manager-view .course-descriptors {
+    margin-bottom: 1rem;
+}
+
+.course-manager-view .group {
+    font-size: 0;
+}
+
+.course-manager-view .group button, .course-manager-view .group a.btn {
+    border: 1px solid #77858c;
+    font-size: .9rem;
+    height: 1.5rem;
+    padding: .7rem .5rem .3rem .5rem;
+    vertical-align: top;
+}
+
+.course-manager-view .group button span:before, .course-manager-view .group a.btn span:before {
+    font-size: 1rem;
+}
+
+.course-manager-view .group button:hover span:before, .course-manager-view .group a.btn:hover span:before {
+    color: white;
+}
+
+.course-manager-view select#participantState {
+    height: 2.5rem;
+    margin: 0;
+    padding: 0 2rem 0 .4rem;
+    width: auto;
+}
+
+.course-manager-view .status-container button {
+    border-left: none;
+    height: 2.5rem;
+}
+
+.course-manager-view .course-toolbar button, .course-manager-view .course-toolbar a.btn {
+    margin-left: .4rem;
+}
+
+.course-manager-view .print-container {
+    display: inline-block;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+    font-size: .9rem;
+    position: relative;
+}
+
+.course-manager-view .print-container .dropdown-menu {
+    border: 1px solid #77858c;
+    border-radius: 0;
+    left: .4rem;
+}
+
+.course-manager-view .print-container li {
+    margin: 0;
+    padding: 0;
+}
+
+.course-manager-view .print-container li a {
+    padding: .25rem .4rem .15rem .4rem;
+}
+
+.course-manager-view .print-container li a:hover {
+    background-color: #dfe5e6;
+    background-image: none;
+    color: #394a59;
+}
+
+.course-manager-view .dropdown-menu, .course-manager-view .dropdown-toggle {
+    font-size: .9rem;
+}
+
+.course-manager-view .dropdown-menu a, .course-manager-view .dropdown-toggle a {
+    color: #394a59;
+}
+
+.course-manager-view .dropdown-menu span, .course-manager-view .dropdown-toggle span {
+    margin-right: .2rem;
+}
+
+.course-manager-view table {
+    margin-top: 1rem;
+}
+
+.course-manager-view table th a {
+    color: white;
+}
