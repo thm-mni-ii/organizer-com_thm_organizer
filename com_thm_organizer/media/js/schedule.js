@@ -58,7 +58,6 @@ jQuery(document).ready(function () {
 const ScheduleApp = function (text, variables) {
 	"use strict";
 
-	let calendar, form, lessonMenu, scheduleObjects; // Get initialised in constructor
 	const app = this,
 		ajaxSave = new XMLHttpRequest(),
 		futureDateButton = document.getElementById("future-date"),
@@ -75,7 +74,6 @@ const ScheduleApp = function (text, variables) {
 			text.SATURDAY_SHORT,
 			text.SUNDAY_SHORT
 		],
-
 		/**
 		 * RegExp for date format, specified by website configuration
 		 */
@@ -94,15 +92,13 @@ const ScheduleApp = function (text, variables) {
 
 			return new RegExp(pattern);
 		})();
+	let calendar, form, lessonMenu, scheduleObjects; // Get initialised in constructor
 
 	/**
 	 * Calendar class for a date input field with HTMLTableElement as calendar.
 	 * By choosing a date, schedules are updated.
 	 */
 	function Calendar() {
-		let activeDate = new Date(),
-			calendarIsVisible = false,
-			that = this; // Helper for inner functions;
 		const calendarDiv = document.getElementById("calendar"),
 			month = document.getElementById("display-month"),
 			months = [
@@ -120,15 +116,19 @@ const ScheduleApp = function (text, variables) {
 				text.DECEMBER
 			],
 			table = document.getElementById("calendar-table"),
+			that = this,
 			year = document.getElementById("display-year");
+		let activeDate = new Date(),
+			calendarIsVisible = false; // Helper for inner functions;
 
 		/**
 		 * Display calendar controls like changing to previous month.
 		 */
 		function showControls() {
 			const dateControls = document.getElementsByClassName("date-input")[0].getElementsByClassName("controls");
+			let controlIndex;
 
-			for (var controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
+			for (controlIndex = 0; controlIndex < dateControls.length; ++controlIndex)
 			{
 				dateControls[controlIndex].style.display = "inline";
 			}
@@ -148,8 +148,9 @@ const ScheduleApp = function (text, variables) {
 		function resetTable() {
 			const tableBody = table.getElementsByTagName("tbody")[0],
 				rowLength = table.getElementsByTagName("tr").length;
+			let rowIndex;
 
-			for (var rowIndex = 0; rowIndex < rowLength; ++rowIndex)
+			for (rowIndex = 0; rowIndex < rowLength; ++rowIndex)
 			{
 				// "-1" represents the last row
 				tableBody.deleteRow(-1);
@@ -161,13 +162,13 @@ const ScheduleApp = function (text, variables) {
 		 * Inspired by https://wiki.selfhtml.org/wiki/JavaScript/Anwendung_und_Praxis/Monatskalender
 		 */
 		function fillCalendar() {
-			let days = 31, day = 1, rowCount;
 			const generalMonth = new Date(activeDate.getFullYear(), activeDate.getMonth(), 1),
 				month = activeDate.getMonth() + 1,
 				months30days = [4, 6, 9, 11],
 				tableBody = table.getElementsByTagName("tbody")[0],
 				weekdayStart = generalMonth.getDay() || 7,
 				year = activeDate.getFullYear();
+			let cellIndex, days = 31, day = 1, rowCount, rowIndex;
 
 			// Compute count of days
 			if (months30days.indexOf(month) !== -1)
@@ -183,11 +184,11 @@ const ScheduleApp = function (text, variables) {
 			// Append rows to table
 			rowCount = Math.min(Math.ceil((days + generalMonth.getDay() - 1) / 7), 6);
 
-			for (var rowIndex = 0; rowIndex <= rowCount; rowIndex++)
+			for (rowIndex = 0; rowIndex <= rowCount; ++rowIndex)
 			{
 				const row = tableBody.insertRow(rowIndex);
 
-				for (var cellIndex = 0; cellIndex <= 6; cellIndex++)
+				for (cellIndex = 0; cellIndex <= 6; ++cellIndex)
 				{
 					const cell = row.insertCell(cellIndex);
 
@@ -198,7 +199,7 @@ const ScheduleApp = function (text, variables) {
 					else
 					{
 						addInsertDateButton(new Date(year, month - 1, day), cell);
-						day++;
+						++day;
 					}
 				}
 			}
@@ -325,12 +326,12 @@ const ScheduleApp = function (text, variables) {
 	 * @param {string} [optionalTitle] - optional title for directly linked schedules (e.g. teacher or room)
 	 */
 	function Schedule(source, IDs, optionalTitle) {
-		const id = (source === "user" ? source : IDs ? source + IDs : source + getSelectedValues(source, "-")),
+		const ajaxRequest = new XMLHttpRequest(),
+			id = (source === "user" ? source : IDs ? source + IDs : source + getSelectedValues(source, "-")),
 			resource = source,
 			resourceIDs = IDs ? IDs : source === "user" ? null : getSelectedValues(source, "-"),
 			that = this; // for inner helper functions
-		let ajaxRequest = new XMLHttpRequest(),
-			lessons = [],
+		let lessons = [],
 			table,
 
 			/**
@@ -374,7 +375,9 @@ const ScheduleApp = function (text, variables) {
 				{
 					(function () {
 						const options = programField.options;
-						for (var index = 0; index < options.length; ++index)
+						let index;
+
+						for (index = 0; index < options.length; ++index)
 						{
 							if (options[index].selected)
 							{
@@ -390,7 +393,9 @@ const ScheduleApp = function (text, variables) {
 				{
 					(function () {
 						const options = resourceField.options;
-						for (var index = 0; index < options.length; ++index)
+						let index;
+
+						for (index = 0; index < options.length; ++index)
 						{
 							if (options[index].selected)
 							{
@@ -479,7 +484,7 @@ const ScheduleApp = function (text, variables) {
 				 */
 				floatDiv.addEventListener("dragstart", function (event) {
 					const data = {"id": event.target.id, "x": event.pageX, "y": event.pageY};
-					event.dataTransfer.setData("text/plain", JSON.stringify(data));
+					event.dataTransfer.setData("text", JSON.stringify(data)); // only "text" for IE
 					event.dropEffect = "move";
 				});
 				floatDiv.addEventListener("click", function () {
@@ -587,6 +592,7 @@ const ScheduleApp = function (text, variables) {
 				body = document.createElement("tbody"),
 				initGrid = timeGrid.hasOwnProperty("periods") ? timeGrid : JSON.parse(variables.defaultGrid),
 				rowCount = Object.keys(initGrid.periods).length;
+			let firstDay, rowIndex;
 
 			// Create input field for selecting this schedule
 			input.className = "schedule-input";
@@ -604,11 +610,12 @@ const ScheduleApp = function (text, variables) {
 
 			table.appendChild(body);
 
-			for (var rowIndex = 0; rowIndex < rowCount; ++rowIndex)
+			for (rowIndex = 0; rowIndex < rowCount; ++rowIndex)
 			{
 				// Filled with rows and cells (with -1 for last position)
 				const row = body.insertRow(-1);
-				for (var firstDay = 0; firstDay < weekend; ++firstDay)
+
+				for (firstDay = 0; firstDay < weekend; ++firstDay)
 				{
 					row.insertCell(-1);
 				}
@@ -620,11 +627,12 @@ const ScheduleApp = function (text, variables) {
 		 */
 		function insertTableHead() {
 			const headerDate = getDateFieldsDateObject(), tr = table.createTHead().insertRow(0);
+			let headIndex;
 
 			// Set date to monday
 			headerDate.setDate(headerDate.getDate() - headerDate.getDay());
 
-			for (var headIndex = 0; headIndex < weekend; ++headIndex)
+			for (headIndex = 0; headIndex < weekend; ++headIndex)
 			{
 				const th = document.createElement("th");
 
@@ -646,13 +654,14 @@ const ScheduleApp = function (text, variables) {
 		function setGridTime() {
 			const hasPeriods = timeGrid.hasOwnProperty("periods"),
 				rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-			let period = 1;
+			let period = 1, row;
 
-			for (var row = 0; row < rows.length; ++row)
+			for (row = 0; row < rows.length; ++row)
 			{
-				if (!rows[row].className.match(/break-row/))
+				if (!rows[row].classList.contains("break-row"))
 				{
 					const timeCell = rows[row].getElementsByTagName("td")[0];
+
 					if (hasPeriods)
 					{
 						const startTime = timeGrid.periods[period].startTime.replace(/(\d{2})(\d{2})/, "$1:$2"),
@@ -678,7 +687,7 @@ const ScheduleApp = function (text, variables) {
 			const headItems = table.getElementsByTagName("thead")[0].getElementsByTagName("th"),
 				headerDate = getDateFieldsDateObject(),
 				day = headerDate.getDay();
-			let currentDay = timeGrid.startDay;
+			let currentDay = timeGrid.startDay, thElement;
 
 			// Set date to monday of the coming week
 			if (day === 0)
@@ -695,7 +704,7 @@ const ScheduleApp = function (text, variables) {
 			headItems[0].style.display = timeGrid.hasOwnProperty("periods") ? "" : "none";
 
 			// Fill tHead with days of week
-			for (var thElement = 1; thElement < headItems.length; ++thElement)
+			for (thElement = 1; thElement < headItems.length; ++thElement)
 			{
 				if (thElement === currentDay && currentDay <= timeGrid.endDay)
 				{
@@ -717,12 +726,14 @@ const ScheduleApp = function (text, variables) {
 		 */
 		function insertLessons(lessons) {
 			const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-			let blockEnd, blockStart, blockTimes, cell, lessonElements, nextBlock, nextCell, nextRow, showOwnTime,
-				tableStartTime, tableEndTime, colNumber = variables.isMobile ? visibleDay : 1;
+			let block, blockEnd, blockStart, blockTimes, cell,
+				colNumber = variables.isMobile ? visibleDay : 1,
+				date, elementIndex, lesson, lessonElements, nextBlock,
+				nextCell, nextRow, showOwnTime, tableStartTime, tableEndTime;
 
 			if (timeGrid.periods)
 			{
-				for (var date in lessons)
+				for (date in lessons)
 				{
 					if (!lessons.hasOwnProperty(date))
 					{
@@ -732,34 +743,32 @@ const ScheduleApp = function (text, variables) {
 					// gridIndex for grid, rowIndex for rows without break
 					let gridIndex = 1, rowIndex = 0;
 
-					for (var block in lessons[date])
+					for (block in lessons[date])
 					{
 						if (!lessons[date].hasOwnProperty(block))
 						{
 							continue;
 						}
 
+						blockTimes = block.match(/^(\d{4})-(\d{4})$/);
+						blockStart = blockTimes[1];
+						blockEnd = blockTimes[2];
+
 						// Prevent going into next grid, when this block fits into previous too
 						// e.g. block0 = 08:00 - 09:30, block1 = 08:00 - 10:00 o'clock
-						if (gridIndex > 1)
+						// tableEndTime from last iterated block
+						if (gridIndex > 1 && tableEndTime && blockStart <= tableEndTime)
 						{
-							// tableEndTime from last iterated block
-							if (tableEndTime && block.match(/^(\d{4})-(\d{4})$/)[1] <= tableEndTime)
+							--gridIndex;
+							do
 							{
-								--gridIndex;
-								do
-								{
-									--rowIndex;
-								}
-								while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
+								--rowIndex;
 							}
+							while (rows[rowIndex] && rows[rowIndex].classList.contains("break-row"));
 						}
 
 						tableStartTime = timeGrid.periods[gridIndex].startTime;
 						tableEndTime = timeGrid.periods[gridIndex].endTime;
-						blockTimes = block.match(/^(\d{4})-(\d{4})$/);
-						blockStart = blockTimes[1];
-						blockEnd = blockTimes[2];
 
 						// Block does not fit? go to next block
 						while (tableEndTime <= blockStart)
@@ -768,7 +777,7 @@ const ScheduleApp = function (text, variables) {
 							{
 								++rowIndex;
 							}
-							while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
+							while (rows[rowIndex] && rows[rowIndex].classList.contains("break-row"));
 
 							++gridIndex;
 							tableStartTime = timeGrid.periods[gridIndex].startTime;
@@ -783,7 +792,7 @@ const ScheduleApp = function (text, variables) {
 							jQuery(cell).addClass("occupied");
 						}
 
-						for (var lesson in lessons[date][block])
+						for (lesson in lessons[date][block])
 						{
 							if (!lessons[date][block].hasOwnProperty(lesson))
 							{
@@ -792,38 +801,45 @@ const ScheduleApp = function (text, variables) {
 
 							showOwnTime = tableStartTime !== blockStart || tableEndTime !== blockEnd;
 							lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
-							for (var elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+
+							for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 							{
 								cell.appendChild(lessonElements[elementIndex]);
 							}
+
 							jQuery(cell).addClass("lessons");
 
 							// Lesson fits into next cell too? Add a copy to this
 							nextBlock = timeGrid.periods[gridIndex + 1];
 							nextRow = rows[rowIndex + 1];
-							if (nextRow && nextRow.className.match(/break/))
+
+							if (nextRow && nextRow.classList.contains("break-row"))
 							{
 								nextRow = rows[rowIndex + 2];
 							}
+
 							if (nextRow && nextBlock && blockEnd > nextBlock.startTime)
 							{
 								nextCell = nextRow.getElementsByTagName("td")[colNumber];
 								jQuery(nextCell).addClass("lessons");
 								lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
-								for (var elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+
+								for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 								{
 									nextCell.appendChild(lessonElements[elementIndex]);
 								}
 							}
 						}
+
 						++gridIndex;
 						// Jump over break
 						do
 						{
 							++rowIndex;
 						}
-						while (rows[rowIndex] && rows[rowIndex].className.match(/break/));
+						while (rows[rowIndex] && rows[rowIndex].classList.contains("break-row"));
 					}
+
 					++colNumber;
 				}
 			}
@@ -839,27 +855,29 @@ const ScheduleApp = function (text, variables) {
 		 */
 		function insertLessonsWithoutPeriod(lessons) {
 			const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-			let colNumber = variables.isMobile ? visibleDay : 1;
+			let colNumber = variables.isMobile ? visibleDay : 1, date, block, lesson, elementIndex;
 
-			for (var date in lessons)
+			for (date in lessons)
 			{
 				if (!lessons.hasOwnProperty(date))
 				{
 					continue;
 				}
 
-				for (var block in lessons[date])
+				for (block in lessons[date])
 				{
 					if (lessons[date].hasOwnProperty(block))
 					{
-						for (var lesson in lessons[date][block])
+						for (lesson in lessons[date][block])
 						{
 							if (lessons[date][block].hasOwnProperty(lesson))
 							{
 								const lessonElements = createLesson(lessons[date][block][lesson], true);
-								for (var elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+
+								for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
 								{
 									const cell = rows[0].getElementsByTagName("td")[colNumber];
+
 									cell.appendChild(lessonElements[elementIndex]);
 								}
 							}
@@ -886,9 +904,11 @@ const ScheduleApp = function (text, variables) {
 		 */
 		function createLesson(data, ownTime) {
 			const lessons = [], scheduleID = schedule.getId(), scheduleResource = schedule.getResource();
+			let subject;
+
 			ownTime = typeof ownTime === "undefined" ? false : ownTime;
 
-			for (var subject in data.subjects)
+			for (subject in data.subjects)
 			{
 				if (!data.subjects.hasOwnProperty(subject))
 				{
@@ -1019,15 +1039,16 @@ const ScheduleApp = function (text, variables) {
 		function addActionButtons(lessonElement, data) {
 			const saveDiv = document.createElement("div"),
 				saveActionButton = document.createElement("button"),
-				questionActionButton = document.createElement("button"),
 				deleteDiv = document.createElement("div"),
 				deleteActionButton = document.createElement("button");
+			let questionActionButton; // Let because used twice
 
 			// Saving a lesson
 			saveActionButton.className = "icon-plus";
 			saveActionButton.addEventListener("click", function () {
 				handleLesson(lessonElement.dataset.ccmID, variables.PERIOD_MODE, true);
 			});
+			questionActionButton = document.createElement("button");
 			questionActionButton.className = "icon-question";
 			questionActionButton.addEventListener("click", function () {
 				lessonMenu.getSaveMenu(lessonElement, data);
@@ -1038,6 +1059,7 @@ const ScheduleApp = function (text, variables) {
 			lessonElement.appendChild(saveDiv);
 
 			// Deleting a lesson
+			questionActionButton = document.createElement("button");
 			deleteActionButton.className = "icon-delete";
 			deleteActionButton.addEventListener("click", function () {
 				handleLesson(lessonElement.dataset.ccmID, variables.PERIOD_MODE, false);
@@ -1048,7 +1070,6 @@ const ScheduleApp = function (text, variables) {
 			deleteDiv.className = "delete-lesson";
 			deleteDiv.appendChild(deleteActionButton);
 			deleteDiv.appendChild(questionActionButton);
-
 			lessonElement.appendChild(deleteDiv);
 		}
 
@@ -1067,6 +1088,7 @@ const ScheduleApp = function (text, variables) {
 			const openSubjectDetailsLink = function () {
 				window.open(variables.subjectDetailBase.replace(/&id=\d+/, "&id=" + data.subjectID), "_blank");
 			};
+			let numIndex;
 
 			if (data.name && data.shortName)
 			{
@@ -1084,7 +1106,7 @@ const ScheduleApp = function (text, variables) {
 
 				subjectNameElement.innerHTML = variables.isMobile ? data.shortName : data.name;
 				subjectNameElement.innerHTML += data.method ? " - " + data.method : "";
-				// Append whitespace to slashs for better word break
+				// Append whitespace to slashes for better word break
 				subjectNameElement.innerHTML = subjectNameElement.innerHTML.replace(/(\S)\/(\S)/g, "$1 / $2");
 				subjectNameElement.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
 				outerElement.appendChild(subjectNameElement);
@@ -1095,7 +1117,8 @@ const ScheduleApp = function (text, variables) {
 
 				// Multiple spans in case of semicolon separated module number for the design
 				const subjectNumbers = data.subjectNo.split(";");
-				for (var numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
+
+				for (numIndex = 0; numIndex < subjectNumbers.length; ++numIndex)
 				{
 					if (data.subjectID)
 					{
@@ -1106,6 +1129,7 @@ const ScheduleApp = function (text, variables) {
 					{
 						subjectNumberElement = document.createElement("span");
 					}
+
 					subjectNumberElement.className = "module";
 					subjectNumberElement.innerHTML = subjectNumbers[numIndex];
 					outerElement.appendChild(subjectNumberElement);
@@ -1124,8 +1148,9 @@ const ScheduleApp = function (text, variables) {
 		 */
 		function addDataElements(resource, outerElement, data, delta, className) {
 			const showX = "show" + resource.slice(0, 1).toUpperCase() + resource.slice(1) + "s";
+			let id;
 
-			for (var id in data)
+			for (id in data)
 			{
 				if (data.hasOwnProperty(id))
 				{
@@ -1138,9 +1163,8 @@ const ScheduleApp = function (text, variables) {
 
 					if (variables[showX])
 					{
-						nameElement.addEventListener("click", function () {
-							sendLessonRequest(resource, id, data[id].fullName || data[id]);
-						});
+						// outsourced to avoid closure in for-loop
+						addLessonEvent(nameElement, resource, id, data[id].fullName ? data[id].fullName : data[id]);
 					}
 
 					span.appendChild(nameElement);
@@ -1150,13 +1174,26 @@ const ScheduleApp = function (text, variables) {
 		}
 
 		/**
-		 * checks for a lesson if it is already saved in the users schedule
+		 * Adds an eventListener to the given element, which triggers a lessonRequest with further params
+		 * @param {HTMLElement} element
+		 * @param {string} resource
+		 * @param {string|int} id
+		 * @param {string} title
+		 */
+		function addLessonEvent(element, resource, id, title) {
+			element.addEventListener("click", function () {
+				sendLessonRequest(resource, id, title);
+			});
+		}
+
+		/**
+		 * Checks for a lesson if it is already saved in the users schedule
 		 * @param {HTMLElement} lesson
 		 * @return {boolean}
 		 */
 		function isSavedByUser(lesson) {
 			const userSchedule = scheduleObjects.getScheduleById("user");
-			let lessons;
+			let lessonIndex, lessons;
 
 			if (!lesson || !userSchedule)
 			{
@@ -1164,7 +1201,7 @@ const ScheduleApp = function (text, variables) {
 			}
 
 			lessons = userSchedule.getTable().getLessons();
-			for (var lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
+			for (lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
 			{
 				if (lessons[lessonIndex].dataset.ccmID === lesson.dataset.ccmID)
 				{
@@ -1187,14 +1224,16 @@ const ScheduleApp = function (text, variables) {
 				row = rows[rowIndex],
 				cell = row ? row.getElementsByTagName("td")[colIndex] : false;
 
-			return (cell && cell.className && cell.className.match(/lessons/));
+			return cell && cell.classList.contains("lessons");
 		}
 
 		/**
 		 * Removes all lessons
 		 */
 		function resetTable() {
-			for (var index = lessonElements.length - 1; index >= 0; --index)
+			let index;
+
+			for (index = lessonElements.length - 1; index >= 0; --index)
 			{
 				lessonElements[index].parentNode.className = "";
 				lessonElements[index].parentNode.removeChild(lessonElements[index]);
@@ -1224,6 +1263,7 @@ const ScheduleApp = function (text, variables) {
 						jQuery(heads[head]).removeClass("activeColumn");
 					}
 				}
+
 				cells = rows[row].getElementsByTagName("td");
 				for (cell = 1; cell < cells.length; ++cell)
 				{
@@ -1247,19 +1287,23 @@ const ScheduleApp = function (text, variables) {
 			{
 				// Function returns first found gridID
 				defaultGridID = (function () {
-					for (var day in lessonData)
+					let day, lesson, time;
+
+					for (day in lessonData)
 					{
 						if (!lessonData.hasOwnProperty(day))
 						{
 							continue;
 						}
-						for (var time in lessonData[day])
+
+						for (time in lessonData[day])
 						{
 							if (!lessonData[day].hasOwnProperty(time))
 							{
 								continue;
 							}
-							for (var lesson in lessonData[day][time])
+
+							for (lesson in lessonData[day][time])
 							{
 								if (lessonData[day][time].hasOwnProperty(lesson) && lessonData[day][time][lesson].gridID)
 								{
@@ -1288,6 +1332,7 @@ const ScheduleApp = function (text, variables) {
 		this.update = function (lessons, newTimeGrid) {
 			lessonData = lessons;
 			visibleDay = getDateFieldsDateObject().getDay();
+
 			if (newTimeGrid)
 			{
 				timeGrid = JSON.parse(variables.grids[getSelectedValues("grid")].grid);
@@ -1391,6 +1436,8 @@ const ScheduleApp = function (text, variables) {
 		 * @param {Object} data.teacherDeltas - changed teachers
 		 */
 		function setLessonData(data) {
+			let poolID, roomID, teacherID;
+
 			resetElements();
 			subjectSpan.innerHTML = data.name;
 
@@ -1404,10 +1451,10 @@ const ScheduleApp = function (text, variables) {
 				moduleSpan.innerHTML = data.subjectNo;
 			}
 
-			descriptionSpan.innerHTML =	lessonMenuElement.parentNode.getElementsByClassName("comment-container")[0] ?
+			descriptionSpan.innerHTML = lessonMenuElement.parentNode.getElementsByClassName("comment-container")[0] ?
 				lessonMenuElement.parentNode.getElementsByClassName("comment-container")[0].innerText : "";
 
-			for (var teacherID in data.teachers)
+			for (teacherID in data.teachers)
 			{
 				if (data.teachers.hasOwnProperty(teacherID) && data.teacherDeltas[teacherID] !== "removed")
 				{
@@ -1416,7 +1463,8 @@ const ScheduleApp = function (text, variables) {
 					personsDiv.appendChild(personSpan);
 				}
 			}
-			for (var roomID in data.rooms)
+
+			for (roomID in data.rooms)
 			{
 				if (data.rooms.hasOwnProperty(roomID) && data.roomDeltas[roomID] !== "removed")
 				{
@@ -1425,7 +1473,8 @@ const ScheduleApp = function (text, variables) {
 					roomsDiv.appendChild(roomSpan);
 				}
 			}
-			for (var poolID in data.pools)
+
+			for (poolID in data.pools)
 			{
 				if (data.pools.hasOwnProperty(poolID))
 				{
@@ -1552,7 +1601,9 @@ const ScheduleApp = function (text, variables) {
 		 * @return {Schedule|boolean}
 		 */
 		this.getScheduleById = function (id) {
-			for (var scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
+			let scheduleIndex;
+
+			for (scheduleIndex = 0; scheduleIndex < this.schedules.length; ++scheduleIndex)
 			{
 				if (this.schedules[scheduleIndex].getId() === id)
 				{
@@ -1628,6 +1679,7 @@ const ScheduleApp = function (text, variables) {
 			if (placeholder[field.id])
 			{
 				const option = document.createElement("option");
+
 				option.setAttribute("value", "");
 				option.setAttribute("disabled", "disabled");
 				option.setAttribute("selected", "selected");
@@ -1667,9 +1719,10 @@ const ScheduleApp = function (text, variables) {
 		 */
 		function showField(name) {
 			const selectedValue = fields[name].dataset.input === "static" ? getSelectedValues(name) : "";
+			let id;
 
 			// Go through all ScheduleForm fields and show/hide them, when they are related to given field
-			for (var id in fields)
+			for (id in fields)
 			{
 				if (fields.hasOwnProperty(id))
 				{
@@ -1701,6 +1754,7 @@ const ScheduleApp = function (text, variables) {
 			if (field.dataset.next !== "lesson")
 			{
 				const session = {};
+
 				session.name = field.id;
 				session.value = getSelectedValues(field.id);
 
@@ -1748,8 +1802,10 @@ const ScheduleApp = function (text, variables) {
 				{
 					sendFormRequest(session.name, session.value);
 				}
+
 				return true;
 			}
+
 			return false;
 		}
 
@@ -1829,6 +1885,7 @@ const ScheduleApp = function (text, variables) {
 				{
 					sendFormRequest(element.dataset.next);
 				}
+
 				setSession(element);
 			}
 		}
@@ -1848,6 +1905,7 @@ const ScheduleApp = function (text, variables) {
 			{
 				firstField = fields[config.name] || fields.category;
 			}
+
 			name = firstField.id;
 
 			if (config.name)
@@ -1888,8 +1946,9 @@ const ScheduleApp = function (text, variables) {
 		 */
 		function updateNextVisibleField() {
 			const toUpdate = {"next": "", "lesson": ""};
+			let name;
 
-			for (var name in fields)
+			for (name in fields)
 			{
 				if (fields.hasOwnProperty(name))
 				{
@@ -1909,6 +1968,7 @@ const ScheduleApp = function (text, variables) {
 					}
 				}
 			}
+
 			// non lesson-fields have priority, but in some cases there are only lesson-fields (teacher)
 			sendFormRequest(toUpdate.next || toUpdate.lesson);
 		}
@@ -1917,7 +1977,9 @@ const ScheduleApp = function (text, variables) {
 		 * Build the form by collecting backend configurations and handles the first field of schedule form
 		 */
 		(function () {
-			for (var variable in variables)
+			let valueIndex, variable;
+
+			for (variable in variables)
 			{
 				if (!variables.hasOwnProperty(variable))
 				{
@@ -1930,12 +1992,13 @@ const ScheduleApp = function (text, variables) {
 				if (idMatch)
 				{
 					const values = variables[variable];
+
 					config.name = idMatch[1].toLowerCase();
 
 					// Convert values to strings, to compare them later with Ajax response
 					if (jQuery.isArray(values))
 					{
-						for (var valueIndex = 0; valueIndex < values.length; ++valueIndex)
+						for (valueIndex = 0; valueIndex < values.length; ++valueIndex)
 						{
 							config.values.push("" + values[valueIndex]);
 						}
@@ -1979,6 +2042,7 @@ const ScheduleApp = function (text, variables) {
 	 */
 	function getAjaxUrl(task) {
 		let url = "&departmentIDs=";
+
 		url += variables.departmentID || getSelectedValues("department") || 0;
 		url += "&task=" + (task ? task : "getLessons");
 		url += typeof variables.showUnpublished === 'undefined' ?
@@ -1995,7 +2059,9 @@ const ScheduleApp = function (text, variables) {
 
 		if (schedules && Object.keys(schedules).length > 0)
 		{
-			for (var id in schedules)
+			let id;
+
+			for (id in schedules)
 			{
 				if (schedules.hasOwnProperty(id) && !scheduleObjects.getScheduleById(id))
 				{
@@ -2077,6 +2143,7 @@ const ScheduleApp = function (text, variables) {
 		{
 			jQuery(pastDateButton).hide();
 		}
+
 		if (futureDate)
 		{
 			futureDateButton.innerHTML = futureDateButton.innerHTML.replace(datePattern, futureDate.getPresentationFormat());
@@ -2112,8 +2179,9 @@ const ScheduleApp = function (text, variables) {
 				// TODO: "occupied" cells in schedule object ablegen und abfragen, statt auf Elemente zu warten, die von asynchronen requests abhängen
 				scheduleObjects.schedules.forEach(function (schedule) {
 					const lessonElements = schedule.getTable().getLessons();
+					let lessonIndex;
 
-					for (var lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
+					for (lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
 					{
 						const lessonElement = lessonElements[lessonIndex];
 
@@ -2167,6 +2235,7 @@ const ScheduleApp = function (text, variables) {
 		if (!variables.isMobile)
 		{
 			const popUpButton = document.createElement("button");
+
 			popUpButton.className = "pop-up-schedule";
 			popUpButton.innerHTML = "<span class='icon-move'></span>";
 			popUpButton.addEventListener("click", function () {
@@ -2178,6 +2247,7 @@ const ScheduleApp = function (text, variables) {
 		if (schedule.getId() !== "user")
 		{
 			const removeButton = document.createElement("button");
+
 			removeButton.className = "remove-schedule";
 			removeButton.innerHTML = "<span class='icon-remove'></span>";
 			removeButton.addEventListener("click", function () {
@@ -2185,6 +2255,7 @@ const ScheduleApp = function (text, variables) {
 			});
 			selectedItem.appendChild(removeButton);
 		}
+
 		showSchedule(schedule.getId());
 	}
 
@@ -2194,8 +2265,9 @@ const ScheduleApp = function (text, variables) {
 	 */
 	function showSchedule(scheduleID) {
 		const scheduleElements = jQuery(".schedule-input");
+		let schedulesIndex;
 
-		for (var schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
+		for (schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
 		{
 			if (scheduleElements[schedulesIndex].id === scheduleID + "-input")
 			{
@@ -2204,6 +2276,7 @@ const ScheduleApp = function (text, variables) {
 				jQuery("#" + scheduleID).addClass("shown");
 			}
 		}
+
 		disableTabs();
 	}
 
@@ -2244,8 +2317,9 @@ const ScheduleApp = function (text, variables) {
 	 */
 	function removeChildren(element) {
 		const children = element.children, maxIndex = children.length - 1;
+		let index;
 
-		for (var index = maxIndex; index >= 0; --index)
+		for (index = maxIndex; index >= 0; --index)
 		{
 			element.removeChild(children[index]);
 		}
@@ -2264,13 +2338,16 @@ const ScheduleApp = function (text, variables) {
 
 		if (field && field.selectedIndex > -1)
 		{
-			for (var index = 0; index < options.length; ++index)
+			let index;
+
+			for (index = 0; index < options.length; ++index)
 			{
 				if (options[index].selected)
 				{
 					result.push(options[index].value);
 				}
 			}
+
 			return result.join(separator || ",");
 		}
 
@@ -2283,9 +2360,9 @@ const ScheduleApp = function (text, variables) {
 	 * @param {string} [step="week"] - defines how big the step is as "day", "week" or "month"
 	 */
 	function changeDate(increase, step) {
-		const stepString = step || "week",
-			stepInt = stepString === "week" ? 7 : 1,
-			newDate = getDateFieldsDateObject();
+		const newDate = getDateFieldsDateObject(),
+			stepString = step || "week",
+			stepInt = stepString === "week" ? 7 : 1;
 
 		if (increase)
 		{
@@ -2377,6 +2454,7 @@ const ScheduleApp = function (text, variables) {
 			selectedSchedulesTab.parent("li").addClass("active");
 			jQuery("#selected-schedules").addClass("active");
 		}
+
 		jQuery("#tab-schedule-form").parent("li").removeClass("active");
 		jQuery("#schedule-form").removeClass("active");
 	}
@@ -2392,6 +2470,7 @@ const ScheduleApp = function (text, variables) {
 			formTab.parent("li").addClass("active");
 			jQuery("#schedule-form").addClass("active");
 		}
+
 		jQuery("#tab-selected-schedules").parent("li").removeClass("active");
 		jQuery("#selected-schedules").removeClass("active");
 	}
@@ -2435,7 +2514,8 @@ const ScheduleApp = function (text, variables) {
 		if (tabID)
 		{
 			const allTabs = jQuery(".tabs-toggle");
-			for (i = 0; i < allTabs.length; i++)
+
+			for (i = 0; i < allTabs.length; ++i)
 			{
 				if (tabID !== allTabs[i].id)
 				{
@@ -2447,7 +2527,7 @@ const ScheduleApp = function (text, variables) {
 		// No schedule selected - disable all but schedule form
 		else if (scheduleInput.length === 1 && scheduleInput.is("#default-input"))
 		{
-			for (i = 0; i < tabsToDisable.length; i++)
+			for (i = 0; i < tabsToDisable.length; ++i)
 			{
 				tabsToDisable[i].attr("data-toggle", "");
 				tabsToDisable[i].parent("li").addClass("disabled-tab");
@@ -2456,7 +2536,7 @@ const ScheduleApp = function (text, variables) {
 		// Activates all tabs
 		else
 		{
-			for (i = 0; i < tabsToDisable.length; i++)
+			for (i = 0; i < tabsToDisable.length; ++i)
 			{
 				tabsToDisable[i].attr("data-toggle", "tab");
 				tabsToDisable[i].parent("li").removeClass("disabled-tab");
@@ -2484,12 +2564,13 @@ const ScheduleApp = function (text, variables) {
 
 		tables.each(function (index, table) {
 			const rows = jQuery(table).find("tbody").find("tr");
-			let endFirst, startSecond;
+			let endFirst, periods, startSecond;
 
 			if (!timeGrid.hasOwnProperty("periods"))
 			{
 				jQuery(".break").closest("tr").remove();
 				rows.not(":eq(0)").addClass("hide");
+
 				return true;
 			}
 
@@ -2508,7 +2589,8 @@ const ScheduleApp = function (text, variables) {
 			else if (!(rows.hasClass("break-row")))
 			{
 				rows.not(":eq(0)").removeClass("hide");
-				for (var periods in timeGrid.periods)
+
+				for (periods in timeGrid.periods)
 				{
 					if (!timeGrid.periods.hasOwnProperty(periods))
 					{
@@ -2544,7 +2626,7 @@ const ScheduleApp = function (text, variables) {
 	 * @param {DataTransfer|Object} event.dataTransfer - drag data store
 	 */
 	function handleDrops(event) {
-		const data = JSON.parse(event.dataTransfer.getData("text/plain")),
+		const data = JSON.parse(event.dataTransfer.getData("text")), // only "text" for IE
 			element = document.getElementById(data.id),
 			left = window.getComputedStyle(element).getPropertyValue("left"),
 			top = window.getComputedStyle(element).getPropertyValue("top");
@@ -2571,14 +2653,16 @@ const ScheduleApp = function (text, variables) {
 	 * @returns {number}
 	 */
 	function getHighestZIndexForClass(className) {
-		let maxZIndex = 1;
 		const elements = document.querySelectorAll(className);
+		let index, maxZIndex = 1;
 
-		for (var index = 0; index < elements.length; ++index)
+		for (index = 0; index < elements.length; ++index)
 		{
 			const zIndex = parseInt(window.getComputedStyle(elements[index]).getPropertyValue("z-index"));
+
 			maxZIndex = Math.max(zIndex, maxZIndex);
 		}
+
 		return ++maxZIndex;
 	}
 
@@ -2594,6 +2678,7 @@ const ScheduleApp = function (text, variables) {
 	 */
 	this.updateSchedule = function (id) {
 		const schedule = scheduleObjects.getScheduleById(id);
+
 		if (schedule)
 		{
 			schedule.requestUpdate();
@@ -2624,6 +2709,7 @@ const ScheduleApp = function (text, variables) {
 	 */
 	this.nextDateEventHandler = function (event) {
 		const date = new Date(event.target.dataset.date);
+
 		this.dateField.value = date.getPresentationFormat();
 		window.sessionStorage.setItem("scheduleDate", date.toJSON());
 		nextDateSelection.style.display = "none";
@@ -2749,13 +2835,27 @@ const ScheduleApp = function (text, variables) {
 	};
 
 	/**
+	 * Very simple alternative for internet explorers missing method Array.includes
+	 */
+	if (!Array.prototype.includes)
+	{
+		/**
+		 * @param {mixed} element
+		 * @returns {boolean}
+		 */
+		Array.prototype.includes = function (element) {
+			return this.indexOf(element) >= 0;
+		};
+	}
+
+	/**
 	 * "Constructor"
 	 * Adds EventListener and initialise menus, schedules, tabs, calendar and form
 	 */
 	(function () {
-		let startX, startY;
 		const sessionDate = window.sessionStorage.getItem("scheduleDate"),
 			date = sessionDate ? new Date(sessionDate) : new Date();
+		let startX, startY;
 
 		app.dateField.value = date.getPresentationFormat();
 		calendar = new Calendar();
@@ -2771,7 +2871,7 @@ const ScheduleApp = function (text, variables) {
 
 		changePositionOfDateInput();
 		disableTabs();
-		selectSessionGrid();
+		selectSessionGrid(); // TODO: wird vom default grid der session schedules überschrieben (weil asynchron)
 		loadSessionSchedules();
 
 		/**
@@ -2781,6 +2881,7 @@ const ScheduleApp = function (text, variables) {
 		 */
 		scheduleWrapper.addEventListener("touchstart", function (event) {
 			const touch = event.changedTouches[0];
+
 			startX = parseInt(touch.pageX, 10);
 			startY = parseInt(touch.pageY, 10);
 		}, {passive: true}); // To say the browser, that we not 'prevent default' (and suppress warnings)
@@ -2798,7 +2899,7 @@ const ScheduleApp = function (text, variables) {
 					changeDate(true, variables.isMobile ? "day" : "week");
 					app.updateSchedule();
 				}
-				if (distX > minDist)
+				else if (distX > minDist)
 				{
 					event.stopPropagation();
 					changeDate(false, variables.isMobile ? "day" : "week");
@@ -2845,12 +2946,9 @@ const ScheduleApp = function (text, variables) {
 
 		if (jQuery(".controls").css("display") !== "none")
 		{
-			if (calendar.isVisible())
+			if (calendar.isVisible() && !calendarPopup.is(e.target) && calendarPopup.has(e.target).length === 0)
 			{
-				if (!calendarPopup.is(e.target) && calendarPopup.has(e.target).length === 0)
-				{
-					calendar.hideCalendar();
-				}
+				calendar.hideCalendar();
 			}
 		}
 	});
