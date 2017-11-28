@@ -10,8 +10,8 @@
  */
 
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
-$loginRoute    = JRoute::_('index.php?option=com_users&view=login', false, 2);
-$registerRoute = JRoute::_('index.php?option=com_users&view=registration', false, 2);
+$loginRoute    = JRoute::_('index.php?option=com_users&view=login&tmpl=component', false, 1);
+$registerRoute = JRoute::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
 $profileRoute  = JRoute::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->shortTag}");
 
 ?>
@@ -23,30 +23,14 @@ $profileRoute  = JRoute::_("index.php?option=com_thm_organizer&view=participant_
 		} ?>
 	</div>
 </div>
-<div class="course-list-view">
+<div class="course-list-view uses-login">
 	<h1><?php echo $this->lang->_("COM_THM_ORGANIZER_PREP_COURSES_HEADER") ?></h1>
 
 	<?php if (empty(JFactory::getUser()->id)): ?>
 		<div class="tbox-yellow">
 			<p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
-			<ul>
-				<li>
-					<a onclick="<?php echo $casURL; ?>">
-						<?php echo $this->lang->_('COM_THM_ORGANIZER_LOGIN_THM'); ?><span class="icon-apply"></span>
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo $loginRoute; ?>">
-						<?php echo $this->lang->_('COM_THM_ORGANIZER_LOGIN_LOCAL'); ?><span class="icon-apply"></span>
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo $registerRoute; ?>">
-						<?php echo $this->lang->_('COM_THM_ORGANIZER_REGISTER_LOCAL'); ?><span
-								class="icon-user-plus"></span>
-					</a>
-				</li>
-			</ul>
+			<?php echo JHtml::_('content.prepare', '{loadposition bound_login}'); ?>
+			<div class="clear"></div>
 		</div>
 	<?php else: ?>
 		<div class="toolbar">
@@ -54,6 +38,7 @@ $profileRoute  = JRoute::_("index.php?option=com_thm_organizer&view=participant_
 				<a class='btn btn-max' href='<?php echo $profileRoute; ?>'>
 					<span class='icon-address'></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_USER_PROFILE"); ?>
 				</a>
+				<?php echo JHtml::_('content.prepare', '{loadposition bound_login}'); ?>
 			</div>
 		</div>
 	<?php endif; ?>

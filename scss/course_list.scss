@@ -1,5 +1,7 @@
 @import 'variables';
 @import '_language_switch';
+@import '_login';
+
 
 .toolbar {
   position: relative;
@@ -7,6 +9,10 @@
 }
 
 .course-list-view {
+
+  .clear {
+    clear: both;
+  }
 
   .tbox-yellow {
 
@@ -48,5 +54,9 @@
 
   .disabled {
     opacity: .6;
+  }
+
+  a.btn:hover span:before {
+      color: $foreground-color;
   }
 }

@@ -270,6 +270,20 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_participants` (
+  `id`        INT(11)          NOT NULL,
+  `forename`  VARCHAR(255)     NOT NULL DEFAULT '',
+  `surname`   VARCHAR(255)     NOT NULL DEFAULT '',
+  `city`      VARCHAR(60)      NOT NULL DEFAULT '',
+  `address`   VARCHAR(60)      NOT NULL DEFAULT '',
+  `zip_code`  INT(11)          NOT NULL DEFAULT 0,
+  `programID` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_planning_periods` (
   `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name`      VARCHAR(10)      NOT NULL,
@@ -376,22 +390,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
   KEY `externalID` (`externalID`),
   KEY `fieldID` (`fieldID`),
   KEY `pools_departmentid_fk` (`departmentID`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_data` (
-  `id`           INT(11)          NOT NULL AUTO_INCREMENT,
-  `userID`       INT(11)          NOT NULL,
-  `forename`     VARCHAR(255)      NOT NULL DEFAULT '',
-  `surname`      VARCHAR(255)      NOT NULL DEFAULT '',
-  `city`         VARCHAR(60)      NOT NULL DEFAULT '',
-  `address`      VARCHAR(60)      NOT NULL DEFAULT '',
-  `zip_code`     INT(11)          NOT NULL DEFAULT 0,
-  `programID`    INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `userID` (`userID`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -752,6 +750,14 @@ ALTER TABLE `#__thm_organizer_monitors`
   ON DELETE SET NULL
   ON UPDATE CASCADE;
 
+ALTER TABLE `#__thm_organizer_participants`
+  ADD CONSTRAINT `participants_userid_fk` FOREIGN KEY (`id`) REFERENCES `#__users` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `participants_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
 ALTER TABLE `#__thm_organizer_plan_pool_publishing`
   ADD CONSTRAINT `plan_pool_publishing_planpoolid_fk` FOREIGN KEY (`planPoolID`) REFERENCES `#__thm_organizer_plan_pools` (`id`)
   ON DELETE CASCADE
@@ -791,14 +797,6 @@ ALTER TABLE `#__thm_organizer_pools`
   ON UPDATE CASCADE,
   ADD CONSTRAINT `pools_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
   ON DELETE SET NULL
-  ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_user_data`
-  ADD CONSTRAINT `user_data_userid_fk` FOREIGN KEY (`userID`) REFERENCES `#__users` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_data_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
-  ON DELETE CASCADE
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_prerequisites`

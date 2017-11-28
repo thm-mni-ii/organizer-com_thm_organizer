@@ -4,14 +4,6 @@
            type="hidden"
            default="0"/>
 
-    <field name="userID"
-           type="hidden"
-           default="0"/>
-
-    <field name="cid"
-           type="hidden"
-           default="0"/>
-
     <field name="forename"
            type="text"
            id="forename"

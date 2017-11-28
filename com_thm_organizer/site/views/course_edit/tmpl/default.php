@@ -21,14 +21,13 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 
-	<form action="index.php?option=com_thm_organizer&task=prep_course_edit.save"
+	<form action="index.php?option=com_thm_organizer&task=course_edit.save"
 		  enctype="multipart/form-data"
 		  method="post"
 		  name="adminForm"
 		  id="item-form"
 		  class="form-horizontal">
 
-		<input type="hidden" name="id" value=""/>
 		<input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
 		<input type='hidden' name='redirect' value="course_manager"/>
 

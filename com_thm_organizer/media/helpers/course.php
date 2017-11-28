@@ -78,7 +78,7 @@ class THM_OrganizerHelperCourse
 	 */
 	public static function getDates($lessonID = 0)
 	{
-		$lessonID = empty($lessonID) ? JFactory::getApplication()->input->getInt('lessonID', 0) : $lessonID;
+		$lessonID = JFactory::getApplication()->input->getInt('lessonID', $lessonID);
 
 		if (empty($lessonID))
 		{
@@ -215,7 +215,7 @@ class THM_OrganizerHelperCourse
 	 *
 	 * @return array containing the user specific information or empty on error
 	 */
-	public static function getRegistrationState($lessonID = 0, $userID = 0)
+	public static function getUserState($lessonID = 0, $userID = 0)
 	{
 		$userID   = empty($userID) ? JFactory::getUser()->id : $userID;
 		$lessonID = empty($lessonID) ? JFactory::getApplication()->input->getInt('lessonID', 0) : $lessonID;

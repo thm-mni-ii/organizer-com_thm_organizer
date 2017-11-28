@@ -25,7 +25,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewPrep_Course_Edit extends JViewLegacy
+class THM_OrganizerViewCourse_Edit extends JViewLegacy
 {
 	public $item;
 
@@ -66,7 +66,7 @@ class THM_OrganizerViewPrep_Course_Edit extends JViewLegacy
 		}
 
 		$params                 = [
-			'view'     => 'prep_course_edit',
+			'view'     => 'course_edit',
 			'id'       => empty($this->form->getValue("id")) ? 0 : $this->form->getValue("id"),
 			'lessonID' => $this->lessonID
 		];

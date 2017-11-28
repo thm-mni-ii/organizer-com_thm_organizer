@@ -32,9 +32,9 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 		$query  = $this->_db->getQuery(true);
 		$userID = JFactory::getUser()->id;
 
-		$query->select('u.id as userID ,ud.id, ud.address, ud.zip_code, ud.city, ud.programID, ud.forename, ud.surname');
+		$query->select('u.id, p.address, p.zip_code, p.city, p.programID, p.forename, p.surname');
 		$query->from('#__users AS u');
-		$query->leftJoin('#__thm_organizer_user_data AS ud ON ud.userID = u.id');
+		$query->innerJoin('#__thm_organizer_participants AS p ON p.id = u.id');
 		$query->where("u.id = '$userID'");
 
 		$this->_db->setQuery($query);
@@ -42,15 +42,16 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 		try
 		{
 			$item = $this->_db->loadObject();
+
 		}
 		catch (Exception $exc)
 		{
-			JFactory::getApplication()->enqueueMessage(THM_OrganizerHelperLanguage::getLanguage()->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
 			return new stdClass;
 		}
 
-		return empty($item->userID) ? new stdClass : $item;
+		return empty($item) ? new stdClass : $item;
 	}
 
 	/**
@@ -79,6 +80,8 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		return $this->getItem();
+		$item = $this->getItem();
+		$item->id = JFactory::getUser()->id;
+		return $item;
 	}
 }

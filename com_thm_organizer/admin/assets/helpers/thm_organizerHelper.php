@@ -40,20 +40,9 @@ class THM_OrganizerHelper
 			$task = $handler[0];
 		}
 
-		if (!empty($controller) AND file_exists($basePath . '/controllers/' . $controller . '.php'))
-		{
-			/** @noinspection PhpIncludeInspection */
-			require_once $basePath . '/controllers/' . $controller . '.php';
-			$className = 'THM_OrganizerController' . $controller;
-		}
-		else
-		{
-			/** @noinspection PhpIncludeInspection */
-			require_once $basePath . '/controller.php';
-			$className = 'THM_OrganizerController';
-		}
+		require_once $basePath . '/controller.php';
 
-		$controllerObj = new $className;
+		$controllerObj = new THM_OrganizerController;
 		$controllerObj->execute($task);
 		$controllerObj->redirect();
 	}

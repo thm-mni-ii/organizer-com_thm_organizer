@@ -84,7 +84,10 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 	private function modifyDocument()
 	{
 		JHtml::_('bootstrap.tooltip');
-		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_list.css');
+		JHTML::_('behavior.modal');
+
+		$document = JFactory::getDocument();
+		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_list.css');
 	}
 
 	/**

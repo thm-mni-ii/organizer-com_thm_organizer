@@ -38,10 +38,7 @@ div.language-switches a:hover {
 }
 
 .course-manager-view .group button, .course-manager-view .group a.btn {
-    border: 1px solid #77858c;
     font-size: .9rem;
-    height: 1.5rem;
-    padding: .7rem .5rem .3rem .5rem;
     vertical-align: top;
 }
 
@@ -54,15 +51,13 @@ div.language-switches a:hover {
 }
 
 .course-manager-view select#participantState {
-    height: 2.5rem;
     margin: 0;
-    padding: 0 2rem 0 .4rem;
+    padding-right: 2rem;
     width: auto;
 }
 
 .course-manager-view .status-container button {
-    border-left: none;
-    height: 2.5rem;
+    margin-left: .2rem;
 }
 
 .course-manager-view .course-toolbar button, .course-manager-view .course-toolbar a.btn {

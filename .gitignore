@@ -1,16 +1,19 @@
-# IDE generated files  #
-########################
+# IDE Generated Files #
+#######################
 .buildpath
 .project
 .settings
 .idea
 nbproject/
-com_thm_organizer/admin/com_thm_organizer.xml
 atlassian-ide-plugin.xml
 
-# OS generated files   #
-########################
+# OS Generated Files #
+######################
 Thumbs.db
 .*~
 .directory
 .zip
+
+# Specific Local Files #
+########################
+cas_dif

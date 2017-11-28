@@ -30,7 +30,7 @@ $eMailHeader      = JHTML::_('grid.sort', $this->lang->_('JGLOBAL_EMAIL'), 'emai
 $statusDateHeader = JHTML::_('grid.sort', $this->lang->_('COM_THM_ORGANIZER_STATUS_DATE'), 'status_date', $this->sortDirection, $this->sortColumn);
 $statusHeader     = JHTML::_('grid.sort', $this->lang->_('JSTATUS'), 'status', $this->sortDirection, $this->sortColumn);
 
-$subjectEditURL = "$baseURL&view=prep_course_edit&id={$this->course["subjectID"]}&lessonID={$this->course["id"]}";
+$subjectEditURL = "$baseURL&view=course_edit&id={$this->course["subjectID"]}&lessonID={$this->course["id"]}";
 
 $registeredText = $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
@@ -86,34 +86,13 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 			<?php if ($editAuth): ?>
 				<a href="<?php echo JRoute::_($subjectEditURL, false, 2); ?>" class="btn btn-mini" type="button">
 					<span class="icon-edit"></span>
-					<?php echo $this->lang->_("JACTION_EDIT") ?>
+					<?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_COURSE") ?>
 				</a>
 			<?php endif; ?>
 
 			<a href="#" class="btn btn-mini callback-modal" type="button" data-toggle="modal" data-target="#modal">
 				<span class="icon-mail"></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_CIRCULAR") ?>
 			</a>
-
-			<?php if ($this->isAdmin): ?>
-				<script>
-					function deleteStudents(s)
-					{
-						if (window.confirm(s))
-						{
-							window.location.href = "<?php echo JRoute::_(
-								'index.php?option=com_thm_organizer&task=participant.clear' .
-								'&lessonID=' . $this->course["id"], false, 2
-							); ?>";
-						}
-					}
-				</script>
-
-
-				<a onclick="deleteStudents('<?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_CLEAR_COURSE_VERIFY") ?>')"
-				   class="btn btn-mini" type="button"> <span class="icon-warning"></span>
-					<?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_CLEAR_COURSE") ?>
-				</a>
-			<?php endif; ?>
 
 			<div class="print-container">
 				<a class="dropdown-toggle print btn" data-toggle="dropdown" href="#">
@@ -144,7 +123,7 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 		<table class="table table-striped">
 			<thead>
 			<tr>
-				<th><?php echo JHtml::_('grid.checkall'); ?></th>
+				<th></th>
 				<th><?php echo $nameHeader; ?></th>
 				<th><?php echo $programHeader; ?></th>
 				<th><?php echo $eMailHeader; ?></th>
@@ -155,7 +134,7 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 			<tbody>
 			<?php foreach ($this->items as $item): ?>
 				<tr>
-					<td><?php JHtml::_('grid.id', $index, $item->cid); ?></td>
+					<td><input title='' type='checkbox' name='checked[]' value='<?php echo $item->cid; ?>'/></td>
 					<td><?php echo $item->name; ?></td>
 					<td><?php echo $item->program; ?></td>
 					<td><?php echo $item->email; ?></td>

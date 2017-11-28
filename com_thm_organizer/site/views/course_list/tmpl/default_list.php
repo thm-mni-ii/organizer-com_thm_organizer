@@ -51,7 +51,7 @@ foreach ($this->items as $item)
 		}
 		else
 		{
-			$regState = THM_OrganizerHelperCourse::getRegistrationState($item->lessonID);
+			$regState = THM_OrganizerHelperCourse::getUserState($item->lessonID);
 
 			if ($item->expired)
 			{

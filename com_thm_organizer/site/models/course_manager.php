@@ -46,15 +46,15 @@ class THM_OrganizerModelCourse_Manager extends JModelList
 
 		$query = $this->_db->getQuery(true);
 
-		$select = 'CONCAT(ud.surname, ", ", ud.forename) as name, ul.*, ud.*';
+		$select = 'CONCAT(pt.surname, ", ", pt.forename) as name, ul.*, pt.*';
 		$select .= ',u.email, u.username, u.id as cid';
 		$select .= ",p.name_$shortTag as program";
 
 		$query->select($select);
 		$query->from('#__thm_organizer_user_lessons as ul');
 		$query->leftJoin('#__users as u on u.id = ul.userID');
-		$query->leftJoin('#__thm_organizer_user_data as ud on ud.userID = ul.userID');
-		$query->leftJoin('#__thm_organizer_programs as p on p.id = ud.programID');
+		$query->leftJoin('#__thm_organizer_participants as pt on pt.id = ul.userID');
+		$query->leftJoin('#__thm_organizer_programs as p on p.id = pt.programID');
 		$query->where("ul.lessonID = '$lessonID'");
 		$query->order(
 			$this->getState('list.ordering', 'user_date') . ' ' .

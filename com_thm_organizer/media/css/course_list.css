@@ -7,9 +7,72 @@ div.language-switches a:hover {
     cursor: pointer;
 }
 
+div div.externallogin {
+    display: none;
+}
+
+div#main .uses-login .moduletable {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+div#main .uses-login .moduletable form {
+    margin-bottom: 0;
+}
+
+div#main .uses-login .moduletable button, div#main .uses-login .moduletable .btn {
+    background-color: white;
+}
+
+div#main .uses-login .moduletable button:hover, div#main .uses-login .moduletable .btn:hover {
+    background-color: #4a5c66;
+}
+
+div#main .uses-login .logout-button {
+    margin-top: 0;
+}
+
+div#main .uses-login .userdata {
+    position: relative;
+}
+
+div#main .uses-login .control-group {
+    clear: left;
+    display: inline-block;
+    float: left;
+}
+
+div#main .uses-login .input-prepend input {
+    width: 12rem;
+}
+
+div#main .uses-login #login-form ul.unstyled {
+    clear: left;
+    display: block;
+    margin-top: 0;
+    min-width: 15rem;
+    float: left;
+}
+
+div#main .uses-login #login-form ul.unstyled li {
+    list-style: none;
+}
+
+@media (min-width: 768px) {
+    div#main .uses-login .unstyled {
+        left: 15rem;
+        position: absolute;
+        top: 0;
+    }
+}
+
 .toolbar {
     position: relative;
     float: right;
+}
+
+.course-list-view .clear {
+    clear: both;
 }
 
 .course-list-view .tbox-yellow {
@@ -51,4 +114,8 @@ div.language-switches a:hover {
 
 .course-list-view .disabled {
     opacity: .6;
+}
+
+.course-list-view a.btn:hover span:before {
+    color: white;
 }

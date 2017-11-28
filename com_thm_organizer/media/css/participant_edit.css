@@ -1,0 +1,21 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a:hover {
+    color: #394a59;
+    cursor: pointer;
+}
+
+.toolbar {
+    position: relative;
+    float: right;
+}
+
+.header-introtext, .header-subtext {
+    font-size: 1.3rem;
+}
+
+.tbox-yellow {
+    margin-bottom: 1.5rem;
+}

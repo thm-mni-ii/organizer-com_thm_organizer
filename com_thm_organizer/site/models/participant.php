@@ -56,19 +56,19 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	/**
 	 * Saves user information to database
 	 *
-	 * @param array $data with form data
-	 *
 	 * @return boolean true on success, false on error
 	 */
-	public function save($data)
+	public function save()
 	{
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
+
 		if (empty($data))
 		{
 			return false;
 		}
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
-		$table = JTable::getInstance('user_data', 'THM_OrganizerTable');
+		$table = JTable::getInstance('participants', 'THM_OrganizerTable');
 
 		if (empty($table))
 		{
@@ -77,8 +77,49 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 
 		$table->load($data["id"]);
 
-		return $table->save($data);
+		if (empty($table->id))
+		{
+			$initial = true;
+			$values  = '';
+
+			foreach ($data as $value)
+			{
+				if ($initial)
+				{
+					$initial = false;
+				}
+				else
+				{
+					$values  .= ', ';
+				}
+
+				$values .= $this->_db->q($value);
+			}
+
+			$query = $this->_db->getQuery(true);
+			$query->insert('#__thm_organizer_participants')
+				->columns($this->_db->qn(array_keys($data)))
+				->values($values);
+			$this->_db->setQuery($query);
+
+			try
+			{
+				return (bool) $this->_db->execute();
+			}
+			catch (Exception $exception)
+			{
+				JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+				return false;
+			}
+		}
+		else
+		{
+			return (bool) $table->save($data);
+		}
+
 	}
+
 	/**
 	 * Signs User in or out of a specific course
 	 *
@@ -88,13 +129,8 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	 *
 	 * @return boolean true on success, false on error
 	 */
-	public function register($data = [], $action = '', $lessonID = 0)
+	public function register($participantID, $action, $lessonID)
 	{
-		if (empty($data) OR empty($action) OR empty($lessonID))
-		{
-			return false;
-		}
-
 		$lang       = THM_OrganizerHelperLanguage::getLanguage();
 		$courseFull = THM_OrganizerHelperCourse::isCourseFull($lessonID) ? 0 : 1;
 		$query      = $this->_db->getQuery(true);
@@ -107,7 +143,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 
 				$data = [
 					"lessonID"    => $lessonID,
-					"userID"      => $data["userID"],
+					"userID"      => $participantID,
 					"status"      => $status,
 					"user_date"   => date('Y-m-d H:i:s'),
 					"status_date" => date('Y-m-d H:i:s')
@@ -119,12 +155,13 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 				$return = $table->save($data, '', ['order', 'configuration']);
 
 				break;
+
 			case DEREGISTER:
 
 				$status = 2;
 
 				$query->delete("#__thm_organizer_user_lessons");
-				$query->where("lessonID = '$lessonID' and userID = '{$data["userID"]}'");
+				$query->where("lessonID = '$lessonID' and userID = '$participantID'");
 
 				$this->_db->setQuery($query);
 
