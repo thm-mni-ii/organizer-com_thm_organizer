@@ -34,7 +34,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 
 		$query->select('u.id, p.address, p.zip_code, p.city, p.programID, p.forename, p.surname');
 		$query->from('#__users AS u');
-		$query->innerJoin('#__thm_organizer_participants AS p ON p.id = u.id');
+		$query->leftJoin('#__thm_organizer_participants AS p ON p.id = u.id');
 		$query->where("u.id = '$userID'");
 
 		$this->_db->setQuery($query);
@@ -51,7 +51,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 			return new stdClass;
 		}
 
-		return empty($item) ? new stdClass : $item;
+		return $item;
 	}
 
 	/**
@@ -73,15 +73,8 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 		return !empty($form) ? $form : false;
 	}
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  object  loaded object
-	 */
 	protected function loadFormData()
 	{
-		$item = $this->getItem();
-		$item->id = JFactory::getUser()->id;
-		return $item;
+		return $this->getItem();
 	}
 }

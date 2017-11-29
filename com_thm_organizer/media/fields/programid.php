@@ -44,11 +44,11 @@ class JFormFieldProgramID extends JFormFieldList
 		$nameParts  = ["dp.name_$shortTag", 'd.abbreviation', 'dp.version'];
 		$nameSelect = $query->concatenate($nameParts, ', ') . " AS text";
 
-		$query->select("dp.id AS value, $nameSelect");
+		$query->select("dp.id AS value, dp.name_$shortTag AS name, d.abbreviation AS degree, dp.version");
 		$query->from('#__thm_organizer_programs AS dp');
 		$query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
 		$query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
-		$query->order('text ASC');
+		$query->order('name ASC, degree ASC, version DESC');
 		$dbo->setQuery($query);
 
 		try
@@ -61,14 +61,29 @@ class JFormFieldProgramID extends JFormFieldList
 		}
 
 		// Whether or not the program display should be prefiltered according to user resource access
-		$access  = $this->getAttribute('access', false);
+		$access  = $this->getAttribute('access', 'false') == 'true';
+		$unique  = $this->getAttribute('unique', 'false') == 'true';
+		$uniqueNames = [];
 		$options = [];
 
 		foreach ($programs as $program)
 		{
+			$index = "{$program['name']} {$program['degree']}";
+
+			if ($unique AND in_array($index, $uniqueNames))
+			{
+				continue;
+			}
+			else
+			{
+				$uniqueNames[$index] = $index;
+			}
+
+			$text = "{$program['name']}, {$program['degree']} ({$program['version']})";
+
 			if (!$access OR THM_OrganizerHelperComponent::allowResourceManage('program', $program['value'], 'manage'))
 			{
-				$options[] = JHtml::_('select.option', $program['value'], $program['text']);
+				$options[] = JHtml::_('select.option', $program['value'], $text);
 			}
 		}
 

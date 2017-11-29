@@ -21,8 +21,6 @@ $waitList      = '<span class="icon-checkbox-partial"></span>' . $this->lang->_(
 $registered    = '<span class="icon-checkbox-checked"></span>' . $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $manage        = '<span class="icon-cogs"></span>' . $this->lang->_("COM_THM_ORGANIZER_MANAGE");
 
-$menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
-
 $pathPrefix      = "index.php?option=com_thm_organizer";
 $subjectURL      = "{$pathPrefix}&view=subject_details&languageTag={$this->shortTag}";
 $subjectURL      .= empty($menuID) ? '' : "&Itemid=$menuID";

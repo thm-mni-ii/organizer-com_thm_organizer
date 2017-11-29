@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldpath="/media/com_thm_organizer/fields">
     <field name="id"
            type="hidden"
            default="0"/>
@@ -36,16 +36,16 @@
            required="true"
            label="COM_THM_ORGANIZER_RESIDENCE"
            description="COM_THM_ORGANIZER_RESIDENCE_DESC"/>
-
-    <field name="programID"
-           type="sql"
-           default=""
-           id="programID"
-           required="true"
-           label="COM_THM_ORGANIZER_PROGRAM"
-           description="COM_THM_ORGANIZER_PROGRAM_DESC"
-           query="SELECT programID AS value, name AS programID FROM #__thm_organizer_plan_programs where programID is not null order by programID"
-    >
+    <field
+            name="programID"
+            type="programID"
+            plan="true"
+            unique="true"
+            access="false"
+            class="inputbox"
+            label="COM_THM_ORGANIZER_PROGRAMs"
+            description="COM_THM_ORGANIZER_PROGRAM_DESC"
+            required="true">
         <option value="">-</option>
     </field>
 </form>

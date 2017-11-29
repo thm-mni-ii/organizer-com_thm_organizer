@@ -14,7 +14,19 @@ $loginRoute    = JRoute::_('index.php?option=com_users&view=login&tmpl=component
 $registerRoute = JRoute::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
 $profileRoute  = JRoute::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->shortTag}");
 
+// This variable is also used in the subordinate template
+$menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
+if(!empty($menuID)):
 ?>
+<script type="text/javascript">
+	jQuery(document).ready(function () {
+		let registrationLink = jQuery('#login-form ul.unstyled > li:first-child > a'),
+			oldURL = registrationLink.attr('href');
+
+		registrationLink.attr('href', oldURL + '&Itemid=<?php echo $menuID; ?>');
+	});
+</script>
+<?php endif; ?>
 <div class="toolbar">
 	<div class="tool-wrapper language-switches">
 		<?php foreach ($this->languageSwitches AS $switch)

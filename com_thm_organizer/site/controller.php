@@ -182,8 +182,17 @@ class THM_OrganizerController extends JControllerLegacy
 		// Always based on the current user, no further validation required.
 		$participant = parent::getModel('participant_edit')->getItem();
 
-		// Participant entry does not yet exist => create one
-		if (empty($participant->id))
+		// Ensure participant data is complete
+		$invalidParticipant = (empty($participant->address)
+			OR empty($participant->zip_code)
+			OR empty($participant->city)
+			OR empty($participant->programID)
+			OR empty($participant->forename)
+			OR empty($participant->surname)
+		);
+
+		// Participant entry is incomplete
+		if ($invalidParticipant)
 		{
 			$app->redirect(JRoute::_($participantEditURL));
 
