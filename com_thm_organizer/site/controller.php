@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 DEFINE('REGISTER', 1);
 DEFINE('DEREGISTER', 2);
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**

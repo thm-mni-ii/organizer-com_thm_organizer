@@ -1093,6 +1093,11 @@ class THM_OrganizerModelSearch extends JModelLegacy
 			}
 		}
 
+		if (empty($terms))
+		{
+			return;
+		}
+
 		$termCount = count($terms);
 
 		// A plan subject does not necessarily have subject documentation
