@@ -170,7 +170,7 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
 		// Programs
 		$programAttribs                             = $attribs;
 		$programAttribs['onChange']                 = 'repopulatePlanningPeriods();repopulateRooms();';
-		$programAttribs['data-placeholder']         = JText::_('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER');
+		$programAttribs['data-placeholder']         = JText::_('COM_THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
 		$planProgramOptions                         = $this->model->getProgramOptions();
 		$programSelect                              = JHtml::_('select.genericlist', $planProgramOptions, 'programIDs[]', $programAttribs, 'value', 'text');
 		$this->fields['filterFields']['programIDs'] = [
