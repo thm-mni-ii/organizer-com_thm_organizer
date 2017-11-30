@@ -8,36 +8,31 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
-$baseURL              = 'index.php?option=com_thm_organizer';
-$linkPrefix           = "$baseURL&view=course_list&format=pdf&type=%s&lessonID=%s&languageTag=%s";
-$shortTag             = JFactory::getApplication()->input->get('languageTag', 'de');
-$participantListRoute = JRoute::_(sprintf($linkPrefix, 0, $this->course["id"], $shortTag), false, 2);
-$departmentListRoute  = JRoute::_(sprintf($linkPrefix, 1, $this->course["id"], $shortTag), false, 2);
-$badgesRoute          = JRoute::_(sprintf($linkPrefix, 2, $this->course["id"], $shortTag), false, 2);
+$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+$baseURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
+
+$exportURLBase    = "$baseURL&view=course_list&format=pdf&type=";
+$participantListRoute = JRoute::_($exportURLBase . 0, false);
+$departmentListRoute  = JRoute::_($exportURLBase . 1, false);
+$badgesRoute          = JRoute::_($exportURLBase . 2, false);
 
 $capacityText = THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_CURRENT_CAPACITY", sizeof($this->curCap), $this->capacity);
+$editAuth     = THM_OrganizerHelperComponent::allowResourceManage('subject', $this->course["subjectID"]);
 
-$editAuth = THM_OrganizerHelperComponent::allowResourceManage('subject', $this->course["subjectID"]);
-
-$nameHeader       = JHTML::_('grid.sort', $this->lang->_('COM_THM_ORGANIZER_NAME'), 'name', $this->sortDirection, $this->sortColumn);
-$programHeader    = JHTML::_('grid.sort', $this->lang->_('COM_THM_ORGANIZER_PROGRAM'), 'program', $this->sortDirection, $this->sortColumn);
-$eMailHeader      = JHTML::_('grid.sort', $this->lang->_('JGLOBAL_EMAIL'), 'email', $this->sortDirection, $this->sortColumn);
-$statusDateHeader = JHTML::_('grid.sort', $this->lang->_('COM_THM_ORGANIZER_STATUS_DATE'), 'status_date', $this->sortDirection, $this->sortColumn);
-$statusHeader     = JHTML::_('grid.sort', $this->lang->_('JSTATUS'), 'status', $this->sortDirection, $this->sortColumn);
-
-$subjectEditURL = "$baseURL&view=course_edit&id={$this->course["subjectID"]}&lessonID={$this->course["id"]}";
+$subjectEditURL = "$baseURL&view=course_edit&id={$this->course["subjectID"]}";
 
 $registeredText = $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
 $dateFormat     = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y') . " ";
 $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat', 'H.i');
-?>
 
+if (!empty($this->menu))
+{
+	$menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
+}
+
+?>
 <div class="toolbar">
 	<div class="tool-wrapper language-switches">
 		<?php foreach ($this->languageSwitches AS $switch)
@@ -58,9 +53,7 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 	<form action="index.php?" method="post" id="adminForm" name="adminForm">
 		<input type="hidden" name="option" value="com_thm_organizer"/>
 		<input type="hidden" name="task" value="participant.changeStatus"/>
-		<input type="hidden" id="participantStatus" name="participantStatus" value=""/>
-		<input type="hidden" name="filter_order" value="<?php echo $this->sortColumn; ?>"/>
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->sortDirection; ?>"/>
+		<input type="hidden" name="participantStatus" value=""/>
 		<input type="hidden" name="lessonID" value="<?php echo $this->course["id"]; ?>"/>
 		<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
 
@@ -74,17 +67,14 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 					<option value='2'><?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_DELETE'); ?></option>
 				<?php endif; ?>
 			</select>
-			<button title="<?php echo $this->lang->_('JSUBMIT'); ?>" type="submit" class="validate btn btn-primary">
+			<button title="<?php echo $this->lang->_('JSUBMIT'); ?>" type="submit" class="btn">
 				<span class="icon-forward-2"></span>
-			</button>
-			<button title="<?php echo $this->lang->_('JSEARCH_RESET'); ?>" type="reset" class="btn">
-				<span class="icon-undo-2"></span>
 			</button>
 		</div>
 
 		<div class="group right course-toolbar">
 			<?php if ($editAuth): ?>
-				<a href="<?php echo JRoute::_($subjectEditURL, false, 2); ?>" class="btn btn-mini" type="button">
+				<a href="<?php echo JRoute::_($subjectEditURL, false); ?>" class="btn btn-mini" type="button">
 					<span class="icon-edit"></span>
 					<?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_COURSE") ?>
 				</a>
@@ -118,17 +108,24 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 					</li>
 				</ul>
 			</div>
+
+			<?php if (!empty($this->menu)): ?>
+				<a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini" type="button">
+					<span class="icon-list"></span>
+					<?php echo $menuText ?>
+				</a>
+			<?php endif; ?>
 		</div>
 		<div class="clear"></div>
 		<table class="table table-striped">
 			<thead>
 			<tr>
 				<th></th>
-				<th><?php echo $nameHeader; ?></th>
-				<th><?php echo $programHeader; ?></th>
-				<th><?php echo $eMailHeader; ?></th>
-				<th><?php echo $statusHeader; ?></th>
-				<th><?php echo $statusDateHeader; ?></th>
+				<th><?php echo $this->lang->_('COM_THM_ORGANIZER_NAME'); ?></th>
+				<th><?php echo $this->lang->_('COM_THM_ORGANIZER_PROGRAM'); ?></th>
+				<th><?php echo $this->lang->_('JGLOBAL_EMAIL'); ?></th>
+				<th><?php echo $this->lang->_('JSTATUS'); ?></th>
+				<th><?php echo $this->lang->_('COM_THM_ORGANIZER_STATUS_DATE'); ?></th>
 			</tr>
 			</thead>
 			<tbody>

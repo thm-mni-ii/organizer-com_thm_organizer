@@ -10,13 +10,9 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_basic.php';
 
 /**
  * Class which loads data into the view output context
@@ -37,6 +33,10 @@ class THM_OrganizerViewCourse_Edit extends JViewLegacy
 
 	public $languageSwitches;
 
+	public $menu;
+
+	public $subjectID;
+
 	/**
 	 * Method to get display
 	 *
@@ -46,31 +46,42 @@ class THM_OrganizerViewCourse_Edit extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->modifyDocument();
+		$input           = JFactory::getApplication()->input;
+		$this->subjectID = $input->getInt('id', 0);
 
-		$this->item = $this->get('Item');
-		$this->form = $this->get('Form');
-
-		$this->lessonID = JFactory::getApplication()->input->getInt('lessonID', 0);
-
-		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
-
-		$courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->form->getValue("id"));
-		$authorized = (JFactory::getUser()->authorise('core.admin') OR $courseAuth);
-
-		if (!$authorized)
+		if (empty($this->subjectID))
 		{
-			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
+			JError::raiseError(404, JText::_('COM_THM_ORGANIZER_MESSAGE_NOT_FOUND'));
 
 			return;
 		}
 
-		$params                 = [
-			'view'     => 'course_edit',
-			'id'       => empty($this->form->getValue("id")) ? 0 : $this->form->getValue("id"),
-			'lessonID' => $this->lessonID
-		];
+		$courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->subjectID);
+		$authorized = (JFactory::getUser()->authorise('core.admin') OR $courseAuth);
+
+		if (!$authorized)
+		{
+			JError::raiseError(401, JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
+
+			return;
+		}
+
+		$this->item = $this->get('Item');
+		$this->form = $this->get('Form');
+
+		$this->lessonID    = $input->getInt('lessonID', 0);
+		$this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
+
+
+		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
+
+		THM_OrganizerHelperComponent::addMenuParameters($this);
+
+		$params = ['view' => 'course_edit', 'id' => $this->subjectID, 'lessonID' => $this->lessonID];
+
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+
+		$this->modifyDocument();
 
 		parent::display($tpl);
 	}
@@ -85,6 +96,6 @@ class THM_OrganizerViewCourse_Edit extends JViewLegacy
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('behavior.framework', true);
 
-		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/prep_course.css');
+		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_edit.css');
 	}
 }

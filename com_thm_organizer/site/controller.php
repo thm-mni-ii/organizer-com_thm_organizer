@@ -294,7 +294,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$authorized = false;
 		$url        = $this->getRedirectBase();
 
-		if ($modelName == 'course_edit')
+		if ($modelName == 'course')
 		{
 			$authorized = ($user->authorise('core.admin') OR THM_OrganizerHelperCourse::teachesCourse($formData['id']));
 		}
@@ -315,9 +315,9 @@ class THM_OrganizerController extends JControllerLegacy
 		{
 			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL"), 'error');
 
-			if ($modelName == 'course_edit')
+			if ($modelName == 'course')
 			{
-				$url .= '&view=course_edit';
+				$url .= "&view=course_edit&id={$formData['id']}";
 			}
 			elseif ($modelName == 'participant')
 			{
@@ -328,7 +328,7 @@ class THM_OrganizerController extends JControllerLegacy
 		{
 			$app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS'), 'success');
 
-			if ($modelName == 'course_edit')
+			if ($modelName == 'course')
 			{
 				$url .= '&view=course_manager';
 			}
@@ -338,7 +338,7 @@ class THM_OrganizerController extends JControllerLegacy
 			}
 		}
 
-		if ($modelName == 'course_edit')
+		if ($modelName == 'course')
 		{
 			$lessonID = $input->getInt('lessonID');
 			$url .= "&lessonID=$lessonID";

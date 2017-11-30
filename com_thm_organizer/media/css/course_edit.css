@@ -1,0 +1,44 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a:hover {
+    color: #394a59;
+    cursor: pointer;
+}
+
+.toolbar {
+    position: relative;
+    float: right;
+}
+
+.course-edit-view ul.nav-tabs {
+    border-bottom: 1px solid #77858c;
+}
+
+.course-edit-view .nav-tabs > li {
+    border: 1px solid #77858c;
+    border-bottom: none;
+    border-radius: 0;
+}
+
+.course-edit-view .nav-tabs > li > a {
+    background-color: transparent;
+    border: none;
+    font-size: .9rem;
+    padding: .4rem .6rem;
+    margin: 0;
+}
+
+.course-edit-view .nav-tabs > li > a:hover {
+    background-color: transparent;
+}
+
+.course-edit-view li.active {
+    background-color: #dfeec8;
+}
+
+.course-edit-view .wf-editor-container .nav-tabs > li > a {
+    background-color: transparent;
+    border: none;
+}

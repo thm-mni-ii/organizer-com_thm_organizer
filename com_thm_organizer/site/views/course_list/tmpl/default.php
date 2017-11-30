@@ -42,6 +42,11 @@ if(!empty($menuID)):
 		<div class="tbox-yellow">
 			<p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
 			<?php echo JHtml::_('content.prepare', '{loadposition bound_login}'); ?>
+			<div class="right">
+				<a onclick="<?php echo $casURL; ?>">
+					<?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN'); ?><span class="icon-apply"></span>
+				</a>
+			</div>
 			<div class="clear"></div>
 		</div>
 	<?php else: ?>

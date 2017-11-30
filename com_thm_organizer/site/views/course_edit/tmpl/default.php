@@ -9,49 +9,42 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
+
+// Sets page configuration and component option
+$backURL = empty($this->menu) ? JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'] . '?';
+$backURL .= "languageTag={$this->languageTag}";
+
+// Accessed from subject_details
+$backURL .= empty($this->lessonID) ?
+	"&view=subject_details&id={$this->subjectID}" : "&view=course_manager&lessonID={$this->lessonID}";
 ?>
-<div>
-	<div class="toolbar">
-		<div class="tool-wrapper language-switches">
-			<?php foreach ($this->languageSwitches AS $switch)
-			{
-				echo $switch;
-			} ?>
-		</div>
+<div class="toolbar">
+	<div class="tool-wrapper language-switches">
+		<?php foreach ($this->languageSwitches AS $switch)
+		{
+			echo $switch;
+		} ?>
 	</div>
-
-	<form action="index.php?option=com_thm_organizer&task=course_edit.save"
-		  enctype="multipart/form-data"
-		  method="post"
-		  name="adminForm"
-		  id="item-form"
+</div>
+<div class="course-edit-view">
+	<h1><?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT"); ?></h1>
+	<form action="index.php?" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm"
 		  class="form-horizontal">
-
-		<input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
-		<input type='hidden' name='redirect' value="course_manager"/>
 
 		<button type="submit" class="validate btn btn-primary">
 			<?php echo $this->lang->_('JSAVE'); ?>
 		</button>
 
-		<a href="<?php echo JRoute::_(
-			(empty($this->lessonID) ?
-				('index.php?option=com_thm_organizer&view=course_list') :
-				("index.php?option=com_thm_organizer&view=course_manager&lessonID={$this->lessonID}"))
-		); ?>"
+		<a href="<?php echo JRoute::_($backURL, false); ?>"
 		   class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
 
 		<hr>
 
-		<h1><?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT"); ?></h1>
 
 		<div class="form-horizontal">
-
 			<?php
 			echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
-			$sets = $this->form->getFieldSets();
-			foreach ($sets as $set)
+			foreach ($this->form->getFieldSets() as $set)
 			{
 				$isInitialized  = (bool) $this->form->getValue('id');
 				$displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
@@ -65,7 +58,14 @@ defined('_JEXEC') or die;
 			echo JHtml::_('bootstrap.endTabSet');
 			?>
 		</div>
-		<?php echo $this->form->getInput('id'); ?>
 		<?php echo JHtml::_('form.token'); ?>
+		<input type="hidden" name="option" value="com_thm_organizer"/>
+		<input type="hidden" name="task" value="course.save"/>
+		<?php echo $this->form->getInput('id'); ?>
+		<input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
+		<input type="hidden" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
+		<?php if (!empty($this->menu)): ?>
+			<input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
+		<?php endif; ?>
 	</form>
 </div>

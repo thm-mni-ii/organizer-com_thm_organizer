@@ -20,6 +20,98 @@
 class THM_OrganizerHelperComponent
 {
 	/**
+	 * Set variables for user actions.
+	 *
+	 * @param object &$object the object calling the function (manager model or edit view)
+	 *
+	 * @return void
+	 */
+	public static function addActions(&$object)
+	{
+		$user   = JFactory::getUser();
+		$result = new JObject;
+
+		$path    = JPATH_ADMINISTRATOR . '/components/com_thm_organizer/access.xml';
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, 'com_thm_organizer'));
+		}
+
+		$allowedDepartments = self::getAccessibleDepartments();
+
+		if (empty($allowedDepartments))
+		{
+			$result->set('organizer.menu.department', false);
+			$result->set('organizer.menu.manage', false);
+			$result->set('organizer.menu.schedule', false);
+		}
+		else
+		{
+			$department = false;
+			$manage     = false;
+			$schedules  = false;
+
+			if ($user->authorise('core.admin'))
+			{
+				$department = true;
+				$manage     = true;
+				$schedules  = true;
+			}
+			else
+			{
+				foreach ($allowedDepartments as $departmentID)
+				{
+					// The or allows for any odd cases of cross department responsibilities
+					$department = ($department OR $user->authorise('organizer.department', "com_thm_organizer.department.$departmentID"));
+					$manage     = ($manage OR $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID"));
+					$schedules  = ($schedules OR $user->authorise('organizer.schedule', "com_thm_organizer.department.$departmentID"));
+
+				}
+			}
+
+			$result->set('organizer.menu.department', $department);
+			$result->set('organizer.menu.manage', $manage);
+			$result->set('organizer.menu.schedule', $schedules);
+		}
+
+		$object->actions = $result;
+	}
+
+	/**
+	 * Adds menu parameters to the object (id and route)
+	 *
+	 * @param object $object the object to add the parameters to, typically a view
+	 *
+	 * @return void modifies $object
+	 */
+	public static function addMenuParameters(&$object)
+	{
+		$app = JFactory::getApplication();
+		$menuID = $app->input->getInt('Itemid');
+
+		if (!empty($menuID))
+		{
+			$menuItem = $app->getMenu()->getItem($menuID);
+			$menu = ['id' => $menuID, 'route' => JUri::base() . $menuItem->route];
+
+			$query = explode('?', $menuItem->link)[1];
+			parse_str($query, $parameters);
+
+			if (empty($parameters['option']) OR $parameters['option'] != 'com_thm_organizer')
+			{
+				$menu['view'] = '';
+			}
+			elseif (!empty($parameters['view']))
+			{
+				$menu['view'] = $parameters['view'];
+			}
+
+			$object->menu = $menu;
+		}
+	}
+
+	/**
 	 * Configure the submenu.
 	 *
 	 * @param object &$view the view context calling the function
@@ -184,62 +276,18 @@ class THM_OrganizerHelperComponent
 	}
 
 	/**
-	 * Set variables for user actions.
+	 * Checks whether the user has access to a department
 	 *
-	 * @param object &$object the object calling the function (manager model or edit view)
+	 * @param string $resource the resource type
 	 *
-	 * @return void
+	 * @return  bool  true if the user has access to at least one department, otherwise false
 	 */
-	public static function addActions(&$object)
+	public static function allowDeptResourceCreate($resource)
 	{
-		$user   = JFactory::getUser();
-		$result = new JObject;
+		$area               = $resource == 'department' ? 'department' : $resource == 'schedule' ? 'schedule' : 'manage';
+		$allowedDepartments = self::getAccessibleDepartments($area);
 
-		$path    = JPATH_ADMINISTRATOR . '/components/com_thm_organizer/access.xml';
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, 'com_thm_organizer'));
-		}
-
-		$allowedDepartments = self::getAccessibleDepartments();
-
-		if (empty($allowedDepartments))
-		{
-			$result->set('organizer.menu.department', false);
-			$result->set('organizer.menu.manage', false);
-			$result->set('organizer.menu.schedule', false);
-		}
-		else
-		{
-			$department = false;
-			$manage     = false;
-			$schedules  = false;
-
-			if ($user->authorise('core.admin'))
-			{
-				$department = true;
-				$manage     = true;
-				$schedules  = true;
-			}
-			else
-			{
-				foreach ($allowedDepartments as $departmentID)
-				{
-					// The or allows for any odd cases of cross department responsibilities
-					$department = ($department OR $user->authorise('organizer.department', "com_thm_organizer.department.$departmentID"));
-					$manage     = ($manage OR $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID"));
-					$schedules  = ($schedules OR $user->authorise('organizer.schedule', "com_thm_organizer.department.$departmentID"));
-
-				}
-			}
-
-			$result->set('organizer.menu.department', $department);
-			$result->set('organizer.menu.manage', $manage);
-			$result->set('organizer.menu.schedule', $schedules);
-		}
-
-		$object->actions = $result;
+		return count($allowedDepartments) ? true : false;
 	}
 
 	/**
@@ -355,35 +403,6 @@ class THM_OrganizerHelperComponent
 	}
 
 	/**
-	 * Checks for resources which have not yet been saved as an asset allowing transitional edit access
-	 *
-	 * @param string $resourceName the name of the resource type
-	 * @param int    $itemID       the id of the item being checked
-	 *
-	 * @return  bool  true if the resource has an associated asset, otherwise false
-	 */
-	public static function checkAssetInitialization($resourceName, $itemID)
-	{
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('asset_id')->from("#__thm_organizer_{$resourceName}s")->where("id = '$itemID'");
-		$dbo->setQuery($query);
-
-		try
-		{
-			$assetID = $dbo->loadResult();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-			return false;
-		}
-
-		return empty($assetID) ? false : true;
-	}
-
-	/**
 	 * Checks whether the user has access to a department
 	 *
 	 * @param string $resource   the name of the resource type
@@ -434,18 +453,95 @@ class THM_OrganizerHelperComponent
 	}
 
 	/**
-	 * Checks whether the user has access to a department
+	 * Checks for resources which have not yet been saved as an asset allowing transitional edit access
 	 *
-	 * @param string $resource the resource type
+	 * @param string $resourceName the name of the resource type
+	 * @param int    $itemID       the id of the item being checked
 	 *
-	 * @return  bool  true if the user has access to at least one department, otherwise false
+	 * @return  bool  true if the resource has an associated asset, otherwise false
 	 */
-	public static function allowDeptResourceCreate($resource)
+	public static function checkAssetInitialization($resourceName, $itemID)
 	{
-		$area               = $resource == 'department' ? 'department' : $resource == 'schedule' ? 'schedule' : 'manage';
-		$allowedDepartments = self::getAccessibleDepartments($area);
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('asset_id')->from("#__thm_organizer_{$resourceName}s")->where("id = '$itemID'");
+		$dbo->setQuery($query);
 
-		return count($allowedDepartments) ? true : false;
+		try
+		{
+			$assetID = $dbo->loadResult();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+			return false;
+		}
+
+		return empty($assetID) ? false : true;
+	}
+
+	/**
+	 * Formats the date stored in the database according to the format in the component parameters
+	 *
+	 * @param string $date     the date to be formatted
+	 * @param bool   $withText if the day name should be part of the output
+	 *
+	 * @return  string|bool  a formatted date string otherwise false
+	 */
+	public static function formatDate($date, $withText = false)
+	{
+		$params        = JComponentHelper::getParams('com_thm_organizer');
+		$dateFormat    = $params->get('dateFormat', 'd.m.Y');
+		$formattedDate = date($dateFormat, strtotime($date));
+
+		if ($withText)
+		{
+			$shortDOW      = date('l', strtotime($date));
+			$text          = JText::_(strtoupper($shortDOW));
+			$formattedDate = "$text $formattedDate";
+		}
+
+		return $formattedDate;
+	}
+
+	/**
+	 * Formats the date stored in the database according to the format in the component parameters
+	 *
+	 * @param string $date     the date to be formatted
+	 * @param bool   $withText if the day name should be part of the output
+	 *
+	 * @return  string|bool  a formatted date string otherwise false
+	 */
+	public static function formatDateShort($date, $withText = false)
+	{
+		$params        = JComponentHelper::getParams('com_thm_organizer');
+		$dateFormat    = $params->get('dateFormatShort', 'd.m');
+		$formattedDate = date($dateFormat, strtotime($date));
+
+		if ($withText)
+		{
+			$shortDOW      = date('D', strtotime($date));
+			$text          = JText::_(strtoupper($shortDOW));
+			$formattedDate = "$text $formattedDate";
+		}
+
+		return $formattedDate;
+	}
+
+	/**
+	 * Formats the date stored in the database according to the format in the component parameters
+	 *
+	 * @param string $time the date to be formatted
+	 *
+	 * @return  string|bool  a formatted date string otherwise false
+	 */
+	public static function formatTime($time)
+	{
+		$params     = JComponentHelper::getParams('com_thm_organizer');
+		$timeFormat = $params->get('timeFormat', 'H:i');
+
+		return date($timeFormat, strtotime($time));
 	}
 
 	/**
@@ -538,94 +634,33 @@ class THM_OrganizerHelperComponent
 	}
 
 	/**
-	 * Formats the date stored in the database according to the format in the component parameters
+	 * TODO: Including this (someday) to the Joomla Core!
+	 * Checks if the device is a smartphone, based on the 'Mobile Detect' library
 	 *
-	 * @param string $date     the date to be formatted
-	 * @param bool   $withText if the day name should be part of the output
-	 *
-	 * @return  string|bool  a formatted date string otherwise false
+	 * @return boolean
 	 */
-	public static function formatDate($date, $withText = false)
+	public static function isSmartphone()
 	{
-		$params        = JComponentHelper::getParams('com_thm_organizer');
-		$dateFormat    = $params->get('dateFormat', 'd.m.Y');
-		$formattedDate = date($dateFormat, strtotime($date));
+		$mobileCheckPath = JPATH_ROOT . '/components/com_jce/editor/libraries/classes/mobile.php';
 
-		if ($withText)
+		if (file_exists($mobileCheckPath))
 		{
-			$shortDOW      = date('l', strtotime($date));
-			$text          = JText::_(strtoupper($shortDOW));
-			$formattedDate = "$text $formattedDate";
+			if (!class_exists('Wf_Mobile_Detect'))
+			{
+				// Load mobile detect class
+				require_once $mobileCheckPath;
+			}
+
+			$checker = new Wf_Mobile_Detect;
+			$isPhone = ($checker->isMobile() AND !$checker->isTablet());
+
+			if ($isPhone)
+			{
+				return true;
+			}
 		}
 
-		return $formattedDate;
-	}
-
-	/**
-	 * Formats the date stored in the database according to the format in the component parameters
-	 *
-	 * @param string $date     the date to be formatted
-	 * @param bool   $withText if the day name should be part of the output
-	 *
-	 * @return  string|bool  a formatted date string otherwise false
-	 */
-	public static function formatDateShort($date, $withText = false)
-	{
-		$params        = JComponentHelper::getParams('com_thm_organizer');
-		$dateFormat    = $params->get('dateFormatShort', 'd.m');
-		$formattedDate = date($dateFormat, strtotime($date));
-
-		if ($withText)
-		{
-			$shortDOW      = date('D', strtotime($date));
-			$text          = JText::_(strtoupper($shortDOW));
-			$formattedDate = "$text $formattedDate";
-		}
-
-		return $formattedDate;
-	}
-
-	/**
-	 * Formats the date stored in the database according to the format in the component parameters
-	 *
-	 * @param string $time the date to be formatted
-	 *
-	 * @return  string|bool  a formatted date string otherwise false
-	 */
-	public static function formatTime($time)
-	{
-		$params     = JComponentHelper::getParams('com_thm_organizer');
-		$timeFormat = $params->get('timeFormat', 'H:i');
-
-		return date($timeFormat, strtotime($time));
-	}
-
-	/**
-	 * Converts a date string from the format in the component settings into the format used by the database
-	 *
-	 * @param string $date the date string
-	 *
-	 * @return  string  date sting in format Y-m-d
-	 */
-	public static function standardizeDate($date)
-	{
-		$default = date('Y-m-d');
-
-		if (empty($date))
-		{
-			return $default;
-		}
-
-		// Already standardized
-		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $date) === 1)
-		{
-			return $date;
-		}
-
-		$dateFormat    = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-		$supportedDate = date_create_from_format($dateFormat, $date);
-
-		return empty($supportedDate) ? $default : date_format($supportedDate, 'Y-m-d');
+		return false;
 	}
 
 	/**
@@ -716,32 +751,30 @@ class THM_OrganizerHelperComponent
 	}
 
 	/**
-	 * TODO: Including this (someday) to the Joomla Core!
-	 * Checks if the device is a smartphone, based on the 'Mobile Detect' library
+	 * Converts a date string from the format in the component settings into the format used by the database
 	 *
-	 * @return boolean
+	 * @param string $date the date string
+	 *
+	 * @return  string  date sting in format Y-m-d
 	 */
-	public static function isSmartphone()
+	public static function standardizeDate($date)
 	{
-		$mobileCheckPath = JPATH_ROOT . '/components/com_jce/editor/libraries/classes/mobile.php';
+		$default = date('Y-m-d');
 
-		if (file_exists($mobileCheckPath))
+		if (empty($date))
 		{
-			if (!class_exists('Wf_Mobile_Detect'))
-			{
-				// Load mobile detect class
-				require_once $mobileCheckPath;
-			}
-
-			$checker = new Wf_Mobile_Detect;
-			$isPhone = ($checker->isMobile() AND !$checker->isTablet());
-
-			if ($isPhone)
-			{
-				return true;
-			}
+			return $default;
 		}
 
-		return false;
+		// Already standardized
+		if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $date) === 1)
+		{
+			return $date;
+		}
+
+		$dateFormat    = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
+		$supportedDate = date_create_from_format($dateFormat, $date);
+
+		return empty($supportedDate) ? $default : date_format($supportedDate, 'Y-m-d');
 	}
 }

@@ -1,0 +1,41 @@
+@import 'variables';
+@import '_language_switch';
+
+.toolbar {
+  position: relative;
+  float: right;
+}
+
+.course-edit-view {
+
+  ul.nav-tabs {
+    border-bottom: $border;
+  }
+  .nav-tabs > li {
+    border: $border;
+    border-bottom: none;
+    border-radius: 0;
+  }
+
+  .nav-tabs > li > a {
+    background-color: transparent;
+    border: none;
+    font-size: .9rem;
+    padding: .4rem .6rem;
+    margin: 0;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  li.active {
+    background-color: $background-active;
+  }
+
+  .wf-editor-container .nav-tabs > li > a
+  {
+    background-color: transparent;
+    border: none;
+  }
+}

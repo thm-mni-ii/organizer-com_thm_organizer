@@ -10,8 +10,20 @@
 
 .course-list-view {
 
+  a {
+    cursor: pointer;
+  }
+
   .clear {
     clear: both;
+  }
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
   }
 
   .tbox-yellow {
@@ -25,6 +37,11 @@
         margin-left: .2rem;
       }
     }
+
+    [class^="icon-"], [class*=" icon-"] {
+      margin-left: .2rem;
+    }
+
   }
 
   .toolbar .btn {

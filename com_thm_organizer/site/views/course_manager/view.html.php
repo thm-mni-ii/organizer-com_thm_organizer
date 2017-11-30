@@ -10,9 +10,9 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 
@@ -25,29 +25,27 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
  */
 class THM_OrganizerViewCourse_Manager extends JViewLegacy
 {
+	public $capacity;
+
+	public $course;
+
+	public $courseAuth = false;
+
+	public $curCap;
+
+	public $dateText = "";
+
+	public $form;
+
 	public $lang;
 
 	public $languageSwitches;
 
-	public $items;
-
-	public $courseAuth = false;
-
-	public $form;
-
-	public $course;
-
-	public $sortDirection;
-
-	public $sortColumn;
-
-	public $curCap;
-
-	public $capacity;
+	public $menu;
 
 	public $isAdmin;
 
-	public $dateText = "";
+	public $items;
 
 	/**
 	 * Method to get display
@@ -82,20 +80,13 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 			$this->dateText = "$start - $end";
 		}
 
-		$state = $this->get('State');
-
-		$this->sortDirection = $state->get('list.direction');
-		$this->sortColumn    = $state->get('list.ordering');
-
 		if (!empty($this->course))
 		{
 			$this->courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->course["subjectID"]);
 			$this->curCap     = THM_OrganizerHelperCourse::getRegisteredStudents($this->course["id"]);
 		}
 
-
 		$this->capacity = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
-
 
 		$this->isAdmin = $user->authorise('core.admin');
 		$authorized    = ($this->isAdmin OR $this->courseAuth);
@@ -107,7 +98,9 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 			return;
 		}
 
-		$params = ['view' => 'course_manager', 'id' => empty($this->course) ? 0 : $this->course["id"]];
+		THM_OrganizerHelperComponent::addMenuParameters($this);
+
+		$params                 = ['view' => 'course_manager', 'id' => empty($this->course) ? 0 : $this->course["id"]];
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 		$this->modifyDocument();
 

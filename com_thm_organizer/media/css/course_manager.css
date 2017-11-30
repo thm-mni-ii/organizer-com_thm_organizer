@@ -42,6 +42,10 @@ div.language-switches a:hover {
     vertical-align: top;
 }
 
+.course-manager-view .group button span, .course-manager-view .group a.btn span {
+    margin-right: .2rem;
+}
+
 .course-manager-view .group button span:before, .course-manager-view .group a.btn span:before {
     font-size: 1rem;
 }

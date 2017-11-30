@@ -35,8 +35,6 @@
 
 				<div class="modal-body" style="overflow-y: auto;">
 
-					<input type="hidden" name="filter_order" value="<?php echo $this->sortColumn; ?>"/>
-					<input type="hidden" name="filter_order_Dir" value="<?php echo $this->sortDirection; ?>"/>
 					<input type="hidden" name="lessonID" value="<?php echo $this->course["id"]; ?>"/>
 					<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
 

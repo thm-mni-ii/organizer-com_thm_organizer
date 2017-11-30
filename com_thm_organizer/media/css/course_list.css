@@ -71,8 +71,20 @@ div#main .uses-login #login-form ul.unstyled li {
     float: right;
 }
 
+.course-list-view a {
+    cursor: pointer;
+}
+
 .course-list-view .clear {
     clear: both;
+}
+
+.course-list-view .left {
+    float: left;
+}
+
+.course-list-view .right {
+    float: right;
 }
 
 .course-list-view .tbox-yellow {
@@ -84,6 +96,10 @@ div#main .uses-login #login-form ul.unstyled li {
 }
 
 .course-list-view .tbox-yellow ul [class^="icon-"], .course-list-view .tbox-yellow ul [class*=" icon-"] {
+    margin-left: .2rem;
+}
+
+.course-list-view .tbox-yellow [class^="icon-"], .course-list-view .tbox-yellow [class*=" icon-"] {
     margin-left: .2rem;
 }
 

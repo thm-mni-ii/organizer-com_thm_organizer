@@ -29,12 +29,19 @@
     margin-bottom: 1rem;
   }
 
+  span:before {
+  }
+
   .group {
     font-size: 0;
 
     button, a.btn {
       font-size: .9rem;
       vertical-align: top;
+
+      span {
+        margin-right: .2rem;
+      }
 
       span:before {
         font-size: 1rem;

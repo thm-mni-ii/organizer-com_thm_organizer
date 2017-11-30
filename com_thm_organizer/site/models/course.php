@@ -10,8 +10,6 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
@@ -21,7 +19,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelCourse_Edit extends THM_OrganizerModelEdit
+class THM_OrganizerModelCourse extends JModelLegacy
 {
 	/**
 	 * Method to get a table object, load it if necessary.
@@ -37,5 +35,34 @@ class THM_OrganizerModelCourse_Edit extends THM_OrganizerModelEdit
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 
 		return JTable::getInstance("subjects", $prefix, $options);
+	}
+
+	/**
+	 *    Saves course data to database
+	 *
+	 * @return bool true on success, false on error
+	 */
+	public function save()
+	{
+		$data = JFactory::getApplication()->input->get('jform', [], 'array');
+		$lessonID = JFactory::getApplication()->input->getInt('lessonID', 0);
+
+		if (THM_OrganizerHelperComponent::allowResourceManage('subject', $data["id"]))
+		{
+			$table = $this->getTable();
+			$success = $table->save($data);
+		}
+		else
+		{
+			return false;
+		}
+
+		if (!empty($success) AND !empty($lessonID))
+		{
+			$model = JModelLegacy::getInstance('participant', 'THM_OrganizerModel');
+			$model->moveUpWaitingUsers($lessonID);
+		}
+
+		return $success;
 	}
 }
