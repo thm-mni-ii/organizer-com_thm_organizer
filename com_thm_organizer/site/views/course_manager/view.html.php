@@ -68,17 +68,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 		$this->items  = $this->get('Items');
 		$this->form   = $this->get('Form');
 		$this->course = THM_OrganizerHelperCourse::getCourse();
-
-		$dates = THM_OrganizerHelperCourse::getDates();
-
-		if (!empty($dates))
-		{
-			$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-			$start      = JHtml::_('date', $dates[0]["schedule_date"], $dateFormat);
-			$end        = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
-
-			$this->dateText = "$start - $end";
-		}
+		$this->dateText = THM_OrganizerHelperCourse::getDateDisplay();
 
 		if (!empty($this->course))
 		{

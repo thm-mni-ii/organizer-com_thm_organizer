@@ -1,7 +1,7 @@
 @import 'variables';
 @import '_language_switch';
 @import '_login';
-
+@import '_base';
 
 .toolbar {
   position: relative;
@@ -10,20 +10,16 @@
 
 .course-list-view {
 
-  a {
-    cursor: pointer;
-  }
+  button, .btn {
+    background-color: $foreground-color;
 
-  .clear {
-    clear: both;
-  }
+    &:hover {
+      background-color: $background-foot;
 
-  .left {
-    float: left;
-  }
-
-  .right {
-    float: right;
+      span:before {
+        color: $foreground-color;
+      }
+    }
   }
 
   .tbox-yellow {
@@ -60,6 +56,10 @@
     text-align: left;
   }
 
+  tr td{
+    line-height: 2rem;
+  }
+
   .course-state, .user-state, .register {
     text-align: center;
   }
@@ -71,9 +71,5 @@
 
   .disabled {
     opacity: .6;
-  }
-
-  a.btn:hover span:before {
-      color: $foreground-color;
   }
 }

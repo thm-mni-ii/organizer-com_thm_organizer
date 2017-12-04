@@ -12,6 +12,11 @@ div.language-switches a:hover {
     float: right;
 }
 
+.course-edit-view .course-descriptors {
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+    margin-bottom: 1rem;
+}
+
 .course-edit-view ul.nav-tabs {
     border-bottom: 1px solid #77858c;
 }

@@ -202,7 +202,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$type = 'error';
 
 		$userState = THM_OrganizerHelperCourse::getUserState();
-		$action    = $userState ? DEREGISTER : REGISTER;
+		$action    = empty($userState) ? REGISTER : DEREGISTER;
 
 		$return = $participantModel->register($participant->id, $action, $lessonID);
 
@@ -217,8 +217,18 @@ class THM_OrganizerController extends JControllerLegacy
 			else
 			{
 				$newUserState = THM_OrganizerHelperCourse::getUserState();
-				$status       = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
-				$msg          = THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_REGISTRATION_SUCCESS", $lang->_($status));
+
+				// This case should not occur.
+				if (empty($newUserState))
+				{
+					$status = 'COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS';
+				}
+				else
+				{
+					$status = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
+				}
+
+				$msg = THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_REGISTRATION_SUCCESS", $lang->_($status));
 			}
 		}
 		else
@@ -226,7 +236,14 @@ class THM_OrganizerController extends JControllerLegacy
 			$msg = $lang->_("COM_THM_ORGANIZER_STATUS_FAILURE");
 		}
 
-		if (empty($menuID))
+		$view = explode('.', $input->get('task', ''))[0];
+
+		if ($view == 'subject')
+		{
+			$subjectID = $input->getInt('id', 0);
+			$url       .= "&view=subject_details&id=$subjectID";
+		}
+		elseif (empty($menuID))
 		{
 			$url .= '&view=course_list';
 		}
@@ -278,7 +295,7 @@ class THM_OrganizerController extends JControllerLegacy
 	{
 		$app       = JFactory::getApplication();
 		$input     = $app->input;
-		$formData = $input->get('jform', [], 'array');
+		$formData  = $input->get('jform', [], 'array');
 		$lang      = THM_OrganizerHelperLanguage::getLanguage();
 		$modelName = explode('.', $input->get('task', ''))[0];
 		$model     = $this->getModel($modelName);
@@ -290,7 +307,7 @@ class THM_OrganizerController extends JControllerLegacy
 			$app->redirect(JUri::base());
 		}
 
-		$user = JFactory::getUser();
+		$user       = JFactory::getUser();
 		$authorized = false;
 		$url        = $this->getRedirectBase();
 
@@ -341,7 +358,7 @@ class THM_OrganizerController extends JControllerLegacy
 		if ($modelName == 'course')
 		{
 			$lessonID = $input->getInt('lessonID');
-			$url .= "&lessonID=$lessonID";
+			$url      .= "&lessonID=$lessonID";
 		}
 
 		$app->redirect(JRoute::_($url, false));

@@ -8,6 +8,11 @@
 
 .course-edit-view {
 
+  .course-descriptors {
+    font-family: $font-family-header;
+    margin-bottom: 1rem;
+  }
+
   ul.nav-tabs {
     border-bottom: $border;
   }

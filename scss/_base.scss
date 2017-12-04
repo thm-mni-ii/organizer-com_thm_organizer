@@ -1,0 +1,21 @@
+// Basic styles for use anywhere
+
+a {
+  cursor: pointer;
+
+  [class^="icon-"], [class*=" icon-"] {
+    margin-right: .2rem;
+  }
+}
+
+.clear {
+  clear: both;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}

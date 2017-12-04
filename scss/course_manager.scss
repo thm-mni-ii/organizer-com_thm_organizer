@@ -1,5 +1,6 @@
 @import 'variables';
 @import '_language_switch';
+@import '_base';
 
 .toolbar {
   position: relative;
@@ -8,21 +9,9 @@
 
 .course-manager-view {
 
-  .clear {
-    clear: both;
-  }
-
   .left, .right {
     display: inline-block;
     font-family: $font-family-header;
-  }
-
-  .left {
-    float: left;
-  }
-
-  .right {
-    float: right;
   }
 
   .course-descriptors {

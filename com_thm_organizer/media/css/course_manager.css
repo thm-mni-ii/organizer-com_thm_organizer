@@ -7,26 +7,34 @@ div.language-switches a:hover {
     cursor: pointer;
 }
 
+a {
+    cursor: pointer;
+}
+
+a [class^="icon-"], a [class*=" icon-"] {
+    margin-right: .2rem;
+}
+
+.clear {
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .toolbar {
     position: relative;
     float: right;
 }
 
-.course-manager-view .clear {
-    clear: both;
-}
-
 .course-manager-view .left, .course-manager-view .right {
     display: inline-block;
     font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-}
-
-.course-manager-view .left {
-    float: left;
-}
-
-.course-manager-view .right {
-    float: right;
 }
 
 .course-manager-view .course-descriptors {

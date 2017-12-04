@@ -66,25 +66,41 @@ div#main .uses-login #login-form ul.unstyled li {
     }
 }
 
+a {
+    cursor: pointer;
+}
+
+a [class^="icon-"], a [class*=" icon-"] {
+    margin-right: .2rem;
+}
+
+.clear {
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .toolbar {
     position: relative;
     float: right;
 }
 
-.course-list-view a {
-    cursor: pointer;
+.course-list-view button, .course-list-view .btn {
+    background-color: white;
 }
 
-.course-list-view .clear {
-    clear: both;
+.course-list-view button:hover, .course-list-view .btn:hover {
+    background-color: #4a5c66;
 }
 
-.course-list-view .left {
-    float: left;
-}
-
-.course-list-view .right {
-    float: right;
+.course-list-view button:hover span:before, .course-list-view .btn:hover span:before {
+    color: white;
 }
 
 .course-list-view .tbox-yellow {
@@ -119,6 +135,10 @@ div#main .uses-login #login-form ul.unstyled li {
     text-align: left;
 }
 
+.course-list-view tr td {
+    line-height: 2rem;
+}
+
 .course-list-view .course-state, .course-list-view .user-state, .course-list-view .register {
     text-align: center;
 }
@@ -130,8 +150,4 @@ div#main .uses-login #login-form ul.unstyled li {
 
 .course-list-view .disabled {
     opacity: .6;
-}
-
-.course-list-view a.btn:hover span:before {
-    color: white;
 }

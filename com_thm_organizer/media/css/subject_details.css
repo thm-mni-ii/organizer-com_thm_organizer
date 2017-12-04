@@ -16,25 +16,112 @@ div.legal-disclaimer li {
     font-style: italic;
 }
 
+div div.externallogin {
+    display: none;
+}
+
+div#main .uses-login .moduletable {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+div#main .uses-login .moduletable form {
+    margin-bottom: 0;
+}
+
+div#main .uses-login .moduletable button, div#main .uses-login .moduletable .btn {
+    background-color: white;
+}
+
+div#main .uses-login .moduletable button:hover, div#main .uses-login .moduletable .btn:hover {
+    background-color: #4a5c66;
+}
+
+div#main .uses-login .logout-button {
+    margin-top: 0;
+}
+
+div#main .uses-login .userdata {
+    position: relative;
+}
+
+div#main .uses-login .control-group {
+    clear: left;
+    display: inline-block;
+    float: left;
+}
+
+div#main .uses-login .input-prepend input {
+    width: 12rem;
+}
+
+div#main .uses-login #login-form ul.unstyled {
+    clear: left;
+    display: block;
+    margin-top: 0;
+    min-width: 15rem;
+    float: left;
+}
+
+div#main .uses-login #login-form ul.unstyled li {
+    list-style: none;
+}
+
+@media (min-width: 768px) {
+    div#main .uses-login .unstyled {
+        left: 15rem;
+        position: absolute;
+        top: 0;
+    }
+}
+
+a {
+    cursor: pointer;
+}
+
+a [class^="icon-"], a [class*=" icon-"] {
+    margin-right: .2rem;
+}
+
+.clear {
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .toolbar {
     position: relative;
     float: right;
 }
 
-.tool-wrapper {
-    display: inline-block;
-    margin-right: 5px;
+.subject-list .course-descriptors {
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+    margin-bottom: 1rem;
 }
 
-.tool-wrapper a, .tool-wrapper button {
-    cursor: pointer;
+.subject-list button, .subject-list .btn {
+    background-color: white;
 }
 
-.tool-wrapper img {
-    padding-top: 2px;
+.subject-list button:hover, .subject-list .btn:hover {
+    background-color: #4a5c66;
 }
 
-.subject-item {
+.subject-list button:hover span:before, .subject-list .btn:hover span:before {
+    color: white;
+}
+
+.subject-list .course-status {
+    font-size: .9rem;
+}
+
+.subject-list .subject-item {
     clear: both;
     overflow: auto;
     padding: 10px 10px;
@@ -42,7 +129,7 @@ div.legal-disclaimer li {
     border-bottom: 1px solid rgba(164, 176, 187, 0.5);
 }
 
-.subject-label {
+.subject-list .subject-label {
     color: #3d494f;
     float: left;
     font-weight: bold;
@@ -50,7 +137,7 @@ div.legal-disclaimer li {
     width: 18%;
 }
 
-.subject-content {
+.subject-list .subject-content {
     margin-left: 10px;
     float: left;
     width: 79%;

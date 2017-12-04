@@ -17,6 +17,8 @@ $backURL .= "languageTag={$this->languageTag}";
 // Accessed from subject_details
 $backURL .= empty($this->lessonID) ?
 	"&view=subject_details&id={$this->subjectID}" : "&view=course_manager&lessonID={$this->lessonID}";
+
+$nameProperty = 'name_' . $this->languageTag;
 ?>
 <div class="toolbar">
 	<div class="tool-wrapper language-switches">
@@ -27,7 +29,13 @@ $backURL .= empty($this->lessonID) ?
 	</div>
 </div>
 <div class="course-edit-view">
-	<h1><?php echo $this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT"); ?></h1>
+	<h1><?php echo $this->form->getValue($nameProperty) . ': ' .$this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT"); ?></h1>
+	<?php if ($this->dateText): ?>
+		<div class="course-descriptors">
+			<div class="left"><?php echo $this->dateText ?></div>
+			<div class="clear"></div>
+		</div>
+	<?php endif; ?>
 	<form action="index.php?" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm"
 		  class="form-horizontal">
 

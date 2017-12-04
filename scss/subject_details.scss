@@ -1,45 +1,56 @@
 @import 'variables';
 @import '_language_switch';
 @import '_legal_disclaimer';
+@import '_login';
+@import '_base';
 
-//search-Area
 .toolbar {
   position: relative;
   float: right;
 }
 
-.tool-wrapper {
-  display: inline-block;
-  margin-right: 5px;
-
-  a, button {
-    cursor: pointer;
+.subject-list
+{
+  .course-descriptors {
+    font-family: $font-family-header;
+    margin-bottom: 1rem;
   }
 
-  img {
-    // border: none; //kein Effekt, da ein anderes Icon genutzt wird
-    padding-top: 2px; //wird nicht benötigt
+  button, .btn {
+    background-color: $foreground-color;
+
+    &:hover {
+      background-color: $background-foot;
+
+      span:before {
+        color: $foreground-color;
+      }
+    }
   }
-}
 
-.subject-item {
-  clear: both;
-  overflow: auto; //to set height like the largest child
-  padding: 10px 10px;
-  margin: 2px 0;
-  border-bottom: 1px solid rgba(164, 176, 187, 0.5);
-}
+  .course-status {
+    font-size: .9rem;
+  }
 
-.subject-label {
-  color: #3d494f;
-  float: left;
-  font-weight: bold;
-  padding-right: 20px;
-  width: 18%;
-}
+  .subject-item {
+    clear: both;
+    overflow: auto; //to set height like the largest child
+    padding: 10px 10px;
+    margin: 2px 0;
+    border-bottom: 1px solid rgba(164, 176, 187, 0.5);
+  }
 
-.subject-content {
-  margin-left: 10px;
-  float: left;
-  width: 79%;
+  .subject-label {
+    color: #3d494f;
+    float: left;
+    font-weight: bold;
+    padding-right: 20px;
+    width: 18%;
+  }
+
+  .subject-content {
+    margin-left: 10px;
+    float: left;
+    width: 79%;
+  }
 }

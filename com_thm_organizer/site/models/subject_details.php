@@ -45,14 +45,11 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
 		$langTag = $input->getString('languageTag', THM_OrganizerHelperLanguage::getShortTag());
 		$query   = $this->_db->getQuery(true);
 
-		$select = "s.id, externalID, name_$langTag AS name, description_$langTag AS description, ";
-		$select .= "objective_$langTag AS objective, content_$langTag AS content, instructionLanguage, ";
-		$select .= "preliminary_work_$langTag AS preliminary_work, literature, creditpoints, expenditure, ";
-		$select .= "present, independent, proof_$langTag AS proof, frequency_$langTag AS frequency, ";
-		$select .= "method_$langTag AS method, recommended_prerequisites_$langTag as recommended_prerequisites, ";
-		$select .= "prerequisites_$langTag AS prerequisites, aids_$langTag AS aids, used_for_$langTag AS prerequisiteOf, ";
-		$select .= "evaluation_$langTag AS evaluation, sws, expertise, method_competence, self_competence, ";
-		$select .= "social_competence, duration";
+		$select = "s.*, name_$langTag AS name, description_$langTag AS description, objective_$langTag AS objective, ";
+		$select .= "content_$langTag AS content, preliminary_work_$langTag AS preliminary_work, proof_$langTag AS proof, ";
+		$select .= "frequency_$langTag AS frequency, method_$langTag AS method, aids_$langTag AS aids, ";
+		$select .= "recommended_prerequisites_$langTag as recommended_prerequisites, evaluation_$langTag AS evaluation, ";
+		$select .= "prerequisites_$langTag AS prerequisites, used_for_$langTag AS prerequisiteOf";
 
 		$query->select($select);
 		$query->from('#__thm_organizer_subjects AS s');

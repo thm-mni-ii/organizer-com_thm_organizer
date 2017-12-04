@@ -23,15 +23,17 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
  */
 class THM_OrganizerViewCourse_Edit extends JViewLegacy
 {
-	public $item;
+	public $dateText = '';
 
 	public $form;
 
-	public $lessonID;
+	public $item;
 
 	public $lang;
 
 	public $languageSwitches;
+
+	public $lessonID;
 
 	public $menu;
 
@@ -76,6 +78,19 @@ class THM_OrganizerViewCourse_Edit extends JViewLegacy
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
 		THM_OrganizerHelperComponent::addMenuParameters($this);
+
+		if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course))
+		{
+			$course        = THM_OrganizerHelperCourse::getLatestCourse($this->subjectID);
+			$courseID      = $course['id'];
+
+			if (!empty($courseID))
+			{
+				$latestDates = THM_OrganizerHelperCourse::getDateDisplay($courseID);
+
+				$this->dateText      = sprintf($this->lang->_('COM_THM_ORGANIZER_LATEST_COURSE_DATES'), $latestDates);
+			}
+		}
 
 		$params = ['view' => 'course_edit', 'id' => $this->subjectID, 'lessonID' => $this->lessonID];
 

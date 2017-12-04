@@ -11,6 +11,8 @@
  * @link        www.thm.de
  */
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -26,9 +28,25 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 	public $lang;
 
+	public $dateText = '';
+
 	public $disclaimer;
 
 	public $disclaimerData;
+
+	public $isAdmin = false;
+
+	public $menu;
+
+	public $showRegistration = false;
+
+	public $status = null;
+
+	public $statusDisplay = '';
+
+	public $subjectID;
+
+	public $registrationButton = '';
 
 	/**
 	 * Method to get display
@@ -45,61 +63,185 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 		if (!empty($this->item->id))
 		{
-			$params                 = ['view' => 'subject_details', 'id' => $this->item->id];
+			$this->subjectID        = $this->item->id;
+			$params                 = ['view' => 'subject_details', 'id' => $this->subjectID];
 			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 		}
 
+		if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course))
+		{
+			$course        = THM_OrganizerHelperCourse::getLatestCourse($this->subjectID);
+			$this->isAdmin = JFactory::getUser()->authorise('core.admin');
+			$courseID      = $course['id'];
+
+			if (!empty($courseID) OR $this->isAdmin)
+			{
+				$this->showRegistration = true;
+
+				$expired = !THM_OrganizerHelperCourse::isRegistrationOpen($course['id']);
+				$userID  = JFactory::getUser()->id;
+
+				if (!empty($userID))
+				{
+					$this->isAdmin = ($this->isAdmin OR THM_OrganizerHelperCourse::teachesCourse($this->subjectID));
+				}
+
+				$regState     = THM_OrganizerHelperCourse::getUserState($courseID);
+				$this->status = empty($regState) ? null : (int) $regState["status"];
+				$latestDates = THM_OrganizerHelperCourse::getDateDisplay($courseID);
+
+				$this->dateText      = sprintf($this->lang->_('COM_THM_ORGANIZER_LATEST_COURSE_DATES'), $latestDates);
+				$this->statusDisplay = THM_OrganizerHelperCourse::getStatusDisplay($courseID, $this->isAdmin, $expired);
+
+				$this->registrationButton = THM_OrganizerHelperCourse::getActionButton('subject', $courseID, $this->isAdmin, $expired);
+			}
+		}
+
+		THM_OrganizerHelperComponent::addMenuParameters($this);
+
 		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
 		$this->disclaimerData = ['language' => $this->lang];
+
+		// $item->admin = ($isAdmin OR THM_OrganizerHelperCourse::teachesCourse($item->subjectID));
 
 		parent::display($tpl);
 	}
 
 	/**
-	 * Determines whether or not the attribute should be displayed based on its value
+	 * Creates a basic output for text or numeric values
 	 *
-	 * @param mixed $value the attribute's value
+	 * @param string $index    the object property name
+	 * @param string $constant the language constant for the label
 	 *
-	 * @return bool true if the attribute should be displayed, otherwise false
+	 * @return void outputs HTML
 	 */
-	public function displayStarAttribute($value)
+	public function displayAttribute($index, $constant = '')
 	{
-		if ($value === null)
+		if (empty($this->item->$index))
 		{
-			return false;
+			return;
 		}
 
-		if (is_numeric($value))
-		{
-			$value         = (int) $value;
-			$allowedValues = [0, 1, 2, 3];
-			if (in_array($value, $allowedValues))
-			{
-				return true;
-			}
+		$label = 'COM_THM_ORGANIZER_';
+		$label .= empty($constant) ? strtoupper($index) : strtoupper($constant);
 
-			return false;
+		?>
+		<div class="subject-item">
+			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
+			<div class="subject-content"><?php echo $this->item->$index; ?></div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Creates a basic output for processed values
+	 *
+	 * @param string $index    the attribute propery name
+	 * @param mixed  $constant the language constant fragment
+	 * @param mixed  $default  the default value to display
+	 *
+	 * @return void outputs HTML
+	 */
+	public function displayTeacherAttribute($index, $constant, $default = '')
+	{
+		if (empty($this->item->$index) AND empty($default))
+		{
+			return;
 		}
 
+		$label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
+		$label .= ((empty($this->item->$index) AND !empty($default)) OR count($this->item->$index)) ? 'S' : '';
 
-		if (is_string($value))
+		$value = '';
+
+		if (empty($this->item->$index))
 		{
-			if ($value === '')
+			$value .= $default;
+		}
+		elseif (count($this->item->$index) > 1)
+		{
+			foreach ($this->item->$index as $teacher)
 			{
-				return false;
+				$value .= '<li>' . $this->getTeacherOutput($teacher) . '</li>';
 			}
+		}
+		else
+		{
+			$value .= $this->getTeacherOutput(array_values($this->item->$index)[0]);
+		}
+		?>
 
-			$allowedValues = ['0', '1', '2', '3'];
+		<div class="subject-item">
+			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
+			<div class="subject-content">
+				<?php echo $value; ?>
+			</div>
+		</div>
+		<?php
+	}
 
-			if (in_array($value, $allowedValues))
-			{
-				return true;
-			}
 
-			return false;
+	/**
+	 * Determines whether or not the attribute should be displayed based on its value and outputs that value
+	 *
+	 * @param string $index the object property name
+	 *
+	 * @return void outputs HTML
+	 */
+	public function displayStarAttribute($index)
+	{
+		if ($this->item->$index === null OR $this->item->$index === '')
+		{
+			return;
 		}
 
-		return false;
+		$allowedValues = [
+			0 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS'),
+			1 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_ONE_STAR'),
+			2 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS'),
+			3 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS')
+		];
+		$value         = (int) $this->item->$index;
+
+		if (!in_array($value, array_keys($allowedValues)))
+		{
+			return;
+		}
+
+		$constant = 'COM_THM_ORGANIZER_' . strtoupper($index);
+
+		?>
+		<div class="subject-item">
+			<div class="subject-label"><?php echo $this->lang->_($constant); ?></div>
+			<div class="subject-content"><?php echo $allowedValues[$value]; ?></div>
+		</div>
+		<?php
+		return;
+	}
+
+	/**
+	 * Creates a basic output for processed values
+	 *
+	 * @param string $constant the language constant for the label
+	 * @param mixed  $value    the value to be displayed, usually a html string
+	 *
+	 * @return void outputs HTML
+	 */
+	public function displayValue($constant, $value)
+	{
+		if (empty($value))
+		{
+			return;
+		}
+
+		$label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
+
+		?>
+		<div class="subject-item">
+			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
+			<div class="subject-content"><?php echo $value; ?></div>
+		</div>
+		<?php
 	}
 
 	/**
@@ -188,11 +330,11 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 	{
 		if (!empty($teacher['link']))
 		{
-			echo '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
+			return '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
 		}
 		else
 		{
-			echo $teacher['name'];
+			return $teacher['name'];
 		}
 	}
 }
