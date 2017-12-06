@@ -10,10 +10,5 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_tabbed.php';
-?>
-	<script type='text/javascript' charset='utf-8'>
-		var defaultDepartment = <?php echo JComponentHelper::getParams('com_thm_organizer')->get("department"); ?>;
-	</script>
-<?php
-THM_OrganizerTemplateEdit_Tabbed::render($this);
+require_once JPATH_ROOT . '/media/com_thm_organizer/templates/list.php';
+THM_OrganizerTemplateList::render($this);

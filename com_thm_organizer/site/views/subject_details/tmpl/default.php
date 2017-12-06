@@ -79,6 +79,18 @@ if (!empty($this->menu))
 			</div>
 		<?php endif; ?>
 	<?php endif;
+
+	if (!empty($this->item->campusID))
+	{
+		require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
+		$campusName = THM_OrganizerHelperCampuses::getName($this->item->campusID);
+		$campusLocation = THM_OrganizerHelperCampuses::getLocation($this->item->campusID);
+		echo '<div class="subject-item">';
+		echo '<div class="subject-label">' . $this->lang->_('COM_THM_ORGANIZER_CAMPUS') . '</div>';
+		echo '<div class="subject-content">' . $campusName . ' ' . $campusLocation . '</div>';
+		echo '</div>';
+	}
+
 	$this->displayAttribute('externalID', 'MODULE_CODE');
 	$this->displayAttribute('short_name');
 	$this->displayTeacherAttribute('executors', 'MODULE_COORDINATOR');

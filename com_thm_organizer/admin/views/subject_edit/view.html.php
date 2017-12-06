@@ -70,6 +70,6 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
 	{
 		parent::modifyDocument();
 		/** @noinspection PhpIncludeInspection */
-		require_once JPATH_ROOT . "/media/com_thm_organizer/js/subject_prep_course.js.php";
+		JFactory::getDocument()->addScript(JUri::root() . '/media/com_thm_organizer/js/subject_prep_course.js');
 	}
 }

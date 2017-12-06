@@ -112,6 +112,14 @@ class THM_OrganizerModelCourse_List extends JModelList
 			$courseQuery->where("s.id = '{$this->state->filter_subject}'");
 		}
 
+		$campusID = JFactory::getApplication()->getMenu()->getActive()->params->get('campusID');
+
+		if (!empty($campusID))
+		{
+			$courseQuery->leftJoin('#__thm_organizer_campuses as c on s.campusID = c.id');
+			$courseQuery->where("(c.id = '$campusID' OR c.parentID = '$campusID' OR s.campusID IS NULL)");
+		}
+
 		return $courseQuery;
 	}
 

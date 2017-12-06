@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
+        <field name="id"
+               type="hidden"/>
+        <field name="name_de"
+               type="text"
+               class="inputbox required validate-german-alpha"
+               size="60"
+               maxlength="60"
+               label="COM_THM_ORGANIZER_NAME_DE"
+               description="COM_THM_ORGANIZER_NAME_DE_DESC"
+               required="true"/>
+        <field name="name_en"
+               type="text"
+               class="inputbox required validate-alpha"
+               size="60"
+               maxlength="60"
+               label="COM_THM_ORGANIZER_NAME_EN"
+               description="COM_THM_ORGANIZER_NAME_EN_DESC"
+               required="true"/>
+        <field name="parentID"
+               type="genericlist"
+               valuecolumn="id"
+               textcolumn="name"
+               localized="true"
+               conditions="isCity = 1"
+               table="thm_organizer_campuses"
+               label="COM_THM_ORGANIZER_PARENT_CAMPUS"
+               description="COM_THM_ORGANIZER_PARENT_CAMPUS_DESC">
+            <option value="">JNONE</option>
+        </field>
+        <field name="isCity"
+               type="list"
+               class="chzn-color-state"
+               label="COM_THM_ORGANIZER_IS_CITY"
+               description="COM_THM_ORGANIZER_IS_CITY_DESC"
+               default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="location"
+               type="text"
+               class="inputbox validate-gps"
+               size="60"
+               maxlength="20"
+               label="COM_THM_ORGANIZER_LOCATION"
+               description="COM_THM_ORGANIZER_LOCATION_DESC"/>
+        <field name="address"
+               type="text"
+               class="inputbox validate-german-address"
+               size="60"
+               maxlength="255"
+               label="COM_THM_ORGANIZER_ADDRESS"
+               description="COM_THM_ORGANIZER_ADDRESS_DESC"/>
+        <field name="city"
+               type="text"
+               class="inputbox validate-alpha-german"
+               size="60"
+               maxlength="60"
+               label="COM_THM_ORGANIZER_CITY"
+               description="COM_THM_ORGANIZER_CITY_DESC"/>
+        <field name="zipCode"
+               type="text"
+               class="inputbox validate-alphanumeric"
+               size="60"
+               maxlength="60"
+               label="COM_THM_ORGANIZER_ZIP_CODE"
+               description="COM_THM_ORGANIZER_ZIP_CODE_DESC"/>
+    </fieldset>
+</form>

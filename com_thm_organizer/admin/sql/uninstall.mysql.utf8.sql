@@ -3,6 +3,7 @@ SET foreign_key_checks = 0;
 
 DROP TABLE IF EXISTS `#__thm_organizer_calendar`;
 DROP TABLE IF EXISTS `#__thm_organizer_calendar_configuration_map`;
+DROP TABLE IF EXISTS `#__thm_organizer_campuses`;
 DROP TABLE IF EXISTS `#__thm_organizer_colors`;
 DROP TABLE IF EXISTS `#__thm_organizer_degrees`;
 DROP TABLE IF EXISTS `#__thm_organizer_departments`;

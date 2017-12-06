@@ -28,6 +28,25 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar_configuration_map` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_campuses` (
+  `id`       INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parentID` INT(11) UNSIGNED          DEFAULT NULL,
+  `name_de`  VARCHAR(60)      NOT NULL,
+  `name_en`  VARCHAR(60)      NOT NULL,
+  `isCity`   TINYINT(1)       NOT NULL DEFAULT '0',
+  `location` VARCHAR(20)      NOT NULL,
+  `address`  VARCHAR(255)     NOT NULL,
+  `city`     VARCHAR(60)      NOT NULL,
+  `zipCode`  VARCHAR(60)      NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parentID` (`parentID`),
+  UNIQUE KEY `germanName` (`parentID`, `name_de`),
+  UNIQUE KEY `englishName` (`parentID`, `name_en`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
   `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_de` VARCHAR(60)      NOT NULL,
@@ -664,6 +683,11 @@ REFERENCES `#__thm_organizer_calendar` (`id`)
   ADD CONSTRAINT `calendar_configuration_map_configurationID_fk` FOREIGN KEY (`configurationID`)
 REFERENCES `#__thm_organizer_lesson_configurations` (`id`)
   ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_campuses`
+  ADD CONSTRAINT `campus_parentID_fk` FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_campuses` (`id`)
+  ON DELETE SET NULL
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_department_resources`

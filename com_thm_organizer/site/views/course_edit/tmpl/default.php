@@ -45,17 +45,16 @@ $nameProperty = 'name_' . $this->languageTag;
 
 		<a href="<?php echo JRoute::_($backURL, false); ?>"
 		   class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
-
 		<hr>
-
-
 		<div class="form-horizontal">
 			<?php
 			echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
+
 			foreach ($this->form->getFieldSets() as $set)
 			{
 				$isInitialized  = (bool) $this->form->getValue('id');
 				$displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
+
 				if ($displayInitial OR $isInitialized)
 				{
 					echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));

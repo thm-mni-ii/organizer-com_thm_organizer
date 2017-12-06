@@ -32,10 +32,10 @@ class THM_OrganizerModelEdit extends JModelAdmin
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		$name = $this->get('name');
-		$form = $this->loadForm("com_thm_organizer.$name", $name, array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm("com_thm_organizer.$name", $name, ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -63,6 +63,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
 		THM_OrganizerHelperComponent::addActions($this);
 		$item      = parent::getItem($pk);
 		$allowEdit = THM_OrganizerHelperComponent::allowEdit($this, $item->id);
+
 		if ($allowEdit)
 		{
 			return $item;
@@ -79,20 +80,19 @@ class THM_OrganizerModelEdit extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
+	public function getTable($name = '', $prefix = 'Table', $options = [])
 	{
 		/**
 		 * Joomla makes the mistake of handling front end and backend differently for include paths. Here we add the
 		 * possible frontend and media locations for logical consistency.
 		 */
-		$component = $this->get('option');
-		JTable::addIncludePath(JPATH_ROOT . "/media/$component/tables");
-		JTable::addIncludePath(JPATH_ROOT . "/components/$component/tables");
+		JTable::addIncludePath(JPATH_ROOT . "/media/com_thm_organizer/tables");
+		JTable::addIncludePath(JPATH_ROOT . "/components/com_thm_organizer/tables");
 
-		$type   = str_replace('_edit', '', $this->get('name')) . 's';
-		$prefix = str_replace('com_', '', $component) . 'Table';
+		$type = str_replace('_edit', '', $this->get('name'));
+		$type .= $type == 'campus' ? 'es' : 's';
 
-		return JTable::getInstance($type, $prefix, $options);
+		return JTable::getInstance($type, 'THM_OrganizerTable', $options);
 	}
 
 	/**

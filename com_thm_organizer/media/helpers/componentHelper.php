@@ -209,17 +209,17 @@ class THM_OrganizerHelperComponent
 		{
 			$spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
-			/*JHtmlSidebar::addEntry(
+			JHtmlSidebar::addEntry(
 				JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE'),
 				'index.php?option=com_thm_organizer&amp;view=campus_manager',
 				$viewName == 'campus_manager'
 			);
-			JHtmlSidebar::addEntry(
+			/*JHtmlSidebar::addEntry(
 				JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE'),
 				'index.php?option=com_thm_organizer&amp;view=building_manager',
 				$viewName == 'building_manager'
-			);
-			JHtmlSidebar::addEntry(
+			);*/
+			/*JHtmlSidebar::addEntry(
 				JText::_('COM_THM_ORGANIZER_EQUIPMENT_MANAGER_TITLE'),
 				'index.php?option=com_thm_organizer&amp;view=equipment_manager',
 				$viewName == 'equipment_manager'

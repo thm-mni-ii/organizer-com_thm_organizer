@@ -94,7 +94,7 @@ $actions = $this->getModel()->actions;
 				<a href="index.php?option=com_thm_organizer&view=building_manager">
 				    <?php echo JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE'); ?>
 				</a>
-			</div>
+			</div> -->
 			<div class="action-item">
 				<a href="index.php?option=com_thm_organizer&view=campus_manager">
 				    <?php echo JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE'); ?>
