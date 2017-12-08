@@ -1,39 +1,13 @@
+/* To prevent JSHint warning for Joomla object: */
+/* globals Joomla */
+
 jQuery(document).ready(function () {
 	"use strict";
-	window.scheduleApp = new ScheduleApp(Joomla.getOptions('text', {}), Joomla.getOptions('variables', {}));
+	window.scheduleApp = new ScheduleApp(Joomla.getOptions("variables", {}));
 });
 
 /**
  * Object that builds schedule tables, an interactive calendar and a form which defines loaded schedules
- * @param {mixed|Object} text - contains translated text strings
- * @param {string} text.APRIL - name of April
- * @param {string} text.AUGUST - name of August
- * @param {string} text.COPY - text for generating a link
- * @param {string} text.DECEMBER - name of December
- * @param {string} text.FEBRUARY - name of February
- * @param {string} text.FRIDAY_SHORT - short name of Friday
- * @param {string} text.JANUARY - name of January
- * @param {string} text.JULY - name of July
- * @param {string} text.JUNE - name of June
- * @param {string} text.LUNCHTIME - text for break/lunchtime in schedule
- * @param {string} text.MARCH - name of March
- * @param {string} text.MAY - name of May
- * @param {string} text.MONDAY_SHORT - short name of Monday
- * @param {string} text.MY_SCHEDULE - text for a personal schedule
- * @param {string} text.NOVEMBER - name of November
- * @param {string} text.OCTOBER - name of October
- * @param {string} text.POOL_PLACEHOLDER - text for a placeholder in pool selection
- * @param {string} text.PROGRAM_PLACEHOLDER - text for a placeholder in program selection
- * @param {string} text.ROOM_PLACEHOLDER - text for a placeholder in room selection
- * @param {string} text.ROOM_TYPE_PLACEHOLDER - text for a placeholder in room type selection
- * @param {string} text.SATURDAY_SHORT - short name of Saturday
- * @param {string} text.SEPTEMBER - name of September
- * @param {string} text.SUNDAY_SHORT - short name of Sunday
- * @param {string} text.THURSDAY_SHORT - short name of Thursday
- * @param {string} text.TIME - text for time
- * @param {string} text.TEACHER_PLACEHOLDER - text for a placeholder in teacher selection
- * @param {string} text.TUESDAY_SHORT - short name of Tuesday
- * @param {string} text.WEDNESDAY_SHORT - short name of Wednesday
  * @param {mixed|Object} variables - contains website configurations
  * @param {string} variables.ajaxBase - basic url for ajax requests
  * @param {string} variables.auth - token to authenticate user
@@ -55,7 +29,7 @@ jQuery(document).ready(function () {
  * @param {string} variables.subjectDetailBase - basic url for subject details
  * @param {string} variables.username - name of currently logged in user
  */
-const ScheduleApp = function (text, variables) {
+const ScheduleApp = function (variables) {
 	"use strict";
 
 	const app = this,
@@ -66,13 +40,13 @@ const ScheduleApp = function (text, variables) {
 		pastDateButton = document.getElementById("past-date"),
 		scheduleWrapper = document.getElementById("scheduleWrapper"),
 		weekdays = [
-			text.MONDAY_SHORT,
-			text.TUESDAY_SHORT,
-			text.WEDNESDAY_SHORT,
-			text.THURSDAY_SHORT,
-			text.FRIDAY_SHORT,
-			text.SATURDAY_SHORT,
-			text.SUNDAY_SHORT
+			Joomla.JText._("MON"),
+			Joomla.JText._("TUE"),
+			Joomla.JText._("WED"),
+			Joomla.JText._("THU"),
+			Joomla.JText._("FRI"),
+			Joomla.JText._("SAT"),
+			Joomla.JText._("SUN")
 		],
 		/**
 		 * RegExp for date format, specified by website configuration
@@ -102,18 +76,18 @@ const ScheduleApp = function (text, variables) {
 		const calendarDiv = document.getElementById("calendar"),
 			month = document.getElementById("display-month"),
 			months = [
-				text.JANUARY,
-				text.FEBRUARY,
-				text.MARCH,
-				text.APRIL,
-				text.MAY,
-				text.JUNE,
-				text.JULY,
-				text.AUGUST,
-				text.SEPTEMBER,
-				text.OCTOBER,
-				text.NOVEMBER,
-				text.DECEMBER
+				Joomla.JText._("JANUARY"),
+				Joomla.JText._("FEBRUARY"),
+				Joomla.JText._("MARCH"),
+				Joomla.JText._("APRIL"),
+				Joomla.JText._("MAY"),
+				Joomla.JText._("JUNE"),
+				Joomla.JText._("JULY"),
+				Joomla.JText._("AUGUST"),
+				Joomla.JText._("SEPTEMBER"),
+				Joomla.JText._("OCTOBER"),
+				Joomla.JText._("NOVEMBER"),
+				Joomla.JText._("DECEMBER")
 			],
 			table = document.getElementById("calendar-table"),
 			that = this,
@@ -228,7 +202,7 @@ const ScheduleApp = function (text, variables) {
 		this.changeCalendarMonth = function (increaseMonth) {
 			if (increaseMonth)
 			{
-				// day 1 for preventing get Feb 31
+				// Day 1 for preventing get Feb 31
 				activeDate.setMonth(activeDate.getMonth() + 1, 1);
 			}
 			else
@@ -330,7 +304,7 @@ const ScheduleApp = function (text, variables) {
 			id = (source === "user" ? source : IDs ? source + IDs : source + getSelectedValues(source, "-")),
 			resource = source,
 			resourceIDs = IDs ? IDs : source === "user" ? null : getSelectedValues(source, "-"),
-			that = this; // for inner helper functions
+			that = this;
 		let lessons = [],
 			table,
 
@@ -367,7 +341,7 @@ const ScheduleApp = function (text, variables) {
 
 				if (resource === "user")
 				{
-					return text.MY_SCHEDULE;
+					return Joomla.JText._("COM_THM_ORGANIZER_MY_SCHEDULE");
 				}
 
 				// Get pre-selected value like "Informatik Master"
@@ -484,7 +458,9 @@ const ScheduleApp = function (text, variables) {
 				 */
 				floatDiv.addEventListener("dragstart", function (event) {
 					const data = {"id": event.target.id, "x": event.pageX, "y": event.pageY};
-					event.dataTransfer.setData("text", JSON.stringify(data)); // only "text" for IE
+
+					// Only "text" for IE
+					event.dataTransfer.setData("text", JSON.stringify(data));
 					event.dropEffect = "move";
 				});
 				floatDiv.addEventListener("click", function () {
@@ -569,11 +545,11 @@ const ScheduleApp = function (text, variables) {
 	 * @param {Schedule} schedule
 	 */
 	function ScheduleTable(schedule) {
-		const table = document.createElement("table"), // HTMLTableElement
+		const table = document.createElement("table"),
 			userSchedule = schedule.getId() === "user",
 			weekend = 7;
 		let defaultGridID = null,
-			lessonElements = [], // HTMLDivElements
+			lessonElements = [],
 			lessonData = {},
 			/**
 			 * @param {number} timeGrid.endDay - 1 for monday etc.
@@ -636,7 +612,7 @@ const ScheduleApp = function (text, variables) {
 			{
 				const th = document.createElement("th");
 
-				th.innerHTML = (headIndex === 0) ? text.TIME :
+				th.innerHTML = (headIndex === 0) ? Joomla.JText._("COM_THM_ORGANIZER_TIME") :
 					weekdays[headIndex - 1] + " (" + headerDate.getPresentationFormat() + ")";
 
 				if (headIndex === visibleDay)
@@ -832,6 +808,7 @@ const ScheduleApp = function (text, variables) {
 						}
 
 						++gridIndex;
+
 						// Jump over break
 						do
 						{
@@ -1041,7 +1018,9 @@ const ScheduleApp = function (text, variables) {
 				saveActionButton = document.createElement("button"),
 				deleteDiv = document.createElement("div"),
 				deleteActionButton = document.createElement("button");
-			let questionActionButton; // Let because used twice
+
+			// Let because used twice
+			let questionActionButton;
 
 			// Saving a lesson
 			saveActionButton.className = "icon-plus";
@@ -1106,6 +1085,7 @@ const ScheduleApp = function (text, variables) {
 
 				subjectNameElement.innerHTML = variables.isMobile ? data.shortName : data.name;
 				subjectNameElement.innerHTML += data.method ? " - " + data.method : "";
+
 				// Append whitespace to slashes for better word break
 				subjectNameElement.innerHTML = subjectNameElement.innerHTML.replace(/(\S)\/(\S)/g, "$1 / $2");
 				subjectNameElement.className = "name " + (data.subjectDelta ? data.subjectDelta : "");
@@ -1163,7 +1143,7 @@ const ScheduleApp = function (text, variables) {
 
 					if (variables[showX])
 					{
-						// outsourced to avoid closure in for-loop
+						// Outsourced to avoid closure in for-loop
 						addLessonEvent(nameElement, resource, id, data[id].fullName ? data[id].fullName : data[id]);
 					}
 
@@ -1549,14 +1529,17 @@ const ScheduleApp = function (text, variables) {
 	 * Including functions to get the right schedule by id or response url.
 	 */
 	function Schedules() {
-		this.schedules = []; // Schedule objects
+		/**
+		 * @type {Schedule[]}
+		 */
+		this.schedules = [];
 
 		/**
 		 * Adds a schedule to the list and set it into session storage
 		 * @param {Schedule} schedule
 		 */
 		this.addSchedule = function (schedule) {
-			let schedules = JSON.parse(window.sessionStorage.getItem("schedules"));
+			let sessionSchedules = JSON.parse(window.sessionStorage.getItem("schedules"));
 			const scheduleObject = {
 				title: schedule.getTitle(),
 				resource: schedule.getResource(),
@@ -1566,13 +1549,13 @@ const ScheduleApp = function (text, variables) {
 			// No user schedules in session. When someone is logged in, the schedule gets loaded anyway.
 			if (schedule.getId() !== "user")
 			{
-				if (!schedules)
+				if (!sessionSchedules)
 				{
-					schedules = {};
+					sessionSchedules = {};
 				}
 
-				schedules[schedule.getId()] = scheduleObject;
-				window.sessionStorage.setItem("schedules", JSON.stringify(schedules));
+				sessionSchedules[schedule.getId()] = scheduleObject;
+				window.sessionStorage.setItem("schedules", JSON.stringify(sessionSchedules));
 			}
 
 			this.schedules.push(schedule);
@@ -1634,11 +1617,11 @@ const ScheduleApp = function (text, variables) {
 				"teacher": document.getElementById("teacher")
 			},
 			placeholder = {
-				"pool": text.POOL_PLACEHOLDER,
-				"program": text.PROGRAM_PLACEHOLDER,
-				"roomType": text.ROOM_TYPE_PLACEHOLDER,
-				"room": text.ROOM_PLACEHOLDER,
-				"teacher": text.TEACHER_PLACEHOLDER
+				"pool": Joomla.JText._("COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER"),
+				"program": Joomla.JText._("COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER"),
+				"roomType": Joomla.JText._("COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER"),
+				"room": Joomla.JText._("COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER"),
+				"teacher": Joomla.JText._("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER")
 			},
 			wrappers = {
 				"category": document.getElementById("category-input"),
@@ -1693,7 +1676,8 @@ const ScheduleApp = function (text, variables) {
 		 * @param {HTMLSelectElement} field
 		 */
 		function addSelectEventListener(field) {
-			if (variables.isMobile) // no Chosen-library available
+			// No Chosen-library available
+			if (variables.isMobile)
 			{
 				fields[field.id].addEventListener("change", handleField);
 			}
@@ -1729,10 +1713,14 @@ const ScheduleApp = function (text, variables) {
 					const field = fields[id];
 
 					if (fieldsToShow[id.toLowerCase()] && (
-							id === name || // Show the as param given field
-							field.dataset.next === name || // Show previous field
-							field.dataset.input === "static" || // Show static fields like category
-							id === selectedValue // Show static fields and their selection
+							// Show as param given field
+							id === name ||
+							// Show previous field
+							field.dataset.next === name ||
+							// Show static fields like category
+							field.dataset.input === "static" ||
+							// Show static fields and their selection
+							id === selectedValue
 						)
 					)
 					{
@@ -1785,7 +1773,8 @@ const ScheduleApp = function (text, variables) {
 
 			if (session)
 			{
-				if (session.name === config.name) // Prevent overwriting configuration values
+				// Prevent overwriting configuration values
+				if (session.name === config.name)
 				{
 					sendFormRequest(session.name, session.value, config.values);
 				}
@@ -1793,7 +1782,8 @@ const ScheduleApp = function (text, variables) {
 				{
 					jQuery(fields[session.name]).val(session.value).chosen("destroy").chosen();
 
-					if (fields[session.value]) // update static selected field like program
+					// Update static selected field like program
+					if (fields[session.value])
 					{
 						sendFormRequest(session.value);
 					}
@@ -1934,8 +1924,9 @@ const ScheduleApp = function (text, variables) {
 					sendFormRequest(name, "", config.values);
 				}
 			}
-			else // First field is static (category)
+			else
 			{
+				// First field is static (category)
 				sendFormRequest(getSelectedValues(name));
 				showField(name);
 			}
@@ -1969,7 +1960,7 @@ const ScheduleApp = function (text, variables) {
 				}
 			}
 
-			// non lesson-fields have priority, but in some cases there are only lesson-fields (teacher)
+			// Non lesson-fields have priority, but in some cases there are only lesson-fields (teacher)
 			sendFormRequest(toUpdate.next || toUpdate.lesson);
 		}
 
@@ -2381,9 +2372,9 @@ const ScheduleApp = function (text, variables) {
 				newDate.setDate(newDate.getDate() + 1);
 			}
 		}
-		// Decrease date
 		else
 		{
+			// Decrease date
 			if (step === "month")
 			{
 				newDate.setMonth(newDate.getMonth() - stepInt);
@@ -2524,18 +2515,18 @@ const ScheduleApp = function (text, variables) {
 				}
 			}
 		}
-		// No schedule selected - disable all but schedule form
 		else if (scheduleInput.length === 1 && scheduleInput.is("#default-input"))
 		{
+			// No schedule selected - disable all but schedule form
 			for (i = 0; i < tabsToDisable.length; ++i)
 			{
 				tabsToDisable[i].attr("data-toggle", "");
 				tabsToDisable[i].parent("li").addClass("disabled-tab");
 			}
 		}
-		// Activates all tabs
 		else
 		{
+			// Activates all tabs
 			for (i = 0; i < tabsToDisable.length; ++i)
 			{
 				tabsToDisable[i].attr("data-toggle", "tab");
@@ -2556,7 +2547,7 @@ const ScheduleApp = function (text, variables) {
 			).length,
 			addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
 			addLunchBreakRow = '<tr class="break-row">' + '<td class="break" colspan=' + numberOfColumns + '>' +
-				text.LUNCHTIME + '</td></tr>',
+				Joomla.JText._("COM_THM_ORGANIZER_LUNCHTIME") + '</td></tr>',
 			/**
 			 * @param {Object.<string, number|Object>} timeGrid.periods - has all blocks with their number, start- and end times
 			 */
@@ -2626,7 +2617,8 @@ const ScheduleApp = function (text, variables) {
 	 * @param {DataTransfer|Object} event.dataTransfer - drag data store
 	 */
 	function handleDrops(event) {
-		const data = JSON.parse(event.dataTransfer.getData("text")), // only "text" for IE
+		// Only "text" for IE
+		const data = JSON.parse(event.dataTransfer.getData("text")),
 			element = document.getElementById(data.id),
 			left = window.getComputedStyle(element).getPropertyValue("left"),
 			top = window.getComputedStyle(element).getPropertyValue("top");
@@ -2777,7 +2769,7 @@ const ScheduleApp = function (text, variables) {
 		if (formats[0] === "ics")
 		{
 			url += "&username=" + variables.username + "&auth=" + variables.auth;
-			window.prompt(text.COPY, url);
+			window.prompt(Joomla.JText._("COM_THM_ORGANIZER_ACTION_GENERATE_LINK"), url);
 			exportSelection.val("placeholder");
 			exportSelection.trigger("chosen:updated");
 			return;
@@ -2807,7 +2799,8 @@ const ScheduleApp = function (text, variables) {
 	Date.prototype.getPresentationFormat = function (shortYear) {
 		const day = this.getDate(),
 			dayLong = day < 10 ? "0" + day : day,
-			month = this.getMonth() + 1, // getMonth() is zero-based
+			// getMonth() is zero-based
+			month = this.getMonth() + 1,
 			monthLong = month < 10 ? "0" + month : month,
 			yearLong = this.getFullYear(),
 			year = yearLong.toString().substr(2, 2);
@@ -2913,6 +2906,7 @@ const ScheduleApp = function (text, variables) {
 			// To show the schedule after this input field (by css)
 			scheduleInput.checked = "checked";
 		});
+
 		// Change Tab-Behaviour of menu-bar, so all tabs can be closed
 		jQuery(".tabs-toggle").on("click", function (event) {
 			changeTabBehaviour(jQuery(this));

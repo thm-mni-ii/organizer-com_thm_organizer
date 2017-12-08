@@ -192,39 +192,36 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 			$variables['teacherIDs'] = $this->model->params['teacherIDs'];
 		}
 
-		$text = [
-			'APRIL'                 => JText::_('APRIL'),
-			'AUGUST'                => JText::_('AUGUST'),
-			'COPY'                  => JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK'),
-			'DECEMBER'              => JText::_('DECEMBER'),
-			'FEBRUARY'              => JText::_('FEBRUARY'),
-			'FRIDAY_SHORT'          => JText::_('FRI'),
-			'JANUARY'               => JText::_('JANUARY'),
-			'JULY'                  => JText::_('JULY'),
-			'JUNE'                  => JText::_('JUNE'),
-			'LUNCHTIME'             => JText::_('COM_THM_ORGANIZER_LUNCHTIME'),
-			'MARCH'                 => JText::_('MARCH'),
-			'MAY'                   => JText::_('MAY'),
-			'MONDAY_SHORT'          => JText::_('MON'),
-			'MY_SCHEDULE'           => JText::_('COM_THM_ORGANIZER_MY_SCHEDULE'),
-			'NOVEMBER'              => JText::_('NOVEMBER'),
-			'OCTOBER'               => JText::_('OCTOBER'),
-			'POOL_PLACEHOLDER'      => JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER'),
-			'PROGRAM_PLACEHOLDER'   => JText::_('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER'),
-			'ROOM_PLACEHOLDER'      => JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER'),
-			'ROOM_TYPE_PLACEHOLDER' => JText::_('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER'),
-			'SATURDAY_SHORT'        => JText::_('SAT'),
-			'SEPTEMBER'             => JText::_('SEPTEMBER'),
-			'SUNDAY_SHORT'          => JText::_('SUN'),
-			'TEACHER_PLACEHOLDER'   => JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER'),
-			'THURSDAY_SHORT'        => JText::_('THU'),
-			'TIME'                  => JText::_('COM_THM_ORGANIZER_TIME'),
-			'TUESDAY_SHORT'         => JText::_('TUE'),
-			'WEDNESDAY_SHORT'       => JText::_('WED')
-		];
+        $doc = JFactory::getDocument();
+        $doc->addScriptOptions('variables', $variables);
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptOptions('variables', $variables);
-		$doc->addScriptOptions('text', $text);
+		JText::script('APRIL');
+		JText::script('AUGUST');
+		JText::script('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');
+		JText::script('DECEMBER');
+		JText::script('FEBRUARY');
+        JText::script('FRI');
+        JText::script('JANUARY');
+        JText::script('JULY');
+        JText::script('JUNE');
+        JText::script('COM_THM_ORGANIZER_LUNCHTIME');
+        JText::script('MARCH');
+        JText::script('MAY');
+        JText::script('MON');
+        JText::script('COM_THM_ORGANIZER_MY_SCHEDULE');
+        JText::script('NOVEMBER');
+        JText::script('OCTOBER');
+        JText::script('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
+        JText::script('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER');
+        JText::script('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        JText::script('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
+        JText::script('SAT');
+        JText::script('SEPTEMBER');
+        JText::script('SUN');
+        JText::script('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
+        JText::script('THU');
+        JText::script('COM_THM_ORGANIZER_TIME');
+        JText::script('TUE');
+        JText::script('WED');
 	}
 }
