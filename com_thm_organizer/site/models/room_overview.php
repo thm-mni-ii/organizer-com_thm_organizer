@@ -260,13 +260,17 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
 			->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
 			->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id AND conf.lessonID = ls.id')
 			->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
+			->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id')
+			->innerJoin('#__thm_organizer_plan_pools AS pp ON lp.poolID = pp.id')
+			->leftJoin('#__thm_organizer_plan_pool_publishing AS ppp ON ppp.planPoolID = pp.id AND ppp.planningPeriodID = l.planningPeriodID')
 			->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
 			->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
 			->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
 			->where("cal.schedule_date = '$date'")
 			->where("cal.delta != 'removed'")
 			->where("l.delta != 'removed'")
-			->where("ls.delta != 'removed'");
+			->where("ls.delta != 'removed'")
+			->where("(ppp.published IS NULL OR ppp.published = '1')");
 		$this->_db->setQuery($query);
 
 		try
