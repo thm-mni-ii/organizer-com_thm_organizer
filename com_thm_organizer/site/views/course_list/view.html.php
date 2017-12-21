@@ -60,8 +60,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 		$this->shortTag         = THM_OrganizerHelperLanguage::getShortTag();
 
-		$isAdmin           = JFactory::getUser()->authorise('core.admin');
-		$this->showFilters = ($isAdmin OR THM_OrganizerHelperCourse::teachesCourse());
+		$this->showFilters = THM_OrganizerHelperCourse::isCourseAdmin();
 
 		if ($this->showFilters)
 		{
@@ -70,7 +69,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 
 		foreach ($this->items AS &$item)
 		{
-			$item->admin = ($isAdmin OR THM_OrganizerHelperCourse::teachesCourse($item->subjectID));
+			$item->admin = THM_OrganizerHelperCourse::isCourseAdmin($item->subjectID);
 		}
 
 		parent::display($tpl);

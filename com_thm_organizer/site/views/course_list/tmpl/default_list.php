@@ -26,12 +26,14 @@ foreach ($this->items as $item)
 	$displayDate = $startDate == $endDate ? $endDate : "$startDate - $endDate";
 
 	$courseStatus = $item->expired ? '<span class="disabled">' . $expired . '</span>' : $current;
+	$name = empty($item->campus['name']) ? $item->name : "$item->name ({$item->campus['name']})";
 
 	?>
 	<tr class='row'>
 		<td>
 			<a href='<?php echo $subjectRoute; ?>'>
-				<?php echo $item->name; ?>
+				<?php echo $name; ?>
+
 			</a>
 		</td>
 		<td><?php echo $displayDate; ?></td>

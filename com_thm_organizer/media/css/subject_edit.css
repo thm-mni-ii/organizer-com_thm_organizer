@@ -12,22 +12,17 @@ div.language-switches a:hover {
     float: right;
 }
 
-.course-edit-view .course-descriptors {
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-    margin-bottom: 1rem;
-}
-
-.course-edit-view ul.nav-tabs {
+.subject-edit-view ul.nav-tabs {
     border-bottom: 1px solid #77858c;
 }
 
-.course-edit-view .nav-tabs > li {
+.subject-edit-view .nav-tabs > li {
     border: 1px solid #77858c;
     border-bottom: none;
     border-radius: 0;
 }
 
-.course-edit-view .nav-tabs > li > a {
+.subject-edit-view .nav-tabs > li > a {
     background-color: transparent;
     border: none;
     font-size: .9rem;
@@ -35,15 +30,15 @@ div.language-switches a:hover {
     margin: 0;
 }
 
-.course-edit-view .nav-tabs > li > a:hover {
+.subject-edit-view .nav-tabs > li > a:hover {
     background-color: transparent;
 }
 
-.course-edit-view li.active {
+.subject-edit-view li.active {
     background-color: #dfeec8;
 }
 
-.course-edit-view .wf-editor-container .nav-tabs > li > a {
+.subject-edit-view .wf-editor-container .nav-tabs > li > a {
     background-color: transparent;
     border: none;
 }

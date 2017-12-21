@@ -14,6 +14,8 @@ $loginRoute    = JRoute::_('index.php?option=com_users&view=login&tmpl=component
 $registerRoute = JRoute::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
 $profileRoute  = JRoute::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->shortTag}");
 
+$position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition');
+
 // This variable is also used in the subordinate template
 $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
 if(!empty($menuID)):
@@ -41,7 +43,7 @@ if(!empty($menuID)):
 	<?php if (empty(JFactory::getUser()->id)): ?>
 		<div class="tbox-yellow">
 			<p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
-			<?php echo JHtml::_('content.prepare', '{loadposition bound_login}'); ?>
+			<?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
 			<div class="right">
 				<a class="btn" onclick="<?php echo $casURL; ?>">
 					<span class="icon-apply"></span>
@@ -56,7 +58,7 @@ if(!empty($menuID)):
 				<a class='btn btn-max' href='<?php echo $profileRoute; ?>'>
 					<span class='icon-address'></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_USER_PROFILE"); ?>
 				</a>
-				<?php echo JHtml::_('content.prepare', '{loadposition bound_login}'); ?>
+				<?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
 			</div>
 		</div>
 	<?php endif; ?>

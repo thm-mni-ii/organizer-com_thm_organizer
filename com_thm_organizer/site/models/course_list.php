@@ -9,6 +9,8 @@
  * @link        www.thm.de
  */
 
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
+
 /**
  * Class provides methods for handling the prep course list
  *
@@ -18,6 +20,8 @@
  */
 class THM_OrganizerModelCourse_List extends JModelList
 {
+	private $campusID;
+
 	/**
 	 * Constructor
 	 *
@@ -29,6 +33,7 @@ class THM_OrganizerModelCourse_List extends JModelList
 	public function __construct($config = [])
 	{
 		parent::__construct();
+		$this->campusID = JFactory::getApplication()->getMenu()->getActive()->params->get('campusID');
 	}
 
 	/**
@@ -42,28 +47,28 @@ class THM_OrganizerModelCourse_List extends JModelList
 	{
 		$courses = parent::getItems();
 
-		if ($this->state->filter_status != 'current')
-		{
-			return $courses;
-		}
-
 		$maxValues = [];
 
-		foreach ($courses AS $index => $course)
+		foreach ($courses AS $index => &$course)
 		{
-			if (isset($maxValues[$course->subjectID]))
+			if ($this->state->filter_status == 'current')
 			{
-				if ($maxValues[$course->subjectID]['start'] > $course->start)
+				if (isset($maxValues[$course->subjectID]))
 				{
-					unset($courses[$index]);
-					continue;
-				}
-				else
-				{
-					$oldIndex = $maxValues[$course->subjectID]['index'];
-					unset($courses[$oldIndex]);
+					if ($maxValues[$course->subjectID]['start'] > $course->start)
+					{
+						unset($courses[$index]);
+						continue;
+					}
+					else
+					{
+						$oldIndex = $maxValues[$course->subjectID]['index'];
+						unset($courses[$oldIndex]);
+					}
 				}
 			}
+
+			$course->campus = THM_OrganizerHelperCourse::getCampus($course);
 
 			$maxValues[$course->subjectID] = ['start' => $course->start, 'index' => $index];
 		}
@@ -90,10 +95,12 @@ class THM_OrganizerModelCourse_List extends JModelList
 			->group('lessonID');
 
 		$courseQuery->select("s.id as subjectID, ls.lessonID, s.name_$tag as name, sq.start, sq.end, sq.expired");
+		$courseQuery->select("l.campusID AS campusID, s.campusID AS abstractCampusID");
 		$courseQuery->from('#__thm_organizer_subjects as s');
-		$courseQuery->leftJoin('#__thm_organizer_subject_mappings as sm on sm.subjectID = s.id');
-		$courseQuery->leftJoin('#__thm_organizer_lesson_subjects as ls on ls.subjectID = sm.plan_subjectID');
-		$courseQuery->leftJoin("($subQuery) as sq on sq.lessonID = ls.lessonID");
+		$courseQuery->innerJoin('#__thm_organizer_subject_mappings as sm on sm.subjectID = s.id');
+		$courseQuery->innerJoin('#__thm_organizer_lesson_subjects as ls on ls.subjectID = sm.plan_subjectID');
+		$courseQuery->innerJoin('#__thm_organizer_lessons as l on ls.lessonID = l.id');
+		$courseQuery->innerJoin("($subQuery) as sq on sq.lessonID = ls.lessonID");
 		$courseQuery->where("is_prep_course = '1' and ls.subjectID is not null and sq.start is not null");
 		$courseQuery->order("end DESC, name ASC");
 
@@ -112,12 +119,12 @@ class THM_OrganizerModelCourse_List extends JModelList
 			$courseQuery->where("s.id = '{$this->state->filter_subject}'");
 		}
 
-		$campusID = JFactory::getApplication()->getMenu()->getActive()->params->get('campusID');
-
-		if (!empty($campusID))
+		if (!empty($this->campusID))
 		{
 			$courseQuery->leftJoin('#__thm_organizer_campuses as c on s.campusID = c.id');
-			$courseQuery->where("(c.id = '$campusID' OR c.parentID = '$campusID' OR s.campusID IS NULL)");
+			$campusConditions = "(l.campusID = '{$this->campusID}' OR (l.campusID IS NULL AND ";
+			$campusConditions .= "(c.id = '{$this->campusID}' OR c.parentID = '{$this->campusID}' OR s.campusID IS NULL)))";
+			$courseQuery->where($campusConditions);
 		}
 
 		return $courseQuery;

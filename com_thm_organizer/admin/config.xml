@@ -4,6 +4,13 @@
             name="general"
             label="COM_THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
             description="COM_THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
+        <field name="loginPosition"
+               type="modulesposition"
+               default=""
+               label="COM_THM_ORGANIZER_LOGIN_POSITION"
+               description="COM_THM_ORGANIZER_LOGIN_POSITION_DESC"
+               maxlength="50"
+        />
         <field
                 name="dateFormat"
                 label="COM_THM_ORGANIZER_DATE_FORMAT"

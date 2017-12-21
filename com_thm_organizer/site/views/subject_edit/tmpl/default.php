@@ -11,8 +11,7 @@
 defined('_JEXEC') or die;
 
 // Sets page configuration and component option
-$backURL = empty($this->menu) ? JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'] . '?';
-$backURL .= "languageTag={$this->languageTag}";
+$backURL = empty($this->menu) ? JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'];
 
 // Accessed from subject_details
 $backURL .= empty($this->lessonID) ?
@@ -28,14 +27,8 @@ $nameProperty = 'name_' . $this->languageTag;
 		} ?>
 	</div>
 </div>
-<div class="course-edit-view">
+<div class="subject-edit-view">
 	<h1><?php echo $this->form->getValue($nameProperty) . ': ' .$this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT"); ?></h1>
-	<?php if ($this->dateText): ?>
-		<div class="course-descriptors">
-			<div class="left"><?php echo $this->dateText ?></div>
-			<div class="clear"></div>
-		</div>
-	<?php endif; ?>
 	<form action="index.php?" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm"
 		  class="form-horizontal">
 
@@ -67,7 +60,7 @@ $nameProperty = 'name_' . $this->languageTag;
 		</div>
 		<?php echo JHtml::_('form.token'); ?>
 		<input type="hidden" name="option" value="com_thm_organizer"/>
-		<input type="hidden" name="task" value="course.save"/>
+		<input type="hidden" name="task" value="subject.save"/>
 		<?php echo $this->form->getInput('id'); ?>
 		<input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
 		<input type="hidden" name="languageTag" value="<?php echo $this->languageTag; ?>"/>

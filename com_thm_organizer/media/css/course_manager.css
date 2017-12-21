@@ -45,9 +45,13 @@ a [class^="icon-"], a [class*=" icon-"] {
     font-size: 0;
 }
 
-.course-manager-view .group button, .course-manager-view .group a.btn {
+.course-manager-view .group button, .course-manager-view .group a.btn, .course-manager-view .group select {
     font-size: .9rem;
     vertical-align: top;
+}
+
+.course-manager-view .group button:focus, .course-manager-view .group a.btn:focus, .course-manager-view .group select:focus {
+    color: #394a59;
 }
 
 .course-manager-view .group button span, .course-manager-view .group a.btn span {
@@ -58,21 +62,25 @@ a [class^="icon-"], a [class*=" icon-"] {
     font-size: 1rem;
 }
 
-.course-manager-view .group button:hover span:before, .course-manager-view .group a.btn:hover span:before {
+.course-manager-view .group button:hover:focus, .course-manager-view .group button:hover span:before, .course-manager-view .group a.btn:hover:focus, .course-manager-view .group a.btn:hover span:before {
     color: white;
 }
 
-.course-manager-view select#participantState {
+.course-manager-view select#participantState, .course-manager-view select#campusID {
     margin: 0;
     padding-right: 2rem;
     width: auto;
+}
+
+.course-manager-view select#participantState option, .course-manager-view select#campusID option {
+    padding-top: .2rem;
 }
 
 .course-manager-view .status-container button {
     margin-left: .2rem;
 }
 
-.course-manager-view .course-toolbar button, .course-manager-view .course-toolbar a.btn {
+.course-manager-view .course-toolbar button, .course-manager-view .course-toolbar a.btn, .course-manager-view .course-toolbar select#campusID {
     margin-left: .4rem;
 }
 
@@ -122,4 +130,28 @@ a [class^="icon-"], a [class*=" icon-"] {
 
 .course-manager-view table th a {
     color: white;
+}
+
+.course-manager-view .modal form {
+    margin-bottom: 0;
+}
+
+.course-manager-view .modal form .modal-header, .course-manager-view .modal form .modal-footer {
+    background-color: #f2f5f6;
+}
+
+.course-manager-view .modal form .modal-footer button, .course-manager-view .modal form .modal-footer .btn {
+    background-color: white;
+}
+
+.course-manager-view .modal form .modal-footer button:hover, .course-manager-view .modal form .modal-footer .btn:hover {
+    background-color: #4a5c66;
+}
+
+.course-manager-view .modal form .modal-footer button:hover span:before, .course-manager-view .modal form .modal-footer .btn:hover span:before {
+    color: white;
+}
+
+.course-manager-view .modal form .modal-footer button span, .course-manager-view .modal form .modal-footer .btn span {
+    margin-right: .2rem;
 }

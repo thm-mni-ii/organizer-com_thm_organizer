@@ -93,7 +93,7 @@ class THM_OrganizerHelperComponent
 		if (!empty($menuID))
 		{
 			$menuItem = $app->getMenu()->getItem($menuID);
-			$menu = ['id' => $menuID, 'route' => JUri::base() . $menuItem->route];
+			$menu = ['id' => $menuID, 'route' => self::getRedirectBase()];
 
 			$query = explode('?', $menuItem->link)[1];
 			parse_str($query, $parameters);
@@ -605,6 +605,34 @@ class THM_OrganizerHelperComponent
 		$style     = 'color: ' . $textColor . '; background-color: ' . $bgColor . '; text-align:center';
 
 		return '<div class="color-preview" style="' . $style . '">' . $text . '</div>';
+	}
+
+	/**
+	 * Builds a the base url for redirection
+	 *
+	 * @return string the root url to redirect to
+	 */
+	public static function getRedirectBase()
+	{
+		$app    = JFactory::getApplication();
+		$url    = JUri::base();
+		$menuID = $app->input->getInt('Itemid');
+
+		if (!empty($menuID))
+		{
+			$url .= $app->getMenu()->getItem($menuID)->route . '?';
+		}
+		else
+		{
+			$url .= '?option=com_thm_organizer&';
+		}
+
+		if (!empty($app->input->getString('languageTag')))
+		{
+			$url .= '&languageTag=' . THM_OrganizerHelperLanguage::getShortTag();
+		}
+
+		return $url;
 	}
 
 	/**

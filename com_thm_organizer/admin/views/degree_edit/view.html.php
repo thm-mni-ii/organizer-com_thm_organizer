@@ -49,7 +49,7 @@ class THM_OrganizerViewDegree_Edit extends THM_OrganizerViewEdit
 		else
 		{
 			$title      = JText::_('COM_THM_ORGANIZER_DEGREE_EDIT_EDIT_VIEW_TITLE');
-			$cancelText = JText::_('COM_THM_ORGANIZER_ACTION_CLOSE');
+			$cancelText = JText::_('COM_THM_ORGANIZER_CLOSE');
 		}
 		JToolbarHelper::title($title, 'organizer_degrees');
 		JToolbarHelper::save('degree.save');

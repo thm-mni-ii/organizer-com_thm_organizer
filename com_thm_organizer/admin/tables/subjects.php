@@ -41,13 +41,13 @@ class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
 	{
 		$nullColumns = [
 			'campusID',
-			'lsfID',
-			'hisID',
-			'frequencyID',
-			'fieldID',
 			'expertise',
-			'self_competence',
+			'fieldID',
+			'frequencyID',
+			'hisID',
+			'lsfID',
 			'method_competence',
+			'self_competence',
 			'social_competence'
 		];
 

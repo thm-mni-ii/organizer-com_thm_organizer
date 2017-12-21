@@ -155,8 +155,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   COMMENT 'The method of instruction for this lesson unit.',
   `delta`             VARCHAR(10)      NOT NULL DEFAULT ''
   COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `registration_type` INT(1) UNSIGNED           DEFAULT '0'
-  COMMENT 'The method of registration for the lesson. Possible values: 0 - FIFO, 1 - Manual.',
+  `registration_type` INT(1) UNSIGNED           DEFAULT NULL
+  COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
   `max_participants`  INT(4) UNSIGNED           DEFAULT NULL
   COMMENT 'The maximum number of participants. NULL is without limit.',
   `comment`           VARCHAR(200)              DEFAULT NULL,
@@ -467,30 +467,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_features` (
-  `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `untisID` VARCHAR(1)       NOT NULL
-  COMMENT 'The Untis internal ID',
-  `name_de` VARCHAR(255)              DEFAULT NULL,
-  `name_en` VARCHAR(255)              DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_features_map` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `roomID`    INT(11) UNSIGNED NOT NULL,
-  `featureID` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `roomID` (`roomID`),
-  KEY `featureID` (`featureID`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `gpuntisID`      VARCHAR(60)
@@ -582,7 +558,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `used_for_en`                  TEXT             NOT NULL DEFAULT '',
   `duration`                     INT(2) UNSIGNED           DEFAULT 1,
   `is_prep_course`               INT(1) UNSIGNED  NOT NULL DEFAULT 1,
-  `max_participants`             INT(11) UNSIGNED          DEFAULT NULL,
+  `max_participants`             INT(4) UNSIGNED           DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `frequencyID` (`frequencyID`),
   KEY `fieldID` (`fieldID`),
@@ -642,7 +618,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
   `lessonID`      INT(11) UNSIGNED NOT NULL,
   `userID`        INT(11)          NOT NULL,
   `status`        INT(1) UNSIGNED           DEFAULT '0'
-  COMMENT 'The user''s registration status. Possible values: 0 - pending, 1 - registered, 2 - denied.',
+  COMMENT 'The user''s registration status. Possible values: 0 - pending, 1 - registered',
   `user_date`     DATETIME                  DEFAULT NULL
   COMMENT 'The last date of user action.',
   `status_date`   DATETIME                  DEFAULT NULL
@@ -651,6 +627,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
   COMMENT 'The order for automatic user registration actions.',
   `configuration` TEXT             NOT NULL
   COMMENT 'A configuration of the lessons visited should the added lessons be a subset of those offered.',
+  `campusID`      INT(11) UNSIGNED          DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `lessonID` (`lessonID`),
   KEY `userID` (`userID`)
@@ -723,6 +700,9 @@ ALTER TABLE `#__thm_organizer_lessons`
   ON DELETE CASCADE
   ON UPDATE CASCADE,
   ADD CONSTRAINT `lessons_methodid_fk` FOREIGN KEY (`methodID`) REFERENCES `#__thm_organizer_methods` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `lessons_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
   ON DELETE SET NULL
   ON UPDATE CASCADE;
 
@@ -848,14 +828,6 @@ ALTER TABLE `#__thm_organizer_programs`
 ALTER TABLE `#__thm_organizer_rooms`
   ADD CONSTRAINT `rooms_typeid_fk` FOREIGN KEY (`typeID`) REFERENCES `#__thm_organizer_room_types` (`id`)
   ON DELETE SET NULL
-  ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_room_features_map`
-  ADD CONSTRAINT `room_features_map_featureid_fk` FOREIGN KEY (`featureID`) REFERENCES `#__thm_organizer_room_features` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `room_features_map_roomid_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
-  ON DELETE CASCADE
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_schedules`

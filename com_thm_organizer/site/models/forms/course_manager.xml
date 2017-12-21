@@ -14,7 +14,7 @@
            label="COM_THM_ORGANIZER_MAIL_SUBJECT"
            required="true"/>
     <field name="text"
-           type="editor"
+           type="textarea"
            class="inputbox"
            label="COM_THM_ORGANIZER_TEXT"
            required="true"/>

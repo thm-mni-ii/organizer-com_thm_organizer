@@ -12,15 +12,9 @@
 $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 $baseURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
 
-$exportURLBase    = "$baseURL&view=course_list&format=pdf&type=";
-$participantListRoute = JRoute::_($exportURLBase . 0, false);
-$departmentListRoute  = JRoute::_($exportURLBase . 1, false);
-$badgesRoute          = JRoute::_($exportURLBase . 2, false);
-
-$capacityText = THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_CURRENT_CAPACITY", sizeof($this->curCap), $this->capacity);
 $editAuth     = THM_OrganizerHelperComponent::allowResourceManage('subject', $this->course["subjectID"]);
 
-$subjectEditURL = "$baseURL&view=course_edit&id={$this->course["subjectID"]}";
+$subjectEditURL = "$baseURL&view=subject_edit&id={$this->course["subjectID"]}";
 
 $registeredText = $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
@@ -46,16 +40,19 @@ if (!empty($this->menu))
 	<h1><?php echo "{$this->lang->_('COM_THM_ORGANIZER_COURSE_MANAGEMENT')}: {$this->course["name"]}"; ?></h1>
 	<div class="course-descriptors">
 		<div class="left"><?php echo $this->dateText ?></div>
-		<div class="right"><?php echo $capacityText ?></div>
+		<div class="right">
+			<?php echo THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_CURRENT_CAPACITY", $this->capacityText); ?>
+		</div>
 		<div class="clear"></div>
 	</div>
 
 	<form action="index.php?" method="post" id="adminForm" name="adminForm">
 		<input type="hidden" name="option" value="com_thm_organizer"/>
-		<input type="hidden" name="task" value="participant.changeStatus"/>
+		<input type="hidden" name="task" value="course.changeParticipantStatus" id="task"/>
 		<input type="hidden" name="participantStatus" value=""/>
 		<input type="hidden" name="lessonID" value="<?php echo $this->course["id"]; ?>"/>
 		<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
+		<input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
 
 		<div class="group left status-container">
 			<select title="<?php echo $this->lang->_('COM_THM_ORGANIZER_PARTICIPANT_OPTIONS'); ?>"
@@ -63,9 +60,7 @@ if (!empty($this->menu))
 				<option value=""><?php echo $this->lang->_('COM_THM_ORGANIZER_PARTICIPANT_OPTIONS'); ?></option>
 				<option value="1"><?php echo $this->lang->_('COM_THM_ORGANIZER_ACCEPT') ?></option>
 				<option value="0"><?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_WAIT_LIST'); ?></option>
-				<?php if ($this->isAdmin): ?>
-					<option value='2'><?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_DELETE'); ?></option>
-				<?php endif; ?>
+				<option value='2'><?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_DELETE'); ?></option>
 			</select>
 			<button title="<?php echo $this->lang->_('JSUBMIT'); ?>" type="submit" class="btn">
 				<span class="icon-forward-2"></span>
@@ -76,37 +71,18 @@ if (!empty($this->menu))
 			<?php if ($editAuth): ?>
 				<a href="<?php echo JRoute::_($subjectEditURL, false); ?>" class="btn btn-mini" type="button">
 					<span class="icon-edit"></span>
-					<?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_COURSE") ?>
+					<?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_DESCRIPTION") ?>
 				</a>
 			<?php endif; ?>
 
-			<a href="#" class="btn btn-mini callback-modal" type="button" data-toggle="modal" data-target="#modal">
+			<?php $this->renderCampusSelect(); ?>
+
+			<a href="#" class="btn btn-mini callback-modal" type="button" data-toggle="modal" data-target="#circular">
 				<span class="icon-mail"></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_CIRCULAR") ?>
 			</a>
 
 			<div class="print-container">
-				<a class="dropdown-toggle print btn" data-toggle="dropdown" href="#">
-					<span class="icon-print"></span>
-					<?php echo $this->lang->_('COM_THM_ORGANIZER_PRINT_OPTIONS'); ?>
-					<span class="icon-arrow-down-3"></span>
-				</a>
-				<ul id="print" class="dropdown-menu">
-					<li>
-						<a href="<?php echo $participantListRoute; ?>" target="_blank">
-							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_PARTICIPANTS'); ?>
-						</a>
-					</li>
-					<li>
-						<a href="<?php echo $departmentListRoute; ?>" target="_blank">
-							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_DEPARTMENTS'); ?>
-						</a>
-					</li>
-					<li>
-						<a href="<?php echo $badgesRoute; ?>" target="_blank">
-							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_BADGES'); ?>
-						</a>
-					</li>
-				</ul>
+				<?php $this->renderPrintSelect(); ?>
 			</div>
 
 			<?php if (!empty($this->menu)): ?>
@@ -129,18 +105,18 @@ if (!empty($this->menu))
 			</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($this->items as $item): ?>
+			<?php foreach ($this->participants as $participant): ?>
 				<tr>
-					<td><input title='' type='checkbox' name='checked[]' value='<?php echo $item->cid; ?>'/></td>
-					<td><?php echo $item->name; ?></td>
-					<td><?php echo $item->program; ?></td>
-					<td><?php echo $item->email; ?></td>
-					<td><?php echo $item->status ? $registeredText : $waitListText; ?></td>
-					<td><?php echo JHtml::_('date', $item->status_date, $dateFormat); ?></td>
+					<td><input title='' type='checkbox' name='checked[]' value='<?php echo $participant->cid; ?>'/></td>
+					<td><?php echo $participant->name; ?></td>
+					<td><?php echo $participant->program; ?></td>
+					<td><?php echo $participant->email; ?></td>
+					<td><?php echo $participant->status ? $registeredText : $waitListText; ?></td>
+					<td><?php echo JHtml::_('date', $participant->status_date, $dateFormat); ?></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
 		</table>
 	</form>
-	<?php $this->loadTemplate('circular'); ?>
+	<?php echo $this->loadTemplate('circular'); ?>
 </div>

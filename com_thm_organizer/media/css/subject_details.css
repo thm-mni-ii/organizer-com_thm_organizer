@@ -100,11 +100,6 @@ a [class^="icon-"], a [class*=" icon-"] {
     float: right;
 }
 
-.subject-list .course-descriptors {
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-    margin-bottom: 1rem;
-}
-
 .subject-list button, .subject-list .btn {
     background-color: white;
 }
@@ -117,8 +112,23 @@ a [class^="icon-"], a [class*=" icon-"] {
     color: white;
 }
 
-.subject-list .course-status {
+.subject-list .course-item {
+    margin-bottom: .6rem;
+}
+
+.subject-list .course-item > span {
+    display: inline-block;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
     font-size: .9rem;
+}
+
+.subject-list .course-item > span.campus {
+    width: 10rem;
+}
+
+.subject-list .course-item > span, .subject-list .course-item .status {
+    margin-right: .4rem;
+    padding-top: .7rem;
 }
 
 .subject-list .subject-item {
@@ -141,4 +151,39 @@ a [class^="icon-"], a [class*=" icon-"] {
     margin-left: 10px;
     float: left;
     width: 79%;
+}
+
+.subject-list .subject-content [class^="icon-"], .subject-list .subject-content [class*=" icon-"] {
+    margin-right: .2rem;
+}
+
+.subject-list .subject-content ul ul {
+    margin-bottom: 0;
+}
+
+.subject-list .subject-content ul ul li:before {
+    content: "-";
+    display: block;
+    float: left;
+    margin-left: -.4rem;
+}
+
+.subject-list .subject-content ul ul li {
+    padding-bottom: .4rem;
+}
+
+.subject-list .subject-content ul ul li:first-child {
+    padding-top: .4rem;
+}
+
+.subject-list .subject-content ul ul li:last-child {
+    padding-bottom: 0;
+}
+
+.subject-list .subject-content li {
+    padding-bottom: .8rem;
+}
+
+.subject-list .disabled {
+    opacity: .6;
 }

@@ -39,9 +39,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 		$type      = $input->get("type", 0);
 		$subjectID = THM_OrganizerHelperCourse::getCourse($lessonID)["subjectID"];
 
-		$isAdmin = JFactory::getUser()->authorise('core.admin');
-
-		if ($isAdmin OR THM_OrganizerHelperCourse::teachesCourse($subjectID))
+		if (!empty($subjectID) AND THM_OrganizerHelperCourse::isCourseAdmin($subjectID))
 		{
 			switch ($type)
 			{

@@ -24,11 +24,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
-	public $languageSwitches = [];
-
-	public $lang;
-
-	public $dateText = '';
+	public $courses = null;
 
 	public $disclaimer;
 
@@ -36,17 +32,21 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 	public $isAdmin = false;
 
+	public $isCourse = false;
+
+	public $languageSwitches = [];
+
+	public $lang;
+
+	public $langTag = 'de';
+
 	public $menu;
 
 	public $showRegistration = false;
 
 	public $status = null;
 
-	public $statusDisplay = '';
-
 	public $subjectID;
-
-	public $registrationButton = '';
 
 	/**
 	 * Method to get display
@@ -70,30 +70,31 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 		if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course))
 		{
-			$course        = THM_OrganizerHelperCourse::getLatestCourse($this->subjectID);
-			$this->isAdmin = JFactory::getUser()->authorise('core.admin');
-			$courseID      = $course['id'];
+			$this->isCourse = true;
+			$courses        = THM_OrganizerHelperCourse::getLatestCourses($this->subjectID);
+			$this->isAdmin  = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID);
 
-			if (!empty($courseID) OR $this->isAdmin)
+			if (!empty($courses) OR $this->isAdmin)
 			{
 				$this->showRegistration = true;
 
-				$expired = !THM_OrganizerHelperCourse::isRegistrationOpen($course['id']);
-				$userID  = JFactory::getUser()->id;
-
-				if (!empty($userID))
+				foreach ($courses AS $key => &$course)
 				{
-					$this->isAdmin = ($this->isAdmin OR THM_OrganizerHelperCourse::teachesCourse($this->subjectID));
+					$courseID           = $course['id'];
+					$expired            = !THM_OrganizerHelperCourse::isRegistrationOpen($courseID);
+					$course['expired']  = $expired;
+					$regState           = THM_OrganizerHelperCourse::getParticipantState($courseID);
+					$course['status']   = empty($regState) ? null : (int) $regState["status"];
+					$this->status = ($this->status === 1 OR $course['status'] === null) ? $this->status : $course['status'];
+					$course['dateText'] = THM_OrganizerHelperCourse::getDateDisplay($courseID);
+
+					$course['statusDisplay']
+						= THM_OrganizerHelperCourse::getStatusDisplay($courseID, $this->isAdmin, $expired);
+					$course['registrationButton']
+						= THM_OrganizerHelperCourse::getActionButton('subject', $courseID, $this->isAdmin, $expired);
 				}
 
-				$regState     = THM_OrganizerHelperCourse::getUserState($courseID);
-				$this->status = empty($regState) ? null : (int) $regState["status"];
-				$latestDates = THM_OrganizerHelperCourse::getDateDisplay($courseID);
-
-				$this->dateText      = sprintf($this->lang->_('COM_THM_ORGANIZER_LATEST_COURSE_DATES'), $latestDates);
-				$this->statusDisplay = THM_OrganizerHelperCourse::getStatusDisplay($courseID, $this->isAdmin, $expired);
-
-				$this->registrationButton = THM_OrganizerHelperCourse::getActionButton('subject', $courseID, $this->isAdmin, $expired);
+				$this->courses = $courses;
 			}
 		}
 
@@ -101,8 +102,6 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
 		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
 		$this->disclaimerData = ['language' => $this->lang];
-
-		// $item->admin = ($isAdmin OR THM_OrganizerHelperCourse::teachesCourse($item->subjectID));
 
 		parent::display($tpl);
 	}
@@ -299,9 +298,9 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 			return '';
 		}
 
-		$menuID  = JFactory::getApplication()->input->getInt('Itemid', 0);
-		$langTag = THM_OrganizerHelperLanguage::getShortTag();
-		$link    = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$langTag}&Itemid={$menuID}&id=";
+		$menuID        = JFactory::getApplication()->input->getInt('Itemid', 0);
+		$this->langTag = THM_OrganizerHelperLanguage::getShortTag();
+		$link          = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}&Itemid={$menuID}&id=";
 
 		$html = '<ul>';
 		foreach ($dependencies as $programID => $programData)

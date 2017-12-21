@@ -11,7 +11,10 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -97,45 +100,21 @@ class JFormFieldCampusID extends JFormFieldList
 	 *
 	 * @return  array  the pool options
 	 */
-	public function getOptions()
+	protected function getOptions()
 	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo      = JFactory::getDbo();
-		$query    = $dbo->getQuery(true);
+		$campuses = THM_OrganizerHelperCampuses::getOptions();
 
-		$select = "c1.id as value, c1.name_$shortTag as name, c2.name_$shortTag as parentName";
-		$query->select($select);
-		$query->from('#__thm_organizer_campuses as c1');
-		$query->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id');
-		$dbo->setQuery($query);
-
-		try
-		{
-			$campuses = $dbo->loadAssocList();
-		}
-		catch (Exception $exc)
+		if (empty($campuses))
 		{
 			return parent::getOptions();
 		}
 
 		$options = [];
-		foreach ($campuses as $campus)
+
+		foreach ($campuses as $campusID => $name)
 		{
-			if (empty($campus['parentName']))
-			{
-				$index = $campus['name'];
-				$name  = $campus['name'];
-			}
-			else
-			{
-				$index = "{$campus['parentName']}-{$campus['name']}";
-				$name  = "|&nbsp;&nbsp;-&nbsp;{$campus['name']}";
-			}
-
-			$options[$index] = JHtml::_('select.option', $campus['value'], $name);
+			$options[$campusID] = JHtml::_('select.option', $campusID, $name);
 		}
-
-		ksort($options);
 
 		return array_merge(parent::getOptions(), $options);
 	}

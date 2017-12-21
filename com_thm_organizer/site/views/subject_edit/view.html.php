@@ -21,10 +21,8 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerViewCourse_Edit extends JViewLegacy
+class THM_OrganizerViewSubject_Edit extends JViewLegacy
 {
-	public $dateText = '';
-
 	public $form;
 
 	public $item;
@@ -58,8 +56,7 @@ class THM_OrganizerViewCourse_Edit extends JViewLegacy
 			return;
 		}
 
-		$courseAuth = THM_OrganizerHelperCourse::teachesCourse($this->subjectID);
-		$authorized = (JFactory::getUser()->authorise('core.admin') OR $courseAuth);
+		$authorized = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID);
 
 		if (!$authorized)
 		{
@@ -79,20 +76,7 @@ class THM_OrganizerViewCourse_Edit extends JViewLegacy
 
 		THM_OrganizerHelperComponent::addMenuParameters($this);
 
-		if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course))
-		{
-			$course        = THM_OrganizerHelperCourse::getLatestCourse($this->subjectID);
-			$courseID      = $course['id'];
-
-			if (!empty($courseID))
-			{
-				$latestDates = THM_OrganizerHelperCourse::getDateDisplay($courseID);
-
-				$this->dateText      = sprintf($this->lang->_('COM_THM_ORGANIZER_LATEST_COURSE_DATES'), $latestDates);
-			}
-		}
-
-		$params = ['view' => 'course_edit', 'id' => $this->subjectID, 'lessonID' => $this->lessonID];
+		$params = ['view' => 'subject_edit', 'id' => $this->subjectID, 'lessonID' => $this->lessonID];
 
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 
@@ -111,6 +95,6 @@ class THM_OrganizerViewCourse_Edit extends JViewLegacy
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('behavior.framework', true);
 
-		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_edit.css');
+		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_edit.css');
 	}
 }

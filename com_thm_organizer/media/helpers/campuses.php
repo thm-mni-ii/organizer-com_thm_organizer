@@ -28,12 +28,10 @@ class THM_OrganizerHelperCampuses
 	 * @param int $campusID the id of the campus
 	 *
 	 * @return string the HTML for the location link
-	 *
-	 * @since 2017-12-05
 	 */
 	public static function getLocation($campusID)
 	{
-		$table  = JTable::getInstance('campuses', 'thm_organizerTable');
+		$table = JTable::getInstance('campuses', 'thm_organizerTable');
 		$table->load($campusID);
 
 		if (!empty($table->location))
@@ -42,6 +40,7 @@ class THM_OrganizerHelperCampuses
 			$location    = '<a target="_blank" href="https://www.google.de/maps/place/' . $coordinates . '">';
 			$location    .= '<span class="icon-location"></span>';
 			$location    .= '</a>';
+
 			return $location;
 		}
 
@@ -51,19 +50,25 @@ class THM_OrganizerHelperCampuses
 	/**
 	 * Gets the qualified campus name
 	 *
-	 * @param string $campusID the campus' id
+	 * @param int $campusID the campus' id
 	 *
 	 * @return  string the name if the campus could be resolved, otherwise empty
 	 */
-	public static function getName($campusID)
+	public static function getName($campusID = null)
 	{
 		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo         = JFactory::getDbo();
-		$query       = $dbo->getQuery(true);
+
+		if (empty($campusID))
+		{
+			return THM_OrganizerHelperLanguage::getLanguage()->_('COM_THM_ORGANIZER_CAMPUS_UNKNOWN');
+		}
+
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
 		$query->select("c1.name_$languageTag as name, c2.name_$languageTag as parentName")
 			->from('#__thm_organizer_campuses as c1')
 			->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id')
-			->where("c1.id = $campusID");
+			->where("c1.id = '$campusID'");
 		$dbo->setQuery($query);
 
 		try
@@ -83,5 +88,48 @@ class THM_OrganizerHelperCampuses
 		}
 
 		return empty($names['parentName']) ? $names['name'] : "{$names['parentName']} / {$names['name']}";
+	}
+
+	/**
+	 * Retrieves an alphabetized list of campuses suitable for use in creating HTML options.
+	 *
+	 * @return array campuses in the form of id => name
+	 */
+	public static function getOptions()
+	{
+		$options = [];
+		$dbo     = JFactory::getDbo();
+		$query   = $dbo->getQuery(true);
+
+		$query->select('id')
+			->from('#__thm_organizer_campuses as c');
+		$dbo->setQuery($query);
+
+		try
+		{
+			$campusIDs = $dbo->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+			return $options;
+		}
+
+		if (empty($campusIDs))
+		{
+			return $options;
+		}
+
+		foreach ($campusIDs as $campusID)
+		{
+			$options[self::getName($campusID)] = $campusID;
+		}
+
+		// Sort alphabetically by full name
+		ksort($options);
+
+		// Normalize: id => name
+		return array_flip($options);
 	}
 }

@@ -52,6 +52,11 @@ class THM_OrganizerTableLessons extends JTable
 	{
 		$this->modified = null;
 
+		if (!strlen($this->campusID))
+		{
+			$this->campusID = null;
+		}
+
 		return true;
 	}
 }
