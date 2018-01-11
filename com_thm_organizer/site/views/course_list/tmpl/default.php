@@ -65,17 +65,18 @@ if (!empty($menuID)):
 	<div id="form-container" class="form-container">
 		<form action="<?php echo JUri::current(); ?>"
 			  method="post" name="adminForm" id="adminForm">
-			<?php if (!empty($this->filters)): ?>
-				<?php if (!empty($this->filters['filter_subject'])): ?>
-					<div class="filter-item short-item">
-						<?php echo $this->filters['filter_subject']; ?>
-					</div>
-				<?php endif; ?>
-				<?php if ($this->showFilters): ?>
-					<div class="filter-item short-item">
-						<?php echo $this->filters['filter_status']; ?>
-					</div>
-				<?php endif; ?>
+			<div class="filter-item short-item">
+				<?php echo $this->filters['filter_campus']; ?>
+			</div>
+			<?php if (!empty($this->filters['filter_subject'])): ?>
+				<div class="filter-item short-item">
+					<?php echo $this->filters['filter_subject']; ?>
+				</div>
+			<?php endif; ?>
+			<?php if (!empty($this->filters['filter_status'])): ?>
+				<div class="filter-item short-item">
+					<?php echo $this->filters['filter_status']; ?>
+				</div>
 			<?php endif; ?>
 			<input type="hidden" name="languageTag" value="<?php echo $this->shortTag; ?>"/>
 		</form>

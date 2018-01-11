@@ -93,27 +93,92 @@ class THM_OrganizerHelperCampuses
 	/**
 	 * Retrieves an alphabetized list of campuses suitable for use in creating HTML options.
 	 *
+	 * @param bool $used whether or not only campuses associated with subjects or lessons should be returned.
+	 *
 	 * @return array campuses in the form of id => name
 	 */
-	public static function getOptions()
+	public static function getOptions($used = false)
 	{
 		$options = [];
 		$dbo     = JFactory::getDbo();
-		$query   = $dbo->getQuery(true);
 
-		$query->select('id')
-			->from('#__thm_organizer_campuses as c');
-		$dbo->setQuery($query);
-
-		try
+		if (!$used)
 		{
-			$campusIDs = $dbo->loadColumn();
+			$query   = $dbo->getQuery(true);
+			$query->select('id')
+				->from('#__thm_organizer_campuses as c');
+
+			$dbo->setQuery($query);
+
+			try
+			{
+				$campusIDs = $dbo->loadColumn();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+				return $options;
+			}
 		}
-		catch (Exception $exc)
+		else
 		{
-			JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+			// Parent campuses should always be displayed.
+			$query   = $dbo->getQuery(true);
+			$query->select('DISTINCT parentID')
+				->from('#__thm_organizer_campuses as c')
+				->where('parentID IS NOT NULL');
 
-			return $options;
+			$dbo->setQuery($query);
+
+			try
+			{
+				$parentCampusIDs = $dbo->loadColumn();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+				return $options;
+			}
+
+			$query   = $dbo->getQuery(true);
+			$query->select('c.id')
+				->from('#__thm_organizer_campuses as c')
+				->innerJoin('#__thm_organizer_subjects as s on s.campusID = c.id');
+
+			$dbo->setQuery($query);
+
+			try
+			{
+				$subjectCampusIDs = $dbo->loadColumn();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+				return $options;
+			}
+
+			$query   = $dbo->getQuery(true);
+			$query->select('c.id')
+				->from('#__thm_organizer_campuses as c')
+				->innerJoin('#__thm_organizer_lessons as l on l.campusID = c.id');
+
+			$dbo->setQuery($query);
+
+			try
+			{
+				$courseCampusIDs = $dbo->loadColumn();
+			}
+			catch (Exception $exc)
+			{
+				JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+				return $options;
+			}
+
+			$campusIDs = array_unique (array_merge ($parentCampusIDs, $subjectCampusIDs, $courseCampusIDs));
 		}
 
 		if (empty($campusIDs))

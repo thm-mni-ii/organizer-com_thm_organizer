@@ -94,6 +94,18 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 		$lang    = THM_OrganizerHelperLanguage::getLanguage();
 		$attribs = ['onchange' => 'form.submit();'];
 
+		$default = [0 => $lang->_("COM_THM_ORGANIZER_ALL_CAMPUSES")];
+		$campusOptions = THM_OrganizerHelperCampuses::getOptions(true);
+		unset($campusOptions[0]);
+
+		if (!empty($this->state->filter_campus) AND !isset($campusOptions[$this->state->filter_campus]))
+		{
+			$campusOptions[$this->state->filter_campus] = THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
+		}
+
+		$this->filters['filter_campus']
+			= THM_OrganizerHelperComponent::selectBox($campusOptions, 'filter_campus', $attribs, $this->state->filter_campus, $default);
+
 		if (THM_OrganizerHelperCourse::isCourseAdmin())
 		{
 			$activeOptions = [
@@ -105,13 +117,13 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 
 			$this->filters['filter_status']
 				= THM_OrganizerHelperComponent::selectBox($activeOptions, 'filter_status', $attribs, $this->state->filter_status);
+
+			$subjectOptions = THM_OrganizerHelperCourse::prepCourseList();
+			$default        = [0 => $lang->_("COM_THM_ORGANIZER_ALL_COURSES")];
+
+			$this->filters['filter_subject']
+				= THM_OrganizerHelperComponent::selectBox($subjectOptions, 'filter_subject', $attribs, $this->state->filter_subject, $default);
 		}
-
-		$subjectOptions = THM_OrganizerHelperCourse::prepCourseList();
-		$default        = [0 => $lang->_("COM_THM_ORGANIZER_ALL_COURSES")];
-
-		$this->filters['filter_subject']
-			= THM_OrganizerHelperComponent::selectBox($subjectOptions, 'filter_subject', $attribs, $this->state->filter_subject, $default);
 
 	}
 }

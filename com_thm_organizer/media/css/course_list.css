@@ -127,6 +127,10 @@ a [class^="icon-"], a [class*=" icon-"] {
     display: inline-block;
 }
 
+.course-list-view .filter-item select {
+    width: 10rem;
+}
+
 .course-list-view [class^="icon-"], .course-list-view [class*=" icon-"] {
     margin-right: .2rem;
 }

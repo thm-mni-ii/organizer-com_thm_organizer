@@ -20,22 +20,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
  */
 class THM_OrganizerModelCourse_List extends JModelList
 {
-	private $campusID;
-
-	/**
-	 * Constructor
-	 *
-	 * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 *
-	 * @since   12.2
-	 * @throws  Exception
-	 */
-	public function __construct($config = [])
-	{
-		parent::__construct();
-		$this->campusID = JFactory::getApplication()->getMenu()->getActive()->params->get('campusID');
-	}
-
 	/**
 	 * Method to get an array of data items.
 	 *
@@ -119,11 +103,12 @@ class THM_OrganizerModelCourse_List extends JModelList
 			$courseQuery->where("s.id = '{$this->state->filter_subject}'");
 		}
 
-		if (!empty($this->campusID))
+		if (!empty($this->state->filter_campus))
 		{
+			$campusID = $this->state->filter_campus;
 			$courseQuery->leftJoin('#__thm_organizer_campuses as c on s.campusID = c.id');
-			$campusConditions = "(l.campusID = '{$this->campusID}' OR (l.campusID IS NULL AND ";
-			$campusConditions .= "(c.id = '{$this->campusID}' OR c.parentID = '{$this->campusID}' OR s.campusID IS NULL)))";
+			$campusConditions = "(l.campusID = '$campusID' OR (l.campusID IS NULL AND ";
+			$campusConditions .= "(c.id = '$campusID' OR c.parentID = '$campusID' OR s.campusID IS NULL)))";
 			$courseQuery->where($campusConditions);
 		}
 
@@ -141,10 +126,15 @@ class THM_OrganizerModelCourse_List extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$formData = JFactory::getApplication()->input->get('jform', [], 'array');
+
+		$defaultCampusID = JFactory::getApplication()->getMenu()->getActive()->params->get('campusID', 0);
+		$campusID   = !isset($formData["filter_campus"]) ? $defaultCampusID : $formData["filter_campus"];
+		$this->state->set('filter_campus', $campusID);
+
 		$status   = empty($formData["filter_status"]) ? 'current' : $formData["filter_status"];
 		$this->state->set('filter_status', $status);
+
 		$subject = empty($formData["filter_subject"]) ? 0 : (int) $formData["filter_subject"];
 		$this->state->set('filter_subject', $subject);
-
 	}
 }

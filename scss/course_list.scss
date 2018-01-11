@@ -46,6 +46,10 @@
 
   .filter-item {
     display: inline-block;
+
+    select {
+      width: 10rem;
+    }
   }
 
   [class^="icon-"], [class*=" icon-"] {
