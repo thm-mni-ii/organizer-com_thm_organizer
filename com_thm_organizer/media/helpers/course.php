@@ -37,11 +37,12 @@ class THM_OrganizerHelperCourse
 
 		if (!empty($course))
 		{
-			$participants = self::getParticipants($courseID, false);
+			$participants          = self::getParticipants($courseID, false);
 			$confirmedParticipants = count($participants);
 			$maxParticipants       = empty($course["lessonP"]) ? $course["subjectP"] : $course["lessonP"];
 		}
-		return (empty($confirmedParticipants) OR $confirmedParticipants < $maxParticipants)  ? false : true;
+
+		return (empty($confirmedParticipants) OR $confirmedParticipants < $maxParticipants) ? false : true;
 	}
 
 	/**
@@ -541,11 +542,12 @@ class THM_OrganizerHelperCourse
 	/**
 	 * Check if user is registered as a teacher, optionally for a specific course
 	 *
-	 * @param int $subjectID id of course
+	 * @param int $resourceID id of the course resource
+	 * @param int $type       the course resource type subject/course
 	 *
 	 * @return  boolean if user is authorized
 	 */
-	public static function isCourseAdmin($subjectID = 0)
+	public static function isCourseAdmin($resourceID = 0, $type = 'subject')
 	{
 		$user = JFactory::getUser();
 
@@ -554,7 +556,7 @@ class THM_OrganizerHelperCourse
 			return false;
 		}
 
-		if ($user->authorise('core.admin'))
+		if ($user->authorise('core.admin', "com_thm_organizer"))
 		{
 			return true;
 		}
@@ -567,10 +569,18 @@ class THM_OrganizerHelperCourse
 			->innerJoin('#__thm_organizer_teachers AS t ON t.id = st.teacherID')
 			->where("t.username = '{$user->username}'");
 
-		// Empty means authorized for a course, which opens non-specific management options like filtering.
-		if (!empty($subjectID))
+		if (!empty($resourceID))
 		{
-			$query->where("st.subjectID = '$subjectID'");
+			if ($type == 'subject')
+			{
+				$query->where("st.subjectID = '$resourceID'");
+			}
+			elseif ($type == 'course')
+			{
+				$query->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.subjectID = st.subjectID')
+					->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.subjectID = sm.plan_subjectID');
+				$query->where("ls.lessonID = '$resourceID'");
+			}
 		}
 
 		$dbo->setQuery($query);

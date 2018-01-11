@@ -39,7 +39,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 		$type      = $input->get("type", 0);
 		$subjectID = THM_OrganizerHelperCourse::getCourse($lessonID)["subjectID"];
 
-		if (!empty($subjectID) AND THM_OrganizerHelperCourse::isCourseAdmin($subjectID))
+		if (!empty($subjectID) AND THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject'))
 		{
 			switch ($type)
 			{

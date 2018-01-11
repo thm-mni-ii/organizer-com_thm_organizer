@@ -60,16 +60,11 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 		$this->shortTag         = THM_OrganizerHelperLanguage::getShortTag();
 
-		$this->showFilters = THM_OrganizerHelperCourse::isCourseAdmin();
-
-		if ($this->showFilters)
-		{
-			$this->setFilters();
-		}
+		$this->setFilters();
 
 		foreach ($this->items AS &$item)
 		{
-			$item->admin = THM_OrganizerHelperCourse::isCourseAdmin($item->subjectID);
+			$item->admin = THM_OrganizerHelperCourse::isCourseAdmin($item->subjectID, 'subject');
 		}
 
 		parent::display($tpl);
@@ -99,19 +94,24 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 		$lang    = THM_OrganizerHelperLanguage::getLanguage();
 		$attribs = ['onchange' => 'form.submit();'];
 
-		$activeOptions = [
-			"pending" => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
-			"current" => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),
-			"all"     => $lang->_('COM_THM_ORGANIZER_ALL_COURSES'),
-			"expired" => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
-		];
+		if (THM_OrganizerHelperCourse::isCourseAdmin())
+		{
+			$activeOptions = [
+				"pending" => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
+				"current" => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),
+				"all"     => $lang->_('COM_THM_ORGANIZER_ALL_COURSES'),
+				"expired" => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
+			];
 
-		$this->filters['filter_status']
-			= THM_OrganizerHelperComponent::selectBox($activeOptions, 'filter_status', $attribs, $this->state->filter_status);
+			$this->filters['filter_status']
+				= THM_OrganizerHelperComponent::selectBox($activeOptions, 'filter_status', $attribs, $this->state->filter_status);
+		}
 
 		$subjectOptions = THM_OrganizerHelperCourse::prepCourseList();
 		$default        = [0 => $lang->_("COM_THM_ORGANIZER_ALL_COURSES")];
+
 		$this->filters['filter_subject']
-		                = THM_OrganizerHelperComponent::selectBox($subjectOptions, 'filter_subject', $attribs, $this->state->filter_subject, $default);
+			= THM_OrganizerHelperComponent::selectBox($subjectOptions, 'filter_subject', $attribs, $this->state->filter_subject, $default);
+
 	}
 }

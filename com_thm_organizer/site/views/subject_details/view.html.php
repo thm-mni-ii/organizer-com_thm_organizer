@@ -72,7 +72,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 		{
 			$this->isCourse = true;
 			$courses        = THM_OrganizerHelperCourse::getLatestCourses($this->subjectID);
-			$this->isAdmin  = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID);
+			$this->isAdmin  = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID, 'subject');
 
 			if (!empty($courses) OR $this->isAdmin)
 			{

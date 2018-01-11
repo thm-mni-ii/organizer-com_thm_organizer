@@ -162,6 +162,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `comment`           VARCHAR(200)              DEFAULT NULL,
   `departmentID`      INT(11) UNSIGNED          DEFAULT NULL,
   `planningPeriodID`  INT(11) UNSIGNED          DEFAULT NULL,
+  `campusID`          INT(11) UNSIGNED          DEFAULT NULL,
   `modified`          TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),

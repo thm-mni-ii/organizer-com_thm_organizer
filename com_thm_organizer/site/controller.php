@@ -39,7 +39,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$lessonID = $app->input->get("lessonID");
 		$url      = THM_OrganizerHelperComponent::getRedirectBase();
 
-		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID))
+		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course'))
 		{
 			$app->redirect(JRoute::_($url, false));
 		}
@@ -241,7 +241,7 @@ class THM_OrganizerController extends JControllerLegacy
 
 		if ($modelName == 'subject' OR $modelName == 'course')
 		{
-			$authorized = THM_OrganizerHelperCourse::isCourseAdmin($formData['id']);
+			$authorized = THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], $modelName);
 		}
 		elseif ($modelName == 'participant')
 		{
@@ -305,7 +305,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$lessonID = $app->input->get("lessonID");
 		$url      = THM_OrganizerHelperComponent::getRedirectBase();
 
-		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID))
+		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course'))
 		{
 			$app->redirect(JRoute::_($url, false));
 		}

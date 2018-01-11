@@ -31,7 +31,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
 	public function changeParticipantStatus()
 	{
 		$subjectID  = JFactory::getApplication()->input->get("subjectID");
-		$authorized = THM_OrganizerHelperCourse::isCourseAdmin($subjectID);
+		$authorized = THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject');
 
 		if (!$authorized)
 		{
@@ -82,7 +82,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
 		$courseID  = $input->get("lessonID", 0);
 		$subjectID = $input->get("subjectID", 0);
 
-		if (empty($courseID) OR empty(THM_OrganizerHelperCourse::isCourseAdmin($subjectID)))
+		if (empty($courseID) OR empty(THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject')))
 		{
 			JError::raiseError(401, 'Unauthorized');
 		}

@@ -56,7 +56,7 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
 			return;
 		}
 
-		$authorized = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID);
+		$authorized = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID, 'subject');
 
 		if (!$authorized)
 		{

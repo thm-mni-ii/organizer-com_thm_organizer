@@ -18,16 +18,16 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
 
 // This variable is also used in the subordinate template
 $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
-if(!empty($menuID)):
-?>
-<script type="text/javascript">
-	jQuery(document).ready(function () {
-		let registrationLink = jQuery('#login-form ul.unstyled > li:first-child > a'),
-			oldURL = registrationLink.attr('href');
+if (!empty($menuID)):
+	?>
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			let registrationLink = jQuery('#login-form ul.unstyled > li:first-child > a'),
+				oldURL = registrationLink.attr('href');
 
-		registrationLink.attr('href', oldURL + '&Itemid=<?php echo $menuID; ?>');
-	});
-</script>
+			registrationLink.attr('href', oldURL + '&Itemid=<?php echo $menuID; ?>');
+		});
+	</script>
 <?php endif; ?>
 <div class="toolbar">
 	<div class="tool-wrapper language-switches">
@@ -65,13 +65,17 @@ if(!empty($menuID)):
 	<div id="form-container" class="form-container">
 		<form action="<?php echo JUri::current(); ?>"
 			  method="post" name="adminForm" id="adminForm">
-			<?php if ($this->showFilters): ?>
-				<div class="filter-item short-item">
-					<?php echo $this->filters['filter_subject']; ?>
-				</div>
-				<div class="filter-item short-item">
-					<?php echo $this->filters['filter_status']; ?>
-				</div>
+			<?php if (!empty($this->filters)): ?>
+				<?php if (!empty($this->filters['filter_subject'])): ?>
+					<div class="filter-item short-item">
+						<?php echo $this->filters['filter_subject']; ?>
+					</div>
+				<?php endif; ?>
+				<?php if ($this->showFilters): ?>
+					<div class="filter-item short-item">
+						<?php echo $this->filters['filter_status']; ?>
+					</div>
+				<?php endif; ?>
 			<?php endif; ?>
 			<input type="hidden" name="languageTag" value="<?php echo $this->shortTag; ?>"/>
 		</form>
