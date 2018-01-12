@@ -127,9 +127,23 @@ class THM_OrganizerModelCourse_List extends JModelList
 	{
 		$formData = JFactory::getApplication()->input->get('jform', [], 'array');
 
-		$defaultCampusID = JFactory::getApplication()->getMenu()->getActive()->params->get('campusID', 0);
-		$campusID   = !isset($formData["filter_campus"]) ? $defaultCampusID : $formData["filter_campus"];
+		$menu = JFactory::getApplication()->getMenu()->getActive();
+
+		if (empty($menu))
+		{
+			$defaultCampusID =  0;
+			$campusID   = !isset($formData["filter_campus"]) ? $defaultCampusID : $formData["filter_campus"];
+			$showPrepCourses = 1;
+		}
+		else
+		{
+			$defaultCampusID =  $menu->params->get('campusID', 0);
+			$campusID   = !isset($formData["filter_campus"]) ? $defaultCampusID : $formData["filter_campus"];
+			$showPrepCourses =  $menu->params->get('show_prep_courses', 1);
+		}
+
 		$this->state->set('filter_campus', $campusID);
+		$this->state->set('filter_prep_courses', $showPrepCourses);
 
 		$status   = empty($formData["filter_status"]) ? 'current' : $formData["filter_status"];
 		$this->state->set('filter_status', $status);

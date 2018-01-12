@@ -9,6 +9,16 @@
  * @link        www.thm.de
  */
 
+$header = $this->lang->_("COM_THM_ORGANIZER_COURSE_OVERVIEW_HEADER");
+$campusName = empty($this->state->filter_campus) ? '' : THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
+$coursesType = empty($this->state->filter_prep_courses) ?
+	$this->lang->_("COM_THM_ORGANIZER_COURSES") : $this->lang->_("COM_THM_ORGANIZER_PREP_COURSES");
+$specTitle = "$coursesType $campusName";
+$header = sprintf($header, $specTitle);
+
+$action = JUri::current();
+$action .= empty(JFactory::getApplication()->getMenu()->getActive())? '' : '?option=com_thm_organizer&view=course_list';
+
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $loginRoute    = JRoute::_('index.php?option=com_users&view=login&tmpl=component', false, 1);
 $registerRoute = JRoute::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
@@ -38,7 +48,7 @@ if (!empty($menuID)):
 	</div>
 </div>
 <div class="course-list-view uses-login">
-	<h1><?php echo $this->lang->_("COM_THM_ORGANIZER_PREP_COURSES_HEADER") ?></h1>
+	<h1><?php echo $header; ?></h1>
 
 	<?php if (empty(JFactory::getUser()->id)): ?>
 		<div class="tbox-yellow">
@@ -63,7 +73,7 @@ if (!empty($menuID)):
 		</div>
 	<?php endif; ?>
 	<div id="form-container" class="form-container">
-		<form action="<?php echo JUri::current(); ?>"
+		<form action="<?php echo $action; ?>"
 			  method="post" name="adminForm" id="adminForm">
 			<div class="filter-item short-item">
 				<?php echo $this->filters['filter_campus']; ?>
