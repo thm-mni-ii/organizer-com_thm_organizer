@@ -20,13 +20,13 @@ div.legal-disclaimer li {
     float: right;
 }
 
-.tool-wrapper {
+.main .tool-wrapper {
     display: inline-block;
     margin-left: .2rem;
     position: relative;
 }
 
-.tool-wrapper a, .tool-wrapper button {
+.main .tool-wrapper a, .main .tool-wrapper button {
     border: none;
     cursor: pointer;
 }
