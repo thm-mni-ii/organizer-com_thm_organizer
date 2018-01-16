@@ -44,7 +44,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 
 	public $menu;
 
-	public $items;
+	public $participants;
 
 	/**
 	 * Method to get display
@@ -56,7 +56,6 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
-		$user       = JFactory::getUser();
 		$lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
 
 		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course'))
@@ -65,14 +64,19 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 		}
 
 		$this->course       = THM_OrganizerHelperCourse::getCourse();
-		$this->participants = $this->get('Items');
-		$this->circularForm = $this->get('Form');
+		$this->participants = $this->get('Participants');
+		$this->form = $this->get('Form');
+		$this->form->setValue('id', null, $this->course['id']);
 		$this->dateText     = THM_OrganizerHelperCourse::getDateDisplay();
-		$participantCount = count(THM_OrganizerHelperCourse::getParticipants($this->course["id"]));
+
 		$allowedParticipants = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
-		$this->capacityText = "$participantCount/$allowedParticipants";
+		$this->form->setValue('max_participants', null, $allowedParticipants);
+		$participantCount = count(THM_OrganizerHelperCourse::getParticipants($this->course["id"]));
+		$capacityText = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
+		$this->capacityText = sprintf($capacityText, $participantCount, $allowedParticipants);
 
 		$this->course['campus'] = THM_OrganizerHelperCourse::getCampus($this->course);
+		$this->form->setValue('campusID', null, $this->course['campus']['id']);
 		THM_OrganizerHelperComponent::addMenuParameters($this);
 
 		$params                 = ['view' => 'course_manager', 'id' => empty($this->course) ? 0 : $this->course["id"]];
@@ -91,80 +95,9 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 	{
 		JHtml::_('bootstrap.tooltip');
 
-		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
-	}
-
-	/**
-	 * Creates a drop down list of links for changing the assigned campus
-	 *
-	 * @return void renders the print selection
-	 *
-	 * @since version
-	 */
-	public function renderCampusSelect()
-	{
-		$defaultCampusID = $this->course['campus']['id'];
-
-		$js = "if(this.value != ''){jQuery('#task').val('course.saveCampus');this.form.submit();}";
-		echo '<select id="campusID" name="campusID" onchange="' . $js . '">';
-
-		$selected = empty($defaultCampusID) ? 'selected="selected"' : '';
-		echo '<option value="" ' . $selected . '>' . $this->lang->_('COM_THM_ORGANIZER_CAMPUS_SELECT_PLACEHOLDER') . '</option>';
-
-		$campuses = THM_OrganizerHelperCampuses::getOptions();
-
-		if (!empty($campuses))
-		{
-			foreach ($campuses AS $campusID => $name)
-			{
-				$selected = $campusID == $defaultCampusID ? 'selected="selected"' : '';
-				echo '<option value="' . $campusID . '" ' . $selected . '>' . $name . '</option>';
-			}
-		}
-
-		echo '</select>';
-	}
-
-	/**
-	 * Creates a drop down list of links listing print options
-	 *
-	 * @return void renders the print selection
-	 *
-	 * @since version
-	 */
-	public function renderPrintSelect()
-	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$baseURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
-		$baseURL  .= "&view=course_list&format=pdf&type=";
-
-		$participantListRoute = JRoute::_($baseURL . 0, false);
-		$departmentListRoute  = JRoute::_($baseURL . 1, false);
-		$badgesRoute          = JRoute::_($baseURL . 2, false);
-
-		?>
-		<a class="dropdown-toggle print btn" data-toggle="dropdown" href="#">
-			<span class="icon-print"></span>
-			<?php echo $this->lang->_('COM_THM_ORGANIZER_PRINT_OPTIONS'); ?>
-			<span class="icon-arrow-down-3"></span>
-		</a>
-		<ul id="print" class="dropdown-menu">
-			<li>
-				<a href="<?php echo $participantListRoute; ?>" target="_blank">
-					<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_PARTICIPANTS'); ?>
-				</a>
-			</li>
-			<li>
-				<a href="<?php echo $departmentListRoute; ?>" target="_blank">
-					<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_DEPARTMENTS'); ?>
-				</a>
-			</li>
-			<li>
-				<a href="<?php echo $badgesRoute; ?>" target="_blank">
-					<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_BADGES'); ?>
-				</a>
-			</li>
-		</ul>
-		<?php
+		$document = JFactory::getDocument();
+		$document->addScriptDeclaration("var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'");
+		$document->addScript(JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
+		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
 	}
 }

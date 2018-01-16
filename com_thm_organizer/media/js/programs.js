@@ -1,7 +1,6 @@
-var jq = jQuery.noConflict();
-jq(document).ready(function () {
-	jq('#jformprogramID').change(function () {
-		var selectedPrograms = jq('#jformprogramID').val();
+jQuery(document).ready(function () {
+	jQuery('#jformprogramID').change(function () {
+		var selectedPrograms = jQuery('#jformprogramID').val();
 		if (selectedPrograms === null)
 		{
 			selectedPrograms = '';
@@ -10,10 +9,10 @@ jq(document).ready(function () {
 		{
 			selectedPrograms = selectedPrograms.join(',');
 		}
-		var oldSelectedParents = jq('#jformparentID').val();
-		if (jq.inArray('-1', selectedPrograms) != '-1')
+		var oldSelectedParents = jQuery('#jformparentID').val();
+		if (jQuery.inArray('-1', selectedPrograms) != '-1')
 		{
-			jq("#jformprogramID").find('option').removeAttr("selected");
+			jQuery("#jformprogramID").find('option').removeAttr("selected");
 			return false;
 		}
 		var poolUrl = "<?php echo JUri::root(); ?>index.php?option=com_thm_organizer";
@@ -21,15 +20,15 @@ jq(document).ready(function () {
 		poolUrl += "&ownID=<?php echo $this->form->getValue('id'); ?>";
 		poolUrl += "&programID=" + selectedPrograms;
 		poolUrl += "&languageTag=" + '<?php echo $language; ?>';
-		jq.get(poolUrl, function (options) {
-			jq('#jformparentID').html(options);
-			var newSelectedParents = jq('#jformparentID').val();
+		jQuery.get(poolUrl, function (options) {
+			jQuery('#jformparentID').html(options);
+			var newSelectedParents = jQuery('#jformparentID').val();
 			var selectedParents = [];
 			if (newSelectedParents !== null && newSelectedParents.length)
 			{
 				if (oldSelectedParents !== null && oldSelectedParents.length)
 				{
-					selectedParents = jq.merge(newSelectedParents, oldSelectedParents);
+					selectedParents = jQuery.merge(newSelectedParents, oldSelectedParents);
 				}
 				else
 				{
@@ -40,7 +39,7 @@ jq(document).ready(function () {
 			{
 				selectedParents = oldSelectedParents;
 			}
-			jq('#jformparentID').val(selectedParents);
+			jQuery('#jformparentID').val(selectedParents);
 		});
 	});
 });

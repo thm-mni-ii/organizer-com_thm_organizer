@@ -637,16 +637,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_schedules` (
-  `username` VARCHAR(100)     NOT NULL,
-  `created`  INT(11) UNSIGNED NOT NULL,
-  `data`     MEDIUMBLOB       NOT NULL,
-  PRIMARY KEY (`username`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
-
 ALTER TABLE `#__thm_organizer_calendar`
   ADD CONSTRAINT `calendar_lessonid_fk` FOREIGN KEY (`lessonID`)
 REFERENCES `#__thm_organizer_lessons` (`id`)

@@ -37,7 +37,7 @@ $displayName = empty($this->model->displayName) ?
 				<a href="#selected-schedules" class="tabs-toggle" id="tab-selected-schedules"
 				   data-toggle="tab" data-id="selected-schedules" role="tab" aria-controls="selected-schedules"
 				   aria-selected="true">
-					<span class="icon-checkin"></span>
+					<span class="icon-checkbox-checked"></span>
 					<span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SELECTED"); ?></span>
 				</a>
 			</li>

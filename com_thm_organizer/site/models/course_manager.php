@@ -16,7 +16,7 @@
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.site
  */
-class THM_OrganizerModelCourse_Manager extends JModelList
+class THM_OrganizerModelCourse_Manager extends JModelForm
 {
 	/**
 	 * Constructor to set up the config array and call the parent constructor
@@ -39,7 +39,7 @@ class THM_OrganizerModelCourse_Manager extends JModelList
 	 *
 	 * @return  JDatabaseQuery  A query object
 	 */
-	protected function getListQuery()
+	public function getParticipants()
 	{
 		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 		$lessonID = JFactory::getApplication()->input->getInt('lessonID', 0);
@@ -56,20 +56,31 @@ class THM_OrganizerModelCourse_Manager extends JModelList
 		$query->leftJoin('#__thm_organizer_participants as pt on pt.id = ul.userID');
 		$query->leftJoin('#__thm_organizer_programs as p on p.id = pt.programID');
 		$query->where("ul.lessonID = '$lessonID'");
-		$query->order(
-			$this->getState('list.ordering', 'user_date') . ' ' .
-			$this->getState('list.direction', 'ASC')
-		);
+		$query->order('name ASC');
 
-		return $query;
+		$this->_db->setQuery($query);
+
+		try
+		{
+			return $this->_db->loadAssocList();
+		}
+		catch (Exception $exception)
+		{
+			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+			return [];
+		}
 	}
 
 	/**
 	 * Method to get the form
 	 *
-	 * @return  mixed  JForm object on success, False on error.
+	 * @param   array   $data     Data for the form.
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 */
-	public function getForm()
+	public function getForm($data = [], $loadData = true)
 	{
 		$form = $this->loadForm(
 			"com_thm_organizer.course_manager",

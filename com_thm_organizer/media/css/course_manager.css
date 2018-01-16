@@ -32,56 +32,45 @@ a [class^="icon-"], a [class*=" icon-"] {
     float: right;
 }
 
+.course-manager-view button, .course-manager-view .btn {
+    background-color: white;
+    font-size: .9rem;
+    vertical-align: top;
+}
+
+.course-manager-view button span, .course-manager-view .btn span {
+    margin-right: .2rem;
+}
+
+.course-manager-view button span:before, .course-manager-view .btn span:before {
+    font-size: 1rem;
+}
+
+.course-manager-view button:focus, .course-manager-view .btn:focus {
+    color: #394a59;
+}
+
+.course-manager-view button:hover:focus, .course-manager-view button:hover span:before, .course-manager-view .btn:hover:focus, .course-manager-view .btn:hover span:before {
+    color: white;
+}
+
 .course-manager-view .left, .course-manager-view .right {
     display: inline-block;
     font-family: "THM-Medium", Arial, Helvetica, sans-serif;
 }
 
-.course-manager-view .course-descriptors {
-    margin-bottom: 1rem;
+.course-manager-view form {
+    margin-bottom: 0;
 }
 
-.course-manager-view .group {
-    font-size: 0;
+.course-manager-view .section .control-group, .course-manager-view .section .control-label, .course-manager-view .section .controls {
+    display: inline-block;
+    margin-right: .4rem;
 }
 
-.course-manager-view .group button, .course-manager-view .group a.btn, .course-manager-view .group select {
-    font-size: .9rem;
-    vertical-align: top;
-}
-
-.course-manager-view .group button:focus, .course-manager-view .group a.btn:focus, .course-manager-view .group select:focus {
-    color: #394a59;
-}
-
-.course-manager-view .group button span, .course-manager-view .group a.btn span {
-    margin-right: .2rem;
-}
-
-.course-manager-view .group button span:before, .course-manager-view .group a.btn span:before {
-    font-size: 1rem;
-}
-
-.course-manager-view .group button:hover:focus, .course-manager-view .group button:hover span:before, .course-manager-view .group a.btn:hover:focus, .course-manager-view .group a.btn:hover span:before {
-    color: white;
-}
-
-.course-manager-view select#participantState, .course-manager-view select#campusID {
-    margin: 0;
-    padding-right: 2rem;
+.course-manager-view .section .controls select {
+    min-width: 10rem;
     width: auto;
-}
-
-.course-manager-view select#participantState option, .course-manager-view select#campusID option {
-    padding-top: .2rem;
-}
-
-.course-manager-view .status-container button {
-    margin-left: .2rem;
-}
-
-.course-manager-view .course-toolbar button, .course-manager-view .course-toolbar a.btn, .course-manager-view .course-toolbar select#campusID {
-    margin-left: .4rem;
 }
 
 .course-manager-view .print-container {
@@ -89,6 +78,18 @@ a [class^="icon-"], a [class*=" icon-"] {
     font-family: "THM-Medium", Arial, Helvetica, sans-serif;
     font-size: .9rem;
     position: relative;
+}
+
+.course-manager-view .print-container .dropdown-menu, .course-manager-view .print-container .dropdown-toggle {
+    font-size: .9rem;
+}
+
+.course-manager-view .print-container .dropdown-menu a, .course-manager-view .print-container .dropdown-toggle a {
+    color: #394a59;
+}
+
+.course-manager-view .print-container .dropdown-menu span, .course-manager-view .print-container .dropdown-toggle span {
+    margin-right: .2rem;
 }
 
 .course-manager-view .print-container .dropdown-menu {
@@ -110,18 +111,6 @@ a [class^="icon-"], a [class*=" icon-"] {
     background-color: #dfe5e6;
     background-image: none;
     color: #394a59;
-}
-
-.course-manager-view .dropdown-menu, .course-manager-view .dropdown-toggle {
-    font-size: .9rem;
-}
-
-.course-manager-view .dropdown-menu a, .course-manager-view .dropdown-toggle a {
-    color: #394a59;
-}
-
-.course-manager-view .dropdown-menu span, .course-manager-view .dropdown-toggle span {
-    margin-right: .2rem;
 }
 
 .course-manager-view table {

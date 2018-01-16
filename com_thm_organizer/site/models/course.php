@@ -28,41 +28,35 @@ class THM_OrganizerModelCourse extends JModelLegacy
 	 *
 	 * @return bool true on success, false on error
 	 */
-	public function changeParticipantStatus()
+	public function changeParticipantState()
 	{
-		$subjectID  = JFactory::getApplication()->input->get("subjectID");
-		$authorized = THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject');
-
-		if (!$authorized)
-		{
-			return false;
-		}
-
-		$data           = JFactory::getApplication()->input->getArray();
+		$input = JFactory::getApplication()->input;
+		$data           = $input->getArray();
+		$formData       = $data['jform'];
 		$participantIDs = $data["checked"];
-		$courseID       = $data["lessonID"];
-		$state          = $data["participantState"];
+		$state          = (int) $data["participantState"];
 		$invalidState   = ($state < 0 OR $state > 2);
 
-		if (empty($participantIDs) OR empty($courseID) OR $invalidState)
+		if (empty($participantIDs) OR empty($formData['id']) OR $invalidState)
 		{
 			return false;
 		}
 
-
 		$return = true;
-		$state  = (int) $data["participantState"];
 
 		foreach ($data["checked"] as $participantID)
 		{
-			$success = THM_OrganizerHelperParticipant::changeState($participantID, $courseID, $state);
+			$success = THM_OrganizerHelperParticipant::changeState($participantID, $formData['id'], $state);
 
 			if (empty($success))
 			{
 				return false;
 			}
 
-			THM_OrganizerHelperCourse::refreshWaitList($courseID);
+			if ($state === 0)
+			{
+				THM_OrganizerHelperCourse::refreshWaitList($formData['id']);
+			}
 
 			$return = ($return AND $success);
 		}
@@ -87,7 +81,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
 			JError::raiseError(401, 'Unauthorized');
 		}
 
-		$data  = $input->get('jform', [], 'array');
+		$data = $input->get('jform', [], 'array');
 
 		if (empty($data["text"]))
 		{
@@ -153,22 +147,32 @@ class THM_OrganizerModelCourse extends JModelLegacy
 	 *
 	 * @return  JTable  A JTable object
 	 */
-	public function saveCampus()
+	public function save()
 	{
 		$input    = JFactory::getApplication()->input;
-		$campusID = $input->getInt('campusID');
-		$lessonID = $input->getInt('lessonID');
+		$formData = $input->get('jform', [], 'array');
+		$courseID = $formData['id'];
 
-		if (empty($campusID) OR empty($lessonID))
+		if (empty($formData) OR empty($courseID))
 		{
 			return false;
 		}
 
 		$table = $this->getTable();
-		$table->load($lessonID);
-		$table->campusID = $campusID;
+		$table->load($courseID);
+		$table->campusID         = $formData['campusID'];
+		$table->max_participants = $formData['max_participants'];
 
-		return $table->store();
+		$success = $table->store();
+
+		if (empty($success))
+		{
+			return false;
+		}
+
+		THM_OrganizerHelperCourse::refreshWaitList($courseID);
+
+		return true;
 	}
 
 }

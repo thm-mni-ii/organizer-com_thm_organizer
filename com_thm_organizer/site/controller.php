@@ -31,20 +31,26 @@ class THM_OrganizerController extends JControllerLegacy
 	 *
 	 * @return void
 	 */
-	public function changeParticipantStatus()
+	public function changeParticipantState()
 	{
-		$lang = THM_OrganizerHelperLanguage::getLanguage();
-		$app  = JFactory::getApplication();
-
-		$lessonID = $app->input->get("lessonID");
+		$lang     = THM_OrganizerHelperLanguage::getLanguage();
+		$app      = JFactory::getApplication();
+		$formData = $app->input->get('jform', [], 'array');
 		$url      = THM_OrganizerHelperComponent::getRedirectBase();
 
-		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course'))
+		if (empty($formData) OR empty($formData['id']))
 		{
+			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
 			$app->redirect(JRoute::_($url, false));
 		}
 
-		$success = $this->getModel('course')->changeParticipantStatus();
+		if (!THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], 'course'))
+		{
+			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
+			$app->redirect(JRoute::_($url, false));
+		}
+
+		$success = $this->getModel('course')->changeParticipantState();
 
 		if (empty($success))
 		{
@@ -59,7 +65,7 @@ class THM_OrganizerController extends JControllerLegacy
 
 		$app->enqueueMessage($msgText, $msgType);
 
-		$url .= "&view=course_manager&lessonID=$lessonID";
+		$url .= "&view=course_manager&lessonID={$formData['id']}";
 		$app->redirect(JRoute::_($url, false));
 	}
 
@@ -164,7 +170,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$userState = THM_OrganizerHelperCourse::getParticipantState();
 
 		// 1 = Register | 2 = Deregister
-		$action    = empty($userState) ? 1 : 2;
+		$action = empty($userState) ? 1 : 2;
 
 		$return = $participantModel->register($participant->id, $courseID, $action);
 
@@ -230,7 +236,7 @@ class THM_OrganizerController extends JControllerLegacy
 		$model     = $this->getModel($modelName);
 
 		// Request manipulation
-		if (empty($model) OR empty($formData['id']))
+		if (empty($model) OR empty($formData) OR empty($formData['id']))
 		{
 			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
 			$app->redirect(JRoute::_(JUri::base(), false));
@@ -264,6 +270,10 @@ class THM_OrganizerController extends JControllerLegacy
 			{
 				$url .= "&view=subject_edit&id={$formData['id']}";
 			}
+			if ($modelName == 'course')
+			{
+				$url .= "&view=course_manager";
+			}
 			elseif ($modelName == 'participant')
 			{
 				$url .= '&view=participant_edit';
@@ -285,47 +295,10 @@ class THM_OrganizerController extends JControllerLegacy
 
 		if ($modelName == 'course' OR $modelName == 'subject')
 		{
-			$lessonID = $input->getInt('lessonID');
+			$lessonID = $modelName == 'course' ? $formData['id'] : $input->getInt('lessonID');
 			$url      .= "&lessonID=$lessonID";
 		}
 
-		$app->redirect(JRoute::_($url, false));
-	}
-
-	/**
-	 * Save the campus for the specific course
-	 *
-	 * @return void
-	 */
-	public function saveCampus()
-	{
-		$lang = THM_OrganizerHelperLanguage::getLanguage();
-		$app  = JFactory::getApplication();
-
-		$lessonID = $app->input->get("lessonID");
-		$url      = THM_OrganizerHelperComponent::getRedirectBase();
-
-		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course'))
-		{
-			$app->redirect(JRoute::_($url, false));
-		}
-
-		$success = $this->getModel('course')->saveCampus();
-
-		if (empty($success))
-		{
-			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-			$msgType = 'error';
-		}
-		else
-		{
-			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-			$msgType = 'success';
-		}
-
-		$app->enqueueMessage($msgText, $msgType);
-
-		$url .= "&view=course_manager&lessonID=$lessonID";
 		$app->redirect(JRoute::_($url, false));
 	}
 }

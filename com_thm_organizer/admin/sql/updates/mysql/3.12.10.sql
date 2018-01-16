@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `#__thm_organizer_user_schedules`;

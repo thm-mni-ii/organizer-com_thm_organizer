@@ -57,10 +57,13 @@
             <option value="0">JNO</option>
         </field>
         <field name="max_participants"
-               type="number"
-               size="70"
+               type="integer"
+               default="300"
                label="COM_THM_ORGANIZER_MAX_PARTICIPANTS"
-               description="COM_THM_ORGANIZER_MAX_PARTICIPANTS_DESC"/>
+               description="COM_THM_ORGANIZER_MAX_PARTICIPANTS_DESC"
+               first="20"
+               last="1000"
+               step="20"/>
         <field name="frequencyID"
                type="list"
                label="COM_THM_ORGANIZER_AVAILABILITY"

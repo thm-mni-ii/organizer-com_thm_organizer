@@ -4,7 +4,8 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.site
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -22,7 +23,7 @@
 				<div class="modal-body" style="overflow-y: auto;">
 					<input type="hidden" name="lessonID" value="<?php echo $this->course["id"]; ?>"/>
 					<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
-					<?php foreach ($this->circularForm->getFieldset() as $field) : ?>
+					<?php foreach ($this->form->getFieldset('circular') as $field) : ?>
 					<div class='control-group'>
 						<div class='control-label'><?php echo $field->label; ?></div>
 						<div class='controls'><?php echo $field->input; ?></div>
