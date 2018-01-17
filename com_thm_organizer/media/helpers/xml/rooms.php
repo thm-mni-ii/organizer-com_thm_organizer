@@ -51,14 +51,14 @@ class THM_OrganizerHelperXMLRooms
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'];
 			unset($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] =sprintf(JText::_('COM_THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'), $warningCount);
 		}
 
 		if (!empty($scheduleModel->scheduleWarnings['ROOM-TYPE']))
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['ROOM-TYPE'];
 			unset($scheduleModel->scheduleWarnings['ROOM-TYPE']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TYPE_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TYPE_MISSING'), $warningCount);
 		}
 	}
 
@@ -76,7 +76,7 @@ class THM_OrganizerHelperXMLRooms
 		$displayName = trim((string) $roomNode->longname);
 		if (empty($displayName))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING', $roomID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING'), $roomID);
 
 			return false;
 		}

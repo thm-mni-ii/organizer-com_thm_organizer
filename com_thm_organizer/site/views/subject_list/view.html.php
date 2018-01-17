@@ -139,7 +139,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 		}
 		elseif (empty($pool['minCrP']))
 		{
-			return JText::sprintf('COM_THM_ORGANIZER_CRP_UPTO', $pool['maxCrP']);
+			return sprintf(JText::_('COM_THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
 		}
 		elseif (empty($pool['maxCrP']) OR $pool['minCrP'] == $pool['maxCrP'])
 		{
@@ -147,7 +147,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 		}
 		else
 		{
-			return JText::sprintf('COM_THM_ORGANIZER_CRP_BETWEEN', $pool['minCrP'], $pool['maxCrP']);
+			return sprintf(JText::_('COM_THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
 		}
 	}
 

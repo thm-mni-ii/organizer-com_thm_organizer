@@ -51,35 +51,35 @@ class THM_OrganizerHelperXMLTeachers
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'];
 			unset($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
 		}
 
 		if (!empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME']))
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-FORENAME'];
 			unset($scheduleModel->scheduleWarnings['TEACHER-FORENAME']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
 		}
 
 		if (!empty($scheduleModel->scheduleWarnings['TEACHER-TITLE']))
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-TITLE'];
 			unset($scheduleModel->scheduleWarnings['TEACHER-TITLE']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TITLE_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TITLE_MISSING'), $warningCount);
 		}
 
 		if (!empty($scheduleModel->scheduleWarnings['TEACHER-FIELD']))
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-FIELD'];
 			unset($scheduleModel->scheduleWarnings['TEACHER-FIELD']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_TEACHER_FIELD_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TEACHER_FIELD_MISSING'), $warningCount);
 		}
 
 		if (!empty($scheduleModel->scheduleWarnings['TEACHER-USERNAME']))
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['TEACHER-USERNAME'];
 			unset($scheduleModel->scheduleWarnings['TEACHER-USERNAME']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_USERNAME_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_USERNAME_MISSING'), $warningCount);
 		}
 	}
 
@@ -194,7 +194,7 @@ class THM_OrganizerHelperXMLTeachers
 		$surname = trim((string) $teacherNode->surname);
 		if (empty($surname))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING', $teacherID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $teacherID);
 
 			return false;
 		}

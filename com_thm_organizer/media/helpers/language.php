@@ -149,40 +149,4 @@ class THM_OrganizerHelperLanguage
 
 		return $tag;
 	}
-
-	/**
-	 * Implementation of JText sprintf for language helper
-	 *
-	 * @param string $string The format string.
-	 *
-	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
-	 */
-	public static function sprintf($string)
-	{
-		$lang  = self::getLanguage();
-		$args  = func_get_args();
-		$count = count($args);
-
-		if ($count < 1)
-		{
-			return '';
-		}
-
-		if (is_array($args[$count - 1]))
-		{
-			$args[0] = $lang->_(
-				$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
-				array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
-			);
-		}
-		else
-		{
-			$args[0] = $lang->_($string);
-		}
-
-		// Replace custom named placeholders with sprintf style placeholders
-		$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
-
-		return call_user_func_array('sprintf', $args);
-	}
 }

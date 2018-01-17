@@ -50,7 +50,7 @@ class THM_OrganizerHelperXMLDescriptions
 
 		if (empty($resourceID))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_INVALID_$constant", $gpuntisID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_("COM_THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
 
 			return false;
 		}
@@ -98,7 +98,7 @@ class THM_OrganizerHelperXMLDescriptions
 
 			if (empty($longName))
 			{
-				$scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING", $descriptionID);
+				$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'), $descriptionID);
 
 				return;
 			}
@@ -107,7 +107,7 @@ class THM_OrganizerHelperXMLDescriptions
 
 			if (empty($typeFlag))
 			{
-				$scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING", $longName, $descriptionID);
+				$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'), $longName, $descriptionID);
 
 				return;
 			}

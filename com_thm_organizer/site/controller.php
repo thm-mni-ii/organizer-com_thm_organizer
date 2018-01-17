@@ -196,7 +196,9 @@ class THM_OrganizerController extends JControllerLegacy
 					$status = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
 				}
 
-				$msg = THM_OrganizerHelperLanguage::sprintf("COM_THM_ORGANIZER_REGISTRATION_SUCCESS", $lang->_($status));
+				$statusMessage = $lang->_($status);
+				$successMessage = $lang->_('COM_THM_ORGANIZER_REGISTRATION_SUCCESS');
+				$msg = sprintf($successMessage, $statusMessage);
 			}
 		}
 		else

@@ -71,7 +71,7 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 		$userName    = JFactory::getUser()->name;
 		$startDate   = THM_OrganizerHelperComponent::formatDate($this->startDate);
 		$endDate     = THM_OrganizerHelperComponent::formatDate($this->endDate);
-		$description = JText::sprintf('COM_THM_ORGANIZER_ROOM_STATISTICS_EXPORT_DESCRIPTION', $startDate, $endDate);
+		$description = sprintf(JText::_('COM_THM_ORGANIZER_ROOM_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);
 		$this->spreadSheet->getProperties()->setCreator("THM Organizer")
 			->setLastModifiedBy($userName)
 			->setTitle(JText::_('COM_THM_ORGANIZER_ROOM_STATISTICS_EXPORT_TITLE'))

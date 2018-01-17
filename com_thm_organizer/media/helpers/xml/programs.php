@@ -76,7 +76,7 @@ class THM_OrganizerHelperXMLPrograms
 		$degreeName = (string) $programNode->longname;
 		if (!isset($degreeName))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf("COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING", $degreeID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $degreeID);
 
 			return;
 		}

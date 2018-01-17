@@ -379,11 +379,11 @@ $displayName = empty($this->model->displayName) ?
 		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
 		<button id="past-date" onclick="scheduleApp.nextDateEventHandler(event);">
 			<span class="icon-arrow-left-2"></span>
-			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
+			<?php echo sprintf(JText::_('COM_THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
 		</button>
 		<button id="future-date" onclick="scheduleApp.nextDateEventHandler(event);">
 			<span class="icon-arrow-right-2"></span>
-			<?php echo JText::sprintf("COM_THM_ORGANIZER_JUMP_TO_DATE", date("d.m.Y")); ?>
+			<?php echo sprintf(JText::_('COM_THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
 		</button>
 	</div>
 

@@ -167,7 +167,7 @@ class THM_OrganizerHelperXMLLessons
 		$pools        = implode(', ', $this->pools);
 		$dow          = strtoupper(date('l', $currentDT));
 		$localizedDoW = JText::_($dow);
-		$error        = JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_ROOM_MISSING',
+		$error        = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_LESSON_ROOM_MISSING'),
 			$this->lessonName,
 			$this->lessonID,
 			$pools,
@@ -207,7 +207,7 @@ class THM_OrganizerHelperXMLLessons
 		{
 			$warningCount = $this->scheduleModel->scheduleWarnings['LESSON-METHOD'];
 			unset($this->scheduleModel->scheduleWarnings['LESSON-METHOD']);
-			$this->scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_METHODID', $warningCount);
+			$this->scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_METHODID'), $warningCount);
 		}
 	}
 
@@ -335,8 +335,8 @@ class THM_OrganizerHelperXMLLessons
 
 		if (empty($untisID))
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_MISSING", $this->lessonID);
+			$this->scheduleModel->scheduleErrors[] =
+				sprintf(JText::_('COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_MISSING'), $this->lessonID);
 
 			return false;
 		}
@@ -346,8 +346,12 @@ class THM_OrganizerHelperXMLLessons
 
 		if (empty($this->scheduleModel->newSchedule->subjects->$subjectIndex))
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING", $this->lessonID, $this->subjectUntisID);
+			$this->scheduleModel->scheduleErrors[] =
+				sprintf(
+					JText::_('COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING'),
+					$this->lessonID,
+					$this->subjectUntisID
+				);
 
 			return false;
 		}
@@ -418,8 +422,8 @@ class THM_OrganizerHelperXMLLessons
 
 		if (empty($untisID))
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_MISSING', $this->lessonName, $this->lessonID);
+			$this->scheduleModel->scheduleErrors[] =
+				sprintf(JText::_('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_MISSING'), $this->lessonName, $this->lessonID);
 
 			return false;
 		}
@@ -448,8 +452,13 @@ class THM_OrganizerHelperXMLLessons
 
 		if (!$teacherFound)
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_LACKING', $this->lessonName, $this->lessonID, $untisID);
+			$this->scheduleModel->scheduleErrors[] =
+				sprintf(
+					JText::_('COM_THM_ORGANIZER_ERROR_LESSON_TEACHER_LACKING'),
+					$this->lessonName,
+					$this->lessonID,
+					$untisID
+				);
 
 			return false;
 		}
@@ -475,8 +484,8 @@ class THM_OrganizerHelperXMLLessons
 
 		if (empty($rawUntisIDs))
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf("COM_THM_ORGANIZER_ERROR_LESSON_POOL_MISSING", $this->lessonName, $this->lessonID);
+			$this->scheduleModel->scheduleErrors[] =
+				sprintf(JText::_('COM_THM_ORGANIZER_ERROR_LESSON_POOL_MISSING'), $this->lessonName, $this->lessonID);
 
 			return false;
 		}
@@ -508,8 +517,13 @@ class THM_OrganizerHelperXMLLessons
 
 			if (!$poolFound)
 			{
-				$this->scheduleModel->scheduleErrors[]
-					= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_POOL_LACKING', $this->lessonName, $this->lessonID, $untisID);
+				$this->scheduleModel->scheduleErrors[] =
+					sprintf(
+						JText::_('COM_THM_ORGANIZER_ERROR_LESSON_POOL_LACKING'),
+						$this->lessonName,
+						$this->lessonID,
+						$untisID
+					);
 
 				return false;
 			}
@@ -535,8 +549,12 @@ class THM_OrganizerHelperXMLLessons
 
 		if (empty($startDT))
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_START_DATE_MISSING', $this->lessonName, $this->lessonID);
+			$this->scheduleModel->scheduleErrors[] =
+				sprintf(
+					JText::_('COM_THM_ORGANIZER_ERROR_LESSON_START_DATE_MISSING'),
+					$this->lessonName,
+					$this->lessonID
+				);
 
 			return false;
 		}
@@ -548,8 +566,12 @@ class THM_OrganizerHelperXMLLessons
 		$validStartDate = ($startDT >= $syStartTime AND $startDT <= $syEndTime);
 		if (!$validStartDate)
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_START_DATE_INVALID', $this->lessonName, $this->lessonID, $lessonStartDate);
+			$this->scheduleModel->scheduleErrors[] = sprintf(
+				JText::_('COM_THM_ORGANIZER_ERROR_LESSON_START_DATE_INVALID'),
+				$this->lessonName,
+				$this->lessonID,
+				$lessonStartDate
+			);
 
 			return false;
 		}
@@ -557,7 +579,7 @@ class THM_OrganizerHelperXMLLessons
 		if (empty($endDT))
 		{
 			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_MISSING', $this->lessonName, $this->lessonID);
+				= sprintf(JText::_('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_MISSING'), $this->lessonName, $this->lessonID);
 
 			return false;
 		}
@@ -567,8 +589,12 @@ class THM_OrganizerHelperXMLLessons
 		$validEndDate = ($endDT >= $syStartTime AND $endDT <= $syEndTime);
 		if (!$validEndDate)
 		{
-			$this->scheduleModel->scheduleErrors[]
-				= JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_INVALID', $this->lessonName, $this->lessonID, $lessonEndDate);
+			$this->scheduleModel->scheduleErrors[] = sprintf(
+				JText::_('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_INVALID'),
+				$this->lessonName,
+				$this->lessonID,
+				$lessonEndDate
+			);
 
 			return false;
 		}
@@ -577,7 +603,8 @@ class THM_OrganizerHelperXMLLessons
 		if ($endDT < $startDT)
 		{
 			$this->scheduleModel->scheduleErrors[] =
-				JText::sprintf('COM_THM_ORGANIZER_ERROR_LESSON_DATES_INCONSISTENT',
+				sprintf(
+					JText::_('COM_THM_ORGANIZER_ERROR_LESSON_DATES_INCONSISTENT'),
 					$this->lessonName,
 					$this->lessonID,
 					$lessonStartDate,
@@ -745,8 +772,8 @@ class THM_OrganizerHelperXMLLessons
 				$pools        = implode(', ', $this->pools);
 				$dow          = strtoupper(date('l', $currentDT));
 				$localizedDoW = JText::_($dow);
-				$error        = JText::sprintf(
-					'COM_THM_ORGANIZER_ERROR_LESSON_ROOM_LACKING',
+				$error        = sprintf(
+					JText::_('COM_THM_ORGANIZER_ERROR_LESSON_ROOM_LACKING'),
 					$this->lessonName, $this->lessonID, $pools,
 					$localizedDoW, $period, $roomID
 				);

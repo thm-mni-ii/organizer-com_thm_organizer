@@ -51,14 +51,14 @@ class THM_OrganizerHelperXMLSubjects
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['SUBJECT-NO'];
 			unset($scheduleModel->scheduleWarnings['SUBJECT-NO']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_SUBJECTNO_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_SUBJECTNO_MISSING'), $warningCount);
 		}
 
 		if (!empty($scheduleModel->scheduleWarnings['SUBJECT-FIELD']))
 		{
 			$warningCount = $scheduleModel->scheduleWarnings['SUBJECT-FIELD'];
 			unset($scheduleModel->scheduleWarnings['SUBJECT-FIELD']);
-			$scheduleModel->scheduleWarnings[] = JText::sprintf('COM_THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING', $warningCount);
+			$scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING'), $warningCount);
 		}
 	}
 
@@ -105,7 +105,7 @@ class THM_OrganizerHelperXMLSubjects
 
 		if (!empty($warningString))
 		{
-			$warning = JText::sprintf("COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING", $longName, $gpuntisID, $warningString);
+			$warning = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING'), $longName, $gpuntisID, $warningString);
 
 			$scheduleModel->scheduleWarnings[] = $warning;
 		}
@@ -134,7 +134,7 @@ class THM_OrganizerHelperXMLSubjects
 		$longName = trim((string) $subjectNode->longname);
 		if (empty($longName))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING', $subjectID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING'), $subjectID);
 
 			return false;
 		}

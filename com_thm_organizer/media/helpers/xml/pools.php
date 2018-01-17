@@ -109,7 +109,7 @@ class THM_OrganizerHelperXMLPools
 
 		if (empty($longName))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING', $poolID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING'), $poolID);
 			unset($scheduleModel->newSchedule->pools->$poolID);
 
 			return;
@@ -119,7 +119,7 @@ class THM_OrganizerHelperXMLPools
 
 		if (empty($restriction))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_NODE_NAME', $longName, $poolID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME'), $longName, $poolID);
 
 			return;
 		}
@@ -128,13 +128,13 @@ class THM_OrganizerHelperXMLPools
 
 		if (empty($degreeID))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING', $longName, $poolID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING'), $longName, $poolID);
 
 			return;
 		}
 		elseif (empty($scheduleModel->newSchedule->degrees->$degreeID))
 		{
-			$scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING', $longName, $poolID, $degreeID);
+			$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING'), $longName, $poolID, $degreeID);
 
 			return;
 		}

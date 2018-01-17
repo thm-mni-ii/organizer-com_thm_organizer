@@ -61,7 +61,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
 		$userName    = JFactory::getUser()->name;
 		$startDate   = THM_OrganizerHelperComponent::formatDate($this->startDate);
 		$endDate     = THM_OrganizerHelperComponent::formatDate($this->endDate);
-		$description = JText::sprintf('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION', $startDate, $endDate);
+		$description = sprintf(JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);
 		$this->spreadSheet->getProperties()->setCreator("THM Organizer")
 			->setLastModifiedBy($userName)
 			->setTitle(JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE'))
@@ -277,12 +277,12 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
 
 		if ($planningPeriod['startDate'] < $this->startDate)
 		{
-			$title .= ' ' . JText::sprintf('COM_THM_ORGANIZER_FROM_DATE', $this->startDate);
+			$title .= ' ' . sprintf(JText::_('COM_THM_ORGANIZER_FROM_DATE'), $this->startDate);
 		}
 
 		if ($planningPeriod['endDate'] > $this->endDate)
 		{
-			$title .= ' ' . JText::sprintf('COM_THM_ORGANIZER_TO_DATE', $this->endDate);
+			$title .= ' ' . sprintf(JText::_('COM_THM_ORGANIZER_TO_DATE'), $this->endDate);
 		}
 
 		$this->spreadSheet->setActiveSheetIndex($sheetNumber);
