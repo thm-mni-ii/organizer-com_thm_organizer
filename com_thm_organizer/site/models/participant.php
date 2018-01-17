@@ -33,8 +33,8 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 	 */
 	public function register($participantID, $courseID, $state)
 	{
-		$dependentState = THM_OrganizerHelperCourse::atCapacity($courseID) ? 0 : 1;
-		$state          = $state == 1 ? $dependentState : 2;
+		$canAccept = (int) THM_OrganizerHelperCourse::canAcceptParticipant($courseID);
+		$state     = $state == 1 ? $canAccept : 2;
 
 		return THM_OrganizerHelperParticipant::changeState($participantID, $courseID, $state);
 	}

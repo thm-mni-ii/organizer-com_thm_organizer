@@ -4,10 +4,13 @@
  * @package     THM_Organizer
  * @subpackage  com_thm_organizer.media
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -38,25 +41,26 @@ class THM_OrganizerHelperParticipant
 			// Pending / Wait List
 			case 0:
 
-			// Registered
+				// Registered
 			case 1:
 
 				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 				$table = JTable::getInstance('user_lessons', 'THM_OrganizerTable');
 
-				$data  = [
+				$data = [
 					"lessonID" => $courseID,
 					"userID"   => $participantID
 				];
 
 				$table->load($data);
 
-				$now                 = date('Y-m-d H:i:s');
-				$data['user_date']   = $now;
-				$data['status_date'] = $now;
-				$data['status']      = $state;
+				$now                   = date('Y-m-d H:i:s');
+				$data['user_date']     = $now;
+				$data['status_date']   = $now;
+				$data['status']        = $state;
+				$data['configuration'] = THM_OrganizerHelperCourse::getInstances($courseID);
 
-				$success = $table->save($data, '', ['order', 'configuration']);
+				$success = $table->save($data);
 
 				break;
 

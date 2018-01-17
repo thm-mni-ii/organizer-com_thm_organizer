@@ -624,8 +624,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
   COMMENT 'The last date of user action.',
   `status_date`   DATETIME                  DEFAULT NULL
   COMMENT 'The last date of status action.',
-  `order`         INT(4) UNSIGNED           DEFAULT '0'
-  COMMENT 'The order for automatic user registration actions.',
   `configuration` TEXT             NOT NULL
   COMMENT 'A configuration of the lessons visited should the added lessons be a subset of those offered.',
   `campusID`      INT(11) UNSIGNED          DEFAULT NULL,

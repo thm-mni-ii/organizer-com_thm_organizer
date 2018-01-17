@@ -192,12 +192,6 @@
                 description="COM_THM_ORGANIZER_SENDER_DESC"
                 default=""/>
         <field
-                name="department"
-                type="departmentlist"
-                label="COM_THM_ORGANIZER_DEPARTMENT"
-                description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-                default="12"/>
-        <field
                 name="deadline"
                 type="number"
                 min="1"

@@ -22,6 +22,10 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participant.php';
  */
 class THM_OrganizerHelperCourse
 {
+	const MANUAL_ACCEPTANCE = 1;
+	const PERIOD_MODE = 2;
+	const INSTANCE_MODE = 3;
+
 	/**
 	 * Check if course with specific id is full
 	 *
@@ -29,20 +33,32 @@ class THM_OrganizerHelperCourse
 	 *
 	 * @return bool true when course is full, false otherwise
 	 */
-	public static function atCapacity($courseID)
+	public static function canAcceptParticipant($courseID)
 	{
-		$course                = self::getCourse($courseID);
-		$confirmedParticipants = 0;
-		$maxParticipants       = 0;
+		$course = self::getCourse($courseID);
 
-		if (!empty($course))
+		// Should not occur.
+		if (empty($course))
 		{
-			$participants          = self::getParticipants($courseID, 1);
-			$confirmedParticipants = count($participants);
-			$maxParticipants       = empty($course["lessonP"]) ? $course["subjectP"] : $course["lessonP"];
+			return false;
 		}
 
-		return (empty($confirmedParticipants) OR $confirmedParticipants < $maxParticipants) ? false : true;
+		$manualAcceptance = (!empty($course['registration_type']) AND $course['registration_type'] === self::MANUAL_ACCEPTANCE);
+
+		if ($manualAcceptance)
+		{
+			return false;
+		}
+
+		$acceptedParticipants = count(self::getParticipants($courseID, 1));
+		$maxParticipants       = empty($course["lessonP"]) ? $course["subjectP"] : $course["lessonP"];
+
+		if (empty($maxParticipants))
+		{
+			return true;
+		}
+
+		return (!empty($acceptedParticipants) AND $acceptedParticipants < $maxParticipants);
 	}
 
 	/**
@@ -178,9 +194,9 @@ class THM_OrganizerHelperCourse
 		$query = $dbo->getQuery(true);
 
 		$query->select('pp.name as planningPeriodName')
-			->select('l.id, l.max_participants as lessonP')
+			->select('l.id, l.max_participants as lessonP, l.campusID AS campusID, l.registration_type')
 			->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
-			->select('l.campusID AS campusID, s.campusID AS abstractCampusID');
+			->select('s.campusID AS abstractCampusID');
 
 		$query->from('#__thm_organizer_lessons AS l');
 		$query->leftJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
@@ -324,6 +340,57 @@ class THM_OrganizerHelperCourse
 		}
 
 		return empty($participantData) ? [] : $participantData;
+	}
+
+	/**
+	 * Retrieves the course instances
+	 *
+	 * @param int    $courseID     the id of the course
+	 * @param int    $mode         the retrieval mode (empty => all, 2 => same block, 3 => single instance
+	 * @param object $calReference a reference calendar entry modeled on an object
+	 *
+	 * @return array the instance ids on success, otherwise empty
+	 */
+	public static function getInstances($courseID, $mode = null, $calReference = null)
+	{
+		$dbo   = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('map.id')
+			->from('#__thm_organizer_calendar_configuration_map AS map')
+			->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
+			->where("cal.lessonID = '$courseID'")
+			->where("delta != 'removed'");
+
+		// Restrictions
+		if ($mode == self::PERIOD_MODE OR $mode == self::INSTANCE_MODE)
+		{
+			$query->where("cal.startTime = '$calReference->startTime'");
+			$query->where("cal.endTime = '$calReference->endTime'");
+
+			if ($mode == self::INSTANCE_MODE)
+			{
+				$query->where("cal.schedule_date = '$calReference->schedule_date'");
+			}
+			else
+			{
+				$query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
+			}
+		}
+
+		$query->order('map.id');
+		$dbo->setQuery($query);
+
+		try
+		{
+			$ccmIDs = $dbo->loadColumn();
+		}
+		catch (RuntimeException $e)
+		{
+			return [];
+		}
+
+		return empty($ccmIDs) ? [] : $ccmIDs;
 	}
 
 	/**
@@ -638,10 +705,10 @@ class THM_OrganizerHelperCourse
 	 */
 	public static function refreshWaitList($courseID)
 	{
-		$courseFull = self::atCapacity($courseID);
-		$lang       = THM_OrganizerHelperLanguage::getLanguage();
+		$canAccept = self::canAcceptParticipant($courseID);
+		$lang      = THM_OrganizerHelperLanguage::getLanguage();
 
-		if (!$courseFull)
+		if ($canAccept)
 		{
 			$dbo   = JFactory::getDbo();
 			$query = $dbo->getQuery(true);

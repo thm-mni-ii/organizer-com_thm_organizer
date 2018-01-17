@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
@@ -27,10 +29,6 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/schedule.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
-define('SEMESTER_MODE', 1);
-define('PERIOD_MODE', 2);
-define('INSTANCE_MODE', 3);
-
 /**
  * Class provides methods for retrieving program data
  *
@@ -40,6 +38,10 @@ define('INSTANCE_MODE', 3);
  */
 class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 {
+	const SEMESTER_MODE = 1;
+	const PERIOD_MODE = 2;
+	const INSTANCE_MODE = 3;
+
 	/**
 	 * Getter method for programs
 	 *
@@ -201,11 +203,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			}
 		}
 
-		$parameters['userID']          = JFactory::getUser()->id;
-		$parameters['mySchedule']      = $input->getBool('mySchedule', false);
+		$parameters['userID']     = JFactory::getUser()->id;
+		$parameters['mySchedule'] = $input->getBool('mySchedule', false);
 
 		// Server side check against url manipulation
-		$allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments();
+		$allowedIDs                    = THM_OrganizerHelperComponent::getAccessibleDepartments();
 		$parameters['showUnpublished'] = empty($allowedIDs) ?
 			false : $input->getBool('showUnpublished', false);
 
@@ -229,7 +231,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function saveLesson()
 	{
 		$input       = JFactory::getApplication()->input;
-		$mode        = $input->getInt('mode', PERIOD_MODE);
+		$mode        = $input->getInt('mode', self::PERIOD_MODE);
 		$ccmID       = $input->getString('ccmID');
 		$userID      = JFactory::getUser()->id;
 		$savedCcmIDs = [];
@@ -253,9 +255,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			}
 
 			$conditions = [
-				'userID'    => $userID,
-				'lessonID'  => $lessonID,
-				'user_date' => date('Y-m-d H:i:s')
+				'userID'      => $userID,
+				'lessonID'    => $lessonID,
+				'user_date'   => date('Y-m-d H:i:s'),
+				'status'      => (int) THM_OrganizerHelperCourse::canAcceptParticipant($lessonID),
+				'status_date' => date('Y-m-d H:i:s'),
 			];
 
 			if ($hasUserLesson)
@@ -312,7 +316,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	/**
 	 * Get an array with matching ccmIDs, sorted by lessonIDs
 	 *
-	 * @param int $mode  global param like SEMESTER_MODE
+	 * @param int $mode  global param like self::SEMESTER_MODE
 	 * @param int $ccmID primary key of ccm
 	 *
 	 * @return array (lessonID => [ccmIDs])
@@ -320,42 +324,20 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	private function getMatchingLessons($mode, $ccmID)
 	{
 		$calReference = $this->getCalendarData($ccmID);
+
 		if (!$calReference)
 		{
 			return [];
 		}
-		elseif ($mode == INSTANCE_MODE)
+		// Only the instance selected
+		elseif ($mode == self::INSTANCE_MODE)
 		{
 			return [$calReference->lessonID => [$ccmID]];
 		}
 
-		$query = $this->_db->getQuery(true);
-		$query->select('map.id')
-			->from('#__thm_organizer_calendar_configuration_map AS map')
-			->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
-			->where("cal.lessonID = '$calReference->lessonID'")
-			->where("delta != 'removed'");
+		$ccmIDs = THM_OrganizerHelperCourse::getInstances($calReference->lessonID, $mode, $calReference);
 
-		// Lessons for same day of the week and same time
-		if ($mode == PERIOD_MODE)
-		{
-			$query->where("cal.startTime = '$calReference->startTime'");
-			$query->where("cal.endTime = '$calReference->endTime'");
-			$query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
-		}
-
-		$query->order('map.id');
-		$this->_db->setQuery($query);
-		try
-		{
-			$ccmIDs = $this->_db->loadColumn(0);
-
-			return empty($ccmIDs) ? [] : [$calReference->lessonID => $ccmIDs];
-		}
-		catch (RuntimeException $e)
-		{
-			return [];
-		}
+		return empty($ccmIDs) ? [] : [$calReference->lessonID => $ccmIDs];
 	}
 
 	/**
@@ -366,7 +348,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 	public function deleteLesson()
 	{
 		$input  = JFactory::getApplication()->input;
-		$mode   = $input->getInt('mode', PERIOD_MODE);
+		$mode   = $input->getInt('mode', self::PERIOD_MODE);
 		$ccmID  = $input->getString('ccmID');
 		$userID = JFactory::getUser()->id;
 
@@ -395,7 +377,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 			$deletedCcmIDs = array_merge($deletedCcmIDs, $ccmIDs);
 
 			// Delete a lesson completely? delete whole row in database
-			if ($mode == SEMESTER_MODE)
+			if ($mode == self::SEMESTER_MODE)
 			{
 				$userLessonTable->delete($userLessonTable->id);
 			}
