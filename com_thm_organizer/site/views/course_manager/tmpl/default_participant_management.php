@@ -64,17 +64,17 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 				<ul id="print" class="dropdown-menu">
 					<li>
 						<a href="<?php echo $participantListRoute; ?>" target="_blank">
-							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_PARTICIPANTS'); ?>
+							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_PARTICIPANTS'); ?>
 						</a>
 					</li>
 					<li>
 						<a href="<?php echo $departmentListRoute; ?>" target="_blank">
-							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_DEPARTMENTS'); ?>
+							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
 						</a>
 					</li>
 					<li>
 						<a href="<?php echo $badgesRoute; ?>" target="_blank">
-							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_EXPORT_BADGES'); ?>
+							<span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_BADGE_SHEETS'); ?>
 						</a>
 					</li>
 				</ul>

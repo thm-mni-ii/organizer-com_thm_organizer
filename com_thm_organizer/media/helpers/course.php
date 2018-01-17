@@ -37,7 +37,7 @@ class THM_OrganizerHelperCourse
 
 		if (!empty($course))
 		{
-			$participants          = self::getParticipants($courseID, false);
+			$participants          = self::getParticipants($courseID, 1);
 			$confirmedParticipants = count($participants);
 			$maxParticipants       = empty($course["lessonP"]) ? $course["subjectP"] : $course["lessonP"];
 		}
@@ -409,27 +409,40 @@ class THM_OrganizerHelperCourse
 	 * Get list of registered students in specific course
 	 *
 	 * @param int $lessonID identifier of course
-	 * @param int $status   status of Students (1 registered, 0 waiting, 2 all)
+	 * @param int $status   status of participants (1 registered, 0 waiting)
 	 *
 	 * @return mixed list of students in course with $id, false on error
 	 */
-	public static function getParticipants($lessonID, $includeWaitlist = true)
+	public static function getParticipants($lessonID, $status = null)
 	{
 		if (empty($lessonID))
 		{
 			return [];
 		}
 
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
+		$dbo      = JFactory::getDbo();
+		$query    = $dbo->getQuery(true);
+		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-		$query->select('*')
-			->from('#__thm_organizer_user_lessons')
-			->where("lessonID = '$lessonID'");
+		$select = 'CONCAT(pt.surname, ", ", pt.forename) as name, ul.*, pt.*';
+		$select .= ',u.email, u.username, u.id as cid';
+		$select .= ",p.name_$shortTag as program";
 
-		if ($includeWaitlist === false)
+		$query->select($select)
+			->from('#__thm_organizer_user_lessons as ul')
+			->innerJoin('#__users as u on u.id = ul.userID')
+			->leftJoin('#__thm_organizer_participants as pt on pt.id = ul.userID')
+			->leftJoin('#__thm_organizer_programs as p on p.id = pt.programID')
+			->where("ul.lessonID = '$lessonID'")
+			->order('name ASC');
+
+		if ($status === 1)
 		{
-			$query->where("status = '1'");
+			$query->where("ul.status = '1'");
+		}
+		elseif ($status === 0)
+		{
+			$query->where("ul.status = '0'");
 		}
 
 		$dbo->setQuery($query);

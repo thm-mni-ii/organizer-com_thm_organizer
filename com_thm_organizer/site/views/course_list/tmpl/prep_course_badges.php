@@ -218,17 +218,15 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 	{
 		$this->document = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-		$this->document->SetTitle(
-			$this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_PDF_BADGES") . ' - ' .
-			$this->courseData["name"] . ' - ' . $this->courseData["c_start"]
-		);
+		$baseTitle = $this->lang->_("COM_THM_ORGANIZER_BADGE_SHEETS");
+		$courseName = $this->courseData["name"];
+		$courseDate = $this->courseData["c_start"];
+
+		$this->document->SetTitle("$baseTitle - $courseName - $courseDate");
 
 		$this->createBadges();
 
-		$filename = urldecode($this->courseData["name"] . '_' . $this->courseData["c_start"])
-			. '_' .
-			$this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_PDF_BADGES") .
-			'.pdf';
+		$filename = urldecode($courseName . '_' . $courseDate) . "_$baseTitle.pdf";
 		$this->document->Output($filename, 'I');
 
 		ob_flush();

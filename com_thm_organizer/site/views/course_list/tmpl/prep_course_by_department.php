@@ -240,7 +240,7 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 	protected function render()
 	{
 		$this->document->SetTitle(
-			$this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_PDF_DEPARTMENTS") . ' - ' .
+			$this->lang->_("COM_THM_ORGANIZER_DEPARTMENT_STATISTICS") . ' - ' .
 			$this->courseData["name"] . ' - ' . $this->courseData["c_start"]
 		);
 		$this->setHeader();
@@ -251,7 +251,7 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
 
 		$filename = urlencode($this->courseData["name"] . '_' . $this->courseData["c_start"])
 			. '_' .
-			$this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_PDF_DEPARTMENTS") .
+			$this->lang->_("COM_THM_ORGANIZER_DEPARTMENT_STATISTICS") .
 			'.pdf';
 		$this->document->Output($filename, 'I');
 

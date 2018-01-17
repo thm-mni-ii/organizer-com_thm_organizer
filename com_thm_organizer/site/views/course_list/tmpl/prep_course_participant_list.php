@@ -125,7 +125,7 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
 	protected function render()
 	{
 		$this->document->SetTitle(
-			$this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_PDF_PARTICIPANTS") . ' - ' .
+			$this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") . ' - ' .
 			$this->courseData["name"] . ' - ' . $this->courseData["c_start"]
 		);
 		$this->setHeader();
@@ -136,7 +136,7 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
 
 		$filename = urldecode($this->courseData["name"] . '_' . $this->courseData["c_start"])
 			. '_' .
-			$this->lang->_("COM_THM_ORGANIZER_PREP_COURSE_PDF_PARTICIPANTS") .
+			$this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") .
 			'.pdf';
 		$this->document->Output($filename, 'I');
 

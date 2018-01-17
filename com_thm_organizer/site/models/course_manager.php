@@ -35,44 +35,6 @@ class THM_OrganizerModelCourse_Manager extends JModelForm
 	}
 
 	/**
-	 * Method to select all existent assets from the database
-	 *
-	 * @return  JDatabaseQuery  A query object
-	 */
-	public function getParticipants()
-	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$lessonID = JFactory::getApplication()->input->getInt('lessonID', 0);
-
-		$query = $this->_db->getQuery(true);
-
-		$select = 'CONCAT(pt.surname, ", ", pt.forename) as name, ul.*, pt.*';
-		$select .= ',u.email, u.username, u.id as cid';
-		$select .= ",p.name_$shortTag as program";
-
-		$query->select($select);
-		$query->from('#__thm_organizer_user_lessons as ul');
-		$query->leftJoin('#__users as u on u.id = ul.userID');
-		$query->leftJoin('#__thm_organizer_participants as pt on pt.id = ul.userID');
-		$query->leftJoin('#__thm_organizer_programs as p on p.id = pt.programID');
-		$query->where("ul.lessonID = '$lessonID'");
-		$query->order('name ASC');
-
-		$this->_db->setQuery($query);
-
-		try
-		{
-			return $this->_db->loadAssocList();
-		}
-		catch (Exception $exception)
-		{
-			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-			return [];
-		}
-	}
-
-	/**
 	 * Method to get the form
 	 *
 	 * @param   array   $data     Data for the form.
