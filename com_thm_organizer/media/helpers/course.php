@@ -55,7 +55,7 @@ class THM_OrganizerHelperCourse
             return true;
         }
 
-        return (!empty($acceptedParticipants) AND $acceptedParticipants < $maxParticipants);
+        return ($acceptedParticipants < $maxParticipants);
     }
 
     /**

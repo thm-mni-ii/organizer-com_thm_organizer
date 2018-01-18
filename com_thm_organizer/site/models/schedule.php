@@ -44,10 +44,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         parent::__construct($config);
         $this->setParams();
         $this->grids = $this->getGrids();
-
-        if (empty($this->params['departmentID']) AND !isset($this->params['resourcesRequested'])) {
-            $this->departments = THM_OrganizerHelperDepartments::getPlanDepartments(true);
-        }
+        $this->departments = THM_OrganizerHelperDepartments::getPlanDepartments();
     }
 
     /**

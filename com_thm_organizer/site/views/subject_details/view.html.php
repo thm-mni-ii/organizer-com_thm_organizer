@@ -178,7 +178,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      */
     public function displayStarAttribute($index)
     {
-        if ($this->item->$index === null OR $this->item->$index === '') {
+        if (!isset($this->item->$index) OR $this->item->$index === null OR $this->item->$index === '') {
             return;
         }
 
