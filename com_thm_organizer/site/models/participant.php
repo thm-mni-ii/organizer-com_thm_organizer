@@ -52,6 +52,10 @@ class THM_OrganizerModelParticipant extends JModelLegacy
             return false;
         }
 
+        // Standardize name casing
+        $data['forename'] = ucfirst(strtolower($data['forename']));
+        $data['surname']  = ucfirst(strtolower($data['surname']));
+
         JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
         $table = JTable::getInstance('participants', 'THM_OrganizerTable');
 

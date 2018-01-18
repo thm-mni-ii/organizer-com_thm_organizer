@@ -291,7 +291,7 @@ class THM_OrganizerHelperCourse
             $query->where("ul.status = '1'");
         }
 
-        $query->order('u.name');
+        $query->order('name');
 
         $dbo->setQuery($query);
 
