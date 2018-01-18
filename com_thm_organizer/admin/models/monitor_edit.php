@@ -22,5 +22,5 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelMonitor_Edit extends THM_OrganizerModelEdit
 {
-	// Everything is taken care of in the inheritance hierarchy.
+    // Everything is taken care of in the inheritance hierarchy.
 }

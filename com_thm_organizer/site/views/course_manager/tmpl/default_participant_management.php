@@ -22,13 +22,13 @@ $badgesRoute          = JRoute::_($baseURL . 2, false);
 $registeredText = $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
 
-$dateFormat     = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y') . " ";
-$dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat', 'H.i');
+$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y') . " ";
+$dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat', 'H.i');
 ?>
 <form action="index.php?task=course.changeParticipantState"
 	  method="post" id="adminForm" name="adminForm" onsubmit="listItemChecked();">
 	<input type="hidden" name="option" value="com_thm_organizer"/>
-	<?php echo $this->form->getField('id')->input; ?>
+    <?php echo $this->form->getField('id')->input; ?>
 	<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
 	<input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
 	<input type="hidden" name="participantState" id="participantState" value=""/>
@@ -37,7 +37,7 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 			<h4><?php echo $this->lang->_("COM_THM_ORGANIZER_PARTICIPANT_MANAGEMENT"); ?></h4>
 		</div>
 		<div class="right">
-			<?php echo $this->capacityText; ?>
+            <?php echo $this->capacityText; ?>
 		</div>
 		<div class="clear"></div>
 		<div class="left">
@@ -58,7 +58,7 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 			<div class="print-container">
 				<a class="dropdown-toggle print btn" data-toggle="dropdown" href="#">
 					<span class="icon-print"></span>
-					<?php echo $this->lang->_('COM_THM_ORGANIZER_PRINT_OPTIONS'); ?>
+                    <?php echo $this->lang->_('COM_THM_ORGANIZER_PRINT_OPTIONS'); ?>
 					<span class="icon-arrow-down-3"></span>
 				</a>
 				<ul id="print" class="dropdown-menu">
@@ -94,10 +94,11 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($this->participants as $participant): ?>
+        <?php foreach ($this->participants as $participant): ?>
 			<tr>
 				<td>
-					<input type='checkbox' name='checked[]' value='<?php echo $participant['cid']; ?>' onclick="toggleToggle(this)"/>
+					<input type='checkbox' name='checked[]' value='<?php echo $participant['cid']; ?>'
+						   onclick="toggleToggle(this)"/>
 				</td>
 				<td><?php echo $participant['name']; ?></td>
 				<td><?php echo $participant['program']; ?></td>
@@ -105,7 +106,7 @@ $dateFormat     .= JComponentHelper::getParams('com_thm_organizer')->get('timeFo
 				<td><?php echo $participant['status'] ? $registeredText : $waitListText; ?></td>
 				<td><?php echo JHtml::_('date', $participant['status_date'], $dateFormat); ?></td>
 			</tr>
-		<?php endforeach; ?>
+        <?php endforeach; ?>
 		</tbody>
 	</table>
 </form>

@@ -26,50 +26,48 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
-	public $document;
+    public $document;
 
-	/**
-	 * Sets context variables and renders the view.
-	 *
-	 * @param string $tpl template
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$libraryInstalled = $this->checkLibraries();
+    /**
+     * Sets context variables and renders the view.
+     *
+     * @param string $tpl template
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $libraryInstalled = $this->checkLibraries();
 
-		if (!$libraryInstalled)
-		{
-			return;
-		}
+        if (!$libraryInstalled) {
+            return;
+        }
 
-		$model      = $this->getModel();
-		$parameters = $model->parameters;
-		$grid       = empty($model->grid) ? null : $model->grid;
-		$lessons    = $model->lessons;
+        $model      = $this->getModel();
+        $parameters = $model->parameters;
+        $grid       = empty($model->grid) ? null : $model->grid;
+        $lessons    = $model->lessons;
 
-		$fileName = $parameters['documentFormat'] . '_' . $parameters['displayFormat'] . '_' . $parameters['pdfWeekFormat'];
-		require_once __DIR__ . "/tmpl/$fileName.php";
-		new THM_OrganizerTemplateSchedule_Export_PDF($parameters, $lessons, $grid);
-	}
+        $fileName = $parameters['documentFormat'] . '_' . $parameters['displayFormat'] . '_' . $parameters['pdfWeekFormat'];
+        require_once __DIR__ . "/tmpl/$fileName.php";
+        new THM_OrganizerTemplateSchedule_Export_PDF($parameters, $lessons, $grid);
+    }
 
-	/**
-	 * Imports libraries and sets library variables
-	 *
-	 * @return  bool true if the tcpdf library is installed, otherwise false
-	 */
-	private function checkLibraries()
-	{
-		$this->compiler = jimport('tcpdf.tcpdf');
+    /**
+     * Imports libraries and sets library variables
+     *
+     * @return  bool true if the tcpdf library is installed, otherwise false
+     */
+    private function checkLibraries()
+    {
+        $this->compiler = jimport('tcpdf.tcpdf');
 
-		if (!$this->compiler)
-		{
-			JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_TCPDF_LIBRARY_NOT_INSTALLED');
+        if (!$this->compiler) {
+            JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_TCPDF_LIBRARY_NOT_INSTALLED');
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

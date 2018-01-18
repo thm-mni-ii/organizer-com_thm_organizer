@@ -22,15 +22,15 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelRoom_Type_Edit extends THM_OrganizerModelEdit
 {
-	public $actions = null;
+    public $actions = null;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param array $config An optional associative array of configuration settings.
-	 */
-	public function __construct($config = [])
-	{
-		parent::__construct($config);
-	}
+    /**
+     * Constructor.
+     *
+     * @param array $config An optional associative array of configuration settings.
+     */
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+    }
 }

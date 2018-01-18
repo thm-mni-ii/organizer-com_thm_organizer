@@ -23,102 +23,97 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
 {
-	protected $defaultOrdering = 'name';
+    protected $defaultOrdering = 'name';
 
-	protected $defaultDirection = 'asc';
+    protected $defaultDirection = 'asc';
 
-	/**
-	 * Method to get all grids from the database and set filters for name and default state
-	 *
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$query    = $this->getDbo()->getQuery(true);
+    /**
+     * Method to get all grids from the database and set filters for name and default state
+     *
+     * @return  JDatabaseQuery
+     */
+    protected function getListQuery()
+    {
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $query    = $this->getDbo()->getQuery(true);
 
-		// `default` in apostrophes because otherwise it's a keyword in sql
-		$select = "id, name_$shortTag AS name, grid, defaultGrid, ";
-		$parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", "id"];
-		$select .= $query->concatenate($parts, "") . " AS link";
-		$query->select($select);
-		$query->from('#__thm_organizer_grids');
-		$this->setOrdering($query);
+        // `default` in apostrophes because otherwise it's a keyword in sql
+        $select = "id, name_$shortTag AS name, grid, defaultGrid, ";
+        $parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", "id"];
+        $select .= $query->concatenate($parts, "") . " AS link";
+        $query->select($select);
+        $query->from('#__thm_organizer_grids');
+        $this->setOrdering($query);
 
-		return $query;
-	}
+        return $query;
+    }
 
-	/**
-	 * Function to feed the data in the table body correctly to the list view
-	 *
-	 * @return array consisting of items in the body
-	 */
-	public function getItems()
-	{
-		$items  = parent::getItems();
-		$return = [];
+    /**
+     * Function to feed the data in the table body correctly to the list view
+     *
+     * @return array consisting of items in the body
+     */
+    public function getItems()
+    {
+        $items  = parent::getItems();
+        $return = [];
 
-		if (empty($items))
-		{
-			return $return;
-		}
+        if (empty($items)) {
+            return $return;
+        }
 
-		$index = 0;
+        $index = 0;
 
-		foreach ($items as $item)
-		{
-			$return[$index]             = [];
-			$return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-			$return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
-			$grid                       = json_decode($item->grid);
+        foreach ($items as $item) {
+            $return[$index]             = [];
+            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
+            $grid                       = json_decode($item->grid);
 
-			if (isset($grid) AND isset($grid->periods))
-			{
-				$periods     = get_object_vars($grid->periods);
-				$firstPeriod = $periods[1];
-				$lastPeriod  = end($periods);
+            if (isset($grid) AND isset($grid->periods)) {
+                $periods     = get_object_vars($grid->periods);
+                $firstPeriod = $periods[1];
+                $lastPeriod  = end($periods);
 
-				$startDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->startDay} days")));
-				$endDayConstant   = strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days")));
+                $startDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->startDay} days")));
+                $endDayConstant   = strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days")));
 
-				// 'l' (lowercase L) in date function for full textual day of the week.
-				$return[$index]['startDay']  = JText::_($startDayConstant);
-				$return[$index]['endDay']    = JText::_($endDayConstant);
-				$return[$index]['startTime'] = THM_OrganizerHelperComponent::formatTime($firstPeriod->startTime);
-				$return[$index]['endTime']   = THM_OrganizerHelperComponent::formatTime($lastPeriod->endTime);
-			}
-			else
-			{
-				$return[$index]['startDay']  = '';
-				$return[$index]['endDay']    = '';
-				$return[$index]['startTime'] = '';
-				$return[$index]['endTime']   = '';
-			}
+                // 'l' (lowercase L) in date function for full textual day of the week.
+                $return[$index]['startDay']  = JText::_($startDayConstant);
+                $return[$index]['endDay']    = JText::_($endDayConstant);
+                $return[$index]['startTime'] = THM_OrganizerHelperComponent::formatTime($firstPeriod->startTime);
+                $return[$index]['endTime']   = THM_OrganizerHelperComponent::formatTime($lastPeriod->endTime);
+            } else {
+                $return[$index]['startDay']  = '';
+                $return[$index]['endDay']    = '';
+                $return[$index]['startTime'] = '';
+                $return[$index]['endTime']   = '';
+            }
 
-			$tip                           = JText::_('COM_THM_ORGANIZER_GRID_DEFAULT_DESC');
-			$return[$index]['defaultGrid'] = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
-			$index++;
-		}
+            $tip                           = JText::_('COM_THM_ORGANIZER_GRID_DEFAULT_DESC');
+            $return[$index]['defaultGrid'] = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
+            $index++;
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
-	/**
-	 * Function to get table headers
-	 *
-	 * @return array including headers
-	 */
-	public function getHeaders()
-	{
-		$headers                = [];
-		$headers['checkbox']    = '';
-		$headers['name']        = JText::_('COM_THM_ORGANIZER_NAME');
-		$headers['startDay']    = JText::_('COM_THM_ORGANIZER_START_DAY');
-		$headers['endDay']      = JText::_('COM_THM_ORGANIZER_END_DAY');
-		$headers['startTime']   = JText::_('COM_THM_ORGANIZER_START_TIME');
-		$headers['endTime']     = JText::_('COM_THM_ORGANIZER_END_TIME');
-		$headers['defaultGrid'] = JText::_('COM_THM_ORGANIZER_DEFAULT');
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $headers                = [];
+        $headers['checkbox']    = '';
+        $headers['name']        = JText::_('COM_THM_ORGANIZER_NAME');
+        $headers['startDay']    = JText::_('COM_THM_ORGANIZER_START_DAY');
+        $headers['endDay']      = JText::_('COM_THM_ORGANIZER_END_DAY');
+        $headers['startTime']   = JText::_('COM_THM_ORGANIZER_START_TIME');
+        $headers['endTime']     = JText::_('COM_THM_ORGANIZER_END_TIME');
+        $headers['defaultGrid'] = JText::_('COM_THM_ORGANIZER_DEFAULT');
 
-		return $headers;
-	}
+        return $headers;
+    }
 }

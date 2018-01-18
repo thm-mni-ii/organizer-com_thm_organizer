@@ -38,12 +38,11 @@ $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 
 				</button>
 			</div>
 			<div class="tool-wrapper language-switches">
-				<?php
-				foreach ($this->languageSwitches AS $switch)
-				{
-					echo $switch;
-				}
-				?>
+                <?php
+                foreach ($this->languageSwitches AS $switch) {
+                    echo $switch;
+                }
+                ?>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -51,47 +50,42 @@ $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 
 		<input type="hidden" id="menuID" name="menuID" value="<?php echo $this->state->get('menuID'); ?>"/>
 		<input type="hidden" id="languageTag" name="languageTag"
 			   value="<?php echo $this->state->get('languageTag'); ?>"/>
-		<?php echo JHtml::_('form.token'); ?>
+        <?php echo JHtml::_('form.token'); ?>
 		<h1 class="componentheading"><?php echo $this->displayName; ?></h1>
-		<?php
-		echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => $groupByArray[$this->state->get('groupBy', 0)]]);
+        <?php
+        echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => $groupByArray[$this->state->get('groupBy', 0)]]);
 
-		if ($this->params->get('showByName', 1))
-		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'alpha', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
-			THM_OrganizerTemplateBasicList::render($this, 'name');
-			echo JHtml::_('bootstrap.endTab');
-		}
+        if ($this->params->get('showByName', 1)) {
+            echo JHtml::_('bootstrap.addTab', 'myTab', 'alpha', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
+            THM_OrganizerTemplateBasicList::render($this, 'name');
+            echo JHtml::_('bootstrap.endTab');
+        }
 
-		if ($this->params->get('showByModuleNumber', 1))
-		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'number', $this->lang->_('COM_THM_ORGANIZER_BY_SUBJECTNO'));
-			THM_OrganizerTemplateBasicList::render($this, 'number');
-			echo JHtml::_('bootstrap.endTab');
-		}
+        if ($this->params->get('showByModuleNumber', 1)) {
+            echo JHtml::_('bootstrap.addTab', 'myTab', 'number', $this->lang->_('COM_THM_ORGANIZER_BY_SUBJECTNO'));
+            THM_OrganizerTemplateBasicList::render($this, 'number');
+            echo JHtml::_('bootstrap.endTab');
+        }
 
-		if ($this->params->get('showByPool', 1))
-		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('COM_THM_ORGANIZER_BY_GROUP'));
-			THM_OrganizerTemplatePoolList::render($this);
-			echo JHtml::_('bootstrap.endTab');
-		}
+        if ($this->params->get('showByPool', 1)) {
+            echo JHtml::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('COM_THM_ORGANIZER_BY_GROUP'));
+            THM_OrganizerTemplatePoolList::render($this);
+            echo JHtml::_('bootstrap.endTab');
+        }
 
-		if ($this->params->get('showByTeacher', 1))
-		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'teacher', $this->lang->_('COM_THM_ORGANIZER_BY_TEACHER'));
-			THM_OrganizerTemplateTeacherList::render($this);
-			echo JHtml::_('bootstrap.endTab');
-		}
+        if ($this->params->get('showByTeacher', 1)) {
+            echo JHtml::_('bootstrap.addTab', 'myTab', 'teacher', $this->lang->_('COM_THM_ORGANIZER_BY_TEACHER'));
+            THM_OrganizerTemplateTeacherList::render($this);
+            echo JHtml::_('bootstrap.endTab');
+        }
 
-		if ($this->params->get('showByField', 0))
-		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'field', $this->lang->_('COM_THM_ORGANIZER_BY_FIELD'));
-			THM_OrganizerTemplateFieldList::render($this);
-			echo JHtml::_('bootstrap.endTab');
-		}
-		echo JHtml::_('bootstrap.endTabSet');
-		?>
+        if ($this->params->get('showByField', 0)) {
+            echo JHtml::_('bootstrap.addTab', 'myTab', 'field', $this->lang->_('COM_THM_ORGANIZER_BY_FIELD'));
+            THM_OrganizerTemplateFieldList::render($this);
+            echo JHtml::_('bootstrap.endTab');
+        }
+        echo JHtml::_('bootstrap.endTabSet');
+        ?>
 	</form>
-	<?php echo $this->disclaimer->render($this->disclaimerData); ?>
+    <?php echo $this->disclaimer->render($this->disclaimerData); ?>
 </div>

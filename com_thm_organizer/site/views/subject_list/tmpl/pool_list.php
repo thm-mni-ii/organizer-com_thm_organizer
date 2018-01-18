@@ -22,30 +22,27 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerTemplatePoolList
 {
-	/**
-	 * Renders subject information
-	 *
-	 * @param array &$view the view context
-	 *
-	 * @return  void
-	 */
-	public static function render(&$view)
-	{
-		if (empty($view->items) OR empty($view->pools))
-		{
-			return;
-		}
+    /**
+     * Renders subject information
+     *
+     * @param array &$view the view context
+     *
+     * @return  void
+     */
+    public static function render(&$view)
+    {
+        if (empty($view->items) OR empty($view->pools)) {
+            return;
+        }
 
-		foreach ($view->pools AS $pool)
-		{
-			if (empty($pool['subjects']) AND empty($pool['pools']))
-			{
-				continue;
-			}
+        foreach ($view->pools AS $pool) {
+            if (empty($pool['subjects']) AND empty($pool['pools'])) {
+                continue;
+            }
 
-			$crpText = $view->getCreditPointText($pool);
+            $crpText = $view->getCreditPointText($pool);
 
-			?>
+            ?>
 			<a name="pool<?php echo $pool['id']; ?>" class="pool-anchor"></a>
 			<fieldset class="pool-group">
 				<legend>
@@ -53,19 +50,17 @@ class THM_OrganizerTemplatePoolList
 					<span class="pool-crp"><?php echo $crpText; ?></span>
 				</legend>
 				<table>
-					<?php
-					foreach (array_keys($pool['subjects']) as $subjectKey)
-					{
-						echo $view->getItemRow($view->items[$subjectKey]);
-					}
-					foreach (array_keys($pool['pools']) as $poolKey)
-					{
-						echo $view->getItemRow($view->pools[$poolKey], 'pool');
-					}
-					?>
+                    <?php
+                    foreach (array_keys($pool['subjects']) as $subjectKey) {
+                        echo $view->getItemRow($view->items[$subjectKey]);
+                    }
+                    foreach (array_keys($pool['pools']) as $poolKey) {
+                        echo $view->getItemRow($view->pools[$poolKey], 'pool');
+                    }
+                    ?>
 				</table>
 			</fieldset>
-			<?php
-		}
-	}
+            <?php
+        }
+    }
 }

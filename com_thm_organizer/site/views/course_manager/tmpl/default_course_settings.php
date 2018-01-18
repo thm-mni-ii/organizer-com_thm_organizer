@@ -13,7 +13,7 @@
 ?>
 <form action="index.php?task=course.save" method="post" id="adminForm" name="adminForm">
 	<input type="hidden" name="option" value="com_thm_organizer"/>
-	<?php echo $this->form->getField('id')->input; ?>
+    <?php echo $this->form->getField('id')->input; ?>
 	<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
 	<input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
 	<div class="section">
@@ -21,12 +21,12 @@
 			<h4><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_SETTINGS"); ?></h4>
 		</div>
 		<div class="clear"></div>
-		<?php foreach ($this->form->getFieldset('course_settings') as $field) : ?>
+        <?php foreach ($this->form->getFieldset('course_settings') as $field) : ?>
 			<div class='control-group'>
 				<div class='control-label'><?php echo $field->label; ?></div>
 				<div class='controls'><?php echo $field->input; ?></div>
 			</div>
-		<?php endforeach; ?>
+        <?php endforeach; ?>
 		<button type="submit" class="btn">
 			<span class="icon-forward-2"></span> <?php echo $this->lang->_('JSAVE'); ?>
 		</button>

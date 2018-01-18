@@ -20,82 +20,71 @@ defined('_JEXEC') or die;
  */
 class JFormFieldPlanningPeriodPublishing extends JFormField
 {
-	/**
-	 * @var  string
-	 */
-	protected $type = 'planningPeriodPublishing';
+    /**
+     * @var  string
+     */
+    protected $type = 'planningPeriodPublishing';
 
-	/**
-	 * Returns a select box where resource attributes can be selected
-	 *
-	 * @return  string  the HTML select box
-	 */
-	protected function getInput()
-	{
-		$dbo         = JFactory::getDbo();
-		$periodQuery = $dbo->getQuery(true);
-		$periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order("startDate ASC");
-		$dbo->setQuery($periodQuery);
+    /**
+     * Returns a select box where resource attributes can be selected
+     *
+     * @return  string  the HTML select box
+     */
+    protected function getInput()
+    {
+        $dbo         = JFactory::getDbo();
+        $periodQuery = $dbo->getQuery(true);
+        $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order("startDate ASC");
+        $dbo->setQuery($periodQuery);
 
-		try
-		{
-			$periods = $dbo->loadAssocList('id');
-		}
-		catch (Exception $exc)
-		{
-			return '';
-		}
+        try {
+            $periods = $dbo->loadAssocList('id');
+        } catch (Exception $exc) {
+            return '';
+        }
 
-		if (empty($periods))
-		{
-			return '';
-		}
+        if (empty($periods)) {
+            return '';
+        }
 
-		$poolID    = JFactory::getApplication()->input->getInt('id');
-		$poolQuery = $dbo->getQuery(true);
-		$poolQuery->select('planningPeriodID, published')
-			->from('#__thm_organizer_plan_pool_publishing')
-			->where("planPoolID = '$poolID'");
-		$dbo->setQuery($poolQuery);
+        $poolID    = JFactory::getApplication()->input->getInt('id');
+        $poolQuery = $dbo->getQuery(true);
+        $poolQuery->select('planningPeriodID, published')
+            ->from('#__thm_organizer_plan_pool_publishing')
+            ->where("planPoolID = '$poolID'");
+        $dbo->setQuery($poolQuery);
 
-		try
-		{
-			$publishingEntries = $dbo->loadAssocList('planningPeriodID');
-		}
-		catch (Exception $exc)
-		{
-			return '';
-		}
+        try {
+            $publishingEntries = $dbo->loadAssocList('planningPeriodID');
+        } catch (Exception $exc) {
+            return '';
+        }
 
-		$return = '<div class="publishing-container">';
-		foreach ($periods as $period)
-		{
-			$pID   = $period['id'];
-			$pName = $period['name'];
+        $return = '<div class="publishing-container">';
+        foreach ($periods as $period) {
+            $pID   = $period['id'];
+            $pName = $period['name'];
 
-			$return .= '<div class="period-container">';
-			$return .= '<div class="period-label">' . $pName . "</div>";
-			$return .= '<div class="period-input">';
-			$return .= '<select id="jform_publishing_' . $pID . '" name="jform[publishing][' . $pID . ']" class="chzn-color-state">';
+            $return .= '<div class="period-container">';
+            $return .= '<div class="period-label">' . $pName . "</div>";
+            $return .= '<div class="period-input">';
+            $return .= '<select id="jform_publishing_' . $pID . '" name="jform[publishing][' . $pID . ']" class="chzn-color-state">';
 
-			// Implicitly (new) and explicitly published entries
-			if (!isset($publishingEntries[$period['id']]) OR $publishingEntries[$period['id']]['published'])
-			{
-				$return .= '<option value="1" selected="selected">' . JText::_('JYES') . '</option>';
-				$return .= '<option value="0">' . JText::_('JNO') . '</option>';
-			}
-			else
-			{
-				$return .= '<option value="1">' . JText::_('JYES') . '</option>';
-				$return .= '<option value="0" selected="selected">' . JText::_('JNO') . '</option>';
-			}
+            // Implicitly (new) and explicitly published entries
+            if (!isset($publishingEntries[$period['id']]) OR $publishingEntries[$period['id']]['published']) {
+                $return .= '<option value="1" selected="selected">' . JText::_('JYES') . '</option>';
+                $return .= '<option value="0">' . JText::_('JNO') . '</option>';
+            } else {
+                $return .= '<option value="1">' . JText::_('JYES') . '</option>';
+                $return .= '<option value="0" selected="selected">' . JText::_('JNO') . '</option>';
+            }
 
-			$return .= '</select>';
-			$return .= '</div>';
-			$return .= '</div>';
-		}
-		$return .= '</div>';
+            $return .= '</select>';
+            $return .= '</div>';
+            $return .= '</div>';
+        }
+        $return .= '</div>';
 
-		return $return;
-	}
+        return $return;
+    }
 }

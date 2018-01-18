@@ -24,316 +24,297 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
-	public $courses = null;
+    public $courses = null;
 
-	public $disclaimer;
+    public $disclaimer;
 
-	public $disclaimerData;
+    public $disclaimerData;
 
-	public $isAdmin = false;
+    public $isAdmin = false;
 
-	public $isCourse = false;
+    public $isCourse = false;
 
-	public $languageSwitches = [];
+    public $languageSwitches = [];
 
-	public $lang;
+    public $lang;
 
-	public $langTag = 'de';
+    public $langTag = 'de';
 
-	public $menu;
+    public $menu;
 
-	public $showRegistration = false;
+    public $showRegistration = false;
 
-	public $status = null;
+    public $status = null;
 
-	public $subjectID;
+    public $subjectID;
 
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return void
-	 */
-	public function display($tpl = null)
-	{
-		$this->modifyDocument();
-		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
-		$this->item = $this->get('Item');
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return void
+     */
+    public function display($tpl = null)
+    {
+        $this->modifyDocument();
+        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
+        $this->item = $this->get('Item');
 
-		if (!empty($this->item->id))
-		{
-			$this->subjectID        = $this->item->id;
-			$params                 = ['view' => 'subject_details', 'id' => $this->subjectID];
-			$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
-		}
+        if (!empty($this->item->id)) {
+            $this->subjectID        = $this->item->id;
+            $params                 = ['view' => 'subject_details', 'id' => $this->subjectID];
+            $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        }
 
-		if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course))
-		{
-			$this->isCourse = true;
-			$courses        = THM_OrganizerHelperCourse::getLatestCourses($this->subjectID);
-			$this->isAdmin  = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID, 'subject');
+        if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course)) {
+            $this->isCourse = true;
+            $courses        = THM_OrganizerHelperCourse::getLatestCourses($this->subjectID);
+            $this->isAdmin  = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID, 'subject');
 
-			if (!empty($courses) OR $this->isAdmin)
-			{
-				$this->showRegistration = true;
+            if (!empty($courses) OR $this->isAdmin) {
+                $this->showRegistration = true;
 
-				foreach ($courses AS $key => &$course)
-				{
-					$courseID           = $course['id'];
-					$expired            = !THM_OrganizerHelperCourse::isRegistrationOpen($courseID);
-					$course['expired']  = $expired;
-					$regState           = THM_OrganizerHelperCourse::getParticipantState($courseID);
-					$course['status']   = empty($regState) ? null : (int) $regState["status"];
-					$this->status = ($this->status === 1 OR $course['status'] === null) ? $this->status : $course['status'];
-					$course['dateText'] = THM_OrganizerHelperCourse::getDateDisplay($courseID);
+                foreach ($courses AS $key => &$course) {
+                    $courseID           = $course['id'];
+                    $expired            = !THM_OrganizerHelperCourse::isRegistrationOpen($courseID);
+                    $course['expired']  = $expired;
+                    $regState           = THM_OrganizerHelperCourse::getParticipantState($courseID);
+                    $course['status']   = empty($regState) ? null : (int)$regState["status"];
+                    $this->status       = ($this->status === 1 OR $course['status'] === null) ? $this->status : $course['status'];
+                    $course['dateText'] = THM_OrganizerHelperCourse::getDateDisplay($courseID);
 
-					$course['statusDisplay']
-						= THM_OrganizerHelperCourse::getStatusDisplay($courseID, $this->isAdmin, $expired);
-					$course['registrationButton']
-						= THM_OrganizerHelperCourse::getActionButton('subject', $courseID, $this->isAdmin, $expired);
-				}
+                    $course['statusDisplay']
+                        = THM_OrganizerHelperCourse::getStatusDisplay($courseID, $this->isAdmin, $expired);
+                    $course['registrationButton']
+                        = THM_OrganizerHelperCourse::getActionButton('subject', $courseID, $this->isAdmin, $expired);
+                }
 
-				$this->courses = $courses;
-			}
-		}
+                $this->courses = $courses;
+            }
+        }
 
-		THM_OrganizerHelperComponent::addMenuParameters($this);
+        THM_OrganizerHelperComponent::addMenuParameters($this);
 
-		$this->disclaimer     = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
-		$this->disclaimerData = ['language' => $this->lang];
+        $this->disclaimer     = new JLayoutFile('disclaimer',
+            $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
+        $this->disclaimerData = ['language' => $this->lang];
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Creates a basic output for text or numeric values
-	 *
-	 * @param string $index    the object property name
-	 * @param string $constant the language constant for the label
-	 *
-	 * @return void outputs HTML
-	 */
-	public function displayAttribute($index, $constant = '')
-	{
-		if (empty($this->item->$index))
-		{
-			return;
-		}
+    /**
+     * Creates a basic output for text or numeric values
+     *
+     * @param string $index    the object property name
+     * @param string $constant the language constant for the label
+     *
+     * @return void outputs HTML
+     */
+    public function displayAttribute($index, $constant = '')
+    {
+        if (empty($this->item->$index)) {
+            return;
+        }
 
-		$label = 'COM_THM_ORGANIZER_';
-		$label .= empty($constant) ? strtoupper($index) : strtoupper($constant);
+        $label = 'COM_THM_ORGANIZER_';
+        $label .= empty($constant) ? strtoupper($index) : strtoupper($constant);
 
-		?>
+        ?>
 		<div class="subject-item">
 			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
 			<div class="subject-content"><?php echo $this->item->$index; ?></div>
 		</div>
-		<?php
-	}
+        <?php
+    }
 
-	/**
-	 * Creates a basic output for processed values
-	 *
-	 * @param string $index    the attribute propery name
-	 * @param mixed  $constant the language constant fragment
-	 * @param mixed  $default  the default value to display
-	 *
-	 * @return void outputs HTML
-	 */
-	public function displayTeacherAttribute($index, $constant, $default = '')
-	{
-		if (empty($this->item->$index) AND empty($default))
-		{
-			return;
-		}
+    /**
+     * Creates a basic output for processed values
+     *
+     * @param string $index    the attribute propery name
+     * @param mixed  $constant the language constant fragment
+     * @param mixed  $default  the default value to display
+     *
+     * @return void outputs HTML
+     */
+    public function displayTeacherAttribute($index, $constant, $default = '')
+    {
+        if (empty($this->item->$index) AND empty($default)) {
+            return;
+        }
 
-		$label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
-		$label .= ((empty($this->item->$index) AND !empty($default)) OR count($this->item->$index)) ? 'S' : '';
+        $label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
+        $label .= ((empty($this->item->$index) AND !empty($default)) OR count($this->item->$index)) ? 'S' : '';
 
-		$value = '';
+        $value = '';
 
-		if (empty($this->item->$index))
-		{
-			$value .= $default;
-		}
-		elseif (count($this->item->$index) > 1)
-		{
-			foreach ($this->item->$index as $teacher)
-			{
-				$value .= '<li>' . $this->getTeacherOutput($teacher) . '</li>';
-			}
-		}
-		else
-		{
-			$value .= $this->getTeacherOutput(array_values($this->item->$index)[0]);
-		}
-		?>
+        if (empty($this->item->$index)) {
+            $value .= $default;
+        } elseif (count($this->item->$index) > 1) {
+            foreach ($this->item->$index as $teacher) {
+                $value .= '<li>' . $this->getTeacherOutput($teacher) . '</li>';
+            }
+        } else {
+            $value .= $this->getTeacherOutput(array_values($this->item->$index)[0]);
+        }
+        ?>
 
 		<div class="subject-item">
 			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
 			<div class="subject-content">
-				<?php echo $value; ?>
+                <?php echo $value; ?>
 			</div>
 		</div>
-		<?php
-	}
+        <?php
+    }
 
 
-	/**
-	 * Determines whether or not the attribute should be displayed based on its value and outputs that value
-	 *
-	 * @param string $index the object property name
-	 *
-	 * @return void outputs HTML
-	 */
-	public function displayStarAttribute($index)
-	{
-		if ($this->item->$index === null OR $this->item->$index === '')
-		{
-			return;
-		}
+    /**
+     * Determines whether or not the attribute should be displayed based on its value and outputs that value
+     *
+     * @param string $index the object property name
+     *
+     * @return void outputs HTML
+     */
+    public function displayStarAttribute($index)
+    {
+        if ($this->item->$index === null OR $this->item->$index === '') {
+            return;
+        }
 
-		$allowedValues = [
-			0 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS'),
-			1 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1stars.png', 'COM_THM_ORGANIZER_ONE_STAR'),
-			2 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png', 'COM_THM_ORGANIZER_TWO_STARS'),
-			3 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png', 'COM_THM_ORGANIZER_THREE_STARS')
-		];
-		$value         = (int) $this->item->$index;
+        $allowedValues = [
+            0 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/0stars.png',
+                'COM_THM_ORGANIZER_ZERO_STARS'),
+            1 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1stars.png',
+                'COM_THM_ORGANIZER_ONE_STAR'),
+            2 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png',
+                'COM_THM_ORGANIZER_TWO_STARS'),
+            3 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png',
+                'COM_THM_ORGANIZER_THREE_STARS')
+        ];
+        $value         = (int)$this->item->$index;
 
-		if (!in_array($value, array_keys($allowedValues)))
-		{
-			return;
-		}
+        if (!in_array($value, array_keys($allowedValues))) {
+            return;
+        }
 
-		$constant = 'COM_THM_ORGANIZER_' . strtoupper($index);
+        $constant = 'COM_THM_ORGANIZER_' . strtoupper($index);
 
-		?>
+        ?>
 		<div class="subject-item">
 			<div class="subject-label"><?php echo $this->lang->_($constant); ?></div>
 			<div class="subject-content"><?php echo $allowedValues[$value]; ?></div>
 		</div>
-		<?php
-		return;
-	}
+        <?php
+        return;
+    }
 
-	/**
-	 * Creates a basic output for processed values
-	 *
-	 * @param string $constant the language constant for the label
-	 * @param mixed  $value    the value to be displayed, usually a html string
-	 *
-	 * @return void outputs HTML
-	 */
-	public function displayValue($constant, $value)
-	{
-		if (empty($value))
-		{
-			return;
-		}
+    /**
+     * Creates a basic output for processed values
+     *
+     * @param string $constant the language constant for the label
+     * @param mixed  $value    the value to be displayed, usually a html string
+     *
+     * @return void outputs HTML
+     */
+    public function displayValue($constant, $value)
+    {
+        if (empty($value)) {
+            return;
+        }
 
-		$label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
+        $label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
 
-		?>
+        ?>
 		<div class="subject-item">
 			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
 			<div class="subject-content"><?php echo $value; ?></div>
 		</div>
-		<?php
-	}
+        <?php
+    }
 
-	/**
-	 * Modifies document variables and adds links to external files
-	 *
-	 * @return  void
-	 */
-	private function modifyDocument()
-	{
-		JHtml::_('bootstrap.tooltip');
-		JHtml::_('behavior.framework', true);
+    /**
+     * Modifies document variables and adds links to external files
+     *
+     * @return  void
+     */
+    private function modifyDocument()
+    {
+        JHtml::_('bootstrap.tooltip');
+        JHtml::_('behavior.framework', true);
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
-	}
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
+    }
 
-	/**
-	 * Creates a list of depencencies dependent on the type (pre|post)
-	 *
-	 * @param string $type the type of dependency
-	 *
-	 * @return string the HTML for the depencency output
-	 */
-	public function getDependencies($type)
-	{
-		$dependencies = [];
-		switch ($type)
-		{
-			case 'pre':
+    /**
+     * Creates a list of depencencies dependent on the type (pre|post)
+     *
+     * @param string $type the type of dependency
+     *
+     * @return string the HTML for the depencency output
+     */
+    public function getDependencies($type)
+    {
+        $dependencies = [];
+        switch ($type) {
+            case 'pre':
 
-				if (empty($this->item->preSubjects))
-				{
-					return '';
-				}
+                if (empty($this->item->preSubjects)) {
+                    return '';
+                }
 
-				$dependencies = $this->item->preSubjects;
+                $dependencies = $this->item->preSubjects;
 
-				break;
+                break;
 
-			case 'post':
+            case 'post':
 
-				if (empty($this->item->postSubjects))
-				{
-					return '';
-				}
+                if (empty($this->item->postSubjects)) {
+                    return '';
+                }
 
-				$dependencies = $this->item->postSubjects;
+                $dependencies = $this->item->postSubjects;
 
-				break;
+                break;
 
-		}
+        }
 
-		if (empty($dependencies))
-		{
-			return '';
-		}
+        if (empty($dependencies)) {
+            return '';
+        }
 
-		$menuID        = JFactory::getApplication()->input->getInt('Itemid', 0);
-		$this->langTag = THM_OrganizerHelperLanguage::getShortTag();
-		$link          = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}&Itemid={$menuID}&id=";
+        $menuID        = JFactory::getApplication()->input->getInt('Itemid', 0);
+        $this->langTag = THM_OrganizerHelperLanguage::getShortTag();
+        $link          = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}&Itemid={$menuID}&id=";
 
-		$html = '<ul>';
-		foreach ($dependencies as $programID => $programData)
-		{
-			$html .= "<li>{$programData['name']}<ul>";
-			foreach ($programData['subjects'] AS $subjectID => $subjectName)
-			{
-				$subjectLink = JHtml::_('link', $link . $subjectID, $subjectName);
-				$html        .= "<li>$subjectLink</li>";
-			}
-			$html .= "</ul></li>";
-		}
-		$html .= "</ul>";
+        $html = '<ul>';
+        foreach ($dependencies as $programID => $programData) {
+            $html .= "<li>{$programData['name']}<ul>";
+            foreach ($programData['subjects'] AS $subjectID => $subjectName) {
+                $subjectLink = JHtml::_('link', $link . $subjectID, $subjectName);
+                $html        .= "<li>$subjectLink</li>";
+            }
+            $html .= "</ul></li>";
+        }
+        $html .= "</ul>";
 
-		return $html;
-	}
+        return $html;
+    }
 
-	/**
-	 * Creates teacher output
-	 *
-	 * @param array $teacher the teacher item
-	 *
-	 * @return  void  creates HTML output
-	 */
-	public function getTeacherOutput($teacher)
-	{
-		if (!empty($teacher['link']))
-		{
-			return '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
-		}
-		else
-		{
-			return $teacher['name'];
-		}
-	}
+    /**
+     * Creates teacher output
+     *
+     * @param array $teacher the teacher item
+     *
+     * @return  void  creates HTML output
+     */
+    public function getTeacherOutput($teacher)
+    {
+        if (!empty($teacher['link'])) {
+            return '<a href="' . $teacher['link'] . '">' . $teacher['name'] . '</a>';
+        } else {
+            return $teacher['name'];
+        }
+    }
 }

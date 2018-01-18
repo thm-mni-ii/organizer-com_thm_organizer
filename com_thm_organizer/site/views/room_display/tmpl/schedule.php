@@ -66,53 +66,46 @@ $blockNo = 0;
 		</div>
 	</div>
 	<div class="schedule-area schedule-wide">
-		<?php
-		if (!empty($this->model->blocks))
-		{
-			foreach ($this->model->blocks as $blockKey => $block)
-			{
-				$blockClass  = ($blockNo % 2) ? 'block-odd' : 'block-even';
-				$activeClass = ($time >= $block['startTime'] and $time <= $block['endTime']) ? 'active' : 'inactive';
-				?>
+        <?php
+        if (!empty($this->model->blocks)) {
+            foreach ($this->model->blocks as $blockKey => $block) {
+                $blockClass  = ($blockNo % 2) ? 'block-odd' : 'block-even';
+                $activeClass = ($time >= $block['startTime'] and $time <= $block['endTime']) ? 'active' : 'inactive';
+                ?>
 				<div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
 					<div class="block-time">
-						<?php echo $block['startTime'] . ' - ' . $block['endTime']; ?>
+                        <?php echo $block['startTime'] . ' - ' . $block['endTime']; ?>
 					</div>
 					<div class="block-data">
-						<?php
-						if (!empty($block['lessons']))
-						{
-							echo '<div class="block-title">';
-							foreach ($block['lessons'] as $lesson)
-							{
-								$title = implode($lesson['titles']);
-								if (!empty($lesson['method']))
-								{
-									$title .= $lesson['method'];
-								}
-								echo '<span class="lesson-title">' . $title . '</span>';
-								if (!empty($lesson['divTime']))
-								{
-									echo '<span class="lesson-time">' . $lesson['divTime'] . '</span>';
-								}
-								echo '<br/>';
-							}
-							echo '</div>';
-							echo '<div class="block-extra">';
-							foreach ($block['lessons'] as $lesson)
-							{
-								echo '<span class="lesson-teacher">' . implode('/', $lesson['teachers']) . '</span>';
-								echo '<br/>';
-							}
-							echo '</div>';
-						}
-						?>
+                        <?php
+                        if (!empty($block['lessons'])) {
+                            echo '<div class="block-title">';
+                            foreach ($block['lessons'] as $lesson) {
+                                $title = implode($lesson['titles']);
+                                if (!empty($lesson['method'])) {
+                                    $title .= $lesson['method'];
+                                }
+                                echo '<span class="lesson-title">' . $title . '</span>';
+                                if (!empty($lesson['divTime'])) {
+                                    echo '<span class="lesson-time">' . $lesson['divTime'] . '</span>';
+                                }
+                                echo '<br/>';
+                            }
+                            echo '</div>';
+                            echo '<div class="block-extra">';
+                            foreach ($block['lessons'] as $lesson) {
+                                echo '<span class="lesson-teacher">' . implode('/', $lesson['teachers']) . '</span>';
+                                echo '<br/>';
+                            }
+                            echo '</div>';
+                        }
+                        ?>
 					</div>
 				</div>
-				<?php
-				$blockNo++;
-			}
-		}
-		?>
+                <?php
+                $blockNo++;
+            }
+        }
+        ?>
 	</div>
 </div>

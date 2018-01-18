@@ -23,28 +23,28 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerModelColor extends JModelLegacy
 {
-	/**
-	 * save
-	 *
-	 * attempts to save the monitor form data
-	 *
-	 * @return bool true on success, otherwise false
-	 */
-	public function save()
-	{
-		$data  = JFactory::getApplication()->input->get('jform', [], 'array');
-		$table = JTable::getInstance('colors', 'thm_organizerTable');
+    /**
+     * save
+     *
+     * attempts to save the monitor form data
+     *
+     * @return bool true on success, otherwise false
+     */
+    public function save()
+    {
+        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
+        $table = JTable::getInstance('colors', 'thm_organizerTable');
 
-		return $table->save($data);
-	}
+        return $table->save($data);
+    }
 
-	/**
-	 * Removes color entries from the database
-	 *
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function delete()
-	{
-		return THM_OrganizerHelper::delete('colors');
-	}
+    /**
+     * Removes color entries from the database
+     *
+     * @return  boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        return THM_OrganizerHelper::delete('colors');
+    }
 }

@@ -28,78 +28,77 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewCourse_Manager extends JViewLegacy
 {
-	public $course;
+    public $course;
 
-	public $courseAuth = false;
+    public $courseAuth = false;
 
-	public $capacityText;
+    public $capacityText;
 
-	public $dateText = "";
+    public $dateText = "";
 
-	public $form;
+    public $form;
 
-	public $lang;
+    public $lang;
 
-	public $languageSwitches;
+    public $languageSwitches;
 
-	public $menu;
+    public $menu;
 
-	public $participants;
+    public $participants;
 
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
-		$lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
+        $lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
 
-		if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course'))
-		{
-			JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
-		}
+        if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course')) {
+            JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
+        }
 
-		$this->course       = THM_OrganizerHelperCourse::getCourse();
-		$courseID = empty($this->course) ? 0 : $this->course["id"];
-		$this->participants = THM_OrganizerHelperCourse::getParticipants($courseID);
-		$this->form = $this->get('Form');
-		$this->form->setValue('id', null, $this->course['id']);
-		$this->dateText     = THM_OrganizerHelperCourse::getDateDisplay();
+        $this->course       = THM_OrganizerHelperCourse::getCourse();
+        $courseID           = empty($this->course) ? 0 : $this->course["id"];
+        $this->participants = THM_OrganizerHelperCourse::getParticipants($courseID);
+        $this->form         = $this->get('Form');
+        $this->form->setValue('id', null, $this->course['id']);
+        $this->dateText = THM_OrganizerHelperCourse::getDateDisplay();
 
-		$allowedParticipants = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
-		$this->form->setValue('max_participants', null, $allowedParticipants);
-		$accepted = count(THM_OrganizerHelperCourse::getParticipants($courseID, 1));
-		$waiting = count(THM_OrganizerHelperCourse::getParticipants($courseID, 0));
-		$capacityText = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
-		$this->capacityText = sprintf($capacityText, $accepted, $allowedParticipants, $waiting);
+        $allowedParticipants = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
+        $this->form->setValue('max_participants', null, $allowedParticipants);
+        $accepted           = count(THM_OrganizerHelperCourse::getParticipants($courseID, 1));
+        $waiting            = count(THM_OrganizerHelperCourse::getParticipants($courseID, 0));
+        $capacityText       = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
+        $this->capacityText = sprintf($capacityText, $accepted, $allowedParticipants, $waiting);
 
-		$this->course['campus'] = THM_OrganizerHelperCourse::getCampus($this->course);
-		$this->form->setValue('campusID', null, $this->course['campus']['id']);
-		THM_OrganizerHelperComponent::addMenuParameters($this);
+        $this->course['campus'] = THM_OrganizerHelperCourse::getCampus($this->course);
+        $this->form->setValue('campusID', null, $this->course['campus']['id']);
+        THM_OrganizerHelperComponent::addMenuParameters($this);
 
-		$params                 = ['view' => 'course_manager', 'id' => $courseID];
-		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
-		$this->modifyDocument();
+        $params                 = ['view' => 'course_manager', 'id' => $courseID];
+        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        $this->modifyDocument();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Adds resource files to the document
-	 *
-	 * @return  void
-	 */
-	private function modifyDocument()
-	{
-		JHtml::_('bootstrap.tooltip');
+    /**
+     * Adds resource files to the document
+     *
+     * @return  void
+     */
+    private function modifyDocument()
+    {
+        JHtml::_('bootstrap.tooltip');
 
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'");
-		$document->addScript(JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
-		$document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
-	}
+        $document = JFactory::getDocument();
+        $document->addScriptDeclaration("var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'");
+        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
+    }
 }

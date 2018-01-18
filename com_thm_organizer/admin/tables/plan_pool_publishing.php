@@ -21,13 +21,13 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTablePlan_Pool_Publishing extends JTable
 {
-	/**
-	 * Constructor function for the class representing the plan pool publishing table.
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_plan_pool_publishing', 'id', $dbo);
-	}
+    /**
+     * Constructor function for the class representing the plan pool publishing table.
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_plan_pool_publishing', 'id', $dbo);
+    }
 }

@@ -35,143 +35,136 @@
  */
 class vfreebusy extends calendarComponent
 {
-	/**
-	 * @var array $attendee      component property value
-	 * @var array $comment       component property value
-	 * @var array $contact       component property value
-	 * @var array $dtend         component property value
-	 * @var array $dtstart       component property value
-	 * @var array $duration      component property value
-	 * @var array $freebusy      component property value
-	 * @var array $organizer     component property value
-	 * @var array $requeststatus component property value
-	 * @var array $url           component property value
-	 * @access protected
-	 */
-	protected $attendee;
-	protected $comment;
-	protected $contact;
-	protected $dtend;
-	protected $dtstart;
-	protected $duration;
-	protected $freebusy;
-	protected $organizer;
-	protected $requeststatus;
-	protected $url;
+    /**
+     * @var array $attendee      component property value
+     * @var array $comment       component property value
+     * @var array $contact       component property value
+     * @var array $dtend         component property value
+     * @var array $dtstart       component property value
+     * @var array $duration      component property value
+     * @var array $freebusy      component property value
+     * @var array $organizer     component property value
+     * @var array $requeststatus component property value
+     * @var array $url           component property value
+     * @access protected
+     */
+    protected $attendee;
+    protected $comment;
+    protected $contact;
+    protected $dtend;
+    protected $dtstart;
+    protected $duration;
+    protected $freebusy;
+    protected $organizer;
+    protected $requeststatus;
+    protected $url;
 
-	/**
-	 * constructor for calendar component VFREEBUSY object
-	 *
-	 * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-	 * @since  2.8.2 - 2011-05-01
-	 *
-	 * @param array $config
-	 *
-	 * @uses   vjournal::calendarComponent()
-	 * @uses   vjournal::$attendee
-	 * @uses   vjournal::$comment
-	 * @uses   vjournal::$contact
-	 * @uses   vjournal::$dtend
-	 * @uses   vjournal::$dtstart
-	 * @uses   vjournal::$dtduration
-	 * @uses   vjournal::$organizer
-	 * @uses   vjournal::$requeststatus
-	 * @uses   vjournal::$url
-	 * @uses   vjournal::$xprop
-	 * @uses   calendarComponent::setConfig()
-	 */
-	function __construct($config = [])
-	{
-		parent::__construct();
-		$this->attendee      = '';
-		$this->comment       = '';
-		$this->contact       = '';
-		$this->dtend         = '';
-		$this->dtstart       = '';
-		$this->duration      = '';
-		$this->freebusy      = '';
-		$this->organizer     = '';
-		$this->requeststatus = '';
-		$this->url           = '';
-		$this->xprop         = '';
-		if (defined('ICAL_LANG') && !isset($config['language']))
-		{
-			$config['language'] = ICAL_LANG;
-		}
-		if (!isset($config['allowEmpty']))
-		{
-			$config['allowEmpty'] = true;
-		}
-		if (!isset($config['nl']))
-		{
-			$config['nl'] = "\r\n";
-		}
-		if (!isset($config['format']))
-		{
-			$config['format'] = 'iCal';
-		}
-		if (!isset($config['delimiter']))
-		{
-			$config['delimiter'] = DIRECTORY_SEPARATOR;
-		}
-		$this->setConfig($config);
-	}
+    /**
+     * constructor for calendar component VFREEBUSY object
+     *
+     * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+     * @since  2.8.2 - 2011-05-01
+     *
+     * @param array $config
+     *
+     * @uses   vjournal::calendarComponent()
+     * @uses   vjournal::$attendee
+     * @uses   vjournal::$comment
+     * @uses   vjournal::$contact
+     * @uses   vjournal::$dtend
+     * @uses   vjournal::$dtstart
+     * @uses   vjournal::$dtduration
+     * @uses   vjournal::$organizer
+     * @uses   vjournal::$requeststatus
+     * @uses   vjournal::$url
+     * @uses   vjournal::$xprop
+     * @uses   calendarComponent::setConfig()
+     */
+    function __construct($config = [])
+    {
+        parent::__construct();
+        $this->attendee      = '';
+        $this->comment       = '';
+        $this->contact       = '';
+        $this->dtend         = '';
+        $this->dtstart       = '';
+        $this->duration      = '';
+        $this->freebusy      = '';
+        $this->organizer     = '';
+        $this->requeststatus = '';
+        $this->url           = '';
+        $this->xprop         = '';
+        if (defined('ICAL_LANG') && !isset($config['language'])) {
+            $config['language'] = ICAL_LANG;
+        }
+        if (!isset($config['allowEmpty'])) {
+            $config['allowEmpty'] = true;
+        }
+        if (!isset($config['nl'])) {
+            $config['nl'] = "\r\n";
+        }
+        if (!isset($config['format'])) {
+            $config['format'] = 'iCal';
+        }
+        if (!isset($config['delimiter'])) {
+            $config['delimiter'] = DIRECTORY_SEPARATOR;
+        }
+        $this->setConfig($config);
+    }
 
-	/**
-	 * create formatted output for calendar component VFREEBUSY object instance
-	 *
-	 * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-	 * @since  2.3.1 - 2007-11-19
-	 *
-	 * @param array $xcaldecl
-	 *
-	 * @uses   calendarComponent::_createFormat()
-	 * @uses   calendarComponent::createUid()
-	 * @uses   calendarComponent::createDtstamp()
-	 * @uses   calendarComponent::createAttendee()
-	 * @uses   calendarComponent::createComment()
-	 * @uses   calendarComponent::createContact()
-	 * @uses   calendarComponent::createDtstart()
-	 * @uses   calendarComponent::createDtend()
-	 * @uses   calendarComponent::createDuration()
-	 * @uses   calendarComponent::createFreebusy()
-	 * @uses   calendarComponent::createOrganizer()
-	 * @uses   calendarComponent::createRequestStatus()
-	 * @uses   calendarComponent::createUrl()
-	 * @uses   calendarComponent::createXprop()
-	 * @uses   calendarComponent::createUrl()
-	 * @uses   calendarComponent::createXprop()
-	 * @uses   calendarComponent::$componentEnd1
-	 * @uses   calendarComponent::$componentEnd2
-	 * @uses   calendarComponent::$xcaldecl
-	 * @return string
-	 */
-	function createComponent(&$xcaldecl)
-	{
-		$objectname = $this->_createFormat();
-		$component  = $this->componentStart1 . $objectname . $this->componentStart2 . $this->nl;
-		$component  .= $this->createUid();
-		$component  .= $this->createDtstamp();
-		$component  .= $this->createAttendee();
-		$component  .= $this->createComment();
-		$component  .= $this->createContact();
-		$component  .= $this->createDtstart();
-		$component  .= $this->createDtend();
-		$component  .= $this->createDuration();
-		$component  .= $this->createFreebusy();
-		$component  .= $this->createOrganizer();
-		$component  .= $this->createRequestStatus();
-		$component  .= $this->createUrl();
-		$component  .= $this->createXprop();
-		$component  .= $this->componentEnd1 . $objectname . $this->componentEnd2;
-		if (is_array($this->xcaldecl) && (0 < count($this->xcaldecl)))
-		{
-			foreach ($this->xcaldecl as $localxcaldecl)
-			{
-				$xcaldecl[] = $localxcaldecl;
-			}
-		}
+    /**
+     * create formatted output for calendar component VFREEBUSY object instance
+     *
+     * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+     * @since  2.3.1 - 2007-11-19
+     *
+     * @param array $xcaldecl
+     *
+     * @uses   calendarComponent::_createFormat()
+     * @uses   calendarComponent::createUid()
+     * @uses   calendarComponent::createDtstamp()
+     * @uses   calendarComponent::createAttendee()
+     * @uses   calendarComponent::createComment()
+     * @uses   calendarComponent::createContact()
+     * @uses   calendarComponent::createDtstart()
+     * @uses   calendarComponent::createDtend()
+     * @uses   calendarComponent::createDuration()
+     * @uses   calendarComponent::createFreebusy()
+     * @uses   calendarComponent::createOrganizer()
+     * @uses   calendarComponent::createRequestStatus()
+     * @uses   calendarComponent::createUrl()
+     * @uses   calendarComponent::createXprop()
+     * @uses   calendarComponent::createUrl()
+     * @uses   calendarComponent::createXprop()
+     * @uses   calendarComponent::$componentEnd1
+     * @uses   calendarComponent::$componentEnd2
+     * @uses   calendarComponent::$xcaldecl
+     * @return string
+     */
+    function createComponent(&$xcaldecl)
+    {
+        $objectname = $this->_createFormat();
+        $component  = $this->componentStart1 . $objectname . $this->componentStart2 . $this->nl;
+        $component  .= $this->createUid();
+        $component  .= $this->createDtstamp();
+        $component  .= $this->createAttendee();
+        $component  .= $this->createComment();
+        $component  .= $this->createContact();
+        $component  .= $this->createDtstart();
+        $component  .= $this->createDtend();
+        $component  .= $this->createDuration();
+        $component  .= $this->createFreebusy();
+        $component  .= $this->createOrganizer();
+        $component  .= $this->createRequestStatus();
+        $component  .= $this->createUrl();
+        $component  .= $this->createXprop();
+        $component  .= $this->componentEnd1 . $objectname . $this->componentEnd2;
+        if (is_array($this->xcaldecl) && (0 < count($this->xcaldecl))) {
+            foreach ($this->xcaldecl as $localxcaldecl) {
+                $xcaldecl[] = $localxcaldecl;
+            }
+        }
 
-		return $component;
-	}
+        return $component;
+    }
 }

@@ -21,40 +21,39 @@ jimport('joomla.application.component.table');
  */
 class THM_OrganizerTablePlan_Programs extends JTable
 {
-	/**
-	 * Constructor function for the class representing the mapping table
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_plan_programs', 'id', $dbo);
-	}
+    /**
+     * Constructor function for the class representing the mapping table
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_plan_programs', 'id', $dbo);
+    }
 
-	/**
-	 * Set the table column names which are allowed to be null
-	 *
-	 * @return  boolean  true
-	 */
-	public function check()
-	{
-		if (empty($this->programID))
-		{
-			$this->programID = null;
-		}
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @return  boolean  true
+     */
+    public function check()
+    {
+        if (empty($this->programID)) {
+            $this->programID = null;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Method to store a row in the database from the JTable instance properties.
-	 *
-	 * @param boolean $updateNulls True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 */
-	public function store($updateNulls = true)
-	{
-		return parent::store(true);
-	}
+    /**
+     * Method to store a row in the database from the JTable instance properties.
+     *
+     * @param boolean $updateNulls True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     */
+    public function store($updateNulls = true)
+    {
+        return parent::store(true);
+    }
 }

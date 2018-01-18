@@ -22,13 +22,13 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTableGrids extends JTable
 {
-	/**
-	 * Constructor to call the parent constructor
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_grids', 'id', $dbo);
-	}
+    /**
+     * Constructor to call the parent constructor
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_grids', 'id', $dbo);
+    }
 }

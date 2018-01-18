@@ -25,49 +25,47 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
 {
-	public $items;
+    public $items;
 
-	public $pagination;
+    public $pagination;
 
-	public $state;
+    public $state;
 
-	/**
-	 * loads data into view output context and initiates functions creating html
-	 * elements
-	 *
-	 * @param string $tpl the template to be used
-	 *
-	 * @return void
-	 */
-	public function display($tpl = null)
-	{
-		$actions = $this->getModel()->actions;
+    /**
+     * loads data into view output context and initiates functions creating html
+     * elements
+     *
+     * @param string $tpl the template to be used
+     *
+     * @return void
+     */
+    public function display($tpl = null)
+    {
+        $actions = $this->getModel()->actions;
 
-		if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.schedule'})
-		{
-			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+        if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.schedule'}) {
+            throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * creates a joomla administrative tool bar
-	 *
-	 * @return void
-	 */
-	protected function addToolBar()
-	{
-		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_VIEW_TITLE'), 'organizer_schedules');
-		JToolbarHelper::addNew('schedule.add');
-		JToolbarHelper::makeDefault('schedule.activate', 'COM_THM_ORGANIZER_ACTION_ACTIVATE');
-		JToolbarHelper::custom('schedule.setReference', 'diff', 'diff', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);
-		JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
+    /**
+     * creates a joomla administrative tool bar
+     *
+     * @return void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_VIEW_TITLE'), 'organizer_schedules');
+        JToolbarHelper::addNew('schedule.add');
+        JToolbarHelper::makeDefault('schedule.activate', 'COM_THM_ORGANIZER_ACTION_ACTIVATE');
+        JToolbarHelper::custom('schedule.setReference', 'diff', 'diff', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
 
-		if ($this->getModel()->actions->{'core.admin'})
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer');
-		}
-	}
+        if ($this->getModel()->actions->{'core.admin'}) {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer');
+        }
+    }
 }

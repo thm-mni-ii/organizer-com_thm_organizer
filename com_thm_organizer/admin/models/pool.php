@@ -20,157 +20,136 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerModelPool extends JModelLegacy
 {
-	/**
-	 * Attempts to delete the selected subject pool entries and related mappings
-	 *
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function delete()
-	{
-		$poolIDs = JFactory::getApplication()->input->get('cid', [], 'array');
-		if (!empty($poolIDs))
-		{
-			$this->_db->transactionStart();
-			foreach ($poolIDs as $poolID)
-			{
-				$deleted = $this->deleteEntry($poolID);
+    /**
+     * Attempts to delete the selected subject pool entries and related mappings
+     *
+     * @return  boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        $poolIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        if (!empty($poolIDs)) {
+            $this->_db->transactionStart();
+            foreach ($poolIDs as $poolID) {
+                $deleted = $this->deleteEntry($poolID);
 
-				if (!$deleted)
-				{
-					$this->_db->transactionRollback();
+                if (!$deleted) {
+                    $this->_db->transactionRollback();
 
-					return false;
-				}
-			}
-			$this->_db->transactionCommit();
-		}
+                    return false;
+                }
+            }
+            $this->_db->transactionCommit();
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Removes a single pool and mappings
-	 *
-	 * @param int $poolID the pool id
-	 *
-	 * @return  boolean  true on success, otherwise false
-	 */
-	public function deleteEntry($poolID)
-	{
-		$model           = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
-		$mappingsDeleted = $model->deleteByResourceID($poolID, 'pool');
+    /**
+     * Removes a single pool and mappings
+     *
+     * @param int $poolID the pool id
+     *
+     * @return  boolean  true on success, otherwise false
+     */
+    public function deleteEntry($poolID)
+    {
+        $model           = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingsDeleted = $model->deleteByResourceID($poolID, 'pool');
 
-		if (!$mappingsDeleted)
-		{
-			return false;
-		}
+        if (!$mappingsDeleted) {
+            return false;
+        }
 
-		$table       = JTable::getInstance('pools', 'thm_organizerTable');
-		$poolDeleted = $table->delete($poolID);
+        $table       = JTable::getInstance('pools', 'thm_organizerTable');
+        $poolDeleted = $table->delete($poolID);
 
-		if (!$poolDeleted)
-		{
-			return false;
-		}
+        if (!$poolDeleted) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Saves
-	 *
-	 * @param bool $new whether or not the pool is a new item
-	 *
-	 * @return  mixed  integer on successful pool creation, otherwise boolean
-	 *                 true/false on success/failure
-	 */
-	public function save($new = false)
-	{
-		$data  = JFactory::getApplication()->input->get('jform', [], 'array');
-		$table = JTable::getInstance('pools', 'thm_organizerTable');
+    /**
+     * Saves
+     *
+     * @param bool $new whether or not the pool is a new item
+     *
+     * @return  mixed  integer on successful pool creation, otherwise boolean
+     *                 true/false on success/failure
+     */
+    public function save($new = false)
+    {
+        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
+        $table = JTable::getInstance('pools', 'thm_organizerTable');
 
-		$this->_db->transactionStart();
+        $this->_db->transactionStart();
 
-		if ($new)
-		{
-			unset($data['id']);
-			unset($data['asset_id']);
-		}
+        if ($new) {
+            unset($data['id']);
+            unset($data['asset_id']);
+        }
 
-		if (empty($data['fieldID']))
-		{
-			unset($data['fieldID']);
-		}
+        if (empty($data['fieldID'])) {
+            unset($data['fieldID']);
+        }
 
-		$success = $table->save($data);
+        $success = $table->save($data);
 
-		if (!$success OR empty($table->id))
-		{
-			$this->_db->transactionRollback();
+        if (!$success OR empty($table->id)) {
+            $this->_db->transactionRollback();
 
-			return false;
-		}
+            return false;
+        }
 
-		$mappingsIrrelevant = (empty($data['programID']) OR empty($data['parentID']));
+        $mappingsIrrelevant = (empty($data['programID']) OR empty($data['parentID']));
 
-		// Successfully inserted a new pool
-		if ($mappingsIrrelevant)
-		{
-			$this->_db->transactionCommit();
+        // Successfully inserted a new pool
+        if ($mappingsIrrelevant) {
+            $this->_db->transactionCommit();
 
-			return $table->id;
-		}
+            return $table->id;
+        } // Process mapping information
+        else {
+            $model      = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+            $data['id'] = $table->id;
 
-		// Process mapping information
-		else
-		{
-			$model      = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
-			$data['id'] = $table->id;
+            // No mappings desired
+            if (empty($data['parentID'])) {
+                $mappingsDeleted = $model->deleteByResourceID($table->id, 'pool');
+                if ($mappingsDeleted) {
+                    $this->_db->transactionCommit();
 
-			// No mappings desired
-			if (empty($data['parentID']))
-			{
-				$mappingsDeleted = $model->deleteByResourceID($table->id, 'pool');
-				if ($mappingsDeleted)
-				{
-					$this->_db->transactionCommit();
+                    return $table->id;
+                } else {
+                    $this->_db->transactionRollback();
 
-					return $table->id;
-				}
-				else
-				{
-					$this->_db->transactionRollback();
+                    return false;
+                }
+            } else {
+                $mappingSaved = $model->savePool($data);
+                if ($mappingSaved) {
+                    $this->_db->transactionCommit();
 
-					return false;
-				}
-			}
-			else
-			{
-				$mappingSaved = $model->savePool($data);
-				if ($mappingSaved)
-				{
-					$this->_db->transactionCommit();
+                    return $table->id;
+                } else {
+                    $this->_db->transactionRollback();
 
-					return $table->id;
-				}
-				else
-				{
-					$this->_db->transactionRollback();
+                    return false;
+                }
+            }
+        }
+    }
 
-					return false;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Saves
-	 *
-	 * @return  mixed  integer on successful pool creation, otherwise boolean
-	 *                 true/false on success/failure
-	 */
-	public function save2copy()
-	{
-		return $this->save(true);
-	}
+    /**
+     * Saves
+     *
+     * @return  mixed  integer on successful pool creation, otherwise boolean
+     *                 true/false on success/failure
+     */
+    public function save2copy()
+    {
+        return $this->save(true);
+    }
 }

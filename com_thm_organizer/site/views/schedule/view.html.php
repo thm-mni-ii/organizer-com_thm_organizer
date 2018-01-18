@@ -26,180 +26,171 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSchedule extends JViewLegacy
 {
-	/**
-	 * format for displaying dates
-	 *
-	 * @var string
-	 */
-	protected $dateFormat;
+    /**
+     * format for displaying dates
+     *
+     * @var string
+     */
+    protected $dateFormat;
 
-	/**
-	 * default time grid, loaded first
-	 *
-	 * @var object
-	 */
-	protected $defaultGrid;
+    /**
+     * default time grid, loaded first
+     *
+     * @var object
+     */
+    protected $defaultGrid;
 
-	/**
-	 * the department for this schedule, chosen in menu options
-	 *
-	 * @var string
-	 */
-	protected $departmentID;
+    /**
+     * the department for this schedule, chosen in menu options
+     *
+     * @var string
+     */
+    protected $departmentID;
 
-	/**
-	 * The time period in days in which removed lessons should get displayed.
-	 *
-	 * @var string
-	 */
-	protected $deltaDays;
+    /**
+     * The time period in days in which removed lessons should get displayed.
+     *
+     * @var string
+     */
+    protected $deltaDays;
 
-	/**
-	 * mobile device or not
-	 *
-	 * @var boolean
-	 */
-	protected $isMobile = false;
+    /**
+     * mobile device or not
+     *
+     * @var boolean
+     */
+    protected $isMobile = false;
 
-	/**
-	 * Contains the current languageTag
-	 *
-	 * @var string
-	 */
-	protected $languageTag = "de-DE";
+    /**
+     * Contains the current languageTag
+     *
+     * @var string
+     */
+    protected $languageTag = "de-DE";
 
-	/**
-	 * Model to this view
-	 *
-	 * @var THM_OrganizerModelSchedule
-	 */
-	protected $model;
+    /**
+     * Model to this view
+     *
+     * @var THM_OrganizerModelSchedule
+     */
+    protected $model;
 
-	/**
-	 * Method to display the template
-	 *
-	 * @param null $tpl template
-	 *
-	 * @return void
-	 */
-	public function display($tpl = null)
-	{
-		$this->isMobile    = THM_OrganizerHelperComponent::isSmartphone();
-		$this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
-		$this->model       = $this->getModel();
-		$this->defaultGrid = $this->model->getDefaultGrid();
-		$compParams        = JComponentHelper::getParams('com_thm_organizer');
-		$this->dateFormat  = $compParams->get('dateFormat', 'd.m.Y');
-		$this->modifyDocument();
-		parent::display($tpl);
-	}
+    /**
+     * Method to display the template
+     *
+     * @param null $tpl template
+     *
+     * @return void
+     */
+    public function display($tpl = null)
+    {
+        $this->isMobile    = THM_OrganizerHelperComponent::isSmartphone();
+        $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $this->model       = $this->getModel();
+        $this->defaultGrid = $this->model->getDefaultGrid();
+        $compParams        = JComponentHelper::getParams('com_thm_organizer');
+        $this->dateFormat  = $compParams->get('dateFormat', 'd.m.Y');
+        $this->modifyDocument();
+        parent::display($tpl);
+    }
 
-	/**
-	 * Adds resource files to the document
-	 *
-	 * @return  void
-	 */
-	private function modifyDocument()
-	{
-		$doc = JFactory::getDocument();
+    /**
+     * Adds resource files to the document
+     *
+     * @return  void
+     */
+    private function modifyDocument()
+    {
+        $doc = JFactory::getDocument();
 
-		JHtml::_('formbehavior.chosen', 'select');
-		$this->addScriptOptions();
-		$doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
+        JHtml::_('formbehavior.chosen', 'select');
+        $this->addScriptOptions();
+        $doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
 
-		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/fonts/iconfont-frontend.css");
-		$doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
-		$doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");
-	}
+        $doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/fonts/iconfont-frontend.css");
+        $doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
+        $doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");
+    }
 
-	/**
-	 * Generates required params for Javascript and adds them to the document
-	 *
-	 * @return  void
-	 */
-	private function addScriptOptions()
-	{
-		$user = JFactory::getUser();
-		$root = JUri::root();
+    /**
+     * Generates required params for Javascript and adds them to the document
+     *
+     * @return  void
+     */
+    private function addScriptOptions()
+    {
+        $user = JFactory::getUser();
+        $root = JUri::root();
 
-		$variables = [
-			'SEMESTER_MODE'     => 1,
-			'PERIOD_MODE'       => 2,
-			'INSTANCE_MODE'     => 3,
-			'ajaxBase'          => $root . 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw',
-			'auth'              => !empty($user->id) ?
-				urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT))
-				: '',
-			'dateFormat'        => $this->dateFormat,
-			'defaultGrid'       => $this->defaultGrid->grid,
-			'deltaDays'         => $this->model->params['deltaDays'],
-			'departmentID'      => $this->model->params['departmentID'],
-			'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
-			'isMobile'          => $this->isMobile,
-			'menuID'            => JFactory::getApplication()->input->get('Itemid', 0),
-			'registered'        => !empty($user->id),
-			'showPools'         => $this->model->params['showPools'],
-			'showPrograms'      => $this->model->params['showPrograms'],
-			'showRooms'         => $this->model->params['showRooms'],
-			'showRoomTypes'     => $this->model->params['showRoomTypes'],
-			'showSubjects'      => $this->model->params['showSubjects'],
-			'showTeachers'      => $this->model->params['showTeachers'],
-			'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
-			'username'          => !empty($user->id) ? $user->username : ''
-		];
+        $variables = [
+            'SEMESTER_MODE'     => 1,
+            'PERIOD_MODE'       => 2,
+            'INSTANCE_MODE'     => 3,
+            'ajaxBase'          => $root . 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw',
+            'auth'              => !empty($user->id) ?
+                urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT))
+                : '',
+            'dateFormat'        => $this->dateFormat,
+            'defaultGrid'       => $this->defaultGrid->grid,
+            'deltaDays'         => $this->model->params['deltaDays'],
+            'departmentID'      => $this->model->params['departmentID'],
+            'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
+            'isMobile'          => $this->isMobile,
+            'menuID'            => JFactory::getApplication()->input->get('Itemid', 0),
+            'registered'        => !empty($user->id),
+            'showPools'         => $this->model->params['showPools'],
+            'showPrograms'      => $this->model->params['showPrograms'],
+            'showRooms'         => $this->model->params['showRooms'],
+            'showRoomTypes'     => $this->model->params['showRoomTypes'],
+            'showSubjects'      => $this->model->params['showSubjects'],
+            'showTeachers'      => $this->model->params['showTeachers'],
+            'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
+            'username'          => !empty($user->id) ? $user->username : ''
+        ];
 
-		if (!empty($this->model->params['showUnpublished']))
-		{
-			$variables['showUnpublished'] = $this->model->params['showUnpublished'];
-		}
+        if (!empty($this->model->params['showUnpublished'])) {
+            $variables['showUnpublished'] = $this->model->params['showUnpublished'];
+        }
 
-		$grids = [];
-		foreach ($this->model->grids AS $grid)
-		{
-			$grids[$grid->id] = [
-				"id"   => $grid->id,
-				"grid" => $grid->grid
-			];
-		}
-		$variables['grids'] = $grids;
+        $grids = [];
+        foreach ($this->model->grids AS $grid) {
+            $grids[$grid->id] = [
+                "id"   => $grid->id,
+                "grid" => $grid->grid
+            ];
+        }
+        $variables['grids'] = $grids;
 
-		if (!empty($this->model->params['displayName']))
-		{
-			$variables['displayName'] = $this->model->params['displayName'];
-		}
-		if (!empty($this->model->params['poolIDs']))
-		{
-			$variables['poolIDs'] = $this->model->params['poolIDs'];
-		}
-		if (!empty($this->model->params['programIDs']))
-		{
-			$variables['programIDs'] = $this->model->params['programIDs'];
-		}
-		if (!empty($this->model->params['roomIDs']))
-		{
-			$variables['roomIDs'] = $this->model->params['roomIDs'];
-		}
-		if (!empty($this->model->params['roomTypeIDs']))
-		{
-			$variables['roomTypeIDs'] = $this->model->params['roomTypeIDs'];
-		}
-		if (!empty($this->model->params['subjectIDs']))
-		{
-			$variables['subjectIDs'] = $this->model->params['subjectIDs'];
-		}
-		if (!empty($this->model->params['teacherIDs']))
-		{
-			$variables['teacherIDs'] = $this->model->params['teacherIDs'];
-		}
+        if (!empty($this->model->params['displayName'])) {
+            $variables['displayName'] = $this->model->params['displayName'];
+        }
+        if (!empty($this->model->params['poolIDs'])) {
+            $variables['poolIDs'] = $this->model->params['poolIDs'];
+        }
+        if (!empty($this->model->params['programIDs'])) {
+            $variables['programIDs'] = $this->model->params['programIDs'];
+        }
+        if (!empty($this->model->params['roomIDs'])) {
+            $variables['roomIDs'] = $this->model->params['roomIDs'];
+        }
+        if (!empty($this->model->params['roomTypeIDs'])) {
+            $variables['roomTypeIDs'] = $this->model->params['roomTypeIDs'];
+        }
+        if (!empty($this->model->params['subjectIDs'])) {
+            $variables['subjectIDs'] = $this->model->params['subjectIDs'];
+        }
+        if (!empty($this->model->params['teacherIDs'])) {
+            $variables['teacherIDs'] = $this->model->params['teacherIDs'];
+        }
 
         $doc = JFactory::getDocument();
         $doc->addScriptOptions('variables', $variables);
 
-		JText::script('APRIL');
-		JText::script('AUGUST');
-		JText::script('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');
-		JText::script('DECEMBER');
-		JText::script('FEBRUARY');
+        JText::script('APRIL');
+        JText::script('AUGUST');
+        JText::script('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');
+        JText::script('DECEMBER');
+        JText::script('FEBRUARY');
         JText::script('FRI');
         JText::script('JANUARY');
         JText::script('JULY');
@@ -223,5 +214,5 @@ class THM_OrganizerViewSchedule extends JViewLegacy
         JText::script('COM_THM_ORGANIZER_TIME');
         JText::script('TUE');
         JText::script('WED');
-	}
+    }
 }

@@ -23,33 +23,32 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerModelCampus extends JModelLegacy
 {
-	/**
-	 * save
-	 *
-	 * attempts to save the monitor form data
-	 *
-	 * @return bool true on success, otherwise false
-	 */
-	public function save()
-	{
-		$data  = JFactory::getApplication()->input->get('jform', [], 'array');
-		$table = JTable::getInstance('campuses', 'thm_organizerTable');
+    /**
+     * save
+     *
+     * attempts to save the monitor form data
+     *
+     * @return bool true on success, otherwise false
+     */
+    public function save()
+    {
+        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
+        $table = JTable::getInstance('campuses', 'thm_organizerTable');
 
-		if (!empty($data['isCity']))
-		{
+        if (!empty($data['isCity'])) {
 
-		}
+        }
 
-		return $table->save($data);
-	}
+        return $table->save($data);
+    }
 
-	/**
-	 * Removes campus entries from the database
-	 *
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function delete()
-	{
-		return THM_OrganizerHelper::delete('campuses');
-	}
+    /**
+     * Removes campus entries from the database
+     *
+     * @return  boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        return THM_OrganizerHelper::delete('campuses');
+    }
 }

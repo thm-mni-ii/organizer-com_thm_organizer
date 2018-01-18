@@ -22,26 +22,26 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerModelDegree extends JModelLegacy
 {
-	/**
-	 * Saves degree information to the database
-	 *
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function save()
-	{
-		$data  = JFactory::getApplication()->input->get('jform', [], 'array');
-		$table = JTable::getInstance('degrees', 'thm_organizerTable');
+    /**
+     * Saves degree information to the database
+     *
+     * @return  boolean true on success, otherwise false
+     */
+    public function save()
+    {
+        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
+        $table = JTable::getInstance('degrees', 'thm_organizerTable');
 
-		return $table->save($data);
-	}
+        return $table->save($data);
+    }
 
-	/**
-	 * Deletes the chosen degrees from the database
-	 *
-	 * @return boolean true on success, otherwise false
-	 */
-	public function delete()
-	{
-		return THM_OrganizerHelper::delete('degrees');
-	}
+    /**
+     * Deletes the chosen degrees from the database
+     *
+     * @return boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        return THM_OrganizerHelper::delete('degrees');
+    }
 }

@@ -24,26 +24,26 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerModelGrid extends JModelLegacy
 {
-	/**
-	 * Save the form data for a new grid
-	 *
-	 * @return bool true on success, otherwise false
-	 */
-	public function save()
-	{
-		$data  = JFactory::getApplication()->input->get('jform', [], 'array');
-		$table = JTable::getInstance('grids', 'thm_organizerTable');
+    /**
+     * Save the form data for a new grid
+     *
+     * @return bool true on success, otherwise false
+     */
+    public function save()
+    {
+        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
+        $table = JTable::getInstance('grids', 'thm_organizerTable');
 
-		return $table->save($data);
-	}
+        return $table->save($data);
+    }
 
-	/**
-	 * Removes grid entries from the database
-	 *
-	 * @return boolean true on success, otherwise false
-	 */
-	public function delete()
-	{
-		return THM_OrganizerHelper::delete('grids');
-	}
+    /**
+     * Removes grid entries from the database
+     *
+     * @return boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        return THM_OrganizerHelper::delete('grids');
+    }
 }

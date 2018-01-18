@@ -22,126 +22,111 @@ require_once 'language.php';
  */
 class THM_OrganizerHelperDepartments
 {
-	/**
-	 * Retrieves the department name from the database
-	 *
-	 * @param int $departmentID the
-	 *
-	 * @return string  the name of the department in the active language
-	 */
-	public static function getName($departmentID)
-	{
-		$languageTag = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo         = JFactory::getDbo();
+    /**
+     * Retrieves the department name from the database
+     *
+     * @param int $departmentID the
+     *
+     * @return string  the name of the department in the active language
+     */
+    public static function getName($departmentID)
+    {
+        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $dbo         = JFactory::getDbo();
 
-		$query = $dbo->getQuery(true);
-		$query->select("name_$languageTag as name")->from('#__thm_organizer_departments')
-			->where("id = '$departmentID'");
+        $query = $dbo->getQuery(true);
+        $query->select("name_$languageTag as name")->from('#__thm_organizer_departments')
+            ->where("id = '$departmentID'");
 
-		$dbo->setQuery($query);
+        $dbo->setQuery($query);
 
-		try
-		{
-			$name = $dbo->loadResult();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+        try {
+            $name = $dbo->loadResult();
+        } catch (RuntimeException $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return '';
-		}
+            return '';
+        }
 
-		return empty($name) ? '' : $name;
-	}
+        return empty($name) ? '' : $name;
+    }
 
-	/**
-	 * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
-	 *
-	 * @param int    $planResourceID the db id for the plan resource
-	 * @param string $column         the column in which the resource information is stored
-	 *
-	 * @throws Exception
-	 */
-	public static function setDepartmentResource($planResourceID, $column, $departmentID = null)
-	{
-		if (empty($departmentID))
-		{
-			$formData             = JFactory::getApplication()->input->get('jform', [], 'array');
-			$data['departmentID'] = $formData['departmentID'];
-		}
-		else
-		{
-			$data['departmentID'] = $departmentID;
-		}
+    /**
+     * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
+     *
+     * @param int    $planResourceID the db id for the plan resource
+     * @param string $column         the column in which the resource information is stored
+     *
+     * @throws Exception
+     */
+    public static function setDepartmentResource($planResourceID, $column, $departmentID = null)
+    {
+        if (empty($departmentID)) {
+            $formData             = JFactory::getApplication()->input->get('jform', [], 'array');
+            $data['departmentID'] = $formData['departmentID'];
+        } else {
+            $data['departmentID'] = $departmentID;
+        }
 
-		$data[$column] = $planResourceID;
+        $data[$column] = $planResourceID;
 
-		$deptResourceTable = JTable::getInstance('department_resources', 'thm_organizerTable');
-		$exists            = $deptResourceTable->load($data);
-		if ($exists)
-		{
-			return;
-		}
+        $deptResourceTable = JTable::getInstance('department_resources', 'thm_organizerTable');
+        $exists            = $deptResourceTable->load($data);
+        if ($exists) {
+            return;
+        }
 
-		try
-		{
-			$deptResourceTable->save($data);
-		}
-		catch (Exception $exc)
-		{
-			die;
-		}
+        try {
+            $deptResourceTable->save($data);
+        } catch (Exception $exc) {
+            die;
+        }
 
-		return;
-	}
+        return;
+    }
 
-	/**
-	 * Getter method for teachers in database. Only retrieving the IDs here allows for formatting the names according to
-	 * the needs of the calling views.
-	 *
-	 * @param bool $short whether or not abbreviated names should be returned
-	 *
-	 * @return array
-	 *
-	 * @throws RuntimeException
-	 */
-	public static function getPlanDepartments($short = true)
-	{
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$tag   = THM_OrganizerHelperLanguage::getShortTag();
+    /**
+     * Getter method for teachers in database. Only retrieving the IDs here allows for formatting the names according to
+     * the needs of the calling views.
+     *
+     * @param bool $short whether or not abbreviated names should be returned
+     *
+     * @return array
+     *
+     * @throws RuntimeException
+     */
+    public static function getPlanDepartments($short = true)
+    {
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $tag   = THM_OrganizerHelperLanguage::getShortTag();
 
-		$query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
-		$query->from('#__thm_organizer_departments AS d');
-		$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id');
+        $query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
+        $query->from('#__thm_organizer_departments AS d');
+        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id');
 
-		$dbo->setQuery($query);
+        $dbo->setQuery($query);
 
-		$default = [];
-		try
-		{
-			$results = $dbo->loadAssocList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+        $default = [];
+        try {
+            $results = $dbo->loadAssocList();
+        } catch (RuntimeException $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
-			return $default;
-		}
+            return $default;
+        }
 
-		if (empty($results))
-		{
-			return $default;
-		}
+        if (empty($results)) {
+            return $default;
+        }
 
-		$departments = [];
-		foreach ($results as $department)
-		{
-			$departments[$department['id']] = $short ? $department['shortName'] : $department['name'];
-		}
+        $departments = [];
+        foreach ($results as $department) {
+            $departments[$department['id']] = $short ? $department['shortName'] : $department['name'];
+        }
 
-		asort($departments);
+        asort($departments);
 
-		return $departments;
-	}
+        return $departments;
+    }
 }

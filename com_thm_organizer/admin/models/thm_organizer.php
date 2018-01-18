@@ -22,14 +22,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerModelTHM_Organizer extends JModelLegacy
 {
-	/**
-	 * constructor
-	 *
-	 * @param array $config configurations parameter
-	 */
-	public function __construct($config = [])
-	{
-		parent::__construct($config);
-		THM_OrganizerHelperComponent::addActions($this);
-	}
+    /**
+     * constructor
+     *
+     * @param array $config configurations parameter
+     */
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+        THM_OrganizerHelperComponent::addActions($this);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Joomla component
  * @package     THM_Organizer
@@ -11,13 +12,13 @@
  **/
 class THM_OrganizerTableParticipants extends JTable
 {
-	/**
-	 * Constructor for the user_data table, makes 'id' the primary key.
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_participants', 'id', $dbo);
-	}
+    /**
+     * Constructor for the user_data table, makes 'id' the primary key.
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_participants', 'id', $dbo);
+    }
 }

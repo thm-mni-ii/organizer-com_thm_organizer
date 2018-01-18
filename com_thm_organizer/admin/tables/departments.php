@@ -23,56 +23,56 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
 {
-	/**
-	 * Constructor function for the class representing the majors table
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_departments', 'id', $dbo);
-	}
+    /**
+     * Constructor function for the class representing the majors table
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_departments', 'id', $dbo);
+    }
 
-	/**
-	 * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
-	 * that there is some context available in a unified access manager.
-	 *
-	 * @return  string  The string to use as the title in the asset table.
-	 */
-	protected function _getAssetTitle()
-	{
-		$shortNameColumn = 'short_name_' . THM_OrganizerHelperLanguage::getShortTag();
+    /**
+     * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
+     * that there is some context available in a unified access manager.
+     *
+     * @return  string  The string to use as the title in the asset table.
+     */
+    protected function _getAssetTitle()
+    {
+        $shortNameColumn = 'short_name_' . THM_OrganizerHelperLanguage::getShortTag();
 
-		return $this->$shortNameColumn;
-	}
+        return $this->$shortNameColumn;
+    }
 
-	/**
-	 * Sets the department asset name
-	 *
-	 * @return  string
-	 */
-	protected function _getAssetName()
-	{
-		$key = $this->_tbl_key;
+    /**
+     * Sets the department asset name
+     *
+     * @return  string
+     */
+    protected function _getAssetName()
+    {
+        $key = $this->_tbl_key;
 
-		return 'com_thm_organizer.department.' . (int) $this->$key;
-	}
+        return 'com_thm_organizer.department.' . (int)$this->$key;
+    }
 
-	/**
-	 * Sets the parent as the component root
-	 *
-	 * @param JTable $table the JTable object
-	 * @param int    $id    the resource id
-	 *
-	 * @return  int  the asset id of the component root
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
-	{
-		$asset = JTable::getInstance('Asset');
-		$asset->loadByName('com_thm_organizer');
+    /**
+     * Sets the parent as the component root
+     *
+     * @param JTable $table the JTable object
+     * @param int    $id    the resource id
+     *
+     * @return  int  the asset id of the component root
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function _getAssetParentId(JTable $table = null, $id = null)
+    {
+        $asset = JTable::getInstance('Asset');
+        $asset->loadByName('com_thm_organizer');
 
-		return $asset->id;
-	}
+        return $asset->id;
+    }
 }

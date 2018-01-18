@@ -22,87 +22,75 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participant.php';
  */
 class THM_OrganizerModelParticipant extends JModelLegacy
 {
-	/**
-	 * (De-) Registers course participants
-	 *
-	 * @param int    $participantID the participantID
-	 * @param int    $courseID      id of lesson
-	 * @param string $state         the state requested by the user
-	 *
-	 * @return boolean true on success, false on error
-	 */
-	public function register($participantID, $courseID, $state)
-	{
-		$canAccept = (int) THM_OrganizerHelperCourse::canAcceptParticipant($courseID);
-		$state     = $state == 1 ? $canAccept : 2;
+    /**
+     * (De-) Registers course participants
+     *
+     * @param int    $participantID the participantID
+     * @param int    $courseID      id of lesson
+     * @param string $state         the state requested by the user
+     *
+     * @return boolean true on success, false on error
+     */
+    public function register($participantID, $courseID, $state)
+    {
+        $canAccept = (int)THM_OrganizerHelperCourse::canAcceptParticipant($courseID);
+        $state     = $state == 1 ? $canAccept : 2;
 
-		return THM_OrganizerHelperParticipant::changeState($participantID, $courseID, $state);
-	}
+        return THM_OrganizerHelperParticipant::changeState($participantID, $courseID, $state);
+    }
 
-	/**
-	 * Saves user information to database
-	 *
-	 * @return boolean true on success, false on error
-	 */
-	public function save()
-	{
-		$data = JFactory::getApplication()->input->get('jform', [], 'array');
+    /**
+     * Saves user information to database
+     *
+     * @return boolean true on success, false on error
+     */
+    public function save()
+    {
+        $data = JFactory::getApplication()->input->get('jform', [], 'array');
 
-		if (empty($data))
-		{
-			return false;
-		}
+        if (empty($data)) {
+            return false;
+        }
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
-		$table = JTable::getInstance('participants', 'THM_OrganizerTable');
+        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
+        $table = JTable::getInstance('participants', 'THM_OrganizerTable');
 
-		if (empty($table))
-		{
-			return false;
-		}
+        if (empty($table)) {
+            return false;
+        }
 
-		$table->load($data["id"]);
+        $table->load($data["id"]);
 
-		if (empty($table->id))
-		{
-			$initial = true;
-			$values  = '';
+        if (empty($table->id)) {
+            $initial = true;
+            $values  = '';
 
-			foreach ($data as $value)
-			{
-				if ($initial)
-				{
-					$initial = false;
-				}
-				else
-				{
-					$values .= ', ';
-				}
+            foreach ($data as $value) {
+                if ($initial) {
+                    $initial = false;
+                } else {
+                    $values .= ', ';
+                }
 
-				$values .= $this->_db->q($value);
-			}
+                $values .= $this->_db->q($value);
+            }
 
-			$query = $this->_db->getQuery(true);
-			$query->insert('#__thm_organizer_participants')
-				->columns($this->_db->qn(array_keys($data)))
-				->values($values);
-			$this->_db->setQuery($query);
+            $query = $this->_db->getQuery(true);
+            $query->insert('#__thm_organizer_participants')
+                ->columns($this->_db->qn(array_keys($data)))
+                ->values($values);
+            $this->_db->setQuery($query);
 
-			try
-			{
-				return (bool) $this->_db->execute();
-			}
-			catch (Exception $exception)
-			{
-				JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            try {
+                return (bool)$this->_db->execute();
+            } catch (Exception $exception) {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
-				return false;
-			}
-		}
-		else
-		{
-			return (bool) $table->save($data);
-		}
+                return false;
+            }
+        } else {
+            return (bool)$table->save($data);
+        }
 
-	}
+    }
 }

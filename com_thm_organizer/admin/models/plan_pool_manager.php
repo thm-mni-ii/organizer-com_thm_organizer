@@ -22,117 +22,113 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
  */
 class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 {
-	protected $defaultOrdering = 'ppl.gpuntisID';
+    protected $defaultOrdering = 'ppl.gpuntisID';
 
-	protected $defaultDirection = 'asc';
+    protected $defaultDirection = 'asc';
 
-	/**
-	 * Constructor to set the config array and call the parent constructor
-	 *
-	 * @param array $config Configuration  (default: array)
-	 */
-	public function __construct($config = [])
-	{
-		parent::__construct($config);
-	}
+    /**
+     * Constructor to set the config array and call the parent constructor
+     *
+     * @param array $config Configuration  (default: array)
+     */
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+    }
 
-	/**
-	 * Method to get all plan_pools from the database
-	 *
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
-		$allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
-		$query              = $this->_db->getQuery(true);
+    /**
+     * Method to get all plan_pools from the database
+     *
+     * @return  JDatabaseQuery
+     */
+    protected function getListQuery()
+    {
+        $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $query              = $this->_db->getQuery(true);
 
-		if (empty($allowedDepartments))
-		{
-			return $query;
-		}
+        if (empty($allowedDepartments)) {
+            return $query;
+        }
 
-		$select    = "DISTINCT ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ";
-		$linkParts = ["'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", "ppl.id"];
-		$select    .= $query->concatenate($linkParts, "") . " AS link";
+        $select    = "DISTINCT ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ";
+        $linkParts = ["'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", "ppl.id"];
+        $select    .= $query->concatenate($linkParts, "") . " AS link";
 
-		$query->from('#__thm_organizer_plan_pools AS ppl');
-		$query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.poolID = ppl.id");
+        $query->from('#__thm_organizer_plan_pools AS ppl');
+        $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.poolID = ppl.id");
 
-		$departmentID = $this->state->get('list.departmentID');
+        $departmentID = $this->state->get('list.departmentID');
 
-		if ($departmentID AND in_array($departmentID, $allowedDepartments))
-		{
-			$query->where("dr.departmentID = '$departmentID'");
-		}
-		else
-		{
-			$query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
-		}
+        if ($departmentID AND in_array($departmentID, $allowedDepartments)) {
+            $query->where("dr.departmentID = '$departmentID'");
+        } else {
+            $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
+        }
 
-		$programID = $this->state->get('list.programID');
+        $programID = $this->state->get('list.programID');
 
-		if ($programID)
-		{
-			$select .= ", ppr.id as programID, ppr.name as programName";
-			$query->innerJoin("#__thm_organizer_plan_programs AS ppr ON ppl.programID = ppr.id");
-			$query->where("ppl.programID = '$programID'");
-		}
+        if ($programID) {
+            $select .= ", ppr.id as programID, ppr.name as programName";
+            $query->innerJoin("#__thm_organizer_plan_programs AS ppr ON ppl.programID = ppr.id");
+            $query->where("ppl.programID = '$programID'");
+        }
 
-		$query->select($select);
+        $query->select($select);
 
-		$searchColumns = ['ppl.full_name', 'ppl.name', 'ppl.gpuntisID'];
-		$this->setSearchFilter($query, $searchColumns);
+        $searchColumns = ['ppl.full_name', 'ppl.name', 'ppl.gpuntisID'];
+        $this->setSearchFilter($query, $searchColumns);
 
-		$this->setOrdering($query);
+        $this->setOrdering($query);
 
-		return $query;
-	}
+        return $query;
+    }
 
-	/**
-	 * Method to overwrite the getItems method in order to set the pool name
-	 *
-	 * @return  array  an array of objects fulfilling the request criteria
-	 */
-	public function getItems()
-	{
-		$items  = parent::getItems();
-		$return = [];
+    /**
+     * Method to overwrite the getItems method in order to set the pool name
+     *
+     * @return  array  an array of objects fulfilling the request criteria
+     */
+    public function getItems()
+    {
+        $items  = parent::getItems();
+        $return = [];
 
-		if (empty($items))
-		{
-			return $return;
-		}
+        if (empty($items)) {
+            return $return;
+        }
 
-		$index = 0;
+        $index = 0;
 
-		foreach ($items as $item)
-		{
-			$return[$index]              = [];
-			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
-			$return[$index]['full_name'] = JHtml::_('link', $item->link, $item->full_name);
-			$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
-			$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
-			$index++;
-		}
+        foreach ($items as $item) {
+            $return[$index]              = [];
+            $return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['full_name'] = JHtml::_('link', $item->link, $item->full_name);
+            $return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
+            $index++;
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
-	/**
-	 * Function to get table headers
-	 *
-	 * @return array including headers
-	 */
-	public function getHeaders()
-	{
-		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction            = $this->state->get('list.direction', $this->defaultDirection);
-		$headers              = [];
-		$headers['checkbox']  = '';
-		$headers['full_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ppl.full_name', $direction, $ordering);
-		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction, $ordering);
-		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction            = $this->state->get('list.direction', $this->defaultDirection);
+        $headers              = [];
+        $headers['checkbox']  = '';
+        $headers['full_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ppl.full_name', $direction,
+            $ordering);
+        $headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction,
+            $ordering);
+        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppl.gpuntisID', $direction,
+            $ordering);
 
-		return $headers;
-	}
+        return $headers;
+    }
 }

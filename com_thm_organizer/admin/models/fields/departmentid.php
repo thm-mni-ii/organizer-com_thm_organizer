@@ -25,56 +25,50 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldDepartmentID extends JFormFieldList
 {
-	/**
-	 * @var  string
-	 */
-	protected $type = 'departmentID';
+    /**
+     * @var  string
+     */
+    protected $type = 'departmentID';
 
-	/**
-	 * Returns an array of options
-	 *
-	 * @return  array  the department options
-	 */
-	public function getOptions()
-	{
-		$action = $this->getAttribute('action', '');
+    /**
+     * Returns an array of options
+     *
+     * @return  array  the department options
+     */
+    public function getOptions()
+    {
+        $action = $this->getAttribute('action', '');
 
-		if (empty($action))
-		{
-			return parent::getOptions();
-		}
+        if (empty($action)) {
+            return parent::getOptions();
+        }
 
-		$allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments($action);
+        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments($action);
 
-		if (empty($allowedIDs))
-		{
-			return parent::getOptions();
-		}
+        if (empty($allowedIDs)) {
+            return parent::getOptions();
+        }
 
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo      = JFactory::getDbo();
-		$query    = $dbo->getQuery(true);
-		$query->select("id AS value, short_name_$shortTag AS text");
-		$query->from('#__thm_organizer_departments');
-		$query->where("id IN ( '" . implode("', '", $allowedIDs) . "' )");
-		$query->order('text ASC');
-		$dbo->setQuery($query);
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $dbo      = JFactory::getDbo();
+        $query    = $dbo->getQuery(true);
+        $query->select("id AS value, short_name_$shortTag AS text");
+        $query->from('#__thm_organizer_departments');
+        $query->where("id IN ( '" . implode("', '", $allowedIDs) . "' )");
+        $query->order('text ASC');
+        $dbo->setQuery($query);
 
-		try
-		{
-			$departments = $dbo->loadAssocList();
-		}
-		catch (Exception $exc)
-		{
-			return parent::getOptions();
-		}
+        try {
+            $departments = $dbo->loadAssocList();
+        } catch (Exception $exc) {
+            return parent::getOptions();
+        }
 
-		$options = [];
-		foreach ($departments as $department)
-		{
-			$options[] = JHtml::_('select.option', $department['value'], $department['text']);
-		}
+        $options = [];
+        foreach ($departments as $department) {
+            $options[] = JHtml::_('select.option', $department['value'], $department['text']);
+        }
 
-		return array_merge(parent::getOptions(), $options);
-	}
+        return array_merge(parent::getOptions(), $options);
+    }
 }

@@ -23,27 +23,27 @@ JHtml::_('jquery.framework');
  */
 class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
 {
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
+    }
 
-	/**
-	 * Adds styles and scripts to the document
-	 *
-	 * @return  void  modifies the document
-	 */
-	protected function modifyDocument()
-	{
-		parent::modifyDocument();
-		JHtml::_('searchtools.form', '#adminForm', []);
+    /**
+     * Adds styles and scripts to the document
+     *
+     * @return  void  modifies the document
+     */
+    protected function modifyDocument()
+    {
+        parent::modifyDocument();
+        JHtml::_('searchtools.form', '#adminForm', []);
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/child_selection.css");
-	}
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/child_selection.css");
+    }
 }

@@ -21,13 +21,13 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTableSubject_Mappings extends JTable
 {
-	/**
-	 * Constructor function for the class representing the subject_mappings table
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_subject_mappings', 'id', $dbo);
-	}
+    /**
+     * Constructor function for the class representing the subject_mappings table
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_subject_mappings', 'id', $dbo);
+    }
 }

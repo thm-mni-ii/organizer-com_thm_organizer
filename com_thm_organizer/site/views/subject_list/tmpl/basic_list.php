@@ -20,35 +20,32 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerTemplateBasicList
 {
-	/**
-	 * Renders subject information
-	 *
-	 * @param array &$view the view context
-	 *
-	 * @return  void
-	 */
-	public static function render(&$view, $sort)
-	{
-		echo '<div class="subject-list-container">';
-		if (count($view->items))
-		{
-			$displayItems = $view->items;
+    /**
+     * Renders subject information
+     *
+     * @param array &$view the view context
+     *
+     * @return  void
+     */
+    public static function render(&$view, $sort)
+    {
+        echo '<div class="subject-list-container">';
+        if (count($view->items)) {
+            $displayItems = $view->items;
 
-			if ($sort == 'number')
-			{
-				usort($displayItems, function ($a, $b) {
-					return $a->externalID > $b->externalID;
-				});
-			}
+            if ($sort == 'number') {
+                usort($displayItems, function ($a, $b) {
+                    return $a->externalID > $b->externalID;
+                });
+            }
 
-			echo '<table class="subject-list">';
-			foreach ($displayItems AS $item)
-			{
-				echo $view->getItemRow($item, $sort);
-			}
-			echo '</table>';
-		}
-		echo '</div>';
-	}
+            echo '<table class="subject-list">';
+            foreach ($displayItems AS $item) {
+                echo $view->getItemRow($item, $sort);
+            }
+            echo '</table>';
+        }
+        echo '</div>';
+    }
 }
  

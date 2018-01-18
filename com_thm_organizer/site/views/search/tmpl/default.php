@@ -14,12 +14,11 @@ $attribs = ['target' => '_blank'];
 <div id="j-main-container" class="organizer-search-container">
 	<form action="<?php JUri::current(); ?>" id="adminForm" method="get" name="adminForm">
 		<div class="language-switches">
-			<?php
-			foreach ($this->languageSwitches AS $switch)
-			{
-				echo $switch;
-			}
-			?>
+            <?php
+            foreach ($this->languageSwitches AS $switch) {
+                echo $switch;
+            }
+            ?>
 		</div>
 		<h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
 		<div class="toolbar">
@@ -41,99 +40,83 @@ $attribs = ['target' => '_blank'];
 		<input type="hidden" id="languageTag" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
 		<input type="hidden" id="option" name="option" value="com_thm_organizer"/>
 		<input type="hidden" id="view" name="view" value="search"/>
-		<?php
-		$containerOpened = false;
+        <?php
+        $containerOpened = false;
 
-		foreach ($this->results as $strength => $sResults)
-		{
-			if (!empty($sResults))
-			{
-				$headerShown = false;
+        foreach ($this->results as $strength => $sResults) {
+            if (!empty($sResults)) {
+                $headerShown = false;
 
-				foreach ($sResults as $resource => $rResults)
-				{
-					foreach ($rResults as $result)
-					{
-						if (!$containerOpened)
-						{
-							echo '<div class="results-container">';
-							$containerOpened = true;
-						}
+                foreach ($sResults as $resource => $rResults) {
+                    foreach ($rResults as $result) {
+                        if (!$containerOpened) {
+                            echo '<div class="results-container">';
+                            $containerOpened = true;
+                        }
 
-						if (!$headerShown)
-						{
+                        if (!$headerShown) {
 
-							$strengthTitle       = 'COM_THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
-							$strengthDescription = 'COM_THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
-							echo '<h3>' . $this->lang->_($strengthTitle) . '</h3><hr><ul>';
-							$headerShown = true;
-						}
+                            $strengthTitle       = 'COM_THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
+                            $strengthDescription = 'COM_THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
+                            echo '<h3>' . $this->lang->_($strengthTitle) . '</h3><hr><ul>';
+                            $headerShown = true;
+                        }
 
-						echo '<li>';
-						echo '<div class="resource-item">' . $result['text'] . '</div>';
-						echo '<div class="resource-links">';
+                        echo '<li>';
+                        echo '<div class="resource-item">' . $result['text'] . '</div>';
+                        echo '<div class="resource-links">';
 
-						foreach ($result['links'] as $type => $link)
-						{
-							$constant = 'COM_THM_ORGANIZER_' . strtoupper($type);
+                        foreach ($result['links'] as $type => $link) {
+                            $constant = 'COM_THM_ORGANIZER_' . strtoupper($type);
 
-							if ($type == 'curriculum')
-							{
-								$icon = '<span class="icon-grid-2"></span>';
-								echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
-							}
+                            if ($type == 'curriculum') {
+                                $icon = '<span class="icon-grid-2"></span>';
+                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                            }
 
-							if ($type == 'schedule')
-							{
-								$icon = '<span class="icon-calendar"></span>';
-								echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
-							}
+                            if ($type == 'schedule') {
+                                $icon = '<span class="icon-calendar"></span>';
+                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                            }
 
-							if ($type == 'subject_list')
-							{
-								$icon = '<span class="icon-list"></span>';
-								echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
-							}
+                            if ($type == 'subject_list') {
+                                $icon = '<span class="icon-list"></span>';
+                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                            }
 
-							if ($type == 'subject_details')
-							{
-								$icon = '<span class="icon-book"></span>';
-								echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
-							}
-						}
+                            if ($type == 'subject_details') {
+                                $icon = '<span class="icon-book"></span>';
+                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                            }
+                        }
 
-						echo '</div>';
+                        echo '</div>';
 
-						if (!empty($result['description']))
-						{
-							echo '<div class="resource-description">';
+                        if (!empty($result['description'])) {
+                            echo '<div class="resource-description">';
 
-							if (is_string($result['description']))
-							{
-								echo $result['description'];
-							}
-							elseif (is_array($result['description']))
-							{
-								echo implode(', ', $result['description']);
-							}
+                            if (is_string($result['description'])) {
+                                echo $result['description'];
+                            } elseif (is_array($result['description'])) {
+                                echo implode(', ', $result['description']);
+                            }
 
-							echo '</div>';
-						}
-						echo '</li>';
-					}
+                            echo '</div>';
+                        }
+                        echo '</li>';
+                    }
 
-				}
+                }
 
-				echo '</ul>';
+                echo '</ul>';
 
-			}
+            }
 
-		}
+        }
 
-		if ($containerOpened)
-		{
-			echo '</div>';
-		}
-		?>
+        if ($containerOpened) {
+            echo '</div>';
+        }
+        ?>
 	</form>
 </div>

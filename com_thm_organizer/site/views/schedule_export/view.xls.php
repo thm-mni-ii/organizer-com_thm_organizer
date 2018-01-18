@@ -26,26 +26,26 @@ jimport('phpexcel.library.PHPExcel');
  */
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
-	private $parameters;
+    private $parameters;
 
-	private $lessons;
+    private $lessons;
 
-	/**
-	 * Sets context variables and renders the view.
-	 *
-	 * @param string $tpl template
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$model      = $this->getModel();
-		$parameters = $model->parameters;
+    /**
+     * Sets context variables and renders the view.
+     *
+     * @param string $tpl template
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $model      = $this->getModel();
+        $parameters = $model->parameters;
 
-		$fileName = $parameters['documentFormat'] . '_' . $parameters['xlsWeekFormat'];
-		require_once __DIR__ . "/tmpl/$fileName.php";
-		$export = new THM_OrganizerTemplateExport_XLS($parameters, $model->lessons);
-		$export->render();
-		ob_flush();
-	}
+        $fileName = $parameters['documentFormat'] . '_' . $parameters['xlsWeekFormat'];
+        require_once __DIR__ . "/tmpl/$fileName.php";
+        $export = new THM_OrganizerTemplateExport_XLS($parameters, $model->lessons);
+        $export->render();
+        ob_flush();
+    }
 }

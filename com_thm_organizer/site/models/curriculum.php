@@ -24,237 +24,210 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
  */
 class THM_OrganizerModelCurriculum extends JModelItem
 {
-	private $langTag;
+    private $langTag;
 
-	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 */
-	public function getItem()
-	{
-		$app     = JFactory::getApplication();
-		$params  = $app->getParams();
-		$program = new stdClass;
+    /**
+     * Method to get an array of data items.
+     *
+     * @return  mixed  An array of data items on success, false on failure.
+     */
+    public function getItem()
+    {
+        $app     = JFactory::getApplication();
+        $params  = $app->getParams();
+        $program = new stdClass;
 
-		$programIDs = $app->input->get('programIDs');
-		$poolIDs = $app->input->get('poolIDs');
+        $programIDs = $app->input->get('programIDs');
+        $poolIDs    = $app->input->get('poolIDs');
 
-		if (!empty($programIDs))
-		{
-			$programID = explode(',', $programIDs)[0];
-		}
-		elseif (!empty($poolIDs))
-		{
-			$poolID = explode(',', $poolIDs)[0];
-		}
-		else
-		{
-			$programID = $params->get('programID', 0);
-		}
+        if (!empty($programIDs)) {
+            $programID = explode(',', $programIDs)[0];
+        } elseif (!empty($poolIDs)) {
+            $poolID = explode(',', $poolIDs)[0];
+        } else {
+            $programID = $params->get('programID', 0);
+        }
 
-		if (empty($programID) AND empty($poolID))
-		{
-			return $program;
-		}
+        if (empty($programID) AND empty($poolID)) {
+            return $program;
+        }
 
-		$program->id = $programID;
+        $program->id = $programID;
 
-		$defaultLang   = THM_OrganizerHelperLanguage::getShortTag();
-		$this->langTag = $app->input->get('languageTag', $defaultLang);
+        $defaultLang   = THM_OrganizerHelperLanguage::getShortTag();
+        $this->langTag = $app->input->get('languageTag', $defaultLang);
 
-		$this->setProgramInformation($program);
-		if (empty($program->name))
-		{
-			return $program;
-		}
+        $this->setProgramInformation($program);
+        if (empty($program->name)) {
+            return $program;
+        }
 
-		$this->setChildren($program);
+        $this->setChildren($program);
 
-		return $program;
-	}
+        return $program;
+    }
 
-	/**
-	 * Sets program attributes
-	 *
-	 * @param object &$program the object modeling the program data
-	 *
-	 * @return  void  sets object attributes
-	 */
-	private function setProgramInformation(&$program)
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select("p.name_$this->langTag AS name, d.abbreviation, p.version, m.id AS mapping");
-		$query->from('#__thm_organizer_programs AS p');
-		$query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-		$query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
-		$query->where("p.id = '$program->id'");
-		$this->_db->setQuery($query);
-		try
-		{
-			$programData = $this->_db->loadAssoc();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+    /**
+     * Sets program attributes
+     *
+     * @param object &$program the object modeling the program data
+     *
+     * @return  void  sets object attributes
+     */
+    private function setProgramInformation(&$program)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select("p.name_$this->langTag AS name, d.abbreviation, p.version, m.id AS mapping");
+        $query->from('#__thm_organizer_programs AS p');
+        $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
+        $query->where("p.id = '$program->id'");
+        $this->_db->setQuery($query);
+        try {
+            $programData = $this->_db->loadAssoc();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return;
-		}
+            return;
+        }
 
-		$program->name    = "{$programData['name']} ({$programData['abbreviation']} {$programData['version']})";
-		$program->mapping = $programData['mapping'];
-		$program->type    = 'program';
-	}
+        $program->name    = "{$programData['name']} ({$programData['abbreviation']} {$programData['version']})";
+        $program->mapping = $programData['mapping'];
+        $program->type    = 'program';
+    }
 
-	/**
-	 * Sets the children for the given element
-	 *
-	 * @param object &$element the object modeling the program data
-	 *
-	 * @return  void  sets object attributes
-	 */
-	private function setChildren(&$element)
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select('*');
-		$query->from('#__thm_organizer_mappings');
-		$query->where("parentID = '$element->mapping'");
-		$query->order("ordering ASC");
-		$this->_db->setQuery($query);
-		try
-		{
-			$children = $this->_db->loadObjectList();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+    /**
+     * Sets the children for the given element
+     *
+     * @param object &$element the object modeling the program data
+     *
+     * @return  void  sets object attributes
+     */
+    private function setChildren(&$element)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('*');
+        $query->from('#__thm_organizer_mappings');
+        $query->where("parentID = '$element->mapping'");
+        $query->order("ordering ASC");
+        $this->_db->setQuery($query);
+        try {
+            $children = $this->_db->loadObjectList();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return;
-		}
+            return;
+        }
 
-		$element->children = [];
-		foreach ($children as $child)
-		{
-			$order = (int) $child->ordering;
-			if (!empty($child->poolID))
-			{
-				$element->children[$order] = $this->getPool($child->poolID, $child->id);
-				if (empty($element->children[$order]))
-				{
-					continue;
-				}
+        $element->children = [];
+        foreach ($children as $child) {
+            $order = (int)$child->ordering;
+            if (!empty($child->poolID)) {
+                $element->children[$order] = $this->getPool($child->poolID, $child->id);
+                if (empty($element->children[$order])) {
+                    continue;
+                }
 
-				$this->setChildren($element->children[$order]);
-			}
+                $this->setChildren($element->children[$order]);
+            }
 
-			// Programs should not have subjects as children this can happen through false modelling in LSF.
-			if ($element->type == 'program')
-			{
-				continue;
-			}
+            // Programs should not have subjects as children this can happen through false modelling in LSF.
+            if ($element->type == 'program') {
+                continue;
+            }
 
-			if (!empty($child->subjectID))
-			{
-				$element->children[$order] = $this->getSubject($child->subjectID, $child->id);
-			}
-		}
-	}
+            if (!empty($child->subjectID)) {
+                $element->children[$order] = $this->getSubject($child->subjectID, $child->id);
+            }
+        }
+    }
 
-	/**
-	 * Retrieves a pool element
-	 *
-	 * @param int $poolID    the pool id
-	 * @param int $mappingID the mapping id
-	 *
-	 * @return  mixed  object on success, otherwise null
-	 */
-	private function getPool($poolID, $mappingID)
-	{
-		$query  = $this->_db->getQuery(true);
-		$select = "p.id, p.name_$this->langTag AS name, description_$this->langTag AS description, minCrP, maxCrP, ";
-		$select .= "enable_desc, color AS bgColor";
-		$query->select($select);
-		$query->from('#__thm_organizer_pools AS p');
-		$query->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID');
-		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-		$query->where("p.id = '$poolID'");
-		$this->_db->setQuery($query);
+    /**
+     * Retrieves a pool element
+     *
+     * @param int $poolID    the pool id
+     * @param int $mappingID the mapping id
+     *
+     * @return  mixed  object on success, otherwise null
+     */
+    private function getPool($poolID, $mappingID)
+    {
+        $query  = $this->_db->getQuery(true);
+        $select = "p.id, p.name_$this->langTag AS name, description_$this->langTag AS description, minCrP, maxCrP, ";
+        $select .= "enable_desc, color AS bgColor";
+        $query->select($select);
+        $query->from('#__thm_organizer_pools AS p');
+        $query->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->where("p.id = '$poolID'");
+        $this->_db->setQuery($query);
 
-		try
-		{
-			$pool = $this->_db->loadObject();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+        try {
+            $pool = $this->_db->loadObject();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return null;
-		}
+            return null;
+        }
 
-		if (empty($pool))
-		{
-			return null;
-		}
+        if (empty($pool)) {
+            return null;
+        }
 
-		$pool->mapping = $mappingID;
-		$pool->type    = 'pool';
+        $pool->mapping = $mappingID;
+        $pool->type    = 'pool';
 
-		return $pool;
-	}
+        return $pool;
+    }
 
-	/**
-	 * Retrieves a subject element
-	 *
-	 * @param int $subjectID the subject id
-	 * @param int $mappingID the mapping id
-	 *
-	 * @return  mixed  object on success, otherwise null
-	 */
-	private function getSubject($subjectID, $mappingID)
-	{
-		$query = $this->_db->getQuery(true);
+    /**
+     * Retrieves a subject element
+     *
+     * @param int $subjectID the subject id
+     * @param int $mappingID the mapping id
+     *
+     * @return  mixed  object on success, otherwise null
+     */
+    private function getSubject($subjectID, $mappingID)
+    {
+        $query = $this->_db->getQuery(true);
 
-		$select      = "s.id, externalID, s.name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
-		$menuID      = JFactory::getApplication()->input->getInt('Itemid', 0);
-		$menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
-		$subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";
-		$parts       = ["$subjectLink", "s.id"];
-		$select      .= $query->concatenate($parts, "") . " AS link";
+        $select      = "s.id, externalID, s.name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
+        $menuID      = JFactory::getApplication()->input->getInt('Itemid', 0);
+        $menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
+        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";
+        $parts       = ["$subjectLink", "s.id"];
+        $select      .= $query->concatenate($parts, "") . " AS link";
 
-		$query->select($select);
-		$query->from('#__thm_organizer_subjects AS s');
-		$query->leftJoin('#__thm_organizer_fields AS f ON f.id = s.fieldID');
-		$query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-		$query->where("s.id = '$subjectID'");
-		$this->_db->setQuery($query);
+        $query->select($select);
+        $query->from('#__thm_organizer_subjects AS s');
+        $query->leftJoin('#__thm_organizer_fields AS f ON f.id = s.fieldID');
+        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->where("s.id = '$subjectID'");
+        $this->_db->setQuery($query);
 
-		try
-		{
-			$subject = $this->_db->loadObject();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+        try {
+            $subject = $this->_db->loadObject();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return null;
-		}
+            return null;
+        }
 
-		if (empty($subject))
-		{
-			return null;
-		}
+        if (empty($subject)) {
+            return null;
+        }
 
-		$subject->mapping = $mappingID;
-		$subject->type    = 'subject';
+        $subject->mapping = $mappingID;
+        $subject->type    = 'subject';
 
-		$teacher = THM_OrganizerHelperTeachers::getDataBySubject($subject->id, 1);
+        $teacher = THM_OrganizerHelperTeachers::getDataBySubject($subject->id, 1);
 
-		if (!empty($teacher))
-		{
-			$subject->teacherName = THM_OrganizerHelperTeachers::getDefaultName($teacher['id']);
-			$subject->teacherID   = $teacher['id'];
-		}
+        if (!empty($teacher)) {
+            $subject->teacherName = THM_OrganizerHelperTeachers::getDefaultName($teacher['id']);
+            $subject->teacherID   = $teacher['id'];
+        }
 
-		return $subject;
-	}
+        return $subject;
+    }
 }

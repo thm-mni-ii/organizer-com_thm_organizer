@@ -21,20 +21,20 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTableUser_Lessons extends JTable
 {
-	/**
-	 * fields get encoded by binding, when values are arrays
-	 *
-	 * @var array
-	 */
-	protected $_jsonEncode = ['configuration'];
+    /**
+     * fields get encoded by binding, when values are arrays
+     *
+     * @var array
+     */
+    protected $_jsonEncode = ['configuration'];
 
-	/**
-	 * Constructor for the user_lesson table, makes 'id' the primary key.
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_user_lessons', 'id', $dbo);
-	}
+    /**
+     * Constructor for the user_lesson table, makes 'id' the primary key.
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_user_lessons', 'id', $dbo);
+    }
 }

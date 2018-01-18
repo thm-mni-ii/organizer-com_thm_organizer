@@ -11,5 +11,5 @@
 defined('_JEXEC') or die;
 ?>
 <div class="no-results">
-	<?php echo JText::_('COM_THM_ORGANIZER_FILTER_NO_RESULTS'); ?>
+    <?php echo JText::_('COM_THM_ORGANIZER_FILTER_NO_RESULTS'); ?>
 </div>

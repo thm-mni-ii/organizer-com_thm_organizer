@@ -16,19 +16,17 @@ $baseURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&l
 $editAuth       = THM_OrganizerHelperComponent::allowResourceManage('subject', $this->course["subjectID"]);
 $subjectEditURL = "$baseURL&view=subject_edit&id={$this->course["subjectID"]}";
 
-if (!empty($this->menu))
-{
-	$menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
+if (!empty($this->menu)) {
+    $menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
 }
 
 ?>
 <div class="toolbar">
 	<div class="tool-wrapper language-switches">
-		<?php foreach ($this->languageSwitches AS $switch)
-		{
-			echo $switch;
-		}
-		?>
+        <?php foreach ($this->languageSwitches AS $switch) {
+            echo $switch;
+        }
+        ?>
 	</div>
 </div>
 <div class="course-manager-view">
@@ -37,23 +35,23 @@ if (!empty($this->menu))
 		<div class="left"><?php echo $this->dateText ?></div>
 	</div>
 	<div class="right">
-		<?php if ($editAuth): ?>
+        <?php if ($editAuth): ?>
 			<a href="<?php echo JRoute::_($subjectEditURL, false); ?>" class="btn btn-mini" type="button">
 				<span class="icon-edit"></span>
-				<?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_COURSE_DESCRIPTION") ?>
+                <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_COURSE_DESCRIPTION") ?>
 			</a>
-		<?php endif; ?>
-		<?php if (!empty($this->menu)): ?>
+        <?php endif; ?>
+        <?php if (!empty($this->menu)): ?>
 			<a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini" type="button">
 				<span class="icon-list"></span>
-				<?php echo $menuText ?>
+                <?php echo $menuText ?>
 			</a>
-		<?php endif; ?>
+        <?php endif; ?>
 	</div>
 	<div class="clear"></div>
 	<hr>
-	<?php echo $this->loadTemplate('course_settings'); ?>
+    <?php echo $this->loadTemplate('course_settings'); ?>
 	<hr>
-	<?php echo $this->loadTemplate('participant_management'); ?>
-	<?php echo $this->loadTemplate('circular'); ?>
+    <?php echo $this->loadTemplate('participant_management'); ?>
+    <?php echo $this->loadTemplate('circular'); ?>
 </div>

@@ -20,126 +20,118 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLDescriptions
 {
-	/**
-	 * Checks whether the resource already exists in the database
-	 *
-	 * @param object &$scheduleModel the validating schedule model
-	 * @param string $tableName      the name of the table to check
-	 * @param string $gpuntisID      the gpuntis description id
-	 * @param string $constant       the text constant for message output
-	 *
-	 * @return  bool  true if the entry already exists, otherwise false
-	 */
-	private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
-	{
-		$dbo   = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
-		$dbo->setQuery($query);
+    /**
+     * Checks whether the resource already exists in the database
+     *
+     * @param object &$scheduleModel the validating schedule model
+     * @param string $tableName      the name of the table to check
+     * @param string $gpuntisID      the gpuntis description id
+     * @param string $constant       the text constant for message output
+     *
+     * @return  bool  true if the entry already exists, otherwise false
+     */
+    private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
+    {
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
+        $dbo->setQuery($query);
 
-		try
-		{
-			$resourceID = $dbo->loadResult();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+        try {
+            $resourceID = $dbo->loadResult();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return false;
-		}
+            return false;
+        }
 
-		if (empty($resourceID))
-		{
-			$scheduleModel->scheduleErrors[] = sprintf(JText::_("COM_THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
+        if (empty($resourceID)) {
+            $scheduleModel->scheduleErrors[] = sprintf(JText::_("COM_THM_ORGANIZER_ERROR_INVALID_$constant"),
+                $gpuntisID);
 
-			return false;
-		}
+            return false;
+        }
 
-		return $resourceID;
-	}
+        return $resourceID;
+    }
 
-	/**
-	 * Checks whether description nodes have the expected structure and required information
-	 *
-	 * @param object &$scheduleModel the validating schedule model
-	 * @param object &$xmlObject     the xml object being validated
-	 *
-	 * @return void
-	 */
-	public static function validate(&$scheduleModel, &$xmlObject)
-	{
-		if (empty($xmlObject->descriptions))
-		{
-			$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING");
+    /**
+     * Checks whether description nodes have the expected structure and required information
+     *
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$xmlObject     the xml object being validated
+     *
+     * @return void
+     */
+    public static function validate(&$scheduleModel, &$xmlObject)
+    {
+        if (empty($xmlObject->descriptions)) {
+            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING");
 
-			return;
-		}
+            return;
+        }
 
-		$scheduleModel->newSchedule->fields     = new stdClass;
-		$scheduleModel->newSchedule->methods    = new stdClass;
-		$scheduleModel->newSchedule->room_types = new stdClass;
+        $scheduleModel->newSchedule->fields     = new stdClass;
+        $scheduleModel->newSchedule->methods    = new stdClass;
+        $scheduleModel->newSchedule->room_types = new stdClass;
 
-		foreach ($xmlObject->descriptions->children() as $descriptionNode)
-		{
-			$gpuntisID = trim((string) $descriptionNode[0]['id']);
+        foreach ($xmlObject->descriptions->children() as $descriptionNode) {
+            $gpuntisID = trim((string)$descriptionNode[0]['id']);
 
-			if (empty($gpuntisID))
-			{
-				if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING"), $scheduleModel->scheduleErrors))
-				{
-					$scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
-				}
+            if (empty($gpuntisID)) {
+                if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING"),
+                    $scheduleModel->scheduleErrors)) {
+                    $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
+                }
 
-				return;
-			}
+                return;
+            }
 
-			$descriptionID = str_replace('DS_', '', $gpuntisID);
-			$longName      = trim((string) $descriptionNode->longname);
+            $descriptionID = str_replace('DS_', '', $gpuntisID);
+            $longName      = trim((string)$descriptionNode->longname);
 
-			if (empty($longName))
-			{
-				$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'), $descriptionID);
+            if (empty($longName)) {
+                $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'),
+                    $descriptionID);
 
-				return;
-			}
+                return;
+            }
 
-			$typeFlag = trim((string) $descriptionNode->flags);
+            $typeFlag = trim((string)$descriptionNode->flags);
 
-			if (empty($typeFlag))
-			{
-				$scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'), $longName, $descriptionID);
+            if (empty($typeFlag)) {
+                $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'),
+                    $longName, $descriptionID);
 
-				return;
-			}
+                return;
+            }
 
-			$type = $typeID = '';
-			switch ($typeFlag)
-			{
-				case 'f':
-				case 'F':
-					$type   = 'fields';
-					$typeID = self::exists($scheduleModel, $type, $descriptionID, 'FIELD');
-					break;
-				case 'r':
-				case 'R':
-					$type   = 'room_types';
-					$typeID = self::exists($scheduleModel, $type, $descriptionID, 'ROOM_TYPE');
-					break;
-				case 'u':
-				case 'U':
-					$type   = 'methods';
-					$typeID = self::exists($scheduleModel, $type, $descriptionID, 'METHOD');
-					break;
-			}
+            $type = $typeID = '';
+            switch ($typeFlag) {
+                case 'f':
+                case 'F':
+                    $type   = 'fields';
+                    $typeID = self::exists($scheduleModel, $type, $descriptionID, 'FIELD');
+                    break;
+                case 'r':
+                case 'R':
+                    $type   = 'room_types';
+                    $typeID = self::exists($scheduleModel, $type, $descriptionID, 'ROOM_TYPE');
+                    break;
+                case 'u':
+                case 'U':
+                    $type   = 'methods';
+                    $typeID = self::exists($scheduleModel, $type, $descriptionID, 'METHOD');
+                    break;
+            }
 
-			$validType = (!empty($type) AND !empty($typeID));
-			if ($validType)
-			{
-				$scheduleModel->newSchedule->$type->$descriptionID            = new stdClass;
-				$scheduleModel->newSchedule->$type->$descriptionID->gpuntisID = $gpuntisID;
-				$scheduleModel->newSchedule->$type->$descriptionID->name      = $longName;
-				$scheduleModel->newSchedule->$type->$descriptionID->id        = $typeID;
-			}
-		}
-	}
+            $validType = (!empty($type) AND !empty($typeID));
+            if ($validType) {
+                $scheduleModel->newSchedule->$type->$descriptionID            = new stdClass;
+                $scheduleModel->newSchedule->$type->$descriptionID->gpuntisID = $gpuntisID;
+                $scheduleModel->newSchedule->$type->$descriptionID->name      = $longName;
+                $scheduleModel->newSchedule->$type->$descriptionID->id        = $typeID;
+            }
+        }
+    }
 }

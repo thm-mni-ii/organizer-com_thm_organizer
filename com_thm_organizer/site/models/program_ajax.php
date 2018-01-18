@@ -24,56 +24,52 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
  */
 class THM_OrganizerModelProgram_Ajax extends JModelLegacy
 {
-	/**
-	 * Gets the program options as a string
-	 *
-	 * @return string the concatenated plan program options
-	 */
-	public function getPlanOptions()
-	{
-		$planOptions = THM_OrganizerHelperPrograms::getPlanPrograms();
+    /**
+     * Gets the program options as a string
+     *
+     * @return string the concatenated plan program options
+     */
+    public function getPlanOptions()
+    {
+        $planOptions = THM_OrganizerHelperPrograms::getPlanPrograms();
 
-		return json_encode($planOptions);
-	}
+        return json_encode($planOptions);
+    }
 
-	/**
-	 * Retrieves subject entries from the database
-	 *
-	 * @return  string  the subjects which fit the selected resource
-	 */
-	public function programsByTeacher()
-	{
-		$dbo          = JFactory::getDbo();
-		$defaultArray = explode('-', JFactory::getLanguage()->getTag());
-		$defaultTag   = $defaultArray[0];
-		$language     = JFactory::getApplication()->input->get('languageTag', $defaultTag);
-		$query        = $dbo->getQuery(true);
-		$concateQuery = ["dp.name_$language", "', ('", "d.abbreviation", "' '", " dp.version", "')'"];
-		$query->select("dp.id, " . $query->concatenate($concateQuery, "") . " AS name");
-		$query->from('#__thm_organizer_programs AS dp');
-		$query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-		$query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+    /**
+     * Retrieves subject entries from the database
+     *
+     * @return  string  the subjects which fit the selected resource
+     */
+    public function programsByTeacher()
+    {
+        $dbo          = JFactory::getDbo();
+        $defaultArray = explode('-', JFactory::getLanguage()->getTag());
+        $defaultTag   = $defaultArray[0];
+        $language     = JFactory::getApplication()->input->get('languageTag', $defaultTag);
+        $query        = $dbo->getQuery(true);
+        $concateQuery = ["dp.name_$language", "', ('", "d.abbreviation", "' '", " dp.version", "')'"];
+        $query->select("dp.id, " . $query->concatenate($concateQuery, "") . " AS name");
+        $query->from('#__thm_organizer_programs AS dp');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
 
-		$teacherClauses = THM_OrganizerHelperMapping::getTeacherMappingClauses();
-		if (!empty($teacherClauses))
-		{
-			$query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
-		}
+        $teacherClauses = THM_OrganizerHelperMapping::getTeacherMappingClauses();
+        if (!empty($teacherClauses)) {
+            $query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
+        }
 
-		$query->order('name');
-		$dbo->setQuery($query);
+        $query->order('name');
+        $dbo->setQuery($query);
 
-		try
-		{
-			$programs = $dbo->loadObjectList();
-		}
-		catch (RuntimeException $exc)
-		{
-			JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+        try {
+            $programs = $dbo->loadObjectList();
+        } catch (RuntimeException $exc) {
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-			return '[]';
-		}
+            return '[]';
+        }
 
-		return json_encode($programs);
-	}
+        return json_encode($programs);
+    }
 }

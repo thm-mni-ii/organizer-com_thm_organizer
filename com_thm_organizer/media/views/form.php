@@ -20,47 +20,46 @@
  */
 abstract class THM_OrganizerViewForm extends JViewLegacy
 {
-	public $params = null;
+    public $params = null;
 
-	public $form = null;
+    public $form = null;
 
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->modifyDocument();
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->modifyDocument();
 
-		$this->form = $this->get('Form');
+        $this->form = $this->get('Form');
 
-		// Allows for view specific toolbar handling
-		if (method_exists($this, 'addToolBar'))
-		{
-			$this->addToolBar();
-		}
-		parent::display($tpl);
-	}
+        // Allows for view specific toolbar handling
+        if (method_exists($this, 'addToolBar')) {
+            $this->addToolBar();
+        }
+        parent::display($tpl);
+    }
 
-	/**
-	 * Adds styles and scripts to the document
-	 *
-	 * @return  void  modifies the document
-	 */
-	protected function modifyDocument()
-	{
-		JHtml::_('bootstrap.tooltip');
-		JHtml::_('behavior.framework', true);
-		JHtml::_('behavior.formvalidation');
-		JHtml::_('formbehavior.chosen', 'select');
+    /**
+     * Adds styles and scripts to the document
+     *
+     * @return  void  modifies the document
+     */
+    protected function modifyDocument()
+    {
+        JHtml::_('bootstrap.tooltip');
+        JHtml::_('behavior.framework', true);
+        JHtml::_('behavior.formvalidation');
+        JHtml::_('formbehavior.chosen', 'select');
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
-		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
-		$document->addScript(JUri::root() . "/media/com_thm_organizer/js/validators.js");
-		$document->addScript(JUri::root() . "/media/com_thm_organizer/js/submitButton.js");
-	}
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
+        $document->addScript(JUri::root() . "/media/com_thm_organizer/js/validators.js");
+        $document->addScript(JUri::root() . "/media/com_thm_organizer/js/submitButton.js");
+    }
 }

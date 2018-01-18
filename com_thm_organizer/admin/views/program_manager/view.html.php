@@ -23,61 +23,59 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
  */
 class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
 {
-	public $items;
+    public $items;
 
-	public $pagination;
+    public $pagination;
 
-	public $state;
+    public $state;
 
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$actions = $this->getModel()->actions;
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $actions = $this->getModel()->actions;
 
-		if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.manage'})
-		{
-			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+        if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.manage'}) {
+            throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_degree_programs');
-		JToolbarHelper::addNew('program.add');
-		JToolbarHelper::editList('program.edit');
-		JToolbarHelper::custom(
-			'program.importLSFData',
-			'import',
-			'',
-			'COM_THM_ORGANIZER_ACTION_IMPORT',
-			true
-		);
-		JToolbarHelper::custom(
-			'program.updateLSFData',
-			'loop',
-			'',
-			'COM_THM_ORGANIZER_ACTION_UPDATE_SUBJECTS',
-			true
-		);
-		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_degree_programs');
+        JToolbarHelper::addNew('program.add');
+        JToolbarHelper::editList('program.edit');
+        JToolbarHelper::custom(
+            'program.importLSFData',
+            'import',
+            '',
+            'COM_THM_ORGANIZER_ACTION_IMPORT',
+            true
+        );
+        JToolbarHelper::custom(
+            'program.updateLSFData',
+            'loop',
+            '',
+            'COM_THM_ORGANIZER_ACTION_UPDATE_SUBJECTS',
+            true
+        );
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
 
-		if ($this->getModel()->actions->{'core.admin'})
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer');
-		}
-	}
+        if ($this->getModel()->actions->{'core.admin'}) {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer');
+        }
+    }
 }

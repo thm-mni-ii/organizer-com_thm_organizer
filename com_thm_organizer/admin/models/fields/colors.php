@@ -27,56 +27,52 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class JFormFieldColors extends JFormField
 {
-	/**
-	 * Type
-	 *
-	 * @var    String
-	 */
-	protected $type = 'Colors';
+    /**
+     * Type
+     *
+     * @var    String
+     */
+    protected $type = 'Colors';
 
-	/**
-	 * Returns a select box which contains the colors
-	 *
-	 * @return  string  the HTML for the color select box
-	 */
-	public function getInput()
-	{
-		$dbo = JFactory::getDbo();
+    /**
+     * Returns a select box which contains the colors
+     *
+     * @return  string  the HTML for the color select box
+     */
+    public function getInput()
+    {
+        $dbo = JFactory::getDbo();
 
-		// Select all assets from the database
-		$query = $dbo->getQuery(true);
+        // Select all assets from the database
+        $query = $dbo->getQuery(true);
 
-		$query->select("*");
-		$query->from(' #__thm_organizer_colors as colors');
-		$dbo->setQuery($query);
+        $query->select("*");
+        $query->from(' #__thm_organizer_colors as colors');
+        $dbo->setQuery($query);
 
-		try
-		{
-			$colors = $dbo->loadObjectList();
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+        try {
+            $colors = $dbo->loadObjectList();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-			return '';
-		}
+            return '';
+        }
 
-		$html = "<select id = 'jform_colorID' name='jform[colorID]'>";
-		$html .= '<option selected="selected" value="">' . JText::_('JNONE') . '</option>';
+        $html = "<select id = 'jform_colorID' name='jform[colorID]'>";
+        $html .= '<option selected="selected" value="">' . JText::_('JNONE') . '</option>';
 
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$property = "name_$shortTag";
-		foreach ($colors as $color)
-		{
-			$selected  = $this->value == $color->id ? "selected='selected'" : '';
-			$textColor = THM_OrganizerHelperComponent::getTextColor($color->color);
-			$style     = 'style="background-color: ' . $color->color . '; color:' . $textColor . ';"';
-			$value     = 'value="' . $color->id . '"';
-			$html      .= "<option $style $selected $value >" . $color->$property . "</option>";
-		}
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $property = "name_$shortTag";
+        foreach ($colors as $color) {
+            $selected  = $this->value == $color->id ? "selected='selected'" : '';
+            $textColor = THM_OrganizerHelperComponent::getTextColor($color->color);
+            $style     = 'style="background-color: ' . $color->color . '; color:' . $textColor . ';"';
+            $value     = 'value="' . $color->id . '"';
+            $html      .= "<option $style $selected $value >" . $color->$property . "</option>";
+        }
 
-		$html .= "</select>";
+        $html .= "</select>";
 
-		return $html;
-	}
+        return $html;
+    }
 }

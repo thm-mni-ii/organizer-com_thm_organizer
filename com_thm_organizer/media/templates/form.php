@@ -20,16 +20,16 @@
  */
 class THM_OrganizerTemplateForm
 {
-	/**
-	 * Method to create a list output
-	 *
-	 * @param object &$view the view context calling the function
-	 *
-	 * @return void
-	 */
-	public static function render(&$view)
-	{
-		?>
+    /**
+     * Method to create a list output
+     *
+     * @param object &$view the view context calling the function
+     *
+     * @return void
+     */
+    public static function render(&$view)
+    {
+        ?>
 		<form action="index.php?option=com_thm_organizer"
 			  enctype="multipart/form-data"
 			  method="post"
@@ -37,12 +37,12 @@ class THM_OrganizerTemplateForm
 			  id="item-form"
 			  class="form-horizontal">
 			<div class="form-horizontal">
-				<?php echo $view->form->renderFieldset('details'); ?>
+                <?php echo $view->form->renderFieldset('details'); ?>
 			</div>
-			<?php echo JHtml::_('form.token'); ?>
+            <?php echo JHtml::_('form.token'); ?>
 			<input type="hidden" name="task" value=""/>
 		</form>
-		<?php
-	}
+        <?php
+    }
 
 }

@@ -24,54 +24,53 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
  */
 class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		parent::display($tpl);
-	}
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		$resourceID = (isset($this->item->id) AND is_numeric($this->item->id)) ? $this->item->id : 0;
-		$isNew      = ($resourceID == 0);
-		$title      = $isNew ? JText::_('COM_THM_ORGANIZER_POOL_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_POOL_EDIT_EDIT_VIEW_TITLE');
-		JToolbarHelper::title($title, 'organizer_subject_pools');
-		JToolbarHelper::apply('pool.apply', $isNew ? 'COM_THM_ORGANIZER_ACTION_APPLY_NEW' : 'COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
-		JToolbarHelper::save('pool.save');
-		JToolbarHelper::save2new('pool.save2new');
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        $resourceID = (isset($this->item->id) AND is_numeric($this->item->id)) ? $this->item->id : 0;
+        $isNew      = ($resourceID == 0);
+        $title      = $isNew ? JText::_('COM_THM_ORGANIZER_POOL_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_POOL_EDIT_EDIT_VIEW_TITLE');
+        JToolbarHelper::title($title, 'organizer_subject_pools');
+        JToolbarHelper::apply('pool.apply',
+            $isNew ? 'COM_THM_ORGANIZER_ACTION_APPLY_NEW' : 'COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
+        JToolbarHelper::save('pool.save');
+        JToolbarHelper::save2new('pool.save2new');
 
-		if (!$isNew)
-		{
-			JToolbarHelper::save2copy('pool.save2copy');
-		}
+        if (!$isNew) {
+            JToolbarHelper::save2copy('pool.save2copy');
+        }
 
-		JToolbarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        JToolbarHelper::cancel('pool.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 
-		$toolbar = JToolbar::getInstance('toolbar');
+        $toolbar = JToolbar::getInstance('toolbar');
 
-		if (!$isNew)
-		{
-			$baseURL   = 'index.php?option=com_thm_organizer&amp;tmpl=component&amp;type=pool&amp;id=' . $resourceID . '&amp;';
-			$poolIcon  = 'list';
-			$poolTitle = JText::_('COM_THM_ORGANIZER_ADD_POOL');
-			$poolLink  = $baseURL . 'view=pool_selection';
-			$toolbar->appendButton('Popup', $poolIcon, $poolTitle, $poolLink);
+        if (!$isNew) {
+            $baseURL   = 'index.php?option=com_thm_organizer&amp;tmpl=component&amp;type=pool&amp;id=' . $resourceID . '&amp;';
+            $poolIcon  = 'list';
+            $poolTitle = JText::_('COM_THM_ORGANIZER_ADD_POOL');
+            $poolLink  = $baseURL . 'view=pool_selection';
+            $toolbar->appendButton('Popup', $poolIcon, $poolTitle, $poolLink);
 
-			$subjectIcon  = 'book';
-			$subjectTitle = JText::_('COM_THM_ORGANIZER_ADD_SUBJECT');
-			$subjectLink  = $baseURL . 'view=subject_selection';
-			$toolbar->appendButton('Popup', $subjectIcon, $subjectTitle, $subjectLink);
-		}
-	}
+            $subjectIcon  = 'book';
+            $subjectTitle = JText::_('COM_THM_ORGANIZER_ADD_SUBJECT');
+            $subjectLink  = $baseURL . 'view=subject_selection';
+            $toolbar->appendButton('Popup', $subjectIcon, $subjectTitle, $subjectLink);
+        }
+    }
 }

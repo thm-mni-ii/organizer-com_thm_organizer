@@ -24,55 +24,54 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
  */
 class JFormFieldPrograms extends JFormField
 {
-	/**
-	 * @var  string
-	 */
-	protected $type = 'programs';
+    /**
+     * @var  string
+     */
+    protected $type = 'programs';
 
-	/**
-	 * Returns a select box where stored degree program can be chosen
-	 *
-	 * @return  string  the HTML for the select box
-	 */
-	public function getInput()
-	{
-		$resourceID   = $this->form->getValue('id');
-		$contextParts = explode('.', $this->form->getName());
-		$resourceType = str_replace('_edit', '', $contextParts[1]);
-		$this->addScript($resourceID, $resourceType);
+    /**
+     * Returns a select box where stored degree program can be chosen
+     *
+     * @return  string  the HTML for the select box
+     */
+    public function getInput()
+    {
+        $resourceID   = $this->form->getValue('id');
+        $contextParts = explode('.', $this->form->getName());
+        $resourceType = str_replace('_edit', '', $contextParts[1]);
+        $this->addScript($resourceID, $resourceType);
 
-		$ranges           = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
-		$selectedPrograms = !empty($ranges) ?
-			THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : [];
-		$allPrograms      = THM_OrganizerHelperMapping::getAllPrograms();
+        $ranges           = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
+        $selectedPrograms = !empty($ranges) ?
+            THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : [];
+        $allPrograms      = THM_OrganizerHelperMapping::getAllPrograms();
 
-		foreach ($allPrograms as $key => $programData)
-		{
-			if (!THM_OrganizerHelperComponent::allowResourceManage('program', $programData['value'], 'manage'))
-			{
-				unset($allPrograms[$key]);
-			}
-		}
+        foreach ($allPrograms as $key => $programData) {
+            if (!THM_OrganizerHelperComponent::allowResourceManage('program', $programData['value'], 'manage')) {
+                unset($allPrograms[$key]);
+            }
+        }
 
-		$defaultOptions = [['value' => '-1', 'text' => JText::_('JNONE')]];
-		$programs       = array_merge($defaultOptions, $allPrograms);
+        $defaultOptions = [['value' => '-1', 'text' => JText::_('JNONE')]];
+        $programs       = array_merge($defaultOptions, $allPrograms);
 
-		$attributes = ['multiple' => 'multiple', 'size' => '10'];
+        $attributes = ['multiple' => 'multiple', 'size' => '10'];
 
-		return JHtml::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "text", $selectedPrograms);
-	}
+        return JHtml::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "text",
+            $selectedPrograms);
+    }
 
-	/**
-	 * Adds the javascript to the page necessary to refresh the parent pool options
-	 *
-	 * @param int    $resourceID   the resource's id
-	 * @param string $resourceType the resource's type
-	 *
-	 * @return  void
-	 */
-	private function addScript($resourceID, $resourceType)
-	{
-		?>
+    /**
+     * Adds the javascript to the page necessary to refresh the parent pool options
+     *
+     * @param int    $resourceID   the resource's id
+     * @param string $resourceType the resource's type
+     *
+     * @return  void
+     */
+    private function addScript($resourceID, $resourceType)
+    {
+        ?>
 		<script type="text/javascript" charset="utf-8">
 			jQuery(document).ready(function () {
 				jQuery('#jformprogramID').change(function () {
@@ -166,6 +165,6 @@ class JFormFieldPrograms extends JFormField
 				addAddHandler();
 			});
 		</script>
-		<?php
-	}
+        <?php
+    }
 }

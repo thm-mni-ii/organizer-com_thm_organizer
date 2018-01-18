@@ -24,60 +24,60 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
  */
 class THM_OrganizerViewParticipant_Edit extends JViewLegacy
 {
-	public $lang;
+    public $lang;
 
-	public $languageSwitches;
+    public $languageSwitches;
 
-	public $item;
+    public $item;
 
-	public $form;
+    public $form;
 
-	public $course;
+    public $course;
 
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		if (empty(JFactory::getUser()->id))
-		{
-			JError::raiseError(401, JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
-		}
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        if (empty(JFactory::getUser()->id)) {
+            JError::raiseError(401, JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
+        }
 
-		$this->item     = $this->get('Item');
-		$this->form     = $this->get('Form');
-		$this->course   = THM_OrganizerHelperCourse::getCourse();
+        $this->item   = $this->get('Item');
+        $this->form   = $this->get('Form');
+        $this->course = THM_OrganizerHelperCourse::getCourse();
 
-		if (!empty($this->course))
-		{
-			$dates    = THM_OrganizerHelperCourse::getDates();
-			$this->course['startDate'] = THM_OrganizerHelperComponent::formatDate($dates[0]['schedule_date']);
-			$this->course['endDate'] = THM_OrganizerHelperComponent::formatDate(end($dates)['schedule_date']);
-			$this->course['open'] = THM_OrganizerHelperCourse::isRegistrationOpen();
-		}
+        if (!empty($this->course)) {
+            $dates                     = THM_OrganizerHelperCourse::getDates();
+            $this->course['startDate'] = THM_OrganizerHelperComponent::formatDate($dates[0]['schedule_date']);
+            $this->course['endDate']   = THM_OrganizerHelperComponent::formatDate(end($dates)['schedule_date']);
+            $this->course['open']      = THM_OrganizerHelperCourse::isRegistrationOpen();
+        }
 
-		$this->lang = THM_OrganizerHelperLanguage::getLanguage();
-		$params = ['view' => 'participant_edit', 'lessonID' => empty($this->course) ? 0 : $this->course["id"]];
-		$this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
+        $params                 = ['view'     => 'participant_edit',
+                                   'lessonID' => empty($this->course) ? 0 : $this->course["id"]
+        ];
+        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 
-		$this->modifyDocument();
+        $this->modifyDocument();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Adds resource files to the document
-	 *
-	 * @return  void
-	 */
-	private function modifyDocument()
-	{
-		JHtml::_('bootstrap.tooltip');
+    /**
+     * Adds resource files to the document
+     *
+     * @return  void
+     */
+    private function modifyDocument()
+    {
+        JHtml::_('bootstrap.tooltip');
 
-		JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/participant_edit.css');
-	}
+        JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/participant_edit.css');
+    }
 }

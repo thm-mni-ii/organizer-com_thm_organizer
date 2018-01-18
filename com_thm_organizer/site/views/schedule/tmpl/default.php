@@ -13,8 +13,8 @@
 defined('_JEXEC') or die;
 $mobile      = $this->isMobile ? 'mobile' : '';
 $displayName = empty($this->model->displayName) ?
-	'THM Organizer  - ' . JText::_('COM_THM_ORGANIZER_SCHEDULES')
-	: JText::_('COM_THM_ORGANIZER_SCHEDULE') . ' - ' . $this->model->displayName;
+    'THM Organizer  - ' . JText::_('COM_THM_ORGANIZER_SCHEDULES')
+    : JText::_('COM_THM_ORGANIZER_SCHEDULE') . ' - ' . $this->model->displayName;
 ?>
 
 <div class="organizer <?php echo $mobile; ?>">
@@ -104,7 +104,7 @@ $displayName = empty($this->model->displayName) ?
 								<td colspan="7">
 									<button id="today" type="button" class="today"
 											onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
-										<?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
+                                        <?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
 									</button>
 								</td>
 							</tr>
@@ -135,45 +135,40 @@ $displayName = empty($this->model->displayName) ?
 
 			<div class="tab-panel selection active" id="schedule-form" role="tabpanel"
 				 aria-labelledby="tab-schedule-form" aria-hidden="false">
-				<?php
-				if (empty($this->model->params['departmentID']))
-				{
-					?>
+                <?php
+                if (empty($this->model->params['departmentID'])) {
+                    ?>
 					<div id="department-input" class="input-wrapper">
 						<select id="department" multiple data-input="static"
 								data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
-							<?php
-							foreach ($this->getModel()->departments AS $id => $department)
-							{
-								echo "<option value='" . $id . "'>$department</option>";
-							}
-							?>
+                            <?php
+                            foreach ($this->getModel()->departments AS $id => $department) {
+                                echo "<option value='" . $id . "'>$department</option>";
+                            }
+                            ?>
 						</select>
 					</div>
-					<?php
-				}
-				?>
+                    <?php
+                }
+                ?>
 				<div id="category-input" class="input-wrapper">
 					<select id="category" required data-input="static">
 						<option value="placeholder" disabled>
-							<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
+                            <?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
 						</option>
-						<?php
-						if (!empty($this->model->params['showPrograms']))
-						{
-							echo '<option value="program" selected>' . JText::_("COM_THM_ORGANIZER_PROGRAMS") . '</option>';
-						}
+                        <?php
+                        if (!empty($this->model->params['showPrograms'])) {
+                            echo '<option value="program" selected>' . JText::_("COM_THM_ORGANIZER_PROGRAMS") . '</option>';
+                        }
 
-						if (!empty($this->model->params['showRooms']))
-						{
-							echo '<option value="roomType">' . JText::_("COM_THM_ORGANIZER_ROOM_PLANS") . '</option>';
-						}
+                        if (!empty($this->model->params['showRooms'])) {
+                            echo '<option value="roomType">' . JText::_("COM_THM_ORGANIZER_ROOM_PLANS") . '</option>';
+                        }
 
-						if (!empty($this->model->params['showTeachers']))
-						{
-							echo '<option value="teacher">' . JText::_("COM_THM_ORGANIZER_TEACHERPLAN") . '</option>';
-						}
-						?>
+                        if (!empty($this->model->params['showTeachers'])) {
+                            echo '<option value="teacher">' . JText::_("COM_THM_ORGANIZER_TEACHERPLAN") . '</option>';
+                        }
+                        ?>
 					</select>
 				</div>
 				<div id="program-input" class="input-wrapper">
@@ -211,13 +206,12 @@ $displayName = empty($this->model->displayName) ?
 			<div class="tab-panel" id="time-selection" role="tabpanel"
 				 aria-labelledby="tab-time" aria-hidden="false">
 				<select id="grid" required onchange="scheduleApp.updateSchedule('grid');">
-					<?php
-					foreach ($this->getModel()->grids AS $grid)
-					{
-						$checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
-						echo "<option value='" . $grid->id . "' $checked >$grid->name</option>";
-					}
-					?>
+                    <?php
+                    foreach ($this->getModel()->grids AS $grid) {
+                        $checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
+                        echo "<option value='" . $grid->id . "' $checked >$grid->name</option>";
+                    }
+                    ?>
 				</select>
 			</div>
 
@@ -226,116 +220,112 @@ $displayName = empty($this->model->displayName) ?
 				<div class="link-item">
 					<a onclick="scheduleApp.handleExport('pdf.a4');">
 						<span class="icon-file-pdf"></span>
-						<?php echo JText::_('COM_THM_ORGANIZER_PDF_DOCUMENT'); ?>
+                        <?php echo JText::_('COM_THM_ORGANIZER_PDF_DOCUMENT'); ?>
 					</a>
 				</div>
 				<div class="link-item">
 					<a onclick="scheduleApp.handleExport('xls.si');">
 						<span class="icon-file-xls"></span>
-						<?php echo JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'); ?>
+                        <?php echo JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'); ?>
 					</a>
 				</div>
 				<div class="link-item">
 					<a onclick="scheduleApp.handleExport('ics');">
 						<span class="icon-info-calender"></span>
-						<?php echo JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'); ?>
+                        <?php echo JText::_('COM_THM_ORGANIZER_ICS_CALENDAR'); ?>
 					</a>
 				</div>
 				<div class="link-item">
 					<a href="index.php?option=com_thm_organizer&view=schedule_export" target="_blank">
 						<span class="icon-plus"></span>
-						<?php echo JText::_('COM_THM_ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
+                        <?php echo JText::_('COM_THM_ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<?php
-	$daysOfTheWeek  = [
-		JText::_('MON'), JText::_('TUE'), JText::_('WED'), JText::_('THU'),
-		JText::_('FRI'), JText::_('SAT'), JText::_('SUN')
-	];
-	$datesOfTheWeek = [
-		THM_OrganizerHelperComponent::formatDate('monday this week'),
-		THM_OrganizerHelperComponent::formatDate('tuesday this week'),
-		THM_OrganizerHelperComponent::formatDate('wednesday this week'),
-		THM_OrganizerHelperComponent::formatDate('thursday this week'),
-		THM_OrganizerHelperComponent::formatDate('friday this week'),
-		THM_OrganizerHelperComponent::formatDate('saturday this week'),
-		THM_OrganizerHelperComponent::formatDate('sunday this week')
-	];
-	$grid           = json_decode($this->defaultGrid->grid);
-	$periods        = get_object_vars($grid->periods);
-	$activeDay      = date("w");
-	?>
+    <?php
+    $daysOfTheWeek  = [
+        JText::_('MON'),
+        JText::_('TUE'),
+        JText::_('WED'),
+        JText::_('THU'),
+        JText::_('FRI'),
+        JText::_('SAT'),
+        JText::_('SUN')
+    ];
+    $datesOfTheWeek = [
+        THM_OrganizerHelperComponent::formatDate('monday this week'),
+        THM_OrganizerHelperComponent::formatDate('tuesday this week'),
+        THM_OrganizerHelperComponent::formatDate('wednesday this week'),
+        THM_OrganizerHelperComponent::formatDate('thursday this week'),
+        THM_OrganizerHelperComponent::formatDate('friday this week'),
+        THM_OrganizerHelperComponent::formatDate('saturday this week'),
+        THM_OrganizerHelperComponent::formatDate('sunday this week')
+    ];
+    $grid           = json_decode($this->defaultGrid->grid);
+    $periods        = get_object_vars($grid->periods);
+    $activeDay      = date("w");
+    ?>
 
 	<div id="scheduleWrapper" class="scheduleWrapper">
-		<?php
-		if (JFactory::getUser()->guest)
-		{
-			?>
+        <?php
+        if (JFactory::getUser()->guest) {
+            ?>
 			<input id="default-input" class="schedule-input" checked="checked" type="radio" name="schedules">
 			<div id="default-schedule" class="schedule-table">
 				<table>
 					<thead>
 					<tr>
 						<th><?php echo JText::_('COM_THM_ORGANIZER_TIME'); ?></th>
-						<?php
-						for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday)
-						{
-							if ($activeDay == $weekday + 1)
-							{
-								echo "<th class='activeColumn'>$daysOfTheWeek[$weekday]</th>";
-							}
-							else
-							{
-								echo "<th>$daysOfTheWeek[$weekday]</th>";
-							}
-						}
-						?>
+                        <?php
+                        for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday) {
+                            if ($activeDay == $weekday + 1) {
+                                echo "<th class='activeColumn'>$daysOfTheWeek[$weekday]</th>";
+                            } else {
+                                echo "<th>$daysOfTheWeek[$weekday]</th>";
+                            }
+                        }
+                        ?>
 					</tr>
 					</thead>
 					<tbody>
-					<?php
-					for ($period = 1; $period <= count($periods); ++$period)
-					{
-						if ($period == 4)
-						{
-							echo '<tr class="break-row">';
-							echo '<td class="break" colspan="7">' . JText::_('COM_THM_ORGANIZER_LUNCHTIME') . '</td>';
-							echo "</tr>";
-						}
+                    <?php
+                    for ($period = 1; $period <= count($periods); ++$period) {
+                        if ($period == 4) {
+                            echo '<tr class="break-row">';
+                            echo '<td class="break" colspan="7">' . JText::_('COM_THM_ORGANIZER_LUNCHTIME') . '</td>';
+                            echo "</tr>";
+                        }
 
-						echo "<tr>";
-						echo "<td>";
-						echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
-						echo "<br> - <br>";
-						echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
-						echo "</td>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
+                        echo "<br> - <br>";
+                        echo THM_OrganizerHelperComponent::formatTime($periods[$period]->endTime);
+                        echo "</td>";
 
-						for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday)
-						{
-							$class = ($activeDay == $weekday + 1) ? ' class="activeColumn"' : '';
-							echo '<td' . $class . '></td>';
-						}
+                        for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday) {
+                            $class = ($activeDay == $weekday + 1) ? ' class="activeColumn"' : '';
+                            echo '<td' . $class . '></td>';
+                        }
 
-						echo "</tr>";
+                        echo "</tr>";
 
-						if ($period == 1 OR $period == 2 OR $period == 4 OR $period == 5)
-						{
-							echo '<tr class="break-row">';
-							echo '<td class="break" colspan="7"></td>';
-							echo "</tr>";
-						}
-					} // Periods
-					?>
+                        if ($period == 1 OR $period == 2 OR $period == 4 OR $period == 5) {
+                            echo '<tr class="break-row">';
+                            echo '<td class="break" colspan="7"></td>';
+                            echo "</tr>";
+                        }
+                    } // Periods
+                    ?>
 					</tbody>
 				</table>
 			</div>
-			<?php
-		} // Guest table
-		?>
+            <?php
+        } // Guest table
+        ?>
 	</div>
 
 	<div class="lesson-menu">
@@ -352,24 +342,24 @@ $displayName = empty($this->model->displayName) ?
 		</div>
 		<div class="save">
 			<button id="save-mode-semester">
-				<?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_SEMESTER') ?>
+                <?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_SEMESTER') ?>
 			</button>
 			<button id="save-mode-period">
-				<?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_PERIOD') ?>
+                <?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_PERIOD') ?>
 			</button>
 			<button id="save-mode-instance">
-				<?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_INSTANCE') ?>
+                <?php echo JText::_('COM_THM_ORGANIZER_SAVE_LESSON_INSTANCE') ?>
 			</button>
 		</div>
 		<div class="delete">
 			<button id="delete-mode-semester">
-				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_SEMESTER') ?>
+                <?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_SEMESTER') ?>
 			</button>
 			<button id="delete-mode-period">
-				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_PERIOD') ?>
+                <?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_PERIOD') ?>
 			</button>
 			<button id="delete-mode-instance">
-				<?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_INSTANCE') ?>
+                <?php echo JText::_('COM_THM_ORGANIZER_DELETE_LESSON_INSTANCE') ?>
 			</button>
 		</div>
 	</div>
@@ -379,11 +369,11 @@ $displayName = empty($this->model->displayName) ?
 		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
 		<button id="past-date" onclick="scheduleApp.nextDateEventHandler(event);">
 			<span class="icon-arrow-left-2"></span>
-			<?php echo sprintf(JText::_('COM_THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
+            <?php echo sprintf(JText::_('COM_THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
 		</button>
 		<button id="future-date" onclick="scheduleApp.nextDateEventHandler(event);">
 			<span class="icon-arrow-right-2"></span>
-			<?php echo sprintf(JText::_('COM_THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
+            <?php echo sprintf(JText::_('COM_THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
 		</button>
 	</div>
 

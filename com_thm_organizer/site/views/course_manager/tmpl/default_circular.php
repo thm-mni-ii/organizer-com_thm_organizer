@@ -23,18 +23,19 @@
 				<div class="modal-body" style="overflow-y: auto;">
 					<input type="hidden" name="lessonID" value="<?php echo $this->course["id"]; ?>"/>
 					<input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
-					<?php foreach ($this->form->getFieldset('circular') as $field) : ?>
-					<div class='control-group'>
-						<div class='control-label'><?php echo $field->label; ?></div>
-						<div class='controls'><?php echo $field->input; ?></div>
-					</div>
-					<?php endforeach; ?>
+                    <?php foreach ($this->form->getFieldset('circular') as $field) : ?>
+						<div class='control-group'>
+							<div class='control-label'><?php echo $field->label; ?></div>
+							<div class='controls'><?php echo $field->input; ?></div>
+						</div>
+                    <?php endforeach; ?>
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="validate btn btn-mini">
 						<span class="icon-mail"></span><?php echo $this->lang->_("JSUBMIT") ?></button>
 					<button type="button" class="btn btn-mini" data-dismiss="modal">
-						<span class="icon-cancel"></span><?php echo $this->lang->_("COM_THM_ORGANIZER_CLOSE") ?></button>
+						<span class="icon-cancel"></span><?php echo $this->lang->_("COM_THM_ORGANIZER_CLOSE") ?>
+					</button>
 				</div>
 			</form>
 		</div>

@@ -22,51 +22,45 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerTemplateFieldList
 {
-	/**
-	 * Renders subject information
-	 *
-	 * @param array &$view the view context
-	 *
-	 * @return  void
-	 */
-	public static function render(&$view)
-	{
-		if (empty($view->items) OR empty($view->teachers))
-		{
-			return;
-		}
+    /**
+     * Renders subject information
+     *
+     * @param array &$view the view context
+     *
+     * @return  void
+     */
+    public static function render(&$view)
+    {
+        if (empty($view->items) OR empty($view->teachers)) {
+            return;
+        }
 
-		foreach ($view->fields AS $fieldID => $field)
-		{
-			$rows = [];
+        foreach ($view->fields AS $fieldID => $field) {
+            $rows = [];
 
-			foreach ($view->items as $subject)
-			{
-				if ($subject->fieldID == $fieldID)
-				{
-					$rows[] = $view->getItemRow($subject, 'field');
-				}
+            foreach ($view->items as $subject) {
+                if ($subject->fieldID == $fieldID) {
+                    $rows[] = $view->getItemRow($subject, 'field');
+                }
 
-			}
+            }
 
-			if (!empty($rows))
-			{
-				?>
+            if (!empty($rows)) {
+                ?>
 				<fieldset class="teacher-group">
 					<legend>
 						<span class="pool-title"><?php echo $field['name']; ?></span>
 					</legend>
 					<table>
-						<?php
-						foreach ($rows as $row)
-						{
-							echo $row;
-						}
-						?>
+                        <?php
+                        foreach ($rows as $row) {
+                            echo $row;
+                        }
+                        ?>
 					</table>
 				</fieldset>
-				<?php
-			}
-		}
-	}
+                <?php
+            }
+        }
+    }
 }

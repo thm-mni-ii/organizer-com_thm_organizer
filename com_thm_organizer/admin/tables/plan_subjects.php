@@ -21,13 +21,13 @@ jimport('joomla.application.component.table');
  */
 class THM_OrganizerTablePlan_Subjects extends JTable
 {
-	/**
-	 * Constructor function for the class representing the mapping table
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_plan_subjects', 'id', $dbo);
-	}
+    /**
+     * Constructor function for the class representing the mapping table
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_plan_subjects', 'id', $dbo);
+    }
 }

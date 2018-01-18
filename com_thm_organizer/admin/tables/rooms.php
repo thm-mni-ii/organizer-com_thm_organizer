@@ -21,44 +21,42 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTableRooms extends JTable
 {
-	/**
-	 * Constructor function for the class representing the rooms table
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_rooms', 'id', $dbo);
-	}
+    /**
+     * Constructor function for the class representing the rooms table
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_rooms', 'id', $dbo);
+    }
 
-	/**
-	 * Method to store a row in the database from the JTable instance properties.
-	 *
-	 * @param boolean $updateNulls True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 */
-	public function store($updateNulls = true)
-	{
-		return parent::store(true);
-	}
+    /**
+     * Method to store a row in the database from the JTable instance properties.
+     *
+     * @param boolean $updateNulls True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     */
+    public function store($updateNulls = true)
+    {
+        return parent::store(true);
+    }
 
-	/**
-	 * Set the table column names which are allowed to be null
-	 *
-	 * @return  boolean  true
-	 */
-	public function check()
-	{
-		$nullColumns = ['typeID'];
-		foreach ($nullColumns as $nullColumn)
-		{
-			if (!strlen($this->$nullColumn))
-			{
-				$this->$nullColumn = null;
-			}
-		}
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @return  boolean  true
+     */
+    public function check()
+    {
+        $nullColumns = ['typeID'];
+        foreach ($nullColumns as $nullColumn) {
+            if (!strlen($this->$nullColumn)) {
+                $this->$nullColumn = null;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

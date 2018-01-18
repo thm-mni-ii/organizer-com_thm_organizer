@@ -23,83 +23,74 @@ require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
  */
 class THM_OrganizerModelDepartment extends JModelLegacy
 {
-	/**
-	 * Attempts to save the form data
-	 *
-	 * @return mixed  int department id on success, otherwise false
-	 */
-	public function save()
-	{
-		$data = JFactory::getApplication()->input->get('jform', [], 'array');
+    /**
+     * Attempts to save the form data
+     *
+     * @return mixed  int department id on success, otherwise false
+     */
+    public function save()
+    {
+        $data = JFactory::getApplication()->input->get('jform', [], 'array');
 
-		$this->_db->transactionStart();
-		$department = JTable::getInstance('departments', 'thm_organizerTable');
-		try
-		{
-			$deptSuccess = $department->save($data);
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$this->_db->transactionRollback();
+        $this->_db->transactionStart();
+        $department = JTable::getInstance('departments', 'thm_organizerTable');
+        try {
+            $deptSuccess = $department->save($data);
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            $this->_db->transactionRollback();
 
-			return false;
-		}
+            return false;
+        }
 
-		if (!$deptSuccess)
-		{
-			$this->_db->transactionRollback();
+        if (!$deptSuccess) {
+            $this->_db->transactionRollback();
 
-			return false;
-		}
+            return false;
+        }
 
-		return $department->id;
-	}
+        return $department->id;
+    }
 
-	/**
-	 * Attempts to save altered form data as a new entry
-	 *
-	 * @return mixed  int department id on success, otherwise false
-	 */
-	public function save2copy()
-	{
-		$data = JFactory::getApplication()->input->get('jform', [], 'array');
-		if (isset($data['id']))
-		{
-			unset($data['id']);
-		}
+    /**
+     * Attempts to save altered form data as a new entry
+     *
+     * @return mixed  int department id on success, otherwise false
+     */
+    public function save2copy()
+    {
+        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        if (isset($data['id'])) {
+            unset($data['id']);
+        }
 
-		$this->_db->transactionStart();
-		$department = JTable::getInstance('departments', 'thm_organizerTable');
-		try
-		{
-			$deptSuccess = $department->save($data);
-		}
-		catch (Exception $exc)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-			$this->_db->transactionRollback();
+        $this->_db->transactionStart();
+        $department = JTable::getInstance('departments', 'thm_organizerTable');
+        try {
+            $deptSuccess = $department->save($data);
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            $this->_db->transactionRollback();
 
-			return false;
-		}
+            return false;
+        }
 
-		if (!$deptSuccess)
-		{
-			$this->_db->transactionRollback();
+        if (!$deptSuccess) {
+            $this->_db->transactionRollback();
 
-			return false;
-		}
+            return false;
+        }
 
-		return $department->id;
-	}
+        return $department->id;
+    }
 
-	/**
-	 * Removes departments entries from the database
-	 *
-	 * @return  boolean true on success, otherwise false
-	 */
-	public function delete()
-	{
-		return THM_OrganizerHelper::delete('departments');
-	}
+    /**
+     * Removes departments entries from the database
+     *
+     * @return  boolean true on success, otherwise false
+     */
+    public function delete()
+    {
+        return THM_OrganizerHelper::delete('departments');
+    }
 }

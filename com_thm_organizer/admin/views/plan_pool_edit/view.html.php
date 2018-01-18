@@ -22,40 +22,40 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
  */
 class THM_OrganizerViewPlan_Pool_Edit extends THM_OrganizerViewEdit
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		parent::display($tpl);
-	}
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JToolbarHelper::title(JText::_("COM_THM_ORGANIZER_PLAN_POOL_EDIT_EDIT_VIEW_TITLE"), 'organizer_plan_pools');
-		JToolbarHelper::save('plan_pool.save');
-		JToolbarHelper::cancel('plan_pool.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::title(JText::_("COM_THM_ORGANIZER_PLAN_POOL_EDIT_EDIT_VIEW_TITLE"), 'organizer_plan_pools');
+        JToolbarHelper::save('plan_pool.save');
+        JToolbarHelper::cancel('plan_pool.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+    }
 
-	/**
-	 * Adds styles and scripts to the document
-	 *
-	 * @return  void  modifies the document
-	 */
-	protected function modifyDocument()
-	{
-		parent::modifyDocument();
+    /**
+     * Adds styles and scripts to the document
+     *
+     * @return  void  modifies the document
+     */
+    protected function modifyDocument()
+    {
+        parent::modifyDocument();
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/plan_pool_edit.css");
-	}
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/plan_pool_edit.css");
+    }
 }

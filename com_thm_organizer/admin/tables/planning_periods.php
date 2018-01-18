@@ -21,13 +21,13 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTablePlanning_Periods extends JTable
 {
-	/**
-	 * Constructor to call the parent constructor
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_planning_periods', 'id', $dbo);
-	}
+    /**
+     * Constructor to call the parent constructor
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_planning_periods', 'id', $dbo);
+    }
 }

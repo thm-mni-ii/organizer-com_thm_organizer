@@ -22,29 +22,29 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
  */
 class THM_OrganizerViewCampus_Edit extends THM_OrganizerViewEdit
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		parent::display($tpl);
-	}
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		$isNew = ($this->item->id == 0);
-		$title = $isNew ? JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_EDIT_VIEW_TITLE');
-		JToolbarHelper::title($title, 'organizer_campuses');
-		JToolbarHelper::save('campus.save');
-		JToolbarHelper::cancel('campus.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        $isNew = ($this->item->id == 0);
+        $title = $isNew ? JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_EDIT_VIEW_TITLE');
+        JToolbarHelper::title($title, 'organizer_campuses');
+        JToolbarHelper::save('campus.save');
+        JToolbarHelper::cancel('campus.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+    }
 }

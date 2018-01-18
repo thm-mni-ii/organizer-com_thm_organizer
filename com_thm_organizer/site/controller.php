@@ -25,282 +25,239 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerController extends JControllerLegacy
 {
-	/**
-	 * Save user information from form and if course id defined sign in or out of course
-	 * then redirect to course list view
-	 *
-	 * @return void
-	 */
-	public function changeParticipantState()
-	{
-		$lang     = THM_OrganizerHelperLanguage::getLanguage();
-		$app      = JFactory::getApplication();
-		$formData = $app->input->get('jform', [], 'array');
-		$url      = THM_OrganizerHelperComponent::getRedirectBase();
+    /**
+     * Save user information from form and if course id defined sign in or out of course
+     * then redirect to course list view
+     *
+     * @return void
+     */
+    public function changeParticipantState()
+    {
+        $lang     = THM_OrganizerHelperLanguage::getLanguage();
+        $app      = JFactory::getApplication();
+        $formData = $app->input->get('jform', [], 'array');
+        $url      = THM_OrganizerHelperComponent::getRedirectBase();
 
-		if (empty($formData) OR empty($formData['id']))
-		{
-			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
-			$app->redirect(JRoute::_($url, false));
-		}
+        if (empty($formData) OR empty($formData['id'])) {
+            $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
+            $app->redirect(JRoute::_($url, false));
+        }
 
-		if (!THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], 'course'))
-		{
-			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
-			$app->redirect(JRoute::_($url, false));
-		}
+        if (!THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], 'course')) {
+            $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
+            $app->redirect(JRoute::_($url, false));
+        }
 
-		$success = $this->getModel('course')->changeParticipantState();
+        $success = $this->getModel('course')->changeParticipantState();
 
-		if (empty($success))
-		{
-			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-			$msgType = 'error';
-		}
-		else
-		{
-			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-			$msgType = 'success';
-		}
+        if (empty($success)) {
+            $msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+            $msgType = 'error';
+        } else {
+            $msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            $msgType = 'success';
+        }
 
-		$app->enqueueMessage($msgText, $msgType);
+        $app->enqueueMessage($msgText, $msgType);
 
-		$url .= "&view=course_manager&lessonID={$formData['id']}";
-		$app->redirect(JRoute::_($url, false));
-	}
+        $url .= "&view=course_manager&lessonID={$formData['id']}";
+        $app->redirect(JRoute::_($url, false));
+    }
 
-	/**
-	 * Sends an circular email to all course participants
-	 *
-	 * @return void
-	 */
-	public function circular()
-	{
-		$lang = THM_OrganizerHelperLanguage::getLanguage();
-		$app  = JFactory::getApplication();
+    /**
+     * Sends an circular email to all course participants
+     *
+     * @return void
+     */
+    public function circular()
+    {
+        $lang = THM_OrganizerHelperLanguage::getLanguage();
+        $app  = JFactory::getApplication();
 
-		$success = $this->getModel('course')->circular();
+        $success = $this->getModel('course')->circular();
 
-		if (empty($success))
-		{
-			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL');
-			$msgType = 'error';
-		}
-		else
-		{
-			$msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS');
-			$msgType = 'success';
-		}
+        if (empty($success)) {
+            $msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL');
+            $msgType = 'error';
+        } else {
+            $msgText = $lang->_('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS');
+            $msgType = 'success';
+        }
 
-		$app->enqueueMessage($msgText, $msgType);
-		$lessonID = $app->input->get("lessonID");
-		$redirect = THM_OrganizerHelperComponent::getRedirectBase() . "view=course_manager&lessonID=$lessonID";
-		$app->redirect(JRoute::_($redirect, false));
-	}
+        $app->enqueueMessage($msgText, $msgType);
+        $lessonID = $app->input->get("lessonID");
+        $redirect = THM_OrganizerHelperComponent::getRedirectBase() . "view=course_manager&lessonID=$lessonID";
+        $app->redirect(JRoute::_($redirect, false));
+    }
 
-	/**
-	 * Check if a course was selected and is valid. Check if the required participant data exists, if not redirect to the
-	 * participant edit view. Otherwise register/deregister the user from the course.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$app      = JFactory::getApplication();
-		$input    = $app->input;
-		$courseID = $input->getInt('lessonID');
-		$url      = THM_OrganizerHelperComponent::getRedirectBase();
+    /**
+     * Check if a course was selected and is valid. Check if the required participant data exists, if not redirect to the
+     * participant edit view. Otherwise register/deregister the user from the course.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $app      = JFactory::getApplication();
+        $input    = $app->input;
+        $courseID = $input->getInt('lessonID');
+        $url      = THM_OrganizerHelperComponent::getRedirectBase();
 
-		// No chosen lesson => should not occur
-		if (empty($courseID) OR !THM_OrganizerHelperCourse::isRegistrationOpen())
-		{
-			$app->redirect(JRoute::_($url, false));
-		}
+        // No chosen lesson => should not occur
+        if (empty($courseID) OR !THM_OrganizerHelperCourse::isRegistrationOpen()) {
+            $app->redirect(JRoute::_($url, false));
+        }
 
-		$lang               = THM_OrganizerHelperLanguage::getLanguage();
-		$formData           = $input->get('jform', [], 'array');
-		$participantModel   = $this->getModel('participant');
-		$participantEditURL = "{$url}&view=participant_edit&lessonID=$courseID";
+        $lang               = THM_OrganizerHelperLanguage::getLanguage();
+        $formData           = $input->get('jform', [], 'array');
+        $participantModel   = $this->getModel('participant');
+        $participantEditURL = "{$url}&view=participant_edit&lessonID=$courseID";
 
-		if (!empty($formData))
-		{
-			if (!empty($formData['id']) AND $formData['id'] == JFactory::getUser()->id)
-			{
-				$participantSaved = $participantModel->save();
+        if (!empty($formData)) {
+            if (!empty($formData['id']) AND $formData['id'] == JFactory::getUser()->id) {
+                $participantSaved = $participantModel->save();
 
-				if (empty($participantSaved))
-				{
-					$app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL'), 'error');
-					$app->redirect(JRoute::_($participantEditURL, false));
+                if (empty($participantSaved)) {
+                    $app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL'), 'error');
+                    $app->redirect(JRoute::_($participantEditURL, false));
 
-					return;
-				}
-			}
-			else
-			{
-				$app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION'), 'error');
-				$app->redirect(JRoute::_($url, false));
+                    return;
+                }
+            } else {
+                $app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION'), 'error');
+                $app->redirect(JRoute::_($url, false));
 
-				return;
-			}
-		}
+                return;
+            }
+        }
 
-		// Always based on the current user, no further validation required.
-		$participant = parent::getModel('participant_edit')->getItem();
+        // Always based on the current user, no further validation required.
+        $participant = parent::getModel('participant_edit')->getItem();
 
-		// Ensure participant data is complete
-		$invalidParticipant = (empty($participant->address)
-			OR empty($participant->zip_code)
-			OR empty($participant->city)
-			OR empty($participant->programID)
-			OR empty($participant->forename)
-			OR empty($participant->surname)
-		);
+        // Ensure participant data is complete
+        $invalidParticipant = (empty($participant->address)
+            OR empty($participant->zip_code)
+            OR empty($participant->city)
+            OR empty($participant->programID)
+            OR empty($participant->forename)
+            OR empty($participant->surname)
+        );
 
-		// Participant entry is incomplete
-		if ($invalidParticipant)
-		{
-			$app->redirect(JRoute::_($participantEditURL, false));
+        // Participant entry is incomplete
+        if ($invalidParticipant) {
+            $app->redirect(JRoute::_($participantEditURL, false));
 
-			return;
-		}
+            return;
+        }
 
-		$type = 'error';
+        $type = 'error';
 
-		$userState = THM_OrganizerHelperCourse::getParticipantState();
+        $userState = THM_OrganizerHelperCourse::getParticipantState();
 
-		// 1 = Register | 2 = Deregister
-		$action = empty($userState) ? 1 : 2;
+        // 1 = Register | 2 = Deregister
+        $action = empty($userState) ? 1 : 2;
 
-		$return = $participantModel->register($participant->id, $courseID, $action);
+        $return = $participantModel->register($participant->id, $courseID, $action);
 
-		if ($return)
-		{
-			$type = 'success';
+        if ($return) {
+            $type = 'success';
 
-			if (!empty($userState))
-			{
-				$msg = $lang->_("COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS");
-			}
-			else
-			{
-				$newUserState = THM_OrganizerHelperCourse::getParticipantState();
+            if (!empty($userState)) {
+                $msg = $lang->_("COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS");
+            } else {
+                $newUserState = THM_OrganizerHelperCourse::getParticipantState();
 
-				// This case should not occur.
-				if (is_null($newUserState))
-				{
-					$status = 'COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS';
-				}
-				else
-				{
-					$status = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
-				}
+                // This case should not occur.
+                if (is_null($newUserState)) {
+                    $status = 'COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS';
+                } else {
+                    $status = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
+                }
 
-				$statusMessage = $lang->_($status);
-				$successMessage = $lang->_('COM_THM_ORGANIZER_REGISTRATION_SUCCESS');
-				$msg = sprintf($successMessage, $statusMessage);
-			}
-		}
-		else
-		{
-			$msg = $lang->_("COM_THM_ORGANIZER_STATUS_FAILURE");
-		}
+                $statusMessage  = $lang->_($status);
+                $successMessage = $lang->_('COM_THM_ORGANIZER_REGISTRATION_SUCCESS');
+                $msg            = sprintf($successMessage, $statusMessage);
+            }
+        } else {
+            $msg = $lang->_("COM_THM_ORGANIZER_STATUS_FAILURE");
+        }
 
-		$view = explode('.', $input->get('task', ''))[0];
+        $view = explode('.', $input->get('task', ''))[0];
 
-		if ($view == 'subject')
-		{
-			$subjectID = $input->getInt('id', 0);
-			$url       .= "&view=subject_details&id=$subjectID";
-		}
-		elseif (empty($menuID))
-		{
-			$url .= '&view=course_list';
-		}
+        if ($view == 'subject') {
+            $subjectID = $input->getInt('id', 0);
+            $url       .= "&view=subject_details&id=$subjectID";
+        } elseif (empty($menuID)) {
+            $url .= '&view=course_list';
+        }
 
-		$app->enqueueMessage($msg, $type);
-		$app->redirect(JRoute::_($url, false));
-	}
+        $app->enqueueMessage($msg, $type);
+        $app->redirect(JRoute::_($url, false));
+    }
 
-	/**
-	 * Save user information from form and if course id defined sign in or out of course
-	 * then redirect to course list view
-	 *
-	 * @return void
-	 */
-	public function save()
-	{
-		$app       = JFactory::getApplication();
-		$input     = $app->input;
-		$formData  = $input->get('jform', [], 'array');
-		$lang      = THM_OrganizerHelperLanguage::getLanguage();
-		$modelName = explode('.', $input->get('task', ''))[0];
-		$model     = $this->getModel($modelName);
+    /**
+     * Save user information from form and if course id defined sign in or out of course
+     * then redirect to course list view
+     *
+     * @return void
+     */
+    public function save()
+    {
+        $app       = JFactory::getApplication();
+        $input     = $app->input;
+        $formData  = $input->get('jform', [], 'array');
+        $lang      = THM_OrganizerHelperLanguage::getLanguage();
+        $modelName = explode('.', $input->get('task', ''))[0];
+        $model     = $this->getModel($modelName);
 
-		// Request manipulation
-		if (empty($model) OR empty($formData) OR empty($formData['id']))
-		{
-			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
-			$app->redirect(JRoute::_(JUri::base(), false));
-		}
+        // Request manipulation
+        if (empty($model) OR empty($formData) OR empty($formData['id'])) {
+            $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
+            $app->redirect(JRoute::_(JUri::base(), false));
+        }
 
-		$authorized = false;
-		$url        = THM_OrganizerHelperComponent::getRedirectBase();
+        $authorized = false;
+        $url        = THM_OrganizerHelperComponent::getRedirectBase();
 
-		if ($modelName == 'subject' OR $modelName == 'course')
-		{
-			$authorized = THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], $modelName);
-		}
-		elseif ($modelName == 'participant')
-		{
-			$authorized = JFactory::getUser()->id == $formData['id'];
-		}
+        if ($modelName == 'subject' OR $modelName == 'course') {
+            $authorized = THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], $modelName);
+        } elseif ($modelName == 'participant') {
+            $authorized = JFactory::getUser()->id == $formData['id'];
+        }
 
-		if (empty($authorized))
-		{
-			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
-			$app->redirect(JRoute::_(JUri::base(), false));
-		}
+        if (empty($authorized)) {
+            $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
+            $app->redirect(JRoute::_(JUri::base(), false));
+        }
 
-		$success = $model->save();
+        $success = $model->save();
 
-		if (empty($success))
-		{
-			$app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL"), 'error');
+        if (empty($success)) {
+            $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL"), 'error');
 
-			if ($modelName == 'subject')
-			{
-				$url .= "&view=subject_edit&id={$formData['id']}";
-			}
-			if ($modelName == 'course')
-			{
-				$url .= "&view=course_manager";
-			}
-			elseif ($modelName == 'participant')
-			{
-				$url .= '&view=participant_edit';
-			}
-		}
-		else
-		{
-			$app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS'), 'success');
+            if ($modelName == 'subject') {
+                $url .= "&view=subject_edit&id={$formData['id']}";
+            }
+            if ($modelName == 'course') {
+                $url .= "&view=course_manager";
+            } elseif ($modelName == 'participant') {
+                $url .= '&view=participant_edit';
+            }
+        } else {
+            $app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS'), 'success');
 
-			if ($modelName == 'course')
-			{
-				$url .= '&view=course_manager';
-			}
-			elseif ($modelName == 'participant')
-			{
-				$url .= '&view=course_list';
-			}
-		}
+            if ($modelName == 'course') {
+                $url .= '&view=course_manager';
+            } elseif ($modelName == 'participant') {
+                $url .= '&view=course_list';
+            }
+        }
 
-		if ($modelName == 'course' OR $modelName == 'subject')
-		{
-			$lessonID = $modelName == 'course' ? $formData['id'] : $input->getInt('lessonID');
-			$url      .= "&lessonID=$lessonID";
-		}
+        if ($modelName == 'course' OR $modelName == 'subject') {
+            $lessonID = $modelName == 'course' ? $formData['id'] : $input->getInt('lessonID');
+            $url      .= "&lessonID=$lessonID";
+        }
 
-		$app->redirect(JRoute::_($url, false));
-	}
+        $app->redirect(JRoute::_($url, false));
+    }
 }

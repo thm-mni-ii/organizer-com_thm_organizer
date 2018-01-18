@@ -26,20 +26,20 @@ jimport('phpexcel.library.PHPExcel');
  */
 class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
 {
-	/**
-	 * Sets context variables and renders the view.
-	 *
-	 * @param string $tpl template
-	 *
-	 * @return  void renders the department statistics worksheet
-	 */
-	public function display($tpl = null)
-	{
-		$model = $this->getModel();
+    /**
+     * Sets context variables and renders the view.
+     *
+     * @param string $tpl template
+     *
+     * @return  void renders the department statistics worksheet
+     */
+    public function display($tpl = null)
+    {
+        $model = $this->getModel();
 
-		require_once __DIR__ . "/tmpl/document.php";
-		$export = new THM_OrganizerTemplateDepartment_Statistics_XLS($model);
-		$export->render();
-		ob_flush();
-	}
+        require_once __DIR__ . "/tmpl/document.php";
+        $export = new THM_OrganizerTemplateDepartment_Statistics_XLS($model);
+        $export->render();
+        ob_flush();
+    }
 }

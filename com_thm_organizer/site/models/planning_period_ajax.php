@@ -25,28 +25,27 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php
  */
 class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
 {
-	/**
-	 * Gets the pool options as a string
-	 *
-	 * @param bool $short whether or not the options should use abbreviated names
-	 *
-	 * @return string the concatenated plan pool options
-	 */
-	public function getOptions()
-	{
-		$planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
-		$options         = [];
+    /**
+     * Gets the pool options as a string
+     *
+     * @param bool $short whether or not the options should use abbreviated names
+     *
+     * @return string the concatenated plan pool options
+     */
+    public function getOptions()
+    {
+        $planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
+        $options         = [];
 
-		foreach ($planningPeriods as $planningPeriodID => $planningPeriod)
-		{
-			$shortSD = THM_OrganizerHelperComponent::formatDate($planningPeriod['startDate']);
-			$shortED = THM_OrganizerHelperComponent::formatDate($planningPeriod['endDate']);
+        foreach ($planningPeriods as $planningPeriodID => $planningPeriod) {
+            $shortSD = THM_OrganizerHelperComponent::formatDate($planningPeriod['startDate']);
+            $shortED = THM_OrganizerHelperComponent::formatDate($planningPeriod['endDate']);
 
-			$option['value'] = $planningPeriod['id'];
-			$option['text']  = "{$planningPeriod['name']} ($shortSD - $shortED)";
-			$options[]       = $option;
-		}
+            $option['value'] = $planningPeriod['id'];
+            $option['text']  = "{$planningPeriod['name']} ($shortSD - $shortED)";
+            $options[]       = $option;
+        }
 
-		return json_encode($options);
-	}
+        return json_encode($options);
+    }
 }

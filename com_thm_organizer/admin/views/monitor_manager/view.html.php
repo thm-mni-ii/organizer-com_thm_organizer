@@ -22,49 +22,47 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
  */
 class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
 {
-	public $items;
+    public $items;
 
-	public $pagination;
+    public $pagination;
 
-	public $state;
+    public $state;
 
-	/**
-	 * Loads data from the model into the view context
-	 *
-	 * @param string $tpl the name of the template to be used
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$actions = $this->getModel()->actions;
+    /**
+     * Loads data from the model into the view context
+     *
+     * @param string $tpl the name of the template to be used
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $actions = $this->getModel()->actions;
 
-		if (!$actions->{'core.admin'} AND !$actions->{'organizer.fm'})
-		{
-			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+        if (!$actions->{'core.admin'} AND !$actions->{'organizer.fm'}) {
+            throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Creates joomla toolbar elements
-	 *
-	 * @return void
-	 */
-	protected function addToolBar()
-	{
-		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_VIEW_TITLE'), 'organizer_monitors');
-		JToolbarHelper::addNew('monitor.add');
-		JToolbarHelper::editList('monitor.edit');
-		JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'monitor.delete');
+    /**
+     * Creates joomla toolbar elements
+     *
+     * @return void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_VIEW_TITLE'), 'organizer_monitors');
+        JToolbarHelper::addNew('monitor.add');
+        JToolbarHelper::editList('monitor.edit');
+        JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'monitor.delete');
 
-		$actions = $this->getModel()->actions;
+        $actions = $this->getModel()->actions;
 
-		if ($actions->{'core.admin'})
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer');
-		}
-	}
+        if ($actions->{'core.admin'}) {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer');
+        }
+    }
 }

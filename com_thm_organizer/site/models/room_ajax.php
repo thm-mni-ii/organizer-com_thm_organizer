@@ -25,22 +25,21 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
  */
 class THM_OrganizerModelRoom_Ajax extends JModelLegacy
 {
-	/**
-	 * Gets the pool options as a string
-	 *
-	 * @param bool $short whether or not the options should use abbreviated names
-	 *
-	 * @return string the concatenated plan pool options
-	 */
-	public function getPlanOptions($short = false)
-	{
-		$rooms = THM_OrganizerHelperRooms::getPlanRooms($short);
+    /**
+     * Gets the pool options as a string
+     *
+     * @param bool $short whether or not the options should use abbreviated names
+     *
+     * @return string the concatenated plan pool options
+     */
+    public function getPlanOptions($short = false)
+    {
+        $rooms = THM_OrganizerHelperRooms::getPlanRooms($short);
 
-		foreach ($rooms as $roomName => $roomData)
-		{
-			$rooms[$roomName] = $roomData['id'];
-		}
+        foreach ($rooms as $roomName => $roomData) {
+            $rooms[$roomName] = $roomData['id'];
+        }
 
-		return json_encode($rooms);
-	}
+        return json_encode($rooms);
+    }
 }

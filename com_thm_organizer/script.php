@@ -23,54 +23,50 @@ jimport('joomla.filesystem.file');
  */
 class Com_THM_OrganizerInstallerScript
 {
-	/**
-	 * Creates the directory for images used by the component
-	 *
-	 * @return  boolean true if the directory exists, otherwise false
-	 */
-	private function createImageDirectory()
-	{
-		$exists = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
+    /**
+     * Creates the directory for images used by the component
+     *
+     * @return  boolean true if the directory exists, otherwise false
+     */
+    private function createImageDirectory()
+    {
+        $exists = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
 
-		if ($exists)
-		{
-			return true;
-		}
+        if ($exists) {
+            return true;
+        }
 
-		return JFolder::create(JPATH_SITE . '/images/thm_organizer');
-	}
+        return JFolder::create(JPATH_SITE . '/images/thm_organizer');
+    }
 
-	/**
-	 * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
-	 * All text constants have been replaced by hard coded English texts. :(
-	 *
-	 * It also seems that under 3.x this function is ignored if the method is upgrade even if no prior installation
-	 * existed.
-	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	public function install($parent)
-	{
-		$dirCreated = $this->createImageDirectory();
+    /**
+     * Method to install the component. For some unknown reason Joomla will not resolve text constants in this function.
+     * All text constants have been replaced by hard coded English texts. :(
+     *
+     * It also seems that under 3.x this function is ignored if the method is upgrade even if no prior installation
+     * existed.
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function install($parent)
+    {
+        $dirCreated = $this->createImageDirectory();
 
-		if ($dirCreated)
-		{
-			$dirColor   = 'green';
-			$dirStatus  = 'The directory /images/thm_organizer has been created.';
-			$instColor  = 'green';
-			$instStatus = 'THM Organizer was successfully installed.';
-			$status     = 'com_thm_organizer_success';
-		}
-		else
-		{
-			$dirColor   = 'red';
-			$dirStatus  = 'The directory /images/thm_organizer could not be created.';
-			$instColor  = 'yellow';
-			$instStatus = 'Problems occurred while installing THM Organizer.';
-			$status     = 'com_thm_organizer_failure';
-		}
-		?>
+        if ($dirCreated) {
+            $dirColor   = 'green';
+            $dirStatus  = 'The directory /images/thm_organizer has been created.';
+            $instColor  = 'green';
+            $instStatus = 'THM Organizer was successfully installed.';
+            $status     = 'com_thm_organizer_success';
+        } else {
+            $dirColor   = 'red';
+            $dirStatus  = 'The directory /images/thm_organizer could not be created.';
+            $instColor  = 'yellow';
+            $instStatus = 'Problems occurred while installing THM Organizer.';
+            $status     = 'com_thm_organizer_failure';
+        }
+        ?>
 		<style>
 			.com_thm_organizer_success {
 				box-shadow: -5px -5px 25px green inset;
@@ -109,7 +105,7 @@ class Com_THM_OrganizerInstallerScript
 					<tr>
 						<td>Directory Status</td>
 						<td><span style='color:
-							<?php echo $dirColor; ?>
+                            <?php echo $dirColor; ?>
 									'>
             <?php echo $dirStatus; ?>
             </span></td>
@@ -117,137 +113,127 @@ class Com_THM_OrganizerInstallerScript
 					<tr>
 						<td>Installation Status</td>
 						<td><span style='color:
-							<?php echo $instColor; ?>
+                            <?php echo $instColor; ?>
 									'>
             <?php echo $instStatus; ?>
             </span></td>
 					</tr>
 					</tbody>
 				</table>
-				<?php
-				if ($dirCreated)
-				{
-					?>
+                <?php
+                if ($dirCreated) {
+                    ?>
 					<h4>Please ensure that THM Organizer has write access to the directory mentioned above.</h4>
-					<?php
-				}
-				else
-				{
-					?>
+                    <?php
+                } else {
+                    ?>
 					<h4>Please check the /images/thm_organizer Directory.</h4>
 					If it does not exist, please create this directory, and ensure THM - Organizer has write access to it.
 					<br/>
 					Failure to do so will prevent THM - Organizer from being able use images.
-					<?php
-				}
-				?>
+                    <?php
+                }
+                ?>
 			</div>
 		</fieldset>
-		<?php
-	}
+        <?php
+    }
 
-	/**
-	 * Removes folder contents before update to ensure removal of deprecated files
-	 *
-	 * @param string $type   the type of action being performed with the component.
-	 * @param object $parent the "parent" running this script
-	 *
-	 * @return void
-	 */
-	public function preflight($type, $parent)
-	{
-		// Remove all old files to ensure no access to deprecated code. Current files will later be installed to these folders.
-		if ($type == 'update')
-		{
-			$adminFiles = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
+    /**
+     * Removes folder contents before update to ensure removal of deprecated files
+     *
+     * @param string $type   the type of action being performed with the component.
+     * @param object $parent the "parent" running this script
+     *
+     * @return void
+     */
+    public function preflight($type, $parent)
+    {
+        // Remove all old files to ensure no access to deprecated code. Current files will later be installed to these folders.
+        if ($type == 'update') {
+            $adminFiles = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
 
-			foreach ($adminFiles as $adminFile)
-			{
-				JFile::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFile);
-			}
+            foreach ($adminFiles as $adminFile) {
+                JFile::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFile);
+            }
 
-			$adminFolders = JFolder::folders(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
+            $adminFolders = JFolder::folders(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
 
-			foreach ($adminFolders as $adminFolder)
-			{
-				JFolder::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFolder);
-			}
+            foreach ($adminFolders as $adminFolder) {
+                JFolder::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFolder);
+            }
 
-			$siteFiles = JFolder::files(JPATH_SITE . '/components/com_thm_organizer');
+            $siteFiles = JFolder::files(JPATH_SITE . '/components/com_thm_organizer');
 
-			foreach ($siteFiles as $siteFile)
-			{
-				JFile::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFile);
-			}
+            foreach ($siteFiles as $siteFile) {
+                JFile::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFile);
+            }
 
-			$siteFolders = JFolder::folders(JPATH_SITE . '/components/com_thm_organizer');
+            $siteFolders = JFolder::folders(JPATH_SITE . '/components/com_thm_organizer');
 
-			foreach ($siteFolders as $siteFolder)
-			{
-				JFolder::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFolder);
-			}
+            foreach ($siteFolders as $siteFolder) {
+                JFolder::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFolder);
+            }
 
-			$mediaFiles = JFolder::files(JPATH_SITE . '/media/com_thm_organizer');
+            $mediaFiles = JFolder::files(JPATH_SITE . '/media/com_thm_organizer');
 
-			foreach ($mediaFiles as $mediaFile)
-			{
-				JFile::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
-			}
+            foreach ($mediaFiles as $mediaFile) {
+                JFile::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
+            }
 
-			$mediaFolders = JFolder::folders(JPATH_SITE . '/media/com_thm_organizer');
+            $mediaFolders = JFolder::folders(JPATH_SITE . '/media/com_thm_organizer');
 
-			foreach ($mediaFolders as $mediaFolder)
-			{
-				JFolder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
-			}
-		}
-	}
+            foreach ($mediaFolders as $mediaFolder) {
+                JFolder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
+            }
+        }
+    }
 
-	/**
-	 * Method to uninstall the component
-	 *
-	 * @param object $parent the class calling this method
-	 *
-	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	public function uninstall($parent)
-	{
-		$dirDeleted = JFolder::delete(JPATH_SITE . '/images/thm_organizer');
-		if (!$dirDeleted)
-		{
-			echo JText::_('The directory located at "/images/thm_organizer" could not be removed.');
-		}
-	}
+    /**
+     * Method to uninstall the component
+     *
+     * @param object $parent the class calling this method
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function uninstall($parent)
+    {
+        $dirDeleted = JFolder::delete(JPATH_SITE . '/images/thm_organizer');
+        if (!$dirDeleted) {
+            echo JText::_('The directory located at "/images/thm_organizer" could not be removed.');
+        }
+    }
 
-	/**
-	 * Provides an output once Joomla! has finished the update process.
-	 *
-	 * @param Object $parent JInstallerComponent
-	 *
-	 * @return void
-	 */
-	public function update($parent)
-	{
-		$logoURL     = 'media/com_thm_organizer/images/thm_organizer.png';
-		$licenseLink = '<a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>';
-		$version     = (string) $parent->get('manifest')->version;
+    /**
+     * Provides an output once Joomla! has finished the update process.
+     *
+     * @param Object $parent JInstallerComponent
+     *
+     * @return void
+     */
+    public function update($parent)
+    {
+        $logoURL     = 'media/com_thm_organizer/images/thm_organizer.png';
+        $licenseLink = '<a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>';
+        $version     = (string)$parent->get('manifest')->version;
 
-		$dirSpan    = '';
-		$imagePath  = '/images/thm_organizer';
-		$dirCreated = $this->createImageDirectory();
-		if (!$dirCreated)
-		{
-			$dirSpan .= '<span style="color:red" >' . sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_IMAGE_FOLDER_FAIL'), $imagePath) . "</span>";
-		}
-		?>
+        $dirSpan    = '';
+        $imagePath  = '/images/thm_organizer';
+        $dirCreated = $this->createImageDirectory();
+        if (!$dirCreated) {
+            $dirSpan .= '<span style="color:red" >' . sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_IMAGE_FOLDER_FAIL'),
+                    $imagePath) . "</span>";
+        }
+        ?>
 		<div class="span5 form-vertical">
-			<?php echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER')); ?>
+            <?php echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER')); ?>
 			<br/>
-			<p><?php echo sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE'), $version, $licenseLink) . ' ' . $dirSpan; ?></p>
+			<p><?php echo sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE'), $version,
+                        $licenseLink) . ' ' . $dirSpan; ?></p>
 			<br/>
 		</div>
-		<?php
-	}
+        <?php
+    }
 }

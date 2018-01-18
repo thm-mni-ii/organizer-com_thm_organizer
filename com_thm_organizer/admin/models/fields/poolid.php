@@ -25,55 +25,49 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldPoolID extends JFormFieldList
 {
-	/**
-	 * @var  string
-	 */
-	protected $type = 'poolID';
+    /**
+     * @var  string
+     */
+    protected $type = 'poolID';
 
-	/**
-	 * Returns an array of pool options
-	 *
-	 * @return  array  the pool options
-	 */
-	public function getOptions()
-	{
-		$programID = JFactory::getSession()->get('programID');
-		if (empty($programID))
-		{
-			return parent::getOptions();
-		}
+    /**
+     * Returns an array of pool options
+     *
+     * @return  array  the pool options
+     */
+    public function getOptions()
+    {
+        $programID = JFactory::getSession()->get('programID');
+        if (empty($programID)) {
+            return parent::getOptions();
+        }
 
-		$programRanges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
-		if (empty($programRanges) OR count($programRanges) > 1)
-		{
-			return parent::getOptions();
-		}
+        $programRanges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
+        if (empty($programRanges) OR count($programRanges) > 1) {
+            return parent::getOptions();
+        }
 
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$dbo      = JFactory::getDbo();
-		$query    = $dbo->getQuery(true);
-		$query->select("p.id AS value, p.name_$shortTag AS text");
-		$query->from('#__thm_organizer_pools AS p');
-		$query->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.poolID');
-		$query->where("lft > '{$programRanges[0]['lft']}'");
-		$query->where("rgt < '{$programRanges[0]['rgt']}'");
-		$query->order('text ASC');
-		$dbo->setQuery($query);
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $dbo      = JFactory::getDbo();
+        $query    = $dbo->getQuery(true);
+        $query->select("p.id AS value, p.name_$shortTag AS text");
+        $query->from('#__thm_organizer_pools AS p');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.poolID');
+        $query->where("lft > '{$programRanges[0]['lft']}'");
+        $query->where("rgt < '{$programRanges[0]['rgt']}'");
+        $query->order('text ASC');
+        $dbo->setQuery($query);
 
-		try
-		{
-			$pools   = $dbo->loadAssocList();
-			$options = [];
-			foreach ($pools as $pool)
-			{
-				$options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
-			}
+        try {
+            $pools   = $dbo->loadAssocList();
+            $options = [];
+            foreach ($pools as $pool) {
+                $options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
+            }
 
-			return array_merge(parent::getOptions(), $options);
-		}
-		catch (Exception $exc)
-		{
-			return parent::getOptions();
-		}
-	}
+            return array_merge(parent::getOptions(), $options);
+        } catch (Exception $exc) {
+            return parent::getOptions();
+        }
+    }
 }

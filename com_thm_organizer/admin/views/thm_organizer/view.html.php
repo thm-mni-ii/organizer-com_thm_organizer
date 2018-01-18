@@ -26,52 +26,51 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
 {
-	/**
-	 * Loads model data into view context
-	 *
-	 * @param string $tpl the template type to be used
-	 *
-	 * @return  void or JError on unauthorized access
-	 */
-	public function display($tpl = null)
-	{
-		JHtml::_('behavior.tooltip');
+    /**
+     * Loads model data into view context
+     *
+     * @param string $tpl the template type to be used
+     *
+     * @return  void or JError on unauthorized access
+     */
+    public function display($tpl = null)
+    {
+        JHtml::_('behavior.tooltip');
 
-		//THM_OrganizerHelperComponent::addSubmenu($this);
+        //THM_OrganizerHelperComponent::addSubmenu($this);
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * creates a joomla administratoristrative tool bar
-	 *
-	 * @return void
-	 */
-	protected function addToolBar()
-	{
-		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
+    /**
+     * creates a joomla administratoristrative tool bar
+     *
+     * @return void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
 
-		if ($this->getModel()->actions->{'core.admin'})
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_thm_organizer');
-		}
-	}
+        if ($this->getModel()->actions->{'core.admin'}) {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer');
+        }
+    }
 
-	/**
-	 * Adds styles and scripts to the document
-	 *
-	 * @return  void  modifies the document
-	 */
-	protected function modifyDocument()
-	{
-		JHtml::_('bootstrap.tooltip');
-		JHtml::_('behavior.framework', true);
-		JHtml::_('behavior.formvalidation');
-		JHtml::_('formbehavior.chosen', 'select');
+    /**
+     * Adds styles and scripts to the document
+     *
+     * @return  void  modifies the document
+     */
+    protected function modifyDocument()
+    {
+        JHtml::_('bootstrap.tooltip');
+        JHtml::_('behavior.framework', true);
+        JHtml::_('behavior.formvalidation');
+        JHtml::_('formbehavior.chosen', 'select');
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
-		$document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
-	}
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
+        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
+    }
 }

@@ -23,19 +23,19 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
  */
 class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
 {
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param string $name    The table name. Optional.
-	 * @param string $prefix  The class prefix. Optional.
-	 * @param array  $options Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A JTable object
-	 */
-	public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = [])
-	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param string $name    The table name. Optional.
+     * @param string $prefix  The class prefix. Optional.
+     * @param array  $options Configuration array for model. Optional.
+     *
+     * @return  JTable  A JTable object
+     */
+    public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = [])
+    {
+        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 
-		return JTable::getInstance("subjects", $prefix, $options);
-	}
+        return JTable::getInstance("subjects", $prefix, $options);
+    }
 }

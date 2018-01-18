@@ -21,37 +21,37 @@ jimport('joomla.database.table');
  */
 class THM_OrganizerTableLesson_Configurations extends JTable
 {
-	/**
-	 * Constructor function for the class representing the lesson_configurations table
-	 *
-	 * @param JDatabaseDriver &$dbo A database connector object
-	 */
-	public function __construct(&$dbo)
-	{
-		parent::__construct('#__thm_organizer_lesson_configurations', 'id', $dbo);
-	}
+    /**
+     * Constructor function for the class representing the lesson_configurations table
+     *
+     * @param JDatabaseDriver &$dbo A database connector object
+     */
+    public function __construct(&$dbo)
+    {
+        parent::__construct('#__thm_organizer_lesson_configurations', 'id', $dbo);
+    }
 
-	/**
-	 * Method to store a row in the database from the JTable instance properties.
-	 *
-	 * @param boolean $updateNulls True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 */
-	public function store($updateNulls = true)
-	{
-		return parent::store(true);
-	}
+    /**
+     * Method to store a row in the database from the JTable instance properties.
+     *
+     * @param boolean $updateNulls True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     */
+    public function store($updateNulls = true)
+    {
+        return parent::store(true);
+    }
 
-	/**
-	 * Set the table column names which are allowed to be null
-	 *
-	 * @return  boolean  true
-	 */
-	public function check()
-	{
-		$this->modified = null;
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @return  boolean  true
+     */
+    public function check()
+    {
+        $this->modified = null;
 
-		return true;
-	}
+        return true;
+    }
 }

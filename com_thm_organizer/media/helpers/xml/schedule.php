@@ -31,232 +31,219 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
  */
 class THM_OrganizerModelXMLSchedule extends JModelLegacy
 {
-	/**
-	 * array to hold error strings relating to critical data inconsistencies
-	 *
-	 * @var array
-	 */
-	public $scheduleErrors = null;
+    /**
+     * array to hold error strings relating to critical data inconsistencies
+     *
+     * @var array
+     */
+    public $scheduleErrors = null;
 
-	/**
-	 * array to hold warning strings relating to minor data inconsistencies
-	 *
-	 * @var array
-	 */
-	public $scheduleWarnings = null;
+    /**
+     * array to hold warning strings relating to minor data inconsistencies
+     *
+     * @var array
+     */
+    public $scheduleWarnings = null;
 
-	/**
-	 * Object containing information from the actual schedule
-	 *
-	 * @var object
-	 */
-	public $newSchedule = null;
+    /**
+     * Object containing information from the actual schedule
+     *
+     * @var object
+     */
+    public $newSchedule = null;
 
-	/**
-	 * Creates a status report based upon object error and warning messages
-	 *
-	 * @return  void  outputs errors to the application
-	 */
-	private function printStatusReport()
-	{
-		$app = JFactory::getApplication();
-		if (count($this->scheduleErrors))
-		{
-			$errorMessage = JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br />';
-			$errorMessage .= implode('<br />', $this->scheduleErrors);
-			$app->enqueueMessage($errorMessage, 'error');
-		}
+    /**
+     * Creates a status report based upon object error and warning messages
+     *
+     * @return  void  outputs errors to the application
+     */
+    private function printStatusReport()
+    {
+        $app = JFactory::getApplication();
+        if (count($this->scheduleErrors)) {
+            $errorMessage = JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br />';
+            $errorMessage .= implode('<br />', $this->scheduleErrors);
+            $app->enqueueMessage($errorMessage, 'error');
+        }
 
-		if (count($this->scheduleWarnings))
-		{
-			$app->enqueueMessage(implode('<br />', $this->scheduleWarnings), 'warning');
-		}
-	}
+        if (count($this->scheduleWarnings)) {
+            $app->enqueueMessage(implode('<br />', $this->scheduleWarnings), 'warning');
+        }
+    }
 
-	/**
-	 * Checks a given schedule in gp-untis xml format for data completeness and
-	 * consistency and gives it basic structure
-	 *
-	 * @return  array  array of strings listing inconsistencies empty if none
-	 *                 were found
-	 */
-	public function validate()
-	{
-		$input       = JFactory::getApplication()->input;
-		$formFiles   = $input->files->get('jform', [], 'array');
-		$file        = $formFiles['file'];
-		$xmlSchedule = simplexml_load_file($file['tmp_name']);
+    /**
+     * Checks a given schedule in gp-untis xml format for data completeness and
+     * consistency and gives it basic structure
+     *
+     * @return  array  array of strings listing inconsistencies empty if none
+     *                 were found
+     */
+    public function validate()
+    {
+        $input       = JFactory::getApplication()->input;
+        $formFiles   = $input->files->get('jform', [], 'array');
+        $file        = $formFiles['file'];
+        $xmlSchedule = simplexml_load_file($file['tmp_name']);
 
-		$this->newSchedule      = new stdClass;
-		$this->scheduleErrors   = [];
-		$this->scheduleWarnings = [];
+        $this->newSchedule      = new stdClass;
+        $this->scheduleErrors   = [];
+        $this->scheduleWarnings = [];
 
-		// Creation Date & Time
-		$creationDate = trim((string) $xmlSchedule[0]['date']);
-		$this->validateDateAttribute('creationDate', $creationDate, 'CREATION_DATE', 'error');
-		$creationTime = trim((string) $xmlSchedule[0]['time']);
-		$this->validateTextAttribute('creationTime', $creationTime, 'CREATION_TIME', 'error');
+        // Creation Date & Time
+        $creationDate = trim((string)$xmlSchedule[0]['date']);
+        $this->validateDateAttribute('creationDate', $creationDate, 'CREATION_DATE', 'error');
+        $creationTime = trim((string)$xmlSchedule[0]['time']);
+        $this->validateTextAttribute('creationTime', $creationTime, 'CREATION_TIME', 'error');
 
-		// School year dates
-		$syStartDate = trim((string) $xmlSchedule->general->schoolyearbegindate);
-		$this->validateDateAttribute('syStartDate', $syStartDate, 'SCHOOL_YEAR_START_DATE', 'error');
-		$syEndDate = trim((string) $xmlSchedule->general->schoolyearenddate);
-		$this->validateDateAttribute('syEndDate', $syEndDate, 'SCHOOL_YEAR_END_DATE', 'error');
+        // School year dates
+        $syStartDate = trim((string)$xmlSchedule->general->schoolyearbegindate);
+        $this->validateDateAttribute('syStartDate', $syStartDate, 'SCHOOL_YEAR_START_DATE', 'error');
+        $syEndDate = trim((string)$xmlSchedule->general->schoolyearenddate);
+        $this->validateDateAttribute('syEndDate', $syEndDate, 'SCHOOL_YEAR_END_DATE', 'error');
 
-		// Organizational Data
-		$departmentName = trim((string) $xmlSchedule->general->header1);
-		$this->validateTextAttribute('departmentname', $departmentName, 'ORGANIZATION', 'error', '/[\#\;]/');
-		$semesterName      = trim((string) $xmlSchedule->general->footer);
-		$validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
+        // Organizational Data
+        $departmentName = trim((string)$xmlSchedule->general->header1);
+        $this->validateTextAttribute('departmentname', $departmentName, 'ORGANIZATION', 'error', '/[\#\;]/');
+        $semesterName      = trim((string)$xmlSchedule->general->footer);
+        $validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error',
+            '/[\#\;]/');
 
-		$form                            = $input->get('jform', [], 'array');
-		$this->newSchedule->departmentID = $form['departmentID'];
+        $form                            = $input->get('jform', [], 'array');
+        $this->newSchedule->departmentID = $form['departmentID'];
 
-		// Planning period start & end dates
-		$startDate = trim((string) $xmlSchedule->general->termbegindate);
-		$this->validateDateAttribute('startDate', $startDate, 'TERM_START_DATE');
-		$endDate = trim((string) $xmlSchedule->general->termenddate);
-		$this->validateDateAttribute('endDate', $endDate, 'TERM_END_DATE');
+        // Planning period start & end dates
+        $startDate = trim((string)$xmlSchedule->general->termbegindate);
+        $this->validateDateAttribute('startDate', $startDate, 'TERM_START_DATE');
+        $endDate = trim((string)$xmlSchedule->general->termenddate);
+        $this->validateDateAttribute('endDate', $endDate, 'TERM_END_DATE');
 
-		// Checks if planning period and school year dates are consistent
-		$startTimeStamp        = strtotime($startDate);
-		$endTimeStamp          = strtotime($endDate);
-		$invalidStart          = $startTimeStamp < strtotime($syStartDate);
-		$invalidEnd            = $endTimeStamp > strtotime($syEndDate);
-		$invalidPlanningPeriod = $startTimeStamp >= $endTimeStamp;
-		$invalid               = ($invalidStart OR $invalidEnd OR $invalidPlanningPeriod);
+        // Checks if planning period and school year dates are consistent
+        $startTimeStamp        = strtotime($startDate);
+        $endTimeStamp          = strtotime($endDate);
+        $invalidStart          = $startTimeStamp < strtotime($syStartDate);
+        $invalidEnd            = $endTimeStamp > strtotime($syEndDate);
+        $invalidPlanningPeriod = $startTimeStamp >= $endTimeStamp;
+        $invalid               = ($invalidStart OR $invalidEnd OR $invalidPlanningPeriod);
 
-		if ($invalid)
-		{
-			$this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
-		}
-		elseif ($validSemesterName)
-		{
-			$planningPeriodID                    = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
-			$this->newSchedule->planningPeriodID = $planningPeriodID;
-		}
+        if ($invalid) {
+            $this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
+        } elseif ($validSemesterName) {
+            $planningPeriodID                    = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName,
+                $startTimeStamp, $endTimeStamp);
+            $this->newSchedule->planningPeriodID = $planningPeriodID;
+        }
 
-		THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);
-		THM_OrganizerHelperXMLDescriptions::validate($this, $xmlSchedule);
-		THM_OrganizerHelperXMLPrograms::validate($this, $xmlSchedule);
-		THM_OrganizerHelperXMLPools::validate($this, $xmlSchedule);
-		THM_OrganizerHelperXMLRooms::validate($this, $xmlSchedule);
-		THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
-		THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
+        THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);
+        THM_OrganizerHelperXMLDescriptions::validate($this, $xmlSchedule);
+        THM_OrganizerHelperXMLPrograms::validate($this, $xmlSchedule);
+        THM_OrganizerHelperXMLPools::validate($this, $xmlSchedule);
+        THM_OrganizerHelperXMLRooms::validate($this, $xmlSchedule);
+        THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
+        THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
 
-		unset($this->schedule->fields);
+        unset($this->schedule->fields);
 
-		$this->newSchedule->calendar = new stdClass;
+        $this->newSchedule->calendar = new stdClass;
 
-		$lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
-		$lessonsHelper->validate();
-		$this->printStatusReport();
+        $lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
+        $lessonsHelper->validate();
+        $this->printStatusReport();
 
-		if (count($this->scheduleErrors))
-		{
-			// Don't need the bloat if these won't be used.
-			unset($this->schedule, $this->newSchedule);
+        if (count($this->scheduleErrors)) {
+            // Don't need the bloat if these won't be used.
+            unset($this->schedule, $this->newSchedule);
 
-			return false;
-		}
+            return false;
+        }
 
-		unset($this->schedule->methods, $this->schedule->room_types);
+        unset($this->schedule->methods, $this->schedule->room_types);
 
-		unset(
-			$this->newSchedule->degrees,
-			$this->newSchedule->fields,
-			$this->newSchedule->methods,
-			$this->newSchedule->periods,
-			$this->newSchedule->pools,
-			$this->newSchedule->programs,
-			$this->newSchedule->room_types,
-			$this->newSchedule->rooms,
-			$this->newSchedule->subjects,
-			$this->newSchedule->syEndDate,
-			$this->newSchedule->syStartDate,
-			$this->newSchedule->teachers
-		);
+        unset(
+            $this->newSchedule->degrees,
+            $this->newSchedule->fields,
+            $this->newSchedule->methods,
+            $this->newSchedule->periods,
+            $this->newSchedule->pools,
+            $this->newSchedule->programs,
+            $this->newSchedule->room_types,
+            $this->newSchedule->rooms,
+            $this->newSchedule->subjects,
+            $this->newSchedule->syEndDate,
+            $this->newSchedule->syStartDate,
+            $this->newSchedule->teachers
+        );
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Validates a date attribute
-	 *
-	 * @param string $name     the attribute name
-	 * @param string $value    the attribute value
-	 * @param string $constant the unique text constant fragment
-	 * @param string $severity the severity of the item being inspected
-	 *
-	 * @return  void
-	 */
-	public function validateDateAttribute($name, $value, $constant, $severity = 'error')
-	{
-		if (empty($value))
-		{
-			if ($severity == 'error')
-			{
-				$this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+    /**
+     * Validates a date attribute
+     *
+     * @param string $name     the attribute name
+     * @param string $value    the attribute value
+     * @param string $constant the unique text constant fragment
+     * @param string $severity the severity of the item being inspected
+     *
+     * @return  void
+     */
+    public function validateDateAttribute($name, $value, $constant, $severity = 'error')
+    {
+        if (empty($value)) {
+            if ($severity == 'error') {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
-				return;
-			}
+                return;
+            }
 
-			if ($severity == 'warning')
-			{
-				$this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
-			}
-		}
+            if ($severity == 'warning') {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+            }
+        }
 
-		$this->newSchedule->$name = date('Y-m-d', strtotime($value));
+        $this->newSchedule->$name = date('Y-m-d', strtotime($value));
 
-		return;
-	}
+        return;
+    }
 
-	/**
-	 * Validates a text attribute
-	 *
-	 * @param string $name     the attribute name
-	 * @param string $value    the attribute value
-	 * @param string $constant the unique text constant fragment
-	 * @param string $severity the severity of the item being inspected
-	 * @param string $regex    the regex to check the text against
-	 *
-	 * @return  bool false if blocking errors were found, otherwise true
-	 */
-	private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
-	{
-		if (empty($value))
-		{
-			if ($severity == 'error')
-			{
-				$this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+    /**
+     * Validates a text attribute
+     *
+     * @param string $name     the attribute name
+     * @param string $value    the attribute value
+     * @param string $constant the unique text constant fragment
+     * @param string $severity the severity of the item being inspected
+     * @param string $regex    the regex to check the text against
+     *
+     * @return  bool false if blocking errors were found, otherwise true
+     */
+    private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
+    {
+        if (empty($value)) {
+            if ($severity == 'error') {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
-				return false;
-			}
+                return false;
+            }
 
-			if ($severity == 'warning')
-			{
-				$this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
-			}
-		}
+            if ($severity == 'warning') {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+            }
+        }
 
-		if (!empty($regex) AND preg_match($regex, $value))
-		{
-			if ($severity == 'error')
-			{
-				$this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+        if (!empty($regex) AND preg_match($regex, $value)) {
+            if ($severity == 'error') {
+                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
 
-				return false;
-			}
+                return false;
+            }
 
-			if ($severity == 'warning')
-			{
-				$this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
-			}
-		}
+            if ($severity == 'warning') {
+                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+            }
+        }
 
-		$this->newSchedule->$name = $value;
+        $this->newSchedule->$name = $value;
 
-		return true;
-	}
+        return true;
+    }
 }

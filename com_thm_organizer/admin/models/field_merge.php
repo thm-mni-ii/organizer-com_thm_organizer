@@ -22,5 +22,5 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
  */
 class THM_OrganizerModelField_Merge extends THM_OrganizerModelForm
 {
-	// Everything is taken care of in the inheritance hierarchy.
+    // Everything is taken care of in the inheritance hierarchy.
 }

@@ -23,44 +23,43 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
  */
 class THM_OrganizerViewField_Manager extends THM_OrganizerViewList
 {
-	public $items;
+    public $items;
 
-	public $pagination;
+    public $pagination;
 
-	public $state;
+    public $state;
 
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$actions = $this->getModel()->actions;
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $actions = $this->getModel()->actions;
 
-		if (!$actions->{'core.admin'})
-		{
-			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+        if (!$actions->{'core.admin'}) {
+            throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to generate buttons for user interaction
-	 *
-	 * @return  void
-	 */
-	protected function addToolBar()
-	{
-		JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_VIEW_TITLE'), 'organizer_fields');
-		JToolbarHelper::addNew('field.add');
-		JToolbarHelper::editList('field.edit');
-		JToolbarHelper::custom('field.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-		JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'field.delete');
-		JToolbarHelper::divider();
-		JToolbarHelper::preferences('com_thm_organizer');
-	}
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return  void
+     */
+    protected function addToolBar()
+    {
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_VIEW_TITLE'), 'organizer_fields');
+        JToolbarHelper::addNew('field.add');
+        JToolbarHelper::editList('field.edit');
+        JToolbarHelper::custom('field.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'field.delete');
+        JToolbarHelper::divider();
+        JToolbarHelper::preferences('com_thm_organizer');
+    }
 }

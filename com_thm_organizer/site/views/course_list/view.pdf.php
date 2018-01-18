@@ -24,42 +24,40 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
  */
 class THM_OrganizerViewCourse_List extends JViewLegacy
 {
-	/**
-	 * Method to get display
-	 *
-	 * @param Object $tpl template  (default: null)
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$input = JFactory::getApplication()->input;
+    /**
+     * Method to get display
+     *
+     * @param Object $tpl template  (default: null)
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $input = JFactory::getApplication()->input;
 
-		$lessonID  = $input->get("lessonID", 0);
-		$type      = $input->get("type", 0);
-		$subjectID = THM_OrganizerHelperCourse::getCourse($lessonID)["subjectID"];
+        $lessonID  = $input->get("lessonID", 0);
+        $type      = $input->get("type", 0);
+        $subjectID = THM_OrganizerHelperCourse::getCourse($lessonID)["subjectID"];
 
-		if (!empty($subjectID) AND THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject'))
-		{
-			switch ($type)
-			{
-				case 0:
-					require_once __DIR__ . "/tmpl/prep_course_participant_list.php";
-					new THM_OrganizerTemplatePC_Participant_Export($lessonID);
-					break;
-				case 1:
-					require_once __DIR__ . "/tmpl/prep_course_by_department.php";
-					new THMOrganizerTemplatePC_By_Department_Export($lessonID);
-					break;
-				case 2:
-					require_once __DIR__ . "/tmpl/prep_course_badges.php";
-					new THMOrganizerTemplatePC_Badges_Export($lessonID);
-					break;
-				default:
-					JError::raiseError(404, 'Type not found');
-			}
-		}
+        if (!empty($subjectID) AND THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject')) {
+            switch ($type) {
+                case 0:
+                    require_once __DIR__ . "/tmpl/prep_course_participant_list.php";
+                    new THM_OrganizerTemplatePC_Participant_Export($lessonID);
+                    break;
+                case 1:
+                    require_once __DIR__ . "/tmpl/prep_course_by_department.php";
+                    new THMOrganizerTemplatePC_By_Department_Export($lessonID);
+                    break;
+                case 2:
+                    require_once __DIR__ . "/tmpl/prep_course_badges.php";
+                    new THMOrganizerTemplatePC_Badges_Export($lessonID);
+                    break;
+                default:
+                    JError::raiseError(404, 'Type not found');
+            }
+        }
 
-		JError::raiseError(401, 'Unauthorized');
-	}
+        JError::raiseError(401, 'Unauthorized');
+    }
 }

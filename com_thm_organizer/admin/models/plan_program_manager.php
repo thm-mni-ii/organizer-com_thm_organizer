@@ -24,98 +24,97 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 {
-	protected $defaultOrdering = 'ppr.gpuntisID';
+    protected $defaultOrdering = 'ppr.gpuntisID';
 
-	protected $defaultDirection = 'asc';
+    protected $defaultDirection = 'asc';
 
-	/**
-	 * Constructor to set the config array and call the parent constructor
-	 *
-	 * @param array $config Configuration  (default: array)
-	 */
-	public function __construct($config = [])
-	{
-		parent::__construct($config);
-	}
+    /**
+     * Constructor to set the config array and call the parent constructor
+     *
+     * @param array $config Configuration  (default: array)
+     */
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+    }
 
-	/**
-	 * Method to get all plan_programs from the database
-	 *
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
-		$shortTag = THM_OrganizerHelperLanguage::getShortTag();
-		$query    = $this->_db->getQuery(true);
+    /**
+     * Method to get all plan_programs from the database
+     *
+     * @return  JDatabaseQuery
+     */
+    protected function getListQuery()
+    {
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $query    = $this->_db->getQuery(true);
 
-		$select    = "ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
-		$linkParts = ["'index.php?option=com_thm_organizer&view=plan_program_edit&id='", "ppr.id"];
-		$select    .= $query->concatenate($linkParts, "") . " AS link";
-		$query->select($select);
+        $select    = "ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
+        $linkParts = ["'index.php?option=com_thm_organizer&view=plan_program_edit&id='", "ppr.id"];
+        $select    .= $query->concatenate($linkParts, "") . " AS link";
+        $query->select($select);
 
-		$query->from('#__thm_organizer_plan_programs AS ppr');
-		$query->leftJoin('#__thm_organizer_programs AS pr ON ppr.programID = pr.id');
-		$query->leftJoin('#__thm_organizer_degrees AS d ON pr.degreeID = d.id');
+        $query->from('#__thm_organizer_plan_programs AS ppr');
+        $query->leftJoin('#__thm_organizer_programs AS pr ON ppr.programID = pr.id');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON pr.degreeID = d.id');
 
-		$departmentID = $this->state->get('list.departmentID');
+        $departmentID = $this->state->get('list.departmentID');
 
-		if ($departmentID)
-		{
-			$query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
-			$query->where("dr.departmentID = '$departmentID'");
-		}
+        if ($departmentID) {
+            $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
+            $query->where("dr.departmentID = '$departmentID'");
+        }
 
-		$searchColumns = ['ppr.name', 'ppr.gpuntisID'];
-		$this->setSearchFilter($query, $searchColumns);
+        $searchColumns = ['ppr.name', 'ppr.gpuntisID'];
+        $this->setSearchFilter($query, $searchColumns);
 
-		$this->setOrdering($query);
+        $this->setOrdering($query);
 
-		return $query;
-	}
+        return $query;
+    }
 
-	/**
-	 * Method to overwrite the getItems method in order to set the program name
-	 *
-	 * @return  array  an array of objects fulfilling the request criteria
-	 */
-	public function getItems()
-	{
-		$items  = parent::getItems();
-		$return = [];
+    /**
+     * Method to overwrite the getItems method in order to set the program name
+     *
+     * @return  array  an array of objects fulfilling the request criteria
+     */
+    public function getItems()
+    {
+        $items  = parent::getItems();
+        $return = [];
 
-		if (empty($items))
-		{
-			return $return;
-		}
+        if (empty($items)) {
+            return $return;
+        }
 
-		$index = 0;
+        $index = 0;
 
-		foreach ($items as $item)
-		{
-			$return[$index]              = [];
-			$return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
-			$return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
-			$return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
-			$index++;
-		}
+        foreach ($items as $item) {
+            $return[$index]              = [];
+            $return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
+            $return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
+            $index++;
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
-	/**
-	 * Function to get table headers
-	 *
-	 * @return array including headers
-	 */
-	public function getHeaders()
-	{
-		$ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-		$direction            = $this->state->get('list.direction', $this->defaultDirection);
-		$headers              = [];
-		$headers['checkbox']  = '';
-		$headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
-		$headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'ppr.name', $direction, $ordering);
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    public function getHeaders()
+    {
+        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction            = $this->state->get('list.direction', $this->defaultDirection);
+        $headers              = [];
+        $headers['checkbox']  = '';
+        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppr.gpuntisID', $direction,
+            $ordering);
+        $headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'ppr.name', $direction,
+            $ordering);
 
-		return $headers;
-	}
+        return $headers;
+    }
 }
