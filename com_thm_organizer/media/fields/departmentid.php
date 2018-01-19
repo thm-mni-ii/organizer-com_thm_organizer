@@ -37,14 +37,6 @@ class JFormFieldDepartmentID extends JFormFieldList
      */
     public function getOptions()
     {
-        $action = $this->getAttribute('action', '');
-
-        if (empty($action)) {
-            return parent::getOptions();
-        }
-
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments($action);
-
         if (empty($allowedIDs)) {
             return parent::getOptions();
         }
@@ -54,7 +46,15 @@ class JFormFieldDepartmentID extends JFormFieldList
         $query    = $dbo->getQuery(true);
         $query->select("id AS value, short_name_$shortTag AS text");
         $query->from('#__thm_organizer_departments');
-        $query->where("id IN ( '" . implode("', '", $allowedIDs) . "' )");
+
+        // Should a restriction be made according to access rights?
+        $action = $this->getAttribute('action', '');
+
+        if (!empty($action)) {
+            $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments($action);
+            $query->where("id IN ( '" . implode("', '", $allowedIDs) . "' )");
+        }
+
         $query->order('text ASC');
         $dbo->setQuery($query);
 
