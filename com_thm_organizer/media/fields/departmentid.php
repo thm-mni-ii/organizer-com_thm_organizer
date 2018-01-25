@@ -37,10 +37,6 @@ class JFormFieldDepartmentID extends JFormFieldList
      */
     public function getOptions()
     {
-        if (empty($allowedIDs)) {
-            return parent::getOptions();
-        }
-
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo      = JFactory::getDbo();
         $query    = $dbo->getQuery(true);

@@ -604,7 +604,6 @@ class THM_OrganizerModelSubject_List extends JModelList
     {
         $app = JFactory::getApplication();
 
-
         if (!empty($app->getMenu()->getActive()->id)) {
             $params = $app->getMenu()->getActive()->params;
 

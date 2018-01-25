@@ -1,0 +1,115 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a:hover {
+    color: #394a59;
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+}
+
+a [class^="icon-"], a [class*=" icon-"] {
+    margin-right: .2rem;
+}
+
+.clear {
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.toolbar {
+    position: relative;
+    float: right;
+}
+
+.lesson-statistics-view {
+    width: 100%;
+}
+
+.lesson-statistics-view .table-container {
+    max-height: 40rem;
+    overflow-x: auto;
+}
+
+.lesson-statistics-view table {
+    margin: 0;
+    position: relative;
+}
+
+.lesson-statistics-view tr:first-child td, .lesson-statistics-view tr td:first-child {
+    background-color: #dfe5e6;
+    font-family: THM-Regular;
+    font-weight: bold;
+    position: sticky;
+}
+
+.lesson-statistics-view tr:first-child td {
+    top: 0;
+}
+
+.lesson-statistics-view tr td:first-child {
+    left: 0;
+}
+
+.lesson-statistics-view tr:first-child td:first-child {
+    z-index: 500;
+}
+
+.lesson-statistics-view tr:nth-child(odd) {
+    background-color: #f2f5f6;
+}
+
+.lesson-statistics-view tr:last-child td {
+    border-bottom: 1px solid #dfe5e6;
+}
+
+.lesson-statistics-view td {
+    border: none;
+    border-right: 1px solid #dfe5e6;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.lesson-statistics-view tr td {
+    min-width: 4rem;
+    word-wrap: break-word;
+}
+
+.lesson-statistics-view tr td:first-child:nth-last-child(1) {
+    max-width: calc(100% - 1px);
+}
+
+.lesson-statistics-view tr td:first-child:nth-last-child(2) {
+    max-width: calc(50% - 1px);
+}
+
+.lesson-statistics-view tr td:first-child:nth-last-child(3) {
+    max-width: calc(33.3333% - 1px);
+}
+
+.lesson-statistics-view tr td:first-child:nth-last-child(4) {
+    max-width: calc(25% - 1px);
+}
+
+.lesson-statistics-view tr td:first-child:nth-last-child(5) {
+    max-width: calc(20% - 1px);
+}
+
+.lesson-statistics-view tr td:first-child:nth-last-child(6) {
+    max-width: calc(16.666% - 1px);
+}
+
+.lesson-statistics-view .total {
+    font-size: .75rem;
+    font-weight: normal;
+}

@@ -41,9 +41,6 @@ class JFormFieldProgramID extends JFormFieldList
         $dbo      = JFactory::getDbo();
         $query    = $dbo->getQuery(true);
 
-        $nameParts  = ["dp.name_$shortTag", 'd.abbreviation', 'dp.version'];
-        $nameSelect = $query->concatenate($nameParts, ', ') . " AS text";
-
         $query->select("dp.id AS value, dp.name_$shortTag AS name, d.abbreviation AS degree, dp.version");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
@@ -58,7 +55,9 @@ class JFormFieldProgramID extends JFormFieldList
         }
 
         // Whether or not the program display should be prefiltered according to user resource access
-        $access      = $this->getAttribute('access', 'false') == 'true';
+        $access = $this->getAttribute('access', 'false') == 'true';
+
+        // Unique will only use the most recently accredited program for a specific name and degree
         $unique      = $this->getAttribute('unique', 'false') == 'true';
         $uniqueNames = [];
         $options     = [];

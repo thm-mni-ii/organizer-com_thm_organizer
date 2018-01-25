@@ -39,7 +39,7 @@ class THM_OrganizerHelperPlanning_Periods
 
         try {
             $result = $dbo->loadResult();
-        } catch (RuntimeException $exc) {
+        } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
             return 0;
