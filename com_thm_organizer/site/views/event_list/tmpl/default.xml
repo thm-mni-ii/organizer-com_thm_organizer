@@ -12,20 +12,11 @@
     </layout>
     <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic" label="COM_THM_ORGANIZER_EVENT_LIST_SETTINGS">
-            <field name="rooms"
-                   type="genericlist"
-                   valuecolumn="id"
-                   textcolumn="longname"
-                   table="thm_organizer_rooms"
-                   label="COM_THM_ORGANIZER_ROOMS"
-                   description="COM_THM_ORGANIZER_REL_ROOMS_DESC"
-                   multiple="true">
+            <field name="rooms" type="genericlist" valuecolumn="id" textcolumn="longname" table="thm_organizer_rooms"
+                   label="COM_THM_ORGANIZER_ROOMS" description="COM_THM_ORGANIZER_REL_ROOMS_DESC" multiple="true">
                 <option value="">COM_THM_ORGANIZER_FILTER_ALL_ROOMS</option>
             </field>
-            <field name="days"
-                   type="list"
-                   label="COM_THM_ORGANIZER_DAYS"
-                   description="COM_THM_ORGANIZER_REL_DAYS_DESC"
+            <field name="days" type="list" label="COM_THM_ORGANIZER_DAYS" description="COM_THM_ORGANIZER_REL_DAYS_DESC"
                    multiple="true">
                 <option value="">COM_THM_ORGANIZER_FILTER_ALL_DAYS</option>
                 <option value="1">MONDAY</option>
@@ -36,16 +27,10 @@
                 <option value="6">SATURDAY</option>
                 <option value="0">SUNDAY</option>
             </field>
-            <field name="startDate"
-                   type="calendar"
-                   label="COM_THM_ORGANIZER_START_DATE"
-                   description="COM_THM_ORGANIZER_START_DATE_DESC"
-                   format="%Y-%m-%d"/>
-            <field name="endDate"
-                   type="calendar"
-                   label="COM_THM_ORGANIZER_END_DATE"
-                   description="COM_THM_ORGANIZER_END_DATE_DESC"
-                   format="%Y-%m-%d"/>
+            <field name="startDate" type="calendar" label="COM_THM_ORGANIZER_START_DATE"
+                   description="COM_THM_ORGANIZER_START_DATE_DESC" format="%Y-%m-%d"/>
+            <field name="endDate" type="calendar" label="COM_THM_ORGANIZER_END_DATE"
+                   description="COM_THM_ORGANIZER_END_DATE_DESC" format="%Y-%m-%d"/>
         </fieldset>
     </fields>
 </metadata>

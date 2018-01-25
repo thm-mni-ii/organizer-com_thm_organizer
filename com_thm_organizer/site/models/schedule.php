@@ -43,7 +43,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     {
         parent::__construct($config);
         $this->setParams();
-        $this->grids = $this->getGrids();
+        $this->grids       = $this->getGrids();
         $this->departments = THM_OrganizerHelperDepartments::getPlanDepartments();
     }
 

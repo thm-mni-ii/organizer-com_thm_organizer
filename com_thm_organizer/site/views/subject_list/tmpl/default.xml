@@ -12,106 +12,59 @@
     </layout>
     <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic" label="COM_THM_ORGANIZER_SUBJECT_CATALOG_SETTINGS">
-            <field
-                    name="programID"
-                    type="programID"
-                    access="false"
-                    class="inputbox"
-                    label="COM_THM_ORGANIZER_PROGRAM"
-                    description="COM_THM_ORGANIZER_PROGRAM_DESC"
-                    required="true"/>
-            <field
-                    name="initialLanguage"
-                    type="list"
-                    default="de"
-                    required="true"
-                    label="COM_THM_ORGANIZER_LANGUAGE"
-                    description="COM_THM_ORGANIZER_LANGUAGE_DESC">
+            <field name="programID" type="programID" access="false" class="inputbox" label="COM_THM_ORGANIZER_PROGRAM"
+                   description="COM_THM_ORGANIZER_PROGRAM_DESC" required="true"/>
+            <field name="initialLanguage" type="list" default="de" required="true" label="COM_THM_ORGANIZER_LANGUAGE"
+                   description="COM_THM_ORGANIZER_LANGUAGE_DESC">
                 <option value="de">COM_THM_ORGANIZER_GERMAN</option>
                 <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
             </field>
-            <field
-                    name="groupBy"
-                    type="list"
-                    default="0"
-                    label="COM_THM_ORGANIZER_ORGANIZE_BY"
-                    description="COM_THM_ORGANIZER_ORGANIZE_BY_DESC">
+            <field name="groupBy" type="list" default="0" label="COM_THM_ORGANIZER_ORGANIZE_BY"
+                   description="COM_THM_ORGANIZER_ORGANIZE_BY_DESC">
                 <option value="0">COM_THM_ORGANIZER_ALPHABETICAL</option>
                 <option value="1">COM_THM_ORGANIZER_BY_SUBJECTNO</option>
                 <option value="2">COM_THM_ORGANIZER_BY_GROUP</option>
                 <option value="3">COM_THM_ORGANIZER_BY_TEACHER</option>
                 <option value="4">COM_THM_ORGANIZER_BY_FIELD</option>
             </field>
-            <field
-                    name="teacherResp"
-                    type="list"
-                    default="0"
-                    label="COM_THM_ORGANIZER_SHOW_TEACHER_RESP"
-                    description="COM_THM_ORGANIZER_SHOW_TEACHER_RESP_DESC">
+            <field name="teacherResp" type="list" default="0" label="COM_THM_ORGANIZER_SHOW_TEACHER_RESP"
+                   description="COM_THM_ORGANIZER_SHOW_TEACHER_RESP_DESC">
                 <option value="0">JALL</option>
                 <option value="2">COM_THM_ORGANIZER_TEACHER</option>
                 <option value="1">COM_THM_ORGANIZER_RESPONSIBLE</option>
             </field>
-            <field
-                    name="showTitle"
-                    type="list"
-                    default="1"
-                    label="COM_THM_ORGANIZER_SHOW_TEACHER_TITLE"
-                    description="COM_THM_ORGANIZER_SHOW_TEACHER_TITLE_DESC">
+            <field name="showTitle" type="list" default="1" label="COM_THM_ORGANIZER_SHOW_TEACHER_TITLE"
+                   description="COM_THM_ORGANIZER_SHOW_TEACHER_TITLE_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
-            <field
-                    name="inlinePoolCrP"
-                    type="list"
-                    default="1"
-                    label="COM_THM_ORGANIZER_SHOW_INLINE_CRP"
-                    description="COM_THM_ORGANIZER_SHOW_INLINE_CRP_DESC">
+            <field name="inlinePoolCrP" type="list" default="1" label="COM_THM_ORGANIZER_SHOW_INLINE_CRP"
+                   description="COM_THM_ORGANIZER_SHOW_INLINE_CRP_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
-            <field
-                    name="showByName"
-                    type="list"
-                    default="1"
-                    label="COM_THM_ORGANIZER_SHOW_BY_NAME"
-                    description="COM_THM_ORGANIZER_SHOW_BY_NAME_DESC">
+            <field name="showByName" type="list" default="1" label="COM_THM_ORGANIZER_SHOW_BY_NAME"
+                   description="COM_THM_ORGANIZER_SHOW_BY_NAME_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
-            <field
-                    name="showByModuleNumber"
-                    type="list"
-                    default="1"
-                    label="COM_THM_ORGANIZER_SHOW_BY_MODULE_NUMBER"
-                    description="COM_THM_ORGANIZER_SHOW_BY_MODULE_NUMBER_DESC">
+            <field name="showByModuleNumber" type="list" default="1" label="COM_THM_ORGANIZER_SHOW_BY_MODULE_NUMBER"
+                   description="COM_THM_ORGANIZER_SHOW_BY_MODULE_NUMBER_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
-            <field
-                    name="showByPool"
-                    type="list"
-                    default="1"
-                    label="COM_THM_ORGANIZER_SHOW_BY_POOL"
-                    description="COM_THM_ORGANIZER_SHOW_BY_POOL_DESC">
+            <field name="showByPool" type="list" default="1" label="COM_THM_ORGANIZER_SHOW_BY_POOL"
+                   description="COM_THM_ORGANIZER_SHOW_BY_POOL_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
-            <field
-                    name="showByTeacher"
-                    type="list"
-                    default="1"
-                    label="COM_THM_ORGANIZER_SHOW_BY_TEACHER"
-                    description="COM_THM_ORGANIZER_SHOW_BY_TEACHER_DESC">
+            <field name="showByTeacher" type="list" default="1" label="COM_THM_ORGANIZER_SHOW_BY_TEACHER"
+                   description="COM_THM_ORGANIZER_SHOW_BY_TEACHER_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
-            <field
-                    name="showByField"
-                    type="list"
-                    default="0"
-                    label="COM_THM_ORGANIZER_SHOW_BY_FIELD"
-                    description="COM_THM_ORGANIZER_SHOW_BY_FIELD_DESC">
+            <field name="showByField" type="list" default="0" label="COM_THM_ORGANIZER_SHOW_BY_FIELD"
+                   description="COM_THM_ORGANIZER_SHOW_BY_FIELD_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>

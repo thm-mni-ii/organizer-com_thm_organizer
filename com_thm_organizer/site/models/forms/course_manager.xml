@@ -1,41 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/media/com_thm_organizer/fields">
-    <field name="id"
-           type="hidden"/>
+    <field name="id" type="hidden"/>
     <fieldset name="course_settings">
-        <field name="campusID"
-               type="campusID"
-               label="COM_THM_ORGANIZER_CAMPUS"
+        <field name="campusID" type="campusID" label="COM_THM_ORGANIZER_CAMPUS"
                description="COM_THM_ORGANIZER_CAMPUS_DESC">
             <option value="">JNONE</option>
         </field>
-        <field name="max_participants"
-               type="integer"
-               default="300"
-               label="COM_THM_ORGANIZER_MAX_PARTICIPANTS"
-               description="COM_THM_ORGANIZER_MAX_PARTICIPANTS_DESC"
-               first="20"
-               last="1000"
-               step="20"/>
+        <field name="max_participants" type="integer" default="300" label="COM_THM_ORGANIZER_MAX_PARTICIPANTS"
+               description="COM_THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
     </fieldset>
     <fieldset name="circular">
-        <field name="includeWaitList"
-               type="list"
-               class="chzn-color-state"
-               label=""
-               default="0">
+        <field name="includeWaitList" type="list" class="chzn-color-state" label="" default="0">
             <option value="1">COM_THM_ORGANIZER_FILTER_WAIT_LIST_NO</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_WAIT_LIST_YES</option>
         </field>
-        <field name="subject"
-               type="text"
-               size="60"
-               label="COM_THM_ORGANIZER_MAIL_SUBJECT"
-               required="true"/>
-        <field name="text"
-               type="textarea"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_TEXT"
-               required="true"/>
+        <field name="subject" type="text" size="60" label="COM_THM_ORGANIZER_MAIL_SUBJECT" required="true"/>
+        <field name="text" type="textarea" class="inputbox" label="COM_THM_ORGANIZER_TEXT" required="true"/>
     </fieldset>
 </form>

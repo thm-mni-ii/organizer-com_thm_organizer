@@ -110,9 +110,10 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
             ]
         ]);
 
-        $summaryPP = ['name'      => JText::_('COM_THM_ORGANIZER_SUMMARY'),
-                      'startDate' => $this->startDate,
-                      'endDate'   => $this->endDate
+        $summaryPP = [
+            'name'      => JText::_('COM_THM_ORGANIZER_SUMMARY'),
+            'startDate' => $this->startDate,
+            'endDate'   => $this->endDate
         ];
         $this->addPlanningPeriodSheet(0, $summaryPP);
 
@@ -298,12 +299,14 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->mergeCells("A1:H1");
         $this->spreadSheet->getActiveSheet()->setCellValue('A1', $title);
         $this->spreadSheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
-        $this->spreadSheet->getActiveSheet()->getStyle("B3")->applyFromArray(['fill'    => $this->headerFill,
-                                                                              'borders' => $this->rightBorder
+        $this->spreadSheet->getActiveSheet()->getStyle("B3")->applyFromArray([
+            'fill'    => $this->headerFill,
+            'borders' => $this->rightBorder
         ]);
         $this->spreadSheet->getActiveSheet()->setCellValue('B4', JText::_('COM_THM_ORGANIZER_SUMMARY'));
-        $this->spreadSheet->getActiveSheet()->getStyle("B4")->applyFromArray(['fill'    => $this->headerFill,
-                                                                              'borders' => $this->rightBorder
+        $this->spreadSheet->getActiveSheet()->getStyle("B4")->applyFromArray([
+            'fill'    => $this->headerFill,
+            'borders' => $this->rightBorder
         ]);
 
         $lastRow = $firstRow = 7;
@@ -327,8 +330,9 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle("B6")->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('B7', JText::_('COM_THM_ORGANIZER_ROOM_TYPE'));
         $this->spreadSheet->getActiveSheet()->getStyle("D6")->applyFromArray(['borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet()->getStyle("B7")->applyFromArray(['fill'    => $this->headerFill,
-                                                                              'borders' => $this->rightBorder
+        $this->spreadSheet->getActiveSheet()->getStyle("B7")->applyFromArray([
+            'fill'    => $this->headerFill,
+            'borders' => $this->rightBorder
         ]);
         $this->spreadSheet->getActiveSheet($sheetNumber)->setAutoFilter("A7:{$lastColumn}{$lastRow}");
 

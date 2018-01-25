@@ -142,8 +142,9 @@ class THM_OrganizerHelperCourse
             $campus         = ['id' => $course['abstractCampusID']];
             $campus['name'] = $redundant ? THM_OrganizerHelperCampuses::getName($course['abstractCampusID']) : null;
         } else {
-            $campus = ['id'   => $course['campusID'],
-                       'name' => THM_OrganizerHelperCampuses::getName($course['campusID'])
+            $campus = [
+                'id'   => $course['campusID'],
+                'name' => THM_OrganizerHelperCampuses::getName($course['campusID'])
             ];
         }
 

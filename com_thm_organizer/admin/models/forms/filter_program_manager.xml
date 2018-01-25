@@ -1,68 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
-        <field
-                name="search"
-                type="text"
-                label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-                hint="JSEARCH_FILTER"
-        />
-        <field
-                name="checkbox"
-                type="CheckAll"/>
-        <field
-                name="dp.name"
-                type="localizedlist"
-                valuecolumn="name"
-                textcolumn="name"
-                table="thm_organizer_programs"
-                label="COM_THM_ORGANIZER_NAME"
-                onchange="this.form.submit();"
-        >
+        <field name="search" type="text" label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="checkbox" type="CheckAll"/>
+        <field name="dp.name" type="localizedlist" valuecolumn="name" textcolumn="name" table="thm_organizer_programs"
+               label="COM_THM_ORGANIZER_NAME" onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field
-                name="degreeID"
-                type="genericlist"
-                valuecolumn="d.id"
-                textcolumn="d.abbreviation"
-                table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id"
-                label="COM_THM_ORGANIZER_DEGREE"
-                onchange="this.form.submit();"
-        >
+        <field name="degreeID" type="genericlist" valuecolumn="d.id" textcolumn="d.abbreviation"
+               table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id"
+               label="COM_THM_ORGANIZER_DEGREE" onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field
-                name="version"
-                type="genericlist"
-                valuecolumn="version"
-                textcolumn="version"
-                table="thm_organizer_programs"
-                label="COM_THM_ORGANIZER_VERSION"
-                onchange="this.form.submit();"
-        >
+        <field name="version" type="genericlist" valuecolumn="version" textcolumn="version"
+               table="thm_organizer_programs" label="COM_THM_ORGANIZER_VERSION" onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field
-                name="departmentID"
-                type="genericlist"
-                valuecolumn="d.id"
-                textcolumn="d.short_name"
-                localized="true"
-                table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID"
-                onchange="this.form.submit();">
+        <field name="departmentID" type="genericlist" valuecolumn="d.id" textcolumn="d.short_name" localized="true"
+               table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID"
+               onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
     </fields>
     <fields name="list">
-        <field
-                name="limit"
-                type="limitbox"
-                class="input-mini"
-                default="25"
-                label="COM_CONTENT_LIST_LIMIT"
-                description="COM_CONTENT_LIST_LIMIT_DESC"
-                onchange="this.form.submit();"
-        />
+        <field name="limit" type="limitbox" class="input-mini" default="25" label="COM_CONTENT_LIST_LIMIT"
+               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
 </form>

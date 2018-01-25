@@ -1,4 +1,4 @@
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
 	"use strict";
 	document.formvalidator.setHandler('ip',
 		function (value) {

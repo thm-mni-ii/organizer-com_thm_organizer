@@ -59,8 +59,9 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
         }
 
         $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
-        $params                 = ['view'     => 'participant_edit',
-                                   'lessonID' => empty($this->course) ? 0 : $this->course["id"]
+        $params                 = [
+            'view'     => 'participant_edit',
+            'lessonID' => empty($this->course) ? 0 : $this->course["id"]
         ];
         $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 

@@ -2,42 +2,18 @@
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
         <field name="id" type="hidden"/>
-        <field name="gpuntisID"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_GPUNTISID"
+        <field name="gpuntisID" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC"/>
-        <field name="name"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_NAME"
-               description="COM_THM_ORGANIZER_NAME_DESC"
-               required="true"/>
-        <field name="longname"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_DISPLAY_NAME"
-               description="COM_THM_ORGANIZER_DISPLAY_NAME_DESC"
-               required="true"/>
-        <field name="typeID"
-               type="genericlist"
-               valuecolumn="id"
-               textcolumn="name"
-               localized="true"
-               table="thm_organizer_room_types"
-               label="COM_THM_ORGANIZER_TYPE"
-               description="COM_THM_ORGANIZER_TYPE_DESC"
+        <field name="name" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_NAME"
+               description="COM_THM_ORGANIZER_NAME_DESC" required="true"/>
+        <field name="longname" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_DISPLAY_NAME"
+               description="COM_THM_ORGANIZER_DISPLAY_NAME_DESC" required="true"/>
+        <field name="typeID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
+               table="thm_organizer_room_types" label="COM_THM_ORGANIZER_TYPE" description="COM_THM_ORGANIZER_TYPE_DESC"
                required="true">
             <option value="">COM_THM_ORGANIZER_FILTER_TYPE</option>
         </field>
-        <field name="capacity"
-               type="integer"
-               label="COM_THM_ORGANIZER_CAPACITY"
-               description="COM_THM_ORGANIZER_CAPACITY_DESC"
-               last="500"
-               step="1"/>
+        <field name="capacity" type="integer" label="COM_THM_ORGANIZER_CAPACITY"
+               description="COM_THM_ORGANIZER_CAPACITY_DESC" last="500" step="1"/>
     </fieldset>
 </form>

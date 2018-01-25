@@ -84,10 +84,10 @@ jQuery(document).ready(function () {
 				.concat(mappingsTab)
 				.concat(hrs)
 				.forEach(
-				function (elem) {
-					elem.prop('hidden', true).trigger("liszt:updated");
-				}
-			);
+					function (elem) {
+						elem.prop('hidden', true).trigger("liszt:updated");
+					}
+				);
 		}
 		else
 		{

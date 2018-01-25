@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
-        <field name="id"
-               type="mergeID"
-               other="false"/>
-        <field name="gpuntisID"
-               type="mergeByValue"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_GPUNTISID"
-               description="COM_THM_ORGANIZER_GPUNTISID_DESC"
-               required="true"/>
-        <field name="name"
-               type="mergeByValue"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_NAME"
-               description="COM_THM_ORGANIZER_NAME_DESC"
-               required="true"/>
-        <field name="programID"
-               type="mergeByID"
-               textcolumn="p.name_de,p.version,d.abbreviation"
-               glue=", "
+        <field name="id" type="mergeID" other="false"/>
+        <field name="gpuntisID" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
+               description="COM_THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
+        <field name="name" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME"
+               description="COM_THM_ORGANIZER_NAME_DESC" required="true"/>
+        <field name="programID" type="mergeByID" textcolumn="p.name_de,p.version,d.abbreviation" glue=", "
                tables="thm_organizer_plan_programs AS ppr,thm_organizer_programs AS p ON ppr.programID = p.id,thm_organizer_degrees AS d ON p.degreeID = d.id"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_PROGRAM"
-               description="COM_THM_ORGANIZER_PROGRAM_DESC">
-        </field>
-        <field name="otherIDs"
-               type="mergeID"
-               other="true"/>
+               class="inputbox" label="COM_THM_ORGANIZER_PROGRAM" description="COM_THM_ORGANIZER_PROGRAM_DESC"></field>
+        <field name="otherIDs" type="mergeID" other="true"/>
     </fieldset>
 </form>

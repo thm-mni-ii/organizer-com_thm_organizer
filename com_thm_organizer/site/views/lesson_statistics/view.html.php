@@ -41,28 +41,29 @@ class THM_OrganizerViewLesson_Statistics extends JViewLegacy
     /**
      * Execute and display a template script.
      *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return  mixed  A string if successful, otherwise an Error object.
      */
     public function display($tpl = null)
     {
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
-        $params = ['view' => 'lesson_statistics'];
+        $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
+        $params                 = ['view' => 'lesson_statistics'];
         $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
-        $this->state = $this->get('State');
-        $this->form = $this->get('Form');
+        $this->state            = $this->get('State');
+        $this->form             = $this->get('Form');
         $this->form->setValue('planningPeriodID', null, $this->state->get('planningPeriodID'));
         $this->form->setValue('departmentID', null, $this->state->get('departmentID'));
         $this->form->setValue('programID', null, $this->state->get('programID'));
 
-        $model = $this->getModel();
+        $model         = $this->getModel();
         $this->columns = $model->columns;
-        $this->rows = $model->rows;
+        $this->rows    = $model->rows;
         $this->lessons = $model->lessons;
-        $this->total = $model->total;
+        $this->total   = $model->total;
 
         JFactory::getDocument()->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/lesson_statistics.css");
+
         return parent::display($tpl);
     }
 }

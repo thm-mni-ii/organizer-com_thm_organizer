@@ -79,6 +79,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
         // An empty/default value should not be allowed in a merge view.
         if (empty($selectedIDs)) {
             $options = array_merge($defaultOptions, $options);
+
             return $options;
         }
 

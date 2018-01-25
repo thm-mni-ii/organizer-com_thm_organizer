@@ -3,156 +3,63 @@
     <fieldset name="details" label="COM_THM_ORGANIZER_ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="departmentID"
-               type="departmentID"
-               action="manage"
-               label="COM_THM_ORGANIZER_DEPARTMENT"
-               description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-               required="true">
+        <field name="departmentID" type="departmentID" action="manage" label="COM_THM_ORGANIZER_DEPARTMENT"
+               description="COM_THM_ORGANIZER_DEPARTMENT_DESC" required="true">
             <option value="">COM_THM_ORGANIZER_FILTER_DEPARTMENT</option>
         </field>
-        <field name="lsfID"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_LSF_ID"
+        <field name="lsfID" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_LSF_ID"
                description="COM_THM_ORGANIZER_LSF_ID_DESC"/>
-        <field name="hisID"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_HIS_ID"
+        <field name="hisID" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_HIS_ID"
                description="COM_THM_ORGANIZER_HIS_ID_DESC"/>
-        <field name="externalID"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_MODULE_ID"
+        <field name="externalID" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_MODULE_ID"
                description="COM_THM_ORGANIZER_MODULE_ID_DESC"/>
-        <field name="fieldID"
-               type="genericlist"
-               valuecolumn="id"
-               textcolumn="field"
-               localized="true"
-               table="thm_organizer_fields"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_FIELD"
+        <field name="fieldID" type="genericlist" valuecolumn="id" textcolumn="field" localized="true"
+               table="thm_organizer_fields" class="inputbox" label="COM_THM_ORGANIZER_FIELD"
                description="COM_THM_ORGANIZER_FIELD_DESC">
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>
-        <field name="minCrP"
-               type="integer"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_CRP_MIN"
-               description="COM_THM_ORGANIZER_CRP_MIN_DESC"
-               required="true"
-               first="0"
-               last="120"
-               step="1"
-               default="24"/>
-        <field name="maxCrP"
-               type="integer"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_CRP_MAX"
-               description="COM_THM_ORGANIZER_CRP_MAX_DESC"
-               required="true"
-               first="0"
-               last="120"
-               step="1"
-               default="24"/>
+        <field name="minCrP" type="integer" class="inputbox" label="COM_THM_ORGANIZER_CRP_MIN"
+               description="COM_THM_ORGANIZER_CRP_MIN_DESC" required="true" first="0" last="120" step="1" default="24"/>
+        <field name="maxCrP" type="integer" class="inputbox" label="COM_THM_ORGANIZER_CRP_MAX"
+               description="COM_THM_ORGANIZER_CRP_MAX_DESC" required="true" first="0" last="120" step="1" default="24"/>
     </fieldset>
     <fieldset name="de" label="COM_THM_ORGANIZER_ATTRIBUTES_DE">
-        <field name="name_de"
-               type="text"
-               class="inputbox required"
-               size="40"
-               label="COM_THM_ORGANIZER_NAME_DE"
-               description="COM_THM_ORGANIZER_NAME_DE_DESC"
-               required="true"/>
-        <field name="short_name_de"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_SHORT_NAME_DE"
+        <field name="name_de" type="text" class="inputbox required" size="40" label="COM_THM_ORGANIZER_NAME_DE"
+               description="COM_THM_ORGANIZER_NAME_DE_DESC" required="true"/>
+        <field name="short_name_de" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_SHORT_NAME_DE"
                description="COM_THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
-        <field name="abbreviation_de"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_ABBREVIATION_DE"
+        <field name="abbreviation_de" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_ABBREVIATION_DE"
                description="COM_THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
-        <field name="description_de"
-               type="textarea"
-               class="inputbox"
-               cols="30"
-               row="3"
-               label="COM_THM_ORGANIZER_DESC_DE"
-               description="COM_THM_ORGANIZER_DESC_DE_DESC"/>
+        <field name="description_de" type="textarea" class="inputbox" cols="30" row="3"
+               label="COM_THM_ORGANIZER_DESC_DE" description="COM_THM_ORGANIZER_DESC_DE_DESC"/>
     </fieldset>
     <fieldset name="en" label="COM_THM_ORGANIZER_ATTRIBUTES_EN">
-        <field name="name_en"
-               type="text"
-               class="inputbox required"
-               size="40"
-               label="COM_THM_ORGANIZER_NAME_EN"
-               description="COM_THM_ORGANIZER_NAME_EN_DESC"
-               required="true"/>
-        <field name="short_name_en"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_SHORT_NAME_EN"
+        <field name="name_en" type="text" class="inputbox required" size="40" label="COM_THM_ORGANIZER_NAME_EN"
+               description="COM_THM_ORGANIZER_NAME_EN_DESC" required="true"/>
+        <field name="short_name_en" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_SHORT_NAME_EN"
                description="COM_THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
-        <field name="abbreviation_en"
-               type="text"
-               class="inputbox"
-               size="40"
-               label="COM_THM_ORGANIZER_ABBREVIATION_EN"
+        <field name="abbreviation_en" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_ABBREVIATION_EN"
                description="COM_THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
-        <field name="description_en"
-               type="textarea"
-               class="inputbox"
-               cols="30"
-               row="3"
-               label="COM_THM_ORGANIZER_DESC_EN"
-               description="COM_THM_ORGANIZER_DESC_EN_DESC"/>
+        <field name="description_en" type="textarea" class="inputbox" cols="30" row="3"
+               label="COM_THM_ORGANIZER_DESC_EN" description="COM_THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
     <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS" displayinitial="0">
-        <field name="programID"
-               type="programs"
-               access="true"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_PROGRAMS"
-               description="COM_THM_ORGANIZER_PROGRAMS_DESC"
-               required="false"/>
-        <field name="parentID"
-               type="parentpool"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_PARENT_POOLS"
-               description="COM_THM_ORGANIZER_PARENT_POOLS_DESC"
-               required="false"/>
-        <field name="children"
-               type="children"
-               label="COM_THM_ORGANIZER_CHILDREN"
+        <field name="programID" type="programs" access="true" class="inputbox" label="COM_THM_ORGANIZER_PROGRAMS"
+               description="COM_THM_ORGANIZER_PROGRAMS_DESC" required="false"/>
+        <field name="parentID" type="parentpool" class="inputbox" label="COM_THM_ORGANIZER_PARENT_POOLS"
+               description="COM_THM_ORGANIZER_PARENT_POOLS_DESC" required="false"/>
+        <field name="children" type="children" label="COM_THM_ORGANIZER_CHILDREN"
                description="COM_THM_ORGANIZER_CHILDREN_DESC"/>
     </fieldset>
     <fieldset name="appearance" label="COM_THM_ORGANIZER_APPEARANCE">
-        <field name="enable_desc"
-               type="list"
-               class="chzn-color-state"
-               label="COM_THM_ORGANIZER_DESC_ENABLE"
-               description="COM_THM_ORGANIZER_DESC_ENABLE_DESC"
-               default="0">
+        <field name="enable_desc" type="list" class="chzn-color-state" label="COM_THM_ORGANIZER_DESC_ENABLE"
+               description="COM_THM_ORGANIZER_DESC_ENABLE_DESC" default="0">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
-        <field name="display_type"
-               type="list"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_DISPLAY_METHOD"
-               description="COM_THM_ORGANIZER_DISPLAY_METHOD_DESC"
-               default="0">
+        <field name="display_type" type="list" class="inputbox" label="COM_THM_ORGANIZER_DISPLAY_METHOD"
+               description="COM_THM_ORGANIZER_DISPLAY_METHOD_DESC" default="0">
             <option value="0">COM_THM_ORGANIZER_FILTER_POPUP</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_INLINE</option>
         </field>

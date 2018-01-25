@@ -5,29 +5,13 @@
         <field name="checkbox" type="CheckAll"/>
     </fields>
     <fields name="list">
-        <field name="departmentID"
-               type="departmentID"
-               action="schedule"
-               label="COM_THM_ORGANIZER_DEPARTMENT"
-               description="COM_THM_ORGANIZER_DEPARTMENT_DESC"
-               required="true"
-               onchange="this.form.submit();"/>
-        <field name="programID"
-               type="genericlist"
-               valuecolumn="id"
-               textcolumn="name"
-               table="thm_organizer_plan_programs"
-               label="COM_THM_ORGANIZER_PROGRAM"
-               onchange="this.form.submit();">
+        <field name="departmentID" type="departmentID" action="schedule" label="COM_THM_ORGANIZER_DEPARTMENT"
+               description="COM_THM_ORGANIZER_DEPARTMENT_DESC" required="true" onchange="this.form.submit();"/>
+        <field name="programID" type="genericlist" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_plan_programs" label="COM_THM_ORGANIZER_PROGRAM" onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field name="limit"
-               type="limitbox"
-               class="input-mini"
-               default="25"
-               label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC"
-               onchange="this.form.submit();"
-        />
+        <field name="limit" type="limitbox" class="input-mini" default="25" label="COM_CONTENT_LIST_LIMIT"
+               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
 </form>

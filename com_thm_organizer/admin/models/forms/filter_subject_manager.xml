@@ -1,83 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
-        <field
-                name="search"
-                type="text"
-                label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC"
-                hint="JSEARCH_FILTER"/>
-        <field
-                name="checkbox"
-                type="CheckAll"/>
-        <field
-                name="name"
-                type="localizedlist"
-                valuecolumn="name"
-                textcolumn="name"
-                table="thm_organizer_subjects"
-                label="COM_THM_ORGANIZER_NAME"
-                onchange="this.form.submit();">
+        <field name="search" type="text" label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="checkbox" type="CheckAll"/>
+        <field name="name" type="localizedlist" valuecolumn="name" textcolumn="name" table="thm_organizer_subjects"
+               label="COM_THM_ORGANIZER_NAME" onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field
-                name="externalID"
-                type="genericlist"
-                valuecolumn="externalID"
-                textcolumn="externalID"
-                table="thm_organizer_subjects"
-                label="COM_THM_ORGANIZER_SUBJECT"
-                onchange="this.form.submit();">
+        <field name="externalID" type="genericlist" valuecolumn="externalID" textcolumn="externalID"
+               table="thm_organizer_subjects" label="COM_THM_ORGANIZER_SUBJECT" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="field"
-               type="localizedlist"
-               valuecolumn="field"
-               textcolumn="field"
-               table="thm_organizer_subjects AS s,thm_organizer_fields AS f ON f.id = s.fieldID"
-               class="inputbox"
-               label="COM_THM_ORGANIZER_FIELD"
-               description="COM_THM_ORGANIZER_FIELD_DESC"
+        <field name="field" type="localizedlist" valuecolumn="field" textcolumn="field"
+               table="thm_organizer_subjects AS s,thm_organizer_fields AS f ON f.id = s.fieldID" class="inputbox"
+               label="COM_THM_ORGANIZER_FIELD" description="COM_THM_ORGANIZER_FIELD_DESC"
                onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
     </fields>
     <fields name="list" addfieldpath="/media/com_thm_organizer/fields">
-        <field
-                name="is_prep_course"
-                type="genericlist"
-                label="COM_THM_ORGANIZER_SUBJECT"
-                onchange="this.form.submit();">
+        <field name="is_prep_course" type="genericlist" label="COM_THM_ORGANIZER_SUBJECT"
+               onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="1">COM_THM_ORGANIZER_FILTER_PREP_COURSES_YES</option>
             <option value="0">COM_THM_ORGANIZER_FILTER_PREP_COURSES_NO</option>
         </field>
-        <field
-                name="programID"
-                type="programID"
-                access="false"
-                label="COM_THM_ORGANIZER_PROGRAM"
-                onchange="this.form.submit();">
+        <field name="programID" type="programID" access="false" label="COM_THM_ORGANIZER_PROGRAM"
+               onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
             <option value="-1">JNONE</option>
         </field>
-        <field
-                name="poolID"
-                type="poolID"
-                access="true"
-                label="COM_THM_ORGANIZER_POOL"
-                onchange="this.form.submit();">
+        <field name="poolID" type="poolID" access="true" label="COM_THM_ORGANIZER_POOL" onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field
-                name="limit"
-                type="limitbox"
-                class="input-mini"
-                default="25"
-                label="COM_CONTENT_LIST_LIMIT"
-                description="COM_CONTENT_LIST_LIMIT_DESC"
-                onchange="this.form.submit();"/>
+        <field name="limit" type="limitbox" class="input-mini" default="25" label="COM_CONTENT_LIST_LIMIT"
+               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
 </form>

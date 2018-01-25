@@ -1,194 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-    <fieldset name="general"
-              label="COM_THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
+    <fieldset name="general" label="COM_THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
-        <field name="loginPosition"
-               type="modulesposition"
-               default=""
-               label="COM_THM_ORGANIZER_LOGIN_POSITION"
-               description="COM_THM_ORGANIZER_LOGIN_POSITION_DESC"
-               maxlength="50"/>
-        <field name="dateFormat"
-               label="COM_THM_ORGANIZER_DATE_FORMAT"
-               description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
-               type="text"
-               size="40"
-               required="true"
-               default="d.m.Y"/>
-        <field name="dateFormatShort"
-               label="COM_THM_ORGANIZER_DATE_FORMAT"
-               description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
-               type="text"
-               size="40"
-               required="true"
-               default="d.m"/>
-        <field name="timeFormat"
-               label="COM_THM_ORGANIZER_TIME_FORMAT"
-               description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"
-               type="text"
-               size="40"
-               required="true"
-               default="H:i"/>
-        <field name="backgroundColor"
-               type="color"
-               label="COM_THM_ORGANIZER_BACKGROUND_COLOR"
-               description="COM_THM_ORGANIZER_BACKGROUND_COLOR_DESC"
-               class="inputbox color"
-               size="10"
-               required="true"
+        <field name="loginPosition" type="modulesposition" default="" label="COM_THM_ORGANIZER_LOGIN_POSITION"
+               description="COM_THM_ORGANIZER_LOGIN_POSITION_DESC" maxlength="50"/>
+        <field name="dateFormat" label="COM_THM_ORGANIZER_DATE_FORMAT" description="COM_THM_ORGANIZER_DATE_FORMAT_DESC"
+               type="text" size="40" required="true" default="d.m.Y"/>
+        <field name="dateFormatShort" label="COM_THM_ORGANIZER_DATE_FORMAT"
+               description="COM_THM_ORGANIZER_DATE_FORMAT_DESC" type="text" size="40" required="true" default="d.m"/>
+        <field name="timeFormat" label="COM_THM_ORGANIZER_TIME_FORMAT" description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"
+               type="text" size="40" required="true" default="H:i"/>
+        <field name="backgroundColor" type="color" label="COM_THM_ORGANIZER_BACKGROUND_COLOR"
+               description="COM_THM_ORGANIZER_BACKGROUND_COLOR_DESC" class="inputbox color" size="10" required="true"
                default="#eeeeee"/>
-        <field name="lightTextColor"
-               type="color"
-               label="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR"
-               description="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC"
-               class="inputbox color"
-               size="10"
-               required="true"
+        <field name="lightTextColor" type="color" label="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR"
+               description="COM_THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC" class="inputbox color" size="10" required="true"
                default="#eeeeee"/>
-        <field name="darkTextColor"
-               type="color"
-               label="COM_THM_ORGANIZER_TEXT_DARK_COLOR"
-               description="COM_THM_ORGANIZER_TEXT_DARK_COLOR_DESC"
-               class="inputbox color"
-               size="10"
-               required="true"
+        <field name="darkTextColor" type="color" label="COM_THM_ORGANIZER_TEXT_DARK_COLOR"
+               description="COM_THM_ORGANIZER_TEXT_DARK_COLOR_DESC" class="inputbox color" size="10" required="true"
                default="#4a5c66"/>
     </fieldset>
-    <fieldset name="eCollab"
-              label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
+    <fieldset name="eCollab" label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_DESCRIPTION">
-        <field name="eCollabLink"
-               type="text"
-               size="60"
-               default="http://moodle.thm.de/course/view.php?idnumber="
-               label="COM_THM_ORGANIZER_URL"
-               description="COM_THM_ORGANIZER_ECOLLAB_DESC">
-        </field>
-        <field name="displayeCollabLink"
-               type="list"
-               default="0"
-               label="COM_THM_ORGANIZER_ECOLLAB_DISPLAY"
+        <field name="eCollabLink" type="text" size="60" default="http://moodle.thm.de/course/view.php?idnumber="
+               label="COM_THM_ORGANIZER_URL" description="COM_THM_ORGANIZER_ECOLLAB_DESC"></field>
+        <field name="displayeCollabLink" type="list" default="0" label="COM_THM_ORGANIZER_ECOLLAB_DISPLAY"
                description="COM_THM_ORGANIZER_ECOLLAB_DISPLAY_DESC">
             <option value='1'>JYES</option>
             <option value='0'>JNO</option>
         </field>
     </fieldset>
-    <fieldset name="LSF-Service"
-              label="COM_THM_ORGANIZER_LSF_SETTINGS_TITLE"
+    <fieldset name="LSF-Service" label="COM_THM_ORGANIZER_LSF_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_LSF_SETTINGS_DESCRIPTION">
-        <field name="wsURI"
-               type="text"
-               size="100"
-               label="COM_THM_ORGANIZER_LSF_URI"
-               description="COM_THM_ORGANIZER_LSF_URI_DESC">
-        </field>
-        <field name="wsUsername"
-               type="text"
-               size="30"
-               label="COM_THM_ORGANIZER_LSF_USERNAME"
-               description="COM_THM_ORGANIZER_LSF_USERNAME_DESC">
-        </field>
-        <field name="wsPassword"
-               type="text"
-               size="30"
-               label="COM_THM_ORGANIZER_PASSWORD"
-               description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC">
-        </field>
+        <field name="wsURI" type="text" size="100" label="COM_THM_ORGANIZER_LSF_URI"
+               description="COM_THM_ORGANIZER_LSF_URI_DESC"></field>
+        <field name="wsUsername" type="text" size="30" label="COM_THM_ORGANIZER_LSF_USERNAME"
+               description="COM_THM_ORGANIZER_LSF_USERNAME_DESC"></field>
+        <field name="wsPassword" type="text" size="30" label="COM_THM_ORGANIZER_PASSWORD"
+               description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC"></field>
     </fieldset>
-    <fieldset name="monitors"
-              label="COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE"
+    <fieldset name="monitors" label="COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE"
               description="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
-        <field name="display"
-               id="display"
-               type="list"
-               label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
-               description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC"
-               class="inputbox">
+        <field name="display" id="display" type="list" label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
+               description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC" class="inputbox">
             <option value='1'>COM_THM_ORGANIZER_DAILY_PLAN</option>
             <option value='2'>COM_THM_ORGANIZER_MIXED_PLAN</option>
             <option value='3'>COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
             <option value='4'>COM_THM_ORGANIZER_LESSON_LIST</option>
         </field>
-        <field name="schedule_refresh"
-               id="schedule_refresh"
-               type="integer"
-               label="COM_THM_ORGANIZER_SCHEDULE_REFRESH"
-               description="COM_THM_ORGANIZER_SCHEDULE_REFRESH_DESC"
-               first="10"
-               last="990"
-               step="10"
-               default="60"/>
-        <field name="content_refresh"
-               id="content_refresh"
-               type="integer"
-               label="COM_THM_ORGANIZER_CONTENT_REFRESH"
-               description="COM_THM_ORGANIZER_CONTENT_REFRESH_DESC"
-               first="10"
-               last="990"
-               step="10"
-               default="60"/>
-        <field name="content"
-               id="content"
-               type="filelist"
-               label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
-               description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC"
-               directory="images/thm_organizer/"
-               exclude=""/>
+        <field name="schedule_refresh" id="schedule_refresh" type="integer" label="COM_THM_ORGANIZER_SCHEDULE_REFRESH"
+               description="COM_THM_ORGANIZER_SCHEDULE_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
+        <field name="content_refresh" id="content_refresh" type="integer" label="COM_THM_ORGANIZER_CONTENT_REFRESH"
+               description="COM_THM_ORGANIZER_CONTENT_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
+        <field name="content" id="content" type="filelist" label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
+               description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC" directory="images/thm_organizer/" exclude=""/>
     </fieldset>
-    <fieldset name="prepCourse"
-              label="COM_THM_ORGANIZER_PREP_COURSES"
-              description="COM_THM_ORGANIZER_PREP_COURSE_SETTINGS_DESC"
-              addfieldpath="/media/com_thm_organizer/fields">
-        <field name="representativeName"
-               type="text"
-               label="COM_THM_ORGANIZER_REPRESENTATIVE"
-               description="COM_THM_ORGANIZER_REPRESENTATIVE_DESC"
-               size="60"
-               default="Prof. Dr. Matthias Willems"/>
-        <field name="signatureFile"
-               type="imagelist"
-               hide_none="true"
-               directory="media/com_thm_organizer/images"
-               label="COM_THM_ORGANIZER_SIGNATURE_FILE"
-               description="COM_THM_ORGANIZER_SIGNATURE_FILE_DESC"
-               size="60"
+    <fieldset name="prepCourse" label="COM_THM_ORGANIZER_PREP_COURSES"
+              description="COM_THM_ORGANIZER_PREP_COURSE_SETTINGS_DESC" addfieldpath="/media/com_thm_organizer/fields">
+        <field name="representativeName" type="text" label="COM_THM_ORGANIZER_REPRESENTATIVE"
+               description="COM_THM_ORGANIZER_REPRESENTATIVE_DESC" size="60" default="Prof. Dr. Matthias Willems"/>
+        <field name="signatureFile" type="imagelist" hide_none="true" directory="media/com_thm_organizer/images"
+               label="COM_THM_ORGANIZER_SIGNATURE_FILE" description="COM_THM_ORGANIZER_SIGNATURE_FILE_DESC" size="60"
                default="unterschrift-willems.png"/>
-        <field name="address"
-               type="text"
-               label="COM_THM_ORGANIZER_ADDRESS"
-               description="COM_THM_ORGANIZER_CONTACT_ADDRESS_DESC"
-               size="100"
+        <field name="address" type="text" label="COM_THM_ORGANIZER_ADDRESS"
+               description="COM_THM_ORGANIZER_CONTACT_ADDRESS_DESC" size="100"
                default="Technische Hochschule Mittelhessen – Wiesenstraße 14 – 35390 Gießen"/>
-        <field name="contact"
-               type="text"
-               label="COM_THM_ORGANIZER_CONTACT"
-               description="COM_THM_ORGANIZER_CONTACT_DESC"
-               size="100"
-               default="Tel.: 0641/309 0 – Fax: 0641/309 2901 – www.thm.de"/>
-        <field name="mailSender"
-               type="user"
-               label="COM_THM_ORGANIZER_SENDER"
-               description="COM_THM_ORGANIZER_SENDER_DESC"
-               default=""/>
-        <field name="deadline"
-               type="number"
-               min="1"
-               max="360"
-               label="COM_THM_ORGANIZER_DEADLINE"
-               description="COM_THM_ORGANIZER_DEADLINE_DESC"
-               default="5"/>
-
+        <field name="contact" type="text" label="COM_THM_ORGANIZER_CONTACT" description="COM_THM_ORGANIZER_CONTACT_DESC"
+               size="100" default="Tel.: 0641/309 0 – Fax: 0641/309 2901 – www.thm.de"/>
+        <field name="mailSender" type="user" label="COM_THM_ORGANIZER_SENDER"
+               description="COM_THM_ORGANIZER_SENDER_DESC" default=""/>
+        <field name="deadline" type="number" min="1" max="360" label="COM_THM_ORGANIZER_DEADLINE"
+               description="COM_THM_ORGANIZER_DEADLINE_DESC" default="5"/>
     </fieldset>
-    <fieldset name="permissions"
-              label="JCONFIG_PERMISSIONS_LABEL"
-              description="JCONFIG_PERMISSIONS_DESC">
-        <field name="rules"
-               type="rules"
-               label="JCONFIG_PERMISSIONS_LABEL"
-               validate="rules"
-               filter="rules"
-               component="com_thm_organizer"
-               section="component"/>
+    <fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+        <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" validate="rules" filter="rules"
+               component="com_thm_organizer" section="component"/>
     </fieldset>
 </config>
