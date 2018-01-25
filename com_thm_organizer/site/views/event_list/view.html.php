@@ -29,22 +29,11 @@ class THM_OrganizerViewEvent_List extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $this->modifyDocument();
+        JFactory::getDocument()->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/event_list.css");
         $model       = $this->getModel();
         $this->model = $model;
         $layout      = $model->params['layout'];
         $this->setLayout($layout);
         parent::display($tpl);
-    }
-
-    /**
-     * Adds css and javascript files to the document
-     *
-     * @return  void  modifies the document
-     */
-    private function modifyDocument()
-    {
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/event_list.css");
     }
 }
