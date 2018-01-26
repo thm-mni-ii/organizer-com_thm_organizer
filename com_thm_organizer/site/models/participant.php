@@ -36,7 +36,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
         $canAccept = (int)THM_OrganizerHelperCourses::canAcceptParticipant($courseID);
         $state     = $state == 1 ? $canAccept : 2;
 
-        return THM_OrganizerHelperParticipant::changeState($participantID, $courseID, $state);
+        return THM_OrganizerHelperParticipants::changeState($participantID, $courseID, $state);
     }
 
     /**

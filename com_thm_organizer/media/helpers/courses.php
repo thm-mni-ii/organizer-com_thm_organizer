@@ -650,7 +650,7 @@ class THM_OrganizerHelperCourses
             }
 
             if (!empty($nextParticipantID)) {
-                THM_OrganizerHelperParticipant::changeState($nextParticipantID, $courseID, 1);
+                THM_OrganizerHelperParticipants::changeState($nextParticipantID, $courseID, 1);
             }
         }
     }

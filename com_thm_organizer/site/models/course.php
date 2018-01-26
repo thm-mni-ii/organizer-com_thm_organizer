@@ -44,7 +44,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
         $return = true;
 
         foreach ($data["checked"] as $participantID) {
-            $success = THM_OrganizerHelperParticipant::changeState($participantID, $formData['id'], $state);
+            $success = THM_OrganizerHelperParticipants::changeState($participantID, $formData['id'], $state);
 
             if (empty($success)) {
                 return false;

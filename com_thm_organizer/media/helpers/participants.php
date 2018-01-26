@@ -21,7 +21,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.media
  */
-class THM_OrganizerHelperParticipant
+class THM_OrganizerHelperParticipants
 {
     /**
      * Changes a participants state.
