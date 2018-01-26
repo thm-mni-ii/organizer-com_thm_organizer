@@ -24,15 +24,16 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
-    public $courses = null;
+    const PENDING = 0;
+    const REGISTERED = 1;
+
+    public $color = 'blue';
+
+    public $courses = [];
 
     public $disclaimer;
 
     public $disclaimerData;
-
-    public $isAdmin = false;
-
-    public $isCourse = false;
 
     public $languageSwitches = [];
 
@@ -43,8 +44,6 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
     public $menu;
 
     public $showRegistration = false;
-
-    public $status = null;
 
     public $subjectID;
 
@@ -67,31 +66,37 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
             $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
         }
 
-        if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course)) {
-            $this->isCourse = true;
-            $courses        = THM_OrganizerHelperCourses::getLatestCourses($this->subjectID);
-            $this->isAdmin  = THM_OrganizerHelperCourses::isCourseAdmin($this->subjectID, 'subject');
+        $courses = THM_OrganizerHelperCourses::getLatestCourses($this->subjectID);
 
-            if (!empty($courses) OR $this->isAdmin) {
-                $this->showRegistration = true;
+        if (!empty($courses)) {
+            $this->showRegistration = true;
+            $isCoordinator = THM_OrganizerHelperSubjects::isCoordinator($this->subjectID);
 
-                foreach ($courses AS $key => &$course) {
-                    $courseID           = $course['id'];
-                    $expired            = !THM_OrganizerHelperCourses::isRegistrationOpen($courseID);
-                    $course['expired']  = $expired;
-                    $regState           = THM_OrganizerHelperCourses::getParticipantState($courseID);
-                    $course['status']   = empty($regState) ? null : (int)$regState["status"];
-                    $this->status       = ($this->status === 1 OR $course['status'] === null) ? $this->status : $course['status'];
-                    $course['dateText'] = THM_OrganizerHelperCourses::getDateDisplay($courseID);
+            foreach ($courses AS $key => &$course) {
+                $courseID                     = $course['id'];
+                $course['dateText']           = THM_OrganizerHelperCourses::getDateDisplay($courseID);
+                $course['expired']            = !THM_OrganizerHelperCourses::isRegistrationOpen($courseID);
+                $course['registrationButton'] = THM_OrganizerHelperCourses::getActionButton('subject', $courseID);
+                $regState                     = THM_OrganizerHelperCourses::getParticipantState($courseID);
+                $course['status']             = empty($regState) ? null : (int)$regState["status"];
+                $course['statusDisplay']      = THM_OrganizerHelperCourses::getStatusDisplay($courseID);
 
-                    $course['statusDisplay']
-                        = THM_OrganizerHelperCourses::getStatusDisplay($courseID, $this->isAdmin, $expired);
-                    $course['registrationButton']
-                        = THM_OrganizerHelperCourses::getActionButton('subject', $courseID, $this->isAdmin, $expired);
+                // Course administrators are green
+                $isTeacher = THM_OrganizerHelperCourses::isTeacher($courseID);
+                if ($isCoordinator OR $isTeacher) {
+                    $this->color = 'green';
+                    continue;
                 }
 
-                $this->courses = $courses;
+                // Make no change if the course has no status information or if the status color has already been set to green.
+                if ($course['status'] === null OR $this->status === 'green') {
+                    continue;
+                }
+
+                $this->color = $course['status'] === self::REGISTERED ? 'green' : 'yellow';
             }
+
+            $this->courses = $courses;
         }
 
         THM_OrganizerHelperComponent::addMenuParameters($this);
@@ -121,10 +126,10 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $label .= empty($constant) ? strtoupper($index) : strtoupper($constant);
 
         ?>
-		<div class="subject-item">
-			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
-			<div class="subject-content"><?php echo $this->item->$index; ?></div>
-		</div>
+        <div class="subject-item">
+            <div class="subject-label"><?php echo $this->lang->_($label); ?></div>
+            <div class="subject-content"><?php echo $this->item->$index; ?></div>
+        </div>
         <?php
     }
 
@@ -159,12 +164,12 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         }
         ?>
 
-		<div class="subject-item">
-			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
-			<div class="subject-content">
+        <div class="subject-item">
+            <div class="subject-label"><?php echo $this->lang->_($label); ?></div>
+            <div class="subject-content">
                 <?php echo $value; ?>
-			</div>
-		</div>
+            </div>
+        </div>
         <?php
     }
 
@@ -201,10 +206,10 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $constant = 'COM_THM_ORGANIZER_' . strtoupper($index);
 
         ?>
-		<div class="subject-item">
-			<div class="subject-label"><?php echo $this->lang->_($constant); ?></div>
-			<div class="subject-content"><?php echo $allowedValues[$value]; ?></div>
-		</div>
+        <div class="subject-item">
+            <div class="subject-label"><?php echo $this->lang->_($constant); ?></div>
+            <div class="subject-content"><?php echo $allowedValues[$value]; ?></div>
+        </div>
         <?php
         return;
     }
@@ -226,10 +231,10 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
 
         ?>
-		<div class="subject-item">
-			<div class="subject-label"><?php echo $this->lang->_($label); ?></div>
-			<div class="subject-content"><?php echo $value; ?></div>
-		</div>
+        <div class="subject-item">
+            <div class="subject-label"><?php echo $this->lang->_($label); ?></div>
+            <div class="subject-content"><?php echo $value; ?></div>
+        </div>
         <?php
     }
 

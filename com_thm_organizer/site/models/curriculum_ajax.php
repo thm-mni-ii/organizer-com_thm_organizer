@@ -87,13 +87,11 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
     }
 
     /**
-     * Retrieves pool specific information
+     * Retrieves pool specific information.
      *
      * @param int    $poolID  the id of the pool being sought
      * @param string $langTag the current display language
-     *
      * @return  mixed  The return value or null if the query failed.
-     *
      * @throws  exception
      */
     private function getPoolData($poolID, $langTag)

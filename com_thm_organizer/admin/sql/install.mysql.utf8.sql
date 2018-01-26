@@ -560,6 +560,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
   `duration`                     INT(2) UNSIGNED           DEFAULT 1,
   `is_prep_course`               INT(1) UNSIGNED  NOT NULL DEFAULT 1,
   `max_participants`             INT(4) UNSIGNED           DEFAULT NULL,
+  `registration_type`            INT(1) UNSIGNED           DEFAULT NULL
+  COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
   PRIMARY KEY (`id`),
   KEY `frequencyID` (`frequencyID`),
   KEY `fieldID` (`fieldID`),

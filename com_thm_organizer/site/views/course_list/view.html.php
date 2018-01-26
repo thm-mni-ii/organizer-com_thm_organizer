@@ -1,8 +1,7 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
  * @copyright   2017 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -17,10 +16,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 
 /**
  * Class which loads data into the view output context
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
  */
 class THM_OrganizerViewCourse_List extends JViewLegacy
 {
@@ -63,7 +58,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
         $this->setFilters();
 
         foreach ($this->items AS &$item) {
-            $item->admin = THM_OrganizerHelperCourses::isCourseAdmin($item->subjectID, 'subject');
+            $item->admin = THM_OrganizerHelperCourses::isTeacher($item->lessonID);
         }
 
         parent::display($tpl);
@@ -105,7 +100,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
             = THM_OrganizerHelperComponent::selectBox($campusOptions, 'filter_campus', $attribs,
             $this->state->filter_campus, $default);
 
-        if (THM_OrganizerHelperCourses::isCourseAdmin()) {
+        if (THM_OrganizerHelperCourses::isTeacher()) {
             $activeOptions = [
                 "pending" => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
                 "current" => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),

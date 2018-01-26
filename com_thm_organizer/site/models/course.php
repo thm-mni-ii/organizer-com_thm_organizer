@@ -70,9 +70,8 @@ class THM_OrganizerModelCourse extends JModelLegacy
         $input = JFactory::getApplication()->input;
 
         $courseID  = $input->get("lessonID", 0);
-        $subjectID = $input->get("subjectID", 0);
 
-        if (empty($courseID) OR empty(THM_OrganizerHelperCourses::isCourseAdmin($subjectID, 'subject'))) {
+        if (empty($courseID) OR empty(THM_OrganizerHelperCourses::isTeacher($courseID))) {
             JError::raiseError(401, 'Unauthorized');
         }
 

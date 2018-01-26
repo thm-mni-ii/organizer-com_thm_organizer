@@ -196,4 +196,50 @@ class THM_OrganizerHelperSubjects
 
         return $names;
     }
+
+    /**
+     * Check if user is registered as a subject's teacher, optionally for a specific subject
+     *
+     * @param int $subjectID id of the course resource
+     *
+     * @return  boolean true if the user is a registered teacher, otherwise false
+     * @throws Exception
+     */
+    public static function isCoordinator($subjectID = 0)
+    {
+        $user = JFactory::getUser();
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        if ($user->authorise('core.admin', "com_thm_organizer")) {
+            return true;
+        }
+
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+
+        $query->select("COUNT(*)")
+            ->from('#__thm_organizer_subject_teachers AS st')
+            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = st.teacherID')
+            ->where("t.username = '{$user->username}'");
+
+        // The difference between A subject and THE subject
+        if (!empty($subjectID)) {
+            $query->where("st.subjectID = '$subjectID'");
+        }
+
+        $dbo->setQuery($query);
+
+        try {
+            $assocCount = $dbo->loadResult();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+            return false;
+        }
+
+        return !empty($assocCount);
+    }
 }

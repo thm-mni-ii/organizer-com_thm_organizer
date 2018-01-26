@@ -38,11 +38,10 @@ foreach ($this->items as $item) {
 		<td><?php echo $displayDate; ?></td>
 		<td class="course-state"><?php echo $courseStatus ?></td>
 		<td class="user-state">
-            <?php echo THM_OrganizerHelperCourses::getStatusDisplay($item->lessonID, $item->admin, $item->expired); ?>
+            <?php echo THM_OrganizerHelperCourses::getStatusDisplay($item->lessonID); ?>
 		</td>
 		<td class="registration">
-            <?php echo THM_OrganizerHelperCourses::getActionButton('participant', $item->lessonID, $item->admin,
-                $item->expired); ?>
+            <?php echo THM_OrganizerHelperCourses::getActionButton('participant', $item->lessonID); ?>
 		</td>
 	</tr>
     <?php

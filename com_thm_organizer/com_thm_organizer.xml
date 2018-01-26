@@ -29,7 +29,6 @@
             <schemapath type="mysqli">sql/updates/mysql</schemapath>
         </schemas>
     </update>
-
     <media destination="com_thm_organizer" folder="media">
         <folder>css</folder>
         <folder>fields</folder>
@@ -44,7 +43,6 @@
         <folder>templates</folder>
         <folder>views</folder>
     </media>
-
     <files folder="site">
         <filename>thm_organizer.php</filename>
         <filename>controller.php</filename>

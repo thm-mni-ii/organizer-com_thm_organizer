@@ -12,8 +12,6 @@
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $containerClass = $this->showRegistration ? ' uses-login' : '';
 
-$color = ($this->status === null) ? 'blue' : ($this->status === 1 OR $this->isAdmin) ? 'green' : 'yellow';
-
 if (!empty($this->menu)) {
     $menuID   = $this->menu['id'];
     $menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
@@ -68,7 +66,7 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
 				<div class="clear"></div>
 			</div>
         <?php else: ?>
-			<div class="tbox-<?php echo $color; ?> course-status">
+			<div class="tbox-<?php echo $this->color; ?> course-status">
 				<div class="status-container left">
                     <?php
                     foreach ($this->courses AS $course) {
@@ -103,7 +101,7 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
         <?php endif; ?>
     <?php endif;
 
-    if ($this->isCourse) {
+    if (!empty($this->courses)) {
         if (!empty($this->item->campusID)) {
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
             $campusName     = THM_OrganizerHelperCampuses::getName($this->item->campusID);

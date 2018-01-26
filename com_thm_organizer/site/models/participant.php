@@ -11,7 +11,7 @@
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participant.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participants.php';
 
 /**
  * Class provides methods for handling course participants

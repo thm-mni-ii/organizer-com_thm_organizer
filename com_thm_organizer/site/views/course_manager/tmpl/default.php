@@ -11,10 +11,8 @@
  */
 
 $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-$baseURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
-
-$editAuth       = THM_OrganizerHelperComponent::allowResourceManage('subject', $this->course["subjectID"]);
-$subjectEditURL = "$baseURL&view=subject_edit&id={$this->course["subjectID"]}";
+$editURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
+$editURL .= "&view=subject_edit&id={$this->course["subjectID"]}";
 
 if (!empty($this->menu)) {
     $menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
@@ -35,8 +33,8 @@ if (!empty($this->menu)) {
 		<div class="left"><?php echo $this->dateText ?></div>
 	</div>
 	<div class="right">
-        <?php if ($editAuth): ?>
-			<a href="<?php echo JRoute::_($subjectEditURL, false); ?>" class="btn btn-mini" type="button">
+        <?php if (THM_OrganizerHelperSubjects::isCoordinator($this->course["subjectID"])): ?>
+			<a href="<?php echo JRoute::_($editURL, false); ?>" class="btn btn-mini" type="button">
 				<span class="icon-edit"></span>
                 <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_COURSE_DESCRIPTION") ?>
 			</a>
