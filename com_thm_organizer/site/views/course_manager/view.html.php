@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -58,25 +58,25 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $this->lang = THM_OrganizerHelperLanguage::getLanguage();
         $lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
 
-        if (empty($lessonID) OR !THM_OrganizerHelperCourse::isCourseAdmin($lessonID, 'course')) {
+        if (empty($lessonID) OR !THM_OrganizerHelperCourses::isCourseAdmin($lessonID, 'course')) {
             JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
         }
 
-        $this->course       = THM_OrganizerHelperCourse::getCourse();
+        $this->course       = THM_OrganizerHelperCourses::getCourse();
         $courseID           = empty($this->course) ? 0 : $this->course["id"];
-        $this->participants = THM_OrganizerHelperCourse::getParticipants($courseID);
+        $this->participants = THM_OrganizerHelperCourses::getParticipants($courseID);
         $this->form         = $this->get('Form');
         $this->form->setValue('id', null, $this->course['id']);
-        $this->dateText = THM_OrganizerHelperCourse::getDateDisplay();
+        $this->dateText = THM_OrganizerHelperCourses::getDateDisplay();
 
         $allowedParticipants = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
         $this->form->setValue('max_participants', null, $allowedParticipants);
-        $accepted           = count(THM_OrganizerHelperCourse::getParticipants($courseID, 1));
-        $waiting            = count(THM_OrganizerHelperCourse::getParticipants($courseID, 0));
+        $accepted           = count(THM_OrganizerHelperCourses::getParticipants($courseID, 1));
+        $waiting            = count(THM_OrganizerHelperCourses::getParticipants($courseID, 0));
         $capacityText       = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
         $this->capacityText = sprintf($capacityText, $accepted, $allowedParticipants, $waiting);
 
-        $this->course['campus'] = THM_OrganizerHelperCourse::getCampus($this->course);
+        $this->course['campus'] = THM_OrganizerHelperCourses::getCampus($this->course);
         $this->form->setValue('campusID', null, $this->course['campus']['id']);
         THM_OrganizerHelperComponent::addMenuParameters($this);
 

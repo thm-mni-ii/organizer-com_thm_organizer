@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
  * Class provides methods for editing the subject table in frontend
@@ -51,7 +51,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
             }
 
             if ($state === 0) {
-                THM_OrganizerHelperCourse::refreshWaitList($formData['id']);
+                THM_OrganizerHelperCourses::refreshWaitList($formData['id']);
             }
 
             $return = ($return AND $success);
@@ -72,7 +72,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
         $courseID  = $input->get("lessonID", 0);
         $subjectID = $input->get("subjectID", 0);
 
-        if (empty($courseID) OR empty(THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject'))) {
+        if (empty($courseID) OR empty(THM_OrganizerHelperCourses::isCourseAdmin($subjectID, 'subject'))) {
             JError::raiseError(401, 'Unauthorized');
         }
 
@@ -88,7 +88,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
             return false;
         }
 
-        $recipients = THM_OrganizerHelperCourse::getFullParticipantData($courseID, (bool)$data["includeWaitList"]);
+        $recipients = THM_OrganizerHelperCourses::getFullParticipantData($courseID, (bool)$data["includeWaitList"]);
 
         if (empty($recipients)) {
             return false;
@@ -158,7 +158,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
             return false;
         }
 
-        THM_OrganizerHelperCourse::refreshWaitList($courseID);
+        THM_OrganizerHelperCourses::refreshWaitList($courseID);
 
         return true;
     }

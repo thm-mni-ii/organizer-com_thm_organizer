@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
  * Class which loads data into the view output context
@@ -55,7 +55,7 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
             return;
         }
 
-        $authorized = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID, 'subject');
+        $authorized = THM_OrganizerHelperCourses::isCourseAdmin($this->subjectID, 'subject');
 
         if (!$authorized) {
             JError::raiseError(401, JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));

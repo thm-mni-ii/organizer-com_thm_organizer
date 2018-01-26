@@ -13,7 +13,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
  * Class which loads data into the view output context
@@ -49,13 +49,13 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
 
         $this->item   = $this->get('Item');
         $this->form   = $this->get('Form');
-        $this->course = THM_OrganizerHelperCourse::getCourse();
+        $this->course = THM_OrganizerHelperCourses::getCourse();
 
         if (!empty($this->course)) {
-            $dates                     = THM_OrganizerHelperCourse::getDates();
+            $dates                     = THM_OrganizerHelperCourses::getDates();
             $this->course['startDate'] = THM_OrganizerHelperComponent::formatDate($dates[0]['schedule_date']);
             $this->course['endDate']   = THM_OrganizerHelperComponent::formatDate(end($dates)['schedule_date']);
-            $this->course['open']      = THM_OrganizerHelperCourse::isRegistrationOpen();
+            $this->course['open']      = THM_OrganizerHelperCourses::isRegistrationOpen();
         }
 
         $this->lang             = THM_OrganizerHelperLanguage::getLanguage();

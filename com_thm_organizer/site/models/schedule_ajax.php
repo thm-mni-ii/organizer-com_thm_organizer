@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
@@ -238,7 +238,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
                 'userID'      => $userID,
                 'lessonID'    => $lessonID,
                 'user_date'   => date('Y-m-d H:i:s'),
-                'status'      => (int)THM_OrganizerHelperCourse::canAcceptParticipant($lessonID),
+                'status'      => (int)THM_OrganizerHelperCourses::canAcceptParticipant($lessonID),
                 'status_date' => date('Y-m-d H:i:s'),
             ];
 
@@ -307,7 +307,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
             return [$calReference->lessonID => [$ccmID]];
         }
 
-        $ccmIDs = THM_OrganizerHelperCourse::getInstances($calReference->lessonID, $mode, $calReference);
+        $ccmIDs = THM_OrganizerHelperCourses::getInstances($calReference->lessonID, $mode, $calReference);
 
         return empty($ccmIDs) ? [] : [$calReference->lessonID => $ccmIDs];
     }

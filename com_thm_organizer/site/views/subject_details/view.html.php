@@ -69,25 +69,25 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
         if (!empty($this->item->is_prep_course) OR !empty($this->item->is_course)) {
             $this->isCourse = true;
-            $courses        = THM_OrganizerHelperCourse::getLatestCourses($this->subjectID);
-            $this->isAdmin  = THM_OrganizerHelperCourse::isCourseAdmin($this->subjectID, 'subject');
+            $courses        = THM_OrganizerHelperCourses::getLatestCourses($this->subjectID);
+            $this->isAdmin  = THM_OrganizerHelperCourses::isCourseAdmin($this->subjectID, 'subject');
 
             if (!empty($courses) OR $this->isAdmin) {
                 $this->showRegistration = true;
 
                 foreach ($courses AS $key => &$course) {
                     $courseID           = $course['id'];
-                    $expired            = !THM_OrganizerHelperCourse::isRegistrationOpen($courseID);
+                    $expired            = !THM_OrganizerHelperCourses::isRegistrationOpen($courseID);
                     $course['expired']  = $expired;
-                    $regState           = THM_OrganizerHelperCourse::getParticipantState($courseID);
+                    $regState           = THM_OrganizerHelperCourses::getParticipantState($courseID);
                     $course['status']   = empty($regState) ? null : (int)$regState["status"];
                     $this->status       = ($this->status === 1 OR $course['status'] === null) ? $this->status : $course['status'];
-                    $course['dateText'] = THM_OrganizerHelperCourse::getDateDisplay($courseID);
+                    $course['dateText'] = THM_OrganizerHelperCourses::getDateDisplay($courseID);
 
                     $course['statusDisplay']
-                        = THM_OrganizerHelperCourse::getStatusDisplay($courseID, $this->isAdmin, $expired);
+                        = THM_OrganizerHelperCourses::getStatusDisplay($courseID, $this->isAdmin, $expired);
                     $course['registrationButton']
-                        = THM_OrganizerHelperCourse::getActionButton('subject', $courseID, $this->isAdmin, $expired);
+                        = THM_OrganizerHelperCourses::getActionButton('subject', $courseID, $this->isAdmin, $expired);
                 }
 
                 $this->courses = $courses;

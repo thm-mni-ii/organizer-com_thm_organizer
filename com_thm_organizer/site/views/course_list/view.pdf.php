@@ -13,7 +13,7 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
  * Class which loads data into the view output context
@@ -37,9 +37,9 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 
         $lessonID  = $input->get("lessonID", 0);
         $type      = $input->get("type", 0);
-        $subjectID = THM_OrganizerHelperCourse::getCourse($lessonID)["subjectID"];
+        $subjectID = THM_OrganizerHelperCourses::getCourse($lessonID)["subjectID"];
 
-        if (!empty($subjectID) AND THM_OrganizerHelperCourse::isCourseAdmin($subjectID, 'subject')) {
+        if (!empty($subjectID) AND THM_OrganizerHelperCourses::isCourseAdmin($subjectID, 'subject')) {
             switch ($type) {
                 case 0:
                     require_once __DIR__ . "/tmpl/prep_course_participant_list.php";

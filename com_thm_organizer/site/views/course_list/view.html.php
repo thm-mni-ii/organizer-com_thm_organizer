@@ -11,7 +11,7 @@
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
@@ -63,7 +63,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
         $this->setFilters();
 
         foreach ($this->items AS &$item) {
-            $item->admin = THM_OrganizerHelperCourse::isCourseAdmin($item->subjectID, 'subject');
+            $item->admin = THM_OrganizerHelperCourses::isCourseAdmin($item->subjectID, 'subject');
         }
 
         parent::display($tpl);
@@ -105,7 +105,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
             = THM_OrganizerHelperComponent::selectBox($campusOptions, 'filter_campus', $attribs,
             $this->state->filter_campus, $default);
 
-        if (THM_OrganizerHelperCourse::isCourseAdmin()) {
+        if (THM_OrganizerHelperCourses::isCourseAdmin()) {
             $activeOptions = [
                 "pending" => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
                 "current" => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),
@@ -117,7 +117,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
                 = THM_OrganizerHelperComponent::selectBox($activeOptions, 'filter_status', $attribs,
                 $this->state->filter_status);
 
-            $subjectOptions = THM_OrganizerHelperCourse::prepCourseList();
+            $subjectOptions = THM_OrganizerHelperCourses::prepCourseList();
             $default        = [0 => $lang->_("COM_THM_ORGANIZER_ALL_COURSES")];
 
             $this->filters['filter_subject']

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -43,7 +43,7 @@ class THM_OrganizerController extends JControllerLegacy
             $app->redirect(JRoute::_($url, false));
         }
 
-        if (!THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], 'course')) {
+        if (!THM_OrganizerHelperCourses::isCourseAdmin($formData['id'], 'course')) {
             $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
             $app->redirect(JRoute::_($url, false));
         }
@@ -104,7 +104,7 @@ class THM_OrganizerController extends JControllerLegacy
         $url      = THM_OrganizerHelperComponent::getRedirectBase();
 
         // No chosen lesson => should not occur
-        if (empty($courseID) OR !THM_OrganizerHelperCourse::isRegistrationOpen()) {
+        if (empty($courseID) OR !THM_OrganizerHelperCourses::isRegistrationOpen()) {
             $app->redirect(JRoute::_($url, false));
         }
 
@@ -152,7 +152,7 @@ class THM_OrganizerController extends JControllerLegacy
 
         $type = 'error';
 
-        $userState = THM_OrganizerHelperCourse::getParticipantState();
+        $userState = THM_OrganizerHelperCourses::getParticipantState();
 
         // 1 = Register | 2 = Deregister
         $action = empty($userState) ? 1 : 2;
@@ -165,7 +165,7 @@ class THM_OrganizerController extends JControllerLegacy
             if (!empty($userState)) {
                 $msg = $lang->_("COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS");
             } else {
-                $newUserState = THM_OrganizerHelperCourse::getParticipantState();
+                $newUserState = THM_OrganizerHelperCourses::getParticipantState();
 
                 // This case should not occur.
                 if (is_null($newUserState)) {
@@ -220,7 +220,7 @@ class THM_OrganizerController extends JControllerLegacy
         $url        = THM_OrganizerHelperComponent::getRedirectBase();
 
         if ($modelName == 'subject' OR $modelName == 'course') {
-            $authorized = THM_OrganizerHelperCourse::isCourseAdmin($formData['id'], $modelName);
+            $authorized = THM_OrganizerHelperCourses::isCourseAdmin($formData['id'], $modelName);
         } elseif ($modelName == 'participant') {
             $authorized = JFactory::getUser()->id == $formData['id'];
         }

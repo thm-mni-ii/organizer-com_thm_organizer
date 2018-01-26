@@ -20,7 +20,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participant.php';
  * @package     thm_organizer
  * @subpackage  com_thm_organizer.media
  */
-class THM_OrganizerHelperCourse
+class THM_OrganizerHelperCourses
 {
     const MANUAL_ACCEPTANCE = 1;
     const PERIOD_MODE = 2;
@@ -100,7 +100,7 @@ class THM_OrganizerHelperCourse
                     $register = '';
                 } else {
                     $registerRoute = JRoute::_($registrationURL . $lessonURL);
-                    $disabled      = THM_OrganizerHelperCourse::isRegistrationOpen($lessonID) ? '' : 'disabled';
+                    $disabled      = self::isRegistrationOpen($lessonID) ? '' : 'disabled';
 
                     if (!empty($regState)) {
                         $registerText = '<span class="icon-out-2"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_DEREGISTER');
@@ -208,7 +208,7 @@ class THM_OrganizerHelperCourse
     {
         $lessonID = JFactory::getApplication()->input->getInt('lessonID', $lessonID);
 
-        $dates = THM_OrganizerHelperCourse::getDates($lessonID);
+        $dates = self::getDates($lessonID);
 
         if (!empty($dates)) {
             $dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');

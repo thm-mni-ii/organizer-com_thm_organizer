@@ -46,7 +46,7 @@ class THM_OrganizerModelCourse_List extends JModelList
                 }
             }
 
-            $course->campus = THM_OrganizerHelperCourse::getCampus($course);
+            $course->campus = THM_OrganizerHelperCourses::getCampus($course);
 
             $maxValues[$course->subjectID] = ['start' => $course->start, 'index' => $index];
         }

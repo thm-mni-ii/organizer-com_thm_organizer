@@ -9,7 +9,7 @@
  * @link        www.thm.de
  */
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participant.php';
 
@@ -33,7 +33,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
      */
     public function register($participantID, $courseID, $state)
     {
-        $canAccept = (int)THM_OrganizerHelperCourse::canAcceptParticipant($courseID);
+        $canAccept = (int)THM_OrganizerHelperCourses::canAcceptParticipant($courseID);
         $state     = $state == 1 ? $canAccept : 2;
 
         return THM_OrganizerHelperParticipant::changeState($participantID, $courseID, $state);

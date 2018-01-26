@@ -10,7 +10,7 @@
  */
 
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/course.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -57,7 +57,7 @@ class THM_OrganizerHelperParticipant
                 $data['user_date']     = $now;
                 $data['status_date']   = $now;
                 $data['status']        = $state;
-                $data['configuration'] = THM_OrganizerHelperCourse::getInstances($courseID);
+                $data['configuration'] = THM_OrganizerHelperCourses::getInstances($courseID);
 
                 $success = $table->save($data);
 
@@ -116,7 +116,7 @@ class THM_OrganizerHelperParticipant
         if (!empty($userParams["language"])) {
             $input->set('languageTag', explode("-", $userParams["language"])[0]);
         } else {
-            $officialAbbreviation = THM_OrganizerHelperCourse::getCourse($courseID)["instructionLanguage"];
+            $officialAbbreviation = THM_OrganizerHelperCourses::getCourse($courseID)["instructionLanguage"];
             $tag                  = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
             $input->set('languageTag', $tag);
         }
@@ -130,15 +130,15 @@ class THM_OrganizerHelperParticipant
 
         $mailer->setSender([$sender->email, $sender->name]);
 
-        $course   = THM_OrganizerHelperCourse::getCourse($courseID);
-        $dateText = THM_OrganizerHelperCourse::getDateDisplay($courseID);
+        $course   = THM_OrganizerHelperCourses::getCourse($courseID);
+        $dateText = THM_OrganizerHelperCourses::getDateDisplay($courseID);
 
         if (empty($course) OR empty($dateText)) {
             return;
         }
 
         $lang       = THM_OrganizerHelperLanguage::getLanguage();
-        $campus     = THM_OrganizerHelperCourse::getCampus($courseID);
+        $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
         $courseName = (empty($campus) OR empty($campus['name'])) ? $course["name"] : "{$course["name"]} ({$campus['name']})";
         $mailer->setSubject($courseName);
         $body = $lang->_("COM_THM_ORGANIZER_GREETING") . ",\n\n";
