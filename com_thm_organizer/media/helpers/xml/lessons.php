@@ -267,7 +267,7 @@ class THM_OrganizerHelperXMLLessons
         // Adjusted dates are used because effective dts are not always accurate for the time frame
         $potentialInstances = $this->truncateInstances($rawInstances, $startDT, $endDT);
 
-        $times = $lessonNode->xpath("times/time");
+        $times = $lessonNode->times->children();
 
         $gridName = empty((string)$lessonNode->timegrid) ? 'Haupt-Zeitraster' : (string)$lessonNode->timegrid;
 
