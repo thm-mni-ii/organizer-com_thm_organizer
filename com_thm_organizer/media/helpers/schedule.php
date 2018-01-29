@@ -19,6 +19,8 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/mapping.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
  * Class offering static schedule functions
@@ -61,13 +63,15 @@ class THM_OrganizerHelperSchedule
 
             if (empty($aggregatedLessons[$date][$times][$lessonID])) {
                 $aggregatedLessons[$date][$times][$lessonID]              = [];
-                $aggregatedLessons[$date][$times][$lessonID]['method']    = empty($lesson['method']) ? '' : $lesson['method'];
-                $aggregatedLessons[$date][$times][$lessonID]['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
-                $aggregatedLessons[$date][$times][$lessonID]['startTime'] = $lesson['startTime'];
-                $aggregatedLessons[$date][$times][$lessonID]['endTime']   = $lesson['endTime'];
-                $aggregatedLessons[$date][$times][$lessonID]['gridID']    = $lesson['gridID'];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects']  = [];
                 $aggregatedLessons[$date][$times][$lessonID]['ccmID']     = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
+                $aggregatedLessons[$date][$times][$lessonID]['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
+                $aggregatedLessons[$date][$times][$lessonID]['endTime']   = $lesson['endTime'];
+                $aggregatedLessons[$date][$times][$lessonID]['full']      = !THM_OrganizerHelperCourses::canAcceptParticipant($lessonID);
+                $aggregatedLessons[$date][$times][$lessonID]['gridID']    = $lesson['gridID'];
+                $aggregatedLessons[$date][$times][$lessonID]['method']    = empty($lesson['method']) ? '' : $lesson['method'];
+                $aggregatedLessons[$date][$times][$lessonID]['regType']   = $lesson['regType'];
+                $aggregatedLessons[$date][$times][$lessonID]['startTime'] = $lesson['startTime'];
+                $aggregatedLessons[$date][$times][$lessonID]['subjects']  = [];
 
                 $aggregatedLessons[$date][$times][$lessonID]['lessonDelta']
                     = (empty($lesson['lessonDelta']) OR $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
@@ -116,8 +120,8 @@ class THM_OrganizerHelperSchedule
             ];
 
             if (!empty($subjectData['subjectID'])) {
-                $programs                                                                                                     = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['subjectID']);
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['subjectID']] = $programs;
+                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['subjectID']]
+                    = THM_OrganizerHelperMapping::getSubjectPrograms($subjectData['subjectID']);
             }
         }
 
@@ -198,7 +202,7 @@ class THM_OrganizerHelperSchedule
      * @param array $parameters array of pool ids or a single pool id
      *
      * @throws Exception
-     * @return string
+     * @return array
      */
     public static function getLessons($parameters)
     {
@@ -207,6 +211,7 @@ class THM_OrganizerHelperSchedule
         $query = $dbo->getQuery(true);
 
         $select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
+        $select .= "l.registration_type AS regType, l.max_participants AS maxParties, ";
         $select .= "ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ";
         $select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, pool.gridID, ";
         $select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
@@ -297,7 +302,7 @@ class THM_OrganizerHelperSchedule
         $subjectsQuery->select($select)
             ->from('#__thm_organizer_subjects AS s')
             ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.subjectID = s.id')
-            ->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
+            ->leftJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
             ->where("sm.plan_subjectID ='{$lesson['psID']}'");
         $dbo->setQuery($subjectsQuery);
 
@@ -313,10 +318,10 @@ class THM_OrganizerHelperSchedule
 
         $tempMappings        = $mappedSubjects;
         $subject             = array_shift($tempMappings);
-        $return['subjectID'] = $subject['subjectID'];
+        $return['abbr']      = empty($subject['abbr']) ? $return['abbr'] : $subject['abbr'];
         $return['name']      = $subject['name'];
         $return['shortName'] = empty($subject['shortName']) ? $return['shortName'] : $subject['shortName'];
-        $return['abbr']      = empty($subject['abbr']) ? $return['abbr'] : $subject['abbr'];
+        $return['subjectID'] = $subject['subjectID'];
 
         if (count($mappedSubjects) === 1) {
             return $return;
@@ -511,6 +516,8 @@ class THM_OrganizerHelperSchedule
         $query = $dbo->getQuery(true);
 
         $query->select("MIN(c.schedule_date) AS minDate");
+        // Do not show dates from removed lessons
+        $parameters['delta'] = null;
         self::setLessonQuery($parameters, $query);
         $query->where("c.schedule_date > '" . $parameters['date'] . "'");
         $dbo->setQuery($query);

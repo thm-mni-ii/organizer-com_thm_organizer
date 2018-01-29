@@ -55,6 +55,13 @@ class THM_OrganizerViewSchedule extends JViewLegacy
     protected $deltaDays;
 
     /**
+     * Filter to indicate intern emails
+     *
+     * @var string
+     */
+    protected $emailFilter;
+
+    /**
      * mobile device or not
      *
      * @var boolean
@@ -66,7 +73,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
      *
      * @var string
      */
-    protected $languageTag = "de-DE";
+    protected $languageTag = 'de-DE';
 
     /**
      * Model to this view
@@ -90,6 +97,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
         $this->defaultGrid = $this->model->getDefaultGrid();
         $compParams        = JComponentHelper::getParams('com_thm_organizer');
         $this->dateFormat  = $compParams->get('dateFormat', 'd.m.Y');
+        $this->emailFilter = $compParams->get('emailFilter', '');
         $this->modifyDocument();
         parent::display($tpl);
     }
@@ -105,11 +113,11 @@ class THM_OrganizerViewSchedule extends JViewLegacy
 
         JHtml::_('formbehavior.chosen', 'select');
         $this->addScriptOptions();
-        $doc->addScript(JUri::root() . "media/com_thm_organizer/js/schedule.js");
+        $doc->addScript(JUri::root() . 'media/com_thm_organizer/js/schedule.js');
 
-        $doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/fonts/iconfont-frontend.css");
-        $doc->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/schedule.css");
-        $doc->addStyleSheet(JUri::root() . "media/jui/css/icomoon.css");
+        $doc->addStyleSheet(JUri::root() . 'media/com_thm_organizer/fonts/iconfont-frontend.css');
+        $doc->addStyleSheet(JUri::root() . 'media/com_thm_organizer/css/schedule.css');
+        $doc->addStyleSheet(JUri::root() . 'media/jui/css/icomoon.css');
     }
 
     /**
@@ -128,63 +136,39 @@ class THM_OrganizerViewSchedule extends JViewLegacy
             'INSTANCE_MODE'     => 3,
             'ajaxBase'          => $root . 'index.php?option=com_thm_organizer&view=schedule_ajax&format=raw',
             'auth'              => !empty($user->id) ?
-                urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT))
-                : '',
+                urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT)) : '',
             'dateFormat'        => $this->dateFormat,
             'defaultGrid'       => $this->defaultGrid->grid,
-            'deltaDays'         => $this->model->params['deltaDays'],
-            'departmentID'      => $this->model->params['departmentID'],
             'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
             'isMobile'          => $this->isMobile,
             'menuID'            => JFactory::getApplication()->input->get('Itemid', 0),
             'registered'        => !empty($user->id),
-            'showPools'         => $this->model->params['showPools'],
-            'showPrograms'      => $this->model->params['showPrograms'],
-            'showRooms'         => $this->model->params['showRooms'],
-            'showRoomTypes'     => $this->model->params['showRoomTypes'],
-            'showSubjects'      => $this->model->params['showSubjects'],
-            'showTeachers'      => $this->model->params['showTeachers'],
             'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
             'username'          => !empty($user->id) ? $user->username : ''
         ];
 
-        if (!empty($this->model->params['showUnpublished'])) {
-            $variables['showUnpublished'] = $this->model->params['showUnpublished'];
-        }
-
         $grids = [];
         foreach ($this->model->grids AS $grid) {
             $grids[$grid->id] = [
-                "id"   => $grid->id,
-                "grid" => $grid->grid
+                'id'   => $grid->id,
+                'grid' => $grid->grid
             ];
         }
         $variables['grids'] = $grids;
 
-        if (!empty($this->model->params['displayName'])) {
-            $variables['displayName'] = $this->model->params['displayName'];
-        }
-        if (!empty($this->model->params['poolIDs'])) {
-            $variables['poolIDs'] = $this->model->params['poolIDs'];
-        }
-        if (!empty($this->model->params['programIDs'])) {
-            $variables['programIDs'] = $this->model->params['programIDs'];
-        }
-        if (!empty($this->model->params['roomIDs'])) {
-            $variables['roomIDs'] = $this->model->params['roomIDs'];
-        }
-        if (!empty($this->model->params['roomTypeIDs'])) {
-            $variables['roomTypeIDs'] = $this->model->params['roomTypeIDs'];
-        }
-        if (!empty($this->model->params['subjectIDs'])) {
-            $variables['subjectIDs'] = $this->model->params['subjectIDs'];
-        }
-        if (!empty($this->model->params['teacherIDs'])) {
-            $variables['teacherIDs'] = $this->model->params['teacherIDs'];
+        if (empty($user->email)) {
+            $variables['internalUser'] = false;
+        } else {
+            if (empty($this->emailFilter)) {
+                $variables['internalUser'] = true;
+            } else {
+                $atSignPos                 = strpos($user->email, '@');
+                $variables['internalUser'] = strpos($user->email, $this->emailFilter, $atSignPos) !== false;
+            }
         }
 
         $doc = JFactory::getDocument();
-        $doc->addScriptOptions('variables', $variables);
+        $doc->addScriptOptions('variables', array_merge($variables, $this->model->params));
 
         JText::script('APRIL');
         JText::script('AUGUST');

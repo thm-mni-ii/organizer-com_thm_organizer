@@ -44,9 +44,9 @@ class THM_OrganizerHelperSubjects
     /**
      * Retrieves the (plan) subject name
      *
-     * @param int    $subjectID the table id for the subject
-     * @param string $type      the type of the id (real or plan)
-     *
+     * @param int     $subjectID the table id for the subject
+     * @param string  $type      the type of the id (real or plan)
+     * @param boolean $withNumber
      * @return string the (plan) subject name
      */
     public static function getName($subjectID, $type, $withNumber = false)
@@ -109,6 +109,7 @@ class THM_OrganizerHelperSubjects
     /**
      * Attempts to get the plan subject's id, creating it if non-existent.
      *
+     * @param string $subjectIndex
      * @param object $subject the subject object
      *
      * @return mixed int on success, otherwise null
@@ -137,7 +138,6 @@ class THM_OrganizerHelperSubjects
         $success = $table->save($data);
 
         return $success ? $table->id : null;
-
     }
 
     /**

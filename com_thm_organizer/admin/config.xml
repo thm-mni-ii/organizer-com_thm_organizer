@@ -10,6 +10,8 @@
                description="COM_THM_ORGANIZER_DATE_FORMAT_DESC" type="text" size="40" required="true" default="d.m"/>
         <field name="timeFormat" label="COM_THM_ORGANIZER_TIME_FORMAT" description="COM_THM_ORGANIZER_TIME_FORMAT_DESC"
                type="text" size="40" required="true" default="H:i"/>
+        <field name="emailFilter" type="text" label="COM_THM_ORGANIZER_EMAIL_FILTER"
+               description="COM_THM_ORGANIZER_EMAIL_FILTER_DESC" class="inputbox color" size="40" required="false"/>
         <field name="backgroundColor" type="color" label="COM_THM_ORGANIZER_BACKGROUND_COLOR"
                description="COM_THM_ORGANIZER_BACKGROUND_COLOR_DESC" class="inputbox color" size="10" required="true"
                default="#eeeeee"/>
@@ -23,7 +25,7 @@
     <fieldset name="eCollab" label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_DESCRIPTION">
         <field name="eCollabLink" type="text" size="60" default="http://moodle.thm.de/course/view.php?idnumber="
-               label="COM_THM_ORGANIZER_URL" description="COM_THM_ORGANIZER_ECOLLAB_DESC"></field>
+               label="COM_THM_ORGANIZER_URL" description="COM_THM_ORGANIZER_ECOLLAB_DESC"/>
         <field name="displayeCollabLink" type="list" default="0" label="COM_THM_ORGANIZER_ECOLLAB_DISPLAY"
                description="COM_THM_ORGANIZER_ECOLLAB_DISPLAY_DESC">
             <option value='1'>JYES</option>
@@ -33,11 +35,11 @@
     <fieldset name="LSF-Service" label="COM_THM_ORGANIZER_LSF_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_LSF_SETTINGS_DESCRIPTION">
         <field name="wsURI" type="text" size="100" label="COM_THM_ORGANIZER_LSF_URI"
-               description="COM_THM_ORGANIZER_LSF_URI_DESC"></field>
+               description="COM_THM_ORGANIZER_LSF_URI_DESC"/>
         <field name="wsUsername" type="text" size="30" label="COM_THM_ORGANIZER_LSF_USERNAME"
-               description="COM_THM_ORGANIZER_LSF_USERNAME_DESC"></field>
+               description="COM_THM_ORGANIZER_LSF_USERNAME_DESC"/>
         <field name="wsPassword" type="text" size="30" label="COM_THM_ORGANIZER_PASSWORD"
-               description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC"></field>
+               description="COM_THM_ORGANIZER_LSF_PASSWORD_DESC"/>
     </fieldset>
     <fieldset name="monitors" label="COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE"
               description="COM_THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">

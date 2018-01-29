@@ -13,9 +13,11 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
+/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class THM_OrganizerModelSchedule for loading the chosen schedule from the database
@@ -277,8 +279,24 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             /** @noinspection PhpIncludeInspection */
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-            $this->displayName           .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'][0],
-                'plan');
+            $this->displayName           .= THM_OrganizerHelperSubjects::getName($this->params['subjectIDs'][0], 'plan');
+            $this->params['displayName'] = $this->displayName;
+
+            return;
+        }
+
+        // Lessons are always visible, so only check input params
+        $this->setResourceArray('lesson');
+        if (!empty($this->params['lessonIDs'])) {
+            $this->params['showPools']     = 0;
+            $this->params['showPrograms']  = 0;
+            $this->params['showRooms']     = 0;
+            $this->params['showRoomTypes'] = 0;
+            $this->params['showTeachers']  = 0;
+
+            /** @noinspection PhpIncludeInspection */
+            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
+            $this->displayName           .= THM_OrganizerHelperCourses::getName($this->params['lessonIDs'][0]);
             $this->params['displayName'] = $this->displayName;
 
             return;

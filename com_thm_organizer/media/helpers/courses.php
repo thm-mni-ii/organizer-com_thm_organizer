@@ -32,7 +32,7 @@ class THM_OrganizerHelperCourses
      *
      * @param int $courseID identifier of course
      *
-     * @return bool true when course is full, false otherwise
+     * @return bool true when course can accept more participants, false otherwise
      * @throws Exception
      */
     public static function canAcceptParticipant($courseID)
@@ -111,7 +111,7 @@ class THM_OrganizerHelperCourses
                         $registerText = '<span class="icon-apply"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_REGISTER');
                     }
 
-                    $register = "<a class='btn' href='$registerRoute' class='$disabled' type='button'>$registerText</a>";
+                    $register = "<a class='btn $disabled' href='$registerRoute' type='button'>$registerText</a>";
                 }
             }
         } else {
@@ -158,7 +158,7 @@ class THM_OrganizerHelperCourses
     /**
      * Loads course information from the database
      *
-     * @param null $courseID int id of requested lesson
+     * @param int $courseID int id of requested lesson
      *
      * @return  array  with course data on success, otherwise empty
      * @throws Exception
@@ -268,7 +268,8 @@ class THM_OrganizerHelperCourses
     /**
      * Loads all all participants for specific course from database
      *
-     * @param int $courseID id of course to be loaded
+     * @param int     $courseID id of course to be loaded
+     * @param boolean $includeWaitList
      *
      * @return  array  with course registration data on success, otherwise empty
      * @throws Exception
@@ -602,8 +603,7 @@ class THM_OrganizerHelperCourses
     /**
      * Check if user is registered as a teacher, optionally for a specific course
      *
-     * @param int    $courseID id of the course resource
-     * @param string $type     the course resource type subject/course
+     * @param int $courseID id of the course resource
      *
      * @return  boolean if user is authorized
      * @throws Exception
@@ -635,7 +635,7 @@ class THM_OrganizerHelperCourses
             ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
             ->where("t.username = '{$user->username}'");
 
-        if (!empty($courseID)) {;
+        if (!empty($courseID)) {
             $query->where("ls.lessonID = '$courseID'");
         }
 
@@ -746,5 +746,41 @@ class THM_OrganizerHelperCourses
         }
 
         return $return;
+    }
+
+    /**
+     * Get name of course/lesson
+     *
+     * @param int $courseID
+     *
+     * @return string
+     */
+    public static function getName($courseID = 0)
+    {
+        $courseID = JFactory::getApplication()->input->getInt('lessonID', $courseID);
+
+        if (empty($courseID)) {
+            return '';
+        }
+
+        $lang  = THM_OrganizerHelperLanguage::getShortTag();
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("name_$lang")
+            ->from('#__thm_organizer_lesson_subjects AS ls')
+            ->innerJoin('#__thm_organizer_subject_mappings AS map ON map.plan_subjectID = ls.subjectID')
+            ->innerJoin('#__thm_organizer_subjects AS s ON s.id = map.subjectID')
+            ->where("ls.lessonID = '{$courseID}'");
+        $dbo->setQuery($query);
+
+        try {
+            $name = $dbo->loadResult();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+            return '';
+        }
+
+        return $name;
     }
 }

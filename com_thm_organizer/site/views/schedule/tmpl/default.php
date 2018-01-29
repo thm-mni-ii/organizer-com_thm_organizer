@@ -384,4 +384,20 @@ $displayName = empty($this->model->displayName) ?
 		</p>
 		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
 	</div>
+
+	<div id="reg-fifo" class="message pop-up">
+		<p>
+			<span class="icon-notification"></span>
+			<span><?php echo JText::_("COM_THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED"); ?></span>
+		</p>
+		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
+	</div>
+
+	<div id="reg-manual" class="message pop-up">
+		<p>
+			<span class="icon-notification"></span>
+			<span><?php echo JText::_("COM_THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST"); ?></span>
+		</p>
+		<button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
+	</div>
 </div>
