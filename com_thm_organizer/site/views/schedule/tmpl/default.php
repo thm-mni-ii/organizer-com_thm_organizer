@@ -205,7 +205,7 @@ $displayName = empty($this->model->displayName) ?
 
 			<div class="tab-panel" id="time-selection" role="tabpanel"
 				 aria-labelledby="tab-time" aria-hidden="false">
-				<select id="grid" required onchange="scheduleApp.updateSchedule('grid');">
+				<select id="grid" required onchange="scheduleApp.changeGrid();">
                     <?php
                     foreach ($this->getModel()->grids AS $grid) {
                         $checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
