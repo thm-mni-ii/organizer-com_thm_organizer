@@ -45,6 +45,7 @@ class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
             'fieldID',
             'frequencyID',
             'hisID',
+            'instructionLanguage',
             'lsfID',
             'method_competence',
             'self_competence',

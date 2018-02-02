@@ -322,7 +322,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $this->setAttribute($subject, 'short_name_en', (string)$dataObject->kurznameen, $subject->short_name_de);
         $this->setAttribute($subject, 'name_de', (string)$dataObject->titelde);
         $this->setAttribute($subject, 'name_en', (string)$dataObject->titelen, $subject->name_de);
-        $this->setAttribute($subject, 'instructionLanguage', (string)$dataObject->sprache, 'D');
+        $this->setAttribute($subject, 'instructionLanguage', (string)$dataObject->sprache);
         $this->setAttribute($subject, 'frequencyID', (string)$dataObject->turnus);
 
         $durationExists = preg_match('/\d+/', (string)$dataObject->dauer, $duration);
