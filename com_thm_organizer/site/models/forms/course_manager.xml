@@ -2,8 +2,7 @@
 <form addfieldpath="/media/com_thm_organizer/fields">
     <field name="id" type="hidden"/>
     <fieldset name="course_settings">
-        <field name="campusID" type="campusID" label="COM_THM_ORGANIZER_CAMPUS"
-               description="COM_THM_ORGANIZER_CAMPUS_DESC">
+        <field name="campusID" type="campusID" label="COM_THM_ORGANIZER_CAMPUS">
             <option value="">JNONE</option>
         </field>
         <field name="max_participants" type="integer" default="300" label="COM_THM_ORGANIZER_MAX_PARTICIPANTS"

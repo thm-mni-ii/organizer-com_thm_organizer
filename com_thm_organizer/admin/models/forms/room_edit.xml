@@ -8,10 +8,13 @@
                description="COM_THM_ORGANIZER_NAME_DESC" required="true"/>
         <field name="longname" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_DISPLAY_NAME"
                description="COM_THM_ORGANIZER_DISPLAY_NAME_DESC" required="true"/>
+        <field name="buildingID" type="buildingID" label="COM_THM_ORGANIZER_BUILDING" required="true">
+            <option value="">JNONE</option>
+        </field>
         <field name="typeID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
                table="thm_organizer_room_types" label="COM_THM_ORGANIZER_TYPE" description="COM_THM_ORGANIZER_TYPE_DESC"
                required="true">
-            <option value="">COM_THM_ORGANIZER_FILTER_TYPE</option>
+            <option value="">JNONE</option>
         </field>
         <field name="capacity" type="integer" label="COM_THM_ORGANIZER_CAPACITY"
                description="COM_THM_ORGANIZER_CAPACITY_DESC" last="500" step="1"/>

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerTableRooms
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,22 +11,18 @@ defined('_JEXEC') or die;
 jimport('joomla.database.table');
 
 /**
- * Class representing the rooms table.
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class models the buildings table.
  */
-class THM_OrganizerTableRooms extends JTable
+class THM_OrganizerTableBuildings extends JTable
 {
     /**
-     * Constructor function for the class representing the rooms table
+     * Constructor function for the class representing the lesson_teachers table
      *
      * @param JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_rooms', 'id', $dbo);
+        parent::__construct('#__thm_organizer_buildings', 'id', $dbo);
     }
 
     /**
@@ -50,11 +44,8 @@ class THM_OrganizerTableRooms extends JTable
      */
     public function check()
     {
-        $nullColumns = ['typeID', 'buildingID'];
-        foreach ($nullColumns as $nullColumn) {
-            if (!strlen($this->$nullColumn)) {
-                $this->$nullColumn = null;
-            }
+        if (empty($this->campusID)) {
+            $this->campusID = null;
         }
 
         return true;

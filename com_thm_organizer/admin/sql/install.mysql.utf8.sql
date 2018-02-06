@@ -2,6 +2,22 @@ SET FOREIGN_KEY_CHECKS = 0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_buildings` (
+  `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `campusID`     INT(11) UNSIGNED          DEFAULT NULL,
+  `name`         VARCHAR(60)      NOT NULL,
+  `location`     VARCHAR(20)      NOT NULL,
+  `address`      VARCHAR(255)     NOT NULL,
+  `propertyType` INT(1) UNSIGNED  NOT NULL DEFAULT '0'
+  COMMENT '0 - new/unknown | 1 - owned | 2 - rented/leased',
+  PRIMARY KEY (`id`),
+  KEY `campusID` (`campusID`),
+  UNIQUE KEY `prefix` (`campusID`, `name`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar` (
   `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `schedule_date` DATE                      DEFAULT NULL,
@@ -451,23 +467,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR(60)
-              CHARACTER SET utf8
-              COLLATE utf8_bin          DEFAULT NULL,
-  `name`      VARCHAR(10)      NOT NULL,
-  `longname`  VARCHAR(50)      NOT NULL DEFAULT '',
-  `typeID`    INT(11) UNSIGNED          DEFAULT NULL,
-  `capacity`  INT(4) UNSIGNED           DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`),
-  KEY `typeID` (`typeID`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `gpuntisID`      VARCHAR(60)
@@ -481,6 +480,24 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
   `max_capacity`   INT(4) UNSIGNED           DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `gpuntisID` (`gpuntisID`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
+  `id`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `buildingID` INT(11) UNSIGNED          DEFAULT NULL,
+  `gpuntisID`  VARCHAR(60)
+               CHARACTER SET utf8
+               COLLATE utf8_bin          DEFAULT NULL,
+  `name`       VARCHAR(10)      NOT NULL,
+  `longname`   VARCHAR(50)      NOT NULL DEFAULT '',
+  `typeID`     INT(11) UNSIGNED          DEFAULT NULL,
+  `capacity`   INT(4) UNSIGNED           DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `gpuntisID` (`gpuntisID`),
+  KEY `typeID` (`typeID`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -636,6 +653,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
+
+ALTER TABLE `#__thm_organizer_buildings`
+  ADD CONSTRAINT `building_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_calendar`
   ADD CONSTRAINT `calendar_lessonid_fk` FOREIGN KEY (`lessonID`)
@@ -817,6 +839,9 @@ ALTER TABLE `#__thm_organizer_programs`
   ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_rooms`
+  ADD CONSTRAINT `room_buildingID_fk` FOREIGN KEY (`buildingID`) REFERENCES `#__thm_organizer_buildings` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE,
   ADD CONSTRAINT `rooms_typeid_fk` FOREIGN KEY (`typeID`) REFERENCES `#__thm_organizer_room_types` (`id`)
   ON DELETE SET NULL
   ON UPDATE CASCADE;

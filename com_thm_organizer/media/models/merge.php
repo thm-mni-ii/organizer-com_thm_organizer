@@ -281,6 +281,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
         $invalidForm = (empty($data['id']) OR empty($data['gpuntisID']));
         if ($invalidForm) {
+            JFactory::getApplication()->enqueueMessage('invalid form');
+
             return false;
         }
 
@@ -322,6 +324,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
         $success = $resourceTable->save($data);
         if (!$success) {
+
             $this->_db->transactionRollback();
 
             return false;

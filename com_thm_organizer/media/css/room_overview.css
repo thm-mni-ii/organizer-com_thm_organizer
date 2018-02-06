@@ -1,224 +1,178 @@
+div.language-switches a {
+    color: #394a59;
+}
+
+div.language-switches a:hover {
+    color: #394a59;
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+}
+
+a [class^="icon-"], a [class*=" icon-"] {
+    margin-right: .2rem;
+}
+
 .clear {
     clear: both;
 }
 
-.header-container {
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-    font-size: 32px;
-    font-weight: 400;
-    height: 28px;
-    margin-bottom: 20px;
-    padding: 18px 0;
-}
-
-.form-container {
-    margin-bottom: 20px;
-    min-height: 100px;
-    overflow: visible;
-    width: 100%;
-}
-
-.form-container #adminForm {
-    width: 100%;
-}
-
-.form-container #adminForm .filter-item {
+.left {
     float: left;
-    width: 21%;
 }
 
-.form-container #adminForm .filter-item label {
-    display: block;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    line-height: 24px;
-    width: 100%;
+.right {
+    float: right;
 }
 
-.form-container #adminForm .filter-item select, .form-container #adminForm .filter-item input {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    clear: both;
+.toolbar {
+    float: right;
 }
 
-.form-container #adminForm .filter-item .chzn-container {
-    background: url("../images/select.png") no-repeat right 10px white;
-    border: 1px solid #77858c;
-    min-height: 32.5px;
-    height: auto;
-    width: calc(100% - 20px) !important;
+.clear {
+    margin-bottom: .8rem;
 }
 
-.form-container #adminForm .filter-item .chzn-container div > b {
-    background-image: none !important;
+.room-overview-view {
+    min-width: 1060px;
 }
 
-.form-container #adminForm .filter-item .chzn-container .chzn-single {
-    height: 26px;
-}
-
-.form-container #adminForm .filter-item .chzn-container .chzn-choices {
-    margin: 0;
-    padding-right: 30px;
-    width: 100%;
-}
-
-.form-container #adminForm .filter-item .chzn-container .chzn-choices .search-choice {
-    background: #dfe5e6 none;
-    border: 1px solid #77858c;
-    border-radius: 0;
-    color: #394a59;
-    font-size: 14px;
-    margin: 3px;
-    min-width: 70px;
-    padding: 3px;
-}
-
-.form-container #adminForm .filter-item .chzn-container .chzn-choices .search-choice span, .form-container #adminForm .filter-item .chzn-container .chzn-choices .search-choice a {
-    display: block;
+.room-overview-view .form-container .componentheading {
     float: left;
-    position: static;
 }
 
-.form-container #adminForm .filter-item .chzn-container .chzn-choices .search-choice span {
-    width: 60px;
+.room-overview-view .form-container .submit-button:hover span::before {
+    color: white;
 }
 
-.form-container #adminForm .filter-item .chzn-container .chzn-choices .search-choice a {
-    margin-top: 1px;
-    width: 10px;
-}
-
-.form-container #adminForm .filter-item .chzn-container .chzn-choices .search-field input[type="text"] {
-    display: none;
-}
-
-.form-container #adminForm .filter-item .chzn-container .chzn-choices .search-field input[type="text"]:focus {
-    display: inline-block;
-}
-
-.form-container #adminForm .filter-item .chzn-container .chzn-drop {
-    border: 1px solid #77858c;
-}
-
-.form-container #adminForm .filter-item .chzn-container-multi {
-    background: url("../images/select.png") no-repeat 180px 10px white;
-}
-
-.form-container #adminForm .filter-item #date {
-    border: 1px solid #77858c;
-    height: 33px;
+.room-overview-view .form-container .input-append {
     margin-bottom: 0;
-    padding: 0 12px 0 8px;
-    width: calc(100% - 40px);
 }
 
-.form-container #adminForm .filter-item .btn {
+.room-overview-view .form-container .control-group, .room-overview-view .form-container .control-group-wide {
+    float: left;
+}
+
+.room-overview-view .form-container .control-group {
+    padding: 0 .8rem 0 0;
+    width: 15.9rem;
+}
+
+.room-overview-view .form-container .control-group:nth-child(7) {
+    padding-right: 0;
+}
+
+.room-overview-view .form-container .control-group .control-label, .room-overview-view .form-container .control-group .controls {
+    width: 100%;
+}
+
+.room-overview-view .form-container .control-group .control-label {
+    text-align: center;
+}
+
+.room-overview-view .form-container .control-group .controls .btn {
     background: transparent;
     border: none;
     font-size: 16px;
-    margin-left: -130px;
-    margin-right: 12px;
     margin-top: 6px;
     padding: 0;
-    width: 130px;
 }
 
-.form-container #adminForm .filter-item .btn .icon-calendar {
+.room-overview-view .form-container .control-group .controls .btn .icon-calendar {
     background-image: none;
 }
 
-.form-container #adminForm .filter-item .btn .icon-calendar:before {
-    margin-left: 48px;
-}
-
-.form-container #adminForm .filter-item .btn .icon-calendar:focus {
+.room-overview-view .form-container .control-group .controls .btn .icon-calendar:focus {
     outline: none;
 }
 
-.form-container #adminForm .filter-item .btn:active, .form-container #adminForm .filter-item .btn:hover {
+.room-overview-view .form-container .control-group .controls .btn:active, .room-overview-view .form-container .control-group .controls .btn:hover {
     background-color: transparent;
     box-shadow: none;
     color: #394a59;
 }
 
-.form-container #adminForm .filter-item .btn:focus, .form-container #adminForm .filter-item .btn:active {
-    outline: none;
+.room-overview-view .form-container .control-group-wide:nth-child(10) {
+    margin-left: .7rem;
 }
 
-.form-container #adminForm .short-item-container {
-    float: left;
-    width: 30%;
-}
-
-.form-container #adminForm .short-item-container .short-item {
-    width: 50%;
-}
-
-.form-container #adminForm .type-container .chzn-container .chzn-choices .search-choice {
-    width: calc(100% - 20px);
-}
-
-.form-container #adminForm .type-container .chzn-container .chzn-choices .search-choice span {
-    width: calc(100% - 10px);
-}
-
-.form-container #adminForm .submit-button {
-    background-color: #dfe5e6;
-    border-radius: 0;
-    border: 2px solid #4a5c66;
-    color: #394a59;
-    cursor: pointer;
+.room-overview-view .form-container .control-group-wide .control-label, .room-overview-view .form-container .control-group-wide .controls {
     display: inline-block;
-    font-family: 'THM-Medium';
-    font-size: 1.0em;
-    line-height: 23px;
-    height: 35px;
-    margin-top: 29px;
-    padding-bottom: 4px;
-    padding-left: 8px;
-    padding-top: 4px;
-    text-align: left;
-    text-shadow: none;
-    vertical-align: middle;
-    width: 130px;
 }
 
-.form-container #adminForm .submit-button:hover {
-    background-color: white;
-    color: #4a5c66;
+.room-overview-view .form-container .control-group-wide .control-label {
+    padding: 0 .65rem 0 0;
+    text-align: right;
+    width: 15.9rem;
 }
 
-.form-container #adminForm .submit-button .icon-loop {
-    font-size: 14px;
-    margin-left: 6px;
-    margin-top: -2px;
+.room-overview-view .form-container .control-group-wide .controls {
+    display: inline-block;
+    width: 15.9rem;
 }
 
-.overview-container-container {
+.room-overview-view .form-container .chzn-container {
+    padding: .2rem;
+    width: calc(100% - .5rem) !important;
+}
+
+.room-overview-view .form-container .chzn-container.chzn-container-single {
+    height: 1.5rem;
+}
+
+.room-overview-view .form-container .chzn-container.chzn-container-single .chzn-single {
+    height: 1.5rem;
+}
+
+.room-overview-view .form-container .chzn-container.chzn-container-single .chzn-single > span {
+    padding: 0;
+}
+
+.room-overview-view .form-container .chzn-container.chzn-container-multi {
+    min-height: 1.5rem;
+    height: auto;
+}
+
+.room-overview-view .form-container .chzn-container.chzn-container-multi .chzn-choices .chzn-single, .room-overview-view .form-container .chzn-container.chzn-container-multi .chzn-choices .search-choice {
+    background-image: none;
+    border-radius: 0;
+    margin: .25rem;
+    width: calc(100% - 3rem);
+}
+
+.room-overview-view .form-container .chzn-container.chzn-container-multi .chzn-choices .chzn-single {
+    border: none;
+}
+
+.room-overview-view .form-container .chzn-container.chzn-container-multi .chzn-choices .search-choice {
+    background-color: #dfeec8;
+    border-radius: 0;
+}
+
+.room-overview-view .form-container #jform_date {
+    height: 1.5rem;
+    padding: .2rem 1rem .2rem .2rem;
+    width: calc(100% - 1.3rem) !important;
+}
+
+.room-overview-view .overview-container {
     width: 100%;
 }
 
-.overview-container-container .overview-container {
-    width: 100%;
-}
-
-.overview-container-container .overview-container table {
+.room-overview-view .overview-container table {
     border-bottom: 1px solid #f2f5f6;
     margin-bottom: 0;
     width: 100%;
 }
 
-.overview-container-container .overview-container table thead tr {
+.room-overview-view .overview-container table thead tr {
     display: block;
     position: relative;
 }
 
-.overview-container-container .overview-container table tbody {
+.room-overview-view .overview-container table tbody {
     display: block;
     max-height: 600px;
     overflow-x: hidden;
@@ -226,39 +180,35 @@
     width: 100%;
 }
 
-.overview-container-container .overview-container table th {
+.room-overview-view .overview-container table th {
     background-color: #dfe5e6;
     border: none;
     color: #394a59;
 }
 
-.overview-container-container .overview-container table th.day-width {
+.room-overview-view .overview-container table th.day-width {
     width: 147px;
 }
 
-.overview-container-container .overview-container table th.block-width {
+.room-overview-view .overview-container table th.block-width {
     width: 16.6px;
 }
 
-.overview-container-container .overview-container table th.day-row {
+.room-overview-view .overview-container table th.day-row {
     border-right: 1px solid white;
     text-align: center;
 }
 
-.overview-container-container .overview-container table th.day-row.day-width {
+.room-overview-view .overview-container table th.day-row.day-width {
     padding: 10px 4px;
 }
 
-.overview-container-container .overview-container table th.block-row {
+.room-overview-view .overview-container table th.block-row {
     text-align: center;
     border-right: 1px solid white;
 }
 
-.overview-container-container .overview-container table th.room-row {
-    text-align: right;
-}
-
-.overview-container-container .overview-container table th.room-column {
+.room-overview-view .overview-container table th.room-column {
     border-bottom: 1px solid white;
     min-width: 90px;
     max-width: 90px;
@@ -266,33 +216,33 @@
     overflow: hidden;
 }
 
-.overview-container-container .overview-container table th.day-row.room-column, .overview-container-container .overview-container table th.block-row.room-column {
+.room-overview-view .overview-container table th.day-row.room-column, .room-overview-view .overview-container table th.block-row.room-column {
     background-color: white;
     border-bottom: none;
     border-right: none;
 }
 
-.overview-container-container .overview-container table td {
+.room-overview-view .overview-container table td {
     text-align: center;
     border-right: 1px solid #f2f5f6;
     border-bottom: 1px solid #f2f5f6;
 }
 
-.overview-container-container .overview-container table td.day-width {
+.room-overview-view .overview-container table td.day-width {
     min-width: 147px;
     max-width: 148px;
 }
 
-.overview-container-container .overview-container table td.block-width {
+.room-overview-view .overview-container table td.block-width {
     width: 17px;
 }
 
-.overview-container-container .overview-container table th.block-column, .overview-container-container .overview-container table td.block-column {
+.room-overview-view .overview-container table th.block-column, .room-overview-view .overview-container table td.block-column {
     padding-left: 0.3em;
     padding-right: 0.3em;
 }
 
-.overview-container-container .overview-container table th.block-row, .overview-container-container .overview-container table th.room-row, .overview-container-container .overview-container table td.room-row {
+.room-overview-view .overview-container table th.block-row, .room-overview-view .overview-container table th.room-row, .room-overview-view .overview-container table td.room-row {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
@@ -311,7 +261,7 @@ div.tip-wrap {
 }
 
 div.tip-wrap div.tip {
-    background-color: #dfe5e6;
+    background-color: #f2f5f6;
     border: 1px solid #77858c;
     font-size: 12px;
     font-weight: normal;
@@ -353,20 +303,17 @@ div.loading-background {
 
 div.postloader {
     background: white url(../images/thm.gif) no-repeat center 10px;
-    font-family: 'THM-Medium';
-    font-size: 16px;
-    height: 20px;
+    height: 4.8rem;
     left: 50%;
-    margin-left: -39px;
-    margin-top: -50px;
+    margin: -2.8rem -1.5rem 0 0;
     opacity: 1;
     overflow: visible;
-    padding: 90px 4px 4px 4px;
+    padding: .4rem;
     position: fixed;
     text-align: center;
     text-transform: uppercase;
     top: 50%;
     vertical-align: bottom;
-    width: 70px;
+    width: 3.2rem;
     z-index: 999;
 }

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelRoom_Overview
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,44 +14,74 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
+/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Retrieves lesson and event data for a single room and day
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Retrieves lesson and event data for a filtered set of rooms.
  */
-class THM_OrganizerModelRoom_Overview extends JModelLegacy
+class THM_OrganizerModelRoom_Overview extends JModelForm
 {
-    public $startDate = [];
+    const DAY = 1;
+    const WEEK = 2;
+
+    public $data = [];
+
+    public $defaultCampus = 0;
+
+    public $defaultTemplate = self::DAY;
 
     public $endDate = [];
 
     public $grid = [];
 
-    public $data = [];
-
     public $rooms = [];
 
-    public $types = [];
+    public $startDate = [];
 
-    public $selectedRooms = [];
+    public $types = [];
 
     /**
      * Constructor
      *
      * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+     *
      * @throws  Exception
      */
     public function __construct($config = [])
     {
         parent::__construct();
+
+        $app = JFactory::getApplication();
+        if (!empty($app->getMenu()) AND !empty($app->getMenu()->getActive())) {
+            $params              = $app->getMenu()->getActive()->params;
+            $this->defaultCampus = $params->get('campusID', 0);
+        }
+
         $this->populateState();
-        $this->setRoomData();
+        $this->setRooms();
         $this->setGrid();
         $this->setData();
+    }
+
+    /**
+     * Method to get the form
+     *
+     * @param   array   $data     Data for the form.
+     * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
+     *
+     * @return  JForm|boolean  A JForm object on success, false on failure
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        $form = $this->loadForm(
+            "com_thm_organizer.room_overview",
+            "room_overview",
+            ['control' => 'jform', 'load_data' => true]
+        );
+
+        return !empty($form) ? $form : false;
     }
 
     /**
@@ -63,59 +91,62 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
      * @param string $direction An optional direction (asc|desc).
      *
      * @return  void
+     * @throws Exception
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app   = JFactory::getApplication();
-        $input = $app->input;
-
-        $menuID = $input->getInt('Itemid');
-        $this->state->set('menuID', $menuID);
-
-        $formData = $input->get('jform', [], 'array');
-        $this->cleanFormData($formData);
-        $this->state->set('template', $formData['template']);
-        $this->state->set('date', $formData['date']);
-        $this->state->set('types', $formData['types']);
-        $this->state->set('rooms', $formData['rooms']);
-    }
-
-    /**
-     * Cleans form data.
-     *
-     * @param array &$data the data received from the form
-     *
-     * @return  void  modifies &$data
-     */
-    private function cleanFormData(&$data)
-    {
-        $format      = JFactory::getApplication()->getParams()->get('dateFormat', 'd.m.Y');
+        $app         = JFactory::getApplication();
+        $format      = $app->getParams()->get('dateFormat', 'd.m.Y');
+        $formData    = $app->input->get('jform', [], 'array');
         $defaultDate = date($format);
 
-        if (empty($data)) {
-            $data['template'] = 1;
-            $data['date']     = $defaultDate;
-            $data['types']    = ['-1'];
-            $data['rooms']    = ['-1'];
+        if (empty($formData)) {
+            $formData['template']   = self::DAY;
+            $formData['date']       = $defaultDate;
+            $formData['campusID']   = $this->defaultCampus;
+            $formData['buildingID'] = '';
+            $formData['types']      = [''];
+            $formData['rooms']      = [''];
+        } else {
+            $reqTemplate          = empty($formData['template']) ? self::DAY : (int)$formData['template'];
+            $validTemplates       = [self::DAY, self::WEEK];
+            $templateValid        = in_array($reqTemplate, $validTemplates);
+            $formData['template'] = $templateValid ? $reqTemplate : self::DAY;
 
-            return;
+            $reqDate          = empty($formData['date']) ? $defaultDate : $formData['date'];
+            $dateValid        = strtotime($reqDate) !== false;
+            $formData['date'] = $dateValid ? date($format, strtotime($reqDate)) : $defaultDate;
+
+            $formData['campusID']   = empty($formData['campusID']) ? $this->defaultCampus : (int)$formData['campusID'];
+            $formData['buildingID'] = empty($formData['buildingID']) ? '' : (int)$formData['buildingID'];
+
+            if (isset($formData['types'])) {
+                $formData['types'] = Joomla\Utilities\ArrayHelper::toInteger($formData['types']);
+                if (count($formData['types']) > 1) {
+                    $zeroIndex = array_search(0, $formData['types']);
+                    if ($zeroIndex !== false) {
+                        unset($formData['types'][$zeroIndex]);
+                    }
+                }
+            } else {
+                $formData['types'] = [''];
+            }
+
+            if (isset($formData['rooms'])) {
+                $formData['rooms'] = Joomla\Utilities\ArrayHelper::toInteger($formData['rooms']);
+                if (count($formData['rooms']) > 1) {
+                    $zeroIndex = array_search(0, $formData['rooms']);
+                    if ($zeroIndex !== false) {
+                        unset($formData['rooms'][$zeroIndex]);
+                    }
+                }
+            } else {
+                $formData['rooms'] = [''];
+            }
         }
 
-        $validTemplates   = [1, 2, 3];
-        $reqTemplate      = empty($data['template']) ? 1 : $data['template'];
-        $validTemplate    = (is_numeric($reqTemplate) AND in_array($reqTemplate, $validTemplates));
-        $data['template'] = $validTemplate ? $reqTemplate : 1;
-
-        $reqDate           = empty($data['date']) ? $defaultDate : $data['date'];
-        $validDate         = strtotime($reqDate) !== false;
-        $data['startDate'] = $validDate ? date($format, strtotime($reqDate)) : $defaultDate;
-
-        if (empty($data['types'])) {
-            $data['types'] = ['-1'];
-        }
-
-        if (empty($data['rooms'])) {
-            $data['rooms'] = ['-1'];
+        foreach ($formData AS $index => $value) {
+            $this->state->set($index, $value);
         }
     }
 
@@ -126,25 +157,16 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
      */
     private function setData()
     {
-        $template = $this->state->get('template');
-        $date     = THM_OrganizerHelperComponent::standardizeDate($this->state->get('date'));
-        switch ($template) {
-            case DAY:
+        $date = THM_OrganizerHelperComponent::standardizeDate($this->state->get('date'));
+        switch ($this->state->get('template')) {
+            case self::DAY:
                 $this->startDate = $this->endDate = $date;
-                break;
-
-            case WEEK:
-                $this->startDate = date('Y-m-d', strtotime('monday this week', strtotime($date)));
-                $this->endDate   = date('Y-m-d', strtotime('sunday this week', strtotime($date)));
-                break;
-        }
-
-        switch ($template) {
-            case DAY:
                 $this->getDay($date);
                 break;
 
-            case WEEK:
+            case self::WEEK:
+                $this->startDate = date('Y-m-d', strtotime('monday this week', strtotime($date)));
+                $this->endDate   = date('Y-m-d', strtotime('sunday this week', strtotime($date)));
                 $this->getInterval();
                 break;
         }
@@ -154,6 +176,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
      * Gets the main grid from the first schedule
      *
      * @return  void  sets the object grid variable
+     * @throws Exception
      */
     private function setGrid()
     {
@@ -176,6 +199,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
      * Gets the room information for a week
      *
      * @return  void sets the daily event information over the given interval
+     * @throws Exception
      */
     private function getInterval()
     {
@@ -221,14 +245,14 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
     /**
      * Sets event information for the given block in the given schedule
      *
-     * @param array  &$blocks the array where the information is stored
-     * @param int    $blockNo the index of the block being iterated
-     * @param object $events  the events in the block being iterated
+     * @param string $date the date for which to retrieve events
      *
      * @return  array the events for the given date
+     * @throws Exception
      */
     private function getEvents($date)
     {
+        $lang     = THM_OrganizerHelperLanguage::getLanguage();
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $query = $this->_db->getQuery(true);
@@ -261,7 +285,7 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
         try {
             $results = $this->_db->loadAssocList();
         } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage(JText::_(), 'error');
+            JFactory::getApplication()->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
             return [];
         }
@@ -381,81 +405,16 @@ class THM_OrganizerModelRoom_Overview extends JModelLegacy
      * Gets the rooms and relevant room types
      *
      * @return  void  sets the rooms and types object variables
+     * @throws Exception
      */
-    private function setRoomData()
+    private function setRooms()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $query    = $this->_db->getQuery(true);
-        $query->select("DISTINCT r.id AS roomID, r.name, r.name AS longname, t.id AS typeID, t.name_$shortTag AS type");
-        $query->from('#__thm_organizer_room_types AS t');
-        $query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
-        $query->order('longname ASC');
-        $this->_db->setQuery($query);
+        $rooms = THM_OrganizerHelperRooms::getRooms();
 
-        try {
-            $results = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-            $this->rooms = [];
-            $this->types = [];
-
-            return;
-        }
-
-        $allTypes    = in_array('-1', $this->state->types);
-        $filterTypes = (!$allTypes AND count($this->state->types) > 0) ? $this->state->types : false;
-        $allRooms    = in_array('-1', $this->state->rooms);
-        $filterRooms = (!$allRooms AND count($this->state->rooms) > 0) ? $this->state->rooms : false;
-        $rooms       = $types = [];
-
-        foreach ($results as $room) {
-            /**
-             * Some types will be overwritten, but checking if the index/value is already set is unnecessary.
-             *
-             * Types are not further filtered.
-             */
-            $typeText               = $room['type'];
-            $types[$room['typeID']] = $typeText;
-
-            $this->filterRoom($room, $filterTypes, $filterRooms, $rooms);
-        }
-
-        // Rooms were sorted in the query
-        asort($types);
-        $this->types = $types;
-        $this->rooms = $rooms;
-    }
-
-    /**
-     * Filters rooms then adds them to the array as appropriate
-     *
-     * @param array &$room       the room being iterated
-     * @param mixed $filterTypes array of type IDs to be filtered against, otherwise false
-     * @param mixed $filterRooms array of room IDs to be filtered against, otherwise false
-     * @param array &$rooms      the array containing the filter results
-     *
-     * @return  void  modifies &$rooms
-     */
-    private function filterRoom(&$room, $filterTypes, $filterRooms, &$rooms)
-    {
-        $typeOK = $roomOK = true;
-        if ($filterTypes AND !in_array($room['typeID'], $filterTypes)) {
-            $typeOK = false;
-        } elseif (!$filterTypes AND $filterRooms) {
-            $typeOK = false;
-        }
-
-        if ($filterRooms AND !in_array($room['roomID'], $filterRooms)) {
-            $roomOK = false;
-        } elseif (!$filterRooms AND $filterTypes) {
-            $roomOK = false;
-        }
-
-        $rooms[$room['roomID']] = $room['longname'];
-
-        $add = ($typeOK OR $roomOK);
-        if ($add) {
-            $this->selectedRooms[$room['roomID']] = $room['longname'];
+        if (!empty($rooms)) {
+            foreach ($rooms as $room) {
+                $this->rooms[$room['id']] = $room;
+            }
         }
     }
 }

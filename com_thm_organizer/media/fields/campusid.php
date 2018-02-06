@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldCampusID
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,11 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 JFormHelper::loadFieldClass('list');
 
 /**
- * Class creates a form field for subject-degree program association
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class creates a form field for campus selection.
  */
 class JFormFieldCampusID extends JFormFieldList
 {
@@ -97,10 +91,11 @@ class JFormFieldCampusID extends JFormFieldList
      */
     protected function getOptions()
     {
+        $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
         $campuses = THM_OrganizerHelperCampuses::getOptions();
 
         if (empty($campuses)) {
-            return parent::getOptions();
+            return $defaultOptions;
         }
 
         $options = [];
@@ -109,6 +104,6 @@ class JFormFieldCampusID extends JFormFieldList
             $options[$campusID] = JHtml::_('select.option', $campusID, $name);
         }
 
-        return array_merge(parent::getOptions(), $options);
+        return array_merge($defaultOptions, $options);
     }
 }

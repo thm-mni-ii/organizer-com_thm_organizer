@@ -1,221 +1,148 @@
 @import 'variables';
+@import '_language_switch';
+@import '_base';
+
+.toolbar {
+  float: right;
+}
 
 .clear {
-  clear: both;
+  margin-bottom: .8rem;
 }
 
-.header-container {
-  font-family: $font-family-header;
-  font-size: 32px;
-  font-weight: 400;
-  height: 28px;
-  margin-bottom: 20px;
-  padding: 18px 0;
-}
+.room-overview-view {
 
-.form-container {
+  min-width: 1060px;
 
-  margin-bottom: 20px;
-  min-height: 100px;
-  overflow: visible;
-  width: 100%;
-
-  #adminForm {
-
-    width: 100%;
-
-    .filter-item {
-
+  .form-container {
+    .componentheading {
       float: left;
+    }
 
-      width: 21%;
+    .submit-button:hover span::before {
+      color: $foreground-color;
+    }
 
-      label {
-        display: block;
-        font-family: $font-family;
-        font-size: 14px;
-        line-height: 24px;
+    .input-append {
+      margin-bottom: 0;
+    }
+
+    .control-group, .control-group-wide {
+      float: left;
+    }
+
+    .control-group {
+      padding: 0 .8rem 0 0;
+      width: 15.9rem;
+
+      &:nth-child(7) {
+        padding-right: 0;
+      }
+
+      .control-label, .controls {
         width: 100%;
       }
 
-      select, input {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        clear: both;
+      .control-label {
+        text-align: center;
       }
 
-      .chzn-container {
+      .controls {
 
-        background: url('../images/select.png') no-repeat right 10px white;
-        border: $border;
-        min-height: 32.5px;
-        height: auto;
-        width: calc(100% - 20px) !important;
+        .btn {
+          background: transparent;
+          border: none;
+          font-size: 16px;
+          margin-top: 6px;
+          padding: 0;
 
-        // Chosen adds the arrow as a background image :(
-        div > b {
-          background-image: none !important;
-        }
-
-        .chzn-single {
-          height: 26px;
-        }
-
-        .chzn-choices {
-
-          margin: 0;
-          padding-right: 30px;
-          width: 100%;
-
-          .search-choice {
-            background: $background-navigation-color none;
-            border: $border;
-            border-radius: 0;
-            color: $font-color;
-            font-size: 14px;
-            margin: 3px;
-            min-width: 70px;
-            padding: 3px;
-
-            span, a {
-              display: block;
-              float: left;
-              position: static;
-            }
-
-            span {
-              width: 60px;
-            }
-
-            a {
-              margin-top: 1px;
-              width: 10px;
-            }
-          }
-
-          .search-field input[type="text"] {
-
-            display: none;
+          .icon-calendar {
+            background-image: none;
 
             &:focus {
-              display: inline-block;
+              outline: none;
             }
           }
         }
 
-        .chzn-drop {
-          border: $border;
+        .btn:active, .btn:hover {
+          background-color: transparent;
+          box-shadow: none;
+          color: $font-color;
+        }
+      }
+    }
+
+    .control-group-wide {
+
+      &:nth-child(10) {
+        margin-left: .7rem;
+      }
+
+      .control-label, .controls {
+        display: inline-block;
+      }
+
+      .control-label {
+        padding: 0 .65rem 0 0;
+        text-align: right;
+        width: 15.9rem;
+      }
+
+      .controls {
+        display: inline-block;
+        width: 15.9rem;
+      }
+    }
+
+    .chzn-container {
+      padding: .2rem;
+      width: calc(100% - .5rem) !important;
+
+      &.chzn-container-single {
+
+        height: 1.5rem;
+
+        .chzn-single {
+          height: 1.5rem;
+        }
+
+        .chzn-single > span {
+          padding: 0;
         }
       }
 
-      .chzn-container-multi {
-        background: url('../images/select.png') no-repeat 180px 10px white;
-      }
+      &.chzn-container-multi {
 
-      #date {
-        border: $border;
-        height: 33px;
-        margin-bottom: 0;
-        padding: 0 12px 0 8px;
-        width: calc(100% - 40px);
-      }
+        min-height: 1.5rem;
+        height: auto;
 
-      .btn {
-
-        background: transparent;
-        border: none;
-        font-size: 16px;
-        margin-left: -130px;
-        margin-right: 12px;
-        margin-top: 6px;
-        padding: 0;
-        width: 130px;
-
-        .icon-calendar {
-          background-image: none;
-
-          &:before {
-            margin-left: 48px;
+        .chzn-choices {
+          .chzn-single, .search-choice {
+            background-image: none;
+            border-radius: 0;
+            margin: .25rem;
+            width: calc(100% - 3rem);
           }
 
-          &:focus {
-            outline: none;
+          .chzn-single {
+            border: none;
+          }
+
+          .search-choice {
+            background-color: $background-active;
+            border-radius: 0;
           }
         }
       }
-
-      .btn:active, .btn:hover {
-        background-color: transparent;
-        box-shadow: none;
-        color: $font-color;
-      }
-
-      .btn:focus, .btn:active {
-        outline: none;
-      }
     }
 
-    .short-item-container {
-
-      float: left;
-      width: 30%;
-
-      .short-item {
-        width: 50%;
-      }
+    #jform_date {
+      height: 1.5rem;
+      padding: .2rem 1rem .2rem .2rem;
+      width: calc(100% - 1.3rem) !important;
     }
-
-    .type-container .chzn-container .chzn-choices .search-choice {
-
-      width: calc(100% - 20px);
-
-      span {
-        width: calc(100% - 10px);
-      }
-    }
-
-    .submit-button {
-      background-color: $background-navigation-color;
-      border-radius: 0;
-      border: $border-thick;
-      color: $font-color;
-      cursor: pointer;
-      display: inline-block;
-      font-family: 'THM-Medium';
-      font-size: 1.0em;
-      line-height: 23px;
-      height: 35px;
-      margin-top: 29px;
-      padding-bottom: 4px;
-      padding-left: 8px;
-      padding-top: 4px;
-      text-align: left;
-      text-shadow: none;
-      vertical-align: middle;
-      width: 130px;
-
-      &:hover {
-        background-color: $foreground-color;
-        color: $background-grey;
-      }
-
-      .icon-loop {
-        font-size: 14px;
-        margin-left: 6px;
-        margin-top: -2px;
-      }
-    }
-
   }
-}
-
-.overview-container-container {
-
-  width: 100%;
 
   .overview-container {
 
@@ -265,10 +192,6 @@
         &.block-row {
           text-align: center;
           border-right: $border-white;
-        }
-
-        &.room-row {
-          text-align: right;
         }
 
         &.room-column {
@@ -328,7 +251,7 @@ div.tip-wrap {
   color: $font-color;
 
   div.tip {
-    background-color: $background-navigation-color;
+    background-color: $background-color;
     border: $border;
     font-size: 12px;
     font-weight: normal;
@@ -374,20 +297,17 @@ div.loading-background {
 
 div.postloader {
   background: $foreground-color url(../images/thm.gif) no-repeat center 10px;
-  font-family: 'THM-Medium';
-  font-size: 16px;
-  height: 20px;
+  height: 4.8rem;
   left: 50%;
-  margin-left: -39px;
-  margin-top: -50px;
+  margin: -2.8rem -1.5rem 0 0;
   opacity: 1;
   overflow: visible;
-  padding: 90px 4px 4px 4px;
+  padding: .4rem;
   position: fixed;
   text-align: center;
   text-transform: uppercase;
   top: 50%;
   vertical-align: bottom;
-  width: 70px;
+  width: 3.2rem;
   z-index: 999;
 }

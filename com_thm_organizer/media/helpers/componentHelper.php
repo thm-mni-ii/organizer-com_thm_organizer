@@ -1,21 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperComponent
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 /**
- * Class providing functions useful to multiple component files
- *
- * @category  Joomla.Component.Media
- * @package   thm_organizer
+ * Class provides generalized functions useful for several component files.
  */
 class THM_OrganizerHelperComponent
 {
@@ -79,6 +74,7 @@ class THM_OrganizerHelperComponent
      * @param object $object the object to add the parameters to, typically a view
      *
      * @return void modifies $object
+     * @throws Exception
      */
     public static function addMenuParameters(&$object)
     {
@@ -198,11 +194,11 @@ class THM_OrganizerHelperComponent
                 'index.php?option=com_thm_organizer&amp;view=campus_manager',
                 $viewName == 'campus_manager'
             );
-            /*JHtmlSidebar::addEntry(
+            JHtmlSidebar::addEntry(
                 JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE'),
                 'index.php?option=com_thm_organizer&amp;view=building_manager',
                 $viewName == 'building_manager'
-            );*/
+            );
             /*JHtmlSidebar::addEntry(
                 JText::_('COM_THM_ORGANIZER_EQUIPMENT_MANAGER_TITLE'),
                 'index.php?option=com_thm_organizer&amp;view=equipment_manager',
@@ -351,6 +347,7 @@ class THM_OrganizerHelperComponent
      * @param int $ppID the id of the plan pool being checked
      *
      * @return  bool  true if the plan pool is associated with an allowed department, otherwise false
+     * @throws Exception
      */
     public static function allowPlanPoolEdit($ppID)
     {
@@ -426,6 +423,7 @@ class THM_OrganizerHelperComponent
      * @param int    $itemID       the id of the item being checked
      *
      * @return  bool  true if the resource has an associated asset, otherwise false
+     * @throws Exception
      */
     public static function checkAssetInitialization($resourceName, $itemID)
     {
@@ -512,6 +510,7 @@ class THM_OrganizerHelperComponent
      * @param string $action the specific action for access checks
      *
      * @return  array  the department ids, empty if user has no access
+     * @throws Exception
      */
     public static function getAccessibleDepartments($action = '')
     {
@@ -567,6 +566,7 @@ class THM_OrganizerHelperComponent
      * Builds a the base url for redirection
      *
      * @return string the root url to redirect to
+     * @throws Exception
      */
     public static function getRedirectBase()
     {
@@ -608,6 +608,50 @@ class THM_OrganizerHelperComponent
         } else {
             return $params->get('lightTextColor', '#eeeeee');
         }
+    }
+
+    /**
+     * Gets an array of dynamically translated default options.
+     *
+     * @param object $field   the field object.
+     * @param object $element the field's xml signature. passed separately to get around its protected status.
+     *
+     * @return array the default options.
+     */
+    public static function getTranslatedOptions($field, $element)
+    {
+        require_once 'language.php';
+        $lang    = THM_OrganizerHelperLanguage::getLanguage();
+        $options = [];
+
+        foreach ($element->xpath('option') as $option) {
+
+            $value = (string)$option['value'];
+            $text  = trim((string)$option) != '' ? trim((string)$option) : $value;
+
+            $disabled = (string)$option['disabled'];
+            $disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+            $disabled = $disabled || ($field->readonly && $value != $field->value);
+
+            $checked = (string)$option['checked'];
+            $checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+
+            $selected = (string)$option['selected'];
+            $selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
+
+            $tmp = array(
+                'value'    => $value,
+                'text'     => $lang->_($text),
+                'disable'  => $disabled,
+                'class'    => (string)$option['class'],
+                'selected' => ($checked || $selected),
+                'checked'  => ($checked || $selected),
+            );
+
+            $options[] = $tmp;
+        }
+
+        return $options;
     }
 
     /**

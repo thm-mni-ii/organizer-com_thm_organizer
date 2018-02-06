@@ -1,24 +1,19 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerModelRoom
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
+require_once 'language.php';
 
 /**
- * Provides validation methods for xml room objects
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Class provides general functions for retrieving room data.
  */
 class THM_OrganizerHelperRooms
 {
@@ -27,8 +22,10 @@ class THM_OrganizerHelperRooms
      * schedule.
      *
      * @param string $gpuntisID the room's gpuntis ID
+     * @param array  $data      the room data to be used for creating a new entry as necessary
      *
      * @return  mixed  int the id if the room could be resolved/added, otherwise null
+     * @throws Exception
      */
     public static function getID($gpuntisID, $data)
     {
@@ -61,6 +58,7 @@ class THM_OrganizerHelperRooms
      * @param string $roomID the room's id
      *
      * @return  string the name if the room could be resolved, otherwise empty
+     * @throws Exception
      */
     public static function getName($roomID)
     {
@@ -78,12 +76,10 @@ class THM_OrganizerHelperRooms
     }
 
     /**
-     * Getter method for rooms in database. Only retrieving the IDs here allows for formatting the names according to
-     * the needs of the calling views.
+     * Retrieves the ids for filtered rooms used in events.
      *
-     * @return string  all pools in JSON format
-     *
-     * @throws RuntimeException
+     * @return array the rooms used in actual events which meet the filter criteria
+     * @throws Exception
      */
     public static function getPlanRooms()
     {
@@ -111,7 +107,7 @@ class THM_OrganizerHelperRooms
 
         try {
             $allRooms = $dbo->loadAssocList();
-        } catch (RuntimeException $exc) {
+        } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
             return $default;
@@ -154,7 +150,7 @@ class THM_OrganizerHelperRooms
 
             try {
                 $count = $dbo->loadResult();
-            } catch (RuntimeException $exc) {
+            } catch (Exception $exc) {
                 JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
                 return $default;
@@ -168,5 +164,81 @@ class THM_OrganizerHelperRooms
         ksort($relevantRooms);
 
         return $relevantRooms;
+    }
+
+    /**
+     * Retrieves all room entries which match the given filter criteria. Ordered by their display names.
+     *
+     * @return array the rooms matching the filter criteria or empty if none were found
+     * @throws Exception
+     */
+    public static function getRooms()
+    {
+        $shortTag   = THM_OrganizerHelperLanguage::getShortTag();
+        $input      = JFactory::getApplication()->input;
+        $formData   = $input->get('jform', [], 'array');
+        $buildingID = (empty($formData) OR empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
+        $campusID   = (empty($formData) OR empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
+        $typeIDs    = (empty($formData) OR empty($formData['types'])) ? [$input->getInt('typeID')] : $formData['types'];
+        $roomIDs    = (empty($formData) OR empty($formData['rooms'])) ? [$input->getInt('roomID')] : $formData['rooms'];
+
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT r.id, r.*, rt.name_$shortTag AS typeName, rt.description_$shortTag AS typeDesc")
+            ->from('#__thm_organizer_rooms AS r')
+            ->innerJoin('#__thm_organizer_room_types AS rt ON rt.id = r.typeID');
+
+        if (!empty($roomIDs)) {
+            $roomIDs   = Joomla\Utilities\ArrayHelper::toInteger($roomIDs);
+            $zeroIndex = array_search(0, $roomIDs);
+            if ($zeroIndex !== false) {
+                unset($roomIDs[$zeroIndex]);
+            }
+
+            // There were more types chosen than the zero index
+            if (!empty($roomIDs)) {
+                $roomString = "('" . implode("', '", $roomIDs) . "')";
+                $query->where("r.id IN $roomString");
+            }
+        }
+
+
+        if (!empty($typeIDs)) {
+            $typeIDs   = Joomla\Utilities\ArrayHelper::toInteger($typeIDs);
+            $zeroIndex = array_search(0, $typeIDs);
+            if ($zeroIndex !== false) {
+                unset($typeIDs[$zeroIndex]);
+            }
+
+            // There were more types chosen than the zero index
+            if (!empty($typeIDs)) {
+                $typeString = "('" . implode("', '", $typeIDs) . "')";
+                $query->where("rt.id IN $typeString");
+            }
+        }
+
+        if (!empty($buildingID) OR !empty($campusID)) {
+            $query->innerJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
+
+            if (!empty($buildingID)) {
+                $query->where("b.id = '$buildingID'");
+            }
+
+            if (!empty($campusID)) {
+                $query->innerJoin('#__thm_organizer_campuses AS c ON c.id = b.campusID')
+                    ->where("(c.id = '$campusID' OR c.parentID = '$campusID')");
+            }
+        }
+
+        $query->order('longname');
+        $dbo->setQuery($query);
+
+        try {
+            $rooms = $dbo->loadAssocList();
+        } catch (Exception $exc) {
+            return [];
+        }
+
+        return empty($rooms) ? [] : $rooms;
     }
 }

@@ -1,6 +1,7 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET foreign_key_checks = 0;
 
+DROP TABLE IF EXISTS `#__thm_organizer_buildings`;
 DROP TABLE IF EXISTS `#__thm_organizer_calendar`;
 DROP TABLE IF EXISTS `#__thm_organizer_calendar_configuration_map`;
 DROP TABLE IF EXISTS `#__thm_organizer_campuses`;

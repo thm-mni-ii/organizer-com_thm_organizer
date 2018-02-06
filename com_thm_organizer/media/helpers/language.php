@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerHelperLanguage
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -66,20 +64,20 @@ class THM_OrganizerHelperLanguage
      */
     public static function getShortTag()
     {
-        $menu = JFactory::getApplication()->getMenu()->getActive();
+        $fullTag    = JFactory::getLanguage()->getTag();
+        $defaultTag = explode('-', $fullTag)[0];
 
-        if (!empty($menu)) {
-            $initialTag = $menu->params->get('initialLanguage', 'de');
-            $shortTag   = JFactory::getApplication()->input->get('languageTag', $initialTag);
+        $app          = JFactory::getApplication();
+        $requestedTag = $app->input->get('languageTag');
+        $requestedTag = empty($requestedTag) ? $defaultTag : $requestedTag;
 
-            return $shortTag;
+        if (empty($app->getMenu()) OR empty($app->getMenu()->getActive())) {
+            return $requestedTag;
         }
 
-        $fullTag  = JFactory::getLanguage()->getTag();
-        $tagParts = explode('-', $fullTag);
-        $shortTag = JFactory::getApplication()->input->get('languageTag', $tagParts[0]);
+        $menuTag = $app->getMenu()->getActive()->params->get('initialLanguage');
 
-        return $shortTag;
+        return empty($menuTag) ? $requestedTag : $menuTag;
     }
 
     /**
@@ -88,31 +86,42 @@ class THM_OrganizerHelperLanguage
      * @param array $params the configuration parameters
      *
      * @return  array  html links for language redirection
+     * @throws Exception
      */
-    public static function getLanguageSwitches($params)
+    public static function getLanguageSwitches($params = [])
     {
-        $params['option'] = 'com_thm_organizer';
+        $input = JFactory::getApplication()->input;
 
-        $input  = JFactory::getApplication()->input;
-        $menuID = $input->getInt('Itemid', 0);
-        if (!empty($menuID)) {
-            $params['Itemid'] = $menuID;
+        $link = empty($params['view']) ? false : true;
+
+        if ($link) {
+            $params['option'] = 'com_thm_organizer';
+
+            $menuID = $input->getInt('Itemid');
+            if (!empty($menuID)) {
+                $params['Itemid'] = $menuID;
+            }
+
+            $js = '';
+        } else {
+            $js = 'onclick="document.getElementById(\'languageTag\').value=\'XX\';';
+            $js .= 'document.getElementById(\'adminForm\').submit();';
         }
 
-        $requested = $input->getString('languageTag', '');
-
-        $languageSwitches   = [];
-        $current            = empty($requested) ? self::getShortTag() : $requested;
+        $current            = self::getShortTag();
         $supportedLanguages = ['en' => 'COM_THM_ORGANIZER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_GERMAN'];
+        $languageSwitches   = [];
 
         foreach ($supportedLanguages AS $tag => $constant) {
             if ($current != $tag) {
                 $params['languageTag'] = $tag;
 
-                $js                 = 'onclick="$(\'#languageTag\').val(\'' . $tag . '\');$(\'#adminForm\').submit();"';
-                $url                = 'href="index.php?' . JUri::buildQuery($params) . '"';
-                $mechanism          = !empty($params['form']) ? $js : $url;
-                $switch             = '<a ' . $mechanism . '"><span class="icon-world"></span> ' . self::getLanguage()->_($constant) . '</a>';
+                $mechanism = $link ? 'href="index.php?' . JUri::buildQuery($params) . '"' : str_replace('XX', $tag, $js);
+
+                $switch = '<a ' . $mechanism . '">';
+                $switch .= '<span class="icon-world"></span> ' . self::getLanguage()->_($constant);
+                $switch .= '</a>';
+
                 $languageSwitches[] = $switch;
             }
         }

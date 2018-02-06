@@ -42,7 +42,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
             return false;
         }
 
-        return $this->updateAssociation('room', $newDBID, $oldDBIDs, 'room_features_map');
+        return true;
     }
 
     /**
