@@ -639,6 +639,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
                 continue;
             }
 
+            $scheduleObject->configurations = (array) $scheduleObject->configurations;
+
             $tableData       = [];
             $tableData['id'] = $scheduleID;
 
