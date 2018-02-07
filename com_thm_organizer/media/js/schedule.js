@@ -521,6 +521,7 @@ const ScheduleApp = function(variables) {
    */
   function ScheduleTable(schedule) {
     const table = document.createElement('table'),
+        that = this,
         userSchedule = schedule.getId() === 'user',
         weekend = 7;
     let defaultGrid = null,
@@ -1262,7 +1263,7 @@ const ScheduleApp = function(variables) {
       createScheduleElement();
       insertTableHead();
       setGridTime();
-      handleBreakRows(this);
+      handleBreakRows(that);
     }());
   }
 
@@ -1586,10 +1587,10 @@ const ScheduleApp = function(variables) {
           if (fieldsToShow[id.toLowerCase()] && (
                   // Show as param given field
                   id === name ||
-                  // Show previous field
-                  field.dataset.next === name ||
                   // Show static fields like category
                   field.dataset.input === 'static' ||
+                  // Show previous field
+                  field.dataset.next === name ||
                   // Show static fields and their selection
                   id === selectedValue
               )
@@ -1795,9 +1796,9 @@ const ScheduleApp = function(variables) {
     }
 
     /**
-     * Build the form by collecting backend configurations and handles the first field of schedule form
+     * Collects configuration from backend and url params
      */
-    (function() {
+    function collectConfig() {
       let valueIndex, variable;
 
       for (variable in variables) {
@@ -1830,8 +1831,13 @@ const ScheduleApp = function(variables) {
 
       // No configured field => category have to be visible
       fieldsToShow.category = !config.name;
-      fieldsToShow.department = !config.name && !variables.departmentID;
+    }
 
+    /**
+     * Build the form by collecting backend configurations and handles the first field of schedule form
+     */
+    (function() {
+      collectConfig();
       loadSession();
       handleFirstField();
 
