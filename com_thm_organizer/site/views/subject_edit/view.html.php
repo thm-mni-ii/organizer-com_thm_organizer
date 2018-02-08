@@ -55,7 +55,7 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
             return;
         }
 
-        $authorized = THM_OrganizerHelperSubjects::isCoordinator($this->subjectID);
+        $authorized = THM_OrganizerHelperSubjects::authorized($this->subjectID);
 
         if (!$authorized) {
             JError::raiseError(401, JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));

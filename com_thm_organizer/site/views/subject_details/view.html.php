@@ -70,7 +70,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
         if (!empty($courses)) {
             $this->showRegistration = true;
-            $isCoordinator          = THM_OrganizerHelperSubjects::isCoordinator($this->subjectID);
+            $isCoordinator          = THM_OrganizerHelperSubjects::authorized($this->subjectID);
 
             foreach ($courses as $key => &$course) {
                 $courseID                     = $course['id'];
@@ -82,7 +82,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
                 $course['statusDisplay']      = THM_OrganizerHelperCourses::getStatusDisplay($courseID);
 
                 // Course administrators are green
-                $isTeacher = THM_OrganizerHelperCourses::isTeacher($courseID);
+                $isTeacher = THM_OrganizerHelperCourses::authorized($courseID);
                 if ($isCoordinator or $isTeacher) {
                     $this->color = 'green';
                     continue;

@@ -28,6 +28,58 @@ class THM_OrganizerHelperCourses
     const INSTANCE_MODE = 3;
 
     /**
+     * Check if user is registered as a teacher, optionally for a specific course
+     *
+     * @param int $courseID id of the course resource
+     *
+     * @return  boolean if user is authorized
+     * @throws Exception
+     */
+    public static function authorized($courseID = 0)
+    {
+        $user = JFactory::getUser();
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        if ($user->authorise('core.admin', "com_thm_organizer")) {
+            return true;
+        }
+
+        $subjectID = self::getSubjectID($courseID);
+
+        if (THM_OrganizerHelperSubjects::authorized($subjectID)) {
+            return true;
+        }
+
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+
+        $query->select("COUNT(*)")
+            ->from('#__thm_organizer_lesson_subjects AS ls')
+            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id')
+            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
+            ->where("t.username = '{$user->username}'");
+
+        if (!empty($courseID)) {
+            $query->where("ls.lessonID = '$courseID'");
+        }
+
+        $dbo->setQuery($query);
+
+        try {
+            $assocCount = $dbo->loadResult();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+            return false;
+        }
+
+        return !empty($assocCount);
+    }
+
+    /**
      * Check if course with specific id is full
      *
      * @param int $courseID identifier of course
@@ -74,7 +126,7 @@ class THM_OrganizerHelperCourses
     public static function getActionButton($view, $courseID)
     {
         $expired = !self::isRegistrationOpen($courseID);
-        $admin   = self::isTeacher($courseID);
+        $authorized   = self::authorized($courseID);
 
         $lang            = THM_OrganizerHelperLanguage::getLanguage();
         $shortTag        = THM_OrganizerHelperLanguage::getShortTag();
@@ -93,7 +145,7 @@ class THM_OrganizerHelperCourses
         if (!empty(JFactory::getUser()->id)) {
             $lessonURL = "&lessonID=$courseID";
 
-            if ($admin) {
+            if ($authorized) {
                 $managerRoute = JRoute::_($managerURL . $lessonURL);
                 $register     = "<a class='btn' href='$managerRoute'>$manage</a>";
             } else {
@@ -534,7 +586,7 @@ class THM_OrganizerHelperCourses
     {
         $lang    = THM_OrganizerHelperLanguage::getLanguage();
         $expired = !self::isRegistrationOpen($courseID);
-        $admin   = self::isTeacher($courseID);
+        $authorized   = self::authorized($courseID);
 
         // Personal Status
         $none        = $expired ?
@@ -544,7 +596,7 @@ class THM_OrganizerHelperCourses
         $registered  = '<span class="icon-checkbox-checked"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 
         if (!empty(JFactory::getUser()->id)) {
-            if ($admin) {
+            if ($authorized) {
                 $userStatus = $lang->_('COM_THM_ORGANIZER_COURSE_ADMINISTRATOR');
             } else {
                 $regState = self::getParticipantState($courseID);
@@ -598,58 +650,6 @@ class THM_OrganizerHelperCourses
         }
 
         return empty($subjectID) ? 0 : $subjectID;
-    }
-
-    /**
-     * Check if user is registered as a teacher, optionally for a specific course
-     *
-     * @param int $courseID id of the course resource
-     *
-     * @return  boolean if user is authorized
-     * @throws Exception
-     */
-    public static function isTeacher($courseID = 0)
-    {
-        $user = JFactory::getUser();
-
-        if (empty($user->id)) {
-            return false;
-        }
-
-        if ($user->authorise('core.admin', "com_thm_organizer")) {
-            return true;
-        }
-
-        $subjectID = self::getSubjectID($courseID);
-
-        if (THM_OrganizerHelperSubjects::isCoordinator($subjectID)) {
-            return true;
-        }
-
-        $dbo   = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-
-        $query->select("COUNT(*)")
-            ->from('#__thm_organizer_lesson_subjects AS ls')
-            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id')
-            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
-            ->where("t.username = '{$user->username}'");
-
-        if (!empty($courseID)) {
-            $query->where("ls.lessonID = '$courseID'");
-        }
-
-        $dbo->setQuery($query);
-
-        try {
-            $assocCount = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return false;
-        }
-
-        return !empty($assocCount);
     }
 
     /**

@@ -206,7 +206,7 @@ class THM_OrganizerHelperSubjects
      * @return  boolean true if the user is a registered teacher, otherwise false
      * @throws Exception
      */
-    public static function isCoordinator($subjectID = 0)
+    public static function authorized($subjectID = 0)
     {
         $user = JFactory::getUser();
 

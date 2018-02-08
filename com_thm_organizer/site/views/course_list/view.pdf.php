@@ -38,7 +38,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
         $lessonID = $input->get("lessonID", 0);
         $type     = $input->get("type", 0);
 
-        if (!empty($lessonID) and THM_OrganizerHelperCourses::isTeacher($lessonID)) {
+        if (!empty($lessonID) and THM_OrganizerHelperCourses::authorized($lessonID)) {
             switch ($type) {
                 case 0:
                     require_once __DIR__ . "/tmpl/prep_course_participant_list.php";

@@ -57,10 +57,6 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 
         $this->setFilters();
 
-        foreach ($this->items AS &$item) {
-            $item->admin = THM_OrganizerHelperCourses::isTeacher($item->lessonID);
-        }
-
         parent::display($tpl);
     }
 
@@ -100,7 +96,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
             = THM_OrganizerHelperComponent::selectBox($campusOptions, 'filter_campus', $attribs,
             $this->state->filter_campus, $default);
 
-        if (THM_OrganizerHelperCourses::isTeacher()) {
+        if (THM_OrganizerHelperCourses::authorized()) {
             $activeOptions = [
                 "pending" => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
                 "current" => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),

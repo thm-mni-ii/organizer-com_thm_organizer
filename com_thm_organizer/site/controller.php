@@ -43,7 +43,7 @@ class THM_OrganizerController extends JControllerLegacy
             $app->redirect(JRoute::_($url, false));
         }
 
-        if (!THM_OrganizerHelperCourses::isTeacher($formData['id'])) {
+        if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
             $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
             $app->redirect(JRoute::_($url, false));
         }
@@ -220,9 +220,9 @@ class THM_OrganizerController extends JControllerLegacy
         $url        = THM_OrganizerHelperComponent::getRedirectBase();
 
         if ($modelName == 'subject') {
-            $authorized = THM_OrganizerHelperSubjects::isCoordinator($formData['id']);
+            $authorized = THM_OrganizerHelperSubjects::authorized($formData['id']);
         } elseif ($modelName == 'course') {
-            $authorized = THM_OrganizerHelperCourses::isTeacher($formData['id']);
+            $authorized = THM_OrganizerHelperCourses::authorized($formData['id']);
         } elseif ($modelName == 'participant') {
             $authorized = JFactory::getUser()->id == $formData['id'];
         }

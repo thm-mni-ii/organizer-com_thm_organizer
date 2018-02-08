@@ -71,7 +71,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
 
         $courseID = $input->get("lessonID", 0);
 
-        if (empty($courseID) or empty(THM_OrganizerHelperCourses::isTeacher($courseID))) {
+        if (empty($courseID) or empty(THM_OrganizerHelperCourses::authorized($courseID))) {
             JError::raiseError(401, 'Unauthorized');
         }
 
