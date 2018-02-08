@@ -177,9 +177,9 @@ class THM_OrganizerHelperPrograms
         $programPieces   = explode('.', $gpuntisID);
         $plausibleNumber = count($programPieces) === 3;
         if ($plausibleNumber) {
-            $plausibleCode = ctype_upper($programPieces[0]) AND preg_match('/^[A-Z]+$/', $programPieces[0]);
-            $plausibleVersion = ctype_digit($programPieces[2]) AND preg_match('/^[2]{1}[0-9]{3}$/', $programPieces[2]);
-            $plausibleDegree = ctype_upper($programPieces[1]) AND preg_match('/^[B|M]{1}[A-Z]{1,2}$/',
+            $plausibleCode = ctype_upper($programPieces[0]) and preg_match('/^[A-Z]+$/', $programPieces[0]);
+            $plausibleVersion = ctype_digit($programPieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $programPieces[2]);
+            $plausibleDegree = ctype_upper($programPieces[1]) and preg_match('/^[B|M]{1}[A-Z]{1,2}$/',
                 $programPieces[1]);
             if ($plausibleDegree) {
                 $degreeTable    = JTable::getInstance('degrees', 'thm_organizerTable');
@@ -187,7 +187,7 @@ class THM_OrganizerHelperPrograms
                 $exists         = $degreeTable->load($degreePullData);
                 $degreeID       = $exists ? $degreeTable->id : null;
             }
-            if ($plausibleCode AND !empty($degreeID) AND $plausibleVersion) {
+            if ($plausibleCode and !empty($degreeID) and $plausibleVersion) {
                 $container['code']     = $programPieces[0];
                 $container['degreeID'] = $degreeID;
                 $container['version']  = $programPieces[2];

@@ -234,7 +234,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         $type       = $this->state->{'list.type'};
         $resourceID = $this->state->{'list.id'};
 
-        $invalid = (($type != 'program' AND $type != 'pool') OR $resourceID == 0);
+        $invalid = (($type != 'program' and $type != 'pool') or $resourceID == 0);
         if ($invalid) {
             return;
         }

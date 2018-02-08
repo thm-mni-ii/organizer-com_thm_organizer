@@ -58,7 +58,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $this->lang = THM_OrganizerHelperLanguage::getLanguage();
         $lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
 
-        if (empty($lessonID) OR !THM_OrganizerHelperCourses::isTeacher($lessonID, 'course')) {
+        if (empty($lessonID) or !THM_OrganizerHelperCourses::isTeacher($lessonID, 'course')) {
             JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
         }
 

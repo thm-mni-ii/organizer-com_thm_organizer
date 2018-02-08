@@ -46,7 +46,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     public function activate()
     {
         $active        = $this->getScheduleRow();
-        $activeInvalid = (empty($active) OR empty($active->id) OR !empty($active->active));
+        $activeInvalid = (empty($active) or empty($active->id) or !empty($active->active));
 
         if ($activeInvalid) {
             return true;
@@ -55,7 +55,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $jsonModel = new THM_OrganizerModelJSONSchedule;
         $reference = $this->getScheduleRow($active->departmentID, $active->planningPeriodID);
 
-        if (empty($reference) OR empty($reference->id)) {
+        if (empty($reference) or empty($reference->id)) {
             $jsonModel->save($active->newSchedule);
             $active->set('active', 1);
             $active->store();
@@ -144,7 +144,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     {
         $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
 
-        if (empty($departmentID) OR empty($planningPeriodID)) {
+        if (empty($departmentID) or empty($planningPeriodID)) {
             $input = JFactory::getApplication()->input;
 
             // called from activate or set reference => table id in request
@@ -182,13 +182,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     {
         $reference = $this->getScheduleRow();
 
-        if (empty($reference) OR empty($reference->id)) {
+        if (empty($reference) or empty($reference->id)) {
             return true;
         }
 
         $active = $this->getScheduleRow($reference->departmentID, $reference->planningPeriodID);
 
-        if (empty($active) OR empty($active->id)) {
+        if (empty($active) or empty($active->id)) {
             return true;
         }
 
@@ -253,7 +253,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
         $jsonModel = new THM_OrganizerModelJSONSchedule;
 
-        if (empty($reference) OR empty($reference->id)) {
+        if (empty($reference) or empty($reference->id)) {
             $new->set('active', 1);
             $new->store();
 

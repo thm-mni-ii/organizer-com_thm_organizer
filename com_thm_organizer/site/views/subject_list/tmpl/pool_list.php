@@ -31,25 +31,25 @@ class THM_OrganizerTemplatePoolList
      */
     public static function render(&$view)
     {
-        if (empty($view->items) OR empty($view->pools)) {
+        if (empty($view->items) or empty($view->pools)) {
             return;
         }
 
-        foreach ($view->pools AS $pool) {
-            if (empty($pool['subjects']) AND empty($pool['pools'])) {
+        foreach ($view->pools as $pool) {
+            if (empty($pool['subjects']) and empty($pool['pools'])) {
                 continue;
             }
 
             $crpText = $view->getCreditPointText($pool);
 
             ?>
-			<a name="pool<?php echo $pool['id']; ?>" class="pool-anchor"></a>
-			<fieldset class="pool-group">
-				<legend>
-					<span class="pool-title"><?php echo $pool['name']; ?></span>
-					<span class="pool-crp"><?php echo $crpText; ?></span>
-				</legend>
-				<table>
+            <a name="pool<?php echo $pool['id']; ?>" class="pool-anchor"></a>
+            <fieldset class="pool-group">
+                <legend>
+                    <span class="pool-title"><?php echo $pool['name']; ?></span>
+                    <span class="pool-crp"><?php echo $crpText; ?></span>
+                </legend>
+                <table>
                     <?php
                     foreach (array_keys($pool['subjects']) as $subjectKey) {
                         echo $view->getItemRow($view->items[$subjectKey]);
@@ -58,8 +58,8 @@ class THM_OrganizerTemplatePoolList
                         echo $view->getItemRow($view->pools[$poolKey], 'pool');
                     }
                     ?>
-				</table>
-			</fieldset>
+                </table>
+            </fieldset>
             <?php
         }
     }

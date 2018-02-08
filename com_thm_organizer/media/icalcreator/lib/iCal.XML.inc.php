@@ -975,7 +975,7 @@ function XMLgetTagContent1($xml, $tagName, & $endIx = 0)
 }
 
 /**
- * fetch next (unknown) XML tagname AND content
+ * fetch next (unknown) XML tagname and content
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @since  2.16.22 - 2013-06-20

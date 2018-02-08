@@ -59,7 +59,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 
         $departmentID = $this->state->get('list.departmentID');
 
-        if ($departmentID AND in_array($departmentID, $allowedDepartments)) {
+        if ($departmentID and in_array($departmentID, $allowedDepartments)) {
             $query->where("dr.departmentID = '$departmentID'");
         } else {
             $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");

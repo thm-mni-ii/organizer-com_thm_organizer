@@ -186,7 +186,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                 $subjectNames[] = $name;
             }
 
-            if (!empty($subject['subjectNo']) AND !in_array($subject['subjectNo'], $subjectNos)) {
+            if (!empty($subject['subjectNo']) and !in_array($subject['subjectNo'], $subjectNos)) {
                 $subjectNos[] = $subject['subjectNo'];
             }
 
@@ -435,7 +435,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
             strtotime("+1 day", strtotime($currentDate)))) {
             $dow        = date('w', strtotime($currentDate));
-            $validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int)$this->parameters['startDay'] AND $dow <= (int)$this->parameters['endDay']);
+            $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
             if ($validIndex) {
                 $this->document->MultiCell(
                     $this->parameters['dataWidth'],
@@ -514,7 +514,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
             strtotime("+1 day", strtotime($currentDate)))) {
             $dow        = date('w', strtotime($currentDate));
-            $validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int)$this->parameters['startDay'] AND $dow <= (int)$this->parameters['endDay']);
+            $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
 
             if ($validIndex) {
                 $this->document->MultiCell($this->parameters['dataWidth'], 0, $columnHeaders[$currentDate]['text'],
@@ -596,7 +596,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                 for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
                     strtotime("+1 day", strtotime($currentDate)))) {
                     $dow        = date('w', strtotime($currentDate));
-                    $validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int)$this->parameters['startDay'] AND $dow <= (int)$this->parameters['endDay']);
+                    $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
 
                     if ($validIndex) {
                         $dataText = empty($row[$columnHeaders[$currentDate]['value']]) ? '' : $row[$columnHeaders[$currentDate]['value']];
@@ -720,7 +720,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
                 strtotime("+1 day", strtotime($currentDate)))) {
                 $dow        = date('w', strtotime($currentDate));
-                $validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int)$this->parameters['startDay'] AND $dow <= (int)$this->parameters['endDay']);
+                $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
 
                 if ($validIndex) {
                     $dataText = empty($row[$columnHeaders[$currentDate]['value']]) ? '' : $row[$columnHeaders[$currentDate]['value']];

@@ -221,7 +221,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $userID      = JFactory::getUser()->id;
         $savedCcmIDs = [];
 
-        if (JFactory::getUser()->guest OR empty($ccmID)) {
+        if (JFactory::getUser()->guest or empty($ccmID)) {
             return '[]';
         }
 
@@ -250,7 +250,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 
             $conditions['configuration'] = $ccmIDs;
 
-            if ($userLessonTable->bind($conditions) AND $userLessonTable->store()) {
+            if ($userLessonTable->bind($conditions) and $userLessonTable->store()) {
                 $savedCcmIDs = array_merge($savedCcmIDs, $ccmIDs);
             }
         }
@@ -324,7 +324,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $ccmID  = $input->getString('ccmID');
         $userID = JFactory::getUser()->id;
 
-        if (JFactory::getUser()->guest OR empty($ccmID)) {
+        if (JFactory::getUser()->guest or empty($ccmID)) {
             return '[]';
         }
 

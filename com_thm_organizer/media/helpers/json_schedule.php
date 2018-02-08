@@ -284,7 +284,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
     {
         $rooms = [];
         foreach ($instanceRooms as $gpuntisID => $delta) {
-            $invalidRoom = ($gpuntisID == 'delta' OR empty($this->refSchedule->rooms->$gpuntisID));
+            $invalidRoom = ($gpuntisID == 'delta' or empty($this->refSchedule->rooms->$gpuntisID));
             if ($invalidRoom) {
                 continue;
             }
@@ -363,7 +363,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $value = $resource;
         }
 
-        return (empty($this->schedule->active) OR empty($value)) ? '' : $value;
+        return (empty($this->schedule->active) or empty($value)) ? '' : $value;
     }
 
     /**
@@ -445,14 +445,14 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
     private function sanitizeNumericCollection(&$numericCollection)
     {
         // TODO: this is sometimes not an object. where does this come from?
-        if (!is_object($numericCollection) OR empty($numericCollection)) {
+        if (!is_object($numericCollection) or empty($numericCollection)) {
             $numericCollection = null;
 
             return;
         }
 
         foreach ($numericCollection as $resourceID => $delta) {
-            if (!empty($delta) AND $delta == 'removed') {
+            if (!empty($delta) and $delta == 'removed') {
                 unset($numericCollection->$resourceID);
             } else {
                 $numericCollection->$resourceID = '';
@@ -501,7 +501,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
     private function sanitizeObjectNodes(&$objectNodes)
     {
         foreach ($objectNodes as $objectID => $object) {
-            if (!empty($object->delta) AND $object->delta == 'removed') {
+            if (!empty($object->delta) and $object->delta == 'removed') {
                 unset($objectNodes->$objectID);
             } else {
                 $objectNodes->$objectID->delta = '';
@@ -577,7 +577,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             return false;
         }
 
-        $success = ($lessonsSaved AND $configurationsSaved AND $calendarSaved AND $configurationsMapped);
+        $success = ($lessonsSaved and $configurationsSaved and $calendarSaved and $configurationsMapped);
         if ($success) {
             $this->_db->transactionCommit();
 

@@ -200,21 +200,21 @@ class THM_OrganizerTemplateExport_XLS
     private function setColumnDisplay()
     {
         $this->parameters['showPools'] = (
-            (empty($this->parameters['poolIDs']) OR count($this->parameters['poolIDs']) !== 1)
-            OR !empty($this->parameters['roomIDs'])
-            OR !empty($this->parameters['teacherIDs'])
+            (empty($this->parameters['poolIDs']) or count($this->parameters['poolIDs']) !== 1)
+            or !empty($this->parameters['roomIDs'])
+            or !empty($this->parameters['teacherIDs'])
         );
 
         $this->parameters['showRooms'] = (
-            (empty($this->parameters['roomIDs']) OR count($this->parameters['roomIDs']) !== 1)
-            OR !empty($this->parameters['poolIDs'])
-            OR !empty($this->parameters['teacherIDs'])
+            (empty($this->parameters['roomIDs']) or count($this->parameters['roomIDs']) !== 1)
+            or !empty($this->parameters['poolIDs'])
+            or !empty($this->parameters['teacherIDs'])
         );
 
         $this->parameters['showTeachers'] = (
-            (empty($this->parameters['teacherIDs']) OR count($this->parameters['teacherIDs']) !== 1)
-            OR !empty($this->parameters['poolIDs'])
-            OR !empty($this->parameters['roomIDs'])
+            (empty($this->parameters['teacherIDs']) or count($this->parameters['teacherIDs']) !== 1)
+            or !empty($this->parameters['poolIDs'])
+            or !empty($this->parameters['roomIDs'])
         );
     }
 }

@@ -218,7 +218,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     private function hasRelevantRoom(&$instanceRooms)
     {
         foreach ($instanceRooms as $roomID => $delta) {
-            if ($delta == 'removed' OR $roomID != $this->roomID) {
+            if ($delta == 'removed' or $roomID != $this->roomID) {
                 continue;
             }
 
@@ -263,7 +263,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $monitorEntry->load($this->monitorID);
         }
 
-        if (isset($monitorEntry) AND !$monitorEntry->useDefaults) {
+        if (isset($monitorEntry) and !$monitorEntry->useDefaults) {
             $this->params['display']          = empty($monitorEntry->display) ? SCHEDULE : $monitorEntry->display;
             $this->params['schedule_refresh'] = $monitorEntry->schedule_refresh;
             $this->params['content_refresh']  = $monitorEntry->content_refresh;
@@ -331,7 +331,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $roomEntry    = JTable::getInstance('rooms', 'thm_organizerTable');
         $registered   = $monitorEntry->load($ipData);
 
-        if ($registered AND !empty($monitorEntry->roomID)) {
+        if ($registered and !empty($monitorEntry->roomID)) {
             $this->monitorID = $monitorEntry->id;
             $exists          = $roomEntry->load($monitorEntry->roomID);
 
@@ -370,7 +370,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     private function processBlocks($events)
     {
         $blocks = [];
-        foreach ($this->grid['periods'] AS $blockNo => $block) {
+        foreach ($this->grid['periods'] as $blockNo => $block) {
             $blocks[$blockNo]              = [];
             $blockStartTime                = THM_OrganizerHelperComponent::formatTime($block['startTime']);
             $blockEndTime                  = THM_OrganizerHelperComponent::formatTime($block['endTime']);
@@ -385,7 +385,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 $before         = $eventEndTime < $blockStartTime;
                 $after          = $eventStartTime > $blockEndTime;
 
-                if ($before OR $after) {
+                if ($before or $after) {
                     continue;
                 }
 

@@ -77,7 +77,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
                 $this->setDates();
                 $this->initializeCalendar();
 
-                foreach ($this->rooms AS $roomName => $roomData) {
+                foreach ($this->rooms as $roomName => $roomData) {
                     $booked = $this->setData($roomData['id']);
 
                     if (!$booked) {
@@ -131,7 +131,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
             $lsIDs    = [$instance['lsID'] => $instance['lsID']];
 
             foreach ($rawConfig['rooms'] as $roomID => $delta) {
-                if (!in_array($roomID, array_keys($this->roomTypeMap)) OR $delta == 'removed') {
+                if (!in_array($roomID, array_keys($this->roomTypeMap)) or $delta == 'removed') {
                     continue;
                 }
 
@@ -141,7 +141,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
                     continue;
                 }
 
-                foreach ($blocks AS $blockNo) {
+                foreach ($blocks as $blockNo) {
                     if (empty($this->calendarData[$date][$blockNo][$roomID])) {
                         $this->calendarData[$date][$blockNo][$roomID] = [];
                     }
@@ -236,7 +236,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
             $tooEarly = $times['endTime'] <= $startTime;
             $tooLate  = $times['startTime'] >= $endTime;
 
-            if ($tooEarly OR $tooLate) {
+            if ($tooEarly or $tooLate) {
                 continue;
             }
 
@@ -298,7 +298,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
         for ($currentDT = $startDT; $currentDT <= $endDT; $currentDT = strtotime('+1 days', $currentDT)) {
             $currentDoW = date('w', $currentDT);
-            $invalidDoW = ($currentDoW < $this->startDoW OR $currentDoW > $this->endDoW);
+            $invalidDoW = ($currentDoW < $this->startDoW or $currentDoW > $this->endDoW);
 
             if ($invalidDoW) {
                 continue;
@@ -360,7 +360,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
             return false;
         }
 
-        if (empty($ringData) OR empty($lsIDs)) {
+        if (empty($ringData) or empty($lsIDs)) {
             return false;
         }
 
@@ -382,9 +382,9 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $input     = JFactory::getApplication()->input;
         $use       = $input->getString('use');
         $ppIDs     = $input->get('planningPeriodIDs', [], 'array');
-        $validPPID = (!empty($ppIDs) AND !empty($ppIDs[0])) ? true : false;
+        $validPPID = (!empty($ppIDs) and !empty($ppIDs[0])) ? true : false;
 
-        if ($use == 'planningPeriodIDs' AND $validPPID) {
+        if ($use == 'planningPeriodIDs' and $validPPID) {
             $ppTable = JTable::getInstance('planning_periods', 'thm_organizerTable');
             $success = $ppTable->load($ppIDs[0]);
 

@@ -154,7 +154,7 @@ class THM_OrganizerTableAssets extends JTable
     {
         foreach ($rules as $rule => $groups) {
             foreach ($groups as $group => $value) {
-                if (empty($value) AND $value !== 0) {
+                if (empty($value) and $value !== 0) {
                     unset($rules[$rule][$group]);
                 }
             }

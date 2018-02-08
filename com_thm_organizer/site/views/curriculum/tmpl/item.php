@@ -49,19 +49,19 @@ class THM_OrganizerTemplateCurriculumItemPanel
             $headStyle .= ' style="background-color: ' . $element->bgColor . '; color: ' . $textColor . ';"';
         }
         ?>
-		<div class="item" style="width: <?php echo $width; ?>%;">
-			<div class="item-head" <?php echo $headStyle; ?>>
-				<span class="item-code"><?php echo $moduleNumberHTML; ?></span>
-				<span class="item-crp"><?php echo $crpHTML; ?></span>
-			</div>
-			<div class="item-name"><?php echo $nameHTML; ?></div>
-			<div class="item-tools">
+        <div class="item" style="width: <?php echo $width; ?>%;">
+            <div class="item-head" <?php echo $headStyle; ?>>
+                <span class="item-code"><?php echo $moduleNumberHTML; ?></span>
+                <span class="item-crp"><?php echo $crpHTML; ?></span>
+            </div>
+            <div class="item-name"><?php echo $nameHTML; ?></div>
+            <div class="item-tools">
                 <?php
                 if (!empty($element->teacherName)) {
                     ?>
-					<a class="btn hasTooltip" href="#" title="<?php echo $element->teacherName; ?>">
-						<icon class="icon-user"></icon>
-					</a>
+                    <a class="btn hasTooltip" href="#" title="<?php echo $element->teacherName; ?>">
+                        <icon class="icon-user"></icon>
+                    </a>
                     <?php
                 }
                 if (!empty($element->children)) {
@@ -71,8 +71,8 @@ class THM_OrganizerTemplateCurriculumItemPanel
                     THM_OrganizerTemplateCurriculumPanel::render($element);
                 }
                 ?>
-			</div>
-		</div>
+            </div>
+        </div>
         <?php
     }
 }

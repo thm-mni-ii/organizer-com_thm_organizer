@@ -32,20 +32,20 @@ class THM_OrganizerTemplateEdit_Tabbed
     {
         ?>
 
-		<form action="index.php?option=com_thm_organizer"
-			  enctype="multipart/form-data"
-			  method="post"
-			  name="adminForm"
-			  id="item-form"
-			  class="form-horizontal form-validate">
-			<div class="form-horizontal">
+        <form action="index.php?option=com_thm_organizer"
+              enctype="multipart/form-data"
+              method="post"
+              name="adminForm"
+              id="item-form"
+              class="form-horizontal form-validate">
+            <div class="form-horizontal">
                 <?php
                 echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
                 $sets = $view->form->getFieldSets();
                 foreach ($sets as $set) {
                     $isInitialized  = (bool)$view->form->getValue('id');
                     $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
-                    if ($displayInitial OR $isInitialized) {
+                    if ($displayInitial or $isInitialized) {
                         echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
                         echo $view->form->renderFieldset($set->name);
                         echo JHtml::_('bootstrap.endTab');
@@ -53,11 +53,11 @@ class THM_OrganizerTemplateEdit_Tabbed
                 }
                 echo JHtml::_('bootstrap.endTabSet');
                 ?>
-			</div>
+            </div>
             <?php echo $view->form->getInput('id'); ?>
             <?php echo JHtml::_('form.token'); ?>
-			<input type="hidden" name="task" value=""/>
-		</form>
+            <input type="hidden" name="task" value=""/>
+        </form>
         <?php
     }
 

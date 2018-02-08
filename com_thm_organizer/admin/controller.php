@@ -48,7 +48,7 @@ class THM_OrganizerController extends JControllerLegacy
     {
         $model = $this->getModel($this->resource);
 
-        $functionsAvailable = (method_exists($model, 'activate') AND method_exists($model, 'checkIfActive'));
+        $functionsAvailable = (method_exists($model, 'activate') and method_exists($model, 'checkIfActive'));
         if ($functionsAvailable) {
             $count = JFactory::getApplication()->input->getInt('boxchecked', 0);
             if ($count === 1) {
@@ -414,7 +414,7 @@ class THM_OrganizerController extends JControllerLegacy
         if ($functionAvailable) {
             $form      = JFactory::getApplication()->input->files->get('jform', [], '[]');
             $file      = $form['file'];
-            $validType = (!empty($file['type']) AND $file['type'] == 'text/xml');
+            $validType = (!empty($file['type']) and $file['type'] == 'text/xml');
 
             if ($validType) {
                 if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8') {

@@ -70,9 +70,9 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
         if (!empty($courses)) {
             $this->showRegistration = true;
-            $isCoordinator = THM_OrganizerHelperSubjects::isCoordinator($this->subjectID);
+            $isCoordinator          = THM_OrganizerHelperSubjects::isCoordinator($this->subjectID);
 
-            foreach ($courses AS $key => &$course) {
+            foreach ($courses as $key => &$course) {
                 $courseID                     = $course['id'];
                 $course['dateText']           = THM_OrganizerHelperCourses::getDateDisplay($courseID);
                 $course['expired']            = !THM_OrganizerHelperCourses::isRegistrationOpen($courseID);
@@ -83,13 +83,13 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
                 // Course administrators are green
                 $isTeacher = THM_OrganizerHelperCourses::isTeacher($courseID);
-                if ($isCoordinator OR $isTeacher) {
+                if ($isCoordinator or $isTeacher) {
                     $this->color = 'green';
                     continue;
                 }
 
                 // Make no change if the course has no status information or if the status color has already been set to green.
-                if ($course['status'] === null OR $this->status === 'green') {
+                if ($course['status'] === null or $this->status === 'green') {
                     continue;
                 }
 
@@ -144,12 +144,12 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      */
     public function displayTeacherAttribute($index, $constant, $default = '')
     {
-        if (empty($this->item->$index) AND empty($default)) {
+        if (empty($this->item->$index) and empty($default)) {
             return;
         }
 
         $label = 'COM_THM_ORGANIZER_' . strtoupper($constant);
-        $label .= ((empty($this->item->$index) AND !empty($default)) OR count($this->item->$index)) ? 'S' : '';
+        $label .= ((empty($this->item->$index) and !empty($default)) or count($this->item->$index)) ? 'S' : '';
 
         $value = '';
 
@@ -183,7 +183,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      */
     public function displayStarAttribute($index)
     {
-        if (!isset($this->item->$index) OR $this->item->$index === null OR $this->item->$index === '') {
+        if (!isset($this->item->$index) or $this->item->$index === null or $this->item->$index === '') {
             return;
         }
 
@@ -296,7 +296,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $html = '<ul>';
         foreach ($dependencies as $programID => $programData) {
             $html .= "<li>{$programData['name']}<ul>";
-            foreach ($programData['subjects'] AS $subjectID => $subjectName) {
+            foreach ($programData['subjects'] as $subjectID => $subjectName) {
                 $subjectLink = JHtml::_('link', $link . $subjectID, $subjectName);
                 $html        .= "<li>$subjectLink</li>";
             }

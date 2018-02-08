@@ -78,8 +78,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     private function modifyDocument()
     {
         $app            = JFactory::getApplication();
-        $activeMenu     = (!empty($app->getMenu()) AND !empty($app->getMenu()->getActive()));
-        $seeingImpaired = (bool)($activeMenu AND $app->getMenu()->getActive()->params->get('si', false));
+        $activeMenu     = (!empty($app->getMenu()) and !empty($app->getMenu()->getActive()));
+        $seeingImpaired = (bool)($activeMenu and $app->getMenu()->getActive()->params->get('si', false));
 
         if (empty($seeingImpaired)) {
             JHtml::_('bootstrap.framework');

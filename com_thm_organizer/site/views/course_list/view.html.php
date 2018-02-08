@@ -92,7 +92,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
         $campusOptions = THM_OrganizerHelperCampuses::getOptions(true);
         unset($campusOptions[0]);
 
-        if (!empty($this->state->filter_campus) AND !isset($campusOptions[$this->state->filter_campus])) {
+        if (!empty($this->state->filter_campus) and !isset($campusOptions[$this->state->filter_campus])) {
             $campusOptions[$this->state->filter_campus] = THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
         }
 

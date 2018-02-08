@@ -30,78 +30,78 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
 $menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
 if (!empty($menuID)):
     ?>
-	<script type="text/javascript">
-		jQuery(document).ready(function () {
-			let registrationLink = jQuery('#login-form ul.unstyled > li:first-child > a'),
-				oldURL = registrationLink.attr('href');
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            let registrationLink = jQuery('#login-form ul.unstyled > li:first-child > a'),
+                oldURL = registrationLink.attr('href');
 
-			registrationLink.attr('href', oldURL + '&Itemid=<?php echo $menuID; ?>');
-		});
-	</script>
+            registrationLink.attr('href', oldURL + '&Itemid=<?php echo $menuID; ?>');
+        });
+    </script>
 <?php endif; ?>
 <div class="toolbar">
-	<div class="tool-wrapper language-switches">
-        <?php foreach ($this->languageSwitches AS $switch) {
+    <div class="tool-wrapper language-switches">
+        <?php foreach ($this->languageSwitches as $switch) {
             echo $switch;
         } ?>
-	</div>
+    </div>
 </div>
 <div class="course-list-view uses-login">
-	<h1><?php echo $header; ?></h1>
+    <h1><?php echo $header; ?></h1>
 
     <?php if (empty(JFactory::getUser()->id)): ?>
-		<div class="tbox-yellow">
-			<p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
+        <div class="tbox-yellow">
+            <p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
             <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
-			<div class="right">
-				<a class="btn" onclick="<?php echo $casURL; ?>">
-					<span class="icon-apply"></span>
+            <div class="right">
+                <a class="btn" onclick="<?php echo $casURL; ?>">
+                    <span class="icon-apply"></span>
                     <?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN'); ?>
-				</a>
-			</div>
-			<div class="clear"></div>
-		</div>
+                </a>
+            </div>
+            <div class="clear"></div>
+        </div>
     <?php else: ?>
-		<div class="toolbar">
-			<div class="tool-wrapper">
-				<a class='btn btn-max' href='<?php echo $profileRoute; ?>'>
-					<span class='icon-address'></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_USER_PROFILE"); ?>
-				</a>
+        <div class="toolbar">
+            <div class="tool-wrapper">
+                <a class='btn btn-max' href='<?php echo $profileRoute; ?>'>
+                    <span class='icon-address'></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_USER_PROFILE"); ?>
+                </a>
                 <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
-			</div>
-		</div>
+            </div>
+        </div>
     <?php endif; ?>
-	<div id="form-container" class="form-container">
-		<form action="<?php echo $action; ?>"
-			  method="post" name="adminForm" id="adminForm">
-			<div class="filter-item short-item">
+    <div id="form-container" class="form-container">
+        <form action="<?php echo $action; ?>"
+              method="post" name="adminForm" id="adminForm">
+            <div class="filter-item short-item">
                 <?php echo $this->filters['filter_campus']; ?>
-			</div>
+            </div>
             <?php if (!empty($this->filters['filter_subject'])): ?>
-				<div class="filter-item short-item">
+                <div class="filter-item short-item">
                     <?php echo $this->filters['filter_subject']; ?>
-				</div>
+                </div>
             <?php endif; ?>
             <?php if (!empty($this->filters['filter_status'])): ?>
-				<div class="filter-item short-item">
+                <div class="filter-item short-item">
                     <?php echo $this->filters['filter_status']; ?>
-				</div>
+                </div>
             <?php endif; ?>
-			<input type="hidden" name="languageTag" value="<?php echo $this->shortTag; ?>"/>
-		</form>
-	</div>
-	<table class="table table-striped">
-		<thead>
-		<tr>
-			<th><?php echo $this->lang->_("COM_THM_ORGANIZER_NAME"); ?></th>
-			<th><?php echo $this->lang->_("COM_THM_ORGANIZER_DATES"); ?></th>
-			<th class='course-state'><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_STATE"); ?></th>
-			<th class='user-state'><?php echo $this->lang->_("COM_THM_ORGANIZER_REGISTRATION_STATE"); ?></th>
-			<th class='registration'></th>
-		</tr>
-		</thead>
-		<tbody>
+            <input type="hidden" name="languageTag" value="<?php echo $this->shortTag; ?>"/>
+        </form>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th><?php echo $this->lang->_("COM_THM_ORGANIZER_NAME"); ?></th>
+            <th><?php echo $this->lang->_("COM_THM_ORGANIZER_DATES"); ?></th>
+            <th class='course-state'><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_STATE"); ?></th>
+            <th class='user-state'><?php echo $this->lang->_("COM_THM_ORGANIZER_REGISTRATION_STATE"); ?></th>
+            <th class='registration'></th>
+        </tr>
+        </thead>
+        <tbody>
         <?php echo $this->loadTemplate('list'); ?>
-		</tbody>
-	</table>
+        </tbody>
+    </table>
 </div>

@@ -91,6 +91,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      *
      * @param int    $poolID  the id of the pool being sought
      * @param string $langTag the current display language
+     *
      * @return  mixed  The return value or null if the query failed.
      * @throws  exception
      */
@@ -202,8 +203,8 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
 
         $subjectData->link = JRoute::_($subjectData->link);
-        if (!empty($subjectData->externalID) AND !empty($this->_schedule)) {
-            foreach ($this->_schedule->subjects AS $subjectID => $subject) {
+        if (!empty($subjectData->externalID) and !empty($this->_schedule)) {
+            foreach ($this->_schedule->subjects as $subjectID => $subject) {
                 if ($subject->subjectNo == $subjectData->externalID) {
                     $subjectData->scheduleLink = $this->_scheduleLink . "&subjectID=$subjectID";
                     break;
@@ -250,7 +251,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
         }
 
         $nodes = [];
-        foreach ($mappings AS $mapping) {
+        foreach ($mappings as $mapping) {
             $parent = $children;
             if ($mapping['level'] > 1) {
                 for ($i = 1; $i < $mapping['level']; $i++) {
@@ -367,7 +368,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
             $subjectData->teacherName = $defaultName;
         }
 
-        if (!empty($teacherData['gpuntisID']) AND !empty($this->_scheduleLink)) {
+        if (!empty($teacherData['gpuntisID']) and !empty($this->_scheduleLink)) {
             $subjectData->teacherScheduleLink
                 = $this->_scheduleLink . "&teacherID={$teacherData['gpuntisID']}";
         }

@@ -12,34 +12,34 @@ defined('_JEXEC') or die;
 $attribs = ['target' => '_blank'];
 ?>
 <div id="j-main-container" class="organizer-search-container">
-	<form action="<?php JUri::current(); ?>" id="adminForm" method="get" name="adminForm">
-		<div class="language-switches">
+    <form action="<?php JUri::current(); ?>" id="adminForm" method="get" name="adminForm">
+        <div class="language-switches">
             <?php
-            foreach ($this->languageSwitches AS $switch) {
+            foreach ($this->languageSwitches as $switch) {
                 echo $switch;
             }
             ?>
-		</div>
-		<h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
-		<div class="toolbar">
-			<div class="tool-wrapper search">
-				<input type="text" name="search" id="search-input" class="search-input"
-					   value="<?php echo addslashes($this->query); ?>"
-					   size="25"/>
-				<button type="submit" class="btn-search hasTooltip"
-						title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-					<i class="icon-search"></i>
-				</button>
-				<button type="reset" class="btn-reset hasTooltip"
-						title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
-						onclick="document.getElementById('search-input').value='';form.submit();">
-					<i class="icon-delete"></i>
-				</button>
-			</div>
-		</div>
-		<input type="hidden" id="languageTag" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
-		<input type="hidden" id="option" name="option" value="com_thm_organizer"/>
-		<input type="hidden" id="view" name="view" value="search"/>
+        </div>
+        <h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
+        <div class="toolbar">
+            <div class="tool-wrapper search">
+                <input type="text" name="search" id="search-input" class="search-input"
+                       value="<?php echo addslashes($this->query); ?>"
+                       size="25"/>
+                <button type="submit" class="btn-search hasTooltip"
+                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+                    <i class="icon-search"></i>
+                </button>
+                <button type="reset" class="btn-reset hasTooltip"
+                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
+                        onclick="document.getElementById('search-input').value='';form.submit();">
+                    <i class="icon-delete"></i>
+                </button>
+            </div>
+        </div>
+        <input type="hidden" id="languageTag" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
+        <input type="hidden" id="option" name="option" value="com_thm_organizer"/>
+        <input type="hidden" id="view" name="view" value="search"/>
         <?php
         $containerOpened = false;
 
@@ -118,5 +118,5 @@ $attribs = ['target' => '_blank'];
             echo '</div>';
         }
         ?>
-	</form>
+    </form>
 </div>

@@ -54,7 +54,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             return false;
         }
 
-        if (!empty($success) AND !empty($lessonID)) {
+        if (!empty($success) and !empty($lessonID)) {
             THM_OrganizerHelperCourses::refreshWaitList($lessonID);
         }
 

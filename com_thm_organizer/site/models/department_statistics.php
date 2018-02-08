@@ -68,7 +68,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
                 $this->calendarData = [];
 
                 // the rooms property is restructured here for quicker access superfluous rooms are removed altogether
-                foreach ($this->rooms AS $roomName => $roomData) {
+                foreach ($this->rooms as $roomName => $roomData) {
                     $booked = $this->setData($roomData['id']);
                     unset($this->rooms[$roomName]);
 
@@ -161,7 +161,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
             $times = "{$rawInstance['startTime']}-{$rawInstance['endTime']}";
 
             foreach ($rawConfig['rooms'] as $roomID => $delta) {
-                if (!in_array($roomID, array_keys($this->roomTypeMap)) OR $delta == 'removed') {
+                if (!in_array($roomID, array_keys($this->roomTypeMap)) or $delta == 'removed') {
                     continue;
                 }
 

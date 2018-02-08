@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 if (!empty($this->languageSwitches)): ?>
     <div class="toolbar">
         <div class="tool-wrapper language-switches">
-            <?php foreach ($this->languageSwitches AS $switch) {
+            <?php foreach ($this->languageSwitches as $switch) {
                 echo $switch;
             } ?>
         </div>
@@ -85,7 +85,7 @@ if (!empty($this->languageSwitches)): ?>
     </form>
     <div id="overview-container" class="overview-container">
         <?php
-        if (empty($this->model->data) OR empty($this->model->rooms)) {
+        if (empty($this->model->data) or empty($this->model->rooms)) {
             echo $this->loadTemplate('empty');
         } else {
             $template = $this->state->get('template', 1);

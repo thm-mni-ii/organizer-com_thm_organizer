@@ -78,7 +78,7 @@ class JFormFieldParentPool extends JFormField
 
             foreach ($programMappings as $mapping) {
                 // Recursive mappings or mappings belonging to subjects should not be offered
-                if (in_array($mapping['id'], $unwantedMappings) OR !empty($mapping['subjectID'])) {
+                if (in_array($mapping['id'], $unwantedMappings) or !empty($mapping['subjectID'])) {
                     continue;
                 }
 

@@ -48,7 +48,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
             $programID = $params->get('programID', 0);
         }
 
-        if (empty($programID) AND empty($poolID)) {
+        if (empty($programID) and empty($poolID)) {
             return $program;
         }
 

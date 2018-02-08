@@ -14,7 +14,8 @@
         <field name="buildingID" type="buildingID" label="COM_THM_ORGANIZER_BUILDING" translateLabel="false">
             <option value="">COM_THM_ORGANIZER_ALL_BUILDINGS</option>
         </field>
-        <field name="types" type="roomTypeID" label="COM_THM_ORGANIZER_ROOM_TYPES" multiple="true" translateLabel="false">
+        <field name="types" type="roomTypeID" label="COM_THM_ORGANIZER_ROOM_TYPES" multiple="true"
+               translateLabel="false">
             <option value="">COM_THM_ORGANIZER_ALL_ROOM_TYPES</option>
         </field>
         <field name="rooms" type="roomID" label="COM_THM_ORGANIZER_ROOMS" multiple="true" translateLabel="false">

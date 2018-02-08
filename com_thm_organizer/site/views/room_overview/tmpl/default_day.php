@@ -13,9 +13,9 @@ $startDate   = $this->model->startDate;
 $blocks      = $this->model->data[$startDate];
 ?>
 <table>
-	<thead>
-	<tr>
-		<th class="room-column block-row"></th>
+    <thead>
+    <tr>
+        <th class="room-column block-row"></th>
         <?php
         foreach ($this->model->grid['periods'] as $times) {
             $startTime = THM_OrganizerHelperComponent::formatTime($times['startTime']);
@@ -23,9 +23,9 @@ $blocks      = $this->model->data[$startDate];
             echo '<th class="block-column block-row day-width ' . $columnClass . '">' . $startTime . ' - ' . $endTime . '</th>';
         }
         ?>
-	</tr>
-	</thead>
-	<tbody>
+    </tr>
+    </thead>
+    <tbody>
     <?php
     foreach ($this->model->rooms as $roomID => $room) {
         echo '<tr>';
@@ -46,5 +46,5 @@ $blocks      = $this->model->data[$startDate];
         echo '</tr>';
     }
     ?>
-	</tbody>
+    </tbody>
 </table>

@@ -65,7 +65,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getBoundaries($resourceType, $resourceID, $excludeChildPools = true)
     {
-        $invalidID = (empty($resourceID) OR $resourceID == 'null' OR $resourceID == '-1');
+        $invalidID = (empty($resourceID) or $resourceID == 'null' or $resourceID == '-1');
         if ($invalidID) {
             return false;
         }
@@ -84,7 +84,7 @@ class THM_OrganizerHelperMapping
             return [];
         }
 
-        if ($resourceType == 'program' OR $resourceType == 'subject' OR !$excludeChildPools) {
+        if ($resourceType == 'program' or $resourceType == 'subject' or !$excludeChildPools) {
             return $ufBoundarySet;
         }
 
@@ -231,7 +231,7 @@ class THM_OrganizerHelperMapping
         $query->from('#__thm_organizer_mappings');
 
         $programs = [];
-        foreach ($mappings AS $mapping) {
+        foreach ($mappings as $mapping) {
             $query->clear('where');
             $query->where("lft < '{$mapping['lft']}'");
             $query->where("rgt > '{$mapping['rgt']}'");
@@ -374,7 +374,7 @@ class THM_OrganizerHelperMapping
     public static function getResourcePrograms($resourceRanges, $getIDs = false)
     {
         $rangeClauses = [];
-        foreach ($resourceRanges AS $borders) {
+        foreach ($resourceRanges as $borders) {
             $rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
         }
 
@@ -418,8 +418,8 @@ class THM_OrganizerHelperMapping
         $query = JFactory::getDbo()->getQuery(true);
         $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
 
-        $allPrograms = ($resourceType == 'program' AND $resourceID == '-1');
-        $allPools    = ($resourceType == 'pool' AND $resourceID == '-1');
+        $allPrograms = ($resourceType == 'program' and $resourceID == '-1');
+        $allPools    = ($resourceType == 'pool' and $resourceID == '-1');
         if ($allPrograms) {
             $query->where("programID IS NOT NULL");
         } elseif ($allPools) {
@@ -500,7 +500,7 @@ class THM_OrganizerHelperMapping
         $pools = [];
 
         // Each range is a unique pool association
-        foreach ($ranges AS $borders) {
+        foreach ($ranges as $borders) {
             $lftQuery->clear('where');
             $lftQuery->where("poolID IS NOT NULL");
             $lftQuery->where("( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')");
@@ -578,7 +578,7 @@ class THM_OrganizerHelperMapping
     public static function getTeacherMappingClauses()
     {
         $teacherID = JFactory::getApplication()->input->getInt('teacherID', 0);
-        if (empty($teacherID) OR $teacherID == '-1' OR $teacherID == 'null') {
+        if (empty($teacherID) or $teacherID == '-1' or $teacherID == 'null') {
             return false;
         }
 
@@ -728,7 +728,7 @@ class THM_OrganizerHelperMapping
      */
     public static function setResourceIDFilter(&$query, $resourceID, $resourceType, $formResourceType)
     {
-        $invalid = (empty($resourceID) OR empty($resourceType) OR empty($formResourceType));
+        $invalid = (empty($resourceID) or empty($resourceType) or empty($formResourceType));
         if ($invalid) {
             return;
         }

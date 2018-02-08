@@ -39,15 +39,15 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $options        = [];
         $options[]      = '<option value="-1">' . JText::_('JNONE') . '</option>';
 
-        $invalidRequest = (empty($resourceID) OR empty($resourceType));
-        $none           = ($invalidRequest OR empty($programEntries));
+        $invalidRequest = (empty($resourceID) or empty($resourceType));
+        $none           = ($invalidRequest or empty($programEntries));
         if ($none) {
             return $options[0];
         }
 
         $programMappings     = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
         $onlyProgramMappings = count($programEntries) == count($programMappings);
-        if ($onlyProgramMappings AND $resourceType == 'subject') {
+        if ($onlyProgramMappings and $resourceType == 'subject') {
             return $options[0];
         }
 
@@ -134,7 +134,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
     {
         foreach ($programMappings as $mapping) {
             if (!empty($mapping['subjectID'])
-                OR (!empty($unelectableMappings) AND in_array($mapping['id'], $unelectableMappings))
+                or (!empty($unelectableMappings) and in_array($mapping['id'], $unelectableMappings))
             ) {
                 continue;
             }
@@ -157,7 +157,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
     {
         $input           = JFactory::getApplication()->input;
         $selectedProgram = $input->getInt('programID', 0);
-        if (empty($selectedProgram) OR $selectedProgram == '-1') {
+        if (empty($selectedProgram) or $selectedProgram == '-1') {
             return '[]';
         }
 
@@ -196,7 +196,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             return '[]';
         }
 
-        foreach ($pools AS $key => $value) {
+        foreach ($pools as $key => $value) {
             $pools[$key]->name = THM_OrganizerHelperMapping::getIndentedPoolName($value->name, $value->level, false);
         }
 

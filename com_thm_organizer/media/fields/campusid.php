@@ -94,7 +94,7 @@ class JFormFieldCampusID extends JFormFieldList
     protected function getOptions()
     {
         $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
-        $campuses = THM_OrganizerHelperCampuses::getOptions();
+        $campuses       = THM_OrganizerHelperCampuses::getOptions();
 
         if (empty($campuses)) {
             return $defaultOptions;

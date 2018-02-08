@@ -95,7 +95,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
             $return[$index]['name']     = JHtml::_('link', $item->link, $name);
 
             $address    = '';
-            $ownAddress = (!empty($item->address) OR !empty($item->city) OR !empty($item->zipCode));
+            $ownAddress = (!empty($item->address) or !empty($item->city) or !empty($item->zipCode));
 
             if ($ownAddress) {
                 $addressParts   = [];

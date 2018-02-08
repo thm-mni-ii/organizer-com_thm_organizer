@@ -39,7 +39,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             return false;
         }
 
-        foreach ($lsfData->gruppe AS $resource) {
+        foreach ($lsfData->gruppe as $resource) {
             $type   = (string)$resource->pordtyp;
             $mapped = true;
 
@@ -68,14 +68,14 @@ class THM_OrganizerModelMapping extends JModelLegacy
     private function addLSFPool(&$pool, $parentMappingID)
     {
         $lsfID = empty($pool->pordid) ? (string)$pool->modulid : (string)$pool->pordid;
-        $blocked = !empty($pool->sperrmh) AND strtolower((string)$pool->sperrmh) == 'x';
+        $blocked = !empty($pool->sperrmh) and strtolower((string)$pool->sperrmh) == 'x';
         $invalidTitle = THM_OrganizerLSFClient::invalidTitle($pool);
         $noChildren   = !isset($pool->modulliste->modul);
         $poolsTable   = JTable::getInstance('pools', 'THM_OrganizerTable');
         $poolExists   = $poolsTable->load(['lsfID' => $lsfID]);
 
         if ($poolExists) {
-            if ($blocked OR $invalidTitle OR $noChildren) {
+            if ($blocked or $invalidTitle or $noChildren) {
                 $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
 
                 return $poolModel->deleteEntry($poolsTable->id);
@@ -118,7 +118,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             return true;
         }
 
-        if ($blocked OR $invalidTitle OR $noChildren) {
+        if ($blocked or $invalidTitle or $noChildren) {
             return true;
         }
 
@@ -139,7 +139,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
     private function addLSFSubject(&$subject, $parentMappingID)
     {
         $lsfID = (string)(empty($subject->modulid) ? $subject->pordid : $subject->modulid);
-        $blocked = !empty($subject->sperrmh) AND strtolower((string)$subject->sperrmh) == 'x';
+        $blocked = !empty($subject->sperrmh) and strtolower((string)$subject->sperrmh) == 'x';
         $invalidTitle = THM_OrganizerLSFClient::invalidTitle($subject);
 
         $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
@@ -320,7 +320,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      */
     public function deleteByResourceID($resourceID, $type)
     {
-        if ($type != 'program' AND $type != 'pool' AND $type != 'subject') {
+        if ($type != 'program' and $type != 'pool' and $type != 'subject') {
             return false;
         }
 
@@ -351,7 +351,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
 
         if (!empty($mappingIDs)) {
-            foreach ($mappingIDs AS $mappingID) {
+            foreach ($mappingIDs as $mappingID) {
                 $success = $this->deleteEntry($mappingID);
                 if (!$success) {
                     return false;
@@ -386,7 +386,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
 
         if (!empty($mappingIDs)) {
-            foreach ($mappingIDs AS $mappingID) {
+            foreach ($mappingIDs as $mappingID) {
                 $success = $this->deleteEntry($mappingID);
                 if (!$success) {
                     return false;
@@ -815,7 +815,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 return false;
             }
 
-            if (!empty($children) AND $cleanSlate) {
+            if (!empty($children) and $cleanSlate) {
                 foreach ($children as $child) {
                     $child['parentID'] = $rootMapping['id'];
                     if (isset($child['poolID'])) {

@@ -68,7 +68,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                         }
 
                         if (!empty($this->results[$innerStrength][$resource])
-                            AND !empty($this->results[$innerStrength][$resource][$resultID])) {
+                            and !empty($this->results[$innerStrength][$resource][$resultID])) {
                             unset($this->results[$innerStrength][$resource][$resultID]);
 
                             // Check if there is nothing left to avoid unnecessary iteration in the output
@@ -101,7 +101,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $query->where("(ls.delta IS NULL OR ls.delta != 'removed')")
             ->where("(l.delta IS NULL OR l.delta != 'removed')");
 
-        if (!empty($planPeriodID) AND is_int($planPeriodID)) {
+        if (!empty($planPeriodID) and is_int($planPeriodID)) {
             $query->where("l.planningPeriodID = '$planPeriodID'");
         }
 
@@ -147,7 +147,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $titleFoundAt   = array_search($title, $terms);
             $subjectFoundAt = array_search($subject, $terms);
 
-            $exactMatch = ($key !== false OR ($titleFoundAt !== false AND $subjectFoundAt !== false));
+            $exactMatch = ($key !== false or ($titleFoundAt !== false and $subjectFoundAt !== false));
 
             if ($exactMatch) {
                 // The abbreviated degree name only has relevance here, and can create false positives elsewhere => delete
@@ -156,7 +156,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                 }
 
                 $exactMatches[$degreeID] = $degree;
-            } elseif ($subjectFoundAt !== false OR $titleFoundAt !== false) {
+            } elseif ($subjectFoundAt !== false or $titleFoundAt !== false) {
                 $strongMatches[$degreeID] = $degree;
             }
         }
@@ -218,7 +218,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function getRoomTypes(&$misc, $capacity = 0)
     {
-        if (empty($misc) AND empty($capacity)) {
+        if (empty($misc) and empty($capacity)) {
             return [];
         }
 
@@ -230,7 +230,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $standardClause .= "OR description_de LIKE '%XXX%' OR description_en LIKE '%XXX%')";
 
         if (!empty($misc)) {
-            foreach ($misc AS $key => $term) {
+            foreach ($misc as $key => $term) {
                 $query->clear('where');
                 if (!empty($capacity)) {
                     // Opens conjunctive clause and cap from type
@@ -296,7 +296,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $departments = [];
 
         if (!empty($results)) {
-            foreach ($results AS $departmentID) {
+            foreach ($results as $departmentID) {
                 $departmentName = THM_OrganizerHelperDepartments::getName($departmentID);
 
                 $departments[$departmentID] = [];
@@ -326,7 +326,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         /** @noinspection PhpIncludeInspection */
         require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
 
-        foreach ($results AS $result) {
+        foreach ($results as $result) {
             if ($type == 'real') {
                 $index = "d{$result['id']}";
                 $text  = THM_OrganizerHelperPools::getName($result['id'], 'real');
@@ -361,8 +361,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $programs = [];
 
         if (!empty($pResults)) {
-            foreach ($pResults AS $program) {
-                $invalidMapping = (empty($program['lft']) OR empty($program['rgt']) OR $program['rgt'] - $program['lft'] < 2);
+            foreach ($pResults as $program) {
+                $invalidMapping = (empty($program['lft']) or empty($program['rgt']) or $program['rgt'] - $program['lft'] < 2);
                 $noPlan         = empty($program['ppID']);
 
                 // Any linked view would be empty
@@ -385,7 +385,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
                 $links = [];
 
-                $invalidMapping = (empty($program['lft']) OR empty($program['rgt']) OR $program['rgt'] - $program['lft'] < 2);
+                $invalidMapping = (empty($program['lft']) or empty($program['rgt']) or $program['rgt'] - $program['lft'] < 2);
 
                 // If the mapping is invalid only an empty data set would be displayed for subject list and curriculum
                 if (!$invalidMapping) {
@@ -402,7 +402,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         }
 
         if (!empty($ppResults)) {
-            foreach ($ppResults AS $program) {
+            foreach ($ppResults as $program) {
                 $planID       = "p{$program['ppID']}";
                 $scheduleLink = "?option=com_thm_organizer&view=schedule&programIDs={$program['ppID']}";
 
@@ -411,7 +411,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $programID = "d{$program['id']}";
 
                     // No redundant subject entries
-                    if (!empty($programID) AND !empty($programs[$programID])) {
+                    if (!empty($programID) and !empty($programs[$programID])) {
                         $programs[$programID]['pProgramID']        = $program['ppID'];
                         $programs[$programID]['links']['schedule'] = $scheduleLink;
 
@@ -428,7 +428,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
                 $links = [];
 
-                $invalidMapping = (empty($program['lft']) OR empty($program['rgt']) OR $program['rgt'] - $program['lft'] < 2);
+                $invalidMapping = (empty($program['lft']) or empty($program['rgt']) or $program['rgt'] - $program['lft'] < 2);
 
                 if (!$invalidMapping) {
                     $programs[$planID]['programID'] = $program['id'];
@@ -456,7 +456,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $rooms = [];
 
         if (!empty($results)) {
-            foreach ($results AS $room) {
+            foreach ($results as $room) {
                 $roomID         = $room['id'];
                 $rooms[$roomID] = [];
 
@@ -495,7 +495,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $subjects = [];
 
         if (!empty($sResults)) {
-            foreach ($sResults AS $sID => $subject) {
+            foreach ($sResults as $sID => $subject) {
                 $subjectID = "s$sID";
 
                 $subjects[$subjectID] = [];
@@ -518,7 +518,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         }
 
         if (!empty($psResults)) {
-            foreach ($psResults AS $pID => $plan) {
+            foreach ($psResults as $pID => $plan) {
                 $planID       = "p$pID";
                 $scheduleLink = "?option=com_thm_organizer&view=schedule&subjectIDs=$pID";
 
@@ -572,12 +572,12 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $teachers = [];
 
         if (!empty($results)) {
-            foreach ($results AS $teacher) {
+            foreach ($results as $teacher) {
                 $documented = THM_OrganizerHelperTeachers::teaches('subject', $teacher['id']);
                 $teaches    = THM_OrganizerHelperTeachers::teaches('lesson', $teacher['id']);
 
                 // Nothing to link
-                if (!$documented AND !$teaches) {
+                if (!$documented and !$teaches) {
                     continue;
                 }
 
@@ -613,7 +613,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $eWherray = [];
         $sWherray = [];
 
-        foreach ($this->terms AS $term) {
+        foreach ($this->terms as $term) {
             if (is_numeric($term)) {
                 $clause     = "name_de LIKE '$term %' OR name_en LIKE '$term %' ";
                 $clause     .= "OR short_name_de LIKE '$term %' OR short_name_en LIKE '$term %'";
@@ -654,7 +654,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         $departmentIDs = [];
 
-        foreach ($associations AS $association) {
+        foreach ($associations as $association) {
             $departmentIDs[$association['departmentID']] = $association['departmentID'];
         }
 
@@ -689,7 +689,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function searchPools()
     {
-        foreach ($this->terms AS $index => $term) {
+        foreach ($this->terms as $index => $term) {
             if ($index === 0) {
                 continue;
             }
@@ -723,7 +723,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $pQuery->from('#__thm_organizer_pools AS pl')
             ->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = pl.id');
 
-        foreach ($this->programResults AS $strength => $programs) {
+        foreach ($this->programResults as $strength => $programs) {
             $pools = [];
 
             foreach ($programs As $program) {
@@ -755,7 +755,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $this->processPools($pools, $pPoolIDs, 'plan');
                 }
 
-                if (!empty($program['lft']) AND !empty($program['rgt'])) {
+                if (!empty($program['lft']) and !empty($program['rgt'])) {
                     $pQuery->select("DISTINCT pl.id, '{$program['name']}' AS program");
 
                     $this->addInclusiveConditions($pQuery, $wherray);
@@ -792,7 +792,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
     {
         $programResults = $this->programResults;
 
-        foreach ($programResults AS $strength => $programs) {
+        foreach ($programResults as $strength => $programs) {
             $this->results[$strength]['programs'] = $programs;
         }
     }
@@ -843,7 +843,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         // Strong matches
         foreach ($this->terms as $index => $term) {
             // The reserved index for the complete search is irrelevant as such here
-            if (count($this->terms) > 1 AND $index === 0) {
+            if (count($this->terms) > 1 and $index === 0) {
                 continue;
             }
 
@@ -851,7 +851,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $isBuilding = preg_match("/^[\p{L}}][\d]{1,2}$/", $term, $matches);
             $isFloor    = preg_match("/^[\p{L}}][\d]{1,2}\.[\d]{1,2}\.*$/", $term, $matches);
 
-            if (!empty($isBuilding) OR !empty($isFloor)) {
+            if (!empty($isBuilding) or !empty($isFloor)) {
                 $buildings[] = $term;
                 continue;
             }
@@ -880,7 +880,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $typeString = empty($typeIDs) ? '' : "'" . implode("', '", $typeIDs) . "'";
 
         if (!empty($misc)) {
-            foreach ($misc AS $term) {
+            foreach ($misc as $term) {
                 $query->where("(r.longname LIKE '%$term%')");
             }
         }
@@ -889,11 +889,11 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $query->where("(r.longname LIKE '" . implode("%' OR r.longname LIKE '", $buildings) . "%')");
         }
 
-        $performStrongQuery = (!empty($misc) OR !empty($buildings));
+        $performStrongQuery = (!empty($misc) or !empty($buildings));
 
         if ($performStrongQuery) {
 
-            if (!empty($capacity) AND !empty($typeString)) {
+            if (!empty($capacity) and !empty($typeString)) {
                 // Opens main clause and room cap existent
                 $query->where("((r.capacity >= '$capacity' OR r.capacity = '0') AND rt.id IN ($typeString))");
             } elseif (!empty($capacity)) {
@@ -918,7 +918,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         $query->clear('where');
 
-        if (!empty($capacity) AND !empty($typeString)) {
+        if (!empty($capacity) and !empty($typeString)) {
             // Opens main clause and room cap existent
             $query->where("((r.capacity >= '$capacity' OR r.capacity = '0') AND rt.id IN ($typeString))");
         } elseif (!empty($capacity)) {
@@ -927,7 +927,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $query->where("rt.id IN ($typeString)");
         }
 
-        $performRelatedQuery = (!empty($capacity) OR !empty($typeString));
+        $performRelatedQuery = (!empty($capacity) or !empty($typeString));
 
         if ($performRelatedQuery) {
             $this->_db->setQuery($query);
@@ -959,7 +959,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $isRoman   = preg_match("/^([ix|iv|v]{1}|[i]+)$/", $term, $matches);
             $isNumeric = is_numeric($term);
 
-            if ($short AND !($isRoman OR $isNumeric)) {
+            if ($short and !($isRoman or $isNumeric)) {
                 unset($terms[$index]);
             }
         }
@@ -1039,7 +1039,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
             preg_match("/^([ix|iv|v]{1}|[i]+)$/", $term, $matches);
 
-            if (!empty($matches) OR is_numeric($term)) {
+            if (!empty($matches) or is_numeric($term)) {
                 $asNumber = true;
             }
 
@@ -1088,7 +1088,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
             preg_match("/^([ix|iv|v]{1}|[i]+)$/", $term, $matches);
 
-            if (!empty($matches) OR is_numeric($term)) {
+            if (!empty($matches) or is_numeric($term)) {
                 $asNumber = true;
             }
 
@@ -1110,7 +1110,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         }
 
         // There were only numeric values in the search so the conditions are empty => don't execute queries
-        if (empty($psWherray) AND empty($sWherray)) {
+        if (empty($psWherray) and empty($sWherray)) {
             return;
         }
 
@@ -1151,7 +1151,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         foreach ($terms as $index => $term) {
             // Numeric values deliver true for everything
-            if (count($this->terms) > 1 AND $index === 0) {
+            if (count($this->terms) > 1 and $index === 0) {
                 continue;
             }
 
@@ -1197,8 +1197,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $wherray    = [];
             $innerTerms = $terms;
 
-            foreach ($terms AS $oKey => $outerTerm) {
-                foreach ($terms AS $iKey => $innerTerm) {
+            foreach ($terms as $oKey => $outerTerm) {
+                foreach ($terms as $iKey => $innerTerm) {
                     if ($outerTerm == $innerTerm) {
                         unset($innerTerms[$iKey]);
                         continue;
@@ -1260,8 +1260,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $wherray    = [];
             $innerTerms = $terms;
 
-            foreach ($terms AS $oKey => $outerTerm) {
-                foreach ($innerTerms AS $iKey => $innerTerm) {
+            foreach ($terms as $oKey => $outerTerm) {
+                foreach ($innerTerms as $iKey => $innerTerm) {
                     if ($outerTerm == $innerTerm) {
                         unset($innerTerms[$iKey]);
                         continue;
@@ -1292,7 +1292,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $query->clear('where');
         $wherray = [];
 
-        foreach ($terms AS $term) {
+        foreach ($terms as $term) {
             // lnf/fnf
             $wherray[] = "surname LIKE '$term'";
         }
@@ -1315,7 +1315,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $query->clear('where');
         $wherray = [];
 
-        foreach ($terms AS $term) {
+        foreach ($terms as $term) {
             // lnf/fnf
             $wherray[] = "surname LIKE '%$term%' OR forename LIKE '%$term%'";
         }
@@ -1345,7 +1345,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $terms = $this->terms;
         unset($terms[0]);
 
-        foreach ($terms AS $index => $term) {
+        foreach ($terms as $index => $term) {
             $terms[$index] = str_replace('.', '', $term);
         }
 
@@ -1357,7 +1357,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $ePPWherray = [];
         $sPPWherray = [];
 
-        foreach ($terms AS $term) {
+        foreach ($terms as $term) {
             $ePWherray[] = "p.name_de LIKE '$term$' OR p.name_en LIKE '$term%'";
             $sPWherray[] = "p.name_de LIKE '%$term%' OR p.name_en LIKE '%$term%'";
 
@@ -1526,9 +1526,9 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         foreach ($remainingTerms as $term) {
             $isWhiteNoise   = in_array($term, $whiteNoise);
-            $isSingleLetter = (!is_numeric($term) AND strlen($term) < 2);
+            $isSingleLetter = (!is_numeric($term) and strlen($term) < 2);
 
-            if ($isWhiteNoise OR $isSingleLetter) {
+            if ($isWhiteNoise or $isSingleLetter) {
                 continue;
             }
 

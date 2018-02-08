@@ -68,19 +68,19 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
                 // Differing key property or numerical values => auto merge impossible
                 $isKeyProperty = in_array($property, $keyProperties);
-                if ($isKeyProperty OR is_int($value)) {
+                if ($isKeyProperty or is_int($value)) {
                     return false;
                 }
 
                 $leftInRight = (strpos($value,
-                        $data[$property]) !== false AND strlen($value) > strlen($data[$property]));
+                        $data[$property]) !== false and strlen($value) > strlen($data[$property]));
                 if ($leftInRight) {
                     $data[$property] = $value;
                     continue;
                 }
 
                 $rightInLeft = (strpos($data[$property],
-                        $value) !== false AND strlen($data[$property]) > strlen($value));
+                        $value) !== false and strlen($data[$property]) > strlen($value));
                 if ($rightInLeft) {
                     $data[$property] = $value;
                     continue;
@@ -279,7 +279,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     {
         $data = empty($data) ? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
 
-        $invalidForm = (empty($data['id']) OR empty($data['gpuntisID']));
+        $invalidForm = (empty($data['id']) or empty($data['gpuntisID']));
         if ($invalidForm) {
             JFactory::getApplication()->enqueueMessage('invalid form');
 
@@ -639,7 +639,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
                 continue;
             }
 
-            $scheduleObject->configurations = (array) $scheduleObject->configurations;
+            $scheduleObject->configurations = (array)$scheduleObject->configurations;
 
             $tableData       = [];
             $tableData['id'] = $scheduleID;

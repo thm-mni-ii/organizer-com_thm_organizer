@@ -44,7 +44,7 @@ class THM_OrganizerHelperCourses
             return false;
         }
 
-        $manualAcceptance = (!empty($course['registration_type']) AND $course['registration_type'] === self::MANUAL_ACCEPTANCE);
+        $manualAcceptance = (!empty($course['registration_type']) and $course['registration_type'] === self::MANUAL_ACCEPTANCE);
 
         if ($manualAcceptance) {
             return false;
@@ -140,7 +140,7 @@ class THM_OrganizerHelperCourses
             $course = self::getCourse($course);
         }
 
-        if (empty($course['abstractCampusID']) AND empty($course['campusID'])) {
+        if (empty($course['abstractCampusID']) and empty($course['campusID'])) {
             $campus = ['id' => '', 'name' => THM_OrganizerHelperCampuses::getName()];
         } elseif (empty($course['campusID']) OR $course['abstractCampusID'] == $course['campusID']) {
             $campus         = ['id' => $course['abstractCampusID']];
@@ -419,7 +419,7 @@ class THM_OrganizerHelperCourses
 
         $campuses = [];
 
-        foreach ($courses AS $index => &$course) {
+        foreach ($courses as $index => &$course) {
             $campus   = self::getCampus($course);
             $campusID = empty($campus['id']) ? 0 : $campus['id'];
 

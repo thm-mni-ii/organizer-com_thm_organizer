@@ -129,7 +129,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      */
     private function setExpenditureText(&$subject)
     {
-        $useFullText = (!empty($subject->creditpoints) AND !empty($subject->expenditure) AND !empty($subject->present));
+        $useFullText = (!empty($subject->creditpoints) and !empty($subject->expenditure) and !empty($subject->present));
         $lang        = THM_OrganizerHelperLanguage::getLanguage();
 
         if ($useFullText) {
@@ -142,7 +142,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             return;
         }
 
-        $useMediumText = (!empty($subject->creditpoints) AND !empty($subject->expenditure));
+        $useMediumText = (!empty($subject->creditpoints) and !empty($subject->expenditure));
 
         if ($useMediumText) {
             $subject->expenditureOutput = sprintf($lang->_('COM_THM_ORGANIZER_EXPENDITURE_MEDIUM'),

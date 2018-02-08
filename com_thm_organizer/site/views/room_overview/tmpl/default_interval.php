@@ -14,9 +14,9 @@ $dates      = $this->model->data;
 $dayCount   = count($dates);
 ?>
 <table>
-	<thead>
-	<tr>
-		<th class="room-column day-row"></th>
+    <thead>
+    <tr>
+        <th class="room-column day-row"></th>
         <?php
         foreach ($dates as $date => $blocks) {
             $dayConstant = strtoupper(date('l', strtotime($date)));
@@ -25,9 +25,9 @@ $dayCount   = count($dates);
             echo '</th>';
         }
         ?>
-	</tr>
-	<tr>
-		<th class="room-column block-row"></th>
+    </tr>
+    <tr>
+        <th class="room-column block-row"></th>
         <?php
         foreach ($dates as $date => $blocks) {
             foreach ($this->model->grid['periods'] as $blockNo => $times) {
@@ -35,9 +35,9 @@ $dayCount   = count($dates);
             }
         }
         ?>
-	</tr>
-	</thead>
-	<tbody>
+    </tr>
+    </thead>
+    <tbody>
     <?php
     foreach ($this->model->rooms as $roomID => $room) {
         echo '<tr>';
@@ -60,5 +60,5 @@ $dayCount   = count($dates);
         echo '</tr>';
     }
     ?>
-	</tbody>
+    </tbody>
 </table>

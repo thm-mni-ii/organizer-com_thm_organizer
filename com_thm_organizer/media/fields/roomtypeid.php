@@ -31,10 +31,10 @@ class JFormFieldRoomTypeID extends JFormFieldList
     public function getOptions()
     {
         $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
-        $input      = JFactory::getApplication()->input;
-        $formData   = $input->get('jform', [], 'array');
-        $buildingID = (empty($formData) OR empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID   = (empty($formData) OR empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
+        $input          = JFactory::getApplication()->input;
+        $formData       = $input->get('jform', [], 'array');
+        $buildingID     = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
+        $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
         $dbo      = JFactory::getDbo();
         $query    = $dbo->getQuery(true);
@@ -43,7 +43,7 @@ class JFormFieldRoomTypeID extends JFormFieldList
             ->from('#__thm_organizer_room_types AS rt')
             ->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = rt.id');
 
-        if (!empty($buildingID) OR !empty($campusID)) {
+        if (!empty($buildingID) or !empty($campusID)) {
             $query->innerJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
 
             if (!empty($buildingID)) {
@@ -67,8 +67,9 @@ class JFormFieldRoomTypeID extends JFormFieldList
 
         $options = [];
         if (empty($types)) {
-            $lang = THM_OrganizerHelperLanguage::getLanguage();
+            $lang      = THM_OrganizerHelperLanguage::getLanguage();
             $options[] = JHtml::_('select.option', '', $lang->_('JNONE'));
+
             return $options;
         } else {
             foreach ($types as $type) {

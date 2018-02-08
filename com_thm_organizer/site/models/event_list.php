@@ -63,7 +63,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      */
     private function aggregateEvents()
     {
-        foreach ($this->events AS $date => $dailyEvents) {
+        foreach ($this->events as $date => $dailyEvents) {
             $hAggregatedEvents   = $this->aggregateConcurrent($dailyEvents);
             $vAggregatedEvents   = $this->aggregateSequential($hAggregatedEvents);
             $this->events[$date] = $vAggregatedEvents;
@@ -132,7 +132,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
                 foreach ($blockEvents as $innerTimes => $innerEvents) {
                     // Identity or no need for comparison
-                    if ($innerTimes == $outerTimes OR empty($innerEvents[$lessonID])) {
+                    if ($innerTimes == $outerTimes or empty($innerEvents[$lessonID])) {
                         continue;
                     }
 
@@ -226,7 +226,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     {
         $rooms = [];
         foreach ($instanceRooms as $roomID => $delta) {
-            if ($delta == 'removed' OR empty($this->rooms[$roomID])) {
+            if ($delta == 'removed' or empty($this->rooms[$roomID])) {
                 unset($instanceRooms[$roomID]);
                 continue;
             }
@@ -419,8 +419,8 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     {
         $isRegistered       = ($this->params['layout'] == 'registered');
         $nothingSelected    = empty($this->params['days']);
-        $everythingSelected = (count($this->params['days']) === 1 AND empty($this->params['days'][0]));
-        if ($isRegistered OR $nothingSelected OR $everythingSelected) {
+        $everythingSelected = (count($this->params['days']) === 1 and empty($this->params['days'][0]));
+        if ($isRegistered or $nothingSelected or $everythingSelected) {
             $days = [1, 2, 3, 4, 5, 6];
         } else {
             $days = $this->params['days'];
@@ -429,7 +429,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         $date      = getdate(time());
         $today     = date('Y-m-d', $date[0]);
         $startDate = $this->params->get('startDate', '');
-        $startDate = (empty($startDate) OR $startDate < $today) ? $today : $startDate;
+        $startDate = (empty($startDate) or $startDate < $today) ? $today : $startDate;
         $endDate   = $this->params->get('endDate', '');
         if (empty($endDate)) {
             $query = $this->_db->getQuery(true);
@@ -471,10 +471,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         // Registered room(s) would have already been set
         if (empty($this->rooms)) {
             $nothingSelected    = empty($this->params['rooms']);
-            $everythingSelected = (count($this->params['rooms']) === 1 AND empty($this->params['rooms'][0]));
+            $everythingSelected = (count($this->params['rooms']) === 1 and empty($this->params['rooms'][0]));
 
             // All rooms
-            if ($nothingSelected OR $everythingSelected) {
+            if ($nothingSelected or $everythingSelected) {
                 $this->rooms = $this->getAllRoomIDs();
             } else {
                 $this->rooms = $this->params['rooms'];
@@ -485,7 +485,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         $roomsTable = JTable::getInstance('rooms', 'thm_organizerTable');
 
         // The current values are meaningless and will be overwritten here
-        foreach ($this->rooms AS $roomID) {
+        foreach ($this->rooms as $roomID) {
             try {
                 $roomsTable->load($roomID);
             } catch (Exception $exc) {

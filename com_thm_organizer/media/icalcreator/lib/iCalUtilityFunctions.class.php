@@ -1222,7 +1222,7 @@ class iCalUtilityFunctions
      * @uses   iCalUtilityFunctions::_recurIntervalIx()
      * @uses   iCalUtilityFunctions::_recurBYcntcheck()
      * @return void
-     * @todo   BYHOUR, BYMINUTE, BYSECOND, WEEKLY at year end/start OR not at all
+     * @todo   BYHOUR, BYMINUTE, BYSECOND, WEEKLY at year end/start or not at all
      */
     public static function _recur2date(& $result, $recur, $wdate, $fcnStart, $fcnEnd = false)
     {

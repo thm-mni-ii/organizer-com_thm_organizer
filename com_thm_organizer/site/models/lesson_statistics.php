@@ -59,7 +59,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
             $this->rows = $this->getMethods();
         }
 
-        if (empty($departmentID) AND empty($programID)) {
+        if (empty($departmentID) and empty($programID)) {
             $this->columns = $this->getDepartments();
         } elseif (empty($programID)) {
             $this->columns = $this->getPrograms();
@@ -390,9 +390,9 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
         $periodID     = $this->state->get('planningPeriodID');
         $programID    = $this->state->get('programID');
         $lessonCounts = [];
-        foreach (array_keys($this->rows) AS $rowID) {
+        foreach (array_keys($this->rows) as $rowID) {
             $lessons[$rowID] = [];
-            foreach (array_keys($this->columns) AS $columnID) {
+            foreach (array_keys($this->columns) as $columnID) {
                 $this->resetAdaptiveClauses();
                 $this->query->select("DISTINCT l.id")
                     ->where("l.delta != 'removed'");
@@ -436,7 +436,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
             }
         }
 
-        foreach ($this->columns AS $columnID => $column) {
+        foreach ($this->columns as $columnID => $column) {
             if (empty($column['total'])) {
                 unset($this->columns[$columnID]);
             } else {
@@ -444,7 +444,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
             }
         }
 
-        foreach ($this->rows AS $rowID => $row) {
+        foreach ($this->rows as $rowID => $row) {
             if (empty($row['total'])) {
                 unset($this->rows[$rowID]);
             } else {

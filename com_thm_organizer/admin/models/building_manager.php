@@ -76,7 +76,7 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
             $return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
             $campusName                 = THM_OrganizerHelperCampuses::getName($item->campusID);
-            $return[$index]['campusID']   = JHtml::_('link', $item->link, $campusName);
+            $return[$index]['campusID'] = JHtml::_('link', $item->link, $campusName);
 
             switch ($item->propertyType) {
                 case self::OWNED:
@@ -120,7 +120,7 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
         $headers['checkbox']     = '';
         $headers['name']         = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction,
             $ordering);
-        $headers['campusID']       = JText::_('COM_THM_ORGANIZER_CAMPUS');
+        $headers['campusID']     = JText::_('COM_THM_ORGANIZER_CAMPUS');
         $headers['propertyType'] = JText::_('COM_THM_ORGANIZER_PROPERTY_TYPE');
         $headers['address']      = JText::_('COM_THM_ORGANIZER_ADDRESS');
 

@@ -97,13 +97,13 @@ class THM_OrganizerModelPool extends JModelLegacy
 
         $success = $table->save($data);
 
-        if (!$success OR empty($table->id)) {
+        if (!$success or empty($table->id)) {
             $this->_db->transactionRollback();
 
             return false;
         }
 
-        $mappingsIrrelevant = (empty($data['programID']) OR empty($data['parentID']));
+        $mappingsIrrelevant = (empty($data['programID']) or empty($data['parentID']));
 
         // Successfully inserted a new pool
         if ($mappingsIrrelevant) {

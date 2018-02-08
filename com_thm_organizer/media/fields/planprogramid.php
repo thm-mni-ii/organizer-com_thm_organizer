@@ -51,7 +51,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
 
         if ($departmentRestrict == 'true') {
             $formData     = JFactory::getApplication()->input->get('jform', [], 'array');
-            $departmentID = (!empty($formData) AND !empty($formData['departmentID']) AND is_numeric($formData['departmentID'])) ?
+            $departmentID = (!empty($formData) and !empty($formData['departmentID']) and is_numeric($formData['departmentID'])) ?
                 $formData['departmentID'] : 0;
 
             if (!empty($departmentID)) {

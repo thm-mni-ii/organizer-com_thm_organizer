@@ -85,12 +85,12 @@ class THM_OrganizerHelperXMLGrids
             $grids->$gpuntisID->grid->periods = new stdClass;
         }
 
-        $setStartDay = (empty($grids->$gpuntisID->grid->startDay) OR $grids->$gpuntisID->grid->startDay > $day);
+        $setStartDay = (empty($grids->$gpuntisID->grid->startDay) or $grids->$gpuntisID->grid->startDay > $day);
         if ($setStartDay) {
             $grids->$gpuntisID->grid->startDay = $day;
         }
 
-        $setEndDay = (empty($grids->$gpuntisID->grid->endDay) OR $grids->$gpuntisID->grid->endDay < $day);
+        $setEndDay = (empty($grids->$gpuntisID->grid->endDay) or $grids->$gpuntisID->grid->endDay < $day);
         if ($setEndDay) {
             $grids->$gpuntisID->grid->endDay = $day;
         }
@@ -149,8 +149,8 @@ class THM_OrganizerHelperXMLGrids
         $startTime = trim((string)$timePeriodNode->starttime);
         $endTime   = trim((string)$timePeriodNode->endtime);
 
-        $invalidPeriod = (empty($gpuntisID) OR empty($day) OR empty($period) OR empty($startTime) OR empty($endTime));
-        if ($invalidPeriod AND !in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"),
+        $invalidPeriod = (empty($gpuntisID) or empty($day) or empty($period) or empty($startTime) or empty($endTime));
+        if ($invalidPeriod and !in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"),
                 $scheduleModel->scheduleErrors)) {
             $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
         }

@@ -140,7 +140,7 @@ class THM_OrganizerHelperXMLTeachers
     private static function validateField(&$scheduleModel, &$teacherNode, $teacherID)
     {
         $fieldID        = str_replace('DS_', '', trim($teacherNode->teacher_description[0]['id']));
-        $invalidFieldID = (empty($fieldID) OR empty($scheduleModel->schedule->fields->$fieldID));
+        $invalidFieldID = (empty($fieldID) or empty($scheduleModel->schedule->fields->$fieldID));
         if ($invalidFieldID) {
             $scheduleModel->newSchedule->teachers->$teacherID->description = '';
             $scheduleModel->newSchedule->teachers->$teacherID->fieldID     = '';

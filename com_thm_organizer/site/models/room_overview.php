@@ -54,7 +54,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
         parent::__construct();
 
         $app = JFactory::getApplication();
-        if (!empty($app->getMenu()) AND !empty($app->getMenu()->getActive())) {
+        if (!empty($app->getMenu()) and !empty($app->getMenu()->getActive())) {
             $params              = $app->getMenu()->getActive()->params;
             $this->defaultCampus = $params->get('campusID', 0);
         }
@@ -145,7 +145,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
             }
         }
 
-        foreach ($formData AS $index => $value) {
+        foreach ($formData as $index => $value) {
             $this->state->set($index, $value);
         }
     }
@@ -224,7 +224,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
         $isSunday = date('l', strtotime($date)) == 'Sunday';
         if ($isSunday) {
             $template = $this->state->get('template');
-            $getNext  = ($template == DAY AND $isSunday);
+            $getNext  = ($template == DAY and $isSunday);
             if ($getNext) {
                 $date = date('Y-m-d', strtotime("$date + 1 days"));
             } else {
@@ -324,18 +324,18 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
 
             $configuration = json_decode($result['configuration'], true);
 
-            foreach ($configuration['teachers'] AS $teacherID => $delta) {
-                $addSpeaker = ($delta != 'removed' AND empty($events[$times][$lessonID]['teachers'][$teacherID]));
+            foreach ($configuration['teachers'] as $teacherID => $delta) {
+                $addSpeaker = ($delta != 'removed' and empty($events[$times][$lessonID]['teachers'][$teacherID]));
 
                 if ($addSpeaker) {
                     $events[$times][$lessonID]['teachers'][$teacherID] = THM_OrganizerHelperTeachers::getLNFName($teacherID);
                 }
             }
 
-            foreach ($configuration['rooms'] AS $roomID => $delta) {
+            foreach ($configuration['rooms'] as $roomID => $delta) {
                 $nonExistent = empty($events[$times][$lessonID]['rooms'][$roomID]);
                 $requested   = !empty($this->rooms[$roomID]);
-                $addRoom     = ($delta != 'removed' AND $nonExistent AND $requested);
+                $addRoom     = ($delta != 'removed' and $nonExistent and $requested);
 
                 if ($addRoom) {
                     $events[$times][$lessonID]['rooms'][$roomID] = $this->rooms[$roomID];
@@ -356,7 +356,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     private function processBlocks($events)
     {
         $blocks = [];
-        foreach ($this->grid['periods'] AS $blockNo => $block) {
+        foreach ($this->grid['periods'] as $blockNo => $block) {
             $blocks[$blockNo]              = [];
             $blockStartTime                = $block['startTime'];
             $blockEndTime                  = $block['endTime'];
@@ -368,7 +368,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
                 $before = $eventEndTime < $blockStartTime;
                 $after  = $eventStartTime > $blockEndTime;
 
-                if ($before OR $after) {
+                if ($before or $after) {
                     continue;
                 }
 

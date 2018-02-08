@@ -35,22 +35,22 @@ class THM_OrganizerTemplateList
         $data    = ['view' => $view, 'options' => []];
         $filters = $view->filterForm->getGroup('filter');
         ?>
-		<div id="j-main-container" class="span10">
-			<form action="index.php?" id="adminForm" method="post" name="adminForm">
-				<div class="searchArea">
-					<div class="js-stools clearfix">
-						<div class="clearfix">
-							<div class="js-stools-container-bar">
+        <div id="j-main-container" class="span10">
+            <form action="index.php?" id="adminForm" method="post" name="adminForm">
+                <div class="searchArea">
+                    <div class="js-stools clearfix">
+                        <div class="clearfix">
+                            <div class="js-stools-container-bar">
                                 <?php self::renderSearch($filters); ?>
-							</div>
-							<div class="js-stools-container-list hidden-phone hidden-tablet">
+                            </div>
+                            <div class="js-stools-container-list hidden-phone hidden-tablet">
                                 <?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="clr"></div>
-				<table class="table table-striped" id="<?php echo $view->get('name'); ?>-list">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clr"></div>
+                <table class="table table-striped" id="<?php echo $view->get('name'); ?>-list">
                     <?php
                     echo '<thead>';
                     self::renderHeader($view->headers);
@@ -60,15 +60,15 @@ class THM_OrganizerTemplateList
                     self::renderFooter($view);
                     self::renderBatch($view);
                     ?>
-				</table>
-				<input type="hidden" name="task" value=""/>
-				<input type="hidden" name="boxchecked" value="0"/>
-				<input type="hidden" name="option" value="com_thm_organizer"/>
-				<input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
+                </table>
+                <input type="hidden" name="task" value=""/>
+                <input type="hidden" name="boxchecked" value="0"/>
+                <input type="hidden" name="option" value="com_thm_organizer"/>
+                <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
                 <?php self::renderHiddenFields($view) ?>
                 <?php echo JHtml::_('form.token'); ?>
-			</form>
-		</div>
+            </form>
+        </div>
         <?php
     }
 
@@ -86,23 +86,23 @@ class THM_OrganizerTemplateList
             return;
         }
         ?>
-		<label for="filter_search" class="element-invisible">
+        <label for="filter_search" class="element-invisible">
             <?php echo JText::_('JSEARCH_FILTER'); ?>
-		</label>
-		<div class="btn-wrapper input-append">
+        </label>
+        <div class="btn-wrapper input-append">
             <?php echo $filters['filter_search']->input; ?>
-			<button type="submit" class="btn hasTooltip"
-					title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-				<i class="icon-search"></i>
-			</button>
-		</div>
-		<div class="btn-wrapper">
-			<button type="button" class="btn hasTooltip js-stools-btn-clear"
-					title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
-					onclick="document.getElementById('filter_search').value='';">
-				<i class="icon-delete"></i>
-			</button>
-		</div>
+            <button type="submit" class="btn hasTooltip"
+                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+                <i class="icon-search"></i>
+            </button>
+        </div>
+        <div class="btn-wrapper">
+            <button type="button" class="btn hasTooltip js-stools-btn-clear"
+                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
+                    onclick="document.getElementById('filter_search').value='';">
+                <i class="icon-delete"></i>
+            </button>
+        </div>
         <?php
     }
 
@@ -133,8 +133,8 @@ class THM_OrganizerTemplateList
     protected static function renderHeaderFilters(&$headers, &$filters)
     {
         $noFilters   = count($filters) === 0;
-        $onlySearch  = (count($filters) === 1 AND !empty($filters['filter_search']));
-        $dontDisplay = ($noFilters OR $onlySearch);
+        $onlySearch  = (count($filters) === 1 and !empty($filters['filter_search']));
+        $dontDisplay = ($noFilters or $onlySearch);
         if ($dontDisplay) {
             return;
         }
@@ -171,9 +171,9 @@ class THM_OrganizerTemplateList
      */
     protected static function renderBody(&$items)
     {
-        if (!empty($items['attributes']) AND is_array($items['attributes'])) {
+        if (!empty($items['attributes']) and is_array($items['attributes'])) {
             $bodyAttributes = '';
-            foreach ($items['attributes'] AS $bodyAttribute => $bodyAttributeValue) {
+            foreach ($items['attributes'] as $bodyAttribute => $bodyAttributeValue) {
                 $bodyAttributes .= $bodyAttribute . '="' . $bodyAttributeValue . '" ';
             }
             echo "<tbody $bodyAttributes>";
@@ -202,9 +202,9 @@ class THM_OrganizerTemplateList
     protected static function renderRow($row, &$iteration)
     {
         // Custom attributes
-        if (!empty($row['attributes']) AND is_array($row['attributes'])) {
+        if (!empty($row['attributes']) and is_array($row['attributes'])) {
             $rowAttributes = '';
-            foreach ($row['attributes'] AS $rowAttribute => $rowAttributeValue) {
+            foreach ($row['attributes'] as $rowAttribute => $rowAttributeValue) {
                 $rowAttributes .= $rowAttribute . '="' . $rowAttributeValue . '" ';
             }
             echo "<tr $rowAttributes>";
@@ -221,9 +221,9 @@ class THM_OrganizerTemplateList
 
             // Custom attributes for table data
             if (is_array($column)) {
-                if (!empty($column['attributes']) AND is_array($column['attributes'])) {
+                if (!empty($column['attributes']) and is_array($column['attributes'])) {
                     $colAttributes = '';
-                    foreach ($column['attributes'] AS $colAttribute => $colAttributeValue) {
+                    foreach ($column['attributes'] as $colAttribute => $colAttributeValue) {
                         $colAttributes .= $colAttribute . '="' . $colAttributeValue . '" ';
                     }
                     echo "<td $colAttributes>";

@@ -47,6 +47,7 @@ class THM_OrganizerHelperSubjects
      * @param int     $subjectID the table id for the subject
      * @param string  $type      the type of the id (real or plan)
      * @param boolean $withNumber
+     *
      * @return string the (plan) subject name
      */
     public static function getName($subjectID, $type, $withNumber = false)

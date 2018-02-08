@@ -35,9 +35,9 @@ class THM_OrganizerModelCourse extends JModelLegacy
         $formData       = $data['jform'];
         $participantIDs = $data["checked"];
         $state          = (int)$data["participantState"];
-        $invalidState   = ($state < 0 OR $state > 2);
+        $invalidState   = ($state < 0 or $state > 2);
 
-        if (empty($participantIDs) OR empty($formData['id']) OR $invalidState) {
+        if (empty($participantIDs) or empty($formData['id']) or $invalidState) {
             return false;
         }
 
@@ -54,7 +54,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
                 THM_OrganizerHelperCourses::refreshWaitList($formData['id']);
             }
 
-            $return = ($return AND $success);
+            $return = ($return and $success);
         }
 
         return $return;
@@ -69,9 +69,9 @@ class THM_OrganizerModelCourse extends JModelLegacy
     {
         $input = JFactory::getApplication()->input;
 
-        $courseID  = $input->get("lessonID", 0);
+        $courseID = $input->get("lessonID", 0);
 
-        if (empty($courseID) OR empty(THM_OrganizerHelperCourses::isTeacher($courseID))) {
+        if (empty($courseID) or empty(THM_OrganizerHelperCourses::isTeacher($courseID))) {
             JError::raiseError(401, 'Unauthorized');
         }
 
@@ -142,7 +142,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
         $formData = $input->get('jform', [], 'array');
         $courseID = $formData['id'];
 
-        if (empty($formData) OR empty($courseID)) {
+        if (empty($formData) or empty($courseID)) {
             return false;
         }
 

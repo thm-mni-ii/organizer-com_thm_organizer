@@ -31,16 +31,16 @@ class THM_OrganizerTemplateTeacherList
      */
     public static function render(&$view)
     {
-        if (empty($view->items) OR empty($view->teachers)) {
+        if (empty($view->items) or empty($view->teachers)) {
             return;
         }
 
-        foreach ($view->teachers AS $teacherID => $teacher) {
+        foreach ($view->teachers as $teacherID => $teacher) {
             $rows = [];
 
             foreach ($view->items as $subjectKey => $subject) {
-                $isResponsible = (isset($subject->teachers[1]) AND array_key_exists($teacherID, $subject->teachers[1]));
-                $isTeacher     = (isset($subject->teachers[2]) AND array_key_exists($teacherID, $subject->teachers[2]));
+                $isResponsible = (isset($subject->teachers[1]) and array_key_exists($teacherID, $subject->teachers[1]));
+                $isTeacher     = (isset($subject->teachers[2]) and array_key_exists($teacherID, $subject->teachers[2]));
 
                 switch ($view->params->get('teacherResp', 0)) {
                     case 1:
@@ -54,7 +54,7 @@ class THM_OrganizerTemplateTeacherList
                         break;
 
                     default:
-                        $relevant = ($isResponsible OR $isTeacher);
+                        $relevant = ($isResponsible or $isTeacher);
                         break;
                 }
 
@@ -66,18 +66,18 @@ class THM_OrganizerTemplateTeacherList
 
             if (!empty($rows)) {
                 ?>
-				<fieldset class="teacher-group">
-					<legend>
-						<span class="teacher-title"><?php echo $view->getTeacherText($teacherID); ?></span>
-					</legend>
-					<table>
+                <fieldset class="teacher-group">
+                    <legend>
+                        <span class="teacher-title"><?php echo $view->getTeacherText($teacherID); ?></span>
+                    </legend>
+                    <table>
                         <?php
                         foreach ($rows as $row) {
                             echo $row;
                         }
                         ?>
-					</table>
-				</fieldset>
+                    </table>
+                </fieldset>
                 <?php
             }
         }

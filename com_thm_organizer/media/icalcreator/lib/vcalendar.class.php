@@ -1561,7 +1561,7 @@ class vcalendar extends iCalBase
                     }
                     unset($tstart);
                 }
-            } // end (dt)start within the period OR occurs within the period
+            } // end (dt)start within the period or occurs within the period
             /* *************************************************************
                if 'any' components, check components with reccurrence rules, removing all excluding dates
                *********************************************************** */

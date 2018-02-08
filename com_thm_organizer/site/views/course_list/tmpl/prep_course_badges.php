@@ -136,7 +136,7 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
 
             $count++;
 
-            if (($count == 3) OR ($i >= $emptyCells - 2)) {
+            if (($count == 3) or ($i >= $emptyCells - 2)) {
                 $this->document->AddPage('L', '', false, false);
 
                 $xPos = [14, 19, 39, 61, 74, 72, 69, 44, 82];
@@ -190,7 +190,7 @@ class THMOrganizerTemplatePC_Badges_Export extends THM_OrganizerTemplatePC_Expor
                 }
             }
 
-            if (($count == 3) AND ($i < $emptyCells - 2)) {
+            if (($count == 3) and ($i < $emptyCells - 2)) {
                 $this->document->AddPage('L', '', false, false);
 
                 $xPos  = [10, 15, 35, 57, 70, 68, 65, 40, 78];

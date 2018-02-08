@@ -133,13 +133,13 @@ class THM_OrganizerHelperParticipants
         $course   = THM_OrganizerHelperCourses::getCourse($courseID);
         $dateText = THM_OrganizerHelperCourses::getDateDisplay($courseID);
 
-        if (empty($course) OR empty($dateText)) {
+        if (empty($course) or empty($dateText)) {
             return;
         }
 
         $lang       = THM_OrganizerHelperLanguage::getLanguage();
         $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
-        $courseName = (empty($campus) OR empty($campus['name'])) ? $course["name"] : "{$course["name"]} ({$campus['name']})";
+        $courseName = (empty($campus) or empty($campus['name'])) ? $course["name"] : "{$course["name"]} ({$campus['name']})";
         $mailer->setSubject($courseName);
         $body = $lang->_("COM_THM_ORGANIZER_GREETING") . ",\n\n";
 
@@ -176,13 +176,13 @@ class THM_OrganizerHelperParticipants
 
         $addressParts = explode(' – ', $params->get('address'));
 
-        foreach ($addressParts AS $aPart) {
+        foreach ($addressParts as $aPart) {
             $body .= $aPart . "\n";
         }
 
         $contactParts = explode(' – ', $params->get('contact'));
 
-        foreach ($contactParts AS $cPart) {
+        foreach ($contactParts as $cPart) {
             $body .= $cPart . "\n";
         }
 

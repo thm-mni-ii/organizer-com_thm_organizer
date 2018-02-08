@@ -59,7 +59,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $tooEarly = $indexEnd <= $rowStart;
             $tooLate  = $rowEnd <= $indexStart;
 
-            if (!$tooEarly AND !$tooLate) {
+            if (!$tooEarly and !$tooLate) {
                 $filteredIndexes[] = $index;
             }
         }
@@ -111,7 +111,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
         list($startTime, $endTime) = explode('-', $timeIndex);
 
         // The 'grid' isn't one or the lesson is being displayed in a grid in which it wasn't planned.
-        if (empty($rowHeader) OR $startTime != $rowHeader['startTime'] OR $endTime != $rowHeader['endTime']) {
+        if (empty($rowHeader) or $startTime != $rowHeader['startTime'] or $endTime != $rowHeader['endTime']) {
             $formattedStart = THM_OrganizerHelperComponent::formatTime($startTime);
             $formattedEnd   = THM_OrganizerHelperComponent::formatTime($endTime);
             $text           .= "$formattedStart - $formattedEnd\n";
@@ -132,26 +132,26 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
                 $subjectNames[] = $name;
             }
 
-            if (!empty($subject['subjectNo']) AND !in_array($subject['subjectNo'], $subjectNos)) {
+            if (!empty($subject['subjectNo']) and !in_array($subject['subjectNo'], $subjectNos)) {
                 $subjectNos[] = $subject['subjectNo'];
             }
 
             // Only if no specific pool was requested individually
-            if (empty($this->parameters['poolIDs']) OR count($this->parameters['poolIDs']) > 1) {
+            if (empty($this->parameters['poolIDs']) or count($this->parameters['poolIDs']) > 1) {
                 foreach ($subject['pools'] as $poolID => $pool) {
                     $pools[$poolID] = $pool['gpuntisID'];
                 }
             }
 
             // Only if no specific teacher was requested individually
-            if (empty($this->parameters['teacherIDs']) OR count($this->parameters['teacherIDs']) > 1) {
+            if (empty($this->parameters['teacherIDs']) or count($this->parameters['teacherIDs']) > 1) {
                 foreach ($subject['teachers'] as $teacherID => $teacherName) {
                     $teachers[$teacherID] = $teacherName;
                 }
             }
 
             // Only if no specific room was requested individually
-            if (empty($this->parameters['roomIDs']) OR count($this->parameters['roomIDs']) > 1) {
+            if (empty($this->parameters['roomIDs']) or count($this->parameters['roomIDs']) > 1) {
                 foreach ($subject['rooms'] as $roomID => $roomName) {
                     $rooms[$roomID] = $roomName;
                 }
@@ -364,7 +364,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      */
     protected function render()
     {
-        if (empty($this->lessons['pastDate']) AND empty($this->lessons['futureDate'])) {
+        if (empty($this->lessons['pastDate']) and empty($this->lessons['futureDate'])) {
             $this->outputTable();
         } else {
             $this->document->AddPage();

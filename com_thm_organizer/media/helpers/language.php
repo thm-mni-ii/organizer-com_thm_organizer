@@ -71,7 +71,7 @@ class THM_OrganizerHelperLanguage
         $requestedTag = $app->input->get('languageTag');
         $requestedTag = empty($requestedTag) ? $defaultTag : $requestedTag;
 
-        if (empty($app->getMenu()) OR empty($app->getMenu()->getActive())) {
+        if (empty($app->getMenu()) or empty($app->getMenu()->getActive())) {
             return $requestedTag;
         }
 
@@ -112,11 +112,12 @@ class THM_OrganizerHelperLanguage
         $supportedLanguages = ['en' => 'COM_THM_ORGANIZER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_GERMAN'];
         $languageSwitches   = [];
 
-        foreach ($supportedLanguages AS $tag => $constant) {
+        foreach ($supportedLanguages as $tag => $constant) {
             if ($current != $tag) {
                 $params['languageTag'] = $tag;
 
-                $mechanism = $link ? 'href="index.php?' . JUri::buildQuery($params) . '"' : str_replace('XX', $tag, $js);
+                $mechanism = $link ? 'href="index.php?' . JUri::buildQuery($params) . '"' : str_replace('XX', $tag,
+                    $js);
 
                 $switch = '<a ' . $mechanism . '">';
                 $switch .= '<span class="icon-world"></span> ' . self::getLanguage()->_($constant);

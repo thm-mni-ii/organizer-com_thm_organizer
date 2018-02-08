@@ -97,7 +97,7 @@ class JFormFieldMergeByID extends JFormFieldList
 
         $glue = $this->getAttribute('glue');
 
-        if (count($textColumns) === 1 OR empty($glue)) {
+        if (count($textColumns) === 1 or empty($glue)) {
             return $textColumns[0];
         }
 

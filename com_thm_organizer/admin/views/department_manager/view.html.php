@@ -40,7 +40,7 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
     {
         $actions = $this->getModel()->actions;
 
-        if (!$actions->{'core.admin'} AND !$actions->{'organizer.menu.department'}) {
+        if (!$actions->{'core.admin'} and !$actions->{'organizer.menu.department'}) {
             throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 

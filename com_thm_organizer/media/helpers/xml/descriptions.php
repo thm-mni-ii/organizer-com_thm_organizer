@@ -125,7 +125,7 @@ class THM_OrganizerHelperXMLDescriptions
                     break;
             }
 
-            $validType = (!empty($type) AND !empty($typeID));
+            $validType = (!empty($type) and !empty($typeID));
             if ($validType) {
                 $scheduleModel->newSchedule->$type->$descriptionID            = new stdClass;
                 $scheduleModel->newSchedule->$type->$descriptionID->gpuntisID = $gpuntisID;

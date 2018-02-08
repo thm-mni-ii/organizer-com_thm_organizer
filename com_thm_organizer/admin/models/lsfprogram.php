@@ -144,7 +144,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 
             $subordinateSubjectIDs = $this->getSubjectIDs($programID);
 
-            foreach ($subordinateSubjectIDs AS $subjectID) {
+            foreach ($subordinateSubjectIDs as $subjectID) {
                 $subjectModel         = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
                 $dependenciesResolved = $subjectModel->resolveDependencies($subjectID);
                 if (!$dependenciesResolved) {
@@ -232,7 +232,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
                 continue;
             }
 
-            foreach ($subjectIDs AS $subjectID) {
+            foreach ($subjectIDs as $subjectID) {
                 $success = $subjectModel->importSingle($subjectID);
 
                 if (!$success) {

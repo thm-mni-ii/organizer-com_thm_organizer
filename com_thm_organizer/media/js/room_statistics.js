@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-	$('label').tooltip({delay: 200, placement: 'right'});
+    $('label').tooltip({delay: 200, placement: 'right'});
 });
 
 /**
@@ -13,20 +13,20 @@ $(document).ready(function () {
  */
 function addPrograms(programs)
 {
-	"use strict";
+    "use strict";
 
-	var programSelection = $('#programIDs'), selectedPrograms = programSelection.val(), selected;
+    var programSelection = $('#programIDs'), selectedPrograms = programSelection.val(), selected;
 
-	programSelection.children().remove();
+    programSelection.children().remove();
 
-	$.each(programs, function (key, value) {
-		var name = value.name == null ? value.ppName : value.name;
-		selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
-		programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
-	});
+    $.each(programs, function (key, value) {
+        var name = value.name == null ? value.ppName : value.name;
+        selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
+        programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
+    });
 
-	programSelection.chosen("destroy");
-	programSelection.chosen();
+    programSelection.chosen("destroy");
+    programSelection.chosen();
 }
 
 /**
@@ -36,19 +36,19 @@ function addPrograms(programs)
  */
 function addPlanningPeriods(planningPeriods)
 {
-	"use strict";
+    "use strict";
 
-	var ppSelection = $('#planningPeriodIDs'), selectedPP = ppSelection.val(), selected;
+    var ppSelection = $('#planningPeriodIDs'), selectedPP = ppSelection.val(), selected;
 
-	ppSelection.children().remove();
+    ppSelection.children().remove();
 
-	$.each(planningPeriods, function (index, data) {
-		selected = $.inArray(data.value, selectedPP) > -1 ? 'selected' : '';
-		ppSelection.append("<option value=\"" + data.value + "\" " + selected + ">" + data.text + "</option>");
-	});
+    $.each(planningPeriods, function (index, data) {
+        selected = $.inArray(data.value, selectedPP) > -1 ? 'selected' : '';
+        ppSelection.append("<option value=\"" + data.value + "\" " + selected + ">" + data.text + "</option>");
+    });
 
-	ppSelection.chosen("destroy");
-	ppSelection.chosen();
+    ppSelection.chosen("destroy");
+    ppSelection.chosen();
 }
 
 /**
@@ -58,19 +58,19 @@ function addPlanningPeriods(planningPeriods)
  */
 function addRooms(rooms)
 {
-	"use strict";
+    "use strict";
 
-	var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
+    var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
 
-	roomSelection.children().remove();
+    roomSelection.children().remove();
 
-	$.each(rooms, function (name, id) {
-		selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
-		roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
-	});
+    $.each(rooms, function (name, id) {
+        selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
+        roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+    });
 
-	roomSelection.chosen("destroy");
-	roomSelection.chosen();
+    roomSelection.chosen("destroy");
+    roomSelection.chosen();
 }
 
 /**
@@ -78,24 +78,24 @@ function addRooms(rooms)
  */
 function handleDateRestriction()
 {
-	var drValue = $('#dateRestriction').find(":selected").val(), dateContainer = $("#date-container"),
-		periodsContainer = $("#planningPeriodIDs-container"), useInput = $("input[name=use]");
+    var drValue = $('#dateRestriction').find(":selected").val(), dateContainer = $("#date-container"),
+        periodsContainer = $("#planningPeriodIDs-container"), useInput = $("input[name=use]");
 
-	switch (drValue)
-	{
-		case 'semester':
-			dateContainer.hide();
-			periodsContainer.show();
-			useInput.val('planningPeriodIDs');
-			break;
-		case 'month':
-		case 'week':
-		default:
-			dateContainer.show();
-			periodsContainer.hide();
-			useInput.val('date');
-			break;
-	}
+    switch (drValue)
+    {
+        case 'semester':
+            dateContainer.hide();
+            periodsContainer.show();
+            useInput.val('planningPeriodIDs');
+            break;
+        case 'month':
+        case 'week':
+        default:
+            dateContainer.show();
+            periodsContainer.hide();
+            useInput.val('date');
+            break;
+    }
 }
 
 /**
@@ -103,42 +103,42 @@ function handleDateRestriction()
  */
 function repopulatePlanningPeriods()
 {
-	"use strict";
+    "use strict";
 
-	var selectedDepartments = $('#departmentIDs').val(),
-		selectedPrograms = $('#programIDs').val(),
-		validDepartments, validPrograms,
-		componentParameters, selectionParameters = '';
+    var selectedDepartments = $('#departmentIDs').val(),
+        selectedPrograms = $('#programIDs').val(),
+        validDepartments, validPrograms,
+        componentParameters, selectionParameters = '';
 
-	validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
-	validPrograms = selectedPrograms != null && selectedPrograms.length !== 0;
+    validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
+    validPrograms = selectedPrograms != null && selectedPrograms.length !== 0;
 
-	componentParameters = 'index.php?option=com_thm_organizer&view=planning_period_ajax&format=raw&task=getOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&view=planning_period_ajax&format=raw&task=getOptions';
 
-	if (validDepartments)
-	{
-		componentParameters += '&departmentIDs=' + selectedDepartments;
-	}
+    if (validDepartments)
+    {
+        componentParameters += '&departmentIDs=' + selectedDepartments;
+    }
 
-	if (validPrograms)
-	{
-		componentParameters += '&programIDs=' + selectedPrograms;
-	}
+    if (validPrograms)
+    {
+        componentParameters += '&programIDs=' + selectedPrograms;
+    }
 
-	$.ajax({
-		type: 'GET',
-		url: rootURI + componentParameters,
-		dataType: 'json',
-		success: function (data) {
-			addPlanningPeriods(data);
-		},
-		error: function (xhr, textStatus, errorThrown) {
-			if (xhr.status === 404 || xhr.status === 500)
-			{
-				$.ajax(repopulatePlanningPeriods());
-			}
-		}
-	});
+    $.ajax({
+        type: 'GET',
+        url: rootURI + componentParameters,
+        dataType: 'json',
+        success: function (data) {
+            addPlanningPeriods(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            if (xhr.status === 404 || xhr.status === 500)
+            {
+                $.ajax(repopulatePlanningPeriods());
+            }
+        }
+    });
 }
 
 /**
@@ -146,49 +146,49 @@ function repopulatePlanningPeriods()
  */
 function repopulateRooms()
 {
-	"use strict";
+    "use strict";
 
-	var selectedDepartments = $('#departmentIDs').val(),
-		selectedPrograms = $('#programIDs').val(),
-		selectedTypes = $('#typeIDs').val(),
-		validDepartments, validPrograms, validTypes,
-		componentParameters;
+    var selectedDepartments = $('#departmentIDs').val(),
+        selectedPrograms = $('#programIDs').val(),
+        selectedTypes = $('#typeIDs').val(),
+        validDepartments, validPrograms, validTypes,
+        componentParameters;
 
-	validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
-	validPrograms = selectedPrograms != null && selectedPrograms.length !== 0;
-	validTypes = selectedTypes != null && selectedTypes.length !== 0;
+    validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
+    validPrograms = selectedPrograms != null && selectedPrograms.length !== 0;
+    validTypes = selectedTypes != null && selectedTypes.length !== 0;
 
-	componentParameters = 'index.php?option=com_thm_organizer&view=room_ajax&format=raw&task=getPlanOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&view=room_ajax&format=raw&task=getPlanOptions';
 
-	if (validDepartments)
-	{
-		componentParameters += '&departmentIDs=' + selectedDepartments;
-	}
+    if (validDepartments)
+    {
+        componentParameters += '&departmentIDs=' + selectedDepartments;
+    }
 
-	if (validPrograms)
-	{
-		componentParameters += '&programIDs=' + selectedPrograms;
-	}
+    if (validPrograms)
+    {
+        componentParameters += '&programIDs=' + selectedPrograms;
+    }
 
-	if (validTypes)
-	{
-		componentParameters += '&typeIDs=' + selectedTypes;
-	}
+    if (validTypes)
+    {
+        componentParameters += '&typeIDs=' + selectedTypes;
+    }
 
-	$.ajax({
-		type: 'GET',
-		url: rootURI + componentParameters,
-		dataType: 'json',
-		success: function (data) {
-			addRooms(data);
-		},
-		error: function (xhr, textStatus, errorThrown) {
-			if (xhr.status === 404 || xhr.status === 500)
-			{
-				$.ajax(repopulateRooms());
-			}
-		}
-	});
+    $.ajax({
+        type: 'GET',
+        url: rootURI + componentParameters,
+        dataType: 'json',
+        success: function (data) {
+            addRooms(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            if (xhr.status === 404 || xhr.status === 500)
+            {
+                $.ajax(repopulateRooms());
+            }
+        }
+    });
 }
 
 /**
@@ -196,30 +196,30 @@ function repopulateRooms()
  */
 function repopulatePrograms()
 {
-	"use strict";
+    "use strict";
 
-	var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
-	componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
+    var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
+    componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
 
-	if (selectedDepartments == null)
-	{
-		return;
-	}
+    if (selectedDepartments == null)
+    {
+        return;
+    }
 
-	selectionParameters = '&departmentIDs=' + selectedDepartments;
+    selectionParameters = '&departmentIDs=' + selectedDepartments;
 
-	$.ajax({
-		type: 'GET',
-		url: rootURI + componentParameters + selectionParameters,
-		dataType: 'json',
-		success: function (data) {
-			addPrograms(data);
-		},
-		error: function (xhr, textStatus, errorThrown) {
-			if (xhr.status === 404 || xhr.status === 500)
-			{
-				$.ajax(repopulatePrograms());
-			}
-		}
-	});
+    $.ajax({
+        type: 'GET',
+        url: rootURI + componentParameters + selectionParameters,
+        dataType: 'json',
+        success: function (data) {
+            addPrograms(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            if (xhr.status === 404 || xhr.status === 500)
+            {
+                $.ajax(repopulatePrograms());
+            }
+        }
+    });
 }

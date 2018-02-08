@@ -96,7 +96,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 
         $params              = JComponentHelper::getParams('com_thm_organizer');
         $defaultDisplay      = $params->get('display', '');
-        $useComponentDisplay = (!empty($defaultDisplay) AND $requestDisplay == $defaultDisplay);
+        $useComponentDisplay = (!empty($defaultDisplay) and $requestDisplay == $defaultDisplay);
         if ($useComponentDisplay) {
             $query->where("( $where OR useDefaults = '1')");
 

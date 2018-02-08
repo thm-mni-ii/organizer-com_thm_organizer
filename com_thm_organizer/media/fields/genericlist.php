@@ -157,7 +157,7 @@ class JFormFieldGenericList extends JFormFieldList
         }
         $glue = $this->getAttribute('glue');
 
-        if (count($textColumns) === 1 OR empty($glue)) {
+        if (count($textColumns) === 1 or empty($glue)) {
             return $textColumns[0];
         }
 
@@ -202,7 +202,7 @@ class JFormFieldGenericList extends JFormFieldList
         }
         $valueParameters     = explode(',', $valueParameter);
         $componentParameters = JComponentHelper::getParams(JFactory::getApplication()->input->get('option'));
-        foreach ($valueParameters AS $parameter) {
+        foreach ($valueParameters as $parameter) {
             $componentParameter = $componentParameters->get($parameter);
             if (empty($componentParameter)) {
                 continue;

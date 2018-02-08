@@ -31,12 +31,13 @@ class JFormFieldRoomID extends JFormFieldList
     public function getOptions()
     {
         $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
-        $rooms = THM_OrganizerHelperRooms::getRooms();
+        $rooms          = THM_OrganizerHelperRooms::getRooms();
 
         $options = [];
         if (empty($rooms)) {
-            $lang = THM_OrganizerHelperLanguage::getLanguage();
+            $lang      = THM_OrganizerHelperLanguage::getLanguage();
             $options[] = JHtml::_('select.option', '', $lang->_('JNONE'));
+
             return $options;
         } else {
             foreach ($rooms as $room) {

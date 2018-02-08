@@ -70,7 +70,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
             $return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
             $grid                       = json_decode($item->grid);
 
-            if (isset($grid) AND isset($grid->periods)) {
+            if (isset($grid) and isset($grid->periods)) {
                 $periods     = get_object_vars($grid->periods);
                 $firstPeriod = $periods[1];
                 $lastPeriod  = end($periods);

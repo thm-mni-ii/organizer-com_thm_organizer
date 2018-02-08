@@ -18,8 +18,8 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/lsfapi.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
-defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
-defined('TEACHER') OR define('TEACHER', 2);
+defined('RESPONSIBLE') or define('RESPONSIBLE', 1);
+defined('TEACHER') or define('TEACHER', 2);
 
 /**
  * Provides persistence handling for subjects
@@ -86,7 +86,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 continue;
             }
 
-            foreach ($programs AS $program) {
+            foreach ($programs as $program) {
                 $query->clear('select');
                 $query->select($select . "'{$program['id']}' AS programID");
 
@@ -129,15 +129,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     private function checkProofAndMethod(&$subject)
     {
-        $unusableProofValue = (empty($subject->proof_en) OR strlen($subject->proof_en) < 4);
+        $unusableProofValue = (empty($subject->proof_en) or strlen($subject->proof_en) < 4);
 
-        if ($unusableProofValue AND !empty($subject->proof_de)) {
+        if ($unusableProofValue and !empty($subject->proof_de)) {
             $subject->proof_en = $subject->proof_de;
         }
 
-        $unusableMethodValue = (empty($subject->method_en) OR strlen($subject->method_en) < 4);
+        $unusableMethodValue = (empty($subject->method_en) or strlen($subject->method_en) < 4);
 
-        if ($unusableMethodValue AND !empty($subject->method_de)) {
+        if ($unusableMethodValue and !empty($subject->method_de)) {
             $subject->method_en = $subject->method_de;
         }
     }
@@ -273,7 +273,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             return false;
         }
 
-        $cantBeImported = (empty($subject->lsfID) AND empty($subject->externalID));
+        $cantBeImported = (empty($subject->lsfID) and empty($subject->externalID));
         if ($cantBeImported) {
             return true;
         }
@@ -286,7 +286,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $blocked      = strtolower((string)$lsfData->modul->sperrmh) == 'x';
         $invalidTitle = THM_OrganizerLSFClient::invalidTitle($lsfData, true);
 
-        if ($blocked OR $invalidTitle) {
+        if ($blocked or $invalidTitle) {
             $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
 
             return $subjectModel->deleteEntry($subject->id);
@@ -337,7 +337,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
         $blobs = $dataObject->xpath('//blobs/blob');
 
-        foreach ($blobs AS $objectNode) {
+        foreach ($blobs as $objectNode) {
             $this->setObjectProperty($subject, $objectNode);
         }
 
@@ -382,8 +382,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
         $presenceExists    = !empty($dataObject->praesenzzeit);
         $independentExists = !empty($dataObject->selbstzeit);
-        $validSum          = ($presenceExists AND $independentExists
-            AND ((int)$dataObject->praesenzzeit + (int)$dataObject->selbstzeit) == $expenditure);
+        $validSum          = ($presenceExists and $independentExists
+            and ((int)$dataObject->praesenzzeit + (int)$dataObject->selbstzeit) == $expenditure);
 
         if ($validSum) {
             $this->setAttribute($subject, 'present', (int)$dataObject->praesenzzeit);
@@ -443,11 +443,11 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         }
 
         $invalidTitle = THM_OrganizerLSFClient::invalidTitle($stub);
-        $blocked = !empty($stub->sperrmh) AND strtolower((string)$stub->sperrmh) == 'x';
+        $blocked = !empty($stub->sperrmh) and strtolower((string)$stub->sperrmh) == 'x';
 
         // No row was found => create one
-        if (empty($table->id) OR empty($table->departmentID)) {
-            if ($blocked OR $invalidTitle) {
+        if (empty($table->id) or empty($table->departmentID)) {
+            if ($blocked or $invalidTitle) {
                 return true;
             }
 
@@ -456,7 +456,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 return false;
             }
         } // Already exists and should no longer be maintained.
-        elseif ($blocked OR $invalidTitle) {
+        elseif ($blocked or $invalidTitle) {
             $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
 
             return $subjectModel->deleteEntry($table->id);
@@ -794,7 +794,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $responsible = $dataObject->xpath('//verantwortliche');
         $teaching    = $dataObject->xpath('//dozent');
 
-        if (empty($responsible) AND empty($teaching)) {
+        if (empty($responsible) and empty($teaching)) {
             return true;
         }
 
@@ -842,7 +842,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             $teacherData['surname']  = trim((string)$teacher->personinfo->$surnameAttribute);
             $teacherData['username'] = trim((string)$teacher->hgnr);
 
-            if (empty($teacherData['surname']) OR empty($teacherData['username'])) {
+            if (empty($teacherData['surname']) or empty($teacherData['username'])) {
                 continue;
             }
 
@@ -899,8 +899,8 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     private function savePrerequisites($prerequisiteMappings, $subjectMappings)
     {
-        foreach ($prerequisiteMappings AS $prerequisiteID) {
-            foreach ($subjectMappings AS $subjectID) {
+        foreach ($prerequisiteMappings as $prerequisiteID) {
+            foreach ($subjectMappings as $subjectID) {
                 $checkQuery = $this->_db->getQuery(true);
                 $checkQuery->select("COUNT(*)");
                 $checkQuery->from('#__thm_organizer_prerequisites')
@@ -987,7 +987,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 break;
         }
 
-        if ($value === '' OR $value === null) {
+        if ($value === '' or $value === null) {
             $subject->$attributeName = null;
         } elseif (!is_numeric($value)) {
             $value = strlen($value);

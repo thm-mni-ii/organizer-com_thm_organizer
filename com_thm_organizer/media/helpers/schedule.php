@@ -48,7 +48,7 @@ class THM_OrganizerHelperSchedule
         foreach ($lessons as $lesson) {
             $date         = $lesson['date'];
             $lessonID     = $lesson['lessonID'];
-            $subjectDelta = (empty($lesson['subjectDelta']) OR $lesson['subjectsModified'] < $delta) ? '' : $lesson['subjectDelta'];
+            $subjectDelta = (empty($lesson['subjectDelta']) or $lesson['subjectsModified'] < $delta) ? '' : $lesson['subjectDelta'];
             $startTime    = substr(str_replace(':', '', $lesson['startTime']), 0, 4);
             $endTime      = substr(str_replace(':', '', $lesson['endTime']), 0, 4);
             $times        = "$startTime-$endTime";
@@ -74,10 +74,10 @@ class THM_OrganizerHelperSchedule
                 $aggregatedLessons[$date][$times][$lessonID]['subjects']  = [];
 
                 $aggregatedLessons[$date][$times][$lessonID]['lessonDelta']
-                    = (empty($lesson['lessonDelta']) OR $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
+                    = (empty($lesson['lessonDelta']) or $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
 
                 $aggregatedLessons[$date][$times][$lessonID]['calendarDelta']
-                    = (empty($lesson['calendarDelta']) OR $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
+                    = (empty($lesson['calendarDelta']) or $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
             }
 
             $subjectData = self::getSubjectData($lesson);
@@ -106,7 +106,7 @@ class THM_OrganizerHelperSchedule
             }
 
             $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'][$lesson['poolID']]
-                = (empty($lesson['poolDelta']) OR $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
+                = (empty($lesson['poolDelta']) or $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
 
             $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teacherDeltas'] = $configuration['teacherDeltas'];
 
@@ -162,7 +162,7 @@ class THM_OrganizerHelperSchedule
         }
 
         if (!empty($parameters['teacherIDs'])) {
-            foreach ($parameters['teacherIDs'] AS $teacherID) {
+            foreach ($parameters['teacherIDs'] as $teacherID) {
                 $regexp = '[[.quotation-mark.]]teachers[[.quotation-mark.]][[.colon.]][[.{.]]' .
                     '([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
                     '[[.quotation-mark.]]' . $teacherID . '[[.quotation-mark.]][[.colon.]]';
@@ -174,7 +174,7 @@ class THM_OrganizerHelperSchedule
         }
 
         if (!empty($parameters['roomIDs'])) {
-            foreach ($parameters['roomIDs'] AS $roomID) {
+            foreach ($parameters['roomIDs'] as $roomID) {
                 $regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.colon.]][[.{.]]' .
                     '([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
                     '[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]';
@@ -268,7 +268,7 @@ class THM_OrganizerHelperSchedule
 
         ksort($aggregatedLessons);
 
-        if (!empty($parameters['mySchedule']) AND !empty($parameters['userID'])) {
+        if (!empty($parameters['mySchedule']) and !empty($parameters['userID'])) {
             return self::getUserFilteredLessons($aggregatedLessons, $parameters['userID']);
         }
 
@@ -352,7 +352,7 @@ class THM_OrganizerHelperSchedule
         $right = $programMapping['rgt'];
 
         foreach ($mappedSubjects as $subject) {
-            $found = ($subject['lft'] > $left AND $subject['rgt'] < $right);
+            $found = ($subject['lft'] > $left and $subject['rgt'] < $right);
 
             if ($found) {
                 $return['subjectID'] = $subject['subjectID'];
@@ -407,8 +407,8 @@ class THM_OrganizerHelperSchedule
     {
         $configuration['teacherDeltas'] = [];
 
-        foreach ($configuration['teachers'] AS $teacherID => $teacherDelta) {
-            if ($teacherDelta == 'removed' AND $configuration['modified'] < $delta) {
+        foreach ($configuration['teachers'] as $teacherID => $teacherDelta) {
+            if ($teacherDelta == 'removed' and $configuration['modified'] < $delta) {
                 unset($configuration['teachers'][$teacherID]);
                 continue;
             }
@@ -419,8 +419,8 @@ class THM_OrganizerHelperSchedule
 
         $configuration['roomDeltas'] = [];
 
-        foreach ($configuration['rooms'] AS $roomID => $roomDelta) {
-            if ($roomDelta == 'removed' AND $configuration['modified'] < $delta) {
+        foreach ($configuration['rooms'] as $roomID => $roomDelta) {
+            if ($roomDelta == 'removed' and $configuration['modified'] < $delta) {
                 unset($configuration['rooms'][$roomID]);
                 continue;
             }
@@ -579,7 +579,7 @@ class THM_OrganizerHelperSchedule
             $query->where("(c.delta != 'removed' OR (c.delta = 'removed' AND c.modified > '" . $parameters['delta'] . "'))");
         }
 
-        if (!empty($parameters['mySchedule']) AND !empty($parameters['userID'])) {
+        if (!empty($parameters['mySchedule']) and !empty($parameters['userID'])) {
             $query->innerJoin('#__thm_organizer_user_lessons AS u ON u.lessonID = l.id');
             $query->where('u.userID = ' . $parameters['userID']);
         } else {
@@ -625,7 +625,7 @@ class THM_OrganizerHelperSchedule
         foreach ($lessons as $date => $blockTimes) {
             foreach ($blockTimes as $times => $lessonSet) {
                 foreach ($lessonSet as $lessonID => $lessonData) {
-                    if (empty($configurations[$lessonID]) OR !in_array($lessonData['ccmID'],
+                    if (empty($configurations[$lessonID]) or !in_array($lessonData['ccmID'],
                             $configurations[$lessonID])) {
                         unset($lessons[$date][$times][$lessonID]);
                     }

@@ -65,7 +65,7 @@ class JFormFieldProgramID extends JFormFieldList
         foreach ($programs as $program) {
             $index = "{$program['name']} {$program['degree']}";
 
-            if ($unique AND in_array($index, $uniqueNames)) {
+            if ($unique and in_array($index, $uniqueNames)) {
                 continue;
             } else {
                 $uniqueNames[$index] = $index;
@@ -73,7 +73,7 @@ class JFormFieldProgramID extends JFormFieldList
 
             $text = "{$program['name']}, {$program['degree']} ({$program['version']})";
 
-            if (!$access OR THM_OrganizerHelperComponent::allowResourceManage('program', $program['value'], 'manage')) {
+            if (!$access or THM_OrganizerHelperComponent::allowResourceManage('program', $program['value'], 'manage')) {
                 $options[] = JHtml::_('select.option', $program['value'], $text);
             }
         }

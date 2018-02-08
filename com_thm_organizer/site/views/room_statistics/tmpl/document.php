@@ -181,7 +181,7 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
     {
         $this->spreadSheet->getActiveSheet()->setCellValue("A{$rowNo}", $this->rooms[$roomID]);
         $this->spreadSheet->getActiveSheet()->getStyle("A{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
-        $roomType = (empty($this->roomTypeMap[$roomID]) OR empty($this->roomTypes[$this->roomTypeMap[$roomID]])) ?
+        $roomType = (empty($this->roomTypeMap[$roomID]) or empty($this->roomTypes[$this->roomTypeMap[$roomID]])) ?
             '' : $this->roomTypes[$this->roomTypeMap[$roomID]]['name'];
         $this->spreadSheet->getActiveSheet()->setCellValue("B{$rowNo}", $roomType);
         $this->spreadSheet->getActiveSheet()->getStyle("B{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);

@@ -10,8 +10,8 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-defined('RESPONSIBLE') OR define('RESPONSIBLE', 1);
-defined('TEACHER') OR define('TEACHER', 2);
+defined('RESPONSIBLE') or define('RESPONSIBLE', 1);
+defined('TEACHER') or define('TEACHER', 2);
 
 /**
  * Provides persistence handling for subjects
@@ -165,7 +165,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
 
         if (!empty($data['responsible'])) {
-            foreach ($data['responsible'] AS $responsibleID) {
+            foreach ($data['responsible'] as $responsibleID) {
                 $respAdded = $this->addTeacher($subjectID, $responsibleID, RESPONSIBLE);
                 if (!$respAdded) {
                     return false;
@@ -174,7 +174,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
 
         if (!empty($data['teacherID'])) {
-            foreach ($data['teacherID'] AS $teacherID) {
+            foreach ($data['teacherID'] as $teacherID) {
                 $teacherAdded = $this->addTeacher($subjectID, $teacherID, TEACHER);
                 if (!$teacherAdded) {
                     return false;
@@ -333,7 +333,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
 
         if (!empty($data['prerequisites'])) {
-            foreach ($data['prerequisites'] AS $prerequisiteID) {
+            foreach ($data['prerequisites'] as $prerequisiteID) {
                 $preAdded = $this->addPrerequisite($subjectID, $prerequisiteID);
                 if (!$preAdded) {
                     return false;
@@ -342,7 +342,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
 
         if (!empty($data['postrequisites'])) {
-            foreach ($data['postrequisites'] AS $postrequisiteID) {
+            foreach ($data['postrequisites'] as $postrequisiteID) {
                 $postAdded = $this->addPrerequisite($postrequisiteID, $subjectID);
                 if (!$postAdded) {
                     return false;

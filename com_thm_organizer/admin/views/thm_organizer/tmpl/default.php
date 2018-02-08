@@ -47,7 +47,7 @@ $actions = $this->getModel()->actions;
                 </div>
             </div>
         <?php endif; ?>
-        <?php if ($actions->{'organizer.menu.department'} OR $actions->{'organizer.menu.manage'}): ?>
+        <?php if ($actions->{'organizer.menu.department'} or $actions->{'organizer.menu.manage'}): ?>
             <div class="action-group">
                 <h3><?php echo JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION'); ?></h3>
                 <?php if ($actions->{'organizer.menu.department'}): ?>

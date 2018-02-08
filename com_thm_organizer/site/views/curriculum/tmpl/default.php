@@ -17,21 +17,21 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_COMPONENT_SITE . '/helpers/pool.php';
 ?>
 <div class="componentheader">
-	<h1 class="componentheading">
+    <h1 class="componentheading">
         <?php echo $this->item->name; ?>
-	</h1>
+    </h1>
 
-	<div class="language-switches">
+    <div class="language-switches">
         <?php
-        foreach ($this->languageSwitches AS $switch) {
+        foreach ($this->languageSwitches as $switch) {
             echo $switch;
         }
         ?>
-	</div>
+    </div>
 </div>
 <div class="curriculum">
     <?php
-    foreach ($this->item->children AS $pool) {
+    foreach ($this->item->children as $pool) {
         THM_OrganizerTemplateCurriculumPanel::render($pool, 'main');
     }
     ?>

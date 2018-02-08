@@ -125,11 +125,11 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      */
     public function getCreditPointText($pool)
     {
-        if (empty($pool['minCrP']) AND empty($pool['maxCrP'])) {
+        if (empty($pool['minCrP']) and empty($pool['maxCrP'])) {
             return '';
         } elseif (empty($pool['minCrP'])) {
             return sprintf(JText::_('COM_THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
-        } elseif (empty($pool['maxCrP']) OR $pool['minCrP'] == $pool['maxCrP']) {
+        } elseif (empty($pool['maxCrP']) or $pool['minCrP'] == $pool['maxCrP']) {
             return "{$pool['minCrP']} CrP";
         } else {
             return sprintf(JText::_('COM_THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
@@ -163,7 +163,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
         $displayItem = '<tr>';
 
-        if ($type != 'number' AND !empty($subjectNo)) {
+        if ($type != 'number' and !empty($subjectNo)) {
             $text = "$name ($subjectNo)";
         } elseif (empty($subjectNo)) {
             $text = $name;
@@ -177,7 +177,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
             $initial     = true;
             $displayItem .= '<td class="subject-program">';
 
-            foreach ($item->programs AS $programID => $programName) {
+            foreach ($item->programs as $programID => $programName) {
                 if (!$initial) {
                     $displayItem .= '<br>';
                 }
@@ -220,8 +220,8 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
     {
         $teacherResponsibility = [];
 
-        $isResponsible = (isset($subject->teachers[1]) AND array_key_exists($teacherID, $subject->teachers[1]));
-        $isTeacher     = (isset($subject->teachers[2]) AND array_key_exists($teacherID, $subject->teachers[2]));
+        $isResponsible = (isset($subject->teachers[1]) and array_key_exists($teacherID, $subject->teachers[1]));
+        $isTeacher     = (isset($subject->teachers[2]) and array_key_exists($teacherID, $subject->teachers[2]));
 
         switch ($this->params->get('teacherResp', 0)) {
             case 1:
@@ -256,7 +256,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
         $displayTeachers = [];
         $responsibility  = $this->params->get('teacherResp', 0);
 
-        if (isset($subject->teachers[1]) AND $responsibility != 2) {
+        if (isset($subject->teachers[1]) and $responsibility != 2) {
             foreach ($subject->teachers[1] as $responsibleID) {
                 $name                           = $this->getTeacherText($responsibleID);
                 $displayTeachers[$name]         = [];
@@ -269,7 +269,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
             }
         }
 
-        if (isset($subject->teachers[2]) AND $responsibility != 1) {
+        if (isset($subject->teachers[2]) and $responsibility != 1) {
             foreach ($subject->teachers[2] as $teacherID) {
                 $name = $this->getTeacherText($teacherID);
 
@@ -326,7 +326,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
             $teacherText .= ", {$teacher['forename']}";
         }
 
-        if ($showTitle AND !empty($teacher['title'])) {
+        if ($showTitle and !empty($teacher['title'])) {
             $teacherText .= " {$teacher['title']}";
         }
 

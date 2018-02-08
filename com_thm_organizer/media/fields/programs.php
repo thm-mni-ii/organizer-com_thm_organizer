@@ -72,99 +72,99 @@ class JFormFieldPrograms extends JFormField
     private function addScript($resourceID, $resourceType)
     {
         ?>
-		<script type="text/javascript" charset="utf-8">
-			jQuery(document).ready(function () {
-				jQuery('#jformprogramID').change(function () {
-					var programInput = jQuery('#jformprogramID'), selectedPrograms = programInput.val(),
-						parentInput = jQuery('#jformparentID'), oldSelectedParents = parentInput.val();
+        <script type="text/javascript" charset="utf-8">
+            jQuery(document).ready(function () {
+                jQuery('#jformprogramID').change(function () {
+                    var programInput = jQuery('#jformprogramID'), selectedPrograms = programInput.val(),
+                        parentInput = jQuery('#jformparentID'), oldSelectedParents = parentInput.val();
 
-					if (selectedPrograms === null)
-					{
-						selectedPrograms = '';
-					}
-					else
-					{
-						selectedPrograms = selectedPrograms.join(',');
-					}
+                    if (selectedPrograms === null)
+                    {
+                        selectedPrograms = '';
+                    }
+                    else
+                    {
+                        selectedPrograms = selectedPrograms.join(',');
+                    }
 
-					if (jQuery.inArray('-1', selectedPrograms) != '-1')
-					{
-						programInput.find('option').removeAttr("selected");
-						return false;
-					}
+                    if (jQuery.inArray('-1', selectedPrograms) != '-1')
+                    {
+                        programInput.find('option').removeAttr("selected");
+                        return false;
+                    }
 
-					var poolUrl = "<?php echo JUri::root(); ?>index.php?option=com_thm_organizer";
-					poolUrl += "&view=pool_ajax&format=raw&task=parentOptions";
-					poolUrl += "&id=<?php echo $resourceID; ?>";
-					poolUrl += "&type=<?php echo $resourceType; ?>";
-					poolUrl += "&programIDs=" + selectedPrograms;
-					jQuery.get(poolUrl, function (options) {
-						parentInput.html(options);
-						var newSelectedParents = parentInput.val();
-						var selectedParents = [];
-						if (newSelectedParents !== null && newSelectedParents.length)
-						{
-							if (oldSelectedParents !== null && oldSelectedParents.length)
-							{
-								selectedParents = jQuery.merge(newSelectedParents, oldSelectedParents);
-							}
-							else
-							{
-								selectedParents = newSelectedParents;
-							}
-						}
-						else if (oldSelectedParents !== null && oldSelectedParents.length)
-						{
-							selectedParents = oldSelectedParents;
-						}
+                    var poolUrl = "<?php echo JUri::root(); ?>index.php?option=com_thm_organizer";
+                    poolUrl += "&view=pool_ajax&format=raw&task=parentOptions";
+                    poolUrl += "&id=<?php echo $resourceID; ?>";
+                    poolUrl += "&type=<?php echo $resourceType; ?>";
+                    poolUrl += "&programIDs=" + selectedPrograms;
+                    jQuery.get(poolUrl, function (options) {
+                        parentInput.html(options);
+                        var newSelectedParents = parentInput.val();
+                        var selectedParents = [];
+                        if (newSelectedParents !== null && newSelectedParents.length)
+                        {
+                            if (oldSelectedParents !== null && oldSelectedParents.length)
+                            {
+                                selectedParents = jQuery.merge(newSelectedParents, oldSelectedParents);
+                            }
+                            else
+                            {
+                                selectedParents = newSelectedParents;
+                            }
+                        }
+                        else if (oldSelectedParents !== null && oldSelectedParents.length)
+                        {
+                            selectedParents = oldSelectedParents;
+                        }
 
-						parentInput.val(selectedParents);
+                        parentInput.val(selectedParents);
 
-						refreshChosen('jformparentID');
-					});
-					refreshChosen('jformparentID');
-				});
+                        refreshChosen('jformparentID');
+                    });
+                    refreshChosen('jformparentID');
+                });
 
-				function refreshChosen(id)
-				{
-					var chosenElement = jQuery("#" + id);
-					chosenElement.chosen("destroy");
-					chosenElement.chosen();
-				}
+                function refreshChosen(id)
+                {
+                    var chosenElement = jQuery("#" + id);
+                    chosenElement.chosen("destroy");
+                    chosenElement.chosen();
+                }
 
-				function toggleElement(chosenElement, value)
-				{
-					var parentInput = jQuery("#jformparentID");
-					parentInput.chosen("destroy");
-					jQuery("select#jformparentID option").each(function () {
-						if (chosenElement == $(this).innerHTML)
-						{
-							jQuery(this).prop('selected', value);
-						}
-					});
-					parentInput.chosen();
-				}
+                function toggleElement(chosenElement, value)
+                {
+                    var parentInput = jQuery("#jformparentID");
+                    parentInput.chosen("destroy");
+                    jQuery("select#jformparentID option").each(function () {
+                        if (chosenElement == $(this).innerHTML)
+                        {
+                            jQuery(this).prop('selected', value);
+                        }
+                    });
+                    parentInput.chosen();
+                }
 
-				function addAddHandler()
-				{
-					jQuery('#jformparentID_chzn').find('div.chzn-drop').click(function (element) {
-						toggleElement(element.target.innerHTML, true);
-						addRemoveHandler();
-					});
-				}
+                function addAddHandler()
+                {
+                    jQuery('#jformparentID_chzn').find('div.chzn-drop').click(function (element) {
+                        toggleElement(element.target.innerHTML, true);
+                        addRemoveHandler();
+                    });
+                }
 
-				function addRemoveHandler()
-				{
-					jQuery('div#jformparentID_chzn').find('a.search-choice-close').click(function (element) {
-						toggleElement(element.target.parentElement.childNodes[0].innerHTML, false);
-						addAddHandler();
-					});
-				}
+                function addRemoveHandler()
+                {
+                    jQuery('div#jformparentID_chzn').find('a.search-choice-close').click(function (element) {
+                        toggleElement(element.target.parentElement.childNodes[0].innerHTML, false);
+                        addAddHandler();
+                    });
+                }
 
-				addRemoveHandler();
-				addAddHandler();
-			});
-		</script>
+                addRemoveHandler();
+                addAddHandler();
+            });
+        </script>
         <?php
     }
 }

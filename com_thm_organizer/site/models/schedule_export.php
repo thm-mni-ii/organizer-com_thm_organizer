@@ -560,7 +560,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
         if ($useMySchedule) {
             $docTitle  = 'mySchedule_';
             $pageTitle = JText::_('COM_THM_ORGANIZER_MY_SCHEDULE');
-        } elseif ((!$useLessons AND !$useInstances) AND ($usePools XOR $useTeachers XOR $useRooms XOR $useSubjects)) {
+        } elseif ((!$useLessons and !$useInstances) and ($usePools xor $useTeachers xor $useRooms xor $useSubjects)) {
             if ($usePools) {
                 $titles    = $this->getPoolTitles();
                 $docTitle  .= $titles['docTitle'];

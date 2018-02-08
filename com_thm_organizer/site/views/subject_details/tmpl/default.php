@@ -20,56 +20,56 @@ if (!empty($this->menu)) {
 $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition');
 ?>
 <div class="toolbar">
-	<div class="tool-wrapper language-switches">
+    <div class="tool-wrapper language-switches">
         <?php
-        foreach ($this->languageSwitches AS $switch) {
+        foreach ($this->languageSwitches as $switch) {
             echo $switch;
         }
         ?>
-	</div>
+    </div>
 </div>
 <div class="subject-list <?php echo $containerClass; ?>">
     <?php if (!empty($this->item->name)): ?>
-		<h1 class="componentheading"><?php echo $this->item->name; ?></h1>
+        <h1 class="componentheading"><?php echo $this->item->name; ?></h1>
     <?php endif; ?>
     <?php if ($this->showRegistration): ?>
         <?php if (empty(JFactory::getUser()->id)): ?>
-			<script type="text/javascript">
-				jQuery(document).ready(function () {
-					const registrationLink = jQuery('#login-form ul.unstyled > li:first-child > a'),
-						oldURL = registrationLink.attr('href');
+            <script type="text/javascript">
+                jQuery(document).ready(function () {
+                    const registrationLink = jQuery('#login-form ul.unstyled > li:first-child > a'),
+                        oldURL = registrationLink.attr('href');
 
-					let queryParams = '&redirect=subject_details';
-					queryParams += '&id=<?php echo $this->subjectID; ?>';
-					queryParams += '&Itemid=<?php echo $menuID; ?>';
-					queryParams += '&languageTag=<?php echo $this->langTag; ?>';
+                    let queryParams = '&redirect=subject_details';
+                    queryParams += '&id=<?php echo $this->subjectID; ?>';
+                    queryParams += '&Itemid=<?php echo $menuID; ?>';
+                    queryParams += '&languageTag=<?php echo $this->langTag; ?>';
 
-					registrationLink.attr('href', oldURL + queryParams);
-				});
-			</script>
-			<div class="tbox-yellow">
-				<p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
+                    registrationLink.attr('href', oldURL + queryParams);
+                });
+            </script>
+            <div class="tbox-yellow">
+                <p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
                 <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
-				<div class="right">
+                <div class="right">
                     <?php if (!empty($this->menu)): ?>
-						<a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini"
-						   type="button">
-							<span class="icon-list"></span>
+                        <a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini"
+                           type="button">
+                            <span class="icon-list"></span>
                             <?php echo $menuText ?>
-						</a>
+                        </a>
                     <?php endif; ?>
-					<a class="btn" onclick="<?php echo $casURL; ?>">
-						<span class="icon-apply"></span>
+                    <a class="btn" onclick="<?php echo $casURL; ?>">
+                        <span class="icon-apply"></span>
                         <?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN'); ?>
-					</a>
-				</div>
-				<div class="clear"></div>
-			</div>
+                    </a>
+                </div>
+                <div class="clear"></div>
+            </div>
         <?php else: ?>
-			<div class="tbox-<?php echo $this->color; ?> course-status">
-				<div class="status-container left">
+            <div class="tbox-<?php echo $this->color; ?> course-status">
+                <div class="status-container left">
                     <?php
-                    foreach ($this->courses AS $course) {
+                    foreach ($this->courses as $course) {
                         echo '<div class="course-item">';
 
                         if (!empty($course['campus']['name'])) {
@@ -85,19 +85,19 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
                         echo '</div>';
                     }
                     ?>
-				</div>
-				<div class="right">
+                </div>
+                <div class="right">
                     <?php if (!empty($this->menu)): ?>
-						<a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini"
-						   type="button">
-							<span class="icon-list"></span>
+                        <a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini"
+                           type="button">
+                            <span class="icon-list"></span>
                             <?php echo $menuText ?>
-						</a>
+                        </a>
                     <?php endif; ?>
                     <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
-				</div>
-				<div class="clear"></div>
-			</div>
+                </div>
+                <div class="clear"></div>
+            </div>
         <?php endif; ?>
     <?php endif;
 
@@ -169,7 +169,7 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
 
         $displayeCollab = JComponentHelper::getParams('com_thm_organizer')->get('displayeCollabLink');
 
-        if (!empty($this->item->externalID) AND !empty($displayeCollab)) {
+        if (!empty($this->item->externalID) and !empty($displayeCollab)) {
             $ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
             $ecollabIcon = JUri::root() . 'media/com_thm_organizer/images/icon-32-moodle.png';
             echo '

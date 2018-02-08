@@ -126,7 +126,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $this->subjects = parent::getItems();
         $this->aggregateSubjects();
 
-        foreach ($this->subjects AS $index => $subject) {
+        foreach ($this->subjects as $index => $subject) {
             if (!empty($subject->subjectColor)) {
                 $this->subjects[$index]->textColor = THM_OrganizerHelperComponent::getTextColor($subject->subjectColor);
             }
@@ -158,10 +158,10 @@ class THM_OrganizerModelSubject_List extends JModelList
             $isBChild = $this->isChildPool($b);
 
             // Child pools should come after normal pools
-            if ($isAChild AND !$isBChild) {
+            if ($isAChild and !$isBChild) {
                 return true;
             }
-            if ($isBChild AND !$isAChild) {
+            if ($isBChild and !$isAChild) {
                 return false;
             }
 
@@ -197,7 +197,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             $teacherData = $this->getTeacherInformation();
         }
 
-        if (empty($poolData) AND empty($teacherData)) {
+        if (empty($poolData) and empty($teacherData)) {
             return $this->_db->getQuery(true);
         }
 
@@ -527,7 +527,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     private function isChildPool($pool)
     {
         foreach ($this->pools as $check) {
-            if ($check['lft'] < $pool['lft'] AND $check['rgt'] > $pool['rgt']) {
+            if ($check['lft'] < $pool['lft'] and $check['rgt'] > $pool['rgt']) {
                 return true;
             }
         }
@@ -619,7 +619,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             $requestPoolIDs    = $app->input->getString('poolIDs');
             $requestTeacherIDs = $app->input->getString('teacherIDs');
 
-            $initial = (!empty($requestProgramIDs) OR !empty($requestPoolIDs) OR !empty($requestTeacherIDs));
+            $initial = (!empty($requestProgramIDs) or !empty($requestPoolIDs) or !empty($requestTeacherIDs));
 
             if ($initial) {
                 if (!empty($requestProgramIDs)) {

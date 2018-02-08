@@ -49,7 +49,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $this->createCalendar();
 
         $this->lessons = $model->lessons;
-        $noLessons     = (array_key_exists('pastDate', $this->lessons) OR array_key_exists('futureDate',
+        $noLessons     = (array_key_exists('pastDate', $this->lessons) or array_key_exists('futureDate',
                 $this->lessons));
 
         if (!$noLessons) {
@@ -148,7 +148,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $subjectNos   = [];
         $teachers     = [];
         $rooms        = [];
-        foreach ($lessonInstance['subjects'] AS $subjectConfiguration) {
+        foreach ($lessonInstance['subjects'] as $subjectConfiguration) {
             if (!empty($subjectConfiguration['subjectNo'])) {
                 $subjectNos[$subjectConfiguration['subjectNo']] = $subjectConfiguration['subjectNo'];
             }

@@ -107,7 +107,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
         $resourceID = $input->getInt('id', 0);
 
         // Edit can only be explicitly called from the list view or implicitly with an id over a URL
-        $edit = (($task == "$resource.edit") OR $resourceID > 0);
+        $edit = (($task == "$resource.edit") or $resourceID > 0);
         if ($edit) {
             if (!empty($resourceID)) {
                 return $this->getItem($resourceID);

@@ -140,10 +140,11 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
      */
     public function getLabel($inputName)
     {
-        $title = $this->lang->_($this->form->getField($inputName)->title);
-        $tip = $this->lang->_($this->form->getField($inputName)->description);
+        $title  = $this->lang->_($this->form->getField($inputName)->title);
+        $tip    = $this->lang->_($this->form->getField($inputName)->description);
         $return = '<label id="jform_' . $inputName . '-lbl" for="jform_' . $inputName . '" class="hasPopover"';
         $return .= 'data-content="' . $tip . '" data-original-title="' . $title . '">' . $title . '</label>';
+
         return $return;
     }
 
@@ -171,6 +172,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
             $capacityText .= ": {$room['capacity']}";
             $capacityText .= '<br />';
         }
+
         return htmlentities('<div>' . $typeText . $capacityText . '</div>');
 
         return $roomTip;

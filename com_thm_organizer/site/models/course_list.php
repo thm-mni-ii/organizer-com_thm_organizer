@@ -33,7 +33,7 @@ class THM_OrganizerModelCourse_List extends JModelList
 
         $maxValues = [];
 
-        foreach ($courses AS $index => &$course) {
+        foreach ($courses as $index => &$course) {
             if ($this->state->filter_status == 'current') {
                 if (isset($maxValues[$course->subjectID])) {
                     if ($maxValues[$course->subjectID]['start'] > $course->start) {

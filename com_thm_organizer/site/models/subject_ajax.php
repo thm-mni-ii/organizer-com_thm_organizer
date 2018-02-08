@@ -41,7 +41,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         $input     = JFactory::getApplication()->input;
         $programID = $input->getString('programID', '-1');
         $teacherID = $input->getString('teacherID', '-1');
-        if ($programID == '-1' AND $teacherID == '-1') {
+        if ($programID == '-1' and $teacherID == '-1') {
             return '[]';
         }
 
@@ -111,10 +111,10 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         }
 
         $poolID         = $input->getString('poolID');
-        $poolBoundaries = ($poolID != '-1' AND $poolID != 'null') ?
+        $poolBoundaries = ($poolID != '-1' and $poolID != 'null') ?
             THM_OrganizerHelperMapping::getBoundaries('pool', $poolID) : [];
 
-        $validPool = (!empty($poolBoundaries) AND $this->poolInProgram($poolBoundaries, $programBoundaries));
+        $validPool = (!empty($poolBoundaries) and $this->poolInProgram($poolBoundaries, $programBoundaries));
         if ($validPool) {
             return $poolBoundaries;
         }
@@ -138,7 +138,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 
         $leftValid  = $first['lft'] > $programBoundaries[0]['lft'];
         $rightValid = $last['rgt'] < $programBoundaries[0]['rgt'];
-        if ($leftValid AND $rightValid) {
+        if ($leftValid and $rightValid) {
             return true;
         }
 

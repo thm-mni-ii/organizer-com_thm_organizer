@@ -33,7 +33,7 @@ class THM_OrganizerTemplateCurriculumPanel
     public static function render(&$pool, $type = 'modal')
     {
         $displayHead     = ($type == 'modal') ? 'hidden' : 'shown';
-        $dontDisplayDesc = (empty($pool->enable_desc) OR empty($pool->description));
+        $dontDisplayDesc = (empty($pool->enable_desc) or empty($pool->description));
         echo '<div id="panel-' . $pool->mapping . '" class="' . $type . '-panel ' . $displayHead . '">';
         self::renderHead($pool, $type);
         if (!$dontDisplayDesc) {
@@ -91,7 +91,7 @@ class THM_OrganizerTemplateCurriculumPanel
         $childCount  = count($pool->children);
 
         echo '<div class="' . $type . '-panel-items ' . $displayBody . '" ' . $mainID . '>';
-        foreach ($pool->children AS $element) {
+        foreach ($pool->children as $element) {
 
             if ($childIndex === 1) {
                 echo '<div class="panel-row">';
@@ -99,7 +99,7 @@ class THM_OrganizerTemplateCurriculumPanel
             $itemPanel = new THM_OrganizerTemplateCurriculumItemPanel;
             $itemPanel->render($element);
             $isRowEnd = $childIndex === 5;
-            $endRow   = ($isRowEnd OR $childNumber === $childCount);
+            $endRow   = ($isRowEnd or $childNumber === $childCount);
             if ($endRow) {
                 echo '</div>';
             }

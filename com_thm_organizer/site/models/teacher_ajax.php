@@ -50,7 +50,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
         $programID = $input->getString('programID');
         $poolID    = $input->getString('poolID');
 
-        if (!empty($poolID) AND $poolID != '-1' AND $poolID != 'null') {
+        if (!empty($poolID) and $poolID != '-1' and $poolID != 'null') {
             $resourceType = 'pool';
             $resourceID   = $poolID;
         } else {
@@ -93,7 +93,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
             return '';
         }
 
-        foreach ($teachers AS $key => $value) {
+        foreach ($teachers as $key => $value) {
             $teachers[$key]->name = empty($value->forename) ?
                 $value->surname : $value->surname . ', ' . $value->forename;
         }

@@ -51,7 +51,7 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
      */
     protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
     {
-        foreach ($schedule->lessons AS $lessonIndex => $lesson) {
+        foreach ($schedule->lessons as $lessonIndex => $lesson) {
             $update = (in_array($lesson->methodID, $allDBIDs));
             if ($update) {
                 $schedule->lessons->$lessonIndex->methodID = $newDBID;

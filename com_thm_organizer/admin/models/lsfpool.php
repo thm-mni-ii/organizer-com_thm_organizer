@@ -32,14 +32,14 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
      */
     public function processStub(&$stub, $departmentID)
     {
-        $valid = ((!empty($stub->pordid) OR !empty($stub->modulid))
-            AND (!empty($stub->nrhis) OR !empty($stub->modulnrhis)));
+        $valid = ((!empty($stub->pordid) or !empty($stub->modulid))
+            and (!empty($stub->nrhis) or !empty($stub->modulnrhis)));
         if (!$valid) {
             return false;
         }
 
         $invalidTitle = THM_OrganizerLSFClient::invalidTitle($stub);
-        $blocked = !empty($stub->sperrmh) AND strtolower((string)$stub->sperrmh) == 'x';
+        $blocked = !empty($stub->sperrmh) and strtolower((string)$stub->sperrmh) == 'x';
 
         $lsfID = empty($stub->pordid) ? (string)$stub->modulid : (string)$stub->pordid;
         $hisID = empty($stub->nrhis) ? (string)$stub->modulnrhis : (string)$stub->nrhis;
@@ -47,7 +47,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
         $pool = JTable::getInstance('pools', 'thm_organizerTable');
         $pool->load(['lsfID' => $lsfID, 'hisID' => $hisID]);
 
-        if (!empty($pool->id) AND ($blocked OR $invalidTitle)) {
+        if (!empty($pool->id) and ($blocked or $invalidTitle)) {
             $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
 
             return $poolModel->deleteEntry($pool->id);

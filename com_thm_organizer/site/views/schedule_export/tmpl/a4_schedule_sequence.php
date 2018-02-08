@@ -170,7 +170,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
                 strtotime("+1 day", strtotime($currentDate)))) {
                 $dow        = date('w', strtotime($currentDate));
-                $validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int)$this->parameters['startDay'] AND $dow <= (int)$this->parameters['endDay']);
+                $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
                 if ($validIndex) {
                     // Small horizontal spacer
                     $this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
@@ -225,7 +225,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
             strtotime("+1 day", strtotime($currentDate)))) {
             $dow        = date('w', strtotime($currentDate));
-            $validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int)$this->parameters['startDay'] AND $dow <= (int)$this->parameters['endDay']);
+            $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
             if ($validIndex) {
                 $this->document->MultiCell($this->parameters['dataWidth'] + 1, 0, $columnHeaders[$currentDate]['text'],
                     'TB', 'C', 0, 0);
@@ -350,7 +350,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                 for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
                     strtotime("+1 day", strtotime($currentDate)))) {
                     $dow        = date('w', strtotime($currentDate));
-                    $validIndex = (!empty($columnHeaders[$currentDate]) AND $dow >= (int)$this->parameters['startDay'] AND $dow <= (int)$this->parameters['endDay']);
+                    $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
                     if ($validIndex) {
                         // Small horizontal spacer
                         $this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);

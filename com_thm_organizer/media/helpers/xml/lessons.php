@@ -217,7 +217,7 @@ class THM_OrganizerHelperXMLLessons
         $termEndDT   = strtotime($this->scheduleModel->newSchedule->endDate);
 
         // Lesson is not relevant for the uploaded schedule (starts after term ends or ends before term begins)
-        if ($effBeginDT > $termEndDT OR $effEndDT < $termBeginDT) {
+        if ($effBeginDT > $termEndDT or $effEndDT < $termBeginDT) {
             return;
         }
 
@@ -254,7 +254,7 @@ class THM_OrganizerHelperXMLLessons
 
         $comment = trim((string)$lessonNode->text);
 
-        if (empty($comment) OR $comment == '.') {
+        if (empty($comment) or $comment == '.') {
             $comment = '';
         }
 
@@ -365,7 +365,7 @@ class THM_OrganizerHelperXMLLessons
     private function validateMethod(&$lessonNode)
     {
         $untisID       = str_replace('DS_', '', trim((string)$lessonNode->lesson_description));
-        $invalidMethod = (empty($untisID) OR empty($this->scheduleModel->newSchedule->methods->$untisID));
+        $invalidMethod = (empty($untisID) or empty($this->scheduleModel->newSchedule->methods->$untisID));
 
         if ($invalidMethod) {
             $this->scheduleModel->scheduleWarnings['LESSON-METHOD'] = empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
@@ -523,7 +523,7 @@ class THM_OrganizerHelperXMLLessons
         $syEndTime       = strtotime($this->scheduleModel->newSchedule->syEndDate);
         $lessonStartDate = date('Y-m-d', $startDT);
 
-        $validStartDate = ($startDT >= $syStartTime AND $startDT <= $syEndTime);
+        $validStartDate = ($startDT >= $syStartTime and $startDT <= $syEndTime);
         if (!$validStartDate) {
             $this->scheduleModel->scheduleErrors[] = sprintf(
                 JText::_('COM_THM_ORGANIZER_ERROR_LESSON_START_DATE_INVALID'),
@@ -545,7 +545,7 @@ class THM_OrganizerHelperXMLLessons
 
         $lessonEndDate = date('Y-m-d', $endDT);
 
-        $validEndDate = ($endDT >= $syStartTime AND $endDT <= $syEndTime);
+        $validEndDate = ($endDT >= $syStartTime and $endDT <= $syEndTime);
         if (!$validEndDate) {
             $this->scheduleModel->scheduleErrors[] = sprintf(
                 JText::_('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_INVALID'),
@@ -614,7 +614,7 @@ class THM_OrganizerHelperXMLLessons
 
         foreach ($potentialInstances as $potentialInstance) {
             // Untis uses F for vacation days and 0 for any other date restriction
-            $notAllowed = ($potentialInstance == '0' OR $potentialInstance == 'F');
+            $notAllowed = ($potentialInstance == '0' or $potentialInstance == 'F');
 
             if ($notAllowed) {
                 $currentDT = strtotime('+1 day', $currentDT);
@@ -655,7 +655,7 @@ class THM_OrganizerHelperXMLLessons
         $assigned_date = strtotime(trim((string)$instance->assigned_date));
 
         // The event is sporadic and does not occur on the date being currently iterated
-        if (!empty($assigned_date) AND $assigned_date != $currentDT) {
+        if (!empty($assigned_date) and $assigned_date != $currentDT) {
             return true;
         }
 

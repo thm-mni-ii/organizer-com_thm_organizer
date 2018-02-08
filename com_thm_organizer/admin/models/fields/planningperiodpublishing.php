@@ -71,7 +71,7 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
             $return .= '<select id="jform_publishing_' . $pID . '" name="jform[publishing][' . $pID . ']" class="chzn-color-state">';
 
             // Implicitly (new) and explicitly published entries
-            if (!isset($publishingEntries[$period['id']]) OR $publishingEntries[$period['id']]['published']) {
+            if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {
                 $return .= '<option value="1" selected="selected">' . JText::_('JYES') . '</option>';
                 $return .= '<option value="0">' . JText::_('JNO') . '</option>';
             } else {

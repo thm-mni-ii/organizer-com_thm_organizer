@@ -38,7 +38,7 @@ class THM_OrganizerController extends JControllerLegacy
         $formData = $app->input->get('jform', [], 'array');
         $url      = THM_OrganizerHelperComponent::getRedirectBase();
 
-        if (empty($formData) OR empty($formData['id'])) {
+        if (empty($formData) or empty($formData['id'])) {
             $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
             $app->redirect(JRoute::_($url, false));
         }
@@ -104,7 +104,7 @@ class THM_OrganizerController extends JControllerLegacy
         $url      = THM_OrganizerHelperComponent::getRedirectBase();
 
         // No chosen lesson => should not occur
-        if (empty($courseID) OR !THM_OrganizerHelperCourses::isRegistrationOpen()) {
+        if (empty($courseID) or !THM_OrganizerHelperCourses::isRegistrationOpen()) {
             $app->redirect(JRoute::_($url, false));
         }
 
@@ -114,7 +114,7 @@ class THM_OrganizerController extends JControllerLegacy
         $participantEditURL = "{$url}&view=participant_edit&lessonID=$courseID";
 
         if (!empty($formData)) {
-            if (!empty($formData['id']) AND $formData['id'] == JFactory::getUser()->id) {
+            if (!empty($formData['id']) and $formData['id'] == JFactory::getUser()->id) {
                 $participantSaved = $participantModel->save();
 
                 if (empty($participantSaved)) {
@@ -136,11 +136,11 @@ class THM_OrganizerController extends JControllerLegacy
 
         // Ensure participant data is complete
         $invalidParticipant = (empty($participant->address)
-            OR empty($participant->zip_code)
-            OR empty($participant->city)
-            OR empty($participant->programID)
-            OR empty($participant->forename)
-            OR empty($participant->surname)
+            or empty($participant->zip_code)
+            or empty($participant->city)
+            or empty($participant->programID)
+            or empty($participant->forename)
+            or empty($participant->surname)
         );
 
         // Participant entry is incomplete
@@ -211,7 +211,7 @@ class THM_OrganizerController extends JControllerLegacy
         $model     = $this->getModel($modelName);
 
         // Request manipulation
-        if (empty($model) OR empty($formData) OR empty($formData['id'])) {
+        if (empty($model) or empty($formData) or empty($formData['id'])) {
             $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST"), "error");
             $app->redirect(JRoute::_(JUri::base(), false));
         }
@@ -255,7 +255,7 @@ class THM_OrganizerController extends JControllerLegacy
             }
         }
 
-        if ($modelName == 'course' OR $modelName == 'subject') {
+        if ($modelName == 'course' or $modelName == 'subject') {
             $lessonID = $modelName == 'course' ? $formData['id'] : $input->getInt('lessonID');
             $url      .= "&lessonID=$lessonID";
         }

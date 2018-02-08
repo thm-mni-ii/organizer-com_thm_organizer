@@ -56,7 +56,7 @@ class THM_OrganizerLSFClient
             return 'subject';
         }
 
-        return (isset($resource->modulliste->modul) AND $type == 'K') ? 'pool' : 'invalid';
+        return (isset($resource->modulliste->modul) and $type == 'K') ? 'pool' : 'invalid';
     }
 
     /**

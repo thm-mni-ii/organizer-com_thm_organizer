@@ -177,10 +177,10 @@ class THM_OrganizerHelperRooms
         $shortTag   = THM_OrganizerHelperLanguage::getShortTag();
         $input      = JFactory::getApplication()->input;
         $formData   = $input->get('jform', [], 'array');
-        $buildingID = (empty($formData) OR empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID   = (empty($formData) OR empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
-        $typeIDs    = (empty($formData) OR empty($formData['types'])) ? [$input->getInt('typeID')] : $formData['types'];
-        $roomIDs    = (empty($formData) OR empty($formData['rooms'])) ? [$input->getInt('roomID')] : $formData['rooms'];
+        $buildingID = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
+        $campusID   = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
+        $typeIDs    = (empty($formData) or empty($formData['types'])) ? [$input->getInt('typeID')] : $formData['types'];
+        $roomIDs    = (empty($formData) or empty($formData['rooms'])) ? [$input->getInt('roomID')] : $formData['rooms'];
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -217,7 +217,7 @@ class THM_OrganizerHelperRooms
             }
         }
 
-        if (!empty($buildingID) OR !empty($campusID)) {
+        if (!empty($buildingID) or !empty($campusID)) {
             $query->innerJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
 
             if (!empty($buildingID)) {

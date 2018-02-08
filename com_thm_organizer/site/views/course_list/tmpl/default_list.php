@@ -28,21 +28,21 @@ foreach ($this->items as $item) {
     $name         = empty($item->campus['name']) ? $item->name : "$item->name ({$item->campus['name']})";
 
     ?>
-	<tr class='row'>
-		<td>
-			<a href='<?php echo $subjectRoute; ?>'>
+    <tr class='row'>
+        <td>
+            <a href='<?php echo $subjectRoute; ?>'>
                 <?php echo $name; ?>
 
-			</a>
-		</td>
-		<td><?php echo $displayDate; ?></td>
-		<td class="course-state"><?php echo $courseStatus ?></td>
-		<td class="user-state">
+            </a>
+        </td>
+        <td><?php echo $displayDate; ?></td>
+        <td class="course-state"><?php echo $courseStatus ?></td>
+        <td class="user-state">
             <?php echo THM_OrganizerHelperCourses::getStatusDisplay($item->lessonID); ?>
-		</td>
-		<td class="registration">
+        </td>
+        <td class="registration">
             <?php echo THM_OrganizerHelperCourses::getActionButton('participant', $item->lessonID); ?>
-		</td>
-	</tr>
+        </td>
+    </tr>
     <?php
 }

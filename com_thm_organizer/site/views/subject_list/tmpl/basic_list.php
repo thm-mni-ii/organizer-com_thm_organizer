@@ -40,7 +40,7 @@ class THM_OrganizerTemplateBasicList
             }
 
             echo '<table class="subject-list">';
-            foreach ($displayItems AS $item) {
+            foreach ($displayItems as $item) {
                 echo $view->getItemRow($item, $sort);
             }
             echo '</table>';

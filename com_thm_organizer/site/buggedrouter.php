@@ -99,8 +99,8 @@ function setSubjectListSegments(&$query, &$segments, &$item)
 {
     $programID = $item->params->get('programID');
 
-    if ($item->query['view'] == 'subject_list' AND !isset($query['groupBy']) AND !isset($query['languageTag'])
-        OR empty($programID)
+    if ($item->query['view'] == 'subject_list' and !isset($query['groupBy']) and !isset($query['languageTag'])
+        or empty($programID)
     ) {
         return;
     }

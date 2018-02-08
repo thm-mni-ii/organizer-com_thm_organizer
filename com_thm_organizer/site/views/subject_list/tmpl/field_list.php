@@ -31,11 +31,11 @@ class THM_OrganizerTemplateFieldList
      */
     public static function render(&$view)
     {
-        if (empty($view->items) OR empty($view->teachers)) {
+        if (empty($view->items) or empty($view->teachers)) {
             return;
         }
 
-        foreach ($view->fields AS $fieldID => $field) {
+        foreach ($view->fields as $fieldID => $field) {
             $rows = [];
 
             foreach ($view->items as $subject) {
@@ -47,18 +47,18 @@ class THM_OrganizerTemplateFieldList
 
             if (!empty($rows)) {
                 ?>
-				<fieldset class="teacher-group">
-					<legend>
-						<span class="pool-title"><?php echo $field['name']; ?></span>
-					</legend>
-					<table>
+                <fieldset class="teacher-group">
+                    <legend>
+                        <span class="pool-title"><?php echo $field['name']; ?></span>
+                    </legend>
+                    <table>
                         <?php
                         foreach ($rows as $row) {
                             echo $row;
                         }
                         ?>
-					</table>
-				</fieldset>
+                    </table>
+                </fieldset>
                 <?php
             }
         }

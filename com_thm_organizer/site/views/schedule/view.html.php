@@ -148,7 +148,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
         ];
 
         $grids = [];
-        foreach ($this->model->grids AS $grid) {
+        foreach ($this->model->grids as $grid) {
             $grids[$grid->id] = [
                 'id'   => $grid->id,
                 'grid' => $grid->grid

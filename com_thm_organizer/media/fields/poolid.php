@@ -45,7 +45,7 @@ class JFormFieldPoolID extends JFormFieldList
         }
 
         $programRanges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
-        if (empty($programRanges) OR count($programRanges) > 1) {
+        if (empty($programRanges) or count($programRanges) > 1) {
             return parent::getOptions();
         }
 
@@ -72,7 +72,7 @@ class JFormFieldPoolID extends JFormFieldList
         $options = [];
 
         foreach ($pools as $pool) {
-            if (!$access OR THM_OrganizerHelperComponent::allowResourceManage('pool', $pool['value'], 'manage')) {
+            if (!$access or THM_OrganizerHelperComponent::allowResourceManage('pool', $pool['value'], 'manage')) {
                 $options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
             }
         }

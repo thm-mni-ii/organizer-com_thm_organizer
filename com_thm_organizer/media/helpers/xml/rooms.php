@@ -139,7 +139,7 @@ class THM_OrganizerHelperXMLRooms
     private static function validateType(&$scheduleModel, &$roomNode, $roomID)
     {
         $descriptionID      = str_replace('DS_', '', trim((string)$roomNode->room_description[0]['id']));
-        $invalidDescription = (empty($descriptionID) OR empty($scheduleModel->newSchedule->room_types->$descriptionID));
+        $invalidDescription = (empty($descriptionID) or empty($scheduleModel->newSchedule->room_types->$descriptionID));
         if ($invalidDescription) {
             $scheduleModel->scheduleWarnings['ROOM-TYPE']            = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
                 1 : $scheduleModel->scheduleWarnings['ROOM-TYPE'] + 1;

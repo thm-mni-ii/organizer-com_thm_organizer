@@ -43,7 +43,7 @@ class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        $resourceID = (isset($this->item->id) AND is_numeric($this->item->id)) ? $this->item->id : 0;
+        $resourceID = (isset($this->item->id) and is_numeric($this->item->id)) ? $this->item->id : 0;
         $isNew      = ($resourceID == 0);
         $title      = $isNew ? JText::_('COM_THM_ORGANIZER_POOL_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_POOL_EDIT_EDIT_VIEW_TITLE');
         JToolbarHelper::title($title, 'organizer_subject_pools');

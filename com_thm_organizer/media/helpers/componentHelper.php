@@ -50,11 +50,11 @@ class THM_OrganizerHelperComponent
             } else {
                 foreach ($allowedDepartments as $departmentID) {
                     // The or allows for any odd cases of cross department responsibilities
-                    $department = ($department OR $user->authorise('organizer.department',
+                    $department = ($department or $user->authorise('organizer.department',
                             "com_thm_organizer.department.$departmentID"));
-                    $manage     = ($manage OR $user->authorise('organizer.manage',
+                    $manage     = ($manage or $user->authorise('organizer.manage',
                             "com_thm_organizer.department.$departmentID"));
-                    $schedules  = ($schedules OR $user->authorise('organizer.schedule',
+                    $schedules  = ($schedules or $user->authorise('organizer.schedule',
                             "com_thm_organizer.department.$departmentID"));
 
                 }
@@ -88,7 +88,7 @@ class THM_OrganizerHelperComponent
             $query = explode('?', $menuItem->link)[1];
             parse_str($query, $parameters);
 
-            if (empty($parameters['option']) OR $parameters['option'] != 'com_thm_organizer') {
+            if (empty($parameters['option']) or $parameters['option'] != 'com_thm_organizer') {
                 $menu['view'] = '';
             } elseif (!empty($parameters['view'])) {
                 $menu['view'] = $parameters['view'];
@@ -148,7 +148,7 @@ class THM_OrganizerHelperComponent
             }
         }
 
-        if ($actions->{'organizer.menu.department'} OR $actions->{'organizer.menu.manage'}) {
+        if ($actions->{'organizer.menu.department'} or $actions->{'organizer.menu.manage'}) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
 
@@ -413,7 +413,7 @@ class THM_OrganizerHelperComponent
             $canManageSchedules     = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
         }
 
-        return ($canManageDepartment OR $canManageDocumentation OR $canManageSchedules);
+        return ($canManageDepartment or $canManageDocumentation or $canManageSchedules);
     }
 
     /**
@@ -671,7 +671,7 @@ class THM_OrganizerHelperComponent
             }
 
             $checker = new Wf_Mobile_Detect;
-            $isPhone = ($checker->isMobile() AND !$checker->isTablet());
+            $isPhone = ($checker->isMobile() and !$checker->isTablet());
 
             if ($isPhone) {
                 return true;
@@ -696,17 +696,17 @@ class THM_OrganizerHelperComponent
     {
         $options = [];
 
-        $defaultValid = (!empty($defaultOptions) AND is_array($defaultOptions));
+        $defaultValid = (!empty($defaultOptions) and is_array($defaultOptions));
         if ($defaultValid) {
             foreach ($defaultOptions as $key => $value) {
                 $options[] = JHtml::_('select.option', $key, $value);
             }
         }
 
-        $entriesValid = (is_array($entries) OR is_object($entries));
+        $entriesValid = (is_array($entries) or is_object($entries));
         if ($entriesValid) {
             foreach ($entries as $key => $value) {
-                $textValid = (is_string($value) OR is_numeric($value));
+                $textValid = (is_string($value) or is_numeric($value));
                 if (!$textValid) {
                     continue;
                 }
@@ -716,7 +716,7 @@ class THM_OrganizerHelperComponent
         }
 
         $attribsInvalid = (empty($attributes)
-            OR (!is_object($attributes) AND !is_array($attributes) AND !is_string($attributes)));
+            or (!is_object($attributes) and !is_array($attributes) and !is_string($attributes)));
         if ($attribsInvalid) {
             $attributes = [];
         } elseif (is_object($attributes)) {
@@ -744,7 +744,7 @@ class THM_OrganizerHelperComponent
             $attributes['class'] .= ' organizer-select-box';
         }
 
-        $isMultiple = (!empty($attributes['multiple']) AND $attributes['multiple'] == 'multiple');
+        $isMultiple = (!empty($attributes['multiple']) and $attributes['multiple'] == 'multiple');
         $multiple   = $isMultiple ? '[]' : '';
 
         $name = "jform[$name]$multiple";

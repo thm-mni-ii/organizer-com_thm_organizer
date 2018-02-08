@@ -123,7 +123,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         $invalidStart          = $startTimeStamp < strtotime($syStartDate);
         $invalidEnd            = $endTimeStamp > strtotime($syEndDate);
         $invalidPlanningPeriod = $startTimeStamp >= $endTimeStamp;
-        $invalid               = ($invalidStart OR $invalidEnd OR $invalidPlanningPeriod);
+        $invalid               = ($invalidStart or $invalidEnd or $invalidPlanningPeriod);
 
         if ($invalid) {
             $this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
@@ -230,7 +230,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
             }
         }
 
-        if (!empty($regex) AND preg_match($regex, $value)) {
+        if (!empty($regex) and preg_match($regex, $value)) {
             if ($severity == 'error') {
                 $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
 

@@ -122,7 +122,7 @@ class THM_OrganizerHelperPlanning_Periods
         $query->select('DISTINCT pp.id, pp.name, pp.startDate, pp.endDate')
             ->from('#__thm_organizer_planning_periods AS pp');
 
-        if (!empty($selectedDepartments) OR !empty($selectedPrograms)) {
+        if (!empty($selectedDepartments) or !empty($selectedPrograms)) {
             $query->innerJoin('#__thm_organizer_lessons AS l on l.planningPeriodID = pp.id');
 
             if (!empty($selectedDepartments)) {

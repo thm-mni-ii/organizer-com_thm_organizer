@@ -31,45 +31,45 @@ if (empty($this->course)) {
 
 ?>
 <div class="toolbar">
-	<div class="tool-wrapper language-switches">
+    <div class="tool-wrapper language-switches">
         <?php
-        foreach ($this->languageSwitches AS $switch) {
+        foreach ($this->languageSwitches as $switch) {
             echo $switch;
         } ?>
-	</div>
+    </div>
 </div>
 <div class="participant-edit">
-	<h1><?php echo $headerText; ?></h1>
+    <h1><?php echo $headerText; ?></h1>
     <?php echo $message; ?>
-	<form action="index.php?option=com_thm_organizer" enctype="multipart/form-data" method="post"
-		  id="form-participant_edit" class="form-horizontal">
-		<input type="hidden" name="option" value="com_thm_organizer">
-		<input type="hidden" name="task" value="<?php echo $task; ?>">
-		<input type='hidden' name='Itemid' value='<?php echo $menuID; ?>'>
-		<input type='hidden' name='lessonID' value='<?php echo $lessonID; ?>'>
-		<input type="hidden">
-		<div class="form-horizontal">
+    <form action="index.php?option=com_thm_organizer" enctype="multipart/form-data" method="post"
+          id="form-participant_edit" class="form-horizontal">
+        <input type="hidden" name="option" value="com_thm_organizer">
+        <input type="hidden" name="task" value="<?php echo $task; ?>">
+        <input type='hidden' name='Itemid' value='<?php echo $menuID; ?>'>
+        <input type='hidden' name='lessonID' value='<?php echo $lessonID; ?>'>
+        <input type="hidden">
+        <div class="form-horizontal">
             <?php foreach ($this->form->getFieldset() as $field): ?>
                 <?php if ($field->type == 'Hidden'): ?>
                     <?php echo $field->input; ?>
                 <?php else: ?>
-					<div class='control-group'>
-						<div class='control-label'><?php echo $field->label; ?></div>
-						<div class='controls'><?php echo $field->input; ?></div>
-					</div>
+                    <div class='control-group'>
+                        <div class='control-label'><?php echo $field->label; ?></div>
+                        <div class='controls'><?php echo $field->input; ?></div>
+                    </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-		</div>
+        </div>
         <?php echo JHtml::_('form.token'); ?>
-		<div class="control-group">
-			<div class="controls">
-				<button type="submit" class="validate btn btn-primary">
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="validate btn btn-primary">
                     <?php echo $submitText; ?>
-				</button>
-				<a href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
-				   class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
-			</div>
-		</div>
-	</form>
+                </button>
+                <a href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
+                   class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
+            </div>
+        </div>
+    </form>
 </div>
 

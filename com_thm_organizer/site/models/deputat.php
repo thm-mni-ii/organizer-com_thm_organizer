@@ -195,7 +195,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $endDate   = (!empty($this->schedule->endDate)) ? $this->schedule->endDate : $this->schedule->syEndDate;
 
         foreach ($this->schedule->calendar as $day => $blocks) {
-            if ($day < $startDate OR $day > $endDate) {
+            if ($day < $startDate or $day > $endDate) {
                 continue;
             }
 
@@ -223,7 +223,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         foreach ($blocks as $blockNumber => $blockLessons) {
             foreach ($blockLessons as $lessonID => $lessonValues) {
                 // The lesson is no longer relevant
-                if (isset($lessonValues->delta) AND $lessonValues->delta == 'removed') {
+                if (isset($lessonValues->delta) and $lessonValues->delta == 'removed') {
                     continue;
                 }
 
@@ -264,12 +264,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
              * The function was called during the iteration of the schedule of another department. Only the teachers
              * from the original are relevant.
              */
-            if (!empty($teachers) AND !in_array($teacherID, $teachers)) {
+            if (!empty($teachers) and !in_array($teacherID, $teachers)) {
                 continue;
             }
 
             $irrelevant = false;
-            foreach ($this->irrelevant['teachers'] AS $prefix) {
+            foreach ($this->irrelevant['teachers'] as $prefix) {
                 if (strpos($teacherID, $prefix) === 0) {
                     $irrelevant = true;
                     break;
@@ -299,7 +299,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $subjectIsRelevant = $this->isSubjectRelevant($schedule, $lessonID);
         $lessonType        = $this->getType($schedule, $lessonID);
 
-        $invalidLesson = (!$subjectIsRelevant OR $lessonType === false);
+        $invalidLesson = (!$subjectIsRelevant or $lessonType === false);
         if ($invalidLesson) {
             return;
         }
@@ -363,12 +363,12 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     private function isSubjectRelevant(&$schedule, $lessonID)
     {
         $subjects = (array)$schedule->lessons->$lessonID->subjects;
-        foreach ($subjects AS $subject => $delta) {
+        foreach ($subjects as $subject => $delta) {
             if ($delta == 'removed') {
                 continue;
             }
 
-            foreach ($this->irrelevant['subjects'] AS $prefix) {
+            foreach ($this->irrelevant['subjects'] as $prefix) {
                 if (strpos($subject, $prefix) !== false) {
                     return false;
                 }
@@ -435,7 +435,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     private function getSubjectName(&$schedule, $lessonID)
     {
         $subjects = (array)$schedule->lessons->$lessonID->subjects;
-        foreach ($subjects AS $subject => $delta) {
+        foreach ($subjects as $subject => $delta) {
             if ($delta == 'removed') {
                 unset($subjects[$subject]);
                 continue;
@@ -474,7 +474,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             [] : $this->lessonValues[$lessonID][$teacherID]['pools'];
 
         $newPools = (array)$schedule->lessons->$lessonID->pools;
-        foreach ($newPools AS $pool => $delta) {
+        foreach ($newPools as $pool => $delta) {
             if ($delta == 'removed') {
                 unset($newPools[$pool]);
             }
@@ -504,7 +504,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     {
         $subjects = $schedule->lessons->$lessonID->subjects;
         foreach ($subjects as $subjectID => $delta) {
-            if ($delta != 'removed' AND strpos($subjectID, 'KOL.') !== false) {
+            if ($delta != 'removed' and strpos($subjectID, 'KOL.') !== false) {
                 return true;
             }
         }
@@ -766,7 +766,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     private function getSummaryHours($periods)
     {
         $sum = 0;
-        foreach ($periods AS $period) {
+        foreach ($periods as $period) {
             $sum += array_sum($period);
         }
 
@@ -784,14 +784,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     private function isAggregationPlausible($lessonValues, $comparisonValues)
     {
         // Tallied and block lessons are handled differently
-        if ($comparisonValues['type'] == 'tally' OR count($comparisonValues['periods']) > 20) {
+        if ($comparisonValues['type'] == 'tally' or count($comparisonValues['periods']) > 20) {
             return false;
         }
 
         $subjectsPlausible = $lessonValues['subjectName'] == $comparisonValues['subjectName'];
         $typesPlausible    = $lessonValues['lessonType'] == $comparisonValues['lessonType'];
 
-        return ($subjectsPlausible AND $typesPlausible);
+        return ($subjectsPlausible and $typesPlausible);
     }
 
     /**
@@ -823,10 +823,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     public function getTeacherNames()
     {
         $teachers = [];
-        foreach ($this->deputat AS $teacherID => $deputat) {
+        foreach ($this->deputat as $teacherID => $deputat) {
             $displaySummary = !empty($deputat['summary']);
             $displayTally   = !empty($deputat['tally']);
-            $display        = ($displaySummary OR $displayTally);
+            $display        = ($displaySummary or $displayTally);
             if (!$display) {
                 unset($this->deputat[$teacherID]);
                 continue;
@@ -854,7 +854,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $allSelected = array_search('*', $selected);
 
         // Normal indexes and the default (all) were selected
-        $unsetDefault = (count($selected) > 1 AND $allSelected !== false);
+        $unsetDefault = (count($selected) > 1 and $allSelected !== false);
         if ($unsetDefault) {
             unset($selected[$allSelected]);
         }
@@ -876,7 +876,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         }
 
         $indexes = array_keys($this->deputat);
-        foreach ($indexes AS $index) {
+        foreach ($indexes as $index) {
             if (!in_array($index, $this->selected)) {
                 unset($this->deputat[$index]);
             }
@@ -899,10 +899,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             return;
         }
 
-        foreach ($schedulesIDs AS $scheduleID) {
+        foreach ($schedulesIDs as $scheduleID) {
             $schedule = $this->getSchedule($scheduleID);
             foreach ($schedule->calendar as $day => $blocks) {
-                if ($day < $startDate OR $day > $endDate) {
+                if ($day < $startDate or $day > $endDate) {
                     continue;
                 }
 

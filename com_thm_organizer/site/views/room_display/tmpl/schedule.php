@@ -14,69 +14,69 @@ $time    = date('H:i');
 $blockNo = 0;
 ?>
 <script type="text/javascript">
-	var timer = null;
+    var timer = null;
 
-	function auto_reload()
-	{
-		window.location = document.URL;
-	}
+    function auto_reload()
+    {
+        window.location = document.URL;
+    }
 
-	window.onload = function () {
-		var scheduleBlockElement = document.getElementsByClassName("schedule-block"),
-			activeExists = checkIfActiveExists(scheduleBlockElement);
+    window.onload = function () {
+        var scheduleBlockElement = document.getElementsByClassName("schedule-block"),
+            activeExists = checkIfActiveExists(scheduleBlockElement);
 
-		timer = setTimeout('auto_reload()', <?php echo $this->model->params['schedule_refresh']; ?>000);
+        timer = setTimeout('auto_reload()', <?php echo $this->model->params['schedule_refresh']; ?>000);
 
-		/**
-		 * Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
-		 * dazu wird ein neuer Klassennamen benötigt.
-		 */
-		if (activeExists == false)
-		{
-			for (var i = 0; i < scheduleBlockElement.length; i++)
-			{
-				scheduleBlockElement[i].className += " nothingActive";
-			}
-		}
-	};
+        /**
+         * Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
+         * dazu wird ein neuer Klassennamen benötigt.
+         */
+        if (activeExists == false)
+        {
+            for (var i = 0; i < scheduleBlockElement.length; i++)
+            {
+                scheduleBlockElement[i].className += " nothingActive";
+            }
+        }
+    };
 
-	checkIfActiveExists = function (scheduleBlockElement) {
-		var active = false;
+    checkIfActiveExists = function (scheduleBlockElement) {
+        var active = false;
 
-		for (var i = 0; i < scheduleBlockElement.length; i++)
-		{
-			if (scheduleBlockElement[i].classList.contains("active"))
-			{
-				active = true;
-			}
-		}
+        for (var i = 0; i < scheduleBlockElement.length; i++)
+        {
+            if (scheduleBlockElement[i].classList.contains("active"))
+            {
+                active = true;
+            }
+        }
 
-		return active;
-	}
+        return active;
+    }
 </script>
 <div class='display-schedule'>
-	<div class='head'>
-		<div class='banner'>
-			<div class='thm-logo'><img src="media/com_thm_organizer/images/thm.svg" alt="THM-Logo"/></div>
-			<div class="room-name"><?php echo $this->model->roomName; ?></div>
-		</div>
-		<div class='date-info'>
-			<div class='time'><?php echo $time; ?></div>
-			<div class='date'><?php echo date('d.m.Y'); ?></div>
-		</div>
-	</div>
-	<div class="schedule-area schedule-wide">
+    <div class='head'>
+        <div class='banner'>
+            <div class='thm-logo'><img src="media/com_thm_organizer/images/thm.svg" alt="THM-Logo"/></div>
+            <div class="room-name"><?php echo $this->model->roomName; ?></div>
+        </div>
+        <div class='date-info'>
+            <div class='time'><?php echo $time; ?></div>
+            <div class='date'><?php echo date('d.m.Y'); ?></div>
+        </div>
+    </div>
+    <div class="schedule-area schedule-wide">
         <?php
         if (!empty($this->model->blocks)) {
             foreach ($this->model->blocks as $blockKey => $block) {
                 $blockClass  = ($blockNo % 2) ? 'block-odd' : 'block-even';
                 $activeClass = ($time >= $block['startTime'] and $time <= $block['endTime']) ? 'active' : 'inactive';
                 ?>
-				<div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
-					<div class="block-time">
+                <div class="schedule-block <?php echo $blockClass . ' ' . $activeClass; ?>">
+                    <div class="block-time">
                         <?php echo $block['startTime'] . ' - ' . $block['endTime']; ?>
-					</div>
-					<div class="block-data">
+                    </div>
+                    <div class="block-data">
                         <?php
                         if (!empty($block['lessons'])) {
                             echo '<div class="block-title">';
@@ -100,12 +100,12 @@ $blockNo = 0;
                             echo '</div>';
                         }
                         ?>
-					</div>
-				</div>
+                    </div>
+                </div>
                 <?php
                 $blockNo++;
             }
         }
         ?>
-	</div>
+    </div>
 </div>

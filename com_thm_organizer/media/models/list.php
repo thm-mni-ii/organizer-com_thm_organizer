@@ -174,10 +174,10 @@ abstract class THM_OrganizerModelList extends JModelList
      */
     protected function setListState($list)
     {
-        $validReqOrdering = (!empty($list['ordering']) AND strpos('null', $list['ordering']) !== null);
+        $validReqOrdering = (!empty($list['ordering']) and strpos('null', $list['ordering']) !== null);
         $ordering         = $validReqOrdering ? $list['ordering'] : $this->defaultOrdering;
 
-        $validReqDirection = (!empty($list['direction']) AND in_array(strtoupper($list['direction']),
+        $validReqDirection = (!empty($list['direction']) and in_array(strtoupper($list['direction']),
                 ['ASC', 'DESC', '']));
         $direction         = $validReqDirection ? $list['direction'] : $this->defaultDirection;
 
@@ -219,7 +219,7 @@ abstract class THM_OrganizerModelList extends JModelList
         if (count($orderingParts) == 2) {
             $plausibleOrdering = $orderingParts[0] != 'null';
             $validDirection    = in_array(strtoupper($orderingParts[1]), ['ASC', 'DESC', '']);
-            if ($plausibleOrdering AND $validDirection) {
+            if ($plausibleOrdering and $validDirection) {
                 $ordering  = $orderingParts[0];
                 $direction = $orderingParts[1];
             }
@@ -312,7 +312,7 @@ abstract class THM_OrganizerModelList extends JModelList
      */
     protected function setIDFilter(&$query, $idColumn, $filterNames)
     {
-        foreach ($filterNames AS $name) {
+        foreach ($filterNames as $name) {
             $value = $this->state->get($name, '');
             if ($value === '') {
                 continue;
@@ -346,7 +346,7 @@ abstract class THM_OrganizerModelList extends JModelList
     protected function setValueFilters(&$query, $filterNames)
     {
         // The view level filters
-        foreach ($filterNames AS $name) {
+        foreach ($filterNames as $name) {
             $value = $this->state->get("list.$name", '');
             if ($value === '') {
                 continue;
@@ -366,7 +366,7 @@ abstract class THM_OrganizerModelList extends JModelList
         }
 
         // The column level filters
-        foreach ($filterNames AS $name) {
+        foreach ($filterNames as $name) {
             $value = $this->state->get("filter.$name", '');
             if ($value === '') {
                 continue;
@@ -399,7 +399,7 @@ abstract class THM_OrganizerModelList extends JModelList
         /** @noinspection PhpIncludeInspection */
         require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
         $tag = THM_OrganizerHelperLanguage::getShortTag();
-        foreach ($filterNames AS $name) {
+        foreach ($filterNames as $name) {
             $value = $this->state->get("filter.$name", '');
             if ($value === '') {
                 continue;
