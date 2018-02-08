@@ -329,11 +329,11 @@ const ScheduleApp = function (variables) {
             ajaxUrl = (function () {
                 let url = getAjaxUrl();
 
-                url += '&deltaDays=' + (source === 'room' || source === 'teacher' ? '0' : variables.deltaDays);
+                url += '&deltaDays=' + (resource === 'room' || resource === 'teacher' ? '0' : variables.deltaDays);
                 url += '&date=' + getDateFieldString() + (variables.isMobile ? '&oneDay=true' : '');
                 url += '&mySchedule=' + (resource === 'user' ? '1' : '0');
 
-                if (source !== 'user')
+                if (resource !== 'user')
                 {
                     url += '&' + resource + 'IDs=' + resourceIDs;
                 }
@@ -406,8 +406,9 @@ const ScheduleApp = function (variables) {
         /**
          * Sends an Ajax request with the actual date to update the schedule
          * @param {boolean} [firstUpdate]
+         * @param {boolean} [updateOthers=false]
          */
-        this.requestUpdate = function (firstUpdate) {
+        this.requestUpdate = function (firstUpdate, updateOthers) {
             ajaxUrl = ajaxUrl.replace(/(date=)\d{4}-\d{2}-\d{2}/, '$1' + getDateFieldString());
             ajaxRequest.open('GET', ajaxUrl, true);
 
@@ -435,6 +436,17 @@ const ScheduleApp = function (variables) {
                             noLessons.style.display = 'block';
                         }
                     }
+
+                    // Updates other schedule tables after this one, because of dependencies like 'occupied' lessons
+                    if (updateOthers)
+                    {
+                        scheduleObjects.schedules.forEach(function (schedule) {
+                            if (schedule.getId() !== id)
+                            {
+                                schedule.updateTable(false);
+                            }
+                        });
+                    }
                 }
             };
 
@@ -443,9 +455,11 @@ const ScheduleApp = function (variables) {
 
         /**
          * Updates table with already given lessons, e.g. for changing time grids
+         * @param {boolean} [defaultGrid=true] - whether use default grid of schedule or not
          */
-        this.updateTable = function () {
-            table.update(lessons, true);
+        this.updateTable = function (defaultGrid) {
+            defaultGrid = typeof defaultGrid === 'undefined' ? true : defaultGrid;
+            table.update(lessons, defaultGrid);
             that.popUp();
         };
 
@@ -563,7 +577,7 @@ const ScheduleApp = function (variables) {
     {
         const table = document.createElement('table'),
             that = this,
-            userSchedule = schedule.getId() === 'user',
+            isUserSchedule = schedule.getId() === 'user',
             weekend = 7;
         let defaultGrid = null,
             lessonElements = [],
@@ -631,8 +645,8 @@ const ScheduleApp = function (variables) {
             {
                 const th = document.createElement('th');
 
-                th.innerHTML = (headIndex === 0) ? Joomla.JText._('COM_THM_ORGANIZER_TIME') : weekdays[headIndex - 1] + ' (' +
-                    headerDate.getPresentationFormat() + ')';
+                th.innerHTML = (headIndex === 0) ? Joomla.JText._('COM_THM_ORGANIZER_TIME') : weekdays[headIndex - 1] +
+                    ' (' + headerDate.getPresentationFormat() + ')';
 
                 if (headIndex === visibleDay)
                 {
@@ -783,7 +797,7 @@ const ScheduleApp = function (variables) {
                         }
 
                         cell = rows[rowIndex].getElementsByTagName('td')[colNumber];
-                        if (variables.registered && schedule.getId() !== 'user' && isOccupiedByUserLesson(rowIndex, colNumber))
+                        if (variables.registered && !isUserSchedule && isOccupiedByUserLesson(rowIndex, colNumber))
                         {
                             jQuery(cell).addClass('occupied');
                         }
@@ -962,7 +976,7 @@ const ScheduleApp = function (variables) {
                     lessonElement.appendChild(commentDiv);
                 }
 
-                if (scheduleResource !== 'pool' && subjectData.pools && scheduleID !== 'user')
+                if (scheduleResource !== 'pool' && subjectData.pools && !isUserSchedule)
                 {
                     const poolsOuterDiv = document.createElement('div');
                     poolsOuterDiv.className = 'pools';
@@ -997,7 +1011,7 @@ const ScheduleApp = function (variables) {
                     addActionButtons(lessonElement, subjectData);
 
                     // Makes delete button visible only
-                    if (userSchedule || isSavedByUser(lessonElement))
+                    if (isUserSchedule || isSavedByUser(lessonElement))
                     {
                         lessonElement.classList.add('added');
                     }
@@ -1068,11 +1082,12 @@ const ScheduleApp = function (variables) {
             lessonElement.appendChild(saveDiv);
 
             // Deleting a lesson
-            questionActionButton = document.createElement('button');
             deleteActionButton.className = 'icon-delete';
             deleteActionButton.addEventListener('click', function () {
                 handleLesson(lessonElement.dataset.ccmID, variables.PERIOD_MODE, false);
             });
+            questionActionButton = document.createElement('button');
+            questionActionButton.className = 'icon-question';
             questionActionButton.addEventListener('click', function () {
                 lessonMenu.getDeleteMenu(lessonElement, data);
             });
@@ -1206,15 +1221,14 @@ const ScheduleApp = function (variables) {
          */
         function isSavedByUser(lesson)
         {
-            const userSchedule = scheduleObjects.getScheduleById('user');
             let lessonIndex, lessons;
 
-            if (!lesson || !userSchedule)
+            if (!lesson || !scheduleObjects.userSchedule)
             {
                 return false;
             }
 
-            lessons = userSchedule.getTable().getLessons();
+            lessons = scheduleObjects.userSchedule.getTable().getLessons();
             for (lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
             {
                 if (lessons[lessonIndex].dataset.ccmID === lesson.dataset.ccmID)
@@ -1234,7 +1248,7 @@ const ScheduleApp = function (variables) {
          */
         function isOccupiedByUserLesson(rowIndex, colIndex)
         {
-            const userScheduleTable = scheduleObjects.getScheduleById('user').getTable().getTableElement(),
+            const userScheduleTable = scheduleObjects.userSchedule.getTable().getTableElement(),
                 rows = userScheduleTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'),
                 row = rows[rowIndex],
                 cell = row ? row.getElementsByTagName('td')[colIndex] : false;
@@ -1591,6 +1605,12 @@ const ScheduleApp = function (variables) {
         this.schedules = [];
 
         /**
+         * The one and only schedule owned by the currently logged in user
+         * @type {Schedule}
+         */
+        this.userSchedule = null;
+
+        /**
          * Adds a schedule to the list and set it into session storage
          * @param {Schedule} schedule
          */
@@ -1612,6 +1632,10 @@ const ScheduleApp = function (variables) {
 
                 sessionSchedules[schedule.getId()] = scheduleObject;
                 window.sessionStorage.setItem('schedules', JSON.stringify(sessionSchedules));
+            }
+            else
+            {
+                this.userSchedule = schedule;
             }
 
             this.schedules.push(schedule);
@@ -1651,6 +1675,13 @@ const ScheduleApp = function (variables) {
             }
 
             return false;
+        };
+
+        /**
+         * Updates user schedule and refresh other schedules
+         */
+        this.updateUserSchedule = function() {
+            this.userSchedule.requestUpdate(false, true);
         };
     }
 
@@ -2054,7 +2085,8 @@ const ScheduleApp = function (variables) {
                 {
                     const values = variables[variable];
 
-                    config.name = idMatch[1].toLowerCase();
+                    // Turn only first letter into lower case (for roomType)
+                    config.name = idMatch[1].substring(0, 1).toLowerCase().concat(idMatch[1].substring(1));
 
                     // Convert values to strings, to compare them later with Ajax response
                     if (jQuery.isArray(values))
@@ -2247,7 +2279,6 @@ const ScheduleApp = function (variables) {
             {
                 const handledLessons = JSON.parse(ajaxSave.responseText);
 
-                // TODO: "occupied" cells in schedule object ablegen und abfragen, statt auf Elemente zu warten, die von asynchronen requests abhängen
                 scheduleObjects.schedules.forEach(function (schedule) {
                     const lessonElements = schedule.getTable().getLessons();
                     let fifo = false, lessonIndex, manual = false;
@@ -2274,6 +2305,12 @@ const ScheduleApp = function (variables) {
                             else
                             {
                                 lessonElement.classList.remove('added');
+
+                                // So the element is invisible immediately and not as late as updating this schedule
+                                if (schedule === scheduleObjects.userSchedule)
+                                {
+                                    jQuery(lessonElement).hide();
+                                }
                             }
                         }
                     }
@@ -2288,7 +2325,7 @@ const ScheduleApp = function (variables) {
                     }
                 });
 
-                app.updateSchedule();
+                scheduleObjects.updateUserSchedule();
             }
         };
         ajaxSave.send();
