@@ -103,7 +103,7 @@ class vevent extends calendarComponent
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
      * @since  2.8.2 - 2011-05-01
      *
-     * @param  array $config
+     * @param array $config
      *
      * @uses   vevent::calendarComponent()
      * @uses   vevent::$attach

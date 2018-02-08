@@ -27,7 +27,7 @@ class THM_OrganizerTemplateFieldList
      *
      * @param array &$view the view context
      *
-     * @return  void
+     * @return void
      */
     public static function render(&$view)
     {

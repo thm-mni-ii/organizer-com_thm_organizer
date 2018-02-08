@@ -36,7 +36,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
      *
      * @param string $tpl the name of the template to load
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -61,7 +61,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
     /**
      * Adds css and javascript files to the document
      *
-     * @return  void  modifies the document
+     * @return void  modifies the document
      */
     private function modifyDocument()
     {
@@ -81,7 +81,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
      * @param int    $blockNo the block number
      * @param string $roomNo  the room number
      *
-     * @return  string  formatted tooltip
+     * @return string  formatted tooltip
      */
     public function getBlockTip($date, $blockNo, $roomNo)
     {
@@ -105,7 +105,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
      *
      * @param array $events the events taking place in the block
      *
-     * @return  string  the html to be used in the tooltip
+     * @return string  the html to be used in the tooltip
      */
     public function getEventTips($events)
     {
@@ -153,7 +153,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
      *
      * @param array $room an array with room information
      *
-     * @return  string  formatted tooltip
+     * @return string  formatted tooltip
      */
     public function getRoomTip($room)
     {

@@ -27,7 +27,7 @@ class THM_OrganizerTemplateTeacherList
      *
      * @param array &$view the view context
      *
-     * @return  void
+     * @return void
      */
     public static function render(&$view)
     {

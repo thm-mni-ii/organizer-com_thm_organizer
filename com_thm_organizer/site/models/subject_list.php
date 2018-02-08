@@ -119,7 +119,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     /**
      * Method to get an array of data items.
      *
-     * @return  mixed  An array of data items on success, false on failure.
+     * @return mixed  An array of data items on success, false on failure.
      */
     public function getItems()
     {
@@ -181,7 +181,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      *
      * This method ensures that the query is constructed only once for a given state of the model.
      *
-     * @return  object  a JDatabaseQuery object
+     * @return object  a JDatabaseQuery object
      */
     protected function getListQuery()
     {
@@ -233,7 +233,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     /**
      * Retrieves pool information (name and nesting values)
      *
-     * @return  mixed  array on success, otherwise false
+     * @return mixed  array on success, otherwise false
      */
     private function getPoolInformation()
     {
@@ -283,7 +283,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     /**
      * Retrieves program information (name and nesting values)
      *
-     * @return  mixed  array on success, otherwise false
+     * @return mixed  array on success, otherwise false
      */
     private function getProgramInformation()
     {
@@ -314,7 +314,7 @@ class THM_OrganizerModelSubject_List extends JModelList
     /**
      * Retrieves teacher information
      *
-     * @return  array with teacher information
+     * @return array with teacher information
      */
     private function getTeacherInformation()
     {
@@ -598,7 +598,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * @param string $ordering  An optional ordering field.
      * @param string $direction An optional direction (asc|desc).
      *
-     * @return  void
+     * @return void
      */
     protected function populateState($ordering = null, $direction = null)
     {
@@ -681,7 +681,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      *
      * @param object &$query the query object upon which search conditions will be set
      *
-     * @return  void modifies the query
+     * @return void modifies the query
      */
     private function setSearch(&$query)
     {

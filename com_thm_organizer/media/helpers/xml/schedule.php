@@ -55,7 +55,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
     /**
      * Creates a status report based upon object error and warning messages
      *
-     * @return  void  outputs errors to the application
+     * @return void  outputs errors to the application
      */
     private function printStatusReport()
     {
@@ -75,7 +75,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
      * Checks a given schedule in gp-untis xml format for data completeness and
      * consistency and gives it basic structure
      *
-     * @return  array  array of strings listing inconsistencies empty if none
+     * @return array  array of strings listing inconsistencies empty if none
      *                 were found
      */
     public function validate()
@@ -184,7 +184,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
      * @param string $constant the unique text constant fragment
      * @param string $severity the severity of the item being inspected
      *
-     * @return  void
+     * @return void
      */
     public function validateDateAttribute($name, $value, $constant, $severity = 'error')
     {
@@ -214,7 +214,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
      * @param string $severity the severity of the item being inspected
      * @param string $regex    the regex to check the text against
      *
-     * @return  bool false if blocking errors were found, otherwise true
+     * @return bool false if blocking errors were found, otherwise true
      */
     private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
     {

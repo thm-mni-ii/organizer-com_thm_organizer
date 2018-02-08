@@ -47,7 +47,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     /**
      * Method to select the tree of a given major
      *
-     * @return  JDatabaseQuery
+     * @return JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -90,7 +90,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     /**
      * Method to overwrite the getItems method in order to set the program name
      *
-     * @return  array  an array of objects fulfilling the request criteria
+     * @return array  an array of objects fulfilling the request criteria
      */
     public function getItems()
     {
@@ -147,9 +147,9 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     /**
      * Method to get the total number of items for the data set.
      *
-     * @param  string $idColumn not used
+     * @param string $idColumn not used
      *
-     * @return  integer  The total number of items available in the data set.
+     * @return integer  The total number of items available in the data set.
      */
     public function getTotal($idColumn = null)
     {
@@ -174,7 +174,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     /**
      * Overrides the LoadFormData function of JModelList in order to add multiple field paths
      *
-     * @return  mixed  The data for the form.
+     * @return mixed  The data for the form.
      */
     public function loadFormData()
     {
@@ -189,7 +189,8 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
      * @param string $ordering  the column by which the table is should be ordered
      * @param string $direction the direction in which this column should be ordered
      *
-     * @return  void  sets object state variables
+     * @return void  sets object state variables
+     * @throws Exception
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

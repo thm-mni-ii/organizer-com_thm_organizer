@@ -75,7 +75,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Gets the room information for a day
      *
-     * @return  void  room information for the given day is added to the $blocks object variable
+     * @return void  room information for the given day is added to the $blocks object variable
      */
     private function getDay()
     {
@@ -102,7 +102,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * @param int    $blockNo the index of the block being iterated
      * @param object $events  the events in the block being iterated
      *
-     * @return  array the events for the given date
+     * @return array the events for the given date
      */
     protected function getEvents($date)
     {
@@ -231,7 +231,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Determines which display behaviour is desired based on which layout was previously used
      *
-     * @return  void
+     * @return void
      */
     private function setAlternatingLayout()
     {
@@ -254,7 +254,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      *
      * @param object &$monitorEntry the JTable object for the monitors table
      *
-     * @return  void
+     * @return void
      */
     private function setDisplayParams()
     {
@@ -299,7 +299,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Gets the main grid from the first schedule
      *
-     * @return  void  sets the object grid variable
+     * @return void  sets the object grid variable
      */
     private function setGrid()
     {
@@ -321,7 +321,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Checks whether the accessing agent is a registered monitor
      *
-     * @return  void sets instance variables
+     * @return void sets instance variables
      */
     private function setRoomData()
     {

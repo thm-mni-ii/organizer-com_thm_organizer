@@ -37,7 +37,7 @@ class JFormFieldColors extends JFormField
     /**
      * Returns a select box which contains the colors
      *
-     * @return  string  the HTML for the color select box
+     * @return string  the HTML for the color select box
      */
     public function getInput()
     {

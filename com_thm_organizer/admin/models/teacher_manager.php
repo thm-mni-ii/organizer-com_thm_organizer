@@ -48,7 +48,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
     /**
      * Method to get all teachers from the database
      *
-     * @return  JDatabaseQuery
+     * @return JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -75,7 +75,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
     /**
      * Method to overwrite the getItems method in order to create iterate table data
      *
-     * @return  array  an array of arrays with preformatted teacher data
+     * @return array  an array of arrays with preformatted teacher data
      */
     public function getItems()
     {

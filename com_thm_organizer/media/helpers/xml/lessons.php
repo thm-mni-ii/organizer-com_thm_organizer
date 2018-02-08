@@ -150,7 +150,7 @@ class THM_OrganizerHelperXMLLessons
      * @param string $currentDT the timestamp of the date being iterated
      * @param string $period    the value of the period attribute
      *
-     * @return  void adds a message to the scheduleModel scheduleWarnings array
+     * @return void adds a message to the scheduleModel scheduleWarnings array
      */
     private function createMissingRoomMessage($currentDT, $period)
     {
@@ -280,7 +280,7 @@ class THM_OrganizerHelperXMLLessons
      *
      * @param string $rawUntisID the untis lesson id
      *
-     * @return  mixed  string if valid, otherwise false
+     * @return mixed  string if valid, otherwise false
      */
     private function validateUntisID($rawUntisID)
     {
@@ -304,7 +304,7 @@ class THM_OrganizerHelperXMLLessons
      *
      * @param object &$lessonNode the lesson node
      *
-     * @return  mixed  string the name of the lesson (subjects) on success,
+     * @return mixed  string the name of the lesson (subjects) on success,
      *                 otherwise boolean false
      */
     private function validateSubject(&$lessonNode)
@@ -360,7 +360,7 @@ class THM_OrganizerHelperXMLLessons
      *
      * @param object &$lessonNode the lesson node
      *
-     * @return  boolean  true if valid, otherwise false
+     * @return boolean  true if valid, otherwise false
      */
     private function validateMethod(&$lessonNode)
     {
@@ -387,7 +387,7 @@ class THM_OrganizerHelperXMLLessons
      *
      * @param object &$lessonNode the lesson node
      *
-     * @return  boolean  true if valid, otherwise false
+     * @return boolean  true if valid, otherwise false
      */
     private function validateTeacher(&$lessonNode)
     {
@@ -443,7 +443,7 @@ class THM_OrganizerHelperXMLLessons
      *
      * @param object &$lessonNode the lesson node
      *
-     * @return  boolean  true if valid, otherwise false
+     * @return boolean  true if valid, otherwise false
      */
     private function validatePools(&$lessonNode)
     {
@@ -503,7 +503,7 @@ class THM_OrganizerHelperXMLLessons
      * @param int $startDT the start date as integer
      * @param int $endDT   the end date as integer
      *
-     * @return  boolean  true if dates are valid, otherwise false
+     * @return boolean  true if dates are valid, otherwise false
      */
     private function validateDates($startDT, $endDT)
     {
@@ -581,7 +581,7 @@ class THM_OrganizerHelperXMLLessons
      * @param int    $start the timestamp of the lesson's begin
      * @param int    $end   the timestamp of the lesson's end
      *
-     * @return  mixed   array if valid, otherwise false
+     * @return mixed   array if valid, otherwise false
      */
     private function truncateInstances($raw, $start, $end)
     {
@@ -604,7 +604,7 @@ class THM_OrganizerHelperXMLLessons
      * @param array  &$instances         the object containing the instances
      * @param string $grid               the grid used by the lesson
      *
-     * @return  void
+     * @return void
      */
     private function validateInstances($potentialInstances, $currentDT, &$instances, $grid)
     {
@@ -640,7 +640,7 @@ class THM_OrganizerHelperXMLLessons
      * @param int    $currentDT the current date time in the iteration
      * @param string $grid      the grid used by the lesson
      *
-     * @return  boolean  true if valid, otherwise false
+     * @return boolean  true if valid, otherwise false
      */
     private function validateInstance(&$instance, $currentDT, $grid)
     {
@@ -688,7 +688,7 @@ class THM_OrganizerHelperXMLLessons
      * @param int    $currentDT     the timestamp of the date being iterated
      * @param string $period        the period attribute
      *
-     * @return  array  the roomIDs on success, otherwise false
+     * @return array  the roomIDs on success, otherwise false
      */
     private function validateRooms($roomAttribute, $currentDT, $period)
     {

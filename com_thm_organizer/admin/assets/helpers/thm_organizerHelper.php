@@ -24,7 +24,7 @@ class THM_OrganizerHelper
      *
      * @param boolean $isAdmin whether the file is being called from the backend
      *
-     * @return  void
+     * @return void
      */
     public static function callController($isAdmin = true)
     {
@@ -49,7 +49,7 @@ class THM_OrganizerHelper
      *
      * @param string $table the table name
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public static function delete($table)
     {

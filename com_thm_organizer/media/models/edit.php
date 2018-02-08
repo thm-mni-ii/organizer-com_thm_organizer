@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerModelEdit
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,10 +11,6 @@ defined('_JEXEC') or die;
 
 /**
  * Class loads item form data to edit an entry.
- *
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
  */
 class THM_OrganizerModelEdit extends JModelAdmin
 {
@@ -28,7 +22,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return  mixed  JForm object on success, False on error.
+     * @return mixed  JForm object on success, False on error.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -49,7 +43,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
      *
      * @param integer $pk The id of the primary key.
      *
-     * @return  mixed    Object on success, false on failure.
+     * @return mixed    Object on success, false on failure.
      *
      * @throws  exception  if the user is not authorized to access the view
      */
@@ -66,7 +60,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
         if ($allowEdit) {
             return $item;
         }
-        throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
+        throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
     }
 
     /**
@@ -76,7 +70,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return  JTable  A JTable object
+     * @return JTable  A JTable object
      */
     public function getTable($name = '', $prefix = 'Table', $options = [])
     {
@@ -96,7 +90,8 @@ class THM_OrganizerModelEdit extends JModelAdmin
     /**
      * Method to load the form data
      *
-     * @return  Object
+     * @return object
+     * @throws exception
      */
     protected function loadFormData()
     {

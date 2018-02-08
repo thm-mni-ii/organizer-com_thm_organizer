@@ -23,7 +23,7 @@ class THM_OrganizerModelCourse_List extends JModelList
     /**
      * Method to get an array of data items.
      *
-     * @return  mixed  An array of data items on success, false on failure.
+     * @return mixed  An array of data items on success, false on failure.
      *
      * @since   1.6
      */
@@ -57,7 +57,7 @@ class THM_OrganizerModelCourse_List extends JModelList
     /**
      * Method to get a JDatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+     * @return JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
      */
     protected function getListQuery()
     {
@@ -112,7 +112,7 @@ class THM_OrganizerModelCourse_List extends JModelList
      * @param string $ordering  An optional ordering field.
      * @param string $direction An optional direction (asc|desc).
      *
-     * @return  void
+     * @return void
      */
     protected function populateState($ordering = null, $direction = null)
     {

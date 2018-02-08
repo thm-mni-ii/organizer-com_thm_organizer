@@ -34,7 +34,7 @@ class JFormFieldParentPool extends JFormField
     /**
      * Returns a select box in which pools can be chosen as a parent node
      *
-     * @return  string  the HTML for the parent pool select box
+     * @return string  the HTML for the parent pool select box
      */
     public function getInput()
     {
@@ -48,7 +48,7 @@ class JFormFieldParentPool extends JFormField
     /**
      * Gets pool options for a select list. All parameters come from the
      *
-     * @return  array  the options
+     * @return array  the options
      */
     public function getOptions()
     {

@@ -28,7 +28,7 @@ class THM_OrganizerHelperXMLDescriptions
      * @param string $gpuntisID      the gpuntis description id
      * @param string $constant       the text constant for message output
      *
-     * @return  bool  true if the entry already exists, otherwise false
+     * @return bool  true if the entry already exists, otherwise false
      */
     private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
     {

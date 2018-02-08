@@ -27,7 +27,7 @@ class THM_OrganizerHelperRoomTypes
      *
      * @param string $typeID the room type's id
      *
-     * @return  string the name if the room type could be resolved, otherwise empty
+     * @return string the name if the room type could be resolved, otherwise empty
      */
     public static function getName($typeID)
     {

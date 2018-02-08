@@ -24,7 +24,7 @@ class THM_OrganizerHelperRooms
      * @param string $gpuntisID the room's gpuntis ID
      * @param array  $data      the room data to be used for creating a new entry as necessary
      *
-     * @return  mixed  int the id if the room could be resolved/added, otherwise null
+     * @return mixed  int the id if the room could be resolved/added, otherwise null
      * @throws Exception
      */
     public static function getID($gpuntisID, $data)
@@ -57,7 +57,7 @@ class THM_OrganizerHelperRooms
      *
      * @param string $roomID the room's id
      *
-     * @return  string the name if the room could be resolved, otherwise empty
+     * @return string the name if the room could be resolved, otherwise empty
      * @throws Exception
      */
     public static function getName($roomID)

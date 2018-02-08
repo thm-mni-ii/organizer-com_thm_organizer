@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -20,11 +20,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class which loads data into the view output context
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads persistent information about a course into the display context.
  */
 class THM_OrganizerViewCourse_Manager extends JViewLegacy
 {
@@ -51,7 +47,8 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -59,7 +56,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
 
         if (empty($lessonID) or !THM_OrganizerHelperCourses::authorized($lessonID)) {
-            JError::raiseError(401, $this->lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $this->course       = THM_OrganizerHelperCourses::getCourse();
@@ -90,7 +87,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
     /**
      * Adds resource files to the document
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {

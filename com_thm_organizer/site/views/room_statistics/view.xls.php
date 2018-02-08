@@ -31,7 +31,7 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
      *
      * @param string $tpl template
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {

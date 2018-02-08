@@ -25,7 +25,7 @@ class THM_OrganizerHelperMapping
     /**
      * Retrieves a list of all available programs
      *
-     * @return  array  the ids and names of all available programs
+     * @return array  the ids and names of all available programs
      *
      * @throws  exception
      */
@@ -59,7 +59,7 @@ class THM_OrganizerHelperMapping
      * @param int     $resourceID        the id of the selected resource
      * @param boolean $excludeChildPools whether the return values should have child pools filtered out
      *
-     * @return  mixed  array with boundary values on success, otherwise false
+     * @return mixed  array with boundary values on success, otherwise false
      *
      * @throws  exception
      */
@@ -103,7 +103,7 @@ class THM_OrganizerHelperMapping
      *
      * @param array &$mappings the current mappings of the pool
      *
-     * @return  array  the ids of the children of a pool
+     * @return array  the ids of the children of a pool
      */
     public static function getChildren(&$mappings)
     {
@@ -140,7 +140,7 @@ class THM_OrganizerHelperMapping
      * @param int    $level        the pool's structural depth
      * @param bool   $withPrograms if programs will be listed with the pools
      *
-     * @return  string
+     * @return string
      */
     public static function getIndentedPoolName($name, $level, $withPrograms = true)
     {
@@ -164,7 +164,7 @@ class THM_OrganizerHelperMapping
      *
      * @param int $resourceID the id of the resource
      *
-     * @return  string  string representing the associated program(s)
+     * @return string  string representing the associated program(s)
      */
     public static function getPoolName($resourceID)
     {
@@ -191,7 +191,7 @@ class THM_OrganizerHelperMapping
      * @param array &$mapping         the pool mapping entry
      * @param array &$selectedParents the selected parents
      *
-     * @return  string  HTML option
+     * @return string  HTML option
      */
     public static function getPoolOption(&$mapping, &$selectedParents)
     {
@@ -219,7 +219,7 @@ class THM_OrganizerHelperMapping
      *
      * @param array &$mappings the existing mappings of the element
      *
-     * @return  array  the superordinate program mappings
+     * @return array  the superordinate program mappings
      *
      * @throws  exception
      */
@@ -260,7 +260,7 @@ class THM_OrganizerHelperMapping
      *
      * @param array &$programEntries the program mappings themselves
      *
-     * @return  array  an array containing information for all program mappings
+     * @return array  an array containing information for all program mappings
      *
      * @throws  exception
      */
@@ -301,7 +301,7 @@ class THM_OrganizerHelperMapping
      * @param string $resourceType the type of the mapped resource
      * @param int    $resourceID   the id of the resource
      *
-     * @return  string  string representing the associated program(s)
+     * @return string  string representing the associated program(s)
      */
     public static function getProgramName($resourceType, $resourceID)
     {
@@ -329,7 +329,7 @@ class THM_OrganizerHelperMapping
      * @param array  &$selectedParents the selected parents
      * @param string $resourceType     the type of resource
      *
-     * @return  string  HTML option
+     * @return string  HTML option
      *
      * @throws  exception
      */
@@ -369,7 +369,7 @@ class THM_OrganizerHelperMapping
      * @param array $resourceRanges the left and right values of the resource's mappings
      * @param bool  $getIDs         whether or not the program ids should be included in the return value
      *
-     * @return  mixed array the names of the programs to which the pool is ordered on success, otherwise false
+     * @return mixed array the names of the programs to which the pool is ordered on success, otherwise false
      */
     public static function getResourcePrograms($resourceRanges, $getIDs = false)
     {
@@ -411,7 +411,7 @@ class THM_OrganizerHelperMapping
      * @param string $resourceType the type of the mapped resource
      * @param int    $resourceID   the id of the mapped resource
      *
-     * @return  array contains the sought left and right values
+     * @return array contains the sought left and right values
      */
     public static function getResourceRanges($resourceType, $resourceID)
     {
@@ -446,7 +446,7 @@ class THM_OrganizerHelperMapping
      *
      * @param int $subjectID the id of the subject
      *
-     * @return  array the program boundaries
+     * @return array the program boundaries
      */
     public static function getSubjectPrograms($subjectID)
     {
@@ -480,7 +480,7 @@ class THM_OrganizerHelperMapping
      *
      * @param array $ranges the left and right values of the resource's mappings
      *
-     * @return  array  the names of the programs to which the pool is ordered
+     * @return array  the names of the programs to which the pool is ordered
      */
     public static function getSubjectPools($ranges)
     {
@@ -536,7 +536,7 @@ class THM_OrganizerHelperMapping
      *
      * @param array $ranges the ranges for the individual subject entries
      *
-     * @return  array  the ids of the associated programs
+     * @return array  the ids of the associated programs
      *
      * @throws  exception
      */
@@ -571,7 +571,7 @@ class THM_OrganizerHelperMapping
      * Retrieves the nested slice values for subjects associated with the
      * selected teacher
      *
-     * @return  mixed  array on success, otherwise boolean false
+     * @return mixed  array on success, otherwise boolean false
      *
      * @throws  exception
      */
@@ -606,7 +606,7 @@ class THM_OrganizerHelperMapping
      *
      * @param int $boundaries the boundaries of a single pool
      *
-     * @return  array  array of arrays with boundary values
+     * @return array  array of arrays with boundary values
      *
      * @throws  exception
      */
@@ -675,7 +675,7 @@ class THM_OrganizerHelperMapping
      * @param array  &$mappingIDs  an array to store the mapping ids in
      * @param array  &$parentIDs   an array to store the parent ids in
      *
-     * @return  void
+     * @return void
      *
      * @throws  exception
      */
@@ -724,7 +724,7 @@ class THM_OrganizerHelperMapping
      * @param string $resourceType     the type of the resource from the filter
      * @param string $formResourceType the type of the resource from the form
      *
-     * @return  void  sets query object variables
+     * @return void  sets query object variables
      */
     public static function setResourceIDFilter(&$query, $resourceID, $resourceType, $formResourceType)
     {

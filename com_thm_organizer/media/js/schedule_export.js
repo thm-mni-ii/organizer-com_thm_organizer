@@ -9,7 +9,7 @@ jQuery(document).ready(function () {
 /**
  * Clear the current list and add new pools to it
  *
- * @param   {object}  pools   the pools received
+ * @param  {object}  pools   the pools received
  */
 function addPools(pools)
 {
@@ -34,7 +34,7 @@ function addPools(pools)
 /**
  * Clear the current list and add new programs to it
  *
- * @param   {object}  programs   the programs received
+ * @param  {object}  programs   the programs received
  */
 function addPrograms(programs)
 {
@@ -60,7 +60,7 @@ function addPrograms(programs)
 /**
  * Clear the current list and add new rooms to it
  *
- * @param   {object}  rooms   the rooms received
+ * @param  {object}  rooms   the rooms received
  */
 function addRooms(rooms)
 {
@@ -85,7 +85,7 @@ function addRooms(rooms)
 /**
  * Clear the current list and add new teachers to it
  *
- * @param   {object}  teachers   the teachers received
+ * @param  {object}  teachers   the teachers received
  */
 function addTeachers(teachers)
 {

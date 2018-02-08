@@ -26,7 +26,7 @@ class Com_THM_OrganizerInstallerScript
     /**
      * Creates the directory for images used by the component
      *
-     * @return  boolean true if the directory exists, otherwise false
+     * @return boolean true if the directory exists, otherwise false
      */
     private function createImageDirectory()
     {

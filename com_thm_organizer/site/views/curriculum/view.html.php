@@ -53,7 +53,7 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -86,7 +86,7 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
     /**
      * Sets document scripts and styles
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {

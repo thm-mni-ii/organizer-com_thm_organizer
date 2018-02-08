@@ -35,7 +35,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      *
      * @param string $tpl template
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {

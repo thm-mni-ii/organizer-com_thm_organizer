@@ -29,7 +29,7 @@ class THM_OrganizerHelperXMLPrograms
      * @param object &$scheduleModel the validating schedule model
      * @param object &$xmlObject     the xml object being validated
      *
-     * @return  void
+     * @return void
      */
     public static function validate(&$scheduleModel, &$xmlObject)
     {

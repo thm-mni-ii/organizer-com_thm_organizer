@@ -27,6 +27,7 @@ class THM_OrganizerViewSubject_Ajax extends JViewLegacy
      * @param string $tpl the name of the template to be used
      *
      * @return void
+     * @throws Exception
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

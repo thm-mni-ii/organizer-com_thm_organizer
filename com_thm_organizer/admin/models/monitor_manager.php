@@ -54,7 +54,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
     /**
      * builds the query used to compile the items for the lsit ouput
      *
-     * @return  object
+     * @return object
      */
     protected function getListQuery()
     {
@@ -82,7 +82,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
      *
      * @param object &$query the query object
      *
-     * @return  void
+     * @return void
      */
     private function addDisplayFilter(&$query)
     {
@@ -111,7 +111,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
      *
      * @param object &$query the query object
      *
-     * @return  void
+     * @return void
      */
     private function addContentFilter(&$query)
     {
@@ -139,7 +139,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
     /**
      * Method to overwrite the getItems method in order to set the program name
      *
-     * @return  array  an array of objects fulfilling the request criteria
+     * @return array  an array of objects fulfilling the request criteria
      */
     public function getItems()
     {

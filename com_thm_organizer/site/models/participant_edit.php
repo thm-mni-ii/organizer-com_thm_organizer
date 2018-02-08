@@ -25,7 +25,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
     /**
      * Loads user registration information from the database
      *
-     * @return  object  filled with user registration data on success, otherwise empty
+     * @return object  filled with user registration data on success, otherwise empty
      */
     public function getItem()
     {
@@ -57,7 +57,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return  mixed  JForm object on success, False on error.
+     * @return mixed  JForm object on success, False on error.
      */
     public function getForm($data = [], $loadData = true)
     {

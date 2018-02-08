@@ -25,7 +25,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      *
      * @param string $resource the resource type being merged
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function autoMerge($resource)
     {
@@ -102,7 +102,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      *
      * @param string $resource the name of the resource type being deleted
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function delete($resource)
     {
@@ -150,7 +150,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param string $resource the name of the resource
      * @param array  $allDBIDs all of the resource db entry ids
      *
-     * @return  mixed  array on success, otherwise null
+     * @return mixed  array on success, otherwise null
      */
     protected function getAllGPUntisIDs($resource, $allDBIDs)
     {
@@ -171,7 +171,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param string $tableName the unique portion of the database table with the appropriate 'description' entries
      * @param array  $dbID      the id of the resource entry
      *
-     * @return  mixed  array on success, otherwise null
+     * @return mixed  array on success, otherwise null
      */
     protected function getDescriptionGPUntisID($tableName, $dbID)
     {
@@ -192,7 +192,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param string $tableName    the unique portion of the resource table name
      * @param bool   $onlySelected whether or not to retrieve all entries
      *
-     * @return  mixed  array on success, otherwise null
+     * @return mixed  array on success, otherwise null
      */
     protected function getEntries($tableName, $onlySelected = true)
     {
@@ -223,7 +223,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     /**
      * Retrieves the ids of all saved schedules
      *
-     * @return  mixed  array on success, otherwise null
+     * @return mixed  array on success, otherwise null
      */
     protected function getAllSchedulesIDs()
     {
@@ -246,7 +246,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      *
      * @param int $scheduleID the id of the schedule
      *
-     * @return  mixed  object on success, otherwise null
+     * @return mixed  object on success, otherwise null
      */
     protected function getScheduleObject($scheduleID)
     {
@@ -273,7 +273,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param string $resource the name of the resource type
      * @param array  $data     the data when called from auto merge
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function merge($resource, $data = null)
     {
@@ -340,7 +340,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      *
      * @param string $resource the name of the resource type being merged
      *
-     * @return  mixed  integer on success, otherwise false
+     * @return mixed  integer on success, otherwise false
      */
     public function save()
     {
@@ -406,7 +406,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param array  $oldDBIDs  the ids to be replaced
      * @param string $tableName the unique part of the table name
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     protected function updateAssociation($resource, $newDBID, $oldDBIDs, $tableName)
     {
@@ -434,7 +434,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param int    $newDBID  the id onto which the room entries merge
      * @param string $oldDBIDs a string containing the ids to be replaced
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     protected abstract function updateAssociations($newDBID, $oldDBIDs);
 
@@ -518,7 +518,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param int    $newDBID  the id onto which the room entries merge
      * @param array  $oldDBIDs the ids to be replaced
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     protected function updateDRAssociation($resource, $newDBID, $oldDBIDs)
     {
@@ -610,7 +610,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
      * @param array  $allDBIDs      all db IDs for the resources to be merged
      *
-     * @return  void
+     * @return void
      */
     protected abstract function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
 

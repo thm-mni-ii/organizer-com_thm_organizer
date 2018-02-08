@@ -25,7 +25,7 @@ class JFormFieldTemplateID extends JFormFieldList
     /**
      * Returns a select box where stored degree programs can be chosen
      *
-     * @return  array  the available degree programs
+     * @return array  the available degree programs
      */
     public function getOptions()
     {

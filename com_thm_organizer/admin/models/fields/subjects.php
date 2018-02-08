@@ -92,7 +92,7 @@ class JFormFieldSubjects extends JFormField
     /**
      * Creates a default input in the event of an exception
      *
-     * @return  string  a default teacher selection field without any teachers
+     * @return string  a default teacher selection field without any teachers
      */
     private function getDefault()
     {

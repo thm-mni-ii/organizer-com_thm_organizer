@@ -87,7 +87,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
     /**
      * Removes departments entries from the database
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function delete()
     {

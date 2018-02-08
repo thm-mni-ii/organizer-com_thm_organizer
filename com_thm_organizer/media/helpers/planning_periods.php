@@ -53,7 +53,7 @@ class THM_OrganizerHelperPlanning_Periods
      *
      * @param array $data the planning period's data
      *
-     * @return  mixed  int the id if the room could be resolved/added, otherwise null
+     * @return mixed  int the id if the room could be resolved/added, otherwise null
      */
     public static function getID($data)
     {
@@ -85,7 +85,7 @@ class THM_OrganizerHelperPlanning_Periods
      *
      * @param string $ppID the planning period's id
      *
-     * @return  mixed  string the name if the planning period could be resolved, otherwise null
+     * @return mixed  string the name if the planning period could be resolved, otherwise null
      */
     public static function getName($ppID)
     {

@@ -28,7 +28,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
      * @param object &$stub        a simplexml object containing rudimentary subject data
      * @param int    $departmentID the id of the department to which this data belongs
      *
-     * @return  mixed  int value of subject id on success, otherwise false
+     * @return mixed  int value of subject id on success, otherwise false
      */
     public function processStub(&$stub, $departmentID)
     {
@@ -81,7 +81,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
      *                        should be
      * @param string $default the default value
      *
-     * @return  void
+     * @return void
      */
     private function setAttribute(&$pool, $key, $value, $default = '')
     {
@@ -99,7 +99,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
      * @param object &$stub        the pool element
      * @param int    $departmentID the id of the department to which this data belongs
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     private function processChildren(&$stub, $departmentID)
     {

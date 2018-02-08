@@ -41,7 +41,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     /**
      * Activates the selected schedule
      *
-     * @return  true on success, otherwise false
+     * @return true on success, otherwise false
      */
     public function activate()
     {
@@ -138,7 +138,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * @param int $departmentID     the department id of the reference row
      * @param int $planningPeriodID the planning period id of the reference row
      *
-     * @return  mixed  object if successful, otherwise null
+     * @return mixed  object if successful, otherwise null
      */
     private function getScheduleRow($departmentID = null, $planningPeriodID = null)
     {
@@ -201,7 +201,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     /**
      * Toggles the schedule's active status
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function toggle()
     {
@@ -224,7 +224,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     /**
      * saves a schedule in the database for later use
      *
-     * @return   boolean true on success, otherwise false
+     * @return  boolean true on success, otherwise false
      */
     public function upload()
     {

@@ -105,7 +105,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
     /**
      * Adds resource files to the document
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {
@@ -123,7 +123,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
     /**
      * Generates required params for Javascript and adds them to the document
      *
-     * @return  void
+     * @return void
      */
     private function addScriptOptions()
     {

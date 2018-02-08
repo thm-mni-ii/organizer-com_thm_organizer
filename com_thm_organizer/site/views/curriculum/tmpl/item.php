@@ -28,7 +28,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
      * @param object  &$element the element to be rendered
      * @param integer $width    the width of the element to be displayed
      *
-     * @return  void  generates HTML output
+     * @return void  generates HTML output
      */
     public function render(&$element, $width = 18)
     {

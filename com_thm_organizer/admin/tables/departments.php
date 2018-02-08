@@ -37,7 +37,7 @@ class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
      * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
      * that there is some context available in a unified access manager.
      *
-     * @return  string  The string to use as the title in the asset table.
+     * @return string  The string to use as the title in the asset table.
      */
     protected function _getAssetTitle()
     {
@@ -49,7 +49,7 @@ class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
     /**
      * Sets the department asset name
      *
-     * @return  string
+     * @return string
      */
     protected function _getAssetName()
     {
@@ -64,7 +64,7 @@ class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
      * @param JTable $table the JTable object
      * @param int    $id    the resource id
      *
-     * @return  int  the asset id of the component root
+     * @return int  the asset id of the component root
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

@@ -203,7 +203,7 @@ class THM_OrganizerHelperSubjects
      *
      * @param int $subjectID id of the course resource
      *
-     * @return  boolean true if the user is a registered teacher, otherwise false
+     * @return boolean true if the user is a registered teacher, otherwise false
      * @throws Exception
      */
     public static function authorized($subjectID = 0)

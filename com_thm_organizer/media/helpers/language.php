@@ -21,7 +21,7 @@ class THM_OrganizerHelperLanguage
     /**
      * Sets the Joomla Language based on input from the language switch
      *
-     * @return  JLanguage
+     * @return JLanguage
      */
     public static function getLanguage()
     {
@@ -50,7 +50,7 @@ class THM_OrganizerHelperLanguage
     /**
      * Retrieves the two letter language identifier
      *
-     * @return  string
+     * @return string
      */
     public static function getLongTag()
     {
@@ -60,7 +60,7 @@ class THM_OrganizerHelperLanguage
     /**
      * Retrieves the two letter language identifier
      *
-     * @return  string
+     * @return string
      */
     public static function getShortTag()
     {
@@ -85,7 +85,7 @@ class THM_OrganizerHelperLanguage
      *
      * @param array $params the configuration parameters
      *
-     * @return  array  html links for language redirection
+     * @return array  html links for language redirection
      * @throws Exception
      */
     public static function getLanguageSwitches($params = [])

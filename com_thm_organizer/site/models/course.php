@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,18 +15,15 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
- * Class provides methods for editing the subject table in frontend
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class provides methods for editing courses
  */
 class THM_OrganizerModelCourse extends JModelLegacy
 {
     /**
-     *    Saves data for participants when administrator changes state in manager
+     * Saves data for participants when administrator changes state in manager
      *
      * @return bool true on success, false on error
+     * @throws Exception
      */
     public function changeParticipantState()
     {
@@ -64,6 +61,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
      * Sends a circular mail to all course participants
      *
      * @return bool true on success, false on error
+     * @throws Exception
      */
     public function circular()
     {
@@ -71,8 +69,12 @@ class THM_OrganizerModelCourse extends JModelLegacy
 
         $courseID = $input->get("lessonID", 0);
 
-        if (empty($courseID) or empty(THM_OrganizerHelperCourses::authorized($courseID))) {
-            JError::raiseError(401, 'Unauthorized');
+        if (empty($courseID)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
+        }
+
+        if (empty(THM_OrganizerHelperCourses::authorized($courseID))) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data = $input->get('jform', [], 'array');
@@ -118,7 +120,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return  JTable  A JTable object
+     * @return JTable  A JTable object
      */
     public function getTable($name = 'lessons', $prefix = 'THM_OrganizerTable', $options = [])
     {
@@ -128,13 +130,10 @@ class THM_OrganizerModelCourse extends JModelLegacy
     }
 
     /**
-     * Method to get a table object, load it if necessary.
+     * Saves changes to courses. Adjusting the course wait list as appropriate.
      *
-     * @param string $name    The table name. Optional.
-     * @param string $prefix  The class prefix. Optional.
-     * @param array  $options Configuration array for model. Optional.
-     *
-     * @return  JTable  A JTable object
+     * @return bool true on success, otherwise false
+     * @throws Exception
      */
     public function save()
     {

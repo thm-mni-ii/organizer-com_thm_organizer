@@ -64,7 +64,7 @@ class THM_OrganizerLSFClient
      *
      * @param string $query Query structure
      *
-     * @return  mixed  SimpleXMLElement if the query was successful, otherwise false
+     * @return mixed  SimpleXMLElement if the query was successful, otherwise false
      */
     private function getDataXML($query)
     {
@@ -93,7 +93,7 @@ class THM_OrganizerLSFClient
      *
      * @param int $moduleID The module mni number
      *
-     * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
+     * @return Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
      */
     public function getModuleByModulid($moduleID)
     {
@@ -109,7 +109,7 @@ class THM_OrganizerLSFClient
      *
      * @param string $moduleID The module mni number
      *
-     * @return  Mixed <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
+     * @return Mixed <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
      */
     public function getModuleByNrMni($moduleID)
     {
@@ -146,7 +146,7 @@ class THM_OrganizerLSFClient
      *
      * @param string $objectType the LSF object type
      *
-     * @return  string  the header of the XML query
+     * @return string  the header of the XML query
      */
     private function header($objectType)
     {

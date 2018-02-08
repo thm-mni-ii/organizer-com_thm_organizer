@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewSchedule_Export
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,11 +16,7 @@ jimport('tcpdf.tcpdf');
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
- * View class for the display of schedules
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads persistent information a filtered set of lessons into the display context.
  */
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
@@ -33,7 +27,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      *
      * @param string $tpl template
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -56,16 +50,14 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     /**
      * Imports libraries and sets library variables
      *
-     * @return  bool true if the tcpdf library is installed, otherwise false
+     * @return bool true if the tcpdf library is installed, otherwise false
      */
     private function checkLibraries()
     {
         $this->compiler = jimport('tcpdf.tcpdf');
 
         if (!$this->compiler) {
-            JError::raiseWarning('COM_THM_ORGANIZER_MESSAGE_TCPDF_LIBRARY_NOT_INSTALLED');
-
-            return false;
+            throw new Exception(JText::_('COM_THM_ORGANIZER_501'), 501);
         }
 
         return true;

@@ -36,7 +36,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
     /**
      * Method to get a JDatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+     * @return JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
      */
     protected function getListQuery()
     {
@@ -151,9 +151,9 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
     /**
      * Method to get the total number of items for the data set.
      *
-     * @param  string $idColumn not used
+     * @param string $idColumn not used
      *
-     * @return  integer  The total number of items available in the data set.
+     * @return integer  The total number of items available in the data set.
      */
     public function getTotal($idColumn = null)
     {
@@ -178,7 +178,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return mixed  The data for the form.
      */
     protected function loadFormData()
     {
@@ -195,7 +195,8 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
      * @param string $ordering  the column by which the table is should be ordered
      * @param string $direction the direction in which this column should be ordered
      *
-     * @return  void  sets object state variables
+     * @return void  sets object state variables
+     * @throws Exception
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -261,7 +262,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
      * @param object &$query    the query object
      * @param int    $programID the id of the resource from the filter
      *
-     * @return  void  sets query object variables
+     * @return void  sets query object variables
      */
     public function setProgramFilter(&$query, $programID)
     {

@@ -34,7 +34,7 @@ class THM_OrganizerTablePlan_Programs extends JTable
     /**
      * Set the table column names which are allowed to be null
      *
-     * @return  boolean  true
+     * @return boolean  true
      */
     public function check()
     {
@@ -50,7 +50,7 @@ class THM_OrganizerTablePlan_Programs extends JTable
      *
      * @param boolean $updateNulls True to update fields even if they are null.
      *
-     * @return  boolean  True on success.
+     * @return boolean  True on success.
      */
     public function store($updateNulls = true)
     {

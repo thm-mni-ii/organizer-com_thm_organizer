@@ -259,7 +259,7 @@ class THM_OrganizerHelperComponent
      *
      * @param string $resource the resource type
      *
-     * @return  bool  true if the user has access to at least one department, otherwise false
+     * @return bool  true if the user has access to at least one department, otherwise false
      */
     public static function allowDeptResourceCreate($resource)
     {
@@ -275,7 +275,7 @@ class THM_OrganizerHelperComponent
      * @param object &$model the model checking permissions
      * @param int    $itemID the id if the resource to be edited (empty for new entries)
      *
-     * @return  bool  true if the user can access the edit view, otherwise false
+     * @return bool  true if the user can access the edit view, otherwise false
      */
     public static function allowEdit(&$model, $itemID = 0)
     {
@@ -346,7 +346,7 @@ class THM_OrganizerHelperComponent
      *
      * @param int $ppID the id of the plan pool being checked
      *
-     * @return  bool  true if the plan pool is associated with an allowed department, otherwise false
+     * @return bool  true if the plan pool is associated with an allowed department, otherwise false
      * @throws Exception
      */
     public static function allowPlanPoolEdit($ppID)
@@ -379,7 +379,7 @@ class THM_OrganizerHelperComponent
      * @param int    $resourceID the id of the resource
      * @param string $action     a specific action which must be performable on the resource
      *
-     * @return  bool  true if the user has access to at least one department, otherwise false
+     * @return bool  true if the user has access to at least one department, otherwise false
      */
     public static function allowResourceManage($resource, $resourceID, $action = '')
     {
@@ -422,7 +422,7 @@ class THM_OrganizerHelperComponent
      * @param string $resourceName the name of the resource type
      * @param int    $itemID       the id of the item being checked
      *
-     * @return  bool  true if the resource has an associated asset, otherwise false
+     * @return bool  true if the resource has an associated asset, otherwise false
      * @throws Exception
      */
     public static function checkAssetInitialization($resourceName, $itemID)
@@ -449,7 +449,7 @@ class THM_OrganizerHelperComponent
      * @param string $date     the date to be formatted
      * @param bool   $withText if the day name should be part of the output
      *
-     * @return  string|bool  a formatted date string otherwise false
+     * @return string|bool  a formatted date string otherwise false
      */
     public static function formatDate($date, $withText = false)
     {
@@ -472,7 +472,7 @@ class THM_OrganizerHelperComponent
      * @param string $date     the date to be formatted
      * @param bool   $withText if the day name should be part of the output
      *
-     * @return  string|bool  a formatted date string otherwise false
+     * @return string|bool  a formatted date string otherwise false
      */
     public static function formatDateShort($date, $withText = false)
     {
@@ -494,7 +494,7 @@ class THM_OrganizerHelperComponent
      *
      * @param string $time the date to be formatted
      *
-     * @return  string|bool  a formatted date string otherwise false
+     * @return string|bool  a formatted date string otherwise false
      */
     public static function formatTime($time)
     {
@@ -509,7 +509,7 @@ class THM_OrganizerHelperComponent
      *
      * @param string $action the specific action for access checks
      *
-     * @return  array  the department ids, empty if user has no access
+     * @return array  the department ids, empty if user has no access
      * @throws Exception
      */
     public static function getAccessibleDepartments($action = '')
@@ -552,7 +552,7 @@ class THM_OrganizerHelperComponent
      * @param string $text    the text to be displayed
      * @param string $bgColor hexadecimal color code
      *
-     * @return  string  the html output string
+     * @return string  the html output string
      */
     public static function getColorField($text, $bgColor)
     {
@@ -592,7 +592,7 @@ class THM_OrganizerHelperComponent
      *
      * @param string $bgColor the background color associated with the field
      *
-     * @return  string  the hexadecimal value for an appropriate text color
+     * @return string  the hexadecimal value for an appropriate text color
      */
     public static function getTextColor($bgColor)
     {
@@ -690,7 +690,7 @@ class THM_OrganizerHelperComponent
      * @param mixed  $selected       optional selected items
      * @param array  $defaultOptions default options key => value
      *
-     * @return  string  the html output for the select box
+     * @return string  the html output for the select box
      */
     public static function selectBox($entries, $name, $attributes = null, $selected = null, $defaultOptions = null)
     {
@@ -757,7 +757,7 @@ class THM_OrganizerHelperComponent
      *
      * @param string $date the date string
      *
-     * @return  string  date sting in format Y-m-d
+     * @return string  date sting in format Y-m-d
      */
     public static function standardizeDate($date)
     {

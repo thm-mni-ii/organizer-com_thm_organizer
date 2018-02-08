@@ -42,7 +42,7 @@ class THM_OrganizerController extends JControllerLegacy
      * schedule is not already active, calls the activate function of the
      * schedule model.
      *
-     * @return  void
+     * @return void
      */
     public function activate()
     {
@@ -90,7 +90,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Makes call to the models's save function, and redirects to the manager view.
      *
-     * @return  void
+     * @return void
      */
     public function apply()
     {
@@ -114,7 +114,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Redirects to the manager from the form.
      *
-     * @return  void
+     * @return void
      */
     public function cancel()
     {
@@ -125,7 +125,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Makes call to the models's delete function, and redirects to the manager view.
      *
-     * @return  void
+     * @return void
      */
     public function delete()
     {
@@ -148,7 +148,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Redirects to the edit view with an item id. Access checks performed in the view.
      *
-     * @return  void
+     * @return void
      */
     public function edit()
     {
@@ -163,7 +163,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Makes call to the models's importLSFData function, and redirects to the manager view.
      *
-     * @return  void
+     * @return void
      */
     public function importLSFData()
     {
@@ -187,7 +187,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Performs access checks, makes call to the models's merge function, and
      * redirects to the room manager view
      *
-     * @return  void
+     * @return void
      */
     public function merge()
     {
@@ -210,7 +210,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Attempts to automatically merge the selected resources, if the corresponding function is available. Redirects to
      * the merge view if the automatic merge was unavailable or implausible.
      *
-     * @return  void
+     * @return void
      */
     public function mergeView()
     {
@@ -241,7 +241,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Makes call to the models's save function, and redirects to the manager view.
      *
-     * @return  void
+     * @return void
      */
     public function save()
     {
@@ -264,7 +264,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Makes call to the models's save2copy function, and redirects to the manager view.
      *
-     * @return  void
+     * @return void
      */
     public function save2copy()
     {
@@ -286,7 +286,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Makes call to the models's save2new function, and redirects to the edit view.
      *
-     * @return  void
+     * @return void
      */
     public function save2new()
     {
@@ -377,7 +377,7 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Makes call to the models's updateLSFData function, and redirects to the manager view.
      *
-     * @return  void
+     * @return void
      */
     public function updateLSFData()
     {

@@ -25,7 +25,7 @@ class THM_OrganizerViewGrid_Edit extends THM_OrganizerViewEdit
     /**
      * Method to generate buttons for user interaction
      *
-     * @return  void
+     * @return void
      */
     protected function addToolBar()
     {

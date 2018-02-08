@@ -29,7 +29,7 @@ class THM_OrganizerTableAssets extends JTable
      *
      * @param boolean $updateNulls True to update fields even if they are null.
      *
-     * @return  boolean  True on success.
+     * @return boolean  True on success.
      */
     public function store($updateNulls = true)
     {
@@ -129,7 +129,7 @@ class THM_OrganizerTableAssets extends JTable
      * @param array $array  named array
      * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
      *
-     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
+     * @return mixed  Null if operation was satisfactory, otherwise returns an error string
      */
     public function bind($array, $ignore = '')
     {
@@ -148,7 +148,7 @@ class THM_OrganizerTableAssets extends JTable
      *
      * @param array &$rules the rules from the form
      *
-     * @return  void  unsets group indexes with a truly empty value
+     * @return void  unsets group indexes with a truly empty value
      */
     private static function cleanRules(&$rules)
     {

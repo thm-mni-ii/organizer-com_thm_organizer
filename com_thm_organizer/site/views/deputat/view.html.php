@@ -41,7 +41,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -64,7 +64,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
     /**
      * Modifies document variables and adds links to external files
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {
@@ -80,7 +80,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
     /**
      * Creates a select box for the active schedules
      *
-     * @return  void
+     * @return void
      */
     private function makeScheduleSelectBox()
     {
@@ -103,7 +103,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
     /**
      * Creates a select box for teachers
      *
-     * @return  void
+     * @return void
      */
     private function makeTeacherSelectBox()
     {
@@ -124,7 +124,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
     /**
      * Function to get a table displaying resource consumption for a schedule
      *
-     * @return  string  a HTML string for a consumption table
+     * @return string  a HTML string for a consumption table
      */
     public function getDeputatTables()
     {
@@ -174,7 +174,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
      * @param int   $teacherID the teacherID
      * @param array &$deputat  the table columns
      *
-     * @return  string  HTML string for the summary row
+     * @return string  HTML string for the summary row
      */
     private function getSummaryRows($teacherID, &$deputat)
     {
@@ -227,7 +227,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
      * @param int   $teacherID the teacherID
      * @param array &$deputat  the table columns
      *
-     * @return  string  HTML string for the summary row
+     * @return string  HTML string for the summary row
      */
     private function getTallyRows($teacherID, &$deputat)
     {

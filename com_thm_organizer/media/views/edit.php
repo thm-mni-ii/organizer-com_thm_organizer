@@ -29,7 +29,7 @@ abstract class THM_OrganizerViewEdit extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -46,14 +46,14 @@ abstract class THM_OrganizerViewEdit extends JViewLegacy
     /**
      * Concrete classes are supposed to use this method to add a toolbar.
      *
-     * @return  void  adds toolbar items to the view
+     * @return void  adds toolbar items to the view
      */
     protected abstract function addToolBar();
 
     /**
      * Adds styles and scripts to the document
      *
-     * @return  void  modifies the document
+     * @return void  modifies the document
      */
     protected function modifyDocument()
     {

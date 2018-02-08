@@ -25,7 +25,7 @@ class JFormFieldSubjectTeacher extends JFormField
     /**
      * Returns a select box where stored teachers can be associated with a subject
      *
-     * @return  string  the HTML output
+     * @return string  the HTML output
      */
     public function getInput()
     {
@@ -76,7 +76,7 @@ class JFormFieldSubjectTeacher extends JFormField
     /**
      * Creates a default input in the event of an exception
      *
-     * @return  string  a default teacher selection field without any teachers
+     * @return string  a default teacher selection field without any teachers
      */
     private function getDefault()
     {

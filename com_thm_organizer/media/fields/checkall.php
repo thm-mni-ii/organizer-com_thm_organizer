@@ -26,7 +26,7 @@ class JFormFieldCheckAll extends JFormField
     /**
      * Makes a checkbox
      *
-     * @return  string  a HTML checkbox
+     * @return string  a HTML checkbox
      */
     public function getInput()
     {

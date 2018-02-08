@@ -29,7 +29,7 @@ abstract class THM_OrganizerViewForm extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -47,7 +47,7 @@ abstract class THM_OrganizerViewForm extends JViewLegacy
     /**
      * Adds styles and scripts to the document
      *
-     * @return  void  modifies the document
+     * @return void  modifies the document
      */
     protected function modifyDocument()
     {

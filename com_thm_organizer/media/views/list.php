@@ -74,14 +74,14 @@ abstract class THM_OrganizerViewList extends JViewLegacy
     /**
      * Concrete classes are supposed to use this method to add a toolbar.
      *
-     * @return  void  sets context variables
+     * @return void  sets context variables
      */
     protected abstract function addToolBar();
 
     /**
      * Adds styles and scripts to the document
      *
-     * @return  void  modifies the document
+     * @return void  modifies the document
      */
     protected function modifyDocument()
     {

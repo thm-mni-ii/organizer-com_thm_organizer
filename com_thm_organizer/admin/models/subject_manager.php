@@ -53,7 +53,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
     /**
      * Method to select all existent assets from the database
      *
-     * @return  JDatabaseQuery  the query object
+     * @return JDatabaseQuery  the query object
      */
     protected function getListQuery()
     {
@@ -110,7 +110,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
     /**
      * Method to overwrite the getItems method in order to set the program name
      *
-     * @return  array  an array of objects fulfilling the request criteria
+     * @return array  an array of objects fulfilling the request criteria
      */
     public function getItems()
     {
@@ -167,9 +167,9 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
     /**
      * Method to get the total number of items for the data set.
      *
-     * @param  string $idColumn not used
+     * @param string $idColumn not used
      *
-     * @return  integer  The total number of items available in the data set.
+     * @return integer  The total number of items available in the data set.
      */
     public function getTotal($idColumn = null)
     {

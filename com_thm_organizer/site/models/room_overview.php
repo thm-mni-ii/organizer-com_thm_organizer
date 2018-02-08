@@ -68,10 +68,10 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Method to get the form
      *
-     * @param   array   $data     Data for the form.
-     * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
+     * @param  array   $data     Data for the form.
+     * @param  boolean $loadData True if the form is to load its own data (default case), false if not.
      *
-     * @return  JForm|boolean  A JForm object on success, false on failure
+     * @return JForm|boolean  A JForm object on success, false on failure
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -90,7 +90,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * @param string $ordering  An optional ordering field.
      * @param string $direction An optional direction (asc|desc).
      *
-     * @return  void
+     * @return void
      * @throws Exception
      */
     protected function populateState($ordering = null, $direction = null)
@@ -153,7 +153,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Sets the data object variable with corresponding room information
      *
-     * @return  void  modifies the object data variable
+     * @return void  modifies the object data variable
      */
     private function setData()
     {
@@ -175,7 +175,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Gets the main grid from the first schedule
      *
-     * @return  void  sets the object grid variable
+     * @return void  sets the object grid variable
      * @throws Exception
      */
     private function setGrid()
@@ -198,7 +198,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Gets the room information for a week
      *
-     * @return  void sets the daily event information over the given interval
+     * @return void sets the daily event information over the given interval
      * @throws Exception
      */
     private function getInterval()
@@ -217,7 +217,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      *
      * @param string $date the date string
      *
-     * @return  void  room information for the given day is added to the $blocks object variable
+     * @return void  room information for the given day is added to the $blocks object variable
      */
     private function getDay($date)
     {
@@ -247,7 +247,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      *
      * @param string $date the date for which to retrieve events
      *
-     * @return  array the events for the given date
+     * @return array the events for the given date
      * @throws Exception
      */
     private function getEvents($date)
@@ -404,7 +404,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Gets the rooms and relevant room types
      *
-     * @return  void  sets the rooms and types object variables
+     * @return void  sets the rooms and types object variables
      * @throws Exception
      */
     private function setRooms()

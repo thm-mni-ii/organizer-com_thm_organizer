@@ -39,7 +39,7 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
     /**
      * Retrieves subject entries from the database
      *
-     * @return  string  the subjects which fit the selected resource
+     * @return string  the subjects which fit the selected resource
      */
     public function programsByTeacher()
     {

@@ -48,7 +48,7 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
     /**
      * Method to get all colors from the database
      *
-     * @return  JDatabaseQuery
+     * @return JDatabaseQuery
      */
     protected function getListQuery()
     {

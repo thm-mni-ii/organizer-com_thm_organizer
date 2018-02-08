@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewmonitor_manager
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
- * Class loading a list of persistent monitor entries into the view context
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class loads persistent information a filtered set of monitors into the display context.
  */
 class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
 {
@@ -33,14 +27,15 @@ class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
      *
      * @param string $tpl the name of the template to be used
      *
-     * @return  void
+     * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
         $actions = $this->getModel()->actions;
 
         if (!$actions->{'core.admin'} and !$actions->{'organizer.fm'}) {
-            throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         parent::display($tpl);

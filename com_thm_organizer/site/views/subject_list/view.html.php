@@ -42,7 +42,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -143,7 +143,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      * @param string $type       the type of group/sort
      * @param string $resourceID the id of the resource in the item row
      *
-     * @return  string  the HTML for the item to be displayed
+     * @return string  the HTML for the item to be displayed
      */
     public function getItemRow(&$item, $type = '', $resourceID = '')
     {
@@ -336,7 +336,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
     /**
      * Modifies document variables and adds links to external files
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {

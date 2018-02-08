@@ -12,7 +12,7 @@ defined('_JEXEC') or die;;
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
- * Class loads persistent information a filtered set of buildings into the display context.
+ * Class loads a filtered set of buildings into the display context.
  */
 class THM_OrganizerViewBuilding_Manager extends THM_OrganizerViewList
 {
@@ -27,16 +27,15 @@ class THM_OrganizerViewBuilding_Manager extends THM_OrganizerViewList
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
         $actions = $this->getModel()->actions;
 
         if (!$actions->{'core.admin'}) {
-            throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         parent::display($tpl);
@@ -45,7 +44,7 @@ class THM_OrganizerViewBuilding_Manager extends THM_OrganizerViewList
     /**
      * Method to generate buttons for user interaction
      *
-     * @return  void
+     * @return void
      */
     protected function addToolBar()
     {

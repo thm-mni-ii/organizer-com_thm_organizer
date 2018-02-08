@@ -203,7 +203,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Retrieves all roomIDs
      *
-     * @return  mixed  array of roomIDS on success, otherwise false
+     * @return mixed  array of roomIDS on success, otherwise false
      */
     private function getAllRoomIDs()
     {
@@ -329,7 +329,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Checks whether the accessing agent is a registered monitor
      *
-     * @return  mixed  int roomID on success, otherwise boolean false
+     * @return mixed  int roomID on success, otherwise boolean false
      */
     private function isRegistered()
     {
@@ -413,7 +413,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Sets the dates used
      *
-     * @return  void  sets object variables $_startDate and $_endDate
+     * @return void  sets object variables $_startDate and $_endDate
      */
     private function setDates()
     {
@@ -452,7 +452,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Sets the events for display
      *
-     * @return  void  sets object variables
+     * @return void  sets object variables
      */
     private function setEvents()
     {
@@ -464,7 +464,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Retrieves the name and id of the room
      *
-     * @return  void  sets object variables
+     * @return void  sets object variables
      */
     private function setRooms()
     {

@@ -40,7 +40,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -63,7 +63,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
     /**
      * Adds resource files to the document
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {
@@ -77,7 +77,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
     /**
      * Sets various filter elements
      *
-     * @return  void  sets the filter object variables
+     * @return void  sets the filter object variables
      */
     private function setFilters()
     {

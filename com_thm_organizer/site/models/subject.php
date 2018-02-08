@@ -28,7 +28,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return  JTable  A JTable object
+     * @return JTable  A JTable object
      */
     public function getTable($name = 'subjects', $prefix = 'THM_OrganizerTable', $options = [])
     {

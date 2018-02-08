@@ -28,7 +28,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      * @param int   $newDBID  the id onto which the room entries merge
      * @param array $oldDBIDs an array containing the ids to be replaced
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     protected function updateAssociations($newDBID, $oldDBIDs)
     {
@@ -55,7 +55,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
      * @param array  $allDBIDs      all db IDs for the resources to be merged
      *
-     * @return  void
+     * @return void
      */
     protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
     {

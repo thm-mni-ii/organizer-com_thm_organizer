@@ -17,7 +17,7 @@ class JFormFieldSubjectMapping extends JFormField
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
      *
-     * @return  string  the HTML output
+     * @return string  the HTML output
      */
     public function getInput()
     {
@@ -67,7 +67,7 @@ class JFormFieldSubjectMapping extends JFormField
     /**
      * Creates a default input in the event of an exception
      *
-     * @return  string  a default teacher selection field without any teachers
+     * @return string  a default teacher selection field without any teachers
      */
     private function getDefault()
     {

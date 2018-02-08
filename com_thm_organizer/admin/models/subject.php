@@ -25,7 +25,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
     /**
      * Attempts to delete the selected subject entries and related mappings
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function delete()
     {
@@ -51,7 +51,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *
      * @param int $subjectID the id of the subject to be deleted
      *
-     * @return  boolean  true if successful, otherwise false
+     * @return boolean  true if successful, otherwise false
      */
     public function deleteEntry($subjectID)
     {
@@ -140,7 +140,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array  &$data    the form data
      * @param string $property the property name
      *
-     * @return  void  can change the &$data value at the property name index
+     * @return void  can change the &$data value at the property name index
      */
     private function cleanStarProperty(&$data, $property)
     {
@@ -154,7 +154,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *
      * @param array &$data the post data
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     private function processFormTeachers(&$data)
     {
@@ -222,7 +222,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int   $responsibility the teacher's responsibility for the
      *                              subject
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     public function addTeacher($subjectID, $teacherID, $responsibility)
     {
@@ -246,7 +246,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *
      * @param array &$data the post data
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     private function processFormSubjectMappings(&$data)
     {
@@ -295,7 +295,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int   $subjectID      the id of the subject
      * @param array $planSubjectIDs the id of the planSubject
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     public function addSubjectMappings($subjectID, $planSubjectIDs)
     {
@@ -322,7 +322,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *
      * @param array &$data the post data
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     private function processFormPrerequisites(&$data)
     {
@@ -358,7 +358,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *
      * @param int $subjectID the subject id
      *
-     * @return  boolean
+     * @return boolean
      */
     public function removePrerequisites($subjectID)
     {
@@ -382,7 +382,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int   $subjectID    the id of the subject
      * @param array $prerequisite the id of the prerequisite
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     public function addPrerequisite($subjectID, $prerequisite)
     {
@@ -407,7 +407,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int   $subjectID the id of the subject
      * @param array &$data     the post data
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     private function processFormMappings($subjectID, &$data)
     {

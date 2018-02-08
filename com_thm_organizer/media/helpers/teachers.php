@@ -27,7 +27,7 @@ class THM_OrganizerHelperTeachers
      *
      * @param array &$list the list of teachers responsilbe for a subject
      *
-     * @return  void  removes duplicate list entries dependent on responsibility
+     * @return void  removes duplicate list entries dependent on responsibility
      */
     private static function ensureUnique(&$list)
     {
@@ -54,7 +54,7 @@ class THM_OrganizerHelperTeachers
      * @param bool $multiple       whether or not multiple results are desired
      * @param bool $unique         whether or not unique results are desired
      *
-     * @return  array  an array of teacher data
+     * @return array  an array of teacher data
      */
     public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false, $unique = true)
     {
@@ -104,7 +104,7 @@ class THM_OrganizerHelperTeachers
      *
      * @param int $teacherID the teacher's id
      *
-     * @return  string  the default name of the teacher
+     * @return string  the default name of the teacher
      */
     public static function getDefaultName($teacherID)
     {
@@ -126,9 +126,9 @@ class THM_OrganizerHelperTeachers
      * Generates a preformatted teacher text based upon organizer's internal data
      *
      * @param int   $teacherID the teacher's id
-     * @param  bool $short     Whether or not the teacher's forename should be abbrevieated
+     * @param bool $short     Whether or not the teacher's forename should be abbrevieated
      *
-     * @return  string  the default name of the teacher
+     * @return string  the default name of the teacher
      */
     public static function getLNFName($teacherID, $short = false)
     {
@@ -155,7 +155,7 @@ class THM_OrganizerHelperTeachers
      * @param object &$scheduleModel the validating schedule model
      * @param string $gpuntisID      the teacher's gpuntis ID
      *
-     * @return  int the id of the teacher on success, otherwise 0
+     * @return int the id of the teacher on success, otherwise 0
      */
     public static function getID($gpuntisID, $data)
     {

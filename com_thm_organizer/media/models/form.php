@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerModelForm
- * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,10 +11,6 @@ defined('_JEXEC') or die;
 
 /**
  * Class loads non-item-specific form data.
- *
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
  */
 class THM_OrganizerModelForm extends JModelForm
 {
@@ -26,8 +20,7 @@ class THM_OrganizerModelForm extends JModelForm
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return  mixed  JForm object on success, False on error.
-     *
+     * @return mixed  JForm object on success, False on error.
      * @throws  Exception  if the user is not authorized to access the view
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -41,7 +34,7 @@ class THM_OrganizerModelForm extends JModelForm
         THM_OrganizerHelperComponent::addActions($this);
         $allowEdit = THM_OrganizerHelperComponent::allowEdit($this);
         if (!$allowEdit) {
-            throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 404);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $name = $this->get('name');

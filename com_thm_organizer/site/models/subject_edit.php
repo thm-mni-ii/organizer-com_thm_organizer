@@ -30,7 +30,7 @@ class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return  JTable  A JTable object
+     * @return JTable  A JTable object
      */
     public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = [])
     {

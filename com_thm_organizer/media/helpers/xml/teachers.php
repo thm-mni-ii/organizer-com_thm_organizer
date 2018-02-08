@@ -135,7 +135,7 @@ class THM_OrganizerHelperXMLTeachers
      * @param object &$teacherNode   the teacher node object
      * @param string $teacherID      the teacher's id
      *
-     * @return  void
+     * @return void
      */
     private static function validateField(&$scheduleModel, &$teacherNode, $teacherID)
     {
@@ -159,7 +159,7 @@ class THM_OrganizerHelperXMLTeachers
      * @param object &$teacherNode   the teacher node object
      * @param string $teacherID      the teacher's id
      *
-     * @return  void
+     * @return void
      */
     private static function validateForename(&$scheduleModel, &$teacherNode, $teacherID)
     {
@@ -180,7 +180,7 @@ class THM_OrganizerHelperXMLTeachers
      * @param object &$teacherNode   the teacher node object
      * @param string $teacherID      the teacher's id
      *
-     * @return  mixed  string surname if valid, otherwise false
+     * @return mixed  string surname if valid, otherwise false
      */
     private static function validateSurname(&$scheduleModel, &$teacherNode, $teacherID)
     {
@@ -204,7 +204,7 @@ class THM_OrganizerHelperXMLTeachers
      * @param object &$teacherNode   the teacher node object
      * @param string $teacherID      the teacher's id
      *
-     * @return  void
+     * @return void
      */
     private static function validateTitle(&$scheduleModel, &$teacherNode, $teacherID)
     {
@@ -224,7 +224,7 @@ class THM_OrganizerHelperXMLTeachers
      * @param object &$scheduleModel the validating schedule model
      * @param object &$teacherNode   the teacher node object
      *
-     * @return  mixed  string untis id if valid, otherwise false
+     * @return mixed  string untis id if valid, otherwise false
      */
     private static function validateUntisID(&$scheduleModel, &$teacherNode)
     {
@@ -257,7 +257,7 @@ class THM_OrganizerHelperXMLTeachers
      * @param object &$teacherNode   the teacher node object
      * @param string $teacherID      the teacher's id
      *
-     * @return  void
+     * @return void
      */
     private static function validateUserName(&$scheduleModel, &$teacherNode, $teacherID)
     {

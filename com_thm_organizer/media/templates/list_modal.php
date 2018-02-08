@@ -72,7 +72,7 @@ class THM_OrganizerTemplateList_Modal
      *
      * @param array &$filters the filters set for the view
      *
-     * @return  void
+     * @return void
      */
     private static function renderSearch(&$filters)
     {
@@ -104,7 +104,7 @@ class THM_OrganizerTemplateList_Modal
     /**
      * Renders any buttons appended by the view
      *
-     * @return  void
+     * @return void
      */
     private static function renderButtons()
     {
@@ -121,7 +121,7 @@ class THM_OrganizerTemplateList_Modal
      *
      * @param array &$headers an array containing the table headers
      *
-     * @return  void
+     * @return void
      */
     private static function renderHeader(&$headers)
     {
@@ -138,7 +138,7 @@ class THM_OrganizerTemplateList_Modal
      * @param array &$headers an array containing the table headers
      * @param array &$filters the filters set for the view
      *
-     * @return  void
+     * @return void
      */
     private static function renderHeaderFilters(&$headers, &$filters)
     {
@@ -176,7 +176,7 @@ class THM_OrganizerTemplateList_Modal
      *
      * @param array &$items an array containing the table headers
      *
-     * @return  void
+     * @return void
      */
     private static function renderBody(&$items)
     {
@@ -198,7 +198,7 @@ class THM_OrganizerTemplateList_Modal
      *
      * @param object &$view the view context calling the function
      *
-     * @return  void
+     * @return void
      */
     private static function renderFooter(&$view)
     {
@@ -214,7 +214,7 @@ class THM_OrganizerTemplateList_Modal
      *
      * @param object &$view the view object
      *
-     * @return  void  outputs hidden fields html
+     * @return void  outputs hidden fields html
      */
     protected static function renderHiddenFields(&$view)
     {

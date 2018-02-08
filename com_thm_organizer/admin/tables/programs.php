@@ -36,7 +36,7 @@ class THM_OrganizerTablePrograms extends THM_OrganizerTableAssets
     /**
      * Set the table column names which are allowed to be null
      *
-     * @return  boolean  true
+     * @return boolean  true
      */
     public function check()
     {
@@ -53,7 +53,7 @@ class THM_OrganizerTablePrograms extends THM_OrganizerTableAssets
     /**
      * Sets the department asset name
      *
-     * @return  string
+     * @return string
      */
     protected function _getAssetName()
     {
@@ -66,7 +66,7 @@ class THM_OrganizerTablePrograms extends THM_OrganizerTableAssets
      * @param JTable  $table A JTable object for the asset parent.
      * @param integer $id    Id to look up
      *
-     * @return  int  the asset id of the component root
+     * @return int  the asset id of the component root
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

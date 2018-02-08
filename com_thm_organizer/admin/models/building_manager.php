@@ -33,7 +33,7 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
     /**
      * Method to get all buildings from the database
      *
-     * @return  JDatabaseQuery
+     * @return JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -132,7 +132,7 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
      *
      * @param object &$query the query object
      *
-     * @return  void
+     * @return void
      */
     private function setCampusFilter(&$query)
     {

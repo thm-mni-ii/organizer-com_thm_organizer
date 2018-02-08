@@ -35,7 +35,7 @@ class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
      *
      * @param string $tpl template
      *
-     * @return  void sets context variables and uses the parent's display method
+     * @return void sets context variables and uses the parent's display method
      */
     public function display($tpl = null)
     {
@@ -54,7 +54,7 @@ class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
     /**
      * Modifies document variables and adds links to external files
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {

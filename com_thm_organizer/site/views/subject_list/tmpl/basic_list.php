@@ -25,7 +25,7 @@ class THM_OrganizerTemplateBasicList
      *
      * @param array &$view the view context
      *
-     * @return  void
+     * @return void
      */
     public static function render(&$view, $sort)
     {

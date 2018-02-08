@@ -35,7 +35,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
     /**
      * Method to get all campuses from the database
      *
-     * @return  JDatabaseQuery
+     * @return JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -135,7 +135,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
      *
      * @param object &$query the query object
      *
-     * @return  void
+     * @return void
      */
     private function setCityFilter(&$query)
     {

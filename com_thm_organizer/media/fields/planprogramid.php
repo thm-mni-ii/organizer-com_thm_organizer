@@ -29,7 +29,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
     /**
      * Returns a select box where resource attributes can be selected
      *
-     * @return  array the options for the select box
+     * @return array the options for the select box
      */
     public function getOptions()
     {

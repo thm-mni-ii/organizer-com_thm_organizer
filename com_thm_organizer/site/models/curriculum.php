@@ -29,7 +29,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
     /**
      * Method to get an array of data items.
      *
-     * @return  mixed  An array of data items on success, false on failure.
+     * @return mixed  An array of data items on success, false on failure.
      */
     public function getItem()
     {
@@ -72,7 +72,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      *
      * @param object &$program the object modeling the program data
      *
-     * @return  void  sets object attributes
+     * @return void  sets object attributes
      */
     private function setProgramInformation(&$program)
     {
@@ -101,7 +101,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      *
      * @param object &$element the object modeling the program data
      *
-     * @return  void  sets object attributes
+     * @return void  sets object attributes
      */
     private function setChildren(&$element)
     {
@@ -148,7 +148,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param int $poolID    the pool id
      * @param int $mappingID the mapping id
      *
-     * @return  mixed  object on success, otherwise null
+     * @return mixed  object on success, otherwise null
      */
     private function getPool($poolID, $mappingID)
     {
@@ -186,7 +186,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param int $subjectID the subject id
      * @param int $mappingID the mapping id
      *
-     * @return  mixed  object on success, otherwise null
+     * @return mixed  object on success, otherwise null
      */
     private function getSubject($subjectID, $mappingID)
     {

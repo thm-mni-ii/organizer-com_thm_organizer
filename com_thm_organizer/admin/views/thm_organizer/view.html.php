@@ -1,13 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.administrator
- * @name        THM_OrganizerViewthm_organizer
- * @description view output class for the component splash page
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,30 +15,10 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/form.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
- * Class defining view output
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.administrator
+ * Class modifies the document for the output of a menu like list of resource management views.
  */
 class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
 {
-    /**
-     * Loads model data into view context
-     *
-     * @param string $tpl the template type to be used
-     *
-     * @return  void or JError on unauthorized access
-     */
-    public function display($tpl = null)
-    {
-        JHtml::_('behavior.tooltip');
-
-        //THM_OrganizerHelperComponent::addSubmenu($this);
-
-        parent::display($tpl);
-    }
-
     /**
      * creates a joomla administratoristrative tool bar
      *
@@ -60,7 +37,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
     /**
      * Adds styles and scripts to the document
      *
-     * @return  void  modifies the document
+     * @return void  modifies the document
      */
     protected function modifyDocument()
     {

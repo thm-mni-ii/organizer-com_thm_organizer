@@ -9,7 +9,7 @@ $(document).ready(function () {
 /**
  * Clear the current list and add new programs to it
  *
- * @param   {object}  programs   the programs received
+ * @param  {object}  programs   the programs received
  */
 function addPrograms(programs)
 {
@@ -32,7 +32,7 @@ function addPrograms(programs)
 /**
  * Clear the current list and add new planning periods to it
  *
- * @param   {object}  planningPeriods   the rooms received
+ * @param  {object}  planningPeriods   the rooms received
  */
 function addPlanningPeriods(planningPeriods)
 {
@@ -54,7 +54,7 @@ function addPlanningPeriods(planningPeriods)
 /**
  * Clear the current list and add new rooms to it
  *
- * @param   {object}  rooms   the rooms received
+ * @param  {object}  rooms   the rooms received
  */
 function addRooms(rooms)
 {

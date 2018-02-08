@@ -29,7 +29,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      *
      * @param int $programID the id of the degree program
      *
-     * @return  array  empty if the program could not be found
+     * @return array  empty if the program could not be found
      */
     private function getSavedProgramData($programID)
     {
@@ -82,7 +82,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
     /**
      * Method to import data associated with degree programs from LSF
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     public function importBatch()
     {
@@ -108,7 +108,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      *
      * @param int $programID the id of the program to be imported
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function importSingle($programID)
     {
@@ -162,7 +162,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * @param object &$program     the simplexml object object containing program information
      * @param int    $departmentID the id of the department to which this data belongs
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     private function processChildNodes(&$program, $departmentID)
     {
@@ -194,7 +194,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * @param int    $programID     the id of the program
      * @param object &$mappingModel the mapping model
      *
-     * @return  boolean  true on existant/created mapping, otherwise false
+     * @return boolean  true on existant/created mapping, otherwise false
      */
     private function processProgramMapping($programID, &$mappingModel)
     {
@@ -212,7 +212,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
     /**
      * Method to update subject data associated with degree programs from LSF
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     public function updateBatch()
     {

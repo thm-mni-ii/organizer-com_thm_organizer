@@ -9,7 +9,7 @@ $(document).ready(function () {
 /**
  * Clear the current list and add new rooms to it
  *
- * @param   {object}  rooms   the rooms received
+ * @param  {object}  rooms   the rooms received
  */
 function addRooms(rooms)
 {

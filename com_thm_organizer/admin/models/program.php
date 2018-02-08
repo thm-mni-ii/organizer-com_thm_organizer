@@ -25,7 +25,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
     /**
      * Attempts to delete the selected degree program entries and related mappings
      *
-     * @return  boolean  True if successful, false if an error occurs.
+     * @return boolean  True if successful, false if an error occurs.
      */
     public function delete()
     {
@@ -58,7 +58,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
     /**
      * Method to save degree programs
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function save()
     {
@@ -83,7 +83,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
     /**
      * Method to save existing degree programs as copies
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function save2copy()
     {

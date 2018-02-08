@@ -25,7 +25,7 @@ class JFormFieldBuildingID extends JFormFieldList
     /**
      * Returns a select box where stored buildings can be chosen
      *
-     * @return  array  the available buildings
+     * @return array  the available buildings
      */
     public function getOptions()
     {

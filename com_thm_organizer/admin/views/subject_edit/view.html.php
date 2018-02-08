@@ -27,7 +27,7 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -37,7 +37,7 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     /**
      * Method to generate buttons for user interaction
      *
-     * @return  void
+     * @return void
      */
     protected function addToolBar()
     {
@@ -61,7 +61,7 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     /**
      * Adds resource files to the document
      *
-     * @return  void
+     * @return void
      */
     protected function modifyDocument()
     {

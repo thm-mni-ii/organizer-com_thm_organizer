@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +16,7 @@ jimport('tcpdf.tcpdf');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
- * Class which loads data into the view output context
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads persistent information about a course into the display context.
  */
 class THM_OrganizerViewCourse_List extends JViewLegacy
 {
@@ -29,7 +25,8 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -38,7 +35,11 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
         $lessonID = $input->get("lessonID", 0);
         $type     = $input->get("type", 0);
 
-        if (!empty($lessonID) and THM_OrganizerHelperCourses::authorized($lessonID)) {
+        if (empty($lessonID) OR empty($type)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
+        }
+
+        if (THM_OrganizerHelperCourses::authorized($lessonID)) {
             switch ($type) {
                 case 0:
                     require_once __DIR__ . "/tmpl/prep_course_participant_list.php";
@@ -53,10 +54,10 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
                     new THMOrganizerTemplatePC_Badges_Export($lessonID);
                     break;
                 default:
-                    JError::raiseError(404, 'Type not found');
+                    throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
             }
         }
 
-        JError::raiseError(401, 'Unauthorized');
+        throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
     }
 }

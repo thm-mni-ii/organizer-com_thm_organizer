@@ -25,7 +25,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
     /**
      * Attempts to save a resource entry, updating schedule data as necessary.
      *
-     * @return  mixed  integer on success, otherwise false
+     * @return mixed  integer on success, otherwise false
      */
     public function save()
     {
@@ -59,7 +59,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      * @param int   $newDBID  the id onto which the room entries merge
      * @param array $oldDBIDs an array containing the ids to be replaced
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     protected function updateAssociations($newDBID, $oldDBIDs)
     {
@@ -88,7 +88,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
      * @param array  $allDBIDs      all db IDs for the resources to be merged
      *
-     * @return  void
+     * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

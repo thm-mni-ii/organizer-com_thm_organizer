@@ -33,7 +33,7 @@ class THM_OrganizerModelBuilding extends JModelLegacy
     /**
      * Removes building entries from the database.
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function delete()
     {

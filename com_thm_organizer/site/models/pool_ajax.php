@@ -27,7 +27,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
     /**
      * Retrieves pool options for a given curriculum element
      *
-     * @return  string
+     * @return string
      */
     public function parentOptions()
     {
@@ -78,7 +78,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      *
      * @param array $programIDs the requested program ids
      *
-     * @return  array  the superordinate program mappings
+     * @return array  the superordinate program mappings
      */
     private function getProgramEntries($programIDs)
     {
@@ -104,7 +104,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * @param array  &$mappingIDs  the mapping ids for the resource
      * @param string $resourceType the resource's type
      *
-     * @return  array  the ids which should be unselectable
+     * @return array  the ids which should be unselectable
      */
     private function getUnselectableMappings(&$mappings, &$mappingIDs, $resourceType)
     {
@@ -128,7 +128,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * @param array   &$parentIDs           previously mapped parents
      * @param boolean $resourceType         the resource's type
      *
-     * @return  void
+     * @return void
      */
     private function fillOptions(&$options, &$programMappings, &$unelectableMappings, &$parentIDs, $resourceType)
     {
@@ -151,7 +151,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * Retrieves pool entries from the database based upon selected program and
      * teacher
      *
-     * @return  string  the subjects which fit the selected resource
+     * @return string  the subjects which fit the selected resource
      */
     public function poolsByProgramOrTeacher()
     {

@@ -33,7 +33,7 @@ class JFormFieldDepartmentID extends JFormFieldList
     /**
      * Returns an array of options
      *
-     * @return  array  the department options
+     * @return array  the department options
      */
     public function getOptions()
     {

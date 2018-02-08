@@ -29,7 +29,7 @@ class THM_OrganizerHelperXMLRooms
      * @param object &$scheduleModel the validating schedule model
      * @param object &$xmlObject     the xml object being validated
      *
-     * @return  void
+     * @return void
      */
     public static function validate(&$scheduleModel, &$xmlObject)
     {
@@ -67,7 +67,7 @@ class THM_OrganizerHelperXMLRooms
      * @param object &$roomNode      the room node object
      * @param string $roomID         the room's id
      *
-     * @return  mixed  string display name if valid, otherwise false
+     * @return mixed  string display name if valid, otherwise false
      */
     private static function validateDisplayName(&$scheduleModel, &$roomNode, $roomID)
     {
@@ -134,7 +134,7 @@ class THM_OrganizerHelperXMLRooms
      * @param object &$roomNode      the room node object
      * @param string $roomID         the room's id
      *
-     * @return  void
+     * @return void
      */
     private static function validateType(&$scheduleModel, &$roomNode, $roomID)
     {
@@ -158,7 +158,7 @@ class THM_OrganizerHelperXMLRooms
      * @param object &$scheduleModel the validating schedule model
      * @param object &$roomNode      the room node object
      *
-     * @return  mixed  string untis id if valid, otherwise false
+     * @return mixed  string untis id if valid, otherwise false
      */
     private static function validateUntisID(&$scheduleModel, &$roomNode)
     {

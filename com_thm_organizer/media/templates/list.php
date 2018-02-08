@@ -77,7 +77,7 @@ class THM_OrganizerTemplateList
      *
      * @param array &$filters the filters set for the view
      *
-     * @return  void
+     * @return void
      */
     protected static function renderSearch(&$filters)
     {
@@ -111,7 +111,7 @@ class THM_OrganizerTemplateList
      *
      * @param array &$headers an array containing the table headers
      *
-     * @return  void
+     * @return void
      */
     protected static function renderHeader(&$headers)
     {
@@ -128,7 +128,7 @@ class THM_OrganizerTemplateList
      * @param array &$headers an array containing the table headers
      * @param array &$filters the filters set for the view
      *
-     * @return  void
+     * @return void
      */
     protected static function renderHeaderFilters(&$headers, &$filters)
     {
@@ -167,7 +167,7 @@ class THM_OrganizerTemplateList
      *
      * @param array &$items an array containing the table headers
      *
-     * @return  void
+     * @return void
      */
     protected static function renderBody(&$items)
     {
@@ -197,7 +197,7 @@ class THM_OrganizerTemplateList
      * @param array $row        the row to be displayed
      * @param int   &$iteration the current iteration
      *
-     * @return  void  outputs HTML
+     * @return void  outputs HTML
      */
     protected static function renderRow($row, &$iteration)
     {
@@ -245,7 +245,7 @@ class THM_OrganizerTemplateList
      *
      * @param object &$view the view context calling the function
      *
-     * @return  void
+     * @return void
      */
     protected static function renderFooter(&$view)
     {
@@ -261,7 +261,7 @@ class THM_OrganizerTemplateList
      *
      * @param object &$view the view context calling the function
      *
-     * @return  void
+     * @return void
      */
     protected static function renderBatch(&$view)
     {
@@ -279,7 +279,7 @@ class THM_OrganizerTemplateList
      *
      * @param object &$view the view object
      *
-     * @return  void  outputs hidden fields html
+     * @return void  outputs hidden fields html
      */
     protected static function renderHiddenFields(&$view)
     {

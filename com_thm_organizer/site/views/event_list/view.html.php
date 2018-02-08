@@ -25,7 +25,7 @@ class THM_OrganizerViewEvent_List extends JViewLegacy
      *
      * @param string $tpl the name of the template to load
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -40,7 +40,7 @@ class THM_OrganizerViewEvent_List extends JViewLegacy
     /**
      * Adds css and javascript files to the document
      *
-     * @return  void  modifies the document
+     * @return void  modifies the document
      */
     private function modifyDocument()
     {

@@ -51,7 +51,7 @@ class THM_OrganizerHelperCampuses
      *
      * @param int $campusID the campus' id
      *
-     * @return  string the name if the campus could be resolved, otherwise empty
+     * @return string the name if the campus could be resolved, otherwise empty
      * @throws Exception
      */
     public static function getName($campusID = null)

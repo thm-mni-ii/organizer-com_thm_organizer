@@ -28,7 +28,7 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
     /**
      * Returns a select box where resource attributes can be selected
      *
-     * @return  string  the HTML select box
+     * @return string  the HTML select box
      */
     protected function getInput()
     {

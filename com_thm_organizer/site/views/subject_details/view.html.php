@@ -241,7 +241,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
     /**
      * Modifies document variables and adds links to external files
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {
@@ -312,7 +312,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      *
      * @param array $teacher the teacher item
      *
-     * @return  void  creates HTML output
+     * @return void  creates HTML output
      */
     public function getTeacherOutput($teacher)
     {

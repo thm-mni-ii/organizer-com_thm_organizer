@@ -26,9 +26,7 @@ class THM_OrganizerTemplateCurriculumPanel
      * @param object &$pool the element to be rendered
      * @param string $type  the pool display type
      *
-     * @return  void  generates HTML output
-     *
-     * @SuppressWarnings("PMD.NPathComplexity")
+     * @return void  generates HTML output
      */
     public static function render(&$pool, $type = 'modal')
     {
@@ -50,7 +48,7 @@ class THM_OrganizerTemplateCurriculumPanel
      * @param object &$pool the element to be rendered
      * @param string $type  the pool display type (main for first level pools|modal for others)
      *
-     * @return  void  generates HTML output
+     * @return void  generates HTML output
      */
     private static function renderHead(&$pool, $type = 'modal')
     {
@@ -79,9 +77,7 @@ class THM_OrganizerTemplateCurriculumPanel
      * @param object &$pool the element to be rendered
      * @param string $type  the pool display type
      *
-     * @return  void  generates HTML output
-     *
-     * @SuppressWarnings("PMD.NPathComplexity")
+     * @return void  generates HTML output
      */
     private static function renderBody(&$pool, $type)
     {

@@ -29,7 +29,7 @@ class THM_OrganizerViewTeacher_Merge extends THM_OrganizerViewForm
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
      */
     public function display($tpl = null)
     {
@@ -39,7 +39,7 @@ class THM_OrganizerViewTeacher_Merge extends THM_OrganizerViewForm
     /**
      * Method to generate buttons for user interaction
      *
-     * @return  void
+     * @return void
      */
     protected function addToolBar()
     {

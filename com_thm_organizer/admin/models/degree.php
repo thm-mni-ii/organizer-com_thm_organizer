@@ -25,7 +25,7 @@ class THM_OrganizerModelDegree extends JModelLegacy
     /**
      * Saves degree information to the database
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function save()
     {

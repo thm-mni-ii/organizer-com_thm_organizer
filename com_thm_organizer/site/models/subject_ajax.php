@@ -34,7 +34,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
     /**
      * Retrieves subject entries from the database
      *
-     * @return  string  the subjects which fit the selected resource
+     * @return string  the subjects which fit the selected resource
      */
     public function getSubjects()
     {
@@ -98,7 +98,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
     /**
      * Retrieves the left and right boundaries of the nested program or pool
      *
-     * @return  array
+     * @return array
      */
     private function getBoundaries()
     {
@@ -128,7 +128,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      * @param array $poolBoundaries    the pool's left and right values
      * @param array $programBoundaries the program's left and right values
      *
-     * @return  boolean  true if the pool is subordinate to the program,
+     * @return boolean  true if the pool is subordinate to the program,
      *                   otherwise false
      */
     private function poolInProgram($poolBoundaries, $programBoundaries)

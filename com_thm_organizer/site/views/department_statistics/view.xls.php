@@ -31,7 +31,7 @@ class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
      *
      * @param string $tpl template
      *
-     * @return  void renders the department statistics worksheet
+     * @return void renders the department statistics worksheet
      */
     public function display($tpl = null)
     {

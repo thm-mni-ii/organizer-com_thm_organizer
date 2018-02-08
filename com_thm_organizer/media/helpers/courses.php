@@ -32,7 +32,7 @@ class THM_OrganizerHelperCourses
      *
      * @param int $courseID id of the course resource
      *
-     * @return  boolean if user is authorized
+     * @return boolean if user is authorized
      * @throws Exception
      */
     public static function authorized($courseID = 0)
@@ -212,7 +212,7 @@ class THM_OrganizerHelperCourses
      *
      * @param int $courseID int id of requested lesson
      *
-     * @return  array  with course data on success, otherwise empty
+     * @return array  with course data on success, otherwise empty
      * @throws Exception
      */
     public static function getCourse($courseID = 0)
@@ -259,7 +259,7 @@ class THM_OrganizerHelperCourses
      *
      * @param int $courseID the id of the course to be loaded
      *
-     * @return  string the dates to display
+     * @return string the dates to display
      * @throws Exception
      */
     public static function getDateDisplay($courseID = 0)
@@ -284,7 +284,7 @@ class THM_OrganizerHelperCourses
      *
      * @param int $courseID id of course to be loaded
      *
-     * @return  array  array with calendar registration data on success, otherwise empty
+     * @return array  array with calendar registration data on success, otherwise empty
      * @throws Exception
      */
     public static function getDates($courseID = 0)
@@ -323,7 +323,7 @@ class THM_OrganizerHelperCourses
      * @param int     $courseID id of course to be loaded
      * @param boolean $includeWaitList
      *
-     * @return  array  with course registration data on success, otherwise empty
+     * @return array  with course registration data on success, otherwise empty
      * @throws Exception
      */
     public static function getFullParticipantData($courseID = 0, $includeWaitList = false)
@@ -418,7 +418,7 @@ class THM_OrganizerHelperCourses
      * @param int $subjectID id of subject with which courses must be associated
      * @param int $campusID  id of the course campus
      *
-     * @return  array  with course data on success, otherwise empty
+     * @return array  with course data on success, otherwise empty
      * @throws Exception
      */
     public static function getLatestCourses($subjectID, $campusID = null)
@@ -712,7 +712,7 @@ class THM_OrganizerHelperCourses
     /**
      * Get formatted array with all prep courses in format id => name
      *
-     * @return  array  assoc array with all prep courses with id => name
+     * @return array  assoc array with all prep courses with id => name
      * @throws Exception
      */
     public static function prepCourseList()

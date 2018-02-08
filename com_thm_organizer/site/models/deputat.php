@@ -66,7 +66,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Sets object properties
      *
-     * @return  void
+     * @return void
      */
     private function setObjectProperties()
     {
@@ -92,7 +92,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @param int $departmentID the id of the department
      *
-     * @return  void  sets the object variable $departmentName on success
+     * @return void  sets the object variable $departmentName on success
      */
     private function setDepartmentName($departmentID)
     {
@@ -162,7 +162,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Method to set a schedule by its id from the database
      *
-     * @return  void sets the instance's schedule variable
+     * @return void sets the instance's schedule variable
      */
     public function setSchedule()
     {
@@ -185,7 +185,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Calculates resource consumption from a schedule
      *
-     * @return  void sets the instance's lesson values variable
+     * @return void sets the instance's lesson values variable
      */
     public function calculateDeputat()
     {
@@ -215,7 +215,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param object &$blocks   the blocks of the date being iterated
      * @param array  &$teachers teachers to compare against if the schedule is not the original
      *
-     * @return  void
+     * @return void
      */
     private function resolveTime(&$schedule, $day, &$blocks, &$teachers = null)
     {
@@ -250,7 +250,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param int    $hours       the number of school hours for the lesson
      * @param array  &$teachers   teachers to compare against if the schedule is not the original
      *
-     * @return  void
+     * @return void
      */
     private function setDeputatByInstance(&$schedule, $day, $blockNumber, $lessonID, $hours, &$teachers = null)
     {
@@ -292,7 +292,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $teacherID   the teacher being iterated
      * @param int    $hours       the number of school hours for the lesson
      *
-     * @return  void  sets object values
+     * @return void  sets object values
      */
     private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $teacherID, $hours = 0)
     {
@@ -358,7 +358,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param object &$schedule the schedule being processed
      * @param string $lessonID  the id of the lesson
      *
-     * @return  bool  true if relevant, otherwise false
+     * @return bool  true if relevant, otherwise false
      */
     private function isSubjectRelevant(&$schedule, $lessonID)
     {
@@ -384,7 +384,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param object &$schedule the schedule being processed
      * @param string $lessonID  the id of the lesson
      *
-     * @return  mixed  string type if relevant, otherwise false
+     * @return mixed  string type if relevant, otherwise false
      */
     private function getType(&$schedule, $lessonID)
     {
@@ -409,7 +409,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $lessonID  the id of the lesson
      * @param string $teacherID the id of the teacher
      *
-     * @return  void  sets object variables
+     * @return void  sets object variables
      */
     private function setLessonTeacher(&$schedule, $lessonID, $teacherID)
     {
@@ -430,7 +430,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param object &$schedule the schedule being processed
      * @param string $lessonID  the id of the lesson
      *
-     * @return  string  the concatenated name of the subject(s)
+     * @return string  the concatenated name of the subject(s)
      */
     private function getSubjectName(&$schedule, $lessonID)
     {
@@ -466,7 +466,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $lessonID  the id of the lesson
      * @param string $teacherID the id of the teacher
      *
-     * @return  string  the concatenated name of the subject(s)
+     * @return string  the concatenated name of the subject(s)
      */
     private function getPools(&$schedule, $lessonID, $teacherID)
     {
@@ -498,7 +498,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param object &$schedule the schedule being processed
      * @param string $lessonID  the id of the lesson
      *
-     * @return  bool  true if the lesson should be tallied instead of summarized, otherwise false
+     * @return bool  true if the lesson should be tallied instead of summarized, otherwise false
      */
     private function isTallied(&$schedule, $lessonID)
     {
@@ -515,7 +515,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Converts the individual lessons into the actual deputat
      *
-     * @return  void  sets the deputat object variable
+     * @return void  sets the deputat object variable
      */
     private function convertLessonValues()
     {
@@ -587,7 +587,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
          * @param array $one the first array
          * @param array $two the second array
          *
-         * @return  int  see return value for strcmp
+         * @return int  see return value for strcmp
          */
         function cmp($one, $two)
         {
@@ -603,7 +603,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $teacherID     the teacher's id
      * @param array  &$lessonValues the values for the lesson being iterated
      *
-     * @return  void  sets values in the object variable $deputat
+     * @return void  sets values in the object variable $deputat
      */
     private function setTallyDeputat($teacherID, &$lessonValues)
     {
@@ -633,7 +633,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @param string $subjectName the 'subject' name
      *
-     * @return  float|int  the conversion rate
+     * @return float|int  the conversion rate
      */
     private function getRate($subjectName)
     {
@@ -660,7 +660,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param array  &$lessonValues the values for the lesson being iterated
      * @param string $index         the index to be used for the lesson
      *
-     * @return  void  sets values in the object variable $deputat
+     * @return void  sets values in the object variable $deputat
      */
     private function setSummaryDeputat($teacherID, &$lessonValues, $index)
     {
@@ -724,7 +724,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @param string $dayName the name of the day
      *
-     * @return  int  the number of the day
+     * @return int  the number of the day
      */
     private static function getDayNumber($dayName)
     {
@@ -761,7 +761,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @param array $periods the periods for the lesson
      *
-     * @return  int  the sum of the lesson's hours
+     * @return int  the sum of the lesson's hours
      */
     private function getSummaryHours($periods)
     {
@@ -779,7 +779,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param array $lessonValues     the values for the lesson being iterated in the outer loop
      * @param array $comparisonValues the values for the lesson being iterated in the inner loop
      *
-     * @return  bool  true if the lessons are a plausible match, otherwise false
+     * @return bool  true if the lessons are a plausible match, otherwise false
      */
     private function isAggregationPlausible($lessonValues, $comparisonValues)
     {
@@ -801,7 +801,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $subjectIndex the index of this group of lessons in the array
      * @param array  $aggValues    the values to be aggregated
      *
-     * @return  void  alters object variables
+     * @return void  alters object variables
      */
     private function aggregate($teacherID, $subjectIndex, $aggValues)
     {
@@ -818,7 +818,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Gets a list of teacher names
      *
-     * @return  array  a list of resource names
+     * @return array  a list of resource names
      */
     public function getTeacherNames()
     {
@@ -843,7 +843,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Gets the list of selected teachers
      *
-     * @return  void
+     * @return void
      */
     private function setSelected()
     {
@@ -865,7 +865,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     /**
      * Restricts the displayed deputat to the selected teachers
      *
-     * @return  void  unsets deputat indexes
+     * @return void  unsets deputat indexes
      */
     private function restrictDeputat()
     {
@@ -890,7 +890,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $startDate the start date of the original schedule
      * @param string $endDate   the end date of the original schedule
      *
-     * @return  void  adds deputat to the lesson values array
+     * @return void  adds deputat to the lesson values array
      */
     private function checkOtherSchedules($teachers, $startDate, $endDate)
     {
@@ -919,7 +919,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $startDate the start date of the original schedule
      * @param string $endDate   the end date of the original schedule
      *
-     * @return  mixed  array on success, otherwise null
+     * @return mixed  array on success, otherwise null
      */
     private function getPlausibleScheduleIDs($startDate, $endDate)
     {
@@ -944,7 +944,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @param int $scheduleID the id of the schedule to be iterated
      *
-     * @return  mixed  array on success, otherwise null
+     * @return mixed  array on success, otherwise null
      */
     private function getSchedule($scheduleID)
     {

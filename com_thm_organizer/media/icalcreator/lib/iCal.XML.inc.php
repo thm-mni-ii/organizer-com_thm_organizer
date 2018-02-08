@@ -627,8 +627,8 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = [])
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @since  2.16.22 - 2013-06-18
  *
- * @param  string $xmlfile
- * @param  array  $iCalcfg iCalcreator config array (opt)
+ * @param string $xmlfile
+ * @param array  $iCalcfg iCalcreator config array (opt)
  *
  * @return mixediCalcreator instance or FALSE on error
  */
@@ -647,8 +647,8 @@ function XMLfile2iCal($xmlfile, $iCalcfg = [])
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @since  2.16.22 - 2013-06-18
  *
- * @param  string $xmlstr
- * @param  array  $iCalcfg iCalcreator config array (opt)
+ * @param string $xmlstr
+ * @param array  $iCalcfg iCalcreator config array (opt)
  *
  * @return mixed  iCalcreator instance or FALSE on error
  */
@@ -663,8 +663,8 @@ function XMLstr2iCal($xmlstr, $iCalcfg = [])
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @since  2.16.22 - 2013-06-20
  *
- * @param  string $xmlstr
- * @param  array  $iCalcfg iCalcreator config array (opt)
+ * @param string $xmlstr
+ * @param array  $iCalcfg iCalcreator config array (opt)
  *
  * @uses   vcalendar::vcalendar()
  * @uses   XMLgetComps()
@@ -737,8 +737,8 @@ function XMLgetComps($iCal, $xml)
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @since  2.21.11 - 2015-03-21
  *
- * @param  array  $iCal iCalcreator calendar/component instance
- * @param  string $xml
+ * @param array  $iCal iCalcreator calendar/component instance
+ * @param string $xml
  *
  * @uses   XMLgetTagContent2()
  * @uses   vcalendar::setProperty()

@@ -42,7 +42,7 @@ class THM_OrganizerHelperXMLGrids
      * @param string $gpuntisID the gpuntis name for the grid
      * @param object $grid      the object modelling the grid information
      *
-     * @return  void creates database entries
+     * @return void creates database entries
      */
     private static function saveGridEntry($gpuntisID, $grid)
     {
@@ -108,7 +108,7 @@ class THM_OrganizerHelperXMLGrids
      * @param object &$scheduleModel the validating schedule model
      * @param object &$xmlObject     the xml object being validated
      *
-     * @return  void
+     * @return void
      */
     public static function validate(&$scheduleModel, &$xmlObject)
     {

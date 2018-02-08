@@ -125,7 +125,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      *
      * @param object &$subject the subject object
      *
-     * @return  void
+     * @return void
      */
     private function checkProofAndMethod(&$subject)
     {
@@ -147,7 +147,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      *
      * @param string $text the xml node as a string
      *
-     * @return  string  the node without its formatted text shell
+     * @return string  the node without its formatted text shell
      */
     private function cleanText($text)
     {
@@ -225,7 +225,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     /**
      * Method to import data associated with subjects from LSF
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     public function importBatch()
     {
@@ -260,7 +260,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      *
      * @param int $subjectID the id of the subject entry
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function importSingle($subjectID)
     {
@@ -302,7 +302,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param object &$dataObject an object representing the data from the
      *                            LSF response
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     private function parseAttributes(&$subject, &$dataObject)
     {
@@ -354,7 +354,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param object &$dataObject the data object
      * @param object &$subject    the subject object
      *
-     * @return  void
+     * @return void
      */
     private function processSpecialFields(&$dataObject, &$subject)
     {
@@ -422,7 +422,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param object &$stub        a simplexml object containing rudimentary subject data
      * @param int    $departmentID the id of the department to which this data belongs
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function processStub(&$stub, $departmentID)
     {
@@ -470,7 +470,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      *
      * @param string $subjectID the id of the subject being processed
      *
-     * @return  bool true on success, otherwise false
+     * @return bool true on success, otherwise false
      */
     public function resolveDependencies($subjectID)
     {
@@ -617,7 +617,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param string $value    the value string
      * @param string $default  the default value
      *
-     * @return  void
+     * @return void
      */
     private function setAttribute(&$subject, $key, $value, $default = '')
     {
@@ -630,7 +630,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param object &$subject    the subject object
      * @param object &$objectNode the object containing lsf texts
      *
-     * @return  void
+     * @return void
      */
     private function setObjectProperty(&$subject, &$objectNode)
     {
@@ -757,7 +757,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param object &$subject the subject data
      * @param string $text     the expenditure text
      *
-     * @return  void
+     * @return void
      */
     private function setExpenditures(&$subject, $text)
     {
@@ -787,7 +787,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int    $subjectID   the id of the subject
      * @param object &$dataObject an object containing the lsf response
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     private function setTeachers($subjectID, &$dataObject)
     {
@@ -819,7 +819,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      *                              subject's teachers
      * @param int   $responsibility the teacher's responsibility level
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     private function setTeachersByResponsibility($subjectID, &$teachers, $responsibility)
     {
@@ -968,7 +968,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param string $attribute the attribute's name in the xml response
      * @param string $value     the value set in lsf
      *
-     * @return  void
+     * @return void
      */
     private function setStarAttribute(&$subject, $attribute, $value)
     {

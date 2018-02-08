@@ -31,7 +31,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
     /**
      * Method to select the Tree of the current major
      *
-     * @return  string  the json encoded string modeling the curriculum
+     * @return string  the json encoded string modeling the curriculum
      */
     public function getCurriculum()
     {
@@ -62,7 +62,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param int $left  the left value for the program
      * @param int $right the right value for the program
      *
-     * @return  mixed  array on success, otherwise false
+     * @return mixed  array on success, otherwise false
      */
     private function getFieldColors($left, $right)
     {
@@ -92,7 +92,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param int    $poolID  the id of the pool being sought
      * @param string $langTag the current display language
      *
-     * @return  mixed  The return value or null if the query failed.
+     * @return mixed  The return value or null if the query failed.
      * @throws  exception
      */
     private function getPoolData($poolID, $langTag)
@@ -127,7 +127,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      *
      * @param int $programID the id of the program being modelled
      *
-     * @return  array
+     * @return array
      *
      * @throws  exception
      */
@@ -161,7 +161,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param int    $subjectID the id of the subject being sought
      * @param string $langTag   the current display language
      *
-     * @return  mixed  The return value or null if the query failed.
+     * @return mixed  The return value or null if the query failed.
      *
      * @throws  exception
      */
@@ -224,7 +224,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param int    $rgt     the right boundary of the program in the nested table
      * @param string $langTag the current display language
      *
-     * @return  array  empty if no child data exists
+     * @return array  empty if no child data exists
      *
      * @throws  exception
      */
@@ -280,7 +280,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      *
      * @param int $mappingID the id of the mapped element
      *
-     * @return  int  the last child element's ordering value
+     * @return int  the last child element's ordering value
      *
      * @throws  exception
      */
@@ -305,7 +305,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      *
      * @param string $programName the name of the program being modelled
      *
-     * @return  void
+     * @return void
      *
      * @throws  exception
      */
@@ -344,7 +344,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      *
      * @param object &$subjectData an object containing subject data
      *
-     * @return  void
+     * @return void
      */
     private function setTeacherProperties(&$subjectData)
     {

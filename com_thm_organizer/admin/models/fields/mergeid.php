@@ -25,7 +25,7 @@ class JFormFieldMergeID extends JFormField
     /**
      * Returns a hidden in put field
      *
-     * @return  string
+     * @return string
      */
     public function getInput()
     {
@@ -43,7 +43,7 @@ class JFormFieldMergeID extends JFormField
     /**
      * Returns an empty string to override the joomla handling
      *
-     * @return  string
+     * @return string
      */
     public function getLabel()
     {

@@ -41,7 +41,7 @@ class THM_OrganizerModelColor extends JModelLegacy
     /**
      * Removes color entries from the database
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function delete()
     {

@@ -44,7 +44,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
     /**
      * Saves the default behaviour as chosen in the monitor manager
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function saveDefaultBehaviour()
     {
@@ -99,7 +99,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
     /**
      * Toggles the monitor's use of default settings
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function toggle()
     {

@@ -29,7 +29,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *                                   database
      * @param SimpleXMLObject &$lsfData  the data recieved from the LSF system
      *
-     * @return  boolean  true if the data was mapped, otherwise false
+     * @return boolean  true if the data was mapped, otherwise false
      */
     public function addLSFMappings($programID, &$lsfData)
     {
@@ -63,7 +63,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param object &$pool           the object representing the LSF pool
      * @param int    $parentMappingID the id of the program mapping
      *
-     * @return  boolean  true if the pool is mapped, otherwise false
+     * @return boolean  true if the pool is mapped, otherwise false
      */
     private function addLSFPool(&$pool, $parentMappingID)
     {
@@ -134,7 +134,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int    $parentMappingID the id of the parent element in the
      *                                mappings table
      *
-     * @return  boolean  true if the mapping exists, otherwise false
+     * @return boolean  true if the mapping exists, otherwise false
      */
     private function addLSFSubject(&$subject, $parentMappingID)
     {
@@ -189,7 +189,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$pool an array containing data about a pool and its
      *                     children
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     private function addPool(&$pool)
     {
@@ -290,7 +290,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int    $resourceID   the id of the resource
      * @param string $resourceType the type of the resource
      *
-     * @return  bool true if the resource has an existing mapping, otherwise false
+     * @return bool true if the resource has an existing mapping, otherwise false
      */
     public function checkForMapping($resourceID, $resourceType)
     {
@@ -316,7 +316,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int    $resourceID the id of the mapping
      * @param string $type       the mapping's type
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function deleteByResourceID($resourceID, $type)
     {
@@ -367,7 +367,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *
      * @param int $mappingID the id of the mapping
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function deleteChildren($mappingID)
     {
@@ -402,7 +402,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *
      * @param int $entryID the id value of the entry to be deleted
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     private function deleteEntry($entryID)
     {
@@ -491,7 +491,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int   $parentID the parent of the item to be inserted
      * @param mixed $ordering the targeted ordering on completion
      *
-     * @return  mixed  int the left value for the mapping to be created, or
+     * @return mixed  int the left value for the mapping to be created, or
      *                 or boolean false on db error.
      */
     private function determineLft($parentID, $ordering)
@@ -533,7 +533,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param bool   $deep       if the function should be used to find
      *                           children iteratively or not (default: false)
      *
-     * @return  array  empty if no child data exists
+     * @return array  empty if no child data exists
      */
     public function getChildren($resourceID, $type = 'pool', $deep = true)
     {
@@ -592,7 +592,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
     /**
      * Filters the resource's children out of the form's POST data
      *
-     * @return  array  an array containing the resource's children and ordering
+     * @return array  an array containing the resource's children and ordering
+     * @throws Exception
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      */
@@ -632,7 +633,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int    $resourceID the id of the resource
      * @param string $type       the type of resource being ordered
      *
-     * @return  int  the value of the highest existing ordering or 1 if none exist
+     * @return int  the value of the highest existing ordering or 1 if none exist
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
@@ -682,7 +683,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *
      * @param int $parentID the id of the parent item
      *
-     * @return  array  the parent mapping
+     * @return array  the parent mapping
      */
     private function getParent($parentID)
     {
@@ -709,7 +710,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return  JTable
+     * @return JTable
      */
     public function getTable($name = 'mappings', $prefix = 'THM_OrganizerTable', $options = [])
     {
@@ -721,7 +722,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *
      * @param array &$data the pool form data from the post request
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function savePool(&$data)
     {
@@ -766,7 +767,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *
      * @param int $programID the id of the degree program
      *
-     * @return  boolean  true if the program root mapping exists/was created,
+     * @return boolean  true if the program root mapping exists/was created,
      *                   otherwise false
      */
     public function saveProgram($programID)
@@ -842,7 +843,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *
      * @param array &$data the subject form data from the post request
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function saveSubject(&$data)
     {
@@ -878,7 +879,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int    $resourceID the id of the resource in its resource table
      * @param string $type       the type of resource entry being searched for
      *
-     * @return  mixed  array on success, otherwise false
+     * @return mixed  array on success, otherwise false
      */
     private function getExistingMappings($resourceID, $type = 'subject')
     {
@@ -904,7 +905,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$selectedParents the parent pools selected by the user
      * @param array $existingMappings the existing mappings for the subject
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     private function processExistingSubjects(&$selectedParents, $existingMappings)
     {
@@ -932,7 +933,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $parentID    the id of the parent
      * @param int $insertOrder the ordering of the item to be inserted
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     private function shiftOrder($parentID, $insertOrder)
     {
@@ -956,7 +957,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $value the integer value above which left and right values
      *                   need to be shifted
      *
-     * @return  bool  true on success, otherwise false
+     * @return bool  true on success, otherwise false
      */
     private function shiftRight($value)
     {

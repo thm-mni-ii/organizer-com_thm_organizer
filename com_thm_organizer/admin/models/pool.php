@@ -23,7 +23,7 @@ class THM_OrganizerModelPool extends JModelLegacy
     /**
      * Attempts to delete the selected subject pool entries and related mappings
      *
-     * @return  boolean true on success, otherwise false
+     * @return boolean true on success, otherwise false
      */
     public function delete()
     {
@@ -50,7 +50,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      *
      * @param int $poolID the pool id
      *
-     * @return  boolean  true on success, otherwise false
+     * @return boolean  true on success, otherwise false
      */
     public function deleteEntry($poolID)
     {
@@ -76,7 +76,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      *
      * @param bool $new whether or not the pool is a new item
      *
-     * @return  mixed  integer on successful pool creation, otherwise boolean
+     * @return mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
      */
     public function save($new = false)
@@ -145,7 +145,7 @@ class THM_OrganizerModelPool extends JModelLegacy
     /**
      * Saves
      *
-     * @return  mixed  integer on successful pool creation, otherwise boolean
+     * @return mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
      */
     public function save2copy()

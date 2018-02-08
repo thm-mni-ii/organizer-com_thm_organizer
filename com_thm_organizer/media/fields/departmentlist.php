@@ -35,7 +35,7 @@ class JFormFieldDepartmentList extends JFormFieldList
      * Method to get the field input markup for a generic list of schedule values e.g. departments.
      * On change the other fields get updated with the selected value by ajax.
      *
-     * @return  string  The field input markup.
+     * @return string  The field input markup.
      */
     protected function getInput()
     {
@@ -47,7 +47,7 @@ class JFormFieldDepartmentList extends JFormFieldList
     /**
      * Method to get the field options for all departments
      *
-     * @return  array  The field option objects.
+     * @return array  The field option objects.
      */
     protected function getOptions()
     {

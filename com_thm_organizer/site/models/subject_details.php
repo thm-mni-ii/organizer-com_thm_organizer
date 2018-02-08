@@ -31,7 +31,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
     /**
      * Loads subject information from the database
      *
-     * @return  object  filled with subject data on success, otherwise empty
+     * @return object  filled with subject data on success, otherwise empty
      */
     public function getItem()
     {
@@ -79,7 +79,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
     /**
      * Attempts to determine the desired subject id
      *
-     * @return  mixed  int on success, otherwise null
+     * @return mixed  int on success, otherwise null
      */
     private function resolveID()
     {
@@ -125,7 +125,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      *
      * @param object &$subject the object containing subject data
      *
-     * @return  void  sets values in the references object
+     * @return void  sets values in the references object
      */
     private function setExpenditureText(&$subject)
     {
@@ -197,7 +197,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      *
      * @param object &$subject the object containing subject data
      *
-     * @return  void
+     * @return void
      */
     private function setDependencies(&$subject)
     {

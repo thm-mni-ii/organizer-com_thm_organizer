@@ -31,7 +31,7 @@ class JFormFieldCampusID extends JFormFieldList
      * Method to get the field input markup for a generic list.
      * Use the multiple attribute to enable multiselect.
      *
-     * @return  string  The field input markup.
+     * @return string  The field input markup.
      */
     protected function getInput()
     {
@@ -89,7 +89,7 @@ class JFormFieldCampusID extends JFormFieldList
     /**
      * Returns an array of pool options
      *
-     * @return  array  the pool options
+     * @return array  the pool options
      */
     protected function getOptions()
     {

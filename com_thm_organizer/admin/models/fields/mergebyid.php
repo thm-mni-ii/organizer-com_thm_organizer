@@ -29,7 +29,7 @@ class JFormFieldMergeByID extends JFormFieldList
     /**
      * Returns a select box where resource attributes can be selected
      *
-     * @return  array the options for the select box
+     * @return array the options for the select box
      */
     public function getOptions()
     {
@@ -78,7 +78,7 @@ class JFormFieldMergeByID extends JFormFieldList
      *
      * @param object &$query the query object
      *
-     * @return  string  the string to use for text selection
+     * @return string  the string to use for text selection
      */
     private function resolveText(&$query)
     {

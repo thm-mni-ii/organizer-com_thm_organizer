@@ -32,7 +32,7 @@ class THM_OrganizerHelperXMLPools
      * @param int    $poolID
      * @param object &$poolNode      the pool node to be modified
      *
-     * @return  void modifies the $scheduleModel object
+     * @return void modifies the $scheduleModel object
      */
     private static function setGrid(&$scheduleModel, $poolID, &$poolNode)
     {
@@ -59,7 +59,7 @@ class THM_OrganizerHelperXMLPools
      * @param object &$scheduleModel the validating schedule model
      * @param object &$xmlObject     the xml object being validated
      *
-     * @return  void
+     * @return void
      */
     public static function validate(&$scheduleModel, &$xmlObject)
     {
@@ -82,7 +82,7 @@ class THM_OrganizerHelperXMLPools
      * @param object &$scheduleModel the validating schedule model
      * @param object &$poolNode      the pool node to be validated
      *
-     * @return  void
+     * @return void
      */
     private static function validateIndividual(&$scheduleModel, &$poolNode)
     {
@@ -153,7 +153,7 @@ class THM_OrganizerHelperXMLPools
      * @param object &$scheduleModel the validating schedule model
      * @param object &$poolNode      the pool node object
      *
-     * @return  mixed  string id if valid, otherwise false
+     * @return mixed  string id if valid, otherwise false
      */
     private static function validateUntisID(&$scheduleModel, &$poolNode)
     {

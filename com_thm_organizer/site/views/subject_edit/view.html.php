@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,11 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 
 /**
- * Class which loads data into the view output context
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads persistent information about a subject into the display context.
  */
 class THM_OrganizerViewSubject_Edit extends JViewLegacy
 {
@@ -42,7 +38,8 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
+     * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -50,17 +47,13 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
         $this->subjectID = $input->getInt('id', 0);
 
         if (empty($this->subjectID)) {
-            JError::raiseError(404, JText::_('COM_THM_ORGANIZER_MESSAGE_NOT_FOUND'));
-
-            return;
+            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
         }
 
         $authorized = THM_OrganizerHelperSubjects::authorized($this->subjectID);
 
         if (!$authorized) {
-            JError::raiseError(401, JText::_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_VIEW'));
-
-            return;
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $this->item = $this->get('Item');
@@ -86,7 +79,7 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
     /**
      * Adds resource files to the document
      *
-     * @return  void
+     * @return void
      */
     protected function modifyDocument()
     {

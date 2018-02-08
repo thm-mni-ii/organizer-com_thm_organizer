@@ -37,7 +37,7 @@ class THM_OrganizerTablePools extends JTable
      * @param array $array  named array
      * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
      *
-     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
+     * @return mixed  Null if operation was satisfactory, otherwise returns an error string
      */
     public function bind($array, $ignore = '')
     {
@@ -53,7 +53,7 @@ class THM_OrganizerTablePools extends JTable
     /**
      * Sets the department asset name
      *
-     * @return  string
+     * @return string
      */
     protected function _getAssetName()
     {
@@ -63,10 +63,10 @@ class THM_OrganizerTablePools extends JTable
     /**
      * Sets the parent as the component root
      *
-     * @param   JTable  $table A JTable object for the asset parent.
-     * @param   integer $id    Id to look up
+     * @param  JTable  $table A JTable object for the asset parent.
+     * @param  integer $id    Id to look up
      *
-     * @return  int  the asset id of the component root
+     * @return int  the asset id of the component root
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

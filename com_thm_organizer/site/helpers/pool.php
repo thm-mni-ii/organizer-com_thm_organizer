@@ -26,7 +26,7 @@ class THM_OrganizerHelperPool
      *
      * @param object &$pool the pool
      *
-     * @return  string  the required amount of credit points
+     * @return string  the required amount of credit points
      */
     public static function getCrPText(&$pool)
     {

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewMethod_Manager
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;;
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
- * Class loads persistent information about all colors into display context
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class loads persistent information a filtered set of (lesson) methods into the display context.
  */
 class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
 {
@@ -33,16 +27,15 @@ class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
      *
      * @param Object $tpl template  (default: null)
      *
-     * @return  void
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
         $actions = $this->getModel()->actions;
 
         if (!$actions->{'core.admin'}) {
-            throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         parent::display($tpl);
@@ -51,7 +44,7 @@ class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
     /**
      * Method to generate buttons for user interaction
      *
-     * @return  void
+     * @return void
      */
     protected function addToolBar()
     {

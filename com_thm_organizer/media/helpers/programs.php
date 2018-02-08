@@ -169,7 +169,7 @@ class THM_OrganizerHelperPrograms
      *
      * @param string $gpuntisID the id used in untis for this program
      *
-     * @return  array empty if the id is implausible
+     * @return array empty if the id is implausible
      */
     private static function getPlausibleData($gpuntisID)
     {

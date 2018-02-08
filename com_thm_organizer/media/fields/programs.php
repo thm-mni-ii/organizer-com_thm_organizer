@@ -32,7 +32,7 @@ class JFormFieldPrograms extends JFormField
     /**
      * Returns a select box where stored degree program can be chosen
      *
-     * @return  string  the HTML for the select box
+     * @return string  the HTML for the select box
      */
     public function getInput()
     {
@@ -67,7 +67,7 @@ class JFormFieldPrograms extends JFormField
      * @param int    $resourceID   the resource's id
      * @param string $resourceType the resource's type
      *
-     * @return  void
+     * @return void
      */
     private function addScript($resourceID, $resourceType)
     {

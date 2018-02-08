@@ -48,8 +48,7 @@ class THM_OrganizerViewSearch extends JViewLegacy
      * @param string $tpl the name of the template to be used
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -67,7 +66,7 @@ class THM_OrganizerViewSearch extends JViewLegacy
     /**
      * Modifies document variables and adds links to external files
      *
-     * @return  void
+     * @return void
      */
     private function modifyDocument()
     {

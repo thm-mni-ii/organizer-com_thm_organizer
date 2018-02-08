@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @param array &$query an array of URL arguments
  *
- * @return  array  the URL arguments to use to assemble the subsequent URL.
+ * @return array  the URL arguments to use to assemble the subsequent URL.
  */
 function THM_organizerBuildRoute(&$query)
 {
@@ -52,7 +52,7 @@ function THM_organizerBuildRoute(&$query)
  * @param array &$query    the url query parameters
  * @param array &$segments the segments for the sef url
  *
- * @return  void
+ * @return void
  */
 function setSubjectDetailsSegments(&$query, &$segments)
 {
@@ -93,7 +93,7 @@ function setSubjectDetailsSegments(&$query, &$segments)
  * @param array  &$segments the segments for the sef url
  * @param object &$item     the associated menu item (if applicable)
  *
- * @return  void
+ * @return void
  */
 function setSubjectListSegments(&$query, &$segments, &$item)
 {
@@ -135,7 +135,7 @@ function setSubjectListSegments(&$query, &$segments, &$item)
  *
  * @param array &$query the url query
  *
- * @return  string  the language tag
+ * @return string  the language tag
  */
 function getLanguageTag(&$query)
 {
@@ -171,7 +171,7 @@ function setItemidSegment(&$query, &$segments)
  *
  * @param array $segments the segments of the URL to parse.
  *
- * @return  array  the URL attributes to be used by the application.
+ * @return array  the URL attributes to be used by the application.
  */
 function THM_organizerParseRoute($segments)
 {

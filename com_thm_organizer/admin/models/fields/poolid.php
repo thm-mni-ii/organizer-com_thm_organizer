@@ -33,7 +33,7 @@ class JFormFieldPoolID extends JFormFieldList
     /**
      * Returns an array of pool options
      *
-     * @return  array  the pool options
+     * @return array  the pool options
      */
     public function getOptions()
     {

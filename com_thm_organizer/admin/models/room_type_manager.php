@@ -45,7 +45,7 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
     /**
      * Method to get all room types from the database
      *
-     * @return  JDatabaseQuery
+     * @return JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -72,7 +72,7 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
     /**
      * Method to overwrite the getItems method in order to set the program name
      *
-     * @return  array  an array of objects fulfilling the request criteria
+     * @return array  an array of objects fulfilling the request criteria
      */
     public function getItems()
     {

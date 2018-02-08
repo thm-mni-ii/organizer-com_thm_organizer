@@ -26,7 +26,7 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
     /**
      * Method to generate buttons for user interaction
      *
-     * @return  void
+     * @return void
      */
     protected function addToolBar()
     {
@@ -36,7 +36,7 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
     /**
      * Adds styles and scripts to the document
      *
-     * @return  void  modifies the document
+     * @return void  modifies the document
      */
     protected function modifyDocument()
     {

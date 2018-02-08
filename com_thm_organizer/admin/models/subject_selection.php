@@ -122,9 +122,9 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
     /**
      * Method to get the total number of items for the data set.
      *
-     * @param  string $idColumn not used
+     * @param string $idColumn not used
      *
-     * @return  integer  The total number of items available in the data set.
+     * @return integer  The total number of items available in the data set.
      */
     public function getTotal($idColumn = null)
     {
@@ -152,9 +152,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
      * @param string $ordering  the column by which the table is should be ordered
      * @param string $direction the direction in which this column should be ordered
      *
-     * @return  void  sets object state variables
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return void  sets object state variables
      */
     protected function populateState($ordering = null, $direction = null)
     {

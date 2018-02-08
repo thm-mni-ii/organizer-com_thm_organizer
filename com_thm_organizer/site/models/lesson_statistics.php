@@ -151,7 +151,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return  mixed  JForm object on success, False on error.
+     * @return mixed  JForm object on success, False on error.
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -321,7 +321,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
     /**
      * Method to auto-populate the model state.
      *
-     * @return  void
+     * @return void
      */
     protected function populateState()
     {

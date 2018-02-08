@@ -30,7 +30,7 @@ class JFormFieldChildren extends JFormField
     /**
      * Generates a text for the management of child elements
      *
-     * @return  string  the HTML for the input
+     * @return string  the HTML for the input
      */
     public function getInput()
     {
@@ -46,7 +46,7 @@ class JFormFieldChildren extends JFormField
     /**
      * Retrieves child mappings for the resource being edited
      *
-     * @return  array  empty if no child data exists
+     * @return array  empty if no child data exists
      */
     private function getChildren()
     {
@@ -108,7 +108,7 @@ class JFormFieldChildren extends JFormField
      *
      * @param array &$children the subordinate resource data
      *
-     * @return  void  adds data to the &$children array
+     * @return void  adds data to the &$children array
      */
     private function setTypeData(&$children)
     {
@@ -133,7 +133,7 @@ class JFormFieldChildren extends JFormField
      * @param string $resourceID   the id used for the child element
      * @param string $resourceType the child element's type
      *
-     * @return  string  the name of the child element
+     * @return string  the name of the child element
      */
     private function getResourceName($resourceID, $resourceType)
     {
@@ -160,7 +160,7 @@ class JFormFieldChildren extends JFormField
      *
      * @param array &$children the children of the resource being edited
      *
-     * @return  string  the HTML string for the children field
+     * @return string  the HTML string for the children field
      */
     private function getHTML(&$children)
     {

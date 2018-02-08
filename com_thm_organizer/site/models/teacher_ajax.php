@@ -42,7 +42,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
     /**
      * Retrieves teacher entries from the database
      *
-     * @return  string  the teachers who hold courses for the selected program and pool
+     * @return string  the teachers who hold courses for the selected program and pool
      */
     public function teachersByProgramOrPool()
     {
